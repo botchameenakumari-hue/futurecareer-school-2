@@ -1,0 +1,167 @@
+---
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface Props {
+  sectionId?: string;
+  sectionClass?: string;
+  title?: string;
+  label?: string;
+  items: FaqItem[];
+}
+
+const {
+  sectionId = 'faq',
+  sectionClass = '',
+  title = 'Common questions before starting',
+  label = 'FAQ',
+  items,
+} = Astro.props;
+---
+
+<section id={sectionId} class:list={['bofu-faq-section', sectionClass]}>
+  <div class="container">
+    <div class="section-tag pill">
+      <span style="color:var(--gold)">&#10067;</span>&nbsp;{label}
+    </div>
+    <h2 class="section-headline">{title}</h2>
+    <div class="faq-grid">
+      {items.map((item, index) => (
+        <details class="faq-item card">
+          <summary class="faq-q">
+            <span class="faq-q-copy">
+              <span class="faq-index">{String(index + 1).padStart(2, '0')}</span>
+              <span>{item.question}</span>
+            </span>
+            <svg class="faq-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="faq-a">{item.answer}</div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .bofu-faq-section {
+    position: relative;
+    overflow: hidden;
+    padding: 5.4rem 0;
+    background: rgba(255,255,255,.01);
+  }
+  .bofu-faq-section .section-tag {
+    width: fit-content;
+    margin: 0 auto 1rem;
+  }
+  .bofu-faq-section .section-headline {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    color: #fff;
+    margin-bottom: 1.35rem;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .bofu-faq-section .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .bofu-faq-section .faq-item {
+    position: relative;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 22px;
+    background:
+      radial-gradient(420px 180px at 100% 0%, rgba(229,184,74,.08), transparent 72%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+    overflow: hidden;
+    box-shadow: 0 16px 34px rgba(0,0,0,.18);
+  }
+  .bofu-faq-section .faq-item::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(229,184,74,.96), rgba(45,212,191,.82));
+  }
+  .bofu-faq-section .faq-q {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.15rem 1.25rem 1.05rem 1.35rem;
+    color: #fff;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    line-height: 1.58;
+  }
+  .bofu-faq-section .faq-q::-webkit-details-marker {
+    display: none;
+  }
+  .bofu-faq-section .faq-q-copy {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    min-width: 0;
+  }
+  .bofu-faq-section .faq-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    border: 1px solid rgba(229,184,74,.28);
+    background: rgba(229,184,74,.12);
+    color: #f6db95;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    flex-shrink: 0;
+  }
+  .bofu-faq-section .faq-a {
+    padding: 0 1.25rem 1.2rem 1.35rem;
+    color: rgba(255,255,255,.7);
+    line-height: 1.82;
+  }
+  .bofu-faq-section .faq-arrow {
+    color: rgba(255,255,255,.48);
+    flex-shrink: 0;
+    transition: transform .2s ease;
+  }
+  .bofu-faq-section .faq-item[open] .faq-arrow {
+    transform: rotate(180deg);
+  }
+
+  @media (max-width: 560px) {
+    .bofu-faq-section {
+      padding: 4.8rem 0;
+    }
+    .bofu-faq-section .faq-item {
+      border-radius: 18px;
+    }
+    .bofu-faq-section .faq-q {
+      padding: 1rem 1rem .95rem 1.05rem;
+      align-items: flex-start;
+    }
+    .bofu-faq-section .faq-q-copy {
+      align-items: flex-start;
+      gap: .7rem;
+    }
+    .bofu-faq-section .faq-index {
+      min-width: 34px;
+      height: 34px;
+      border-radius: 11px;
+    }
+    .bofu-faq-section .faq-a {
+      padding: 0 1rem 1rem 1.05rem;
+    }
+  }
+</style>

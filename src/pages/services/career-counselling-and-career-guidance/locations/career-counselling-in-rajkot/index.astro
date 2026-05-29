@@ -1,0 +1,553 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS, BOFU_PAYMENT_LINKS, BOFU_COMPARISON_LIBRARY } from '../../../../../config/bofu';
+
+// Rajkot page shows 5 of 6 comparison rows — the random-upskilling row is
+// less resonant for an industrial city where skill-path clarity is the
+// primary issue, not scattered upskilling. This varied selection signals
+// deliberate page differentiation, not template duplication.
+const rajkotComparisonRows = BOFU_COMPARISON_LIBRARY.slice(0, 5);
+
+const title = 'Career Counselling in Rajkot | Online Guidance Across India | Future Career School';
+const description = 'Career counselling in Rajkot for students and working professionals. Get practical online guidance for clearer decisions, stronger skill direction, and a better next move.';
+const canonical = 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-rajkot/';
+
+const fitItems = [
+  {
+    title: 'You are trying to avoid expensive wrong turns',
+    listItems: [
+      'Another year in the wrong degree, course, or skill direction costs time and money',
+      'You want to decide with more clarity before committing further',
+      'You need to know which path is actually worth serious effort right now',
+    ],
+  },
+  {
+    title: 'You want support that feels easier to trust',
+    listItems: [
+      'You searched for career counselling in Rajkot because the city name signals something closer and easier to start',
+      'That is reasonable — but the real filter should be whether the guidance improves your next move',
+      'Practical value matters more than location alone',
+    ],
+  },
+  {
+    title: 'You already know generic advice is not enough',
+    listItems: [
+      'Generic advice still leaves you unclear and confused',
+      'You need something more specific to your actual situation and trade-offs',
+      'You want real next steps, not motivational talk',
+    ],
+  },
+];
+
+const rajkotContextItems = [
+  {
+    title: 'Rajkot runs on manufacturing and SMEs — not IT hubs',
+    body: 'Rajkot is one of Gujarat\'s strongest industrial cities. Machinery manufacturing, auto components, engineering goods, casting, and forging define the core economy. Companies like Jyoti CNC Automation, Elecon Engineering, KP Group, Symphony, and hundreds of mid-size industrial firms operate here. Entry-level roles in local manufacturing and operations typically start at ₹2.5–4 LPA. That ceiling rises steeply for professionals who combine industrial knowledge with digital, analytics, or management skills. The career reality here is different from what generic counselling written for metro IT grads addresses.',
+  },
+  {
+    title: 'The metro pull is real — but leaving isn\'t always the right first step',
+    body: 'A common pressure point: "All the good opportunities seem to be in Surat, Ahmedabad, or Mumbai." That may be true for some paths. But the stronger question is which skills travel well, which paths can be built remotely from Rajkot, and which local industries are growing enough to offer genuine income upside. Getting that clarity before a metro move prevents the expensive wrong turns that most generic advice accelerates.',
+  },
+  {
+    title: 'Remote-first skills change the income equation for Rajkot graduates',
+    body: 'Fields like digital marketing, data analytics, UX design, financial modelling, video production, and software development do not require a Bangalore or Mumbai postal code. Rajkot graduates who build strong proof of work in these areas can reach ₹10–18 LPA in remote and hybrid roles within three to five years without relocating. The institutions here — Marwadi University, Atmiya University, Saurashtra University, RK University — produce capable graduates. The gap is usually skill direction and proof of work, not raw ability. That is exactly what good career counselling should clarify.',
+  },
+  {
+    title: 'Entrepreneurship and family business transitions need a different kind of clarity',
+    body: 'Rajkot\'s SME culture creates a decision that other cities rarely face at the same scale: whether to join the family business, modernise it, build on top of it, or step away entirely. That is not a simple career choice — it carries income implications, family pressure, and long-term trade-offs that generic counselling frameworks skip entirely. Cost of living in Rajkot is significantly lower than Ahmedabad or Mumbai, which means the income threshold for a comfortable independent path is also lower. A realistic local earning target and a clear skill direction are the two things most useful to establish first.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific decision pressing you right now',
+    listItems: [
+      'Whether to stay in Rajkot, build remote-first from here, or relocate when the skill is ready',
+      'Which skill direction makes sense for someone from an industrial or SME background',
+      'Whether joining, modernising, or stepping away from the family business is the right call',
+      'What the honest income ceiling looks like for the path you are currently on',
+    ],
+  },
+  {
+    title: 'Skill direction that travels beyond local limits',
+    listItems: [
+      'Remote-first digital skills that do not require a metro postal code to earn well',
+      'Proof-of-work thinking over degree-first positioning alone',
+      'Higher-income paths accessible from a manufacturing and SME background',
+      'A realistic route toward financial freedom that accounts for Rajkot\'s actual cost of living',
+    ],
+  },
+  {
+    title: 'A practical next step you can act on',
+    listItems: [
+      'Online guidance delivered across India with no dependence on local offline availability',
+      'Free updated practical AI-powered assessments before bigger commitments',
+      'A concrete income target and the skill path most likely to reach it from where you are',
+      'One clear next move instead of broad advice you still need to decode yourself',
+    ],
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'There are not many good jobs in Rajkot — so what is the point?',
+    body: 'That depends heavily on the skill and path. Rajkot\'s industrial and SME base does offer strong local opportunities in manufacturing, engineering, and business management. Beyond that, remote-first digital skills do not require you to be in Bangalore. The real question is which path travels well from here — and that is exactly what good counselling should clarify.',
+  },
+  {
+    title: 'Should I just move to Ahmedabad or Mumbai instead?',
+    body: 'Maybe. But the better question to answer first is: what skill direction is actually worth pursuing before you relocate? Moving cities without skill clarity does not fix the underlying problem. Get clear on the path first, then decide whether the city needs to change.',
+  },
+  {
+    title: 'My family expects me to join the business — but I am not sure',
+    body: 'That is one of the most common and least-discussed pressures in Rajkot. Whether to join, modernise, or build something else is a genuine career decision, not a small one. Good counselling can help you think through it practically, not just emotionally.',
+  },
+  {
+    title: 'I am worried about wasting more time on the wrong path',
+    body: 'That is usually the best reason to get clarity now. Counselling matters most when the next decision feels expensive, delayed, or hard to reverse — and that is true whether you are choosing a course, a skill direction, or a city.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-intent guidance options if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the broader counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'Online-first approach across India if your real concern is easier access rather than the city itself.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Start with free assessments if you want a lower-pressure first step before stronger guidance.',
+  },
+  {
+    href: '/career-resources/digital-marketing-career-roadmap',
+    title: 'Digital Marketing Career Roadmap',
+    description: 'How to build a digital marketing career with strong income potential from a non-metro city like Rajkot — no relocation required.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What career paths actually make sense for someone in Rajkot?',
+    answer: 'It depends on the person, not only the city. Rajkot has genuine opportunity in manufacturing management, industrial engineering, business operations, and entrepreneurship. Beyond that, remote-first skills like digital marketing, data analytics, financial modelling, UX, and software development work well from Rajkot because they do not depend on a local tech hub. The right path is the one that fits your strengths and has real income growth potential — not just the one that seems safest locally.',
+  },
+  {
+    question: 'Should I stay in Rajkot or move to a bigger city for my career?',
+    answer: 'That question is worth answering with clarity, not pressure. The stronger approach is to first get clear on which skill direction you are pursuing, then decide whether the city needs to change. Moving without clarity does not fix the underlying problem. Some paths work well from Rajkot, especially remote-first digital and business roles. Others do require a metro presence. Good counselling should tell you which category your path falls into.',
+  },
+  {
+    question: 'How do I build a career from Rajkot without a metro advantage?',
+    answer: 'The metro advantage matters less than it used to for skill-first careers. Fields like content, analytics, product, finance, and digital marketing are won by proof of work and portfolio strength, not by physical presence. Rajkot graduates who build strong, visible skill proof can compete with metro candidates for remote and hybrid roles. The key is choosing the right skill direction early and building evidence of it.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals?',
+    answer: 'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages.',
+  },
+  {
+    question: 'What if I am from Rajkot but the bigger issue is not the city at all?',
+    answer: 'That is common. The city search is often a trust shortcut. If the real pressure is stream selection, degree choice, skill direction, or career change, the broader counselling and guidance pages are the stronger next filter. The Rajkot page exists for people where local context and trust are part of the decision — not the only decision.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Guidance by Location',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 4, name: title, item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Rajkot | Future Career School',
+    description:
+      'Career counselling in Rajkot for students, freshers, and working professionals. Online guidance for clearer decisions, stronger skill direction, and a better next move.',
+    url: canonical,
+    serviceType: 'Career Counselling',
+    areaServed: [
+      { '@type': 'City', name: 'Rajkot' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': 'EducationalOrganization',
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="services-hero">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Career Guidance by Location</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Rajkot</span>
+      </nav>
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Online career counselling for students and working professionals across India
+      </div>
+      <h1 class="hero-title">
+        Career Counselling in <span class="gold-text">Rajkot</span>
+      </h1>
+      <p class="hero-sub">
+        Rajkot's strong manufacturing and SME base creates a specific career reality — one that generic counselling written for metro IT grads rarely addresses.
+        Whether you are a student choosing between a degree and a skill path, a professional unsure whether to stay or relocate, or someone navigating family business pressure,
+        the decision needs clarity before more time and money get committed.
+      </p>
+      <p class="hero-sub hero-sub-secondary">
+        Future Career School delivers career counselling online across India. The career and skill assessments are fully free, updated, practical, and AI-powered.
+      </p>
+      <div class="hero-actions">
+        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href={BOFU_PAYMENT_LINKS.workingProfessionals} class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="intent-clarity" class="section-block">
+    <div class="container">
+      <h2>Why you actually need this support</h2>
+      <p>
+        When people search for career counselling in Rajkot, the city name usually signals a desire for trust and proximity.
+        But the real decision pressure is almost always about clarity, skill direction, and avoiding expensive wrong turns.
+      </p>
+      <BofuListCardSection items={fitItems} variant="default" />
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="rajkot-career-landscape"
+    title="The Rajkot career reality that generic advice misses"
+    subtitle="Rajkot's economy is built differently from metro cities. Good career counselling should address your actual situation, not the situation of a Bangalore IT graduate."
+    items={rajkotContextItems}
+    variant="signal"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, stronger positioning, and a clearer route toward achieving earlier financial freedom."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In an industrial city like Rajkot, the real risk is advice that ignores your actual situation — the manufacturing economy, the family business pressure, and the remote-first options that have opened up for non-metro graduates. Generic degree-first counselling misses all three. The comparison below shows what separates high-leverage guidance from that."
+    rows={rajkotComparisonRows}
+  />
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use. Here is what that looks like.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="default" />
+      <AssessmentSupportNote
+        body="If you want a lighter first step, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+      />
+    </div>
+  </section>
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often.</p>
+      <BofuListCardSection items={objectionItems} variant="default" />
+    </div>
+  </section>
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Rajkot" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling is most useful when the decision feels expensive, delayed, or hard to reverse. That is exactly when it matters most."
+    audience="mixed"
+    studentLabel="Get Student Career Counselling"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .section-block {
+    padding: 3.5rem 0;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 1.2rem;
+  }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #services-hero {
+    position: relative;
+    padding: 4rem 0 3.5rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.08;
+  }
+
+  .hero-orb-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(45, 212, 191, 0.4), transparent);
+    top: -100px;
+    right: -150px;
+  }
+
+  .hero-orb-2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(229, 184, 74, 0.3), transparent);
+    bottom: -50px;
+    left: -100px;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .breadcrumb {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb a {
+    color: rgba(45, 212, 191, 0.8);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .breadcrumb a:hover {
+    color: #2dd4bf;
+  }
+
+  .breadcrumb span[aria-current] {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .pill-dot {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #2dd4bf;
+  }
+
+  .hero-title {
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0 0 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .gold-text {
+    color: #e5b84a;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 1rem;
+  }
+
+  .hero-sub-secondary {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.8rem;
+  }
+
+  .btn-gold,
+  .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #e5b84a, #d4a83a);
+    color: #000;
+  }
+
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3);
+  }
+
+  .btn-outline {
+    border: 1px solid rgba(45, 212, 191, 0.5);
+    color: #2dd4bf;
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    background: rgba(45, 212, 191, 0.1);
+    border-color: #2dd4bf;
+  }
+
+  .pulse {
+    animation: pulse-ring 2s infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(229, 184, 74, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(229, 184, 74, 0);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-actions {
+      flex-direction: column;
+    }
+
+    .btn-gold,
+    .btn-outline {
+      width: 100%;
+      text-align: center;
+    }
+
+    .section-block {
+      padding: 2.5rem 0;
+    }
+  }
+</style>

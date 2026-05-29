@@ -1,0 +1,165 @@
+---
+export interface BuyerCheckItem {
+  title: string;
+  body: string;
+}
+
+export interface Props {
+  sectionId?: string;
+  sectionClass?: string;
+  title: string;
+  subtitle?: string;
+  items?: BuyerCheckItem[];
+}
+
+const defaultItems: BuyerCheckItem[] = [
+  {
+    title: 'Check whether the guidance is generic or genuinely useful',
+    body: 'A stronger process should help you make better career and skill decisions, not just repeat public advice in nicer language.',
+  },
+  {
+    title: 'Check whether the path leads toward stronger income growth',
+    body: 'Good guidance should not quietly push you toward low-growth, low-paying paths without helping you think about higher-value skill building and a clearer route toward achieving earlier financial freedom.',
+  },
+  {
+    title: 'Check whether skills and proof of work are part of the direction',
+    body: 'Degree-only advice is rarely enough. Look for guidance that treats high-value skills and proof of work as part of the strategy.',
+  },
+  {
+    title: 'Check whether the assessments are practical or just expensive theatre',
+    body: 'Many providers charge thousands for outdated or impractical assessments and present them like deal-breakers. Future Career School can be described truthfully as offering free, updated, practical, AI-powered career and skill assessments.',
+  },
+];
+
+const {
+  sectionId = 'check-before-paying',
+  sectionClass = '',
+  title,
+  subtitle,
+  items = defaultItems,
+} = Astro.props;
+---
+
+<section id={sectionId} class:list={['bofu-buyer-checks', sectionClass]}>
+  <div class="container">
+    <h2 class="section-headline">{title}</h2>
+    {subtitle && <p class="section-sub">{subtitle}</p>}
+
+    <div class="buyer-check-grid">
+      {items.map((item, index) => (
+        <article class="buyer-check-card card">
+          <div class="buyer-check-meta">
+            <div class="buyer-check-index">{String(index + 1).padStart(2, '0')}</div>
+          </div>
+          <div class="buyer-check-rule"></div>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .bofu-buyer-checks {
+    position: relative;
+    overflow: hidden;
+    padding: 5.4rem 0;
+    scroll-margin-top: 108px;
+  }
+  .bofu-buyer-checks .section-headline {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    color: #fff;
+    margin-bottom: .9rem;
+    text-wrap: balance;
+  }
+  .bofu-buyer-checks .section-sub {
+    font-size: clamp(15px, 2vw, 17px);
+    color: rgba(255,255,255,.62);
+    line-height: 1.76;
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+  .bofu-buyer-checks .buyer-check-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .bofu-buyer-checks .buyer-check-card {
+    padding: 1.2rem 1.15rem 1.12rem;
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,.1);
+    background:
+      radial-gradient(340px 170px at 100% 0%, rgba(229,184,74,.09), transparent 74%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+    box-shadow: 0 16px 34px rgba(0,0,0,.2);
+    position: relative;
+    overflow: hidden;
+  }
+  .bofu-buyer-checks .buyer-check-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,.04), transparent 38%);
+    pointer-events: none;
+  }
+  .bofu-buyer-checks .buyer-check-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: .8rem;
+    margin-bottom: .7rem;
+  }
+  .bofu-buyer-checks .buyer-check-index {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    border: 1px solid rgba(229,184,74,.32);
+    background: rgba(229,184,74,.14);
+    color: #f6db95;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    flex-shrink: 0;
+  }
+  .bofu-buyer-checks .buyer-check-rule {
+    width: 72px;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(229,184,74,.92), rgba(45,212,191,.72));
+    margin-bottom: .95rem;
+  }
+  .bofu-buyer-checks .buyer-check-card h3 {
+    color: #fff;
+    font-size: 1.03rem;
+    margin-bottom: .45rem;
+    line-height: 1.45;
+    max-width: 28ch;
+  }
+  .bofu-buyer-checks .buyer-check-card p {
+    color: rgba(255,255,255,.71);
+    line-height: 1.75;
+    font-size: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .bofu-buyer-checks .buyer-check-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .bofu-buyer-checks {
+      padding: 4.7rem 0;
+    }
+    .bofu-buyer-checks .buyer-check-card {
+      padding: 1.05rem 1rem .98rem;
+      border-radius: 18px;
+    }
+  }
+</style>

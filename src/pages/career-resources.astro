@@ -1,0 +1,1227 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import LinkDirectorySection from '../components/LinkDirectorySection.astro';
+
+// ── RESOURCE DATA ──────────────────────────────────────────────────────────────
+// audience: array of "student" | "graduate" | "professional" | "coach"
+// topic:    one of the topic keys
+// type:     one of the type keys
+
+const resources = [
+  // ── CAREER PLANNING ──
+  { title: "Arts & Humanities Careers That Pay Well Today",
+    desc: "The real market for humanities graduates — content strategy, law, policy, UX writing, consulting, and 8 more paths with income benchmarks.",
+    audience: ["student","graduate"], topic: "career-planning", type: "guide", readTime: "8 min", tags: ["Degree Paths","Arts"] },
+  { title: "Career Change Without Starting Over",
+    desc: "The T-Shaped Skill approach to switching fields while preserving years of experience. For professionals who feel stuck but can't afford to go back to zero.",
+    audience: ["professional"], topic: "career-planning", type: "guide", readTime: "14 min", tags: ["Career Change","T-Shaped Skill"] },
+  { title: "Biology Check: Match Career to Your Thinking Style",
+    desc: "Two questions — People vs Systems and Making vs Analysing — that narrow down career direction before you waste time or money on the wrong path.",
+    audience: ["student","graduate","professional"], topic: "career-planning", type: "assessment", readTime: "5 min", tags: ["Biology Check","Self Assessment"] },
+  { title: "3 Career Profiles: Which Type Are You?",
+    desc: "Perfect Planner, Passion-first, or Empire Builder — which profile you are determines what career path and skill decisions will actually work for you.",
+    audience: ["student","graduate","professional"], topic: "career-planning", type: "assessment", readTime: "6 min", tags: ["Career Profiles","Self Assessment"] },
+  { title: "The 4-Checkpoint Career Protocol Explained",
+    desc: "Biology Check → Context Check → Market Survival Audit → Future-Ready Matrix. The complete framework in plain language with examples.",
+    audience: ["student","graduate","professional"], topic: "career-planning", type: "guide", readTime: "15 min", tags: ["Framework","4-Checkpoint Protocol"] },
+  { title: "What to Do When Your Passion Doesn't Pay",
+    desc: "The Skill Marriage framework — merging what you love with what the market pays. A structured process, not a pep talk.",
+    audience: ["student","graduate"], topic: "career-planning", type: "guide", readTime: "8 min", tags: ["Skill Marriage","Passion vs Market"] },
+
+  // ── SKILLS & COURSES ──
+  { title: "T-Shaped Skill Stack Builder",
+    desc: "How to combine your existing degree or experience with one market-validated skill to create disproportionate income leverage.",
+    audience: ["graduate","professional"], topic: "skills", type: "guide", readTime: "10 min", tags: ["T-Shaped Skill","Skill Selection"] },
+  { title: "Skill Sampling: Try Before You Commit",
+    desc: "The free → taste test → invest framework — try any skill at zero cost before spending on a paid course. Works for every skill category.",
+    audience: ["student","graduate","professional"], topic: "skills", type: "guide", readTime: "6 min", tags: ["Skill Sampling"] },
+  { title: "Digital Marketing Career Roadmap",
+    desc: "SEO, performance marketing, content strategy, email, analytics — which specialisation pays most and how to enter each without a marketing degree.",
+    audience: ["graduate","professional"], topic: "skills", type: "roadmap", readTime: "13 min", tags: ["Digital Marketing"] },
+  { title: "Data Science & Analytics Career Roadmap",
+    desc: "From zero to job-ready in data — the exact skill sequence, free resources, and which certifications are actually worth paying for in India.",
+    audience: ["graduate","professional"], topic: "skills", type: "roadmap", readTime: "15 min", tags: ["Data Science","Analytics"] },
+  { title: "UX/UI Design Career Roadmap",
+    desc: "How to build a UX portfolio with zero clients, the tools that matter right now, and where Indian UX designers earn the most.",
+    audience: ["graduate","professional"], topic: "skills", type: "roadmap", readTime: "12 min", tags: ["UX Design","UI Design"] },
+  { title: "Video Editing & Content Creation Roadmap",
+    desc: "From mobile editing to agency-level production — the income trajectory and client acquisition path for creators in India.",
+    audience: ["student","graduate"], topic: "skills", type: "roadmap", readTime: "10 min", tags: ["Content Creation","Video Editing"] },
+  { title: "Copywriting Career Roadmap",
+    desc: "Long-form, short-form, email, ad copy — which type to master first and how Indian copywriters charge clients per project.",
+    audience: ["graduate","professional"], topic: "skills", type: "roadmap", readTime: "11 min", tags: ["Copywriting"] },
+  { title: "Sales Career Roadmap: From Rep to Revenue Leader",
+    desc: "Inside sales, B2B, SaaS sales, real estate — how different sales roles scale in income and what each requires upfront.",
+    audience: ["graduate","professional"], topic: "skills", type: "roadmap", readTime: "10 min", tags: ["Sales"] },
+  { title: "AI & Prompt Engineering Roadmap",
+    desc: "The skills AI engineers and prompt specialists need right now — separated by genuine demand from hype, with practical entry paths by background.",
+    audience: ["graduate","professional"], topic: "skills", type: "roadmap", readTime: "12 min", tags: ["AI Skills","Prompt Engineering"] },
+  { title: "Web Development Career Roadmap",
+    desc: "Frontend, backend, full-stack — which path to take, in which order, and where the market actually pays a premium for Indian developers.",
+    audience: ["student","graduate"], topic: "skills", type: "roadmap", readTime: "14 min", tags: ["Web Development"] },
+  { title: "Graphic Design Career Roadmap",
+    desc: "From self-taught Canva user to professional designer — building a portfolio, finding clients, and scaling income from freelance to agency.",
+    audience: ["student","graduate"], topic: "skills", type: "roadmap", readTime: "10 min", tags: ["Graphic Design"] },
+  { title: "Financial Modelling Career Roadmap",
+    desc: "Excel, Python, or both? How financial modelling skills translate to investment banking, FP&A, and consulting — with realistic timelines.",
+    audience: ["graduate","professional"], topic: "skills", type: "roadmap", readTime: "10 min", tags: ["Finance","Financial Modelling"] },
+  { title: "How to Pick the Right Online Course",
+    desc: "A practical filter to evaluate any course before paying — apply it to Coursera, Udemy, or any platform and avoid expensive mistakes.",
+    audience: ["student","graduate","professional"], topic: "skills", type: "guide", readTime: "7 min", tags: ["Course Selection","Skill Selection"] },
+  { title: "Multiplier Skill Guide: One Addition That Doubles Value",
+    desc: "For working professionals — how one skill layered on your existing role creates compound income jumps without changing jobs.",
+    audience: ["professional"], topic: "skills", type: "guide", readTime: "9 min", tags: ["Multiplier Skill","Income Growth"] },
+  { title: "High-Income Skills for the Next Decade",
+    desc: "A market-verified list of skills with strong long-term earning potential, plus practical entry paths from zero or from an existing base.",
+    audience: ["student","graduate","professional"], topic: "skills", type: "guide", readTime: "11 min", tags: ["High-Income Skills"] },
+
+  // ── SALARY & INCOME ──
+  { title: "Freedom Number: How Much Do You Actually Need to Earn?",
+    desc: "Calculate the exact income level that gives you genuine life choice — not just financial survival. A practical worksheet with real numbers.",
+    audience: ["graduate","professional"], topic: "salary", type: "tool", readTime: "10 min", tags: ["Freedom Number","Income Planning"] },
+  { title: "How to Ask for a Salary Raise (With Scripts)",
+    desc: "Market data, timing, framing, and exact scripts for the salary conversation — including what to say when they push back.",
+    audience: ["professional"], topic: "salary", type: "guide", readTime: "9 min", tags: ["Salary Negotiation"] },
+  { title: "Salary Negotiation: What to Say and What Never to Say",
+    desc: "The 11 most common salary negotiation mistakes Indian professionals make — and the exact scripts to avoid each one.",
+    audience: ["graduate","professional"], topic: "salary", type: "guide", readTime: "8 min", tags: ["Salary Negotiation"] },
+  { title: "From Employee to Freelancer: The Real Roadmap",
+    desc: "Not theory. The exact steps — when to quit, how to price your work, and how to land your first client before leaving your job.",
+    audience: ["professional"], topic: "salary", type: "roadmap", readTime: "14 min", tags: ["Freelancing","Tarzan Rule"] },
+  { title: "Tarzan Rule: The Exact Moment to Quit Your Job",
+    desc: "A clear, non-arbitrary rule: never quit until your side income equals 1.5–2× your salary for 3 consecutive months. No guesswork.",
+    audience: ["professional"], topic: "salary", type: "guide", readTime: "7 min", tags: ["Tarzan Rule","Freelancing"] },
+  { title: "Night Shift Plan: Learn 7pm–11pm Without Burning Out",
+    desc: "A sustainable weekly schedule for skill-building while employed — structured around compound learning, not heroic sprints.",
+    audience: ["graduate","professional"], topic: "salary", type: "checklist", readTime: "5 min", tags: ["Night Shift Plan","Time Management"] },
+  { title: "Side Income While Employed: 7 Legit Options",
+    desc: "7 verified side income paths for Indian professionals — with startup cost, income ceiling, and required skill for each option.",
+    audience: ["professional"], topic: "salary", type: "guide", readTime: "10 min", tags: ["Side Income","Freelancing"] },
+  { title: "How Indian Freelancers Make ₹1–5 Lakh/Month",
+    desc: "What the top 5% of Indian freelancers do differently — client acquisition, packaging, pricing, and retention strategies that compound.",
+    audience: ["professional"], topic: "salary", type: "guide", readTime: "12 min", tags: ["Freelancing","Income Growth"] },
+
+  // ── ASSESSMENTS ──
+  { title: "Biology Check Self-Assessment",
+    desc: "Two questions that reveal your natural thinking style — People vs Systems and Making vs Analysing. The starting point for any career decision.",
+    audience: ["student","graduate","professional"], topic: "assessments", type: "assessment", readTime: "5 min", tags: ["Biology Check"] },
+  { title: "Career Profile Quiz: Perfect Plan, Passion, or Empire Builder?",
+    desc: "Discover which career profile type you are — and what coaching strategy, skill path, and income timeline matches your type.",
+    audience: ["student","graduate","professional"], topic: "assessments", type: "assessment", readTime: "8 min", tags: ["Career Profiles"] },
+  { title: "Are You a People Thinker or Systems Thinker?",
+    desc: "A self-assessment rooted in the Biology Check — determines whether client-facing, creative, or analytical roles will energise or drain you.",
+    audience: ["student","graduate"], topic: "assessments", type: "assessment", readTime: "6 min", tags: ["Biology Check","Thinking Styles"] },
+
+  // ── AI & FUTURE OF WORK ──
+  { title: "How to AI-Proof Your Career",
+    desc: "Not 'learn to code' — the actual skills that make humans indispensable alongside AI tools. Based on real displacement patterns, not predictions.",
+    audience: ["professional"], topic: "ai-future", type: "guide", readTime: "10 min", tags: ["AI","Upskilling"] },
+  { title: "AI Multiplier Skills for the Next Decade",
+    desc: "7 skill-and-AI combinations that create compound income — for professionals who want to leverage AI rather than compete against it.",
+    audience: ["graduate","professional"], topic: "ai-future", type: "roadmap", readTime: "11 min", tags: ["AI","Multiplier Skill"] },
+  { title: "Prompt Engineering for Non-Technical Professionals",
+    desc: "How managers, writers, analysts, and consultants are using prompt engineering to produce 10× output. No coding required.",
+    audience: ["professional"], topic: "ai-future", type: "guide", readTime: "8 min", tags: ["Prompt Engineering","AI Tools"] },
+  { title: "Using AI Tools Without Getting Replaced",
+    desc: "Integrating AI tools into your role in a way that makes you more valuable — not more replaceable. Practical, role-specific examples.",
+    audience: ["professional"], topic: "ai-future", type: "guide", readTime: "9 min", tags: ["AI Tools","Job Security"] },
+  { title: "New Jobs AI Will Create (Not Just Replace)",
+    desc: "Emerging AI-era roles in implementation, workflow design, evaluation, enablement, and governance — plus how different backgrounds can enter them.",
+    audience: ["student","graduate","professional"], topic: "ai-future", type: "guide", readTime: "10 min", tags: ["AI","Career Opportunities"] },
+  { title: "Tech Leverage: Automate 80% of Your Work, Reclaim 4 Hours",
+    desc: "How working professionals use AI and automation tools to free up time for high-value skill-building — the Tech Leverage framework.",
+    audience: ["professional"], topic: "ai-future", type: "guide", readTime: "8 min", tags: ["Tech Leverage","Productivity"] },
+
+  // ── PORTFOLIO & BRANDING ──
+  { title: "LinkedIn Profile Optimization: The Full Guide",
+    desc: "Section-by-section rewrite guide — headline, about, experience, skills — that makes recruiters reach out to you without cold applying.",
+    audience: ["graduate","professional"], topic: "portfolio", type: "guide", readTime: "15 min", tags: ["LinkedIn","Personal Branding"] },
+  { title: "Creating a Portfolio Without Work Experience",
+    desc: "The exact types of projects to create, how to frame them, and where to host them — for students and fresh graduates with no clients yet.",
+    audience: ["student","graduate"], topic: "portfolio", type: "guide", readTime: "10 min", tags: ["Portfolio Building","No Experience"] },
+  { title: "GitHub for Non-Developers: Build a Portfolio Without Code",
+    desc: "How non-technical professionals use GitHub for case studies, research documentation, and structured learning logs — with examples.",
+    audience: ["student","graduate"], topic: "portfolio", type: "guide", readTime: "7 min", tags: ["GitHub","Portfolio Building"] },
+  { title: "Personal Brand Without Posting Every Day",
+    desc: "A sustainable personal brand strategy — 1 deep post per week beats 7 shallow ones. The exact format, cadence, and topic selection framework.",
+    audience: ["professional"], topic: "portfolio", type: "guide", readTime: "9 min", tags: ["Personal Branding","Content Strategy"] },
+  { title: "Resume That Gets Shortlisted in India",
+    desc: "ATS, formatting, keywords, and what Indian recruiters actually read first — with before/after examples and a template.",
+    audience: ["student","graduate","professional"], topic: "portfolio", type: "guide", readTime: "11 min", tags: ["Resume","ATS"] },
+
+  // ── JOB SEARCH & INTERVIEW ──
+
+  // ── CITY CAREER GUIDES ──
+
+  // ── FOR COACHES & COUNSELORS ──
+
+  // ── INTERNATIONAL ──
+];
+
+// ── META ───────────────────────────────────────────────────────────────────────
+const topicMeta: Record<string, { label: string; color: string }> = {
+  'career-planning': { label: 'Career Planning',  color: '#e5b84a' },
+  'skills':          { label: 'Skills & Courses',  color: '#2dd4bf' },
+  'salary':          { label: 'Salary & Income',   color: '#34d399' },
+  'assessments':     { label: 'Assessments',       color: '#a78bfa' },
+  'ai-future':       { label: 'AI & Future Work',  color: '#60a5fa' },
+  'portfolio':       { label: 'Portfolio & Brand', color: '#f472b6' },
+  'job-search':      { label: 'Job Search',        color: '#fb923c' },
+  'city-guides':     { label: 'City Guides',       color: '#fbbf24' },
+  'coaching':        { label: 'For Coaches',       color: '#c084fc' },
+  'international':   { label: 'International',     color: '#38bdf8' },
+};
+
+const typeMeta: Record<string, { label: string }> = {
+  'guide':      { label: 'Guide' },
+  'roadmap':    { label: 'Roadmap' },
+  'assessment': { label: 'Assessment' },
+  'checklist':  { label: 'Checklist' },
+  'template':   { label: 'Template' },
+  'tool':       { label: 'Tool' },
+  'city-guide': { label: 'City Guide' },
+};
+
+const audienceMeta: Record<string, { label: string; color: string }> = {
+  'student':      { label: 'Students',      color: '#2dd4bf' },
+  'graduate':     { label: 'Graduates',     color: '#e5b84a' },
+  'professional': { label: 'Professionals', color: '#a78bfa' },
+  'coach':        { label: 'Coaches',       color: '#f472b6' },
+};
+
+const resourceHrefByTitle: Record<string, string> = {
+  'Biology Check: Match Career to Your Thinking Style': '/career-resources/biology-check-thinking-style/',
+  'Biology Check Self-Assessment': '/career-resources/biology-check-self-assessment/',
+  '3 Career Profiles: Which Type Are You?': '/career-resources/3-career-profiles-which-type-are-you/',
+  'Career Profile Quiz: Perfect Plan, Passion, or Empire Builder?': '/career-resources/career-profile-quiz-perfect-plan-passion-or-empire-builder/',
+  'Are You a People Thinker or Systems Thinker?': '/career-resources/are-you-a-people-thinker-or-systems-thinker/',
+  "What to Do When Your Passion Doesn't Pay": '/career-resources/what-to-do-when-your-passion-doesnt-pay/',
+  'How to Pick the Right Online Course': '/career-resources/how-to-pick-the-right-online-course/',
+  'Skill Sampling: Try Before You Commit': '/career-resources/skill-sampling-try-before-you-commit/',
+  'T-Shaped Skill Stack Builder': '/career-resources/t-shaped-skill-stack-builder/',
+  'Freedom Number: How Much Do You Actually Need to Earn?': '/career-resources/freedom-number-how-much-do-you-actually-need-to-earn/',
+  'The 4-Checkpoint Career Protocol Explained': '/career-resources/the-4-checkpoint-career-protocol-explained/',
+  'Multiplier Skill Guide: One Addition That Doubles Value': '/career-resources/multiplier-skill-guide-one-addition-that-doubles-value/',
+  'Tarzan Rule: The Exact Moment to Quit Your Job': '/career-resources/tarzan-rule-the-exact-moment-to-quit-your-job/',
+  'Night Shift Plan: Learn 7pm–11pm Without Burning Out': '/career-resources/night-shift-plan-learn-7pm-11pm-without-burning-out/',
+  'How to AI-Proof Your Career': '/career-resources/how-to-ai-proof-your-career/',
+  'AI Multiplier Skills for the Next Decade': '/career-resources/ai-multiplier-skills-for-the-next-decade/',
+  'Side Income While Employed: 7 Legit Options': '/career-resources/side-income-while-employed-7-legit-options/',
+  'Career Change Without Starting Over': '/career-resources/career-change-without-starting-over/',
+  'Creating a Portfolio Without Work Experience': '/career-resources/creating-a-portfolio-without-work-experience/',
+  'LinkedIn Profile Optimization: The Full Guide': '/career-resources/linkedin-profile-optimization-the-full-guide/',
+  'Personal Brand Without Posting Every Day': '/career-resources/personal-brand-without-posting-every-day/',
+  'Resume That Gets Shortlisted in India': '/career-resources/resume-that-gets-shortlisted-in-india/',
+  'Prompt Engineering for Non-Technical Professionals': '/career-resources/prompt-engineering-for-non-technical-professionals/',
+  'Using AI Tools Without Getting Replaced': '/career-resources/using-ai-tools-without-getting-replaced/',
+  'Tech Leverage: Automate 80% of Your Work, Reclaim 4 Hours': '/career-resources/tech-leverage-automate-80-percent-of-your-work-reclaim-4-hours/',
+  'Arts & Humanities Careers That Pay Well Today': '/career-resources/arts-and-humanities-careers-that-pay-well-today/',
+  'New Jobs AI Will Create (Not Just Replace)': '/career-resources/new-jobs-ai-will-create-not-just-replace/',
+  'GitHub for Non-Developers: Build a Portfolio Without Code': '/career-resources/github-for-non-developers-build-a-portfolio-without-code/',
+  'From Employee to Freelancer: The Real Roadmap': '/career-resources/from-employee-to-freelancer-the-real-roadmap/',
+  'How Indian Freelancers Make ₹1–5 Lakh/Month': '/career-resources/how-indian-freelancers-make-1-5-lakh-month/',
+  'Digital Marketing Career Roadmap': '/career-resources/digital-marketing-career-roadmap/',
+  'Data Science & Analytics Career Roadmap': '/career-resources/data-science-analytics-career-roadmap/',
+  'UX/UI Design Career Roadmap': '/career-resources/ux-ui-design-career-roadmap/',
+  'Web Development Career Roadmap': '/career-resources/web-development-career-roadmap/',
+  'Video Editing & Content Creation Roadmap': '/career-resources/video-editing-content-creation-roadmap/',
+  'Copywriting Career Roadmap': '/career-resources/copywriting-career-roadmap/',
+  'Graphic Design Career Roadmap': '/career-resources/graphic-design-career-roadmap/',
+  'AI & Prompt Engineering Roadmap': '/career-resources/ai-prompt-engineering-roadmap/',
+  'How to Ask for a Salary Raise (With Scripts)': '/career-resources/how-to-ask-for-a-salary-raise-with-scripts/',
+  'Salary Negotiation: What to Say and What Never to Say': '/career-resources/salary-negotiation-what-to-say-and-what-never-to-say/',
+  'Sales Career Roadmap: From Rep to Revenue Leader': '/career-resources/sales-career-roadmap-from-rep-to-revenue-leader/',
+  'Financial Modelling Career Roadmap': '/career-resources/financial-modelling-career-roadmap/',
+  'High-Income Skills for the Next Decade': '/career-resources/high-income-skills-for-the-next-decade/',
+};
+
+const featuredResources = [
+  {
+    href: '/career-resources/biology-check-thinking-style/',
+    title: 'Biology Check: Match Career to Your Thinking Style',
+    description: 'A practical first-pass filter to eliminate bad-fit career directions before you compare streams, degrees, or skills.',
+  },
+  {
+    href: '/career-resources/how-to-pick-the-right-online-course/',
+    title: 'How to Pick the Right Online Course',
+    description: 'A role-first method for choosing courses that lead to proof of work instead of more passive watching.',
+  },
+  {
+    href: '/career-resources/skill-sampling-try-before-you-commit/',
+    title: 'Skill Sampling: Try Before You Commit',
+    description: 'A practical test method to see whether a skill survives real work before you buy another course.',
+  },
+  {
+    href: '/career-resources/t-shaped-skill-stack-builder/',
+    title: 'T-Shaped Skill Stack Builder',
+    description: 'A clearer way to combine your current base with one stronger market-facing skill instead of starting over.',
+  },
+  {
+    href: '/career-resources/freedom-number-how-much-do-you-actually-need-to-earn/',
+    title: 'Freedom Number: How Much Do You Actually Need to Earn?',
+    description: 'A practical worksheet for turning vague salary goals into a more useful career-income target.',
+  },
+];
+
+const startPathCards = [
+  {
+    title: 'I do not know what fits me yet',
+    text: 'Start with fit and direction before you compare degrees, skills, or expensive courses.',
+    href: '/career-resources/biology-check-thinking-style/',
+    cta: 'Start with Biology Check'
+  },
+  {
+    title: 'I know the direction, but not the skill',
+    text: 'Use the strongest skill-selection and course-selection resources before you spend money or months on the wrong build.',
+    href: '/career-resources/how-to-pick-the-right-online-course/',
+    cta: 'Start with course selection'
+  },
+  {
+    title: 'I need proof, not more theory',
+    text: 'Use the portfolio, LinkedIn, and resume resources when the main gap is visible proof of work.',
+    href: '/career-resources/creating-a-portfolio-without-work-experience/',
+    cta: 'Start with proof of work'
+  },
+  {
+    title: 'My role feels exposed to AI or stagnation',
+    text: 'Use the AI-proofing and career-change resources when the bigger issue is protecting or upgrading long-term value.',
+    href: '/career-resources/how-to-ai-proof-your-career/',
+    cta: 'Start with AI-proofing'
+  },
+];
+
+const nextStepLinks = [
+  {
+    href: '/services/career-counselling-and-career-guidance/',
+    title: 'Career Guidance',
+    description: 'Use this when the decision is bigger than one article and the wrong move is already getting expensive.',
+  },
+  {
+    href: '/services/assessments/',
+    title: 'Free Tests and Assessments',
+    description: 'Open the assessment hub if you want a more structured first step before choosing a path or a course.',
+  },
+  {
+    href: '/skill-finder',
+    title: 'Skill Finder',
+    description: 'Use the skill finder when the main problem is what to learn next, not only which course to buy.',
+  },
+];
+
+const totalCount = resources.length;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://futurecareerschool.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Career Resources", "item": "https://futurecareerschool.com/career-resources" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Career Resources — Guides, Roadmaps & Topic Library",
+    "description": `A curated library of ${totalCount}+ career counseling resources for students, graduates, working professionals, and career coaches in India. Covering skill selection, salary growth, AI readiness, portfolio building, city career guides, and more.`,
+    "url": "https://futurecareerschool.com/career-resources",
+    "inLanguage": "en-IN",
+    "numberOfItems": totalCount,
+    "publisher": {
+      "@type": "EducationalOrganization",
+      "name": "Future Career School",
+      "url": "https://futurecareerschool.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Visakhapatnam",
+        "addressRegion": "Andhra Pradesh",
+        "addressCountry": "IN"
+      }
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which career resources are best for students in Class 10 or 12?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Start with the Biology Check assessment and stream selection guides. Filter by 'Students' in our resource library to see all resources for Class 10 and 12 career decisions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the best high-income skills to learn right now?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "High-demand skills with ₹8–30 LPA potential include Data Analytics, Digital Marketing, UX Design, Copywriting, AI Engineering, and B2B Sales. Use the skill roadmaps, multiplier-skill guide, and course-selection resources to narrow which one fits your specific situation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I change careers without quitting my job?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Apply the Tarzan Rule: never quit your current income until your side income reaches 1.5–2× your salary for 3 consecutive months. Start with the Night Shift Plan — build skills from 7 PM to 11 PM while your job pays the bills."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are these career resources useful for career coaches and counselors?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Filter by 'Coaches' audience to access resources specifically for career coaching practitioners — including session frameworks, assessment tool comparisons, pricing guides, and client acquisition strategies."
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout
+  title={`Career Resources — ${totalCount}+ Guides, Roadmaps & Tools | Future Career School`}
+  description={`Comprehensive career resource library with ${totalCount}+ guides, roadmaps, assessments, and tools for students, graduates, working professionals, and career coaches in India.`}
+  canonical="https://futurecareerschool.com/career-resources"
+  jsonLd={jsonLd}
+>
+  <Nav activePage="topics" />
+
+  <!-- ═══════════════════════════════════════
+       PAGE HERO
+  ═══════════════════════════════════════ -->
+  <section id="cr-hero">
+    <div class="cr-hero-bg">
+      <div class="cr-orb cr-orb-1"></div>
+      <div class="cr-orb cr-orb-2"></div>
+    </div>
+    <div class="container cr-hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">Career Resources</span>
+      </nav>
+      <div class="cr-hero-tag pill">
+        <span class="pill-dot"></span>
+        {totalCount}+ Free Resources — Built for the current market
+      </div>
+      <h1 class="cr-h1">
+        Everything You Need to<br /><span class="gold-text">Make Smarter Career Decisions</span>
+      </h1>
+      <p class="cr-sub">
+        Guides, roadmaps, assessments, and frameworks for students, graduates, working professionals,
+        and career coaches across India. Filter by who you are and what you need.
+      </p>
+      <div class="cr-hero-ctas">
+        <a href="#featured-resources" class="btn-gold">
+          Start With The Best Resources
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="/skill-finder" class="btn-outline">
+          Explore Skill Finder
+        </a>
+      </div>
+      <!-- Quick audience jump -->
+      <div class="cr-aud-jump" role="navigation" aria-label="Jump by audience">
+        <span class="cr-aud-label">Jump to:</span>
+        <button class="caj-btn" data-group="audience" data-value="student">Students</button>
+        <button class="caj-btn" data-group="audience" data-value="graduate">Graduates</button>
+        <button class="caj-btn" data-group="audience" data-value="professional">Professionals</button>
+        <button class="caj-btn" data-group="audience" data-value="coach">Coaches</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       STICKY FILTER BAR
+  ═══════════════════════════════════════ -->
+  <LinkDirectorySection
+    sectionId="featured-resources"
+    sectionClass="cr-featured"
+    title="Start With The Strongest Resources First"
+    subtitle="These are the first resource pages built out properly. Start here if you want practical frameworks, filters, and decision support instead of more short summaries."
+    items={featuredResources}
+    altBackground={true}
+  />
+
+  <section class="cr-start-paths">
+    <div class="container">
+      <div class="cr-start-head">
+        <div class="pill cr-start-pill">Best Starting Points</div>
+        <h2>Start with the page that matches the real problem</h2>
+        <p>Most people waste time because they open another resource before identifying what is actually blocked: fit, skill choice, proof, or future-proofing.</p>
+      </div>
+      <div class="cr-start-grid">
+        {startPathCards.map((card) => (
+          <article class="cr-start-card card">
+            <h3>{card.title}</h3>
+            <p>{card.text}</p>
+            <a href={card.href}>{card.cta} &rsaquo;</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="filter-wrap" id="filter-wrap" role="search" aria-label="Filter resources">
+    <div class="container">
+
+      <!-- Search + Sort row -->
+      <div class="filter-search-row">
+        <div class="fs-input-wrap">
+          <svg class="fs-search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input
+            type="search"
+            id="search-input"
+            class="fs-input"
+            placeholder={`Search ${totalCount}+ resources by title, topic, tag…`}
+            aria-label="Search resources"
+            autocomplete="off"
+          />
+          <button class="fs-clear-btn" id="search-clear" type="button" aria-label="Clear search" style="display:none">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="fs-sort-wrap">
+          <label for="sort-select" class="fs-sort-label">Sort</label>
+          <select id="sort-select" class="fs-sort-select" aria-label="Sort resources">
+            <option value="default">Recommended</option>
+            <option value="title-asc">Title A–Z</option>
+            <option value="title-desc">Title Z–A</option>
+            <option value="read-asc">Read time — shortest</option>
+            <option value="read-desc">Read time — longest</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="filter-rows">
+
+        <div class="filter-group">
+          <span class="fg-label">Audience</span>
+          <div class="fg-chips">
+            <button class="fc-btn fc-btn--active" data-group="audience" data-value="all">All</button>
+            <button class="fc-btn fc-btn--student" data-group="audience" data-value="student">Students</button>
+            <button class="fc-btn fc-btn--graduate" data-group="audience" data-value="graduate">Graduates</button>
+            <button class="fc-btn fc-btn--professional" data-group="audience" data-value="professional">Professionals</button>
+            <button class="fc-btn fc-btn--coach" data-group="audience" data-value="coach">Coaches</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="fg-label">Topic</span>
+          <div class="fg-chips fg-chips--wrap">
+            <button class="fc-btn fc-btn--active" data-group="topic" data-value="all">All Topics</button>
+            {Object.entries(topicMeta).map(([key, meta]) => (
+              <button class="fc-btn" data-group="topic" data-value={key}
+                style={`--fc-color:${meta.color}`}>{meta.label}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="fg-label">Type</span>
+          <div class="fg-chips">
+            <button class="fc-btn fc-btn--active" data-group="type" data-value="all">All Types</button>
+            {Object.entries(typeMeta).map(([key, meta]) => (
+              <button class="fc-btn" data-group="type" data-value={key}>{meta.label}</button>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
+      <div class="filter-meta">
+        <span class="filter-count">Showing <strong id="res-count">{totalCount}</strong> of {totalCount} resources</span>
+        <div class="filter-meta-right">
+          <span id="active-filters" class="active-filters" aria-live="polite"></span>
+          <button class="reset-btn" id="reset-btn" aria-label="Reset all filters">Reset filters</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       MAIN RESOURCE GRID
+  ═══════════════════════════════════════ -->
+  <main class="container cr-main" id="cr-main">
+
+    <!-- Skill Finder callout -->
+    <aside class="sf-callout card" aria-label="Skill and Course Finder">
+      <div class="sf-callout-inner">
+        <div class="sf-callout-left">
+          <div class="sf-callout-icon">🔍</div>
+          <div>
+            <strong class="sf-callout-title">Not sure which skill to learn?</strong>
+            <p class="sf-callout-desc">Try the Skill & Course Finder on the homepage — built around your natural thinking style, not generic lists.</p>
+          </div>
+        </div>
+        <a href="/skill-finder" class="sf-callout-btn btn-gold">
+          Open Skill Finder
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Resource grid -->
+    <div class="rc-grid" id="rc-grid" aria-live="polite" aria-label="Resource list">
+      {resources.map((r, idx) => {
+        const topic = topicMeta[r.topic];
+        const type = typeMeta[r.type];
+        const auds = r.audience;
+        const href = resourceHrefByTitle[r.title];
+        const readMinutes = parseInt(r.readTime, 10) || 0;
+        const searchBlob = [r.title, r.desc, ...(r.tags || []), topic.label, type.label]
+          .join(' ')
+          .toLowerCase();
+        return (
+          <article
+            class={`rc rc--${r.type}`}
+            data-audience={auds.join(' ')}
+            data-topic={r.topic}
+            data-type={r.type}
+            data-title={r.title.toLowerCase()}
+            data-search={searchBlob}
+            data-read={readMinutes}
+            data-order={idx}
+            aria-label={r.title}
+          >
+            <div class="rc-top">
+              <span class={`rc-type-badge ty-${r.type}`}>{type.label}</span>
+              <span class="rc-topic-dot" style={`background:${topic.color}`} title={topic.label}></span>
+              <span class="rc-topic-label" style={`color:${topic.color}`}>{topic.label}</span>
+              <span class="rc-time">{r.readTime}</span>
+            </div>
+            <h3 class="rc-title">{href ? <a href={href}>{r.title}</a> : r.title}</h3>
+            <p class="rc-desc">{r.desc}</p>
+            <div class="rc-footer">
+              <div class="rc-aud-tags">
+                {auds.map(a => (
+                  <span class="rc-aud" style={`--c:${audienceMeta[a].color}`}>{audienceMeta[a].label}</span>
+                ))}
+              </div>
+              {href && (
+                <a href={href} class="rc-cta" aria-label={`Read ${r.title}`}>
+                Read Resource <span aria-hidden="true">&rarr;</span>
+                </a>
+              )}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <!-- Empty state -->
+    <div id="empty-state" class="empty-state" style="display:none" aria-live="polite">
+      <div class="empty-icon">🔍</div>
+      <h3>No resources match your filters</h3>
+      <p>Try removing one or more filters to see more results.</p>
+      <button id="reset-empty-btn" class="btn-outline">Reset All Filters</button>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════
+       BOTTOM CTA
+  ═══════════════════════════════════════ -->
+  <LinkDirectorySection
+    sectionId="resource-next-steps"
+    sectionClass="cr-next-steps"
+    title="Need More Than A Resource?"
+    subtitle="Open the next page that matches the actual problem instead of defaulting to another generic article."
+    items={nextStepLinks}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ── PAGE HERO ── */
+  #cr-hero {
+    position: relative; padding: 9rem 0 4rem; overflow: hidden;
+  }
+  .cr-hero-bg { position: absolute; inset: 0; z-index: 0; }
+  .cr-orb { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
+  .cr-orb-1 { width: 600px; height: 500px; background: radial-gradient(circle, rgba(229,184,74,.08) 0%, transparent 70%); top: -100px; left: -100px; }
+  .cr-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(45,212,191,.06) 0%, transparent 70%); bottom: 0; right: 0; }
+  .cr-hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: rgba(255,255,255,.35); margin-bottom: 1.5rem; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .cr-hero-tag { margin-bottom: 1.5rem; font-size: 12px; font-weight: 600; letter-spacing: .06em; }
+  .cr-h1 {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 800; line-height: 1.08; letter-spacing: -.04em; color: #fff;
+    margin-bottom: 1.25rem;
+  }
+  .cr-sub { font-size: clamp(14px, 1.8vw, 16px); color: rgba(255,255,255,.55); line-height: 1.75; max-width: 600px; margin-bottom: 2rem; }
+  .cr-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 2rem; }
+  .cr-start-paths { padding: 1rem 0 2.25rem; }
+  .cr-start-head {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 1.8rem;
+  }
+  .cr-start-pill { width: fit-content; margin: 0 auto 1rem; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.66); }
+  .cr-start-head h2 {
+    font-size: clamp(1.7rem, 3.4vw, 2.45rem);
+    line-height: 1.08;
+    letter-spacing: -.03em;
+    color: #fff;
+    margin-bottom: .8rem;
+  }
+  .cr-start-head p {
+    color: rgba(255,255,255,.56);
+    font-size: 15px;
+    line-height: 1.72;
+  }
+  .cr-start-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .cr-start-card {
+    padding: 1.25rem;
+    border-color: rgba(255,255,255,.09);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(229,184,74,.08), transparent 38%),
+      linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
+  }
+  .cr-start-card h3 {
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.3;
+    margin-bottom: .6rem;
+  }
+  .cr-start-card p {
+    color: rgba(255,255,255,.58);
+    font-size: 13px;
+    line-height: 1.68;
+    margin-bottom: .95rem;
+  }
+  .cr-start-card a {
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  /* Audience jump row */
+  .cr-aud-jump { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .cr-aud-label { font-size: 12px; color: rgba(255,255,255,.3); font-weight: 500; }
+  .caj-btn {
+    font-size: 12px; font-weight: 600; padding: 5px 14px;
+    border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.04); color: rgba(255,255,255,.5);
+    cursor: pointer; transition: all .2s;
+  }
+  .caj-btn:hover { border-color: rgba(229,184,74,.3); color: var(--gold); background: rgba(229,184,74,.06); }
+  .cr-featured { padding-top: 1.35rem; }
+  .cr-next-steps { padding-top: 3.2rem; }
+
+  /* ── STICKY FILTER BAR ── */
+  .filter-wrap {
+    position: sticky; top: 72px; z-index: 50;
+    background: rgba(8,12,24,.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    padding: 1rem 0 .75rem;
+  }
+  /* Search + Sort row */
+  .filter-search-row {
+    display: flex; gap: .75rem; align-items: center;
+    margin-bottom: .85rem;
+  }
+  .fs-input-wrap {
+    flex: 1; position: relative; display: flex; align-items: center;
+  }
+  .fs-search-icon {
+    position: absolute; left: 14px;
+    color: rgba(255,255,255,.35); pointer-events: none;
+  }
+  .fs-input {
+    width: 100%;
+    font-family: inherit; font-size: 14px;
+    padding: 10px 38px 10px 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.1);
+    color: #fff;
+    transition: all .2s;
+    outline: none;
+  }
+  .fs-input::placeholder { color: rgba(255,255,255,.35); }
+  .fs-input:focus {
+    border-color: rgba(229,184,74,.5);
+    background: rgba(255,255,255,.06);
+    box-shadow: 0 0 0 3px rgba(229,184,74,.12);
+  }
+  .fs-input::-webkit-search-decoration,
+  .fs-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+  .fs-clear-btn {
+    position: absolute; right: 10px;
+    display: flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(255,255,255,.08); border: none;
+    color: rgba(255,255,255,.6); cursor: pointer;
+    transition: all .15s;
+  }
+  .fs-clear-btn:hover { background: rgba(229,184,74,.2); color: var(--gold); }
+
+  .fs-sort-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .fs-sort-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: rgba(255,255,255,.35);
+  }
+  .fs-sort-select {
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    padding: 9px 32px 9px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.12);
+    color: rgba(255,255,255,.75);
+    cursor: pointer;
+    transition: all .2s;
+    outline: none;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+  .fs-sort-select:hover { border-color: rgba(229,184,74,.3); color: #fff; }
+  .fs-sort-select:focus { border-color: rgba(229,184,74,.5); box-shadow: 0 0 0 3px rgba(229,184,74,.12); }
+  .fs-sort-select option { background: #0e1526; color: #fff; }
+
+  /* Active filter pills in meta bar */
+  .filter-meta-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+  .active-filters { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+  .af-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 600;
+    padding: 3px 9px; border-radius: 999px;
+    background: rgba(229,184,74,.1); border: 1px solid rgba(229,184,74,.22);
+    color: var(--gold);
+  }
+  .af-pill button {
+    background: none; border: none; color: inherit; cursor: pointer;
+    display: flex; align-items: center; padding: 0; line-height: 1;
+    opacity: .7;
+  }
+  .af-pill button:hover { opacity: 1; }
+
+  .filter-rows { display: flex; flex-direction: column; gap: .75rem; }
+  .filter-group { display: flex; align-items: flex-start; gap: .75rem; }
+  .fg-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: rgba(255,255,255,.3);
+    white-space: nowrap; padding-top: 6px; min-width: 60px;
+  }
+  .fg-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .fg-chips--wrap { flex-wrap: wrap; }
+
+  /* Filter chip buttons */
+  .fc-btn {
+    font-size: 12px; font-weight: 600; padding: 5px 13px;
+    border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.04); color: rgba(255,255,255,.45);
+    cursor: pointer; transition: all .2s; white-space: nowrap;
+  }
+  .fc-btn:hover { border-color: rgba(255,255,255,.25); color: rgba(255,255,255,.8); }
+  .fc-btn--active { background: rgba(229,184,74,.12); border-color: rgba(229,184,74,.35); color: var(--gold); }
+  /* Topic chip active state uses --fc-color */
+  .fc-btn[style][data-group="topic"].fc-btn--active {
+    background: color-mix(in srgb, var(--fc-color, #e5b84a) 12%, transparent);
+    border-color: color-mix(in srgb, var(--fc-color, #e5b84a) 40%, transparent);
+    color: var(--fc-color, var(--gold));
+  }
+  /* Audience-specific chip colours */
+  .fc-btn--student.fc-btn--active    { background: rgba(45,212,191,.1); border-color: rgba(45,212,191,.35); color: #2dd4bf; }
+  .fc-btn--graduate.fc-btn--active   { background: rgba(229,184,74,.1); border-color: rgba(229,184,74,.35); color: var(--gold); }
+  .fc-btn--professional.fc-btn--active { background: rgba(167,139,250,.1); border-color: rgba(167,139,250,.35); color: #a78bfa; }
+  .fc-btn--coach.fc-btn--active      { background: rgba(244,114,182,.1); border-color: rgba(244,114,182,.35); color: #f472b6; }
+
+  .filter-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: .75rem; padding-top: .75rem;
+    border-top: 1px solid rgba(255,255,255,.05);
+  }
+  .filter-count { font-size: 12px; color: rgba(255,255,255,.35); }
+  .filter-count strong { color: var(--gold); font-family: "Sora", sans-serif; }
+  .reset-btn {
+    font-size: 11px; font-weight: 600; color: rgba(255,255,255,.3);
+    background: none; border: none; cursor: pointer; padding: 4px 0;
+    transition: color .2s;
+  }
+  .reset-btn:hover { color: var(--gold); }
+
+  /* ── MAIN CONTENT ── */
+  .cr-main { padding: 2.5rem 0 4rem; }
+
+  /* Skill finder callout */
+  .sf-callout { margin-bottom: 2.5rem; }
+  .sf-callout-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1.5rem; flex-wrap: wrap; padding: 1.5rem 2rem;
+    border-color: rgba(45,212,191,.2); background: rgba(45,212,191,.03);
+  }
+  .sf-callout-left { display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 0; }
+  .sf-callout-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .sf-callout-title { font-family: "Sora", sans-serif; font-size: 15px; font-weight: 700; color: #fff; display: block; margin-bottom: 4px; }
+  .sf-callout-desc { font-size: 13px; color: rgba(255,255,255,.45); line-height: 1.5; margin: 0; }
+  .sf-callout-btn { font-size: 13px; padding: 10px 20px; white-space: nowrap; flex-shrink: 0; }
+
+  /* Resource grid — 3 columns */
+  .rc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  /* Resource card */
+  .rc {
+    background: rgba(255,255,255,.034);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px; padding: 1.5rem;
+    display: flex; flex-direction: column; gap: .75rem;
+    transition: border-color .25s, transform .25s, box-shadow .25s;
+  }
+  .rc:hover { border-color: rgba(229,184,74,.18); transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,.35); }
+
+  .rc-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .rc-type-badge {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .07em; padding: 3px 9px; border-radius: 999px;
+    border: 1px solid currentColor; flex-shrink: 0;
+  }
+  /* Type badge colours */
+  .ty-guide      { color: #e5b84a;  border-color: rgba(229,184,74,.3);  background: rgba(229,184,74,.08); }
+  .ty-roadmap    { color: #2dd4bf;  border-color: rgba(45,212,191,.3);  background: rgba(45,212,191,.08); }
+  .ty-assessment { color: #a78bfa;  border-color: rgba(167,139,250,.3); background: rgba(167,139,250,.08); }
+  .ty-checklist  { color: #f472b6;  border-color: rgba(244,114,182,.3); background: rgba(244,114,182,.08); }
+  .ty-template   { color: #34d399;  border-color: rgba(52,211,153,.3);  background: rgba(52,211,153,.08); }
+  .ty-tool       { color: #60a5fa;  border-color: rgba(96,165,250,.3);  background: rgba(96,165,250,.08); }
+  .ty-city-guide { color: #fbbf24;  border-color: rgba(251,191,36,.3);  background: rgba(251,191,36,.08); }
+
+  .rc-topic-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .rc-topic-label { font-size: 11px; font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rc-time { font-size: 10.5px; color: rgba(255,255,255,.28); margin-left: auto; white-space: nowrap; }
+
+  .rc-title {
+    font-family: "Sora", sans-serif; font-size: 14px; font-weight: 700;
+    color: #fff; line-height: 1.35; margin: 0;
+  }
+  .rc-title a { color: inherit; text-decoration: none; }
+  .rc-title a:hover { color: var(--gold-light); }
+  .rc-desc {
+    font-size: 12.5px; color: rgba(255,255,255,.48); line-height: 1.65;
+    margin: 0; flex: 1;
+  }
+
+  .rc-footer { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .25rem; }
+  .rc-aud-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .rc-aud {
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+    background: color-mix(in srgb, var(--c) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c) 25%, transparent);
+    color: var(--c);
+  }
+  .rc-cta {
+    font-size: 12px; font-weight: 700; color: var(--gold);
+    white-space: nowrap; flex-shrink: 0; transition: opacity .2s;
+  }
+  .rc-cta:hover { opacity: .7; }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center; padding: 5rem 2rem;
+    color: rgba(255,255,255,.4);
+  }
+  .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .empty-state h3 { font-size: 1.2rem; color: rgba(255,255,255,.6); margin-bottom: .5rem; }
+  .empty-state p { font-size: 14px; margin-bottom: 1.5rem; }
+
+  /* ── BOTTOM CTA ── */
+  #cr-cta { padding: 4rem 0 5rem; }
+  .cr-cta-inner {
+    display: grid; grid-template-columns: 1.5fr 1fr; gap: 3rem; align-items: center;
+    padding: 2.5rem; border-color: rgba(229,184,74,.12) !important;
+    background: linear-gradient(135deg, rgba(229,184,74,.04), rgba(255,255,255,.02)) !important;
+  }
+  .cr-cta-left h2 { font-size: clamp(1.4rem, 2.5vw, 1.9rem); font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: .75rem; }
+  .cr-cta-left p { font-size: 14px; color: rgba(255,255,255,.5); line-height: 1.75; margin: 0; }
+  .cr-cta-right { display: flex; flex-direction: column; gap: 10px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .rc-grid { grid-template-columns: repeat(2, 1fr); }
+    .cr-start-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 768px) {
+    .filter-group { flex-direction: column; gap: .4rem; }
+    .fg-label { min-width: unset; padding-top: 0; }
+    .filter-search-row { flex-direction: column; align-items: stretch; gap: .5rem; }
+    .fs-sort-wrap { justify-content: space-between; }
+    .fs-sort-select { flex: 1; }
+    .filter-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: .7rem;
+    }
+    .filter-meta-right {
+      width: 100%;
+      justify-content: space-between;
+    }
+    .cr-cta-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+    #cr-hero { padding: 8rem 0 3rem; }
+    .rc { padding: 1.2rem 1.05rem; }
+    .cr-start-paths { padding-top: .5rem; }
+    .rc-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: .7rem;
+    }
+    .rc-cta { width: 100%; }
+  }
+  @media (max-width: 600px) {
+    .rc-grid { grid-template-columns: 1fr; }
+    .cr-start-grid { grid-template-columns: 1fr; }
+    .sf-callout-inner { flex-direction: column; align-items: flex-start; }
+    .sf-callout-btn { width: 100%; justify-content: center; }
+    .cr-hero-ctas { flex-direction: column; }
+    .cr-hero-ctas .btn-gold, .cr-hero-ctas .btn-outline { width: 100%; justify-content: center; }
+    .cr-cta-right .btn-gold, .cr-cta-right .btn-outline { width: 100%; justify-content: center; }
+  }
+  @media (max-width: 460px) {
+    .filter-meta-right {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .fs-sort-wrap { width: 100%; }
+    .fs-sort-select { width: 100%; }
+    .sf-callout-inner { padding: 1.15rem 1rem; }
+    .rc-top {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .rc-topic-label,
+    .rc-time {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: unset;
+    }
+    .rc-time { margin-left: 0; }
+  }
+</style>
+
+<script>
+  // ── FILTER + SEARCH + SORT ENGINE ────────────────────────────────────────────
+  type SortKey = 'default' | 'title-asc' | 'title-desc' | 'read-asc' | 'read-desc';
+
+  const state = {
+    audience: 'all',
+    topic:    'all',
+    type:     'all',
+    query:    '',
+    sort:     'default' as SortKey,
+  };
+
+  const grid = document.getElementById('rc-grid');
+  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+  const searchClear = document.getElementById('search-clear');
+  const sortSelect  = document.getElementById('sort-select') as HTMLSelectElement | null;
+  const activeFiltersEl = document.getElementById('active-filters');
+
+  function sortCards(): void {
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.rc'));
+    cards.sort((a, b) => {
+      switch (state.sort) {
+        case 'title-asc':  return (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '');
+        case 'title-desc': return (b.dataset.title ?? '').localeCompare(a.dataset.title ?? '');
+        case 'read-asc':   return parseInt(a.dataset.read ?? '0', 10) - parseInt(b.dataset.read ?? '0', 10);
+        case 'read-desc':  return parseInt(b.dataset.read ?? '0', 10) - parseInt(a.dataset.read ?? '0', 10);
+        default:           return parseInt(a.dataset.order ?? '0', 10) - parseInt(b.dataset.order ?? '0', 10);
+      }
+    });
+    const frag = document.createDocumentFragment();
+    cards.forEach(c => frag.appendChild(c));
+    grid.appendChild(frag);
+  }
+
+  function renderActiveFilters(): void {
+    if (!activeFiltersEl) return;
+    const pills: string[] = [];
+    const mk = (group: string, value: string, label: string) =>
+      `<span class="af-pill">${label}<button type="button" data-af-group="${group}" aria-label="Clear ${label}"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></span>`;
+    if (state.audience !== 'all') {
+      const btn = document.querySelector<HTMLButtonElement>(`.fc-btn[data-group="audience"][data-value="${state.audience}"]`);
+      if (btn) pills.push(mk('audience', state.audience, btn.textContent?.trim() ?? state.audience));
+    }
+    if (state.topic !== 'all') {
+      const btn = document.querySelector<HTMLButtonElement>(`.fc-btn[data-group="topic"][data-value="${state.topic}"]`);
+      if (btn) pills.push(mk('topic', state.topic, btn.textContent?.trim() ?? state.topic));
+    }
+    if (state.type !== 'all') {
+      const btn = document.querySelector<HTMLButtonElement>(`.fc-btn[data-group="type"][data-value="${state.type}"]`);
+      if (btn) pills.push(mk('type', state.type, btn.textContent?.trim() ?? state.type));
+    }
+    if (state.query) {
+      pills.push(mk('query', state.query, `“${state.query}”`));
+    }
+    activeFiltersEl.innerHTML = pills.join('');
+    activeFiltersEl.querySelectorAll<HTMLButtonElement>('button[data-af-group]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const grp = btn.dataset.afGroup ?? '';
+        if (grp === 'query') {
+          if (searchInput) searchInput.value = '';
+          state.query = '';
+          if (searchClear) searchClear.style.display = 'none';
+          applyFilters();
+        } else {
+          setFilter(grp, 'all');
+        }
+      });
+    });
+  }
+
+  function applyFilters(): void {
+    const cards = document.querySelectorAll<HTMLElement>('.rc');
+    let visible = 0;
+    const q = state.query.trim().toLowerCase();
+
+    cards.forEach(card => {
+      const cardAudiences = (card.dataset.audience ?? '').split(' ');
+      const cardTopic     = card.dataset.topic ?? '';
+      const cardType      = card.dataset.type  ?? '';
+      const cardSearch    = card.dataset.search ?? '';
+
+      const matchA = state.audience === 'all' || cardAudiences.includes(state.audience);
+      const matchT = state.topic    === 'all' || cardTopic === state.topic;
+      const matchY = state.type     === 'all' || cardType  === state.type;
+      const matchQ = q === '' || cardSearch.includes(q);
+
+      const show = matchA && matchT && matchY && matchQ;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    const countEl = document.getElementById('res-count');
+    if (countEl) countEl.textContent = String(visible);
+
+    const emptyEl = document.getElementById('empty-state');
+    if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
+
+    if (grid) grid.style.display = visible === 0 ? 'none' : '';
+
+    renderActiveFilters();
+  }
+
+  function setFilter(group: string, value: string): void {
+    (state as any)[group] = value;
+    document.querySelectorAll<HTMLButtonElement>(`.fc-btn[data-group="${group}"]`).forEach(btn => {
+      btn.classList.toggle('fc-btn--active', btn.dataset.value === value);
+    });
+    applyFilters();
+  }
+
+  function resetAll(): void {
+    setFilter('audience', 'all');
+    setFilter('topic', 'all');
+    setFilter('type', 'all');
+    if (searchInput) searchInput.value = '';
+    if (searchClear) searchClear.style.display = 'none';
+    state.query = '';
+    if (sortSelect) sortSelect.value = 'default';
+    state.sort = 'default';
+    sortCards();
+    applyFilters();
+  }
+
+  // Attach filter chip listeners
+  document.querySelectorAll<HTMLButtonElement>('.fc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.group ?? '';
+      const value = btn.dataset.value ?? 'all';
+      setFilter(group, value);
+    });
+  });
+
+  // Hero audience jump buttons
+  document.querySelectorAll<HTMLButtonElement>('.caj-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.group ?? '';
+      const value = btn.dataset.value ?? 'all';
+      setFilter(group, value);
+      document.getElementById('filter-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Reset buttons
+  document.getElementById('reset-btn')?.addEventListener('click', resetAll);
+  document.getElementById('reset-empty-btn')?.addEventListener('click', resetAll);
+
+  // Search input (debounced)
+  let searchTimer: ReturnType<typeof setTimeout>;
+  searchInput?.addEventListener('input', () => {
+    if (searchClear) searchClear.style.display = searchInput.value ? 'flex' : 'none';
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      state.query = searchInput.value;
+      applyFilters();
+    }, 120);
+  });
+  searchClear?.addEventListener('click', () => {
+    if (!searchInput) return;
+    searchInput.value = '';
+    state.query = '';
+    searchClear.style.display = 'none';
+    applyFilters();
+    searchInput.focus();
+  });
+
+  // Sort selector
+  sortSelect?.addEventListener('change', () => {
+    state.sort = sortSelect.value as SortKey;
+    sortCards();
+  });
+
+  // Initial pill render
+  renderActiveFilters();
+
+  // Handle query params on load for deep linking from footer, hubs, and articles.
+  const urlParams = new URLSearchParams(window.location.search);
+  (['audience', 'topic', 'type'] as const).forEach(group => {
+    const value = urlParams.get(group);
+    if (!value) return;
+    const matchingChip = document.querySelector<HTMLButtonElement>(`.fc-btn[data-group="${group}"][data-value="${value}"]`);
+    if (matchingChip) setFilter(group, value);
+  });
+
+  const sortParam = urlParams.get('sort') as SortKey | null;
+  if (sortParam && sortSelect?.querySelector(`option[value="${sortParam}"]`)) {
+    sortSelect.value = sortParam;
+    state.sort = sortParam;
+    sortCards();
+  }
+
+  const qParam = urlParams.get('q');
+  if (qParam && searchInput) {
+    searchInput.value = qParam;
+    state.query = qParam;
+    if (searchClear) searchClear.style.display = 'flex';
+    applyFilters();
+  }
+
+  // Stuck class on scroll
+  const sentinel = document.createElement('div');
+  sentinel.style.cssText = 'height:1px;pointer-events:none;';
+  document.getElementById('filter-wrap')?.after(sentinel);
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      document.getElementById('filter-wrap')?.classList.toggle('is-stuck', !e.isIntersecting);
+    });
+  }, { rootMargin: '-73px 0px 0px 0px' }).observe(sentinel);
+</script>
+

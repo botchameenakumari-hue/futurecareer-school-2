@@ -1,0 +1,315 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_PAYMENT_LINKS,
+} from '../../../../config/bofu';
+
+const title = 'Student Career Guidance | Future Career School';
+const description =
+  'Student career guidance for school students, college students, freshers, recent graduates, and postgraduates who need clearer stream, course, skill, and career direction before making expensive wrong turns.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/student-career-guidance';
+
+const relatedDirectoryItems = [
+  {
+    href: '/services/career-counselling-and-career-guidance/',
+    title: 'Broader Career Guidance',
+    description: 'Get broader help with stream, course, skill, and next-step decisions when several connected choices need to make sense together.',
+    note: 'Parent page',
+  },
+  {
+    href: '/services/assessments/',
+    title: 'Free Career Assessments',
+    description: 'Free assessments for stream decisions, aptitude signals, skill fit, and career direction.',
+    note: 'Support page',
+  },
+  {
+    href: '/services/assessments/class-10-and-below/',
+    title: 'Class 10 and Below Assessment',
+    description: 'Stream-fit, strength-mapping, and early direction before Class 11 choices harden.',
+    note: 'Stage page',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12thOnline,
+    title: 'Career Guidance After 12th Online',
+    description: 'Use the online after-12th page when the next school-to-college decision needs stronger guidance from anywhere in India.',
+    note: 'Stage page',
+  },
+  {
+    href: '/services/assessments/graduates-and-early-professionals/',
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free clarity on fit, skill direction, employability, and stronger next steps for freshers and recent graduates.',
+    note: 'Stage page',
+  },
+  {
+    href: '/blog/stream-selection/career-options-after-10th/',
+    title: 'Career Options After 10th',
+    description: 'Read the practical after-10th guide if the bigger issue is stream pressure before the next school decision.',
+    note: 'Related article',
+  },
+];
+
+const fitItems = [
+  {
+    title: 'School students',
+    body: 'When stream decisions, early direction, and parent pressure are all happening at once.',
+  },
+  {
+    title: 'College students',
+    body: 'When the degree is already in motion, but the real skill direction still feels unclear.',
+  },
+  {
+    title: 'Freshers, recent graduates, and postgraduates',
+    body: 'When the degree exists on paper, but the next skill direction, proof of work, or employability path still feels weak or confusing.',
+  },
+  {
+    title: 'Parents who want clearer decisions',
+    body: 'When the goal is not just a safe-sounding option, but a path with better fit, lower regret, and stronger long-term growth.',
+  },
+];
+
+const improvementItems = [
+  {
+    title: 'Stream and course clarity',
+    body: 'Choose the next serious direction with better trade-offs instead of reacting to marks, noise, or pressure alone.',
+  },
+  {
+    title: 'Skill direction early',
+    body: 'Start building the right higher-value skills sooner instead of waiting until the degree is almost over.',
+  },
+  {
+    title: 'Proof before heavy commitment',
+    body: 'Use small practical signals, projects, and exposure to test direction before bigger money or time commitments.',
+  },
+  {
+    title: 'Parent decision confidence',
+    body: 'Reduce arguments driven by confusion and replace them with clearer reasoning around fit, market reality, and upside.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Who is student career guidance useful for?',
+    answer:
+      'It is useful for school students, college students, freshers, recent graduates, postgraduates, and families who need clearer direction before stream, course, degree, or early skill decisions become expensive wrong turns.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free. They can be described as updated, practical, and AI-powered.',
+  },
+  {
+    question: 'What should student career guidance actually help with?',
+    answer:
+      'It should help with stream and course direction, skill direction, proof-building, and choosing a next step that makes more sense for fit, market reality, and long-term growth.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Student Career Guidance', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Student Career Guidance | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Student Career Guidance',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': 'EducationalOrganization',
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Student Career Guidance</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Student career guidance for school and college decisions
+      </div>
+
+      <h1 class="hero-title">
+        Student career guidance
+        <span class="gold-text"> before the wrong turn gets expensive</span>
+      </h1>
+      <p class="hero-sub">
+        Student career guidance should make stream, course, degree, and early-skill decisions clearer before confusion turns into years of drift.
+        That includes school students, college students, freshers, recent graduates, and postgraduates who still need stronger direction.
+      </p>
+      <p class="hero-note">
+        Free updated practical AI-powered career and skill assessments are available when that layer genuinely helps.
+        Guidance is delivered online across India.
+      </p>
+      <div class="hero-actions">
+        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold pulse">Get Student Career Guidance</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When student career guidance becomes useful"
+    subtitle="This becomes useful when the next decision feels important, expensive, hard to reverse, or already delayed by confusion."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-changes"
+    title="What strong student career guidance should actually improve"
+    items={improvementItems}
+    variant="decision"
+  >
+      <AssessmentSupportNote
+        body="If you want a free first step before deeper support, the stage-specific career and skill assessments can help you narrow strengths, preferences, and work style before a bigger student decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+  </BofuFeatureSection>
+
+  <BuyerChecks
+    title="What to check before paying for student career guidance"
+    subtitle="The goal is clearer decisions and stronger direction, not generic advice or expensive theatre."
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Take the student decision seriously before it becomes expensive"
+    subtitle="If the next stream, course, degree, or early skill decision already feels important, move with stronger direction now instead of letting confusion keep compounding."
+    studentLabel="Get Student Career Guidance"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 3.9rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 790px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #what-changes,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.82rem, 9.6vw, 2.45rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>

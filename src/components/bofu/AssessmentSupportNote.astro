@@ -1,0 +1,111 @@
+---
+import { BOFU_INTERNAL_LINKS } from '../../config/bofu';
+
+export interface Props {
+  title?: string;
+  body: string;
+  href?: string;
+  label?: string;
+  className?: string;
+}
+
+const {
+  title = '100% free tests and assessments',
+  body,
+  href = BOFU_INTERNAL_LINKS.assessments,
+  label = 'Explore 100% free practical, updated, AI-based career and skill assessments for different stages and needs',
+  className = '',
+} = Astro.props;
+---
+
+<div class:list={['assessment-note card', className]}>
+  <div class="assessment-note-copy">
+    <h3>{title}</h3>
+    <p>{body}</p>
+  </div>
+  <a class="assessment-note-link" href={href}>
+    <span>{label}</span>
+    <span class="assessment-note-arrow" aria-hidden="true">&rsaquo;</span>
+  </a>
+</div>
+
+<style>
+  .assessment-note {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(240px, .95fr);
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.25rem;
+    margin-top: 1.2rem;
+    border-radius: 22px;
+    border: 1px solid rgba(45,212,191,.18);
+    background:
+      radial-gradient(420px 180px at 0% 0%, rgba(45,212,191,.08), transparent 72%),
+      radial-gradient(320px 180px at 100% 100%, rgba(229,184,74,.08), transparent 74%),
+      linear-gradient(155deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+    box-shadow: 0 18px 36px rgba(0,0,0,.2);
+  }
+  .assessment-note-copy h3 {
+    color: #fff;
+    font-size: 1.08rem;
+    margin-bottom: .45rem;
+    line-height: 1.42;
+  }
+  .assessment-note-copy p {
+    color: rgba(255,255,255,.7);
+    line-height: 1.76;
+    font-size: 14px;
+  }
+  .assessment-note-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    min-height: 100%;
+    padding: 1rem 1rem 1rem 1.05rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.045);
+    color: #dffcf6;
+    font-size: 13.5px;
+    font-weight: 700;
+    width: 100%;
+    line-height: 1.65;
+    transition: transform .22s ease, border-color .22s ease, background .22s ease;
+  }
+  .assessment-note-link:hover {
+    color: #fff;
+    transform: translateY(-2px);
+    border-color: rgba(229,184,74,.24);
+    background: linear-gradient(145deg, rgba(229,184,74,.08), rgba(255,255,255,.03));
+  }
+  .assessment-note-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: 1px solid rgba(229,184,74,.24);
+    background: rgba(229,184,74,.12);
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 860px) {
+    .assessment-note {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .assessment-note {
+      padding: 1.05rem 1rem;
+      border-radius: 18px;
+    }
+    .assessment-note-link {
+      padding: .95rem .95rem .95rem 1rem;
+      border-radius: 16px;
+    }
+  }
+</style>

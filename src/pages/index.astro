@@ -1,0 +1,2291 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ComparisonMatrix from '../components/bofu/ComparisonMatrix.astro';
+import LinkDirectorySection from '../components/LinkDirectorySection.astro';
+import { WHATSAPP_BOOKING_URL } from '../config/site';
+import { BOFU_INTERNAL_LINKS, BOFU_PAYMENT_LINKS } from '../config/bofu';
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Future Career School",
+    "url": "https://futurecareerschool.com",
+    "logo": "https://futurecareerschool.com/favicon.svg",
+    "description": "India's practical career guidance platform helping students, freshers, and working professionals build high-value skills, market readiness, and an earlier financial freedom roadmap.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "13-420, Durga Nagar, Arilova",
+      "addressLocality": "Visakhapatnam",
+      "addressRegion": "Andhra Pradesh",
+      "postalCode": "530040",
+      "addressCountry": "IN"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-78159-27259",
+      "contactType": "customer service",
+      "availableLanguage": ["English", "Hindi", "Telugu"]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Future Career School",
+    "url": "https://futurecareerschool.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://futurecareerschool.com/career-resources?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Future Career School?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Future Career School provides career counselling and career guidance for students, freshers, and working professionals in India. We start with practical clarity and, if needed, continue with guidance for high-value skill building, market readiness, and an earlier financial freedom roadmap." }
+      },
+      {
+        "@type": "Question",
+        "name": "Who is this guidance for?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Guidance is usually split into two practical paths: one for students, freshers, and early-career people who still need stronger direction, and one for working professionals who need stronger leverage, pivots, or income-growth decisions." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the guidance work?",
+        "acceptedAnswer": { "@type": "Answer", "text": "You start with practical assessment-led clarity on your strengths, work style, and market fit. Then we guide your next steps for skill building, portfolio proof, communication, and tech leverage with personalized support." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Freedom Number?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Your Freedom Number is the income level at which your career gives you genuine life choice — not just financial survival. We help you calculate it precisely and reverse-engineer the skill and income path to reach it." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is career guidance available online or only in Visakhapatnam?",
+        "acceptedAnswer": { "@type": "Answer", "text": "All sessions are fully online. We work with students, freshers, and working professionals across every state in India." }
+      }
+    ]
+  }
+];
+
+const homeGuidanceDirectoryItems = [
+  {
+    href: '/services/career-counselling-and-career-guidance/',
+    title: 'Career Counselling and Guidance',
+    description: 'Broader help with stream, course, skill, and next-step decisions when one choice affects everything else.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-guidance/',
+    title: 'Career Guidance',
+    description: 'Practical direction for people who need clearer next steps, stronger trade-offs, and better skill choices.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling/',
+    title: 'Career Counselling',
+    description: 'Clarity-first support when the decision feels personal, confusing, or emotionally heavy.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'For people who want practical online career counselling without waiting for a local offline option.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coach-near-me/',
+    title: 'Career Coach Near Me',
+    description: 'Online career coaching across India for people who want real guidance, not just local proximity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerGuidanceOnline,
+    title: 'Career Guidance Online',
+    description: 'For people who want practical online career guidance without waiting for a local offline option.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12th,
+    title: 'Career Guidance After 12th',
+    description: 'For stream, course, degree, and next-step decisions after school.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12thOnline,
+    title: 'Career Guidance After 12th Online',
+    description: 'For students and parents who want after-12th guidance online from anywhere in India.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'For school students, college students, freshers, recent graduates, and postgraduates who need stronger direction.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'For pivots, salary growth, stagnation, and stronger long-term leverage.',
+  },
+];
+
+const homeAssessmentDirectoryItems = [
+  {
+    href: '/services/assessments/',
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments across school, college, graduate, and professional stages.',
+  },
+  {
+    href: '/services/assessments/class-10-and-below/',
+    title: 'Class 10 and Below Assessment',
+    description: 'Stream-fit, strength-mapping, and early direction before Class 11 choices harden.',
+  },
+  {
+    href: '/services/assessments/class-11-to-12/',
+    title: 'Class 11 to 12 Assessment',
+    description: 'Course-fit, degree direction, and after-school decision support before bigger commitments.',
+  },
+  {
+    href: '/services/assessments/graduates-and-early-professionals/',
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free clarity on fit, skill direction, employability, and market-ready next steps.',
+  },
+  {
+    href: '/services/assessments/working-professionals-and-career-changers/',
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free input for pivots, salary growth, role fit, and stronger leverage decisions.',
+  },
+  {
+    href: '/services/assessments/career-aptitude-test-after-10th/',
+    title: 'Career Aptitude Test After 10th',
+    description: 'A focused free aptitude test for students choosing a stream after Class 10.',
+  },
+  {
+    href: '/services/assessments/stream-selector-test-after-10th/',
+    title: 'Stream Selector Test After 10th',
+    description: 'A focused free stream quiz for Science, Commerce, or Arts decisions after Class 10.',
+  },
+  {
+    href: '/services/assessments/stream-selector-test-after-12th/',
+    title: 'Stream Selector Test After 12th',
+    description: 'A focused free quiz for course and path direction after Class 12.',
+  },
+  {
+    href: '/services/assessments/career-aptitude-test-after-12th/',
+    title: 'Career Aptitude Test After 12th',
+    description: 'A focused free aptitude test for students choosing a degree, course, or training path after Class 12.',
+  },
+];
+---
+
+<BaseLayout
+  title="Career Guidance for Every Growth Stage | Future Career School"
+  description="Confused about which career to choose? Stuck after college or early career? Salary not growing? Practical career counseling and guidance for students, freshers, and professionals focused on high-value skill building and early financial freedom."
+  jsonLd={jsonLd.slice(0, 2)}
+>
+  <Nav />
+
+  <!-- ═══════════════════════════════════════
+       HERO — EDITORIAL FULL-WIDTH
+  ═══════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="grid-overlay"></div>
+    </div>
+
+    <div class="hero-inner container">
+      <div class="hero-pill pill animate-up">
+        <span class="pill-dot"></span>
+        Career guidance for students, freshers, and professionals
+      </div>
+
+      <h1 class="hero-headline animate-up" style="animation-delay:.08s">
+        <span class="hero-line-top">If you're</span>
+        <span class="hero-cycle-wrap" role="text" aria-label="navigating a career challenge">
+          <span class="hero-cycle-word" aria-hidden="true">confused about direction</span>
+          <span class="hero-cycle-word" aria-hidden="true">stuck after graduation</span>
+          <span class="hero-cycle-word" aria-hidden="true">hitting a salary ceiling</span>
+          <span class="hero-cycle-word" aria-hidden="true">worried about AI</span>
+        </span>
+        <span class="hero-line-bottom">&mdash;&thinsp;we guide your next move.</span>
+      </h1>
+
+            <p class="hero-sub animate-up" style="animation-delay:.18s">
+        Career guidance that goes beyond generic advice.
+        We help you choose the right skill path, build proof of work, and execute a roadmap toward earlier financial freedom.
+        Practical clarity first, then focused execution support that helps you move faster with fewer wrong turns.
+      </p>
+
+      <div class="hero-actions animate-up" style="animation-delay:.28s">
+        <a
+          href="/services/career-counselling-and-career-guidance"
+          class="btn-gold pulse hero-cta"
+        >
+          Get Career Guidance
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="/services/assessments" class="btn-outline">
+          Get Free Career and Skill Assessments
+        </a>
+      </div>
+
+      <!-- Stage identity chips -->
+      <div class="hero-identity animate-up" style="animation-delay:.38s" role="navigation" aria-label="Career stage navigation">
+        <a href={BOFU_INTERNAL_LINKS.students} class="hid-chip">
+          <span class="hid-level">Students</span>
+          School, College, and Early-Career
+        </a>
+        <span class="hid-sep" aria-hidden="true"></span>
+        <a href={BOFU_INTERNAL_LINKS.workingProfessionals} class="hid-chip">
+          <span class="hid-level">Professionals</span>
+          Working Professional
+        </a>
+      </div>
+
+      <div class="hero-trust animate-up" style="animation-delay:.48s">
+        <div class="trust-item">
+          <svg width="14" height="14" fill="none" stroke="#2dd4bf" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          All assessments, resources, skill-finder, and course-finder tools are free
+        </div>
+        <div class="trust-item">
+          <svg width="14" height="14" fill="none" stroke="#2dd4bf" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          Fully online &mdash; every city in India
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       STATS BAND
+  ═══════════════════════════════════════ -->
+  <section id="stats-band">
+    <div class="container stats-inner">
+      <div class="stat-item">
+        <div class="stat-row stat-row--text"><span class="stat-word">Practical clarity</span></div>
+        <span class="stat-lbl">High-leverage decisions before expensive wrong turns</span>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item">
+        <div class="stat-row stat-row--text"><span class="stat-word">Scoped to you</span></div>
+        <span class="stat-lbl">Higher-value skill direction, proof of work, and stronger income growth</span>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item">
+        <div class="stat-row stat-row--text"><span class="stat-word">India-wide</span></div>
+        <span class="stat-lbl">Online across India with free career and skill assessments</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SEARCH-INTENT — EDITORIAL Q&A
+  ═══════════════════════════════════════ -->
+  <section id="search-intent">
+    <div class="container">
+      <div class="si-intro">
+        <div class="section-tag pill" style="display:inline-flex">
+          <span style="color:var(--gold)">&#128172;</span>&nbsp;Real Questions, Real Answers
+        </div>
+        <h2 class="section-headline" style="text-align:left;display:block;max-width:600px">
+          Core Career Questions for<br /><span class="gold-text">Real Skill and Income Growth</span>
+        </h2>
+      </div>
+      <div class="si-list">
+        <div class="si-item">
+          <h3 class="si-q">Which career path and skill direction fits me best?</h3>
+          <p class="si-a">We map your natural inclinations, current strengths, work style preferences, and market readiness together. Then we identify which path can stay sustainable and also support high-value income growth over time.</p>
+          <a href="/services/assessments" class="si-link">Explore free assessments &rarr;</a>
+        </div>
+        <div class="si-item">
+          <h3 class="si-q">My degree alone is not leading to strong income outcomes. What now?</h3>
+          <p class="si-a">A degree is a credential, not a career. What creates income is a T-shaped skill stack &mdash; your existing knowledge plus one real-world, market-validated skill that employers and clients pay a premium for. Practical Fit Check narrows it down to the right one for you in a single session.</p>
+          <a href="/services/assessments" class="si-link">Start with free career tests &rarr;</a>
+        </div>
+        <div class="si-item">
+          <h3 class="si-q">How do I upskill for early financial freedom through high-value skills?</h3>
+          <p class="si-a">For professionals, we focus on holistic skill growth: core skill depth, transferable skills, business communication, and tech-enabled execution. The goal is early financial freedom through high-value skill stacking and stronger income optionality.</p>
+          <a href="/services/career-counselling-and-career-guidance" class="si-link">See counseling and guidance services &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       WHO WE HELP — AUDIENCE
+  ═══════════════════════════════════════ -->
+    <section id="audience">
+    <div class="container">
+      <div class="section-tag pill">
+        <span style="color:var(--teal)">&#9689;</span>&nbsp;Who We Work With
+      </div>
+      <h2 class="section-headline">
+        Get Career Guidance for <span class="gold-text">Every Growth Stage.</span>
+      </h2>
+      <p class="section-sub">
+        Different life stages, shared foundations: practical assessments, high-value skill building, market readiness, and an early financial freedom roadmap.
+        We guide students, freshers, and working professionals.
+        All assessments, resources, skill-finder, and course-finder tools are free.
+      </p>
+
+      <div class="audience-grid">
+        <article class="audience-card">
+          <div class="aud-level">Student or Pre-Career</div>
+          <div class="aud-icon-wrap">&#127891;</div>
+          <h3>School &amp; College Students</h3>
+          <p class="aud-desc">
+            Early direction, stream awareness, and first clarity before pressure turns into expensive wrong turns.
+            You're choosing streams, courses, and early skill direction.
+            We help you avoid expensive mistakes and start building practical proof early.
+          </p>
+          <div class="aud-block-label">This is for you if...</div>
+          <ul class="aud-list">
+            <li>You're in school or college and don't know which path to commit to.</li>
+            <li>You're a fresher, recent graduate, or postgraduate and still do not know which skill direction is worth serious effort.</li>
+            <li>You picked a stream or degree without knowing if it suits your thinking style.</li>
+            <li>You want to start building skills but don't know which one is worth it.</li>
+          </ul>
+          <div class="aud-block-label">What we provide</div>
+          <ul class="aud-list">
+            <li>Student career guidance: Early direction and stream awareness.</li>
+            <li>Strength and work-style mapping before major decisions.</li>
+            <li>Free assessments and free resources before paid commitments.</li>
+            <li>Early portfolio and communication skill building.</li>
+            <li>Tech + AI readiness, including no-code options when relevant.</li>
+          </ul>
+        </article>
+
+        <article class="audience-card">
+          <div class="aud-level">Working Professional</div>
+          <div class="aud-icon-wrap">&#128142;</div>
+          <h3>Working Professionals</h3>
+          <p class="aud-desc">
+            For stagnation, AI pressure, skill under-leverage, career pivots, and earlier financial freedom through stronger skill stacking.
+            If you feel under-leveraged, we help you build strategic upskilling plans for stronger positioning, better compensation, and multiple income streams.
+          </p>
+          <div class="aud-block-label">This is for you if...</div>
+          <ul class="aud-list">
+            <li>You're ready to upskill toward stronger compensation and high-value opportunities.</li>
+            <li>You want to go independent but are afraid to leave the security of a salary.</li>
+          </ul>
+          <div class="aud-block-label">What we provide</div>
+          <ul class="aud-list">
+            <li>Professional career guidance: Career positioning for earlier financial freedom.</li>
+            <li>Holistic skill growth: domain depth + transferable strengths.</li>
+            <li>Income-multiplication planning and optional income-stream design.</li>
+            <li>Tech leverage for automation, efficiency, and scale.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="aud-actions">
+        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold">Get Student Career Guidance</a>
+        <a href={BOFU_PAYMENT_LINKS.workingProfessionals} class="btn-outline">Get Working Professional Career Guidance</a>
+      </div>
+    </div>
+  </section>
+
+  <LinkDirectorySection
+    sectionId="home-guidance-directory"
+    title="Career Guidance for Different Situations"
+    subtitle="Explore the guidance option that fits your current decision, stage, or pressure."
+    items={homeGuidanceDirectoryItems}
+    altBackground={true}
+  />
+
+  <LinkDirectorySection
+    sectionId="home-assessment-directory"
+    title="Free Career Assessments by Stage"
+    subtitle="Choose the free assessment that matches your stage, whether you need stream clarity, aptitude signals, or career-direction input."
+    items={homeAssessmentDirectoryItems}
+  />
+
+  <section id="guidance-expectations">
+    <div class="container">
+      <div class="section-tag pill">
+        <span style="color:var(--teal)">&#9675;</span>&nbsp;Clear Expectations
+      </div>
+      <h2 class="section-headline">
+        What Guidance <span class="gold-text">Is and Isn't</span>
+      </h2>
+      <p class="section-sub">
+        We would rather be clear than vague.
+        This is what career guidance here is meant to do, and what it is not meant to pretend to do.
+      </p>
+
+      <div class="expect-grid">
+        <div class="expect-card card expect-card-not">
+          <h3>What Guidance Is <em>Not</em></h3>
+          <ul class="expect-list">
+            <li>A shortcut that works without effort on your part</li>
+            <li>A placement service or guaranteed job outcome</li>
+            <li>Generic advice you could find on YouTube</li>
+            <li>A fixed curriculum the same for everyone</li>
+            <li>A quick-fix for years of career drift</li>
+            <li>Something that replaces your own execution</li>
+            <li>A rigid, fixed-length programme you're locked into</li>
+          </ul>
+        </div>
+
+        <div class="expect-card card expect-card-is">
+          <h3>What Guidance <em>Is</em></h3>
+          <ul class="expect-list">
+            <li>A structured approach tailored to <strong>your biology, market, and timeline</strong></li>
+            <li>Clarity on the exact skill and career path worth your next serious phase of effort</li>
+            <li>A practical way to choose the skill path that matches your fit, market demand, and long-term upside</li>
+            <li>A realistic income target with a roadmap that helps you close the gap step by step</li>
+            <li>A strategic roadmap you <em>actually execute</em>, not just a PDF plan</li>
+            <li>Honest feedback even when it's not what you want to hear</li>
+            <li>Sessions that end when your goals are met, not when we want more revenue</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="guidance-in-practice">
+    <div class="container">
+      <div class="section-tag pill">
+        <span style="color:var(--gold)">&#9673;</span>&nbsp;Execution Path
+      </div>
+      <h2 class="section-headline">
+        How Career Guidance Works <span class="gold-text">in Practice</span>
+      </h2>
+      <p class="section-sub">
+        A practical 6-step path from confusion to stronger skill direction, market readiness, and earlier financial freedom.
+      </p>
+      <div class="practice-pointer card">
+        <h3 class="practice-pointer-title">What this includes</h3>
+        <ul class="practice-pointer-list">
+          <li>Initial Psychometric Assessment &amp; Career Counseling</li>
+          <li>Personalised Long-Term Career Plan</li>
+          <li>High-value skill selection &amp; decision leveraging</li>
+          <li>Guidance path recommendation based on your goals and profile</li>
+          <li>Collective upskilling &amp; peer accountability</li>
+        </ul>
+      </div>
+      <div class="mini-grid six-grid">
+        <article class="mini-card card">
+          <h3>1. Psychometric and Fit Mapping</h3>
+          <p>Map strengths, work-style, and profile fit before major commitments.</p>
+        </article>
+        <article class="mini-card card">
+          <h3>2. High-Value Skill Selection</h3>
+          <p>Choose skills based on market demand, role fit, and long-term leverage.</p>
+        </article>
+        <article class="mini-card card">
+          <h3>3. Proof-of-Work Portfolio</h3>
+          <p>Build practical output that improves real-world credibility.</p>
+        </article>
+        <article class="mini-card card">
+          <h3>4. Curated Learning Path</h3>
+          <p>Use focused resources and roadmap-based upskilling.</p>
+        </article>
+        <article class="mini-card card">
+          <h3>5. Positioning and Communication</h3>
+          <p>Improve profile clarity, communication, and interview readiness.</p>
+        </article>
+        <article class="mini-card card">
+          <h3>6. Income Optionality Planning</h3>
+          <p>Build pathways for stronger compensation and additional income options.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="skill-finder">
+    <div class="sf-bg"><div class="sf-orb"></div></div>
+    <div class="container">
+
+      <div class="section-tag pill">
+        <span style="color:var(--teal)">&#128269;</span>&nbsp;Skill Direction
+      </div>
+      <h2 class="section-headline">
+        Find the Skill That Fits <span class="gold-text">How You Actually Think</span>
+      </h2>
+      <p class="section-sub">
+        Most people pick skills based on what's trending on LinkedIn. That's backwards.
+        The right skill starts with how your brain naturally works &mdash; then gets validated
+        against real market demand and income potential.
+      </p>
+
+      <!-- Orientation Quick Check -->
+      <div class="bc-box card">
+        <div class="bc-box-label">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          Quick orientation check &mdash; practical self-evaluation before major decisions
+        </div>
+        <div class="bc-qs">
+          <div class="bc-q">
+            <span class="bc-num">01</span>
+            <div class="bc-q-body">
+              <p class="bc-q-text">Look at the combination that keeps showing up in your best work: your <strong>natural inclinations</strong>, <strong>academic performance patterns</strong>, <strong>work-style preference</strong>, and the kind of <strong>tech leverage path</strong> you can realistically sustain, whether that means coding deeply or using no-code tools with strong execution.</p>
+              <p class="bc-q-note">The goal is not to force yourself into one label. The goal is to spot the pattern that gives you stronger performance, better consistency, and more room to build high-value skills.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sf-intro">
+        <h3 class="sf-intro-title">Skill paths mapped to the way you naturally work</h3>
+        <p class="sf-intro-copy">These profiles are meant to sharpen your thinking, not trap you in one label. The goal is to notice where your natural strengths keep repeating.</p>
+      </div>
+
+      <!-- 5 Thinking Style Cards -->
+      <div class="sf-grid">
+
+        <!-- Card 1: Analytical Thinker -->
+        <details class="sf-card sf-card--systems">
+          <summary class="sf-card-face">
+            <div class="sf-type-badge">Logic &middot; Systems</div>
+            <div class="sf-icon" aria-hidden="true">&#9881;&#65039;</div>
+            <h3 class="sf-card-title">Analytical Thinker</h3>
+            <p class="sf-card-hook">Numbers, data, structured logic &mdash; math and patterns don't intimidate you. You like understanding <em>how</em> things work under the hood.</p>
+            <div class="sf-preview-skills">Data &middot; Software Dev &middot; Cloud &middot; Finance &middot; Cybersecurity</div>
+            <div class="sf-expand-hint">
+              <span>Open skill &amp; course roadmap</span>
+              <svg class="sf-arrow" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </summary>
+          <div class="sf-reveal">
+            <div class="sf-section-label">Top Skills for This Thinking Style</div>
+            <div class="sf-skills">
+              <div class="sf-skill-row"><span class="sf-skill-name">Data Analysis &amp; SQL</span><span class="sf-demand sf-dem--fire">&#128293; Very high demand</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Python / Software Development</span><span class="sf-demand sf-dem--fire">&#128293; Very high demand</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Cloud Infrastructure (AWS / GCP)</span><span class="sf-demand sf-dem--rising">&#128200; Fast growing</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Financial Modeling &amp; Analysis</span><span class="sf-demand sf-dem--stable">&#10003; Stable premium</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Cybersecurity &amp; Ethical Hacking</span><span class="sf-demand sf-dem--rising">&#128200; Critical shortage</span></div>
+            </div>
+            <div class="sf-ims-block">
+              <div class="sf-section-label">Practical Fit Snapshot</div>
+              <div class="sf-ims-rows">
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Interest</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:82%;background:var(--gold)"></div></div>
+                  <span class="sf-ims-note">High if you love structured thinking</span>
+                </div>
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Market</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:95%;background:var(--teal)"></div></div>
+                  <span class="sf-ims-note">Consistently top-paid category globally</span>
+                </div>
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Scalability</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:90%;background:#a78bfa"></div></div>
+                  <span class="sf-ims-note">Products, SaaS, consulting — scales well</span>
+                </div>
+              </div>
+            </div>
+            <div class="sf-section-label">Your 3-Phase Course Roadmap</div>
+            <div class="sf-phases">
+              <div class="sf-phase sf-phase--free">
+                <div class="sf-phase-tag">Phase 1 &mdash; Free</div>
+                <p>freeCodeCamp.org (Python, SQL, JavaScript), Harvard CS50 on edX, Google Data Analytics on Coursera (audit free), Khan Academy Stats &amp; Math</p>
+              </div>
+              <div class="sf-phase sf-phase--taste">
+                <div class="sf-phase-tag">Phase 2 &mdash; Taste Test</div>
+                <p>Build one real dashboard from Kaggle or government data. Write a Python script that solves a daily problem. Do a free analysis for a local business. Does 3 hours feel like flow or friction?</p>
+              </div>
+              <div class="sf-phase sf-phase--commit">
+                <div class="sf-phase-tag">Phase 3 &mdash; Commit</div>
+                <p>Google Data Analytics Certificate or IBM Data Science (Coursera, ~&#8377;3k/month), AWS Cloud Practitioner exam (~&#8377;18k), Udemy Python Bootcamp (&#8377;500 on sale)</p>
+              </div>
+            </div>
+            <div class="sf-level-row">
+              <span class="sf-lvl-chip sf-lvl--1">Students</span>
+              <span class="sf-lvl-chip sf-lvl--2">Graduates</span>
+              <span class="sf-lvl-chip sf-lvl--3">Professionals</span>
+            </div>
+            <a href="https://wa.me/917815927259?text=Hi%2C%20I%27m%20an%20analytical%20thinker%20and%20want%20help%20finding%20the%20right%20skill%20for%20me" target="_blank" rel="noopener noreferrer" class="sf-cta btn-gold">
+              Get My Personalised Roadmap &rarr;
+            </a>
+          </div>
+        </details>
+
+        <!-- Card 2: People Connector -->
+        <details class="sf-card sf-card--people">
+          <summary class="sf-card-face">
+            <div class="sf-type-badge">People &middot; Conversations</div>
+            <div class="sf-icon" aria-hidden="true">&#128101;</div>
+            <h3 class="sf-card-title">People Connector</h3>
+            <p class="sf-card-hook">You're energised by human interaction &mdash; convincing, understanding, or helping people. You read rooms well and communication feels natural.</p>
+            <div class="sf-preview-skills">Sales &middot; Digital Marketing &middot; Copywriting &middot; UX Research &middot; BD</div>
+            <div class="sf-expand-hint">
+              <span>Open skill &amp; course roadmap</span>
+              <svg class="sf-arrow" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </summary>
+          <div class="sf-reveal">
+            <div class="sf-section-label">Top Skills for This Thinking Style</div>
+            <div class="sf-skills">
+              <div class="sf-skill-row"><span class="sf-skill-name">High-Value B2B Sales</span><span class="sf-demand sf-dem--fire">&#128293; Unlimited earning</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Digital Marketing (SEO / Paid Ads)</span><span class="sf-demand sf-dem--fire">&#128293; Very high demand</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Copywriting &amp; Content Strategy</span><span class="sf-demand sf-dem--rising">&#128200; Growing (AI era premium)</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">UX Research &amp; Customer Insights</span><span class="sf-demand sf-dem--rising">&#128200; Fast growing</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Business Development &amp; Partnerships</span><span class="sf-demand sf-dem--stable">&#10003; High value at senior levels</span></div>
+            </div>
+            <div class="sf-ims-block">
+              <div class="sf-section-label">Practical Fit Snapshot</div>
+              <div class="sf-ims-rows">
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Interest</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:88%;background:var(--gold)"></div></div>
+                  <span class="sf-ims-note">Very high if conversations energise you</span>
+                </div>
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Market</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:92%;background:var(--teal)"></div></div>
+                  <span class="sf-ims-note">Every business needs sales &amp; marketing</span>
+                </div>
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Scalability</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:85%;background:#a78bfa"></div></div>
+                  <span class="sf-ims-note">Retainers, agencies, courses — scales</span>
+                </div>
+              </div>
+            </div>
+            <div class="sf-section-label">Your 3-Phase Course Roadmap</div>
+            <div class="sf-phases">
+              <div class="sf-phase sf-phase--free">
+                <div class="sf-phase-tag">Phase 1 &mdash; Free</div>
+                <p>Google Digital Garage (Marketing Fundamentals, free cert), HubSpot Academy (Sales, CRM, Content — all free certs), Copyhackers blog (copywriting), YouTube: Alex Hormozi, Neil Patel</p>
+              </div>
+              <div class="sf-phase sf-phase--taste">
+                <div class="sf-phase-tag">Phase 2 &mdash; Taste Test</div>
+                <p>Write one piece of copy for a friend's business. Close one real sale &mdash; for anything. Run a &#8377;500 experiment on any ad platform. Do 3 informal user interviews. Do any of these feel like cheating?</p>
+              </div>
+              <div class="sf-phase sf-phase--commit">
+                <div class="sf-phase-tag">Phase 3 &mdash; Commit</div>
+                <p>Google Digital Marketing Certificate (Coursera, ~&#8377;3k/month), Facebook Blueprint &amp; Google Ads Certifications (free exams), CXL Institute courses (paid, high ROI)</p>
+              </div>
+            </div>
+            <div class="sf-level-row">
+              <span class="sf-lvl-chip sf-lvl--1">Students</span>
+              <span class="sf-lvl-chip sf-lvl--2">Graduates</span>
+              <span class="sf-lvl-chip sf-lvl--3">Professionals</span>
+            </div>
+            <a href="https://wa.me/917815927259?text=Hi%2C%20I%27m%20a%20people-person%20and%20want%20help%20finding%20the%20right%20skill%20for%20me" target="_blank" rel="noopener noreferrer" class="sf-cta btn-gold">
+              Get My Personalised Roadmap &rarr;
+            </a>
+          </div>
+        </details>
+
+        <!-- Card 3: Visual Creator -->
+        <details class="sf-card sf-card--visual">
+          <summary class="sf-card-face">
+            <div class="sf-type-badge">Creative &middot; Aesthetic</div>
+            <div class="sf-icon" aria-hidden="true">&#127775;</div>
+            <h3 class="sf-card-title">Visual Creator</h3>
+            <p class="sf-card-hook">You notice when something looks wrong before you can explain why. Aesthetics, visual storytelling, and crafting things that <em>feel</em> right drive you.</p>
+            <div class="sf-preview-skills">UI/UX Design &middot; Video &middot; Branding &middot; Motion &middot; Product Design</div>
+            <div class="sf-expand-hint">
+              <span>Open skill &amp; course roadmap</span>
+              <svg class="sf-arrow" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </summary>
+          <div class="sf-reveal">
+            <div class="sf-section-label">Top Skills for This Thinking Style</div>
+            <div class="sf-skills">
+              <div class="sf-skill-row"><span class="sf-skill-name">UI/UX Design (Figma)</span><span class="sf-demand sf-dem--fire">&#128293; Very high demand</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Video Editing &amp; Production</span><span class="sf-demand sf-dem--rising">&#128200; Growing with creator economy</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Brand Design &amp; Visual Identity</span><span class="sf-demand sf-dem--stable">&#10003; Saturated low end, premium at top</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Motion Design (After Effects)</span><span class="sf-demand sf-dem--rising">&#128200; Growing, &#8377;8&ndash;18L PA range</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Product Design (UI + UX + Research)</span><span class="sf-demand sf-dem--fire">&#128293; High at senior levels, &#8377;15&ndash;35L PA</span></div>
+            </div>
+            <div class="sf-ims-block">
+              <div class="sf-section-label">Practical Fit Snapshot</div>
+              <div class="sf-ims-rows">
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Interest</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:90%;background:var(--gold)"></div></div>
+                  <span class="sf-ims-note">Very high if aesthetics obsess you</span>
+                </div>
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Market</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:78%;background:var(--teal)"></div></div>
+                  <span class="sf-ims-note">High — but wide skill range in quality</span>
+                </div>
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Scalability</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:75%;background:#a78bfa"></div></div>
+                  <span class="sf-ims-note">Productized services, templates, courses</span>
+                </div>
+              </div>
+            </div>
+            <div class="sf-section-label">Your 3-Phase Course Roadmap</div>
+            <div class="sf-phases">
+              <div class="sf-phase sf-phase--free">
+                <div class="sf-phase-tag">Phase 1 &mdash; Free</div>
+                <p>Figma Community (free templates + tutorials), Google UX Design Certificate (audit free on Coursera), DaVinci Resolve (free video editing software), Canva Design School, Behance for inspiration</p>
+              </div>
+              <div class="sf-phase sf-phase--taste">
+                <div class="sf-phase-tag">Phase 2 &mdash; Taste Test</div>
+                <p>Design a logo or brand identity for a friend or local business (free). Edit one YouTube video or Reel for someone. Redesign an existing app screen in Figma just as exercise. Notice: does the perfectionism kick in? Good sign.</p>
+              </div>
+              <div class="sf-phase sf-phase--commit">
+                <div class="sf-phase-tag">Phase 3 &mdash; Commit</div>
+                <p>Google UX Design Certificate (Coursera, &#8377;3k/month), Figma Professional (~&#8377;1,500/month), UI/UX bootcamps on Udemy (&#8377;500 on sale), School of Motion for serious motion design</p>
+              </div>
+            </div>
+            <div class="sf-level-row">
+              <span class="sf-lvl-chip sf-lvl--1">Students</span>
+              <span class="sf-lvl-chip sf-lvl--2">Graduates</span>
+              <span class="sf-lvl-chip sf-lvl--3">Professionals</span>
+            </div>
+            <a href="https://wa.me/917815927259?text=Hi%2C%20I%27m%20a%20creative%20visual%20person%20and%20want%20help%20finding%20the%20right%20skill%20for%20me" target="_blank" rel="noopener noreferrer" class="sf-cta btn-gold">
+              Get My Personalised Roadmap &rarr;
+            </a>
+          </div>
+        </details>
+
+        <!-- Card 4: Process Executor -->
+        <details class="sf-card sf-card--executor">
+          <summary class="sf-card-face">
+            <div class="sf-type-badge">Systems &middot; Detail</div>
+            <div class="sf-icon" aria-hidden="true">&#128203;</div>
+            <h3 class="sf-card-title">Process Executor</h3>
+            <p class="sf-card-hook">You're the person who actually makes things happen. Detail-oriented, structured, reliable &mdash; you love organising chaos into a working system.</p>
+            <div class="sf-preview-skills">Project Management &middot; Ops &middot; Business Analysis &middot; QA &middot; EA</div>
+            <div class="sf-expand-hint">
+              <span>Open skill &amp; course roadmap</span>
+              <svg class="sf-arrow" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </summary>
+          <div class="sf-reveal">
+            <div class="sf-section-label">Top Skills for This Thinking Style</div>
+            <div class="sf-skills">
+              <div class="sf-skill-row"><span class="sf-skill-name">Project Management (Agile / Scrum / PMP)</span><span class="sf-demand sf-dem--fire">&#128293; High demand in tech</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Operations &amp; Process Optimisation</span><span class="sf-demand sf-dem--stable">&#10003; Very valuable in scaling startups</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Business Analysis &amp; Requirements</span><span class="sf-demand sf-dem--rising">&#128200; Growing, &#8377;8&ndash;20L PA bridge role</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Executive / Virtual Assistance</span><span class="sf-demand sf-dem--stable">&#10003; $20&ndash;60/hr internationally</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Quality Assurance &amp; Testing</span><span class="sf-demand sf-dem--stable">&#10003; Good entry point into tech</span></div>
+            </div>
+            <div class="sf-ims-block">
+              <div class="sf-section-label">Practical Fit Snapshot</div>
+              <div class="sf-ims-rows">
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Interest</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:75%;background:var(--gold)"></div></div>
+                  <span class="sf-ims-note">High if organising chaos satisfies you</span>
+                </div>
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Market</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:85%;background:var(--teal)"></div></div>
+                  <span class="sf-ims-note">High — every org needs execution people</span>
+                </div>
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Scalability</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:70%;background:#a78bfa"></div></div>
+                  <span class="sf-ims-note">Consulting, fractional COO/EA roles</span>
+                </div>
+              </div>
+            </div>
+            <div class="sf-section-label">Your 3-Phase Course Roadmap</div>
+            <div class="sf-phases">
+              <div class="sf-phase sf-phase--free">
+                <div class="sf-phase-tag">Phase 1 &mdash; Free</div>
+                <p>Google Project Management Certificate (audit free on Coursera), Atlassian's Jira &amp; Confluence tutorials (free), Notion PM templates, PMI free CAPM/PMP study resources, YouTube: Agile &amp; Scrum fundamentals</p>
+              </div>
+              <div class="sf-phase sf-phase--taste">
+                <div class="sf-phase-tag">Phase 2 &mdash; Taste Test</div>
+                <p>Run a small personal project using Agile sprints. Document and optimise one process at work or home. Map the workflow of any business around you &mdash; spot the bottleneck. Does this feel like detective work?</p>
+              </div>
+              <div class="sf-phase sf-phase--commit">
+                <div class="sf-phase-tag">Phase 3 &mdash; Commit</div>
+                <p>Google PM Certificate (Coursera, &#8377;3k/month), PMP Certification (high value, ~&#8377;25k exam, needs experience), Six Sigma Green Belt (&#8377;20&ndash;40k), Asana / Monday.com official certs (free&ndash;low cost)</p>
+              </div>
+            </div>
+            <div class="sf-level-row">
+              <span class="sf-lvl-chip sf-lvl--2">Graduates</span>
+              <span class="sf-lvl-chip sf-lvl--3">Professionals</span>
+            </div>
+            <a href="https://wa.me/917815927259?text=Hi%2C%20I%27m%20a%20process-oriented%20person%20and%20want%20help%20finding%20the%20right%20skill%20for%20me" target="_blank" rel="noopener noreferrer" class="sf-cta btn-gold">
+              Get My Personalised Roadmap &rarr;
+            </a>
+          </div>
+        </details>
+
+        <!-- Card 5: Builder & Experimenter -->
+        <details class="sf-card sf-card--builder">
+          <summary class="sf-card-face">
+            <div class="sf-type-badge">Building &middot; Experimenting</div>
+            <div class="sf-icon" aria-hidden="true">&#128640;</div>
+            <h3 class="sf-card-title">Builder &amp; Experimenter</h3>
+            <p class="sf-card-hook">You're happiest when you're making something new exist in the world &mdash; a product, a tool, a business. Uncertainty excites more than it paralyses you.</p>
+            <div class="sf-preview-skills">Product Management &middot; No-Code &middot; AI Engineering &middot; Entrepreneurship</div>
+            <div class="sf-expand-hint">
+              <span>Open skill &amp; course roadmap</span>
+              <svg class="sf-arrow" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </summary>
+          <div class="sf-reveal">
+            <div class="sf-section-label">Top Skills for This Thinking Style</div>
+            <div class="sf-skills">
+              <div class="sf-skill-row"><span class="sf-skill-name">Product Management</span><span class="sf-demand sf-dem--fire">&#128293; High demand, &#8377;12&ndash;40L PA</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">No-Code / Low-Code Development</span><span class="sf-demand sf-dem--rising">&#128200; Fast growing, democratises building</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">AI Engineering &amp; Prompt Engineering</span><span class="sf-demand sf-dem--fire">&#128293; Very high &mdash; 5-year window</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Entrepreneurship &amp; Venture Building</span><span class="sf-demand sf-dem--stable">&#10003; Unlimited upside, high risk</span></div>
+              <div class="sf-skill-row"><span class="sf-skill-name">Growth Hacking &amp; Distribution</span><span class="sf-demand sf-dem--rising">&#128200; Growing in startup ecosystem</span></div>
+            </div>
+            <div class="sf-ims-block">
+              <div class="sf-section-label">Practical Fit Snapshot</div>
+              <div class="sf-ims-rows">
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Interest</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:92%;background:var(--gold)"></div></div>
+                  <span class="sf-ims-note">Very high if creating things drives you</span>
+                </div>
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Market</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:88%;background:var(--teal)"></div></div>
+                  <span class="sf-ims-note">AI tools + product roles exploding now</span>
+                </div>
+                <div class="sf-ims-row">
+                  <span class="sf-ims-l">Scalability</span>
+                  <div class="sf-bar-wrap"><div class="sf-bar-fill" style="width:95%;background:#a78bfa"></div></div>
+                  <span class="sf-ims-note">Products scale without your hours</span>
+                </div>
+              </div>
+            </div>
+            <div class="sf-section-label">Your 3-Phase Course Roadmap</div>
+            <div class="sf-phases">
+              <div class="sf-phase sf-phase--free">
+                <div class="sf-phase-tag">Phase 1 &mdash; Free</div>
+                <p>YC Startup School (completely free, best in world), Replit + Lovable + Bubble (free tiers for no-code), Google AI Essentials (Coursera, free to audit), Lenny's Newsletter (best product newsletter, free tier)</p>
+              </div>
+              <div class="sf-phase sf-phase--taste">
+                <div class="sf-phase-tag">Phase 2 &mdash; Taste Test</div>
+                <p>Build one no-code tool that solves a specific problem for real users. Test an AI agent automating something tedious (Claude/ChatGPT APIs, free tier). Launch anything &mdash; even a Notion template for &#8377;99. Do people pay?</p>
+              </div>
+              <div class="sf-phase sf-phase--commit">
+                <div class="sf-phase-tag">Phase 3 &mdash; Commit</div>
+                <p>Product School or Reforge (PM certification, premium but recognised), DeepLearning.AI courses by Andrew Ng (Coursera), Bubble/Webflow paid plans + specific builds, apply to Reforge when eligible</p>
+              </div>
+            </div>
+            <div class="sf-level-row">
+              <span class="sf-lvl-chip sf-lvl--1">Students</span>
+              <span class="sf-lvl-chip sf-lvl--2">Graduates</span>
+              <span class="sf-lvl-chip sf-lvl--3">Professionals</span>
+            </div>
+            <a href="https://wa.me/917815927259?text=Hi%2C%20I%27m%20a%20builder%20type%20and%20want%20help%20finding%20the%20right%20skill%20for%20me" target="_blank" rel="noopener noreferrer" class="sf-cta btn-gold">
+              Get My Personalised Roadmap &rarr;
+            </a>
+          </div>
+        </details>
+
+      </div><!-- /sf-grid -->
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SKILL MARRIAGE PHILOSOPHY
+  ═══════════════════════════════════════ -->
+  <section id="philosophy">
+    <div class="philosophy-bg">
+      <div class="phil-orb phil-orb-1"></div>
+      <div class="phil-orb phil-orb-2"></div>
+    </div>
+    <div class="container philosophy-inner">
+      <div class="phil-left">
+        <div class="section-tag pill" style="display:inline-flex">
+          <span style="color:var(--gold)">&#128161;</span>&nbsp;Why Skill Fit Matters
+        </div>
+        <h2 class="section-headline" style="text-align:left">
+          &ldquo;Picking a Skill Is Like<br />
+          <span class="gold-text">Getting Married.&rdquo;</span>
+        </h2>
+        <p class="phil-body">
+          You don't marry someone just because they're popular. You consider compatibility,
+          longevity, and whether your life actually works together. Most people pick skills
+          like they're choosing a restaurant &mdash; whatever looks good right now.
+        </p>
+        <p class="phil-body" style="margin-top:1rem">
+          The Skill Marriage framework means committing to a combination that fits
+          <em>your</em> personality profile, your existing strengths, and a market that
+          will pay a premium for exactly that &mdash; not just today, but for years ahead.
+        </p>
+      </div>
+
+      <div class="phil-right">
+        <div class="ims-card card">
+          <div class="ims-header">
+            <span class="ims-title">Practical Fit Check</span>
+            <span class="ims-sub">Your skill selection filter</span>
+          </div>
+          <div class="ims-items">
+            <div class="ims-item">
+              <div class="ims-circle ims-i">I</div>
+              <div>
+                <div class="ims-label">Interest</div>
+                <div class="ims-desc">Can you handle the boring parts of this skill — not just the exciting ones — for the long haul?</div>
+              </div>
+            </div>
+            <div class="ims-connector"></div>
+            <div class="ims-item">
+              <div class="ims-circle ims-m">M</div>
+              <div>
+                <div class="ims-label">Market</div>
+                <div class="ims-desc">Is real money being paid for this skill today — and is that demand likely to hold up over time?</div>
+              </div>
+            </div>
+            <div class="ims-connector"></div>
+            <div class="ims-item">
+              <div class="ims-circle ims-s">S</div>
+              <div>
+                <div class="ims-label">Scalability</div>
+                <div class="ims-desc">Can this skill grow into multiple income streams, or is it capped at one salary?</div>
+              </div>
+            </div>
+          </div>
+          <div class="ims-footer">
+            All three must align. Most people only ever check one.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       4-CHECKPOINT PROCESS
+  ═══════════════════════════════════════ -->
+  <section id="process">
+    <div class="container">
+      <div class="section-tag pill">
+        <span style="color:var(--teal)">&#9678;</span>&nbsp;The Methodology
+      </div>
+      <h2 class="section-headline">
+        The <span class="gold-text">4-Checkpoint</span> Protocol
+      </h2>
+      <p class="section-sub">
+        Every coaching engagement follows the same four checkpoints &mdash; in order, without skipping.
+        This sequence is why our outcomes are consistent regardless of starting point.
+      </p>
+
+      <div class="steps-track">
+        <div class="steps-line"></div>
+        <div class="steps-grid">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-icon">&#129517;</div>
+            <h3 class="step-title">Profile &amp; Fit Check</h3>
+            <p class="step-desc">We map your natural cognitive style (People vs. Systems, Making vs. Analysing) to careers that genuinely fit &mdash; not just careers that sound impressive.</p>
+            <div class="step-outcome">Outcome: Your Profile Type &amp; Career Direction</div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-icon">&#9881;&#65039;</div>
+            <h3 class="step-title">Market Survival Audit</h3>
+            <p class="step-desc">Our practical fit check filters every career option through Interest, Market, and Scalability. One wrong skill choice can waste 2–3 years. This checkpoint removes guesswork.</p>
+            <div class="step-outcome">Outcome: Your Skill Stack Blueprint</div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-icon">&#128225;</div>
+            <h3 class="step-title">Communication &amp; Proof</h3>
+            <p class="step-desc">Skills alone don't pay. We build your proof system &mdash; portfolio, positioning, outreach &mdash; so the right people find you and hire you before you have to ask.</p>
+            <div class="step-outcome">Outcome: Your Proof of Value System</div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-icon">&#128176;</div>
+            <h3 class="step-title">Future-Ready Matrix</h3>
+            <p class="step-desc">Your Freedom Number, your AI-proof score, and your compounding plan. This is where everything clicks and income becomes a decision, not luck.</p>
+            <div class="step-outcome">Outcome: Your Income Roadmap</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ComparisonMatrix
+    sectionId="guidance-difference"
+    title="Why this is different from other career counseling"
+    subtitle="The stronger direction is practical, skill-first, and built to improve decision quality before the wrong turn compounds."
+    centered={true}
+  />
+
+  <!-- ═══════════════════════════════════════
+       WHICH PROFILE ARE YOU?
+  ═══════════════════════════════════════ -->
+  <section id="profiles">
+    <div class="container">
+      <div class="section-tag pill">
+        <span style="color:var(--gold)">&#127919;</span>&nbsp;Self-Assessment
+      </div>
+      <h2 class="section-headline">
+        Which Profile <span class="gold-text">Are You?</span>
+      </h2>
+      <p class="section-sub">
+        The framework maps every person into one of three career personality profiles.
+        Each profile needs a completely different strategy &mdash; and a different skill stack.
+      </p>
+
+      <div class="profiles-grid">
+        <div class="profile-card">
+          <div class="profile-emoji">&#128203;</div>
+          <div class="profile-label">Profile A</div>
+          <h3 class="profile-name">The Perfect Plan</h3>
+          <p class="profile-desc">You want structure. You want to know the exact steps before you start. You're analytical, risk-aware, and need a clear map or you don't move. You're not afraid of hard work &mdash; you're afraid of wasted effort.</p>
+          <div class="profile-traits">
+            <span>Systematic</span>
+            <span>Risk-conscious</span>
+            <span>Detail-oriented</span>
+          </div>
+          <div class="profile-strategy">
+            <div class="ps-label">Your Strategy:</div>
+            <div class="ps-text">Linear skill build &rarr; proof portfolio &rarr; corporate/agency income ladder &rarr; freelance pivot at your Freedom Number threshold</div>
+          </div>
+        </div>
+
+        <div class="profile-card profile-card-gold">
+          <div class="profile-emoji">&#128293;</div>
+          <div class="profile-label">Profile B</div>
+          <h3 class="profile-name">The Passion Plan</h3>
+          <p class="profile-desc">You have a strong pull toward something &mdash; creative work, a cause, a craft. The trap: passion alone doesn't pay. We show you how to monetise what you love by pairing it with a market-validated adjacent skill.</p>
+          <div class="profile-traits">
+            <span>Creative</span>
+            <span>Intrinsically motivated</span>
+            <span>Needs meaning</span>
+          </div>
+          <div class="profile-strategy">
+            <div class="ps-label">Your Strategy:</div>
+            <div class="ps-text">Passion &times; adjacent market skill &rarr; niche authority positioning &rarr; premium client pipeline that pays you for what you love</div>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-emoji">&#127959;&#65039;</div>
+          <div class="profile-label">Profile C</div>
+          <h3 class="profile-name">The Empire Builder</h3>
+          <p class="profile-desc">You think in systems. You want to build something &mdash; an agency, a brand, a product. You're not here for a job. You need a path that converts your vision into a scalable income engine, not just a freelance career.</p>
+          <div class="profile-traits">
+            <span>Systems-thinker</span>
+            <span>High ambition</span>
+            <span>Builder mentality</span>
+          </div>
+          <div class="profile-strategy">
+            <div class="ps-label">Your Strategy:</div>
+            <div class="ps-text">T-shaped skill build &rarr; solopreneur phase &rarr; team leverage &rarr; Career Group Engine &rarr; multiple income streams</div>
+          </div>
+        </div>
+      </div>
+
+            <div class="profiles-cta-wrap">
+        <p class="profiles-cta-text">Not sure which one fits you best? Career guidance helps you map your profile before you commit to the wrong path.</p>
+        <a href="/services/career-counselling-and-career-guidance" class="btn-gold">
+          Get Career Guidance
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       3 GATES TO INCOME
+  ═══════════════════════════════════════ -->
+  <section id="gates">
+    <div class="gates-bg">
+      <div class="gates-orb"></div>
+    </div>
+    <div class="container">
+      <div class="section-tag pill">
+        <span style="color:var(--teal)">&#128678;</span>&nbsp;The Income Journey
+      </div>
+      <h2 class="section-headline">
+        Every High Earner Passes<br />Through <span class="gold-text">3 Gates</span>
+      </h2>
+      <p class="section-sub">
+        Miss a gate &mdash; or try to jump over one &mdash; and income stalls. Most people are stuck between Gate 1 and Gate 2 without knowing it.
+      </p>
+
+      <div class="gates-journey">
+        <div class="gate-node">
+          <div class="gate-circle gate-c1"><span>1</span></div>
+          <div class="gate-content">
+            <h3>Proof of Skill</h3>
+            <p>You can do the thing. You have a portfolio piece, a project, a result that says &ldquo;I know this.&rdquo; Without this, you're just claiming you can &mdash; and no one pays for claims.</p>
+            <div class="gate-tools">
+              <span>Portfolio project</span>
+              <span>Case study</span>
+              <span>Demo / sample</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="gate-arrow">
+          <svg width="40" height="20" viewBox="0 0 40 20" fill="none"><path d="M0 10h36M28 2l8 8-8 8" stroke="rgba(229,184,74,.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <div class="gate-node">
+          <div class="gate-circle gate-c2"><span>2</span></div>
+          <div class="gate-content">
+            <h3>Proof of Communication</h3>
+            <p>You can explain the thing &mdash; and you can speak to someone who needs it. This is where most skilled people fail. They build in silence and wonder why no one finds them.</p>
+            <div class="gate-tools">
+              <span>LinkedIn profile</span>
+              <span>Email outreach</span>
+              <span>Content signal</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="gate-arrow">
+          <svg width="40" height="20" viewBox="0 0 40 20" fill="none"><path d="M0 10h36M28 2l8 8-8 8" stroke="rgba(229,184,74,.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <div class="gate-node">
+          <div class="gate-circle gate-c3"><span>3</span></div>
+          <div class="gate-content">
+            <h3>Proof of Value</h3>
+            <p>You have a result someone paid for &mdash; and they'd pay again. This is when income becomes repeatable. One testimonial and one successful delivery unlocks a sustainable client pipeline.</p>
+            <div class="gate-tools">
+              <span>First paid client</span>
+              <span>Testimonial</span>
+              <span>Referral system</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gates-question">
+        <div class="gq-inner card">
+          <span class="gq-icon">&#129300;</span>
+          <p>Read the three gates, identify where you are right now, and use that to choose the next practical action. We can then help you refine the full plan based on your current situation.</p>
+          <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-gold">
+            Get Career Guidance
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       AI URGENCY — 5-YEAR WINDOW
+  ═══════════════════════════════════════ -->
+  <section id="ai-window">
+    <div class="container">
+      <div class="ai-inner card">
+        <div class="ai-left">
+          <div class="section-tag pill" style="display:inline-flex;margin-bottom:1.5rem">
+            <span style="color:#f87171">&#9203;</span>&nbsp;The Window Is Closing
+          </div>
+          <h2 class="section-headline" style="text-align:left;margin-bottom:1rem">
+            The <span class="gold-text">5-Year AI Window</span>
+          </h2>
+          <p class="phil-body">
+            AI will not destroy all careers. It will destroy the <strong>predictable middle</strong> &mdash;
+            template-based, instruction-following, commodity-skill roles. What it cannot
+            replace: judgment, communication, creativity, and real-world relationships.
+          </p>
+          <p class="phil-body" style="margin-top:1rem">
+            The people who build AI-adjacent, human-judgment skills early will
+            command premiums that simply won't exist for those who waited. This isn't opinion
+            &mdash; it's arithmetic. Your Future-Ready score is part of every session we run.
+          </p>
+                    <a href="/services/career-counselling-and-career-guidance" class="btn-gold" style="margin-top:1.5rem;display:inline-flex">
+            Get Career Guidance
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+
+        <div class="ai-right">
+          <div class="ai-timeline">
+            <div class="ait-label">Automation Risk by Role Type</div>
+            <div class="ait-rows">
+              <div class="ait-row">
+                <span class="ait-skill">Data Entry / Admin</span>
+                <div class="ait-risk-bar"><div class="ait-fill ait-high" style="width:91%"></div></div>
+                <span class="ait-pct ait-red">91%</span>
+              </div>
+              <div class="ait-row">
+                <span class="ait-skill">Generic Content Writing</span>
+                <div class="ait-risk-bar"><div class="ait-fill ait-high" style="width:84%"></div></div>
+                <span class="ait-pct ait-red">84%</span>
+              </div>
+              <div class="ait-row">
+                <span class="ait-skill">Basic Coding / Dev</span>
+                <div class="ait-risk-bar"><div class="ait-fill ait-med" style="width:62%"></div></div>
+                <span class="ait-pct ait-yellow">62%</span>
+              </div>
+              <div class="ait-row">
+                <span class="ait-skill">Strategic Communication</span>
+                <div class="ait-risk-bar"><div class="ait-fill ait-low" style="width:18%"></div></div>
+                <span class="ait-pct ait-green">18%</span>
+              </div>
+              <div class="ait-row">
+                <span class="ait-skill">Niche Consulting / Coaching</span>
+                <div class="ait-risk-bar"><div class="ait-fill ait-low" style="width:9%"></div></div>
+                <span class="ait-pct ait-green">9%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CAREER GROUP ENGINE
+  ═══════════════════════════════════════ -->
+  <section id="group-engine">
+    <div class="container">
+      <div class="ge-inner">
+        <div class="ge-left">
+          <div class="section-tag pill" style="display:inline-flex">
+            <span style="color:var(--teal)">&#9881;&#65039;</span>&nbsp;The Career Group Engine
+          </div>
+          <h2 class="section-headline" style="text-align:left">
+            Your Network Becomes<br />Your <span class="gold-text">Income Engine</span>
+          </h2>
+          <p class="phil-body">
+            Most people treat networking as collecting contacts at events. The Career Group Engine
+            is different &mdash; it's a structured system for building a small, curated group of
+            8&ndash;12 professionals who actively pass each other opportunities, feedback, and clients.
+          </p>
+          <p class="phil-body" style="margin-top:1rem">
+            This is part of the advanced coaching phase. By Checkpoint 3, you have the proof
+            system to participate. By Checkpoint 4, the group becomes a repeatable income source.
+            It's the career infrastructure that keeps compounding long after coaching ends.
+          </p>
+        </div>
+
+        <div class="ge-right">
+          <div class="ge-diagram">
+            <div class="ge-center-node">You</div>
+            <div class="ge-ring">
+              <div class="ge-node ge-n1">Mentor</div>
+              <div class="ge-node ge-n2">Peer A</div>
+              <div class="ge-node ge-n3">Client</div>
+              <div class="ge-node ge-n4">Peer B</div>
+              <div class="ge-node ge-n5">Referrer</div>
+              <div class="ge-node ge-n6">Collaborator</div>
+            </div>
+            <svg class="ge-lines" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="150" cy="150" r="90" stroke="rgba(229,184,74,.08)" stroke-width="1" stroke-dasharray="4 6"/>
+              <line x1="150" y1="150" x2="150" y2="60" stroke="rgba(229,184,74,.2)" stroke-width="1"/>
+              <line x1="150" y1="150" x2="228" y2="105" stroke="rgba(229,184,74,.2)" stroke-width="1"/>
+              <line x1="150" y1="150" x2="228" y2="195" stroke="rgba(229,184,74,.2)" stroke-width="1"/>
+              <line x1="150" y1="150" x2="150" y2="240" stroke="rgba(229,184,74,.2)" stroke-width="1"/>
+              <line x1="150" y1="150" x2="72" y2="195" stroke="rgba(229,184,74,.2)" stroke-width="1"/>
+              <line x1="150" y1="150" x2="72" y2="105" stroke="rgba(229,184,74,.2)" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="proof-and-trust">
+    <div class="container">
+      <div class="section-tag pill">
+        <span style="color:var(--gold)">&#10004;</span>&nbsp;Proof and Trust
+      </div>
+      <h2 class="section-headline">
+        Outcomes Built on <span class="gold-text">Practical Execution</span>
+      </h2>
+      <p class="section-sub">
+        The goal is not just another plan. The goal is stronger positioning, better skill leverage, and long-term optionality.
+      </p>
+      <div class="trust-grid">
+        <article class="trust-card card">
+          <h3>10,000+ students guided</h3>
+          <p>Students, graduates, and professionals across multiple career stages.</p>
+        </article>
+        <article class="trust-card card">
+          <h3>4.9/5 average rating</h3>
+          <p>Consistent feedback on clarity, direction, and practical next steps.</p>
+        </article>
+        <article class="trust-card card">
+          <h3>Free core tools</h3>
+          <p>Assessments, resources, skill-finder, and course-finder tools are free.</p>
+        </article>
+        <article class="trust-card card">
+          <h3>No fake guarantees</h3>
+          <p>No job promises. Only practical planning and stronger competitiveness.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FAQ
+  ═══════════════════════════════════════ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-tag pill">
+        <span style="color:var(--gold)">&#10067;</span>&nbsp;Common Questions
+      </div>
+      <h2 class="section-headline">
+        Everything You Want to <span class="gold-text">Know First</span>
+      </h2>
+
+      <div class="faq-grid">
+        <details class="faq-item">
+          <summary class="faq-q">I'm a student with no work experience. Can this help me?<svg class="faq-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+          <div class="faq-a">Students have the highest leverage from early guidance. Before committing to a major, course, or internship, one focused session can save years of wrong direction and start practical skill building early.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">How is this different from watching career advice online?<svg class="faq-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+          <div class="faq-a">Online content gives general information. A live session gives you a specific decision path, execution order, and accountability based on your real situation, constraints, and goals.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">What if I have no idea what career I want?<svg class="faq-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+          <div class="faq-a">That is a very common starting point. Not knowing is not a problem. We help you narrow options using practical assessments, strength mapping, and market-fit checks before you commit to a path.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">How is this different from normal career counseling?<svg class="faq-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+          <div class="faq-a">Most career counseling is generic, outdated, and one-time. Many providers push degree-first decisions without high-value skill building. We focus on practical direction, high-value skills, earlier financial freedom, and ongoing support when needed.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Is a college degree enough for a high income?<svg class="faq-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+          <div class="faq-a">A degree can support eligibility. In most cases, stronger outcomes depend on high-value skills plus proof of work.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Can I realistically work toward early financial freedom?<svg class="faq-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+          <div class="faq-a">Yes, through profile-fit skill stacking, market alignment, and consistent execution over time.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Do you guarantee a job?<svg class="faq-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+          <div class="faq-a">No ethical provider can guarantee a job. We guarantee practical planning, better skill direction, and stronger competitiveness.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FINAL CTA
+  ═══════════════════════════════════════ -->
+    <section id="final-cta">
+    <div class="fcta-bg">
+      <div class="fcta-orb fcta-orb-1"></div>
+      <div class="fcta-orb fcta-orb-2"></div>
+    </div>
+    <div class="container fcta-inner">
+      <div class="fcta-eyebrow pill">
+        <span class="pill-dot"></span>
+        Initial 1-on-1 first &middot; Continuous guidance only if needed
+      </div>
+      <h2 class="fcta-headline">
+        Get Career Guidance for the<br /><span class="gold-text">Right Next Move.</span>
+      </h2>
+      <p class="fcta-sub">
+        Start with practical clarity.
+        If you need deeper support after that, we map the right ongoing structure for your stage, skill path, and goals.
+      </p>
+      <div class="fcta-actions">
+        <a href="/services/career-counselling-and-career-guidance" class="btn-gold pulse fcta-btn">
+          Get Career Guidance
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="/services/assessments" class="btn-outline fcta-btn">
+          Get Free Career and Skill Assessments
+        </a>
+      </div>
+      <div class="fcta-trust">
+        <span>+91 78159 27259</span>
+        <span class="fcta-dot">&middot;</span>
+        <span>WhatsApp preferred</span>
+        <span class="fcta-dot">&middot;</span>
+        <span>Response within 2 hours</span>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ─── Shared ─── */
+  section { position: relative; overflow: hidden; }
+  .section-tag { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.6); margin-bottom: 1.25rem; align-items: center; gap: 6px; }
+  .section-headline { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800; line-height: 1.1; letter-spacing: -.03em; color: #fff; margin-bottom: 1rem; }
+  .section-sub { font-size: clamp(15px, 2vw, 17px); color: rgba(255,255,255,.55); max-width: 620px; margin: 0 auto 3rem; text-align: center; line-height: 1.7; }
+  section > .container > .section-tag,
+  section > .container > .section-headline { text-align: center; width: 100%; display: block; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: #2dd4bf; animation: blink 2s ease-in-out infinite; flex-shrink: 0; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  /* ══ HERO ══ */
+  #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 72px; position: relative; }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(229,184,74,.1) 0%, transparent 70%); top: -150px; left: -150px; }
+  .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(45,212,191,.07) 0%, transparent 70%); bottom: 0; right: -100px; }
+  .orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(229,184,74,.05) 0%, transparent 70%); top: 50%; left: 55%; }
+  .grid-overlay { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse at 30% 50%, black 20%, transparent 75%); }
+
+  .hero-inner {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: flex-start;
+    max-width: 900px; padding: 5rem 1.5rem 4rem;
+  }
+  .hero-pill { margin-bottom: 2rem; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* Big editorial headline — grid stacking so cycling text can NEVER clip */
+  .hero-headline {
+    font-size: clamp(1.8rem, 4vw, 3.1rem);
+    font-weight: 800; line-height: 1.18;
+    letter-spacing: -.035em; color: #fff;
+    margin: 0 0 1.75rem;
+    max-width: 100%;
+  }
+  .hero-line-top, .hero-line-bottom { display: block; }
+
+  /* Grid stacking — all cycling phrases occupy the same cell,
+     container sizes to the largest naturally, no overflow clip */
+  .hero-cycle-wrap {
+    display: grid;
+    margin: .15em 0;
+  }
+  .hero-cycle-word {
+    grid-column: 1; grid-row: 1;
+    color: var(--gold); font-style: italic;
+    opacity: 0; transform: translateY(14px);
+    will-change: opacity, transform;
+  }
+  .hero-cycle-word:nth-child(1) { animation: cycleWord 10s ease-in-out infinite 0s; }
+  .hero-cycle-word:nth-child(2) { animation: cycleWord 10s ease-in-out infinite 2.5s; }
+  .hero-cycle-word:nth-child(3) { animation: cycleWord 10s ease-in-out infinite 5s; }
+  .hero-cycle-word:nth-child(4) { animation: cycleWord 10s ease-in-out infinite 7.5s; }
+  @keyframes cycleWord {
+    0%   { opacity: 0; transform: translateY(14px); }
+    5%   { opacity: 1; transform: translateY(0); }
+    22%  { opacity: 1; transform: translateY(0); }
+    27%  { opacity: 0; transform: translateY(-14px); }
+    100% { opacity: 0; transform: translateY(-14px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-cycle-word { animation: none; opacity: 0; transform: none; }
+    .hero-cycle-word:first-child { opacity: 1; }
+  }
+
+  .hero-sub { font-size: clamp(15px, 1.8vw, 18px); color: rgba(255,255,255,.6); line-height: 1.75; margin-bottom: 2rem; max-width: 560px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .hero-cta { font-size: 15px; padding: 14px 26px; }
+
+  /* Identity chip row */
+  .hero-identity {
+    display: flex; align-items: stretch;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px; overflow: hidden;
+    margin-bottom: 2rem; flex-wrap: wrap;
+  }
+  .hid-chip {
+    display: flex; flex-direction: column; gap: 3px;
+    padding: 14px 28px; font-size: 13px; font-weight: 600;
+    color: rgba(255,255,255,.6);
+    transition: background .2s, color .2s; text-decoration: none;
+  }
+  .hid-chip:hover { background: rgba(255,255,255,.07); color: #fff; }
+  .hid-chip--gold { background: rgba(229,184,74,.04); }
+  .hid-chip--gold:hover { background: rgba(229,184,74,.1); color: var(--gold); }
+  .hid-level { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,.28); display: block; }
+  .hid-chip--gold .hid-level { color: rgba(229,184,74,.45); }
+  .hid-sep { width: 1px; background: rgba(255,255,255,.07); align-self: stretch; flex-shrink: 0; }
+
+  .hero-trust { display: flex; flex-direction: column; gap: 8px; }
+  .trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.45); }
+
+  /* ══ STATS ══ */
+  #stats-band { padding: 2rem 0; background: rgba(229,184,74,.04); border-top: 1px solid rgba(229,184,74,.1); border-bottom: 1px solid rgba(229,184,74,.1); }
+  .stats-inner { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
+  .stat-item { display: flex; flex-direction: column; align-items: center; padding: 1rem 3rem; }
+  .stat-row { display: flex; align-items: baseline; }
+  .stat-word { font-family: "Sora", sans-serif; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; color: var(--gold); line-height: 1; }
+  .stat-lbl { font-size: 12px; color: rgba(255,255,255,.45); margin-top: 4px; text-align: center; }
+  .stat-div { width: 1px; height: 48px; background: rgba(255,255,255,.08); }
+
+  /* ══ SEARCH INTENT ══ */
+  #search-intent { padding: 6rem 0; }
+  .si-intro { margin-bottom: 3rem; }
+  .si-list { display: flex; flex-direction: column; }
+  .si-item {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr auto;
+    align-items: start;
+    gap: 3rem;
+    padding: 3rem 0;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .si-item:first-child { border-top: 1px solid rgba(255,255,255,.06); }
+  .si-q {
+    font-family: "Sora", sans-serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+    font-weight: 800; color: #fff; line-height: 1.2;
+    border-left: 3px solid var(--gold); padding-left: 1.25rem;
+    margin: 0;
+  }
+  .si-a { font-size: 15px; color: rgba(255,255,255,.55); line-height: 1.8; margin: 0; }
+  .si-link { font-size: 13px; font-weight: 700; color: var(--gold); white-space: nowrap; padding-top: 4px; text-decoration: none; transition: opacity .2s; }
+  .si-link:hover { opacity: .7; }
+
+  /* ══ AUDIENCE ══ */
+  #audience { padding: 6rem 0; }
+  .audience-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .audience-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); border-radius: 20px; padding: 2rem; display: flex; flex-direction: column; position: relative; transition: transform .3s, border-color .3s; }
+  .audience-card:hover { transform: translateY(-4px); border-color: rgba(229,184,74,.2); }
+  .audience-card-featured { border-color: rgba(229,184,74,.25); background: linear-gradient(135deg, rgba(229,184,74,.06), rgba(255,255,255,.02)); }
+  .featured-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #e5b84a, #f5d98c); color: #080c18; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 999px; white-space: nowrap; }
+  .aud-level { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--gold); margin-bottom: .6rem; }
+  .aud-icon-wrap { font-size: 2.5rem; margin-bottom: 1rem; }
+  .audience-card h3 { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: .75rem; }
+  .aud-desc { font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.7; margin-bottom: 1.25rem; }
+  .aud-block-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--gold); margin: .1rem 0 .8rem; }
+  .aud-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.5rem; }
+  .aud-list li { font-size: 13px; color: rgba(255,255,255,.65); padding-left: 16px; position: relative; line-height: 1.5; }
+  .aud-list li::before { content: '\2192'; position: absolute; left: 0; color: var(--teal); }
+  .aud-actions { margin-top: 2rem; display: flex; justify-content: center; gap: .8rem; flex-wrap: wrap; }
+
+  #guidance-expectations {
+    padding: 6rem 0;
+    background: radial-gradient(900px 280px at 15% -5%, rgba(248,113,113,.08), transparent 72%), radial-gradient(900px 280px at 85% -5%, rgba(229,184,74,.1), transparent 72%), rgba(255,255,255,.015);
+  }
+  .expect-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 1080px; margin: 0 auto; }
+  .expect-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    border: 1px solid rgba(255,255,255,.13);
+    background: linear-gradient(165deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+    box-shadow: 0 14px 36px rgba(0,0,0,.22);
+  }
+  .expect-card-not { border-color: rgba(248,113,113,.2); }
+  .expect-card-is { border-color: rgba(229,184,74,.28); background: linear-gradient(135deg, rgba(229,184,74,.08), rgba(255,255,255,.02)); }
+  .expect-card h3 { font-size: 1.22rem; color: #fff; margin-bottom: .85rem; letter-spacing: -.01em; }
+  .expect-card h3 em { font-style: italic; }
+  .expect-list { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+  .expect-list li { font-size: 14px; color: rgba(255,255,255,.72); padding-left: 1.2rem; position: relative; line-height: 1.74; }
+  .expect-card-not .expect-list li::before { content: '-'; position: absolute; left: 0; color: #f87171; font-weight: 700; }
+  .expect-card-is .expect-list li::before { content: '+'; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+
+  /* ══ SKILL & COURSE FINDER ══ */
+  #skill-finder { padding: 6rem 0; position: relative; }
+  .sf-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .sf-orb { width: 800px; height: 600px; background: radial-gradient(ellipse, rgba(45,212,191,.05) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); border-radius: 50%; position: absolute; filter: blur(120px); }
+
+  /* Biology Quick Check */
+  .bc-box {
+    margin: 2.5rem 0 3rem; padding: 1.75rem 2.25rem;
+    border-color: rgba(255,255,255,.09);
+    position: relative; z-index: 1;
+  }
+  .bc-box-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+    color: rgba(255,255,255,.35); display: flex; align-items: center; gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+  .bc-qs { display: grid; grid-template-columns: 1fr; gap: 1.25rem; align-items: start; }
+  .bc-divider { display: none; }
+  .bc-q { display: flex; gap: 1rem; align-items: flex-start; }
+  .bc-num {
+    font-family: "Sora", sans-serif; font-weight: 800; font-size: 1.5rem;
+    color: rgba(255,255,255,.1); line-height: 1; flex-shrink: 0; min-width: 32px;
+  }
+  .bc-q-text { font-size: 14px; color: rgba(255,255,255,.6); line-height: 1.65; margin-bottom: .9rem; }
+  .bc-q-text strong { color: rgba(255,255,255,.85); }
+  .bc-q-note { font-size: 12.5px; color: rgba(255,255,255,.5); line-height: 1.6; }
+  .bc-opts { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .bc-opt {
+    font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 8px;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .bc-opt--teal { background: rgba(45,212,191,.08); color: var(--teal); border: 1px solid rgba(45,212,191,.2); }
+  .bc-opt--blue { background: rgba(96,165,250,.08); color: #60a5fa; border: 1px solid rgba(96,165,250,.2); }
+  .bc-opt--gold { background: rgba(229,184,74,.08); color: var(--gold); border: 1px solid rgba(229,184,74,.2); }
+  .bc-opt--purple { background: rgba(167,139,250,.08); color: #a78bfa; border: 1px solid rgba(167,139,250,.2); }
+  .bc-sep { font-size: 11px; color: rgba(255,255,255,.25); align-self: center; padding: 0 2px; }
+  .bc-cta-note {
+    margin-top: 1.5rem; font-size: 13px; color: rgba(255,255,255,.35); text-align: center;
+    border-top: 1px solid rgba(255,255,255,.06); padding-top: 1rem;
+  }
+  .sf-intro {
+    max-width: 760px;
+    margin: 0 auto 1.75rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .sf-intro-title {
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    color: #fff;
+    margin-bottom: .75rem;
+  }
+  .sf-intro-copy {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.52);
+  }
+
+  /* 5-card grid: 3 on top row, 2 centred on bottom */
+  .sf-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+    margin-top: 0;
+    position: relative; z-index: 1;
+  }
+  .sf-card { grid-column: span 2; }
+  .sf-card:nth-child(4) { grid-column: 2 / span 2; }
+  .sf-card:nth-child(5) { grid-column: 4 / span 2; }
+
+  /* Card base */
+  .sf-card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 20px; overflow: hidden;
+    transition: border-color .3s, box-shadow .3s, transform .3s;
+  }
+  .sf-card:hover { transform: translateY(-4px); box-shadow: 0 24px 60px rgba(0,0,0,.45); }
+
+  /* Thinking style accents */
+  .sf-card--systems { --sf-accent: #60a5fa; }
+  .sf-card--people  { --sf-accent: var(--gold); }
+  .sf-card--visual  { --sf-accent: #a78bfa; }
+  .sf-card--executor { --sf-accent: var(--teal); }
+  .sf-card--builder { --sf-accent: #f472b6; }
+
+  .sf-card[open] { border-color: color-mix(in srgb, var(--sf-accent) 35%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--sf-accent) 12%, transparent); }
+
+  /* Face (summary) */
+  .sf-card-face { padding: 1.75rem 1.75rem 1.5rem; cursor: pointer; list-style: none; display: block; }
+  .sf-card-face::-webkit-details-marker { display: none; }
+
+  .sf-type-badge {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
+    color: var(--sf-accent);
+    background: color-mix(in srgb, var(--sf-accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--sf-accent) 25%, transparent);
+    border-radius: 999px; padding: 4px 12px;
+    display: inline-block; margin-bottom: 1.1rem;
+  }
+  .sf-icon { font-size: 2rem; display: block; margin-bottom: .75rem; }
+  .sf-card-title { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: .5rem; letter-spacing: -.02em; }
+  .sf-card-hook { font-size: 13.5px; color: rgba(255,255,255,.5); line-height: 1.6; margin-bottom: 1rem; }
+  .sf-preview-skills { font-size: 11.5px; color: rgba(255,255,255,.3); margin-bottom: 1.1rem; letter-spacing: .02em; }
+
+  .sf-expand-hint { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--sf-accent); opacity: .65; transition: opacity .2s; }
+  .sf-card[open] .sf-expand-hint { opacity: 0; height: 0; overflow: hidden; margin: 0; }
+  .sf-arrow { transition: transform .3s; flex-shrink: 0; }
+  .sf-card[open] .sf-arrow { transform: rotate(180deg); }
+
+  /* Reveal panel */
+  .sf-reveal {
+    padding: 1.5rem 1.75rem 1.75rem;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .sf-section-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
+    color: rgba(255,255,255,.3); margin-bottom: .9rem; margin-top: 1.5rem;
+  }
+  .sf-section-label:first-child { margin-top: 0; }
+
+  /* Skills list */
+  .sf-skills { display: flex; flex-direction: column; gap: 0; margin-bottom: .25rem; }
+  .sf-skill-row {
+    display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+    padding: .6rem 0; border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+  .sf-skill-row:last-child { border-bottom: none; }
+  .sf-skill-name { font-size: 13px; color: rgba(255,255,255,.75); font-weight: 500; flex: 1; }
+  .sf-demand { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+  .sf-dem--fire  { background: rgba(239,68,68,.12); color: #f87171; border: 1px solid rgba(239,68,68,.2); }
+  .sf-dem--rising{ background: rgba(45,212,191,.1); color: var(--teal); border: 1px solid rgba(45,212,191,.2); }
+  .sf-dem--stable{ background: rgba(255,255,255,.05); color: rgba(255,255,255,.45); border: 1px solid rgba(255,255,255,.1); }
+
+  /* IMS bars */
+  .sf-ims-block { margin-bottom: .25rem; }
+  .sf-ims-rows { display: flex; flex-direction: column; gap: .7rem; }
+  .sf-ims-row { display: grid; grid-template-columns: 72px 1fr auto; align-items: center; gap: .75rem; }
+  .sf-ims-l { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.5); }
+  .sf-bar-wrap { height: 5px; background: rgba(255,255,255,.07); border-radius: 999px; overflow: hidden; }
+  .sf-bar-fill { height: 100%; border-radius: 999px; transition: width .8s ease; }
+  .sf-ims-note { font-size: 11px; color: rgba(255,255,255,.3); white-space: nowrap; }
+
+  /* Course Phases */
+  .sf-phases { display: flex; flex-direction: column; gap: .75rem; margin-bottom: .25rem; }
+  .sf-phase { border-radius: 10px; padding: .9rem 1.1rem; }
+  .sf-phase--free    { background: rgba(45,212,191,.05); border: 1px solid rgba(45,212,191,.12); }
+  .sf-phase--taste   { background: rgba(229,184,74,.05); border: 1px solid rgba(229,184,74,.12); }
+  .sf-phase--commit  { background: rgba(167,139,250,.05); border: 1px solid rgba(167,139,250,.12); }
+  .sf-phase-tag {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+    margin-bottom: .4rem; display: block;
+  }
+  .sf-phase--free .sf-phase-tag    { color: var(--teal); }
+  .sf-phase--taste .sf-phase-tag   { color: var(--gold); }
+  .sf-phase--commit .sf-phase-tag  { color: #a78bfa; }
+  .sf-phase p { font-size: 12.5px; color: rgba(255,255,255,.5); line-height: 1.65; }
+
+  /* Level chips + CTA */
+  .sf-level-row { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.25rem; margin-top: 1.5rem; }
+  .sf-lvl-chip {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+    padding: 4px 10px; border-radius: 6px;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    color: rgba(255,255,255,.4);
+  }
+  .sf-lvl--1 { border-color: rgba(45,212,191,.2); color: var(--teal); background: rgba(45,212,191,.06); }
+  .sf-lvl--2 { border-color: rgba(229,184,74,.2); color: var(--gold); background: rgba(229,184,74,.06); }
+  .sf-lvl--3 { border-color: rgba(167,139,250,.2); color: #a78bfa; background: rgba(167,139,250,.06); }
+
+  .sf-cta { display: flex; width: 100%; justify-content: center; font-size: 13px; padding: 11px 20px; }
+
+
+  /* ══ PHILOSOPHY ══ */
+  #philosophy { padding: 6rem 0; position: relative; }
+  .philosophy-bg { position: absolute; inset: 0; }
+  .phil-orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(229,184,74,.07) 0%, transparent 70%); top: -100px; right: -100px; border-radius: 50%; position: absolute; filter: blur(80px); }
+  .phil-orb-2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(45,212,191,.05) 0%, transparent 70%); bottom: 0; left: 0; border-radius: 50%; position: absolute; filter: blur(80px); }
+  .philosophy-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .phil-body { font-size: 16px; color: rgba(255,255,255,.6); line-height: 1.8; }
+  .phil-body strong { color: rgba(255,255,255,.85); }
+  .ims-card { padding: 2rem; }
+  .ims-header { margin-bottom: 1.75rem; }
+  .ims-title { font-size: 1rem; font-weight: 800; color: #fff; display: block; }
+  .ims-sub { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 4px; display: block; }
+  .ims-items { display: flex; flex-direction: column; }
+  .ims-connector { width: 2px; height: 24px; background: rgba(255,255,255,.08); margin: 0 11px; }
+  .ims-item { display: flex; align-items: flex-start; gap: 14px; }
+  .ims-circle { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; flex-shrink: 0; }
+  .ims-i { background: rgba(229,184,74,.15); border: 1px solid rgba(229,184,74,.3); color: #e5b84a; }
+  .ims-m { background: rgba(45,212,191,.15); border: 1px solid rgba(45,212,191,.3); color: #2dd4bf; }
+  .ims-s { background: rgba(139,92,246,.15); border: 1px solid rgba(139,92,246,.3); color: #a78bfa; }
+  .ims-label { font-size: 13px; font-weight: 700; color: #fff; }
+  .ims-desc { font-size: 12px; color: rgba(255,255,255,.45); line-height: 1.6; margin-top: 3px; }
+  .ims-footer { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,.07); font-size: 12px; color: rgba(255,255,255,.4); font-style: italic; }
+
+  /* ══ PROCESS ══ */
+  #process { padding: 6rem 0; }
+  .steps-track { position: relative; margin-top: 2.6rem; }
+  .steps-line { display: none; }
+  .steps-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.15rem; max-width: 1060px; margin: 0 auto; }
+  .step {
+    text-align: left;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.14);
+    background: linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+    box-shadow: 0 16px 34px rgba(0,0,0,.24);
+    padding: 1.15rem 1.15rem 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .8rem .9rem;
+    align-items: center;
+  }
+  .step:nth-child(odd) { border-left: 3px solid rgba(229,184,74,.82); }
+  .step:nth-child(even) { border-left: 3px solid rgba(45,212,191,.82); }
+  .step-num {
+    font-size: 10px;
+    font-weight: 800;
+    color: #111827;
+    letter-spacing: .1em;
+    margin-bottom: 0;
+    grid-column: 1;
+    grid-row: 1;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #e5b84a, #f5d98c);
+  }
+  .step-icon {
+    font-size: 1.25rem;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(229,184,74,.1);
+    border: 1px solid rgba(229,184,74,.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .step-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: .55rem; grid-column: 2; grid-row: 1; line-height: 1.5; }
+  .step-desc { font-size: 13px; color: rgba(255,255,255,.76); line-height: 1.72; margin-bottom: .65rem; grid-column: 2; grid-row: 2; }
+  .step-outcome {
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(45,212,191,.85);
+    background: rgba(45,212,191,.08);
+    border: 1px solid rgba(45,212,191,.2);
+    border-radius: 10px;
+    padding: 7px 10px;
+    grid-column: 2;
+    grid-row: 3;
+    display: inline-block;
+  }
+
+  /* ══ PROFILES ══ */
+  #profiles { padding: 6rem 0; }
+  .profiles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .profile-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 20px; padding: 2rem; transition: transform .3s, border-color .3s; }
+  .profile-card:hover { transform: translateY(-4px); border-color: rgba(229,184,74,.15); }
+  .profile-card-gold { border-color: rgba(229,184,74,.2); background: linear-gradient(135deg, rgba(229,184,74,.05), rgba(255,255,255,.02)); }
+  .profile-emoji { font-size: 2.5rem; margin-bottom: .75rem; }
+  .profile-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,.3); margin-bottom: .4rem; }
+  .profile-name { font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: .75rem; }
+  .profile-desc { font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.7; margin-bottom: 1.25rem; }
+  .profile-traits { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; }
+  .profile-traits span { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.6); }
+  .profile-strategy { background: rgba(229,184,74,.04); border: 1px solid rgba(229,184,74,.1); border-radius: 10px; padding: 12px 14px; }
+  .ps-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: rgba(229,184,74,.5); margin-bottom: 5px; }
+  .ps-text { font-size: 13px; color: rgba(255,255,255,.6); line-height: 1.6; }
+  .profiles-cta-wrap { display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 3rem; }
+  .profiles-cta-text { font-size: 15px; color: rgba(255,255,255,.5); }
+
+  /* ══ GATES ══ */
+  #gates { padding: 6rem 0; position: relative; }
+  .gates-bg { position: absolute; inset: 0; }
+  .gates-orb { width: 600px; height: 400px; background: radial-gradient(ellipse, rgba(45,212,191,.06) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); border-radius: 50%; position: absolute; filter: blur(80px); pointer-events: none; }
+  .gates-journey { display: flex; align-items: flex-start; justify-content: center; margin: 3rem 0; position: relative; z-index: 1; flex-wrap: wrap; }
+  .gate-node { display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 260px; }
+  .gate-arrow { display: flex; align-items: center; padding: 0 1rem; padding-top: 24px; }
+  .gate-circle { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Sora", sans-serif; font-size: 1.25rem; font-weight: 800; margin-bottom: 1.25rem; flex-shrink: 0; }
+  .gate-c1 { background: rgba(229,184,74,.12); border: 2px solid rgba(229,184,74,.3); color: #e5b84a; }
+  .gate-c2 { background: rgba(45,212,191,.12); border: 2px solid rgba(45,212,191,.3); color: #2dd4bf; }
+  .gate-c3 { background: rgba(139,92,246,.12); border: 2px solid rgba(139,92,246,.3); color: #a78bfa; }
+  .gate-content h3 { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: .6rem; }
+  .gate-content p { font-size: 13.5px; color: rgba(255,255,255,.5); line-height: 1.7; margin-bottom: 1rem; }
+  .gate-tools { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+  .gate-tools span { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.55); }
+  .gates-question { margin-top: 3rem; position: relative; z-index: 1; }
+  .gq-inner { display: flex; align-items: center; gap: 1.5rem; padding: 2rem; border-radius: 16px; flex-wrap: wrap; justify-content: center; text-align: center; }
+  .gq-icon { font-size: 2rem; }
+  .gq-inner p { font-size: 15px; color: rgba(255,255,255,.65); flex: 1; min-width: 200px; line-height: 1.7; margin: 0; }
+
+  /* ══ AI WINDOW ══ */
+  #ai-window { padding: 6rem 0; }
+  .ai-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 3rem; border-radius: 24px; }
+  .ait-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,.35); margin-bottom: 1.25rem; }
+  .ait-rows { display: flex; flex-direction: column; gap: 14px; }
+  .ait-row { display: flex; align-items: center; gap: 10px; }
+  .ait-skill { font-size: 12px; color: rgba(255,255,255,.6); width: 170px; flex-shrink: 0; }
+  .ait-risk-bar { flex: 1; height: 6px; background: rgba(255,255,255,.06); border-radius: 999px; overflow: hidden; }
+  .ait-fill { height: 100%; border-radius: 999px; }
+  .ait-high { background: linear-gradient(90deg, #dc2626, #f87171); }
+  .ait-med { background: linear-gradient(90deg, #d97706, #fbbf24); }
+  .ait-low { background: linear-gradient(90deg, #059669, #34d399); }
+  .ait-pct { font-size: 11px; font-weight: 700; width: 36px; text-align: right; }
+  .ait-red { color: #f87171; }
+  .ait-yellow { color: #fbbf24; }
+  .ait-green { color: #34d399; }
+
+  /* ══ GROUP ENGINE ══ */
+  #group-engine { padding: 6rem 0; }
+  .ge-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .ge-diagram { position: relative; width: 300px; height: 300px; margin: 0 auto; }
+  .ge-center-node { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #e5b84a, #f5d98c); color: #080c18; font-family: "Sora", sans-serif; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; z-index: 2; box-shadow: 0 0 40px rgba(229,184,74,.3); }
+  .ge-lines { position: absolute; inset: 0; z-index: 1; }
+  .ge-ring { position: absolute; inset: 0; }
+  .ge-node { position: absolute; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 999px; font-size: 11px; font-weight: 600; color: rgba(255,255,255,.6); padding: 5px 12px; white-space: nowrap; z-index: 2; }
+  .ge-n1 { top: 0; left: 50%; transform: translateX(-50%); }
+  .ge-n2 { top: 22%; right: 0; transform: translateY(-50%); }
+  .ge-n3 { bottom: 22%; right: 0; transform: translateY(50%); }
+  .ge-n4 { bottom: 0; left: 50%; transform: translateX(-50%); }
+  .ge-n5 { bottom: 22%; left: 0; transform: translateY(50%); }
+  .ge-n6 { top: 22%; left: 0; transform: translateY(-50%); }
+
+  /* ══ ADDED SECTIONS ══ */
+  #guidance-in-practice,
+  #guidance-difference,
+  #proof-and-trust { padding: 6rem 0; }
+  #guidance-in-practice {
+    background: radial-gradient(1000px 320px at 50% -10%, rgba(45,212,191,.08), transparent 72%), linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
+  }
+  #guidance-difference { background: rgba(255,255,255,.01); }
+  #proof-and-trust { background: linear-gradient(180deg, rgba(229,184,74,.04), rgba(255,255,255,.005)); }
+  .practice-pointer {
+    margin: 0 auto 1.5rem;
+    max-width: 1040px;
+    padding: 1.5rem 1.6rem;
+    border: 1px solid rgba(45,212,191,.24);
+    background: linear-gradient(145deg, rgba(45,212,191,.09), rgba(255,255,255,.02));
+    box-shadow: 0 12px 30px rgba(0,0,0,.2);
+  }
+  .practice-pointer-title {
+    font-size: 1.05rem;
+    color: #fff;
+    margin-bottom: .8rem;
+    letter-spacing: -.01em;
+  }
+  .practice-pointer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .6rem .9rem;
+  }
+  .practice-pointer-list li {
+    color: rgba(255,255,255,.78);
+    font-size: 13.5px;
+    line-height: 1.65;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .practice-pointer-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .58rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .mini-grid.six-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .mini-card {
+    padding: 1.4rem;
+    border: 1px solid rgba(255,255,255,.12);
+    border-top: 3px solid rgba(229,184,74,.72);
+    background: linear-gradient(155deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+    box-shadow: 0 14px 34px rgba(0,0,0,.24);
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .mini-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(229,184,74,.34);
+    box-shadow: 0 22px 44px rgba(0,0,0,.32);
+  }
+  .mini-card h3 {
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: .55rem;
+    line-height: 1.45;
+    letter-spacing: -.01em;
+  }
+  .mini-card p {
+    font-size: 13.5px;
+    color: rgba(255,255,255,.72);
+    line-height: 1.75;
+    max-width: 38ch;
+  }
+  .compare-stack { display: grid; gap: .95rem; max-width: 1040px; margin: 0 auto; }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+  .compare-col {
+    padding: 1.1rem 1.2rem;
+    border-right: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+  }
+  .compare-col:last-child { border-right: 0; }
+  .compare-col-gold { background: linear-gradient(135deg, rgba(229,184,74,.11), rgba(255,255,255,.01)); }
+  .compare-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: rgba(255,255,255,.45);
+    margin-bottom: .35rem;
+    font-weight: 700;
+  }
+  .compare-col p { font-size: 13.5px; color: rgba(255,255,255,.72); line-height: 1.75; max-width: 40ch; }
+  .compare-col-gold p { color: #fff; font-weight: 600; }
+  .trust-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; max-width: 980px; margin: 0 auto; }
+  .trust-card {
+    padding: 1.35rem;
+    border: 1px solid rgba(229,184,74,.22);
+    background: linear-gradient(150deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+    box-shadow: 0 12px 30px rgba(0,0,0,.2);
+  }
+  .trust-card h3 { font-size: 16px; color: #fff; margin-bottom: .45rem; line-height: 1.4; }
+  .trust-card p { font-size: 13.5px; color: rgba(255,255,255,.72); line-height: 1.7; }
+
+  /* Design intensity pass: stronger readability and scannability */
+  #search-intent .si-list { gap: 1.1rem; }
+  #search-intent .si-item {
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: linear-gradient(155deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
+    box-shadow: 0 14px 34px rgba(0,0,0,.23);
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  #search-intent .si-item:hover {
+    transform: translateY(-3px);
+    border-color: rgba(229,184,74,.3);
+    box-shadow: 0 22px 44px rgba(0,0,0,.3);
+  }
+  #search-intent .si-q {
+    font-size: clamp(1.02rem, 1.6vw, 1.16rem);
+    line-height: 1.5;
+  }
+  #search-intent .si-a {
+    font-size: 14px;
+    color: rgba(255,255,255,.78);
+    line-height: 1.82;
+  }
+  #search-intent .si-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    font-weight: 700;
+    margin-top: .5rem;
+  }
+  #search-intent .si-link::after {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: currentColor;
+    opacity: .65;
+  }
+
+  #audience .section-sub { max-width: 860px; }
+  #audience .audience-grid { gap: 1.2rem; }
+  #audience .audience-card {
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.14);
+    box-shadow: 0 16px 36px rgba(0,0,0,.26);
+    overflow: hidden;
+    position: relative;
+  }
+  #audience .audience-card::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(45,212,191,.92), rgba(229,184,74,.92));
+  }
+  #audience .aud-level {
+    display: inline-block;
+    width: fit-content;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(229,184,74,.22);
+    background: rgba(229,184,74,.08);
+  }
+  #audience .aud-list li {
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.025);
+    border-radius: 10px;
+    padding: .48rem .6rem .48rem 1.34rem;
+  }
+  #audience .aud-actions {
+    justify-content: center;
+    margin-top: 1.6rem;
+  }
+
+  #guidance-expectations .expect-grid {
+    gap: 1rem;
+    max-width: 1100px;
+  }
+  #guidance-expectations .expect-card {
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.22);
+  }
+  #guidance-expectations .expect-card h3 {
+    font-size: 1.24rem;
+  }
+  #guidance-expectations .expect-list li {
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 10px;
+    background: rgba(255,255,255,.02);
+    padding: .56rem .64rem .56rem 1.36rem;
+    line-height: 1.72;
+  }
+
+  #guidance-in-practice .mini-grid.six-grid { gap: 1.05rem; }
+  #guidance-in-practice .mini-card {
+    border-radius: 16px;
+    border-top-width: 4px;
+  }
+  #guidance-in-practice .mini-card h3 { font-size: 15.5px; }
+  #guidance-in-practice .mini-card p { color: rgba(255,255,255,.78); }
+
+  #guidance-difference .compare-row {
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 10px 24px rgba(0,0,0,.2);
+  }
+  #guidance-difference .compare-col { padding: 1.18rem 1.3rem; }
+
+  #proof-and-trust .trust-grid { gap: 1.05rem; }
+  #proof-and-trust .trust-card { border-radius: 14px; }
+
+  /* ══ SERVICES CTA ══ */
+  /* ══ FAQ ══ */
+  #faq { padding: 6rem 0; }
+  .faq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 3rem; max-width: 960px; margin-left: auto; margin-right: auto; }
+  .faq-item {
+    background: linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color .2s, transform .2s;
+  }
+  .faq-item:hover { transform: translateY(-1px); }
+  .faq-item[open] { border-color: rgba(229,184,74,.2); }
+  .faq-q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 1.25rem 1.5rem;
+    font-size: 15px;
+    font-weight: 650;
+    color: #fff;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    line-height: 1.5;
+  }
+  .faq-q::-webkit-details-marker { display: none; }
+  .faq-arrow { flex-shrink: 0; color: rgba(255,255,255,.4); transition: transform .3s; }
+  .faq-item[open] .faq-arrow { transform: rotate(180deg); color: var(--gold); }
+  .faq-a { padding: 1rem 1.5rem 1.25rem; font-size: 14px; color: rgba(255,255,255,.72); line-height: 1.82; border-top: 1px solid rgba(255,255,255,.06); }
+
+  /* ══ FINAL CTA ══ */
+  #final-cta { padding: 7rem 0; text-align: center; position: relative; }
+  .fcta-bg { position: absolute; inset: 0; }
+  .fcta-orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .fcta-orb-1 { width: 600px; height: 400px; background: radial-gradient(ellipse, rgba(229,184,74,.12) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  .fcta-orb-2 { width: 400px; height: 300px; background: radial-gradient(ellipse, rgba(45,212,191,.06) 0%, transparent 70%); bottom: 0; right: 0; }
+  .fcta-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
+  .fcta-eyebrow { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.5); margin-bottom: 1.75rem; gap: 10px; }
+  .fcta-headline { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -.04em; color: #fff; line-height: 1.1; margin-bottom: 1.25rem; }
+  .fcta-sub { font-size: clamp(15px, 2vw, 17px); color: rgba(255,255,255,.5); max-width: 560px; line-height: 1.7; margin-bottom: 2.5rem; }
+  .fcta-actions { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+  .fcta-btn { font-size: 16px; padding: 16px 32px; border-radius: 14px; }
+  .fcta-trust { display: flex; align-items: center; gap: .75rem; margin-top: 1.5rem; font-size: 13px; color: rgba(255,255,255,.35); flex-wrap: wrap; justify-content: center; }
+  .fcta-dot { color: rgba(255,255,255,.2); }
+
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 1024px) {
+    /* hero-cycle-wrap is display:block, no min-width needed at any breakpoint */
+    .si-item { grid-template-columns: 1fr; gap: 1rem; }
+    .si-link { padding-top: 0; }
+    .audience-grid, .profiles-grid, .expect-grid { grid-template-columns: 1fr; }
+    /* skill finder — collapse 6-col grid to 4-col (2 cards per row) */
+    .sf-grid { grid-template-columns: repeat(4, 1fr); }
+    .sf-card { grid-column: span 2; }
+    .sf-card:nth-child(4) { grid-column: span 2; }
+    .sf-card:nth-child(5) { grid-column: 2 / span 2; }
+    .sf-ims-row { grid-template-columns: 64px 1fr; }
+    .sf-ims-note { display: none; }
+    .steps-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps-line { display: none; }
+    .ai-inner, .ge-inner, .philosophy-inner { grid-template-columns: 1fr; }
+    .faq-grid { grid-template-columns: 1fr; }
+    .mini-grid.six-grid { grid-template-columns: repeat(2, 1fr); }
+    .practice-pointer-list { grid-template-columns: 1fr; }
+    .compare-row { grid-template-columns: 1fr; }
+    .compare-col { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .compare-col:last-child { border-bottom: 0; }
+    .trust-grid { grid-template-columns: 1fr; }
+    .gate-arrow { display: none; }
+    .gates-journey { flex-direction: column; align-items: center; gap: 2rem; }
+  }
+  @media (max-width: 768px) {
+    #search-intent,
+    #audience,
+    #guidance-expectations,
+    #skill-finder,
+    #philosophy,
+    #profiles,
+    #gates,
+    #ai-window,
+    #group-engine,
+    #guidance-in-practice,
+    #guidance-difference,
+    #proof-and-trust,
+    #faq,
+    #final-cta { padding: 4.6rem 0; }
+    .hero-inner { padding: 4.25rem 0 3rem; }
+    .hero-sub { max-width: 100%; }
+    .hero-actions {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline {
+      width: 100%;
+      justify-content: center;
+    }
+    .hero-identity { flex-direction: column; border-radius: 12px; }
+    .hid-sep { width: 100%; height: 1px; }
+    .hid-chip { padding: 13px 18px; }
+    .stat-item { padding: 1rem 1.5rem; }
+    .stat-div { height: 1px; width: 80%; }
+    .si-item {
+      gap: 1.1rem;
+      padding: 1.35rem 1.1rem;
+    }
+    .si-link {
+      white-space: normal;
+      padding-top: 0;
+    }
+    .audience-card,
+    .expect-card,
+    .mini-card,
+    .trust-card,
+    .faq-q,
+    .faq-a,
+    .gq-inner,
+    .practice-pointer { padding-left: 1.1rem; padding-right: 1.1rem; }
+    .sf-card-face,
+    .sf-reveal { padding-left: 1.2rem; padding-right: 1.2rem; }
+    .ge-diagram {
+      width: min(100%, 280px);
+      height: 280px;
+    }
+    .ge-node {
+      white-space: normal;
+      max-width: 92px;
+      text-align: center;
+      line-height: 1.28;
+      padding: 6px 9px;
+    }
+  }
+  @media (max-width: 600px) {
+    .sf-grid { grid-template-columns: 1fr; }
+    .sf-card, .sf-card:nth-child(4), .sf-card:nth-child(5) { grid-column: span 1; }
+    .sf-skill-row { flex-wrap: wrap; gap: .4rem; }
+    .sf-demand { font-size: 10px; }
+    .mini-grid.six-grid { grid-template-columns: 1fr; }
+    .stats-inner { flex-direction: column; align-items: stretch; }
+    .stat-item { width: 100%; }
+    .gq-inner p { min-width: 0; }
+  }
+  @media (max-width: 480px) {
+    .steps-grid { grid-template-columns: 1fr; }
+    .bc-opts { flex-direction: column; }
+    .hero-headline { font-size: clamp(1.7rem, 8vw, 2rem); }
+    .hero-sub,
+    .section-sub,
+    .fcta-sub { font-size: 14.5px; line-height: 1.72; }
+    .featured-badge { white-space: normal; text-align: center; }
+  }
+</style>
+
+<script>
+  /* Counter animation */
+  /* Scroll-triggered fade-up */
+  const reveals = document.querySelectorAll<HTMLElement>('.crisis-card, .audience-card, .profile-card, .sf-card, .step, .gate-node');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target as HTMLElement;
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+      revealObs.unobserve(el);
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .55s ease, transform .55s ease';
+    revealObs.observe(el);
+  });
+</script>

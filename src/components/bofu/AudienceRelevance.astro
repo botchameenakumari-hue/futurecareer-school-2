@@ -1,0 +1,113 @@
+---
+export interface AudienceItem {
+  label: string;
+  title: string;
+  body: string;
+}
+
+export interface Props {
+  sectionId?: string;
+  sectionClass?: string;
+  title?: string;
+  items?: AudienceItem[];
+}
+
+const defaultItems: AudienceItem[] = [
+  {
+    label: 'Student or Early-Career',
+    title: 'For school, college, fresher, and early-direction decisions',
+    body: 'Useful when stream choices, course choices, skill choices, or early career direction still feel unclear and too expensive to get wrong.',
+  },
+  {
+    label: 'Working Professional',
+    title: 'For stagnation, AI pressure, and salary-ceiling decisions',
+    body: 'For stagnation, AI pressure, skill under-leverage, and pivots. A clearer route toward achieving earlier financial freedom through stronger skill stacking.',
+  },
+];
+
+const {
+  sectionId = 'audience-relevance',
+  sectionClass = '',
+  title = 'How the right support can fit where you are right now',
+  items = defaultItems,
+} = Astro.props;
+---
+
+<section id={sectionId} class:list={['bofu-audience-section', sectionClass]}>
+  <div class="container">
+    <h2 class="section-headline">{title}</h2>
+
+    <div class="audience-grid">
+      {items.map((item) => (
+        <article class="audience-card card">
+          <div class="audience-level">{item.label}</div>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .bofu-audience-section {
+    position: relative;
+    overflow: hidden;
+    padding: 5.4rem 0;
+    scroll-margin-top: 108px;
+  }
+  .bofu-audience-section .section-headline {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    color: #fff;
+    margin-bottom: 1.6rem;
+    text-wrap: balance;
+  }
+  .bofu-audience-section .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .bofu-audience-section .audience-card {
+    padding: 1.15rem 1.1rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: linear-gradient(145deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+  }
+  .bofu-audience-section .audience-level {
+    display: inline-flex;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(45,212,191,.12);
+    border: 1px solid rgba(45,212,191,.22);
+    color: #8ef0df;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: .8rem;
+  }
+  .bofu-audience-section .audience-card h3 {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: .45rem;
+  }
+  .bofu-audience-section .audience-card p {
+    color: rgba(255,255,255,.68);
+    line-height: 1.75;
+    font-size: 13.5px;
+  }
+
+  @media (max-width: 900px) {
+    .bofu-audience-section .audience-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .bofu-audience-section {
+      padding: 4.7rem 0;
+    }
+  }
+</style>

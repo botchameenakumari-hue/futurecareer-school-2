@@ -1,0 +1,307 @@
+---
+import { DEFAULT_BOFU_COMPARISON_ROWS } from '../../config/bofu';
+
+export interface ComparisonRow {
+  left: string;
+  right: string;
+}
+
+export interface Props {
+  title: string;
+  subtitle?: string;
+  leftLabel?: string;
+  rightLabel?: string;
+  rows?: ComparisonRow[];
+  sectionId?: string;
+  sectionClass?: string;
+  centered?: boolean;
+}
+
+const {
+  title,
+  subtitle,
+  leftLabel = 'Others',
+  rightLabel = 'Future Career School',
+  rows = DEFAULT_BOFU_COMPARISON_ROWS,
+  sectionId,
+  sectionClass = '',
+  centered = false,
+} = Astro.props;
+---
+
+<section id={sectionId} class:list={['bofu-compare-section', centered && 'is-centered', sectionClass]}>
+  <div class="container">
+    <h2 class="section-headline">{title}</h2>
+    {subtitle && <p class="section-sub">{subtitle}</p>}
+
+    <div class="compare-shell card">
+      <div class="compare-legend" aria-hidden="true">
+        <div class="legend-chip legend-chip-muted">
+          <span class="legend-dot"></span>
+          {leftLabel}
+        </div>
+        <div class="legend-bridge">Shift</div>
+        <div class="legend-chip legend-chip-featured">
+          <span class="legend-dot"></span>
+          {rightLabel}
+        </div>
+      </div>
+
+      <div class="compare-stack">
+        {rows.map((row) => (
+          <article class="compare-track">
+            <div class="compare-side compare-side-muted">
+              <div class="compare-side-kicker">{leftLabel}</div>
+              <p>{row.left}</p>
+            </div>
+
+            <div class="compare-divider" aria-hidden="true">
+              <span class="divider-line"></span>
+              <span class="divider-dot"></span>
+              <span class="divider-line"></span>
+            </div>
+
+            <div class="compare-side compare-side-featured">
+              <div class="compare-side-kicker">{rightLabel}</div>
+              <p>{row.right}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bofu-compare-section {
+    position: relative;
+    overflow: hidden;
+    padding: 5.8rem 0;
+    scroll-margin-top: 108px;
+  }
+  .bofu-compare-section .section-headline {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    color: #fff;
+    margin-bottom: .9rem;
+    text-wrap: balance;
+  }
+  .bofu-compare-section .section-sub {
+    font-size: clamp(15px, 2vw, 17px);
+    color: rgba(255,255,255,.62);
+    line-height: 1.76;
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+  .bofu-compare-section.is-centered .section-headline,
+  .bofu-compare-section.is-centered .section-sub {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .bofu-compare-section .compare-shell {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 28px;
+    border: 1px solid rgba(255,255,255,.13);
+    background:
+      radial-gradient(720px 220px at 15% -10%, rgba(45,212,191,.08), transparent 72%),
+      radial-gradient(720px 240px at 85% -12%, rgba(229,184,74,.11), transparent 72%),
+      linear-gradient(165deg, rgba(255,255,255,.048), rgba(255,255,255,.012));
+    box-shadow: 0 24px 54px rgba(0,0,0,.28);
+    overflow: hidden;
+  }
+  .bofu-compare-section .compare-shell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,.03), transparent 18%, transparent 82%, rgba(255,255,255,.03)),
+      linear-gradient(180deg, rgba(255,255,255,.03), transparent 35%);
+    pointer-events: none;
+  }
+  .bofu-compare-section .compare-legend {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: .85rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .bofu-compare-section .legend-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    min-height: 44px;
+    padding: .75rem 1rem;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.04);
+    color: rgba(255,255,255,.68);
+  }
+  .bofu-compare-section .legend-chip-featured {
+    border-color: rgba(229,184,74,.28);
+    background: linear-gradient(135deg, rgba(229,184,74,.16), rgba(255,255,255,.03));
+    color: #fff4ce;
+  }
+  .bofu-compare-section .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.56);
+    flex-shrink: 0;
+  }
+  .bofu-compare-section .legend-chip-featured .legend-dot {
+    background: var(--gold);
+  }
+  .bofu-compare-section .legend-bridge {
+    padding: .45rem .8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(7, 12, 24, .72);
+    color: rgba(255,255,255,.55);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .bofu-compare-section .compare-stack {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: .95rem;
+    margin: 0 auto;
+  }
+  .bofu-compare-section .compare-track {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: .95rem;
+    align-items: stretch;
+    padding: .18rem 0;
+  }
+  .bofu-compare-section .compare-side {
+    min-height: 100%;
+    padding: 1.2rem 1.25rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: linear-gradient(155deg, rgba(255,255,255,.04), rgba(255,255,255,.016));
+    box-shadow: 0 14px 30px rgba(0,0,0,.2);
+  }
+  .bofu-compare-section .compare-side-featured {
+    border-color: rgba(229,184,74,.26);
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.14), rgba(255,255,255,.025)),
+      linear-gradient(165deg, rgba(255,255,255,.03), rgba(255,255,255,.012));
+    box-shadow: 0 18px 34px rgba(0,0,0,.25), 0 0 0 1px rgba(229,184,74,.05) inset;
+  }
+  .bofu-compare-section .compare-side-kicker {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 9px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.045);
+    margin-bottom: .7rem;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: rgba(255,255,255,.52);
+    font-weight: 700;
+  }
+  .bofu-compare-section .compare-side-featured .compare-side-kicker {
+    border-color: rgba(229,184,74,.32);
+    background: rgba(229,184,74,.14);
+    color: #f6db95;
+  }
+  .bofu-compare-section .compare-side p {
+    font-size: 14px;
+    color: rgba(255,255,255,.74);
+    line-height: 1.8;
+    text-wrap: pretty;
+  }
+  .bofu-compare-section .compare-side-featured p {
+    color: #fff;
+    font-weight: 600;
+  }
+  .bofu-compare-section .compare-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    min-width: 52px;
+  }
+  .bofu-compare-section .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+  }
+  .bofu-compare-section .divider-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(229,184,74,.95), rgba(45,212,191,.92));
+    box-shadow: 0 0 0 5px rgba(255,255,255,.035), 0 10px 22px rgba(0,0,0,.18);
+  }
+
+  @media (max-width: 920px) {
+    .bofu-compare-section .compare-track {
+      grid-template-columns: 1fr;
+      gap: .7rem;
+    }
+    .bofu-compare-section .compare-divider {
+      min-width: 0;
+      min-height: 42px;
+      flex-direction: column;
+      gap: .4rem;
+    }
+    .bofu-compare-section .divider-line {
+      width: 1px;
+      height: 16px;
+      flex: none;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,.18), transparent);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .bofu-compare-section .compare-legend {
+      grid-template-columns: 1fr;
+    }
+    .bofu-compare-section .legend-bridge {
+      justify-self: center;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .bofu-compare-section {
+      padding: 4.7rem 0;
+    }
+    .bofu-compare-section .compare-shell {
+      padding: .8rem;
+      border-radius: 22px;
+    }
+    .bofu-compare-section .compare-side {
+      padding: 1rem;
+      border-radius: 16px;
+    }
+    .bofu-compare-section .legend-chip {
+      padding-inline: .8rem;
+      font-size: 11px;
+    }
+    .bofu-compare-section .compare-side p {
+      text-wrap: auto;
+    }
+  }
+</style>

@@ -1,0 +1,309 @@
+---
+export interface FeatureItem {
+  eyebrow?: string;
+  title: string;
+  body: string;
+}
+
+export interface Props {
+  sectionId?: string;
+  sectionClass?: string;
+  title: string;
+  subtitle?: string;
+  items: FeatureItem[];
+  variant?: 'signal' | 'decision' | 'prep';
+  columns?: 2 | 3;
+}
+
+const {
+  sectionId,
+  sectionClass = '',
+  title,
+  subtitle,
+  items,
+  variant = 'signal',
+  columns = 2,
+} = Astro.props;
+
+const columnClass = columns === 3 ? 'is-three-col' : 'is-two-col';
+
+---
+
+<section id={sectionId} class:list={['bofu-feature-section', `is-${variant}`, sectionClass]}>
+  <div class="container">
+    <div class="feature-intro card">
+      <div class="feature-intro-copy">
+        <h2 class="section-headline">{title}</h2>
+      </div>
+      {subtitle && <p class="section-sub">{subtitle}</p>}
+    </div>
+
+    <div class:list={['feature-grid', columnClass]}>
+      {items.map((item, index) => (
+        <article class="feature-card card">
+          <div class="feature-top">
+            <div class="feature-index">{String(index + 1).padStart(2, '0')}</div>
+            {item.eyebrow && <div class="feature-kicker">{item.eyebrow}</div>}
+          </div>
+          <div class="feature-divider"></div>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </article>
+      ))}
+    </div>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .bofu-feature-section {
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 0;
+  }
+  .bofu-feature-section .feature-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
+    gap: 1rem 1.2rem;
+    align-items: end;
+    padding: 1.35rem 1.35rem 1.25rem;
+    margin-bottom: 1.15rem;
+    border-radius: 26px;
+    border: 1px solid rgba(255,255,255,.12);
+    background:
+      radial-gradient(620px 200px at 0% 0%, rgba(255,255,255,.05), transparent 72%),
+      linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+    box-shadow: 0 22px 48px rgba(0,0,0,.22);
+    position: relative;
+    overflow: hidden;
+  }
+  .bofu-feature-section .feature-intro::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(229,184,74,.96), rgba(45,212,191,.86));
+  }
+  .bofu-feature-section .section-headline {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    color: #fff;
+    margin: 0;
+    text-align: left;
+    text-wrap: balance;
+  }
+  .bofu-feature-section .section-sub {
+    font-size: clamp(15px, 2vw, 17px);
+    color: rgba(255,255,255,.62);
+    max-width: 52ch;
+    margin: 0;
+    text-align: left;
+    line-height: 1.78;
+  }
+  .bofu-feature-section .feature-grid {
+    display: grid;
+    gap: 1rem;
+  }
+  .bofu-feature-section .feature-grid.is-two-col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bofu-feature-section .feature-grid.is-three-col {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .bofu-feature-section .feature-card {
+    position: relative;
+    min-height: 100%;
+    padding: 1.3rem 1.2rem 1.18rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,.11);
+    overflow: hidden;
+    box-shadow: 0 18px 38px rgba(0,0,0,.22);
+  }
+  .bofu-feature-section .feature-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.05), transparent 42%),
+      linear-gradient(90deg, rgba(255,255,255,.03), transparent 28%, transparent 72%, rgba(255,255,255,.02));
+  }
+  .bofu-feature-section .feature-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: .9rem;
+    margin-bottom: .7rem;
+  }
+  .bofu-feature-section .feature-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 52px;
+    height: 52px;
+    border-radius: 17px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    flex-shrink: 0;
+  }
+  .bofu-feature-section .feature-kicker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: .45rem .75rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .bofu-feature-section .feature-divider {
+    width: 72px;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(229,184,74,.88), rgba(45,212,191,.72));
+    margin-bottom: .95rem;
+  }
+  .bofu-feature-section .feature-card h3 {
+    color: #fff;
+    font-size: 1.12rem;
+    line-height: 1.42;
+    margin-bottom: .55rem;
+    max-width: 24ch;
+    text-wrap: balance;
+  }
+  .bofu-feature-section .feature-card p {
+    color: rgba(255,255,255,.73);
+    font-size: 14.5px;
+    line-height: 1.82;
+    max-width: 44ch;
+  }
+
+  .bofu-feature-section.is-signal .feature-intro {
+    background:
+      radial-gradient(620px 220px at 0% 0%, rgba(45,212,191,.1), transparent 72%),
+      linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  }
+  .bofu-feature-section.is-signal .feature-card {
+    background:
+      radial-gradient(340px 170px at 100% 0%, rgba(45,212,191,.09), transparent 72%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+  }
+  .bofu-feature-section.is-signal .feature-index {
+    border: 1px solid rgba(45,212,191,.34);
+    background: rgba(45,212,191,.12);
+    color: #9ef2e5;
+  }
+  .bofu-feature-section.is-signal .feature-kicker {
+    border: 1px solid rgba(229,184,74,.28);
+    background: rgba(229,184,74,.12);
+    color: #f6db95;
+  }
+
+  .bofu-feature-section.is-decision .feature-intro {
+    background:
+      radial-gradient(620px 220px at 100% 0%, rgba(229,184,74,.12), transparent 72%),
+      linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  }
+  .bofu-feature-section.is-decision .feature-card {
+    background:
+      radial-gradient(340px 170px at 0% 0%, rgba(229,184,74,.11), transparent 74%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+  }
+  .bofu-feature-section.is-decision .feature-card::after {
+    content: '';
+    position: absolute;
+    inset: 18px auto 18px 0;
+    width: 3px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(229,184,74,.96), rgba(45,212,191,.72));
+  }
+  .bofu-feature-section.is-decision .feature-card {
+    padding-left: 1.3rem;
+  }
+  .bofu-feature-section.is-decision .feature-index {
+    border: 1px solid rgba(229,184,74,.34);
+    background: rgba(229,184,74,.14);
+    color: #f6db95;
+  }
+  .bofu-feature-section.is-decision .feature-kicker {
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05);
+    color: rgba(255,255,255,.7);
+  }
+
+  .bofu-feature-section.is-prep .feature-intro {
+    background:
+      radial-gradient(620px 220px at 100% 0%, rgba(45,212,191,.08), transparent 72%),
+      linear-gradient(160deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+  }
+  .bofu-feature-section.is-prep .feature-card {
+    background:
+      radial-gradient(320px 160px at 100% 0%, rgba(45,212,191,.07), transparent 72%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+  }
+  .bofu-feature-section.is-prep .feature-index {
+    min-width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05);
+    color: rgba(255,255,255,.78);
+  }
+  .bofu-feature-section.is-prep .feature-kicker {
+    border: 1px solid rgba(45,212,191,.24);
+    background: rgba(45,212,191,.11);
+    color: #9ef2e5;
+  }
+
+  @media (max-width: 980px) {
+    .bofu-feature-section .feature-intro {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+    .bofu-feature-section .feature-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .bofu-feature-section {
+      padding: 4.8rem 0;
+    }
+    .bofu-feature-section .feature-intro {
+      padding: 1.05rem 1rem 1rem 1.12rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+    .bofu-feature-section .feature-card {
+      padding: 1.08rem 1rem 1rem;
+      border-radius: 20px;
+    }
+    .bofu-feature-section.is-decision .feature-card {
+      padding-left: 1.12rem;
+    }
+    .bofu-feature-section .feature-top {
+      align-items: center;
+      gap: .65rem;
+    }
+    .bofu-feature-section .feature-kicker {
+      justify-content: flex-start;
+      text-align: left;
+      border-radius: 12px;
+    }
+    .bofu-feature-section .feature-index {
+      min-width: 46px;
+      height: 46px;
+      border-radius: 15px;
+    }
+    .bofu-feature-section .feature-card h3 {
+      font-size: 1.03rem;
+    }
+  }
+</style>

@@ -1,0 +1,357 @@
+---
+export interface ListGroup {
+  title?: string;
+  items: string[];
+}
+
+export interface ListCardItem {
+  eyebrow?: string;
+  title: string;
+  body?: string;
+  listItems?: string[];
+  groups?: ListGroup[];
+}
+
+export interface Props {
+  sectionId?: string;
+  sectionClass?: string;
+  title: string;
+  subtitle?: string;
+  items: ListCardItem[];
+  columns?: 2 | 3;
+  variant?: 'signal' | 'contrast' | 'audience';
+}
+
+const {
+  sectionId,
+  sectionClass = '',
+  title,
+  subtitle,
+  items,
+  columns = 2,
+  variant = 'signal',
+} = Astro.props;
+
+const columnClass = columns === 3 ? 'is-three-col' : 'is-two-col';
+---
+
+<section id={sectionId} class:list={['bofu-list-card-section', `is-${variant}`, sectionClass]}>
+  <div class="container">
+    <div class="list-intro card">
+      <div class="list-intro-copy">
+        <h2 class="section-headline">{title}</h2>
+      </div>
+      {subtitle && <p class="section-sub">{subtitle}</p>}
+    </div>
+
+    <div class:list={['list-card-grid', columnClass]}>
+      {items.map((item, index) => (
+        <article class="list-card card">
+          <div class="list-card-top">
+            <div class="list-card-index">{String(index + 1).padStart(2, '0')}</div>
+            {item.eyebrow && <div class="list-card-kicker">{item.eyebrow}</div>}
+          </div>
+          <div class="list-card-rule"></div>
+          <h3>{item.title}</h3>
+          {item.body && <p class="list-card-body">{item.body}</p>}
+          {item.listItems && (
+            <ul class="list-points">
+              {item.listItems.map((point) => <li>{point}</li>)}
+            </ul>
+          )}
+          {item.groups && (
+            <div class="list-groups">
+              {item.groups.map((group) => (
+                <div class="list-group">
+                  {group.title && <div class="list-group-title">{group.title}</div>}
+                  <ul class="list-points">
+                    {group.items.map((point) => <li>{point}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+        </article>
+      ))}
+    </div>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .bofu-list-card-section {
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 0;
+  }
+  .bofu-list-card-section .list-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr);
+    gap: 1rem 1.2rem;
+    align-items: end;
+    padding: 1.35rem 1.35rem 1.25rem;
+    margin-bottom: 1.2rem;
+    border-radius: 26px;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 22px 48px rgba(0,0,0,.22);
+    position: relative;
+    overflow: hidden;
+  }
+  .bofu-list-card-section .list-intro::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(229,184,74,.96), rgba(45,212,191,.86));
+  }
+  .bofu-list-card-section .section-headline {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    color: #fff;
+    margin: 0;
+    text-align: left;
+    text-wrap: balance;
+  }
+  .bofu-list-card-section .section-sub {
+    font-size: clamp(15px, 2vw, 17px);
+    color: rgba(255,255,255,.62);
+    max-width: 52ch;
+    margin: 0;
+    text-align: left;
+    line-height: 1.78;
+  }
+  .bofu-list-card-section .list-card-grid {
+    display: grid;
+    gap: 1rem;
+    justify-content: center;
+  }
+  .bofu-list-card-section .list-card-grid.is-two-col {
+    grid-template-columns: repeat(2, minmax(320px, 460px));
+  }
+  .bofu-list-card-section .list-card-grid.is-three-col {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .bofu-list-card-section .list-card {
+    position: relative;
+    min-height: 100%;
+    padding: 1.35rem 1.2rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,.11);
+    overflow: hidden;
+    box-shadow: 0 18px 38px rgba(0,0,0,.22);
+  }
+  .bofu-list-card-section .list-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.05), transparent 42%),
+      linear-gradient(90deg, rgba(255,255,255,.03), transparent 28%, transparent 72%, rgba(255,255,255,.02));
+  }
+  .bofu-list-card-section .list-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: .9rem;
+    margin-bottom: .72rem;
+  }
+  .bofu-list-card-section .list-card-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    flex-shrink: 0;
+  }
+  .bofu-list-card-section .list-card-kicker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: .45rem .75rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .bofu-list-card-section .list-card-rule {
+    width: 76px;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(229,184,74,.88), rgba(45,212,191,.72));
+    margin-bottom: .95rem;
+  }
+  .bofu-list-card-section .list-card h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    line-height: 1.42;
+    margin-bottom: .55rem;
+    max-width: 26ch;
+    text-wrap: balance;
+  }
+  .bofu-list-card-section .list-card-body {
+    color: rgba(255,255,255,.73);
+    font-size: 14.5px;
+    line-height: 1.82;
+    margin-bottom: .85rem;
+  }
+  .bofu-list-card-section .list-points {
+    list-style: none;
+    display: grid;
+    gap: .55rem;
+    margin: 0;
+  }
+  .bofu-list-card-section .list-points li {
+    color: rgba(255,255,255,.76);
+    font-size: 13.7px;
+    line-height: 1.74;
+    padding: .7rem .8rem .7rem 1.4rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.06);
+    background: rgba(255,255,255,.03);
+    position: relative;
+  }
+  .bofu-list-card-section .list-points li::before {
+    content: '';
+    position: absolute;
+    left: .72rem;
+    top: 1.15rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(229,184,74,.96), rgba(45,212,191,.82));
+  }
+  .bofu-list-card-section .list-groups {
+    display: grid;
+    gap: .95rem;
+  }
+  .bofu-list-card-section .list-group {
+    display: grid;
+    gap: .45rem;
+  }
+  .bofu-list-card-section .list-group-title {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: rgba(255,255,255,.64);
+  }
+
+  .bofu-list-card-section.is-signal .list-intro {
+    background:
+      radial-gradient(620px 220px at 0% 0%, rgba(45,212,191,.1), transparent 72%),
+      linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  }
+  .bofu-list-card-section.is-signal .list-card {
+    background:
+      radial-gradient(340px 170px at 100% 0%, rgba(45,212,191,.09), transparent 72%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+  }
+  .bofu-list-card-section.is-signal .list-card-index {
+    border: 1px solid rgba(45,212,191,.34);
+    background: rgba(45,212,191,.12);
+    color: #9ef2e5;
+  }
+  .bofu-list-card-section.is-signal .list-card-kicker {
+    border: 1px solid rgba(229,184,74,.28);
+    background: rgba(229,184,74,.12);
+    color: #f6db95;
+  }
+
+  .bofu-list-card-section.is-contrast .list-intro {
+    background:
+      radial-gradient(620px 220px at 100% 0%, rgba(229,184,74,.12), transparent 72%),
+      linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  }
+  .bofu-list-card-section.is-contrast .list-card {
+    background:
+      radial-gradient(340px 170px at 0% 0%, rgba(229,184,74,.11), transparent 74%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+  }
+  .bofu-list-card-section.is-contrast .list-card-index {
+    border: 1px solid rgba(229,184,74,.34);
+    background: rgba(229,184,74,.14);
+    color: #f6db95;
+  }
+  .bofu-list-card-section.is-contrast .list-card-kicker {
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05);
+    color: rgba(255,255,255,.7);
+  }
+
+  .bofu-list-card-section.is-audience .list-intro {
+    background:
+      radial-gradient(620px 220px at 50% 0%, rgba(229,184,74,.1), transparent 72%),
+      linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  }
+  .bofu-list-card-section.is-audience .list-card {
+    background:
+      radial-gradient(340px 170px at 50% 0%, rgba(229,184,74,.08), transparent 72%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+  }
+  .bofu-list-card-section.is-audience .list-card-index {
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.82);
+  }
+  .bofu-list-card-section.is-audience .list-card-kicker {
+    border: 1px solid rgba(229,184,74,.28);
+    background: rgba(229,184,74,.12);
+    color: #f6db95;
+  }
+
+  @media (max-width: 1080px) {
+    .bofu-list-card-section .list-card-grid.is-three-col {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 980px) {
+    .bofu-list-card-section .list-intro {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+    .bofu-list-card-section .list-card-grid.is-two-col,
+    .bofu-list-card-section .list-card-grid.is-three-col {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .bofu-list-card-section {
+      padding: 4.8rem 0;
+    }
+    .bofu-list-card-section .list-intro {
+      padding: 1.05rem 1rem 1rem 1.12rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+    .bofu-list-card-section .list-card {
+      padding: 1.08rem 1rem 1rem;
+      border-radius: 20px;
+    }
+    .bofu-list-card-section .list-card-top {
+      gap: .65rem;
+    }
+    .bofu-list-card-section .list-card-kicker {
+      justify-content: flex-start;
+      text-align: left;
+      border-radius: 12px;
+    }
+    .bofu-list-card-section .list-card-index {
+      min-width: 42px;
+      height: 42px;
+      border-radius: 14px;
+    }
+  }
+</style>

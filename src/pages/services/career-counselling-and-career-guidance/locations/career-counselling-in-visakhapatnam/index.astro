@@ -1,0 +1,522 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS, BOFU_PAYMENT_LINKS } from '../../../../../config/bofu';
+
+// Vizag page shows the last 5 of 6 comparison rows — drops the first row to
+// prioritise the rows most relevant to pharma, port-logistics, and IT corridor
+// professionals. This rotation prevents template duplication vs the Rajkot page
+// (which shows the first 5 rows).
+const vizagComparisonRows = BOFU_COMPARISON_LIBRARY.slice(1);
+
+const title =
+  'Career Counselling in Visakhapatnam | Practical Online Guidance | Future Career School';
+const description =
+  'Looking for career counselling in Visakhapatnam? Get practical online guidance for students, freshers, and working professionals who want clearer decisions, stronger skill direction, and a better next step.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-visakhapatnam/';
+
+const fitItems = [
+  {
+    title: 'What most people mean when they search this',
+    listItems: [
+      'They want support that feels easier to trust and easier to start.',
+      'They want clarity before making another expensive decision.',
+      'They want something more practical than broad internet advice.',
+      'They want a real next step, not only motivational talk or labels.',
+    ],
+  },
+  {
+    title: 'What should matter more than city alone',
+    listItems: [
+      'Whether the guidance improves decision quality',
+      'Whether the next step becomes clearer and easier to act on',
+      'Whether the process helps with stronger skill direction and proof of work',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Closer should still mean clearer',
+    body: 'Local search intent is useful only if it leads to better decision support, not just physical proximity.',
+  },
+  {
+    title: 'Quality before convenience',
+    body: 'The better filter is whether the guidance improves your next move, not whether the office would have been nearby.',
+  },
+  {
+    title: 'Act before the wrong turn compounds',
+    body: 'The practical goal is to get clear before more time, money, and effort go into the wrong path.',
+  },
+];
+
+const localIntentItems = [
+  {
+    title: 'Visakhapatnam has a multi-sector economy — and that creates real career choices',
+    body: 'Vizag is not a single-industry city. HPCL, RINL Vizag Steel, the Vizag Port Trust, pharma clusters in the VSEZ, a growing IT corridor, defence establishments, and expanding tourism all create different career entry points. Entry-level roles across these sectors typically start at ₹2.5–4.5 LPA locally. Professionals who build strong digital, analytics, or pharma-adjacent skills and move into remote or Hyderabad-facing roles can reach ₹12–20 LPA within three to five years. The institutions here — Andhra University, GITAM, MVGR College of Engineering and Technology, and others — produce capable graduates. The gap is usually skill direction and proof of work, not raw ability. Knowing which sector fits your strengths and which paths have genuine income growth matters far more than picking the "safest" degree.',
+  },
+  {
+    title: 'The Hyderabad pull is real — but it is not always the right answer',
+    body: 'Many Vizag students and professionals feel pressure to move to Hyderabad for "real" IT or corporate opportunities. That may be right for some paths. But strong remote-first skills, pharma industry roles, and Vizag\'s own expanding tech zone mean the move-vs-stay decision deserves actual analysis, not assumption.',
+  },
+  {
+    title: 'Defence and government backgrounds create their own career transitions',
+    body: 'A significant portion of Vizag professionals or their families have defence or government backgrounds. Transitioning from that world into private-sector careers, or building income alongside it, is a specific kind of decision that generic counselling often skips entirely.',
+  },
+  {
+    title: 'The outcome should be a sharper next move tied to your actual situation',
+    body: 'Good counselling should leave you with a smaller, more serious shortlist and one practical next step you can actually use — one that accounts for Vizag\'s real job market, not a generic template.',
+  },
+];
+
+const cityDecisionItems = [
+  {
+    title: 'Start with the Visakhapatnam page when local trust is the real blocker',
+    listItems: [
+      'You are more likely to act if the search feels closer and easier to trust',
+      'You want to compare a city-intent option before spending more time on random advice',
+      'You need one practical next step, not a full career theory discussion first',
+      'You are using the city search to reduce hesitation, not because the city itself solves the decision',
+    ],
+  },
+  {
+    title: 'Use the broader guidance path when the decision itself is the bigger problem',
+    listItems: [
+      'You are stuck between multiple courses, roles, or skill directions',
+      'Family pressure, degree pressure, or income pressure matters more than local wording',
+      'You already know the help can happen online and want the strongest decision support',
+      'You need deeper clarity on risk, growth, proof of work, and long-term direction',
+    ],
+  },
+];
+
+const cityDecisionSummaryItems = [
+  {
+    title: 'Use the city label as a trust shortcut',
+    body: 'That search can be useful if it helps you start. It is not the final filter.',
+  },
+  {
+    title: 'Let decision quality decide the next step',
+    body: 'The stronger route is the one that makes the next move clearer, smaller, and easier to act on.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the real decision creating pressure right now',
+    listItems: [
+      'Whether to stay in Vizag, build remote-first, or move to Hyderabad at the right moment',
+      'Which sector — pharma, port logistics, IT, defence transition — actually fits your strengths',
+      'What your income trajectory looks like on the current path over the next three years',
+      'Which expensive wrong turn is most urgent to stop repeating right now',
+    ],
+  },
+  {
+    title: 'Skill direction tied to Vizag\'s actual economy',
+    listItems: [
+      'Data, analytics, and digital skills relevant to pharma and logistics employers',
+      'Proof-of-work positioning that carries weight in Hyderabad and remote markets',
+      'Higher-income paths from Vizag — both locally anchored and remote-first',
+      'A clearer route toward earlier financial freedom from your actual starting point',
+    ],
+  },
+  {
+    title: 'A lower-friction way to start moving',
+    listItems: [
+      'Online guidance accessible across India with no local-access dependence',
+      'Free updated practical AI-powered assessments before committing to bigger decisions',
+      'A realistic career target and the clearest path to reach it from where you are now',
+      'One concrete next step instead of a theory discussion you still have to decode yourself',
+    ],
+  },
+];
+
+const prepItems = [
+  {
+    title: 'The real decision you need to solve first',
+    body: 'Bring the actual question that is creating pressure right now, whether that is course choice, stream confusion, role direction, skill direction, career change, or income growth.',
+  },
+  {
+    title: 'The serious options you are already considering',
+    body: 'Write down the two to four routes you are actually comparing. Stronger counselling happens when the real trade-offs are visible from the start.',
+  },
+  {
+    title: 'What feels risky, delayed, or expensive',
+    body: 'Be clear about what you do not want to repeat: wrong degree bets, weak skill choices, low-growth paths, failed preparation cycles, or more time wasted in confusion.',
+  },
+  {
+    title: 'The constraints that cannot be ignored',
+    body: 'Include budget, family pressure, academic reality, work pressure, location limits, or timeline pressure early so the guidance stays practical instead of idealised.',
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'Should I move to Hyderabad for a better career, or stay in Vizag?',
+    body: 'This is one of the most common real decisions for Vizag professionals and graduates. The honest answer depends on the skill path, the industry, and how you build proof of work. Some paths — especially remote-first digital roles — do not require relocating. Others genuinely benefit from Hyderabad proximity. Good counselling should give you a clear answer based on your actual situation, not a generic push toward either city.',
+  },
+  {
+    title: 'Is Vizag\'s IT sector actually growing, or is it still limited?',
+    body: 'The VSEZ and IT corridor development is real, but the honest picture is mixed. Large IT campuses are growing, but mid-level and senior tech roles still concentrate more heavily in Hyderabad. For early-career and remote-first digital roles, Vizag is viable. For corporate tech leadership, Hyderabad is still the stronger pull. Knowing which category your target role falls into matters before you make location decisions.',
+  },
+  {
+    title: 'I already have opinions from family, friends, and online groups',
+    body: 'That is common in Vizag, where strong community networks mean advice comes from everywhere. The problem is that most advice is based on what worked for someone else, not what fits your specific strengths, risk profile, and target. Real counselling works from your situation, not from general patterns.',
+  },
+  {
+    title: 'I am worried about wasting more time on the wrong path',
+    body: 'That is usually the best reason to act now. In Vizag specifically, where metro opportunities feel further away and wrong turns cost more in time and money, getting clear before another commitment is made is exactly when counselling has the highest return.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See the broader location branch if you want to compare city-based guidance options before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the broader counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'See the online page if easier access across India matters more than city-based search wording.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCoachNearMe,
+    title: 'Career Coach Near Me',
+    description: 'See this if your original search was more about trust and proximity than the counselling label itself.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'See the main guidance page if the bigger issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Start with the free assessments if you want a lower-pressure first step before booking stronger guidance.',
+  },
+  {
+    href: '/career-resources/data-science-analytics-career-roadmap',
+    title: 'Data Science and Analytics Career Roadmap',
+    description: 'How to build a data and analytics career from Vizag — relevant for pharma, port, and industrial sector transitions.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What career paths have the strongest growth potential from Visakhapatnam?',
+    answer:
+      'It depends on your starting point, but some directions stand out. Pharma and life sciences have strong employer density in and around Vizag. Logistics and supply chain roles tie into the port economy. Digital marketing, data analytics, and UX roles work well remotely and do not require relocation. Industrial management and operations roles connect to HPCL, RINL, and the broader manufacturing base. The right path is the one that fits your strengths and has real income trajectory — not just the one with the most visible local employer.',
+  },
+  {
+    question: 'Should I move to Hyderabad for IT, or is Vizag viable?',
+    answer:
+      'For early-career remote-first roles — digital, data, content, product — Vizag is increasingly viable and you can build income without relocating. For mid-to-senior corporate tech roles, Hyderabad still offers a stronger cluster of opportunities. The real question is what your target role looks like in three years and whether physical presence in Hyderabad is actually required for it. That is worth answering with clarity before making a city decision.',
+  },
+  {
+    question: 'How do I build a career from Vizag without feeling limited by the city?',
+    answer:
+      'The skill matters more than the location for a growing number of roles. Fields like financial modelling, UX research, digital marketing, analytics, and software development are portfolio-first — employers care more about visible proof of work than which city the work was done in. Vizag graduates who build strong proof of work in high-value skills can compete for remote and hybrid roles at national or international level without needing to leave first.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free. They are updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Vizag?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Vizag users.',
+  },
+  {
+    question: 'What if I searched for Visakhapatnam but the bigger issue is not the city?',
+    answer:
+      'That is common. Many people use the city search as a trust shortcut, then realise the bigger need is better decision support itself — for stream selection, skill choice, or career change. In that case, the broader counselling and guidance pages are the stronger next filter. The Vizag page is most useful when local context, local industries, or trust around proximity is part of the decision.',
+  },
+  {
+    question: 'Do you guarantee a job?',
+    answer:
+      'No ethical provider can guarantee a job. The practical goal is better decision quality, stronger skill direction, and a clearer path forward.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Visakhapatnam',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Visakhapatnam | Future Career School',
+    description:
+      'Career counselling in Visakhapatnam for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, and better income-growth direction.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'City', name: 'Visakhapatnam' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': 'EducationalOrganization',
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Visakhapatnam</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Visakhapatnam
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Visakhapatnam
+        <span class="gold-text"> for practical clarity and stronger next steps</span>
+      </h1>
+      <p class="hero-sub">
+        Visakhapatnam's economy spans port logistics, pharma, steel, defence, and a growing IT corridor — yet most career advice available here is written for a generic metro grad.
+        If you are at a real decision point — whether to stay or move, which skill to build, whether a degree is the right next step — the goal is getting clear before more time and money go the wrong way.
+      </p>
+      <p class="hero-note">
+        Guidance is available online across India. The career and skill assessments are fully free, updated, practical, and AI-powered.
+      </p>
+      <div class="hero-actions">
+        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href={BOFU_PAYMENT_LINKS.workingProfessionals} class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Visakhapatnam. It is whether the guidance improves the next move enough to matter.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this search usually comes up when the decision already feels important"
+    subtitle="People usually search for career counselling in Visakhapatnam when they want support that feels easier to trust, easier to start, and more useful than generic advice."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="city-search-logic"
+    title="What should get clearer before you commit harder"
+    subtitle="The practical job of counselling is to improve direction, skill decisions, and next-step quality before confusion turns into another expensive wrong turn."
+    items={localIntentItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="city-page-vs-broader-guidance"
+    title="Choose the stronger starting point for your situation"
+    subtitle="For some people, a Visakhapatnam search is the easiest way to start. For others, the broader guidance path is the better fit because the decision itself is already the bigger issue."
+    items={cityDecisionItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={cityDecisionSummaryItems} variant="default" />
+  </BofuListCardSection>
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="If you want a lower-pressure first step before going deeper, the free assessments can help surface strengths, preferences, and work style before a bigger counselling decision."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In Vizag's multi-sector economy, the risk is advice that ignores where you actually are — pharma, port, IT corridor, or transitioning from defence. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={vizagComparisonRows}
+  />
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the broader guidance pages, free assessments, and nearby support pages before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Visakhapatnam"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="mixed"
+    studentLabel="Get Student Career Counselling"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #city-search-logic,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline { justify-content: center; }
+  }
+</style>

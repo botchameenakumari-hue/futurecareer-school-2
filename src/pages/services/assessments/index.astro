@@ -1,0 +1,453 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import LinkDirectorySection from '../../../components/LinkDirectorySection.astro';
+
+const keywordClusters = [
+  'career test',
+  'career aptitude test',
+  'career assessment test',
+  'psychometric test',
+  'psychometric career test',
+  'career counselling test',
+  'career interest test',
+  'personality test for career',
+  'stream selection test',
+  'career test after 10th',
+  'career test after 12th',
+  'career aptitude test after 10th',
+  'career aptitude test after 12th',
+  'aptitude test for career after 10th',
+  'aptitude test for career after 12th',
+  'stream selector test after 10th free',
+  'which stream to choose after 10th quiz',
+  'career quiz after 12th',
+  'which course to choose after 12th quiz',
+  'aptitude test for students',
+  'job aptitude test',
+  'skill assessment test',
+  'career transition assessment',
+  'AI career readiness test',
+];
+
+const tracks = [
+  {
+    id: 'students-8-10',
+    title: 'Students (Class 10 and Below)',
+    summary: 'Early clarity before stream pressure and costly wrong turns.',
+    liveLink: '/services/assessments/class-10-and-below/',
+    liveLinkLabel: 'Take Free Assessment',
+    tests: [
+      'Career Discovery Assessment (Live — free, instant results)',
+      'Stream Selection Test',
+      'Career Interest Test (RIASEC)',
+      'Subject Preference and Learning Style Assessment',
+      'Multiple Intelligence Profile Test',
+      'Numerical, Verbal, and Logical Aptitude Baseline Test',
+    ],
+    keywords: ['career test after 10th', 'stream selection test', 'psychometric test for students'],
+  },
+  {
+    id: 'students-11-12',
+    title: 'Students (Class 11 to 12)',
+    summary: 'Validate stream, degree direction, and exam-path fit before commitment.',
+    liveLink: '/services/assessments/class-11-to-12/',
+    liveLinkLabel: 'Take Free Assessment',
+    tests: [
+      'Career Aptitude Test After 12th',
+      'Engineering Branch Selector Test',
+      'Commerce Career Selector Test',
+      'Humanities Career Selector Test',
+      'Degree and Career Fit Assessment',
+      'Career Motivation and Work-Style Assessment',
+    ],
+    keywords: ['career test after 12th', 'aptitude test after 12th', 'career assessment for students'],
+  },
+  {
+    id: 'graduates',
+    title: 'Graduates and Early Professionals',
+    summary: 'Move from confusion to a market-fit skill and role strategy.',
+    liveLink: '/services/assessments/graduates-and-early-professionals/',
+    liveLinkLabel: 'Take Free Assessment',
+    tests: [
+      'Career Clarity and Direction Test',
+      'Skill Readiness Assessment',
+      'Employability and Job Readiness Assessment',
+      'Professional Strengths Assessment',
+      'Career Transition Readiness Test',
+      'Work Values and Motivation Test',
+    ],
+    keywords: ['career assessment test', 'job aptitude test', 'career guidance test'],
+  },
+  {
+    id: 'working-professionals',
+    title: 'Working Professionals and Career Changers',
+    summary: 'Plan salary growth, transitions, and role upgrades with lower risk.',
+    liveLink: '/services/assessments/working-professionals-and-career-changers/',
+    liveLinkLabel: 'Take Free Assessment',
+    tests: [
+      'Career Pivot Feasibility Test',
+      'Income Leverage Skill Assessment',
+      'Leadership Potential Assessment',
+      'Remote Work Readiness Assessment',
+      'AI Career Readiness and Automation Risk Test',
+      'Entrepreneurial Aptitude Test',
+    ],
+    keywords: ['career transition assessment', 'professional skill assessment', 'AI career readiness test'],
+  },
+];
+
+const focusedTests = [
+  {
+    title: 'Stream Selector Test After 10th',
+    summary: 'A quick 15-question test that shows your best-fit stream after Class 10 — Science, Commerce, or Arts.',
+    link: '/services/assessments/stream-selector-test-after-10th/',
+    keyword: 'stream selector test after 10th',
+    icon: '🧭',
+  },
+  {
+    title: 'Career Aptitude Test After 10th',
+    summary: 'A quick 15-question test that finds your strongest natural skills and the careers that fit them.',
+    link: '/services/assessments/career-aptitude-test-after-10th/',
+    keyword: 'aptitude test for career after 10th',
+    icon: '🎯',
+  },
+  {
+    title: 'Stream Selector Test After 12th',
+    summary: 'A quick 15-question test that shows your best-fit career path after Class 12 — Engineering, Medical, Business, and more.',
+    link: '/services/assessments/stream-selector-test-after-12th/',
+    keyword: 'career test after 12th',
+    icon: '🚀',
+  },
+  {
+    title: 'Career Aptitude Test After 12th',
+    summary: 'A quick 15-question aptitude test that shows your strongest skill pattern before choosing a course, degree, or training path after Class 12.',
+    link: '/services/assessments/career-aptitude-test-after-12th/',
+    keyword: 'aptitude test for career after 12th',
+    icon: '🧠',
+  },
+];
+
+const focusedTestsAfter10th = [
+  {
+    href: '/services/assessments/stream-selector-test-after-10th/',
+    title: 'Stream Selector Test After 10th',
+    description: 'A quick 15-question free stream quiz for students who want a direct Science, Commerce, or Arts recommendation after Class 10.',
+    note: 'Keywords: stream selector test after 10th, stream selector test after 10th free, which stream to choose after 10th quiz',
+  },
+  {
+    href: '/services/assessments/career-aptitude-test-after-10th/',
+    title: 'Career Aptitude Test After 10th',
+    description: 'A quick 15-question free aptitude page for students who want strength-fit clarity before choosing a stream after Class 10.',
+    note: 'Keywords: career aptitude test after 10th, aptitude test for career after 10th, aptitude test after 10th',
+  },
+];
+
+const focusedTestsAfter12th = [
+  {
+    href: '/services/assessments/stream-selector-test-after-12th/',
+    title: 'Career Test After 12th',
+    description: 'A quick 15-question free career-direction quiz for students deciding what course or broad path fits best after Class 12.',
+    note: 'Keywords: career test after 12th, career quiz after 12th, which course to choose after 12th quiz',
+  },
+  {
+    href: '/services/assessments/career-aptitude-test-after-12th/',
+    title: 'Career Aptitude Test After 12th',
+    description: 'A quick 15-question free aptitude page for students who want stronger skill-fit clarity before choosing a degree or course after Class 12.',
+    note: 'Keywords: career aptitude test after 12th, aptitude test for career after 12th, aptitude test after 12th',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services' },
+      { '@type': 'ListItem', position: 3, name: 'Assessments', item: 'https://futurecareerschool.com/services/assessments' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Career Assessment and Psychometric Tests | Future Career School',
+    description: 'Explore planned assessment tracks and career tests for students, graduates, and professionals: psychometric, aptitude, interest, stream-selection, skill readiness, and career transition assessments.',
+    url: 'https://futurecareerschool.com/services/assessments',
+    inLanguage: 'en-IN',
+    publisher: {
+      '@type': 'EducationalOrganization',
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Are these career assessments free?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. All assessments on Future Career School are completely free — no login, no payment, no sign-up required. You get instant results after completing the questions.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Which test should a student take first?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Students usually start with a psychometric career test, then move to stream selection and aptitude mapping based on their class stage.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Do graduates and professionals need different assessments?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. Graduates and professionals need market-fit, employability, and career-transition focused assessments rather than only school-stage stream tests.',
+        },
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Career Assessment and Psychometric Tests for Students and Professionals | Future Career School"
+  description="Explore all planned career assessments and psychometric tests by audience: career aptitude tests, stream selection tests, interest tests, personality tests, and job-readiness assessments."
+  canonical="https://futurecareerschool.com/services/assessments"
+  jsonLd={jsonLd}
+>
+  <Nav activePage="services" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Assessments</span>
+      </nav>
+      <div class="pill">
+        <span class="dot"></span>
+        Career test and psychometric assessment hub
+      </div>
+      <h1>
+        All Assessment Tracks for
+        <span class="gold-text"> Career Decisions That Need Clarity</span>
+      </h1>
+      <p class="hero-sub">
+        Career aptitude tests, psychometric assessments, stream selection tests, personality tests,
+        skill readiness checks, and career transition evaluations — all designed to give you real
+        clarity, not generic labels. Pick the track that matches where you are right now.
+        Every assessment can be taken in English, Hindi, Telugu, Tamil, or Marathi.
+      </p>
+      <div class="hero-actions">
+        <a href="/services/career-counselling-and-career-guidance" class="btn-gold pulse">Get Career Guidance</a>
+        <a href="/career-resources?topic=assessments" class="btn-outline">Browse Assessment Resources</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="keyword-clusters">
+    <div class="container">
+      <h2 class="section-title">Assessments Covering Every Career Decision Point</h2>
+      <p class="section-sub">
+        Whether you are searching for a career aptitude test, psychometric test, personality assessment,
+        stream selection test, or job readiness evaluation — it is here under one roof.
+      </p>
+      <div class="chip-grid">
+        {keywordClusters.map((keyword) => <span class="chip">{keyword}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="assessment-tracks">
+    <div class="container">
+      <h2 class="section-title">Career Tests by Life Stage — Pick Where You Are</h2>
+      <p class="section-sub">
+        Each track combines multiple assessments into one experience — career interest tests,
+        aptitude mapping, personality profiling, and stream or role recommendations built for your stage.
+      </p>
+
+      <div class="track-grid">
+        {tracks.map((track) => (
+          <article id={track.id} class={'track-card card' + (track.liveLink ? ' track-card--live' : '')}>
+            {track.liveLink && <div class="track-live-badge">&#9679;&nbsp;Assessment Live</div>}
+            <h3>{track.title}</h3>
+            <p>{track.summary}</p>
+            <div class="subhead">Tests</div>
+            <ul>
+              {track.tests.map((testName) => <li>{testName}</li>)}
+            </ul>
+            <div class="subhead">People Also Search For</div>
+            <div class="mini-chips">
+              {track.keywords.map((keyword) => <span>{keyword}</span>)}
+            </div>
+            {track.liveLink && (
+              <a href={track.liveLink} class="track-cta">
+                {track.liveLinkLabel}
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </a>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <LinkDirectorySection
+    sectionId="focused-tests-after-10th"
+    title="Focused Free Tests for After 10th"
+    subtitle="Quick free tests for students choosing a stream or checking strength-fit after Class 10."
+    items={focusedTestsAfter10th}
+    altBackground={true}
+  />
+
+  <LinkDirectorySection
+    sectionId="focused-tests-after-12th"
+    title="Focused Free Tests for After 12th"
+    subtitle="Quick free tests for students comparing courses, directions, and aptitude-fit after Class 12."
+    items={focusedTestsAfter12th}
+  />
+
+  <section id="named-tests">
+    <div class="container card named-tests-inner">
+      <div>
+        <h2 class="section-title section-title-left">
+          All Assessment Types You Can Take Here
+        </h2>
+        <p class="section-sub section-sub-left">
+          Each of these is built into the assessment tracks above — you do not need to take them separately.
+          One assessment covers multiple test types for your stage.
+        </p>
+      </div>
+      <div class="name-list">
+        <a id="psychometric-career-test" href="/services/assessments/class-10-and-below/">Psychometric Career Test</a>
+        <a id="career-aptitude-test" href="/services/assessments/class-11-to-12/">Career Aptitude Test</a>
+        <a id="career-interest-test" href="/services/assessments/class-10-and-below/">Career Interest Test (RIASEC)</a>
+        <a id="personality-test-for-career" href="/services/assessments/graduates-and-early-professionals/">Personality Test for Career Selection</a>
+        <a id="stream-selection-test" href="/services/assessments/class-10-and-below/">Stream Selection Test</a>
+        <a id="career-fit-framework" href="/services/assessments/graduates-and-early-professionals/">Career Fit Framework</a>
+        <a id="skill-readiness-assessment" href="/services/assessments/graduates-and-early-professionals/">Skill Readiness Assessment</a>
+        <a id="job-readiness-assessment" href="/services/assessments/graduates-and-early-professionals/">Job Readiness Assessment</a>
+        <a id="career-transition-test" href="/services/assessments/working-professionals-and-career-changers/">Career Transition Readiness Test</a>
+        <a id="ai-career-readiness-test" href="/services/assessments/working-professionals-and-career-changers/">AI Career Readiness Test</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="final-cta">
+    <div class="container final-inner">
+      <h2 class="section-title">Not Sure Which Test to Take?</h2>
+      <p class="section-sub">
+        Pick the track that matches your life stage above and start there. Every assessment is free,
+        instant, and gives you a practical starting point — not just a label.
+      </p>
+      <div class="hero-actions">
+        <a href="/services/career-counselling-and-career-guidance" class="btn-gold pulse">Get Career Guidance</a>
+        <a href="/services" class="btn-outline">Explore All Services</a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .hero-inner { position: relative; z-index: 1; }
+  #hero { padding: 138px 0 84px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 480px; height: 480px; top: -120px; left: -60px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -10px; right: -80px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .breadcrumb { display: flex; gap: 8px; align-items: center; margin-bottom: 1.8rem; font-size: 13px; color: rgba(255,255,255,.38); }
+  .breadcrumb a { color: rgba(255,255,255,.5); }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
+  h1 { font-size: clamp(2.25rem, 5vw, 3.7rem); line-height: 1.06; letter-spacing: -.04em; margin-bottom: 1.15rem; max-width: 930px; }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); line-height: 1.78; color: rgba(255,255,255,.58); max-width: 760px; margin: 1rem 0 2rem; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  #keyword-clusters,
+  #assessment-tracks,
+  #named-tests { padding: 5.8rem 0; }
+  #final-cta { padding: 5.8rem 0 6.8rem; text-align: center; }
+  .section-title { font-size: clamp(1.95rem, 4.2vw, 3rem); line-height: 1.1; letter-spacing: -.03em; margin-bottom: .95rem; text-align: center; }
+  .section-title-left { text-align: left; }
+  .section-sub { font-size: 15px; line-height: 1.75; color: rgba(255,255,255,.55); max-width: 760px; margin: 0 auto 2.4rem; text-align: center; }
+  .section-sub-left { text-align: left; margin-left: 0; }
+
+  .chip-grid { display: flex; flex-wrap: wrap; gap: .65rem; justify-content: center; }
+  .chip {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,.72);
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,.13);
+    border-radius: 999px;
+    background: rgba(255,255,255,.03);
+  }
+
+  .track-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.15rem; }
+  .track-card { padding: 1.6rem; }
+  .track-card h3 { font-size: 1.18rem; margin-bottom: .55rem; }
+  .track-card p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,.56); margin-bottom: 1rem; }
+  .subhead { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: rgba(229,184,74,.7); margin: .8rem 0 .55rem; font-weight: 700; }
+  .track-card ul { list-style: none; display: flex; flex-direction: column; gap: .48rem; margin-bottom: .9rem; }
+  .track-card li { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,.68); padding-left: .9rem; position: relative; }
+  .track-card li::before { content: '>'; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+  .mini-chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .mini-chips span { font-size: 11px; padding: 4px 8px; border-radius: 999px; background: rgba(45,212,191,.08); border: 1px solid rgba(45,212,191,.2); color: rgba(45,212,191,.95); }
+
+  /* Live assessment badge and CTA */
+  .track-card--live { border-color: rgba(229,184,74,.28); }
+  .track-live-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: rgba(45,212,191,.9); background: rgba(45,212,191,.08); border: 1px solid rgba(45,212,191,.22); padding: 4px 10px; border-radius: 999px; margin-bottom: .75rem; }
+  .track-cta { display: inline-flex; align-items: center; gap: 7px; margin-top: .85rem; font-size: 13px; font-weight: 700; color: #0a0f1e; background: linear-gradient(135deg, #e5b84a, #f5d98c, #c49a2a); padding: 9px 18px; border-radius: 8px; text-decoration: none; transition: opacity .18s; }
+  .track-cta:hover { opacity: .88; }
+
+  .named-tests-inner { padding: 2rem; border-color: rgba(229,184,74,.2); background: linear-gradient(135deg, rgba(229,184,74,.05), rgba(255,255,255,.02)); }
+  .name-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+  .name-list a {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,.85);
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+    border-radius: 10px;
+    padding: .72rem .85rem;
+  }
+
+  .final-inner strong { color: var(--gold); }
+
+  @media (max-width: 920px) {
+    .track-grid { grid-template-columns: 1fr; }
+    .name-list { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    #hero { padding: 118px 0 70px; }
+    .hero-actions { flex-direction: column; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline { justify-content: center; }
+  }
+  @media (max-width: 520px) {
+    #keyword-clusters,
+    #assessment-tracks,
+    #named-tests,
+    #final-cta { padding: 4.6rem 0; }
+    .track-card { padding: 1.25rem 1rem; }
+    .named-tests-inner { padding: 1.25rem 1rem; }
+    .name-list a { padding: .68rem .72rem; }
+    .hero-sub,
+    .section-sub { font-size: 14.5px; line-height: 1.72; }
+  }
+</style>

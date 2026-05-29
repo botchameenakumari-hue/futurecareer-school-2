@@ -1,0 +1,565 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import BlogBottomCta from '../components/BlogBottomCta.astro';
+import LinkDirectorySection from '../components/LinkDirectorySection.astro';
+import { BLOG_BASE_PATH, BLOG_PUBLISHED_POSTS, getBlogCategory } from '../config/blog';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  category: string;
+  noindex?: boolean;
+  publishedAt?: string;
+  publishedLabel?: string;
+  authorName?: string;
+  authorUrl?: string;
+  authorRole?: string;
+  jsonLdExtras?: unknown[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  category,
+  noindex = false,
+  publishedAt,
+  publishedLabel,
+  authorName,
+  authorUrl,
+  authorRole,
+  jsonLdExtras = [],
+} = Astro.props;
+const categoryMeta = getBlogCategory(category);
+const currentSlug = canonical.replace(/\/$/, '').split('/').filter(Boolean).at(-1) ?? '';
+
+const getBlogCtaLabel = (href: string) => {
+  if (href.includes('/services/assessments')) return 'Free Assessments';
+  if (href.includes('/services/career-counselling-and-career-guidance')) return 'Career Guidance';
+  if (href.includes('/skill-finder')) return 'Skill Finder';
+  if (href.includes('/career-resources')) return 'Career Resources';
+  if (href.includes('/services')) return 'Services';
+  return 'Explore';
+};
+
+const siblingPosts = categoryMeta
+  ? BLOG_PUBLISHED_POSTS.filter(
+      (post) => post.categorySlug === categoryMeta.slug && post.slug !== currentSlug
+    ).slice(0, 3)
+  : [];
+
+const rawDirectoryItems = [
+  categoryMeta
+    ? {
+        href: `${BLOG_BASE_PATH}/${categoryMeta.slug}/`,
+        title: `${categoryMeta.title} Guides`,
+        description: 'Read more guides in this category if you want a deeper angle on the same decision.',
+        note: 'Topic page',
+      }
+    : null,
+  {
+    href: BLOG_BASE_PATH,
+    title: 'All Career Articles',
+    description: 'Browse all article categories and the latest practical guides.',
+    note: 'All categories',
+  },
+  categoryMeta?.primaryCtaHref
+    ? {
+        href: categoryMeta.primaryCtaHref,
+        title: getBlogCtaLabel(categoryMeta.primaryCtaHref),
+        description: 'Open the next practical step if you are ready to act.',
+        note: 'Next step',
+      }
+    : null,
+  categoryMeta?.secondaryCtaHref
+    ? {
+        href: categoryMeta.secondaryCtaHref,
+        title: getBlogCtaLabel(categoryMeta.secondaryCtaHref),
+        description: 'Explore a nearby angle if you want more clarity before deciding.',
+        note: 'Explore too',
+      }
+    : null,
+  ...siblingPosts.map((post) => ({
+    href: `${BLOG_BASE_PATH}/${post.categorySlug}/${post.slug}/`,
+    title: post.title,
+    description: post.description,
+    note: 'Related read',
+  })),
+].filter(Boolean);
+
+const seenDirectoryHrefs = new Set<string>();
+const relatedDirectoryItems = rawDirectoryItems.filter((item) => {
+  if (!item || seenDirectoryHrefs.has(item.href)) return false;
+  seenDirectoryHrefs.add(item.href);
+  return true;
+});
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `https://futurecareerschool.com${BLOG_BASE_PATH}` },
+      ...(categoryMeta
+        ? [
+            {
+              '@type': 'ListItem',
+              position: 3,
+              name: categoryMeta.title,
+              item: `https://futurecareerschool.com${BLOG_BASE_PATH}/${categoryMeta.slug}`,
+            },
+            {
+              '@type': 'ListItem',
+              position: 4,
+              name: title,
+              item: canonical,
+            },
+          ]
+        : [
+            {
+              '@type': 'ListItem',
+              position: 3,
+              name: title,
+              item: canonical,
+            },
+          ]),
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description,
+    url: canonical,
+    inLanguage: 'en-IN',
+    ...(publishedAt ? { datePublished: publishedAt } : {}),
+    ...(publishedAt ? { dateModified: publishedAt } : {}),
+    ...(authorName
+      ? {
+          author: {
+            '@type': 'Person',
+            name: authorName,
+            ...(authorUrl ? { url: authorUrl } : {}),
+          },
+        }
+      : {}),
+    publisher: {
+      '@type': 'EducationalOrganization',
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  ...jsonLdExtras,
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogType="article"
+  jsonLd={jsonLd}
+  noindex={noindex}
+>
+  <Nav />
+
+  <main id="blog-post">
+    <header class="post-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BLOG_BASE_PATH}>Blog</a>
+          {categoryMeta && (
+            <>
+              <span aria-hidden="true">&rsaquo;</span>
+              <a href={`${BLOG_BASE_PATH}/${categoryMeta.slug}`}>{categoryMeta.title}</a>
+            </>
+          )}
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">{title}</span>
+        </nav>
+        <h1 class="post-title">{title}</h1>
+        <p class="post-sub">{description}</p>
+        {(publishedAt || authorName) && (
+          <div class="post-meta">
+            {publishedAt && <span class="post-meta-pill">Published: {publishedLabel ?? publishedAt}</span>}
+            {authorName && (
+              <a href={authorUrl ?? '#'} class="post-meta-pill post-meta-pill--link">
+                By {authorName}{authorRole ? ` - ${authorRole}` : ''}
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <article class="container post-body">
+      <slot />
+    </article>
+
+    <LinkDirectorySection
+      sectionId="post-related-pages"
+      title="Explore This Topic Further"
+      subtitle="Keep reading, or open the next page that helps you make a clearer move."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+
+    <div class="container">
+      <BlogBottomCta />
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #blog-post { padding-top: 72px; }
+  .post-hero { padding: 88px 0 42px; position: relative; overflow: hidden; }
+  .post-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 20% 10%, rgba(229,184,74,.14), transparent 60%),
+                radial-gradient(circle at 80% 0%, rgba(45,212,191,.09), transparent 55%);
+    pointer-events: none;
+  }
+  .post-hero > .container { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; gap: 8px; align-items: center; font-size: 13px; color: rgba(255,255,255,.42); margin-bottom: 1.4rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.55); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+  .post-title { font-size: clamp(2.1rem, 4.2vw, 3.35rem); letter-spacing: -.04em; line-height: 1.04; margin-bottom: .9rem; }
+  .post-sub {
+    color: rgba(255,255,255,.72);
+    font-size: clamp(1rem, 1.45vw, 1.12rem);
+    line-height: 1.85;
+    max-width: 840px;
+  }
+  .post-meta { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.1rem; }
+  .post-meta-pill {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05);
+    border-radius: 999px;
+    padding: .55rem .9rem;
+    color: rgba(255,255,255,.72);
+    font-size: 13px;
+    line-height: 1.2;
+  }
+  .post-meta-pill--link { text-decoration: none; }
+  .post-meta-pill--link:hover { color: #fff; border-color: rgba(229,184,74,.35); }
+
+  /* Constrain the reading column. A 1100px+ line is unreadable; ~760px of
+     prose keeps line length near the comfortable 65-80 character range and
+     makes the whole article feel calmer, more scannable, and more credible. */
+  .post-body {
+    padding: 44px 0 16px;
+    max-width: 760px;
+    margin-inline: auto;
+  }
+  .post-body :global(p) {
+    color: rgba(255,255,255,.74);
+    line-height: 1.92;
+    margin: 1.15rem 0;
+    font-size: 16.5px;
+  }
+
+  /* Lead paragraph: larger and brighter than body, sets the article tone */
+  .post-body :global(.lead-para) {
+    font-size: clamp(1.08rem, 1.7vw, 1.26rem);
+    line-height: 1.7;
+    color: rgba(255,255,255,.84);
+    margin: .4rem 0 1.5rem;
+    padding-left: 1rem;
+    border-left: 3px solid rgba(229,184,74,.6);
+  }
+  .post-body :global(.lead-para strong) { color: rgba(255,255,255,.98); }
+
+  /* Section rhythm: every H2 gets a gold-to-teal kicker bar so a long
+     article reads as clearly separated chapters, not one flat scroll. */
+  .post-body :global(h2) {
+    position: relative;
+    margin: 3rem 0 1.05rem;
+    padding-top: 1.35rem;
+    font-size: clamp(1.55rem, 2.5vw, 2rem);
+    line-height: 1.15;
+    letter-spacing: -.03em;
+  }
+  .post-body :global(h2)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 42px;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #e5b84a, #2dd4bf);
+  }
+  .post-body :global(h2:first-child) { margin-top: 1rem; }
+  .post-body :global(h3) {
+    margin: 1.8rem 0 .8rem;
+    font-size: clamp(1.14rem, 1.7vw, 1.34rem);
+    line-height: 1.22;
+    letter-spacing: -.02em;
+  }
+  .post-body :global(ul) {
+    margin: 1rem 0 1rem 1.2rem;
+    color: rgba(255,255,255,.7);
+    line-height: 1.8;
+  }
+  .post-body :global(li) { margin: .45rem 0; }
+  .post-body :global(li)::marker { color: var(--gold); }
+  .post-body :global(strong) { color: rgba(255,255,255,.92); }
+  .post-body :global(a) { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Shared table baseline: future article tables inherit a clean look and
+     a scroll wrapper for free. Dense tables should also add data-label
+     attributes on each cell so they can stack on phones (see below). */
+  .post-body :global(.table-wrap) {
+    margin: 1.4rem 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  .post-body :global(.table-wrap)::-webkit-scrollbar { height: 8px; }
+  .post-body :global(.table-wrap)::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,.18);
+    border-radius: 999px;
+  }
+
+  /* Responsive tables: any table whose cells carry data-label attributes
+     stacks into labelled cards on phones, instead of clipping columns or
+     forcing a horizontal scroll. Opt in per table by adding data-label to
+     each <td>; future and existing articles get this for free. */
+  @media (max-width: 560px) {
+    .post-body :global(table:has(td[data-label])) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    .post-body :global(table:has(td[data-label]) thead) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    .post-body :global(table:has(td[data-label]) tbody),
+    .post-body :global(table:has(td[data-label]) tr),
+    .post-body :global(table:has(td[data-label]) td) {
+      display: block;
+      width: 100%;
+    }
+    .post-body :global(table:has(td[data-label]) tr) {
+      margin: 0 0 0.85rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    .post-body :global(table:has(td[data-label]) td) {
+      padding: 0.6rem 0.9rem 0.7rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    }
+    .post-body :global(table:has(td[data-label]) tr td:last-child) {
+      border-bottom: none !important;
+    }
+    .post-body :global(table:has(td[data-label]) td:first-child) {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    .post-body :global(table:has(td[data-label]) td::before) {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  /* Reusable accordion (progressive disclosure). Use <details> inside
+     .faq-accordion (or any .accordion) so long Q&A and reference content
+     collapses by default instead of forming a wall of text. Future articles
+     should use this for FAQs and any long, skimmable reference list. */
+  .post-body :global(.faq-accordion),
+  .post-body :global(.accordion) {
+    display: grid;
+    gap: 0.7rem;
+    margin: 1.6rem 0;
+  }
+  .post-body :global(.faq-accordion details),
+  .post-body :global(.accordion details) {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .post-body :global(.faq-accordion details[open]),
+  .post-body :global(.accordion details[open]) {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .post-body :global(.faq-accordion summary),
+  .post-body :global(.accordion summary) {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 600;
+    font-size: 1.02rem;
+    line-height: 1.4;
+    color: rgba(255,255,255,.92);
+  }
+  .post-body :global(.faq-accordion summary::-webkit-details-marker),
+  .post-body :global(.accordion summary::-webkit-details-marker) { display: none; }
+  .post-body :global(.faq-accordion summary:hover),
+  .post-body :global(.accordion summary:hover) { color: #fff; }
+  .post-body :global(.faq-accordion summary::after),
+  .post-body :global(.accordion summary::after) {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .post-body :global(.faq-accordion details[open] summary::after),
+  .post-body :global(.accordion details[open] summary::after) {
+    transform: rotate(-135deg);
+  }
+  .post-body :global(.faq-accordion .faq-a),
+  .post-body :global(.accordion .accordion-body) {
+    padding: 0 1.2rem 1.15rem;
+    color: rgba(255,255,255,.72);
+    line-height: 1.85;
+    font-size: 15.5px;
+  }
+  .post-body :global(.faq-accordion .faq-a a),
+  .post-body :global(.accordion .accordion-body a) { color: var(--gold); }
+
+  /* Key-takeaways / quick-answer strip: a short scannable summary box.
+     Great near the top of an article for low-attention skimming. */
+  .post-body :global(.key-takeaways) {
+    margin: 1.5rem 0;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .post-body :global(.key-takeaways__label) {
+    margin: 0 0 0.7rem !important;
+    font-size: 11px !important;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95) !important;
+  }
+  .post-body :global(.key-takeaways ul) {
+    margin: 0 !important;
+    padding-left: 1.15rem !important;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .post-body :global(.key-takeaways li) {
+    margin: 0 !important;
+    color: rgba(255,255,255,.82) !important;
+    line-height: 1.7 !important;
+    font-size: 15.5px;
+  }
+
+  /* Universal card-grid polish. Any article grid (class ending in -grid)
+     gets cycling accent borders so a row of cards reads as distinct items
+     instead of one flat grey block, plus a gentle hover lift. This reaches
+     every existing post without touching its per-article CSS.
+     NOTE: the full descendant chain must sit inside :global() or Astro
+     scopes the child selector and it never matches the page elements. */
+  .post-body :global([class$="-grid"] > *) {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .post-body :global([class$="-grid"] > *:hover) {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0,0,0,.26);
+  }
+  .post-body :global([class$="-grid"] > :nth-child(4n+1)) { border-color: rgba(45,212,191,.34); }
+  .post-body :global([class$="-grid"] > :nth-child(4n+2)) { border-color: rgba(229,184,74,.34); }
+  .post-body :global([class$="-grid"] > :nth-child(4n+3)) { border-color: rgba(167,139,250,.34); }
+  .post-body :global([class$="-grid"] > :nth-child(4n+4)) { border-color: rgba(125,211,252,.34); }
+
+  /* Legacy FAQ blocks: posts keep their .faq-item class but switch the
+     element to <details>, so they collapse into an accordion here without
+     each post needing its own accordion CSS. */
+  .post-body :global(details.faq-item) {
+    overflow: hidden;
+  }
+  .post-body :global(details.faq-item > summary) {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .post-body :global(details.faq-item > summary::-webkit-details-marker) { display: none; }
+  .post-body :global(details.faq-item > summary::after) {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 14px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .post-body :global(details.faq-item[open] > summary::after) { transform: rotate(-135deg); }
+
+  @media (max-width: 720px) {
+    #blog-post { padding-top: 68px; }
+    .post-hero { padding: 74px 0 30px; }
+    .breadcrumb { gap: 6px; font-size: 12px; margin-bottom: 1rem; }
+    .post-title { font-size: clamp(1.85rem, 8vw, 2.35rem); }
+    .post-sub {
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(255,255,255,.74);
+    }
+    .post-meta { gap: .6rem; margin-top: .95rem; }
+    .post-meta-pill {
+      padding: .5rem .8rem;
+      font-size: 12px;
+    }
+    .post-body { padding-top: 26px; }
+    .post-body :global(p) {
+      font-size: 15px;
+      line-height: 1.82;
+    }
+    .post-body :global(h2) {
+      margin-top: 2rem;
+      margin-bottom: .85rem;
+      font-size: 1.48rem;
+    }
+    .post-body :global(h3) { font-size: 1.12rem; }
+  }
+
+</style>

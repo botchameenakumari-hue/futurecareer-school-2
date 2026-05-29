@@ -1,0 +1,542 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_PAYMENT_LINKS,
+} from '../../../../config/bofu';
+
+const title = 'Career Counselling | Practical Clarity and Next Steps | Future Career School';
+const description =
+  'Need career counselling? Get practical online career guidance across India for clearer decisions, stronger skill direction, proof of work, income growth, and a clearer route toward achieving earlier financial freedom.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling';
+
+const faqItems = [
+  {
+    question: 'What does career counselling mean here?',
+    answer:
+      'Career counselling here means choosing with more clarity before time and money get wasted, focusing on skills that create better long-term opportunities, showing skills and proof of work, and moving with clearer income-growth logic.',
+  },
+  {
+    question: 'Who is this career counselling for?',
+    answer:
+      'Future Career School serves students, freshers, and working professionals. It is useful when you need clearer direction, better skill-path decisions, or a more practical next step than generic advice.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free. They can be described as updated, practical, and AI-powered. Many providers charge thousands for outdated or impractical assessments; these are meant to be a stronger free starting layer instead.',
+  },
+  {
+    question: 'How do I know if I need career counselling right now?',
+    answer:
+      'Career counselling is most useful when the next decision feels important, expensive, hard to reverse, or already delayed by confusion. In that situation, one focused session can be a practical way to improve decision quality before another wrong turn compounds.',
+  },
+  {
+    question: 'What should a good first career counselling session leave me with?',
+    answer:
+      'Good career counselling should leave you with a clearer decision frame, a shorter shortlist of serious directions worth your effort, a practical next step, and a better sense of what leads toward real income growth.',
+  },
+  {
+    question: 'Should I start with free assessments first or book career counselling now?',
+    answer:
+      'If you are still exploring and the decision is not urgent yet, free assessments, resources, and skill-finder tools can be a useful first layer. If the next decision already feels important, expensive, or delayed by confusion, stronger guided support can help more.',
+  },
+  {
+    question: 'What should I prepare before a first career counselling session?',
+    answer:
+      'Come ready to explain your current stage, the decision that matters most right now, the options you are already considering, and where confusion or execution keeps breaking down. That makes it easier to move from broad advice to a practical next step.',
+  },
+  {
+    question: 'Is career counselling different from career guidance or career coaching?',
+    answer:
+      'In practice, people often use career counselling, career guidance, career coaching, career strategy, and other close variants to mean the same practical thing: they want clearer decisions and stronger skill direction. The useful difference is not the label. It is whether the guidance helps you avoid low-growth decisions and move toward higher-value skills, proof of work, income growth, and achieving earlier financial freedom.',
+  },
+  {
+    question: 'How is this different from normal career counseling?',
+    answer:
+      'A lot of career advice stays generic, degree-first, and low-growth. Many providers also charge thousands for outdated or impractical assessments. The stronger direction here is high-value skill building, proof of work, better income growth, and a clearer route toward achieving earlier financial freedom.',
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. Guidance is delivered online across India.',
+  },
+  {
+    question: 'Do you guarantee a job?',
+    answer:
+      'No ethical provider can guarantee a job.',
+  },
+  {
+    question: 'What should I check before choosing any career counselling service?',
+    answer:
+      'Check whether the advice is generic or genuinely useful, whether it helps with higher-value skill direction and proof of work, and whether it improves income-growth direction.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const fitItems = [
+  {
+    title: 'This is for you if',
+    listItems: [
+      'You are confused about direction and need a practical next step.',
+      'You want clearer skill-path and career-path decisions before committing harder.',
+      'You are not satisfied with generic advice that still leaves the real decision unclear.',
+      'Your situation does not fit one narrow label and you need a practical answer that can handle path, skill, and growth questions together.',
+    ],
+  },
+  {
+    title: 'This is not for you if',
+    listItems: [
+      'You want a guaranteed job outcome.',
+      'You want a shortcut without effort.',
+      'You want a fixed one-size curriculum.',
+      'You want a rigid fixed-length program users are locked into.',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Clarity first',
+    body: 'Get clearer before the next big decision becomes more expensive or harder to reverse.',
+  },
+  {
+    title: 'Fit before spending',
+    body: 'It should help you judge path fit before expensive commitments or random upskilling.',
+  },
+  {
+    title: 'Clarity before commitment',
+    body: 'Make the next course, role, or skill move clearer before you double down on the wrong path.',
+  },
+];
+
+const counsellingActionItems = [
+  {
+    title: 'Too much talk, not enough decision value',
+    body: 'Many people leave counselling still unsure what to do next because the advice stayed broad, degree-first, or too generic to change real decisions.',
+    eyebrow: 'What keeps people stuck',
+  },
+  {
+    title: 'Clearer trade-offs, clearer next steps',
+    body: 'Useful career counselling should help you see fit, market reality, risk, and the next serious direction worth your effort phase.',
+    eyebrow: 'What actually helps',
+  },
+];
+
+const counsellingActionSummaryItems = [
+  { title: 'Direction', body: 'Which path and skill direction fits you best right now?' },
+  { title: 'Risk', body: 'Which wrong turns should you avoid before spending more time or money?' },
+  { title: 'Execution', body: 'What practical next step matters most after the session?' },
+  { title: 'Priority', body: 'Which decision needs solving first so your effort stops spreading across the wrong problem?' },
+];
+
+const deliverableItems = [
+  {
+    title: 'Practical clarity and profile mapping',
+    listItems: [
+      'Initial Psychometric Assessment and Career Counseling',
+      'Profile and stage mapping before major decisions',
+      'Direction clarity based on fit, market reality, and risk',
+      'A practical next step instead of generic advice',
+    ],
+  },
+  {
+    title: 'Practical path design',
+    listItems: [
+      'Personalised Long-Term Career Plan',
+      'High-value skill selection and decision leveraging',
+      'Skill-path shortlisting before expensive commitments',
+      'Guidance path recommendation based on goals and profile',
+    ],
+  },
+  {
+    title: 'Proof of work and income-growth direction',
+    listItems: [
+      'Portfolio proof, personal branding, and tech leverage guidance',
+      'Proof of work that improves market credibility',
+      'Clearer positioning beyond degree dependence alone',
+      'Earlier financial freedom planning through stronger skill choices',
+    ],
+  },
+];
+
+const firstLayerItems = [
+  {
+    title: 'A clearer decision frame',
+    body: 'The first useful step is understanding which decision actually needs solving first: stream, degree, role direction, skill path, pivot, or execution gap.',
+  },
+  {
+    title: 'A smaller shortlist of serious directions',
+    body: 'You should leave with a tighter set of serious options that fit your stage, profile, goals, and current pressure better than broad internet lists.',
+  },
+  {
+    title: 'A practical next step you can act on',
+    body: 'Good counselling should leave you with a next move specific enough to use after the session, not vague advice that still needs decoding later.',
+  },
+  {
+    title: 'A stronger growth path',
+    body: 'Better counselling should also improve how you think about proof of work, positioning, income growth, and achieving earlier financial freedom.',
+  },
+];
+
+const firstLayerSummaryItems = [
+  { title: 'Less noise', body: 'Better counselling narrows the problem instead of expanding your confusion with more random options.' },
+  { title: 'Better trade-offs', body: 'You should understand what you are choosing toward and what you are choosing away from.' },
+  { title: 'More control', body: 'The goal is clearer movement after the session, not dependence on endless advice.' },
+];
+
+const sessionFitItems = [
+  {
+    title: 'Decision quality should improve',
+    listItems: [
+      'You should see clearer trade-offs before spending more on the wrong course, degree, or preparation track.',
+      'You should know which options are genuinely worth serious effort and which ones only look acceptable on paper.',
+      'You should have a practical next move instead of staying stuck in broad internet advice.',
+      'You should see which wrong turns are too expensive to keep repeating.',
+    ],
+  },
+  {
+    title: 'Growth direction should improve',
+    listItems: [
+      'You should see which high-value skill direction fits your strengths and market reality better.',
+      'You should understand how proof of work matters more than degree dependence alone.',
+      'You should know what stronger positioning and tech leverage look like for your stage.',
+      'You should see a clearer path toward income growth and achieving earlier financial freedom.',
+    ],
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'I am not sure I need career counselling right now',
+    body: 'If the next decision feels expensive, hard to reverse, or already delayed by confusion, clarity work can matter before another wrong turn compounds.',
+  },
+  {
+    title: 'I do not want generic advice in a nicer format',
+    body: 'A stronger process should map your profile, stage, goals, and current pressure before major recommendations are made.',
+  },
+  {
+    title: 'I do not want to get pushed toward low-growth generic paths',
+    body: 'That is a healthy filter. Counselling should help you judge higher-value skill direction, proof of work, and better income growth, not just push the safest-looking default.',
+  },
+  {
+    title: 'I already have advice from family, friends, or the internet',
+    body: 'Extra opinions can help, but they do not automatically resolve fit, risk, market reality, and the next practical move for your specific situation.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: '/services',
+    title: 'Career Guidance, Assessments, and Tools',
+    description: 'See every guidance option, assessment, and free tool in one place.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance',
+    title: 'Broader Career Guidance',
+    description: 'Get broader help with stream, course, skill, and next-step career decisions.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'Use the online version when delivery format matters but the real need is still counselling-led clarity and a stronger next step.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coach-near-me/',
+    title: 'Career Coach Near Me',
+    description: 'See the near-me version if locality or delivery format is part of your decision.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/#guidance-process',
+    title: 'What to Expect',
+    description: 'See the main service page process section for a clearer view of mapping, skill direction, proof of work, and income growth planning.',
+  },
+  {
+    href: '/services/assessments',
+    title: 'Free Assessments',
+    description: 'All assessments, resources, skill-finder, and course-finder tools are fully free.',
+  },
+  {
+    href: '/skill-finder',
+    title: 'Skill Finder',
+    description: 'Start exploring high-value skill direction before bigger commitments.',
+  },
+  {
+    href: '/career-resources',
+    title: 'Career Resources',
+    description: 'Use free resources to keep moving between bigger decisions.',
+  },
+  {
+    href: '/blog/career-guidance/how-to-choose-a-career-after-12th',
+    title: 'Career Guidance Article',
+    description: 'Read a practical decision framework if confusion is still your biggest problem.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://futurecareerschool.com/services',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling | Future Career School',
+    description:
+      'Career counselling for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, income growth, and a clearer route toward achieving earlier financial freedom.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': 'EducationalOrganization',
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career guidance that goes beyond generic advice.
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling
+        <span class="gold-text"> for practical clarity, not generic advice</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling should help you get clear before you make a bigger wrong turn.
+        The practical answer is not more vague advice.
+        It is a clearer next move with stronger skill direction, proof of work, income growth, and a clearer route toward achieving earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Many providers charge thousands for outdated or impractical assessments.
+        Here, the career and skill assessments are fully free, updated, practical, and AI-powered.
+        Guidance is available online across India.
+      </p>
+      <div class="hero-actions">
+        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href={BOFU_PAYMENT_LINKS.workingProfessionals} class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        Stronger counselling should help you see the next move more clearly, judge the trade-offs better, and stop compounding confusion.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="fit"
+    title="When career counselling becomes useful"
+    subtitle="Career counselling matters when the next decision feels important, expensive, or hard to reverse. The goal is to get clearer before confusion turns into another costly wrong turn."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="what-counselling-should-do"
+    title="What career counselling should actually help you do"
+    subtitle="Good career counselling should not leave you with only labels, options, or motivational talk. It should make the next move easier to see and easier to act on."
+    items={counsellingActionItems}
+    variant="signal"
+  >
+    <BofuSummaryStrip items={counsellingActionSummaryItems} variant="signal" />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="what-you-get"
+    title="What strong career counselling should give you"
+    subtitle="The stronger value is not generic advice in a calmer tone. It is better path decisions, higher-value skill direction, proof of work, stronger positioning, and clearer income-growth direction."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+      <AssessmentSupportNote
+        body="The free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+  </BofuListCardSection>
+
+  <GuidanceModelSection />
+
+  <BofuFeatureSection
+    sectionId="good-first-session"
+    title="What better career counselling should change after the first clarity layer"
+    subtitle="The useful question is not whether someone talked to you. The useful question is whether the counselling improved decision quality enough to make the next move clearer, smaller, and safer."
+    items={firstLayerItems}
+    variant="decision"
+  >
+    <BofuSummaryStrip items={firstLayerSummaryItems} variant="contrast" />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="session-fit"
+    title="What better counselling should improve after the first clarity layer"
+    subtitle="Clearer direction is only the start. Better counselling should also improve the quality of the path you choose next."
+    items={sessionFitItems}
+    variant="contrast"
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why this is more useful than generic career advice"
+    subtitle="The point is clearer skill direction, proof of work, stronger income-growth logic, and a clearer route toward achieving earlier financial freedom."
+  />
+
+  <BofuFeatureSection
+    sectionId="objections"
+    title="Common doubts before starting career counselling"
+    subtitle="These are common doubts worth resolving before paying for any counselling service."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Good career counselling should improve decision quality. It should not leave you paying for more confusion, more generic advice, or a path that still feels random."
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="See broader guidance, assessments, tools, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection title="Questions people ask before choosing career counselling" items={faqItems} />
+
+  <FinalCta
+    audience="mixed"
+    studentLabel="Get Student Career Counselling"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-you-get,
+  #different,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #what-counselling-should-do,
+  #session-fit,
+  #check-before-paying { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline { justify-content: center; }
+  }
+</style>

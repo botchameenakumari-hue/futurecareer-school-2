@@ -1,0 +1,135 @@
+---
+export interface LinkDirectoryItem {
+  href: string;
+  title: string;
+  description: string;
+  note?: string;
+}
+
+export interface Props {
+  sectionId?: string;
+  sectionClass?: string;
+  title: string;
+  subtitle?: string;
+  items: LinkDirectoryItem[];
+  altBackground?: boolean;
+}
+
+const {
+  sectionId,
+  sectionClass = '',
+  title,
+  subtitle,
+  items,
+  altBackground = false,
+} = Astro.props;
+---
+
+<section id={sectionId} class:list={['link-directory-section', altBackground && 'link-directory-section-alt', sectionClass]}>
+  <div class="container">
+    <h2 class="link-directory-title">{title}</h2>
+    {subtitle && <p class="link-directory-sub">{subtitle}</p>}
+
+    <div class="link-directory-grid">
+      {items.map((item) => (
+        <a class="link-directory-card card" href={item.href}>
+          <div class="link-directory-copy">
+            <strong>{item.title}</strong>
+            <span>{item.description}</span>
+          </div>
+          <span class="link-directory-arrow" aria-hidden="true">&rsaquo;</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .link-directory-section {
+    position: relative;
+    overflow: hidden;
+    padding: 5.8rem 0;
+  }
+  .link-directory-section-alt {
+    background: rgba(255,255,255,.012);
+  }
+  .link-directory-title {
+    font-size: clamp(2rem, 4.2vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -.03em;
+    color: #fff;
+    margin-bottom: .9rem;
+    text-align: center;
+  }
+  .link-directory-sub {
+    max-width: 860px;
+    margin: 0 auto 2rem;
+    color: rgba(255,255,255,.62);
+    font-size: clamp(15px, 2vw, 17px);
+    line-height: 1.76;
+    text-align: center;
+  }
+  .link-directory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .link-directory-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: .85rem;
+    align-items: center;
+    min-height: 100%;
+    padding: 1.2rem 1.15rem;
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,.1);
+    background:
+      radial-gradient(360px 160px at 100% 0%, rgba(229,184,74,.08), transparent 74%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+    box-shadow: 0 16px 34px rgba(0,0,0,.18);
+    transition: transform .22s ease, border-color .22s ease, background .22s ease;
+  }
+  .link-directory-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(229,184,74,.24);
+    background:
+      radial-gradient(360px 160px at 100% 0%, rgba(229,184,74,.12), transparent 74%),
+      linear-gradient(145deg, rgba(229,184,74,.06), rgba(255,255,255,.018));
+  }
+  .link-directory-copy {
+    display: grid;
+    gap: .55rem;
+  }
+  .link-directory-card strong {
+    color: #fff;
+    font-size: 1.02rem;
+    line-height: 1.42;
+  }
+  .link-directory-card span {
+    color: rgba(255,255,255,.7);
+    font-size: 13.8px;
+    line-height: 1.72;
+  }
+  .link-directory-arrow {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(229,184,74,.24);
+    background: rgba(229,184,74,.12);
+    color: var(--gold);
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  @media (max-width: 560px) {
+    .link-directory-section {
+      padding: 4.8rem 0;
+    }
+    .link-directory-card {
+      padding: 1.05rem 1rem;
+      border-radius: 18px;
+    }
+  }
+</style>

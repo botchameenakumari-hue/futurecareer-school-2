@@ -1,0 +1,1652 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+// ── SKILL DATA ─────────────────────────────────────────────────────────────────
+// Organized by Coach's Master Menu (8 deep-skill categories) + Foundational/High-Value classification
+// Curated for the current market and the next decade. No trend-chasing, no outdated picks.
+// Each skill is evaluated on:
+//   • category       — one of 8 Master Menu categories (Software Dev, AI/ML, Data/Cloud, Cybersecurity, Design, Marketing, Business, Document Checking)
+//   • skillType      — "foundational" (table-stakes everyone needs) | "high-value" (specialization differentiator)
+//   • thinking       — your natural thinking style: "systems" (logic/patterns) | "people" (empathy/communication) | "both"
+//   • making         — "build" (create) | "analyse" (interpret) | "both"
+//   • incomeLevel    — long-term ceiling: "high" (₹25L+) | "medium" (₹12–25L) | "moderate" (₹8–12L)
+//   • timeToStart    — realistic months to first billable work: "<3m" | "3-6m" | "6-12m" | "1-2y"
+//   • demand         — "rising" | "stable" | "hot"
+//   • whyNow         — one-line reason this is worth your next 6–12 months
+//   • startWith      — a concrete, free (or near-free) starting resource
+//   • tags           — search keywords
+
+type SkillType = "foundational" | "high-value";
+type Thinking = "systems" | "people" | "both";
+type Making = "build" | "analyse" | "both";
+type IncomeLevel = "high" | "medium" | "moderate";
+type TimeKey = "<3m" | "3-6m" | "6-12m" | "1-2y";
+type Demand = "rising" | "stable" | "hot";
+type WorkFocus = "technical" | "data" | "design" | "product" | "people" | "sales" | "marketing" | "operations";
+type Difficulty = "easy" | "moderate" | "steep";
+
+interface Skill {
+  name: string;
+  category: string;
+  skillType: SkillType;
+  thinking: Thinking;
+  making: Making;
+  timeToStart: TimeKey;
+  incomeLevel: IncomeLevel;
+  demand: Demand;
+  difficulty: Difficulty;
+  workFocus: WorkFocus[];
+  whyNow: string;
+  startWith: { label: string; note: string };
+  tags: string[];
+}
+
+const skills: Skill[] = [
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // 1. SOFTWARE DEVELOPMENT & ARCHITECTURE
+  // ══════════════════════════════════════════════════════════════════════════════
+  {
+    name: "Full-Stack Web Development (TypeScript)",
+    category: "software-dev",
+    skillType: "high-value",
+    thinking: "systems", making: "build",
+    timeToStart: "6-12m", incomeLevel: "high", demand: "hot",
+    difficulty: "moderate",
+    workFocus: ["technical", "product"],
+    whyNow: "The TypeScript + React + Node stack is the most hirable full-stack path in India and remotely. Most serious SaaS products run on some version of it.",
+    startWith: { label: "Next.js tutorial + one real SaaS project", note: "Build something you'd pay ₹199/month for. Auth, payments, database — the full loop." },
+    tags: ["full stack","typescript","react","nextjs","node","web"],
+  },
+  {
+    name: "Backend Systems (Go, Python, Rust)",
+    category: "software-dev",
+    skillType: "high-value",
+    thinking: "systems", making: "build",
+    timeToStart: "1-2y", incomeLevel: "high", demand: "stable",
+    difficulty: "steep",
+    workFocus: ["technical"],
+    whyNow: "LLMs write CRUD, but designing scalable backends still needs judgment. Companies pay most for people who reason about latency, cost and failure modes.",
+    startWith: { label: "Build one high-load service end-to-end", note: "Pick Go or Python. Ship rate limiting, queuing, observability. Not a tutorial app." },
+    tags: ["backend","go","python","rust","systems","scale"],
+  },
+  {
+    name: "Mobile Development (React Native / Flutter)",
+    category: "software-dev",
+    skillType: "high-value",
+    thinking: "systems", making: "build",
+    timeToStart: "6-12m", incomeLevel: "medium", demand: "stable",
+    difficulty: "moderate",
+    workFocus: ["technical", "product"],
+    whyNow: "India is mobile-first. Cross-platform devs command a premium over web-only, especially when paired with app-store launch experience.",
+    startWith: { label: "Expo + publish one app on Play Store", note: "A habit tracker or a simple finance app. The Play Store listing is your portfolio." },
+    tags: ["mobile","react native","flutter","expo","android","ios"],
+  },
+  {
+    name: "AI-Assisted Software Development",
+    category: "software-dev",
+    skillType: "foundational",
+    thinking: "systems", making: "build",
+    timeToStart: "6-12m", incomeLevel: "high", demand: "hot",
+    difficulty: "moderate",
+    workFocus: ["technical"],
+    whyNow: "Devs who ship 3–5× faster with Claude, Cursor and Copilot are replacing teams, not just seats. The pay gap between AI-fluent and non-AI devs is already 40–60%.",
+    startWith: { label: "Cursor + Claude + one real project", note: "Build a working tool, not tutorials. Ship a small SaaS or internal tool in 4 weekends." },
+    tags: ["ai","cursor","claude","copilot","coding","developer"],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // 2. AI & MACHINE LEARNING
+  // ══════════════════════════════════════════════════════════════════════════════
+  {
+    name: "LLM Application Engineering",
+    category: "ai-ml",
+    skillType: "high-value",
+    thinking: "systems", making: "build",
+    timeToStart: "6-12m", incomeLevel: "high", demand: "hot",
+    difficulty: "steep",
+    workFocus: ["technical", "data"],
+    whyNow: "Every mid-sized Indian company is building an internal copilot or agentic workflow. People who can wire up RAG, evals, tools and guardrails are billing ₹1.5L+/month freelance.",
+    startWith: { label: "Build a RAG tool over your own PDFs", note: "Use Claude API + a vector DB. Ship it live. Write a 500-word case study." },
+    tags: ["llm","rag","agents","api","anthropic","openai","vector db"],
+  },
+  {
+    name: "Prompt & Workflow Design",
+    category: "ai-ml",
+    skillType: "foundational",
+    thinking: "both", making: "both",
+    timeToStart: "<3m", incomeLevel: "moderate", demand: "rising",
+    difficulty: "easy",
+    workFocus: ["technical", "operations"],
+    whyNow: "Not hype-prompt-engineering — it's becoming the new Excel for modern teams. Every marketing, ops, HR and finance team wants someone who can turn a messy workflow into a reliable AI-powered one.",
+    startWith: { label: "Automate one real task at home or college", note: "Pick a weekly chore, replace it with a prompt + tool. Document the before/after." },
+    tags: ["prompt","workflow","automation","operations","no-code"],
+  },
+  {
+    name: "Applied Machine Learning",
+    category: "ai-ml",
+    skillType: "high-value",
+    thinking: "systems", making: "both",
+    timeToStart: "1-2y", incomeLevel: "high", demand: "stable",
+    difficulty: "steep",
+    workFocus: ["technical", "data"],
+    whyNow: "Pure ML jobs are harder now — LLMs ate a lot of classical ML. But applied ML in risk, fraud, pricing and logistics is still very hire-friendly for those who ship, not just study.",
+    startWith: { label: "fast.ai Practical Deep Learning", note: "Ship a classifier on a real-world problem. Write up your error analysis — that's what interviewers actually read." },
+    tags: ["machine learning","ml","fastai","pytorch","classifier"],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // 3. DATA, CLOUD & INFRASTRUCTURE
+  // ══════════════════════════════════════════════════════════════════════════════
+  {
+    name: "SQL & Business Analytics",
+    category: "data-cloud",
+    skillType: "foundational",
+    thinking: "systems", making: "analyse",
+    timeToStart: "3-6m", incomeLevel: "moderate", demand: "stable",
+    difficulty: "moderate",
+    workFocus: ["data", "operations"],
+    whyNow: "SQL literacy is the single highest-leverage skill for non-engineers. Even in an AI-heavy world, someone has to ask the right question — that's you.",
+    startWith: { label: "Mode Analytics SQL tutorial + Kaggle datasets", note: "Finish 50 real queries on a dataset you care about (cricket, stocks, movies)." },
+    tags: ["sql","analytics","dashboards","business intelligence","bi"],
+  },
+  {
+    name: "Data Engineering (dbt, Airflow, Snowflake)",
+    category: "data-cloud",
+    skillType: "high-value",
+    thinking: "systems", making: "build",
+    timeToStart: "6-12m", incomeLevel: "high", demand: "rising",
+    difficulty: "steep",
+    workFocus: ["technical", "data", "operations"],
+    whyNow: "Analytics engineers are the bottleneck for every scaling Indian SaaS. The pipeline layer is where AI needs clean data — and clean data needs you.",
+    startWith: { label: "dbt free docs + Snowflake free tier", note: "Build a dbt project over a public dataset. Push it to GitHub with tests." },
+    tags: ["data engineering","dbt","airflow","snowflake","warehouse"],
+  },
+  {
+    name: "Product Analytics (Mixpanel, Amplitude, PostHog)",
+    category: "data-cloud",
+    skillType: "high-value",
+    thinking: "both", making: "analyse",
+    timeToStart: "3-6m", incomeLevel: "medium", demand: "stable",
+    difficulty: "moderate",
+    workFocus: ["data", "product"],
+    whyNow: "Every Indian consumer app wants a growth analyst. This role sits between product and data — low supply, high pay.",
+    startWith: { label: "Amplitude Academy (free) + one side project", note: "Instrument a small app, define 3 north-star metrics, write a weekly report for 4 weeks." },
+    tags: ["product analytics","mixpanel","amplitude","posthog","growth"],
+  },
+  {
+    name: "Cloud & Infra (AWS, GCP, Terraform)",
+    category: "data-cloud",
+    skillType: "high-value",
+    thinking: "systems", making: "build",
+    timeToStart: "6-12m", incomeLevel: "high", demand: "stable",
+    difficulty: "steep",
+    workFocus: ["technical", "operations"],
+    whyNow: "Every Indian AI/SaaS company needs cloud infra engineers who can ship fast and keep spend sane. This is the skill with the highest remote-job ratio.",
+    startWith: { label: "AWS free tier + Terraform a small app", note: "Deploy one Next.js app via Terraform. Document the cost — that's a real interview talking-point." },
+    tags: ["cloud","aws","gcp","terraform","devops","infra"],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // 4. CYBERSECURITY
+  // ══════════════════════════════════════════════════════════════════════════════
+  {
+    name: "Cybersecurity (Defensive / Blue Team)",
+    category: "cybersecurity",
+    skillType: "high-value",
+    thinking: "systems", making: "analyse",
+    timeToStart: "1-2y", incomeLevel: "high", demand: "rising",
+    difficulty: "steep",
+    workFocus: ["technical", "operations"],
+    whyNow: "CERT-In reporting, DPDP Act compliance and rising ransomware on Indian SMBs mean defensive security is a massive, under-staffed market for the next decade.",
+    startWith: { label: "TryHackMe Pre-Security + Security+ prep", note: "Finish one path. Write a 500-word blog on each module — that's your portfolio." },
+    tags: ["security","cyber","blue team","compliance","dpdp"],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // 5. DESIGN, PRODUCT & CONTENT
+  // ══════════════════════════════════════════════════════════════════════════════
+  {
+    name: "Product Design (UX + UI)",
+    category: "design",
+    skillType: "high-value",
+    thinking: "people", making: "build",
+    timeToStart: "6-12m", incomeLevel: "medium", demand: "stable",
+    difficulty: "moderate",
+    workFocus: ["design", "product", "people"],
+    whyNow: "AI generates shapes, not judgment. Designers who can lead a flow from problem to shipped screen — with data and user research — are more valuable than ever.",
+    startWith: { label: "Figma + redesign one app you use daily", note: "Pick a real flow (say, Dunzo checkout). Redesign with written hypotheses. Post the case study." },
+    tags: ["ux","ui","figma","product design","interaction"],
+  },
+  {
+    name: "Design Systems & Component Libraries",
+    category: "design",
+    skillType: "high-value",
+    thinking: "systems", making: "build",
+    timeToStart: "6-12m", incomeLevel: "high", demand: "rising",
+    difficulty: "steep",
+    workFocus: ["design", "technical", "product"],
+    whyNow: "As teams generate more with AI, consistency becomes the moat. Senior designers who own design systems are now operating like junior design engineers — and are paid like them.",
+    startWith: { label: "Rebuild your last project on Radix + Tailwind tokens", note: "Publish a small component library on GitHub with live Storybook." },
+    tags: ["design system","tokens","components","figma","tailwind","radix"],
+  },
+  {
+    name: "Motion & Interaction Design",
+    category: "design",
+    skillType: "high-value",
+    thinking: "people", making: "build",
+    timeToStart: "3-6m", incomeLevel: "moderate", demand: "rising",
+    difficulty: "moderate",
+    workFocus: ["design"],
+    whyNow: "Indian D2C brands, fintech, and ed-tech all want micro-interactions and motion. Freelance budgets for a polished Rive or Lottie set run ₹40–80k per asset.",
+    startWith: { label: "Rive community templates + one portfolio piece", note: "Recreate one Apple / Linear micro-interaction. Ship the Rive file publicly." },
+    tags: ["motion","animation","rive","lottie","interaction"],
+  },
+  {
+    name: "Brand & Visual Identity",
+    category: "design",
+    skillType: "high-value",
+    thinking: "people", making: "build",
+    timeToStart: "6-12m", incomeLevel: "moderate", demand: "stable",
+    difficulty: "moderate",
+    workFocus: ["design"],
+    whyNow: "AI makes logos cheap; brand systems that feel coherent across touchpoints are still rare. Indian startups pay ₹1–4 lakh for a brand identity engagement.",
+    startWith: { label: "Redesign one neighbourhood business free", note: "Full system: logo, type scale, colour, application mockups. Put it in a case study." },
+    tags: ["branding","identity","logo","typography","visual"],
+  },
+  {
+    name: "Product Management",
+    category: "design",
+    skillType: "high-value",
+    thinking: "both", making: "both",
+    timeToStart: "1-2y", incomeLevel: "high", demand: "stable",
+    difficulty: "steep",
+    workFocus: ["product", "data", "people"],
+    whyNow: "The bar has gone up — generic 'PM' roles are shrinking, but product operators who ship, use AI tools, and can read a SQL query are rarer than ever and paid accordingly.",
+    startWith: { label: "Ship one real product to 100 users", note: "Side project, college club, family business — the context matters less than the proof of shipping." },
+    tags: ["product management","pm","strategy","roadmap"],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // 6. MARKETING & GROWTH
+  // ══════════════════════════════════════════════════════════════════════════════
+  {
+    name: "Performance Marketing (Meta, Google)",
+    category: "marketing",
+    skillType: "high-value",
+    thinking: "both", making: "analyse",
+    timeToStart: "3-6m", incomeLevel: "medium", demand: "stable",
+    difficulty: "moderate",
+    workFocus: ["marketing", "data"],
+    whyNow: "Even as organic shifts, Indian D2C and ed-tech still spend crores on paid. What's changing — you need to read data, not just click 'boost post'.",
+    startWith: { label: "Run ₹2,000 on your own product / offer", note: "Real money on a real offer. No fake campaigns. Write a breakdown of what happened." },
+    tags: ["performance marketing","meta ads","google ads","ppc","d2c"],
+  },
+  {
+    name: "SEO & Content Strategy (Post-AI)",
+    category: "marketing",
+    skillType: "high-value",
+    thinking: "both", making: "both",
+    timeToStart: "6-12m", incomeLevel: "medium", demand: "rising",
+    difficulty: "moderate",
+    workFocus: ["marketing", "design"],
+    whyNow: "Google + AI overviews killed lazy SEO. But people who understand intent, structure, and E-E-A-T — and can orchestrate content with AI — are winning bigger than ever.",
+    startWith: { label: "Pick one niche + publish weekly for 12 weeks", note: "Your own blog. Track rankings honestly. That log is your interview answer." },
+    tags: ["seo","content","eeat","aio","search"],
+  },
+  {
+    name: "Email & Lifecycle Marketing",
+    category: "marketing",
+    skillType: "high-value",
+    thinking: "both", making: "both",
+    timeToStart: "3-6m", incomeLevel: "moderate", demand: "stable",
+    difficulty: "moderate",
+    workFocus: ["marketing", "data"],
+    whyNow: "Owned channels are where the margin is — especially as ad costs rise. Klaviyo-literate marketers with real e-commerce numbers are ₹1.2L+/month freelancers.",
+    startWith: { label: "Free Klaviyo account + one D2C brand (even yours)", note: "Build a welcome flow, an abandoned cart, a post-purchase. Measure open/click/revenue." },
+    tags: ["email","klaviyo","lifecycle","retention","crm"],
+  },
+  {
+    name: "Community Building & Moderation",
+    category: "marketing",
+    skillType: "foundational",
+    thinking: "people", making: "both",
+    timeToStart: "3-6m", incomeLevel: "moderate", demand: "rising",
+    difficulty: "easy",
+    workFocus: ["people", "marketing"],
+    whyNow: "As feeds fragment, brands want owned communities (WhatsApp, Discord, Circle). A strong community manager drives retention that paid ads cannot buy.",
+    startWith: { label: "Run a 50-person community for 8 weeks", note: "Any topic you care about. Document attendance, DAU, what worked. That log is the job." },
+    tags: ["community","discord","whatsapp","moderation","engagement"],
+  },
+  {
+    name: "Short-Form Video Editing",
+    category: "marketing",
+    skillType: "high-value",
+    thinking: "people", making: "build",
+    timeToStart: "3-6m", incomeLevel: "moderate", demand: "hot",
+    difficulty: "easy",
+    workFocus: ["design", "marketing"],
+    whyNow: "Indian creator economy is still under-serviced. Retainer editors for mid-size creators earn ₹60k–₹1.5L/month with 2–3 clients. The ceiling has risen with vertical video dominance.",
+    startWith: { label: "CapCut + edit one creator's backlog free", note: "Message 5 local creators. Offer 3 free edits. One will convert to retainer." },
+    tags: ["video","editing","capcut","premiere","reels","shorts"],
+  },
+  {
+    name: "YouTube / Long-Form Video Creation",
+    category: "marketing",
+    skillType: "high-value",
+    thinking: "both", making: "build",
+    timeToStart: "6-12m", incomeLevel: "high", demand: "stable",
+    difficulty: "moderate",
+    workFocus: ["design", "marketing"],
+    whyNow: "Long-form YouTube is the best owned-audience engine a career has. Unlike Reels, a 200k-view video pays real money and keeps paying.",
+    startWith: { label: "Publish one video every Sunday for 12 weeks", note: "Niche you know. Your iteration rate over those 12 weeks is the whole skill." },
+    tags: ["youtube","long form","creator","video","channel"],
+  },
+  {
+    name: "Copywriting (Sales Pages, Ads, Emails)",
+    category: "marketing",
+    skillType: "high-value",
+    thinking: "people", making: "build",
+    timeToStart: "6-12m", incomeLevel: "medium", demand: "stable",
+    difficulty: "moderate",
+    workFocus: ["design", "people", "marketing"],
+    whyNow: "AI writes mediocre copy cheaply. Copywriters who understand psychology, research, and sell against real objections are getting rarer and better-paid.",
+    startWith: { label: "Rewrite 10 Indian D2C product pages for free", note: "Before/after screenshots in a PDF. That PDF is your cold outreach asset." },
+    tags: ["copywriting","ads","sales","emails","landing pages"],
+  },
+  {
+    name: "Podcasting & Audio Production",
+    category: "marketing",
+    skillType: "high-value",
+    thinking: "people", making: "build",
+    timeToStart: "3-6m", incomeLevel: "moderate", demand: "rising",
+    difficulty: "moderate",
+    workFocus: ["design", "people", "marketing"],
+    whyNow: "Indian podcasting is finally going vertical-specific (fintech, health, climate). Producers who can run interviews + edit + distribute are retainer-hired at ₹40–80k/month.",
+    startWith: { label: "Audacity / Descript free + one interview series", note: "Launch a 6-episode mini-series with real guests from your network. Publish weekly." },
+    tags: ["podcast","audio","descript","interview","production"],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // 7. BUSINESS ACUMEN & SOFT SKILLS
+  // ══════════════════════════════════════════════════════════════════════════════
+  {
+    name: "Operations & Process Design",
+    category: "business",
+    skillType: "high-value",
+    thinking: "systems", making: "both",
+    timeToStart: "6-12m", incomeLevel: "medium", demand: "stable",
+    difficulty: "moderate",
+    workFocus: ["operations", "data"],
+    whyNow: "AI tools only amplify — they don't create — process. Operators who can map a company's workflow and make it 30% more efficient are among the safest long-term bets.",
+    startWith: { label: "Shadow one department at your current job / family business", note: "Map their process. Propose two removals and one automation. Do one." },
+    tags: ["operations","process","ops","efficiency","playbook"],
+  },
+  {
+    name: "Project Management (Modern PM)",
+    category: "business",
+    skillType: "foundational",
+    thinking: "both", making: "both",
+    timeToStart: "3-6m", incomeLevel: "moderate", demand: "stable",
+    difficulty: "easy",
+    workFocus: ["operations", "people"],
+    whyNow: "'PMP certificate, no shipped project' is dead. Modern PMs run a Linear / Notion board, speak data, and unblock teams — that combination pays.",
+    startWith: { label: "Run one real multi-person project to completion", note: "Even a college fest or a local NGO event. Document it like a case study." },
+    tags: ["project management","pmp","linear","notion","delivery"],
+  },
+  {
+    name: "HR & People Analytics",
+    category: "business",
+    skillType: "high-value",
+    thinking: "both", making: "analyse",
+    timeToStart: "6-12m", incomeLevel: "moderate", demand: "rising",
+    difficulty: "moderate",
+    workFocus: ["people", "data"],
+    whyNow: "HR teams are under pressure to prove ROI. People analytics (retention, hiring funnel, compensation benchmarking) is becoming a real sub-specialisation.",
+    startWith: { label: "SQL + Excel + one HRIS export", note: "Take any org's hiring data (sample or your own). Build a funnel dashboard and write insights." },
+    tags: ["hr","people analytics","hiring","retention","compensation"],
+  },
+  {
+    name: "B2B SaaS Sales (SDR / AE)",
+    category: "business",
+    skillType: "high-value",
+    thinking: "people", making: "both",
+    timeToStart: "3-6m", incomeLevel: "high", demand: "hot",
+    difficulty: "moderate",
+    workFocus: ["people", "sales"],
+    whyNow: "Indian SaaS is scaling to US/EU markets aggressively. SDRs who can book meetings and AEs who can close are the highest-OTE roles in early-career, full stop.",
+    startWith: { label: "Send 100 cold emails for a product you'd use", note: "Get one reply, one call, one next step. The reps you build now compound." },
+    tags: ["sales","saas","sdr","ae","b2b","outbound"],
+  },
+  {
+    name: "Consultative Selling & Key Accounts",
+    category: "business",
+    skillType: "high-value",
+    thinking: "people", making: "both",
+    timeToStart: "1-2y", incomeLevel: "high", demand: "stable",
+    difficulty: "steep",
+    workFocus: ["people", "sales"],
+    whyNow: "As deals get larger and more technical, strategic sellers who guide procurement, legal and implementation are one of the last purely human-advantage careers.",
+    startWith: { label: "Shadow your best senior seller for a quarter", note: "Take their top 3 techniques into your own pipe. Track wins vs before." },
+    tags: ["consultative sales","key accounts","enterprise","strategic"],
+  },
+  {
+    name: "Revenue Operations (RevOps)",
+    category: "business",
+    skillType: "high-value",
+    thinking: "systems", making: "analyse",
+    timeToStart: "6-12m", incomeLevel: "high", demand: "rising",
+    difficulty: "moderate",
+    workFocus: ["sales", "data", "operations"],
+    whyNow: "Indian SaaS has woken up to the fact that CRM hygiene + funnel math is worth a dedicated hire. RevOps is the 'ops role' with the fastest salary compound right now.",
+    startWith: { label: "Audit one SaaS CRM (yours, friend's, or a trial)", note: "Find 10 broken things. Write a 2-page report. That report is an interview." },
+    tags: ["revops","crm","hubspot","salesforce","funnel","pipeline"],
+  },
+  {
+    name: "Growth & Experimentation",
+    category: "business",
+    skillType: "high-value",
+    thinking: "both", making: "analyse",
+    timeToStart: "6-12m", incomeLevel: "medium", demand: "rising",
+    difficulty: "moderate",
+    workFocus: ["marketing", "data", "product"],
+    whyNow: "Growth roles have moved from 'run ads' to 'run experiments with budgets'. If you can design an A/B test and interpret it honestly, you're rare.",
+    startWith: { label: "Reforge Growth Series notes + PostHog free tier", note: "Run 3 real experiments on any site you control. Publish a results write-up." },
+    tags: ["growth","experimentation","ab testing","retention","funnel"],
+  },
+  {
+    name: "Financial Modelling & FP&A",
+    category: "business",
+    skillType: "high-value",
+    thinking: "systems", making: "analyse",
+    timeToStart: "6-12m", incomeLevel: "medium", demand: "stable",
+    difficulty: "steep",
+    workFocus: ["data", "product"],
+    whyNow: "Indian startups are raising less, spending smarter — which means finance hires who can model unit economics are finally getting real seats, not just ledger work.",
+    startWith: { label: "Build a 3-statement model for one listed company", note: "Publish it. Have one CA on LinkedIn roast it. Iterate. That's your portfolio." },
+    tags: ["financial modelling","fpna","valuation","excel","unit economics"],
+  },
+  {
+    name: "Equity Research & Markets",
+    category: "business",
+    skillType: "high-value",
+    thinking: "systems", making: "analyse",
+    timeToStart: "6-12m", incomeLevel: "medium", demand: "stable",
+    difficulty: "moderate",
+    workFocus: ["data"],
+    whyNow: "The Indian retail boom has created genuine demand for credible analysts. Not day-trading content — proper research you can defend.",
+    startWith: { label: "Write a 2-page thesis on one listed company every fortnight", note: "Substack or LinkedIn. 6 reports over 3 months is a real portfolio." },
+    tags: ["equity research","stocks","markets","valuation","investing"],
+  },
+  {
+    name: "Startup Finance & Venture Analysis",
+    category: "business",
+    skillType: "high-value",
+    thinking: "both", making: "analyse",
+    timeToStart: "6-12m", incomeLevel: "medium", demand: "rising",
+    difficulty: "moderate",
+    workFocus: ["product", "data"],
+    whyNow: "VC funds and CFO-as-a-service firms are hiring younger analysts who can do deal diligence, founder references, and sector mapping with AI tools.",
+    startWith: { label: "Pick one Indian sector, write a 10-deck landscape", note: "Use public data. Send it to 10 VCs with a one-liner. At least 2 will respond." },
+    tags: ["vc","venture","diligence","startups","funding"],
+  },
+  {
+    name: "Product Operations",
+    category: "business",
+    skillType: "high-value",
+    thinking: "systems", making: "both",
+    timeToStart: "3-6m", incomeLevel: "moderate", demand: "rising",
+    difficulty: "moderate",
+    workFocus: ["operations", "product"],
+    whyNow: "As Indian SaaS scales, someone has to make the product team itself work — tooling, processes, data hygiene. Product ops is the rising sidekick role.",
+    startWith: { label: "Document one broken workflow at work", note: "Propose, ship, measure one process fix. This is exactly what the role does." },
+    tags: ["product ops","operations","process","tooling"],
+  },
+  {
+    name: "No-Code Automation (n8n, Zapier, Make)",
+    category: "business",
+    skillType: "foundational",
+    thinking: "systems", making: "build",
+    timeToStart: "3-6m", incomeLevel: "moderate", demand: "rising",
+    difficulty: "easy",
+    workFocus: ["technical", "operations"],
+    whyNow: "Indian SMBs are the biggest hidden buyer. A freelancer who can wire up WhatsApp → CRM → email → billing for a clinic or coaching institute is charging ₹30–80k per project.",
+    startWith: { label: "n8n cloud + one local business", note: "Offer one free automation to a family friend's business. Use it as your first case study." },
+    tags: ["automation","n8n","zapier","make","integration","operations"],
+  },
+  {
+    name: "AI Voice & Phone Agents",
+    category: "business",
+    skillType: "high-value",
+    thinking: "systems", making: "build",
+    timeToStart: "3-6m", incomeLevel: "moderate", demand: "rising",
+    difficulty: "moderate",
+    workFocus: ["technical", "operations"],
+    whyNow: "Indian call-centres, clinics and coaching institutes are rapidly replacing tier-1 calls with voice agents. Setting up Retell / Vapi / ElevenLabs pipelines is billable work now, not a distant-future bet.",
+    startWith: { label: "Vapi or Retell free tier + one script", note: "Clone a real lead-qualification script. Record a 2-min demo, send it to 20 local businesses." },
+    tags: ["voice","vapi","retell","elevenlabs","agents","call center"],
+  },
+];
+
+// ── META ────────────────────────────────────────────────────────────────────
+const categoryMeta: Record<string, { label: string; color: string; short: string }> = {
+  'software-dev': { label: 'Software Development & Architecture', color: '#60a5fa', short: 'Software Dev' },
+  'ai-ml':        { label: 'AI & Machine Learning',              color: '#e5b84a', short: 'AI/ML' },
+  'data-cloud':   { label: 'Data, Cloud & Infrastructure',       color: '#2dd4bf', short: 'Data/Cloud' },
+  'cybersecurity':{ label: 'Cybersecurity',                       color: '#f87171', short: 'Security' },
+  'design':       { label: 'Design, Product & Content',          color: '#f472b6', short: 'Design' },
+  'marketing':    { label: 'Marketing & Growth',                 color: '#fb923c', short: 'Marketing' },
+  'business':     { label: 'Business Acumen & Soft Skills',      color: '#34d399', short: 'Business' },
+  // 'document-checking' — future expansion for Deep Document Checking
+};
+
+const skillTypeMeta: Record<string, { label: string; note: string }> = {
+  'foundational': { label: 'Foundational',  note: 'Table-stakes everyone needs' },
+  'high-value':   { label: 'High-Value',    note: 'Specialization differentiator' },
+};
+
+const workFocusMeta: Record<string, { label: string; color: string }> = {
+  'technical':   { label: 'Technical',      color: '#60a5fa' },
+  'data':        { label: 'Data & Analytics', color: '#2dd4bf' },
+  'design':      { label: 'Design & Creative', color: '#f472b6' },
+  'product':     { label: 'Product & Strategy', color: '#a78bfa' },
+  'people':      { label: 'People & Communication', color: '#fb923c' },
+  'sales':       { label: 'Sales & Revenue', color: '#fbbf24' },
+  'marketing':   { label: 'Marketing & Growth', color: '#f87171' },
+  'operations':  { label: 'Operations',     color: '#34d399' },
+};
+
+const difficultyMeta: Record<string, { label: string; color: string }> = {
+  'easy':     { label: 'Easy to Start',   color: '#34d399' },
+  'moderate': { label: 'Moderate',        color: '#e5b84a' },
+  'steep':    { label: 'Steep Learning',  color: '#f87171' },
+};
+
+const thinkingMeta: Record<string, { label: string; note: string }> = {
+  'systems': { label: 'Systems thinker',  note: 'Logic, patterns, structures' },
+  'people':  { label: 'People thinker',   note: 'Empathy, story, persuasion' },
+  'both':    { label: 'Balanced',         note: 'Comfortable in both worlds' },
+};
+
+const makingMeta: Record<string, { label: string }> = {
+  'build':   { label: 'Making / building' },
+  'analyse': { label: 'Analysing / interpreting' },
+  'both':    { label: 'Making + analysing' },
+};
+
+const incomeLevelMeta: Record<string, { label: string; note: string; color: string }> = {
+  'high':     { label: 'High',     note: '₹25L+ LPA long-term ceiling',        color: '#fbbf24' },
+  'medium':   { label: 'Medium',   note: '₹12–25L LPA long-term ceiling',      color: '#e5b84a' },
+  'moderate': { label: 'Moderate', note: '₹8–12L LPA long-term ceiling',       color: '#34d399' },
+};
+
+const timeMeta: Record<string, { label: string; order: number }> = {
+  '<3m':   { label: 'Under 3 months', order: 1 },
+  '3-6m':  { label: '3 – 6 months',   order: 2 },
+  '6-12m': { label: '6 – 12 months',  order: 3 },
+  '1-2y':  { label: '1 – 2 years', order: 4 },
+};
+
+const demandMeta: Record<string, { label: string; color: string }> = {
+  'hot':    { label: 'Hot demand',    color: '#f87171' },
+  'rising': { label: 'Rising demand', color: '#e5b84a' },
+  'stable': { label: 'Stable demand', color: '#2dd4bf' },
+};
+
+function waLink(skill: string): string {
+  return `https://wa.me/917815927259?text=${encodeURIComponent(`Hi, I'd like guidance on the ${skill} path`)}`;
+}
+
+const totalCount = skills.length;
+const foundationalCount = skills.filter(s => s.skillType === 'foundational').length;
+const highValueCount = skills.filter(s => s.skillType === 'high-value').length;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://futurecareerschool.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Skill Finder", "item": "https://futurecareerschool.com/skill-finder" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Skill & Career Finder — Foundational + High-Value Skills for the Next Decade",
+    "description": `A hand-picked library of ${totalCount} curated skills (${foundationalCount} foundational, ${highValueCount} high-value specializations) for the next decade in India. Find the real problem: which skills you need as table-stakes, and which become your edge. No trend-chasing.`,
+    "url": "https://futurecareerschool.com/skill-finder",
+    "inLanguage": "en-IN",
+    "numberOfItems": totalCount,
+    "publisher": {
+      "@type": "EducationalOrganization",
+      "name": "Future Career School",
+      "url": "https://futurecareerschool.com"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What's the difference between foundational and high-value skills?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Foundational skills are table-stakes—the minimum everyone needs (communication, problem-solving, SQL literacy). High-value skills are specialization differentiators (deep technical expertise, rare domain knowledge). You need both: foundational to survive, high-value to stand out."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does thinking style mean here?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It refers to how your mind naturally works: 'Systems' thinkers enjoy logic, patterns, and structures; 'People' thinkers enjoy empathy, story, and persuasion. Picking a skill that matches your natural wiring is the single biggest predictor of whether you'll stay with it long enough to earn well."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does 'income ceiling' mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It's the long-term earning potential of the skill if you master it. High: ₹25L+ LPA. Medium: ₹12–25L LPA. Moderate: ₹8–12L LPA. It's a ceiling, not a promise—your actual earnings depend on how you execute, your market, and your network."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to pay for courses from this list?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Almost never, to start. Every skill has a 'Start with' entry that is free or near-free. Try a skill for 2–4 weeks at zero cost before spending on paid courses. The learning curve matters less than whether it genuinely fits."
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout
+  title={`Skill Finder — Foundational + High-Value Skills for the Next Decade | Future Career School`}
+  description="Find the right skill — foundational (table-stakes) or high-value (specialization). Curated for India, sorted by thinking style, time to start, income ceiling, and category."
+  canonical="https://futurecareerschool.com/skill-finder"
+  jsonLd={jsonLd}
+>
+  <Nav activePage="skill-finder" />
+
+  <!-- ═══════════════════════════════════════
+       PAGE HERO
+  ═══════════════════════════════════════ -->
+  <section id="sf-hero">
+    <div class="sf-hero-bg">
+      <div class="sf-orb sf-orb-1"></div>
+      <div class="sf-orb sf-orb-2"></div>
+    </div>
+    <div class="container sf-hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">Skill Finder</span>
+      </nav>
+      <div class="sf-hero-tag pill">
+        <span class="pill-dot"></span>
+        {totalCount} Curated Skills — For the Next Decade
+      </div>
+      <h1 class="sf-h1">
+        Foundational or High-Value? <br />
+        <span class="gold-text">You need both to build a career.</span>
+      </h1>
+      <p class="sf-sub">
+        Foundational skills are table-stakes (communication, SQL, problem-solving). High-value skills are your differentiator (deep expertise, rare domain knowledge).
+        Each skill starts with a free resource you can try this weekend.
+      </p>
+      <div class="sf-hero-ctas">
+        <a href="#finder" class="btn-gold">
+          Start Filtering
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+        </a>
+        <a href="https://wa.me/917815927259?text=Hi%2C+I%27d+like+help+picking+a+skill+to+learn" target="_blank" rel="noopener noreferrer" class="btn-outline">
+          Ask for Guidance
+        </a>
+      </div>
+
+      <!-- Thinking-style quick start -->
+      <div class="sf-think-jump" role="navigation" aria-label="Filter by thinking style">
+        <span class="sf-think-label">How I think:</span>
+        <button class="tj-btn" data-group="thinking" data-value="systems">Logic & patterns</button>
+        <button class="tj-btn" data-group="thinking" data-value="people">People & stories</button>
+        <button class="tj-btn" data-group="thinking" data-value="both">Both equally</button>
+        <a href="/services/career-counselling-and-career-guidance" class="tj-help">Not sure? <span>Start with a session →</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       STICKY FILTER BAR
+  ═══════════════════════════════════════ -->
+  <div class="filter-wrap" id="filter-wrap" role="search" aria-label="Filter skills">
+    <div class="container" id="finder">
+
+      <!-- Search + Sort row -->
+      <div class="filter-search-row">
+        <div class="fs-input-wrap">
+          <svg class="fs-search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input
+            type="search"
+            id="search-input"
+            class="fs-input"
+            placeholder={`Search ${totalCount} skills by name, tag, income, tool…`}
+            aria-label="Search skills"
+            autocomplete="off"
+          />
+          <button class="fs-clear-btn" id="search-clear" type="button" aria-label="Clear search" style="display:none">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="fs-sort-wrap">
+          <label for="sort-select" class="fs-sort-label">Sort</label>
+          <select id="sort-select" class="fs-sort-select" aria-label="Sort skills">
+            <option value="default">Recommended</option>
+            <option value="income-desc">Income — high to low</option>
+            <option value="income-asc">Income — low to high</option>
+            <option value="difficulty-easy-first">Difficulty — easy first</option>
+            <option value="difficulty-steep-first">Difficulty — steep first</option>
+            <option value="name-asc">Name A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="filter-rows">
+
+        <div class="filter-group">
+          <span class="fg-label">Work Focus</span>
+          <div class="fg-chips fg-chips--wrap">
+            <button class="fc-btn fc-btn--active" data-group="workFocus" data-value="all">All types</button>
+            {Object.entries(workFocusMeta).map(([key, meta]) => (
+              <button class="fc-btn" data-group="workFocus" data-value={key} style={`--fc-color:${meta.color}`}>{meta.label}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="fg-label">Skill Type</span>
+          <div class="fg-chips">
+            <button class="fc-btn fc-btn--active" data-group="skillType" data-value="all">All types</button>
+            <button class="fc-btn fc-btn--foundational" data-group="skillType" data-value="foundational">Foundational</button>
+            <button class="fc-btn fc-btn--highvalue" data-group="skillType" data-value="high-value">High-Value</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="fg-label">Difficulty</span>
+          <div class="fg-chips">
+            <button class="fc-btn fc-btn--active" data-group="difficulty" data-value="all">Any</button>
+            {Object.entries(difficultyMeta).map(([key, meta]) => (
+              <button class="fc-btn" data-group="difficulty" data-value={key} style={`--fc-color:${meta.color}`}>{meta.label}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="fg-label">Category</span>
+          <div class="fg-chips fg-chips--wrap">
+            <button class="fc-btn fc-btn--active" data-group="category" data-value="all">All categories</button>
+            {Object.entries(categoryMeta).map(([key, meta]) => (
+              <button class="fc-btn" data-group="category" data-value={key} style={`--fc-color:${meta.color}`}>{meta.short}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="fg-label">Income Ceiling</span>
+          <div class="fg-chips">
+            <button class="fc-btn fc-btn--active" data-group="incomeLevel" data-value="all">Any range</button>
+            <button class="fc-btn fc-btn--high" data-group="incomeLevel" data-value="high">High (₹25L+)</button>
+            <button class="fc-btn fc-btn--medium" data-group="incomeLevel" data-value="medium">Medium (₹12–25L)</button>
+            <button class="fc-btn fc-btn--moderate" data-group="incomeLevel" data-value="moderate">Moderate (₹8–12L)</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="filter-meta">
+        <span class="filter-count">Showing <strong id="res-count">{totalCount}</strong> of {totalCount} skills</span>
+        <div class="filter-meta-right">
+          <span id="active-filters" class="active-filters" aria-live="polite"></span>
+          <button class="reset-btn" id="reset-btn" aria-label="Reset all filters">Reset filters</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       MAIN SKILL GRID
+  ═══════════════════════════════════════ -->
+  <main class="container sf-main">
+
+  <!-- ═══════════════════════════════════════
+       BOTTOM CTA
+  ═══════════════════════════════════════ -->
+  <section id="sf-cta">
+    <div class="container">
+      <div class="sf-cta-inner card">
+        <div class="sf-cta-left">
+          <h2>Still unsure which foundational + high-value combo fits?<br /><span class="gold-text">Career guidance can map it clearly.</span></h2>
+          <p>Filters narrow the field. A real conversation—your situation, finances, goals—picks the path. We show you exactly which skills compound, which are table-stakes, and which become your edge.</p>
+        </div>
+        <div class="sf-cta-right">
+          <a
+            href="https://wa.me/917815927259?text=Hi%2C+I%27d+like+help+picking+a+skill+to+learn"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-gold pulse"
+          >
+            Get Career Guidance
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+          <a href="/services/career-counselling-and-career-guidance" class="btn-outline">Career Guidance</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Skill grid -->
+    <div class="sk-grid" id="sk-grid" aria-live="polite" aria-label="Skill list">
+      {skills.map((s, idx) => {
+        const cat = categoryMeta[s.category];
+        const skillTypeLabel = skillTypeMeta[s.skillType];
+        const think = thinkingMeta[s.thinking];
+        const timeL = timeMeta[s.timeToStart];
+        const incLevel = incomeLevelMeta[s.incomeLevel];
+        const dem = demandMeta[s.demand];
+        const diff = difficultyMeta[s.difficulty];
+        const wfocs = s.workFocus.map(wf => workFocusMeta[wf]);
+        const searchBlob = [
+          s.name, s.whyNow, s.startWith.label, s.startWith.note,
+          ...s.tags, cat.label, skillTypeLabel.label, think.label, timeL.label, dem.label, incLevel.label,
+        ].join(' ').toLowerCase();
+        return (
+          <article
+            class={`sk sk--${s.category} sk--${s.skillType}`}
+            data-thinking={s.thinking}
+            data-making={s.making}
+            data-skillType={s.skillType}
+            data-time={s.timeToStart}
+            data-time-order={timeL.order}
+            data-category={s.category}
+            data-demand={s.demand}
+            data-incomeLevel={s.incomeLevel}
+            data-difficulty={s.difficulty}
+            data-workFocus={s.workFocus.join(' ')}
+            data-name={s.name.toLowerCase()}
+            data-search={searchBlob}
+            data-order={idx}
+            aria-label={s.name}
+          >
+            <div class="sk-top">
+              <span class="sk-cat" style={`--c:${cat.color}`}>
+                <span class="sk-cat-dot"></span>{cat.short}
+              </span>
+              <span class={`sk-demand sk-demand--${s.demand}`} style={`--c:${dem.color}`}>{dem.label}</span>
+            </div>
+
+            <div class="sk-type-badge">
+              <span class={`sk-type-label sk-type--${s.skillType}`}>{skillTypeLabel.label}</span>
+            </div>
+
+            <h3 class="sk-title">{s.name}</h3>
+
+            <div class="sk-metrics">
+              <div class="sk-metric">
+                <span class="sk-metric-label">Income ceiling</span>
+                <strong class="sk-metric-value" style={`--ic:${incLevel.color}`}>{incLevel.label}</strong>
+              </div>
+              <div class="sk-metric">
+                <span class="sk-metric-label">Difficulty</span>
+                <strong class="sk-metric-value" style={`--ic:${diff.color}`}>{diff.label}</strong>
+              </div>
+              <div class="sk-metric">
+                <span class="sk-metric-label">Time to Start</span>
+                <strong class="sk-metric-value">{timeL.label}</strong>
+              </div>
+            </div>
+
+            <div class="sk-workfocus">
+              <span class="sk-workfocus-label">Work Focus</span>
+              <div class="sk-workfocus-tags">
+                {wfocs.map(wf => (
+                  <span class="sk-wf-tag" style={`--wf-color:${wf.color}`}>{wf.label}</span>
+                ))}
+              </div>
+            </div>
+
+            <div class="sk-why">
+              <span class="sk-why-label">Why now</span>
+              <p>{s.whyNow}</p>
+            </div>
+
+            <div class="sk-start">
+              <span class="sk-start-label">Start with</span>
+              <strong>{s.startWith.label}</strong>
+              <p>{s.startWith.note}</p>
+            </div>
+
+            <div class="sk-footer">
+              <a href={waLink(s.name)} target="_blank" rel="noopener noreferrer" class="sk-cta" aria-label={`Get guidance on ${s.name}`}>
+                Get Guidance <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <!-- Empty state -->
+    <div id="empty-state" class="empty-state" style="display:none" aria-live="polite">
+      <div class="empty-icon">🔍</div>
+      <h3>No skills match your filters</h3>
+      <p>Try removing one filter, or reset all of them.</p>
+      <button id="reset-empty-btn" class="btn-outline">Reset All Filters</button>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════
+       BOTTOM CTA
+  ═══════════════════════════════════════ -->
+  <section id="sf-cta">
+    <div class="container">
+      <div class="sf-cta-inner card">
+        <div class="sf-cta-left">
+          <h2>Still caught between two options?<br /><span class="gold-text">Career guidance helps you choose the right one.</span></h2>
+          <p>The filters narrow the field. A real conversation — your situation, your finances, your family context — picks the one.</p>
+        </div>
+        <div class="sf-cta-right">
+          <a
+            href="https://wa.me/917815927259?text=Hi%2C+I%27d+like+help+picking+a+skill+to+learn"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-gold pulse"
+          >
+            Get Career Guidance
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+          <a href="/services/career-counselling-and-career-guidance" class="btn-outline">Career Guidance</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ── PAGE HERO ── */
+  #sf-hero { position: relative; padding: 9rem 0 3.5rem; overflow: hidden; }
+  .sf-hero-bg { position: absolute; inset: 0; z-index: 0; }
+  .sf-orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .sf-orb-1 { width: 620px; height: 500px; background: radial-gradient(circle, rgba(229,184,74,.1) 0%, transparent 70%); top: -120px; left: -140px; }
+  .sf-orb-2 { width: 440px; height: 440px; background: radial-gradient(circle, rgba(167,139,250,.08) 0%, transparent 70%); bottom: -40px; right: -60px; }
+  .sf-hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: rgba(255,255,255,.35); margin-bottom: 1.5rem; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .sf-hero-tag { margin-bottom: 1.5rem; font-size: 12px; font-weight: 600; letter-spacing: .06em; }
+  .pill-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold); box-shadow: 0 0 10px rgba(229,184,74,.6);
+  }
+  .sf-h1 {
+    font-size: clamp(1.9rem, 4.4vw, 3.2rem);
+    font-weight: 800; line-height: 1.08; letter-spacing: -.04em; color: #fff;
+    margin-bottom: 1.25rem;
+  }
+  .sf-sub { font-size: clamp(14px, 1.8vw, 16px); color: rgba(255,255,255,.6); line-height: 1.75; max-width: 640px; margin-bottom: 2rem; }
+  .sf-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 2rem; }
+
+  /* Thinking quick-jump */
+  .sf-think-jump { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .sf-think-label { font-size: 12px; color: rgba(255,255,255,.35); font-weight: 600; letter-spacing: .04em; }
+  .tj-btn {
+    font-size: 12px; font-weight: 600; padding: 5px 14px;
+    border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.04); color: rgba(255,255,255,.6);
+    cursor: pointer; transition: all .2s;
+  }
+  .tj-btn:hover { border-color: rgba(229,184,74,.35); color: var(--gold); background: rgba(229,184,74,.06); }
+  .tj-btn--active { border-color: rgba(229,184,74,.55); color: var(--gold); background: rgba(229,184,74,.12); }
+  .tj-help {
+    font-size: 11.5px; color: rgba(255,255,255,.35); margin-left: 4px;
+    transition: color .2s;
+  }
+  .tj-help span { color: var(--gold); font-weight: 600; }
+  .tj-help:hover { color: rgba(255,255,255,.7); }
+
+  /* ── STICKY FILTER BAR ── */
+  .filter-wrap {
+    position: sticky; top: 72px; z-index: 50;
+    background: rgba(8,12,24,.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255,255,255,.04);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    padding: 1rem 0 .75rem;
+  }
+  .filter-search-row { display: flex; gap: .75rem; align-items: center; margin-bottom: .85rem; }
+  .fs-input-wrap { flex: 1; position: relative; display: flex; align-items: center; }
+  .fs-search-icon { position: absolute; left: 14px; color: rgba(255,255,255,.35); pointer-events: none; }
+  .fs-input {
+    width: 100%; font-family: inherit; font-size: 14px;
+    padding: 10px 38px 10px 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.1);
+    color: #fff; transition: all .2s; outline: none;
+  }
+  .fs-input::placeholder { color: rgba(255,255,255,.35); }
+  .fs-input:focus {
+    border-color: rgba(229,184,74,.5);
+    background: rgba(255,255,255,.06);
+    box-shadow: 0 0 0 3px rgba(229,184,74,.12);
+  }
+  .fs-input::-webkit-search-decoration,
+  .fs-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+  .fs-clear-btn {
+    position: absolute; right: 10px;
+    display: flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(255,255,255,.08); border: none;
+    color: rgba(255,255,255,.6); cursor: pointer; transition: all .15s;
+  }
+  .fs-clear-btn:hover { background: rgba(229,184,74,.2); color: var(--gold); }
+
+  .fs-sort-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .fs-sort-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.35); }
+  .fs-sort-select {
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    padding: 9px 32px 9px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.12);
+    color: rgba(255,255,255,.75);
+    cursor: pointer; transition: all .2s; outline: none;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center;
+  }
+  .fs-sort-select:hover { border-color: rgba(229,184,74,.3); color: #fff; }
+  .fs-sort-select:focus { border-color: rgba(229,184,74,.5); box-shadow: 0 0 0 3px rgba(229,184,74,.12); }
+  .fs-sort-select option { background: #0e1526; color: #fff; }
+
+  /* Filter pills */
+  .filter-meta-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+  .active-filters { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+  .af-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 600;
+    padding: 3px 9px; border-radius: 999px;
+    background: rgba(229,184,74,.1); border: 1px solid rgba(229,184,74,.22);
+    color: var(--gold);
+  }
+  .af-pill button {
+    background: none; border: none; color: inherit; cursor: pointer;
+    display: flex; align-items: center; padding: 0; line-height: 1; opacity: .7;
+  }
+  .af-pill button:hover { opacity: 1; }
+
+  .filter-rows { display: flex; flex-direction: column; gap: .65rem; }
+  .filter-group { display: flex; align-items: flex-start; gap: .75rem; }
+  .fg-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: rgba(255,255,255,.3);
+    white-space: nowrap; padding-top: 6px; min-width: 68px;
+  }
+  .fg-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .fg-chips--wrap { flex-wrap: wrap; }
+
+  .fc-btn {
+    font-size: 12px; font-weight: 600; padding: 5px 13px;
+    border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.04); color: rgba(255,255,255,.5);
+    cursor: pointer; transition: all .2s; white-space: nowrap;
+  }
+  .fc-btn:hover { border-color: rgba(255,255,255,.25); color: rgba(255,255,255,.85); }
+  .fc-btn--active { background: rgba(229,184,74,.12); border-color: rgba(229,184,74,.35); color: var(--gold); }
+  .fc-btn[style][data-group="category"].fc-btn--active {
+    background: color-mix(in srgb, var(--fc-color, #e5b84a) 12%, transparent);
+    border-color: color-mix(in srgb, var(--fc-color, #e5b84a) 40%, transparent);
+    color: var(--fc-color, var(--gold));
+  }
+  .fc-btn--systems.fc-btn--active    { background: rgba(96,165,250,.12); border-color: rgba(96,165,250,.4); color: #60a5fa; }
+  .fc-btn--people.fc-btn--active     { background: rgba(244,114,182,.12); border-color: rgba(244,114,182,.4); color: #f472b6; }
+  .fc-btn--both.fc-btn--active       { background: rgba(45,212,191,.12); border-color: rgba(45,212,191,.4); color: #2dd4bf; }
+  .fc-btn--foundational.fc-btn--active { background: rgba(167,139,250,.1); border-color: rgba(167,139,250,.35); color: #a78bfa; }
+  .fc-btn--highvalue.fc-btn--active  { background: rgba(229,184,74,.1); border-color: rgba(229,184,74,.35); color: var(--gold); }
+  .fc-btn--high.fc-btn--active       { background: rgba(251,191,36,.1); border-color: rgba(251,191,36,.35); color: #fbbf24; }
+  .fc-btn--medium.fc-btn--active     { background: rgba(229,184,74,.1); border-color: rgba(229,184,74,.35); color: var(--gold); }
+  .fc-btn--moderate.fc-btn--active   { background: rgba(52,211,153,.1); border-color: rgba(52,211,153,.35); color: #34d399; }
+
+  .filter-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: .65rem; padding-top: .65rem;
+    border-top: 1px solid rgba(255,255,255,.05);
+  }
+  .filter-count { font-size: 12px; color: rgba(255,255,255,.35); }
+  .filter-count strong { color: var(--gold); font-family: "Sora", sans-serif; }
+  .reset-btn {
+    font-size: 11px; font-weight: 600; color: rgba(255,255,255,.3);
+    background: none; border: none; cursor: pointer; padding: 4px 0;
+    transition: color .2s;
+  }
+  .reset-btn:hover { color: var(--gold); }
+
+  /* ── MAIN ── */
+  .sf-main { padding: 2.5rem 0 4rem; }
+
+  /* Intro strip */
+  .sf-intro {
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+  }
+  .sf-intro-title {
+    font-family: "Sora", sans-serif; font-size: 14px; color: #fff;
+    display: block; margin-bottom: .35rem;
+  }
+  .sf-intro-left p { font-size: 13.5px; color: rgba(255,255,255,.55); line-height: 1.65; max-width: 640px; }
+  .sf-intro-stats { display: flex; gap: 1.4rem; }
+  .sf-intro-stats div { text-align: right; }
+  .sf-intro-stats strong {
+    font-family: "Sora", sans-serif; font-size: 22px; font-weight: 800;
+    color: var(--gold); display: block; line-height: 1;
+  }
+  .sf-intro-stats span {
+    font-size: 10.5px; color: rgba(255,255,255,.4);
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+
+  /* Grid */
+  .sk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 1.25rem;
+  }
+
+  /* Skill card */
+  .sk {
+    position: relative;
+    display: flex; flex-direction: column;
+    padding: 1.4rem 1.4rem 1.2rem;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+    transition: all .25s;
+    min-height: 100%;
+  }
+  .sk:hover {
+    transform: translateY(-2px);
+    border-color: rgba(229,184,74,.25);
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 12px 32px rgba(0,0,0,.3);
+  }
+
+  .sk-top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; margin-bottom: .9rem;
+  }
+  .sk-cat {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11.5px; font-weight: 700;
+    color: var(--c, var(--gold));
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .sk-cat-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c, var(--gold)); }
+  .sk-demand {
+    font-size: 10.5px; font-weight: 700;
+    padding: 2px 9px; border-radius: 999px;
+    background: color-mix(in srgb, var(--c) 12%, transparent);
+    color: var(--c);
+    border: 1px solid color-mix(in srgb, var(--c) 25%, transparent);
+    text-transform: uppercase; letter-spacing: .06em; white-space: nowrap;
+  }
+
+  .sk-type-badge {
+    margin-bottom: .75rem;
+  }
+  .sk-type-label {
+    display: inline-block;
+    font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 6px;
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .sk-type--foundational { background: rgba(167,139,250,.15); color: #a78bfa; border: 1px solid rgba(167,139,250,.3); }
+  .sk-type--high-value    { background: rgba(229,184,74,.15); color: var(--gold); border: 1px solid rgba(229,184,74,.3); }
+
+  .sk-title {
+    font-size: 17px; font-weight: 700; color: #fff;
+    letter-spacing: -.02em; line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+
+  .sk-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .5rem;
+    padding: .75rem;
+    border-radius: 10px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.05);
+    margin-bottom: 1rem;
+  }
+  .sk-metric { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .sk-metric-label {
+    font-size: 9.5px; font-weight: 600;
+    color: rgba(255,255,255,.38);
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .sk-metric-value {
+    font-family: "Sora", sans-serif;
+    font-size: 12.5px; font-weight: 700;
+    color: var(--ic, #fff); line-height: 1.25;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .sk-metric-value small {
+    font-size: 9.5px; font-weight: 600;
+    color: rgba(255,255,255,.5);
+    margin-left: 2px;
+  }
+
+  .sk-workfocus {
+    margin-bottom: .9rem;
+  }
+  .sk-workfocus-label {
+    display: block; font-size: 10px; font-weight: 700;
+    color: rgba(255,255,255,.38);
+    text-transform: uppercase; letter-spacing: .06em;
+    margin-bottom: 6px;
+  }
+  .sk-workfocus-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .sk-wf-tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 6px;
+    background: color-mix(in srgb, var(--wf-color) 15%, transparent);
+    color: var(--wf-color);
+    border: 1px solid color-mix(in srgb, var(--wf-color) 30%, transparent);
+    white-space: nowrap;
+  }
+
+  .sk-why, .sk-start { margin-bottom: .9rem; }
+  .sk-why-label, .sk-start-label {
+    display: block; font-size: 10px; font-weight: 700;
+    color: rgba(229,184,74,.65);
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-bottom: 4px;
+  }
+  .sk-why p {
+    font-size: 13px; color: rgba(255,255,255,.72);
+    line-height: 1.6;
+  }
+  .sk-start strong {
+    display: block;
+    font-family: "Sora", sans-serif; font-size: 13px; font-weight: 600;
+    color: #fff; margin-bottom: 2px;
+  }
+  .sk-start p {
+    font-size: 12.5px; color: rgba(255,255,255,.55);
+    line-height: 1.55;
+  }
+
+  .sk-footer {
+    display: flex; align-items: center; justify-content: flex-end;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: .85rem;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .sk-cta {
+    font-size: 12.5px; font-weight: 700;
+    color: var(--gold);
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: gap .2s, color .2s;
+    white-space: nowrap;
+  }
+  .sk-cta:hover { gap: 8px; color: var(--gold-light); }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center; padding: 4rem 1rem;
+    border: 1px dashed rgba(255,255,255,.1);
+    border-radius: 16px;
+  }
+  .empty-icon { font-size: 2.5rem; margin-bottom: .75rem; opacity: .7; }
+  .empty-state h3 {
+    font-family: "Sora", sans-serif; font-size: 18px; color: #fff; margin-bottom: .35rem;
+  }
+  .empty-state p { font-size: 13.5px; color: rgba(255,255,255,.5); margin-bottom: 1.25rem; }
+
+  /* ── BOTTOM CTA ── */
+  #sf-cta { padding: 2rem 0 5rem; }
+  .sf-cta-inner {
+    padding: 2.25rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+  }
+  .sf-cta-left h2 {
+    font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+    font-weight: 800; letter-spacing: -.03em;
+    color: #fff; line-height: 1.18;
+    margin-bottom: .6rem;
+  }
+  .sf-cta-left p {
+    font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.65;
+    max-width: 540px;
+  }
+  .sf-cta-right { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 880px) {
+    #sf-hero { padding: 7rem 0 2.5rem; }
+    .sf-intro { grid-template-columns: 1fr; gap: 1rem; }
+    .sf-intro-stats { justify-content: space-between; }
+    .sf-intro-stats div { text-align: left; }
+    .sf-cta-inner { grid-template-columns: 1fr; gap: 1.25rem; }
+  }
+  @media (max-width: 768px) {
+    .filter-search-row { flex-direction: column; align-items: stretch; gap: .6rem; }
+    .fs-sort-wrap { justify-content: space-between; }
+    .fs-sort-select { flex: 1; }
+    .filter-group { flex-direction: column; align-items: flex-start; gap: .4rem; }
+    .fg-label { padding-top: 0; }
+    .filter-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: .7rem;
+    }
+    .filter-meta-right {
+      width: 100%;
+      justify-content: space-between;
+    }
+    .sf-hero-ctas { flex-direction: column; align-items: stretch; }
+    .sf-hero-ctas .btn-gold,
+    .sf-hero-ctas .btn-outline { justify-content: center; }
+    .sk-grid { grid-template-columns: 1fr; }
+    .sk-metrics { grid-template-columns: 1fr 1fr 1fr; }
+    .sk-metric-value { font-size: 11.5px; }
+    .sf-main { padding: 2rem 0 3.2rem; }
+    .sf-intro { padding: 1rem 1rem; }
+    .sk { padding: 1.15rem 1.05rem 1rem; border-radius: 14px; }
+    .sk-footer {
+      flex-direction: column;
+      align-items: stretch;
+      gap: .75rem;
+    }
+    .sk-cta { justify-content: center; width: 100%; }
+  }
+  @media (max-width: 420px) {
+    .filter-meta-right {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .fs-sort-wrap { width: 100%; }
+    .fs-sort-select { width: 100%; }
+    .sk-top { flex-direction: column; align-items: flex-start; }
+    .sk-workfocus-tags,
+    .fg-chips { gap: 5px; }
+    .sk-metrics { grid-template-columns: 1fr; gap: .6rem; }
+  }
+</style>
+
+<script>
+  // ── FILTER + SEARCH + SORT ENGINE ─────────────────────────────────────────
+  type FilterGroup = 'workFocus' | 'skillType' | 'difficulty' | 'category' | 'incomeLevel' | 'thinking';
+  type SortKey = 'default' | 'income-desc' | 'income-asc' | 'difficulty-easy-first' | 'difficulty-steep-first' | 'name-asc' | 'time-asc' | 'time-desc';
+
+  const state: Record<FilterGroup, string> & { query: string; sort: SortKey } = {
+    workFocus: 'all',
+    skillType: 'all',
+    difficulty: 'all',
+    category: 'all',
+    incomeLevel: 'all',
+    thinking: 'all',
+    query: '',
+    sort: 'default',
+  };
+
+  const grid = document.getElementById('sk-grid') as HTMLElement | null;
+  const cards = grid ? Array.from(grid.querySelectorAll<HTMLElement>('.sk')) : [];
+  const countEl = document.getElementById('res-count');
+  const empty = document.getElementById('empty-state');
+  const activeFilters = document.getElementById('active-filters');
+  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+  const searchClear = document.getElementById('search-clear') as HTMLButtonElement | null;
+  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement | null;
+
+  const groupLabels: Record<FilterGroup, string> = {
+    workFocus: 'Work Focus', skillType: 'Skill Type', difficulty: 'Difficulty', category: 'Category', incomeLevel: 'Income Ceiling', thinking: 'Thinking Style',
+  };
+
+  const valueLabels: Record<string, Record<string, string>> = {
+    workFocus: {
+      technical: 'Technical', data: 'Data & Analytics', design: 'Design & Creative',
+      product: 'Product & Strategy', people: 'People & Communication', sales: 'Sales & Revenue',
+      marketing: 'Marketing & Growth', operations: 'Operations',
+    },
+    skillType: { foundational: 'Foundational', 'high-value': 'High-Value' },
+    difficulty: { easy: 'Easy to Start', moderate: 'Moderate', steep: 'Steep Learning' },
+    category: {
+      'software-dev': 'Software Development & Architecture', 'ai-ml': 'AI & Machine Learning',
+      'data-cloud': 'Data, Cloud & Infrastructure', cybersecurity: 'Cybersecurity',
+      design: 'Design, Product & Content', marketing: 'Marketing & Growth',
+      business: 'Business Acumen & Soft Skills',
+    },
+    incomeLevel: { high: 'High (₹25L+)', medium: 'Medium (₹12–25L)', moderate: 'Moderate (₹8–12L)' },
+    thinking: { systems: 'Logic & patterns', people: 'People & stories', both: 'Both equally' },
+  };
+
+  function updateChipStates() {
+    document.querySelectorAll<HTMLButtonElement>('.fc-btn').forEach(btn => {
+      const g = btn.dataset.group as FilterGroup | undefined;
+      const v = btn.dataset.value;
+      if (!g || !v) return;
+      btn.classList.toggle('fc-btn--active', state[g] === v);
+    });
+    document.querySelectorAll<HTMLButtonElement>('.tj-btn').forEach(btn => {
+      const v = btn.dataset.value;
+      btn.classList.toggle('tj-btn--active', Boolean(v) && state.thinking === v);
+    });
+  }
+
+  function sortCards() {
+    if (!grid) return;
+    const all = Array.from(grid.querySelectorAll<HTMLElement>('.sk'));
+    const diffOrder = { 'easy': 1, 'moderate': 2, 'steep': 3 };
+    all.sort((a, b) => {
+      const sort = state.sort;
+      if (sort === 'income-desc' || sort === 'income-asc') {
+        const am = parseFloat(a.dataset.incomeMid || '0');
+        const bm = parseFloat(b.dataset.incomeMid || '0');
+        return sort === 'income-desc' ? bm - am : am - bm;
+      }
+      if (sort === 'difficulty-easy-first' || sort === 'difficulty-steep-first') {
+        const aord = diffOrder[a.dataset.difficulty as keyof typeof diffOrder] || 2;
+        const bord = diffOrder[b.dataset.difficulty as keyof typeof diffOrder] || 2;
+        return sort === 'difficulty-easy-first' ? aord - bord : bord - aord;
+      }
+      if (sort === 'time-asc' || sort === 'time-desc') {
+        const at = parseInt(a.dataset.timeOrder || '0', 10);
+        const bt = parseInt(b.dataset.timeOrder || '0', 10);
+        return sort === 'time-asc' ? at - bt : bt - at;
+      }
+      if (sort === 'name-asc') {
+        return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+      }
+      // default (recommended = original order)
+      return parseInt(a.dataset.order || '0', 10) - parseInt(b.dataset.order || '0', 10);
+    });
+    const frag = document.createDocumentFragment();
+    all.forEach(c => frag.appendChild(c));
+    grid.appendChild(frag);
+  }
+
+  function renderActiveFilters() {
+    if (!activeFilters) return;
+    const chips: string[] = [];
+    (Object.keys(groupLabels) as FilterGroup[]).forEach(g => {
+      const v = state[g];
+      if (v && v !== 'all') {
+        const label = valueLabels[g]?.[v] || v;
+        chips.push(`<span class="af-pill">${label}<button type="button" data-af-group="${g}" aria-label="Remove ${label}"><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></span>`);
+      }
+    });
+    if (state.query) {
+      const safe = state.query.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      chips.push(`<span class="af-pill">"${safe}"<button type="button" data-af-group="query" aria-label="Clear search"><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></span>`);
+    }
+    activeFilters.innerHTML = chips.join('');
+  }
+
+  function applyFilters() {
+    let visible = 0;
+    const q = state.query.trim().toLowerCase();
+    cards.forEach(card => {
+      const workFocusStr = card.dataset.workFocus || '';
+      const skillType = card.dataset.skillType || '';
+      const difficulty = card.dataset.difficulty || '';
+      const categoryVal = card.dataset.category || '';
+      const incomeVal = card.dataset.incomeLevel || '';
+      const thinkingVal = card.dataset.thinking || '';
+      const blob = card.dataset.search || '';
+
+      // workFocus is space-separated string; match if ANY selected focus is present
+      const workFocusArray = workFocusStr.split(' ').filter(x => x);
+      const matchWorkFocus = state.workFocus === 'all'
+        || workFocusArray.includes(state.workFocus);
+      const matchSkillType = state.skillType === 'all' || skillType === state.skillType;
+      const matchDifficulty = state.difficulty === 'all' || difficulty === state.difficulty;
+      const matchCat = state.category === 'all' || categoryVal === state.category;
+      const matchIncome = state.incomeLevel === 'all' || incomeVal === state.incomeLevel;
+      const matchThinking = state.thinking === 'all' || thinkingVal === state.thinking;
+      const matchQ = !q || blob.includes(q);
+
+      const show = matchWorkFocus && matchSkillType && matchDifficulty && matchCat && matchIncome && matchThinking && matchQ;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    if (countEl) countEl.textContent = String(visible);
+    if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
+    if (grid) grid.style.display = visible === 0 ? 'none' : '';
+    renderActiveFilters();
+  }
+
+  // Filter chip clicks
+  document.querySelectorAll<HTMLButtonElement>('.fc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const g = btn.dataset.group as FilterGroup | undefined;
+      const v = btn.dataset.value;
+      if (!g || !v) return;
+      state[g] = v;
+      updateChipStates();
+      applyFilters();
+    });
+  });
+
+  // Hero thinking-style quick jumps
+  document.querySelectorAll<HTMLButtonElement>('.tj-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const v = btn.dataset.value;
+      if (!v) return;
+      state.thinking = v;
+      updateChipStates();
+      applyFilters();
+      const finder = document.getElementById('finder');
+      finder?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Active-filter pill removal
+  activeFilters?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-af-group]');
+    if (!btn) return;
+    const g = btn.dataset.afGroup;
+    if (g === 'query') {
+      state.query = '';
+      if (searchInput) searchInput.value = '';
+      if (searchClear) searchClear.style.display = 'none';
+    } else if (g && g in state) {
+      (state as any)[g] = 'all';
+      updateChipStates();
+    }
+    applyFilters();
+  });
+
+  // Search (debounced)
+  let searchTimer: number | undefined;
+  searchInput?.addEventListener('input', () => {
+    const v = searchInput.value;
+    if (searchClear) searchClear.style.display = v ? 'flex' : 'none';
+    window.clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(() => {
+      state.query = v;
+      applyFilters();
+    }, 120);
+  });
+  searchClear?.addEventListener('click', () => {
+    if (searchInput) searchInput.value = '';
+    state.query = '';
+    searchClear.style.display = 'none';
+    applyFilters();
+    searchInput?.focus();
+  });
+
+  // Sort
+  sortSelect?.addEventListener('change', () => {
+    state.sort = sortSelect.value as SortKey;
+    sortCards();
+  });
+
+  // Reset
+  function resetAll() {
+    (['workFocus', 'skillType', 'difficulty', 'category', 'incomeLevel', 'thinking'] as FilterGroup[]).forEach(g => { state[g] = 'all'; });
+    state.query = '';
+    state.sort = 'default';
+    if (searchInput) searchInput.value = '';
+    if (searchClear) searchClear.style.display = 'none';
+    if (sortSelect) sortSelect.value = 'default';
+    updateChipStates();
+    sortCards();
+    applyFilters();
+  }
+  document.getElementById('reset-btn')?.addEventListener('click', resetAll);
+  document.getElementById('reset-empty-btn')?.addEventListener('click', resetAll);
+
+  // Deep-link: ?q=... &workFocus=... &skillType=... &difficulty=... &category=... &incomeLevel=... &thinking=... &sort=...
+  const params = new URLSearchParams(window.location.search);
+  (['workFocus','skillType','difficulty','category','incomeLevel','thinking'] as FilterGroup[]).forEach(g => {
+    const v = params.get(g);
+    if (v) state[g] = v;
+  });
+  const pq = params.get('q');
+  if (pq && searchInput) {
+    searchInput.value = pq;
+    state.query = pq;
+    if (searchClear) searchClear.style.display = 'flex';
+  }
+  const ps = params.get('sort') as SortKey | null;
+  if (ps && sortSelect) {
+    sortSelect.value = ps;
+    state.sort = ps;
+  }
+  updateChipStates();
+  sortCards();
+  applyFilters();
+</script>

@@ -1,0 +1,276 @@
+﻿---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { WHATSAPP_BOOKING_URL } from '../../config/site';
+
+const cities = [
+  { slug: 'mumbai', name: 'Mumbai', desc: 'India\'s financial capital. Career guidance for finance, media, tech, and startup professionals.' },
+  { slug: 'delhi', name: 'Delhi / NCR', desc: 'India\'s political and business hub. Guidance for government, corporate, and entrepreneurship tracks.' },
+  { slug: 'bangalore', name: 'Bangalore', desc: 'India\'s tech capital. Career planning for software, design, AI, and product roles.' },
+  { slug: 'hyderabad', name: 'Hyderabad', desc: 'Tech and pharma powerhouse. Guidance for IT, biotech, and emerging STEM career paths.' },
+  { slug: 'pune', name: 'Pune', desc: 'Education and IT hub. Career guidance for students, graduates, and working professionals.' },
+  { slug: 'chennai', name: 'Chennai', desc: 'Manufacturing and IT corridor. Guidance for engineering, finance, and analytics careers.' },
+  { slug: 'ahmedabad', name: 'Ahmedabad', desc: 'Business and textiles gateway. Career planning for entrepreneurs, finance, and trade-focused paths.' },
+  {
+    slug: 'visakhapatnam',
+    name: 'Visakhapatnam',
+    desc: 'Career counselling and guidance for people in Visakhapatnam who want stronger next steps without depending on generic local advice.',
+    href: '/services/career-counselling-and-career-guidance/locations/career-counselling-in-visakhapatnam/',
+  },
+  { slug: 'kolkata', name: 'Kolkata', desc: 'Cultural capital with a strong base in finance, education, and creative industries.' },
+  { slug: 'jaipur', name: 'Jaipur', desc: 'Growing tech and tourism hub. Career guidance for hospitality, IT, and retail professionals.' },
+  { slug: 'kochi', name: 'Kochi', desc: 'South India\'s startup and shipping hub. Guidance for logistics, tech, and business tracks.' },
+  { slug: 'lucknow', name: 'Lucknow', desc: 'Emerging IT and healthcare corridor. Career planning for graduates and working professionals.' },
+];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://futurecareerschool.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Locations", "item": "https://futurecareerschool.com/locations" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Locations | Career Guidance Across India | Future Career School",
+    "description": "Future Career School provides career guidance and counselling for students and professionals across India â€” online-first with city-specific insight for major metros.",
+    "url": "https://futurecareerschool.com/locations",
+    "inLanguage": "en-IN",
+    "publisher": {
+      "@type": "EducationalOrganization",
+      "name": "Future Career School",
+      "url": "https://futurecareerschool.com"
+    }
+  }
+];
+---
+
+<BaseLayout
+  title="Locations | Career Guidance Across India | Future Career School"
+  description="Career guidance and counselling for students and professionals across India's major cities â€” online-first with local market context. Find your city."
+  canonical="https://futurecareerschool.com/locations"
+  jsonLd={jsonLd}
+>
+  <Nav />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Locations</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Online-first. City-aware. India-wide.
+      </div>
+
+      <h1 class="hero-title">
+        Career Guidance
+        <span class="gold-text"> Across India</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School started in Visakhapatnam and now helps students and professionals across India.
+        Our guidance is online-first, which means geography is never a barrier.
+        City-specific pages include local education context, hiring market insight, and region-aware career advice.
+      </p>
+      <div class="hero-actions">
+        <a href="/services/career-counselling-and-career-guidance" class="btn-gold pulse">Get Career Guidance</a>
+        <a href={WHATSAPP_BOOKING_URL} class="btn-outline" target="_blank" rel="noopener noreferrer">Message on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="reach">
+    <div class="container">
+      <div class="reach-grid">
+        <div class="reach-card card">
+          <div class="reach-icon">&#127758;</div>
+          <h3>Online-First Delivery</h3>
+          <p>
+            All sessions are conducted online so students from Lucknow to Kochi can access the same quality of guidance
+            as someone in Bangalore or Mumbai. No travel required.
+          </p>
+        </div>
+        <div class="reach-card card">
+          <div class="reach-icon">&#127968;</div>
+          <h3>Local Market Context</h3>
+          <p>
+            Career decisions cannot ignore local hiring markets, institutions, and regional industry patterns.
+            City pages include real local insight â€” not just city-name swaps.
+          </p>
+        </div>
+        <div class="reach-card card">
+          <div class="reach-icon">&#128205;</div>
+          <h3>Based in Visakhapatnam</h3>
+          <p>
+            Our physical base is in Vizag, Andhra Pradesh. We understand South India's career landscape deeply â€”
+            and extend that research-driven approach to every city we cover.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cities">
+    <div class="container">
+      <div class="section-tag pill"><span style="color:var(--gold)">&#9673;</span>&nbsp;City Pages</div>
+      <h2 class="section-headline">Find Your City</h2>
+      <p class="section-sub">
+        Each city snapshot highlights local hiring conditions, key industries, institutions, and career paths that matter in that market.
+      </p>
+
+      <div class="city-grid">
+        {cities.map((city) => (
+          city.href ? (
+            <a id={city.slug} class="city-card card city-card-link" href={city.href}>
+              <div class="city-name">{city.name}</div>
+              <p class="city-desc">{city.desc}</p>
+              <div class="city-link">Open city guidance</div>
+            </a>
+          ) : (
+            <article id={city.slug} class="city-card card">
+              <div class="city-name">{city.name}</div>
+              <p class="city-desc">{city.desc}</p>
+              <div class="city-link">Market snapshot</div>
+            </article>
+          )
+        ))}
+      </div>
+
+      <p class="coming-soon-note">
+        Need city-specific guidance now? Start with the main guidance page and mention your city when you reach out.
+      </p>
+    </div>
+  </section>
+
+  <section id="nav-up">
+    <div class="container">
+      <div class="section-tag pill"><span style="color:var(--teal)">&#9673;</span>&nbsp;Back to Main Services</div>
+      <div class="nav-up-grid">
+        <a class="nav-up-card card" href="/services">
+          <strong>Guidance, Assessments, and Tools</strong>
+          <span>Overview of career guidance, assessments, and coaching support</span>
+        </a>
+        <a class="nav-up-card card" href="/services/career-counselling-and-career-guidance">
+          <strong>Career Guidance</strong>
+          <span>City-aware guidance sessions â€” online for any location in India</span>
+        </a>
+        <a class="nav-up-card card" href="/services/assessments">
+          <strong>Assessments</strong>
+          <span>Career tests and psychometric assessments available nationwide</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta">
+    <div class="container">
+      <div class="cta-inner card">
+        <div class="cta-glow"></div>
+        <div class="cta-content">
+          <div class="pill cta-pill">Book from anywhere in India</div>
+          <h2 class="cta-title">Get Career Guidance From Anywhere in India</h2>
+          <p class="cta-sub">
+            No matter which city you are in, starting is simple. Message us on WhatsApp or explore the guidance page to understand how support is structured.
+          </p>
+          <div class="cta-actions">
+            <a href={WHATSAPP_BOOKING_URL} class="btn-gold pulse" target="_blank" rel="noopener noreferrer">Get Guidance on WhatsApp</a>
+            <a href="/services/career-counselling-and-career-guidance#guidance-process" class="btn-outline">See Guidance Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill { width: fit-content; margin-bottom: 1.6rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title { font-size: clamp(2.35rem, 5vw, 3.9rem); line-height: 1.04; letter-spacing: -.04em; color: #fff; max-width: 980px; margin-bottom: 1.25rem; }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.56); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #reach { padding: 5rem 0; background: rgba(255,255,255,.012); }
+  #cities { padding: 6rem 0; }
+  #nav-up { padding: 4rem 0; background: rgba(255,255,255,.012); }
+  #cta { padding: 6rem 0 7rem; }
+
+  .reach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .reach-card { padding: 1.9rem; display: flex; flex-direction: column; gap: .75rem; }
+  .reach-icon { font-size: 2rem; margin-bottom: .25rem; }
+  .reach-card h3 { font-size: 1.1rem; color: #fff; }
+  .reach-card p { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.75; }
+
+  .section-tag { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.6); margin-bottom: 1.25rem; align-items: center; gap: 6px; }
+  .section-headline { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800; line-height: 1.1; letter-spacing: -.03em; color: #fff; margin-bottom: 1rem; text-align: center; }
+  .section-sub { font-size: clamp(15px, 2vw, 17px); color: rgba(255,255,255,.55); max-width: 720px; margin: 0 auto 3rem; text-align: center; line-height: 1.7; }
+
+  .city-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.15rem; }
+  .city-card { padding: 1.6rem; display: flex; flex-direction: column; transition: transform .25s, border-color .25s, background .25s; }
+  .city-card-link { text-decoration: none; }
+  .city-card:hover { transform: translateY(-3px); border-color: rgba(229,184,74,.3); background: rgba(229,184,74,.02); }
+  .city-name { font-family: "Sora", sans-serif; font-weight: 900; font-size: 1.05rem; color: #fff; margin-bottom: .55rem; letter-spacing: -.02em; }
+  .city-desc { font-size: 13.5px; color: rgba(255,255,255,.5); line-height: 1.7; margin-bottom: 1.1rem; flex: 1; }
+  .city-link { margin-top: auto; font-size: 13px; font-weight: 800; color: var(--gold); }
+  .coming-soon-note { margin-top: 2rem; text-align: center; font-size: 13px; color: rgba(255,255,255,.32); }
+
+  .nav-up-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .nav-up-card { padding: 1.4rem 1.6rem; display: flex; flex-direction: column; gap: .5rem; transition: transform .2s, border-color .2s; }
+  .nav-up-card:hover { transform: translateY(-3px); border-color: rgba(45,212,191,.3); }
+  .nav-up-card strong { color: #fff; font-size: 14px; }
+  .nav-up-card span { color: rgba(255,255,255,.45); font-size: 13px; line-height: 1.5; }
+
+  .cta-inner { position: relative; overflow: hidden; padding: 3.25rem; text-align: center; border-color: rgba(229,184,74,.14); background: rgba(229,184,74,.02); }
+  .cta-glow { position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(229,184,74,.16), transparent 60%); pointer-events: none; }
+  .cta-content { position: relative; z-index: 1; }
+  .cta-pill { margin: 0 auto 1.4rem; width: fit-content; color: rgba(255,255,255,.55); }
+  .cta-title { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 900; letter-spacing: -.03em; color: #fff; margin-bottom: .9rem; }
+  .cta-sub { font-size: 15px; color: rgba(255,255,255,.5); line-height: 1.75; max-width: 620px; margin: 0 auto 2.25rem; }
+  .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  @media (max-width: 980px) {
+    .reach-grid { grid-template-columns: 1fr; }
+    .city-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-up-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    #hero { padding: 120px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline { justify-content: center; }
+    .city-grid { grid-template-columns: 1fr; }
+    .cta-inner { padding: 2.25rem 1.5rem; }
+    .cta-actions { flex-direction: column; align-items: stretch; }
+    .cta-actions .btn-gold, .cta-actions .btn-outline { justify-content: center; }
+  }
+</style>
+
