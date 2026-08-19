@@ -1,0 +1,532 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling for NEET Aspirants | Repeat Attempt or Exit Decision | Future Career School';
+const description =
+  'Career counselling for NEET aspirants deciding on another drop year, a repeat attempt, or a real exit into para-medical, allied health, biotech, or pharmacy. Decision support, not NEET coaching. Online across India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-neet-aspirants/';
+
+const class1112AssessmentUrl = BOFU_ASSESSMENT_LINKS.class11To12;
+const pcbWithoutNeetUrl = '/blog/career-options/pcb-career-options-without-neet/';
+const dropYearUrl = '/blog/college-degrees/should-i-take-drop-year-after-12th/';
+const coachingVsSkillUrl = '/blog/parents/expensive-coaching-vs-skill-building-which-is-better-for-child/';
+
+const coachingPressureItems = [
+  {
+    title: 'A second or third drop year starts to feel normal',
+    body: 'Inside NEET coaching hubs, spending one, two, or even three years solely preparing has become so common that another attempt barely gets questioned, even when the score improvement each year keeps shrinking. Momentum ends up choosing the next year for you instead of a fresh decision — the kind of decision that should protect your route toward earlier financial freedom, not just extend the wait for it.',
+  },
+  {
+    title: 'The coaching schedule leaves no room to think about anything else',
+    body: 'Long structured days built entirely around test series and revision cycles push everything else out of view — health, friendships, and any real look at what a Biology, Chemistry, and Physics background could support beyond MBBS. By result day, there has usually been no real space to think it through.',
+  },
+  {
+    title: 'The fees already paid make walking away feel like wasting money twice',
+    body: 'When a family has already spent a significant amount on coaching fees, hostel costs, and study material, stopping can feel like admitting that money was wasted, even when continuing costs more without a real change in method or result. That instinct deserves examining, not just following.',
+  },
+  {
+    title: 'Mental health strain gets treated as the price of entry, not a signal',
+    body: 'Anxiety, sleep disruption, and burnout inside high-intensity NEET coaching are often normalised as "just how it is" instead of being read as real information about whether another attempt is genuinely the right call for you.',
+  },
+];
+
+const decisionPointItems = [
+  {
+    eyebrow: 'Before the first attempt, or right after 12th',
+    title: 'Weighing NEET against other paths before coaching fees add up',
+    body: 'A structured way to check whether committing to NEET coaching is the right call for your actual strengths, before a year or more of fees and time go into a single-outcome plan.',
+    listItems: [
+      'Maps your real strengths and interest in biology against what a coaching-heavy NEET year actually demands',
+      'Names the realistic time, money, and opportunity cost of a coaching commitment upfront, not after year one',
+      'Compares NEET honestly against para-medical, allied-health, biotech, and pharmacy routes that use the same subject strength',
+    ],
+  },
+  {
+    eyebrow: 'One drop year in, deciding on a second',
+    title: 'Judging whether another coaching year is the highest-leverage move',
+    body: 'The hardest call in this journey usually comes after a result that improved, but not enough to change the outcome.',
+    listItems: [
+      'Looks at what genuinely changed between attempts — method, hours, weak areas closed — not just "study harder" as a plan',
+      'Weighs the real cost of another coaching year against a strong non-medical direction available right now',
+      'Builds a credible parallel option in the background instead of treating a second attempt as the only path',
+    ],
+  },
+  {
+    eyebrow: 'Two or more drop years, still short of a seat',
+    title: 'Deciding when the coaching-factory model has stopped working for you',
+    body: 'At this stage, generic "keep trying, your seat is coming" advice becomes actively costly rather than encouraging.',
+    listItems: [
+      'Reads the score plateau honestly instead of treating one more repeat as automatically worth it',
+      'Looks closely at para-medical, allied-health, biotech, and pharmacy entry points that build directly on existing biology strength',
+      'Builds an exit plan that treats the years already invested as a foundation, not as time to write off',
+    ],
+  },
+  {
+    eyebrow: 'After stepping off the NEET track',
+    title: 'Converting NEET-prep discipline into a real next direction',
+    body: 'Leaving NEET preparation is not the end of the story — it is a pivot point that still needs a specific plan.',
+    listItems: [
+      'Translates biology depth, exam stamina, and daily discipline into allied-health, pharmacy, or biotech-linked study paths',
+      'Builds proof of work and skill direction instead of drifting into "figure it out later"',
+      'Helps you walk into the parent conversation with a concrete next step, not just a decision to stop',
+    ],
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Random upskilling that compounds slowly',
+    right: 'Clearer skill direction tied to growth and income upside',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+];
+
+const oneMoreAttemptItems = [
+  {
+    title: 'What actually changed, not just what you hope changes',
+    body: 'Comparing score trend, study method, and which weak areas genuinely closed between attempts matters more than hoping a repeat of the same routine produces a different result.',
+  },
+  {
+    title: 'What another coaching year really costs',
+    body: 'This year\'s coaching, hostel, and study-material fees are only part of it — a year of income and skill-building your peers are already gaining elsewhere is the harder cost to see in the moment.',
+  },
+  {
+    title: 'What a strong non-medical direction already offers',
+    body: 'Para-medical, allied-health, biotech, and pharmacy routes use the same biology foundation and do not require betting the year on one more result.',
+  },
+  {
+    title: 'What actually protects your route to earlier financial freedom',
+    body: 'Sometimes that is one focused, method-changed final attempt. Sometimes it is starting a strong skill-first direction now instead of a repeat on the same plan. The right call depends on your own numbers, not on what the coaching centre usually tells everyone.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether coaching-fee sunk cost gets examined honestly, not brushed aside',
+    body: 'The money and years already spent are real. Useful guidance names that cost directly instead of pretending it does not influence the decision, or using guilt to keep you on the same track.',
+  },
+  {
+    title: 'Check whether para-medical, allied-health, biotech, and pharmacy paths get real depth',
+    body: 'These routes deserve the same seriousness as another NEET attempt, not a one-line "you could also try biotech" mention buried at the end of a session.',
+  },
+  {
+    title: 'Check whether the mental-health cost of repeat attempts is treated as real signal',
+    body: 'Burnout and anxiety inside back-to-back drop years are not just something to push through. Stronger guidance factors that cost into the decision, not just the score.',
+  },
+  {
+    title: 'Check whether the parent conversation gets planned, not just the exam decision',
+    body: 'A decision to attempt again or step off NEET prep usually has to be explained at home, often to parents who have paid for years of coaching. Guidance should help you prepare for that conversation, not just hand you a private decision to deliver alone.',
+  },
+];
+
+const parentConversationItems = [
+  {
+    title: 'Separate the money already spent from the decision ahead',
+    body: 'Naming the coaching fees and years honestly, without dismissing them or letting them force one more attempt, opens a calmer conversation than avoiding the topic altogether.',
+  },
+  {
+    title: 'Bring a real next direction, not just the wish to stop',
+    body: 'A specific para-medical, allied-health, biotech, or pharmacy plan is a very different conversation than "I want to quit" — it answers the question parents are actually asking underneath the pressure: what happens next.',
+  },
+  {
+    title: 'Let the conversation be about the plan, not a verdict on the years already spent',
+    body: 'The discipline and subject strength built over NEET drop years are real, whichever direction comes next. The conversation tends to go better when it is framed as building on that foundation instead of discarding it.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Should I attempt NEET again after a drop year, or move to a non-medical path?',
+    answer:
+      'That depends on what genuinely changed in your last attempt, the realistic cost of another coaching year, and whether a para-medical, allied-health, biotech, or pharmacy path already fits your strengths better. Guidance should help you weigh those factors specifically, instead of defaulting to "try again" because that is what everyone around you is doing.',
+  },
+  {
+    question: 'I have already done two drop years for NEET. Is a third attempt worth it?',
+    answer:
+      'There is no single number that is right for everyone. The useful question is whether your method, score trend, and weak areas have genuinely shifted between attempts, and what another year would cost against a strong non-medical direction available right now — not how many attempts feels normal inside your coaching batch.',
+  },
+  {
+    question: 'How do I tell my parents I want to stop NEET prep after they have paid for years of coaching?',
+    answer:
+      'It usually goes better when the coaching fees already spent are named directly instead of avoided, and when you bring a specific next plan rather than only the decision to stop. Guidance can help you prepare that conversation so it reads as a considered next step, not a sudden reversal.',
+  },
+  {
+    question: 'What can a Biology, Chemistry, and Physics background actually support if I stop preparing for NEET?',
+    answer:
+      'Para-medical courses, nursing, physiotherapy, pharmacy, biotechnology, and other allied-health and life-sciences routes build directly on the same subject strength without depending on a NEET result. Guidance should help you compare these honestly against continuing NEET prep, not treat them only as a fallback.',
+  },
+  {
+    question: 'Can career counselling help me improve my NEET score or clear the exam?',
+    answer:
+      'No. This is not NEET coaching, test-series evaluation, or doubt-clearing support, and it should not be mistaken for one. It is decision support for the choices around NEET preparation — whether to attempt again, how many more drop years make sense, and what a real exit looks like — not preparation for the exam itself.',
+  },
+  {
+    question: 'Is the time and money spent on NEET coaching wasted if I switch direction?',
+    answer:
+      'The discipline, subject depth, and exam stamina built over your NEET years carry forward into para-medical, allied-health, biotech, and pharmacy study paths — they are not erased by a change in direction. The years are better treated as a foundation for the next decision than as a loss to be written off.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered — useful for narrowing direction while a NEET attempt or drop-year decision is still pending.',
+  },
+  {
+    question: 'Is this available online while I am still in a coaching city?',
+    answer:
+      'Yes. Guidance is delivered fully online across India, so you can join from your coaching city, your hometown, or wherever you are right now, without needing to step away from your current schedule to access it.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for NEET Aspirants', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for NEET Aspirants | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for NEET Aspirants',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+
+const relatedDirectoryItems = [
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-pcb-students/',
+    title: 'Career Counselling for PCB Students',
+    description: 'For students still deciding whether to commit to NEET at all, or exploring the wider set of non-medical paths a PCB stream supports.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12th,
+    title: 'Career Guidance After 12th',
+    description: 'Broader after-12th guidance once a NEET exit or repeat-attempt decision needs to connect to course, degree, and skill direction.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Wider student guidance for school, college, and early skill-direction decisions beyond the NEET-specific pressure points.',
+  },
+  {
+    href: class1112AssessmentUrl,
+    title: 'Class 11 to 12 Assessment',
+    description: 'Free strength and work-style signal while a NEET attempt or drop-year decision is still pending.',
+  },
+  {
+    href: dropYearUrl,
+    title: 'Should I Take a Drop Year After 12th?',
+    description: 'A clear-headed read on when another drop year genuinely helps and when it stops paying off.',
+  },
+  {
+    href: coachingVsSkillUrl,
+    title: 'Expensive Coaching vs Skill Building',
+    description: 'A practical cost-and-odds comparison useful for families weighing another coaching year against a skill-first direction.',
+  },
+  {
+    href: pcbWithoutNeetUrl,
+    title: 'PCB Career Options Without NEET',
+    description: 'A practical read on real non-medical routes once NEET is no longer the only plan being bet on.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for NEET Aspirants</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        For NEET aspirants weighing another attempt against a real exit
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for NEET aspirants
+        <span class="gold-text"> weighing one more attempt against one clear exit</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for NEET aspirants should go beyond "attempt again" advice repeated by every coaching centre. It should help you weigh a repeat attempt against a real non-medical direction with the same rigour a major financial decision deserves — protecting your family's coaching investment, your own mental bandwidth, and your route toward earlier financial freedom, instead of letting another year pass on momentum alone.
+      </p>
+      <p class="hero-note">
+        This is career counselling about the decisions around NEET preparation — not NEET coaching, test-series evaluation, or doubt-clearing classes. Guidance is delivered fully online across India, so you can join from your coaching city, your hometown, or wherever you are right now.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling for NEET Aspirants</a>
+      </div>
+      <p class="hero-support">
+        Whether the right move is one more focused attempt or a step into para-medical, allied-health, biotech, or pharmacy, the years already spent in NEET prep are a foundation for that decision, not a reason to avoid making it.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="coaching-pressure"
+    title="The pressure that builds inside NEET prep culture itself"
+    subtitle="These pressures are specific to being inside NEET preparation right now, and they deserve a decision framework that protects your mental bandwidth and your route to earlier financial freedom — not just another pep talk to keep going."
+    items={coachingPressureItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Build a plan for both branches instead of betting on one more result"
+    body="The strongest position going into results is not one all-or-nothing bet — it is having a real direction ready either way, decided before the pressure of result day."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for NEET Aspirants"
+  />
+
+  <BofuListCardSection
+    sectionId="decision-points"
+    title="Real decision points this counselling works through"
+    subtitle="Not every NEET aspirant searching this is at the same stage. These are the situations this guidance is actually built to help with."
+    items={decisionPointItems}
+    columns={2}
+    variant="audience"
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why NEET drop-year decisions need more than another pep talk"
+    subtitle="Once a repeat attempt, a coaching-fee sunk cost, or a non-medical exit is genuinely on the table, these contrast points start to matter."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BofuFeatureSection
+    sectionId="one-more-attempt"
+    title="The 'one more attempt' decision, without sunk-cost thinking"
+    subtitle="The same trap that pulls students into a fourth CA attempt on the strength of fees already paid shows up inside NEET drop years too. A clearer decision separates what already happened from what should happen next."
+    items={oneMoreAttemptItems}
+    variant="decision"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the class 11 to 12 assessments can help map your actual strengths and work style before an attempt, continuation, or exit decision — instead of deciding on momentum or guilt alone."
+      href={class1112AssessmentUrl}
+      label="Free career and skill assessments"
+    />
+  </BofuFeatureSection>
+
+  <BuyerChecks
+    title="What to check before paying for NEET-aspirant career counselling"
+    subtitle="The goal is a decision that survives result day either way, not motivational talk dressed up as guidance."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let another coaching year start without a real decision behind it"
+    body="Whether the plan is one more focused attempt or a move into para-medical, allied-health, biotech, or pharmacy, skill-first direction should start now, not after the next result arrives."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for NEET Aspirants"
+  />
+
+  <BofuStepFlowSection
+    sectionId="parent-conversation"
+    title="How to raise the exit conversation with parents who have paid for years of coaching"
+    subtitle="This conversation is usually harder than the decision itself. A clearer approach makes it easier for both sides."
+    items={parentConversationItems}
+  >
+    <div class="support-links card">
+      <a href={dropYearUrl}>Read: should I take a drop year after 12th? &rsaquo;</a>
+      <a href={coachingVsSkillUrl}>Read: expensive coaching vs skill building &rsaquo;</a>
+    </div>
+  </BofuStepFlowSection>
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling for NEET Aspirants"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See the PCB-stream page, broader student guidance, assessments, and NEET-specific reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Decide the next NEET attempt, or the next direction, on purpose"
+    subtitle="Whether that means one more focused attempt with a real change in method, or converting your NEET-prep years into a strong para-medical, allied-health, biotech, or pharmacy direction, the decision works better made deliberately now — toward earlier financial freedom — than left to another coaching year on momentum alone."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for NEET Aspirants"
+  />
+
+  <BofuFaqSection
+    title="Questions NEET aspirants ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.75rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.85rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #decision-points,
+  #one-more-attempt,
+  #parent-conversation,
+  #faq { background: rgba(255,255,255,.01); }
+
+  .support-links {
+    padding: 1rem 1.05rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .9rem;
+    border: 1px solid rgba(255,255,255,.08);
+    background: linear-gradient(145deg, rgba(255,255,255,.03), rgba(255,255,255,.012));
+  }
+  .support-links a {
+    display: block;
+    padding: .95rem 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.025);
+    color: rgba(255,255,255,.8);
+    font-weight: 700;
+    line-height: 1.65;
+  }
+  .support-links a:hover {
+    color: #fff;
+    border-color: rgba(229,184,74,.24);
+  }
+
+  @media (max-width: 980px) {
+    .support-links { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.82rem, 9.6vw, 2.5rem);
+      line-height: 1.05;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

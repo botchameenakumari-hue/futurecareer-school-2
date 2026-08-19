@@ -1,0 +1,983 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'AI impact on IT jobs India: what is actually shrinking and what is not';
+const description =
+  'AI impact on IT jobs India is real but uneven: entry-level testing, L1 support, and routine coding are shrinking, while AI oversight, systems design, and architecture roles are gaining ground.';
+const canonical = 'https://futurecareerschool.com/blog/ai-future/ai-impact-on-it-jobs-india';
+const publishedDateISO = '2026-07-20';
+const publishedDateLabel = '20 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career strategist and writer';
+
+const jumpLinks = [
+  { id: 'reality', label: 'The real picture, not the panic version' },
+  { id: 'pyramid', label: 'Why the IT services pyramid is breaking' },
+  { id: 'shrinking', label: 'Job categories that are shrinking' },
+  { id: 'growing', label: 'Job categories that are gaining ground' },
+  { id: 'restructuring', label: 'How Indian IT firms are restructuring hiring' },
+  { id: 'numbers', label: 'The numbers behind the shift' },
+  { id: 'in-it', label: 'If you are already working in IT' },
+  { id: 'entering-it', label: 'If you are entering IT now' },
+  { id: 'gates', label: 'The 3 Gates before you bet on a lane' },
+  { id: 'mistakes', label: 'Mistakes to avoid' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const shrinkingCards = [
+  {
+    label: 'Manual and script-based testing',
+    title: 'Repetitive QA execution is the first layer AI tools absorb',
+    body:
+      'AI-assisted testing tools can now generate test cases, run regression suites, and flag defects faster than a team of manual testers. The work that survives is designing what to test and judging edge cases AI misses, not running the same checklist every sprint.',
+    caution:
+      'Watch out: if your entire QA profile is manual execution with no automation or AI-tool exposure, this is the fastest-shrinking lane in Indian IT services right now.',
+  },
+  {
+    label: 'L1 and basic L2 support',
+    title: 'Tier-1 helpdesk and ticket-routing work is being absorbed by AI agents',
+    body:
+      'Password resets, known-error fixes, and templated troubleshooting are exactly the predictable, repeatable tasks AI support agents handle well. Voice and chat-based AI support is already live at scale across large service providers.',
+    caution:
+      'Watch out: L1 support headcount is not disappearing overnight, but new L1 hiring is the first place service companies are cutting fresher intake.',
+  },
+  {
+    label: 'Boilerplate and CRUD-level coding',
+    title: 'Routine feature coding, basic scripts, and repetitive integration work',
+    body:
+      'AI coding assistants now write a large share of boilerplate code, simple CRUD applications, and repetitive integration glue code in minutes. A junior developer whose entire value was writing this kind of code competes directly with a tool.',
+    caution:
+      'Watch out: this does not mean coding is dead. It means junior coding work that stops at "it compiles and passes the basic test" is the part losing value fastest.',
+  },
+  {
+    label: 'Data entry-adjacent and documentation-only roles',
+    title: 'Manual data migration, basic report generation, and templated documentation',
+    body:
+      'Roles that mostly move data between systems, generate standard reports, or produce templated documentation are squarely inside what generative AI tools already do reliably.',
+    caution:
+      'Watch out: these roles were often the entry point into IT services for non-CS graduates. That entry ramp is narrowing, not closing everywhere at once.',
+  },
+];
+
+const growingCards = [
+  {
+    label: 'AI oversight and quality control',
+    title: 'Reviewing, correcting, and taking accountability for AI-generated output',
+    body:
+      'Someone still has to check that AI-written code is secure, that an AI-generated test suite actually covers the right risks, and that an AI support response did not give a client wrong information. That review-and-accountability layer is a new, growing job category, not a shrinking one.',
+    fit:
+      'Best for people who already understand the underlying domain well enough to catch what AI gets wrong.',
+  },
+  {
+    label: 'Systems and solution design',
+    title: 'Deciding how pieces fit together before anything gets built',
+    body:
+      'AI tools are strong at generating a component when someone tells them exactly what to build. They are still weak at deciding the right architecture for a messy, real-world business problem with legacy systems, compliance constraints, and unclear requirements.',
+    fit:
+      'Best for people who can hold a full system in their head and make trade-off calls, not just implement a spec.',
+  },
+  {
+    label: 'AI implementation and workflow engineering',
+    title: 'Making AI tools actually usable inside a company\'s real workflows',
+    body:
+      'Buying an AI tool and getting real value from it are different problems. Companies increasingly need people who can connect AI tools to internal systems, structure data and context well, and redesign a workflow around what the tool can and cannot do reliably.',
+    fit:
+      'Best for people who like practical implementation work more than pure research or pure coding.',
+  },
+  {
+    label: 'Security, compliance, and risk-heavy technical roles',
+    title: 'Cybersecurity, data governance, and AI-risk review roles',
+    body:
+      'More AI usage inside enterprise systems creates more attack surface and more governance questions. Security and compliance-adjacent technical roles are growing precisely because AI adoption is accelerating, not despite it.',
+    fit:
+      'Best for people who like structured, high-stakes thinking and do not mind slower-moving, detail-heavy work.',
+  },
+  {
+    label: 'Client-facing technical and delivery roles',
+    title: 'Business analysis, technical account management, and solution consulting',
+    body:
+      'Someone still has to sit with a client, understand a genuinely ambiguous business problem, and translate it into something a technical team (increasingly working alongside AI tools) can build. That translation layer is becoming more valuable, not less, as raw coding capacity gets cheaper.',
+    fit:
+      'Best for people who combine technical understanding with real communication and stakeholder skill.',
+  },
+];
+
+const restructuringCards = [
+  {
+    label: 'Fresher intake is smaller and more selective',
+    body:
+      'Large Indian IT services firms have visibly cut fresher hiring compared to the 2021-22 hiring surge, and the roles they do fill increasingly expect some AI-tool fluency at entry, not just a CS degree and a training-program certificate.',
+  },
+  {
+    label: 'Mass internal reskilling has become standard practice',
+    body:
+      'Major Indian IT companies have publicly committed to training large blocks of their existing workforce on AI tools and AI-assisted delivery, treating reskilling as core business strategy rather than an optional benefit.',
+  },
+  {
+    label: 'The old pyramid shape is flattening',
+    body:
+      'The traditional model, a wide base of freshers doing routine execution work under a smaller layer of senior architects, depended on cheap, plentiful junior labor. AI reduces how much junior labor is needed per project, which pushes companies toward fewer, more senior-skewed teams.',
+  },
+  {
+    label: 'AI-linked hiring is growing even as routine hiring shrinks',
+    body:
+      'At the same time entry-level openings have fallen, demand for AI, machine learning, and data roles is rising fast. The net effect is not "fewer IT jobs" so much as "a different mix of IT jobs," concentrated in cities with strong AI talent pools.',
+  },
+];
+
+const inItActionCards = [
+  {
+    label: 'If you are in testing or QA',
+    body:
+      'Move from manual test execution toward test strategy, automation frameworks, and AI-assisted test design. Learn to direct and validate AI testing tools rather than compete with them on raw execution speed.',
+  },
+  {
+    label: 'If you are in support or service desk work',
+    body:
+      'Build toward incident diagnosis, root-cause analysis, and the harder tickets AI escalates rather than resolves. Support roles that require judgment across multiple systems are far more durable than templated L1 work.',
+  },
+  {
+    label: 'If you are a junior developer',
+    body:
+      'Get fast at using AI coding tools well, but pair that with genuine system-design understanding, code review skill, and the ability to explain why a design choice is correct, not just that the code runs.',
+  },
+  {
+    label: 'If you are mid-career in a service company',
+    body:
+      'Push toward client-facing, architecture, or delivery-ownership roles where your accumulated domain knowledge is the asset AI cannot replicate on its own. Waiting passively for reskilling programs to reach you is a weaker strategy than requesting the training and building visible proof yourself.',
+  },
+];
+
+const enteringItCards = [
+  {
+    label: 'Pick a core-plus-multiplier stack, not just a language',
+    body:
+      'A programming language alone is a commodity skill now. Pair it with a domain (finance systems, healthcare data, security) or a layer (systems design, AI-tool implementation) that makes your work harder to substitute.',
+  },
+  {
+    label: 'Treat AI-tool fluency as a baseline, not a bonus',
+    body:
+      'Knowing how to prompt, direct, and validate AI coding, testing, or support tools is becoming as basic an expectation as knowing Git. Build this early instead of treating it as optional.',
+  },
+  {
+    label: 'Build proof that survives an AI-skeptical interviewer',
+    body:
+      'A project where you only prompted an AI tool and shipped whatever it produced proves less than a project where you can explain the design decisions, the trade-offs you made, and what you fixed after the AI got it wrong.',
+  },
+  {
+    label: 'Do not rule out non-coding technical roles',
+    body:
+      'Business analysis, QA strategy, technical support escalation, and implementation roles inside IT services are realistic entry points that do not require you to out-code an AI tool on day one.',
+  },
+];
+
+const gateItems = [
+  {
+    title: 'Gate 1: Proof of judgment',
+    body:
+      'Show one example where you caught something an AI tool got wrong, whether a bad test case, a security gap, or a flawed design choice, and explain how you fixed it.',
+  },
+  {
+    title: 'Gate 2: Proof of communication',
+    body:
+      'Explain, in plain language, why your architecture or design decision beats an obvious alternative. If you cannot explain it simply, the depth is probably missing.',
+  },
+  {
+    title: 'Gate 3: Proof of implementation',
+    body:
+      'Show one thing you actually shipped using an AI tool as part of the workflow, not a toy demo, but something with real constraints, real data, or a real user.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Treating "AI will take IT jobs" as one flat statement',
+    body:
+      'The honest picture is uneven: routine execution work is shrinking while judgment-heavy and implementation-heavy roles are growing. Reacting to the headline instead of the breakdown leads to bad decisions.',
+  },
+  {
+    num: '02',
+    title: 'Assuming a CS degree alone still guarantees an IT job',
+    body:
+      'Indian IT services hiring is shifting toward selective, skill-verified intake. A degree gets you considered; visible AI-tool fluency and project proof get you hired.',
+  },
+  {
+    num: '03',
+    title: 'Waiting passively for your company to reskill you',
+    body:
+      'Companies are running reskilling programs at scale, but internal queues are long and uneven. People who build proof independently move faster than people who wait for a training slot.',
+  },
+  {
+    num: '04',
+    title: 'Panicking out of IT entirely without checking your actual lane',
+    body:
+      'Someone doing manual testing has a very different exposure than someone doing systems architecture. Map your specific role against the shrinking and growing lists before making a drastic career change.',
+  },
+  {
+    num: '05',
+    title: 'Ignoring non-IT-services parts of the tech ecosystem',
+    body:
+      'Product companies, GCCs (global capability centers), and AI-native startups in India are hiring differently than traditional service firms. The restructuring inside legacy service companies is not the whole IT job market.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'Is AI actually reducing IT jobs in India right now?',
+    a: 'It is reshaping them more than simply reducing the total. Entry-level and routine-execution roles, especially manual testing, L1 support, and boilerplate coding, have genuinely contracted. At the same time, AI-linked roles in machine learning, data, AI implementation, and security are growing quickly. The net effect is a different mix of jobs, not a flat collapse of the IT sector.',
+  },
+  {
+    q: 'Which IT jobs are most at risk from AI in India?',
+    a: 'Manual and script-based software testing, tier-1 technical support, boilerplate or CRUD-level coding, and data-entry-adjacent documentation roles are the most exposed. These share one trait: the work is repetitive, predictable, and easy to specify clearly, which is exactly what current AI tools handle well.',
+  },
+  {
+    q: 'Which IT roles are becoming more valuable because of AI?',
+    a: 'Roles centered on judgment and accountability are gaining importance: reviewing and correcting AI-generated code or tests, systems and solution architecture, AI implementation and workflow engineering, security and compliance work, and client-facing technical roles that translate ambiguous business problems into buildable plans.',
+  },
+  {
+    q: 'Are Indian IT services companies like TCS, Infosys, and Wipro cutting jobs because of AI?',
+    a: 'Large Indian IT services firms have reduced fresher intake and overall headcount in recent years while simultaneously running large-scale internal AI reskilling programs for existing employees. This points to a restructuring of the workforce pyramid rather than a company-wide retreat from hiring.',
+  },
+  {
+    q: 'Should I still study computer science or pursue an IT career in India?',
+    a: 'Yes, but with a clearer plan than before. A CS background remains a strong starting point, but pairing it with AI-tool fluency, a domain specialization, and visible project proof matters far more now than it did five years ago, when a degree and basic coding ability were often enough on their own.',
+  },
+  {
+    q: 'How can someone already working in Indian IT protect their role from AI?',
+    a: 'Move deliberately from execution-only work toward judgment-heavy work in the same area: from manual testing toward test strategy and automation, from L1 support toward root-cause diagnosis, from routine coding toward system design and code review. Build proof of this shift instead of waiting for it to happen automatically.',
+  },
+  {
+    q: 'Is it too late to enter IT because of AI?',
+    a: 'No, but the entry path has changed. Freshers who can show real AI-assisted project work, understand system design basics, and are not just relying on a degree have a real path in. Freshers whose only pitch is "I can write basic code" are competing directly against tools that do that faster.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="ai-future"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>The AI impact on IT jobs India is showing up unevenly, not as one flat wave.</strong>
+    Routine testing, tier-1 support, and basic coding work are genuinely shrinking inside India's
+    IT services industry, while AI oversight, systems design, and architecture-level roles are
+    gaining importance and pay. The honest question is not whether AI is affecting Indian IT jobs.
+    It is which specific lane you sit in, and what you do about it next.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Manual and script-based testing, L1 and basic L2 support, boilerplate coding, and data-entry-adjacent roles are the most exposed categories inside Indian IT services right now.</li>
+      <li>AI oversight, systems and solution design, AI implementation and workflow engineering, security and compliance, and client-facing technical roles are gaining ground, not shrinking.</li>
+      <li>Large Indian IT services firms have cut fresher and routine hiring while simultaneously running large-scale internal AI reskilling programs, which signals workforce restructuring, not simple downsizing.</li>
+      <li><strong>The skill that decides your outcome is not "do you use AI tools" but "can you catch what AI gets wrong and design what AI cannot."</strong></li>
+      <li>Whether you are already working in IT or planning to enter it, the practical move is the same: shift from pure execution toward judgment, review, and implementation work, and build visible proof of that shift — that shift is what turns an IT job into a genuine high-income skill portfolio instead of a role AI quietly hollows out from underneath.</li>
+    </ul>
+  </div>
+
+  <p>
+    If you want the wider picture of how AI is reshaping work in general before narrowing down to IT
+    specifically, start with <a href="/blog/ai-future/">AI and the Future of Work</a>.
+  </p>
+
+  <p>
+    If this shift is creating real decision pressure about your next move, whether to reskill in
+    place, switch tracks inside IT, or leave IT services altogether, structured
+    <a href="/services/career-counselling-and-career-guidance/">career counselling and career
+    guidance</a> can help you map your specific situation instead of guessing from headlines.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="reality">The real picture, not the panic version</h2>
+
+  <p>
+    Most coverage of AI and Indian IT jobs sits at one of two extremes.
+  </p>
+
+  <p>
+    One extreme says AI is quietly wiping out India's IT industry. The other says nothing has
+    really changed and the worry is overblown.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">What both extremes miss</p>
+    <ul class="callout__list">
+      <li>Job categories inside IT are not one uniform block; a QA tester and a solutions architect face completely different AI exposure.</li>
+      <li>Falling entry-level hiring and rising AI-linked hiring are both true at the same time, in the same industry, in the same year.</li>
+      <li>Company headcount numbers alone do not tell you what kind of roles are shrinking and what kind are being added.</li>
+    </ul>
+    <p class="callout__footer">
+      The useful question is not "is AI affecting IT jobs in India." It is "which specific job
+      category am I in, and where does that category sit on the shrinking-to-growing scale."
+    </p>
+  </div>
+
+  <h2 id="pyramid">Why the Indian IT services pyramid is breaking</h2>
+
+  <p>
+    For roughly three decades, India's IT services model ran on a simple shape: a wide base of
+    freshers and junior engineers doing execution-heavy work, a narrower middle layer managing
+    delivery, and a small senior layer handling architecture and client relationships.
+  </p>
+
+  <p>
+    That model worked because client billing was largely tied to headcount, and cheap, plentiful
+    junior labor made the base of the pyramid profitable even when the work itself was routine.
+  </p>
+
+  <p>
+    AI tools directly attack the economics of that base. A task that once needed three junior
+    testers or two junior developers working for weeks can now often be done faster by one
+    experienced person directing AI tools. That does not eliminate the need for people. It
+    reduces how many junior, execution-only people a project needs per unit of output.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>This is the core shift to understand:</strong> the pyramid is not being deleted, it
+      is flattening. Fewer people are needed at the wide execution base, and more value is
+      concentrating in the judgment and design layers above it.
+    </p>
+  </div>
+
+  <h2 id="shrinking">IT job categories that are shrinking</h2>
+
+  <p>
+    These categories share one trait: the work is repetitive, the inputs are predictable, and the
+    correct output can be specified clearly enough for an AI tool to attempt it reliably.
+  </p>
+
+  <div class="career-grid">
+    {shrinkingCards.map((item) => (
+      <article class="career-card">
+        <span class="career-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        <p class="career-card__caution">{item.caution}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="section-note">
+    None of these categories are disappearing to zero overnight. They are contracting in new
+    hiring first, which is exactly why entry-level openings have been hit harder than experienced
+    hiring so far.
+  </p>
+
+  <h2 id="growing">IT job categories that are gaining ground</h2>
+
+  <p>
+    On the other side of the same restructuring, these categories are becoming more important,
+    not less, precisely because AI is doing more of the routine work around them.
+  </p>
+
+  <div class="driver-grid">
+    {growingCards.map((item) => (
+      <article class="driver-card">
+        <span class="driver-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        <p class="career-card__fit"><strong>Best for:</strong> {item.fit}</p>
+      </article>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--violet">
+    <p>
+      The common thread across every growing category: someone still has to be accountable for
+      whether the output is correct, secure, and actually solves the business problem. AI tools
+      do not carry that accountability. People do — and deliberately building toward these
+      accountability-carrying roles is one of the more direct routes to a high-income skill portfolio
+      inside Indian IT right now, not just a way to avoid being replaced.
+    </p>
+  </div>
+
+  <h2 id="restructuring">How Indian IT services companies are restructuring hiring</h2>
+
+  <p>
+    Watching what large Indian IT firms are actually doing, not just saying, tells the clearer
+    story.
+  </p>
+
+  <div class="non-coding-grid">
+    {restructuringCards.map((item) => (
+      <article class="non-coding-card">
+        <span class="non-coding-card__label">{item.label}</span>
+        <p>{item.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="section-note">
+    Read together, these four shifts describe the same thing from different angles: Indian IT
+    services companies are not simply hiring less. They are hiring differently, for a workforce
+    shape that needs fewer pure execution hands and more AI-literate judgment.
+  </p>
+
+  <h2 id="numbers">The numbers behind the shift</h2>
+
+  <p>
+    A few concrete, India-specific signals are worth naming directly instead of staying vague.
+  </p>
+
+  <div class="grid-two">
+    <div class="card">
+      <h3>What is contracting</h3>
+      <ul>
+        <li>Fresher hiring across major Indian IT services firms fell sharply after the 2021-22 hiring surge and has recovered only partially since, with entry-level openings requiring under two years of experience showing the steepest year-on-year decline.</li>
+        <li>TCS reported roughly 607,000 employees in FY2025, a net reduction of around 13,000 from the prior year; Infosys reported roughly 324,000 employees, down around 15,000 year on year.</li>
+        <li>Analysts tracking the sector describe 2026 fresher intake at major firms as meaningfully below the highs of the early-2020s hiring boom.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>What is expanding</h3>
+      <ul>
+        <li>AI-linked hiring in India is projected to grow strongly year on year, with machine learning, data science, and AI-safety-adjacent roles concentrated in Bengaluru, Hyderabad, and emerging tier-2 tech hubs.</li>
+        <li>India's AI-related job demand is projected to cross roughly one million roles, even as only a minority of current IT professionals report themselves as AI-skilled today, pointing to a real, not hypothetical, skills gap.</li>
+        <li>Large IT firms have publicly committed to training well over 100,000 employees each in AI-related skills, treating internal reskilling as core strategy rather than a side initiative.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="note-line">
+    Put together, these numbers describe a labor market that is not shrinking overall so much as
+    it is redistributing, away from routine execution roles and toward AI-literate judgment and
+    implementation roles, faster than most people currently working in IT services are prepared for.
+  </p>
+
+  <h2 id="in-it">If you are already working in IT</h2>
+
+  <p>
+    The practical move is the same across almost every role: shift from pure execution toward the
+    judgment layer sitting just above it, inside the same broad area you already know.
+  </p>
+
+  <div class="skills-grid">
+    {inItActionCards.map((item) => (
+      <article class="skill-card">
+        <span class="skill-card__label">{item.label}</span>
+        <p>{item.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <h2 id="entering-it">If you are entering IT now</h2>
+
+  <p>
+    Students and freshers face a different entry path than the one that existed even a few years
+    ago, but a real path still exists.
+  </p>
+
+  <div class="skills-grid">
+    {enteringItCards.map((item) => (
+      <article class="skill-card">
+        <span class="skill-card__label">{item.label}</span>
+        <p>{item.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="section-note">
+    If you are still deciding whether software engineering itself is the right entry point, or
+    which broader career direction fits you, use the
+    <a href="/career-skills-compass/">Career & Skills Compass</a> to check fit before committing
+    years to one lane.
+  </p>
+
+  <h2 id="gates">The 3 Gates before you bet on a lane inside IT</h2>
+
+  <p>
+    Whether you are protecting an existing role or choosing an entry point, test yourself against
+    these three gates before treating any single IT lane as safe.
+  </p>
+
+  <div class="gates-block">
+    {gateItems.map((item) => (
+      <div class="gate">
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="mistakes">Mistakes to avoid</h2>
+
+  <div class="mistake-list">
+    {mistakeItems.map((item) => (
+      <article class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not treat this as a one-time decision you make and forget. Treat it as a lane you keep
+    adjusting as the market keeps moving.
+  </p>
+
+  <div class="next-step">
+    <p class="next-step__title">Better next moves</p>
+    <ul class="next-step__list">
+      <li>
+        Read <a href="/blog/career-options/is-software-engineering-a-good-career-in-india/">Is
+        software engineering a good career in India?</a> if your specific question is about
+        entering software engineering as a career choice, not the broader IT industry shift.
+      </li>
+      <li>
+        Read <a href="/blog/ai-future/top-careers-for-the-future/">Top careers for the future</a>
+        if you want to compare IT against other rising fields before committing.
+      </li>
+      <li>
+        Use the <a href="/career-skills-compass/">Career & Skills Compass</a> if you want a
+        clearer read on your natural strengths before choosing a lane inside or outside IT.
+      </li>
+      <li>
+        If you want guided help mapping your specific situation, current role, skills, and
+        timeline toward earlier financial freedom, use
+        <a href="/services/career-counselling-and-career-guidance/">career counselling and career
+        guidance</a>, instead of guessing which lane to bet on alone.
+      </li>
+    </ul>
+  </div>
+
+  <h2 id="faq">FAQs</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, i) => (
+      <details open={i === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para strong {
+      color: rgba(255, 255, 255, 0.98);
+    }
+
+    .jump-nav {
+      margin: 1.45rem 0 1.8rem;
+      padding: 1.05rem 1.1rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .jump-nav__label {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.92) !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      padding: 0.58rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    .jump-nav__list a:hover {
+      border-color: rgba(125, 211, 252, 0.36);
+      color: rgba(255, 255, 255, 0.96);
+    }
+
+    .callout {
+      margin: 1.35rem 0;
+      padding: 1.15rem 1.2rem 1.2rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .callout--amber {
+      background: linear-gradient(180deg, rgba(229, 184, 74, 0.08), rgba(255, 255, 255, 0.025));
+      border-color: rgba(229, 184, 74, 0.2);
+    }
+    .callout__eyebrow {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.96) !important;
+    }
+    .callout__list {
+      margin: 0 !important;
+      padding-left: 1.05rem !important;
+    }
+    .callout__list li {
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.72 !important;
+      margin: 0 0 0.45rem !important;
+    }
+    .callout__footer {
+      margin: 0.75rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.75 !important;
+    }
+
+    .driver-grid,
+    .career-grid,
+    .non-coding-grid,
+    .skills-grid,
+    .parent-grid {
+      display: grid;
+      gap: 0.95rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .driver-card,
+    .career-card,
+    .non-coding-card,
+    .skill-card {
+      --accent: #2dd4bf;
+      --accent-soft: rgba(45, 212, 191, 0.45);
+      position: relative;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+      padding: 1.15rem 1.15rem 1.12rem;
+      overflow: hidden;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .driver-card::before,
+    .career-card::before,
+    .non-coding-card::before,
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+    }
+    .driver-card:hover,
+    .career-card:hover,
+    .non-coding-card:hover,
+    .skill-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-soft);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.26);
+    }
+    .driver-grid > :nth-child(4n + 1),
+    .career-grid > :nth-child(4n + 1),
+    .non-coding-grid > :nth-child(4n + 1),
+    .skills-grid > :nth-child(4n + 1) {
+      --accent: #2dd4bf;
+      --accent-soft: rgba(45, 212, 191, 0.45);
+    }
+    .driver-grid > :nth-child(4n + 2),
+    .career-grid > :nth-child(4n + 2),
+    .non-coding-grid > :nth-child(4n + 2),
+    .skills-grid > :nth-child(4n + 2) {
+      --accent: #e5b84a;
+      --accent-soft: rgba(229, 184, 74, 0.45);
+    }
+    .driver-grid > :nth-child(4n + 3),
+    .career-grid > :nth-child(4n + 3),
+    .non-coding-grid > :nth-child(4n + 3),
+    .skills-grid > :nth-child(4n + 3) {
+      --accent: #a78bfa;
+      --accent-soft: rgba(167, 139, 250, 0.45);
+    }
+    .driver-grid > :nth-child(4n + 4),
+    .career-grid > :nth-child(4n + 4),
+    .non-coding-grid > :nth-child(4n + 4),
+    .skills-grid > :nth-child(4n + 4) {
+      --accent: #7dd3fc;
+      --accent-soft: rgba(125, 211, 252, 0.45);
+    }
+
+    .driver-card__label,
+    .career-card__label,
+    .non-coding-card__label,
+    .skill-card__label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.52rem;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--accent);
+    }
+    .driver-card__label::before,
+    .career-card__label::before,
+    .non-coding-card__label::before,
+    .skill-card__label::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+    }
+
+    .driver-card h3,
+    .career-card h3,
+    .gate h3,
+    .mistake-item__content h3 {
+      margin: 0 0 0.42rem !important;
+      font-family: "Sora", sans-serif;
+      font-size: 1rem !important;
+      line-height: 1.34 !important;
+      color: rgba(255, 255, 255, 0.93) !important;
+    }
+
+    .driver-card p,
+    .career-card p,
+    .non-coding-card p,
+    .skill-card p,
+    .gate p,
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+
+    .career-card__fit,
+    .career-card__caution {
+      margin-top: 0.65rem !important;
+      padding: 0.5rem 0.65rem !important;
+      border-radius: 10px;
+      font-size: 13.5px !important;
+      line-height: 1.62 !important;
+    }
+    .career-card__caution {
+      color: rgba(255, 255, 255, 0.8) !important;
+      background: rgba(229, 184, 74, 0.09);
+      border: 1px solid rgba(229, 184, 74, 0.22);
+    }
+    .career-card__fit {
+      color: rgba(255, 255, 255, 0.8) !important;
+      background: rgba(45, 212, 191, 0.09);
+      border: 1px solid rgba(45, 212, 191, 0.22);
+    }
+    .career-card__fit strong {
+      color: rgba(45, 212, 191, 0.98) !important;
+    }
+
+    .section-note {
+      margin: 0.85rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.62) !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+    }
+
+    .highlight-box {
+      border-radius: 18px;
+      padding: 1.08rem 1.15rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      background: rgba(45, 212, 191, 0.05);
+      border-color: rgba(45, 212, 191, 0.22);
+    }
+    .highlight-box--violet {
+      background: rgba(139, 92, 246, 0.06);
+      border-color: rgba(139, 92, 246, 0.2);
+    }
+    .highlight-box p {
+      margin: 0 !important;
+      font-size: 14.5px !important;
+      line-height: 1.76 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1.4rem 0;
+    }
+    .grid-two .card {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1.15rem 1.15rem 1.1rem;
+    }
+    .grid-two .card h3 {
+      margin: 0 0 0.6rem !important;
+      font-size: 1rem !important;
+      color: rgba(255, 255, 255, 0.93) !important;
+    }
+    .grid-two .card ul {
+      margin: 0 !important;
+      padding-left: 1.05rem !important;
+    }
+    .grid-two .card li {
+      color: rgba(255, 255, 255, 0.7) !important;
+      line-height: 1.7 !important;
+      margin: 0 0 0.5rem !important;
+      font-size: 14px !important;
+    }
+    .note-line {
+      margin: 0.9rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.62) !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+    }
+
+    .gates-block {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin: 1.4rem 0;
+    }
+    .gate {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+      padding: 1.1rem 1.1rem 1.05rem;
+    }
+
+    .mistake-list {
+      display: grid;
+      gap: 0.85rem;
+      margin: 1.4rem 0;
+    }
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.12rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: rgba(229, 184, 74, 0.2);
+      padding-top: 0.05rem;
+    }
+
+    .next-step {
+      margin: 1.4rem 0;
+      padding: 1.15rem 1.15rem 1.1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .next-step__title {
+      margin: 0 0 0.8rem !important;
+      font-size: 12px !important;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.94) !important;
+    }
+    .next-step__list {
+      margin: 0 !important;
+      padding-left: 1rem !important;
+    }
+    .next-step__list li {
+      margin: 0 0 0.55rem !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      line-height: 1.76 !important;
+    }
+
+    @media (max-width: 860px) {
+      .driver-grid,
+      .career-grid,
+      .non-coding-grid,
+      .skills-grid,
+      .grid-two,
+      .gates-block {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .driver-card,
+      .career-card,
+      .non-coding-card,
+      .skill-card,
+      .gate,
+      .grid-two .card,
+      .mistake-item,
+      .next-step {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .jump-nav__list a {
+        width: 100%;
+      }
+    }
+  </style>
+</BlogPostLayout>

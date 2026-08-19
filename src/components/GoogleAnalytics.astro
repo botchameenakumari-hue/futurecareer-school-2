@@ -1,0 +1,87 @@
+<!--
+  Basic Google Consent Mode:
+  - Consent defaults are established before any Google tag is loaded.
+  - Google Analytics is loaded only after explicit analytics consent.
+  - Advertising-related consent remains denied because this site uses Analytics only.
+-->
+<script is:inline>
+  (() => {
+    const MEASUREMENT_ID = 'G-PBY7CTR2NF';
+    const STORAGE_KEY = 'fcs-analytics-consent-v1';
+    const VALID_CHOICES = new Set(['granted', 'denied']);
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () {
+      window.dataLayer.push(arguments);
+    };
+
+    window.gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'granted',
+      security_storage: 'granted'
+    });
+    window.gtag('set', 'ads_data_redaction', true);
+
+    let analyticsLoaded = false;
+
+    const readChoice = () => {
+      try {
+        const choice = window.localStorage.getItem(STORAGE_KEY);
+        return VALID_CHOICES.has(choice) ? choice : null;
+      } catch {
+        return null;
+      }
+    };
+
+    const storeChoice = (choice) => {
+      try {
+        window.localStorage.setItem(STORAGE_KEY, choice);
+      } catch {
+        // Consent still applies for this page when storage is unavailable.
+      }
+    };
+
+    const loadAnalytics = () => {
+      if (analyticsLoaded) return;
+      analyticsLoaded = true;
+
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(MEASUREMENT_ID)}`;
+      script.onload = () => {
+        window.gtag('js', new Date());
+        window.gtag('config', MEASUREMENT_ID);
+      };
+      document.head.appendChild(script);
+    };
+
+    const applyChoice = (choice, persist = true) => {
+      if (!VALID_CHOICES.has(choice)) return;
+
+      window.gtag('consent', 'update', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: choice
+      });
+
+      if (persist) storeChoice(choice);
+      if (choice === 'granted') loadAnalytics();
+
+      window.dispatchEvent(new CustomEvent('fcs:consent-change', {
+        detail: { analytics: choice }
+      }));
+    };
+
+    window.futureCareerConsent = {
+      getChoice: readChoice,
+      setChoice: (choice) => applyChoice(choice, true)
+    };
+
+    const savedChoice = readChoice();
+    if (savedChoice) applyChoice(savedChoice, false);
+  })();
+</script>

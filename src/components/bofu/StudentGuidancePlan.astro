@@ -1,0 +1,89 @@
+---
+import { STUDENT_GUIDANCE_PLAN } from '../../config/guidancePlans';
+
+export interface Props {
+  serviceLabel?: string;
+  ctaLabel?: string;
+}
+
+const {
+  serviceLabel = 'Career Guidance',
+} = Astro.props;
+
+const plan = STUDENT_GUIDANCE_PLAN;
+const planTitle = `Student ${serviceLabel}`;
+const serviceLabelLower = serviceLabel.toLowerCase();
+const summary = plan.summary.replace('{{service}}', serviceLabelLower);
+const ctaLabel = Astro.props.ctaLabel ?? plan.ctaLabel;
+---
+
+<article class="plan-card plan-card--student">
+  <div class="plan-card__meta">
+    <p class="plan-card__eyebrow">{plan.eyebrow}</p>
+    <span class="plan-card__tag">{plan.tag}</span>
+  </div>
+
+  <div class="plan-card__hero">
+    <div class="plan-card__hero-copy">
+      <h3 class="plan-card__title">{planTitle}</h3>
+      <p class="plan-card__summary">{summary}</p>
+    </div>
+
+    <aside class="plan-card__spotlight">
+      <div class="plan-card__spotlight-copy">
+        <div class="plan-card__offer">{plan.offerLabel}</div>
+        {plan.comparePrice && <div class="plan-card__compare-price">{plan.comparePrice}</div>}
+        <div class="plan-card__price">{plan.price}</div>
+        <div class="plan-card__price-note">{plan.priceNote}</div>
+        <p class="plan-card__support-line">{plan.supportLine}</p>
+      </div>
+      <div class="plan-card__spotlight-actions">
+        <a href={plan.ctaHref} class="btn-gold pulse">{ctaLabel}</a>
+      </div>
+      <p class="plan-card__availability">{plan.availabilityNote}</p>
+    </aside>
+  </div>
+
+  <div class="plan-card__fact-list">
+    <div class="plan-card__fact">
+      <span class="plan-card__fact-label">{plan.fitLabel}</span>
+      <p>{plan.fitText}</p>
+    </div>
+
+    <div class="plan-card__fact plan-card__fact--edge">
+      <span class="plan-card__fact-label">{plan.edgeLabel}</span>
+      <p>{plan.edgeText}</p>
+    </div>
+
+    <div class="plan-card__fact plan-card__fact--featured">
+      <span class="plan-card__fact-label">{plan.continuationLabel}</span>
+      {(plan.continuationPrice || plan.continuationComparePrice) && (
+        <div class="plan-card__featured-pricing">
+          {plan.continuationOfferLabel && (
+            <div class="plan-card__featured-offer">{plan.continuationOfferLabel}</div>
+          )}
+          <div class="plan-card__featured-price-row">
+            {plan.continuationComparePrice && (
+              <span class="plan-card__featured-compare">{plan.continuationComparePrice}</span>
+            )}
+            {plan.continuationPrice && (
+              <span class="plan-card__featured-price">{plan.continuationPrice}</span>
+            )}
+          </div>
+          {plan.continuationPriceNote && (
+            <p class="plan-card__featured-note">{plan.continuationPriceNote}</p>
+          )}
+        </div>
+      )}
+      <p>{plan.continuationText}</p>
+      {plan.continuationCtaHref && plan.continuationCtaLabel && (
+        <div class="plan-card__fact-actions">
+          <a href={plan.continuationCtaHref} class="btn-gold">
+            {plan.continuationCtaLabel}
+          </a>
+        </div>
+      )}
+    </div>
+  </div>
+
+</article>

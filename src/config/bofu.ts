@@ -16,6 +16,12 @@ export const BOFU_INTERNAL_LINKS = {
     '/services/career-counselling-and-career-guidance/career-counselling/',
   careerCounsellingOnline:
     '/services/career-counselling-and-career-guidance/career-counselling-online/',
+  virtualCareerCounselling:
+    '/services/career-counselling-and-career-guidance/virtual-career-counselling/',
+  careerCounsellingSession:
+    '/services/career-counselling-and-career-guidance/career-counselling-session/',
+  careerCounsellingConsultation:
+    '/services/career-counselling-and-career-guidance/career-counselling-consultation/',
   careerGuidanceOnline:
     '/services/career-counselling-and-career-guidance/career-guidance-online/',
   careerCoachNearMe:
@@ -23,9 +29,13 @@ export const BOFU_INTERNAL_LINKS = {
   after12th: '/services/career-counselling-and-career-guidance/career-guidance-after-12th/',
   after12thOnline:
     '/services/career-counselling-and-career-guidance/career-guidance-after-12th-online/',
+  counsellingFor12thStudents:
+    '/services/career-counselling-and-career-guidance/career-counselling-for-12th-students/',
   students: '/services/career-counselling-and-career-guidance/student-career-guidance/',
   workingProfessionals:
     '/services/career-counselling-and-career-guidance/working-professional-career-guidance/',
+  nriStudents:
+    '/services/career-counselling-and-career-guidance/career-counselling-for-nri-students/',
 } as const;
 
 export const BOFU_PUBLIC_LINKS = {
@@ -43,6 +53,12 @@ export const BOFU_PUBLIC_LINKS = {
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling/',
   careerCounsellingOnline:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-online/',
+  virtualCareerCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/virtual-career-counselling/',
+  careerCounsellingSession:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-session/',
+  careerCounsellingConsultation:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-consultation/',
   careerGuidanceOnline:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-online/',
   careerCoachNearMe:
@@ -51,6 +67,8 @@ export const BOFU_PUBLIC_LINKS = {
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-12th/',
   after12thOnline:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-12th-online/',
+  counsellingFor12thStudents:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-12th-students/',
   students:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/student-career-guidance/',
   workingProfessionals:
@@ -59,7 +77,24 @@ export const BOFU_PUBLIC_LINKS = {
 
 export const BOFU_PAYMENT_LINKS = {
   students: 'https://rzp.io/rzp/ApMfIAtW',
+  studentContinuousGuidance: 'https://rzp.io/rzp/Z2vwx1Y',
   workingProfessionals: 'https://rzp.io/rzp/n7u0omdt',
+} as const;
+
+export const BOFU_PLAN_LINKS = {
+  parentGuidance: `${BOFU_INTERNAL_LINKS.parentGuidance}#plans`,
+  careerGuidance: `${BOFU_INTERNAL_LINKS.careerGuidance}#plans`,
+  careerCounselling: `${BOFU_INTERNAL_LINKS.careerCounselling}#plans`,
+  careerCounsellingOnline: `${BOFU_INTERNAL_LINKS.careerCounsellingOnline}#plans`,
+  virtualCareerCounselling: `${BOFU_INTERNAL_LINKS.virtualCareerCounselling}#plans`,
+  careerCounsellingSession: `${BOFU_INTERNAL_LINKS.careerCounsellingSession}#plans`,
+  careerCounsellingConsultation: `${BOFU_INTERNAL_LINKS.careerCounsellingConsultation}#plans`,
+  careerGuidanceOnline: `${BOFU_INTERNAL_LINKS.careerGuidanceOnline}#plans`,
+  careerCoachNearMe: `${BOFU_INTERNAL_LINKS.careerCoachNearMe}#plans`,
+  after12th: `${BOFU_INTERNAL_LINKS.after12th}#plans`,
+  after12thOnline: `${BOFU_INTERNAL_LINKS.after12thOnline}#plans`,
+  students: `${BOFU_INTERNAL_LINKS.students}#plans`,
+  workingProfessionals: `${BOFU_INTERNAL_LINKS.workingProfessionals}#plans`,
 } as const;
 
 export const BOFU_ASSESSMENT_LINKS = {

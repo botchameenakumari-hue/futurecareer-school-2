@@ -1,0 +1,549 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title = 'Career Coach Online | Ongoing Coaching Across India | Future Career School';
+const description =
+  'A career coach online for students and working professionals across India who already have a direction and need execution, accountability, and course-correction to actually build a high-value skill portfolio.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coach-online/';
+
+const whenCoachItems = [
+  {
+    title: 'You already have a direction but keep drifting off it',
+    body:
+      'A stream, course, or skill path was decided at some point, but execution keeps stalling. Coaching exists for the follow-through, so a high-value skill portfolio actually compounds instead of restarting every few months.',
+  },
+  {
+    title: 'A counselling session gave you a decision, not a plan you stick to',
+    body:
+      'Counselling is built for choosing a direction. A career coach online is built for what happens after that decision — turning it into milestones, check-ins, and adjustments over weeks or months.',
+  },
+  {
+    title: 'You want someone tracking progress, not one call and silence',
+    body:
+      'If the real gap is accountability rather than more advice, a single session will not fix it. Coaching works through a cadence, not a one-time answer.',
+  },
+  {
+    title: 'Location made a consistent in-person coaching rhythm hard to keep',
+    body:
+      'Online removes the dependency on finding a coach nearby and being able to show up in person every time. The cadence continues from home, college, or work.',
+  },
+];
+
+const howCoachingWorksItems = [
+  {
+    title: 'Set the direction and a real execution plan',
+    body:
+      'Start from where you already are: current strengths, work style, the direction already chosen, and what has stalled it. This becomes a concrete plan tied to a high-value skill portfolio, not a vague goal.',
+  },
+  {
+    title: 'Keep a cadence of online accountability check-ins',
+    body:
+      'Progress gets reviewed on a schedule instead of left to memory or motivation. Blockers, missed steps, and half-finished skill-building get surfaced early, while they are still cheap to fix.',
+  },
+  {
+    title: 'Adjust the plan as results, market, or circumstances shift',
+    body:
+      'A plan that never changes is not coaching, it is a static checklist. Direction gets revisited as skills develop, roles change, or the market moves, so the route toward higher income stays realistic.',
+  },
+];
+
+const coachSignalDecideItems = [
+  {
+    eyebrow: 'Coaching fit',
+    title: 'Whether coaching or a single decision-session fits you right now',
+    body:
+      'If the open question is still which path, course, or role to choose, that is closer to a decision-support session. If the direction is already set and the gap is follow-through, that is what a career coach online is for.',
+  },
+  {
+    eyebrow: 'Execution plan',
+    title: 'What an execution plan for your situation should include',
+    body:
+      'Skill milestones, proof-of-work checkpoints, and a realistic timeline tied to your actual availability, not a generic 90-day template copied across every client.',
+  },
+  {
+    eyebrow: 'Accountability rhythm',
+    title: 'How often check-ins should happen to actually work',
+    body:
+      'Enough regularity to catch drift early, without turning into more calls than your schedule can sustain. The rhythm should fit the plan, not the other way around.',
+  },
+];
+
+const audienceItems = [
+  {
+    label: 'Students & Freshers',
+    title: 'Online coaching for staying consistent after the first direction decision',
+    body:
+      'Choosing a stream or course is one decision; sticking to the skill-building plan behind it is another. A career coach online keeps that plan on track so early years are not wasted on a direction picked once and then abandoned.',
+  },
+  {
+    label: 'Working Professionals',
+    title: 'Online coaching for executing a pivot or skill plan without losing momentum',
+    body:
+      'Deciding to pivot or build a new skill is easy compared with actually doing it around a full-time job. Coaching keeps the plan moving so a low-ceiling role does not quietly become five more years of the same position.',
+  },
+];
+
+const coachComparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Generic low-paying path advice that limits growth',
+    right: 'Higher-value skill direction with clearer income-growth logic',
+  },
+  {
+    left: 'Random upskilling that compounds slowly',
+    right: 'Clearer skill direction tied to growth and income upside',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it is actually coaching, or a single call relabelled',
+    body:
+      'A career coach online should include a real cadence of check-ins over time, not one conversation dressed up with coaching language. Ask what the follow-up structure looks like before paying.',
+  },
+  {
+    title: 'Check whether accountability is built in, not left to you alone',
+    body:
+      'The point of coaching is that someone is tracking whether the plan is being executed. If nothing is reviewed after the first session, drift returns to being entirely your problem again.',
+  },
+  {
+    title: 'Check whether the plan is tied to a real skill portfolio, not one isolated skill',
+    body:
+      'A single course or certificate rarely moves income on its own. Look for coaching that treats skill-building as a portfolio: the right skill mix, proof of work, communication, and market positioning together.',
+  },
+  {
+    title: 'Check whether the assessments behind the plan are free or an expensive first hurdle',
+    body:
+      'Many providers charge thousands for outdated assessments before coaching even starts. Free, updated, practical, AI-powered career and skill assessments are a stronger starting layer.',
+  },
+];
+
+const prepItems = [
+  {
+    title: 'The direction you have already chosen',
+    body:
+      'Bring the stream, course, role, or skill path already decided, even loosely, so the coaching starts from execution instead of re-deciding from zero.',
+  },
+  {
+    title: 'Where the plan keeps stalling',
+    body:
+      'Note where execution actually breaks down: starting and stopping, unclear next steps, or losing momentum after a few weeks.',
+  },
+  {
+    title: 'How much time you can realistically commit',
+    body:
+      'Coaching only works if the cadence matches real availability. Bring an honest picture of study or work hours instead of an aspirational one.',
+  },
+  {
+    title: 'What success looks like in a few months',
+    body:
+      'A rough milestone, income target, or skill benchmark gives the coaching plan something concrete to check progress against.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Use the main service page when the bigger need is the full decision itself, not specifically ongoing coaching and accountability.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerGuidanceOnline,
+    title: 'Career Guidance Online',
+    description:
+      'Use this if the current need is broader online decision support across path, skill, and risk, rather than an ongoing coaching cadence specifically.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-vs-career-coaching/',
+    title: 'Career Counselling vs Career Coaching',
+    description:
+      'An honest breakdown of how counselling and coaching differ and how to tell which one fits your situation.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coaching-for-professionals/',
+    title: 'Career Coaching for Working Professionals',
+    description:
+      'The flagship coaching page for working professionals, built around ongoing execution and accountability.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'For school students, college students, freshers, recent graduates, and postgraduates who need stronger direction first.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.assessments,
+    title: 'Free Career Assessments',
+    description:
+      'Free, updated, practical, AI-powered assessments for strengths, preferences, work style, and direction.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What does a career coach online actually do that counselling does not?',
+    answer:
+      'Career counselling, guidance, and coaching point to the same practical service family, but coaching leans specifically on ongoing execution: a plan, a cadence of accountability check-ins, and adjustments over weeks or months, rather than resolving one decision in a single session.',
+  },
+  {
+    question: 'Do I need to have already decided my direction before booking a career coach online?',
+    answer:
+      'Coaching works best once a direction, even a rough one, is already in place, because the value is in execution and accountability. If the open question is still which path or course to choose, a decision-focused session is usually the stronger starting point.',
+  },
+  {
+    question: 'How often do online coaching check-ins happen?',
+    answer:
+      'The cadence is built around what the plan needs and what your schedule can sustain, so it is discussed directly rather than fixed in advance. The goal is regular enough contact to catch drift early without adding more calls than you can realistically keep.',
+  },
+  {
+    question: 'Is online coaching as effective as meeting a coach in person?',
+    answer:
+      'Yes. The work that makes coaching effective — a clear plan, honest check-ins, and adjustment over time — does not depend on being in the same room. Online removes the dependency on finding and consistently reaching a coach nearby.',
+  },
+  {
+    question: 'Are the career and skill assessments free before I start coaching?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered. Many providers charge thousands for outdated or impractical assessments; these are a stronger free starting layer instead.',
+  },
+  {
+    question: 'Can working professionals use a career coach online for a pivot?',
+    answer:
+      'Yes. Online coaching is useful for working professionals executing a pivot, breaking a salary ceiling, or building a new skill around a full-time job, where the harder part is usually sticking to the plan, not deciding on one.',
+  },
+  {
+    question: 'What should I check before paying for career coaching online?',
+    answer:
+      'Check whether check-ins actually happen on a real cadence, whether the plan is tied to a genuine skill portfolio rather than one isolated skill, and whether the coaching pushes toward higher-value, higher-income direction instead of generic advice.',
+  },
+  {
+    question: 'Is career coach India online available if I am outside a major city?',
+    answer:
+      'Yes. Coaching is delivered fully online across India, so a small town or tier-2 or tier-3 city does not limit access to the same accountability cadence and execution support.',
+  },
+  {
+    question: 'Do you guarantee a job or a salary outcome through coaching?',
+    answer: 'No ethical provider can guarantee a job or a specific salary outcome. The realistic value is stronger execution, accountability, and decision quality, not a promised result.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Coach Online', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coach Online | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching Online',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coach Online</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career coach online for building a high-income skill portfolio with real follow-through
+      </div>
+
+      <h1 class="hero-title">
+        Career coach online
+        <span class="gold-text"> for execution and accountability, not just a decision</span>
+      </h1>
+      <p class="hero-sub">
+        A career coach online should not stop at telling you what to do next. Future Career School pairs your
+        direction with a real execution plan and ongoing accountability check-ins, so a high-value skill
+        portfolio actually gets built and compounds toward earlier financial freedom, instead of staying a
+        good idea that stalls after one good conversation.
+      </p>
+      <p class="hero-note">
+        Coaching is delivered fully online across India. Check-ins happen from home, college, or work — the
+        cadence continues without depending on finding or reaching a coach nearby.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for Students</a>
+        <a href="#plans" class="btn-outline">Get Career Coaching for Working Professionals</a>
+      </div>
+      <p class="hero-support">
+        The goal is not another opinion. It is a plan you actually finish, with someone checking whether it is
+        working.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="when-coaching"
+    sectionClass="coach-signal-band"
+    variant="signal"
+    title="When a career coach online is the right fit"
+    subtitle="Coaching earns its cost when the direction is already reasonably clear and the real problem is sticking to it."
+    items={whenCoachItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the plan keeps stalling, the gap is usually follow-through, not more advice"
+    body="Move while the skill window still matters. A tracked plan with real check-ins works better than another round of good intentions."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Students"
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Working Professionals"
+  />
+
+  <BofuStepFlowSection
+    sectionId="how-it-works"
+    sectionClass="coach-flow-band"
+    title="How online career coaching works across India"
+    subtitle="The format is online, but the structure is a real coaching cadence: a plan, scheduled check-ins, and adjustment over time."
+    items={howCoachingWorksItems}
+  />
+
+  <BofuFeatureSection
+    sectionId="what-coaching-decides"
+    sectionClass="coach-decision-band"
+    variant="decision"
+    title="What a career coach online should help you get right"
+    items={coachSignalDecideItems}
+  >
+    <AssessmentSupportNote
+      body="If you are still choosing a direction rather than executing one, the free career and skill assessments are a useful starting point before a coaching plan makes sense."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <GuidanceModelSection
+    title="What the coaching plan is built around"
+    subtitle="A career coach online should aim at a deliberate, high-value skill portfolio — the right skill mix, proof of work, communication, and market positioning — with the goal of unlocking high income opportunities and moving toward earlier financial freedom."
+  />
+
+  <AudienceRelevance
+    title="How online career coaching fits where you are right now"
+    items={audienceItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why coaching still has to be sharper than motivational check-ins"
+    subtitle="Being online should not soften the standard. The plan, the accountability, and the skill direction still need to hold up under real pressure."
+    rows={coachComparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before choosing a career coach online"
+    subtitle="Coaching is easy to promise and easy to under-deliver on. These checks separate a real coaching structure from a single call with a coaching label."
+    items={buyerCheckItems}
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-bring"
+    sectionClass="coach-prep-band"
+    variant="prep"
+    title="What to bring to make online coaching sessions count"
+    subtitle="Coaching moves faster when the starting point, the sticking point, and the real time available are clear from session one."
+    items={prepItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="A plan without check-ins tends to quietly stop. Do not let this one join that list."
+    body="If a direction is already chosen and execution keeps slipping, this is the stage where ongoing accountability earns its cost."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Students"
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Working Professionals"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Coaching"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See counselling, guidance, and coaching pages side by side, plus free assessments, before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    subtitle="Choose a career coach online when the direction is already set and what is missing is a tracked plan and real accountability — the part that actually turns a skill portfolio into earlier financial freedom, not just a plan that sounds good."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Students"
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Working Professionals"
+  />
+
+  <BofuFaqSection
+    title="Questions people ask before choosing a career coach online"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 88px; }
+
+  :global(.coach-signal-band) {
+    background:
+      radial-gradient(720px 240px at 10% 0%, rgba(45,212,191,.055), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.008), transparent 50%);
+  }
+  :global(.coach-flow-band) {
+    background:
+      radial-gradient(620px 220px at 18% 100%, rgba(45,212,191,.05), transparent 72%),
+      radial-gradient(560px 220px at 88% 0%, rgba(229,184,74,.05), transparent 72%);
+  }
+  :global(.coach-decision-band) {
+    background:
+      radial-gradient(720px 260px at 100% 0%, rgba(229,184,74,.065), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.008));
+  }
+  :global(.coach-prep-band) {
+    background:
+      radial-gradient(760px 240px at 100% 0%, rgba(45,212,191,.045), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.006));
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.84rem, 9.6vw, 2.55rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

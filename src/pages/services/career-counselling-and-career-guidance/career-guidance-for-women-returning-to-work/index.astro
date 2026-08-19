@@ -1,0 +1,456 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Guidance for Women Returning to Work | Re-Entry, Not Restart | Future Career School';
+const description =
+  'Career guidance for women returning to work after a career break — a re-entry plan built around what has changed in your field, which skills need refreshing, how to explain the gap with confidence, and a route back to a role that matches your real level. Online across India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-for-women-returning-to-work/';
+
+const reEntryRealityItems = [
+  {
+    eyebrow: 'The gap on paper',
+    title: 'A career break is not a resume defect that needs hiding',
+    body: 'Maternity leave, eldercare, a health pause, or a relocation are common, ordinary reasons a timeline has a gap in it. The re-entry plan is not about disguising the gap — it is about being able to explain what you did with that time and what you are bringing back, in a way that reads as a decision, not an apology.',
+  },
+  {
+    eyebrow: 'What actually went stale',
+    title: 'Some skills held up. Some tools moved on without you',
+    body: 'A two-year break and a six-year break leave very different gaps. Core judgement, domain knowledge, and people skills usually hold up fine. Specific tools, platforms, and workflows are more likely to have shifted underneath you — and only one of those actually needs deliberate re-learning before you apply.',
+  },
+  {
+    eyebrow: 'Confidence after time away',
+    title: 'Feeling behind and being behind are not the same thing',
+    body: 'After time out of a structured workplace, it is common to assume you have lost more ground than you actually have. Interview readiness, salary conversations, and even applying at all can stall on confidence long after the actual skill gap has closed. This guidance treats that rebuild as its own piece of work, not a pep talk.',
+  },
+  {
+    eyebrow: 'Re-entry level, not restart level',
+    title: 'Going back in below where you left off is not the only option',
+    body: 'Many women re-entering after a break accept a role a level or two below their last one because it feels like the safer bet after time away. The alternative is a rebuilt, high-value skill portfolio and a positioning story strong enough to compete at or above your previous level — moving you toward earlier financial freedom instead of a permanent step down.',
+  },
+];
+
+const reEntryPathItems = [
+  {
+    eyebrow: 'Break length and what it means',
+    title: 'A plan sized to how long you were actually out',
+    body: 'A twelve-month pause and a five-year pause call for different re-entry work.',
+    listItems: [
+      'Maps what changed in your specific field during your exact time away, not a generic "market has evolved" line',
+      'Separates skills that still transfer directly from the ones that need a deliberate refresh',
+      'Sets a realistic re-entry level based on what has actually changed, not on how long the CV gap looks',
+    ],
+  },
+  {
+    eyebrow: 'Explaining the break',
+    title: 'A gap story you can say out loud without flinching',
+    body: 'Recruiters and hiring managers will ask about the gap. The answer matters more than the gap itself.',
+    listItems: [
+      'Builds a short, honest, forward-looking explanation for the break instead of an over-justified one',
+      'Positions what you did during the break, even informally, as relevant context rather than a blank space',
+      'Prepares you for the specific way this question tends to get asked in interviews and screening calls',
+    ],
+  },
+  {
+    eyebrow: 'Refreshing what actually needs it',
+    title: 'Targeted catching-up, not relearning everything from scratch',
+    body: 'Treating a break like it wiped out your whole skill set usually leads to over-preparing in the wrong direction.',
+    listItems: [
+      'Identifies the specific tools, platforms, or practices in your field that moved on while you were away',
+      'Builds a focused refresh plan around those gaps instead of a broad, unfocused catch-up course',
+      'Adds proof of current, working knowledge so a hiring manager does not have to take your word for it',
+    ],
+  },
+  {
+    eyebrow: 'Targeting the right re-entry roles',
+    title: 'Applying where the skill portfolio genuinely fits',
+    body: 'Returnship programs, direct hires, and freelance or contract re-entry all suit different situations.',
+    listItems: [
+      'Weighs a structured returnship against a direct application based on your actual field and break length',
+      'Targets roles where your refreshed skill set is genuinely competitive, not just any listing that will consider a gap',
+      'Plans the next 12–18 months so re-entry is a first step back up, not a fixed new ceiling',
+    ],
+  },
+];
+
+const reEntryFilterItems = [
+  {
+    title: 'How long the break actually was, and what specifically changed',
+    body: 'A one-year pause and a seven-year pause are different problems. Name what genuinely changed in your field during your exact time away instead of assuming the worst about the whole gap.',
+  },
+  {
+    title: 'Skill gap versus confidence gap',
+    body: 'Some hesitation about re-entering comes from tools or knowledge that truly need refreshing. Some comes from confidence lagging behind readiness. Treating the second like the first wastes time on the wrong fix.',
+  },
+  {
+    title: 'Re-entry level versus restart level',
+    body: 'Going back in a level or two below your last role can feel like the safe move after a break. It is worth testing whether that step down is actually necessary, or whether a stronger positioning story changes the answer.',
+  },
+  {
+    title: 'Household logistics, without letting them decide everything',
+    body: 'Childcare, eldercare, or family schedules are real constraints on hours, location, and role type. They should shape the plan, not quietly rule out every option before it gets a fair look.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the process actually plans for a multi-year gap, not just a short pause',
+    body: 'A lot of general career guidance has no real answer for a break longer than a year. Look for guidance that treats re-entry after any length of gap as its own decision, with its own plan.',
+  },
+  {
+    title: 'Check whether the gap gets explained, not just hidden',
+    body: 'Advice that only tells you how to word your resume so the gap looks smaller is not a re-entry plan. It should also prepare you to talk about the gap directly when it comes up in an interview.',
+  },
+  {
+    title: 'Check whether skill refresh is specific, not a broad course dump',
+    body: 'A plan that sends you back through everything you already know wastes time. Stronger guidance identifies exactly what moved on in your field and builds the refresh around that.',
+  },
+  {
+    title: 'Check whether confidence rebuilding sits alongside the skill and gap work',
+    body: 'A plan that ignores the confidence side often stalls at the application or interview stage even after the skills are ready. Good guidance treats this as part of the same plan, not a separate motivational add-on.',
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Random upskilling that compounds slowly',
+    right: 'Clearer skill direction tied to growth and income upside',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'Broader working-professional guidance for stagnation, pivots, and salary-growth decisions if re-entry itself is not the main question.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-women/',
+    title: 'Career Counselling for Women',
+    description: 'Broader guidance for field or stream choices made under family or safety pressure, and building confidence to negotiate or switch, beyond the return-to-work situation.',
+  },
+  {
+    href: '/services/assessments/working-professionals-and-career-changers/',
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free assessment to check current strengths and work style before a re-entry decision.',
+  },
+  {
+    href: '/career-resources/career-change-without-starting-over/',
+    title: 'Career Change Without Starting Over',
+    description: 'Practical read on carrying existing skills into a new direction instead of treating a return or switch as beginning from zero.',
+  },
+  {
+    href: '/career-resources/resume-that-gets-shortlisted-in-india/',
+    title: 'Resume That Gets Shortlisted in India',
+    description: 'Practical resume guidance useful for framing a career break so it reads as context, not a disqualifier.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The broader guidance service if your next decision is not specifically about returning to work after a break.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How long a break is too long to plan a real return?',
+    answer:
+      'There is no cutoff where a return stops being possible. Longer breaks usually mean more of the plan is spent on refreshing specific skills and tools, and the gap explanation needs to be more specific about what changed and what you did during that time. The plan adjusts to the length of the break — it does not rule anyone out because of it.',
+  },
+  {
+    question: 'Do I have to accept a lower-level role to re-enter after a break?',
+    answer:
+      'Not automatically. A lower-level role is often the easiest option to feel safe about, but it is not the only one. With a refreshed, high-value skill portfolio and a clear positioning story for the break, re-entering at or close to your previous level is a realistic target for many situations, not a given for every case.',
+  },
+  {
+    question: 'How is this different from career counselling for women in general?',
+    answer:
+      'This is built specifically around returning to work after a career break — the gap explanation, deciding what skills genuinely need refreshing, confidence rebuilding, and re-entry-level targeting. Career Counselling for Women is the broader page for field or stream choices under family pressure and negotiation confidence beyond the return-to-work situation. If a career break and re-entry is your main question, this is the more specific fit.',
+  },
+  {
+    question: 'My tools or software feel completely out of date. Do I need to relearn everything?',
+    answer:
+      'Usually not everything. Most fields have a specific set of tools or practices that changed while you were away, alongside a larger set of skills and judgement that held up fine. The more useful step is identifying exactly what moved on in your field and building a focused refresh around that, instead of relearning your whole skill set from scratch.',
+  },
+  {
+    question: 'I feel like I have lost my confidence more than my skills. Where do I start?',
+    answer:
+      'Start by separating what is an actual skill gap from what is a confidence gap, since the fixes are different. Many women re-entering the workforce are closer to ready than it feels — the more useful next step is a specific plan for the role or field you are targeting, with proof of current skill built in, rather than a general sense of catching up.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered — a useful starting point for mapping current strengths before a re-entry decision.',
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. Guidance is delivered online across India, so you can start from home around childcare, eldercare, or other household responsibilities, without travel or a local office becoming another blocker.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Guidance for Women Returning to Work', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Guidance for Women Returning to Work | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Guidance for Women Returning to Work',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Guidance for Women Returning to Work</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career guidance for women returning to work after a career break — re-entry, not restart
+      </div>
+
+      <h1 class="hero-title">
+        Career guidance for women returning to work
+        <span class="gold-text"> after a career break</span>
+      </h1>
+      <p class="hero-sub">
+        A break for maternity, caregiving, health, or relocation does not erase what you already know. This guidance builds the specific plan a return needs — which skills genuinely need refreshing, an honest way to explain the gap, and confidence rebuilt alongside the skills — around a high-value skill portfolio that unlocks stronger re-entry roles and moves you toward earlier financial freedom, instead of settling for a level below where you actually belong.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from home, around childcare or caregiving schedules, without travel or a local office becoming another blocker.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Guidance for Working Professionals Returning to Work</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="re-entry-reality"
+    title="What a return to work after a break actually involves"
+    subtitle="Not vague encouragement to 'update your resume and get back out there.' These are the specific, practical pieces a re-entry plan has to answer."
+    items={reEntryRealityItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="A break is a fact on a timeline. It does not decide your next role by itself."
+    body="The plan that changes the outcome is specific to your break length, your field, and what has genuinely changed since you stepped away."
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance for Returning to Work"
+  />
+
+  <BofuListCardSection
+    sectionId="re-entry-path"
+    title="The re-entry plan, piece by piece"
+    subtitle="Every return is shaped by how long the break was and what changed in your specific field during that time. These are the parts most re-entry plans need to work through."
+    items={reEntryPathItems}
+    columns={2}
+    variant="audience"
+  />
+
+  <BofuFeatureSection
+    sectionId="re-entry-filters"
+    title="What should actually decide your next step"
+    subtitle="Re-entering after a break is rarely one clean decision. These are the filters that keep the plan honest instead of guesswork."
+    items={reEntryFilterItems}
+    variant="decision"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, free career and skill assessments can help map your current strengths and work style before a re-entry decision — a clearer starting signal than guessing how much the break changed."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why re-entry needs more than 'just start applying again'"
+    subtitle="These are the contrast points that matter once you are planning a real return, not just refreshing a resume and hoping for the best."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career guidance aimed at returning to work"
+    subtitle="The goal is a specific, defensible re-entry plan for your break and your field, not generic resume tips repackaged as guidance."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Build the re-entry plan before another job cycle passes on guesswork"
+    body="The earlier the skill refresh, the gap story, and the confidence work are specific to your situation, the earlier you can target roles that match your actual level."
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance for Returning to Work"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Guidance for Women Returning to Work"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader working-professional guidance, assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Go back in at your real level, not a step below it"
+    subtitle="A career break, an outdated tool list, or a confidence dip are all workable with the right plan behind them — the kind built around a high-value skill portfolio that unlocks stronger re-entry roles and earlier financial freedom, instead of settling for less than you are ready for."
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance for Returning to Work"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #re-entry-filters,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 9.6vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

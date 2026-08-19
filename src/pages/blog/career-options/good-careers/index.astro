@@ -1,0 +1,1495 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Good Careers: The 5-Axis Test for What Actually Makes One Good';
+const description =
+  'Good careers are not one ranked list. Use the 5-Axis Good-Career Test — pay, security, growth, AI-resilience, and life fit — to judge any career honestly.';
+const canonical = 'https://futurecareerschool.com/blog/career-options/good-careers';
+const publishedDateISO = '2026-08-09';
+const publishedDateLabel = '9 August 2026';
+const authorName = 'Allu Vagdevi';
+const authorUrl = 'https://futurecareerschool.com/about/allu-vagdevi/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: "What actually makes good careers 'good'" },
+  { id: 'why-lists-fail', label: "Why 'best career' lists don't answer this" },
+  { id: 'five-axis', label: 'The 5-Axis Good-Career Test' },
+  { id: 'scorecard', label: 'The Good-Career Scorecard' },
+  { id: 'weighting', label: 'How the answer changes by what you weight' },
+  { id: 'pay-hides-risk', label: 'When high pay hides a weak career' },
+  { id: 'security-hides-ceiling', label: 'When stability hides a low ceiling' },
+  { id: 'ai-resilience', label: 'Which careers actually survive AI' },
+  { id: 'checkpoint', label: 'The 4-Checkpoint Protocol' },
+  { id: 'gates', label: 'The 3 Gates before you commit' },
+  { id: 'score-yourself', label: 'Score your own situation first' },
+  { id: 'mistakes', label: 'Mistakes to avoid' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const axisCards = [
+  {
+    label: 'Axis 1',
+    title: 'Income ceiling',
+    body: "Not what the role pays a fresher — what it can plausibly pay someone ten years deep and genuinely good at it. Sales, consulting, specialist tech, and senior clinical practice all carry a real, high ceiling. Most fixed pay-band roles do not, no matter how good you get inside them.",
+  },
+  {
+    label: 'Axis 2',
+    title: 'Security',
+    body: "How likely the role is to still exist, for you specifically, through a downturn or a technology shift. Permanent government and PSU postings score highest, structurally. Anything paid on commission, project, or headcount tied to revenue scores lowest — whatever the headline salary looks like.",
+  },
+  {
+    label: 'Axis 3',
+    title: 'Growth trajectory',
+    body: "How fast pay, scope, and seniority realistically move for someone who is actually good, not just senior by tenure. This is different from the ceiling — a role can have a high ceiling far away and still have a flat, slow climb to reach it.",
+  },
+  {
+    label: 'Axis 4',
+    title: 'AI-resilience',
+    body: "How much of the daily task list is pattern-following execution a model can already do reasonably well, versus judgment, physical unpredictability, or human trust it cannot. This is a task-level question, not a job-title one — two people holding the same title can sit on opposite ends of it.",
+  },
+  {
+    label: 'Axis 5',
+    title: 'Life-fit demand',
+    body: "How much the role asks of your hours, energy, and nervous system on an ordinary week, not a highlight-reel week. High demand does not automatically mean bad. It means the role needs to be a genuine fit for how you want to live, not only a genuine paycheck.",
+  },
+];
+
+const scorecardCards = [
+  {
+    name: 'Government & PSU roles',
+    pills: [
+      { axis: 'Income ceiling', level: 'Low-Med', tone: 'caution' },
+      { axis: 'Security', level: 'High', tone: 'good' },
+      { axis: 'Growth', level: 'Low-Med', tone: 'caution' },
+      { axis: 'AI-resilience', level: 'High', tone: 'good' },
+      { axis: 'Life-fit demand', level: 'Low-Med', tone: 'good' },
+    ],
+    reality:
+      'Layoffs are virtually unheard of for permanent posts, backed by formal inquiry and tribunal processes before anyone is removed. The 8th Pay Commission, constituted in November 2025 and expected to raise central pay by roughly 25-34% from 2026 onward, still moves on a fixed schedule — not on individual output.',
+    fit: 'You want a floor under you for the next thirty years and can live with income growing on a schedule, not on merit.',
+    caution: 'The ceiling problem hits hardest for whoever is genuinely great at the job — pay does not compound with skill here the way it does elsewhere. See <a href="/blog/government-jobs/govt-vs-private-job-india">government job vs private job</a> for the full stability-versus-pay trade-off.',
+  },
+  {
+    name: 'IT services / generalist software roles',
+    pills: [
+      { axis: 'Income ceiling', level: 'Medium', tone: 'mid' },
+      { axis: 'Security', level: 'Low-Med', tone: 'caution' },
+      { axis: 'Growth', level: 'Medium', tone: 'mid' },
+      { axis: 'AI-resilience', level: 'Low-Med', tone: 'caution' },
+      { axis: 'Life-fit demand', level: 'High', tone: 'caution' },
+    ],
+    reality:
+      'India carried roughly 7.16% of global tech layoffs in the first half of 2026, second only to the US. Junior QA and Level-1 support roles are taking the brunt of AI-driven cuts, even as AI-specific hiring rose 16% year on year in the same stretch.',
+    fit: 'You use the generalist stage as a bridge into a specialisation, not a destination — see the deeper read on <a href="/blog/career-options/is-software-engineering-a-good-career-in-india">is software engineering a good career</a> for the full picture.',
+    caution: 'Staying a generalist for five-plus years without adding a specialisation quietly stalls growth, security, and life-fit at the same time.',
+  },
+  {
+    name: 'Sales & business development',
+    pills: [
+      { axis: 'Income ceiling', level: 'High', tone: 'good' },
+      { axis: 'Security', level: 'Low', tone: 'caution' },
+      { axis: 'Growth', level: 'High', tone: 'good' },
+      { axis: 'AI-resilience', level: 'Med-High', tone: 'good' },
+      { axis: 'Life-fit demand', level: 'High', tone: 'caution' },
+    ],
+    reality:
+      'Commission has no fixed ceiling the way a pay band does, which is why sales is one of the few buckets where a fresher can out-earn a senior professional in another field within a few years. It is also usually the first budget line cut when revenue slows.',
+    fit: 'You are genuinely comfortable being measured by outcome, not effort, and can build a pipeline instead of waiting for leads. See <a href="/blog/career-options/sales-career-growth-path-india">the sales career growth path</a> for how that ceiling and progression actually work stage by stage.',
+    caution: 'The income number people quote is almost always the top performer\'s, not the realistic median for someone at your experience level.',
+  },
+  {
+    name: 'Nursing & allied health (entry-level)',
+    pills: [
+      { axis: 'Income ceiling', level: 'Low', tone: 'caution' },
+      { axis: 'Security', level: 'High', tone: 'good' },
+      { axis: 'Growth', level: 'Low-Med', tone: 'caution' },
+      { axis: 'AI-resilience', level: 'High', tone: 'good' },
+      { axis: 'Life-fit demand', level: 'High', tone: 'caution' },
+    ],
+    reality:
+      "India's nurse-to-population ratio sits near 1.7 per 1,000, well below the WHO benchmark, with a shortfall projected near two million nurses by 2030. Entry pay for BSc-qualified nurses commonly runs Rs 12,000-18,000 a month — below the minimum wage floor in several other entry-level industries.",
+    fit: 'You want work that will still exist and still need you in twenty years, and you are willing to specialise to fix the income side of it. The <a href="/blog/medical-careers/career-after-bsc-nursing-india-scope">BSc nursing scope and specialisation path</a> covers exactly which moves raise that ceiling.',
+    caution: 'Security without an income plan is not automatically good — ICU, OT, or international-placement specialisation is what actually moves the ceiling.',
+  },
+  {
+    name: 'School teaching',
+    pills: [
+      { axis: 'Income ceiling', level: 'Low', tone: 'caution' },
+      { axis: 'Security', level: 'Med-High', tone: 'good' },
+      { axis: 'Growth', level: 'Low', tone: 'caution' },
+      { axis: 'AI-resilience', level: 'Med-High', tone: 'good' },
+      { axis: 'Life-fit demand', level: 'Medium', tone: 'mid' },
+    ],
+    reality:
+      'Government-school posts are structurally stable; private-school posts less so. Pay progression is almost entirely seniority-linked, and promotion into leadership is slow in most systems.',
+    fit: 'You want defined hours and real relationship-based work, and the academic calendar genuinely suits your life.',
+    caution: 'Pay only compounds if you build something on top of the classroom — a tutoring practice, curriculum or edtech content, or a move into school leadership. If you are weighing this against a corporate path directly, <a href="/blog/career-options/teaching-vs-corporate-career-india-which-to-choose">teaching vs corporate career</a> compares both side by side.',
+  },
+  {
+    name: 'Data science & specialist tech / AI',
+    pills: [
+      { axis: 'Income ceiling', level: 'High', tone: 'good' },
+      { axis: 'Security', level: 'Medium', tone: 'mid' },
+      { axis: 'Growth', level: 'High', tone: 'good' },
+      { axis: 'AI-resilience', level: 'Split', tone: 'mid' },
+      { axis: 'Life-fit demand', level: 'Med-High', tone: 'mid' },
+    ],
+    reality:
+      'Data scientists typically earn Rs 10-50 LPA and AI engineers Rs 18-40 LPA-plus, with a further premium for GenAI-specific skill. NASSCOM, McKinsey and NITI Aayog jointly estimate a shortfall of 14 lakh AI professionals by the end of 2026 if the workforce does not upskill fast enough.',
+    fit: 'You like ambiguous problems and are willing to keep one skill genuinely current every year, not just once — see <a href="/blog/career-options/is-data-science-a-good-career-in-india">is data science a good career in India</a> for the full breakdown of who this fits.',
+    caution: 'The shortage is real, and so is entry-level saturation for anyone without a shipped, explainable project to show for it.',
+  },
+  {
+    name: 'Consulting & advisory',
+    pills: [
+      { axis: 'Income ceiling', level: 'High', tone: 'good' },
+      { axis: 'Security', level: 'Medium', tone: 'mid' },
+      { axis: 'Growth', level: 'High', tone: 'good' },
+      { axis: 'AI-resilience', level: 'Med-High', tone: 'good' },
+      { axis: 'Life-fit demand', level: 'High', tone: 'caution' },
+    ],
+    reality:
+      'Senior consulting and advisory pay stretches well past Rs 50 lakh at experienced levels, with client-facing judgment work holding up better against automation than the research and slide-production layer underneath it.',
+    fit: 'You want compressed experience fast and do not mind trading a few years of personal time for it early on. <a href="/blog/freelancing-business/consulting-as-a-career-india-how-to-get-into-consulting">How to get into consulting in India</a> walks through the actual entry routes.',
+    caution: 'The same hours that build the fastest resume also burn out the people who stay past the point it is still useful for them.',
+  },
+  {
+    name: 'Skilled trades & field technical work',
+    pills: [
+      { axis: 'Income ceiling', level: 'Medium', tone: 'mid' },
+      { axis: 'Security', level: 'High', tone: 'good' },
+      { axis: 'Growth', level: 'Medium', tone: 'mid' },
+      { axis: 'AI-resilience', level: 'High', tone: 'good' },
+      { axis: 'Life-fit demand', level: 'Medium', tone: 'mid' },
+    ],
+    reality:
+      "LinkedIn's Jobs on the Rise India 2025 report put Aircraft Maintenance Engineer and Robotics Technician in the top three fastest-growing roles nationally — real equipment fails in ways a model cannot fully anticipate, which keeps demand for hands-on judgment high.",
+    fit: 'You want work that is close to physically impossible for AI to take over any time soon, and you do not need a desk to feel secure.',
+    caution: 'Income growth here depends on eventually owning the customer relationship yourself, not only on getting technically better.',
+  },
+];
+
+const weightingRows = [
+  {
+    num: '1',
+    title: 'Weight income ceiling highest',
+    body: 'Sales, consulting, specialist tech/AI, and senior clinical or legal practice move to the top of the shortlist. Accept lower security and a heavier life-fit demand as the trade, at least early on.',
+  },
+  {
+    num: '2',
+    title: 'Weight security highest',
+    body: 'Government and PSU roles, allied health, and government-school teaching lead. Accept a capped ceiling unless you deliberately build a second layer on top of the base role.',
+  },
+  {
+    num: '3',
+    title: 'Weight growth trajectory highest',
+    body: 'Sales, consulting, and specialist tech again lead, alongside any ownership-track role. The flattest trajectories sit in generalist IT-services work and seniority-only government or administrative posts.',
+  },
+  {
+    num: '4',
+    title: 'Weight AI-resilience highest',
+    body: 'Nursing and allied health, skilled trades, early-years teaching, and trust-heavy judgment roles lead. The most exposed are generalist IT execution, junior QA, and entry-level analytics — regardless of how modern the title sounds.',
+  },
+  {
+    num: '5',
+    title: 'Weight life-fit demand lowest possible',
+    body: 'Government roles, teaching, and WFH-friendly specialist tech lead. The heaviest demand sits in IT-services crunch culture, consulting, and target-based sales — even though all three can pay extremely well.',
+  },
+];
+
+const payHidesRiskCases = [
+  {
+    title: 'The IT-services paycheck with a burnout tax attached',
+    body:
+      "A steady service-company salary looks like the safe, well-paying option next to teaching or nursing. The numbers complicate that story. A five-state workplace survey found 52% of Indian employees report burnout from poor work-life balance overall — inside IT specifically, a separate tracking survey found 83% of professionals report burnout, with 72% routinely exceeding the legal 48-hour workweek and one in four clocking 70-plus hours. India also carried the second-largest share of global tech layoffs in early 2026, behind only the US.",
+    fit: 'People treating the generalist service-company stage as a two-year bridge into a specialist lane, not a destination.',
+    caution: 'Staying generalist for five-plus years without adding a specialisation is a common way a good salary quietly stalls on three axes at once.',
+  },
+  {
+    title: 'The uncapped-income career that is capped on stability',
+    body:
+      'Sales is one of the few buckets where a fresher can genuinely out-earn a senior professional in another field within a couple of years, because commission has no fixed ceiling. It is also usually the first headcount line cut in a slow quarter, because compensation is tied directly to revenue the company did not make that month.',
+    fit: 'People genuinely comfortable being measured by outcome, not effort, who can build a pipeline instead of waiting on leads.',
+    caution: 'Judging a sales career by the top performer\'s income screenshot instead of the realistic median for your actual experience level.',
+  },
+];
+
+const securityHidesCeilingRows = [
+  {
+    role: 'Central/state government post',
+    security: 'Layoffs virtually unheard of for permanent posts; removal requires a formal inquiry and tribunal process.',
+    ceiling: 'Pay follows fixed pay-commission bands. Even the 8th Pay Commission\'s projected 25-34% central hike, phasing in from 2026, is a scheduled structural revision, not a reward for individual output.',
+    raise: 'Technical or policy specialist cadres, extra qualifications that unlock higher grade-pay bands, or lawful income built outside service hours.',
+  },
+  {
+    role: 'BSc-qualified staff nurse',
+    security: 'Chronic under-supply keeps demand high; a shortfall near two million nurses is projected by 2030.',
+    ceiling: 'Entry pay commonly runs Rs 12,000-18,000 a month, below the minimum wage floor in several other entry-level industries — a leading driver of attrition and migration abroad.',
+    raise: 'ICU, OT, or critical-care specialisation, additional certification, or a move into international placement, nurse education, or hospital administration.',
+  },
+  {
+    role: 'Government-school teacher',
+    security: 'Structurally stable public-system employment; slower and less certain in private schools.',
+    ceiling: 'Salary bands are capped and largely seniority-linked; promotion into school leadership is slow in most systems.',
+    raise: 'An ed-leadership track, curriculum or edtech content work, or a parallel tutoring/coaching practice on the same subject expertise.',
+  },
+];
+
+const aiExposedPoints = [
+  'Entry-level execution and Level-1 support are taking the brunt right now — junior QA and Level-1 IT support positions are the most affected roles in the current wave, precisely because the work follows a fixed, learnable pattern.',
+  'In the first half of 2026, EdTech (21.67%) and FinTech (14.73%) carried the largest shares of AI-related job cuts in India — not because those industries are shrinking, but because AI is absorbing the repeatable content-and-processing layer inside them first.',
+  'Any title where the whole job is "collect information, apply a known rule, produce a standard output" sits on the exposed side, regardless of how modern or technical the job title sounds.',
+];
+
+const aiResilientPoints = [
+  "Roles combining physical unpredictability with judgment held up best in LinkedIn's Jobs on the Rise India 2025 report — Aircraft Maintenance Engineer and Robotics Technician placed in the top three fastest-growing roles nationally, because real equipment fails in ways a model cannot fully anticipate.",
+  'Roles built on relationship trust and human presence hold up for the same reason — nursing, early-years teaching, and client-facing closing-manager-style roles (also in that top-three list) sell a human being trusted by another human being, not a document.',
+  'The disruption is creating a shortage inside itself: NASSCOM, McKinsey, and NITI Aayog jointly estimate India could face a shortfall of 14 lakh AI professionals by the end of 2026 if the workforce does not upskill fast enough — the same wave cutting entry-level roles is creating a large, currently unfilled category of higher-value work.',
+];
+
+const aiLeverageStages = [
+  {
+    num: '1',
+    title: 'Awareness',
+    body: 'Know which specific tasks inside your shortlisted bucket are pattern-following execution versus judgment calls, before you assume the whole title is either safe or exposed.',
+  },
+  {
+    num: '2',
+    title: 'Assisted execution',
+    body: 'Let AI tools handle the repeatable share of the work inside that bucket — drafts, summaries, first-pass analysis, routine documentation — so more of your week shifts toward the judgment and relationship layer that actually holds up.',
+  },
+  {
+    num: '3',
+    title: 'Quality control',
+    body: 'Build the habit of checking AI output against real context before it reaches a decision, a patient, a client, or a manager. This is a hireable skill on its own now, not a nice-to-have, in every bucket on the scorecard above.',
+  },
+  {
+    num: '4',
+    title: 'Positioning',
+    body: 'Once AI-assisted execution becomes routine in your bucket, the person who keeps growing is the one trusted with the judgment call — not the one who can operate the tool fastest. That trust is what a real skill portfolio is actually built to earn.',
+  },
+];
+
+const checkpointItems = [
+  {
+    num: '01',
+    title: 'Biology',
+    body: 'Do you actually want fixed, predictable hours and low physical unpredictability, or does a variable, sometimes-demanding schedule not bother you if the pay or the purpose is right? Answer for your real energy pattern, not the one you wish you had.',
+    note: 'A high income-ceiling career with a high life-fit demand — consulting, sales, senior IT — will fight your wiring for years if the demand level genuinely does not suit you.',
+  },
+  {
+    num: '02',
+    title: 'Context',
+    body: 'How much runway — money, family support, dependents — do you have to absorb a lower-income stretch while you build toward a specialisation that raises your ceiling? Or does your situation need income now, which should push you toward a bucket that already scores well on security and pay today?',
+    note: 'Context decides the order you chase these axes in. It does not decide which axes matter — all five still matter, just not all at the same time.',
+  },
+  {
+    num: '03',
+    title: 'Market',
+    body: 'Is there a real, current demand signal behind the specific bucket and specialisation you are leaning toward — not a five-year-old headline or one relative\'s opinion? Government hiring cycles, the nursing shortfall, and the AI-skills gap are all real, checkable signals right now.',
+    note: 'The market underneath a career changes faster than most advice does. Recheck the signal before you commit years to it, not only before you start reading about it.',
+  },
+  {
+    num: '04',
+    title: 'Survival',
+    body: "How much of this specific role's daily task list sits on the exposed side of the AI-resilience axis, and what is your plan for that layer? Every good-career decision now needs an honest answer here, not a hopeful one.",
+    note: "This is the checkpoint most 'good career' searches skip — not because it doesn't matter, but because it's the least comfortable one to answer honestly.",
+  },
+];
+
+const gateItems = [
+  {
+    num: 'Gate 1',
+    title: 'Proof of skill',
+    body: 'Build one small, real piece of proof inside the bucket you are leaning toward — a project, a shadowing stint, a short paid or volunteer trial — not just a course-completion certificate.',
+  },
+  {
+    num: 'Gate 2',
+    title: 'Proof of communication',
+    body: 'Explain, in under two minutes, which of the five axes you are prioritising and why, to someone with no context on your decision. If you cannot say it plainly, the decision is not actually settled — it only feels settled.',
+  },
+  {
+    num: 'Gate 3',
+    title: 'Proof of value',
+    body: 'Ask one person actually working in that bucket right now — not a coaching institute, not a career forum — which axis is weakest in their real day-to-day. Marketing and forum threads describe a different version of most jobs than the people living inside them.',
+  },
+];
+
+const worksheetSteps = [
+  {
+    num: '1',
+    title: 'Rate what you personally value, right now',
+    body: 'Score each axis 1 (do not care) to 5 (non-negotiable): income ceiling, security, growth, AI-resilience, life-fit demand. Write the numbers down — do not do this in your head.',
+  },
+  {
+    num: '2',
+    title: 'Pick two or three real options you are actually considering',
+    body: 'Not the socially safe answer, not the one your family keeps mentioning — the options you would genuinely choose between if nobody else weighed in.',
+  },
+  {
+    num: '3',
+    title: 'Score each option against The 5-Axis Good-Career Test',
+    body: "Use this article's ratings on the Good-Career Scorecard as a starting point, then adjust for your specific city, employer type, and specialisation — the ratings above are directional, not a substitute for checking your own situation.",
+  },
+  {
+    num: '4',
+    title: 'Multiply your personal weight by each option\'s score, then add it up',
+    body: 'The highest total is not automatically "the right career." It is the option your own stated priorities actually point to — which is a different, more useful thing to know.',
+  },
+  {
+    num: '5',
+    title: 'Investigate the gap where the math and your gut disagree',
+    body: 'If the worksheet says one thing and your gut says another, that gap is usually the real thing worth researching further — not a reason to throw the worksheet out.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Judging "good" only by starting salary',
+    body: 'A high fresher number tells you almost nothing about security, growth, AI-resilience, or life-fit five years in. See the pay-hides-risk cases above for two roles where this mistake shows up most.',
+  },
+  {
+    num: '02',
+    title: "Trusting a title's old reputation instead of its current reality",
+    body: '"Safe, well-paid IT job" was a fair description in 2015. In 2026, that combination increasingly needs a specific specialisation to still be true — the generalist version of the title has moved on the security and life-fit axes.',
+  },
+  {
+    num: '03',
+    title: 'Skipping the AI-resilience axis because the job "isn\'t really tech"',
+    body: 'Content delivery inside teaching, entry-level analytics, and generic admin work are all exposed regardless of the industry label on the door. Check the task list, not the sector name.',
+  },
+  {
+    num: '04',
+    title: "Copying a high-paying list without checking the daily 80%",
+    body: 'A role that pays extremely well and demands 70-hour weeks is not automatically "good" for you. Weigh life-fit demand honestly before the salary number decides the choice for you.',
+  },
+  {
+    num: '05',
+    title: 'Never rescoring the decision as your life changes',
+    body: "A career that scores well at 22 with no dependents can score differently at 32 with a home loan and a child. The axis weights change. That doesn't mean the career has to — it means it's worth checking again.",
+  },
+];
+
+const faqItems = [
+  {
+    q: 'What actually makes a career "good"?',
+    a: "There is no single measure. Use The 5-Axis Good-Career Test — income ceiling, security, growth trajectory, AI-resilience, and life-fit demand — and score any option against your own priorities, not a generic ranking. A career that scores high on pay but low on security or life-fit is not automatically bad, but it is only good for someone who has genuinely weighed that trade-off, not someone who saw the salary number and stopped reading.",
+  },
+  {
+    q: 'Is a government job a good career in India?',
+    a: 'It scores very high on security and AI-resilience, and reasonably on life-fit demand, but low to medium on income ceiling and growth trajectory. Even the 8th Pay Commission\'s projected 25-34% hike for central employees, phasing in from 2026, is a scheduled structural revision, not a reward for exceptional performance. It is a strong choice for someone who weights stability highest, and a weaker one for someone chasing a high income ceiling.',
+  },
+  {
+    q: 'Is software engineering still a good career with AI advancing?',
+    a: 'Split. Specialist lanes — GenAI/ML, cloud, cybersecurity — still score well across most axes. The generalist IT-services version scores lower on security (India carried roughly 7.16% of global tech layoffs in H1 2026) and much lower on life-fit demand, with 83% of IT professionals reporting burnout in current tracking. For the full breakdown, see <a href="/blog/career-options/is-software-engineering-a-good-career-in-india">is software engineering a good career in India</a>.',
+  },
+  {
+    q: 'Which careers in India are the most AI-resistant right now?',
+    a: 'Roles combining physical unpredictability with judgment (Aircraft Maintenance Engineer and Robotics Technician placed in the top three fastest-growing roles in LinkedIn\'s Jobs on the Rise India 2025 report) and roles built on human trust — nursing, early-years teaching, client-facing relationship roles — currently score highest. Entry-level execution work, junior QA, and pattern-following analytics score lowest, regardless of job title.',
+  },
+  {
+    q: 'Is a high salary enough to call a career "good"?',
+    a: 'No. A high salary answers only the income-ceiling axis. Sales and consulting both score high there and lower on security and life-fit demand at the same time. A career is genuinely good for you only when the axes you personally weight highest — not the axis that is easiest to brag about — are the ones scoring well.',
+  },
+  {
+    q: 'How do I know which career actually fits me, not just which one looks good on paper?',
+    a: "Run the worksheet in the 'score your own situation' section: rate how much you personally value each of the five axes, score your real options against them, and see where the math and your gut agree or disagree. Where they disagree is usually the thing worth investigating before you commit years to a choice.",
+  },
+  {
+    q: 'Can a "good career" change over time, or is the choice permanent?',
+    a: "It changes. A career that scores well at 22 with no dependents can score differently at 32 with a home loan and a child, because your personal weighting of security versus income ceiling shifts. The five axes stay the same; what you're solving for on each one does not have to.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+
+const relatedGuides = [
+  { href: '/blog/career-options/best-career-options-with-high-salary', label: 'Best career options with high salary: what actually pays' },
+  { href: '/blog/ai-future/top-careers-for-the-future', label: 'Top careers for the future: what is actually rising and why' },
+  { href: '/blog/career-options/is-data-science-a-good-career-in-india', label: 'Is data science a good career in India? The honest 2026 verdict' },
+  { href: '/blog/career-options/good-career-options-in-india', label: 'Good career options in India: 13 fields scored field by field' },
+];
+
+const pillTone = (tone: string) => (tone === 'good' ? 'tag-pill--good' : tone === 'caution' ? 'tag-pill--caution' : 'tag-pill--mid');
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="career-options"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Good careers are not a fixed top-ten list — they are roles that score well on the specific mix of pay,
+    security, growth, AI-resilience, and daily life fit that actually matters to you, and that mix is different for
+    almost everyone.</strong>
+    A career that looks "good" on salary can be one bad quarter away from a layoff. One that is nearly impossible to
+    lose can pay the same number for a decade whether you get better at it or not. The people who build a real
+    <strong>high-value skill portfolio</strong> and move toward <strong>earlier financial freedom</strong> are the
+    ones who know which of these five they are trading against which — not the ones who picked the highest number on
+    a list.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>"Good" is not one number. Score any career on five axes — income ceiling, security, growth trajectory, AI-resilience, and life-fit demand — because they rarely move together.</li>
+      <li>A role can be excellent on one axis and weak on another: IT-services pay looks strong until you weigh in 83% burnout rates and a roughly 7.16% share of global tech layoffs landing in India in H1 2026; a government post is nearly impossible to lose but its pay grows on a fixed schedule, not on skill.</li>
+      <li>AI-resilience now runs through the specific task list, not the job title — Aircraft Maintenance Engineer and Robotics Technician topped LinkedIn's 2025 fastest-growing India roles list, while junior QA and Level-1 IT support are taking the current wave of cuts.</li>
+      <li>Which career is "good" changes based on which axis you weight highest right now — and that weighting is allowed to change as your life does.</li>
+      <li><strong>Building a genuine high-value skill portfolio on top of whichever bucket you choose is what actually raises the weak axis, not luck or job-title glamour.</strong></li>
+    </ul>
+  </div>
+
+  <p>
+    If you already know you want a ranking by pure salary or by future demand, this site has two focused roundups
+    for exactly that: <a href="/blog/career-options/best-career-options-with-high-salary">best career options with
+    high salary</a> ranks by what actually pays, and <a href="/blog/ai-future/top-careers-for-the-future">top
+    careers for the future</a> ranks by where demand is genuinely rising. This article does neither. It answers the
+    harder question sitting underneath both of them: good by which measure, and good for you specifically.
+  </p>
+
+  <p>
+    For a broader map of every path inside this category, start at
+    <a href="/blog/career-options/">career options</a>. If you want a structured second opinion once you have a
+    shortlist, <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career
+    guidance</a> can help you weigh your own five-axis priorities against a real person instead of guessing alone.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">What actually makes good careers "good"</h2>
+
+  <p>
+    Every "good careers" search is really five different questions wearing one costume: will it pay well, will it
+    still exist in ten years, will I actually grow inside it, will AI quietly take the value out of it, and will the
+    day-to-day reality be one I can live with. Most articles answer one of those and call it the whole picture.
+  </p>
+
+  <p>
+    None of the five questions is optional. A career that nails one and ignores the rest is not a good career — it
+    is a career with one strong selling point and three or four unexamined risks sitting underneath it.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Ask ten people what makes a career good and you will get ten different answers, because they are each
+      quietly answering for a different axis. The parent who says "get a government job" is answering for security.
+      The relative who says "get into sales" is answering for income ceiling. Neither is wrong. Neither is the whole
+      answer either.
+    </p>
+  </div>
+
+  <h2 id="why-lists-fail">Why "best career" lists don't answer this</h2>
+
+  <p>
+    Search "good careers" and most results do one of two things: rank by salary, or rank by projected future demand.
+    Both are useful lenses — the two roundups linked above cover them properly — but neither answers the actual
+    question underneath "good careers": good by which measure, and good for whom.
+  </p>
+
+  <p>
+    A career that pays extremely well can be one bad quarter away from a layoff. A career that is nearly impossible
+    to lose can hand you the same number for a decade whether you are brilliant at it or barely showing up. A career
+    with genuinely strong AI-resilience can still be one where the daily reality quietly grinds you down. "Good" is
+    not one number. It is at least five, and they rarely move together.
+  </p>
+
+  <h2 id="five-axis">The 5-Axis Good-Career Test</h2>
+
+  <p>
+    Use <strong>The 5-Axis Good-Career Test</strong> instead of a single ranking. Score any career candidate on
+    these five dimensions before you decide whether it counts as "good" for you.
+  </p>
+
+  <div class="feature-grid">
+    {axisCards.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      None of these five is optional context — this is the actual decision. A career only becomes part of a real
+      <strong>high-value skill portfolio</strong>, and a genuine route to <strong>earlier financial freedom</strong>,
+      once you know which of these five axes you are trading against which, instead of chasing whichever one is
+      easiest to brag about.
+    </p>
+  </div>
+
+  <h2 id="scorecard">The Good-Career Scorecard</h2>
+
+  <p>
+    Here is how eight real career buckets score against The 5-Axis Good-Career Test, based on current India-specific
+    signals. Treat these as a starting read, not a verdict — your specific employer, city, and specialisation will
+    shift individual axes up or down.
+  </p>
+
+  <div class="scorecard-grid">
+    {scorecardCards.map((item) => (
+      <div class="scorecard-card">
+        <div class="scorecard-card__title">{item.name}</div>
+        <div class="scorecard-card__pills">
+          {item.pills.map((pill) => (
+            <span class={`tag-pill ${pillTone(pill.tone)}`}>{pill.axis}: {pill.level}</span>
+          ))}
+        </div>
+        <p set:html={item.reality} />
+        <div class="fit-line" set:html={`<strong>Best for:</strong> ${item.fit}`} />
+        <div class="caution-line" set:html={`<strong>Watch out:</strong> ${item.caution}`} />
+      </div>
+    ))}
+  </div>
+
+  <h2 id="weighting">How the "good" answer changes by what you weight</h2>
+
+  <p>
+    Nobody can score high on all five axes at once — that combination barely exists. The honest exercise is
+    deciding which axis you are willing to trade, and seeing which career buckets rise or fall once you do.
+  </p>
+
+  <div class="ai-stage-list">
+    {weightingRows.map((item) => (
+      <div class="ai-stage">
+        <span class="ai-stage__num">{item.num}</span>
+        <div class="ai-stage__body">
+          <div class="ai-stage__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="pay-hides-risk">When high pay hides a weak career</h2>
+
+  <p>
+    These two buckets show up on almost every "good salary" list. Both genuinely pay well. Both also hide a real
+    weakness on a different axis that the salary number never mentions.
+  </p>
+
+  <div class="scorecard-grid scorecard-grid--case">
+    {payHidesRiskCases.map((item) => (
+      <div class="scorecard-card">
+        <div class="scorecard-card__title">{item.title}</div>
+        <p>{item.body}</p>
+        <div class="fit-line" set:html={`<strong>Best for:</strong> ${item.fit}`} />
+        <div class="caution-line" set:html={`<strong>Watch out:</strong> ${item.caution}`} />
+      </div>
+    ))}
+  </div>
+
+  <h2 id="security-hides-ceiling">When stability hides a low ceiling</h2>
+
+  <p>
+    The reverse mistake is just as common: treating "I could never lose this job" as proof the career is good,
+    without checking whether the income and growth axes are quietly capped underneath that security.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Why security is real</th>
+          <th>Ceiling reality</th>
+          <th>What actually raises it</th>
+        </tr>
+      </thead>
+      <tbody>
+        {securityHidesCeilingRows.map((item) => (
+          <tr>
+            <td data-label="Role"><strong>{item.role}</strong></td>
+            <td data-label="Why security is real">{item.security}</td>
+            <td data-label="Ceiling reality">{item.ceiling}</td>
+            <td data-label="What actually raises it">{item.raise}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Figures are directional, based on aggregated 2025-2026 labour-market, pay-commission, and healthcare-workforce
+    reporting at the time of writing. Verify current numbers for your specific state, cadre, or institution before
+    making a financial decision.
+  </p>
+
+  <h2 id="ai-resilience">Which careers actually survive AI</h2>
+
+  <p>
+    This is the axis most "good career" searches skip, because it is the least comfortable one to answer honestly.
+    The useful question is not "is this a tech job." It is "how much of what I would actually do all day is a
+    pattern a model can already follow."
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">Most exposed right now</div>
+      <ul>
+        {aiExposedPoints.map((point) => (
+          <li set:html={point} />
+        ))}
+      </ul>
+    </div>
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">Holding up, and why</div>
+      <ul>
+        {aiResilientPoints.map((point) => (
+          <li set:html={point} />
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight-box highlight-box--amber">
+    <p>
+      The pattern across both lists is not "tech bad, non-tech safe." It is execution-only work getting automated
+      first, in every sector, while judgment-plus-trust work and judgment-plus-AI-fluency work both get more
+      valuable. Chasing a career for its AI-resilience halo without checking which layer of that specific job you
+      would actually be doing is how someone ends up in the exposed half of a safe-sounding title.
+    </p>
+  </div>
+
+  <p>
+    For a full role-by-role breakdown of what is exposed and what is protected right now, see
+    <a href="/blog/ai-future/careers-that-will-survive-ai-india">careers that will survive AI in India</a>.
+  </p>
+
+  <p>
+    Whichever bucket you are leaning toward, the same four-stage AI-leverage path applies inside it — the tasks
+    change by bucket, the stages do not.
+  </p>
+
+  <div class="worksheet-list">
+    {aiLeverageStages.map((item) => (
+      <div class="worksheet-step">
+        <div class="worksheet-step__num">{item.num}</div>
+        <div class="worksheet-step__body">
+          <div class="worksheet-step__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="checkpoint">Run The 4-Checkpoint Protocol before you commit</h2>
+
+  <p>
+    The 5-Axis Good-Career Test tells you how a career scores in general. The 4-Checkpoint Protocol tells you
+    whether that scoring actually fits your specific life right now.
+  </p>
+
+  <div class="protocol-stack">
+    {checkpointItems.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+          <div class="checkpoint__note">{item.note}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="gates">Pass The 3 Gates before you commit years to it</h2>
+
+  <p>
+    Scoring and checkpoints happen on paper. The 3 Gates make you test the decision against reality before you
+    spend real years and real money finding out the hard way.
+  </p>
+
+  <div class="gates-block">
+    <p class="gates-block__title">
+      Do not enrol in a degree, certification, or career switch before passing all three gates.
+    </p>
+    <div class="gates-row">
+      {gateItems.map((item) => (
+        <div class="gate">
+          <span class="gate__num">{item.num}</span>
+          <span class="gate__name">{item.title}</span>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <p>
+    If you are still unsure after running this test, a session inside
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can help you compare your real options against each other with an actual person, instead of guessing alone from
+    a list, a forum thread, or one relative's opinion.
+  </p>
+
+  <h2 id="score-yourself">Score your own situation before you score any career</h2>
+
+  <p>
+    The scorecard above tells you how careers score in general. This worksheet tells you what "good" means
+    specifically for you — which is the only version of the question actually worth answering.
+  </p>
+
+  <div class="worksheet-list">
+    {worksheetSteps.map((item) => (
+      <div class="worksheet-step">
+        <div class="worksheet-step__num">{item.num}</div>
+        <div class="worksheet-step__body">
+          <div class="worksheet-step__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    Not sure how you would even rate your own priorities on paper? The
+    <a href="/career-skills-compass/">Career &amp; Skills Compass</a> is a useful starting point for seeing your
+    own working style and strengths more clearly before you fill in the worksheet above.
+  </p>
+
+  <p>
+    This worksheet scores the career. If the winning bucket still does not feel settled once the numbers are in,
+    that is usually a personal-fit question, not a scoring question —
+    <a href="/blog/career-guidance/how-to-find-the-right-career-for-me-india/">the 4 Fit Signals</a> (attention,
+    feedback, friction, and market) cover that other half of the same decision.
+  </p>
+
+  <h2 id="mistakes">Mistakes to avoid when chasing a "good career"</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not try to answer "which career is actually good for me" for one more month based on one more relative's
+    opinion or one more ranked list. Run The 5-Axis Good-Career Test on your actual shortlist, in writing, today.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>Score your two or three real options against the five axes using the worksheet above.</p>
+    <p>
+      Then run The 4-Checkpoint Protocol and pass The 3 Gates before you spend real years or real money committing
+      to one of them.
+    </p>
+  </div>
+
+  <p>
+    Achieving <strong>earlier financial freedom</strong> through any of these buckets comes down to which weak axis
+    you strengthen on purpose — a specialisation that raises a capped ceiling, a proof asset that raises AI-resilience,
+    or a deliberate move that improves security without gutting growth. That is what a real
+    <strong>high-value skill portfolio</strong> actually builds toward. Move toward that with
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a> if
+    you want a second opinion on your specific weighting, or start with the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a> if you are still
+    unsure which axis actually matters most to you.
+  </p>
+
+  <p>If you are comparing this decision against a related angle, these guides go deeper on each fork:</p>
+
+  <ul class="related-guides">
+    {relatedGuides.map((item) => (
+      <li><a href={item.href}>{item.label}</a></li>
+    ))}
+  </ul>
+
+  <h2 id="faq">FAQs on good careers</h2>
+
+  <div class="faq-list">
+    {faqItems.map((item, index) => (
+      <details class="faq-item" open={index === 0}>
+        <summary class="faq-item__q">{item.q}</summary>
+        <div class="faq-item__a" set:html={item.a} />
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong {
+      color: #fff;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .key-takeaways {
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.35rem 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.1), transparent 60%),
+        rgba(255, 255, 255, 0.03);
+    }
+    .key-takeaways__label {
+      margin: 0 0 0.7rem !important;
+      font-size: 11px !important;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(45, 212, 191, 0.95) !important;
+    }
+    .key-takeaways ul {
+      margin: 0 !important;
+      padding-left: 1.15rem !important;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .key-takeaways li {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.82) !important;
+      line-height: 1.7 !important;
+      font-size: 15.5px;
+    }
+
+    .feature-grid,
+    .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .feature-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .feature-card,
+    .compare-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .feature-card__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      color: rgba(45, 212, 191, 0.96);
+      margin-bottom: 0.5rem;
+    }
+    .feature-card__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.93);
+      line-height: 1.28;
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .feature-card p {
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0 !important;
+    }
+
+    /* Scorecard grid: career-bucket cards carrying a five-pill rating row
+       plus tinted fit/caution sub-lines, distinct from the plain feature-grid
+       used for the axis definitions above. */
+    .scorecard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.1rem;
+      margin: 1.5rem 0;
+    }
+    .scorecard-card {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1.3rem 1.3rem 1.2rem;
+    }
+    .scorecard-card:nth-child(4n+1) { border-color: rgba(45, 212, 191, 0.3); }
+    .scorecard-card:nth-child(4n+2) { border-color: rgba(229, 184, 74, 0.3); }
+    .scorecard-card:nth-child(4n+3) { border-color: rgba(167, 139, 250, 0.3); }
+    .scorecard-card:nth-child(4n+4) { border-color: rgba(125, 211, 252, 0.3); }
+    .scorecard-card__title {
+      font-size: 1.06rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.94);
+      margin-bottom: 0.7rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.28;
+    }
+    .scorecard-card__pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.85rem;
+    }
+    .scorecard-card p {
+      font-size: 13.5px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0 0 0.2rem !important;
+    }
+    .scorecard-grid--case {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.28rem 0.6rem;
+      border-radius: 999px;
+      font-size: 10.5px;
+      font-weight: 700;
+      border: 1px solid;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+    .tag-pill--good {
+      color: #2dd4bf;
+      border-color: rgba(45, 212, 191, 0.4);
+      background: rgba(45, 212, 191, 0.08);
+    }
+    .tag-pill--mid {
+      color: #e5b84a;
+      border-color: rgba(229, 184, 74, 0.4);
+      background: rgba(229, 184, 74, 0.08);
+    }
+    .tag-pill--caution {
+      color: #f87171;
+      border-color: rgba(248, 113, 113, 0.4);
+      background: rgba(248, 113, 113, 0.08);
+    }
+
+    .fit-line,
+    .caution-line {
+      padding: 0.5rem 0.7rem;
+      border-radius: 0 10px 10px 0;
+      font-size: 13px;
+      line-height: 1.62;
+      color: rgba(255, 255, 255, 0.72);
+      margin-top: 0.5rem;
+    }
+    .fit-line {
+      background: rgba(45, 212, 191, 0.07);
+      border-left: 2px solid rgba(45, 212, 191, 0.5);
+    }
+    .fit-line strong {
+      color: #2dd4bf;
+    }
+    .caution-line {
+      background: rgba(229, 184, 74, 0.07);
+      border-left: 2px solid rgba(229, 184, 74, 0.5);
+    }
+    .caution-line strong {
+      color: #e5b84a;
+    }
+
+    /* Rich numbered list with gold-filled circles, reused for the
+       weighting scenarios (five short cause/effect rows). */
+    .ai-stage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1.3rem 0 1.5rem;
+    }
+    .ai-stage {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.95rem 1.1rem;
+    }
+    .ai-stage__num {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(229, 184, 74, 0.16);
+      border: 1px solid rgba(229, 184, 74, 0.4);
+      color: #e5b84a;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ai-stage__title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+    }
+    .ai-stage p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.68 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+
+    /* Worksheet steps: square badge numbers, distinct from the circular
+       weighting list and the large-faded-number protocol/mistake stacks. */
+    .worksheet-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin: 1.3rem 0 1.5rem;
+    }
+    .worksheet-step {
+      display: flex;
+      gap: 1.1rem;
+      align-items: flex-start;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1rem 1.15rem;
+    }
+    .worksheet-step__num {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(45, 212, 191, 0.14);
+      border: 1px solid rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .worksheet-step__title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+    }
+    .worksheet-step p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.68 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .compare-card--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .compare-card--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul {
+      margin: 0 0 0 1rem !important;
+      padding: 0 !important;
+    }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .protocol-stack,
+    .faq-list,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .faq-item,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .gates-block {
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+      padding: 1.25rem 1.2rem;
+      margin: 1.45rem 0;
+    }
+    .gates-block__title {
+      font-size: 13px !important;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      line-height: 1.6 !important;
+      margin: 0 0 0.95rem !important;
+    }
+    .gates-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .gate {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1rem 0.95rem;
+    }
+    .gate__num {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(45, 212, 191, 0.82);
+      font-weight: 800;
+      margin-bottom: 0.24rem;
+    }
+    .gate__name {
+      display: block;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.45rem;
+      font-family: "Sora", sans-serif;
+    }
+    .gate p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.66 !important;
+      color: rgba(255, 255, 255, 0.64) !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    .faq-item__q {
+      padding: 0.95rem 1.15rem;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .faq-item__a {
+      padding: 0.95rem 1.15rem 1rem;
+      font-size: 14.5px;
+      line-height: 1.76;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    .related-guides {
+      margin: 0.8rem 0 1.6rem !important;
+      padding-left: 1.15rem !important;
+      display: grid;
+      gap: 0.55rem;
+    }
+    .related-guides li {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      line-height: 1.6 !important;
+      font-size: 15px;
+    }
+
+    @media (max-width: 820px) {
+      .comparison-grid,
+      .gates-row,
+      .jump-nav__list,
+      .scorecard-grid,
+      .scorecard-grid--case {
+        grid-template-columns: 1fr;
+      }
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .feature-card,
+      .compare-card,
+      .highlight-box,
+      .checkpoint,
+      .gates-block,
+      .gate,
+      .mistake-item,
+      .faq-item__q,
+      .faq-item__a,
+      .scorecard-card,
+      .worksheet-step,
+      .ai-stage {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 660px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+  </style>
+</BlogPostLayout>

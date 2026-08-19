@@ -1,297 +1,432 @@
 ---
 import { CONTACT } from '../config/site';
+import { LayoutDashboard } from '@lucide/astro';
 
 export interface Props {
   activePage?: string;
 }
 const { activePage } = Astro.props;
+const assessmentNavLabel = activePage === 'blog' ? 'Free career and skill assessments' : 'Free Assessments';
 ---
 
 <header id="nav">
   <div class="nav-inner">
+
+    <!-- Logo -->
     <a href="/" class="nav-logo" aria-label="Future Career School Home">
       Future<span class="gold-text"> Career</span> School
     </a>
 
+    <!-- Desktop links (hidden ≤1024px) -->
     <nav class="nav-links" aria-label="Main navigation">
-      <a href="/services" class:list={[activePage === 'services' ? 'nav-active' : '']}>Services</a>
-      <a href="/services/career-counselling-and-career-guidance" class:list={[activePage === 'career-guidance' ? 'nav-active' : '']}>Career Guidance</a>
-      <a href="/skill-finder" class:list={[activePage === 'skill-finder' ? 'nav-active' : '']}>Skill Finder</a>
-      <a href="/career-resources" class:list={[activePage === 'topics' ? 'nav-active' : '']}>Career Resources</a>
-      <a href="/blog" class:list={[activePage === 'blog' ? 'nav-active' : '']}>Blog</a>
+      <a href="/services"
+        class:list={[activePage === 'services' ? 'nav-active' : '']}>Services</a>
+      <a href="/services/career-counselling-and-career-guidance"
+        class:list={[activePage === 'career-guidance' ? 'nav-active' : '']}>Career Guidance</a>
+      <a href="/services/assessments"
+        class:list={['nav-free-assess', activePage === 'assessments' ? 'nav-active' : '']}>{assessmentNavLabel}</a>
+      <a href="/career-skills-compass"
+        class:list={[activePage === 'compass' ? 'nav-active' : '']}>Career &amp; Skills Compass</a>
+      <a href="/career-resources"
+        class:list={[activePage === 'topics' ? 'nav-active' : '']}>Resources</a>
+      <a href="/blog"
+        class:list={[activePage === 'blog' ? 'nav-active' : '']}>Blog</a>
     </nav>
 
+    <!-- Desktop CTAs (hidden ≤1024px) -->
     <div class="nav-ctas">
+      <a href="/dashboard" class="nav-workspace-link" aria-label="Sign in to the career workspace">
+        <LayoutDashboard size={17} aria-hidden="true" />
+        <span>Workspace login</span>
+      </a>
       <a href={`tel:${CONTACT.phoneE164}`} class="nav-phone" aria-label="Call us">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+        </svg>
         {CONTACT.phoneDisplay}
       </a>
-      <a
-        href="/services/career-counselling-and-career-guidance"
-        class="nav-book-btn pulse"
-        aria-label="Get career guidance"
-      >
+      <a href="/services/career-counselling-and-career-guidance"
+        class="nav-book-btn pulse" aria-label="Get career guidance">
         Get Career Guidance
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+          viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
       </a>
     </div>
 
-    <!-- Mobile -->
-    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
+    <!-- Mobile right side: mini CTA + hamburger (shown ≤1024px) -->
+    <div class="nav-mob-row">
+      <a href="/services/career-counselling-and-career-guidance"
+        class="mob-cta-pill" aria-label="Get career guidance">
+        Get Guidance
+      </a>
+      <button class="hamburger" id="hamburger"
+        aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
 
-  <!-- Mobile menu -->
-  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-    <nav aria-label="Mobile navigation">
-      <a href="/services">Services</a>
-      <a href="/services/career-counselling-and-career-guidance">Career Guidance</a>
-      <a href="/skill-finder">Skill Finder</a>
-      <a href="/career-resources">Career Resources</a>
-      <a href="/blog">Blog</a>
+  </div><!-- /nav-inner -->
+
+  <!-- Mobile dropdown menu -->
+  <div class="mobile-menu" id="mobile-menu" role="navigation"
+    aria-label="Mobile navigation" aria-hidden="true">
+
+    <nav>
+      <a href="/services"
+        class:list={[activePage === 'services' ? 'mob-active' : '']}>Services</a>
+      <a href="/services/career-counselling-and-career-guidance"
+        class:list={[activePage === 'career-guidance' ? 'mob-active' : '']}>Career Guidance</a>
+      <a href="/services/assessments"
+        class:list={['mob-assess', activePage === 'assessments' ? 'mob-active' : '']}>
+        {assessmentNavLabel}
+        <span class="mob-free-badge">FREE</span>
+      </a>
+      <a href="/career-skills-compass"
+        class:list={[activePage === 'compass' ? 'mob-active' : '']}>Career &amp; Skills Compass</a>
+      <a href="/career-resources"
+        class:list={[activePage === 'topics' ? 'mob-active' : '']}>Career Resources</a>
+      <a href="/blog"
+        class:list={[activePage === 'blog' ? 'mob-active' : '']}>Blog</a>
+      <a href="/dashboard">Workspace login</a>
     </nav>
-    <a
-      href="/services/career-counselling-and-career-guidance"
-      class="mobile-cta"
-    >Get Career Guidance</a>
-  </div>
+
+    <div class="mob-action-group">
+      <a href="/services/career-counselling-and-career-guidance" class="mob-primary-btn">
+        Get Career Guidance
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"
+          viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      </a>
+      <a href={`tel:${CONTACT.phoneE164}`} class="mob-call-btn" aria-label="Call us">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+        </svg>
+        {CONTACT.phoneDisplay}
+      </a>
+    </div>
+
+  </div><!-- /mobile-menu -->
 </header>
 
 <style>
+  /* ═══ Core header ═══ */
   #nav {
     position: fixed;
-    inset-x: 0; top: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
-    width: 100%;
-    background: rgba(8,12,24,.82);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(255,255,255,.06);
+    max-width: 100vw;
+    overflow: hidden;
+    background: rgba(8,12,24,.86);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,.07);
     transition: background .4s, box-shadow .4s, border-color .4s;
   }
   #nav.scrolled {
     background: rgba(8,12,24,.97);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    box-shadow: 0 1px 0 rgba(229,184,74,.12), 0 8px 32px rgba(0,0,0,.4);
-    border-bottom-color: rgba(255,255,255,.09);
+    box-shadow: 0 1px 0 rgba(229,184,74,.13), 0 8px 32px rgba(0,0,0,.45);
+    border-bottom-color: rgba(255,255,255,.1);
   }
+
+  /* ═══ Inner row ═══ */
   .nav-inner {
     width: 100%;
-    max-width: 100%;
+    max-width: 100vw;
     padding: 0 1.5rem;
     height: 70px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
     box-sizing: border-box;
+    overflow: hidden;
   }
+
+  /* ═══ Logo ═══ */
   .nav-logo {
     font-family: "Sora", sans-serif;
     font-weight: 800;
-    font-size: clamp(15px, 3.5vw, 20px);
+    font-size: clamp(14px, 2.8vw, 19px);
     color: #fff;
     white-space: nowrap;
     flex-shrink: 0;
     letter-spacing: -.03em;
+    text-decoration: none;
   }
+
+  /* ═══ Desktop nav links ═══ */
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 1px;
     flex: 1;
     justify-content: center;
     min-width: 0;
   }
   .nav-links a {
     font-size: 12.5px;
-    color: rgba(255,255,255,.5);
+    color: rgba(255,255,255,.52);
     font-weight: 500;
-    transition: color .2s, background .2s;
-    padding: 6px 10px;
+    white-space: nowrap;
+    padding: 7px 9px;
     border-radius: 8px;
     letter-spacing: .01em;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: color .2s, background .2s;
+    border: 1px solid transparent;
   }
-  .nav-links a:hover { color: rgba(255,255,255,.9); background: rgba(255,255,255,.06); }
-  .nav-active { color: var(--gold) !important; }
-  .nav-ctas { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
-  .nav-phone {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12.5px;
-    color: rgba(255,255,255,.35);
-    font-weight: 500;
-    transition: color .2s;
-    padding: 6px 10px;
+  .nav-links a:hover { color: rgba(255,255,255,.92); background: rgba(255,255,255,.07); }
+  .nav-active { color: #e8c45f !important; }
+  .nav-links a.nav-free-assess {
+    color: #34e0c8 !important;
+    background: rgba(52,224,200,.09);
+    border-color: rgba(52,224,200,.24);
+    font-weight: 600;
   }
-  .nav-phone:hover { color: rgba(255,255,255,.7); }
-  .nav-book-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 18px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #e5b84a, #f5d98c, #c49a2a);
-    color: #080c18;
-    font-family: "Sora", sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    transition: all .3s;
-    box-shadow: 0 4px 16px rgba(229,184,74,.3);
-    white-space: nowrap;
+  .nav-links a.nav-free-assess:hover {
+    background: rgba(52,224,200,.18);
+    border-color: rgba(52,224,200,.5);
   }
-  .nav-book-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(229,184,74,.5); }
 
-  /* Mobile */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    padding: 8px;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 8px;
-    cursor: pointer;
+  /* ═══ Desktop CTAs ═══ */
+  .nav-ctas { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+  .nav-workspace-link {
+    display: inline-flex; min-height: 38px; align-items: center; gap: 7px; padding: 7px 11px;
+    border: 1px solid rgba(255,255,255,.14); border-radius: 8px;
+    background: rgba(255,255,255,.06); color: rgba(255,255,255,.72);
+    font-size: 12px; font-weight: 650; white-space: nowrap;
+    text-decoration: none; transition: background .2s, border-color .2s, color .2s;
   }
+  .nav-workspace-link:hover {
+    border-color: rgba(52,224,200,.42); background: rgba(52,224,200,.1); color: #34e0c8;
+  }
+  .nav-phone {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: rgba(255,255,255,.32); font-weight: 500;
+    padding: 6px 10px; text-decoration: none; white-space: nowrap;
+    transition: color .2s;
+  }
+  .nav-phone:hover { color: rgba(255,255,255,.68); }
+  .nav-book-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 9px 17px; border-radius: 10px;
+    background: linear-gradient(135deg, #e5b84a, #f5d98c, #c49a2a);
+    color: #080c18; font-family: "Sora", sans-serif; font-weight: 700;
+    font-size: 13px; white-space: nowrap; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(229,184,74,.3);
+    transition: transform .25s, box-shadow .3s;
+  }
+  .nav-book-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 26px rgba(229,184,74,.5); }
+
+  /* ═══ Mobile row (hidden on desktop) ═══ */
+  .nav-mob-row { display: none; align-items: center; gap: 9px; flex-shrink: 0; }
+  .mob-cta-pill {
+    display: inline-flex; align-items: center;
+    padding: 8px 14px; border-radius: 9px;
+    background: linear-gradient(135deg, #e5b84a, #f5d98c, #c49a2a);
+    color: #080c18; font-family: "Sora", sans-serif;
+    font-weight: 700; font-size: 12.5px; white-space: nowrap;
+    text-decoration: none;
+  }
+
+  /* ═══ Hamburger ═══ */
+  .hamburger {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 5px; padding: 0; width: 44px; height: 44px;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px; cursor: pointer;
+    transition: background .2s, border-color .2s;
+    flex-shrink: 0;
+  }
+  .hamburger:hover { background: rgba(255,255,255,.13); border-color: rgba(255,255,255,.22); }
   .hamburger span {
     display: block; width: 20px; height: 2px;
-    background: rgba(255,255,255,.7);
-    border-radius: 2px;
-    transition: all .3s;
+    background: rgba(255,255,255,.78); border-radius: 2px;
+    transition: transform .28s cubic-bezier(.2,.7,.2,1), opacity .22s, background .2s;
+    pointer-events: none;
   }
+  .hamburger.open { background: rgba(232,196,95,.12); border-color: rgba(232,196,95,.35); }
+  .hamburger.open span { background: #e8c45f; }
   .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
   .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  /* ═══ Mobile dropdown ═══ */
   .mobile-menu {
     display: none;
     flex-direction: column;
-    gap: 0;
-    background: rgba(8,12,24,.98);
-    border-top: 1px solid transparent;
-    padding: 0 20px;
+    background: rgba(4,6,14,.99);
+    border-top: 1px solid rgba(255,255,255,.07);
     overflow: hidden;
     max-height: 0;
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-10px);
-    transition: max-height .35s ease, opacity .22s ease, transform .22s ease, padding .22s ease, border-color .22s ease;
+    padding: 0 1.25rem;
+    transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .28s ease;
   }
   .mobile-menu.open {
-    max-height: 600px;
+    max-height: 780px;
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0);
-    border-top-color: rgba(255,255,255,.07);
-    padding: 14px 20px 20px;
-  }
-  .mobile-menu nav { display: flex; flex-direction: column; gap: 4px; margin-bottom: 20px; }
-  .mobile-menu a {
-    font-size: 15px;
-    color: rgba(255,255,255,.6);
-    padding: 12px 8px;
-    border-bottom: 1px solid rgba(255,255,255,.05);
-    transition: color .2s;
-  }
-  .mobile-menu a:hover { color: var(--gold); }
-  .mobile-cta {
-    display: block !important;
-    padding: 14px 20px;
-    background: linear-gradient(135deg,#e5b84a,#f5d98c,#c49a2a);
-    color: #080c18 !important;
-    font-family: "Sora", sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    text-align: center;
-    border-radius: 12px;
-    border-bottom: none !important;
+    padding: 8px 1.25rem 20px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
   }
 
-  :global(body.nav-menu-open) {
-    overflow: hidden;
+  /* Mobile links */
+  .mobile-menu nav {
+    display: flex; flex-direction: column; margin-bottom: 14px;
+  }
+  .mobile-menu nav a {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; font-size: 15.5px; font-weight: 500;
+    color: rgba(255,255,255,.58); padding: 0 4px;
+    border-bottom: 1px solid rgba(255,255,255,.055);
+    text-decoration: none; min-height: 52px;
+    transition: color .18s, padding-left .18s, background .18s;
+    border-radius: 0;
+  }
+  .mobile-menu nav a:last-child { border-bottom: none; }
+  .mobile-menu nav a:hover { color: rgba(255,255,255,.9); padding-left: 10px; }
+  .mob-active { color: #e8c45f !important; font-weight: 600; }
+  .mob-active:hover { color: #f5d98c !important; }
+
+  /* Free Assessments row */
+  .mob-assess { color: #34e0c8 !important; }
+  .mob-assess:hover { color: #34e0c8 !important; }
+  .mob-free-badge {
+    font-size: 9px; font-weight: 800; letter-spacing: .1em;
+    padding: 3px 7px; border-radius: 999px;
+    background: rgba(52,224,200,.14); border: 1px solid rgba(52,224,200,.34);
+    color: #34e0c8; flex-shrink: 0;
   }
 
-  @media (max-width: 1080px) {
-    .nav-inner { padding: 0 1.25rem; }
-    .nav-links a { padding: 6px 8px; }
+  /* Action group (primary CTA + call) */
+  .mob-action-group { display: flex; flex-direction: column; gap: 10px; }
+  .mob-primary-btn {
+    display: flex !important; align-items: center; justify-content: center;
+    gap: 9px; padding: 15px 20px; border-radius: 14px; min-height: 54px;
+    background: linear-gradient(135deg, #e5b84a, #f5d98c, #c49a2a);
+    color: #080c18 !important; font-family: "Sora", sans-serif;
+    font-weight: 700; font-size: 15px; text-decoration: none;
+    text-align: center; border-bottom: none !important;
+  }
+  .mob-call-btn {
+    display: flex !important; align-items: center; justify-content: center;
+    gap: 9px; padding: 13px 20px; border-radius: 12px; min-height: 50px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.13);
+    color: rgba(255,255,255,.7) !important; font-family: "Sora", sans-serif;
+    font-weight: 600; font-size: 14px; text-decoration: none;
+    text-align: center; border-bottom: none !important;
+    transition: background .2s, color .2s;
+  }
+  .mob-call-btn:hover { background: rgba(255,255,255,.11); color: #fff !important; }
+
+  /* Body scroll-lock */
+  :global(body.nav-menu-open) { overflow: hidden; }
+
+  /* ═══ BREAKPOINTS ═══ */
+
+  /* Wide: hide phone to save room */
+  @media (max-width: 1280px) {
     .nav-phone { display: none; }
-    .nav-book-btn { padding: 8px 15px; font-size: 12.5px; }
   }
 
-  @media (max-width: 920px) {
+  /* Narrow desktop: tighten links */
+  @media (max-width: 1200px) {
+    .nav-inner { padding: 0 1.25rem; }
+    .nav-links a { padding: 6px 7px; font-size: 12px; }
+    .nav-book-btn { padding: 8px 14px; font-size: 12.5px; }
+  }
+
+  /* Tablet / mobile collapse point — hamburger appears */
+  @media (max-width: 1024px) {
     .nav-links { display: none; }
-    .nav-ctas { display: none; }
-    .hamburger { display: flex; }
+    .nav-ctas  { display: none; }
+    .nav-mob-row { display: flex; }
     .mobile-menu { display: flex; }
   }
 
-  @media (max-width: 560px) {
-    .nav-inner {
-      padding: 0 .95rem;
-      height: 64px;
-      gap: 10px;
+  /* Mobile: compact header */
+  @media (max-width: 640px) {
+    #nav,
+    #nav.scrolled {
+      background: rgba(8,12,24,.98);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      box-shadow: 0 1px 0 rgba(229,184,74,.1);
     }
-    .nav-logo {
-      font-size: clamp(14px, 4.8vw, 17px);
-      max-width: calc(100% - 52px);
-      white-space: normal;
-      line-height: 1.05;
-    }
-    .hamburger { padding: 7px; }
-    .mobile-menu { padding: 12px 16px 18px; }
-    .mobile-menu a { padding: 13px 6px; }
-    .mobile-cta {
-      padding: 13px 16px;
-      font-size: 13px;
-    }
+    .nav-inner { padding: 0 1rem; height: 62px; gap: 8px; }
+    .nav-logo { font-size: clamp(13px, 4.2vw, 16px); }
+    .mob-cta-pill { font-size: 11.5px; padding: 7px 11px; }
+    .mobile-menu nav a { font-size: 15px; min-height: 50px; }
+    .mob-primary-btn { font-size: 14.5px; padding: 14px 18px; }
+  }
+
+  /* Tiny phones: hide mini CTA, just hamburger */
+  @media (max-width: 380px) {
+    .mob-cta-pill { display: none; }
+    .nav-inner { padding: 0 .9rem; gap: 6px; }
+    .nav-logo { font-size: clamp(12px, 4.8vw, 15px); }
   }
 </style>
 
 <script>
-  const nav = document.getElementById('nav');
+  const nav       = document.getElementById('nav');
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobile-menu');
   const mobileLinks = mobileMenu?.querySelectorAll('a') ?? [];
-  const desktopBreakpoint = 920;
+  const BREAK = 1024;
 
-  const setMenuState = (isOpen) => {
-    hamburger?.classList.toggle('open', isOpen);
-    mobileMenu?.classList.toggle('open', isOpen);
-    hamburger?.setAttribute('aria-expanded', String(isOpen));
-    mobileMenu?.setAttribute('aria-hidden', String(!isOpen));
-    document.body.classList.toggle('nav-menu-open', isOpen);
+  const setMenu = (open: boolean) => {
+    hamburger?.classList.toggle('open', open);
+    mobileMenu?.classList.toggle('open', open);
+    hamburger?.setAttribute('aria-expanded', String(open));
+    mobileMenu?.setAttribute('aria-hidden', String(!open));
+    document.body.classList.toggle('nav-menu-open', open);
   };
 
-  const closeMenu = () => setMenuState(false);
+  const close = () => setMenu(false);
 
+  /* scroll class */
   window.addEventListener('scroll', () => {
     nav?.classList.toggle('scrolled', window.scrollY > 30);
   }, { passive: true });
 
-  hamburger?.addEventListener('click', () => {
-    const isOpen = !hamburger.classList.contains('open');
-    setMenuState(isOpen);
-  });
+  /* toggle */
+  hamburger?.addEventListener('click', () =>
+    setMenu(!hamburger.classList.contains('open')));
 
-  mobileLinks.forEach((link) => {
-    link.addEventListener('click', closeMenu);
-  });
+  /* close on link click */
+  mobileLinks.forEach(link => link.addEventListener('click', close));
 
-  document.addEventListener('click', (event) => {
+  /* close on outside click */
+  document.addEventListener('click', (ev) => {
     if (!hamburger || !mobileMenu) return;
-    const target = event.target;
-    if (!(target instanceof Node)) return;
-    if (hamburger.contains(target) || mobileMenu.contains(target)) return;
-    closeMenu();
+    const t = ev.target as Node;
+    if (!hamburger.contains(t) && !mobileMenu.contains(t)) close();
   });
 
+  /* close on resize to desktop */
   window.addEventListener('resize', () => {
-    if (window.innerWidth > desktopBreakpoint) closeMenu();
+    if (window.innerWidth > BREAK) close();
   });
 
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeMenu();
+  /* Escape key */
+  window.addEventListener('keydown', ev => {
+    if (ev.key === 'Escape') close();
   });
 </script>
+

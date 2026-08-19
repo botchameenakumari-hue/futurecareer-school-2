@@ -26,7 +26,7 @@ Future agents should treat these files as the main orientation layer before maki
 12. `src/components/Footer.astro`
 13. `src/pages/index.astro`
 14. `src/pages/services/index.astro`
-15. `src/pages/skill-finder.astro`
+15. `src/pages/career-skills-compass.astro`
 16. `src/pages/career-resources.astro`
 17. `src/pages/services/assessments/index.astro`
 18. `src/pages/services/career-counselling-and-career-guidance/index.astro`
@@ -40,6 +40,8 @@ Future agents should treat these files as the main orientation layer before maki
 26. `src/pages/blog/career-guidance/how-to-choose-a-career-after-12th/index.astro`
 27. `public/blog/how-to-choose-a-career-after-12th-decision-scorecard.svg`
 28. `public/blog/how-to-choose-a-career-after-12th-career-lane-map.svg`
+29. `src/config/assessmentPages.ts`
+30. `src/pages/services/assessments/[slug]/index.astro`
 
 Blog-task read order:
 - for new blog work, read `BLOG_WORKFLOW.md` first
@@ -133,6 +135,7 @@ Current live indexable routes are defined in `src/config/site.ts` as `LIVE_INDEX
 - `/services/assessments/class-10-and-below`
 - `/services/assessments/class-11-to-12`
 - `/services/assessments/graduates-and-early-professionals`
+- `/services/assessments/working-professionals-and-career-changers`
 - `/services/assessments/stream-selector-test-after-10th`
 - `/services/assessments/career-aptitude-test-after-10th`
 - `/services/assessments/stream-selector-test-after-12th`
@@ -181,7 +184,7 @@ Current live indexable routes are defined in `src/config/site.ts` as `LIVE_INDEX
 - `/career-resources/sales-career-roadmap-from-rep-to-revenue-leader`
 - `/career-resources/financial-modelling-career-roadmap`
 - `/career-resources/high-income-skills-for-the-next-decade`
-- `/skill-finder`
+- `/career-skills-compass`
 - `/blog`
 - `/blog/career-guidance`
 - `/blog/career-guidance/how-to-choose-a-career-after-12th`
@@ -194,6 +197,10 @@ Current redirect support:
 - `public/.htaccess` for Hostinger / Apache-style permanent redirects
 - Hostinger hPanel Redirects can be used instead of `.htaccess` if preferred
 - `src/pages/topics-index.astro` fallback redirect shim
+
+Assessment page routing note:
+- broader assessment-intent routes under `/services/assessments/[slug]/` are now generated from `src/config/assessmentPages.ts`
+- use that config as the source of truth for the live assessment-page landing set
 
 Important rule:
 - do not add thin placeholder pages to the XML sitemap just to "reserve" URLs
@@ -279,8 +286,8 @@ Approved default CTA copy:
   - `Find the right fit.`
   - `Build the right skills.`
   - `Move toward achieving earlier financial freedom through stronger skill choices.`
-- primary button: `Explore Career Tests`
-- secondary button: `Explore Career Guidance`
+- primary button: `Get Career Guidance`
+- small supporting button/link: `Free career and skill assessments`
 
 Approved default CTA links:
 - primary: `https://futurecareerschool.com/services/assessments`
@@ -346,7 +353,7 @@ Execution rule for future agents:
 ### `src/components/Nav.astro`
 Current public primary nav should emphasize:
 - `/services`
-- `/skill-finder`
+- `/career-skills-compass`
 - `/career-resources`
 - `/blog`
 
@@ -409,7 +416,7 @@ Role:
 Purpose:
 - serve as the main CTA destination for career counselling and career guidance intent
 - explain career counselling, assessments, and coaching in client-facing language
-- link to `/services/`, `/services/assessments/`, the `#guidance-process` section on the same parent service page, `/skill-finder/`, and `/career-resources/`
+- link to `/services/`, `/services/assessments/`, the `#guidance-process` section on the same parent service page, `/career-skills-compass/`, and `/career-resources/`
 - never show internal SEO architecture notes or agent-style planning copy on this public page
 
 ### `src/pages/services/assessments/index.astro`
@@ -424,7 +431,7 @@ Purpose:
 Primary CTA URL:
 - `https://futurecareerschool.com/services/assessments`
 
-### `src/pages/skill-finder.astro`
+### `src/pages/career-skills-compass.astro`
 Role:
 - interactive skill discovery page
 
@@ -548,9 +555,9 @@ Within `/services/`, the intended hierarchy is:
 - `/services/counselling/students/undergraduate/`
 - `/services/counselling/professionals/`
 - `/services/assessments/`
-- `/services/assessments/psychometric/`
+- `/services/assessments/psychometric-test/`
 - `/services/assessments/skill-assessment/`
-- `/services/assessments/aptitude/`
+- `/services/assessments/aptitude-test/`
 - `/services/coaching/`
 - `/services/coaching/growth/`
 - `/services/coaching/leadership/`
@@ -617,7 +624,7 @@ If context is tight, remember this:
 - `/services/` is now the live parent hub for future service silos.
 - `SEO_ARCHITECTURE.md` contains the URL, silo, internal-linking, and anti-doorway rules.
 - `career-landing.html` and `coaches-dashboard.html` are not primary SEO pages.
-- `skill-finder.astro` and `career-resources.astro` are rich content hubs that should feed future nested pages.
+- `career-skills-compass.astro` and `career-resources.astro` are rich content hubs that should feed future nested pages.
 
 ## BOFU Source-of-Truth Rule
 
@@ -631,8 +638,9 @@ If context is tight, remember this:
 - Prefer clearer phrasing like `achieving earlier financial freedom` when the sentence needs it.
 - On non-assessment BOFU pages, do not lead the hero section with an assessment CTA; keep hero CTA count lean and let assessment links appear later when relevant.
 - On BOFU pages, visible CTA wording should adapt to the exact keyword or closest natural search phrasing instead of defaulting to generic audience-label wording.
-- On non-assessment career counselling, guidance, coaching, or strategy pages, keep the closing CTA to one intended primary action and keep assessment links contextual in the body instead of repeating them as the bottom CTA.
+- On non-assessment career counselling, guidance, coaching, MOFU, blog, or strategy pages, keep the paid guidance/counselling CTA visually dominant and keep assessment links contextual, smaller, and non-pulsing.
 - On non-assessment career counselling, guidance, coaching, or strategy pages, do not build a full dedicated assessment section by default; use a small contextual note or link instead.
 - When a reusable inline assessment note is needed across BOFU pages, prefer `src/components/bofu/AssessmentSupportNote.astro`.
+- On assessment-intent pages inside `/services/assessments/`, use `ASSESSMENT_PAGE_PROMPT.md` and the shared plans flow built from `src/config/assessmentPlans.ts` plus `src/components/bofu/GuidancePlansSection.astro` so free assessment pages still funnel into the relevant paid guidance plans.
 - BOFU section-tag / eyebrow labels must stay client-facing and should not sound like internal planning or framework language.
 - When narrower student-intent BOFU keywords ultimately route to the broader student guidance destination, keep the broader student page CTA wording at the student-guidance level instead of adding narrower keyword CTA labels there.

@@ -11,19 +11,39 @@ import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro
 import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
 import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
 import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import FinalCta from '../../../../components/bofu/FinalCta.astro';
 import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
 import {
   BOFU_ASSESSMENT_LINKS,
   BOFU_INTERNAL_LINKS,
-  BOFU_PAYMENT_LINKS,
 } from '../../../../config/bofu';
 
 const title = 'Career Guidance | Practical Direction and Next Steps | Future Career School';
 const description =
   'Need career guidance? Get practical online career guidance across India for stronger skill direction, proof of work, income growth, and a clearer route toward achieving earlier financial freedom.';
 const canonical =
-  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance';
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance/';
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the guidance actually reduces confusion',
+    body: 'Too much advice stays generic and leaves you guessing. Better guidance should help you judge clearer trade-offs, rule out weak options, and see what a better next step actually means.',
+  },
+  {
+    title: 'Check whether skills are included, not just course or job labels',
+    body: 'Degree-only or job-title-only advice is rarely practical. Look for guidance that helps you understand which high-value skills matter most and how to build proof of work alongside your path choice.',
+  },
+  {
+    title: 'Check whether the reasoning survives when pressure is on',
+    body: 'The real test is whether the direction still makes sense when a parent doubts it, an option closes, or the timeline gets tighter. Good guidance should give you confidence that can survive doubt.',
+  },
+  {
+    title: 'Check whether the process respects your real situation',
+    body: 'One-size guidance often fits nobody. Stronger guidance should adapt to your stage, your options, your risk tolerance, and what a better next move actually looks like for you.',
+  },
+];
 
 const faqItems = [
   {
@@ -57,9 +77,9 @@ const faqItems = [
       'Good career guidance should leave you with clearer trade-offs, a stronger skill direction, a practical next step, and a better sense of what leads toward real income growth.',
   },
   {
-    question: 'Should I start with free assessments first or book career guidance now?',
+    question: 'Should I use free assessments or book career guidance now?',
     answer:
-      'If you are still exploring and the decision is not urgent yet, free assessments, resources, and skill-finder tools can be a useful first layer. If the next decision already feels important, expensive, or delayed by confusion, stronger guided support can help more.',
+      'If you are still exploring and the decision is not urgent yet, free assessments, resources, and Career & Skills Compass tools can be a useful first layer. If the next decision already feels important, expensive, or delayed by confusion, stronger guided support can help more.',
   },
   {
     question: 'What should I prepare before asking for career guidance?',
@@ -74,7 +94,7 @@ const faqItems = [
   {
     question: 'Is this available online across India?',
     answer:
-      'Yes. Guidance is delivered online across India.',
+      'Yes. Guidance is delivered online across India, so you can join from home, college, or work instead of depending on local availability.',
   },
   {
     question: 'Do you guarantee a job?',
@@ -117,7 +137,7 @@ const fitItems = [
     listItems: [
       'You are confused about direction and need a practical next step.',
       'You want clearer skill-path and career-path decisions before committing harder.',
-      'You want broader guidance than random browsing, public videos, or generic advice that still leaves you unclear.',
+      'You want more complete guidance than random browsing, public videos, or generic advice that still leaves you unclear.',
       'Your situation does not fit one narrow label and you need a practical answer that can handle path, skill, and growth questions together.',
     ],
   },
@@ -151,12 +171,10 @@ const whatGuidanceItems = [
   {
     title: 'More information, same confusion',
     body: 'Many people keep searching for career guidance but stay unsure what to do next because the advice stays broad, degree-first, or too generic to change real decisions.',
-    eyebrow: 'What keeps people stuck',
   },
   {
     title: 'Clearer direction, clearer skill-path decisions',
     body: 'Useful career guidance should help you see fit, market reality, risk, and the next serious direction worth your effort phase.',
-    eyebrow: 'What actually helps',
   },
 ];
 
@@ -346,11 +364,11 @@ const relatedDirectoryItems = [
   {
     href: '/services/assessments',
     title: 'Free Assessments',
-    description: 'All assessments, resources, skill-finder, and course-finder tools are fully free.',
+    description: 'All assessments, resources, Career & Skills Compass, and course-finder tools are fully free.',
   },
   {
-    href: '/skill-finder',
-    title: 'Skill Finder',
+    href: '/career-skills-compass',
+    title: 'Career & Skills Compass',
     description: 'Start exploring high-value skill direction before bigger commitments.',
   },
   {
@@ -375,13 +393,13 @@ const jsonLd = [
         '@type': 'ListItem',
         position: 2,
         name: 'Services',
-        item: 'https://futurecareerschool.com/services',
+        item: 'https://futurecareerschool.com/services/',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Career Counselling and Career Guidance',
-        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
       },
       {
         '@type': 'ListItem',
@@ -402,7 +420,7 @@ const jsonLd = [
     areaServed: { '@type': 'Country', name: 'India' },
     inLanguage: 'en-IN',
     provider: {
-      '@type': 'EducationalOrganization',
+      '@type': ['Organization', 'ProfessionalService'],
       name: 'Future Career School',
       url: 'https://futurecareerschool.com',
     },
@@ -443,15 +461,14 @@ const jsonLd = [
       <p class="hero-sub">
         Career guidance should help you move from confusion to better decisions before another wrong turn gets expensive.
         The stronger direction is high-value skill building, proof of work, better income growth, and a clearer route toward achieving earlier financial freedom.
+        This is a professional career guidance service built around practical direction, not generic motivational talk.
       </p>
       <p class="hero-note">
-        Many providers charge thousands for outdated or impractical assessments.
-        Here, the career and skill assessments are fully free, updated, practical, and AI-powered.
-        Guidance is available online across India.
+        Guidance is available fully online across India. You can start from home, college, work, or wherever you already are — no travel, no waiting for local availability.
       </p>
       <div class="hero-actions">
-        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold pulse">Get Student Career Guidance</a>
-        <a href={BOFU_PAYMENT_LINKS.workingProfessionals} class="btn-outline">Get Working Professional Career Guidance</a>
+        <a href="#plans" class="btn-gold pulse">Get Student Career Guidance</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Guidance</a>
       </div>
       <p class="hero-support">
         Stronger guidance should help you judge fit, skill direction, and the next serious move before another wrong turn compounds.
@@ -459,27 +476,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <BofuListCardSection
-    sectionId="fit"
-    title="When career guidance becomes useful"
-    subtitle="Career guidance matters when the next move feels important, expensive, delayed by confusion, or no longer solvable through generic internet advice. The goal is to get clearer before another wrong turn costs more time, money, or effort."
-    items={fitItems}
-    variant="contrast"
-  >
-    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
-  </BofuListCardSection>
-
   <BofuFeatureSection
-    sectionId="what-guidance-should-do"
-    title="What career guidance should actually help you do"
-    subtitle="Good career guidance should not leave you with only path labels, more browsing, or motivational talk. It should make the next move easier to see, easier to trust, and easier to act on."
-    items={whatGuidanceItems}
-    variant="signal"
-  >
-    <BofuSummaryStrip items={whatGuidanceSummaryItems} variant="signal" />
-  </BofuFeatureSection>
-
-  <BofuListCardSection
     sectionId="what-you-get"
     title="What strong career guidance should give you"
     subtitle="The stronger value is not generic course advice. It is better path decisions, higher-value skill direction, proof of work, stronger positioning, and clearer income-growth direction."
@@ -491,7 +488,43 @@ const jsonLd = [
         body="The free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger guidance decision."
         href={BOFU_ASSESSMENT_LINKS.hub}
       />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why this is more useful than generic career advice"
+    subtitle="The point is clearer skill direction, proof of work, stronger income-growth logic, and a clearer route toward achieving earlier financial freedom."
+  />
+
+  <BofuListCardSection
+    sectionId="fit"
+    title="When career guidance becomes useful"
+    subtitle="Career guidance matters when the next move feels important, expensive, delayed by confusion, or no longer solvable through generic internet advice. The goal is to get clearer before another wrong turn costs more time, money, or effort."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
   </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="Use career guidance before broad confusion turns into a more expensive commitment"
+    body="It helps most when the real problem is no longer lack of information but weak trade-offs, unclear skill direction, and a next move that still does not feel solid."
+    studentHref="#plans"
+    studentLabel="Get Student Career Guidance"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-guidance-should-do"
+    title="What career guidance should actually help you do"
+    subtitle="Good career guidance should not leave you with only path labels, more browsing, or motivational talk. It should make the next move easier to see, easier to trust, and easier to act on."
+    items={whatGuidanceItems}
+    variant="signal"
+  >
+    <BofuSummaryStrip items={whatGuidanceSummaryItems} variant="signal" />
+  </BofuFeatureSection>
 
   <GuidanceModelSection />
 
@@ -525,12 +558,6 @@ const jsonLd = [
 
   <AudienceRelevance title="How the right support can fit where you are right now" />
 
-  <ComparisonMatrix
-    sectionId="different"
-    title="Why this is more useful than generic career advice"
-    subtitle="The point is clearer skill direction, proof of work, stronger income-growth logic, and a clearer route toward achieving earlier financial freedom."
-  />
-
   <BofuFeatureSection
     sectionId="objections"
     title="Common doubts before starting career guidance"
@@ -542,12 +569,28 @@ const jsonLd = [
   <BuyerChecks
     title="What to check before paying any career guidance service"
     subtitle="Good career guidance should improve decision quality. It should not leave you paying for more confusion, more generic advice, or a path that still feels random."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the next move still feels vague after everything you have already read, this is where stronger direction matters"
+    body="A useful guidance process should narrow the real problem, improve the trade-offs, and leave you with a next step worth acting on."
+    studentHref="#plans"
+    studentLabel="Get Student Career Guidance"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Guidance"
   />
 
   <LinkDirectorySection
     sectionId="related-links"
     title="Explore related help"
-    subtitle="See broader guidance, assessments, tools, and useful reading before you decide."
+    subtitle="See other guidance pages, assessments, tools, and useful reading before you decide."
     items={relatedDirectoryItems}
     altBackground={true}
   />
@@ -556,7 +599,9 @@ const jsonLd = [
 
   <FinalCta
     audience="mixed"
+    studentHref="#plans"
     studentLabel="Get Student Career Guidance"
+    professionalHref="#plans"
     professionalLabel="Get Working Professional Career Guidance"
   />
 
@@ -603,6 +648,8 @@ const jsonLd = [
     #hero { padding: 118px 0 72px; }
     .hero-actions { flex-direction: column; align-items: stretch; }
     .hero-actions .btn-gold,
-    .hero-actions .btn-outline { justify-content: center; }
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
   }
 </style>
+

@@ -1,0 +1,776 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+import { STUDENT_GUIDANCE_PLAN, WORKING_PROFESSIONAL_GUIDANCE_PLAN } from '../../../../config/guidancePlans';
+
+const title = 'Career Counselling vs Career Coaching: The Real Difference | Future Career School';
+const description =
+  'Career counselling vs career coaching, honestly explained: what each term usually means, where they overlap, and how to tell which one actually fits your situation.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-vs-career-coaching/';
+
+const formatPlanAmount = (amount: string) => amount.replace('₹', 'Rs ');
+const studentSessionPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.price);
+const studentSessionComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.comparePrice ?? '');
+const studentContinuousPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationPrice ?? '');
+const studentContinuousComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationComparePrice ?? '');
+const professionalSessionPrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.price);
+const professionalSessionComparePrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.comparePrice ?? '');
+const studentSessionPriceText = `${studentSessionPrice} (limited-time price, down from ${studentSessionComparePrice})`;
+const studentContinuousPriceText = `${studentContinuousPrice} (limited-time price, down from ${studentContinuousComparePrice})`;
+const professionalSessionPriceText = `${professionalSessionPrice} (limited-time price, down from ${professionalSessionComparePrice})`;
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See this if the immediate need is clarity on one decision.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerGuidance,
+    title: 'Career Guidance',
+    description: 'See this if the need is broader than one decision — path, skills, and execution together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counselling-platform/',
+    title: 'Best Career Counselling Platform',
+    description: 'How to evaluate any provider honestly, whichever label it uses.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A small free first step if you are still deciding and not ready to book either format.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Is career counselling actually different from career coaching, or is that just marketing language?',
+    a: "There is a genuine, widely-used distinction in the industry, even though plenty of providers blur it in their marketing. Counselling usually leans on assessment and decision-making — helping you choose a stream, course, or direction, often across a shorter engagement built around one decision. Coaching usually leans on ongoing goal execution — helping you act on a direction you've already chosen, with accountability check-ins over weeks or months. In practice the two overlap heavily: a good counsellor often ends up coaching you through the follow-through, and a good coach often has to help you decide the goal before they can help you chase it.",
+  },
+  {
+    q: 'Which one do I actually need — counselling or coaching?',
+    a: "If your honest, current question is a decision you haven't made yet — which stream, which course, whether to switch careers, whether a specific offer is right — that is closer to what counselling is built for. If you already know your direction and the sticking point is follow-through, accountability, or executing a plan without drifting, that is closer to what coaching is built for. Many people need both at different points, which is why treating them as two separate purchases from two separate providers often adds friction without adding value.",
+  },
+  {
+    q: 'Does Future Career School offer counselling or coaching?',
+    a: 'Both, under one plan, rather than asking you to pick a label before you have even had the first conversation. The 1-on-1 session does the counselling-style work — assessing your situation and helping you decide a direction. The continuous guidance track that follows does the coaching-style work — small-group sessions across the year that keep skill direction current, hold you accountable to the plan, and adjust it as the market or your circumstances shift. You do not need to work out which word describes your problem before booking; the format is designed to cover both.',
+  },
+  {
+    q: 'Is career coaching more expensive than career counselling?',
+    a: `Pricing varies a lot by provider and format, and there is no universal rule that one is always pricier than the other — a single counselling session and a single coaching session can cost the same; it is ongoing coaching engagements that usually add up over months. Here, the numbers are transparent either way: a student 1-on-1 session is ${studentSessionPrice} (down from ${studentSessionComparePrice}) as a limited-time offer, and continuous guidance across the year — the coaching-style follow-through — is ${studentContinuousPrice} (down from ${studentContinuousComparePrice}), including up to 24 small-group sessions. For working professionals, a 1-on-1 session is ${professionalSessionPrice} (down from ${professionalSessionComparePrice}). Career and skill assessments stay free regardless of which path you take.`,
+  },
+  {
+    q: 'Can a free assessment replace either counselling or coaching?',
+    a: 'For an early, exploratory question — narrowing a long list of options, getting a first read on strengths and work style — a free, updated assessment can genuinely be enough on its own, and there is no reason to pay before you need to. Career and skill assessments here are fully free, updated, practical, and AI-powered. Where a free assessment falls short is a decision that is expensive, time-pressured, or needs to hold up against your actual financial and family reality — that is where a real conversation, whichever label you put on it, starts to earn its cost.',
+  },
+  {
+    q: 'Does career coaching guarantee results the way counselling sometimes claims to?',
+    a: 'No ethical provider of either counselling or coaching can honestly guarantee a job, a salary jump, or a specific outcome — execution still depends on you, the market, and circumstances outside anyone’s control. Treat a guarantee attached to either label as a reason to slow down, not a reason to sign up faster. The realistic value on both sides is better decision quality, clearer direction, and stronger follow-through, not a promised result.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling vs Career Coaching', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Career Counselling vs Career Coaching: What the Difference Actually Is',
+    description,
+    datePublished: '2026-07-13',
+    dateModified: '2026-07-13',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="comparison-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Career Counselling vs Career Coaching</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>An honest terminology breakdown, not a sales pitch</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>Career counselling vs career coaching: the real difference, honestly explained</h1>
+            <p class="line strong">
+              Career counselling and career coaching are not identical, even though the words get used loosely. Counselling usually centres on assessment and decision-making — helping you choose a direction. Coaching usually centres on ongoing goal execution — helping you act on a direction you already have, with accountability built in. The two overlap heavily in real practice, and plenty of providers, including this one, deliver both without forcing you to pick a label first.
+            </p>
+            <p class="line">
+              Here's what each term generally means in the wider career-services world, where the line genuinely blurs, and how to tell which kind of support actually fits what you need right now.
+            </p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how guidance works here</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">In short</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Counselling: assessment-driven, decision-focused, often shorter.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Coaching: goal-execution-driven, ongoing, accountability-focused.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>In real practice, the two overlap and many providers blend them.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Here, one plan covers both instead of asking you to choose a label.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>Counselling is the term more often associated with assessment-driven, decision-focused support — helping you choose a stream, course, or direction, sometimes across a single session.</li>
+          <li>Coaching is the term more often associated with ongoing, goal-execution support — helping you act on a direction you've already chosen, with regular accountability over weeks or months.</li>
+          <li>Neither definition is universal or regulated. Plenty of providers, this one included, use the words loosely because the underlying work overlaps so much.</li>
+          <li>The more useful question usually isn't "which label do I need" — it's "am I still deciding, or am I trying to execute on a decision I've already made."</li>
+          <li>A single free assessment can be enough if your question is still exploratory. Paid support, whichever label it carries, earns its cost once the decision gets expensive, time-pressured, or hard to reverse on your own.</li>
+          <li>No ethical provider of either counselling or coaching can guarantee a job or a specific outcome — treat that claim as a warning sign under either label.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#definitions">What each term usually means</a>
+          <a href="#overlap">Where the line actually blurs</a>
+          <a href="#which-one">Which one fits your situation</a>
+          <a href="#our-approach">How this is handled here</a>
+          <a href="#cost">What it costs, concretely</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="definitions" class="container section">
+      <h2>What career counselling and career coaching usually mean</h2>
+      <p class="line">
+        Neither term is legally defined or regulated the same way everywhere, so exact usage varies by provider. But across the wider career-services field, a genuine pattern shows up often enough to be useful.
+      </p>
+
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>Career counselling, in its more traditional sense</h3>
+          <ul>
+            <li>Centres on assessment: aptitude, interests, personality fit, work-style signals.</li>
+            <li>Focused on a decision — a stream, a course, a college, a career switch.</li>
+            <li>Often structured as a shorter engagement: one session, or a small, defined series.</li>
+            <li>Common in school and college settings, and at major life-stage crossroads.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>Career coaching, in its more traditional sense</h3>
+          <ul>
+            <li>Centres on execution: turning a chosen direction into concrete action.</li>
+            <li>Built around goals you've already set, not around choosing the goal.</li>
+            <li>Usually ongoing — recurring sessions over weeks or months, with accountability.</li>
+            <li>Common once someone already knows their direction but keeps drifting off it.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="line">
+        Put simply: counselling tends to answer "what should I do," and coaching tends to answer "how do I actually keep doing it." That distinction is genuinely useful for setting expectations before a first conversation — it just isn't a hard rule any provider is bound to.
+      </p>
+    </section>
+
+    <section id="overlap" class="container section">
+      <h2>Where the line between counselling and coaching actually blurs</h2>
+      <p class="line">
+        In real practice, the two rarely stay in separate boxes. A counsellor who only hands you a decision and disappears has left the harder part — actually acting on it — completely unsupported. A coach who only pushes execution without ever revisiting whether the underlying goal is still right can end up driving someone hard in the wrong direction.
+      </p>
+      <p class="line">
+        That overlap is exactly why so many providers, including career-guidance platforms broadly, use "counselling," "coaching," "guidance," and "career strategy" as close-to-interchangeable terms in everyday language. It isn't always a marketing shortcut — it often reflects a real, honest observation that good support tends to include both the deciding part and the doing part, whatever it gets called on the homepage.
+      </p>
+      <p class="line">
+        The practical takeaway: don't let the label on a provider's page be the deciding factor. Ask what actually happens in the engagement — is there real assessment and decision support, is there real ongoing follow-through, or is it only one of the two dressed up as both.
+      </p>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What matters more than the label on the session"
+      subtitle="Whichever word a provider uses, these are the things worth checking before you commit."
+      rows={[
+        { left: 'Generic advice that still leaves you unclear', right: 'High-leverage decision support around path, skill, and risk' },
+        { left: 'Paid outdated impractical assessments with weak practical value', right: 'Free updated practical AI-powered career and skill assessments' },
+      ]}
+    />
+
+    <section id="which-one" class="container section">
+      <h2>How to tell which one actually fits your situation</h2>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>Counselling-style support probably fits if</h3>
+          <ul>
+            <li>You're still choosing between streams, courses, or directions.</li>
+            <li>The immediate question is a decision, not a follow-through problem.</li>
+            <li>You want an assessment-backed read on fit before committing time or money.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>Coaching-style support probably fits if</h3>
+          <ul>
+            <li>You already know your direction but keep losing momentum on it.</li>
+            <li>You want regular accountability, not a one-time verdict.</li>
+            <li>Your plan needs to adjust as the market or your circumstances shift.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        If you genuinely aren't sure which side you're on, that uncertainty is itself common — many people arrive needing a short decision-focused conversation and then realize the harder part is staying on track afterward. That is the exact gap a single-label service often misses.
+      </p>
+    </section>
+
+    <section id="our-approach" class="container section">
+      <h2>How counselling and coaching are handled here, without making you choose</h2>
+      <p class="line">
+        Rather than forcing a choice between a "counselling" product and a "coaching" product, guidance here is built as one path that covers both jobs. The first 1-on-1 session does the counselling-style work: it works through your actual situation, uses free, updated, AI-powered assessments where useful, and helps you land on a clearer direction — the stream, skill path, or pivot worth your next serious phase of effort.
+      </p>
+      <p class="line">
+        From there, the continuous guidance track does the coaching-style work: small-group sessions across the year that keep you accountable to the plan, adjust it as results and market conditions change, and stop the direction from going stale the way a single verdict handed down once tends to. Whether you'd call that "counselling," "coaching," or simply "guidance" doesn't change what actually happens in the room — the aim is that the decision and the follow-through both get covered under one relationship instead of two separate purchases.
+      </p>
+      <p class="line">
+        That is also why career counselling, career guidance, and career coaching are treated as one practical service family across this site rather than three competing products — the useful difference was never really the label, only whether you're being helped to decide, to execute, or both.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_INTERNAL_LINKS.careerCounselling}>See what a counselling-style session covers</a>
+      </div>
+    </section>
+
+    <section id="cost" class="container section">
+      <h2>What counselling-style and coaching-style support costs here</h2>
+      <p class="line">
+        Pricing for either format, or both together, is shown upfront rather than revealed after a sales call.
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Plan">Career and skill assessments</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student 1-on-1 session (counselling-style: decision support)</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student continuous guidance (coaching-style: year-round follow-through, includes the 1-on-1 plus up to 24 small-group sessions)</td>
+                <td data-label="Price">{studentContinuousPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Working-professional 1-on-1 session</td>
+                <td data-label="Price">{professionalSessionPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Guidance is delivered fully online across India either way, so whichever kind of support fits — a single decision-focused session or ongoing accountability across the year — location isn't a limiting factor.
+      </p>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on career counselling vs career coaching</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="cta-pair cta-pair-closing">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>Once you know what you need, start here</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Still deciding? Try the free assessments first</a>
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader guidance service, a narrower option, or the free first step."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #comparison-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+  .cta-pair-closing { margin-top: 1.6rem; }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.75rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+  .card {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

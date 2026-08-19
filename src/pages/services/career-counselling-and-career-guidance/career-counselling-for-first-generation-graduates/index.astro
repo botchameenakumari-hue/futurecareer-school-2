@@ -1,0 +1,404 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title = 'Career Counselling for First-Generation Graduates | Future Career School';
+const description =
+  'Career counselling for first-generation graduates who are the first in their family to finish a degree, navigating job decisions, unwritten workplace norms, and networking from zero without a family playbook to follow.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-first-generation-graduates/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[3],
+  BOFU_COMPARISON_LIBRARY[4],
+];
+
+const decisionItems = [
+  {
+    title: 'Turning "get a good job" into an actual plan',
+    body: 'Family pressure is often real but non-specific: a good job, a stable job, a respectable job. None of that tells you which roles, which industries, or which skills to build first. Counselling should translate that pressure into a concrete plan that also puts you on a path toward earlier financial freedom, not just a title your family recognizes.',
+  },
+  {
+    title: 'Reading workplace norms nobody explained at home',
+    body: 'How to dress for an interview, how formal an email should sound, how to make small talk before a meeting, how much to push back on a manager, how salary negotiation actually works. These are not taught anywhere. Guessing wrong on any of them can quietly cost you an offer or a promotion.',
+  },
+  {
+    title: 'Building a network that does not exist yet',
+    body: 'No relative in the industry to call, no family friend who can forward a resume, no senior from a family business to shadow. Counselling should give you a practical way to build professional connections and get referrals from a genuine starting point of zero.',
+  },
+  {
+    title: 'Deciding what to build in year one',
+    body: 'Without anyone at home who has done this before, it is easy to drift into whatever the first job hands you. The first year sets the skill direction that shapes the next five, so this is where a deliberate, high-value skill portfolio matters most for building real income over time.',
+  },
+  {
+    title: 'Presenting your background as an asset, not a gap',
+    body: 'Being the first in your family to finish a degree usually means you already have resourcefulness, discipline, and follow-through that many candidates never had to build. Counselling should help you carry that into a resume, an interview answer, and your own sense of what you bring to the table.',
+  },
+];
+
+const fitItems = [
+  {
+    title: 'You are the first in your family to finish a degree',
+    body: 'And every next step after graduation, from interviews to offer negotiation, feels like something you have to figure out entirely on your own.',
+  },
+  {
+    title: 'You are prepping for interviews and unsure what "professional" actually means',
+    body: 'Dress code, tone, how much to talk about yourself, how to answer a salary question without underselling yourself.',
+  },
+  {
+    title: 'You have an offer and no one at home has negotiated one before',
+    body: 'The number on the table might not be the real ceiling, but you have no reference point to know that.',
+  },
+  {
+    title: 'You feel like your background is something to explain away in interviews',
+    body: 'Rather than something that already shows resilience and resourcefulness an interviewer would value if it were framed well.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it addresses the navigation gap directly, not just generic career advice',
+    body: 'Most career advice assumes you already have a family member or mentor who can explain how the corporate world works. Look for guidance that fills that specific gap instead of repeating generic tips you could find in any article.',
+  },
+  {
+    title: 'Check whether your background gets treated as a strength, not a deficit to work around',
+    body: 'Being first-generation is not a disadvantage to apologize for. Stronger guidance helps you name the resilience and resourcefulness it already built in you and use that in real interview answers.',
+  },
+  {
+    title: 'Check whether unwritten workplace norms actually get covered',
+    body: 'Dress expectations, communication style, how to push back respectfully, how negotiation conversations really go. If a service only talks about resumes and skills, it is missing half of what a first-generation graduate actually needs.',
+  },
+  {
+    title: 'Check whether it helps you build a resume and network starting from genuinely zero',
+    body: 'Advice that assumes you already have LinkedIn connections, alumni contacts, or a family network to lean on will not work for you. Look for a starting point that does not assume any of that already exists.',
+  },
+];
+
+const faqItems = [
+  {
+    question: "I'm the first person in my family to graduate. Where do I even start with a career plan?",
+    answer:
+      'Start by separating what your family wants for you (usually stability and respect) from the specific decisions in front of you: which roles to target, which skills to build first, and what your first year should actually look like. Counselling should turn that broad family hope into a plan you can act on this month, aimed at real skill direction and earlier financial freedom rather than just a job title.',
+  },
+  {
+    question: 'My parents want me to "get a good job" but cannot tell me what that actually means. How do I figure it out?',
+    answer:
+      '"A good job" usually means stable income and something the family can point to with pride. Neither of those requires one specific role. The more useful question is which industries and skills give you the strongest income growth and stability for your actual profile, then you can explain that choice to your family in terms they recognize.',
+  },
+  {
+    question: 'Nobody in my family works in a corporate environment. How do I learn things like interview etiquette, dress code, or salary negotiation?',
+    answer:
+      'These are learnable, not innate. Interview etiquette, professional communication style, and how to negotiate an offer are practical skills that guidance can walk you through directly, the same way anyone with a working parent in the field would have picked them up informally.',
+  },
+  {
+    question: 'I do not have any relatives or family friends who can refer me for jobs. How do I build a network from nothing?',
+    answer:
+      'Everyone with a network built it from a first connection at some point. Realistic starting points include classmates, professors, alumni from your college, and people you meet at events or online in your target field. What matters is being deliberate about it early, not waiting until you need a referral urgently.',
+  },
+  {
+    question: 'Should I hide the fact that I am a first-generation graduate in interviews?',
+    answer:
+      'No. Framed well, it usually reads as a genuine strength: you got here through resourcefulness and follow-through without a ready-made playbook. The goal is not to hide it, but to talk about it in a way that shows what it taught you, not as an apology for where you started.',
+  },
+  {
+    question: 'Are the career and skill assessments free for first-generation graduates too?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered. Many providers charge thousands for outdated assessments; this is meant to be a stronger free starting layer before a bigger decision, without adding to a cost you may already be watching closely.',
+  },
+  {
+    question: 'Is this available online, or do I need to be in a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can start from home, your hostel, or wherever you are without depending on local availability, travel cost, or a nearby office.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Get broader help when several connected decisions, not just your first job, need to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Useful if you are still finishing your degree and early direction, stream awareness, or course choice is still unsettled.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-freshers/',
+    title: 'Career Counselling for Freshers',
+    description: 'Practical help once you are comparing offers, choosing between companies, or building your first-year skill direction.',
+  },
+  {
+    href: '/services/assessments/graduates-and-early-professionals/',
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free clarity on fit, skill direction, and employability, built for graduates and recent professionals specifically.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free assessments for skill fit, career direction, and stronger next steps before a bigger decision.',
+  },
+  {
+    href: '/career-resources/resume-that-gets-shortlisted-in-india/',
+    title: 'Resume That Gets Shortlisted in India',
+    description: 'A practical guide to building a resume that survives the first filter, especially with no family template to copy from.',
+  },
+  {
+    href: '/career-resources/linkedin-profile-optimization-the-full-guide/',
+    title: 'LinkedIn Profile Optimization: The Full Guide',
+    description: 'A practical way to start building a professional network and visibility when you are starting from zero connections.',
+  },
+  {
+    href: '/career-resources/salary-negotiation-what-to-say-and-what-never-to-say/',
+    title: 'Salary Negotiation: What to Say and What Never to Say',
+    description: 'Practical scripts for a conversation that is genuinely hard to have well without ever having seen one modeled at home.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for First-Generation Graduates', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for First-Generation Graduates | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for First-Generation Graduates',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for First-Generation Graduates</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for first-generation graduates navigating career decisions without a family playbook
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for first-generation graduates
+        <span class="gold-text"> figuring out the corporate world with no one at home who's done it before</span>
+      </h1>
+      <p class="hero-sub">
+        Being the first in your family to finish a degree already took real discipline. Career counselling for first-generation graduates should help with what comes next: turning a vague "get a good job" into an actual plan, learning the unwritten rules of interviews and workplaces, building a professional network from zero, and choosing a skill direction that moves you toward earlier financial freedom instead of just the first offer that shows up.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from home, your hostel, or wherever you are, without waiting on a connection you do not have yet.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for First-Generation Graduates</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuStepFlowSection
+    sectionId="first-gen-decisions"
+    title="The decisions you're navigating without a family precedent"
+    subtitle="These are not vague worries. They are specific calls first-generation graduates have to make with no one at home who has made them before, and the skill portfolio you build here shapes how early you reach real financial freedom."
+    items={decisionItems}
+  >
+    <AssessmentSupportNote
+      body="As a starting point before a bigger decision, the free graduate and early-professional assessment can help clarify strengths, work style, and fit."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuStepFlowSection>
+
+  <ContextualCta
+    audience="student"
+    title="Get a plan before guesswork on interviews, offers, or networking costs you an opportunity"
+    body="A short session can close a gap that would otherwise take years of trial and error to figure out alone."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for First-Generation Graduates"
+  />
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When this becomes useful"
+    subtitle="This becomes useful once real decisions are on the table, not while you are still casually reading advice online."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ComparisonMatrix
+    title="What changes with counselling built for this exact gap"
+    subtitle="First-generation graduates rarely lose out from lack of effort. They lose time to generic advice that assumes a family playbook they never had."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before choosing counselling as a first-generation graduate"
+    subtitle="The goal is a workable plan and real navigation help, not vague encouragement to 'just be confident.'"
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let a missing playbook decide your first professional years for you"
+    body="A clearer plan now protects the skill direction and income trajectory that guesswork can quietly cost you."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for First-Generation Graduates"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling for First-Generation Graduates"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See other guidance pages, graduate-stage assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions first-generation graduates ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="You got this far without a playbook. Build the next stage with one."
+    subtitle="Whether it is an interview, an offer, a network, or a skill decision, treat it as the choice that builds your skill portfolio and shapes how early you reach financial freedom, not something to figure out entirely alone."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for First-Generation Graduates"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.2rem, 4.6vw, 3.7rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 790px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #first-gen-decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.72rem, 9vw, 2.3rem);
+      line-height: 1.06;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

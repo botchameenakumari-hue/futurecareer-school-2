@@ -1,0 +1,1025 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Skills to work with AI instead of being replaced by it: the 4 layers that actually matter';
+const description =
+  'Skills to work with AI instead of being replaced by it: AI literacy, judgment, domain expertise, and communication are the four layers that keep you valuable, whatever role you are in.';
+const canonical = 'https://futurecareerschool.com/blog/ai-future/skills-to-work-with-ai-instead-of-being-replaced';
+const publishedDateISO = '2026-07-20';
+const publishedDateLabel = '20 July 2026';
+const authorName = 'Allu Vagdevi';
+const authorUrl = 'https://futurecareerschool.com/about/allu-vagdevi/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'why', label: 'Why "just learn AI" advice fails' },
+  { id: 'framework', label: 'The 4-Layer AI-Proof Skill Stack' },
+  { id: 'layer-1', label: 'Layer 1: AI literacy' },
+  { id: 'layer-2', label: 'Layer 2: Judgment' },
+  { id: 'layer-3', label: 'Layer 3: Domain expertise' },
+  { id: 'layer-4', label: 'Layer 4: Communication' },
+  { id: 'india-demand', label: 'India demand: what the data says' },
+  { id: 'stage', label: 'Build the stack by career stage' },
+  { id: 'gates', label: 'The 3 Gates before you claim a skill' },
+  { id: 'mistakes', label: 'Mistakes to avoid' },
+  { id: 'market', label: 'Source check' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const literacyCards = [
+  {
+    label: 'Direction',
+    title: 'Turning a vague goal into a prompt AI can actually act on',
+    body:
+      'Most AI output disappoints because the input was vague. Being able to break a goal into context, constraints, and a clear ask is the difference between a usable first draft and a wasted attempt.',
+  },
+  {
+    label: 'Evaluation',
+    title: 'Reading AI output and knowing what is wrong with it',
+    body:
+      'AI tools produce confident, fluent, sometimes wrong answers. Spotting a factual error, a weak assumption, or a hollow argument before it reaches a client or manager is the real skill, not the typing.',
+  },
+  {
+    label: 'Tool range',
+    title: 'Knowing which tool fits which task, not just one favourite app',
+    body:
+      'Writing tools, data tools, image tools, and workflow tools behave differently. People who stay useful know when a task needs AI, when it needs a spreadsheet, and when it needs neither.',
+  },
+  {
+    label: 'Limits',
+    title: 'Knowing where AI tools reliably break down',
+    body:
+      'Recent context, private company knowledge, small edge cases, and anything needing real accountability are places AI still needs a human check. Knowing this in advance saves rework later.',
+  },
+];
+
+const judgmentComparison = [
+  {
+    heading: 'What AI tools do well',
+    tone: 'ai',
+    items: [
+      'Summarise, draft, and reformat large amounts of text or data fast',
+      'Spot patterns across huge datasets faster than a person can scan them',
+      'Generate options, variations, and first drafts on demand',
+      'Answer well-defined questions with clear, available reference material',
+    ],
+  },
+  {
+    heading: 'What still needs a human',
+    tone: 'human',
+    items: [
+      'Deciding which option actually fits this client, this budget, this culture',
+      'Weighing a trade-off where the "right" answer depends on values, not data',
+      'Catching a wrong assumption baked quietly into a confident-sounding answer',
+      'Taking responsibility when a decision has real consequences for people',
+    ],
+  },
+];
+
+const domainCards = [
+  {
+    label: 'Finance and accounting',
+    title: 'AI can draft a report; it cannot own the number in front of a client',
+    body:
+      'AI tools can reconcile data and flag anomalies fast. A person still has to judge materiality, explain the story behind the number, and sign their name to it.',
+    fit: 'Strongest for people who pair one financial or analytical skill with genuine sector knowledge, not just software proficiency.',
+  },
+  {
+    label: 'Healthcare and allied health',
+    title: 'AI can flag a pattern; a trained person still decides the care plan',
+    body:
+      'Diagnostic and administrative AI tools are improving fast, but clinical judgment, patient context, and accountability for outcomes stay with trained professionals.',
+    fit: 'Strongest for people who combine clinical or allied-health training with comfort using digital tools inside real workflows.',
+  },
+  {
+    label: 'Law and compliance',
+    title: 'AI can search precedent; it cannot argue a case or own the risk call',
+    body:
+      'Contract review and research tools speed up early drafts. The judgment on risk, negotiation, and what a client should actually agree to still sits with a trained person.',
+    fit: 'Strongest for people who treat AI as a research assistant, then apply real legal or regulatory reasoning on top.',
+  },
+  {
+    label: 'Engineering and manufacturing',
+    title: 'AI can suggest a design; a person still owns whether it is safe and buildable',
+    body:
+      'Generative design and simulation tools speed up iteration, but sign-off on safety, cost, and manufacturability still needs someone who understands the physical constraints.',
+    fit: 'Strongest for people who use AI to explore options faster, then apply hands-on domain knowledge to choose one.',
+  },
+];
+
+const commsCards = [
+  {
+    label: 'Trust building',
+    title: 'People still buy from, hire, and follow people they trust',
+    body:
+      'AI can write a pitch. It cannot build the relationship, read the room in a live negotiation, or hold a client\'s confidence through a difficult project.',
+  },
+  {
+    label: 'Persuasion',
+    title: 'Moving a real decision forward still needs a human voice',
+    body:
+      'Sales, leadership, and stakeholder management depend on reading hesitation, adjusting tone mid-conversation, and closing a decision, not just presenting information.',
+  },
+  {
+    label: 'Conflict and negotiation',
+    title: 'AI has no stake in the outcome; you do',
+    body:
+      'Resolving a disagreement between teams, clients, or family members requires empathy, timing, and accountability that a generated response cannot carry.',
+  },
+  {
+    label: 'Teaching and mentoring',
+    title: 'Explaining something so another person genuinely understands it',
+    body:
+      'AI can explain a concept once. A good teacher, coach, or mentor adjusts the explanation to the specific person in front of them and stays accountable for whether it landed.',
+  },
+];
+
+const stageCards = [
+  {
+    label: 'Students and freshers',
+    title: 'Build the habit of using AI as a tool, not a crutch',
+    body:
+      'Use AI to speed up research, drafts, and practice, but keep doing the work that builds real judgment: coursework projects, internships, and small pieces of proof you can explain in your own words.',
+  },
+  {
+    label: 'Early professionals',
+    title: 'Pair AI fluency with visible ownership of outcomes',
+    body:
+      'Show that you can use AI tools to move faster, and that you can catch when the output is wrong. Volunteer for the parts of a project that need judgment, not just execution.',
+  },
+  {
+    label: 'Working professionals',
+    title: 'Move from doing the task to owning the decision',
+    body:
+      'As AI absorbs more routine execution, the safer position is the one that decides, checks, and takes responsibility for outcomes, not the one that only produces output.',
+  },
+];
+
+const gateItems = [
+  {
+    title: 'Gate 1: Proof of skill',
+    body: 'Show one real example where you directed an AI tool toward a useful outcome and caught or fixed what it got wrong.',
+  },
+  {
+    title: 'Gate 2: Proof of communication',
+    body: 'Explain, in plain language, what you built or decided and why, to someone outside your immediate team.',
+  },
+  {
+    title: 'Gate 3: Proof of value',
+    body: 'Get feedback from someone closer to the actual work than you are, and show what changed because of your judgment, not just your AI usage.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Treating "AI skills" as only prompt-writing',
+    body:
+      'Prompting is one small part of AI literacy. Evaluating output, knowing tool limits, and choosing when not to use AI at all matter just as much.',
+  },
+  {
+    num: '02',
+    title: 'Assuming a "safe" job title protects you without any skill work',
+    body:
+      'Roles change from the inside. The person in a stable-sounding job who never builds judgment, domain depth, or proof still loses ground over time.',
+  },
+  {
+    num: '03',
+    title: 'Skipping domain expertise because AI "already knows everything"',
+    body:
+      'General AI knowledge is broad but shallow on the specific context of your company, your client, or your market. Depth in one field is still what makes your judgment trustworthy.',
+  },
+  {
+    num: '04',
+    title: 'Avoiding AI tools out of fear instead of learning to direct them',
+    body:
+      'Refusing to touch AI tools does not protect a career. It usually means someone else on the team becomes faster while you stay the same.',
+  },
+  {
+    num: '05',
+    title: 'Building skills without ever proving them to anyone',
+    body:
+      'Reading about AI literacy or judgment does not show up on a resume. Visible outcomes, decisions, and explanations do.',
+  },
+];
+
+const sourceCards = [
+  {
+    label: 'World Economic Forum',
+    title: 'Future of Jobs Report 2025',
+    body:
+      'The WEF names creative thinking, resilience, flexibility and agility, curiosity, and lifelong learning as rising human skills that complement AI and big data, the fastest-growing technical skill category.',
+    href: 'https://www.weforum.org/publications/the-future-of-jobs-report-2025/',
+    linkLabel: 'Read the report',
+  },
+  {
+    label: 'LinkedIn Economic Graph',
+    title: 'Skills on the Rise 2025',
+    body:
+      'AI literacy tops LinkedIn\'s 2025 list of fastest-growing skills, appearing in job postings roughly six times more often than a year earlier. LinkedIn projects 70% of job skills will change by 2030.',
+    href: 'https://www.linkedin.com/business/talent/blog/learning-and-development/skills-on-the-rise',
+    linkLabel: 'Read the LinkedIn report',
+  },
+  {
+    label: 'McKinsey Global Institute',
+    title: 'Human skills will matter more than ever in the age of AI',
+    body:
+      'McKinsey finds more than 70% of the skills employers look for are relevant to both automatable and non-automatable work, while roughly 12% remain distinctly human for now: judgment, relationship-building, and empathy.',
+    href: 'https://www.mckinsey.com/mgi/media-center/human-skills-will-matter-more-than-ever-in-the-age-of-ai',
+    linkLabel: 'Read the McKinsey brief',
+  },
+  {
+    label: 'Deloitte and NASSCOM',
+    title: 'Bridging the AI talent gap in India',
+    body:
+      'The Deloitte-NASSCOM report and related industry data point to a shortage of well over a million AI-ready professionals in India without faster reskilling, even as AI-linked job demand keeps rising.',
+    href: 'https://www.deloitte.com/in/en/about/press-room/bridging-the-ai-talent-gap-to-boost-indias-tech-and-economic-impact-deloitte-nasscom-report.html',
+    linkLabel: 'Read the Deloitte-NASSCOM findings',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'What skills do I need to work with AI instead of being replaced by it?',
+    a: 'Four layers matter most: AI literacy (directing and evaluating AI tools), judgment and critical thinking, deep expertise in one real field, and communication or relationship skills. AI tools handle speed and volume; you stay valuable by owning direction, accuracy, context, and trust.',
+  },
+  {
+    q: 'Is AI literacy the same as knowing how to code?',
+    a: 'No. AI literacy is mostly about direction and evaluation: giving an AI tool clear context, spotting wrong or shallow output, and knowing which tool fits which task. Most roles need this literacy far more than they need to write code.',
+  },
+  {
+    q: 'Which jobs are safest from AI?',
+    a: 'This article is not about job titles. Roles that look "safe" today can still get automated from the inside if the people in them never build judgment, domain depth, or proof of work. The safer position is a person who keeps building the four layers, whatever their title is.',
+  },
+  {
+    q: 'How do I prove I have these skills to an employer?',
+    a: 'Use The 3 Gates: show one real example of directing and correcting an AI tool, explain your reasoning in plain language to someone outside your team, and get feedback from someone closer to the work than you are.',
+  },
+  {
+    q: 'Can students build these skills before they have a job?',
+    a: 'Yes. Coursework projects, internships, and small independent projects are enough to practise directing AI tools, catching wrong output, and explaining a decision. The habit matters more than the scale of the project at this stage.',
+  },
+  {
+    q: 'Do I need to learn a new domain, or can I go deeper in my current one?',
+    a: 'Usually the second one. Depth in a field you already know, paired with AI fluency, tends to be a stronger and faster path than switching fields entirely just because it sounds more "AI-proof."',
+  },
+  {
+    q: 'Why do communication and relationship skills matter in an AI-heavy job market?',
+    a: 'Because trust, persuasion, negotiation, and mentoring cannot be outsourced to a tool that has no stake in the outcome. As AI absorbs more routine execution, the people who can build trust and move real decisions forward become more valuable, not less.',
+  },
+  {
+    q: 'What is the biggest mistake people make when trying to "AI-proof" their career?',
+    a: 'Treating AI skill as only prompt-writing, or avoiding AI tools altogether out of fear. Both leave you behind someone who learns to direct AI tools, check their output, and still bring real judgment and domain depth to the table.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="ai-future"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>The skills to work with AI instead of being replaced by it are not about which job title you hold.</strong>
+    They are about four layers you personally build: knowing how to direct and check AI tools, judgment AI cannot
+    replicate, real depth in one field, and communication skills that stay human-only.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>AI is changing tasks inside almost every role, so the safer bet is building personal skills, not chasing a "safe" job title.</li>
+      <li>Four layers stack on top of each other: AI literacy, judgment and critical thinking, domain expertise, and communication or relationship skills.</li>
+      <li>AI literacy is mostly about direction and evaluation, giving clear context and catching wrong output, not writing code.</li>
+      <li><strong>The skills that stay valuable are the ones AI cannot take responsibility for: judgment, trust, and depth in a real field.</strong></li>
+      <li><strong>Stacking these four layers on top of a real domain is what builds a genuine high-income skill portfolio</strong> — it is the difference between a job title that AI slowly hollows out and a career that compounds toward earlier financial freedom.</li>
+      <li>Build proof of these skills stage by stage, whether you are a student, a fresher, or already working, instead of waiting for a perfect moment to start.</li>
+    </ul>
+  </div>
+
+  <p>
+    If you want the broader parent topic first, start with <a href="/blog/ai-future/">AI and the Future of Work</a>.
+  </p>
+
+  <p>
+    If AI-driven changes at your workplace already feel like real decision pressure, not just a topic to read
+    about, <a href="/services/career-counselling-and-career-guidance/">career counselling and career guidance</a>
+    can help you map a personal skill-building plan instead of guessing.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="why">Why "just learn AI" advice usually fails</h2>
+
+  <p>
+    Most advice about AI and careers stops at one vague line: learn to use AI tools.
+  </p>
+
+  <p>
+    That advice is not wrong. It is just incomplete enough to be useless on its own.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">The usual bad advice</p>
+    <ul class="callout__list">
+      <li>Take one prompting course and your career is "AI-proofed."</li>
+      <li>Pick a job title that sounds hard to automate and stop there.</li>
+      <li>Avoid AI tools completely so you never depend on them.</li>
+      <li>Assume AI literacy alone replaces the need for real expertise.</li>
+    </ul>
+    <p class="callout__footer">
+      None of that reflects how AI actually changes work. It changes tasks inside roles, not just whole job
+      titles, and it rewards people who can direct it, question it, and still own the outcome.
+    </p>
+  </div>
+
+  <p>
+    The more useful question is not, <em>Which jobs will AI replace?</em>
+  </p>
+
+  <p>
+    It is, <em>Which of my own skills make me the person AI still needs in the loop?</em>
+  </p>
+
+  <h2 id="framework">The 4-Layer AI-Proof Skill Stack</h2>
+
+  <p>
+    This is the practical framework behind this article. Each layer builds on the one before it, and none of
+    them work well alone.
+  </p>
+
+  <div class="checkpoint-list">
+    <article class="checkpoint">
+      <div class="checkpoint__num">01</div>
+      <div class="checkpoint__content">
+        <h3>AI literacy</h3>
+        <p>Knowing how to direct AI tools toward a useful outcome and catch what they get wrong.</p>
+      </div>
+    </article>
+    <article class="checkpoint">
+      <div class="checkpoint__num">02</div>
+      <div class="checkpoint__content">
+        <h3>Judgment and critical thinking</h3>
+        <p>Deciding what actually fits the situation, when data and patterns are not enough on their own.</p>
+      </div>
+    </article>
+    <article class="checkpoint">
+      <div class="checkpoint__num">03</div>
+      <div class="checkpoint__content">
+        <h3>Domain expertise</h3>
+        <p>Depth in one real field that makes you the trusted human checking AI output, not a generalist guessing.</p>
+      </div>
+    </article>
+    <article class="checkpoint">
+      <div class="checkpoint__num">04</div>
+      <div class="checkpoint__content">
+        <h3>Communication and relationship skills</h3>
+        <p>Building trust, explaining decisions, and moving people toward action, none of which AI can carry for you.</p>
+      </div>
+    </article>
+  </div>
+
+  <p class="section-note">
+    A person strong in only one layer is still exposed. Someone fluent with AI tools but with no domain depth
+    produces confident-sounding, shallow work. Someone with deep expertise but no AI literacy works slower than
+    peers who use the tools well. The stack is what protects you, not any single layer.
+  </p>
+
+  <h2 id="layer-1">Layer 1: AI literacy, without the buzzword</h2>
+
+  <p>
+    AI literacy gets reduced to "prompt engineering" far too often. In practice it is a wider, more durable skill
+    set.
+  </p>
+
+  <div class="career-grid">
+    {literacyCards.map((item) => (
+      <article class="career-card">
+        <span class="career-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>The real test is not whether you can get an AI tool to produce something.</strong> It is whether
+      you can tell, quickly and reliably, when what it produced is wrong, shallow, or missing the one detail
+      that matters for your situation.
+    </p>
+  </div>
+
+  <h2 id="layer-2">Layer 2: Judgment and critical thinking AI cannot replicate</h2>
+
+  <p>
+    AI tools are strong at pattern-matching across huge amounts of information. They are weak at deciding what
+    matters most in a specific, messy, human situation.
+  </p>
+
+  <div class="grid-two">
+    {judgmentComparison.map((col) => (
+      <div class={`card judgment-card judgment-card--${col.tone}`}>
+        <h3>{col.heading}</h3>
+        <ul>
+          {col.items.map((line) => (
+            <li>{line}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <p class="note-line">
+    Judgment is what turns AI output into a decision someone can be held accountable for. That accountability
+    piece is exactly what keeps this layer human, and it is why employer research keeps ranking critical
+    thinking and analytical thinking near the top of rising skills even as AI adoption grows.
+  </p>
+
+  <h2 id="layer-3">Layer 3: Domain expertise, the human-in-the-loop layer</h2>
+
+  <p>
+    General AI knowledge is broad but shallow on the specifics that matter inside your company, your client
+    base, or your market. Domain expertise is what makes your judgment trustworthy instead of generic.
+  </p>
+
+  <div class="missed-grid">
+    {domainCards.map((item) => (
+      <article class="missed-card">
+        <span class="missed-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        <p class="missed-card__fit"><strong>Where it pays off:</strong> {item.fit}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="section-note">
+    This is why switching fields purely to "escape AI" is often the wrong move. Going deeper in a field you
+    already understand, and pairing that depth with AI fluency, is usually a faster and stronger path than
+    starting from zero somewhere that only looks safer from the outside.
+  </p>
+
+  <h2 id="layer-4">Layer 4: Communication and relationship skills that stay human-only</h2>
+
+  <p>
+    AI can draft a message. It cannot build a relationship, read hesitation in a live conversation, or carry
+    the weight of a difficult decision with someone who is upset about it.
+  </p>
+
+  <div class="non-coding-grid">
+    {commsCards.map((item) => (
+      <article class="non-coding-card">
+        <span class="non-coding-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="section-note">
+    This layer is not a "soft" add-on. It is often the layer that decides who gets promoted, who gets referred
+    for the next opportunity, and who keeps a client relationship when a project gets difficult.
+  </p>
+
+  <h2 id="india-demand">India demand: what the data actually says</h2>
+
+  <p>
+    The gap between AI adoption and AI-ready people in India is large enough to matter for anyone planning a
+    skill-building path, not only people in tech roles.
+  </p>
+
+  <div class="grid-two">
+    <div class="card">
+      <h3>AI talent gap</h3>
+      <ul>
+        <li>Government data cited by industry researchers puts AI skill penetration among IT professionals in India at only around 16% today.</li>
+        <li>Deloitte-NASSCOM research points to a shortage of well over a million AI-ready professionals in India without faster reskilling.</li>
+        <li>Two in three Indians surveyed by LinkedIn say they plan to learn at least one digital skill, with AI and machine learning topping that list.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Global skills shift</h3>
+      <ul>
+        <li>The WEF's Future of Jobs Report 2025 projects that 39% of workers will need significant reskilling between 2025 and 2030.</li>
+        <li>LinkedIn's 2025 data shows AI literacy appearing in job postings roughly six times more often than a year earlier.</li>
+        <li>McKinsey finds more than 70% of the skills employers want are relevant to both automatable and non-automatable work, while about 12% remain distinctly human for now.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="note-line">
+    Read together, these numbers say the same thing from two directions: demand for AI-literate people is
+    rising faster than the supply of people who are actually ready, and the human-only layer of skill is
+    shrinking in size but not disappearing.
+  </p>
+
+  <h2 id="stage">Build the stack by career stage</h2>
+
+  <p>
+    The four layers apply differently depending on where you are right now.
+  </p>
+
+  <div class="work-style-grid">
+    {stageCards.map((item) => (
+      <article class="work-style-card">
+        <span class="work-style-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="section-note">
+    There is no fixed timeline that works for everyone here. Some people can test and prove one layer in a
+    short, focused stretch of consistent work; others need a couple of months around a full course load or a
+    demanding job. What matters is that the proof gets built, not how fast.
+  </p>
+
+  <p class="section-note">
+    <strong>The person who builds all four layers, stage by stage, is not just protecting a job — they are
+    building a high-income skill portfolio</strong> that widens their income ceiling and unlocks opportunities a
+    single-layer specialist never gets access to.
+  </p>
+
+  <h2 id="gates">The 3 Gates before you claim a skill</h2>
+
+  <p>
+    Reading about these four layers does not make them real on a resume. Use The 3 Gates to turn a claimed
+    skill into visible proof.
+  </p>
+
+  <div class="gates-block">
+    {gateItems.map((item) => (
+      <div class="gate">
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="mistakes">Mistakes to avoid when building AI-era skills</h2>
+
+  <div class="mistake-list">
+    {mistakeItems.map((item) => (
+      <article class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <h2 id="market">Market reality and source check</h2>
+
+  <p>
+    None of the framework above is guesswork. It reflects a consistent pattern across labour-market research
+    from the last year.
+  </p>
+
+  <div class="source-grid">
+    {sourceCards.map((item) => (
+      <article class="source-card">
+        <span class="source-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        <a href={item.href} rel="noreferrer" target="_blank">{item.linkLabel}</a>
+      </article>
+    ))}
+  </div>
+
+  <p class="section-note">
+    These sources agree on the direction even where the exact numbers differ: AI adoption is not erasing the
+    need for human skill, it is shifting which human skills matter most.
+  </p>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not try to build all four layers at once. Pick the layer that is weakest for you right now and build one
+    small piece of proof for it before moving to the next.
+  </p>
+
+  <div class="next-step">
+    <p class="next-step__title">Better next moves</p>
+    <ul class="next-step__list">
+      <li>
+        Read <a href="/blog/ai-future/top-careers-for-the-future/">Top careers for the future</a> if you are
+        also trying to work out which career clusters carry real demand.
+      </li>
+      <li>
+        Read <a href="/blog/ai-future/artificial-intelligence-career-paths/">Artificial intelligence career paths</a>
+        if you specifically want to explore roles built around AI itself.
+      </li>
+      <li>
+        Use the <a href="/career-skills-compass/">Career & Skills Compass</a> to get a clearer read on which
+        of the four layers is your natural strength before you decide where to focus first.
+      </li>
+      <li>
+        If you want a plan built around your actual role and context, use
+        <a href="/services/career-counselling-and-career-guidance/">career counselling and career guidance</a> —
+        the focus is building a high-income skill portfolio around your real strengths, not a generic AI checklist,
+        so the plan actually moves you toward earlier financial freedom.
+      </li>
+    </ul>
+  </div>
+
+  <h2 id="faq">FAQs</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, i) => (
+      <details open={i === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para strong {
+      color: rgba(255, 255, 255, 0.98);
+    }
+
+    .jump-nav {
+      margin: 1.45rem 0 1.8rem;
+      padding: 1.05rem 1.1rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .jump-nav__label {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.92) !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      padding: 0.58rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    .jump-nav__list a:hover {
+      border-color: rgba(125, 211, 252, 0.36);
+      color: rgba(255, 255, 255, 0.96);
+    }
+
+    .callout {
+      margin: 1.35rem 0;
+      padding: 1.15rem 1.2rem 1.2rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .callout--amber {
+      background: linear-gradient(180deg, rgba(229, 184, 74, 0.08), rgba(255, 255, 255, 0.025));
+      border-color: rgba(229, 184, 74, 0.2);
+    }
+    .callout__eyebrow {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.96) !important;
+    }
+    .callout__list {
+      margin: 0 !important;
+      padding-left: 1.05rem !important;
+    }
+    .callout__list li {
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.72 !important;
+      margin: 0 0 0.45rem !important;
+    }
+    .callout__footer {
+      margin: 0.75rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.75 !important;
+    }
+
+    .career-grid,
+    .missed-grid,
+    .work-style-grid,
+    .non-coding-grid,
+    .source-grid {
+      display: grid;
+      gap: 0.95rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .career-card,
+    .missed-card,
+    .work-style-card,
+    .non-coding-card,
+    .source-card {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+      padding: 1.15rem 1.15rem 1.12rem;
+    }
+
+    .career-card__label,
+    .missed-card__label,
+    .work-style-card__label,
+    .non-coding-card__label,
+    .source-card__label {
+      display: inline-block;
+      margin-bottom: 0.52rem;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: rgba(45, 212, 191, 0.92);
+    }
+
+    .career-card h3,
+    .missed-card h3,
+    .work-style-card h3,
+    .non-coding-card h3,
+    .source-card h3,
+    .checkpoint h3,
+    .gate h3,
+    .mistake-item__content h3,
+    .judgment-card h3 {
+      margin: 0 0 0.42rem !important;
+      font-family: "Sora", sans-serif;
+      font-size: 1rem !important;
+      line-height: 1.34 !important;
+      color: rgba(255, 255, 255, 0.93) !important;
+    }
+
+    .career-card p,
+    .missed-card p,
+    .work-style-card p,
+    .non-coding-card p,
+    .source-card p,
+    .checkpoint p,
+    .gate p,
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+
+    .missed-card__fit {
+      margin-top: 0.6rem !important;
+    }
+
+    .section-note {
+      margin: 0.85rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.62) !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+    }
+
+    .note-line {
+      margin: 0.9rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+      font-size: 14.5px !important;
+      line-height: 1.76 !important;
+    }
+
+    .highlight-box {
+      border-radius: 18px;
+      padding: 1.08rem 1.15rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      background: rgba(45, 212, 191, 0.05);
+      border-color: rgba(45, 212, 191, 0.22);
+    }
+    .highlight-box p {
+      margin: 0 !important;
+      font-size: 14.5px !important;
+      line-height: 1.76 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+    }
+
+    .checkpoint-list,
+    .mistake-list {
+      display: grid;
+      gap: 0.85rem;
+      margin: 1.4rem 0;
+    }
+
+    .checkpoint {
+      display: flex;
+      gap: 1rem;
+      padding: 1.1rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    }
+    .checkpoint__num {
+      width: 54px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.95rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: rgba(45, 212, 191, 0.24);
+      padding-top: 0.05rem;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.95rem;
+      margin: 1.4rem 0;
+    }
+    .card {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+      padding: 1.15rem 1.15rem 1.12rem;
+    }
+    .card h3 {
+      margin: 0 0 0.6rem !important;
+      font-family: "Sora", sans-serif;
+      font-size: 1rem !important;
+      color: rgba(255, 255, 255, 0.93) !important;
+    }
+    .card ul {
+      margin: 0 !important;
+      padding-left: 1.05rem !important;
+    }
+    .card ul li {
+      color: rgba(255, 255, 255, 0.7) !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      margin: 0 0 0.4rem !important;
+    }
+    .judgment-card--ai {
+      border-color: rgba(229, 184, 74, 0.22);
+    }
+    .judgment-card--human {
+      border-color: rgba(45, 212, 191, 0.24);
+    }
+
+    .gates-block {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin: 1.4rem 0;
+    }
+    .gate {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+      padding: 1.1rem 1.1rem 1.05rem;
+    }
+
+    .source-card a {
+      display: inline-flex;
+      margin-top: 0.75rem;
+      color: rgba(125, 211, 252, 0.94);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .source-card a:hover {
+      color: rgba(255, 255, 255, 0.96);
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.12rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: rgba(229, 184, 74, 0.2);
+      padding-top: 0.05rem;
+    }
+
+    .next-step {
+      margin: 1.4rem 0;
+      padding: 1.15rem 1.15rem 1.1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .next-step__title {
+      margin: 0 0 0.8rem !important;
+      font-size: 12px !important;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.94) !important;
+    }
+    .next-step__list {
+      margin: 0 !important;
+      padding-left: 1rem !important;
+    }
+    .next-step__list li {
+      margin: 0 0 0.55rem !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      line-height: 1.76 !important;
+    }
+
+    @media (max-width: 860px) {
+      .career-grid,
+      .missed-grid,
+      .work-style-grid,
+      .non-coding-grid,
+      .source-grid,
+      .grid-two,
+      .gates-block {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .career-card,
+      .missed-card,
+      .work-style-card,
+      .non-coding-card,
+      .checkpoint,
+      .gate,
+      .card,
+      .source-card,
+      .mistake-item,
+      .next-step {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .jump-nav__list a {
+        width: 100%;
+      }
+    }
+  </style>
+</BlogPostLayout>

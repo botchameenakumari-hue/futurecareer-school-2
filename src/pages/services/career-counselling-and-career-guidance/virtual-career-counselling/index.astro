@@ -1,0 +1,637 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import BofuSummaryStrip from '../../../../components/bofu/BofuSummaryStrip.astro';
+import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Virtual Career Counselling | Face-to-Face Video Sessions From Anywhere | Future Career School';
+const description =
+  'Virtual career counselling with a real counsellor over video call — live screen-share through your assessment, no travel, no waiting room, join from anywhere including outside India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/virtual-career-counselling/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[3],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const virtualMechanicsItems = [
+  {
+    title: 'A face on the screen, not a voice on a call',
+    body:
+      'Virtual career counselling runs on video, not phone or chat. You see your counsellor and they see you, so the conversation stays personal instead of turning into a transactional back-and-forth.',
+  },
+  {
+    title: 'Screen-share through your actual assessment results',
+    body:
+      'Your counsellor shares their screen and walks through your real scores, patterns, and options with you live, instead of leaving you to interpret a PDF report alone after the call ends.',
+  },
+  {
+    title: 'No commute, no waiting room, no half-day off',
+    body:
+      'The full session happens in the time you would otherwise spend travelling to an office and back. There is no reception desk, no waiting slot, and no rescheduling around office hours.',
+  },
+  {
+    title: 'Join from wherever you already are',
+    body:
+      'A video call works the same whether you are logging in from your home city, a hostel room, a work desk, or from outside India. The session does not depend on which city or country you are in.',
+  },
+];
+
+const virtualFlowItems = [
+  {
+    title: 'You join a scheduled video call, camera on',
+    body:
+      'It works like walking into a counsellor’s office, minus the drive. You show up at the agreed time and the conversation starts the same way a face-to-face meeting would.',
+  },
+  {
+    title: 'Your counsellor screen-shares your assessment and the real decision',
+    body:
+      'Instead of talking in the abstract, you look at the same screen together and go through your strengths, work style, and the options in front of you.',
+  },
+  {
+    title: 'You ask questions as they come up, not after the call',
+    body:
+      'A live video conversation lets you interrupt, push back, or ask for clarification in the moment, the same way you would across a table.',
+  },
+  {
+    title: 'You leave with a next step, not a recording to rewatch',
+    body:
+      'The outcome of a good virtual session is a clear, specific next move you can act on immediately, not a video file or a report you have to decode by yourself later.',
+  },
+];
+
+const virtualDoubtItems = [
+  {
+    title: 'Worried a screen cannot replace sitting across a table',
+    body:
+      'That worry is fair if the format is a phone call or a recorded webinar. A live video session with screen-share is closer to an in-person meeting than most people expect.',
+    listItems: [
+      'You can see reactions, body language, and tone, not just hear a voice.',
+      'Screen-sharing means you are both looking at the same assessment data at the same time.',
+      'You can ask follow-up questions immediately instead of emailing later and waiting for a reply.',
+      'The session still ends with a specific next step, the same as a good in-person meeting would.',
+    ],
+  },
+  {
+    title: 'Not sure a virtual session fits a serious, personal decision',
+    body:
+      'Career decisions involving money, family pressure, or a wrong turn already made can feel too important for a video call. In practice, the format matters less than whether the conversation is specific and honest.',
+    listItems: [
+      'A rushed in-person meeting can be just as generic as a bad phone call.',
+      'A focused virtual session with screen-share can go deeper than a short office visit squeezed between other appointments.',
+      'What should change your mind is the quality of the reasoning, not whether you were in the same room.',
+      'If a quiet, private space is hard to find at home, a work desk, library room, or even a car can work for the call.',
+    ],
+  },
+];
+
+const virtualDoubtSummaryItems = [
+  {
+    title: 'Same depth, different format',
+    body: 'The goal is a real conversation with your camera on, not a shortcut version of counselling.',
+  },
+  {
+    title: 'Live, not recorded',
+    body: 'You are talking to a person in real time, not watching a video or reading a static report.',
+  },
+  {
+    title: 'One clear next step',
+    body: 'A virtual session should still end with something specific you can act on right away.',
+  },
+];
+
+const audienceItems = [
+  {
+    label: 'Students & Freshers',
+    title: 'A virtual session that fits around school, college, or exam schedules',
+    body:
+      'Join between classes, from a hostel room, or from home with a parent in the room if that helps the conversation, without losing a travel day to reach an office.',
+  },
+  {
+    label: 'Working Professionals',
+    title: 'A virtual session that fits around work hours and travel',
+    body:
+      'Join from your desk during a break, from a different city on work travel, or from outside India if your role has taken you abroad, without adjusting your calendar around an office visit.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the session actually runs on video, not a phone call labelled as virtual',
+    body: 'Virtual career counselling should mean a video call where you can see your counsellor, not a phone consultation rebranded with a different name.',
+  },
+  {
+    title: 'Check whether your assessment results get walked through live',
+    body: 'A genuinely useful virtual session includes screen-sharing through your actual results, not a static report emailed to you separately with no discussion.',
+  },
+  {
+    title: 'Check whether the session works from your actual location',
+    body: 'A real virtual session should work the same whether you are in a metro city, a smaller town, or outside India, without asking you to find a local branch first.',
+  },
+  {
+    title: 'Check whether you leave with a specific next step',
+    body: 'The test of a good virtual session is whether you finish with a narrower shortlist and a next move you can act on immediately, not just a pleasant hour on a video call.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Is virtual career counselling as effective as meeting in person?',
+    answer:
+      'It can be, when the session runs on live video with screen-sharing rather than a phone call. You still see your counsellor, ask questions in real time, and go through your assessment results together, which is the part that actually drives a better decision.',
+  },
+  {
+    question: 'What is the real difference between a virtual session and a phone consultation?',
+    answer:
+      'A virtual session happens over video call with your camera on, so you can see each other and your counsellor can screen-share your assessment results while you talk. A phone consultation is audio only, with no visual context and no shared screen.',
+  },
+  {
+    question: 'Do I need any special equipment for a virtual career counselling session?',
+    answer:
+      'No. A phone, laptop, or tablet with a camera and a stable internet connection is enough to join the video call and see your counsellor’s screen-share.',
+  },
+  {
+    question: 'Can I join a virtual career counselling session from outside India?',
+    answer:
+      'Yes. Guidance is delivered online across India, and because the session runs over video call, it works the same regardless of the city or country you are joining from, so students and professionals based outside India can also book a session.',
+  },
+  {
+    question: 'Will my counsellor actually show me my assessment results during the call?',
+    answer:
+      'Yes. A live virtual session includes screen-sharing through your assessment results and options together, instead of leaving you to read a report on your own after the call ends.',
+  },
+  {
+    question: 'What if my internet connection is unstable during the session?',
+    answer:
+      'A brief drop in connection is common on any video call and is not unusual to work around; the conversation continues once you reconnect. The value of the session comes from the live discussion and screen-share, not from a flawless connection.',
+  },
+  {
+    question: 'Is virtual career counselling available for both students and working professionals?',
+    answer:
+      'Yes. Students dealing with stream, course, or early-skill decisions and working professionals dealing with pivots, stagnation, or salary-growth decisions can both book a virtual session.',
+  },
+  {
+    question: 'Is virtual career counselling different from career counselling online?',
+    answer:
+      'Both describe the same real-time, video-based delivery. The useful difference is not the label; it is whether the session actually feels like a face-to-face conversation with live screen-share, rather than a phone call or a one-way report.',
+  },
+  {
+    question: 'Do you guarantee a job?',
+    answer: 'No ethical provider can guarantee a job.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://futurecareerschool.com/services/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Virtual Career Counselling',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Virtual Career Counselling | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Virtual Career Counselling',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Virtual Career Counselling</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Virtual career counselling for a stronger, high-value skill direction toward earlier financial freedom
+      </div>
+
+      <h1 class="hero-title">
+        Virtual career counselling
+        <span class="gold-text"> that feels like sitting across the table, over video, from anywhere</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School's virtual career counselling puts you face-to-face with a real counsellor over video call, screen-sharing your assessment results live, so you can build a stronger, high-value skill direction toward earlier financial freedom without needing a nearby office or a fixed city.
+      </p>
+      <p class="hero-note">
+        Every session runs on video, not phone or chat, so you and your counsellor can see each other, share a screen through your actual results, and work through the decision together in real time, from your home, hostel, office, or anywhere outside India.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Virtual Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Virtual Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The value is not the video call alone. It is a live, face-to-face conversation that turns your assessment results into a specific, high-leverage next move.
+      </p>
+    </div>
+  </section>
+
+  <GuidanceModelSection
+    title="What a virtual career counselling session should actually cover"
+    subtitle="The right skill portfolio leads to stronger income opportunities, and stronger income opportunities lead to earlier financial freedom. A virtual session should keep that chain visible, not just fill an hour on video."
+  />
+
+  <BofuFeatureSection
+    sectionId="virtual-mechanics"
+    sectionClass="virtual-mechanics-band"
+    variant="signal"
+    title="What makes a session genuinely virtual, not just remote"
+    subtitle="Virtual career counselling should mean more than a phone call with a different name. It should feel like a real, face-to-face meeting that happens to run over video."
+    items={virtualMechanicsItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    sectionClass="virtual-comparison-band"
+    title="Why a virtual session still has to be more useful than generic advice"
+    subtitle="Video call, screen-share, and no travel time only matter if the counselling underneath is still specific, honest, and worth a serious decision."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If a video-based session already fits your schedule better than an office visit, use it"
+    body="The stronger filter is whether the conversation sharpens your direction fast enough to matter, not whether it happened in the same room."
+    studentHref="#plans"
+    studentLabel="Get Student Virtual Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Virtual Career Counselling"
+  />
+
+  <BofuStepFlowSection
+    sectionId="how-it-works"
+    sectionClass="virtual-flow-band"
+    title="How a virtual career counselling session actually runs"
+    subtitle="The format is video, but the flow should still feel like an in-person meeting from the moment you join to the moment you log off."
+    items={virtualFlowItems}
+  />
+
+  <BofuListCardSection
+    sectionId="virtual-doubts"
+    sectionClass="virtual-doubt-band"
+    title="If you are still unsure a video call can replace an in-person meeting"
+    subtitle="This is the most common hesitation before booking a virtual session, and it is a fair one to work through before you decide."
+    items={virtualDoubtItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={virtualDoubtSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <AudienceRelevance
+    sectionClass="virtual-audience-band"
+    title="How a virtual session fits around your schedule and location"
+    items={audienceItems}
+  />
+
+  <BuyerChecks
+    sectionClass="virtual-check-band"
+    title="What to check before choosing virtual career counselling"
+    subtitle="Not every video call that calls itself virtual counselling delivers the same depth. Check for these before you book."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the decision already feels expensive to get wrong, book the video call instead of waiting for a local office"
+    body="A focused virtual session should leave you with a narrower shortlist and a next move you can act on immediately."
+    studentHref="#plans"
+    studentLabel="Get Student Virtual Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Virtual Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Virtual Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="Compare formats, audiences, and free assessments before you book a virtual session."
+    items={[
+      {
+        href: BOFU_INTERNAL_LINKS.parentGuidance,
+        title: 'Broader Career Counselling and Guidance',
+        description:
+          'Use the main service page when the bigger issue is the full decision itself, not only how the session is delivered.',
+      },
+      {
+        href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+        title: 'Career Counselling Online',
+        description:
+          'Compare the broader online-delivery page if you care most about availability across India rather than the video-call experience itself.',
+      },
+      {
+        href: BOFU_INTERNAL_LINKS.nriStudents,
+        title: 'Career Counselling for NRI Students',
+        description:
+          'For Indian-origin students and families abroad weighing India-versus-abroad decisions, with the same virtual, face-to-face format.',
+      },
+      {
+        href: BOFU_INTERNAL_LINKS.students,
+        title: 'Student Career Guidance',
+        description:
+          'For school students, college students, freshers, recent graduates, and postgraduates who need stronger direction.',
+      },
+      {
+        href: BOFU_INTERNAL_LINKS.workingProfessionals,
+        title: 'Working Professional Career Guidance',
+        description:
+          'For pivots, stagnation, salary growth, AI pressure, and stronger long-term leverage.',
+      },
+      {
+        href: BOFU_ASSESSMENT_LINKS.hub,
+        title: 'Free Career Assessments',
+        description:
+          'Free, updated, practical, AI-powered career and skill assessments to bring into your virtual session as a starting point.',
+      },
+    ]}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    sectionClass="virtual-final-band"
+    subtitle="Book virtual career counselling when a real, face-to-face conversation over video already fits your schedule better than travelling to an office. The goal is the same either way: a stronger skill direction that moves you toward earlier financial freedom."
+    studentHref="#plans"
+    studentLabel="Get Student Virtual Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Virtual Career Counselling"
+  />
+
+  <BofuFaqSection
+    title="Questions people ask before choosing virtual career counselling"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 88px; }
+
+  :global(.virtual-mechanics-band) {
+    background:
+      radial-gradient(720px 240px at 10% 0%, rgba(45,212,191,.055), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.008), transparent 50%);
+  }
+  :global(.virtual-comparison-band .section-headline) {
+    max-width: 20ch;
+  }
+  :global(.virtual-comparison-band .compare-shell) {
+    box-shadow: 0 28px 60px rgba(0,0,0,.3);
+  }
+  :global(.virtual-flow-band) {
+    background:
+      radial-gradient(620px 220px at 18% 100%, rgba(45,212,191,.05), transparent 72%),
+      radial-gradient(560px 220px at 88% 0%, rgba(229,184,74,.05), transparent 72%);
+  }
+  :global(.virtual-doubt-band) {
+    background:
+      radial-gradient(760px 240px at 100% 0%, rgba(229,184,74,.055), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.007));
+  }
+  :global(.virtual-doubt-band .list-card-grid.is-two-col) {
+    align-items: stretch;
+  }
+  :global(.virtual-doubt-band .bofu-summary-strip) {
+    margin-top: 1.2rem;
+  }
+  :global(.virtual-audience-band .section-headline),
+  :global(.virtual-check-band .section-headline) {
+    max-width: 20ch;
+  }
+  :global(.virtual-audience-band .audience-grid) {
+    max-width: 1080px;
+    margin: 0 auto;
+    gap: 1.15rem;
+  }
+  :global(.virtual-audience-band .audience-card) {
+    padding: 1.35rem 1.25rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,.11);
+    background:
+      radial-gradient(360px 150px at 100% 0%, rgba(45,212,191,.08), transparent 74%),
+      linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.014));
+    box-shadow: 0 18px 38px rgba(0,0,0,.2);
+  }
+  :global(.virtual-audience-band .audience-card h3) {
+    font-size: 1.08rem;
+    line-height: 1.46;
+  }
+  :global(.virtual-audience-band .audience-card p) {
+    font-size: 14.2px;
+    line-height: 1.82;
+  }
+  :global(.virtual-check-band .buyer-check-grid) {
+    gap: 1.1rem;
+  }
+  :global(.virtual-check-band .buyer-check-card) {
+    min-height: 100%;
+  }
+  :global(.virtual-final-band .final-sub) {
+    max-width: 50ch;
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold {
+    width: 520px;
+    height: 520px;
+    top: -170px;
+    left: -110px;
+    background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%);
+  }
+  .orb-teal {
+    width: 420px;
+    height: 420px;
+    top: -40px;
+    right: -120px;
+    background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%);
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 1.95vw, 18px);
+    color: rgba(255,255,255,.72);
+    line-height: 1.88;
+    max-width: 820px;
+    margin-bottom: 1rem;
+  }
+  .hero-note {
+    font-size: 14px;
+    color: rgba(255,255,255,.56);
+    line-height: 1.8;
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-actions .btn-gold,
+  .hero-actions .btn-outline {
+    min-width: min(100%, 290px);
+    justify-content: center;
+  }
+  .hero-actions .btn-soft {
+    justify-content: center;
+  }
+  .hero-support {
+    font-size: 14px;
+    color: rgba(255,255,255,.58);
+    line-height: 1.8;
+    max-width: 720px;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.84rem, 9.6vw, 2.55rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .breadcrumb {
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-sub,
+    .hero-note,
+    .hero-support {
+      line-height: 1.76;
+    }
+    :global(.virtual-audience-band .audience-card) {
+      padding: 1.08rem 1rem .98rem;
+      border-radius: 20px;
+    }
+  }
+</style>

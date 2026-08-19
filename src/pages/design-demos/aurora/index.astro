@@ -1,0 +1,207 @@
+---
+const photo = (seed, w = 800, h = 600) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Direction 01 · Holographic Aurora — Future Career School</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--vio:#7c3aed;--vio2:#a78bfa;--cyan:#22d3ee;--mag:#ec4899;--ink:#0b0614}
+    html{scroll-behavior:smooth}
+    body{background:#08030f;color:#eae6ff;font-family:"Inter",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    h1,h2,h3,.dsp{font-family:"Space Grotesk",sans-serif;letter-spacing:-.03em}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    .holo{background:linear-gradient(110deg,var(--vio2),var(--cyan) 45%,var(--mag));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    /* animated mesh field */
+    .field{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+    .blob{position:absolute;border-radius:50%;filter:blur(110px);opacity:.55;mix-blend-mode:screen}
+    .b1{width:55vw;height:55vw;top:-12vw;left:-10vw;background:radial-gradient(circle,#7c3aed,transparent 62%);animation:f1 24s ease-in-out infinite}
+    .b2{width:48vw;height:48vw;top:18vh;right:-12vw;background:radial-gradient(circle,#22d3ee,transparent 62%);animation:f2 30s ease-in-out infinite}
+    .b3{width:42vw;height:42vw;bottom:-14vw;left:22vw;background:radial-gradient(circle,#ec4899,transparent 62%);animation:f3 34s ease-in-out infinite}
+    @keyframes f1{0%,100%{translate:0 0}50%{translate:5% 7%}}
+    @keyframes f2{0%,100%{translate:0 0}50%{translate:-6% 4%}}
+    @keyframes f3{0%,100%{translate:0 0}50%{translate:4% -7%}}
+    .grid-ov{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:54px 54px;mask-image:radial-gradient(ellipse 80% 60% at 50% 25%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 25%,#000 30%,transparent 80%)}
+    .wrap{max-width:1180px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+    /* direction badge */
+    .badge{position:fixed;top:14px;left:14px;z-index:50;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;padding:8px 14px;border-radius:999px;background:rgba(11,6,20,.7);border:1px solid rgba(167,139,250,.4);backdrop-filter:blur(10px);color:#cdbcff}
+    .badge b{color:#fff}
+    /* nav */
+    nav.bar{position:sticky;top:0;z-index:40;backdrop-filter:blur(14px);background:rgba(8,3,15,.55);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
+    .logo{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px}
+    .nav-links{display:flex;gap:26px;font-size:14px;color:#b6b2d6}
+    .nav-links a:hover{color:#fff}
+    .btn{display:inline-flex;align-items:center;gap:8px;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:14px;padding:12px 22px;border-radius:12px;cursor:pointer;transition:transform .25s,box-shadow .3s}
+    .btn-n{color:#0b0614;background:linear-gradient(135deg,var(--vio2),var(--cyan));box-shadow:0 10px 30px -8px rgba(124,58,237,.7)}
+    .btn-n:hover{transform:translateY(-2px);box-shadow:0 16px 40px -8px rgba(34,211,238,.7)}
+    .btn-g{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff}
+    .btn-g:hover{border-color:var(--cyan);transform:translateY(-2px)}
+    @media(max-width:860px){.nav-links{display:none}}
+    /* hero */
+    .hero{padding:5rem 0 5.5rem;display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center}
+    .eye{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#cbbcff;padding:7px 14px;border-radius:999px;background:rgba(124,58,237,.14);border:1px solid rgba(167,139,250,.35);margin-bottom:1.6rem}
+    .eye i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+    .hero h1{font-size:clamp(2.4rem,5.2vw,4.1rem);font-weight:700;line-height:1.04;margin-bottom:1.3rem}
+    .hero p.lead{color:#b8b3d8;font-size:18px;line-height:1.75;max-width:46ch;margin-bottom:2rem}
+    .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:2rem}
+    .trust{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:#8e8ab0}
+    .trust span{display:inline-flex;align-items:center;gap:7px}
+    .trust i{color:var(--cyan)}
+    /* hero 3D cluster */
+    .stage{position:relative;height:480px;perspective:1200px}
+    .sphere{position:absolute;top:50%;left:50%;width:300px;height:300px;transform:translate(-50%,-50%);border-radius:50%;
+      background:conic-gradient(from 0deg,#7c3aed,#22d3ee,#ec4899,#7c3aed);filter:blur(6px);opacity:.9;animation:spin 18s linear infinite;box-shadow:0 0 90px rgba(124,58,237,.6)}
+    .sphere::after{content:"";position:absolute;inset:14%;border-radius:50%;background:#0a0518;box-shadow:inset 0 0 60px rgba(34,211,238,.4)}
+    @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+    .panel{position:absolute;border-radius:20px;background:linear-gradient(160deg,rgba(30,20,55,.92),rgba(12,7,25,.85));border:1px solid rgba(167,139,250,.3);box-shadow:0 40px 80px -28px #000,inset 0 1px 0 rgba(255,255,255,.14);backdrop-filter:blur(14px)}
+    .p-main{left:0;top:14%;width:74%;padding:1.3rem;transform:translateZ(60px);animation:fl 7s ease-in-out infinite}
+    @keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    .p-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.1rem}
+    .chip{font-size:11px;font-weight:700;padding:5px 11px;border-radius:999px;color:#0b0614;background:linear-gradient(135deg,var(--vio2),var(--cyan))}
+    .live{font-size:11px;letter-spacing:.12em;color:#9b96bf;display:inline-flex;align-items:center;gap:6px}
+    .live i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+    .bar{display:grid;grid-template-columns:78px 1fr 26px;align-items:center;gap:.5rem;margin-bottom:.7rem}
+    .bar span{font-size:12px;color:#b8b3d8}
+    .bar .t{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+    .bar .t b{display:block;height:100%;border-radius:99px}
+    .bar em{font-style:normal;font-family:"Space Grotesk";font-weight:700;font-size:12px;text-align:right}
+    .p-tag{position:absolute;font-size:12px;font-weight:600;padding:9px 13px;border-radius:12px;background:linear-gradient(160deg,rgba(30,20,55,.95),rgba(12,7,25,.88));border:1px solid rgba(167,139,250,.3);box-shadow:0 24px 50px -20px #000}
+    .pt1{right:-4%;top:4%;transform:translateZ(95px);animation:fl 6s ease-in-out infinite .3s}
+    .pt2{left:6%;bottom:6%;transform:translateZ(110px);animation:fl 8s ease-in-out infinite .6s}
+    /* sections */
+    .sec{padding:6rem 0}
+    .lab{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8e8ab0;margin-bottom:1rem;display:flex;align-items:center;gap:.7rem}
+    .lab::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--vio2),transparent)}
+    h2.t{font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:700;line-height:1.08;margin-bottom:1rem}
+    .sub{color:#a39fc4;font-size:16px;line-height:1.7;max-width:60ch;margin-bottom:2.6rem}
+    /* stat strip */
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+    .stat{border-radius:18px;padding:1.6rem;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1)}
+    .stat .num{font-family:"Space Grotesk";font-size:2.1rem;font-weight:700}
+    .stat .cap{color:#9b96bf;font-size:13px;margin-top:4px}
+    /* cards w/ photo */
+    .duo{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
+    .pcard{border-radius:22px;overflow:hidden;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);transition:transform .35s,border-color .35s,box-shadow .35s}
+    .pcard:hover{transform:translateY(-6px);border-color:rgba(167,139,250,.45);box-shadow:0 40px 80px -34px #000}
+    .ph{position:relative;aspect-ratio:16/10;overflow:hidden}
+    .ph img{width:100%;height:100%;object-fit:cover;filter:saturate(.55)}
+    .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(150deg,rgba(124,58,237,.6),rgba(34,211,238,.35) 60%,transparent);mix-blend-mode:screen}
+    .ph::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 40%,rgba(8,3,15,.85))}
+    .pc-body{padding:1.5rem 1.6rem}
+    .pc-k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);font-weight:700}
+    .pc-body h3{font-size:1.3rem;margin:.4rem 0 .5rem}
+    .pc-body p{color:#a39fc4;font-size:14px;line-height:1.7}
+    /* process */
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+    .step{border-radius:18px;padding:1.5rem;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);position:relative;transition:transform .3s,box-shadow .3s}
+    .step:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px #000}
+    .step .no{font-family:"Space Grotesk";font-weight:700;font-size:1.5rem;background:linear-gradient(135deg,var(--vio2),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .step h3{font-size:1.05rem;margin:.6rem 0 .4rem}
+    .step p{color:#9b96bf;font-size:13px;line-height:1.6}
+    /* cta */
+    .cta{border-radius:28px;padding:4rem 2rem;text-align:center;position:relative;overflow:hidden;border:1px solid rgba(167,139,250,.3);background:radial-gradient(700px 300px at 50% 0%,rgba(124,58,237,.35),transparent 70%),linear-gradient(160deg,rgba(30,20,55,.7),rgba(12,7,25,.7))}
+    .cta h2{font-size:clamp(2rem,4.4vw,3.2rem);margin-bottom:1rem}
+    .cta p{color:#b8b3d8;max-width:50ch;margin:0 auto 2rem;line-height:1.7}
+    footer{padding:3rem 0;border-top:1px solid rgba(255,255,255,.07);color:#7b769d;font-size:13px;text-align:center}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+    .reveal.in{opacity:1;transform:none}
+    @media(max-width:980px){.hero{grid-template-columns:1fr;gap:2rem}.stage{order:-1;height:380px}.steps{grid-template-columns:repeat(2,1fr)}.duo{grid-template-columns:1fr}}
+    @media(max-width:600px){.stats{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.p-main{width:84%}}
+    @media(prefers-reduced-motion:reduce){.blob,.sphere,.p-main,.p-tag{animation:none!important}.reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <div class="field"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="grid-ov"></div>
+  <a class="badge" href="/design-demos/"><b>01 · Holographic Aurora</b> — ← all directions</a>
+
+  <nav class="bar"><div class="wrap nav-in">
+    <div class="logo">Future<span class="holo"> Career</span> School</div>
+    <div class="nav-links"><a href="#">Services</a><a href="#">Career & Skills Compass</a><a href="#">Resources</a><a href="#">Blog</a></div>
+    <a class="btn btn-n" href="#">Get Career Guidance</a>
+  </div></nav>
+
+  <header class="wrap hero">
+    <div>
+      <div class="eye"><i></i> Career guidance · students, freshers &amp; professionals</div>
+      <h1>Find your next move — and the <span class="holo">skills to win it.</span></h1>
+      <p class="lead">Practical clarity first. Then a skill-first roadmap, proof of work, and a path toward earlier financial freedom — fully online, across India.</p>
+      <div class="cta-row">
+        <a class="btn btn-n" href="#">Get Career Guidance →</a>
+        <a class="btn btn-g" href="#">Free Career &amp; Skill Assessments</a>
+      </div>
+      <div class="trust"><span><i>✓</i> Free assessments &amp; tools</span><span><i>✓</i> 100% online — every city in India</span></div>
+    </div>
+    <div class="stage" id="tilt">
+      <div class="sphere"></div>
+      <div class="panel p-main">
+        <div class="p-head"><span class="chip">Practical Fit Check</span><span class="live"><i></i>LIVE</span></div>
+        <div class="bar"><span>Interest</span><div class="t"><b style="width:82%;background:linear-gradient(90deg,#a78bfa,#7c3aed)"></b></div><em>82</em></div>
+        <div class="bar"><span>Market</span><div class="t"><b style="width:95%;background:linear-gradient(90deg,#67e8f9,#22d3ee)"></b></div><em>95</em></div>
+        <div class="bar"><span>Scalability</span><div class="t"><b style="width:90%;background:linear-gradient(90deg,#f9a8d4,#ec4899)"></b></div><em>90</em></div>
+      </div>
+      <div class="p-tag pt1">⚡ Skill-first</div>
+      <div class="p-tag pt2">🎯 Freedom Number</div>
+    </div>
+  </header>
+
+  <section class="wrap sec">
+    <div class="stats">
+      <div class="stat reveal"><div class="num holo">10,000+</div><div class="cap">students &amp; professionals guided</div></div>
+      <div class="stat reveal"><div class="num holo">4.9/5</div><div class="cap">average rating on clarity</div></div>
+      <div class="stat reveal"><div class="num holo">100%</div><div class="cap">online — all of India</div></div>
+    </div>
+  </section>
+
+  <section class="wrap sec">
+    <div class="lab">Who we work with</div>
+    <h2 class="t reveal">Guidance for <span class="holo">every growth stage.</span></h2>
+    <p class="sub reveal">Two paths, one foundation: practical assessments, high-value skills, and a real roadmap.</p>
+    <div class="duo">
+      <div class="pcard reveal"><div class="ph"><img src={photo('fcs-students-a')} alt="Students planning their next step" width="800" height="500" loading="lazy"/></div><div class="pc-body"><div class="pc-k">Students &amp; Freshers</div><h3>Direction before pressure</h3><p>Stream, course, and early skill clarity — so you avoid expensive wrong turns and start building proof early.</p></div></div>
+      <div class="pcard reveal"><div class="ph"><img src={photo('fcs-pro-a')} alt="A working professional at their desk" width="800" height="500" loading="lazy"/></div><div class="pc-body"><div class="pc-k">Working Professionals</div><h3>Leverage &amp; income growth</h3><p>Beat stagnation and AI pressure with stronger positioning, high-value skill stacking, and new income options.</p></div></div>
+    </div>
+  </section>
+
+  <section class="wrap sec">
+    <div class="lab">The path</div>
+    <h2 class="t reveal">From confusion to a <span class="holo">repeatable income engine.</span></h2>
+    <div class="steps">
+      <div class="step reveal"><div class="no">01</div><h3>Map your fit</h3><p>Psychometric + strengths and work-style mapping.</p></div>
+      <div class="step reveal"><div class="no">02</div><h3>Pick the skill</h3><p>Interest × Market × Scalability — choose what pays.</p></div>
+      <div class="step reveal"><div class="no">03</div><h3>Build proof</h3><p>Portfolio, positioning, and communication that gets you found.</p></div>
+      <div class="step reveal"><div class="no">04</div><h3>Reach freedom</h3><p>Your Freedom Number and a compounding income plan.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap sec">
+    <div class="cta reveal">
+      <h2>Get guidance for the <span class="holo">right next move.</span></h2>
+      <p>Start with practical clarity. Continue only if you need deeper support.</p>
+      <div class="cta-row" style="justify-content:center"><a class="btn btn-n" href="#">Get Career Guidance →</a><a class="btn btn-g" href="#">Free Assessments</a></div>
+    </div>
+  </section>
+
+  <footer class="wrap">Future Career School · Holographic Aurora design exploration</footer>
+
+  <script>
+    const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    const st=document.getElementById('tilt');
+    if(st&&matchMedia('(hover:hover)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
+      const p=st.querySelector('.p-main');
+      st.addEventListener('pointermove',(e)=>{const r=st.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;if(p)p.style.transform=`translateZ(60px) rotateY(${x*12}deg) rotateX(${-y*12}deg)`});
+      st.addEventListener('pointerleave',()=>{if(p)p.style.transform='translateZ(60px)'});
+    }
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-﻿# Blog Writing Prompt Source
+# Blog Writing Prompt Source
 
 Status: Exact source-preserved extraction from `seo prompts -2  (1).rtf`
 
@@ -220,11 +220,11 @@ Our business information for you to include highly enticing, converting descript
 What we do and our usp/positioning - continuous career guidance  for high-value skill building and planning for early financial independence.  What other businesses(possible competitors) do- career counselling, guidance or coaching without what we give. Most of them don't even care about providing continuous help. As a matter of fact we don't have competition when it comes to the most affordable and practical career guidance/counselling/coaching.
 
 Don’t forget to Provide cats for(rephrase if you want to make them more appealing but don't kill the original context)-
-1) practical, skill, career, psychometric, or, personality based assessments and tests - link - https://futurecareerschool.com/services/assessments 
-2) checkout/book continuous career guidance - leads to a different page
+1) checkout/book continuous career guidance
+2) practical, skill, career, psychometric, or, personality based assessments and tests as a smaller support link - leads to a different page
  We offer continuous career guidance for high income skill portfolio building because we want you to win in the long run. And rather than offering a single career counseling or guidance session, only continuous guidance with an expert and a small, closely knit group of  other ambitious individuals is way more effective, real and practical. Link - https://futurecareerschool.com/services/career-counselling-and-career-guidance/ 
 
-wherever you need provide the ctas, provide them together
+wherever both CTAs are useful, make career guidance/counselling the dominant paid CTA and keep assessments as a smaller supporting link/button
 
 
 ------

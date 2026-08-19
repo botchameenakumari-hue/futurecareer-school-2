@@ -1,0 +1,594 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../config/guidancePlans';
+
+const title =
+  'Trial Career Counselling Session | Test the Fit Before You Commit | Future Career School';
+const description =
+  'Book a trial career counselling session with Future Career School and test the guidance, the counsellor, and the fit before choosing continuous support — a low-cost way to de-risk the bigger decision.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/trial-career-counselling-session/';
+
+const {
+  studentSessionPrice,
+  studentSessionComparePrice,
+  professionalSessionPrice,
+  professionalSessionComparePrice,
+  studentContinuousPrice,
+  studentContinuousComparePrice,
+  studentContinuousIncludesText,
+} = GUIDANCE_PLAN_PRICE_COPY;
+
+const mixedSessionPriceLine = `${studentSessionPrice} for students and ${professionalSessionPrice} for working professionals`;
+
+const trialComparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[3],
+];
+
+const whatToTestItems = [
+  {
+    eyebrow: 'Test the process',
+    title: 'Whether the guidance is built around your situation, not a script',
+    body:
+      'A real trial session should feel worked through your actual stream, degree, role, or pivot — not a templated answer you could get from a public video. That difference is what separates high-leverage decision support from generic advice.',
+  },
+  {
+    eyebrow: 'Test the direction',
+    title: 'Whether the skill direction actually points toward higher income',
+    body:
+      'A trial session should give you a real read on whether the skill mix, proof of work, and market positioning being suggested genuinely unlock high income opportunities for you — the start of a high-value, high-income skill portfolio, not a random upskilling suggestion.',
+  },
+  {
+    eyebrow: 'Test the fit',
+    title: 'Whether you can work with this counsellor before booking more time',
+    body:
+      'You are not only evaluating a service — you are evaluating whether this counsellor’s style, honesty, and depth match what you need before you decide to continue into ongoing guidance.',
+  },
+];
+
+const riskReversalItems = [
+  {
+    eyebrow: 'Committing sight-unseen',
+    title: 'Paying for a full package before you know if the guidance is any good',
+    body:
+      'Many career guidance and coaching providers ask you to commit to an expensive multi-session package upfront, based only on a sales call. You have no real evidence of the quality of the actual guidance until you have already paid for all of it.',
+  },
+  {
+    eyebrow: 'Testing before committing',
+    title: 'One real 1-on-1 session, priced low on purpose, before any bigger decision',
+    body:
+      `The trial career counselling session at Future Career School is one full 1-on-1 session — currently ${studentSessionPrice} for students and ${professionalSessionPrice} for working professionals — priced deliberately low so you can judge the guidance on its merits before choosing whether continuous support is worth it for you.`,
+  },
+];
+
+const audienceItems = [
+  {
+    label: 'Students & Freshers',
+    title: 'A low-risk way to test the direction before a year-long commitment',
+    body:
+      `A ${studentSessionPrice} trial session lets you see whether the stream, course, or skill direction actually holds up before deciding between one session and a full year of continuous guidance — useful when the wrong choice could cost years, not just money.`,
+  },
+  {
+    label: 'Working Professionals',
+    title: 'A small cost to test a pivot before you act on it for real',
+    body:
+      `At ${professionalSessionPrice}, the trial session is a small cost against the risk of acting on a bad pivot, a stalled negotiation, or another year in a role that is not building toward earlier financial freedom.`,
+  },
+];
+
+const afterTrialItems = [
+  {
+    title: 'You are never pushed into continuing',
+    body:
+      'The trial session is complete on its own. Whether you continue into ongoing support is a decision you make afterward, once you have real evidence of what the guidance is worth — not a decision made for you inside the session.',
+  },
+  {
+    title: 'If it fits, continuous guidance is the natural next step for students',
+    body:
+      `For students, the trial can lead into continuous career guidance — small groups, usually ${'10 or fewer'} members, running across the year, currently ${studentContinuousPrice} (down from ${studentContinuousComparePrice}), and ${studentContinuousIncludesText}. The 1-on-1 you already had is included in that path, not repeated as a separate cost.`,
+  },
+  {
+    title: 'For working professionals, it stays a one-decision-at-a-time relationship',
+    body:
+      'A working professional can use single sessions as needed for pivots, stagnation, AI pressure, or the next skill-leverage decision — continuing only when a new decision is actually on the table, not on a fixed schedule.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the trial gives you a real session, not a shortened demo',
+    body: 'A genuine trial should be a full working session on your situation — not a 10-minute teaser designed to build urgency for a bigger sale.',
+  },
+  {
+    title: 'Check whether you leave with one concrete next step',
+    body: 'A useful trial should end with a specific action, skill, or decision to focus on — not just a feeling that the counsellor was nice to talk to.',
+  },
+  {
+    title: 'Check whether continuing afterward is genuinely optional',
+    body: 'If a provider will not let you decide after the trial without pressure, that tells you something about the guidance itself.',
+  },
+  {
+    title: 'Check whether the trial connects to income and skill direction, not just personality fit',
+    body: 'A trial should test both: whether you can work with the counsellor, and whether the skill and career direction actually points toward stronger, higher-value outcomes.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description:
+      'Use the main service page for the full picture of career counselling and guidance at Future Career School, beyond just the trial session.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/free-career-counselling-session/',
+    title: 'Free Career Counselling Session',
+    description:
+      'See exactly what is genuinely free — assessments and resources — versus what the paid 1-on-1 session costs, if pricing transparency is your main question.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'For school students, college students, freshers, and postgraduates who want the full student path in more depth after the trial.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'For pivots, stagnation, salary growth, and stronger long-term positioning once the trial has confirmed the direction.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description:
+      'Start here first if you want a free signal on strengths and work style before spending on a trial session.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What should I actually judge during a trial career counselling session?',
+    answer:
+      'Judge three things: whether the guidance is worked through your specific situation rather than generic, whether the suggested skill direction genuinely points toward stronger income, and whether you can work well with the counsellor. A useful trial gives you evidence on all three.',
+  },
+  {
+    question: 'Is a trial career counselling session the same as the free assessment?',
+    answer:
+      'No. The free assessments are automated, self-guided, and free either way. The trial is one real 1-on-1 session with a counsellor working through your specific path, skill direction, and constraints — currently ' +
+      `${mixedSessionPriceLine}.`,
+  },
+  {
+    question: 'Do I have to commit to continuous guidance after the trial?',
+    answer:
+      'No. Continuing into ongoing support is a separate choice you make after the trial session, once you have real evidence of whether the guidance is useful — not something decided for you inside the trial itself.',
+  },
+  {
+    question: 'What happens if the trial session does not feel like the right fit?',
+    answer:
+      'You are free to stop there. The trial is designed to give you an honest read before any bigger commitment, so a mismatch discovered during the trial is exactly what it is meant to catch, at a low cost.',
+  },
+  {
+    question: 'Is there a special discounted price just for the trial?',
+    answer:
+      `The trial session is the same first 1-on-1 session priced for everyone right now — ${studentSessionPrice} for students (down from ${studentSessionComparePrice}) and ${professionalSessionPrice} for working professionals (down from ${professionalSessionComparePrice}) — for a limited time.`,
+  },
+  {
+    question: 'What happens after the trial if I want to continue?',
+    answer:
+      `For students, the natural next step is continuous career guidance — small groups, usually 10 or fewer members, running across the year, currently ${studentContinuousPrice} (down from ${studentContinuousComparePrice}), which includes the 1-on-1 you already had. Working professionals can book further sessions as new decisions come up.`,
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. The trial session and any continued guidance are delivered fully online across India, so you can join from home, college, or work.',
+  },
+  {
+    question: 'Do you guarantee results after the trial?',
+    answer: 'No ethical provider can guarantee a job or an income outcome. The trial gives you decision support and evidence of fit — not a guarantee.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://futurecareerschool.com/services/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Trial Career Counselling Session',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Trial Career Counselling Session | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Trial Career Counselling Session</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Test real guidance from {studentSessionPrice} before choosing continuous support
+      </div>
+
+      <h1 class="hero-title">
+        Trial career counselling session
+        <span class="gold-text"> &mdash; test the guidance before you commit to more</span>
+      </h1>
+      <p class="hero-sub">
+        A trial career counselling session lets you experience Future Career School's guidance on your own path, skill direction, and constraints before you decide whether to go further. It's a low-risk way to check that the direction genuinely builds toward a high-value, high-income skill portfolio and earlier financial freedom &mdash; not just a nice conversation &mdash; before committing to continuous guidance.
+      </p>
+      <p class="hero-note">
+        One full 1-on-1 session, not a shortened demo. See exactly what continuing looks like before you decide.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Book a Student Trial Session</a>
+        <a href="#plans" class="btn-outline">Book a Working Professional Trial Session</a>
+      </div>
+      <p class="hero-support">
+        Guidance is delivered fully online across India &mdash; join from home, college, or work.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="what-to-test"
+    sectionClass="trial-test-band"
+    variant="signal"
+    title="What a trial career counselling session should actually let you test"
+    subtitle="A trial only earns its name if it gives you real evidence, not a taste of a sales pitch."
+    items={whatToTestItems}
+  >
+    <AssessmentSupportNote
+      body="If you want a free starting signal before spending on a trial session, the career and skill assessments stay free either way, and can be described as updated, practical, and AI-powered."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If you already know your situation needs a real answer, the trial session is the next step"
+    body="One low-cost session, built around your path — not a generic call."
+    studentHref="#plans"
+    studentLabel="Book a Student Trial Session"
+    professionalHref="#plans"
+    professionalLabel="Book a Working Professional Trial Session"
+  />
+
+  <BofuListCardSection
+    sectionId="risk-reversal"
+    sectionClass="trial-risk-band"
+    title="Why testing the guidance first is safer than committing to a package sight-unseen"
+    subtitle="Choosing a career guidance provider is itself a decision with real cost if it goes wrong. The trial exists to lower that risk before the bigger one."
+    items={riskReversalItems}
+    variant="contrast"
+  />
+
+  <AudienceRelevance
+    sectionClass="trial-audience-band"
+    title="Why testing the direction first makes sense for you right now"
+    items={audienceItems}
+  />
+
+  <GuidanceModelSection
+    title="What actually happens inside the trial session"
+    subtitle="From strengths and work style to a first real read on skill direction, proof of work, and income-growth potential — the same depth as any full 1-on-1."
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    sectionClass="trial-comparison-band"
+    title="What the trial should prove, compared with generic advice"
+    subtitle="Use these as the real test of whether a trial session is worth your time — with any provider, not only this one."
+    rows={trialComparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    sectionClass="trial-check-band"
+    title="What to check during any trial career counselling session"
+    subtitle="Use these checks to judge whether a trial session is real evidence or just a warm-up sales call — with any provider, including this one."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Ready to see what continuing actually looks like?"
+    body={`${mixedSessionPriceLine}, for one full working session — not a demo.`}
+    studentHref="#plans"
+    studentLabel="Book a Student Trial Session"
+    professionalHref="#plans"
+    professionalLabel="Book a Working Professional Trial Session"
+  />
+
+  <BofuFeatureSection
+    sectionId="after-the-trial"
+    sectionClass="trial-after-band"
+    variant="decision"
+    title="What happens after the trial, if you decide to continue"
+    subtitle="The trial stands on its own. Here is what the path forward looks like if it earns your trust."
+    items={afterTrialItems}
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Trial Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="See the broader counselling and guidance pages, plus the free assessments, before or after your trial session."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    sectionClass="trial-final-band"
+    title="Test the guidance, then decide with real evidence"
+    subtitle="Book the trial session if you want proof before choosing continuous support — the clearer route toward stronger skills, better positioning, and earlier financial freedom starts with one real session."
+    studentHref="#plans"
+    studentLabel="Book a Student Trial Session"
+    professionalHref="#plans"
+    professionalLabel="Book a Working Professional Trial Session"
+  />
+
+  <BofuFaqSection
+    title="Questions people ask before booking a trial career counselling session"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 88px; }
+
+  :global(.trial-test-band) {
+    background:
+      radial-gradient(720px 240px at 12% 0%, rgba(229,184,74,.06), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.008), transparent 50%);
+  }
+  :global(.trial-risk-band) {
+    background:
+      radial-gradient(720px 260px at 100% 0%, rgba(45,212,191,.06), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.008));
+  }
+  :global(.trial-audience-band .section-headline),
+  :global(.trial-comparison-band .section-headline),
+  :global(.trial-check-band .section-headline) {
+    max-width: 22ch;
+  }
+  :global(.trial-audience-band .audience-grid) {
+    max-width: 1080px;
+    margin: 0 auto;
+    gap: 1.15rem;
+  }
+  :global(.trial-audience-band .audience-card) {
+    padding: 1.35rem 1.25rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,.11);
+    background:
+      radial-gradient(360px 150px at 100% 0%, rgba(229,184,74,.08), transparent 74%),
+      linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.014));
+    box-shadow: 0 18px 38px rgba(0,0,0,.2);
+  }
+  :global(.trial-comparison-band .compare-shell) {
+    box-shadow: 0 28px 60px rgba(0,0,0,.3);
+  }
+  :global(.trial-check-band .buyer-check-grid) {
+    gap: 1.1rem;
+  }
+  :global(.trial-check-band .buyer-check-card) {
+    min-height: 100%;
+  }
+  :global(.trial-after-band) {
+    background:
+      radial-gradient(620px 220px at 18% 100%, rgba(45,212,191,.05), transparent 72%),
+      radial-gradient(560px 220px at 88% 0%, rgba(229,184,74,.05), transparent 72%);
+  }
+  :global(.trial-final-band .final-sub) {
+    max-width: 54ch;
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold {
+    width: 520px;
+    height: 520px;
+    top: -170px;
+    left: -110px;
+    background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%);
+  }
+  .orb-teal {
+    width: 420px;
+    height: 420px;
+    top: -40px;
+    right: -120px;
+    background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%);
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.15rem, 4.7vw, 3.7rem);
+    line-height: 1.08;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 1.95vw, 18px);
+    color: rgba(255,255,255,.72);
+    line-height: 1.88;
+    max-width: 820px;
+    margin-bottom: 1rem;
+  }
+  .hero-note {
+    font-size: 14px;
+    color: rgba(255,255,255,.56);
+    line-height: 1.8;
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-actions .btn-gold,
+  .hero-actions .btn-outline {
+    min-width: min(100%, 300px);
+    justify-content: center;
+  }
+  .hero-support {
+    font-size: 14px;
+    color: rgba(255,255,255,.58);
+    line-height: 1.8;
+    max-width: 720px;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.74rem, 9.2vw, 2.4rem);
+      line-height: 1.08;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .breadcrumb {
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-sub,
+    .hero-note,
+    .hero-support {
+      line-height: 1.76;
+    }
+    :global(.trial-audience-band .audience-card) {
+      padding: 1.08rem 1rem .98rem;
+      border-radius: 20px;
+    }
+  }
+</style>

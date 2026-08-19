@@ -36,6 +36,7 @@ const {
           <div class="link-directory-copy">
             <strong>{item.title}</strong>
             <span>{item.description}</span>
+            {item.note && <em>{item.note}</em>}
           </div>
           <span class="link-directory-arrow" aria-hidden="true">&rsaquo;</span>
         </a>
@@ -75,6 +76,7 @@ const {
     gap: 1rem;
   }
   .link-directory-card {
+    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: .85rem;
@@ -88,6 +90,45 @@ const {
       linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
     box-shadow: 0 16px 34px rgba(0,0,0,.18);
     transition: transform .22s ease, border-color .22s ease, background .22s ease;
+  }
+  .assessment-featured-directory .link-directory-grid {
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  }
+  .assessment-featured-directory .link-directory-card {
+    align-items: stretch;
+    min-height: 220px;
+    padding: 1.35rem;
+    border-color: rgba(229,184,74,.22);
+    background:
+      radial-gradient(420px 180px at 100% 0%, rgba(229,184,74,.13), transparent 74%),
+      radial-gradient(320px 150px at 0% 100%, rgba(45,212,191,.09), transparent 72%),
+      linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.014));
+  }
+  .assessment-featured-directory .link-directory-card::before {
+    content: 'Free assessment';
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(45,212,191,.24);
+    background: rgba(45,212,191,.1);
+    color: #9ef2e5;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .assessment-featured-directory .link-directory-copy {
+    padding-top: 1.85rem;
+  }
+  .assessment-featured-directory .link-directory-card strong {
+    font-size: 1.15rem;
+    line-height: 1.28;
+    max-width: 20ch;
+  }
+  .assessment-featured-directory .link-directory-arrow {
+    align-self: end;
   }
   .link-directory-card:hover {
     transform: translateY(-2px);
@@ -110,6 +151,20 @@ const {
     font-size: 13.8px;
     line-height: 1.72;
   }
+  .link-directory-card em {
+    display: inline-flex;
+    width: fit-content;
+    margin-top: .25rem;
+    padding: 6px 9px;
+    border-radius: 999px;
+    border: 1px solid rgba(229,184,74,.22);
+    background: rgba(229,184,74,.09);
+    color: #f6db95;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 750;
+    line-height: 1.35;
+  }
   .link-directory-arrow {
     width: 36px;
     height: 36px;
@@ -128,8 +183,30 @@ const {
       padding: 4.8rem 0;
     }
     .link-directory-card {
+      grid-template-columns: minmax(0, 1fr);
       padding: 1.05rem 1rem;
       border-radius: 18px;
+    }
+    .assessment-featured-directory .link-directory-grid {
+      grid-template-columns: 1fr;
+    }
+    .assessment-featured-directory .link-directory-card {
+      min-height: 0;
+      padding: 1.1rem 1rem;
+    }
+    .assessment-featured-directory .link-directory-card::before {
+      position: static;
+      width: fit-content;
+      margin-bottom: .35rem;
+    }
+    .assessment-featured-directory .link-directory-copy {
+      padding-top: 0;
+    }
+    .assessment-featured-directory .link-directory-card strong {
+      max-width: none;
+    }
+    .link-directory-arrow {
+      display: none;
     }
   }
 </style>

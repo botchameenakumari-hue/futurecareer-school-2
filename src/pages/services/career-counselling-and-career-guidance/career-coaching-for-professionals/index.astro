@@ -1,0 +1,451 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+import { WORKING_PROFESSIONAL_GUIDANCE_PLAN, formatGuidancePlanAmount } from '../../../../config/guidancePlans';
+
+const title =
+  'Career Coaching for Professionals | Ongoing Accountability, Not Just Advice | Future Career School';
+const description =
+  'Career coaching for professionals built around ongoing accountability: a concrete action plan, milestone check-ins over time, and course-correction as the market shifts, toward a high-value skill portfolio, higher income, and earlier financial freedom.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coaching-for-professionals/';
+
+const professionalPrice = formatGuidancePlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.price);
+const professionalComparePrice = formatGuidancePlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.comparePrice ?? '');
+const professionalPriceText = `${professionalPrice} (down from ${professionalComparePrice}, limited-time price)`;
+
+const methodologyItems = [
+  {
+    title: 'A decision made',
+    body: 'Career counselling is usually assessment-driven and decision-focused: it helps you choose a direction, often across a single structured session, and the engagement is largely finished once that decision is clear.',
+  },
+  {
+    title: 'A direction, not yet executed',
+    body: 'Career guidance is broader — it points you toward stronger skill choices, proof of work, and income-growth direction, but it does not always keep checking whether that direction is actually being acted on week to week.',
+  },
+  {
+    title: 'A plan under ongoing accountability',
+    body: 'Career coaching is built around execution: turning a direction into a concrete action plan, then checking in on progress, adjusting the plan as your role or the market shifts, and holding the follow-through — not handing down one verdict and moving on.',
+  },
+];
+
+const problemItems = [
+  {
+    eyebrow: 'Direction chosen, momentum lost',
+    title: 'You already know what to do, but keep drifting off the plan',
+    listItems: [
+      'A clear next step gets set at the start of a busy month, then quietly slips as deadlines, meetings, and other people\'s priorities take over',
+      'The gap is rarely a lack of clarity about what to do — it is the absence of anyone checking whether it actually happened',
+      'A plan without a return date to review it tends to age the same way an unused gym membership does',
+    ],
+  },
+  {
+    eyebrow: 'Advice that never got executed',
+    title: 'A counselling session, a course, or a mentor gave you a direction, but little has actually changed',
+    listItems: [
+      'Plenty of professionals have already been told what to do — a skill to build, a pivot to make, a conversation to have — and the advice was not wrong, it just never turned into action',
+      'Without a structured follow-through point, good advice and no advice tend to produce the same year',
+      'Coaching is built to close that specific gap: not more advice, but a working system for actually doing what you already decided',
+    ],
+  },
+  {
+    eyebrow: 'A moving target',
+    title: 'AI pressure and market shifts mean the plan from six months ago may already be stale',
+    listItems: [
+      'A skill stack, a role, or a positioning strategy that made sense earlier this year can lose relevance faster than it used to, as tools and market expectations move',
+      'A one-time verdict cannot account for a market that keeps changing after the session ends',
+      'Coaching should revisit the plan periodically instead of assuming the first version stays correct indefinitely',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether coaching produces a concrete action plan, not just a conversation',
+    body: 'A coaching session should leave you with specific next steps tied to your situation, not a motivational recap of what you already knew. If the takeaway is vague encouragement, that is closer to a pep talk than coaching.',
+  },
+  {
+    title: 'Check whether the follow-through is genuinely structured',
+    body: 'Ongoing support should mean a real return point to check progress, not an open-ended promise to message if you have questions. Ask what actually happens after the first session if you want the accountability to continue.',
+  },
+  {
+    title: 'Check whether the plan gets revisited as things change',
+    body: 'A market shift, a new manager, or a role change can make an earlier plan outdated. Stronger coaching should be willing to adjust the plan rather than treat the first version as final.',
+  },
+  {
+    title: 'Check that no one is promising a guaranteed outcome',
+    body: 'No ethical coach can guarantee a promotion, a job offer, or a specific salary jump — execution still depends on you, your organization, and market conditions outside anyone\'s control. Treat a guarantee as a reason to slow down, not sign up faster.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview across counselling, guidance, and coaching — audiences, plans, and what practical support covers.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-vs-career-coaching/',
+    title: 'Career Counselling vs Career Coaching',
+    description: 'An honest breakdown of how counselling and coaching actually differ, and how to tell which one fits your situation right now.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'Broader working-professional guidance covering stagnation, AI pressure, and pivot decisions at any seniority.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-working-professionals/',
+    title: 'Career Counselling for Working Professionals',
+    description: 'For resolving one specific fork — stay vs pivot, specialize vs generalize, accept an offer or wait — in a single structured session.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coaching-for-mid-career-professionals/',
+    title: 'Career Coaching for Mid-Career Professionals',
+    description: 'For the specific plateau after eight to fifteen years: slowed promotions, an aging skill stack, and the specialize-or-pivot decision.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers,
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free input on strengths, work style, and role fit before committing to a coaching-driven action plan.',
+  },
+  {
+    href: '/career-skills-compass/',
+    title: 'Career & Skills Compass',
+    description: 'A free tool for narrowing which high-value skills fit your strengths before the action plan is set.',
+  },
+  {
+    href: '/blog/career-change/career-switch-from-it-to-management-india/',
+    title: 'Career Switch Guidance',
+    description: 'A practical look at pivoting direction while protecting income and stability during the transition.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What does "career coaching" actually mean here, compared to counselling or guidance?',
+    answer:
+      'Career counselling is usually assessment-driven and decision-focused — it helps you choose a direction, often in one structured session. Career guidance is broader informational direction toward stronger skill and income choices. Career coaching for professionals is built around what happens after the decision: turning direction into a concrete action plan, then checking on progress and adjusting the plan over time so it actually gets executed, not just agreed with.',
+  },
+  {
+    question: 'Who is career coaching for professionals meant for?',
+    answer:
+      'This is for working professionals who already have some sense of direction, or reach one through the first session, but need the follow-through part — accountability, milestone check-ins, and plan adjustments — rather than another one-time verdict. It fits stagnation, AI pressure, pivot decisions, and salary-growth moves at any seniority.',
+  },
+  {
+    question: 'What does a coaching session actually produce, not just talk about?',
+    answer:
+      'The 1-on-1 session works through your real situation — role, market pressure, skill stack, and constraints — using free, updated, AI-powered assessments where useful, and closes with a specific action plan: the skill direction worth building, the proof of work to create, and the concrete next step, not a general pep talk.',
+  },
+  {
+    question: 'How is this different from career counselling for working professionals?',
+    answer:
+      'Career counselling for working professionals is built to resolve one specific fork — stay or pivot, specialize or generalize, accept an offer or wait — and close with a risk-adjusted recommendation. Career coaching for professionals goes further into the execution layer: the plan set in that decision, and whether you are actually following through on it over time.',
+  },
+  {
+    question: 'How is this different from working professional career guidance?',
+    answer:
+      'Working professional career guidance is broader, covering stagnation, AI pressure, positioning, and income growth as ongoing support in general. This is specifically framed around the coaching methodology inside that support — action plans, accountability, and milestone check-ins — rather than the wider set of topics guidance can touch.',
+  },
+  {
+    question: 'How is this different from career coaching for mid-career professionals?',
+    answer:
+      'Career coaching for mid-career professionals is narrowed to one specific stage: the plateau that shows up roughly eight to fifteen years in, where promotions have slowed and a specialize-or-pivot decision is on the table. Career coaching for professionals is not locked to that stage — it applies the same ongoing, accountability-driven coaching approach at any seniority, from early-career momentum problems to late-career repositioning.',
+  },
+  {
+    question: 'Does the coaching include ongoing accountability check-ins, or is it a one-time session?',
+    answer:
+      'The paid product for working professionals is the 1-on-1 session, and it is built to produce a concrete, dated action plan rather than a vague conversation. The coaching-style accountability shows up in how that plan is structured and in returning for a follow-up 1-on-1 to check progress, revisit the plan against what has actually changed, and reset the next milestone — genuine follow-through, without pretending there is a separate bundled subscription beyond what is priced here.',
+  },
+  {
+    question: 'What does career coaching for professionals cost?',
+    answer: `A working-professional 1-on-1 session is ${professionalPriceText}. Career and skill assessments stay fully free either way, so you can get a first read on strengths and work style before committing to a paid session.`,
+  },
+  {
+    question: 'Is career coaching available online across India?',
+    answer:
+      'Yes. Coaching is delivered fully online across India, so the accountability loop — the session, the plan, and any follow-up check-ins — works from home or your current office, around the job you already have.',
+  },
+  {
+    question: 'Do you guarantee a promotion, a pivot, or a specific income outcome through coaching?',
+    answer:
+      'No ethical coach can guarantee a job, a promotion, or a specific income outcome — execution still depends on you, your organization, and market conditions outside anyone\'s control. What coaching can realistically offer is a concrete plan, real follow-through structure, and course-correction as circumstances change, not a promised result.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Coaching for Professionals',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coaching for Professionals | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching for Professionals',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coaching for Professionals</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career coaching for professionals: built for follow-through, not a one-time verdict
+      </div>
+
+      <h1 class="hero-title">
+        Career coaching for professionals
+        <span class="gold-text"> when the direction is clear but the follow-through keeps slipping</span>
+      </h1>
+      <p class="hero-sub">
+        Career coaching for professionals should do more than hand you a direction and move on. It should turn
+        that direction into a concrete action plan, then keep checking whether you are actually executing it, so
+        a deliberate high-value skill portfolio keeps compounding toward unlocking high income opportunities and
+        earlier financial freedom instead of staying a plan you meant to start.
+      </p>
+      <p class="hero-note">
+        Coaching is delivered fully online across India, so the accountability loop works from wherever you already
+        are — home or office, around the job you are currently doing.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for Professionals</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="methodology"
+    title="What career coaching for professionals actually means"
+    subtitle="Career counselling and career guidance both tend to end at a decision. Coaching is built to start there — the accountability and follow-through happen after you already know your direction."
+    items={methodologyItems}
+    variant="signal"
+    columns={3}
+  >
+    <p class="methodology-note">
+      The point of that accountability layer is not activity for its own sake. It exists to keep a high-value,
+      high-income skill portfolio compounding — the right skill mix, proof of work, and positioning — so the plan
+      you commit to today can genuinely unlock high income opportunities and move you toward earlier financial
+      freedom instead of quietly stalling out.
+    </p>
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can surface strengths and work style before an action plan is built around them."
+      href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+    />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when coaching includes real accountability"
+    subtitle="Career coaching for professionals should feel different from a single verdict, a motivational chat, or generic advice to 'just upskill'."
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="A plan without a return date rarely survives a busy quarter"
+    body="Unlocking high income opportunities usually depends less on one more piece of advice and more on whether the plan you already have gets executed and revisited."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Professionals"
+  />
+
+  <BofuListCardSection
+    sectionId="problems"
+    title="The specific problems career coaching for professionals solves"
+    subtitle="Not the moment of choosing a direction — the harder part that comes after, where good decisions quietly stall without a follow-through system."
+    items={problemItems}
+    variant="contrast"
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career coaching for professionals"
+    subtitle="The goal is a working action plan and real follow-through, not a rebranded conversation."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Decide with a plan that gets checked, not just made"
+    body="A tested action plan with a real follow-through point protects the income and skill-growth trajectory the next stage of your career depends on."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Professionals"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Coaching"
+    title="Career Coaching for Professionals Plans"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="See the honest counselling-vs-coaching breakdown, a narrower stage-specific coaching page, broader working-professional guidance, or free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions professionals ask before choosing career coaching"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Move with a plan built to be checked, not just made once"
+    subtitle="If the direction is already clear but the follow-through keeps slipping, career coaching for professionals is built for exactly that gap — toward a high-value skill portfolio, stronger income, and earlier financial freedom, while it is still your choice to build the plan deliberately."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Professionals"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.25rem, 5vw, 3.65rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .methodology-note {
+    margin: 1.2rem 0 0;
+    padding: 1rem 1.2rem;
+    border-radius: 14px;
+    border: 1px solid rgba(229,184,74,.22);
+    background: rgba(229,184,74,.06);
+    color: rgba(255,255,255,.82);
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 920px;
+  }
+
+  #problems,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #compare,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.72rem, 9.3vw, 2.3rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold {
+      justify-content: center;
+    }
+  }
+</style>

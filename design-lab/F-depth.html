@@ -1,0 +1,103 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>F · Depth</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+body{background:#0A0716;color:#F0ECFA;font-family:Sora,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,#FFB25C,#C86BFF);z-index:80;width:100%;transform:scaleX(0);transform-origin:0}
+.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;align-items:center;padding:18px clamp(1.2rem,4vw,3.5rem)}
+.bar b{font-weight:600;font-size:16px;letter-spacing:-.01em}
+.bar a{background:rgba(240,236,250,.1);border:1px solid rgba(240,236,250,.2);backdrop-filter:blur(10px);padding:10px 20px;border-radius:99px;font-size:12.5px;font-weight:600;transition:.3s}
+.bar a:hover{background:#F0ECFA;color:#0A0716}
+.glow{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0}
+.g1{width:46vw;height:46vw;background:rgba(200,107,255,.4);top:-14vw;right:-10vw}
+.g2{width:36vw;height:36vw;background:rgba(255,178,92,.28);bottom:-12vw;left:-8vw}
+.hero{position:relative;z-index:2;min-height:100svh;display:flex;align-items:center;padding:6rem clamp(1.2rem,5vw,5rem) 3rem;perspective:1200px}
+.hgrid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4.5rem);align-items:center;width:100%}
+.eye{display:inline-flex;align-items:center;gap:.6rem;font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#FFB25C;border:1px solid rgba(255,178,92,.34);border-radius:99px;padding:8px 16px;margin-bottom:1.7rem}
+h1{font-weight:200;font-size:clamp(2.3rem,5.8vw,4.9rem);line-height:1.05;letter-spacing:-.03em;margin-bottom:1.5rem}
+h1 b{font-weight:600;background:linear-gradient(100deg,#FFB25C,#C86BFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{max-width:32rem;font-size:15px;line-height:1.8;color:#9d95b5;font-weight:300;margin-bottom:2.2rem}
+.acts{display:flex;gap:.8rem;flex-wrap:wrap}
+.b1{background:linear-gradient(100deg,#FFB25C,#C86BFF);color:#0A0716;padding:15px 30px;border-radius:99px;font-weight:700;font-size:13.5px;transition:.35s}
+.b1:hover{transform:translateY(-3px);filter:brightness(1.1)}
+.b2{border:1px solid rgba(240,236,250,.25);padding:15px 30px;border-radius:99px;font-weight:600;font-size:13.5px;transition:.35s}
+.b2:hover{background:rgba(240,236,250,.09)}
+/* 3D layered card stack */
+.stack{position:relative;height:min(66vh,520px);transform-style:preserve-3d;will-change:transform}
+.card{position:absolute;inset:0;margin:auto;width:min(84%,330px);height:86%;border-radius:24px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.8);border:1px solid rgba(240,236,250,.16);transition:transform .6s cubic-bezier(.16,.84,.28,1)}
+.card img{width:100%;height:100%;object-fit:cover}
+.card cap,.card .cap{position:absolute;left:0;right:0;bottom:0;padding:1.1rem;background:linear-gradient(transparent,rgba(10,7,22,.94));font-size:13px;font-weight:600}
+.c1{transform:translateZ(60px) rotateY(-8deg) translateX(-14%)}
+.c2{transform:translateZ(0) rotateY(0deg)}
+.c3{transform:translateZ(-60px) rotateY(8deg) translateX(14%)}
+.stat3{display:flex;gap:clamp(1.2rem,3vw,2.6rem);flex-wrap:wrap;margin-top:2.6rem;padding-top:1.5rem;border-top:1px solid rgba(240,236,250,.14)}
+.stat3 b{display:block;font-size:1.7rem;font-weight:600;background:linear-gradient(100deg,#FFB25C,#C86BFF);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.stat3 span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7d769a}
+/* rotating ring */
+.ring-s{position:relative;z-index:2;padding:clamp(3.5rem,9vw,7rem) 0;text-align:center;overflow:hidden}
+.rh{padding:0 1.2rem;margin-bottom:2.4rem}
+.rh p{font-size:11px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:#FFB25C;margin-bottom:.9rem}
+.rh h2{font-weight:200;font-size:clamp(1.8rem,4.4vw,3.2rem);letter-spacing:-.025em;max-width:20ch;margin:0 auto}
+.rh h2 b{font-weight:600}
+.ring-w{perspective:1300px;height:340px}
+.ring{position:relative;width:230px;height:300px;margin:0 auto;transform-style:preserve-3d;will-change:transform}
+.rc{position:absolute;inset:0;border-radius:18px;background:rgba(240,236,250,.06);border:1px solid rgba(240,236,250,.16);backdrop-filter:blur(6px);display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem;overflow:hidden}
+.rc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+.rc b{position:relative;font-size:15px;font-weight:600}
+.rc span{position:relative;font-size:12px;color:#b9b2cd;font-weight:300;margin-top:.25rem}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s,transform .8s cubic-bezier(.16,.84,.28,1)}.rv.in{opacity:1;transform:none}
+@media(max-width:900px){.hgrid{grid-template-columns:1fr}.stack{height:46vh;margin-top:1rem}.card{width:min(70%,260px)}}
+</style></head><body>
+<i class="prog" id="p"></i><span class="glow g1"></span><span class="glow g2"></span>
+<div class="bar"><b>Future Career School</b><a href="#">Get guidance</a></div>
+
+<section class="hero">
+  <div class="hgrid">
+    <div class="lyr" data-z="1">
+      <span class="eye">Career guidance · fully online · India</span>
+      <h1>Three layers decide<br>your income: <b>fit, market,<br>and proof.</b></h1>
+      <p class="sub">Most guidance stops at the first one. We map how you think, validate it against what the market pays for, then build the proof of work that converts it into offers.</p>
+      <div class="acts"><a class="b1" href="#">Get Career Guidance</a><a class="b2" href="#">Free assessments</a></div>
+      <div class="stat3">
+        <div><b data-c="10000" data-s="+">10,000+</b><span>Guided</span></div>
+        <div><b data-c="4.9" data-s="/5" data-f="1">4.9/5</b><span>Rating</span></div>
+        <div><b>Free</b><span>Assessments</span></div>
+      </div>
+    </div>
+    <div class="stack" id="stack">
+      <div class="card c3"><img src="https://images.unsplash.com/photo-1590650589327-3f67c43ad8a2?auto=format&fit=crop&crop=faces&q=82&w=700" alt=""><span class="cap">Proof of work</span></div>
+      <div class="card c1"><img src="https://images.unsplash.com/photo-1777635168256-be42aa28c457?auto=format&fit=crop&crop=faces&q=82&w=700" alt=""><span class="cap">Market demand</span></div>
+      <div class="card c2"><img src="https://images.unsplash.com/photo-1594352121345-6f587972b024?auto=format&fit=crop&crop=faces&q=82&w=700" alt=""><span class="cap">Your natural fit</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="ring-s">
+  <div class="rh rv"><p>Career &amp; Skills Compass</p><h2>Five ways of thinking. <b>Five income paths.</b></h2></div>
+  <div class="ring-w"><div class="ring" id="ring">
+    <div class="rc"><img src="https://images.unsplash.com/photo-1594352121345-6f587972b024?auto=format&fit=crop&crop=faces&q=82&w=500" alt=""><b>Analytical</b><span>Data · Cloud · Finance</span></div>
+    <div class="rc"><img src="https://images.unsplash.com/photo-1573497019707-1c04de26e58c?auto=format&fit=crop&crop=faces&q=82&w=500" alt=""><b>Connector</b><span>Sales · Marketing · UX</span></div>
+    <div class="rc"><img src="https://images.unsplash.com/photo-1760110885990-11520997b2f4?auto=format&fit=crop&crop=faces&q=82&w=500" alt=""><b>Creator</b><span>Design · Video · Brand</span></div>
+    <div class="rc"><img src="https://images.unsplash.com/photo-1590650589327-3f67c43ad8a2?auto=format&fit=crop&crop=faces&q=82&w=500" alt=""><b>Executor</b><span>PM · Ops · Analysis</span></div>
+    <div class="rc"><img src="https://images.unsplash.com/photo-1777635168256-be42aa28c457?auto=format&fit=crop&crop=faces&q=82&w=500" alt=""><b>Builder</b><span>Product · No-code · AI</span></div>
+  </div></div>
+</section>
+
+<script>
+// 3D card stack follows mouse
+const st=document.getElementById('stack');
+addEventListener('mousemove',e=>{const rx=(e.clientY/innerHeight-.5)*-10,ry=(e.clientX/innerWidth-.5)*16;
+ st.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';
+ document.querySelectorAll('.glow').forEach((g,i)=>g.style.transform='translate('+((e.clientX/innerWidth-.5)*(i?40:-40))+'px,'+((e.clientY/innerHeight-.5)*(i?30:-30))+'px)')});
+// rotating ring
+const ring=document.getElementById('ring'),rc=[...ring.children],N=rc.length,R=330;
+rc.forEach((c,i)=>c.style.transform='rotateY('+(i*360/N)+'deg) translateZ('+R+'px)');
+let ang=0;
+(function spin(){ang+=.18;ring.style.transform='translateZ(-'+R+'px) rotateY('+ang+'deg)';requestAnimationFrame(spin)})();
+addEventListener('scroll',()=>{ang+=(scrollY-(window._l||0))*.05;window._l=scrollY;
+ const d=document.documentElement;document.getElementById('p').style.transform='scaleX('+(d.scrollTop/(d.scrollHeight-d.clientHeight))+')'},{passive:true});
+const io=new IntersectionObserver(e=>e.forEach(t=>{if(t.isIntersecting){t.target.classList.add('in');io.unobserve(t.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+const cio=new IntersectionObserver(e=>e.forEach(t=>{if(t.isIntersecting){const el=t.target,v=parseFloat(el.dataset.c),f=el.dataset.f,s=performance.now();const k=n=>{const p=Math.min((n-s)/1500,1);el.textContent=(f?(v*(1-Math.pow(1-p,3))).toFixed(1):Math.round(v*(1-Math.pow(1-p,3))).toLocaleString('en-IN'))+(el.dataset.s||'');if(p<1)requestAnimationFrame(k)};requestAnimationFrame(k);cio.unobserve(el)}}),{threshold:.6});
+document.querySelectorAll('[data-c]').forEach(e=>cio.observe(e));
+</script></body></html>

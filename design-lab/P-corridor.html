@@ -1,0 +1,122 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>P · The Corridor</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter+Tight:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+:root{--bg:#07060A;--tx:#F3F0EA;--dim:#8B8598;--gold:#E9B872;--ln:rgba(243,240,234,.16)}
+body{background:var(--bg);color:var(--tx);font-family:'Inter Tight',sans-serif;-webkit-font-smoothing:antialiased}
+/* ── the camera ── */
+.cam{position:fixed;inset:0;z-index:1;perspective:820px;perspective-origin:50% 48%;overflow:hidden}
+.world{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.gate{position:absolute;top:50%;left:50%;width:min(74vw,520px);aspect-ratio:3/4;translate:-50% -50%;transform-style:preserve-3d;transition:opacity .4s}
+.gate .fr{position:absolute;inset:0;border:1px solid var(--ln);box-shadow:0 0 0 1px rgba(233,184,114,.1),0 60px 120px -50px #000}
+.gate .fr::before{content:'';position:absolute;inset:8px;border:1px solid rgba(243,240,234,.07)}
+.gate figure{position:absolute;inset:9px;margin:0;overflow:hidden}
+.gate img{width:100%;height:100%;object-fit:cover;filter:brightness(.62) contrast(1.06) saturate(.9)}
+.gate .vin{position:absolute;inset:9px;background:radial-gradient(ellipse at center,transparent 30%,rgba(7,6,10,.86) 100%)}
+.gate .cn{position:absolute;left:0;right:0;bottom:-2.6rem;text-align:center}
+.gate .ag{font-family:'Inter Tight';font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+.gate .ti{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.2rem,2.6vw,2rem);line-height:1.1;letter-spacing:-.01em}
+/* floor + fog */
+.floor{position:absolute;left:50%;top:50%;width:2400px;height:2600px;translate:-50% 0;transform:rotateX(84deg) translateZ(-260px);transform-origin:top center;
+ background-image:linear-gradient(90deg,rgba(243,240,234,.09) 1px,transparent 1px),linear-gradient(rgba(243,240,234,.055) 1px,transparent 1px);background-size:120px 120px;
+ -webkit-mask-image:linear-gradient(#000,transparent 62%);mask-image:linear-gradient(#000,transparent 62%)}
+.fog{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 48%,transparent 18%,rgba(7,6,10,.55) 52%,var(--bg) 88%)}
+.beam{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 60% 42% at 50% 40%,rgba(233,184,114,.09),transparent 70%)}
+.grain{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.3;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+/* fixed chrome */
+.hd{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:1.1rem clamp(1.2rem,4vw,2.6rem)}
+.hd b{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:20px}
+.hd a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--ln);padding:9px 18px;border-radius:99px;backdrop-filter:blur(10px);transition:.3s}
+.hd a:hover{background:var(--gold);color:#07060A;border-color:var(--gold)}
+.hud{position:fixed;left:clamp(1.2rem,4vw,2.6rem);bottom:clamp(1.4rem,4vh,2.4rem);z-index:20;display:flex;align-items:center;gap:.9rem;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim)}
+.hud .tk{width:120px;height:1px;background:rgba(243,240,234,.2);position:relative;overflow:hidden}
+.hud .tk i{position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:0;transition:transform .25s}
+/* overlay copy (fixed, cross-fades per gate) */
+.say{position:fixed;left:50%;bottom:clamp(4.5rem,13vh,8rem);translate:-50% 0;z-index:20;width:min(90vw,600px);text-align:center;pointer-events:none}
+.say p{position:absolute;left:0;right:0;font-size:14.5px;line-height:1.75;color:var(--dim);font-weight:300;opacity:0;transform:translateY(12px);transition:opacity .6s,transform .6s}
+.say p.on{opacity:1;transform:none}
+/* scroll driver */
+.driver{position:relative;z-index:5;pointer-events:none}
+/* intro + outro real sections */
+.intro{position:relative;z-index:10;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 1.4rem;pointer-events:none}
+.intro span{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.intro h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,6.4vw,5.4rem);line-height:1.02;letter-spacing:-.02em;max-width:16ch;margin-bottom:1.2rem}
+.intro h1 em{font-style:italic;color:var(--gold)}
+.intro p{max-width:34rem;color:var(--dim);line-height:1.75;font-weight:300;font-size:15px}
+.intro .dn{margin-top:2.4rem;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);display:flex;flex-direction:column;align-items:center;gap:.6rem}
+.intro .dn i{width:1px;height:44px;background:linear-gradient(var(--gold),transparent);animation:pl 2.2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:.2;transform:scaleY(.4);transform-origin:top}50%{opacity:1;transform:scaleY(1);transform-origin:top}}
+.end{position:relative;z-index:10;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 1.4rem;background:linear-gradient(transparent,var(--bg) 22%)}
+.end h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,5.4vw,4.2rem);line-height:1.05;max-width:17ch;margin-bottom:1.2rem}
+.end h2 em{font-style:italic;color:var(--gold)}
+.end p{max-width:34rem;color:var(--dim);line-height:1.75;font-weight:300;margin-bottom:2rem}
+.acts{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+.b1{background:var(--gold);color:#07060A;padding:16px 32px;border-radius:99px;font-weight:600;font-size:13.5px;transition:.3s}
+.b1:hover{transform:translateY(-3px);background:#fff}
+.b2{border:1px solid var(--ln);padding:16px 32px;border-radius:99px;font-weight:500;font-size:13.5px;transition:.3s}
+.b2:hover{background:rgba(243,240,234,.08)}
+.meta{margin-top:2rem;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+@media(max-width:760px){.gate{width:76vw}.say{bottom:6.5rem}}
+</style></head><body>
+
+<div class="cam">
+  <div class="world" id="world">
+    <div class="floor"></div>
+    <div class="gate" data-i="0"><div class="fr"><figure><img src="https://images.unsplash.com/photo-1594352121345-6f587972b024?auto=format&fit=crop&crop=faces&q=85&w=900"></figure><span class="vin"></span></div><div class="cn"><span class="ag">Age 17</span><span class="ti">The form with three boxes</span></div></div>
+    <div class="gate" data-i="1"><div class="fr"><figure><img src="https://images.unsplash.com/photo-1544456203-0af5a69f5789?auto=format&fit=crop&q=85&w=900"></figure><span class="vin"></span></div><div class="cn"><span class="ag">Age 21</span><span class="ti">A credential, not a career</span></div></div>
+    <div class="gate" data-i="2"><div class="fr"><figure><img src="https://images.unsplash.com/photo-1653656120364-1edf9ddcb440?auto=format&fit=crop&q=85&w=900"></figure><span class="vin"></span></div><div class="cn"><span class="ag">Age 26</span><span class="ti">The ceiling arrives quietly</span></div></div>
+    <div class="gate" data-i="3"><div class="fr"><figure><img src="https://images.unsplash.com/photo-1585201572233-c94c929f1594?auto=format&fit=crop&q=85&w=900"></figure><span class="vin"></span></div><div class="cn"><span class="ag">Age 30</span><span class="ti">Machines take the middle</span></div></div>
+    <div class="gate" data-i="4"><div class="fr"><figure><img src="https://images.unsplash.com/photo-1781246212288-7fa538344718?auto=format&fit=crop&q=85&w=900"></figure><span class="vin"></span></div><div class="cn"><span class="ag">Age 32</span><span class="ti">The engine starts compounding</span></div></div>
+    <div class="gate" data-i="5"><div class="fr"><figure><img src="https://images.unsplash.com/photo-1573497019707-1c04de26e58c?auto=format&fit=crop&crop=faces&q=85&w=900"></figure><span class="vin"></span></div><div class="cn"><span class="ag">Age 35</span><span class="ti">Income becomes a decision</span></div></div>
+  </div>
+</div>
+<div class="fog"></div><div class="beam"></div><div class="grain"></div>
+
+<div class="hd"><b>Future Career School</b><a href="#end">Get guidance</a></div>
+<div class="hud"><span id="hn">01 / 06</span><span class="tk"><i id="hb"></i></span><span>Walk the corridor</span></div>
+
+<div class="say" id="say">
+  <p data-s="0">Science, commerce or arts. Nobody mentions it quietly sets the next fourteen years of income.</p>
+  <p data-s="1">A degree proves you can finish something. It does not prove anyone should pay you a premium.</p>
+  <p data-s="2">Nine percent a year, same role, new title. Most people never notice the moment it stopped compounding.</p>
+  <p data-s="3">Template work and instruction-following go first. Judgment, communication and relationships remain.</p>
+  <p data-s="4">Fit, market and proof — stacked in the right order, plus a small group who pass each other work.</p>
+  <p data-s="5">Same degree. Completely different life. The gap was never talent.</p>
+</div>
+
+<section class="intro">
+  <span>Career guidance · India · fully online</span>
+  <h1>Every career is a corridor of <em>doors.</em></h1>
+  <p>Most people walk it blind and find out which ones mattered fourteen years later. Scroll — and walk it with the lights on.</p>
+  <span class="dn"><i></i>Scroll to walk</span>
+</section>
+
+<div class="driver" id="driver" style="height:560vh"></div>
+
+<section class="end" id="end">
+  <h2>Get the map before the <em>next</em> door.</h2>
+  <p>Free assessments and strength mapping first. Then focused guidance for skill direction, proof of work, and a roadmap toward earlier financial freedom.</p>
+  <div class="acts"><a class="b1" href="#">Get Career Guidance</a><a class="b2" href="#">Take a free assessment</a></div>
+  <p class="meta">10,000+ guided · 4.9/5 · fully online across India</p>
+</section>
+
+<script>
+const world=document.getElementById('world'),gates=[...document.querySelectorAll('.gate')],driver=document.getElementById('driver'),
+ says=[...document.querySelectorAll('.say p')],hn=document.getElementById('hn'),hb=document.getElementById('hb');
+const SP=760,N=gates.length;
+gates.forEach((g,i)=>g.style.transform='translateZ('+(-SP*(i+1))+'px)');
+let camz=0,target=0;
+const upd=()=>{
+ const dt=driver.getBoundingClientRect(),h=driver.offsetHeight-innerHeight;
+ let p=(-dt.top)/h;p=Math.max(0,Math.min(1,p));
+ target=p*(SP*(N+.3));
+ const i=Math.max(0,Math.min(N-1,Math.round(p*(N-1))));
+ says.forEach(s=>s.classList.toggle('on',+s.dataset.s===i&&p>0.02&&p<0.99));
+ hn.textContent=String(i+1).padStart(2,'0')+' / 0'+N;
+ hb.style.transform='scaleX('+p+')';
+};
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
+(function loop(){camz+=(target-camz)*.085;world.style.transform='translateZ('+camz+'px)';
+ gates.forEach((g,i)=>{const z=-SP*(i+1)+camz;g.style.opacity=z>140?0:Math.max(0,Math.min(1,1-(-z-1700)/900))});
+ requestAnimationFrame(loop)})();
+</script></body></html>

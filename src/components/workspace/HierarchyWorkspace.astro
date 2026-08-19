@@ -1,0 +1,614 @@
+---
+import {
+  Activity,
+  BarChart3,
+  BriefcaseBusiness,
+  CalendarDays,
+  CircleAlert,
+  ArrowLeft,
+  BookOpen,
+  Building2,
+  Check,
+  ChevronRight,
+  ClipboardCheck,
+  Clock,
+  Compass,
+  Copy,
+  Eye,
+  FlaskConical,
+  GraduationCap,
+  House,
+  KeyRound,
+  Layers3,
+  LayoutDashboard,
+  ListChecks,
+  ListPlus,
+  Lightbulb,
+  Lock,
+  LogOut,
+  Mail,
+  Megaphone,
+  Menu,
+  Plus,
+  Printer,
+  RefreshCw,
+  Route,
+  Search,
+  ShieldCheck,
+  SlidersHorizontal,
+  Target,
+  UserPlus,
+  Users,
+  Wrench,
+  X,
+} from '@lucide/astro';
+
+const showRoleLab = import.meta.env.DEV;
+---
+
+<div id="hierarchy-workspace" class="hierarchy-workspace" data-dev-role-lab={showRoleLab ? 'true' : 'false'}>
+  <div id="workspace-boot" class="workspace-boot" aria-live="polite">
+    <span class="brand-mark" aria-hidden="true"><Compass size={22} stroke-width={2.2} /></span>
+    <span class="boot-copy"><strong>Future Career School</strong><small>Opening your workspace</small></span>
+    <span class="boot-loader" aria-hidden="true"></span>
+  </div>
+
+  <section id="auth-shell" class="auth-shell" aria-labelledby="auth-title" hidden>
+    <div class="auth-context">
+      <a class="back-link" href="/"><ArrowLeft size={16} aria-hidden="true" /> Future Career School</a>
+      <div class="auth-brand"><span class="brand-mark"><Compass size={24} /></span><strong>Career Operations</strong></div>
+      <div class="auth-message">
+        <p class="eyebrow">School workspace</p>
+        <h1 id="auth-title">Your career workspace, ready when you are.</h1>
+        <p>Sign in to continue your work and keep every student record in one place.</p>
+      </div>
+    </div>
+
+    <div class="auth-entry">
+      <div class="auth-entry-inner">
+        <div id="auth-mode-tabs" class="auth-mode-tabs" role="tablist" aria-label="Account access">
+          <button class="is-active" type="button" role="tab" aria-selected="true" data-auth-mode="sign-in">Sign in</button>
+          <button type="button" role="tab" aria-selected="false" data-auth-mode="recovery">Set or reset password</button>
+        </div>
+
+        <div id="sign-in-panel">
+          <div class="auth-heading">
+            <span class="auth-icon" aria-hidden="true"><Lock size={19} /></span>
+            <div><p class="eyebrow">Approved access</p><h2>Sign in</h2></div>
+          </div>
+          <p class="auth-note">Use the email address and password for your approved account.</p>
+
+          <form id="sign-in-form" class="stack-form" novalidate>
+            <label>
+              <span>Email</span>
+              <span class="input-shell"><Mail size={17} aria-hidden="true" /><input id="sign-in-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@example.com" /></span>
+            </label>
+            <label>
+              <span>Password</span>
+              <span class="input-shell"><KeyRound size={17} aria-hidden="true" /><input id="sign-in-password" name="password" type="password" autocomplete="current-password" minlength="4" required placeholder="Your password" /><button class="icon-button input-action" id="password-toggle" type="button" aria-label="Show password" title="Show password"><Eye size={17} /></button></span>
+            </label>
+            <button id="sign-in-submit" class="primary-button full-button" type="submit">Sign in <ChevronRight size={17} /></button>
+          </form>
+          <p class="account-policy-note">New accounts are created and approved by your school.</p>
+          <div id="auth-status" class="form-status" aria-live="polite"></div>
+        </div>
+
+        <div id="recovery-request-panel" hidden>
+          <div class="auth-heading">
+            <span class="auth-icon" aria-hidden="true"><KeyRound size={19} /></span>
+            <div><p class="eyebrow">Account access</p><h2>Set or reset password</h2></div>
+          </div>
+          <p class="auth-note">Enter the email address on your approved account.</p>
+          <form id="recovery-request-form" class="stack-form" novalidate>
+            <label>
+              <span>Email</span>
+              <span class="input-shell"><Mail size={17} aria-hidden="true" /><input id="recovery-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@example.com" /></span>
+            </label>
+            <button id="recovery-submit" class="primary-button full-button" type="submit">Email secure link <ChevronRight size={17} /></button>
+          </form>
+          <div id="recovery-status" class="form-status" aria-live="polite"></div>
+        </div>
+
+        <div id="config-warning" class="notice danger" hidden>
+          <CircleAlert size={17} aria-hidden="true" /> The workspace connection is missing.
+        </div>
+        <div id="load-warning" class="notice warning" hidden>
+          <CircleAlert size={17} aria-hidden="true" /> The workspace did not finish opening.
+          <button id="reload-workspace" class="text-button" type="button">Reload</button>
+        </div>
+
+        {showRoleLab && (
+          <section id="quick-role-access" class="quick-role-access" hidden aria-labelledby="quick-role-title">
+            <div class="section-heading compact"><div><p class="eyebrow">Local Role Lab</p><h3 id="quick-role-title">Test another role</h3></div><FlaskConical size={18} /></div>
+            <div id="quick-role-buttons" class="quick-role-buttons"></div>
+          </section>
+        )}
+
+        <div id="password-setup-panel" hidden>
+          <div class="auth-heading">
+            <span class="auth-icon" aria-hidden="true"><ShieldCheck size={19} /></span>
+            <div><p id="password-setup-eyebrow" class="eyebrow">Invitation accepted</p><h2 id="password-setup-title">Choose your first password</h2></div>
+          </div>
+          <p id="password-setup-note" class="auth-note">Secure this account for future sign-ins.</p>
+
+          <form id="password-setup-form" class="stack-form" novalidate>
+            <input id="password-setup-email" name="email" type="email" autocomplete="username" hidden />
+            <label>
+              <span>New password</span>
+              <span class="input-shell"><KeyRound size={17} aria-hidden="true" /><input id="new-password" name="password" type="password" autocomplete="new-password" minlength="4" required placeholder="Create a password" /><button class="icon-button input-action" id="new-password-toggle" type="button" aria-label="Show passwords" title="Show passwords"><Eye size={17} /></button></span>
+            </label>
+            <div id="password-requirements" class="password-requirements" aria-label="Password requirements">
+              <span data-password-check="length">At least 4 characters. Any characters are fine.</span>
+            </div>
+            <label>
+              <span>Confirm password</span>
+              <span class="input-shell"><Check size={17} aria-hidden="true" /><input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" minlength="4" required placeholder="Repeat your password" /></span>
+            </label>
+            <button id="password-setup-submit" class="primary-button full-button" type="submit">Save password <ChevronRight size={17} /></button>
+            <button id="password-setup-sign-out" class="text-button" type="button">Use another account</button>
+          </form>
+          <div id="password-setup-status" class="form-status" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="access-shell" class="access-shell" hidden aria-labelledby="access-title">
+    <span class="access-icon"><ShieldCheck size={26} /></span>
+    <p class="eyebrow">Account access</p>
+    <h1 id="access-title">This account is not active</h1>
+    <p id="access-message">Ask the Admin to review this account.</p>
+    <button id="access-sign-out" class="secondary-button" type="button"><LogOut size={16} /> Sign out</button>
+  </section>
+
+  <div id="workspace-shell" class="workspace-shell" hidden>
+    <aside class="workspace-sidebar">
+      <a class="sidebar-brand" href="/dashboard"><span class="brand-mark"><Compass size={21} /></span><span><strong>Future Career School</strong><small>Career Operations</small></span></a>
+
+      <div class="sidebar-scope">
+        <span id="sidebar-initials" class="avatar">FC</span>
+        <span><strong id="sidebar-user-name">Your account</strong><small id="sidebar-role">Workspace member</small></span>
+      </div>
+
+      <div id="sidebar-branch-context" class="sidebar-branch-context">
+        <Building2 size={16} aria-hidden="true" />
+        <span><small>Operating scope</small><strong id="sidebar-branch-name">All branches</strong></span>
+        <code id="sidebar-branch-code">ORG</code>
+      </div>
+
+      <nav class="workspace-nav" aria-label="Workspace navigation">
+        <button class="nav-item is-active" type="button" data-view-target="overview" data-roles="all" aria-current="page"><LayoutDashboard size={18} /><span>Overview</span></button>
+        <button class="nav-item" type="button" data-view-target="caseload" data-roles="admin,branch_head,head_coach,coach"><BriefcaseBusiness size={18} /><span>Caseload</span><span id="caseload-nav-count" class="nav-count">0</span></button>
+        <button class="nav-item" type="button" data-view-target="cohorts" data-roles="admin,branch_head,head_coach,coach"><Layers3 size={18} /><span>Cohorts</span><span id="cohort-nav-count" class="nav-count">0</span></button>
+        <button class="nav-item" type="button" data-view-target="people" data-roles="admin,branch_head,head_coach,coach"><Users size={18} /><span>People & access</span><span id="people-nav-count" class="nav-count">0</span></button>
+        <button class="nav-item" type="button" data-view-target="accounts" data-roles="admin,branch_head,head_coach,coach"><ClipboardCheck size={18} /><span>Account requests</span><span id="request-nav-count" class="nav-count">0</span></button>
+        <button class="nav-item" type="button" data-view-target="branches" data-roles="admin"><Building2 size={18} /><span>Branches</span></button>
+        <button class="nav-item" type="button" data-view-target="activity" data-roles="admin,branch_head"><Activity size={18} /><span>Activity log</span></button>
+        <button class="nav-item" type="button" data-view-target="career" data-roles="student"><Target size={18} /><span>My coaching plan</span></button>
+        <button class="nav-item" type="button" data-view-target="constraints" data-roles="student"><SlidersHorizontal size={18} /><span>My context</span></button>
+        {showRoleLab && <button class="nav-item role-lab-nav" type="button" data-view-target="role-lab" data-roles="admin"><FlaskConical size={18} /><span>Role Lab</span></button>}
+      </nav>
+
+      <div class="sidebar-foot">
+        <a href="/" class="site-link"><House size={16} /> Main website homepage</a>
+        <button id="sign-out-button" class="sign-out-button" type="button"><LogOut size={16} /><span>Sign out</span></button>
+      </div>
+    </aside>
+
+    <header class="mobile-header">
+      <button id="mobile-menu-button" class="icon-button" type="button" aria-label="Open navigation" title="Navigation"><Menu size={20} /></button>
+      <a class="mobile-brand" href="/dashboard"><span class="brand-mark"><Compass size={18} /></span><strong>Career Operations</strong></a>
+      <span id="mobile-initials" class="avatar small">FC</span>
+    </header>
+
+    <main class="workspace-main">
+      <header class="workspace-topbar">
+        <div class="topbar-copy">
+          <div><p id="view-eyebrow" class="eyebrow">Workspace</p><h1 id="view-title">Overview</h1><p id="view-subtitle" class="view-subtitle"></p></div>
+          <div id="workspace-branch-context" class="workspace-branch-context"><Building2 size={14} aria-hidden="true" /><span id="workspace-branch-name">All branches</span><code id="workspace-branch-code">ORG</code></div>
+        </div>
+        <div class="topbar-actions">
+          <button id="refresh-button" class="icon-button" type="button" aria-label="Refresh workspace" title="Refresh"><RefreshCw size={17} /></button>
+          <button id="new-branch-button" class="secondary-button" type="button" data-roles="admin"><Building2 size={16} /><span>New branch</span></button>
+          <button id="new-account-button" class="primary-button" type="button" data-roles="admin,branch_head,head_coach,coach"><UserPlus size={16} /><span id="new-account-label">Create account</span></button>
+        </div>
+      </header>
+
+      <div id="workspace-status" class="workspace-status" aria-live="polite"></div>
+      <div id="coaching-schema-warning" class="notice warning coaching-schema-warning" hidden><CircleAlert size={17} aria-hidden="true" /><span>The coaching workspace is ready in this build. Apply the included Supabase migration before using its records in production.</span></div>
+
+      <section class="workspace-view is-active" data-workspace-view="overview" aria-labelledby="overview-heading">
+        <h2 id="overview-heading" class="sr-only">Overview</h2>
+        <div id="overview-metrics" class="metric-grid"></div>
+        <div class="overview-grid">
+          <section class="work-panel attention-panel"><div class="section-heading"><div><p class="eyebrow">Now</p><h2 id="attention-title">Needs attention</h2></div><Clock size={19} /></div><div id="attention-list" class="attention-list"></div></section>
+          <section class="work-panel structure-panel"><div class="section-heading"><div><p class="eyebrow">Structure</p><h2 id="structure-title">Your scope</h2></div><Users size={19} /></div><div id="structure-list" class="structure-list"></div></section>
+        </div>
+        <section id="student-focus" class="student-focus" hidden><div><p class="eyebrow">Next useful move</p><h2 id="student-focus-title">Complete your career context</h2><p id="student-focus-copy"></p></div><button id="student-focus-action" class="primary-button" type="button">Continue <ChevronRight size={16} /></button></section>
+      </section>
+
+      <section class="workspace-view" data-workspace-view="caseload" aria-labelledby="caseload-heading" hidden>
+        <div class="view-toolbar">
+          <div><p class="eyebrow">Coaching operations</p><h2 id="caseload-heading">Student caseload</h2><p class="view-copy">Prioritise reviews, decisions, skill gaps, and follow-through across your scope.</p></div>
+          <div class="filter-row">
+            <label class="search-field"><Search size={16} /><span class="sr-only">Search students</span><input id="caseload-search" type="search" placeholder="Search students" /></label>
+            <label><span class="sr-only">Filter coaching stage</span><select id="caseload-stage-filter"><option value="all">All stages</option><option value="intake">Intake</option><option value="self-discovery">Self-discovery</option><option value="career-exploration">Career exploration</option><option value="option-validation">Option validation</option><option value="decision">Decision</option><option value="execution">Execution</option><option value="follow-up">Follow-up</option></select></label>
+            <label><span class="sr-only">Filter attention</span><select id="caseload-attention-filter"><option value="all">All students</option><option value="needs-attention">Needs attention</option><option value="overdue">Overdue actions</option><option value="no-session">No cohort session announced</option><option value="skill-gaps">Core skill gaps</option></select></label>
+          </div>
+        </div>
+        <div id="caseload-summary" class="caseload-summary"></div>
+        <div class="table-shell caseload-table-shell"><table><thead><tr><th>Student</th><th>Coaching stage</th><th>Decision work</th><th>Skills</th><th>Follow-through</th><th>Next contact</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="caseload-table-body"></tbody></table><div id="caseload-empty" class="empty-state" hidden>No students match this view.</div></div>
+      </section>
+
+      <section class="workspace-view" data-workspace-view="cohorts" aria-labelledby="cohorts-heading" hidden>
+        <div id="cohort-index-view">
+          <div class="view-toolbar">
+            <div><p class="eyebrow">Group coaching delivery</p><h2 id="cohorts-heading">Cohorts and session announcements</h2><p class="view-copy">Place every student in a working group, announce the next session, and keep delivery visible.</p></div>
+            <button id="new-cohort-button" class="primary-button" type="button"><Plus size={16} /> New cohort</button>
+          </div>
+          <div id="cohort-summary" class="caseload-summary"></div>
+          <div class="filter-row cohort-filter-row">
+            <label class="search-field"><Search size={16} /><span class="sr-only">Search cohorts</span><input id="cohort-search" type="search" placeholder="Search cohorts" /></label>
+            <label><span class="sr-only">Filter cohort status</span><select id="cohort-status-filter"><option value="all">All statuses</option><option value="active">Active</option><option value="upcoming">Upcoming</option><option value="completed">Completed</option><option value="archived">Archived</option></select></label>
+          </div>
+          <div class="table-shell cohort-table-shell"><table><thead><tr><th>Cohort</th><th>Programme</th><th>Lead</th><th>Students</th><th>Next session</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="cohort-table-body"></tbody></table><div id="cohort-empty" class="empty-state" hidden>No cohorts match this view.</div></div>
+        </div>
+        <div id="cohort-detail-view" hidden>
+          <div class="record-navigation"><button id="cohort-detail-back" class="back-button" type="button"><ArrowLeft size={16} /> Cohorts</button><span class="row-actions"><button id="edit-cohort-button" class="secondary-button" type="button">Edit cohort</button><button id="announce-session-button" class="primary-button" type="button"><Megaphone size={16} /> Announce session</button></span></div>
+          <header class="record-header cohort-detail-header"><div><p class="eyebrow">Cohort workspace</p><h2 id="cohort-detail-name">Cohort</h2><p id="cohort-detail-meta"></p></div><div class="record-header-status"><span id="cohort-detail-stage" class="stage-badge"></span><span id="cohort-detail-status" class="status-badge"></span></div></header>
+          <div id="cohort-detail-summary" class="student-plan-summary"></div>
+          <div class="cohort-detail-grid">
+            <section class="cohort-roster-band"><div class="section-heading"><div><p class="eyebrow">Active membership</p><h3>Student roster</h3></div><button id="move-student-button" class="secondary-button" type="button"><Plus size={16} /> Add or move student</button></div><div id="cohort-roster" class="cohort-roster"></div></section>
+            <section class="cohort-session-band"><div class="section-heading"><div><p class="eyebrow">Coaching delivery</p><h3>Announcements and attendance</h3></div><CalendarDays size={18} /></div><div id="cohort-session-list" class="session-list"></div></section>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace-view" data-workspace-view="people" aria-labelledby="people-heading" hidden>
+        <div class="view-toolbar">
+          <div><p class="eyebrow">Accounts and reporting lines</p><h2 id="people-heading">People & access</h2></div>
+          <div class="filter-row">
+            <label class="search-field"><Search size={16} /><span class="sr-only">Search people</span><input id="people-search" type="search" placeholder="Search name or email" /></label>
+            <label><span class="sr-only">Filter role</span><select id="people-role-filter"><option value="all">All roles</option><option value="branch_head">Branch Heads</option><option value="head_coach">Head Coaches</option><option value="coach">Coaches</option><option value="student">Students</option></select></label>
+          </div>
+        </div>
+        <div class="table-shell"><table><thead><tr><th>Person</th><th>Role</th><th>Branch</th><th>Reports to</th><th>Status</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="people-table-body"></tbody></table><div id="people-empty" class="empty-state" hidden>No matching people.</div></div>
+      </section>
+
+      <section class="workspace-view" data-workspace-view="accounts" aria-labelledby="accounts-heading" hidden>
+        <div class="view-toolbar"><div><p class="eyebrow">Account control</p><h2 id="accounts-heading">Account requests</h2></div><span id="account-scope-note" class="scope-note"></span></div>
+        <div id="approval-summary" class="approval-summary" hidden></div>
+        <div id="request-list" class="request-list"></div>
+        <div id="request-empty" class="empty-state" hidden>No account requests in this view.</div>
+      </section>
+
+      <section class="workspace-view" data-workspace-view="branches" aria-labelledby="branches-heading" hidden>
+        <div class="view-toolbar"><div><p class="eyebrow">Organisation</p><h2 id="branches-heading">Branches</h2></div></div>
+        <div id="branch-list" class="branch-list"></div>
+      </section>
+
+      <section class="workspace-view" data-workspace-view="activity" aria-labelledby="activity-heading" hidden>
+        <div class="view-toolbar"><div><p class="eyebrow">Accountability</p><h2 id="activity-heading">Activity log</h2><p class="view-copy">Security and operational changes inside your visible scope.</p></div></div>
+        <div id="activity-list" class="activity-list"></div>
+        <div id="activity-empty" class="empty-state" hidden>No activity has been recorded yet.</div>
+      </section>
+
+<section class="workspace-view" data-workspace-view="student-record" aria-labelledby="student-record-heading" hidden>
+  <div class="record-navigation">
+    <button id="student-record-back" class="back-button" type="button"><ArrowLeft size={16} /> Caseload</button>
+    <button id="print-student-brief" class="secondary-button" type="button"><Printer size={16} /> Print coaching brief</button>
+  </div>
+  <header class="record-header">
+    <div><p class="eyebrow">Student coaching record</p><h2 id="student-record-heading">Student</h2><p id="student-record-meta"></p></div>
+    <div class="record-header-status"><span id="student-record-stage" class="stage-badge"></span><span id="student-record-status" class="status-badge"></span></div>
+  </header>
+
+  <nav class="record-tabs" aria-label="Student record sections">
+    <button class="is-active" type="button" data-record-tab="summary" aria-selected="true"><BarChart3 size={16} /> Summary</button>
+    <button type="button" data-record-tab="careers" aria-selected="false"><Route size={16} /> Career options</button>
+    <button type="button" data-record-tab="skills" aria-selected="false"><Wrench size={16} /> Skills</button>
+    <button type="button" data-record-tab="sessions" aria-selected="false"><CalendarDays size={16} /> Sessions</button>
+    <button type="button" data-record-tab="actions" aria-selected="false"><ListChecks size={16} /> Actions</button>
+    <button type="button" data-record-tab="context" aria-selected="false"><SlidersHorizontal size={16} /> Context</button>
+    <button type="button" data-record-tab="notes" aria-selected="false"><BookOpen size={16} /> Staff notes</button>
+  </nav>
+
+  <div class="record-pane is-active" data-record-pane="summary">
+    <section class="case-control-band">
+      <div class="section-heading"><div><p class="eyebrow">Case management</p><h3>Direction and review rhythm</h3></div><Target size={18} /></div>
+      <form id="student-case-form" class="case-form">
+        <div class="form-grid four">
+          <label>Coaching stage<select name="coaching_stage"><option value="intake">Intake</option><option value="self-discovery">Self-discovery</option><option value="career-exploration">Career exploration</option><option value="option-validation">Option validation</option><option value="decision">Decision</option><option value="execution">Execution</option><option value="follow-up">Follow-up</option></select></label>
+          <label>Case status<select name="case_status"><option value="active">Active</option><option value="on-hold">On hold</option><option value="completed">Completed</option></select></label>
+          <label>Priority<select name="priority"><option value="standard">Standard</option><option value="high">High</option><option value="urgent">Urgent</option></select></label>
+          <label>Review every<input name="review_cadence_days" type="number" min="1" max="180" /><span class="field-suffix">days</span></label>
+        </div>
+        <div class="form-grid two"><label>Decision deadline<input name="decision_deadline" type="date" /></label><label>Next review<input name="next_review_at" type="datetime-local" /></label></div>
+        <div class="guided-inline-presets">
+          <label>Goal starter<select id="case-goal-preset"><option value="">Choose a coaching outcome</option></select></label>
+          <label>Progress starter<select id="progress-update-preset"><option value="">Choose a factual update</option></select></label>
+        </div>
+        <label>Coaching goal<textarea name="goal_summary" rows="2" maxlength="2000" placeholder="The concrete decision, capability, or transition this plan must deliver"></textarea></label>
+        <label>Current progress summary<textarea name="progress_note" rows="3" maxlength="2000" placeholder="Progress, evidence, blocker, and next commitment"></textarea></label>
+        <div class="form-actions"><span id="student-case-saved-at"></span><button class="primary-button" type="submit"><Check size={16} /> Save case</button></div>
+      </form>
+    </section>
+    <div id="record-decision-summary" class="decision-summary"></div>
+    <section class="record-timeline-band"><div class="section-heading"><div><p class="eyebrow">Coaching pulse</p><h3>Recent movement</h3></div><CalendarDays size={18} /></div><div id="record-timeline" class="record-timeline"></div></section>
+  </div>
+
+  <div class="record-pane" data-record-pane="careers" hidden>
+    <div class="pane-heading"><div><p class="eyebrow">Decision workspace</p><h3>Primary direction and alternatives</h3><p>Concentrate most effort on one primary direction while keeping deliberate alternatives alive.</p></div><button class="primary-button" type="button" data-open-career-dialog><Plus size={16} /> Add option</button></div>
+    <div id="record-career-focus-summary" class="career-focus-summary"></div>
+    <div id="record-career-list" class="career-option-list"></div>
+  </div>
+
+  <div class="record-pane" data-record-pane="skills" hidden>
+    <div class="pane-heading"><div><p class="eyebrow">Capability roadmap</p><h3>Skills, practice, and proof</h3><p>Build the foundations every career needs, then add the specialist and future-ready skills required by the primary direction.</p></div><div class="pane-actions"><button class="secondary-button" type="button" data-open-skill-dialog><Plus size={16} /> Add one skill</button><button class="primary-button" type="button" data-open-skill-plan><ListPlus size={16} /> Add skill plan</button></div></div>
+    <div id="record-skill-summary" class="skill-roadmap-summary"></div>
+    <div id="record-skill-recommendations" class="skill-recommendation-band"></div>
+    <div id="record-skill-list" class="skill-matrix"></div>
+  </div>
+
+  <div class="record-pane" data-record-pane="sessions" hidden>
+    <div class="pane-heading"><div><p class="eyebrow">Group coaching delivery</p><h3>Cohort sessions</h3><p>Announcements, preparation, outcomes, and attendance for this student's coaching group.</p></div><button class="secondary-button" type="button" data-open-student-cohort>Open cohort</button></div>
+    <div id="record-cohort-context" class="cohort-context-strip"></div>
+    <div id="record-session-list" class="session-list"></div>
+  </div>
+
+  <div class="record-pane" data-record-pane="actions" hidden>
+    <div class="pane-heading"><div><p class="eyebrow">Follow-through</p><h3>Action plan</h3><p>Assign specific exploration, learning, connection, application, or decision work.</p></div></div>
+    <form id="record-action-form" class="action-composer" data-coaching-action-form>
+      <input name="title" maxlength="180" required placeholder="Specific next action" />
+      <select data-action-preset aria-label="Start from an action preset"><option value="">Choose a proven next action</option></select>
+      <select name="category"><option value="explore">Explore</option><option value="learn">Learn</option><option value="build">Build</option><option value="connect">Connect</option><option value="apply">Apply</option><option value="decide">Decide</option></select>
+      <select name="priority"><option value="normal">Normal</option><option value="important">Important</option></select>
+      <input name="due_date" type="date" />
+      <input name="details" maxlength="2000" placeholder="Definition of done or useful detail" />
+      <button class="primary-button" type="submit"><Plus size={16} /> Assign</button>
+    </form>
+    <div id="record-action-list" class="coaching-action-list"></div>
+  </div>
+
+  <div class="record-pane" data-record-pane="context" hidden>
+    <div class="record-grid">
+      <section class="work-panel"><div class="section-heading"><div><p class="eyebrow">Student supplied</p><h3>Real-world constraints</h3></div><SlidersHorizontal size={18} /></div><div id="record-constraints" class="definition-list"></div></section>
+      <section class="work-panel"><div class="section-heading"><div><p class="eyebrow">Verified by staff</p><h3>Academic record</h3></div><GraduationCap size={18} /></div><form id="academic-form" class="compact-form"><label>Institution<input name="institution" maxlength="160" /></label><label>Board or university<input name="board_or_university" maxlength="160" /></label><div class="form-grid two"><label>Class or year<input name="class_or_year" maxlength="80" /></label><div class="preset-input-stack"><label>Stream or current stage<input name="stream" maxlength="80" /></label><label>Choose a common stage<select id="academic-stream-preset"><option value="">Choose and use</option></select></label></div></div><div class="preset-input-stack"><label>Exam targets<input name="exam_targets" placeholder="JEE, CUET, CAT, or a manual target" maxlength="240" /></label><label>Add a common exam<select id="exam-target-preset"><option value="">Choose and add</option></select></label></div><label>Attendance %<input name="attendance_percent" type="number" min="0" max="100" step="0.01" /></label><button class="secondary-button" type="submit"><Check size={16} /> Save verified record</button></form></section>
+    </div>
+  </div>
+
+  <div class="record-pane" data-record-pane="notes" hidden>
+    <section class="notes-section"><div class="section-heading"><div><p class="eyebrow">Private operational record</p><h3>Staff coaching notes</h3></div><BookOpen size={18} /></div><form id="coach-note-form" class="note-composer"><label><span class="sr-only">Note starter</span><select id="note-template-preset"><option value="">Choose a factual note starter</option></select></label><label><span class="sr-only">Note type</span><select name="note_type"><option value="observation">Observation</option><option value="constraint">Constraint</option><option value="academic">Academic</option><option value="family-context">Family context</option><option value="follow-up">Follow-up</option><option value="risk">Risk</option></select></label><label><span class="sr-only">Visibility</span><select name="visibility"><option value="staff">Coaching staff</option><option value="head-coach-and-above">Head Coach and above</option></select></label><label class="note-input"><span class="sr-only">Note</span><textarea name="content" rows="2" maxlength="5000" required placeholder="Add a factual coaching note"></textarea></label><button class="primary-button" type="submit"><Plus size={16} /> Add note</button></form><div id="coach-note-list" class="note-list"></div></section>
+  </div>
+</section>
+
+<section class="workspace-view" data-workspace-view="career" aria-labelledby="career-heading" hidden>
+  <div class="view-toolbar"><div><p class="eyebrow">Shared with your coach</p><h2 id="career-heading">Career decisions and next steps</h2><p class="view-copy">Your options, skills, sessions, and next actions in one working plan.</p></div></div>
+  <div id="student-plan-summary" class="student-plan-summary"></div>
+  <div id="student-cohort-context" class="cohort-context-strip"></div>
+  <nav class="record-tabs student-plan-tabs" aria-label="Coaching plan sections">
+    <button class="is-active" type="button" data-plan-tab="options" aria-selected="true"><Route size={16} /> Options</button>
+    <button type="button" data-plan-tab="skills" aria-selected="false"><Wrench size={16} /> Skills</button>
+    <button type="button" data-plan-tab="actions" aria-selected="false"><ListChecks size={16} /> Actions</button>
+    <button type="button" data-plan-tab="sessions" aria-selected="false"><CalendarDays size={16} /> Sessions</button>
+  </nav>
+  <div class="plan-pane is-active" data-plan-pane="options">
+    <div class="pane-heading"><div><p class="eyebrow">Decision workspace</p><h3>Primary direction and alternatives</h3></div><button class="primary-button" type="button" data-open-career-dialog><Plus size={16} /> Add option</button></div>
+    <div id="student-career-focus-summary" class="career-focus-summary"></div>
+    <div id="student-career-list" class="career-option-list"></div>
+  </div>
+  <div class="plan-pane" data-plan-pane="skills" hidden>
+    <div class="pane-heading"><div><p class="eyebrow">Capability roadmap</p><h3>Skills, practice, and proof</h3><p>See what matters for the primary direction and what proof is still missing.</p></div><div class="pane-actions"><button class="secondary-button" type="button" data-open-skill-dialog><Plus size={16} /> Add one skill</button><button class="primary-button" type="button" data-open-skill-plan><ListPlus size={16} /> Add skill plan</button></div></div>
+    <div id="student-skill-summary" class="skill-roadmap-summary"></div>
+    <div id="student-skill-recommendations" class="skill-recommendation-band"></div>
+    <div id="student-skill-list" class="skill-matrix"></div>
+  </div>
+  <div class="plan-pane" data-plan-pane="actions" hidden>
+    <form id="student-action-form" class="action-composer" data-coaching-action-form><select data-action-preset aria-label="Start from an action preset"><option value="">Choose a proven next action</option></select><input name="title" maxlength="180" required placeholder="Add one useful next action" /><select name="category"><option value="explore">Explore</option><option value="learn">Learn</option><option value="build">Build</option><option value="connect">Connect</option><option value="apply">Apply</option><option value="decide">Decide</option></select><select name="priority"><option value="normal">Normal</option><option value="important">Important</option></select><input name="due_date" type="date" /><input name="details" maxlength="2000" placeholder="What will done look like?" /><button class="primary-button" type="submit"><Plus size={16} /> Add</button></form>
+    <div id="student-action-list" class="coaching-action-list"></div>
+  </div>
+  <div class="plan-pane" data-plan-pane="sessions" hidden><div class="pane-heading"><div><p class="eyebrow">My coaching group</p><h3>Cohort sessions and preparation</h3></div></div><div id="student-session-list" class="session-list"></div></div>
+</section>
+
+<dialog id="career-option-dialog" class="workspace-dialog guided-dialog">
+  <form id="career-option-form" method="dialog" class="dialog-form">
+    <header><div><p class="eyebrow">Decision workspace</p><h2 id="career-dialog-title">Add career option</h2></div><button class="icon-button" type="button" data-close-dialog="career-option-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+    <div class="dialog-body">
+      <input name="id" type="hidden" /><input name="preset_key" type="hidden" />
+      <section id="career-preset-picker" class="career-library" aria-labelledby="career-preset-heading">
+        <div class="preset-picker-heading"><div><p class="eyebrow">Decision-ready library</p><h3 id="career-preset-heading">Explore the work before choosing it</h3></div><span id="career-preset-count" class="scope-note"></span></div>
+        <div class="preset-toolbar"><label class="search-field"><Search size={16} /><span class="sr-only">Search careers</span><input id="career-preset-search" type="search" placeholder="Search a role, sector, skill, or future trend" /></label><label><span class="sr-only">Career family</span><select id="career-preset-category"><option value="featured">Recommended starting points</option><option value="future">Future-ready choices</option><option value="all">All career families</option></select></label></div>
+        <div class="career-library-layout"><div id="career-preset-results" class="career-library-results"></div><aside id="career-guide-preview" class="career-guide-preview"><div class="career-guide-empty"><Lightbulb size={20} /><strong>Choose a career to see the real work</strong><span>Daily tasks, entry routes, future change, skill requirements, watch-outs, and practical tests appear here.</span></div></aside></div>
+      </section>
+      <div class="career-manual-divider"><span>Decision setup</span></div>
+      <div class="decision-role-grid">
+        <fieldset class="segmented-field"><legend>Role in the plan</legend><div class="segmented-control"><label><input type="radio" name="option_type" value="primary" /><span><strong>Primary</strong><small>Main direction, 50-90% effort</small></span></label><label><input type="radio" name="option_type" value="alternative" checked /><span><strong>Alternative</strong><small>Deliberate backup or test</small></span></label></div></fieldset>
+        <label class="focus-control">Time and energy focus<div><input id="career-focus-range" name="focus_percentage" type="range" min="0" max="50" value="15" /><output id="career-focus-output">15%</output></div><small id="career-focus-guidance">Alternatives share the time left after the primary direction.</small></label>
+      </div>
+      <input name="status" type="hidden" value="exploring" />
+      <div class="form-grid three"><label>Career, course, or route<input name="title" maxlength="120" required /></label><label>Career family<input name="career_category" maxlength="80" value="Other" required /></label><label>Decision or review date<input name="decision_deadline" type="date" /></label></div>
+      <div class="form-grid three"><label>Decision now<select name="decision_signal"><option value="ready-to-pursue">Ready to pursue</option><option value="promising-to-test">Promising, test next</option><option value="deliberate-alternative">Keep as an alternative</option><option value="needs-evidence" selected>Needs more evidence</option><option value="not-now">Not right now</option></select></label><label>Evidence so far<select name="evidence_strength"><option value="none">No real evidence yet</option><option value="early">Early signal</option><option value="moderate">Several useful tests</option><option value="strong">Strong real-world proof</option></select></label><label>Future outlook<select name="future_outlook"><option value="growing">Growing</option><option value="evolving" selected>Evolving</option><option value="stable">Stable</option><option value="niche">Niche</option><option value="uncertain">Uncertain</option></select></label></div>
+      <details class="career-detail-fields" open><summary>Career reality and coaching evidence</summary><div class="career-detail-fields-body">
+        <label>Education or entry routes<textarea name="route_summary" rows="2" maxlength="3000"></textarea></label>
+        <label>Requirements and proof employers or courses expect<textarea name="entry_requirements" rows="2" maxlength="3000"></textarea></label>
+        <label>Typical work environment<input name="work_environment" maxlength="1200" /></label>
+        <div class="form-grid two"><label>Evidence this may suit the student<textarea name="reasons" rows="3" maxlength="2000" placeholder="One observed reason per line"></textarea></label><label>Trade-offs or watch-outs<textarea name="tradeoffs" rows="3" maxlength="2000" placeholder="One real trade-off per line"></textarea></label></div>
+        <label>Question that still needs an answer<input name="review_question" maxlength="300" placeholder="What evidence would change or strengthen this decision?" /></label>
+        <label>Next real-world test<input name="next_step" maxlength="180" placeholder="A work sample, practitioner conversation, observation, or course task" /></label>
+      </div></details>
+      <div id="career-option-status" class="form-status"></div>
+    </div>
+    <footer><button class="secondary-button" type="button" data-close-dialog="career-option-dialog">Cancel</button><button class="primary-button" type="submit"><Check size={16} /> Save decision</button></footer>
+  </form>
+</dialog>
+
+<dialog id="skill-plan-dialog" class="workspace-dialog guided-dialog">
+  <form id="skill-plan-form" method="dialog" class="dialog-form">
+    <header><div><p class="eyebrow">Capability roadmap</p><h2>Add a complete skill plan</h2></div><button class="icon-button" type="button" data-close-dialog="skill-plan-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+    <div class="dialog-body">
+      <div id="skill-plan-context" class="decision-context-strip"></div>
+      <div class="preset-toolbar"><label class="search-field"><Search size={16} /><span class="sr-only">Search skill plans</span><input id="skill-pack-search" type="search" placeholder="Search skill plans or career families" /></label><label><span class="sr-only">Skill plan group</span><select id="skill-pack-group"><option value="recommended">Recommended for this student</option><option value="all">All skill plans</option><option value="Start strong">Start strong</option><option value="Work with technology">Work with technology</option><option value="Career families">Career families</option><option value="Move into work">Move into work</option></select></label></div>
+      <div class="skill-plan-layout"><div id="skill-pack-results" class="skill-pack-results"></div><aside id="skill-pack-preview" class="skill-pack-preview"><div class="career-guide-empty"><ListPlus size={20} /><strong>Choose a skill plan</strong><span>You can review every skill and untick anything that is already covered.</span></div></aside></div>
+      <div id="skill-plan-status" class="form-status"></div>
+    </div>
+    <footer><button class="secondary-button" type="button" data-close-dialog="skill-plan-dialog">Cancel</button><button id="add-skill-pack" class="primary-button" type="submit" disabled><ListPlus size={16} /> Add selected skills</button></footer>
+  </form>
+</dialog>
+
+<dialog id="skill-dialog" class="workspace-dialog guided-dialog">
+  <form id="skill-form" method="dialog" class="dialog-form">
+    <header><div><p class="eyebrow">Capability roadmap</p><h2 id="skill-dialog-title">Add one skill</h2></div><button class="icon-button" type="button" data-close-dialog="skill-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+    <div class="dialog-body">
+      <input name="id" type="hidden" /><input name="preset_key" type="hidden" />
+      <section id="skill-preset-picker" class="preset-picker" aria-labelledby="skill-preset-heading"><div class="preset-picker-heading"><div><p class="eyebrow">Single-skill library</p><h3 id="skill-preset-heading">Choose a starting skill</h3></div><span id="skill-preset-count" class="scope-note"></span></div><div class="preset-toolbar"><label class="search-field"><Search size={16} /><span class="sr-only">Search skills</span><input id="skill-preset-search" type="search" placeholder="Search skills" /></label><label><span class="sr-only">Skill category</span><select id="skill-preset-category"><option value="featured">Recommended foundations</option><option value="all">All categories</option></select></label></div><div id="skill-preset-results" class="preset-results"></div></section>
+      <div class="form-grid two"><label>Skill<input name="skill_name" maxlength="120" required /></label><label>Category<select name="category"><option value="technical">Technical</option><option value="digital">Digital</option><option value="communication">Communication</option><option value="analytical">Analytical</option><option value="creative">Creative</option><option value="leadership">Leadership</option><option value="domain">Domain</option><option value="language">Language</option><option value="employability">Employability</option></select></label></div>
+      <div class="form-grid two"><label>Purpose in the roadmap<select name="skill_scope"><option value="foundation">Career foundation</option><option value="career-specific">Primary-career specific</option><option value="future-ready">Future-ready</option><option value="employability">Employability</option><option value="personal-effectiveness">Personal effectiveness</option></select></label><label>Linked career<select id="skill-linked-career" name="linked_career_path_id"><option value="">Applies across careers</option></select></label></div>
+      <div class="form-grid four"><label>Current ability<select name="current_level"><option value="0">Not started</option><option value="1">Aware or beginner</option><option value="2">Can do with support</option><option value="3">Can do independently</option><option value="4">Can adapt or teach</option></select></label><label>Required ability<select name="target_level"><option value="1">Aware or beginner</option><option value="2" selected>Can do with support</option><option value="3">Can do independently</option><option value="4">Can adapt or teach</option></select></label><label>Importance<select name="priority"><option value="core">Essential</option><option value="important" selected>Important</option><option value="useful">Useful later</option></select></label><label>Progress<select name="status"><option value="identified">Not started</option><option value="developing">In practice</option><option value="demonstrated">Demonstrated with proof</option></select></label></div>
+      <label>Development outcome<textarea name="development_goal" rows="2" maxlength="1200" placeholder="What useful capability should improve?"></textarea></label>
+      <div class="form-grid two"><label>Practice method<textarea name="practice_method" rows="2" maxlength="1200" placeholder="What will the student repeatedly do?"></textarea></label><label>Proof of competence<textarea name="success_criteria" rows="2" maxlength="1200" placeholder="What evidence will show this skill is ready?"></textarea></label></div>
+      <label>Review date<input name="review_date" type="date" /></label><div id="skill-status" class="form-status"></div>
+    </div>
+    <footer><button class="secondary-button" type="button" data-close-dialog="skill-dialog">Cancel</button><button class="primary-button" type="submit"><Check size={16} /> Save skill</button></footer>
+  </form>
+</dialog>
+
+<dialog id="evidence-dialog" class="workspace-dialog">
+  <form id="evidence-form" method="dialog" class="dialog-form">
+    <header><div><p class="eyebrow">Skill proof</p><h2>Add evidence</h2></div><button class="icon-button" type="button" data-close-dialog="evidence-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+    <div class="dialog-body"><input name="skill_id" type="hidden" /><p id="evidence-skill-name" class="dialog-context"></p><label>Evidence starter<select id="evidence-preset"><option value="">Choose a useful evidence format</option></select></label><div class="form-grid two"><label>Evidence title<input name="title" maxlength="180" required /></label><label>Type<select name="evidence_type"><option value="project">Project</option><option value="course">Course</option><option value="experience">Experience</option><option value="certificate">Certificate</option><option value="feedback">Feedback</option><option value="work-sample">Work sample</option></select></label></div><div class="form-grid two"><label>Date<input name="evidence_date" type="date" required /></label><label>Observed level<select name="observed_level"><option value="">Not rated</option><option value="0">0 - not started</option><option value="1">1 - basic</option><option value="2">2 - working</option><option value="3">3 - strong</option><option value="4">4 - advanced</option></select></label></div><label>Description<textarea name="description" rows="3" maxlength="3000"></textarea></label><label>Link to proof<input name="source_url" type="url" maxlength="1000" placeholder="https://" /></label><div id="evidence-status" class="form-status"></div></div>
+    <footer><button class="secondary-button" type="button" data-close-dialog="evidence-dialog">Cancel</button><button class="primary-button" type="submit"><Plus size={16} /> Add evidence</button></footer>
+  </form>
+</dialog>
+
+<dialog id="cohort-dialog" class="workspace-dialog detail-dialog">
+  <form id="cohort-form" method="dialog" class="dialog-form">
+    <header><div><p class="eyebrow">Group coaching delivery</p><h2 id="cohort-dialog-title">New cohort</h2></div><button class="icon-button" type="button" data-close-dialog="cohort-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+    <div class="dialog-body"><input name="id" type="hidden" /><label>Start from a cohort format<select id="cohort-preset"><option value="">Choose a practical starting format</option></select></label><div class="form-grid two"><label>Cohort name<input name="name" maxlength="120" required /></label><label>Code<input name="code" maxlength="32" placeholder="Automatic" /></label></div><div class="form-grid two"><label>Branch<select id="cohort-branch" name="branch_id" required></select></label><label>Lead<select id="cohort-lead" name="lead_id"></select></label></div><div class="form-grid four"><label>Programme<select name="program_track"><option value="career-foundations">Career foundations</option><option value="stream-selection">Stream selection</option><option value="college-and-course">College and course</option><option value="career-launch">Career launch</option><option value="career-transition">Career transition</option><option value="exam-and-alternatives">Exams and alternatives</option><option value="custom">Custom</option></select></label><label>Stage<select name="coaching_stage"><option value="mixed">Mixed</option><option value="intake">Intake</option><option value="self-discovery">Self-discovery</option><option value="career-exploration">Career exploration</option><option value="option-validation">Option validation</option><option value="decision">Decision</option><option value="execution">Execution</option><option value="follow-up">Follow-up</option></select></label><label>Delivery<select name="delivery_mode"><option value="in-person">In person</option><option value="online">Online</option><option value="hybrid">Hybrid</option></select></label><label>Capacity<input name="capacity" type="number" min="1" max="500" value="30" required /></label></div><div class="form-grid three"><label>Starts<input name="starts_on" type="date" /></label><label>Ends<input name="ends_on" type="date" /></label><label>Status<select name="status"><option value="upcoming">Upcoming</option><option value="active" selected>Active</option><option value="completed">Completed</option><option value="archived">Archived</option></select></label></div><label>Coaching rhythm<input name="schedule_note" maxlength="1000" /></label><label>Purpose and audience<textarea name="description" rows="3" maxlength="2000"></textarea></label><div id="cohort-form-status" class="form-status"></div></div>
+    <footer><button class="secondary-button" type="button" data-close-dialog="cohort-dialog">Cancel</button><button class="primary-button" type="submit"><Check size={16} /> Save cohort</button></footer>
+  </form>
+</dialog>
+
+<dialog id="cohort-session-dialog" class="workspace-dialog guided-dialog">
+  <form id="cohort-session-form" method="dialog" class="dialog-form">
+    <header><div><p class="eyebrow">Cohort communication</p><h2 id="cohort-session-dialog-title">Announce next session</h2></div><button class="icon-button" type="button" data-close-dialog="cohort-session-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+    <div class="dialog-body"><input name="id" type="hidden" /><input name="cohort_id" type="hidden" /><p id="cohort-session-context" class="dialog-context"></p><label>Start from a session plan<select id="session-preset"><option value="">Choose a session topic</option></select></label><label>Topic<input name="topic" maxlength="180" required /></label><div class="form-grid two"><label>Date and time<input name="starts_at" type="datetime-local" required /></label><label>Facilitator<select id="session-facilitator" name="facilitator_id" required></select></label></div><div class="form-grid four"><label>Session type<select name="session_type"><option value="orientation">Orientation</option><option value="self-discovery">Self-discovery</option><option value="career-discovery">Career discovery</option><option value="career-options">Career options</option><option value="skill-building">Skill building</option><option value="decision-planning">Decision planning</option><option value="execution">Execution</option><option value="industry-exposure">Industry exposure</option><option value="parent-briefing">Parent briefing</option><option value="progress-review">Progress review</option><option value="other">Other</option></select></label><label>Duration<input name="duration_minutes" type="number" min="15" max="240" value="60" required /></label><label>Delivery<select name="delivery_mode"><option value="in-person">In person</option><option value="online">Online</option><option value="hybrid">Hybrid</option></select></label><label>Status<select name="status"><option value="announced">Announced</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></label></div><label>Venue or meeting link<input name="venue_or_link" maxlength="1000" /></label><label>Agenda<textarea name="agenda" rows="3" maxlength="3000"></textarea></label><label>Student preparation<textarea name="preparation" rows="2" maxlength="2000"></textarea></label><label>Student-visible outcome summary<textarea name="student_summary" rows="3" maxlength="5000"></textarea></label><div id="session-status" class="form-status"></div></div>
+    <footer><button class="secondary-button" type="button" data-close-dialog="cohort-session-dialog">Cancel</button><button class="primary-button" type="submit"><Megaphone size={16} /> Save announcement</button></footer>
+  </form>
+</dialog>
+
+<dialog id="cohort-membership-dialog" class="workspace-dialog small-dialog">
+  <form id="cohort-membership-form" method="dialog" class="dialog-form">
+    <header><div><p class="eyebrow">Cohort membership</p><h2>Add or move student</h2></div><button class="icon-button" type="button" data-close-dialog="cohort-membership-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+    <div class="dialog-body"><input name="cohort_id" type="hidden" /><p id="membership-context" class="dialog-context"></p><label>Student<select id="membership-student" name="student_id" required></select></label><div id="membership-status" class="form-status"></div></div>
+    <footer><button class="secondary-button" type="button" data-close-dialog="cohort-membership-dialog">Cancel</button><button class="primary-button" type="submit"><Check size={16} /> Confirm membership</button></footer>
+  </form>
+</dialog>
+
+<dialog id="attendance-dialog" class="workspace-dialog detail-dialog">
+  <form id="attendance-form" method="dialog" class="dialog-form">
+    <header><div><p class="eyebrow">Session delivery</p><h2>Attendance</h2></div><button class="icon-button" type="button" data-close-dialog="attendance-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+    <div class="dialog-body"><input name="session_id" type="hidden" /><p id="attendance-context" class="dialog-context"></p><div id="attendance-roster" class="attendance-roster"></div><div id="attendance-status" class="form-status"></div></div>
+    <footer><button class="secondary-button" type="button" data-close-dialog="attendance-dialog">Cancel</button><button class="primary-button" type="submit"><Check size={16} /> Save attendance</button></footer>
+  </form>
+</dialog>
+      <section class="workspace-view" data-workspace-view="constraints" aria-labelledby="constraints-heading" hidden>
+        <div class="view-toolbar"><div><p class="eyebrow">Career context</p><h2 id="constraints-heading">My real-world constraints</h2><p class="view-copy">Keep this current so recommendations fit your actual choices.</p></div></div>
+        <form id="constraints-form" class="constraints-form">
+          <fieldset><legend>Time and money</legend><div class="form-grid three"><label>Budget range<select name="budget_range"><option value="not-set">Not set</option><option value="very-limited">Very limited</option><option value="limited">Limited</option><option value="moderate">Moderate</option><option value="flexible">Flexible</option></select></label><label>Hours available each week<input name="available_hours_per_week" type="number" min="0" max="100" /></label><label>Maximum commute (minutes)<input name="max_commute_minutes" type="number" min="0" max="360" /></label></div><label>Education timeline<input name="education_timeline" maxlength="500" placeholder="What timing are you working with?" /></label></fieldset>
+          <fieldset><legend>Location and access</legend><div class="form-grid three"><label>Willing to relocate<select name="willing_to_relocate"><option value="">Not sure</option><option value="true">Yes</option><option value="false">No</option></select></label><label>Device access<select name="device_access"><option value="not-set">Not set</option><option value="shared-phone">Shared phone</option><option value="personal-phone">Personal phone</option><option value="shared-computer">Shared computer</option><option value="personal-computer">Personal computer</option></select></label><label>Internet access<select name="internet_access"><option value="not-set">Not set</option><option value="limited">Limited</option><option value="mobile-only">Mobile only</option><option value="reliable">Reliable</option></select></label></div><div class="form-grid two"><label>Relocation preferences<input name="relocation_preferences" maxlength="300" placeholder="Cities or regions, separated by commas" /></label><label>Preferred languages<input name="preferred_languages" maxlength="300" placeholder="Languages, separated by commas" /></label></div></fieldset>
+          <fieldset><legend>Personal context</legend><div class="form-grid two"><label>Family expectations<textarea name="family_expectations" rows="3" maxlength="1000"></textarea></label><label>Work or care responsibilities<textarea name="work_or_care_responsibilities" rows="3" maxlength="1000"></textarea></label><label>Accessibility support<textarea name="accessibility_support" rows="3" maxlength="1000"></textarea></label><label>Schedule or health considerations<textarea name="schedule_or_health_considerations" rows="3" maxlength="1000"></textarea></label></div></fieldset>
+          <fieldset><legend>Decision boundaries</legend><div class="form-grid two"><label>Risk comfort (1-5)<input name="risk_tolerance" type="range" min="1" max="5" value="3" /><output id="risk-value">3</output></label><label>Study abroad interest<select name="study_abroad_interest"><option value="not-sure">Not sure</option><option value="no">No</option><option value="maybe">Maybe</option><option value="yes">Yes</option></select></label></div><div class="preset-input-stack"><label>Non-negotiables<input name="non_negotiables" maxlength="500" placeholder="Add your own, separated by commas" /></label><label>Add a common boundary<select id="non-negotiable-preset"><option value="">Choose and add</option></select></label></div><label>Anything else your coach should understand<textarea name="student_notes" rows="4" maxlength="2000"></textarea></label></fieldset>
+          <div class="sticky-form-actions"><span id="constraints-saved-at"></span><button id="save-constraints" class="primary-button" type="submit"><Check size={16} /> Save context</button></div>
+        </form>
+      </section>
+
+      {showRoleLab && (
+        <section class="workspace-view" data-workspace-view="role-lab" aria-labelledby="role-lab-heading" hidden>
+          <div class="view-toolbar"><div><p class="eyebrow">Local testing</p><h2 id="role-lab-heading">Role Lab</h2><p class="view-copy">Fresh private passwords are generated each time this lab is prepared.</p></div><button id="seed-role-lab" class="primary-button" type="button"><FlaskConical size={16} /> Prepare test roles</button></div>
+          <div class="notice secure"><ShieldCheck size={18} /><span>Available only from this local dashboard. Production builds omit this screen.</span></div>
+          <div id="role-lab-credentials" class="credential-grid"></div>
+          <section class="lab-approval-strip"><div><p class="eyebrow">Approval test</p><h3>Riya Approval Student</h3><p>A pending student request appears in Accounts after the lab is prepared.</p></div><button class="secondary-button" type="button" data-open-view="accounts">Open accounts <ChevronRight size={16} /></button></section>
+        </section>
+      )}
+    </main>
+
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile workspace navigation"></nav>
+  </div>
+
+  <dialog id="account-dialog" class="workspace-dialog">
+    <form id="account-form" method="dialog" class="dialog-form">
+      <header><div><p id="account-dialog-eyebrow" class="eyebrow">Hierarchy account</p><h2 id="account-dialog-title">Create account</h2></div><button class="icon-button" type="button" data-close-dialog="account-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+      <div class="dialog-body">
+        <div id="account-dialog-policy" class="notice secure"><ShieldCheck size={17} aria-hidden="true" /><span>Only the Admin can activate an account.</span></div>
+        <div class="form-grid two"><label>Full name<input name="fullName" maxlength="100" required /></label><label>Email<input name="email" type="email" maxlength="254" required /></label></div>
+        <div class="form-grid two"><label>Role<select id="account-role" name="role" required></select></label><label>Branch<select id="account-branch" name="branchId" required></select></label></div>
+        <label>Reports to<select id="account-supervisor" name="supervisorId" required></select></label>
+        <label id="approve-now-row" class="switch-row"><span><strong>Approve immediately</strong><small>Create the approved login and start password setup.</small></span><input name="approveNow" type="checkbox" checked /></label>
+        <div id="account-form-status" class="form-status" aria-live="polite"></div>
+      </div>
+      <footer><button class="secondary-button" type="button" data-close-dialog="account-dialog">Cancel</button><button id="account-submit" class="primary-button" type="submit"><UserPlus size={16} /><span id="account-submit-label">Create account</span></button></footer>
+    </form>
+  </dialog>
+
+  <dialog id="branch-dialog" class="workspace-dialog small-dialog">
+    <form id="branch-form" method="dialog" class="dialog-form">
+      <header><div><p class="eyebrow">Organisation</p><h2 id="branch-dialog-title">New branch</h2></div><button class="icon-button" type="button" data-close-dialog="branch-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+      <div class="dialog-body"><input id="branch-id" name="branchId" type="hidden" /><label>Branch name<input id="branch-name" name="name" maxlength="100" required /></label><div class="form-grid two"><label>Branch code<input id="branch-code" name="code" maxlength="20" placeholder="Automatic" /></label><label>City<input id="branch-city" name="city" maxlength="100" /></label></div><label id="branch-status-row" hidden>Status<select id="branch-status" name="status"><option value="active">Active</option><option value="inactive">Inactive</option></select></label><div id="branch-form-status" class="form-status"></div></div>
+      <footer><button class="secondary-button" type="button" data-close-dialog="branch-dialog">Cancel</button><button id="branch-submit" class="primary-button" type="submit"><Plus size={16} /><span id="branch-submit-label">Create branch</span></button></footer>
+    </form>
+  </dialog>
+
+  <dialog id="manage-account-dialog" class="workspace-dialog">
+    <form id="manage-account-form" method="dialog" class="dialog-form">
+      <header><div><p class="eyebrow">Admin account control</p><h2>Manage account</h2></div><button class="icon-button" type="button" data-close-dialog="manage-account-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+      <div class="dialog-body">
+        <input id="managed-user-id" name="userId" type="hidden" />
+        <div class="managed-identity"><span id="managed-user-initials" class="avatar">FC</span><span><strong id="managed-user-heading">Account holder</strong><small id="managed-user-meta"></small></span></div>
+        <label>Full name<input id="managed-full-name" name="fullName" maxlength="100" required /></label>
+        <div class="form-grid two"><label>Branch<select id="managed-branch" name="branchId" required></select></label><label>Reports to<select id="managed-supervisor" name="supervisorId" required></select></label></div>
+        <div class="notice warning"><Building2 size={17} aria-hidden="true" /><span>Move direct reports first before changing a manager's branch.</span></div>
+        <div id="manage-account-status" class="form-status" aria-live="polite"></div>
+      </div>
+      <footer><button class="secondary-button" type="button" data-close-dialog="manage-account-dialog">Cancel</button><button id="manage-account-submit" class="primary-button" type="submit"><Check size={16} /> Save changes</button></footer>
+    </form>
+  </dialog>
+
+  <dialog id="reject-dialog" class="workspace-dialog small-dialog">
+    <form id="reject-form" method="dialog" class="dialog-form">
+      <header><div><p class="eyebrow">Admin review</p><h2>Reject request</h2></div><button class="icon-button" type="button" data-close-dialog="reject-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+      <div class="dialog-body"><input id="reject-request-id" name="requestId" type="hidden" /><label>Reason<textarea name="note" rows="4" maxlength="500" required></textarea></label><div id="reject-form-status" class="form-status"></div></div>
+      <footer><button class="secondary-button" type="button" data-close-dialog="reject-dialog">Cancel</button><button class="danger-button" type="submit">Reject request</button></footer>
+    </form>
+  </dialog>
+
+  <dialog id="temporary-password-dialog" class="workspace-dialog small-dialog">
+    <div class="dialog-form">
+      <header><div><p class="eyebrow">One-time access</p><h2>Temporary password</h2></div><button class="icon-button" type="button" data-close-dialog="temporary-password-dialog" aria-label="Close" title="Close"><X size={18} /></button></header>
+      <div class="dialog-body">
+        <div class="credential-recipient"><strong id="temporary-password-name">Account holder</strong><small id="temporary-password-email">email@example.com</small></div>
+        <div class="one-time-password"><code id="temporary-password-value"></code><button id="copy-temporary-password" class="icon-button" type="button" aria-label="Copy temporary password" title="Copy password"><Copy size={17} /></button></div>
+        <div class="notice warning"><Lock size={17} aria-hidden="true" /><span>This password is shown once. The account holder must replace it after signing in.</span></div>
+        <div id="temporary-password-status" class="form-status" aria-live="polite"></div>
+      </div>
+      <footer><button class="primary-button" type="button" data-close-dialog="temporary-password-dialog">Done</button></footer>
+    </div>
+  </dialog>
+</div>
+
+<script is:inline>
+  window.setTimeout(() => {
+    const root = document.getElementById('hierarchy-workspace');
+    if (!root || root.dataset.ready === 'true') return;
+    const boot = document.getElementById('workspace-boot');
+    const auth = document.getElementById('auth-shell');
+    const warning = document.getElementById('load-warning');
+    if (boot) boot.hidden = true;
+    if (auth) auth.hidden = false;
+    if (warning) warning.hidden = false;
+  }, 7000);
+</script>
+
+<script>
+  import { startHierarchyWorkspace } from '../../scripts/hierarchyWorkspace';
+  void startHierarchyWorkspace();
+</script>

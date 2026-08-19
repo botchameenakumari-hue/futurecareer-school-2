@@ -1,0 +1,1437 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = "Best skills for engineers who don't want to code: the real skill map";
+const description =
+  "Best skills for engineers who don't want to code span product thinking, business analysis, technical communication, and client-facing skill stacks. See what to build and what it pays.";
+const canonical =
+  'https://futurecareerschool.com/blog/skills/best-skills-for-engineers-who-dont-want-to-code';
+const publishedDateISO = '2026-07-05';
+const publishedDateLabel = '5 July 2026';
+const authorName = 'Allu Vagdevi';
+const authorUrl = 'https://futurecareerschool.com/about/allu-vagdevi/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: 'The short answer' },
+  { id: 'why-this-feels-scary', label: 'Why "I don\'t want to code" feels like a confession' },
+  { id: 'skill-groups', label: 'The 4 skill groups that replace coding depth' },
+  { id: 'product-thinking', label: 'Product and requirements thinking' },
+  { id: 'data-fluency', label: 'Data fluency without programming' },
+  { id: 'technical-communication', label: 'Technical communication and writing' },
+  { id: 'people-and-delivery', label: 'People, process, and delivery skills' },
+  { id: 'domain-plus-business', label: 'Domain depth plus business acumen' },
+  { id: 'tools-to-learn', label: 'Tools worth learning per skill group' },
+  { id: 'roles-map', label: 'Where these skill groups actually lead' },
+  { id: 'other-paths', label: 'Other non-coding paths worth mapping' },
+  { id: 'checkpoint', label: 'The 4-Checkpoint Protocol' },
+  { id: 'gates', label: 'The 3 Gates before you commit' },
+  { id: 'salary-reality', label: 'Salary reality by skill group' },
+  { id: 'ai-risk', label: 'Where AI changes this calculation' },
+  { id: 'proof-plan', label: 'Building proof without a coding portfolio' },
+  { id: 'mistakes', label: 'Mistakes to avoid' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'related-reading', label: 'Related reading' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const toolRows = [
+  {
+    group: 'Product and requirements thinking',
+    tools: 'Jira or Linear for backlogs, Figma for wireframes, Notion or Confluence for specs, and a simple one-page PRD template to practice writing requirements.',
+  },
+  {
+    group: 'Data fluency without programming',
+    tools: 'SQL (start with SELECT, JOIN, GROUP BY), Excel or Google Sheets for quick analysis, and Power BI or Tableau for dashboards once the SQL basics are solid.',
+  },
+  {
+    group: 'Technical communication and writing',
+    tools: 'Markdown plus a docs tool such as Confluence or a static-site generator, a public style guide like the Google Developer Documentation Style Guide, and a screen recorder for quick explainer clips.',
+  },
+  {
+    group: 'People, process, and delivery skills',
+    tools: 'Jira or Asana for tracking, a simple RAID log template for risk and dependency tracking, and PMP or CAPM study material once you already have real delivery experience to anchor it.',
+  },
+];
+
+const skillGroupCards = [
+  {
+    label: 'Group 1',
+    title: 'Product and requirements thinking',
+    body: 'Turning a vague business problem into a clear, prioritized plan that engineers can build against. This is the single highest-leverage non-coding skill an engineering degree sets you up for.',
+  },
+  {
+    label: 'Group 2',
+    title: 'Data fluency without programming',
+    body: 'Reading, querying, and visualizing data using SQL, Excel, and BI tools to answer business questions, without writing production code or owning a codebase.',
+  },
+  {
+    label: 'Group 3',
+    title: 'Technical communication and writing',
+    body: 'Explaining complex systems clearly in documents, specs, and conversations, for engineers, executives, or customers who need the technical truth without the jargon.',
+  },
+  {
+    label: 'Group 4',
+    title: 'People, process, and delivery skills',
+    body: 'Coordinating people, timelines, risk, and dependencies so technical work actually ships. This is a structured, learnable skill, not a personality trait.',
+  },
+];
+
+const roleRows = [
+  {
+    role: 'Business analyst / systems analyst',
+    skillGroup: 'Product thinking + data fluency',
+    range: 'Rs 4-7 LPA fresher, Rs 13-20 LPA with CBAP/PMI-PBA and 4-6 years',
+  },
+  {
+    role: 'Associate product manager / product manager',
+    skillGroup: 'Product thinking + communication',
+    range: 'Rs 12-22 LPA APM, Rs 20-40 LPA PM at 3-5 years in product companies',
+  },
+  {
+    role: 'Solutions engineer / technical sales engineer',
+    skillGroup: 'Domain depth + communication',
+    range: 'Rs 6-10 LPA fresher-to-mid, Rs 13-20 LPA at technical solutions level',
+  },
+  {
+    role: 'Technical program manager / project manager',
+    skillGroup: 'Delivery + people skills',
+    range: 'Rs 9-17 LPA with PMP, Rs 24-35 LPA+ at technical program manager level',
+  },
+  {
+    role: 'Technical writer (including API documentation)',
+    skillGroup: 'Communication + domain depth',
+    range: 'Rs 4-6 LPA entry, Rs 10-20 LPA in API-focused writing at product firms',
+  },
+  {
+    role: 'Patent agent / IP analyst',
+    skillGroup: 'Domain depth + writing precision',
+    range: 'Rs 6-8 LPA fresher, Rs 20-25 LPA+ at senior level with a law qualification',
+  },
+];
+
+const otherPathCards = [
+  {
+    label: 'Path 5',
+    title: 'Engineering management (people leadership)',
+    body: 'Leading a team of engineers instead of writing production code yourself: setting technical direction, running 1:1s, managing performance, and still using your engineering judgement to review architecture calls. This usually starts with an informal tech-lead stretch inside your current team, not a fresh external hire.',
+  },
+  {
+    label: 'Path 6',
+    title: 'QA and test leadership',
+    body: 'Owning test strategy, quality gates, and release confidence for a product without owning the feature codebase. Manual and exploratory testing skills, test-case design, and defect triage matter more here than writing new automation scripts every day.',
+  },
+  {
+    label: 'Path 7',
+    title: 'Developer relations (DevRel)',
+    body: 'Explaining a technical product to other developers through talks, docs, sample projects, and community support. It draws on Group 3 (technical communication) plus enough hands-on familiarity with the product to answer real developer questions credibly.',
+  },
+  {
+    label: 'Path 8',
+    title: 'Scrum master or agile delivery coach',
+    body: 'Running the process that keeps an engineering team unblocked: sprint planning, removing impediments, and coaching the team on how it works together. This is a narrower, more process-focused cousin of Group 4 (people, process, and delivery skills).',
+  },
+];
+
+const checkpointItems = [
+  {
+    num: '01',
+    title: 'Biology',
+    body: 'Do you want a role where you sit with one problem for hours, or one where you switch between five conversations a day? Business analysis and technical writing reward long, quiet focus. Product management and solutions engineering reward constant context-switching and people contact.',
+    note: 'A path that fights your natural energy pattern will not survive the first tough quarter.',
+  },
+  {
+    num: '02',
+    title: 'Context',
+    body: 'Can you afford 6-18 months of a slower, lower-paid transition while you build proof in a new skill group? Or do you need income now, which points toward a role your current employer already has open, not a brand-new function at a new company.',
+    note: 'An internal move inside your current company is almost always faster than an external switch into a title you have never held.',
+  },
+  {
+    num: '03',
+    title: 'Market',
+    body: 'Is there real, current hiring demand for this specific skill group in your city or remotely, not just a LinkedIn post about someone else\'s switch? Business analysis, product management, and technical program management all show steady India hiring; a role like "AI product strategist" with no clear job description does not.',
+    note: 'Check live job postings for the actual title before you build six months of prep around it.',
+  },
+  {
+    num: '04',
+    title: 'Survival',
+    body: 'Will this skill group still need a human once AI tools get better at the routine parts of it? Drafting a first version of a requirements document or a status report is already easier with AI. Deciding what actually matters, negotiating trade-offs, and owning the outcome is not.',
+    note: 'The safer skill group is the one where a human still has to make the final call, not just produce the first draft.',
+  },
+];
+
+const gateItems = [
+  {
+    num: 'Gate 1',
+    title: 'Proof of skill',
+    body: 'Write one real requirements document, one SQL-based data analysis, or one clear technical explainer for a real (even small) problem. Produce something in the skill group, do not just read about it.',
+  },
+  {
+    num: 'Gate 2',
+    title: 'Proof of communication',
+    body: 'Explain in under two minutes why this specific skill group fits how you actually work, not why the job title sounds impressive next to a "software engineer" label.',
+  },
+  {
+    num: 'Gate 3',
+    title: 'Proof of value',
+    body: 'Show your document, analysis, or explainer to a working business analyst, product manager, or technical writer and ask what is genuinely missing before you invest more time.',
+  },
+];
+
+const skillAiRows = [
+  {
+    skill: 'Requirements documentation, first-draft specs',
+    exposure: 'Higher exposure now',
+    note: 'AI tools already draft a first version of a spec or user story from a rough prompt.',
+  },
+  {
+    skill: 'Data querying and standard report building',
+    exposure: 'Changing, not disappearing',
+    note: 'AI speeds up query writing and chart generation; framing the right business question stays with the person.',
+  },
+  {
+    skill: 'Prioritization and trade-off decisions',
+    exposure: 'Structurally harder to automate',
+    note: 'Deciding what to cut, delay, or ship first requires context, stakeholder trust, and accountability an AI tool cannot hold.',
+  },
+  {
+    skill: 'Client-facing explanation and negotiation',
+    exposure: 'Structurally harder to automate',
+    note: 'Reading a room, adjusting tone, and building trust in a live conversation stays a human skill for the foreseeable future.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Treating "I don\'t want to code" as a confession instead of a skill decision',
+    body: 'Disliking daily coding is not a career-ending flaw. It is information. Use it to point toward product, analysis, communication, or delivery skill groups instead of forcing five more years of a skill you already know you dislike.',
+  },
+  {
+    num: '02',
+    title: 'Chasing a job title with no skill plan underneath it',
+    body: 'Wanting to "become a product manager" without building product-thinking proof first almost never works. Build the skill group first; the title follows the proof, not the other way round.',
+  },
+  {
+    num: '03',
+    title: 'Assuming non-coding roles are lower-effort or lower-pay by default',
+    body: 'Product management, technical program management, and specialised technical writing regularly out-earn entry and mid-level coding roles once proof of work exists. The ceiling is about skill depth and proof, not whether the role involves a code editor.',
+  },
+  {
+    num: '04',
+    title: 'Building five shallow skills instead of one deep skill plus one multiplier',
+    body: 'A person who can genuinely run one skill group well (say, data fluency) and communicate it clearly beats someone with a scattered collection of half-finished certificates in five different areas.',
+  },
+  {
+    num: '05',
+    title: 'Ignoring your engineering degree instead of using it as your edge',
+    body: 'An engineer who becomes a business analyst or solutions engineer in a domain they actually understand (manufacturing, telecom, energy, core software systems) usually beats a generic MBA hire with no domain grounding at all.',
+  },
+];
+
+const faqItems = [
+  {
+    q: "What are the best skills for engineers who don't want to code?",
+    a: 'The strongest non-coding skill groups for engineers are product and requirements thinking, data fluency using SQL and BI tools without writing production code, technical communication and writing, and people-and-delivery skills like project coordination and stakeholder management. Combined with your engineering domain knowledge, these skills open roles like business analyst, product manager, solutions engineer, technical program manager, and technical writer.',
+  },
+  {
+    q: 'Can an engineer really succeed in a career without ever coding again?',
+    a: 'Yes. Roles like business analyst, product manager, technical program manager, solutions engineer, patent agent, and technical writer do not require you to write or maintain production code. Many of them pay as well as or better than entry and mid-level software engineering roles once you have real proof of work in the skill group.',
+  },
+  {
+    q: 'Do I need an MBA to move into a non-coding role after engineering?',
+    a: 'Not always. Business analysis, technical writing, and solutions engineering rarely require one. Product management and technical program management can be entered without an MBA through an internal transfer or an Associate Product Manager (APM) program, though an MBA can help for management-consulting or leadership-track roles with a clear target function in mind.',
+  },
+  {
+    q: 'Which non-coding skill pays the most for engineers in India?',
+    a: 'Product management and technical program management currently show the highest ceiling, with product managers at Indian product companies earning roughly Rs 20-40 LPA at 3-5 years and technical program managers averaging around Rs 24-35 LPA and higher at big tech firms. Business analysis with a CBAP or PMI-PBA certification and specialised API-focused technical writing also show strong mid-career growth.',
+  },
+  {
+    q: 'How long does it take to build a non-coding skill and switch roles?',
+    a: 'It depends on your starting point and the gap you need to close. Some engineers build enough proof for an internal transfer in a few months by doing the work informally in their current team first. Others need a longer stretch, sometimes closer to a year, especially for an external switch with no internal advocate. Give yourself as long as it genuinely takes to build one real proof piece, not an arbitrary deadline.',
+  },
+  {
+    q: 'Will AI replace non-coding roles like business analyst or product manager?',
+    a: 'Partially, and unevenly. AI is already speeding up first-draft documentation, routine data queries, and templated reports. What stays with a human is framing the actual problem, deciding trade-offs and priorities, and being accountable for the call. Build toward that judgment layer instead of only the drafting layer.',
+  },
+  {
+    q: 'What is the fastest way to test if a non-coding path fits me?',
+    a: 'Do the work once before committing to it. Write one real requirements document, run one SQL-based analysis, or draft one clear technical explainer for something you already understand from your degree or current job. Show it to someone already working in that role and ask what is missing. That single test tells you more than any course description.',
+  },
+  {
+    q: 'Does becoming an engineering manager count as a non-coding path?',
+    a: 'Yes, and it is one of the most direct ones, because it usually starts as an internal step up rather than an external switch. An engineering manager sets technical direction, reviews architecture calls, and manages people and priorities, using the same technical judgement as hands-on coding, just aimed at a team instead of a personal codebase. It fits engineers who enjoy mentoring and decision-making but not daily coding.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="skills"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>The best skills for engineers who don't want to code are product and requirements thinking, data fluency without programming, technical communication, and people-and-delivery skills</strong>
+    — built on top of the engineering domain knowledge you already have, not instead of it.
+    These four skill groups lead to real, well-paying roles: business analyst, product manager,
+    solutions engineer, technical program manager, technical writer, and patent agent, none of which
+    need you to write or maintain production code every day. The real decision is not "which job title
+    sounds respectable next to a software engineer role." It is which skill portfolio you build next,
+    because the right skill portfolio is what actually unlocks stronger income opportunities and moves
+    you toward earlier financial freedom, not the coding depth you feel guilty about not having.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Not wanting to code is not a career flaw. It is a signal to build a different skill portfolio, not proof that engineering was a wasted degree.</li>
+      <li>Four skill groups replace coding depth: product and requirements thinking, data fluency without programming, technical communication, and people-and-delivery skills.</li>
+      <li>These skills lead to real roles: business analyst, product manager, solutions engineer, technical program manager, technical writer, and patent agent.</li>
+      <li>Product management and technical program management show the highest ceiling: product managers at Indian product companies earn roughly Rs 20-40 LPA at 3-5 years, and technical program managers average around Rs 24-35 LPA and higher at big tech firms.</li>
+      <li><strong>The path that wins long-term is rarely the job title with the loudest LinkedIn post. It is the skill group you build real proof in, then use to unlock stronger income opportunities over time.</strong></li>
+      <li>Test your fit with one small proof step this month, not by picking whichever title sounds safest at a family gathering.</li>
+      <li>Keep the engineering domain edge and add AI or automation, communication, stakeholder skill, and visible business or technical outcomes. Hybrid proof can scale into operations, product, sales engineering, consulting, services, or ownership.</li>
+    </ul>
+  </div>
+
+  <p>
+    If you are still deciding whether to leave coding-heavy engineering altogether, read
+    <a href="/blog/career-options/career-after-btech-other-than-software/">career after B.Tech other than software</a>
+    for the fuller list of paths and branches.
+  </p>
+
+  <p>
+    If you want a clearer read on which of these skill groups actually fits you, use the
+    <a href="/career-skills-compass/">Career & Skills Compass</a>, or start with the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a>
+    if you are not sure yet which direction plays to your strengths.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The short answer</h2>
+
+  <p>
+    If daily coding drains you, the fix is not forcing yourself through five more years of it. The fix
+    is building a skill portfolio that uses your engineering brain differently: structured thinking,
+    comfort with technical detail, and the ability to turn a messy problem into a clear plan, without
+    the requirement of writing and maintaining production code yourself.
+  </p>
+
+  <p>
+    Four skill groups do this well: <strong>product and requirements thinking</strong> (turning business
+    problems into plans engineers can build), <strong>data fluency without programming</strong> (SQL,
+    Excel, and BI tools to answer questions with data), <strong>technical communication</strong>
+    (explaining complex systems clearly to whoever needs to understand them), and
+    <strong>people-and-delivery skills</strong> (coordinating timelines, risk, and dependencies so work
+    actually ships). Each one, paired with your specific engineering domain, points toward real,
+    hireable roles covered in detail below.
+  </p>
+
+  <h2 id="why-this-feels-scary">Why "I don't want to code" feels like a confession</h2>
+
+  <p>
+    Every engineering campus in India runs on the same script: get the CS-adjacent internship, clear
+    the coding rounds, land the "product-based company" offer. If you sit through that script feeling
+    tired instead of excited, it can feel like something is wrong with you, not the fit.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">The usual bad advice</p>
+    <ul class="callout__list">
+      <li>Push through it, every engineer hates coding at first, you will grow to like it.</li>
+      <li>If you don't want to code, your degree was a waste and you should have picked commerce.</li>
+      <li>Non-coding roles are the "easy way out" and pay much less.</li>
+      <li>Just do an MBA, it will sort out the direction problem for you.</li>
+    </ul>
+    <p class="callout__footer">
+      None of this holds up once you look at what business analysts, product managers, solutions
+      engineers, technical program managers, and technical writers actually earn and actually do all day.
+    </p>
+  </div>
+
+  <p>
+    Disliking daily coding after a few years of doing it is common, not rare. It usually means one of
+    two things: you prefer working with people, ambiguity, and business context over syntax and
+    debugging, or you prefer working with data and patterns over building and maintaining a codebase.
+    Either way, that is a preference you can build a real skill portfolio around.
+  </p>
+
+  <p>
+    An engineering degree is not wasted the moment you stop writing code daily. The structured
+    problem-solving, comfort with technical systems, and ability to read a spec closely are exactly what
+    make engineers strong business analysts, product managers, and technical communicators, once you
+    aim that ability at the right skill group instead of forcing it back into a code editor.
+  </p>
+
+  <h2 id="skill-groups">The 4 skill groups that replace coding depth</h2>
+
+  <p>
+    A flat list of job titles is not useful by itself, because the same title means different things at
+    different companies. Start with the underlying skill group, then look at which roles that skill
+    group actually opens.
+  </p>
+
+  <div class="feature-grid">
+    {skillGroupCards.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      These four skill groups cover most of the non-coding territory open to an engineer. The rest of
+      this article goes deep into each one, plus the roles they lead to, real salary numbers, and a
+      handful of adjacent paths like engineering management, instead of a vague "just be a manager"
+      answer.
+    </p>
+  </div>
+
+  <h2 id="product-thinking">Group 1: Product and requirements thinking</h2>
+
+  <p>
+    This is the single highest-leverage non-coding skill your engineering background sets you up for,
+    and almost nobody explains why clearly.
+  </p>
+
+  <p>
+    Product and requirements thinking means turning a vague business problem, "customers are dropping
+    off at checkout," "the support team is drowning in tickets," into a specific, prioritized plan
+    engineers can actually build against. It is the same structured logic you used in engineering
+    problem sets, aimed at business outcomes instead of a technical proof.
+  </p>
+
+  <p>
+    You do not need to write code to do this well. You need to be able to gather requirements from
+    different stakeholders who each see only part of the problem, prioritize ruthlessly when everything
+    feels urgent, and communicate trade-offs clearly to both engineers and non-technical leadership.
+    Engineers already have the technical fluency to earn credibility with a development team fast, which
+    is exactly why so many product managers and business analysts started out as engineers.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Product thinking is not the same as "having good ideas." Most of the job is saying no to good
+      ideas because they do not fit the current priority, and defending that no to people who outrank
+      you. If the idea of disappointing stakeholders every week sounds exhausting rather than energizing,
+      weigh this against Group 3 or Group 4 below before committing.
+    </p>
+  </div>
+
+  <p>
+    This skill group leads most directly into business analyst and product manager roles, covered in the
+    roles map further down.
+  </p>
+
+  <h2 id="data-fluency">Group 2: Data fluency without programming</h2>
+
+  <p>
+    Data fluency is often confused with data science, which usually still involves Python and statistical
+    modelling. This is a different, narrower skill: reading, querying, and visualizing data using SQL and
+    business intelligence tools like Power BI or Tableau, well enough to answer a specific business
+    question and defend the answer.
+  </p>
+
+  <p>
+    Most business analyst, operations analyst, and BI-focused data analyst roles evaluate SQL, Excel, and
+    one real project ahead of any programming language. Python basics are useful at the margins but are
+    not mandatory at entry level for these roles, unlike a data scientist or machine learning engineer
+    position.
+  </p>
+
+  <p>
+    An engineer moving into this skill group usually has an advantage most fresh commerce or arts
+    graduates do not: comfort reading logic, structure, and technical documentation, which shortens the
+    learning curve on SQL and BI tooling considerably.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      Junior-level dashboard building and routine report generation is already being automated by AI
+      tools that flag anomalies and draft charts on their own. The part of this skill group that stays
+      valuable, and keeps paying well, is framing the right business question before you ever open the
+      query editor, not the query itself.
+    </p>
+  </div>
+
+  <h2 id="technical-communication">Group 3: Technical communication and writing</h2>
+
+  <p>
+    Some engineers are strong technically but genuinely dislike ambiguity, stakeholder politics, and
+    constant context-switching. If that describes you more than the product-thinking description above,
+    this skill group is usually a better fit.
+  </p>
+
+  <p>
+    Technical communication means explaining complex systems clearly in writing or conversation, for
+    engineers who need a clean spec, executives who need a plain-language summary, or customers who need
+    documentation that actually helps them. It rewards depth and precision over speed and stakeholder
+    juggling.
+  </p>
+
+  <p>
+    Technical writers create structured documentation including user manuals, API documentation, SOPs,
+    and white papers, and typically work closely with engineers, developers, product managers, and QA
+    teams without needing to write or maintain the underlying code themselves. API documentation is
+    currently the highest-paying technical writing specialisation in India, because it demands enough
+    technical understanding to read code and API references accurately, without demanding that you write
+    production code yourself.
+  </p>
+
+  <p class="note-line">
+    A patent agent role, covered in the roles map below, is a specialised, higher-ceiling branch of this
+    same skill group: technical precision plus writing, aimed at intellectual property instead of
+    product documentation.
+  </p>
+
+  <h2 id="people-and-delivery">Group 4: People, process, and delivery skills</h2>
+
+  <p>
+    Some engineers do not want to own the "what should we build" question at all. They want to own the
+    "how do we actually get this done on time, with the right people, without missing dependencies"
+    question instead. That is a distinct, learnable skill group: project and program management.
+  </p>
+
+  <p>
+    This skill group rewards structured organisation, clear negotiation, and comfort holding several
+    moving parts, timelines, budgets, risks, and personalities, at once. Project management does not
+    require any coding skill, but does require a great deal of problem-solving, negotiation, and people
+    skill, which is exactly why certifications like PMP exist to formalise and signal this skill set.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      A technical program manager role sits one level above a general project manager: it specifically
+      requires enough technical fluency to understand engineering trade-offs, timelines, and
+      dependencies, which is why engineers with real technical grounding usually out-earn
+      generalist-background project managers in this lane.
+    </p>
+  </div>
+
+  <h2 id="domain-plus-business">Domain depth plus business acumen: your real unfair advantage</h2>
+
+  <p>
+    None of the four skill groups above work in isolation. The engineers who switch successfully pair
+    one of these skill groups with the domain knowledge their specific branch already gave them:
+    manufacturing for mechanical engineers, telecom and semiconductors for ECE, infrastructure for
+    civil, energy systems for electrical, and core software systems for CS graduates who still want to
+    leave hands-on coding.
+  </p>
+
+  <p>
+    An engineer who becomes a business analyst or solutions engineer inside a domain they actually
+    understand from their degree usually has stronger credibility with engineering teams and customers
+    than a generalist MBA hire with no domain grounding at all. Your branch is not a constraint here.
+    It is the specific edge that makes your non-coding skill portfolio harder to copy.
+  </p>
+
+  <h2 id="tools-to-learn">Tools worth learning per skill group</h2>
+
+  <p>
+    Skip the temptation to learn everything at once. Pick the skill group you are testing first and learn
+    only the tools that group actually uses day to day, so your proof-of-work step further down has
+    something real to run on.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Skill group</th>
+          <th>Practical tools to start with</th>
+        </tr>
+      </thead>
+      <tbody>
+        {toolRows.map((item) => (
+          <tr>
+            <td data-label="Skill group"><strong>{item.group}</strong></td>
+            <td data-label="Practical tools to start with">{item.tools}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    None of these tools require a paid course to start. Free tiers, official documentation, and short
+    YouTube walkthroughs cover the basics for every tool above; spend money only once you know the skill
+    group is the right fit and need structured practice or a recognised certification, tested against the
+    10% budget heuristic covered further down.
+  </p>
+
+  <h2 id="roles-map">Where these skill groups actually lead</h2>
+
+  <p>
+    Every one of these roles has a viral "I switched and now I earn X lakhs" story attached to it
+    somewhere online. Compare the real, sourced ranges instead.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Skill group it draws on</th>
+          <th>Realistic salary range (India)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {roleRows.map((item) => (
+          <tr>
+            <td data-label="Role"><strong>{item.role}</strong></td>
+            <td data-label="Skill group it draws on">{item.skillGroup}</td>
+            <td data-label="Realistic salary range (India)">{item.range}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Ranges are directional, based on current salary-tracking sources and hiring data at the time of
+    writing. Always verify current figures against live job postings before making a financial decision.
+  </p>
+
+  <p>
+    If your target is specifically product management, read
+    <a href="/blog/career-options/how-to-get-product-manager-job-after-engineering/">how to get a product manager job after engineering</a>
+    for the full route-by-route playbook, internal transfer versus external APM programs, skill gaps,
+    and interview prep, once you have confirmed product thinking is genuinely your skill group.
+  </p>
+
+  <h2 id="other-paths">Other non-coding paths worth mapping</h2>
+
+  <p>
+    The four skill groups above cover most of the non-coding territory, but a few adjacent paths come up
+    often enough that they deserve their own quick map instead of getting buried inside someone else's
+    section.
+  </p>
+
+  <div class="feature-grid">
+    {otherPathCards.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      Engineering management deserves a specific note: it is not really a "non-coding" skill group so
+      much as a different use of the same technical judgement, now aimed at people and decisions instead
+      of a personal codebase. For engineers who genuinely enjoy mentoring and technical decision-making
+      but not daily hands-on coding, it can unlock stronger income opportunities faster than any of the
+      other four groups, because it usually starts as an internal step up rather than an external switch.
+    </p>
+  </div>
+
+  <h2 id="checkpoint">Use The 4-Checkpoint Protocol before you pick one skill group</h2>
+
+  <p>
+    Four skill groups and six roles is still too much to hold in your head at once. The 4-Checkpoint
+    Protocol narrows it down fast.
+  </p>
+
+  <div class="protocol-stack">
+    {checkpointItems.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+          <div class="checkpoint__note">{item.note}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="gates">Pass The 3 Gates before you commit months to one skill group</h2>
+
+  <p>
+    The 4-Checkpoint Protocol helps you compare skill groups on paper.
+  </p>
+
+  <p>
+    The 3 Gates make you test the skill group in the real world before you spend months or serious money
+    building it.
+  </p>
+
+  <div class="gates-block">
+    <p class="gates-block__title">
+      Do not lock in a certification or course plan before passing The 3 Gates.
+    </p>
+    <div class="gates-row">
+      {gateItems.map((item) => (
+        <div class="gate">
+          <span class="gate__num">{item.num}</span>
+          <span class="gate__name">{item.title}</span>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="highlight-box highlight-box--amber">
+    <p>
+      <strong>Budget heuristic, not a rule:</strong> if you are weighing a paid certification such as
+      CBAP, PMI-PBA, or PMP, treat roughly 10% of your total transition budget as a starting planning
+      limit, not a fixed law. Spend meaningfully more than that only when the specific certification's
+      syllabus, recognised demand for it at your target employers, and real interview or placement signal
+      justify it, not because the name sounds serious on a resume. Put the remaining budget toward free or
+      low-cost practice first: the proof-of-work test covered in Building proof below costs nothing and
+      tells you more about fit than any certificate.
+    </p>
+  </div>
+
+  <h2 id="salary-reality">Salary reality by skill group, not forum screenshots</h2>
+
+  <p>
+    Non-coding does not mean lower-paid. It means the pay curve depends on skill depth and proof of
+    work, the same as it does for coding roles, just measured differently.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__footer" style="margin-top: 0 !important;">
+      <strong>The skill group is the lever, not the job title.</strong> The same "business analyst" title
+      pays Rs 5 LPA at one company and Rs 20 LPA at another, based on certification, domain depth, and
+      proof of work. Building real depth in one skill group is what unlocks stronger income opportunities
+      and earlier financial freedom, well before the title on your offer letter changes.
+    </p>
+  </div>
+
+  <p>
+    Business analysts typically start around Rs 4-7 LPA and move to Rs 13-20 LPA within 4-6 years,
+    especially with a CBAP or PMI-PBA certification, which studies show adds roughly 13-22% over
+    non-certified peers. Product managers at Indian product companies (the Flipkarts, Swiggys, and
+    Razorpays of the market, not services firms) typically earn Rs 20-35 LPA at the PM level and
+    Rs 40-70 LPA at senior PM level, though technical PMs with an engineering and problem-solving
+    background often earn 10-15% more than non-technical peers entering the same role. Technical program
+    managers average around Rs 24-35 LPA in general roles, climbing well past Rs 50 LPA at large product
+    and technology companies. PMP-certified project managers earn roughly 13% more than non-certified
+    peers, with fresher PMP holders averaging close to Rs 13-14 LPA.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Skill signal</th>
+          <th>Impact on pay</th>
+          <th>Context</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Skill signal"><strong>CBAP / PMI-PBA certification (business analysis)</strong></td>
+          <td data-label="Impact on pay">Roughly 13-22% higher than non-certified peers</td>
+          <td data-label="Context">Strongest at senior business-analyst level, pushing pay toward Rs 20-28 LPA.</td>
+        </tr>
+        <tr>
+          <td data-label="Skill signal"><strong>PMP certification (project/program management)</strong></td>
+          <td data-label="Impact on pay">Roughly 13% higher than non-certified peers</td>
+          <td data-label="Context">Fresher PMP holders average close to Rs 13-14 LPA; technical program manager roles pay considerably higher.</td>
+        </tr>
+        <tr>
+          <td data-label="Skill signal"><strong>Product company vs services company (product management)</strong></td>
+          <td data-label="Impact on pay">Often a 1.5-2x gap at the same title</td>
+          <td data-label="Context">Indian product companies pay meaningfully more for the same PM title than IT services or non-tech firms.</td>
+        </tr>
+        <tr>
+          <td data-label="Skill signal"><strong>API-focused specialisation (technical writing)</strong></td>
+          <td data-label="Impact on pay">Roughly 2-3x general technical writing pay</td>
+          <td data-label="Context">API technical writers at product firms earn Rs 10-20 LPA against a Rs 4-6 LPA general entry range.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="ai-risk">Where AI actually changes this calculation</h2>
+
+  <p>
+    Every non-coding skill group now gets some version of the same anxious question: will AI just do
+    this instead of me?
+  </p>
+
+  <p>
+    The honest answer is uneven. Educated white-collar roles, not factory or trade roles, are the ones
+    most affected by the current wave of workplace automation, and business analysis, documentation, and
+    reporting sit squarely inside that exposure zone for their routine layer. What survives is the
+    framing and judgment layer: deciding what the real problem is, prioritising trade-offs, and being
+    accountable for the call, tasks that current research shows remain firmly with people even as AI
+    speeds up first drafts.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Task inside the skill group</th>
+          <th>AI exposure</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        {skillAiRows.map((item) => (
+          <tr>
+            <td data-label="Task inside the skill group"><strong>{item.skill}</strong></td>
+            <td data-label="AI exposure">{item.exposure}</td>
+            <td data-label="Why">{item.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Professionals who demonstrate real AI proficiency inside their skill group are already earning
+    meaningfully more than peers who ignore these tools, so the safest move is not avoiding AI, it is
+    using it for the drafting layer while you build depth in the judgment layer.
+  </p>
+
+  <h2 id="proof-plan">Building proof without a coding portfolio</h2>
+
+  <p>
+    A coding portfolio has an obvious shape: GitHub, deployed projects, commit history. Non-coding skill
+    groups need proof too, it just looks different, and most engineers underestimate how easy it is to
+    build.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">Weak, generic proof</div>
+      <ul>
+        <li>A certificate from a course you finished but never applied.</li>
+        <li>A resume line claiming "strong communication skills" with no example.</li>
+        <li>Vague interest in "product" or "management" with nothing built.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">Real, specific proof</div>
+      <ul>
+        <li>One requirements document or user story you wrote for a real (even informal) problem at your current job or a personal project.</li>
+        <li>One SQL query or dashboard that answered a genuine business question, with the question and the answer both visible.</li>
+        <li>One clear technical explainer, written for a non-technical reader, that a real person outside your head actually understood.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>
+    If you already work at a company with a product, engineering, or operations function, the fastest
+    proof step is almost always informal: volunteer to write the next requirements doc, offer to build
+    the next status dashboard, or take the next documentation task nobody wants. That informal track
+    record is exactly what internal transfers get built on.
+  </p>
+
+  <h2 id="mistakes">Mistakes to avoid when building a non-coding skill portfolio</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not try to evaluate four skill groups and six roles in your head this week.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      Shortlist one skill group from this page that genuinely fits how you work, not which title sounds
+      best next to a software engineer offer.
+    </p>
+    <p>
+      Run it through The 4-Checkpoint Protocol, then pass The 3 Gates on it before you spend money or
+      months building toward it.
+    </p>
+  </div>
+
+  <p>
+    Achieving earlier financial freedom usually comes down to picking a high-value skill direction early,
+    even a non-coding one, and building visible proof in it, not chasing whichever job title currently
+    feels safest to explain to your family. Move toward that skill direction with
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    if you want a second opinion, or start with the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a>
+    if you are not sure yet which skill group fits you.
+  </p>
+
+  <h2 id="related-reading">Related reading</h2>
+
+  <ul class="related-links">
+    <li>
+      <a href="/blog/career-options/career-after-btech-other-than-software/">Career after B.Tech other than software</a>
+      <span>The fuller list of paths and branches if you are still deciding whether to leave coding-heavy engineering at all.</span>
+    </li>
+    <li>
+      <a href="/blog/career-options/how-to-get-product-manager-job-after-engineering/">How to get a product manager job after engineering</a>
+      <span>The route-by-route playbook once product thinking looks like your skill group.</span>
+    </li>
+    <li>
+      <a href="/blog/career-options/is-software-engineering-a-good-career-in-india/">Is software engineering a good career in India</a>
+      <span>The honest picture on the other side of this decision, before you commit to leaving hands-on coding.</span>
+    </li>
+    <li>
+      <a href="/blog/career-options/career-options-for-non-cs-engineers/">Career options for non-CS engineers</a>
+      <span>Useful if your branch already sits outside core coding roles.</span>
+    </li>
+  </ul>
+
+  <h2 id="faq">FAQs on the best skills for engineers who don't want to code</h2>
+
+  <div class="faq-list">
+    {faqItems.map((item, index) => (
+      <details class="faq-item" open={index === 0}>
+        <summary class="faq-item__q">{item.q}</summary>
+        <div class="faq-item__a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong {
+      color: #fff;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .key-takeaways {
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.35rem 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.1), transparent 60%),
+        rgba(255, 255, 255, 0.03);
+    }
+    .key-takeaways__label {
+      margin: 0 0 0.7rem !important;
+      font-size: 11px !important;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(45, 212, 191, 0.95) !important;
+    }
+    .key-takeaways ul {
+      margin: 0 !important;
+      padding-left: 1.15rem !important;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .key-takeaways li {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.82) !important;
+      line-height: 1.7 !important;
+      font-size: 15.5px;
+    }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.06);
+    }
+    .callout__eyebrow {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.7rem !important;
+    }
+    .callout__list {
+      margin: 0 0 0.2rem 1.1rem !important;
+      padding: 0 !important;
+    }
+    .callout__list li {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.7 !important;
+      margin: 0.32rem 0 !important;
+    }
+    .callout__footer {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      margin: 0.8rem 0 0 !important;
+      line-height: 1.74 !important;
+    }
+
+    .feature-grid,
+    .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .feature-card,
+    .compare-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .feature-card__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      color: rgba(45, 212, 191, 0.96);
+      margin-bottom: 0.5rem;
+    }
+    .feature-card__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.93);
+      line-height: 1.28;
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .feature-card p {
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0 !important;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .compare-card--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .compare-card--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul {
+      margin: 0 0 0 1rem !important;
+      padding: 0 !important;
+    }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .protocol-stack,
+    .faq-list,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .faq-item,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .gates-block {
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+      padding: 1.25rem 1.2rem;
+      margin: 1.45rem 0;
+    }
+    .gates-block__title {
+      font-size: 13px !important;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      line-height: 1.6 !important;
+      margin: 0 0 0.95rem !important;
+    }
+    .gates-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .gate {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1rem 0.95rem;
+    }
+    .gate__num {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(45, 212, 191, 0.82);
+      font-weight: 800;
+      margin-bottom: 0.24rem;
+    }
+    .gate__name {
+      display: block;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.45rem;
+      font-family: "Sora", sans-serif;
+    }
+    .gate p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.66 !important;
+      color: rgba(255, 255, 255, 0.64) !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    .related-links {
+      list-style: none !important;
+      margin: 1.35rem 0 !important;
+      padding: 0 !important;
+      display: grid;
+      gap: 0.7rem;
+    }
+    .related-links li {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.85rem 1rem;
+      margin: 0 !important;
+    }
+    .related-links a {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(45, 212, 191, 0.96);
+      text-decoration: none;
+      margin-bottom: 0.3rem;
+    }
+    .related-links a:hover {
+      color: #fff;
+    }
+    .related-links span {
+      display: block;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .faq-item__q {
+      padding: 0.95rem 1.15rem;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .faq-item__a {
+      padding: 0.95rem 1.15rem 1rem;
+      font-size: 14.5px;
+      line-height: 1.76;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    @media (max-width: 820px) {
+      .feature-grid,
+      .comparison-grid,
+      .gates-row,
+      .jump-nav__list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+      text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .feature-card,
+      .compare-card,
+      .highlight-box,
+      .checkpoint,
+      .gates-block,
+      .gate,
+      .mistake-item,
+      .faq-item__q,
+      .faq-item__a {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 620px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+  </style>
+</BlogPostLayout>

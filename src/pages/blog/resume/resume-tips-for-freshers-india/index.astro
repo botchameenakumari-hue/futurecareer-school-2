@@ -1,0 +1,991 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Resume tips for freshers India: build one with zero work experience';
+const description =
+  'Resume tips for freshers India who have no job history yet: what to lead with instead, ATS formatting rules that actually matter, and the mistakes that get fresher resumes rejected.';
+const canonical =
+  'https://futurecareerschool.com/blog/resume/resume-tips-for-freshers-india';
+const publishedDateISO = '2026-07-17';
+const publishedDateLabel = '17 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: 'The short answer' },
+  { id: 'no-experience-structure', label: 'How to structure a resume with no work history' },
+  { id: 'section-order', label: 'The section order that actually works' },
+  { id: 'ats-basics', label: 'ATS formatting basics recruiters and bots both need' },
+  { id: 'projects-section', label: 'How to write a projects section that pulls weight' },
+  { id: 'internships-section', label: 'Internships, even short or unpaid ones' },
+  { id: 'coursework-extracurriculars', label: 'Coursework and extracurriculars, used correctly' },
+  { id: 'quantify', label: 'Quantifying impact when you have no numbers yet' },
+  { id: 'mistakes', label: 'Mistakes that get fresher resumes rejected' },
+  { id: 'one-page-debate', label: 'One page or two pages: the honest answer' },
+  { id: 'checkpoint', label: 'The 4-Checkpoint Protocol before you hit send' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const sectionOrderRows = [
+  {
+    section: 'Contact line',
+    what: 'Name, phone, email, city, LinkedIn URL, and a portfolio/GitHub link if relevant. No photo, no age, no marital status.',
+  },
+  {
+    section: 'Summary (2-3 lines, not an "objective")',
+    what: 'Degree, strongest skill area, and one specific thing you have built or done. Written for the exact role, not copy-pasted across applications.',
+  },
+  {
+    section: 'Skills',
+    what: 'Grouped by type (languages, tools, frameworks, soft skills) in a plain comma-separated line, not a graphic skill bar.',
+  },
+  {
+    section: 'Projects',
+    what: 'Your strongest 2-4 projects, each with the problem, what you built, tools used, and one measurable outcome.',
+  },
+  {
+    section: 'Internships (if any)',
+    what: 'Even a 4-6 week internship goes here, written with the same outcome-first structure as a job.',
+  },
+  {
+    section: 'Education',
+    what: 'Degree, institution, year, and CGPA/percentage only if it is a genuine strength.',
+  },
+  {
+    section: 'Certifications and extracurriculars',
+    what: 'Relevant certifications, competitions, college fest roles, or volunteering that show initiative or a transferable skill.',
+  },
+];
+
+const atsRows = [
+  {
+    rule: 'File format',
+    reality:
+      '.docx is the safest, most universally parsed format for ATS systems used by large recruiters. A well-tagged PDF exported from a simple layout also works in most modern ATS, but avoid PDFs built from heavily designed templates.',
+  },
+  {
+    rule: 'Layout',
+    reality:
+      'Single column, no text boxes, no tables for layout, no headers/footers containing your name or contact details. ATS parsers frequently fail to read text placed inside these elements.',
+  },
+  {
+    rule: 'Fonts and formatting',
+    reality:
+      'Stick to standard fonts (Calibri, Arial, or similar) and use bold/italics sparingly for emphasis, not for entire sections.',
+  },
+  {
+    rule: 'Section headings',
+    reality:
+      'Use plain, standard headings the parser recognizes: "Skills", "Projects", "Experience", "Education". Creative headings like "My Journey" or "What I Bring" often get skipped by parsing software.',
+  },
+  {
+    rule: 'Keywords',
+    reality:
+      'Mirror the exact terms from the job description where genuinely true of your background. If the listing says "React.js", write "React.js", not just "React" or "frontend development".',
+  },
+  {
+    rule: 'Graphics and icons',
+    reality:
+      'Skill-bar graphics, star ratings, and icon-based contact rows are invisible to most ATS parsing engines, so the information inside them is effectively lost from your applicant record.',
+  },
+];
+
+const checkpointItems = [
+  {
+    num: '01',
+    title: 'Scan',
+    body: 'Read your own resume for exactly 7 seconds, the way an eye-tracking study shows most recruiters do on a first pass. Can you tell, in that time, what you studied, what you have built, and what role you want? If not, your layout is working against you before your content even gets a chance.',
+    note: 'The top third of the page carries almost all the weight. If your strongest project or skill sits below the fold, move it up.',
+  },
+  {
+    num: '02',
+    title: 'Match',
+    body: 'Open the actual job description next to your resume. Does your skills section use the same terms the listing uses? A generic resume sent to every company usually loses to a resume that was edited in ten minutes to match this one listing.',
+    note: 'This single habit is the difference most career-guidance data points to between a 30-50% higher callback rate and a resume that goes nowhere.',
+  },
+  {
+    num: '03',
+    title: 'Proof',
+    body: 'For every bullet point, ask: does this describe an action with a result, or just a task? "Built a to-do app using React" is a task. "Built a to-do app in React that reduced my own weekly planning time and handled offline sync for 200+ test users" is proof.',
+    note: 'You do not need corporate numbers as a fresher. A project outcome, a competition rank, or a user count all count as real proof.',
+  },
+  {
+    num: '04',
+    title: 'Clean',
+    body: 'Run a final pass for typos, inconsistent tense, inconsistent formatting between sections, and a file name that just says "resume.pdf". Save it as "Firstname-Lastname-Resume.pdf" or ".docx" instead.',
+    note: 'Small formatting slips are one of the fastest ways an otherwise strong fresher resume gets set aside.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Leading with a generic "career objective"',
+    body: 'Lines like "Seeking a challenging position where I can utilize my skills and grow professionally" carry zero searchable keywords and tell a recruiter nothing they could not already guess. Replace it with a 2-3 line summary naming your degree, your strongest skill area, and one specific thing you have done.',
+  },
+  {
+    num: '02',
+    title: 'Listing tasks instead of outcomes',
+    body: '"Worked on a machine learning project" says almost nothing. "Built a spam classifier with 92% accuracy on a 5,000-email dataset" tells a recruiter exactly what you can do. If you genuinely have no number, describe the scale, the users, or the specific problem solved instead.',
+  },
+  {
+    num: '03',
+    title: 'Using a heavily designed template for ATS-scanned roles',
+    body: 'Two-column layouts, icon-based contact rows, and skill-bar graphics look sharp to a human but frequently get scrambled or dropped by parsing software at large recruiters and campus placement portals. Simple beats stylish when the first reader is software.',
+  },
+  {
+    num: '04',
+    title: 'Sending the same resume to every company',
+    body: 'A resume tuned to the exact job description language usually gets read further than a generic one, because both the ATS keyword match and the human reviewer are looking for direct relevance, not general competence.',
+  },
+  {
+    num: '05',
+    title: 'Padding with irrelevant details',
+    body: 'Photo, age, marital status, and a long list of unrelated hobbies use up your limited first-screen attention without building a case for the role. Every line should answer "why does this make me a better fit," not "what else is true about me."',
+  },
+  {
+    num: '06',
+    title: 'Inconsistent formatting between sections',
+    body: 'Mixing date formats, font sizes, or bullet styles across sections signals carelessness to a human reviewer even when the content itself is strong. Keep formatting, tense, and punctuation identical throughout.',
+  },
+];
+
+const oneVsTwoRows = [
+  {
+    situation: 'Genuinely no internships, 2-3 solid projects, standard coursework',
+    guidance: 'One page. A one-page resume for a fresher signals clarity of thinking; padding it to two pages usually adds noise, not proof.',
+  },
+  {
+    situation: 'One or more internships, 4+ strong projects, relevant certifications',
+    guidance: 'Still fits one page for most freshers if you cut ruthlessly. Keep only the strongest 2-4 projects and the most relevant internship detail.',
+  },
+  {
+    situation: 'Multiple internships, published work, competition wins, and leadership roles',
+    guidance: 'A tight second page is acceptable if every line on it earns its place. A half-full second page reads worse than a full first page.',
+  },
+  {
+    situation: 'Campus placement portal or a large-company ATS submission',
+    guidance: 'Default to one page unless the specific portal instructions say otherwise. Most fresher-level ATS workflows are built around a single-page scan.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'What should a fresher put on a resume with no work experience?',
+    a: 'Lead with a short, role-specific summary, then move straight into skills and projects, since projects are the strongest substitute for work history a fresher has. Follow with internships if you have any, even short ones, then education, then certifications and relevant extracurriculars. The goal is to show what you can actually do, not just what you studied.',
+  },
+  {
+    q: 'Is a career objective necessary on a fresher resume?',
+    a: 'No, and a generic one usually hurts more than it helps. A line like "seeking a challenging position to utilize my skills" carries no real information and often gets treated as filler by both ATS keyword matching and human reviewers. Replace it with a 2-3 line summary that names your degree, your strongest skill area, and one specific achievement or project.',
+  },
+  {
+    q: 'How do ATS systems actually scan a fresher resume?',
+    a: 'Most ATS software parses your resume into plain text and checks it against keywords from the job description, then ranks or filters candidates before a human ever opens the file. Simple single-column layouts, standard section headings, and exact keyword matches from the job listing parse cleanly. Text boxes, tables used for layout, and graphic skill bars often get scrambled or dropped entirely during parsing.',
+  },
+  {
+    q: 'Should a fresher resume be one page or two pages?',
+    a: 'For most freshers, one page is the right length, since recruiters commonly treat a two-page resume from someone with under three years of experience as a signal of poor editing rather than added value. A tight second page is defensible only if you genuinely have multiple internships, projects, and achievements that would otherwise force you to cut something strong.',
+  },
+  {
+    q: 'How long do recruiters actually spend on a fresher resume?',
+    a: 'Eye-tracking research has repeatedly found an initial scan of roughly 6-7 seconds, with recruiters processing hundreds of resumes for a single opening. That first look focuses heavily on the top third of the page, which is exactly why your summary, skills, and strongest project need to sit above the fold, not buried after a long objective statement.',
+  },
+  {
+    q: 'What projects should a fresher put on a resume if they have no internship?',
+    a: 'Pick your 2-4 strongest projects, academic or self-initiated, and describe each with the problem you solved, the tools you used, and one measurable outcome, such as users, accuracy, speed, or scale. A well-documented personal or college project carries real weight when there is no job history to lean on, especially if you can also show it live or on GitHub.',
+  },
+  {
+    q: 'Does resume length or format matter more for ATS?',
+    a: 'Format matters more for whether the ATS reads your resume correctly at all; length matters more for whether a human keeps reading once it gets to them. A perfectly formatted two-page resume with weak content will not out-perform a well-matched one-page resume, so treat both as necessary, not as a trade-off against each other.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="resume"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>The most useful resume tips for freshers in India start from one fact: you do not need a work-history section to write a strong resume.</strong>
+    You need a structure that leads with what you can actually do — projects, internships, and coursework —
+    formatted so both a human recruiter and an ATS parser can find it in the first few seconds. Most fresher
+    resumes fail not because the candidate lacks substance, but because the substance is buried under a
+    generic objective line, a design-heavy template, or a page of tasks with no result attached.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>A resume that leads with real proof of skill is what actually unlocks higher-paying roles for a fresher - it is the document that decides which opportunities you even get considered for, not just whether you get shortlisted.</li>
+      <li>Skip the "career objective." Replace it with a 2-3 line summary naming your degree, strongest skill, and one specific project or result.</li>
+      <li>Lead with skills and projects, not education, since projects are your strongest substitute for work history.</li>
+      <li>Keep the layout ATS-safe: single column, standard section headings, no graphics, no tables for layout.</li>
+      <li>Quantify wherever you honestly can — users, accuracy, scale, rank — and describe scope clearly when you cannot.</li>
+      <li>One page is the right length for almost every fresher resume; a second page only earns its place with genuinely more proof.</li>
+    </ul>
+  </div>
+
+  <p>
+    This guide sits in Future Career School's
+    <a href="/blog/resume/">resume writing library</a>, alongside format and mistake-focused guides for every
+    stage of the job search.
+  </p>
+
+  <p>
+    If your resume keeps getting no response and you are not sure whether the problem is the resume, the
+    roles you are targeting, or your skill positioning, a session with
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can pinpoint which one is actually holding you back before you rewrite the whole thing again.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The short answer to writing a fresher resume with no job history</h2>
+
+  <p>
+    A fresher resume does not need a work-history section to be strong. It needs a section order that puts
+    your strongest evidence first, because recruiters and ATS software are both looking for the same signal:
+    proof you can do the work, not just a list of things you studied.
+  </p>
+
+  <p>
+    That proof comes from three places most freshers underuse: real projects (academic, personal, or
+    hackathon), internships of any length, and coursework or extracurriculars framed around a transferable
+    skill instead of a course title. Treat these as your work-experience section in disguise, and structure
+    them the same way you would structure a job: problem, action, result.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Recruiters are not comparing your resume against an experienced candidate's resume. They are comparing
+      it against every other fresher resume in the stack, most of which open with the same tired "seeking a
+      challenging position" line and a bullet list of course names. You do not need ten years of proof. You
+      need three or four specific, well-described things you actually did.
+    </p>
+  </div>
+
+  <h2 id="no-experience-structure">How to structure a resume with no work history to lean on</h2>
+
+  <p>
+    The instinct most freshers follow is to structure the resume the way a textbook resume template looks:
+    objective, education, skills, then whatever is left. That order buries your strongest material under the
+    least useful part of the page.
+  </p>
+
+  <p>
+    Flip it. Lead with what you can do, not with what you have not done yet. A fresher resume built around
+    proof of skill reads as confident and specific. A fresher resume built around education and hope reads as
+    generic, because it looks like every other resume from the same course and college.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">The structural shift that matters most</p>
+    <ul class="callout__list">
+      <li>Do not open with "Objective." Open with a short summary that states your degree, your strongest skill area, and one specific thing you built or did.</li>
+      <li>Move skills and projects above education. Education is a credential; projects and skills are evidence.</li>
+      <li>Treat internships, even short or unpaid ones, with the same outcome-first structure you would use for a real job.</li>
+      <li>Use coursework and extracurriculars only when they support a specific claim, not as filler to make the page look fuller.</li>
+    </ul>
+    <p class="callout__footer">
+      None of this means education does not matter. It means education alone does not differentiate you from
+      the next 200 resumes with the same degree.
+    </p>
+  </div>
+
+  <h2 id="section-order">The section order that actually works for freshers</h2>
+
+  <p>
+    Here is a practical section order that puts your strongest evidence in the first screen a recruiter or
+    ATS parser sees.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>What goes here</th>
+        </tr>
+      </thead>
+      <tbody>
+        {sectionOrderRows.map((item) => (
+          <tr>
+            <td data-label="Section"><strong>{item.section}</strong></td>
+            <td data-label="What goes here">{item.what}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Swap internships above skills if you have a strong, directly relevant internship. The general rule: your
+    single strongest piece of proof, whatever it is, should be visible in the top third of the page.
+  </p>
+
+  <h2 id="ats-basics">ATS formatting basics recruiters and bots both need</h2>
+
+  <p>
+    Large recruiters, campus placement portals, and job boards commonly run resumes through an Applicant
+    Tracking System before a human ever opens the file. The system parses your resume into plain text and
+    checks it against the job description before deciding whether a recruiter sees it at all. Formatting that
+    looks fine to your eye can still parse badly for the software doing the first filter.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>ATS rule</th>
+          <th>Why it matters</th>
+        </tr>
+      </thead>
+      <tbody>
+        {atsRows.map((item) => (
+          <tr>
+            <td data-label="ATS rule"><strong>{item.rule}</strong></td>
+            <td data-label="Why it matters">{item.reality}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      A simple test before you submit: copy your resume text and paste it into a plain text editor. If the
+      sections, dates, and bullet points still make sense in that stripped-down view, an ATS parser will
+      likely read it correctly too. If the text turns into a jumbled block, your layout needs simplifying.
+    </p>
+  </div>
+
+  <h2 id="projects-section">How to write a projects section that pulls its weight</h2>
+
+  <p>
+    Projects are the closest thing a fresher has to a work-experience section, so treat them with the same
+    rigor. A weak project bullet describes what the project was. A strong one describes what you did and what
+    happened as a result.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Name the problem first.</strong> "Built a system to classify spam emails" is stronger than
+      "Machine learning project," because it tells the reader what the project actually solves in one line.
+    </li>
+    <li>
+      <strong>Name the tools honestly.</strong> List the specific languages, frameworks, and libraries you
+      used, matching the exact terms a job description would use where genuinely true of your work.
+    </li>
+    <li>
+      <strong>End with a result.</strong> A number (accuracy, users, speed, dataset size), a rank
+      (hackathon placement, competition standing), or a concrete outcome (deployed live, used by classmates,
+      solved a real process problem) all count as proof.
+    </li>
+    <li>
+      <strong>Keep it to your strongest 2-4 projects.</strong> A list of eight thin projects reads weaker
+      than three well-described ones. Depth beats a long list here.
+    </li>
+  </ul>
+
+  <h2 id="internships-section">Internships, even short or unpaid ones, deserve real structure</h2>
+
+  <p>
+    A four-week or six-week internship is not too small to matter. Many freshers either skip a short
+    internship entirely or list it as a single vague line, which wastes one of the strongest pieces of
+    evidence available to them.
+  </p>
+
+  <p>
+    Write it the same way you would write a full job: company name, role, dates, then two to three bullets
+    covering what you actually did and what changed because of it. If the internship involved a specific
+    tool, dataset, client interaction, or deliverable, name it directly. "Assisted the marketing team" tells a
+    recruiter nothing. "Managed the company's Instagram content calendar for 6 weeks, growing engagement on
+    weekly posts" tells them exactly what you can walk into on day one.
+  </p>
+
+  <h2 id="coursework-extracurriculars">Coursework and extracurriculars, used correctly</h2>
+
+  <p>
+    Coursework and extracurriculars are useful, but only when they support a specific claim about a skill,
+    not when they are listed to fill space on the page.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">Weak use</div>
+      <ul>
+        <li>Listing every course from your syllabus, including generic ones every student in your program also took.</li>
+        <li>"Member, college coding club" with no context on what that involvement actually produced.</li>
+        <li>Hobbies listed without any connection to the role you are applying for.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">Strong use</div>
+      <ul>
+        <li>Naming a specific elective directly relevant to the role, tied to a project or assignment outcome from that course.</li>
+        <li>"Organized a 200-attendee technical fest as core team lead" — a concrete scope, role, and result.</li>
+        <li>A relevant certification listed with the issuing platform and completion date, not just the title.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="quantify">Quantifying impact when you genuinely have no numbers yet</h2>
+
+  <p>
+    "Quantify your achievements" is common advice, and freshers often get stuck here because a first project
+    or short internship rarely comes with corporate-style metrics attached. You do not need revenue figures
+    or headcount numbers. You need scope.
+  </p>
+
+  <ul>
+    <li><strong>Scale:</strong> dataset size, number of users, number of test cases, number of pages, number of items processed.</li>
+    <li><strong>Accuracy or performance:</strong> model accuracy, load time improvement, error rate reduction, even at a small, honest scale.</li>
+    <li><strong>Rank or recognition:</strong> hackathon placement, competition standing, shortlist or finalist status.</li>
+    <li><strong>Reach:</strong> people who used, viewed, or attended something you built or organized.</li>
+    <li><strong>Time or effort:</strong> duration of the project, team size you coordinated, number of iterations you shipped.</li>
+  </ul>
+
+  <p>
+    If a genuine number truly does not exist, describe the scope and outcome in plain, specific language
+    instead of inventing a number. A specific, honest sentence beats a vague inflated one, and an interviewer
+    will ask you to explain any number you put on the page.
+  </p>
+
+  <p>
+    Quantified proof matters beyond one application, too. The stronger and more specific your evidence, the
+    more your resume can support a real conversation about role level and pay, not just "will you get shortlisted." A resume built on vague tasks caps you at entry-level guesswork. A resume built on specific,
+    provable outcomes gives you a stronger footing to ask for a role - and a number - that actually matches
+    what you can do.
+  </p>
+
+  <h2 id="mistakes">Mistakes that get fresher resumes rejected</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="one-page-debate">One page or two pages: the honest answer</h2>
+
+  <p>
+    This debate gets repeated endlessly, and the honest answer depends on how much genuine proof you have,
+    not on a fixed rule that applies to everyone.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Your situation</th>
+          <th>What to do</th>
+        </tr>
+      </thead>
+      <tbody>
+        {oneVsTwoRows.map((item) => (
+          <tr>
+            <td data-label="Your situation"><strong>{item.situation}</strong></td>
+            <td data-label="What to do">{item.guidance}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Recruiter surveys on this topic mostly reflect experienced-hire preferences, where a longer history
+      genuinely needs more space. That does not transfer cleanly to freshers. A two-page resume from someone
+      with under three years of experience, freshers included, is frequently read as an editing problem, not
+      as extra value. If you are struggling to fill even one page well, that is useful information too: it
+      usually means you need more proof of work before your next application round, not more words on the
+      resume you already have.
+    </p>
+  </div>
+
+  <h2 id="checkpoint">The 4-Checkpoint Protocol before you hit send</h2>
+
+  <p>
+    Before you submit, run your resume through this quick check. It takes a few minutes and catches most of
+    the mistakes that quietly cost freshers interview calls.
+  </p>
+
+  <div class="protocol-stack">
+    {checkpointItems.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+          <div class="checkpoint__note">{item.note}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not keep rewriting the same generic template with small word swaps for every application. Rebuild the
+    structure once using the order above, then spend your remaining time tailoring the summary and skills
+    section to each specific job description.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      If you have zero projects or internships to draw from yet, that is a proof-of-work gap, not a resume
+      problem. The
+      <a href="/career-skills-compass/">Career &amp; Skills Compass</a> and
+      <a href="https://futurecareerschool.com/career-resources?topic=job-search">career resources library</a>
+      can help you pick a small, fast project or find a short internship you can realistically add before
+      your next application round.
+    </p>
+  </div>
+
+  <p>
+    If you have applied widely and still are not getting callbacks even after fixing the resume itself, the
+    gap is often role targeting or skill positioning, not formatting. A session with
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can help you diagnose which one is actually costing you interviews, or start with the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a>
+    if you are still unsure which roles genuinely fit how you like to work.
+  </p>
+
+  <h2 id="faq">FAQs on resume tips for freshers in India</h2>
+
+  <div class="faq-list">
+    {faqItems.map((item) => (
+      <details class="faq-item">
+        <summary class="faq-item__q">{item.q}</summary>
+        <div class="faq-item__a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong {
+      color: #fff;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .key-takeaways {
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.35rem 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.1), transparent 60%),
+        rgba(255, 255, 255, 0.03);
+    }
+    .key-takeaways__label {
+      margin: 0 0 0.7rem !important;
+      font-size: 11px !important;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(45, 212, 191, 0.95) !important;
+    }
+    .key-takeaways ul {
+      margin: 0 !important;
+      padding-left: 1.15rem !important;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .key-takeaways li {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.82) !important;
+      line-height: 1.7 !important;
+      font-size: 15.5px;
+    }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.06);
+    }
+    .callout__eyebrow {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.7rem !important;
+    }
+    .callout__list {
+      margin: 0 0 0.2rem 1.1rem !important;
+      padding: 0 !important;
+    }
+    .callout__list li {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.7 !important;
+      margin: 0.32rem 0 !important;
+    }
+    .callout__footer {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      margin: 0.8rem 0 0 !important;
+      line-height: 1.74 !important;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .compare-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .compare-card--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .compare-card--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul {
+      margin: 0 0 0 1rem !important;
+      padding: 0 !important;
+    }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .protocol-stack,
+    .faq-list,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .faq-item,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    .faq-item__q {
+      padding: 0.95rem 1.15rem;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .faq-item__a {
+      padding: 0.95rem 1.15rem 1rem;
+      font-size: 14.5px;
+      line-height: 1.76;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    @media (max-width: 820px) {
+      .comparison-grid,
+      .jump-nav__list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .compare-card,
+      .highlight-box,
+      .checkpoint,
+      .mistake-item,
+      .faq-item__q,
+      .faq-item__a {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 620px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+  </style>
+</BlogPostLayout>

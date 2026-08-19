@@ -1,0 +1,412 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title = 'Career Counselling for Freshers | Future Career School';
+const description =
+  'Career counselling for freshers evaluating job offers, choosing between a service company and a product company, building a resume with zero experience, and deciding what to do if the first job or placement did not work out.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-freshers/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[3],
+];
+
+const decisionItems = [
+  {
+    title: 'Evaluating your first job offer',
+    body: 'Pay is only one variable. Role scope, learning curve, team quality, and how the job reads on your resume two years from now all shape whether an offer is actually strong.',
+  },
+  {
+    title: 'Service company or product company',
+    body: 'Each path builds different skills at a different pace. Counselling should help you weigh what you are optimising for right now: stability, income, or faster skill compounding.',
+  },
+  {
+    title: 'What to build in year one',
+    body: 'The first year sets the habits and skill direction that shape the next five. Counselling should help you pick a deliberate, high-value skill portfolio that compounds earning potential, instead of drifting into whatever the role happens to hand you and reaching financial freedom later than you needed to.',
+  },
+  {
+    title: 'If placement or your first job did not work out',
+    body: 'A missed placement season or an early exit is not a dead end. The next move should be based on what is actually fixable, not panic-driven decisions made under pressure.',
+  },
+  {
+    title: 'Building a resume and portfolio from zero experience',
+    body: 'Without a work history to lean on, proof of work has to come from somewhere else. Counselling should help you decide what to build and how to present it credibly.',
+  },
+];
+
+const fitItems = [
+  {
+    title: 'You have more than one offer',
+    body: 'When compensation, brand name, and growth potential are pulling you in different directions and the choice feels bigger than it looks on paper.',
+  },
+  {
+    title: 'The job search has taken longer than expected',
+    body: 'When rejections or silence are piling up and it is unclear whether the issue is the resume, the target roles, or the approach.',
+  },
+  {
+    title: 'The first job already feels wrong',
+    body: 'When you have started working but the role, the learning curve, or the team is not matching what you expected, and staying quiet is starting to cost you time.',
+  },
+  {
+    title: 'You are choosing your next skill investment',
+    body: 'When certifications, courses, and "in-demand skill" lists all sound convincing, but none of them are backed by a clear reason tied to your actual goals.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it addresses service company vs product company specifically',
+    body: 'Generic career advice tends to treat this as a settled debate. Stronger guidance should walk through what each path actually does for your skill-building speed, income timeline, and long-term options, given your specific offers.',
+  },
+  {
+    title: 'Check whether offer evaluation goes beyond the pay number',
+    body: 'A higher number is not automatically the better offer. Look for guidance that weighs learning curve, team quality, and resume value alongside compensation instead of defaulting to the highest package.',
+  },
+  {
+    title: 'Check whether a rough start is treated as fixable, not final',
+    body: 'A missed placement season or a first job that did not work out should be treated as a reset point, not something to be talked out of feeling bad about. Look for a concrete next step, not just reassurance.',
+  },
+  {
+    title: 'Check whether proof of work gets built, not just recommended',
+    body: 'Telling a fresher to "build projects" without direction is not guidance. Look for support that helps you decide what to build, how to present it, and how it maps to the roles you actually want.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'I have two job offers and I am not sure which one is actually better long-term. How do I decide?',
+    answer:
+      'Start by separating pay from learning curve, role scope, team quality, and how each role will read on your resume two to three years from now. The stronger offer is not always the higher number. Counselling should help you weigh these trade-offs against your own goals instead of defaulting to the bigger package.',
+  },
+  {
+    question: 'Should I join a service company if that is the only offer I have right now?',
+    answer:
+      'A service company offer is not automatically a weaker path. It depends on the specific project, the skills you will actually get to use, and what you plan to do with your first 12 to 18 months there. The decision is less about the company type and more about whether you have a deliberate skill-building plan inside it.',
+  },
+  {
+    question: 'My placement did not happen, or my first job did not work out. What now?',
+    answer:
+      'This is a reset point, not a dead end. The next step is figuring out what specifically did not work: targeting, resume, interview performance, or role fit, and then building a focused plan instead of reapplying broadly and hoping for a different result.',
+  },
+  {
+    question: 'I have no real work experience. How do I build a resume or portfolio that actually gets noticed?',
+    answer:
+      'Without a work history, proof of work has to come from somewhere else: projects, internships, freelance work, or documented self-directed learning tied to the roles you want. Counselling should help you decide what to build and how to present it so it reads as real signal, not filler.',
+  },
+  {
+    question: 'What skills should I actually focus on in my first year at work?',
+    answer:
+      'The right answer depends on your role, industry, and where you want to be in three to five years, not a generic "trending skills" list. A useful starting point is a deliberate, high-value skill stack rather than reacting to whatever the market is talking about that month.',
+  },
+  {
+    question: 'Are the career and skill assessments free for freshers too?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered. Many providers charge thousands for outdated assessments; this is meant to be a stronger free starting layer before a bigger fresher decision.',
+  },
+  {
+    question: 'Is this available online, or do I need to be in a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can start from home, a hostel, or your first workplace without depending on local availability or travel time.',
+  },
+  {
+    question: 'I already know my direction. I need help actually executing the job search. Is that covered here?',
+    answer:
+      'This is built for the decision itself: which offer to accept, service company or product company, and what to do after a rough placement season. If the decision is already made and the harder part is the ongoing job-search execution — a working outreach cadence, interview-round follow-through, or a first-90-days plan — career coaching for freshers is the dedicated page built around that accountability layer.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Get broader help when several connected decisions, not just the first job, need to make sense together.',
+  },
+  {
+    href: '/services/assessments/graduates-and-early-professionals/',
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free clarity on fit, skill direction, and employability, built for freshers and recent graduates specifically.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free assessments for skill fit, career direction, and stronger next steps before a bigger decision.',
+  },
+  {
+    href: '/blog/career-options/is-service-company-job-worth-it-for-freshers/',
+    title: 'Is a Service Company Job Worth It for Freshers?',
+    description: 'A closer look at what service company roles actually offer freshers, and when they make sense.',
+  },
+  {
+    href: '/blog/career-change/how-to-switch-from-service-company-to-product-company/',
+    title: 'How to Switch From a Service Company to a Product Company',
+    description: 'A practical roadmap for freshers and early professionals planning that specific transition.',
+  },
+  {
+    href: '/career-resources/creating-a-portfolio-without-work-experience/',
+    title: 'Creating a Portfolio Without Work Experience',
+    description: 'Practical ways to build proof of work when you do not have a job history to lean on yet.',
+  },
+  {
+    href: '/career-resources/resume-that-gets-shortlisted-in-india/',
+    title: 'Resume That Gets Shortlisted in India',
+    description: 'A practical guide to building a resume that survives the first filter, especially with a thin work history.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'Useful once you are a few years into your career and the questions shift from your first job to growth and pivots.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for Freshers', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Freshers | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Freshers',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Freshers</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for freshers deciding on offers, companies, and skills
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for freshers
+        <span class="gold-text"> before the first job decision sets your direction</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for freshers should help with the decisions that actually shape a first career: which offer to accept, service company or product company, what skills to build before habits settle in, and how to build a resume or portfolio with zero experience.
+        The right choices here matter because they set the skill direction that decides how early you can reach financial freedom, not just what your first paycheck looks like.
+      </p>
+      <p class="hero-note">
+        Whether you are searching for career counselling for freshers or career coaching for freshers, the support covers the same ground: offers, company type, first-year skills, and resume building. Guidance is delivered fully online across India, so you can start from home, your hostel, or your first workplace without waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for Freshers</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuStepFlowSection
+    sectionId="fresher-decisions"
+    title="The decisions that shape your first real career move"
+    subtitle="These are not abstract career questions. They are the specific calls freshers are making right now, often with a deadline attached, and the right skill portfolio you build from here shapes how early you reach financial freedom."
+    items={decisionItems}
+  >
+    <AssessmentSupportNote
+      body="As a starting point before a bigger fresher decision, the free graduate and early-professional assessment can help clarify strengths, work style, and fit."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuStepFlowSection>
+
+  <ContextualCta
+    audience="student"
+    title="Get clarity before an offer deadline or a shaky first job forces a rushed call"
+    body="A short session can save months of drifting in the wrong role or the wrong skill direction."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Freshers"
+  />
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career counselling for freshers becomes useful"
+    subtitle="This becomes useful once a real decision is on the table, not while you are still casually browsing career advice."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ComparisonMatrix
+    title="What changes with stronger fresher career counselling"
+    subtitle="Freshers rarely fail from lack of effort. They lose time from generic advice, degree-only thinking, and assessments that do not reflect where they actually stand."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling as a fresher"
+    subtitle="The goal is a clearer offer decision and stronger year-one direction, not generic encouragement."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let an offer deadline or a rough first month decide your direction for you"
+    body="A sharper decision now protects the skill direction and income trajectory that a wrong early move can quietly cost you."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Freshers"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling for Freshers"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See other guidance pages, fresher-stage assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions freshers ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Make your first real career decision with direction, not guesswork"
+    subtitle="Whether it is an offer, a company type, a skill choice, or a reset after a rough start, treat it as the decision that builds your skill portfolio and shapes how early you reach financial freedom, not just something to get through."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Freshers"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 3.9rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 790px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #fresher-decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.82rem, 9.6vw, 2.45rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

@@ -1,0 +1,435 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+import { CONTACT, WHATSAPP_BOOKING_URL } from '../../../../config/site';
+
+const title = 'Career Counselling Helpline | Talk to a Career Counsellor Directly | Future Career School';
+const description =
+  'Looking for a career counselling helpline? Message or call Future Career School directly and talk to a real career counsellor — for students, freshers, and working professionals across India — before you commit to any path.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-helpline/';
+
+const whatHappensItems = [
+  {
+    title: 'A career counsellor reads your message directly',
+    body: 'There is no ticketing queue or automated call routing behind this number. When you message or call, a Future Career School career counsellor sees your situation directly instead of a script reading from a menu of options.',
+  },
+  {
+    title: 'You get a practical read on your situation, not a sales pitch',
+    body: 'Most WhatsApp messages get a reply within a few hours. You can ask a specific question and get a straight answer on whether counselling fits, so the next move goes toward a stronger skill portfolio and earlier financial freedom instead of another guess.',
+  },
+];
+
+const whatHappensSummary = [
+  { title: 'Free to ask', body: 'Reaching out and asking questions costs nothing. A paid 1-on-1 only starts once you decide to go ahead.' },
+  { title: 'Direct, not automated', body: 'You reach someone who works on career decisions every day, not a general support inbox.' },
+  { title: 'Online across India', body: 'The same number and counsellor access apply whether you are calling from a metro city or a smaller town.' },
+];
+
+const objectionItems = [
+  {
+    title: 'Will a real counsellor answer, or will I get a script?',
+    body: 'You reach a Future Career School career counsellor directly on WhatsApp or phone, not an automated call-centre script. There is no formal round-the-clock call centre behind this line — messages are read and answered by the same small team that runs the guidance sessions.',
+  },
+  {
+    title: 'Do I have to pay just to ask a question?',
+    body: 'No. You can message or call to describe your situation and ask what fits before deciding anything. Paid 1-on-1 sessions only begin once you choose to book one.',
+  },
+  {
+    title: 'I do not want to repeat my whole story to someone who will not understand career decisions.',
+    body: 'The person reading your message works specifically on career and skill direction, not general customer support. You can explain your situation once and get a response grounded in that context.',
+  },
+  {
+    title: 'Is this only for emergencies, or can I reach out just to compare options?',
+    body: 'Both are fine. Some people message right after board results or a resignation decision. Others message weeks before deciding anything, just to understand what career counselling actually involves.',
+  },
+];
+
+const askItems = [
+  {
+    title: 'Before you commit to anything',
+    listItems: [
+      'Confusion about which stream, course, or degree actually fits you',
+      'Whether career counselling or a free assessment is the better starting point',
+      'What a session actually covers, and what it does not',
+      'What the current pricing is and what is included',
+    ],
+  },
+  {
+    title: 'When the decision feels urgent',
+    listItems: [
+      'Board result anxiety and a fast-approaching admission deadline',
+      'A resignation or pivot decision that cannot wait for a slow reply',
+      'Salary stagnation that has been building for months',
+      'A skill or upskilling decision before spending time or money on the wrong one',
+    ],
+  },
+  {
+    title: 'What the counsellor helps you map once you start',
+    listItems: [
+      'Strengths, work style, and market fit',
+      'A high-value, high-income skill portfolio instead of one isolated skill decision',
+      'Proof of work and stronger market positioning',
+      'A realistic route toward achieving earlier financial freedom',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether a real person answers, not an automated queue',
+    body: 'A number that only routes you through menus and hold music is not a helpline in any useful sense. Confirm you are actually reaching a person who can answer your specific question.',
+  },
+  {
+    title: 'Check whether you are pushed to pay before your question is even answered',
+    body: 'A trustworthy first contact should let you ask what you need to ask before any payment conversation starts.',
+  },
+  {
+    title: 'Check whether "free helpline" is used to sell an expensive, outdated assessment',
+    body: 'Many providers use a free-sounding first call to push assessments that cost thousands and give outdated, impractical results. Free, updated, practical, AI-powered assessments are a stronger starting layer.',
+  },
+  {
+    title: 'Check whether the guidance goes beyond a five-minute reassurance call',
+    body: 'A useful conversation should move you toward a clearer skill direction and proof of work, not just calm you down for one afternoon and leave the real decision untouched.',
+  },
+];
+
+const contextualCtaOneStudentLabel = 'Get Student Career Counselling';
+const contextualCtaOneProfessionalLabel = 'Get Working Professional Career Counselling';
+
+const faqItems = [
+  {
+    question: 'Is there a number I can message or call before booking a session?',
+    answer:
+      `Yes. You can reach Future Career School on WhatsApp or phone at ${CONTACT.phoneDisplay} and ask about your situation before deciding on anything.`,
+  },
+  {
+    question: 'Do I have to pay before I can talk to someone?',
+    answer:
+      'No. Messaging or calling to ask questions is free. A paid 1-on-1 session only starts once you decide career counselling is the right next step.',
+  },
+  {
+    question: 'Is the career counselling helpline available 24/7?',
+    answer:
+      'There is no formal round-the-clock call centre behind this number. Most WhatsApp messages get a reply within a few hours, and guidance itself is delivered online across India rather than tied to one office or city.',
+  },
+  {
+    question: 'Will I speak to an actual career counsellor, or a call-centre agent reading a script?',
+    answer:
+      'You reach a Future Career School career counsellor directly, not a scripted call-centre agent. The same people who run the guidance sessions read and respond to messages on this line.',
+  },
+  {
+    question: 'How is this different from just filling out a contact form?',
+    answer:
+      'A contact form usually means waiting for someone to get back to you later. WhatsApp and phone are more direct — most messages get a reply within a few hours instead of sitting in a queue.',
+  },
+  {
+    question: 'Are the career and skill assessments free if I want to start there instead of a call?',
+    answer:
+      'Yes. The career and skill assessments are fully free, and can be described as updated, practical, and AI-powered. Many providers charge thousands for outdated or impractical assessments; these are meant to be a stronger free starting layer.',
+  },
+  {
+    question: 'Do you guarantee a job if I call the helpline and book counselling?',
+    answer: 'No ethical provider can guarantee a job. The guidance focuses on clearer decisions, stronger skill direction, and proof of work instead.',
+  },
+  {
+    question: 'Is this only available in one city?',
+    answer:
+      'No. Guidance is delivered online across India, so the same helpline number and counsellor access work whether you are calling from a metro city or a smaller town.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const relatedDirectoryItems = [
+  {
+    href: '/services',
+    title: 'Career Guidance, Assessments, and Tools',
+    description: 'See every guidance option, assessment, and free tool in one place.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance',
+    title: 'Career Counselling and Career Guidance',
+    description: 'Get broader help with stream, course, skill, and next-step career decisions beyond a single phone call.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-online',
+    title: 'Career Counselling Online',
+    description: 'See how a full online counselling session works once you are ready to book one.',
+  },
+  {
+    href: '/services/assessments',
+    title: 'Free Assessments',
+    description: 'Start with a free, updated, practical, AI-powered assessment instead of calling with no context.',
+  },
+  {
+    href: '/contact',
+    title: 'Contact Future Career School',
+    description: 'See every way to reach the team, including WhatsApp, phone, and email.',
+  },
+  {
+    href: '/career-skills-compass',
+    title: 'Career & Skills Compass',
+    description: 'Explore high-value skill directions before your next conversation with a counsellor.',
+  },
+  {
+    href: '/career-resources',
+    title: 'Career Resources',
+    description: 'Use free resources to keep moving between bigger decisions.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling Helpline',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling Helpline | Future Career School',
+    description:
+      'A direct WhatsApp and phone line to a Future Career School career counsellor for students, freshers, and working professionals who want to talk before committing to a career counselling path.',
+    url: canonical,
+    serviceType: 'Career Counselling',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      telephone: CONTACT.phoneE164,
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling Helpline</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Direct access to a career counsellor, not a script
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling helpline
+        <span class="gold-text"> for a real conversation before you decide anything</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School's career counselling helpline connects you directly to a career counsellor on WhatsApp or phone — for students, freshers, and working professionals who want a real conversation before choosing a path, so your next skill decision moves toward a high-value skill portfolio and earlier financial freedom instead of another guess.
+      </p>
+      <p class="hero-note">
+        Message or call {CONTACT.phoneDisplay} to ask your specific question. Guidance itself is delivered fully online, so the same access applies wherever you are in India.
+      </p>
+      <div class="hero-actions">
+        <a href={WHATSAPP_BOOKING_URL} class="btn-gold pulse" target="_blank" rel="noopener noreferrer">Message the Helpline on WhatsApp</a>
+        <a href={`tel:${CONTACT.phoneE164}`} class="btn-outline">Call the Helpline Now</a>
+      </div>
+      <p class="hero-support">
+        Prefer to see pricing first? <a href="#plans">See Career Counselling Plans</a>.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="what-happens"
+    title="What actually happens when you message or call"
+    subtitle="No hold music, no ticket number, no generic script — a real counsellor reads your situation and responds."
+    items={whatHappensItems}
+    variant="signal"
+  >
+    <BofuSummaryStrip items={whatHappensSummary} variant="signal" />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="What a career counselling helpline should actually give you"
+    subtitle="The label 'helpline' should mean real access to a person who can help — not a queue, a sales script, or a paid assessment funnel."
+  />
+
+  <BofuFeatureSection
+    sectionId="objections"
+    title="What people usually worry about before calling"
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="what-to-ask"
+    title="What you can actually ask before deciding anything"
+    subtitle="You do not need a finished plan before you reach out. Most people call or message with a specific, unresolved question."
+    items={askItems}
+    columns={3}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="If you would rather start with something free and self-paced instead of a call, the free career and skill assessments can surface strengths, preferences, and work style first."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="Once your question is answered, the next useful step is a full 1-on-1 session"
+    body="A helpline conversation is a starting point. A 1-on-1 session goes further into skill direction, proof of work, and a clearer route toward earlier financial freedom."
+    studentLabel={contextualCtaOneStudentLabel}
+    professionalLabel={contextualCtaOneProfessionalLabel}
+    studentHref="#plans"
+    professionalHref="#plans"
+  />
+
+  <BuyerChecks
+    title="What to check before trusting any career counselling helpline"
+    subtitle="Not every number that calls itself a helpline is worth trusting. Compare on these before you hand over your time or money."
+    items={buyerCheckItems}
+  />
+
+  <AudienceRelevance title="How a direct conversation helps depending on where you are right now" />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the decision already feels urgent, do not let a slow reply make it worse"
+    body="Message the helpline now, or go straight to the plan that fits your stage."
+    studentLabel={contextualCtaOneStudentLabel}
+    professionalLabel={contextualCtaOneProfessionalLabel}
+    studentHref="#plans"
+    professionalHref="#plans"
+  />
+
+  <GuidancePlansSection audience="mixed" serviceLabel="Career Counselling" />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="See other guidance pages, assessments, and ways to reach the team before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection title="Questions people ask before calling a career counselling helpline" items={faqItems} />
+
+  <FinalCta
+    audience="mixed"
+    title="Talk to a career counsellor directly, then take the next step with more clarity"
+    subtitle="Message or call now, or move straight into the plan that fits your stage — so the next skill decision moves you toward a high-value skill portfolio and earlier financial freedom instead of another guess."
+    primaryHref={WHATSAPP_BOOKING_URL}
+    primaryLabel="Message the Helpline on WhatsApp"
+    secondaryHref="#plans"
+    secondaryLabel="See Career Counselling Plans"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+  .hero-support a { color: var(--gold); font-weight: 700; }
+
+  #what-happens,
+  #different,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #what-to-ask,
+  #check-before-paying { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

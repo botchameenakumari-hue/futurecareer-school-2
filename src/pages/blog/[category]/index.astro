@@ -30,13 +30,16 @@ const formatDate = (isoDate: string) =>
   }).format(new Date(isoDate));
 
 const getCtaLabel = (href: string) => {
-  if (href.includes('/services/assessments')) return 'Free Assessments';
+  if (href.includes('/services/assessments')) return 'Free career and skill assessments';
   if (href.includes('/services/career-counselling-and-career-guidance')) return 'Get Career Guidance';
-  if (href.includes('/skill-finder')) return 'Find Skills';
-  if (href.includes('/career-resources')) return 'Explore Resources';
+  if (href.includes('/career-skills-compass')) return 'Find Skills';
+  if (href.includes('/career-resources')) return 'Read Resources';
   if (href.includes('/services')) return 'View Services';
-  return 'Explore';
+  return 'Read More';
 };
+
+const getCtaClass = (href: string, primary = false) =>
+  href.includes('/services/assessments') ? 'btn-outline cta-assessment-lite' : primary ? 'btn-gold pulse' : 'btn-outline';
 
 const categoryDirectoryItems = [
   {
@@ -61,7 +64,7 @@ const categoryDirectoryItems = [
           href: meta.secondaryCtaHref,
           title: getCtaLabel(meta.secondaryCtaHref),
           description: 'Explore a nearby angle if you want more clarity before deciding.',
-          note: 'Explore too',
+          note: 'Related read',
         },
       ]
     : []),
@@ -85,7 +88,7 @@ const jsonLd = [
     url: canonical,
     inLanguage: 'en-IN',
     publisher: {
-      '@type': 'EducationalOrganization',
+      '@type': ['Organization', 'ProfessionalService'],
       name: 'Future Career School',
       url: 'https://futurecareerschool.com',
     },
@@ -140,12 +143,12 @@ const jsonLd = [
 
       <div class="hero-actions">
         {meta.primaryCtaHref && (
-          <a class="btn-gold pulse" href={meta.primaryCtaHref}>
+          <a class={getCtaClass(meta.primaryCtaHref, true)} href={meta.primaryCtaHref}>
             {getCtaLabel(meta.primaryCtaHref)}
           </a>
         )}
         {meta.secondaryCtaHref && (
-          <a class="btn-outline" href={meta.secondaryCtaHref}>
+          <a class={getCtaClass(meta.secondaryCtaHref)} href={meta.secondaryCtaHref}>
             {getCtaLabel(meta.secondaryCtaHref)}
           </a>
         )}

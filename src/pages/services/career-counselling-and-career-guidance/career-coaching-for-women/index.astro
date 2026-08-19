@@ -1,0 +1,462 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Coaching for Women | Accountability to Follow Through, Not Just Decide | Future Career School';
+const description =
+  'Career coaching for women built around ongoing execution, not a one-time verdict — staying accountable to a return-to-work plan, following through on a field switch already decided, and practising negotiation and visibility until it holds. Online across India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coaching-for-women/';
+
+const decisionPressureItems = [
+  {
+    eyebrow: 'Follow-through after the decision is already made',
+    title: 'Deciding to return, switch, or negotiate is the easy part. Staying on it is where most plans quietly stall.',
+    body: 'A lot of women reach a clear decision — go back to work, move into a new field, ask for what a role is actually worth — and still lose the plan within a few months because nothing was tracking follow-through. Coaching here is built around the part after the decision: a deliberate, high-value skill portfolio built consistently over time, with accountability that keeps it moving toward earlier financial freedom instead of quietly stalling out.',
+  },
+  {
+    eyebrow: 'Momentum around family and household time',
+    title: 'A coaching cadence has to survive a real week, not an idealised one',
+    body: 'Sick kids, in-law visits, an unpredictable household schedule, or a partner\'s work travel can derail even a well-built plan. Coaching that only works on a perfect week is not built for most women\'s actual lives — the cadence and check-ins here are built to adjust around real time constraints instead of treating a missed week as a reason to quit.',
+  },
+  {
+    eyebrow: 'Staying on a field or direction under family pressure',
+    title: 'The pull back toward the "safer" default does not stop once you have chosen',
+    body: 'Choosing a field or a return-to-work path over family objection is one moment. Staying on it through the first setback, the first "are you sure" from a relative, or the first slow month is another. Accountability here is built to hold the line on the direction you already chose, not to re-litigate the decision every time it gets questioned.',
+  },
+  {
+    eyebrow: 'Turning confidence into a practised skill',
+    title: 'Negotiating or asking for more does not improve from one motivational conversation',
+    body: 'Confidence in salary conversations, visibility at work, or pushing back on being overlooked tends to build through repeated, structured practice with real feedback — not a single pep talk. Coaching here works this the way any skill gets built: practised, reviewed, adjusted, and practised again, aimed at unlocking the income and opportunities that confidence alone rarely opens.',
+  },
+];
+
+const decisionPointItems = [
+  {
+    eyebrow: 'Returning to work',
+    title: 'Staying on the return-to-work plan once real life resumes',
+    body: 'Deciding to return is a starting line, not the finish. This is about the weeks after that decision, when the plan is most likely to quietly slip.',
+    listItems: [
+      'Regular check-ins that track what actually got done against the plan, not just intentions',
+      'Adjusts the pace honestly when a week or month gets derailed, instead of treating a gap as failure',
+      'Keeps the skill-refresh and positioning work moving even when motivation dips',
+    ],
+  },
+  {
+    eyebrow: 'Executing a field or career switch',
+    title: 'Turning a field choice you have already made into a working skill stack',
+    body: 'Once the direction is settled, the work becomes building the actual portfolio — skills, proof of work, and positioning — consistently enough to matter.',
+    listItems: [
+      'Breaks the target skill portfolio into a sequence instead of an overwhelming list',
+      'Holds you accountable to proof-of-work milestones, not just course completion',
+      'Reviews and adjusts the plan as the market or your own results shift',
+    ],
+  },
+  {
+    eyebrow: 'Negotiation and visibility',
+    title: 'Practising the ask until it stops feeling like a one-off event',
+    body: 'Asking for a raise, a role change, or more visibility works better as a rehearsed, reviewed skill than a single brave moment.',
+    listItems: [
+      'Runs through realistic scripts and objections before the actual conversation',
+      'Reviews what happened afterward and adjusts the approach for next time',
+      'Builds the supporting proof of work that backs up a stronger ask over repeated attempts',
+    ],
+  },
+  {
+    eyebrow: 'Staying consistent around family constraints',
+    title: 'Keeping the plan alive without pretending household responsibilities do not exist',
+    body: 'A plan that assumes uninterrupted focus time rarely survives contact with a real household schedule.',
+    listItems: [
+      'Builds a realistic weekly cadence around actual time available, not a wished-for one',
+      'Adjusts check-in frequency instead of dropping the plan entirely during a hard stretch',
+      'Keeps the long-term skill portfolio and income-growth goal visible even when weekly progress is slow',
+    ],
+  },
+];
+
+const decisionFilterItems = [
+  {
+    title: 'Are you stuck deciding, or stuck doing?',
+    body: 'If the honest question is still "which field, which return path, which offer," that is closer to a decision that needs to be made first. If the direction is already chosen and the problem is staying on it, that is where ongoing coaching earns its cost.',
+  },
+  {
+    title: 'Has a plan stalled before from unclear direction, or from lost momentum?',
+    body: 'A plan that fails from unclear direction needs better decision support. A plan that fails from good intentions quietly fading needs accountability and a realistic cadence — the fixes are different, so it is worth being honest about which one keeps happening.',
+  },
+  {
+    title: 'Does the pace realistically match your actual week?',
+    body: 'An ambitious plan built around a fantasy schedule sets you up to fall behind and quit. A pace built around your real week, even if slower, is more likely to still be running in six months.',
+  },
+  {
+    title: 'Is the setback a skill gap, a confidence gap, or a follow-through gap?',
+    body: 'These need different responses. Coaching that only motivates without building the skill, or only builds the skill without holding you accountable to using it, tends to stall at the same point.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether follow-through actually gets tracked, not just promised at the start',
+    body: 'A plan handed over once and never revisited is not coaching — it is a one-time consultation wearing a coaching label. Look for a real, recurring accountability structure.',
+  },
+  {
+    title: 'Check whether the cadence is built around your actual week',
+    body: 'If every session assumes uninterrupted time you do not have, the plan is set up to fail on your schedule, not because you were not committed enough.',
+  },
+  {
+    title: 'Check whether a missed week gets treated as data, not a verdict on you',
+    body: 'Life happens. Stronger coaching adjusts the plan around a disrupted week instead of treating it as proof the plan or the person failed.',
+  },
+  {
+    title: 'Check whether negotiation and visibility get practised repeatedly, not just discussed once',
+    body: 'A single conversation about confidence rarely changes how a negotiation actually goes. Look for coaching that treats it as a skill built through repeated, reviewed practice.',
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Degree-first direction with weak skill edge',
+    right: 'Skill-first direction with proof of work and stronger market value',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Random upskilling that compounds slowly',
+    right: 'Clearer skill direction tied to growth and income upside',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview if you want to see how counselling, guidance, and coaching fit together as one practical service.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-women/',
+    title: 'Career Counselling for Women',
+    description: 'Use this if the field choice, return-to-work plan, or family-pressure decision itself is still unresolved and needs to be worked through first.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-vs-career-coaching/',
+    title: 'Career Counselling vs Career Coaching',
+    description: 'An honest breakdown of the difference between deciding a direction and executing on one, if you are still unsure which kind of support fits.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'Broader working-professional guidance for stagnation, pivots, and salary-growth decisions beyond the accountability and follow-through angle.',
+  },
+  {
+    href: '/services/assessments/working-professionals-and-career-changers/',
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free assessment to check strengths and work style before building an execution plan around a return, switch, or negotiation.',
+  },
+  {
+    href: '/career-resources/career-change-without-starting-over/',
+    title: 'Career Change Without Starting Over',
+    description: 'Practical read on carrying existing skills into a new direction, useful once the switch is decided and the execution work is starting.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How is career coaching for women different from career counselling for women?',
+    answer:
+      'Counselling here centres on the decision itself — choosing a field, planning a return, weighing family pressure against genuine fit. Coaching centres on what happens after the decision: staying accountable to the plan, practising negotiation and visibility until it holds, and keeping momentum through a real, busy week. Many people need both at different points, but this is built specifically for the execution and follow-through side.',
+  },
+  {
+    question: 'I already know what I want to do — I just cannot stay consistent. Can this help?',
+    answer:
+      'Yes. That is the exact gap this coaching is built for: a plan you already believe in that keeps losing momentum against a busy household, work demands, or a slow month. The focus is a realistic cadence, regular check-ins, and adjusting the plan around real life instead of restating the same advice each time it stalls.',
+  },
+  {
+    question: 'How does coaching work if my time is genuinely limited by family responsibilities?',
+    answer:
+      'The pace and check-in cadence are built around your actual week, not an idealised one. A slower, sustainable pace that survives a real household schedule is treated as a stronger outcome than an ambitious plan that collapses after three weeks.',
+  },
+  {
+    question: 'Can this help me actually follow through on a return-to-work plan instead of losing momentum?',
+    answer:
+      'Yes. Regular accountability tracks what actually got done against the plan, adjusts the pace honestly when a week or month gets disrupted, and keeps the skill-refresh and positioning work moving even when motivation dips — rather than leaving the plan to fade after the first hard stretch.',
+  },
+  {
+    question: 'Can coaching help me practise negotiating, not just decide to ask?',
+    answer:
+      'Yes. Negotiation and visibility are treated as skills built through repeated, structured practice — working through realistic scripts and objections before a conversation, then reviewing what happened afterward and adjusting for the next one, rather than a single one-time pep talk.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered — a useful starting layer before building an execution plan around a return, switch, or negotiation.',
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. Coaching is delivered online across India, so check-ins and sessions can happen from home or wherever fits your schedule, without travel or a local office becoming another blocker.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Coaching for Women', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coaching for Women | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching for Women',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coaching for Women</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Ongoing accountability toward a high-value skill portfolio and earlier financial freedom — not a one-time verdict
+      </div>
+
+      <h1 class="hero-title">
+        Career coaching for women
+        <span class="gold-text"> who are ready to act, not just decide</span>
+      </h1>
+      <p class="hero-sub">
+        Staying accountable to a return-to-work plan once real life resumes, following through on a field or career switch you have already chosen, and practising negotiation and visibility until it actually holds — this is coaching built around execution, not another one-time decision session. The direction is the same deliberate, high-value skill portfolio that unlocks stronger income opportunities and moves you toward earlier financial freedom, with a cadence built to survive a real week instead of an idealised one.
+      </p>
+      <p class="hero-note">
+        Coaching is delivered fully online across India, so check-ins can happen from home, between household responsibilities, or wherever fits your schedule, without travel or a local office becoming another blocker.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for Women</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="decision-pressure"
+    title="The real gap this coaching is built to close"
+    subtitle="Not a decision problem. These are the moments where a direction has already been chosen and the harder part — staying on it — is where most plans quietly lose momentum."
+    items={decisionPressureItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="A good decision without follow-through is just a plan you meant to keep"
+    body="A return-to-work timeline, a field switch, or a negotiation goal all need the same thing afterward: a realistic cadence and real accountability, not a single conversation and good intentions."
+    studentHref="#plans"
+    studentLabel="Get Student Career Coaching for Women"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Coaching for Women"
+  />
+
+  <BofuListCardSection
+    sectionId="decision-points"
+    title="Where this coaching actually helps"
+    subtitle="Not every woman searching this is stuck for the same reason. These are the situations this coaching is built to keep moving."
+    items={decisionPointItems}
+    columns={2}
+    variant="audience"
+  />
+
+  <BofuFeatureSection
+    sectionId="decision-filters"
+    title="What should actually decide whether you need coaching or a decision session first"
+    subtitle="Ongoing execution support and one-time decision support solve different problems. These are the filters that keep that choice honest."
+    items={decisionFilterItems}
+    variant="decision"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, free career and skill assessments can help confirm your strengths and work style before building an execution plan around a return, switch, or negotiation."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why career coaching for women needs real accountability, not a single pep talk"
+    subtitle="These are the contrast points that matter once the direction is chosen and the work is staying on it consistently."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career coaching aimed at women"
+    subtitle="The goal is real, tracked follow-through on a plan built around your actual week, not a motivational session that fades by the second month."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Build the accountability before another plan quietly fades"
+    body="Whether it is a return-to-work timeline, a field switch already decided, or a negotiation you keep putting off, the earlier the follow-through is structured, the earlier the right skill-building and positioning can compound."
+    studentHref="#plans"
+    studentLabel="Get Student Career Coaching for Women"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Coaching for Women"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Coaching for Women"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See the decision-focused version of this, broader student and working-professional guidance, assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    title="Choose the follow-through, not just the plan"
+    subtitle="A return-to-work timeline, a field switch already decided, or a negotiation goal are all workable with real accountability behind them — the kind built around a high-value skill portfolio that unlocks stronger income opportunities and earlier financial freedom, tracked consistently instead of promised once and left to fade."
+    studentHref="#plans"
+    studentLabel="Get Student Career Coaching for Women"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Coaching for Women"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decision-filters,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 9.6vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

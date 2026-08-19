@@ -1,0 +1,469 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS, BOFU_COMPARISON_LIBRARY } from '../../../../config/bofu';
+
+const title = 'Career Coaching for Government Exam Aspirants | Decide Which Exams and What Comes Next | Future Career School';
+const description =
+  'Career coaching for government exam aspirants juggling SSC, banking, state PSC, railway, and defense exams: which exams to target, whether preparing for several at once still makes sense, and what to do if it is time to pivot. Decision support, not exam coaching. Online across India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-government-exam-aspirants/';
+
+const decisionPressureItems = [
+  {
+    eyebrow: 'Choosing which exams to actually prepare for',
+    title: 'Government exams are not one path — they are dozens, each with its own rules',
+    body: 'SSC exams, IBPS and SBI banking recruitment, state public service commissions, railway recruitment boards, and defense exams each carry a different age limit, attempt cap, syllabus overlap, and selection process. The first real decision is not how to prepare, but which combination of exams genuinely fits your eligibility window and your strengths — not every aspirant should be attempting the same spread just because it is the common default.',
+  },
+  {
+    eyebrow: 'Preparing for several exams in parallel',
+    title: 'Attempting multiple exams together is common — but it works best as a deliberate strategy, not a default',
+    body: 'Unlike a single-exam attempt, most government exam aspirants sit for two, three, or more exams across a year to spread the risk of any one selection process not working out. Done well, shared preparation in reasoning, quantitative aptitude, and general awareness compounds across exams. Done without a plan, it spreads study hours so thin that no single attempt gets the depth it needs — the useful question is which exams actually share enough ground to prepare together, and which are quietly competing for the same hours.',
+  },
+  {
+    eyebrow: 'Years inside a coaching-hub culture',
+    title: 'The financial and mental cost of a prep ecosystem built around repeat cycles',
+    body: 'SSC-, banking-, and PSC-focused coaching clusters run on a business model of repeated enrolments across exam cycles, coaching fees, mock-test subscriptions, and shared PG accommodation. The comparison culture, isolation, and pressure inside these hubs deserve as honest a look as the exams themselves, alongside the real cost in time and money each additional cycle adds.',
+  },
+  {
+    eyebrow: 'Continuing to prepare versus pivoting',
+    title: 'Deciding whether another cycle of attempts is still the strongest move, or a private-sector direction is',
+    body: 'After a string of non-selections, or after years without a confirmed result, the real question is whether continuing to prepare for government exams is still the highest-leverage use of your time, or whether building toward a private-sector role, a skill-based direction, or some combination of both moves you toward earlier financial freedom faster.',
+  },
+];
+
+const decisionPointItems = [
+  {
+    eyebrow: 'Before committing to an exam combination',
+    title: 'Choosing which government exams are genuinely worth your preparation hours',
+    body: 'A structured way to weigh eligibility, attempt limits, and genuine syllabus overlap before a year of preparation goes into exams chosen mainly because everyone else in your peer group is attempting them.',
+    listItems: [
+      'Maps your eligibility, remaining attempts, and age window across the specific exams you are considering, not government exams as one generic category',
+      'Checks how much genuine syllabus overlap exists between the exams on your shortlist versus how much is just added workload',
+      'Weighs government-exam preparation honestly against private-sector or skill-based paths that could use the same discipline and analytical strengths',
+    ],
+  },
+  {
+    eyebrow: 'While preparing for more than one exam',
+    title: 'Keeping a multi-exam strategy from turning into a spread-too-thin strategy',
+    body: 'Preparing for SSC, banking, and a state PSC exam at once is a common approach, but it needs a real plan behind it, not just momentum.',
+    listItems: [
+      'Looks honestly at whether your current exam combination is compounding your preparation or diluting it',
+      'Helps set a realistic sequence and priority order instead of treating every exam as equally urgent',
+      'Flags when it is worth dropping one exam from the list to protect depth on the strongest options',
+    ],
+  },
+  {
+    eyebrow: 'After repeated non-selection',
+    title: 'Deciding if another cycle of attempts is still the highest-leverage move',
+    body: 'The hardest call in this journey usually comes after several exams and several near-misses, not after just one.',
+    listItems: [
+      'Looks at what genuinely changed in your results across your last cycle, not just "study harder" as a plan',
+      'Weighs your remaining attempts and age limits across each exam against your other realistic options right now',
+      'Builds a real parallel plan instead of treating the next exam cycle as the only path forward',
+    ],
+  },
+  {
+    eyebrow: 'Considering a pivot',
+    title: 'Converting years of GK, reasoning, and quantitative aptitude preparation into a private-sector or skill-based direction',
+    body: 'Stepping back from government exam preparation is not starting from zero — it is a pivot point that still needs a concrete plan.',
+    listItems: [
+      'Translates general awareness, quantitative aptitude, reasoning, and disciplined study habits into roles and skills that value them directly',
+      'Builds proof of work and a positioning story that explains preparation years as an asset, not a gap',
+      'Targets realistic entry points in private-sector or skill-based roles instead of a vague "I will figure something out" plan',
+    ],
+  },
+];
+
+const decisionFilterItems = [
+  {
+    title: 'Exam eligibility and attempt rules, not government exams as one category',
+    body: 'SSC, banking, state PSC, railway, and defense exams each set their own age limits, attempt caps, and category-based relaxations. Treating "government exams" as a single, uniform decision hides real differences that should shape which exams you actually prepare for.',
+  },
+  {
+    title: 'Genuine syllabus overlap versus a spread-too-thin habit',
+    body: 'Reasoning, quantitative aptitude, and general awareness do carry across several exams, but that overlap has limits. Preparing for too many exams at once, without checking how much they truly share, quietly reduces your depth on each one.',
+  },
+  {
+    title: 'What one more cycle actually costs versus what it could realistically change',
+    body: 'Another exam cycle is not free — it costs coaching fees, income you are not earning yet, and time your peers spend building experience elsewhere. Weigh that real cost against what genuinely changed in your last attempt, not against hope alone.',
+  },
+  {
+    title: 'Sunk preparation years versus a forward-looking plan',
+    body: 'Years spent on general awareness, reasoning, and quantitative aptitude are not wasted just because the next step changes direction. They also should not be used to justify one more cycle that the numbers no longer support. Good guidance holds both of those honestly at the same time.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it treats "government exams" as many different exams, not one',
+    body: 'Generic advice often talks about government exam preparation as a single category. Stronger guidance engages with the specific exams you are targeting — their eligibility rules, attempt caps, and how much they genuinely overlap.',
+  },
+  {
+    title: 'Check whether it takes a multi-exam strategy seriously',
+    body: 'If you are preparing for more than one exam at a time, look for guidance that helps you decide which combination is strategic and which is spreading you too thin, instead of treating multi-exam preparation as an afterthought.',
+  },
+  {
+    title: 'Check whether it helps you decide, not just cheer you on',
+    body: 'This is not exam coaching, mock-test evaluation, or subject-wise preparation, and it should not pretend to be. Look for guidance that helps you make the exam-selection, continuation, or pivot decision clearly, not motivational talk that avoids the real question.',
+  },
+  {
+    title: 'Check whether it has a real plan for a private-sector or skill-based pivot, not just for another attempt',
+    body: 'Whether the plan is another exam cycle, a narrower exam focus, or a full pivot, it should include concrete next roles, proof of work, and positioning for your general awareness, reasoning, and quantitative aptitude preparation — not just reassurance that something will work out.',
+  },
+];
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[3],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Get broader help with skill, path, and next-step decisions when the government exam question is only one part of a bigger picture.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-upsc-aspirants/',
+    title: 'Career Counselling for UPSC Aspirants',
+    description: 'Focused decision support if civil services specifically, rather than SSC, banking, PSC, railway, or defense exams, is the exam actually on the table for you.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'For professionals weighing stagnation, pivots, or a return to work after stepping away to prepare for government exams, beyond the exam-specific decision.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'For college students and graduates who are still deciding between government exam preparation and other paths before committing years to either.',
+  },
+  {
+    href: '/services/assessments/graduates-and-early-professionals/',
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free clarity on strengths, fit, and skill direction if you are weighing government exam preparation against private-sector paths early on.',
+  },
+  {
+    href: '/services/assessments/working-professionals-and-career-changers/',
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free input for a job-versus-preparation decision, or for planning a pivot after stepping back from government exam preparation.',
+  },
+  {
+    href: '/career-resources/career-change-without-starting-over/',
+    title: 'Career Change Without Starting Over',
+    description: 'Practical read on carrying existing skills into a new direction, useful for converting government exam preparation years into a private-sector pivot.',
+  },
+  {
+    href: '/career-resources/tarzan-rule-the-exact-moment-to-quit-your-job/',
+    title: 'The Exact Moment to Quit Your Job',
+    description: 'A practical read on timing a resignation deliberately, useful before quitting a job to prepare full-time for government exams.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'I am preparing for SSC, banking, and a state PSC exam at the same time. Is that a good strategy, or should I focus on one?',
+    answer:
+      'It depends on how much the exams on your list genuinely overlap and how much depth each one still needs from you. Reasoning, quantitative aptitude, and general awareness carry across several exams, but preparing for too many at once can spread your hours thin without you noticing. Guidance here works through your specific exam combination, not government exams as one generic category, to check whether it is compounding your preparation or diluting it.',
+  },
+  {
+    question: 'How is this different from career counselling for UPSC aspirants?',
+    answer:
+      'UPSC is a single, specific exam with its own age limit, attempt cap, and selection process, usually approached as one focused, multi-year attempt. Government exam preparation more broadly covers SSC, banking, state PSC, railway, and defense exams, often attempted in combination rather than one at a time, with different eligibility rules for each. If UPSC specifically is your main focus, the UPSC-aspirant page is the closer fit; if you are weighing or attempting several government exams together, this is built for that reality.',
+  },
+  {
+    question: 'Government exams have different age limits and attempt caps. How do I know how many chances I actually have left across the exams I am targeting?',
+    answer:
+      'There is no single answer, because each exam category sets its own rules, and category-based relaxations can differ too. The useful step is mapping your actual remaining attempts and age window exam by exam, not assuming one number applies across SSC, banking, PSC, railway, and defense exams alike, and then deciding your preparation priority from that real picture.',
+  },
+  {
+    question: 'My general awareness, reasoning, and quantitative aptitude preparation has not led to a government job yet. Can it help me in a private-sector role?',
+    answer:
+      'Often, yes, when it is positioned correctly. Analytical reasoning, numerical ability, current-affairs depth, and the discipline of sustained study are transferable to roles in operations, analysis, administration, and other structured private-sector functions. The useful next step is translating that preparation into proof of work and a clear positioning story for the roles you are targeting now, rather than leaving it unexplained as a gap.',
+  },
+  {
+    question: 'I have been inside a coaching hub for years preparing for government exams. How do I know when to step back?',
+    answer:
+      'That call depends on what has genuinely changed across your recent attempts, your remaining eligibility window across the exams you are pursuing, and what continuing would realistically cost you in time, money, and income elsewhere. Guidance should help you weigh that honestly against the pressure and comparison culture inside a coaching hub, so a decision either way is made deliberately rather than by default.',
+  },
+  {
+    question: 'Can career coaching help me clear SSC, banking, state PSC, or other government exams?',
+    answer:
+      'No. This is not exam coaching, mock-test evaluation, or subject-wise preparation, and it should not be mistaken for one. It is decision support for the choices around government exam preparation — which exams to target, whether a multi-exam strategy is working, and whether to continue or pivot — not preparation for the exams themselves.',
+  },
+  {
+    question: 'My family expects me to keep attempting government exams. How do I handle that pressure?',
+    answer:
+      'Family expectation around a stable government job is real and worth taking seriously, but it is not the same as your own financial runway, remaining eligibility, or long-term outcome. Guidance should help you have that conversation grounded in your actual situation across the specific exams you are attempting, rather than avoiding the conversation or ignoring the pressure entirely.',
+  },
+  {
+    question: 'Are the career and skill assessments free, and is this available online?',
+    answer:
+      'Yes to both. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered, and guidance is delivered fully online across India, so you can start from your preparation city, hometown, or wherever you are right now.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Coaching for Government Exam Aspirants', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coaching for Government Exam Aspirants | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching for Government Exam Aspirants',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coaching for Government Exam Aspirants</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career coaching for government exam aspirants juggling SSC, banking, PSC, railway, and more
+      </div>
+
+      <h1 class="hero-title">
+        Career coaching for government exam aspirants
+        <span class="gold-text"> deciding which exams — and which future — to bet on</span>
+      </h1>
+      <p class="hero-sub">
+        Career coaching for government exam aspirants should help with the decisions a single-exam view misses: which exams among SSC, banking, state PSC, railway, and defense recruitment are actually worth your preparation hours, whether preparing for several at once is compounding your progress or spreading it thin, and when it is time to convert years of preparation into a stronger private-sector direction and earlier financial freedom, instead of another exam cycle chosen by default.
+      </p>
+      <p class="hero-note">
+        This is career coaching about the decisions around government exam preparation — not exam coaching, mock-test evaluation, or subject-wise preparation for SSC, banking, PSC, railway, or defense exams.
+        Guidance is delivered fully online across India, so you can start from your preparation city, your hometown, or wherever you are right now.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for Government Exam Aspirants</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="decision-pressure"
+    title="The decision pressure behind government exam preparation"
+    subtitle="These are not abstract stages. They are the specific moments where drifting without a plan compounds against your income and your route toward earlier financial freedom — before you choose which exams to target, mid-way through preparing for several, or years into a coaching-hub cycle."
+    items={decisionPressureItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Whichever exams you are attempting, drifting into another cycle without a plan is its own decision"
+    body="Choosing your exam combination, managing a multi-exam strategy, or pivoting away from government exam preparation all deserve the same thing: a specific plan built around your actual eligibility, runway, and strengths, not just momentum from how far you have already come."
+    studentHref="#plans"
+    studentLabel="Get Student Career Coaching for Government Exams"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Coaching for Government Exams"
+  />
+
+  <BofuListCardSection
+    sectionId="decision-points"
+    title="Real decision points this coaching works through"
+    subtitle="Not every government exam aspirant searching this is at the same stage, or targeting the same exams. These are the situations this guidance is actually built to help with."
+    items={decisionPointItems}
+    columns={2}
+    variant="audience"
+  />
+
+  <BofuFeatureSection
+    sectionId="decision-filters"
+    title="What should actually decide, when the exam calendar alone will not tell you"
+    subtitle="Choosing exams, managing a multi-exam strategy, or pivoting away from government exam preparation is rarely one clean answer. These are the filters that keep the decision honest."
+    items={decisionFilterItems}
+    variant="decision"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, free career and skill assessments can help map your actual strengths and work style before an exam-selection, continuation, or pivot decision — instead of deciding on default momentum alone."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="different"
+    title={'Why this needs to go beyond "keep attempting" or "give up"'}
+    subtitle="These are the contrast points that matter once eligibility windows, coaching costs, and years of preparation across multiple exams are on the line."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career coaching aimed at government exam aspirants"
+    subtitle="The goal is a clear-eyed decision about your exam combination and what comes after it, not motivational talk dressed up as guidance."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Make the exam-selection or next-step decision deliberately, before it gets made for you"
+    body="Remaining attempts, a savings runway, and a career window are all finite, and they run out differently across SSC, banking, PSC, railway, and defense exams. The earlier the decision is specific, the more of each you keep control over."
+    studentHref="#plans"
+    studentLabel="Get Student Career Coaching for Government Exams"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Coaching for Government Exams"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Coaching for Government Exam Aspirants"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader student and working-professional guidance, assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    title="Decide your exam combination, or your next step, on purpose"
+    subtitle="Whether that means preparing for a sharper, more deliberate combination of exams, or converting years of general awareness, reasoning, and quantitative aptitude preparation into a strong private-sector direction with real income growth, the decision works better made deliberately now — toward earlier financial freedom — than left to run out the clock on its own."
+    studentHref="#plans"
+    studentLabel="Get Student Career Coaching for Government Exams"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Coaching for Government Exams"
+  />
+
+  <BofuFaqSection
+    title="Questions government exam aspirants ask before choosing career coaching"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decision-filters,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 9.6vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

@@ -2,10 +2,17 @@
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
-import { WHATSAPP_BOOKING_URL } from '../../../../config/site';
+import AssessmentReportTools from '../../../../components/AssessmentReportTools.astro';
+import AssessmentGuidanceCta from '../../../../components/bofu/AssessmentGuidanceCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { getAssessmentPlansConfig } from '../../../../config/assessmentPlans';
 
 const pageUrl = 'https://futurecareerschool.com/services/assessments/class-10-and-below/';
+const plansConfig = getAssessmentPlansConfig('student');
+const guidanceCardHref = plansConfig.jumpHref;
+const guidanceResultsHref = plansConfig.jumpHref;
+const guidanceResultsLabel = plansConfig.jumpLabel;
 const focusedTests = [
   {
     href: '/services/assessments/stream-selector-test-after-10th/',
@@ -41,7 +48,7 @@ const jsonLd = [
     isAccessibleForFree: true,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
     provider: {
-      '@type': 'EducationalOrganization',
+      '@type': ['Organization', 'ProfessionalService'],
       name: 'Future Career School',
       url: 'https://futurecareerschool.com',
     },
@@ -96,7 +103,7 @@ const jsonLd = [
         name: 'Is this result a definitive career decision?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'No. This is a practical starting point — a direction, not a destination. It shows you patterns worth exploring. For deeper clarity, especially before committing to a stream or making a major decision, a 1-on-1 guidance session is the natural next step.',
+          text: 'No. This is a practical starting point — a direction, not a destination. It shows you patterns worth exploring. For fuller clarity before stream and academic decisions harden, the stronger move is updated, skill-first career guidance built around your future readiness and long-term earning direction.',
         },
       },
     ],
@@ -155,13 +162,17 @@ const jsonLd = [
         <span class="meta-chip">&#127919; 6 tests in one</span>
       </div>
 
-      <a href="#assessment" class="btn-gold pulse hero-cta">
-        Start Free Assessment
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-      </a>
+      <div class="hero-actions">
+        <a href="#assessment" class="btn-gold pulse hero-cta">
+          Start Free Assessment
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </a>
+        <a href={plansConfig.jumpHref} class="btn-outline hero-cta">{plansConfig.jumpLabel}</a>
+      </div>
     </div>
   </section>
 
+  <div class="assessment-first-flow">
   <!-- WHAT THIS TESTS -->
   <section id="what-this-tests">
     <div class="container">
@@ -272,6 +283,7 @@ const jsonLd = [
       <div id="results-container" class="results-box" style="display:none" aria-live="polite"></div>
     </div>
   </section>
+  </div>
 
   <!-- FAQ -->
   <section id="faq">
@@ -304,7 +316,7 @@ const jsonLd = [
 
         <details class="faq-item">
           <summary class="faq-q">Is this result a definitive career decision?<svg class="faq-arr" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
-          <div class="faq-a">No. This is a practical starting point — a direction, not a destination. It gives you a useful pattern to begin exploring, not a final answer. For deeper clarity — especially before committing to a stream or making a major academic decision — a 1-on-1 guidance session is the natural next step.</div>
+          <div class="faq-a">No. This is a practical starting point — a direction, not a destination. It gives you a useful pattern to begin exploring, not a final answer. For fuller clarity before stream and academic decisions harden, the stronger move is updated, skill-first career guidance built around future readiness, stronger skills, and better long-term decisions.</div>
         </details>
 
         <details class="faq-item">
@@ -318,7 +330,7 @@ const jsonLd = [
   <LinkDirectorySection
     sectionId="focused-tests"
     title="Focused Free Tests for After 10th"
-    subtitle="If you want a faster answer to one specific question, use these dedicated 10th assessment pages."
+    subtitle="If you want a faster answer to one specific question, use these dedicated free assessments for after 10th."
     items={focusedTests}
     altBackground={true}
   />
@@ -330,20 +342,20 @@ const jsonLd = [
         <span style="color:var(--teal)">&#8635;</span>&nbsp;After This Assessment
       </div>
       <h2 class="section-title">Where to Go Next</h2>
-      <p class="section-sub">This assessment is a starting point. These pages help you take the next practical step.</p>
+      <p class="section-sub">This assessment is a starting point. These options help you move from free clarity to a stronger student decision.</p>
       <div class="links-grid">
-        <a href="/services/career-counselling-and-career-guidance" class="link-card">
+        <a href={guidanceCardHref} class="link-card">
           <div class="lc-icon">&#128172;</div>
           <div>
-            <div class="lc-title">Get Career Guidance</div>
-            <div class="lc-desc">1-on-1 career counselling session for deeper direction and a personalised plan</div>
+            <div class="lc-title">See Student Guidance Plans</div>
+            <div class="lc-desc">Move from free signals to a paid guidance plan when the stream decision needs sharper support.</div>
           </div>
         </a>
-        <a href="/services/career-counselling-and-career-guidance/student-career-guidance/" class="link-card">
+        <a href="#guidance-bridge" class="link-card">
           <div class="lc-icon">&#127891;</div>
           <div>
-            <div class="lc-title">Student Guidance</div>
-            <div class="lc-desc">Career guidance specifically built for school and early college students</div>
+            <div class="lc-title">Why Paid Guidance Helps</div>
+            <div class="lc-desc">See why updated, skill-first guidance gives fuller clarity than a free test alone.</div>
           </div>
         </a>
         <a href="/services/assessments" class="link-card">
@@ -353,10 +365,10 @@ const jsonLd = [
             <div class="lc-desc">See all career assessment tools available across different life stages</div>
           </div>
         </a>
-        <a href="/skill-finder" class="link-card">
+        <a href="/career-skills-compass" class="link-card">
           <div class="lc-icon">&#128269;</div>
           <div>
-            <div class="lc-title">Skill Finder</div>
+            <div class="lc-title">Career & Skills Compass</div>
             <div class="lc-desc">Explore which high-value skills match your thinking style and career direction</div>
           </div>
         </a>
@@ -378,39 +390,29 @@ const jsonLd = [
     </div>
   </section>
 
-  <!-- FINAL CTA -->
-  <section id="final-cta">
-    <div class="container cta-inner">
-      <div class="cta-pill">
-        <span class="dot"></span>
-        Start with a free assessment — book a session only if you want deeper clarity
-      </div>
-      <h2 class="cta-headline">
-        Still Unsure After the Assessment?<br />
-        <span class="gold-text">A 1-on-1 Session Gives You the Full Map.</span>
-      </h2>
-      <p class="cta-sub">
-        This assessment gives you a direction. A session gives you a personalised plan built around your
-        specific situation — your strengths, your goals, your constraints — before the stream decision becomes a guess.
-      </p>
-      <div class="cta-actions">
-        <a href="/services/career-counselling-and-career-guidance" class="btn-gold pulse">
-          Get Career Guidance
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-        <a href="/services/assessments" class="btn-outline">See All Assessments</a>
-      </div>
-      <p class="cta-note">All assessments are free &nbsp;&middot;&nbsp; 100% online &nbsp;&middot;&nbsp; Available across India</p>
-    </div>
-  </section>
+  <AssessmentGuidanceCta mode="student" sectionId="guidance-bridge" />
 
+  <GuidancePlansSection
+    sectionId="plans"
+    audience={plansConfig.audience}
+    serviceLabel={plansConfig.serviceLabel}
+    title={plansConfig.sectionTitle}
+  />
+
+  <AssessmentReportTools
+    title="Class 10 and Below Career Assessment Report"
+    fileName="class-10-career-assessment-report.pdf"
+    reportKicker="STUDENT CAREER DISCOVERY REPORT"
+    guidanceLabel="Explore Student Career Guidance"
+    guidanceUrl="https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-class-10-students/"
+  />
   <Footer />
 </BaseLayout>
 
 <!-- ═══════════════════════════════════════════
      QUIZ ENGINE
 ═══════════════════════════════════════════ -->
-<script is:inline>
+<script is:inline define:vars={{ guidanceResultsHref, guidanceResultsLabel }}>
 /* ─────────────────────────────────────────────
    SCORE DIMENSIONS
    RIASEC: R, I, A, S, E, C
@@ -821,7 +823,7 @@ const RIASEC = {
     key: 'E', label: 'Enterprising', title: 'The Leader & Starter', emoji: '🚀', color: '#ef4444',
     tagline: 'You are driven by ambition, leadership, and the desire to build something from nothing.',
     desc: 'You think about possibilities, not just problems. You naturally gravitate toward leadership, persuasion, and starting things. You can handle uncertainty better than most people — in fact, you often find stability boring. You understand that influence and momentum are skills, and you\'re naturally drawn to developing both.',
-    strengths: ['Leadership instinct — you step in and take charge when others are unsure', 'Persuasion and communication — you can get people moving toward a shared goal', 'Strategic thinking — you see angles and opportunities others miss', 'Resilience and ambition — setbacks don\'t stop you, they inform your next move'],
+    strengths: ['Leadership instinct — you step in and take charge when others are unsure', 'Persuasion and communication — you can get people moving toward a shared goal', 'Strategic thinking — you see angles and opportunities others miss', 'Resilience and ambition — setbacks don\'t stop you, they sharpen your future decisions'],
     streamFit: {pcm:2, pcb:1, com:4, hum:2},
     careers: ['Entrepreneur or Business Founder', 'Digital Marketer or Growth Strategist', 'Sales Professional or Business Development Lead', 'Lawyer or Legal Consultant', 'Investment Analyst or Venture Capitalist', 'Product Manager or Startup Operator', 'Politician or Public Affairs Professional', 'Management Consultant'],
     startNow: ['Try to sell one thing to one person this week — a handmade item, a skill, anything — notice how it feels', 'Join or start a debate team, student business club, or organise a small event in your school', 'Read one biography of a business founder or leader you admire — notice their decision patterns, not just their success', 'Watch "How I Built This" podcast clips on YouTube — real founders explaining real decisions in plain language', 'Practise speaking in front of a mirror for 5 minutes daily — confidence in communication compounds fast'],
@@ -1714,7 +1716,7 @@ const FLOW_STATE = {
 
 /* ─────────────────────────────────────────────
    SKILL ROADMAP — 3-PHASE (Level 1 School)
-   Based on homepage skill-finder + coaches-dashboard Level 1 framework
+   Based on homepage Career & Skills Compass + coaches-dashboard Level 1 framework
 ───────────────────────────────────────────── */
 const SKILL_ROADMAP = {
   I: {
@@ -2927,7 +2929,7 @@ function showResults() {
       '<p class="rg-body">' + P.guidance + '</p>' +
       '<div class="rg-actions">' +
         '<button class="btn-outline" onclick="downloadResultsAsPDF()" style="background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.3);color:#2dd4bf">📥 Download Results as PDF</button>' +
-        '<a href="/services/career-counselling-and-career-guidance" class="btn-gold">Get Career Guidance <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>' +
+        '<a href="' + guidanceResultsHref + '" class="btn-gold">' + guidanceResultsLabel + ' <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>' +
         '<button class="btn-outline" onclick="retakeQuiz()">Retake Assessment</button>' +
       '</div>' +
       '<p class="rg-note">All assessments are free &nbsp;&middot;&nbsp; Sessions are online &nbsp;&middot;&nbsp; Available across India</p>' +
@@ -2955,54 +2957,15 @@ function showResults() {
 ───────────────────────────────────────────── */
 function downloadResultsAsPDF() {
   var resultsContainer = document.getElementById('results-container');
-  var element = resultsContainer.cloneNode(true);
+  if (!resultsContainer || !window.downloadAssessmentReportPdf) {
+    return;
+  }
 
-  // Remove buttons from clone
-  var buttons = element.querySelectorAll('button, .rg-actions');
-  buttons.forEach(function(btn) { btn.remove(); });
-
-  // Create a new window for printing
-  var printWindow = window.open('', '', 'height=800,width=1000');
-  printWindow.document.write('<html><head><title>Career Assessment Results</title>');
-  printWindow.document.write('<style>' +
-    '@page { margin: 15mm; size: A4; } ' +
-    'body { font-family: "Sora", Arial, sans-serif; margin: 0; padding: 20px; background: #0a0f1e; color: rgba(255,255,255,.9); line-height: 1.6; } ' +
-    'h1 { color: #fff; border-bottom: 2px solid #10b981; padding-bottom: 15px; margin-bottom: 30px; font-size: 28px; } ' +
-    'h2, h3, h4 { color: rgba(255,255,255,.95); margin-top: 20px; margin-bottom: 10px; } ' +
-    'h3 { font-size: 18px; } ' +
-    'h4 { font-size: 14px; } ' +
-    'p { color: rgba(255,255,255,.85); margin: 10px 0; } ' +
-    '.res-section { margin: 25px 0; padding: 20px; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: rgba(255,255,255,.03); page-break-inside: avoid; } ' +
-    '.res-section-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; } ' +
-    '.res-section-icon { font-size: 24px; } ' +
-    '.res-section-note { font-size: 13px; color: rgba(255,255,255,.7); margin-bottom: 15px; } ' +
-    'table { width: 100%; border-collapse: collapse; margin: 15px 0; page-break-inside: avoid; } ' +
-    'th { background: rgba(255,255,255,.05); color: rgba(255,255,255,.8); padding: 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,.1); font-weight: 700; } ' +
-    'td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,.05); color: rgba(255,255,255,.8); } ' +
-    'tr:hover td { background: rgba(255,255,255,.02); } ' +
-    'ul { color: rgba(255,255,255,.85); margin: 10px 0; padding-left: 20px; } ' +
-    'li { margin: 8px 0; } ' +
-    '.bar-container { background: rgba(255,255,255,.1); height: 20px; border-radius: 10px; overflow: hidden; margin: 10px 0; } ' +
-    '.bar-fill { background: linear-gradient(90deg, #10b981, #14b8a6); height: 100%; } ' +
-    '.signal-card, .start-card { border: 1px solid rgba(255,255,255,.1); padding: 15px; border-radius: 8px; margin-bottom: 12px; background: rgba(255,255,255,.02); page-break-inside: avoid; } ' +
-    '.mi-card { border: 1px solid rgba(255,255,255,.1); padding: 12px; border-radius: 8px; margin-bottom: 10px; background: rgba(255,255,255,.02); page-break-inside: avoid; } ' +
-    '.start-num { display: inline-block; width: 28px; height: 28px; background: rgba(45,212,191,.2); border-radius: 50%; text-align: center; line-height: 28px; color: #2dd4bf; font-weight: 700; margin-right: 10px; } ' +
-    '.start-card p { margin: 0; display: inline; } ' +
-    'strong { color: #fff; } ' +
-    '.flow-career { display: inline-block; background: rgba(16,185,129,.15); color: #10b981; padding: 4px 8px; border-radius: 4px; margin: 2px 2px 2px 0; font-size: 12px; } ' +
-    '.section-divider { border-top: 1px solid rgba(255,255,255,.1); margin: 25px 0; } ' +
-    '@media print { body { background: #0a0f1e; } .res-section { page-break-inside: avoid; } }' +
-    '</style>');
-  printWindow.document.write('</head><body>');
-  printWindow.document.write('<h1>Your Career Assessment Results</h1>');
-  printWindow.document.write(element.innerHTML);
-  printWindow.document.write('</body></html>');
-  printWindow.document.close();
-
-  // Wait a moment for content to load, then print to PDF
-  setTimeout(function() {
-    printWindow.print();
-  }, 250);
+  window.downloadAssessmentReportPdf({
+    title: 'Class 10 and Below Career Assessment Report',
+    fileName: 'class-10-career-assessment-report.pdf',
+    container: resultsContainer
+  });
 }
 
 /* ─────────────────────────────────────────────
@@ -3018,6 +2981,11 @@ function retakeQuiz() {
   updateProgress();
   document.getElementById('quiz-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+globalThis.prevQuestion = prevQuestion;
+globalThis.nextQuestion = nextQuestion;
+globalThis.downloadResultsAsPDF = downloadResultsAsPDF;
+globalThis.retakeQuiz = retakeQuiz;
 </script>
 
 <style is:global>
@@ -3055,6 +3023,7 @@ function retakeQuiz() {
   .hero-sub { font-size: clamp(15px, 2vw, 17px); line-height: 1.78; color: rgba(255,255,255,.58); max-width: 760px; margin: 0 0 1.6rem; }
 
   .meta-chips { display: flex; flex-wrap: wrap; gap: .55rem; margin-bottom: 1.8rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .85rem; }
   .meta-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.75); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); padding: 5px 12px; border-radius: 999px; }
   .hero-cta { font-size: 15px; padding: 14px 28px; }
 
@@ -3108,7 +3077,7 @@ function retakeQuiz() {
 
   .q-opts { display: flex; flex-direction: column; gap: .7rem; }
   .opt-btn { display: flex; align-items: flex-start; gap: .9rem; background: rgba(255,255,255,.04); border: none; border-radius: 13px; padding: 1rem 1.2rem; text-align: left; color: rgba(255,255,255,.8); font-size: 15px; line-height: 1.55; font-family: inherit; cursor: pointer; transition: background .18s, color .18s, transform .15s; }
-  .opt-btn:hover { background: rgba(255,255,255,.08); color: #fff; transform: translateX(4px); }
+  .opt-btn:hover { background: rgba(255,255,255,.08); color: #fff; box-shadow: 0 10px 22px rgba(0,0,0,.14); }
   .opt-letter { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 8px; background: rgba(255,255,255,.08); border: none; font-size: 13px; font-weight: 800; color: rgba(255,255,255,.55); flex-shrink: 0; margin-top: 1px; transition: background .18s, color .18s; }
   .opt-text { flex: 1; }
   .opt-btn:hover .opt-letter { background: rgba(255,255,255,.12); color: rgba(255,255,255,.8); }

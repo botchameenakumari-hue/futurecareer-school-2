@@ -1,0 +1,145 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>H · The Scanner</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img{display:block;max-width:100%}a{text-decoration:none;color:inherit}button{font:inherit;cursor:pointer}
+body{background:#070B0E;color:#E6EEF2;font-family:'Space Grotesk',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.bar{position:fixed;top:0;left:0;right:0;z-index:70;display:flex;justify-content:space-between;align-items:center;padding:16px clamp(1.2rem,4vw,3rem);border-bottom:1px solid rgba(230,238,242,.1);background:rgba(7,11,14,.7);backdrop-filter:blur(12px)}
+.bar b{font-family:'Instrument Serif',serif;font-weight:400;font-size:19px}
+.bar span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5d6b73}
+.grid-bg{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(0,229,178,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,178,.055) 1px,transparent 1px);background-size:52px 52px;mask-image:radial-gradient(circle at 50% 30%,#000,transparent 78%)}
+.stage{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem clamp(1.2rem,4vw,3rem) 3rem;text-align:center}
+.k{display:inline-flex;align-items:center;gap:.6rem;font-size:11px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:#00E5B2;border:1px solid rgba(0,229,178,.35);border-radius:99px;padding:8px 16px;margin-bottom:1.6rem}
+.k::before{content:'';width:7px;height:7px;border-radius:50%;background:#00E5B2;animation:p 1.8s ease-in-out infinite}
+@keyframes p{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.2)}}
+h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(2.2rem,6vw,4.8rem);line-height:1.04;letter-spacing:-.025em;max-width:17ch;margin-bottom:1.1rem}
+h1 em{font-style:italic;color:#00E5B2}
+.sub{max-width:36rem;color:#8496a0;line-height:1.75;font-weight:300;font-size:15.5px;margin-bottom:2.6rem}
+/* ── console ── */
+.con{width:min(920px,100%);border:1px solid rgba(230,238,242,.14);border-radius:20px;background:rgba(10,16,20,.86);backdrop-filter:blur(14px);overflow:hidden;text-align:left;box-shadow:0 40px 90px -40px rgba(0,0,0,.9)}
+.con-h{display:flex;align-items:center;gap:.6rem;padding:.9rem 1.2rem;border-bottom:1px solid rgba(230,238,242,.12);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#5d6b73}
+.dot{width:9px;height:9px;border-radius:50%;background:#2a3941}
+.dot.a{background:#00E5B2}
+.con-b{padding:clamp(1.4rem,3vw,2.2rem)}
+.q{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#5d6b73;margin:0 0 .9rem}
+.opts{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.8rem}
+.opt{background:rgba(230,238,242,.05);border:1px solid rgba(230,238,242,.16);color:#E6EEF2;border-radius:99px;padding:12px 20px;font-size:13.5px;font-weight:500;transition:.25s}
+.opt:hover{border-color:#00E5B2;color:#00E5B2}
+.opt.on{background:#00E5B2;border-color:#00E5B2;color:#04120E;font-weight:700}
+.scan{width:100%;background:#00E5B2;color:#04120E;border:none;border-radius:12px;padding:16px;font-weight:700;font-size:14.5px;letter-spacing:.02em;transition:.3s;opacity:.4;pointer-events:none}
+.scan.ready{opacity:1;pointer-events:auto;box-shadow:0 10px 34px -10px rgba(0,229,178,.6)}
+.scan.ready:hover{transform:translateY(-2px)}
+/* ── scanning ── */
+.run{display:none;padding:2.4rem 0;text-align:center}
+.run.on{display:block}
+.radar{width:150px;height:150px;margin:0 auto 1.4rem;position:relative}
+.radar i{position:absolute;inset:0;border:1px solid rgba(0,229,178,.3);border-radius:50%;animation:rp 2s linear infinite}
+.radar i:nth-child(2){animation-delay:.66s}.radar i:nth-child(3){animation-delay:1.33s}
+@keyframes rp{from{transform:scale(.2);opacity:1}to{transform:scale(1);opacity:0}}
+.radar b{position:absolute;inset:0;margin:auto;width:8px;height:8px;background:#00E5B2;border-radius:50%;box-shadow:0 0 20px #00E5B2}
+.rline{font-size:13px;color:#8496a0;font-family:'Space Grotesk';min-height:1.4em;letter-spacing:.04em}
+/* ── results ── */
+.res{display:none}.res.on{display:block;animation:in .6s cubic-bezier(.16,.84,.28,1)}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.4rem}
+.rcard{border:1px solid rgba(230,238,242,.14);border-radius:14px;padding:1.3rem}
+.rcard .lab{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#5d6b73;margin-bottom:.7rem}
+.rcard .val{font-family:'Instrument Serif',serif;font-size:clamp(1.9rem,4vw,2.9rem);line-height:1;font-variant-numeric:tabular-nums}
+.hi{color:#FF6B5A}.mid{color:#FFC24B}.ok{color:#00E5B2}
+.rcard small{display:block;font-size:12.5px;color:#8496a0;margin-top:.5rem;line-height:1.5;font-weight:300}
+.bars{border:1px solid rgba(230,238,242,.14);border-radius:14px;padding:1.3rem;margin-bottom:1.4rem}
+.brow{display:grid;grid-template-columns:120px 1fr auto;gap:.9rem;align-items:center;padding:.5rem 0}
+.brow span{font-size:12.5px;color:#8496a0}
+.btk{height:6px;background:rgba(230,238,242,.1);border-radius:99px;overflow:hidden}
+.btk i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#00E5B2,#4BD6FF);transition:width 1.2s cubic-bezier(.16,.84,.28,1)}
+.brow em{font-style:normal;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.verdict{border-left:2px solid #00E5B2;padding:.2rem 0 .2rem 1.1rem;margin-bottom:1.5rem}
+.verdict b{display:block;font-family:'Instrument Serif',serif;font-size:1.35rem;margin-bottom:.4rem}
+.verdict p{font-size:13.5px;line-height:1.65;color:#8496a0;font-weight:300}
+.ract{display:flex;gap:.7rem;flex-wrap:wrap}
+.b1{background:#00E5B2;color:#04120E;padding:15px 28px;border-radius:99px;font-weight:700;font-size:13.5px;border:none;transition:.3s}
+.b1:hover{transform:translateY(-2px)}
+.b2{border:1px solid rgba(230,238,242,.25);padding:15px 28px;border-radius:99px;font-weight:600;font-size:13.5px;color:#E6EEF2;background:none;transition:.3s}
+.b2:hover{background:rgba(230,238,242,.09)}
+.foot{position:relative;z-index:2;text-align:center;padding:0 1.2rem 4rem;color:#5d6b73;font-size:12.5px;letter-spacing:.1em}
+@media(max-width:700px){.rgrid{grid-template-columns:1fr}.brow{grid-template-columns:88px 1fr auto}}
+</style></head><body>
+<div class="grid-bg"></div>
+<div class="bar"><b>Future Career School</b><span>Career risk scanner</span></div>
+
+<section class="stage">
+  <span class="k">Live diagnostic · free · 20 seconds</span>
+  <h1>Find out what AI does to <em>your</em> career — before it does it.</h1>
+  <p class="sub">Answer two questions. We'll show your automation exposure, your realistic salary ceiling on the current path, and the single skill gap that changes both.</p>
+
+  <div class="con">
+    <div class="con-h"><span class="dot a"></span><span class="dot"></span><span class="dot"></span> FCS · career diagnostic v2</div>
+    <div class="con-b">
+      <div id="form">
+        <p class="q">01 — Where are you right now?</p>
+        <div class="opts" id="o1">
+          <button class="opt" data-v="student">School / college student</button>
+          <button class="opt" data-v="fresher">Fresher or recent graduate</button>
+          <button class="opt" data-v="pro">Working professional</button>
+        </div>
+        <p class="q">02 — Closest to your work</p>
+        <div class="opts" id="o2">
+          <button class="opt" data-v="admin">Admin / data entry / support</button>
+          <button class="opt" data-v="content">Generic content / writing</button>
+          <button class="opt" data-v="code">Basic coding / IT services</button>
+          <button class="opt" data-v="comm">Client-facing / strategy</button>
+          <button class="opt" data-v="niche">Consulting / specialised</button>
+        </div>
+        <button class="scan" id="go">Run my career scan →</button>
+      </div>
+
+      <div class="run" id="run">
+        <div class="radar"><i></i><i></i><i></i><b></b></div>
+        <p class="rline" id="rl">Initialising…</p>
+      </div>
+
+      <div class="res" id="res">
+        <div class="rgrid">
+          <div class="rcard"><p class="lab">Automation exposure</p><p class="val" id="risk">—</p><small id="riskn"></small></div>
+          <div class="rcard"><p class="lab">Realistic ceiling · current path</p><p class="val" id="cap">—</p><small id="capn"></small></div>
+        </div>
+        <div class="bars">
+          <p class="lab" style="font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#5d6b73;margin-bottom:.8rem">Your practical fit check</p>
+          <div class="brow"><span>Interest</span><div class="btk"><i id="f1"></i></div><em id="v1">0</em></div>
+          <div class="brow"><span>Market</span><div class="btk"><i id="f2"></i></div><em id="v2">0</em></div>
+          <div class="brow"><span>Scalability</span><div class="btk"><i id="f3"></i></div><em id="v3">0</em></div>
+        </div>
+        <div class="verdict"><b id="vh"></b><p id="vp"></p></div>
+        <div class="ract"><a class="b1" href="#">Get Career Guidance</a><button class="b2" id="again">Scan again</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+<p class="foot">10,000+ guided · 4.9/5 average rating · free assessments · fully online across India</p>
+
+<script>
+const D={admin:{r:91,c:'₹48k',f:[52,38,25],v:'Your role is the single most exposed category in India.',p:'Data entry and support work is the first thing automated. The exit is a judgment-heavy or client-facing skill layered on top of what you already know — usually 6–9 months of deliberate work.'},
+content:{r:84,c:'₹62k',f:[64,45,40],v:'Generic writing is being commoditised fast.',p:'AI writes passable copy for free. What still pays is strategy, positioning and distribution — the layer above the writing itself. That shift is learnable and pays a premium.'},
+code:{r:62,c:'₹95k',f:[70,68,58],v:'Safe for now, squeezed within five years.',p:'Routine service-company work compresses first. Depth in one domain plus system design, product judgment or AI tooling moves you out of the squeeze zone.'},
+comm:{r:18,c:'₹2.4L',f:[82,90,78],v:'Low exposure — your ceiling is a skill-stack problem, not an AI problem.',p:'Judgment and relationships are the last things automated. Your constraint is leverage: one technical or analytical skill stacked on top typically doubles your range.'},
+niche:{r:9,c:'₹3.6L',f:[88,86,92],v:'Very low exposure. Your risk is under-pricing yourself.',p:'Specialised consulting scales through proof and positioning, not hours. The next move is productising what you already do and building a referral engine.'}};
+let a1=null,a2=null;
+const pick=(box,cb)=>[...document.getElementById(box).children].forEach(b=>b.onclick=()=>{[...b.parentElement.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');cb(b.dataset.v)});
+pick('o1',v=>{a1=v;chk()});pick('o2',v=>{a2=v;chk()});
+const go=document.getElementById('go');
+const chk=()=>go.classList.toggle('ready',!!(a1&&a2));
+const lines=['Reading role signals…','Cross-checking automation datasets…','Mapping salary bands for India…','Comparing against 10,000+ profiles…','Calculating your skill gap…'];
+go.onclick=()=>{document.getElementById('form').style.display='none';document.getElementById('run').classList.add('on');
+ let i=0;const rl=document.getElementById('rl');rl.textContent=lines[0];
+ const iv=setInterval(()=>{i++;if(i<lines.length){rl.textContent=lines[i]}else{clearInterval(iv);show()}},760)};
+const show=()=>{document.getElementById('run').classList.remove('on');const d=D[a2];
+ const res=document.getElementById('res');res.classList.add('on');
+ const rk=document.getElementById('risk');rk.className='val '+(d.r>70?'hi':d.r>40?'mid':'ok');
+ let n=0;const s=performance.now();const k=t=>{const p=Math.min((t-s)/1200,1);rk.textContent=Math.round(d.r*(1-Math.pow(1-p,3)))+'%';if(p<1)requestAnimationFrame(k)};requestAnimationFrame(k);
+ document.getElementById('riskn').textContent=d.r>70?'High — act inside 12 months.':d.r>40?'Moderate — plan the next stack now.':'Low — focus on leverage, not safety.';
+ document.getElementById('cap').textContent=d.c;
+ document.getElementById('capn').textContent='Per month, without a deliberate skill change. '+(a1==='pro'?'Based on your current track.':'Typical for this entry path.');
+ d.f.forEach((v,i)=>{setTimeout(()=>{document.getElementById('f'+(i+1)).style.width=v+'%';document.getElementById('v'+(i+1)).textContent=v},120*i)});
+ document.getElementById('vh').textContent=d.v;document.getElementById('vp').textContent=d.p};
+document.getElementById('again').onclick=()=>{document.getElementById('res').classList.remove('on');document.getElementById('form').style.display='block';
+ ['f1','f2','f3'].forEach(x=>document.getElementById(x).style.width='0')};
+</script></body></html>

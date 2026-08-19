@@ -1,0 +1,621 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Should People Choose Careers That Are Monetarily Rewarding? The Honest Verdict';
+const description =
+  'Should people choose careers that are monetarily rewarding? Income-happiness research, burnout data, and survivorship bias say the honest answer is not a simple yes or no.';
+const canonical =
+  'https://futurecareerschool.com/blog/career-guidance/should-you-choose-a-career-for-money';
+const publishedDateISO = '2026-08-16';
+const publishedDateLabel = '16 August 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'question', label: 'Why this question keeps coming back' },
+  { id: 'honest-case', label: 'The honest case for choosing pay' },
+  { id: 'research', label: 'What income-happiness research actually shows' },
+  { id: 'hidden-cost', label: 'The hidden cost: burnout when the work is a bad fit' },
+  { id: 'bias', label: 'Survivorship bias in "just chase the highest pay" advice' },
+  { id: 'test', label: 'The 3-Question Money Test' },
+  { id: 'verdict', label: 'So, should you choose a career mainly for money?' },
+  { id: 'weigh', label: 'How to weigh pay without falling into either trap' },
+  { id: 'mistakes', label: 'Mistakes people make with the money question' },
+  { id: 'sources', label: 'Check the sources behind these claims' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const honestCaseCards = [
+  {
+    label: 'Financial stress is real, not imagined',
+    body: "Research on scarcity - led by economist Sendhil Mullainathan and psychologist Eldar Shafir - found that financial strain taxes the same mental bandwidth used for planning, patience, and clear decisions. Being underpaid is not a neutral trade-off for 'meaningful work.' It has a measurable cognitive cost.",
+  },
+  {
+    label: '"Do what you love" is easier to say with a safety net',
+    body: "A person with no savings buffer, a loan to service, or dependents counting on their income cannot treat a low-paying passion path as a low-risk experiment. For them, pay is not greed. It is the difference between stability and a missed rent payment.",
+  },
+];
+
+const researchHighlights = [
+  {
+    heading: 'The popular "money stops mattering after $75,000" line is outdated',
+    body: "That figure comes from a widely quoted 2010 study, and it got simplified into a myth that more money stops helping past a fixed number. A 2021 study by Matthew Killingsworth, tracking real-time happiness through phone check-ins, found day-to-day well-being kept rising with income well past that number, for most people, with no flat ceiling.",
+  },
+  {
+    heading: 'The full picture, once the two researchers compared notes directly',
+    body: "In 2023, Killingsworth teamed up with the original 2010 researcher, Daniel Kahneman, and psychologist Barbara Mellers, in a rare adversarial collaboration to settle the disagreement. The result: happiness keeps rising with income for most people. Only for a genuinely unhappy minority does more money stop helping past a certain point, and for that group, other problems (health, a bad relationship, a bad job) usually explain the misery more than the pay does.",
+  },
+];
+
+const weightTable = [
+  {
+    situation: 'You have no savings buffer, or a first income the family depends on',
+    weight: 'Weight pay heavier, for now',
+    why: 'A missed loan payment or unpaid rent is an immediate, undeniable cost. Fit matters, but it cannot be the priority while the floor is not covered.',
+  },
+  {
+    situation: 'You are debt-free with a modest buffer and no one depending on this income yet',
+    weight: 'Weight fit and skill-building heavier',
+    why: 'You can absorb a slower-paying start in exchange for compounding a skill in work you can actually sustain for a decade.',
+  },
+  {
+    situation: 'You are supporting dependents right now, in a field you dislike',
+    weight: 'Weight pay heavier short-term, build an exit skill in parallel',
+    why: 'Walking away from income you depend on today is not realistic. Building the next skill on the side is how the trade-off changes later.',
+  },
+  {
+    situation: 'You are already burned out in a well-paid role that is a poor fit',
+    weight: 'Weight fit heavier now',
+    why: 'The pay-only math looks fine on paper, but it skips the cost of exhaustion, health, and the real chance you quit mid-career anyway - often at a worse moment than if you had planned the move.',
+  },
+];
+
+const moneyTestSteps = [
+  {
+    title: 'The Realistic Ceiling Question',
+    body: "Look up the pay range for this field, then ask where the middle of that range actually sits - not the single impressive number someone shared to sell you on it. Recommendation posts almost always quote the person who did unusually well, not the typical outcome for someone starting today.",
+  },
+  {
+    title: 'The Sustainability Question',
+    body: "Can you tolerate the daily task reality of this field long enough to reach that realistic ceiling, or does the work itself wear you down faster than the pay grows? A high number you exit from in year three because you could not stand the work pays you for three years, not for a career.",
+  },
+  {
+    title: 'The Enough Question',
+    body: "What specific number actually solves your real financial pressure - rent, debt, dependents, a savings target - and is this path solving that specific problem, or chasing a vague idea of 'more' with no finish line? A target with no number attached never feels reached, no matter how high the salary climbs.",
+  },
+];
+
+const mistakeCards = [
+  {
+    num: '01',
+    title: 'Picking a whole field off one headline salary number',
+    body: 'Committing years of study or training to a field because one impressive figure got shared around, without checking what the field pays most people who are not the outlier in that story.',
+  },
+  {
+    num: '02',
+    title: 'Dismissing pay entirely as "materialistic"',
+    body: 'While still needing to cover rent, a loan, or a dependent - and quietly resenting the field for not paying what the bills actually require.',
+  },
+  {
+    num: '03',
+    title: 'Reading a strong offer letter as proof the daily grind will feel worth it',
+    body: 'A number on paper cannot tell you whether the hours, pace, or task mix behind it is something you can actually keep showing up for once the novelty wears off.',
+  },
+  {
+    num: '04',
+    title: 'Benchmarking against someone else\'s number instead of your own market and stage',
+    body: 'A figure from a different city, seniority level, or years of specialisation is not a fair comparison for where you actually stand right now.',
+  },
+  {
+    num: '05',
+    title: 'Never naming your actual "enough" number',
+    body: 'Without a specific figure tied to your real costs, no salary ever feels sufficient - the target keeps moving as the lifestyle around it grows.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'Should people choose careers that are monetarily rewarding?',
+    a: 'Partly yes. Money deserves a real floor in the decision, especially without a safety net - low pay creates measurable financial stress, and that is not a small concern. But treating pay as the only or primary factor, above whether you can sustain the daily work, carries a real burnout and mismatch risk. The honest answer is a floor, not the whole vote.',
+  },
+  {
+    q: 'Does money actually buy happiness, according to research?',
+    a: 'More than the popular version of the research suggests. A 2021 study found day-to-day well-being kept rising with income for most people, without the flat ceiling the older, more famous study got remembered for. A 2023 follow-up between the two sets of researchers found the plateau only applies to an already-unhappy minority, not most people.',
+  },
+  {
+    q: 'What is survivorship bias in "chase the highest-paying career" advice?',
+    a: 'It is quoting the outcome of the people who reached the top of a field as if it were the typical outcome for anyone who enters it. Most fields have a wide pay spread, and the number used to sell a field is almost always closer to the top than the middle.',
+  },
+  {
+    q: 'Is it wrong to care about money when choosing a career?',
+    a: 'No. Financial security is a legitimate, practical concern, not a lesser motivation than passion. The problem is not caring about pay - it is letting pay override every other signal about whether you can actually do the work for years.',
+  },
+  {
+    q: 'How do I know if a high-paying job is worth the burnout risk?',
+    a: 'Test the daily task reality before committing years to it, not just the number on the offer letter. Talk to people two or three years into the role, ask what the boring 80% actually looks like, and check whether that reality is something you can sustain, not just tolerate for a few months.',
+  },
+  {
+    q: 'How much money is "enough" when choosing a career?',
+    a: 'Enough is a specific number tied to your real costs: rent or a loan, dependents, an emergency buffer, and a savings target - not a vague sense of "more." Naming that number turns a moving target into something you can actually plan against.',
+  },
+  {
+    q: 'What if I need the money now but the field is a bad long-term fit?',
+    a: 'That is a real, common situation - not a failure. Stay in the paying role to protect the floor, and build the next skill or proof asset in parallel instead of quitting cold. The goal is a planned exit later, not an immediate one you cannot afford.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="career-guidance"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Should people choose careers that are monetarily rewarding, or is that bad advice repeated so often it sounds true?</strong>
+    The honest answer is neither of the loud versions you hear. Money is not a shallow reason to care about a career - low pay creates real, measurable stress, and pretending otherwise is its own kind of bad advice. But research on income and happiness, and real data on burnout when the daily work is a poor fit, both say the same thing: pay deserves a floor in your decision, not the whole vote. The path toward earlier financial freedom is rarely one high number - it is a skill portfolio that clears your floor and keeps compounding in work you can actually sustain.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Financial security is a legitimate, non-negotiable concern - especially without a safety net - and low pay has a real, researched cost on stress and decision quality.</li>
+      <li>The popular idea that "money stops making you happier after a certain point" is based on an outdated read of a 2010 study - newer research shows income kept improving day-to-day well-being for most people, well past that number.</li>
+      <li>The real risk in "just chase the highest-paying field" advice is survivorship bias: it quotes the outcome of the people who reached the top as if it were the typical outcome for everyone who enters.</li>
+      <li>Next step: run the 3-Question Money Test below before letting any pay number decide a field for you - it separates a real floor from a chase with no finish line.</li>
+    </ul>
+  </div>
+
+  <p>
+    This article answers one specific question - whether pay should drive a career choice - not the full decision. If you already know pay is not disqualifying you and want the complete weighted framework across all the factors that decide a career, the <a href="/blog/career-guidance/factors-to-consider-when-choosing-a-career/">8-Factor Career Stack</a> guide covers that. This piece stays on the money question alone, honestly, from both directions.
+  </p>
+
+  <p>
+    Get <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">structured career guidance</a> if you want help weighing your specific situation - your dependents, your debt, your runway - instead of applying a general answer to a personal decision.
+  </p>
+
+  <nav class="jump-nav" aria-label="Jump to section">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="question">Why this question keeps coming back</h2>
+
+  <p>
+    Two loud camps dominate this topic online. One says chase the highest-paying field you can get into, because money buys freedom and options. The other says follow your interest, because a well-paid job you hate will eventually cost you your health, your relationships, or both.
+  </p>
+
+  <p>
+    Both camps are half right, which is exactly why the argument never settles. The "chase the money" camp is right that financial security changes what a person can risk, plan, and tolerate. The "follow your interest" camp is right that pay alone does not protect you from burning out in work that does not fit you. Neither camp tells you how to weigh the two against each other for your specific life - that is the actual gap this article closes.
+  </p>
+
+  <h2 id="honest-case">The honest case for choosing pay</h2>
+
+  <p>
+    Before getting into the research on where pay-first thinking goes wrong, it deserves a fair hearing first. Dismissing money as a shallow motive is its own kind of bad advice, and it usually comes from people who are not the ones short on it.
+  </p>
+
+  <div class="feature-grid">
+    {honestCaseCards.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p class="note-line">
+    None of this means pay should be the only factor. It means pay is a real one, and "money isn't everything" is a much easier sentence to say when your own money question is already settled.
+  </p>
+
+  <h2 id="research">What income-happiness research actually shows</h2>
+
+  <p>
+    A specific number gets repeated everywhere in career advice: money stops making you happier past roughly $75,000 a year. It is one of the most-cited findings in pop psychology, and it is also, in its popular form, wrong.
+  </p>
+
+  <div class="comparison-grid">
+    {researchHighlights.map((item, index) => (
+      <div class:list={['compare-card', index === 0 ? 'compare-card--gold' : 'compare-card--teal']}>
+        <div class="compare-card__label">{item.heading}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      What survives from both studies, once you strip out the myth: income does keep helping most people, well past the number that gets quoted to argue otherwise. What also survives: each additional amount of money helps a little less than the amount before it. Going from a tight budget to a comfortable one changes daily life more than going from comfortable to very comfortable. That is a real pattern - it is just not the flat wall the popular version claims.
+    </p>
+  </div>
+
+  <h2 id="hidden-cost">The hidden cost: burnout when the work is a bad fit</h2>
+
+  <p>
+    Pay does not protect you from burnout. Burnout comes from chronic workplace stress that has not been successfully managed - the World Health Organization added it to the ICD-11 as an occupational phenomenon in 2019, defined by exhaustion, growing cynicism toward the job, and a drop in how effective you feel. None of that is about the number on your payslip.
+  </p>
+
+  <p>
+    Gallup's ongoing State of the Global Workplace research has repeatedly found that only around a fifth of employees worldwide report being genuinely engaged at work - and plenty of the disengaged majority are in well-paid roles. A high salary can sit right next to low engagement when the daily work is a poor match for the person doing it.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      A well-paid job you cannot sustain does not pay you for a career. It pays you for however many years you last before the mismatch forces an exit - through health, a resignation, or a slow decline in the quality of your own work. The pay-only math on a job offer never includes that cost, because it is invisible until it happens.
+    </p>
+  </div>
+
+  <h2 id="bias">Survivorship bias in "just chase the highest-paying field" advice</h2>
+
+  <p>
+    Here is the flaw that "chase the highest-paying field" advice rarely names directly: it quotes the outcome of the people who reached the top of a field as if that were the typical outcome for anyone who enters it. That is survivorship bias - the visible winners get quoted, the much larger group who landed somewhere in the middle, or left the field entirely, do not.
+  </p>
+
+  <p>
+    Most fields have a wide spread between the median outcome and the number that gets used to sell the field. Someone deciding based on one shared salary screenshot is comparing their future to a best-case scenario, not a realistic one. This is not a reason to avoid a well-paying field - it is a reason to check the realistic distribution before betting years on the outlier number.
+  </p>
+
+  <h2 id="test">The 3-Question Money Test</h2>
+
+  <p>
+    Before letting pay drive a career decision, run it through three questions. This is not a full career-decision framework - it is a check specifically for whether the money reasoning holds up.
+  </p>
+
+  <ol class="rich-list">
+    {moneyTestSteps.map((item) => (
+      <li>
+        <strong>{item.title}.</strong>
+        {' '}{item.body}
+      </li>
+    ))}
+  </ol>
+
+  <h2 id="verdict">So, should you choose a career mainly for money?</h2>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Choose a career that clears your real financial floor first - that part of "money matters" is correct and should not be softened. Do not choose a career mainly because of a number beyond that floor, especially one you have not checked against the realistic distribution and the daily task reality. The people who regret a money-first choice usually do not regret the money. They regret not checking whether they could actually sustain the work that number required.
+    </p>
+  </div>
+
+  <p>
+    The table below is a rough guide for how much weight pay should carry depending on where you actually stand right now - not a universal rule.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Your situation</th>
+          <th>How to weight pay</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        {weightTable.map((item) => (
+          <tr>
+            <td data-label="Your situation">{item.situation}</td>
+            <td data-label="How to weight pay"><strong>{item.weight}</strong></td>
+            <td data-label="Why">{item.why}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="weigh">How to weigh pay without falling into either trap</h2>
+
+  <p>
+    Two mistakes cancel each other out if you avoid both. One is refusing to consider pay at all, then quietly resenting a field for not covering your real costs. The other is letting pay override everything else, then discovering the daily work is not something you can sustain.
+  </p>
+
+  <p>
+    Name your actual floor first - rent or a loan, dependents, an emergency buffer, a savings target - as a specific number, not a feeling. Any field that clears that floor is financially viable for you; ranking fields above the floor purely by pay is where the survivorship-bias risk creeps back in. Test the daily task reality of a field before committing years to it, the same way you would test the pay: talk to someone two or three years in, not someone who just started.
+  </p>
+
+  <p>
+    Once pay has cleared your floor and stopped being a disqualifier, it becomes one input among several - alongside fit, growth, stability, and the work itself - rather than the deciding one. The <a href="/blog/career-guidance/factors-to-consider-when-choosing-a-career/">8-Factor Career Stack</a> guide walks through how to weigh pay against those other factors once you reach that point. If you are not sure your interest in a field is real or just appealing from the outside, the <a href="/blog/career-guidance/how-to-find-the-right-career-for-me-india/">4 Fit Signals</a> guide tests that directly.
+  </p>
+
+  <p>
+    A single high-paying job title is a weaker long-term bet than a high-value skill portfolio - proof of work, communication, and market positioning stacked on top of a field you can actually stay in. The portfolio keeps raising your ceiling over years; one lucky offer only pays for as long as you last in it.
+  </p>
+
+  <h2 id="mistakes">Mistakes people make with the money question</h2>
+
+  <div class="feature-grid">
+    {mistakeCards.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">Mistake {item.num}</div>
+        <p><strong>{item.title}.</strong> {item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="sources">Check the sources behind these claims</h2>
+
+  <p>Do not trust any single career article blindly, including this one. Check the primary research and apply your own judgment.</p>
+  <ul class="sources">
+    <li>
+      Killingsworth (2021) on income and experienced well-being above $75,000.
+      <a href="https://www.pnas.org/doi/10.1073/pnas.2016976118" target="_blank" rel="noopener noreferrer">PNAS: Experienced well-being rises with income, even above $75,000 per year</a>
+    </li>
+    <li>
+      Killingsworth, Kahneman, and Mellers (2023) adversarial collaboration reconciling the two studies.
+      <a href="https://www.pnas.org/doi/10.1073/pnas.2208661120" target="_blank" rel="noopener noreferrer">PNAS: Income and emotional well-being - a conflict resolved</a>
+    </li>
+    <li>
+      Mani, Mullainathan, Shafir, and Zhao (2013) on financial scarcity and cognitive bandwidth.
+      <a href="https://www.science.org/doi/10.1126/science.1238041" target="_blank" rel="noopener noreferrer">Science: Poverty impedes cognitive function</a>
+    </li>
+    <li>
+      World Health Organization's official definition of burnout as an occupational phenomenon.
+      <a href="https://www.who.int/news/item/28-05-2019-burn-out-an-occupational-phenomenon-international-classification-of-diseases" target="_blank" rel="noopener noreferrer">WHO: Burn-out an occupational phenomenon (ICD-11)</a>
+    </li>
+    <li>
+      Gallup's ongoing global research on workplace engagement.
+      <a href="https://www.gallup.com/workplace/349484/state-of-the-global-workplace.aspx" target="_blank" rel="noopener noreferrer">Gallup: State of the Global Workplace</a>
+    </li>
+  </ul>
+
+  <h2 id="faq">FAQs on choosing a career for money</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <p>
+    Money is a real, legitimate part of a career decision - not the whole of it, and not something to feel guilty about either. If you want help naming your actual floor and building the high-value skill portfolio that clears it and keeps compounding toward earlier financial freedom, <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">structured career guidance</a> works through that with you instead of leaving you to average a set of averages alone.
+  </p>
+</BlogPostLayout>
+
+<style>
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .compare-card {
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.3rem 1.3rem 1.2rem;
+  }
+  .compare-card--gold { border-color: rgba(229, 184, 74, 0.3); background: rgba(229, 184, 74, 0.045); }
+  .compare-card--teal { border-color: rgba(45, 212, 191, 0.3); background: rgba(45, 212, 191, 0.045); }
+  .compare-card__label {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 0.75rem;
+  }
+  .compare-card p {
+    font-size: 14.5px !important;
+    line-height: 1.72 !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    margin: 0 !important;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+    margin: 1.4rem 0;
+  }
+  .feature-card {
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.3rem 1.3rem 1.2rem;
+  }
+  .feature-card__label {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #2dd4bf;
+    margin-bottom: 0.55rem;
+  }
+  .feature-card p {
+    font-size: 14.5px !important;
+    line-height: 1.74 !important;
+    color: rgba(255, 255, 255, 0.68) !important;
+    margin: 0 !important;
+  }
+
+  .honest-take {
+    margin: 1.6rem 0;
+    padding: 1.25rem 1.35rem 1.2rem;
+    border-left: 3px solid #e5b84a;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.025);
+  }
+  .honest-take__label {
+    margin: 0 0 0.55rem !important;
+    font-size: 11px !important;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #e5b84a !important;
+  }
+  .honest-take p {
+    margin: 0.4rem 0 !important;
+    font-size: 15.5px !important;
+    line-height: 1.78 !important;
+    color: rgba(255, 255, 255, 0.78) !important;
+  }
+
+  .highlight-box {
+    margin: 1.6rem 0;
+    padding: 1.25rem 1.4rem 1.2rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .highlight-box--teal {
+    border-color: rgba(45, 212, 191, 0.28);
+    background: radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.09), transparent 60%), rgba(255, 255, 255, 0.025);
+  }
+  .highlight-box p {
+    margin: 0.35rem 0 !important;
+    font-size: 15.5px !important;
+    line-height: 1.76 !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  .rich-list {
+    list-style: none !important;
+    margin: 1.3rem 0 !important;
+    padding: 0 !important;
+    display: grid;
+    gap: 0.85rem;
+    counter-reset: rich-list;
+  }
+  .rich-list li {
+    position: relative;
+    margin: 0 !important;
+    padding: 0.95rem 1.15rem 0.95rem 3.1rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    font-size: 15px !important;
+    line-height: 1.72 !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+    counter-increment: rich-list;
+  }
+  .rich-list li::before {
+    content: counter(rich-list, decimal-leading-zero);
+    position: absolute;
+    left: 1.05rem;
+    top: 0.95rem;
+    font-size: 13px;
+    font-weight: 800;
+    color: #e5b84a;
+  }
+  .rich-list li strong {
+    color: rgba(255, 255, 255, 0.94) !important;
+  }
+
+  .note-line {
+    font-size: 13.5px !important;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.5) !important;
+    line-height: 1.68 !important;
+    margin: 0.9rem 0 1.4rem !important;
+  }
+
+  .jump-nav {
+    margin: 1.6rem 0 2rem;
+    padding: 1.2rem 1.3rem 1.1rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.025);
+  }
+  .jump-nav__label {
+    margin: 0 0 0.7rem !important;
+    font-size: 11px !important;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+  .jump-nav__list {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 1rem;
+  }
+  .jump-nav__list li { margin: 0 !important; }
+  .jump-nav__list a {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.68);
+    text-decoration: none;
+  }
+  .jump-nav__list a:hover { color: #e5b84a; }
+
+  .paths-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 620px;
+  }
+  @media (max-width: 560px) {
+    .paths-table {
+      min-width: 0;
+    }
+  }
+  .paths-table th {
+    text-align: left;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.55);
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .paths-table td {
+    padding: 0.9rem 1rem;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.72);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    vertical-align: top;
+  }
+  .paths-table tr:last-child td { border-bottom: none; }
+
+  .sources {
+    margin: 0.9rem 0 1.4rem;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .sources li {
+    color: rgba(255, 255, 255, 0.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+  .sources a {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-left: 4px;
+  }
+
+  @media (max-width: 720px) {
+    .jump-nav__list { grid-template-columns: 1fr; }
+  }
+</style>

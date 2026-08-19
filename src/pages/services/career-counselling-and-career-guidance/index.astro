@@ -6,10 +6,13 @@ import AssessmentSupportNote from '../../../components/bofu/AssessmentSupportNot
 import BofuFaqSection from '../../../components/bofu/BofuFaqSection.astro';
 import BofuListCardSection from '../../../components/bofu/BofuListCardSection.astro';
 import ComparisonMatrix from '../../../components/bofu/ComparisonMatrix.astro';
+import ContextualCta from '../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../components/bofu/GuidancePlansSection.astro';
 import GuidanceModelSection from '../../../components/bofu/GuidanceModelSection.astro';
 import FinalCta from '../../../components/bofu/FinalCta.astro';
 import LinkDirectorySection from '../../../components/LinkDirectorySection.astro';
-import { BOFU_INTERNAL_LINKS, BOFU_PAYMENT_LINKS } from '../../../config/bofu';
+import { BOFU_INTERNAL_LINKS } from '../../../config/bofu';
+import { completeGuidanceDirectoryItems } from '../../../config/directory';
 
 const guidancePageDirectoryItems = [
   {
@@ -26,6 +29,71 @@ const guidancePageDirectoryItems = [
     href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
     title: 'Career Counselling Online',
     description: 'Online career counselling across India for people who need stronger clarity without waiting for a local option.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.virtualCareerCounselling,
+    title: 'Virtual Career Counselling',
+    description: 'A face-to-face video session with live screen-share through your assessment results, for people who want an in-person feel without travelling, from anywhere including outside India.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingSession,
+    title: 'Career Counselling Session',
+    description: 'A structured one-on-one consultation, plus small-group sessions for students who want continuous support across the year.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingConsultation,
+    title: 'Career Counselling Consultation',
+    description: 'A single, low-commitment first conversation you can book without signing up for an ongoing program, so you get a real answer before deciding whether to go further.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-planning-session-online/',
+    title: 'Career Planning Session Online',
+    description: 'A structured, multi-year plan with milestones and a skill portfolio sequenced over time, for people who want a roadmap rather than a single decision resolved.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/free-career-counselling-session/',
+    title: 'Free Career Counselling Session',
+    description: 'See exactly what is genuinely free (assessments and resources) and what a real 1-on-1 session costs before you book.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/trial-career-counselling-session/',
+    title: 'Trial Career Counselling Session',
+    description: 'Test the guidance, the counsellor, and the fit in one real session before deciding whether to commit to continuous support.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/affordable-career-counselling/',
+    title: 'Affordable Career Counselling',
+    description: 'A value-for-money answer: how the price compares to private coaches, the cost of a wrong decision, and the free layer.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-package/',
+    title: 'Career Counselling Package',
+    description: 'What is actually bundled into a single 1-on-1 session versus the continuous-guidance package, and which structure fits your situation.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/compare-career-counselling-services/',
+    title: 'Compare Career Counselling Services',
+    description: 'A side-by-side matrix across independent counsellors, school-tied counsellors, larger platforms, and this service — not a ranked list.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/top-career-coaching-services/',
+    title: 'Top Career Coaching Services',
+    description: 'How to tell a real coaching service from a paid pep talk: accountability, a structured plan, and honest follow-through.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counsellor/',
+    title: 'Best Career Counsellor',
+    description: 'How to judge the individual person counselling you, not just the platform: training, breadth of experience, and honesty about their limits.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-online-career-guidance/',
+    title: 'Best Online Career Guidance',
+    description: 'What to check about the online delivery itself — live video vs a recorded session, verifying who is guiding you, and consistency across cities.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-guidance-website/',
+    title: 'Best Career Guidance Website',
+    description: 'What to check about the website itself: real readable content, named authors, visible pricing, and free tools that give a real result.',
   },
   {
     href: BOFU_INTERNAL_LINKS.guidanceLocations,
@@ -58,17 +126,97 @@ const guidancePageDirectoryItems = [
     description: 'For students and parents who need after-12th guidance online without waiting for local options.',
   },
   {
+    href: BOFU_INTERNAL_LINKS.counsellingFor12thStudents,
+    title: 'Career Counselling for 12th Students',
+    description: 'For the days right after 12th results, when the real marks are in, admission forms are already open, and the family needs one workable decision fast.',
+  },
+  {
     href: BOFU_INTERNAL_LINKS.students,
     title: 'Student Career Guidance',
     description: 'For school students, college students, freshers, recent graduates, and postgraduates who need stronger direction.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-students/',
+    title: 'Career Counselling for Students',
+    description: 'For students stuck between specific stream, subject, or course options who need one decision resolved with a direct recommendation, not broader ongoing direction.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-benefits-for-students/',
+    title: 'Career Counselling Benefits for Students',
+    description: 'What career counselling actually helps a student with, scoped to stream, subject, and college decisions against a real admission timeline, with parent involvement factored in - distinct from the general, audience-wide benefits page.',
   },
   {
     href: BOFU_INTERNAL_LINKS.workingProfessionals,
     title: 'Working Professional Career Guidance',
     description: 'For pivots, salary growth, stagnation, and stronger long-term leverage.',
   },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-working-professionals/',
+    title: 'Career Counselling for Working Professionals',
+    description: 'A structured, assessment-backed session built to resolve one specific decision - stay, pivot, or specialise - instead of ongoing broad direction.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/professional-career-guidance/',
+    title: 'Professional Career Guidance',
+    description: 'For people who want to check that the guidance itself is structured and assessment-backed before trusting it with a skill or path decision.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-adults-online/',
+    title: 'Career Counselling for Adults Online',
+    description: 'For any adult past school or college age making a career or skill decision - employed, between roles, restarting after a break, or self-employed - fully online.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-upsc-aspirants/',
+    title: 'Career Counselling for UPSC Aspirants',
+    description: 'For deciding whether to attempt, whether another attempt is worth it, and what comes after a limit or repeated setback.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-aptitude-test/',
+    title: 'Best Career Aptitude Test',
+    description: 'What a real aptitude test measures (reasoning and ability, not personality or interest), and how to tell a credible one from a gimmicky quiz.',
+  },
 ];
 
+const completeGuidancePageDirectoryItems = completeGuidanceDirectoryItems(guidancePageDirectoryItems);
+
+const guidanceStartCards = [
+  {
+    label: 'Students',
+    title: 'School, college, or early-career direction',
+    description: 'Use this path for stream decisions, after-12th choices, degree confusion, fresher direction, or first serious skill choices.',
+    href: BOFU_INTERNAL_LINKS.students,
+  },
+  {
+    label: 'After 12th',
+    title: 'Course, degree, and next-step decisions',
+    description: 'Start here when the immediate question is what to do after school and how to avoid a costly wrong direction.',
+    href: BOFU_INTERNAL_LINKS.after12th,
+  },
+  {
+    label: 'Working professionals',
+    title: 'Career growth, pivot, or income leverage',
+    description: 'Use this if the problem is stagnation, career switching, AI pressure, better positioning, or stronger long-term leverage.',
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+  },
+  {
+    label: 'Online guidance',
+    title: 'Start from anywhere in India',
+    description: 'Best when local availability is less important than structured guidance, practical assessment support, and clearer next steps.',
+    href: BOFU_INTERNAL_LINKS.careerGuidanceOnline,
+  },
+  {
+    label: 'First session',
+    title: 'One focused consultation before committing',
+    description: 'Use this when you want a low-commitment first conversation before deciding whether a longer guidance path makes sense.',
+    href: BOFU_INTERNAL_LINKS.careerCounsellingConsultation,
+  },
+  {
+    label: 'City intent',
+    title: 'Location-specific guidance pages',
+    description: 'Use this route if you searched by city but still want online-first guidance focused on decision quality and skill direction.',
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+  },
+];
 const supportPageDirectoryItems = [
   {
     href: '/services',
@@ -81,8 +229,8 @@ const supportPageDirectoryItems = [
     description: 'Free assessments for stream decisions, aptitude signals, skill fit, and career direction.',
   },
   {
-    href: '/skill-finder',
-    title: 'Skill Finder',
+    href: '/career-skills-compass',
+    title: 'Career & Skills Compass',
     description: 'A free tool for narrowing the skill paths that fit your strengths and market direction.',
   },
   {
@@ -210,7 +358,7 @@ const jsonLd = [
     "areaServed": { "@type": "Country", "name": "India" },
     "inLanguage": "en-IN",
     "provider": {
-      "@type": "EducationalOrganization",
+      "@type": ["Organization", "ProfessionalService"],
       "name": "Future Career School",
       "url": "https://futurecareerschool.com"
     }
@@ -254,11 +402,11 @@ const jsonLd = [
       </p>
       <p class="hero-sub hero-sub-secondary">
         Many providers charge thousands for outdated or impractical assessments and present them like deal-breakers.
-        Here, the career and skill assessments are fully free, updated, practical, and AI-powered.
+        Here, the career and skill assessments are fully free, updated, practical, and AI-powered. Guidance is online across India, so people can start from home, college, or work instead of waiting for a local option.
       </p>
       <div class="hero-actions">
-        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold pulse">Get Student Career Guidance</a>
-        <a href={BOFU_PAYMENT_LINKS.workingProfessionals} class="btn-outline">Get Working Professional Career Guidance</a>
+        <a href="#plans" class="btn-gold pulse">Get Student Career Guidance</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Guidance</a>
       </div>
     </div>
   </section>
@@ -277,6 +425,16 @@ const jsonLd = [
     variant="contrast"
   />
 
+  <ContextualCta
+    audience="mixed"
+    title="Choose the audience or situation that fits you before more effort goes into the wrong next step"
+    body="If the real need is already clear enough to act on, move now instead of keeping the decision in the abstract."
+    studentHref="#plans"
+    studentLabel="Get Student Career Guidance"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance"
+  />
+
   <BofuListCardSection
     sectionId="audiences"
     title="Career Guidance for Students and Working Professionals"
@@ -285,15 +443,39 @@ const jsonLd = [
     variant="audience"
   >
       <AssessmentSupportNote
-        body="If you want a lighter first step, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger guidance decision."
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger guidance decision."
       />
   </BofuListCardSection>
+
+  <section id="guidance-start-points">
+    <div class="container">
+      <h2 class="section-headline">Start with the guidance situation closest to yours</h2>
+      <p class="section-sub">
+        If the labels feel similar, choose by your current decision first. The full guidance directory remains below for more specific pages.
+      </p>
+      <div class="guidance-start-grid">
+        {guidanceStartCards.map((card) => (
+          <article class="guidance-start-card card">
+            <div class="guidance-start-label">{card.label}</div>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+            <a href={card.href}>Open this path &rsaquo;</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Guidance"
+    title="Clearer Career Decisions for Future Readiness and Earlier Financial Freedom"
+  />
 
   <LinkDirectorySection
     sectionId="guidance-page-directory"
     title="Career Guidance for Different Situations"
     subtitle="Explore the guidance option that fits your current decision, stage, or pressure."
-    items={guidancePageDirectoryItems}
+    items={completeGuidancePageDirectoryItems}
     altBackground={true}
   />
 
@@ -309,6 +491,16 @@ const jsonLd = [
     title="What actually changes when the guidance gets stronger"
     subtitle="See how clearer decisions, stronger skill direction, and more practical assessment support can change the outcome."
     centered={true}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Use guidance when the next serious career decision needs more than another round of public advice"
+    body="The practical value is clearer skill direction, better trade-offs, and a stronger route forward before the wrong move becomes harder to reverse."
+    studentHref="#plans"
+    studentLabel="Get Student Career Guidance"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance"
   />
 
   <section id="guidance-leverage">
@@ -331,7 +523,9 @@ const jsonLd = [
 
   <FinalCta
     audience="mixed"
+    studentHref="#plans"
     studentLabel="Get Student Career Guidance"
+    professionalHref="#plans"
     professionalLabel="Get Working Professional Career Guidance"
   />
 
@@ -364,6 +558,13 @@ const jsonLd = [
   .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.72); line-height: 1.9; max-width: 820px; margin-bottom: 1rem; }
   .hero-sub-secondary { max-width: 780px; color: rgba(255,255,255,.62); font-size: 15px; margin-bottom: 2rem; }
   .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  #guidance-start-points { padding: 5.2rem 0; background: rgba(255,255,255,.012); border-top: 1px solid rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.06); }
+  .guidance-start-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; }
+  .guidance-start-card { padding: 1.15rem; }
+  .guidance-start-label { color: #2dd4bf; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; margin-bottom: .45rem; }
+  .guidance-start-card h3 { margin: 0 0 .55rem; font-size: 1.08rem; line-height: 1.25; color: #fff; }
+  .guidance-start-card p { margin: 0; color: rgba(255,255,255,.72); font-size: 14px; line-height: 1.65; }
+  .guidance-start-card a { display: inline-flex; margin-top: 1rem; color: #f7d778; font-weight: 850; }
 
   #guidance-process,
   #guidance-comparison,
@@ -424,7 +625,8 @@ const jsonLd = [
     #services-hero { padding: 120px 0 72px; }
     .hero-actions { flex-direction: column; align-items: stretch; }
     .hero-actions .btn-gold,
-    .hero-actions .btn-outline { justify-content: center; }
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
     .leverage-grid { grid-template-columns: 1fr; }
   }
 
@@ -442,3 +644,4 @@ const jsonLd = [
     .lev-item { padding: 1rem; }
   }
 </style>
+

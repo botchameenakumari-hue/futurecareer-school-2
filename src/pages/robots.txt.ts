@@ -6,9 +6,6 @@ Allow: /
 
 # Sitemap
 Sitemap: ${SITE_URL}/sitemap.xml
-
-# Block internal API paths
-Disallow: /api/
 `;
 
 export const GET: APIRoute = () =>

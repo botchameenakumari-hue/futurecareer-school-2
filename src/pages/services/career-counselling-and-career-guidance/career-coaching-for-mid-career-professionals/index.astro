@@ -1,0 +1,443 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Coaching for Mid-Career Professionals | Past the Plateau, Before the Pivot | Future Career School';
+const description =
+  'Career coaching for mid-career professionals 8-15 years in, stuck where promotions have slowed: deciding whether to specialize deeper or pivot now, resetting a skill stack that used to be cutting-edge, and weighing risk against family and financial obligations.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coaching-for-mid-career-professionals/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'The plateau, not the panic',
+    title: 'Promotions have slowed, and the next step is no longer obvious',
+    body: 'Somewhere between year eight and year fifteen, the fast early promotions stop. Roles open up above you and go to someone else, or simply do not open at all. It rarely feels like a crisis on any single day, but the pattern is unmistakable once you look at it honestly.',
+  },
+  {
+    eyebrow: 'The golden handcuffs',
+    title: 'The salary is good, the growth is not, and walking away feels harder than it should',
+    body: 'A comfortable pay grade at this stage can make a flat role easy to tolerate and hard to justify leaving. The compensation still looks fine on paper, which is exactly what makes the stagnation underneath it easy to keep postponing.',
+  },
+  {
+    eyebrow: 'The skill stack that aged out',
+    title: 'What made you valuable a decade ago is not what the market pays for now',
+    body: 'Tools, platforms, and ways of working that felt current when you were building your reputation have since moved on. Reassessing which parts of your skill set still hold up and which quietly went stale is different work from picking up one more course.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'The stage-specific fork',
+    title: 'Specialize deeper where you already have leverage, or pivot before it gets harder',
+    listItems: [
+      'This decision sits at a genuinely different point than it does earlier or later in a career: harder to make than at year two or three, when almost any direction is still cheap to test, and easier to make now than it will be in another decade, when the cost of starting over only grows',
+      'Whether ten-plus years of depth in your current track is a moat worth compounding, or a narrowing lane that keeps you safe while it quietly closes off other options',
+      'What deeper specialization would actually require from here, versus what a deliberate pivot would cost in time, income, and a rebuilt reputation',
+    ],
+  },
+  {
+    eyebrow: 'Feeling replaceable',
+    title: 'Being passed over is data, not just a bruised ego',
+    listItems: [
+      'Separating a genuine skill or positioning gap from a one-off bad review cycle or a manager who simply favors someone else',
+      'What it means when a peer with fewer years but sharper current skills gets the role you expected, and how to respond to that signal instead of resenting it',
+      'How to tell whether the fix is a sharper skill stack, stronger visibility for the work you already do, or a track that no longer fits your strengths at all',
+    ],
+  },
+  {
+    eyebrow: 'Family and financial reality',
+    title: 'Weighing risk when a mortgage, school fees, or dependents are part of the decision',
+    listItems: [
+      'Why a reset that felt easy at 26 feels genuinely riskier at 38 or 42, and why that is a legitimate constraint to plan around rather than a sign of losing your nerve',
+      'What income runway, timeline, and fallback options make a specialize-or-pivot decision safe enough to actually act on instead of endlessly deferring',
+      'How to sequence a change so it does not put obligations you are responsible for at real risk while you make it',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the guidance engages with a plateau, not just generic "level up" talk',
+    body: 'Slowed promotions and being passed over need a specific read: what is actually blocking the next step, and whether that block is fixable inside your current track or points somewhere else. Generic encouragement to "keep growing" does not answer that.',
+  },
+  {
+    title: 'Check whether the specialize-vs-pivot call is treated as a real decision, not a coin flip',
+    body: 'At this stage, the choice between going deeper and pivoting is not obvious in either direction. Stronger guidance should weigh your actual leverage, market position, and timeline honestly instead of defaulting to whichever answer sounds more exciting.',
+  },
+  {
+    title: 'Check whether your skill stack gets reassessed against today\'s market, not your resume history',
+    body: 'A decade of experience does not automatically mean a current skill set. Look for guidance that is honest about which of your skills still carry weight now and which need a deliberate refresh or replacement.',
+  },
+  {
+    title: 'Check whether financial and family risk is treated as a real input, not an excuse to talk you out of it',
+    body: 'A pivot decision that ignores your obligations is not realistic advice. The guidance should help you plan a runway and a sequencing that respects what you are actually responsible for, rather than pushing a leap you cannot safely make.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How do I know if I am actually stuck, or just impatient?',
+    answer:
+      'A useful test is the pattern over the last two to three years, not one disappointing cycle. If promotions, scope, and compensation have all been flat while your effort and results have stayed strong, that is a plateau worth addressing directly. If it is one bad year inside an otherwise upward pattern, the more useful move may be patience, not a reset.',
+  },
+  {
+    question: 'Should I go deeper into what I already know, or pivot into something new?',
+    answer:
+      'This is one of the harder calls in a career, and it sits at a specific point: it is genuinely harder to decide now than it was earlier, when almost any direction was cheap to test, and it is genuinely easier to decide now than it will be a decade from now, when the cost of starting over is higher. Guidance should weigh your real leverage in your current track against what a pivot would honestly cost, instead of defaulting to whichever direction feels more comfortable.',
+  },
+  {
+    question: 'The skills that used to make me valuable do not seem to matter as much anymore. What now?',
+    answer:
+      'This is common after ten-plus years in one direction. Tools, platforms, and expectations shift, and a skill set that was cutting-edge when you built your reputation can quietly age out without you noticing day to day. Guidance should help you separate what still holds real market value from what needs a deliberate refresh or replacement.',
+  },
+  {
+    question: 'My salary is fine, so why does staying feel wrong?',
+    answer:
+      'A comfortable pay grade with a flat growth curve is a real trap, not an imagined one. Good compensation can make a stagnant role easy to tolerate and hard to justify leaving, even when the actual growth, learning, and future income potential have stalled. Guidance should treat that discomfort as legitimate signal, not something to explain away.',
+  },
+  {
+    question: 'I keep getting passed over for roles I expected to get. What does that actually mean?',
+    answer:
+      'Being passed over is worth reading carefully instead of taking personally or dismissing. Sometimes it points to a real skill or positioning gap, sometimes to a track that has stopped matching your strengths, and sometimes to a specific, fixable visibility problem. Guidance should help you tell these apart instead of treating every instance the same way.',
+  },
+  {
+    question: 'A career reset felt easy in my twenties. Why does it feel so much riskier now?',
+    answer:
+      'Because it usually is riskier now, and that is a fact to plan around, not a sign that you have lost your nerve. A mortgage, school fees, or people who depend on your income are real constraints. Guidance should help you build a runway and a sequence that respects those obligations while still moving the decision forward.',
+  },
+  {
+    question: 'How is this different from general career coaching for working professionals?',
+    answer:
+      'The focus here is the specific mid-career plateau: promotions slowing after eight to fifteen years, the golden-handcuffs pull of a comfortable salary against flat growth, and the deeper-specialize-versus-pivot-now decision at a stage where it is harder to call than early in a career but easier than it will be later. That goes further into this exact fork than broader working-professional guidance, which covers a wider range of stagnation, AI pressure, and pivot situations at any seniority.',
+  },
+  {
+    question: 'Is this for switching industries entirely, like a full career change?',
+    answer:
+      'Not necessarily. A full industry or function switch is its own decision with its own runway and transferable-skills questions. The more common mid-career fork is different: staying in your field and specializing deeper, versus pivoting before the cost of doing so keeps rising, which is a lighter and more frequent decision than leaving your industry altogether.',
+  },
+  {
+    question: 'Is this the same as executive coaching?',
+    answer:
+      'No. Executive coaching is built for senior and leadership-track questions: board or C-suite readiness, executive presence, and leadership-track versus deep-expert-track decisions at the top of a career. The mid-career plateau is an earlier stage, where the real pressure is slowing promotions and an aging skill stack, not senior leadership positioning.',
+  },
+  {
+    question: 'Is this available online, or do I need to be in a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can work through the specialize-or-pivot decision from home or your current office, around your existing responsibilities, without a commute or a fixed in-person slot to plan around.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help with skill, role, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'A wider working-professional guidance page covering stagnation, AI pressure, and pivot decisions at any seniority.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coaching-for-career-change/',
+    title: 'Career Coaching for Career Change',
+    description:
+      'For a deliberate switch out of your current industry or function entirely, with transferable-skills mapping and runway planning.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/executive-career-coaching/',
+    title: 'Executive Career Coaching',
+    description:
+      'For senior and leadership-track questions: board or C-suite readiness, executive presence, and second-half-of-career planning.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers,
+    title: 'Working Professionals and Career Changers Assessment',
+    description:
+      'Free input on strengths, work style, and role fit before deciding whether to specialize deeper or pivot.',
+  },
+  {
+    href: '/career-skills-compass/',
+    title: 'Career & Skills Compass',
+    description: 'A free tool for narrowing which high-value skills fit your strengths and where your current stack has aged.',
+  },
+  {
+    href: '/blog/career-growth/how-to-transition-to-a-new-career-role-at-work/',
+    title: 'Career Transitions for Working Professionals',
+    description: 'A practical approach to pivoting roles, functions, or companies while protecting income and stability.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Coaching for Mid-Career Professionals',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coaching for Mid-Career Professionals | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching for Mid-Career Professionals',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coaching for Mid-Career Professionals</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career coaching for mid-career professionals: past the plateau, before the pivot gets harder
+      </div>
+
+      <h1 class="hero-title">
+        Career coaching for mid-career professionals
+        <span class="gold-text"> when promotions have slowed and the next move is not obvious</span>
+      </h1>
+      <p class="hero-sub">
+        Career coaching for mid-career professionals should deal with the exact fork that shows up eight to
+        fifteen years in: specialize deeper where you already have leverage, or pivot now before the cost of
+        changing direction keeps rising. The goal is a reassessed, high-value skill portfolio that fits today's
+        market, not the one that made you valuable a decade ago, so the years ahead compound toward stronger
+        income and earlier financial freedom instead of a slow plateau.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India. You can work through the decision from home or your
+        current office, around the obligations you already carry, without a commute or a fixed in-person slot.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for Mid-Career Professionals</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career coaching for mid-career professionals becomes useful"
+    subtitle="Not a general working-professional check-in. This is for the specific plateau that shows up after roughly eight to fifteen years, once the fast early growth has stopped and the next step is no longer automatic."
+    items={fitItems}
+    variant="signal"
+    columns={3}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Read the plateau honestly before another review cycle passes"
+    body="Unlocking high income opportunities from here depends on naming the real block clearly, not waiting for the next promotion cycle to fix itself."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Mid-Career Professionals"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The decisions this stage of a career actually requires"
+    subtitle="Specialize deeper or pivot now, an honest read on being passed over, and a plan that respects the financial and family obligations that make a reset riskier at this stage than it was earlier."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help you see your current strengths and work style clearly before weighing deeper specialization against a pivot."
+      href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+    />
+  </BofuListCardSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when the mid-career plateau is addressed directly"
+    subtitle="Career coaching for mid-career professionals should feel different from generic motivational advice to 'keep pushing' or a vague suggestion to 'just upskill'."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career coaching for mid-career professionals"
+    subtitle="The goal is a tested specialize-or-pivot decision and a refreshed skill stack, not encouragement dressed up as a plan."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Do not let another year compound inside a plateau you have already named"
+    body="A clearer specialize-or-pivot decision now protects the income, leverage, and financial-freedom timeline the next stage of your career depends on."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Mid-Career Professionals"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Mid-Career Coaching"
+    title="Career Coaching for Mid-Career Professionals Plans"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader working-professional guidance, the career-change and executive-coaching pages for a different stage of decision, and free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions mid-career professionals ask before choosing career coaching"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Decide deliberately before the plateau decides for you"
+    subtitle="If promotions have slowed, the salary is comfortable but the growth is not, or your skill stack feels a decade behind the market, move with a tested specialize-or-pivot decision now, toward a refreshed high-value skill portfolio and earlier financial freedom, while it is still your choice to make."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Mid-Career Professionals"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.25rem, 5vw, 3.65rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.72rem, 9.3vw, 2.3rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

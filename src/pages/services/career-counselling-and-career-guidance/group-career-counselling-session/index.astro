@@ -1,0 +1,665 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../config/guidancePlans';
+
+const title =
+  'Group Career Counselling Session | Small-Group Career Guidance | Future Career School';
+const description =
+  'Book a group career counselling session with Future Career School: small-group career guidance of 10 or fewer students, included in continuous guidance across the year alongside your first 1-on-1 session.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/group-career-counselling-session/';
+
+const groupFormatItems = [
+  {
+    title: 'A small group, not a lecture hall',
+    body:
+      `A group career counselling session with Future Career School stays small, usually 10 or fewer students, so the conversation still feels specific rather than like a shared broadcast to a large batch.`,
+  },
+  {
+    title: 'Part of continuous guidance, not a one-time webinar',
+    body:
+      `The group sessions are how ongoing support is delivered across the year, up to 24 sessions, after your first 1-on-1. Each session picks up where your career decisions actually stand, not a repeated introductory pitch.`,
+  },
+  {
+    title: 'Peers who are working through similar decisions',
+    body:
+      'Sitting alongside a small batch of students facing similar stream, course, or skill decisions gives you a second layer of perspective: how others reason through the same trade-offs, without losing the personal thread of your own situation.',
+  },
+];
+
+const whyGroupWorksItems = [
+  {
+    title: 'Ongoing support without an ongoing 1-on-1 price tag',
+    body:
+      `A single 1-on-1 session is useful for one high-pressure decision, but most students face a series of decisions across a year, stream, courses, skills, internships, not just one. The small-group format is how continuous guidance stays part of one student continuous-guidance plan instead of a new paid session every time a question comes up.`,
+  },
+  {
+    title: 'A high-value skill portfolio needs more than one conversation',
+    body:
+      'Choosing the right skill mix, building proof of work, and staying on a route toward earlier financial freedom is rarely a single decision. Group sessions keep that thinking active across the year instead of fading a month after one call.',
+  },
+  {
+    title: 'Small enough to still be heard',
+    body:
+      'A group that stays at 10 or fewer members is built so your specific question still gets real attention, not just a general answer aimed at the whole room.',
+  },
+];
+
+const groupVsOneOnOneItems = [
+  {
+    eyebrow: 'Single decision',
+    title: 'One-on-one career counselling session',
+    body:
+      'A focused, private consultation built entirely around one decision under pressure, a stream, a course, a role, or a single urgent question.',
+    listItems: [
+      'Best for a first serious decision or one sharp question.',
+      'Every minute is about your specific situation.',
+      'The natural starting point before continuing into group sessions.',
+    ],
+  },
+  {
+    eyebrow: 'Ongoing support',
+    title: 'Group career counselling session',
+    body:
+      'Small-group career guidance that continues after the first 1-on-1, for students who have more than one decision to work through across a year.',
+    listItems: [
+      'Stays at 10 or fewer students so it still feels specific.',
+      'Keeps skill choices, proof of work, and financial-freedom planning on track over time.',
+      'Included with the 1-on-1 as part of one continuous guidance plan, up to 24 sessions a year.',
+    ],
+  },
+];
+
+const flowItems = [
+  {
+    title: 'Start with your one-on-one session',
+    body:
+      'Every student begins with a private 1-on-1 that maps your real situation, so the group sessions that follow are not a cold start.',
+  },
+  {
+    title: 'Join a small group of 10 or fewer students',
+    body:
+      'You continue into a batch of students at a similar stage, not a large open call, so the discussion stays close to your own decisions.',
+  },
+  {
+    title: 'Keep decisions on track across the year',
+    body:
+      'Up to 24 sessions across the year mean skill choices, course direction, and proof of work stay reviewed and current instead of set once and forgotten.',
+  },
+];
+
+const audienceItems = [
+  {
+    label: 'Students',
+    title: 'Group career counselling sessions for ongoing skill and course decisions',
+    body:
+      'Built for students who have more than one decision ahead this year, stream, course, internship, or skill direction, and want that thinking to stay current in a small, consistent group rather than a single call.',
+  },
+  {
+    label: 'Working Professionals',
+    title: 'Working professionals currently continue through 1-on-1 sessions',
+    body:
+      `The small-group format is part of the student continuous-guidance plan. Working professionals booking career counselling continue through focused 1-on-1 sessions instead, built around pivots, stagnation, and salary-growth decisions.`,
+  },
+];
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check that the group genuinely stays small',
+    body:
+      'If a provider calls something a group career counselling session but the room has 30 or 50 people, that is a webinar, not small-group guidance. Future Career School keeps groups at 10 or fewer students.',
+  },
+  {
+    title: 'Check whether the 1-on-1 is included or sold separately',
+    body:
+      'A stronger group offer includes the first 1-on-1 session as part of the same plan instead of charging for it as an unrelated add-on later.',
+  },
+  {
+    title: 'Check how often the sessions actually happen',
+    body:
+      'Ongoing support only works if the cadence is real. Continuous guidance here includes up to 24 small-group sessions across the year, not a vague promise of future access.',
+  },
+  {
+    title: 'Check whether the group still leaves room for your specific question',
+    body:
+      'A useful group career counselling session should still let your own situation get real attention, not just a shared script delivered to whoever is on the call.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Counselling and Guidance',
+    description:
+      'Use the main service page when the bigger question is the full decision itself, not only whether a group or one-on-one format fits better.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingSession,
+    title: 'Career Counselling Session',
+    description:
+      'See the full session structure, including how the first one-on-one and the small-group continuation fit together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/one-on-one-career-coaching-session/',
+    title: 'One-on-One Career Coaching Session',
+    description:
+      'Choose this if you specifically want a private, individual session and no group setting at any point.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'For school students, college students, freshers, recent graduates, and postgraduates who need stronger overall direction.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'For pivots, stagnation, salary growth, AI pressure, and stronger long-term leverage through one-on-one sessions.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description:
+      'Use free, updated, practical, AI-powered career and skill assessments as a no-cost starting signal before you book any session.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What is a group career counselling session?',
+    answer:
+      'It is small-group career guidance, usually 10 or fewer students, that continues after your first one-on-one session. It is part of continuous student guidance rather than a separate, standalone product.',
+  },
+  {
+    question: 'How many students are in a group career counselling session?',
+    answer:
+      'Groups usually stay at 10 or fewer students, so the discussion can still address individual questions instead of feeling like a large, generic webinar.',
+  },
+  {
+    question: 'Do I need a one-on-one session before joining a group?',
+    answer:
+      'Yes. Every student starts with a first one-on-one session, priced at ' +
+      GUIDANCE_PLAN_PRICE_COPY.studentSessionPrice +
+      ', which maps your real situation before the small-group sessions continue that work across the year.',
+  },
+  {
+    question: 'How many group sessions do I get across the year?',
+    answer:
+      GUIDANCE_PLAN_PRICE_COPY.studentContinuousIncludesText.replace(/^./, (letter) => letter.toUpperCase()) +
+      ' as part of the continuous guidance plan.',
+  },
+  {
+    question: 'How much does a group career counselling session cost?',
+    answer:
+      'The small-group sessions are not sold on their own. They are included in the student continuous-guidance plan alongside the first one-on-one session, at ' +
+      GUIDANCE_PLAN_PRICE_COPY.studentContinuousPriceText +
+      '. Current pricing is shown in the plans section below.',
+  },
+  {
+    question: 'Is a group career counselling session as personal as a one-on-one?',
+    answer:
+      'A one-on-one session is built entirely around your specific situation. A group session stays small enough, 10 or fewer students, that your own questions still get real attention, but the format is genuinely different: it is meant for ongoing support across a series of decisions, not one isolated conversation.',
+  },
+  {
+    question: 'Can working professionals join a group career counselling session?',
+    answer:
+      'The small-group format is currently part of the student continuous-guidance plan. Working professionals booking career counselling continue through focused one-on-one sessions instead.',
+  },
+  {
+    question: 'Is a group career counselling session available online across India?',
+    answer:
+      'Yes. Every session, one-on-one or group, is delivered fully online, so you can join from home, college, or work anywhere in India.',
+  },
+  {
+    question: 'Are the free career and skill assessments part of a group session?',
+    answer:
+      'No, the assessments are a separate free step. If you are still early and not ready to book, the free, updated, practical, AI-powered career and skill assessments can help surface strengths and work style first.',
+  },
+  {
+    question: 'Do you guarantee a job after group career counselling sessions?',
+    answer: 'No ethical provider can guarantee a job. The sessions are ongoing decision support, not a placement service.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://futurecareerschool.com/services/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Group Career Counselling Session',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Group Career Counselling Session | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Group Career Counselling Session',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Group Career Counselling Session</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Small-group career counselling, 10 or fewer students, included in continuous student guidance across India
+      </div>
+
+      <h1 class="hero-title">
+        Group career counselling session
+        <span class="gold-text"> that keeps a full year of skill decisions on track</span>
+      </h1>
+      <p class="hero-sub">
+        A group career counselling session with Future Career School is small-group career guidance, usually 10 or fewer students, built to keep your skill choices, proof of work, and route toward earlier financial freedom on track across a full year, not just for one call.
+      </p>
+      <p class="hero-note">
+        It starts with a private 1-on-1 session, then continues into small-group sessions, up to 24 across the year, as one continuous guidance plan. Every session is delivered fully online across India.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Group Career Counselling Sessions</a>
+      </div>
+      <p class="hero-support">
+        The value is not one meeting. It is a small, consistent group that keeps a high-value skill portfolio moving forward across the whole year, session after session.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="group-format"
+    sectionClass="group-format-band"
+    variant="signal"
+    title="What actually makes a session a group career counselling session"
+    subtitle="The word group only means something if the size, cadence, and purpose are real, not just a label attached to any recurring call."
+    items={groupFormatItems}
+  >
+    <p class="feature-inline-note">
+      A deliberate high-value skill portfolio, the right skill mix, proof of work, and stronger market positioning, is rarely built in one sitting. That is the whole reason continuous guidance is delivered as a series of small-group sessions instead of a single call.
+    </p>
+  </BofuFeatureSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="Book continuous guidance when one session is not enough for a full year of decisions"
+    body="Group career counselling sessions keep skill choices, proof of work, and financial-freedom planning current across the year, not just at one moment."
+    studentHref="#plans"
+    studentLabel="Get Group Career Counselling Sessions"
+    professionalHref={BOFU_INTERNAL_LINKS.workingProfessionals}
+    professionalLabel="Get Working Professional Career Guidance"
+  />
+
+  <BofuFeatureSection
+    sectionId="why-group-works"
+    sectionClass="group-decision-band"
+    variant="decision"
+    title="Why the small-group format exists inside continuous guidance"
+    subtitle="The group sessions are not a downgrade from one-on-one. They exist because most students need more than one high-leverage decision addressed across a year."
+    items={whyGroupWorksItems}
+  >
+    <AssessmentSupportNote
+      body="If you are still early and not ready to commit to a group yet, the free career and skill assessments can surface strengths and work style first."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="group-vs-one-on-one"
+    sectionClass="group-formats-band"
+    title="Group career counselling session or one-on-one: what each format is actually for"
+    subtitle="Both exist inside the same practical service. The one-on-one starts the decision. The small-group sessions keep it current across the rest of the year."
+    items={groupVsOneOnOneItems}
+    variant="contrast"
+  />
+
+  <BofuStepFlowSection
+    sectionId="how-it-works"
+    sectionClass="group-flow-band"
+    title="How the group career counselling session fits into a full year of guidance"
+    subtitle="The format moves from one focused conversation into consistent, small-group support, not straight into a large recurring call."
+    items={flowItems}
+  />
+
+  <GuidanceModelSection
+    title="What group career counselling sessions should actually cover across the year"
+    subtitle="Each small-group session is still one focused conversation, but the thinking across the year should move through fit, high-leverage decisions, high-value skill direction, proof of work, and a clearer route toward stronger long-term growth."
+  />
+
+  <AudienceRelevance
+    sectionClass="group-audience-band"
+    title="Who the small-group format is actually built for"
+    items={audienceItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    sectionClass="group-comparison-band"
+    title="Why a group career counselling session still has to be more useful than a generic recurring call"
+    subtitle="A small group is still just a format. The sessions themselves need to stay specific, practical, and strong enough to keep a real skill and career plan moving."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    sectionClass="group-check-band"
+    title="What to check before you book a group career counselling session"
+    subtitle="The word group gets used loosely by many providers. These checks help you tell a genuinely small, useful group from a large batch dressed up as personal support."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If a single call already isn't enough, move into continuous guidance"
+    body="Group career counselling sessions are built for the decisions that keep coming across a year, not just the one you are facing right now."
+    studentHref="#plans"
+    studentLabel="Get Group Career Counselling Sessions"
+    professionalHref={BOFU_INTERNAL_LINKS.workingProfessionals}
+    professionalLabel="Get Working Professional Career Guidance"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Group Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="See the full session structure, the private one-on-one alternative, and free assessments before you decide which format fits you."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    sectionClass="group-final-band"
+    subtitle="Book a group career counselling session when one call is not enough for a full year of skill and career decisions. Continuous guidance should keep you moving toward higher-value skills and a clearer route toward achieving earlier financial freedom, session after session, not just once."
+    studentHref="#plans"
+    studentLabel="Get Group Career Counselling Sessions"
+  />
+
+  <BofuFaqSection
+    title="Questions people ask before booking a group career counselling session"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 88px; }
+
+  :global(.group-format-band) {
+    background:
+      radial-gradient(720px 240px at 10% 0%, rgba(45,212,191,.055), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.008), transparent 50%);
+  }
+  .feature-inline-note {
+    max-width: 820px;
+    margin: 1.4rem auto 0;
+    padding: 1.05rem 1.2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+    color: rgba(255,255,255,.72);
+    font-size: 14px;
+    line-height: 1.8;
+    text-align: center;
+  }
+  :global(.group-decision-band) {
+    background:
+      radial-gradient(720px 260px at 100% 0%, rgba(229,184,74,.065), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.008));
+  }
+  :global(.group-formats-band) {
+    background:
+      radial-gradient(760px 240px at 0% 0%, rgba(229,184,74,.06), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.007));
+  }
+  :global(.group-flow-band) {
+    background:
+      radial-gradient(620px 220px at 18% 100%, rgba(45,212,191,.05), transparent 72%),
+      radial-gradient(560px 220px at 88% 0%, rgba(229,184,74,.05), transparent 72%);
+  }
+  :global(.group-audience-band .section-headline),
+  :global(.group-comparison-band .section-headline),
+  :global(.group-check-band .section-headline) {
+    max-width: 20ch;
+  }
+  :global(.group-audience-band .audience-grid) {
+    max-width: 1080px;
+    margin: 0 auto;
+    gap: 1.15rem;
+  }
+  :global(.group-audience-band .audience-card) {
+    padding: 1.35rem 1.25rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,.11);
+    background:
+      radial-gradient(360px 150px at 100% 0%, rgba(45,212,191,.08), transparent 74%),
+      linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.014));
+    box-shadow: 0 18px 38px rgba(0,0,0,.2);
+  }
+  :global(.group-audience-band .audience-card h3) {
+    font-size: 1.08rem;
+    line-height: 1.46;
+  }
+  :global(.group-audience-band .audience-card p) {
+    font-size: 14.2px;
+    line-height: 1.82;
+  }
+  :global(.group-comparison-band .compare-shell) {
+    box-shadow: 0 28px 60px rgba(0,0,0,.3);
+  }
+  :global(.group-check-band .buyer-check-grid) {
+    gap: 1.1rem;
+  }
+  :global(.group-check-band .buyer-check-card) {
+    min-height: 100%;
+  }
+  :global(.group-final-band .final-sub) {
+    max-width: 50ch;
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold {
+    width: 520px;
+    height: 520px;
+    top: -170px;
+    left: -110px;
+    background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%);
+  }
+  .orb-teal {
+    width: 420px;
+    height: 420px;
+    top: -40px;
+    right: -120px;
+    background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%);
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 1.95vw, 18px);
+    color: rgba(255,255,255,.72);
+    line-height: 1.88;
+    max-width: 820px;
+    margin-bottom: 1rem;
+  }
+  .hero-note {
+    font-size: 14px;
+    color: rgba(255,255,255,.56);
+    line-height: 1.8;
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-actions .btn-gold,
+  .hero-actions .btn-outline {
+    min-width: min(100%, 290px);
+    justify-content: center;
+  }
+  .hero-support {
+    font-size: 14px;
+    color: rgba(255,255,255,.58);
+    line-height: 1.8;
+    max-width: 720px;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.84rem, 9.6vw, 2.55rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .breadcrumb {
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-sub,
+    .hero-note,
+    .hero-support {
+      line-height: 1.76;
+    }
+    :global(.group-audience-band .audience-card) {
+      padding: 1.08rem 1rem .98rem;
+      border-radius: 20px;
+    }
+  }
+</style>

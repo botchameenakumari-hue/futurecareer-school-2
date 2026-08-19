@@ -1,0 +1,806 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+
+const title = 'Best Career Assessment Platform | How to Judge Any Aptitude Test | Future Career School';
+const description =
+  'How to judge the best career assessment platform: what the test is based on, free vs paid, AI-powered vs outdated, and whether the result leads anywhere.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/best-career-assessment-platform/';
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers once a result needs interpreting.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counselling-platform/',
+    title: 'Best Career Counselling Platform',
+    description: 'A separate evaluation: how to judge the counsellor and the process behind a platform, not just the test.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career and Skill Assessments',
+    description: 'Try a free, updated, AI-powered assessment matched to your stage — school, college, graduate, or working professional.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-fees/',
+    title: 'Career Counselling Fees',
+    description: 'What paid guidance costs if a result needs a real plan built around it, and what the free layer already covers.',
+  },
+];
+
+const faq = [
+  {
+    q: 'What actually makes a career assessment or aptitude test good, not just popular?',
+    a: 'Five things: what the test is based on (a real, checkable framework vs a random set of questions), whether it is current and AI-powered or a generic decades-old personality quiz, whether it gives you an actionable next step or just a label, whether it matches your actual life stage (school, college, graduate, or working professional), and whether it tries to upsell you hard the moment your result appears. A test that is vague on more than one of these is worth questioning before you trust the result.',
+  },
+  {
+    q: 'Is a free career assessment accurate, or do I need to pay for a "proper" one?',
+    a: 'Free does not automatically mean weak, and paid does not automatically mean accurate. Plenty of providers charge a large one-time fee for tests that are outdated or generic underneath a polished paywall. A free, updated, AI-powered assessment can be genuinely accurate for surfacing real interest and work-style patterns — the honest question is not free-vs-paid, it is current-and-specific vs outdated-and-generic.',
+  },
+  {
+    q: 'How do I know if an assessment is outdated or generic?',
+    a: 'Check whether the questions and the result would read the same for almost anyone your age, or whether they actually respond to your specific answers. Outdated tests tend to sort people into a small, fixed set of "types" using a framework built decades ago with no adjustment for how work, skills, or the job market has changed since. A current, AI-powered assessment adjusts its interpretation to your actual answers rather than slotting you into one of eight or sixteen pre-written boxes.',
+  },
+  {
+    q: 'Does a career aptitude test tell me what career to pick, or just give me a "type"?',
+    a: 'A weak test stops at a type or a label — an acronym, a personality code, a list of "careers that suit your personality" with no next step. A stronger test connects that result to something you can actually act on: a shortlist to explore, a skill gap to close, or a decision to take to someone who can help you weigh it against your actual situation. If the result is a label and nothing else, it has not really finished its job.',
+  },
+  {
+    q: 'How long should a good career assessment take?',
+    a: 'Long enough to be specific, short enough that you actually finish it. A test that takes over an hour to answer a question that could be answered in fifteen focused minutes is usually padding for a paywall, not adding real accuracy. Free assessments here are built to take roughly 15 questions for the focused tests, or a slightly longer format for full career-fit and skill assessments — with instant results either way.',
+  },
+  {
+    q: 'Should I take a different assessment depending on whether I am in school, college, or already working?',
+    a: 'Yes. A test built for a Class 10 student weighing streams is answering a different question than one built for a working professional weighing a pivot, even if both are labelled a "career aptitude test." A platform that offers the same generic test to everyone regardless of stage is a sign the underlying tool was not really built with your situation in mind.',
+  },
+  {
+    q: 'What happens after I get my assessment result — is that the end of the process?',
+    a: 'For a low-stakes or exploratory decision, the result alone is often enough to narrow your options for now. For a decision that is expensive, time-pressured, or still confusing after the result, the assessment is a starting point, not a finish line — it works best when someone can cross-check it against your actual financial and family situation and turn it into an actual plan. No ethical provider can guarantee that plan leads to a specific job or income outcome, but it can make the next decision clearer.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Best Career Assessment Platform', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Best Career Assessment Platform: How to Judge Any Career Test Before You Trust the Result',
+    description,
+    datePublished: '2026-07-13',
+    dateModified: '2026-07-13',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="assessment-platform-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Best Career Assessment Platform</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>How to judge the test, not the marketing</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>The best career assessment platform isn't the flashiest quiz — it's the one that holds up on five checks</h1>
+            <p class="line strong">
+              There is no single "best" career aptitude test for everyone. There is a test that is genuinely well-built for your situation, and you find it by checking five things: what the test is actually based on, whether it's free or paid and what that buys you, whether it's current and AI-powered or a generic decades-old personality quiz, whether the result gives you an actual next step, and whether it's built for your life stage.
+            </p>
+            <p class="line">
+              Which platform's counselling process is best is a separate question, answered elsewhere. The question here is narrower and more literal: is the test itself any good, and how would you actually tell?
+            </p>
+            <p class="line">A result that reads the same regardless of what you answered is worth questioning before you trust it with a real decision.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how career guidance works here</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Try a free assessment</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">Five checks before you trust a result</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>What the test is actually based on — a real framework, not a random quiz.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Free vs paid, and what the paywall is actually buying you.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Current and AI-powered, or a generic type from decades ago.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>A next step you can act on, or just a label and nothing else.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>"Best" is situational — a good stream-selector test for a Class 10 student is not the same tool a working professional weighing a pivot actually needs, even if both are marketed as a "career aptitude test."</li>
+          <li>Free does not automatically mean weak, and paid does not automatically mean accurate. Plenty of providers charge a large fee for tests that turn out to be outdated or generic underneath the paywall.</li>
+          <li>A test's real value is in what happens after the result — a label with no next step has not finished its job.</li>
+          <li>Assessments here are treated as fully free, updated, practical, and AI-powered — built to be a genuinely useful first step, not a bait-and-switch into a paid report.</li>
+          <li>A quick free test can be genuinely enough for an exploratory or low-stakes decision. It is a weaker fit, on its own, for a decision that is expensive, urgent, or still confusing once the result is in.</li>
+          <li>No honest assessment — or the guidance built on top of it — can guarantee a specific job or income outcome. Treat that promise as a warning sign, not a selling point.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#criteria">The five things that separate a good test from a weak one</a>
+          <a href="#free-vs-paid">Free vs paid: what you're actually buying</a>
+          <a href="#red-flags">Red flags worth checking before you trust a result</a>
+          <a href="#life-stage">Matching the test to your actual stage</a>
+          <a href="#what-changes">What a stronger assessment approach actually changes</a>
+          <a href="#choosing">When a free test is enough, and when it isn't</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="criteria" class="container section">
+      <h2>The five things that actually separate a good career assessment from a weak one</h2>
+      <p class="line">
+        None of these need insider knowledge — they're checkable from the test itself, before or right after you take it. The same checklist applies whether you're weighing a school stream-selector, the best career aptitude test you can find for a college decision, or any platform marketing itself as a career assessment for working professionals — the criteria don't change with the marketing.
+      </p>
+
+      <div class="protocol-stack">
+        <div class="protocol-row">
+          <span class="protocol-num">1</span>
+          <div class="protocol-body">
+            <h3>What the test is actually based on</h3>
+            <p>Ask what the assessment is measuring and how. A test built around a checkable interest, aptitude, or work-style framework is a different thing from a set of "fun" questions with a pre-written result attached to each answer pattern. If a platform can't explain in a sentence or two what the test is actually assessing, that's a sign the methodology may be thinner than the design suggests.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">2</span>
+          <div class="protocol-body">
+            <h3>Free vs paid, and what the paywall buys</h3>
+            <p>Many providers charge a one-time fee for an assessment that turns out to be outdated or generic once you're past the paywall. Career and skill assessments here are fully free, updated, practical, and AI-powered — free by design, not free-with-a-catch-later. Free doesn't automatically mean weak, and a price tag doesn't automatically mean the underlying test is any more current.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">3</span>
+          <div class="protocol-body">
+            <h3>Current and AI-powered vs a generic decades-old quiz</h3>
+            <p>A lot of "career personality tests" online are dressed-up versions of frameworks built decades ago, sorting everyone into one of a small, fixed set of types with the interpretation barely adjusted for what work or the job market actually looks like now. A current, AI-powered assessment reads your specific answers and adjusts the interpretation to you, rather than slotting you into a pre-written box that reads the same for thousands of other people.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">4</span>
+          <div class="protocol-body">
+            <h3>An actionable next step, not just a label</h3>
+            <p>A weak test stops at a type, a code, or a list of "careers that suit your personality" with nothing to do next. A stronger one connects the result to something you can act on — a shortlist to explore further, a skill gap worth closing, or a decision worth taking to someone who can weigh it against your actual profile. It should also point toward whether a degree alone is enough for the direction it's suggesting, or whether building skills alongside it matters more. If the result is a label and nothing else, treat it as a starting point, not an answer.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">5</span>
+          <div class="protocol-body">
+            <h3>Built for your actual life stage</h3>
+            <p>A test built for a Class 10 student weighing Science, Commerce, or Arts is answering a different question than one built for a working professional weighing a pivot or a graduate weighing employability — even when both are marketed under the same "career aptitude test" label. A platform offering one generic test to everyone regardless of stage is a sign the tool wasn't really built with your specific situation in mind.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="free-vs-paid" class="container section">
+      <h2>Free vs paid: what you're actually buying with a paid assessment</h2>
+      <p class="line">
+        "Free" and "paid" get treated as a quality signal when they shouldn't be. The real question is what a price tag is buying — because plenty of paid assessments are charging for packaging, not for accuracy.
+      </p>
+
+      <div class="card highlight-card">
+        <h3>What each layer actually contributes</h3>
+        <div class="sub-row sub-row--fit">
+          <span class="sub-row-label">A good free assessment does this</span>
+          <p>Gives you a specific, current read on interest and work-style patterns in roughly 15 focused questions, with an instant result and no sign-up wall — enough to narrow a long, vague list of options into a shorter, comparable one.</p>
+        </div>
+        <div class="sub-row sub-row--caution">
+          <span class="sub-row-label">A genuinely strong paid layer adds this</span>
+          <p>Cross-checks the assessment result against your real financial and family situation, catches when a result doesn't match lived reality, and turns a one-time snapshot into a plan you can revisit as things change — the part no single test, free or paid, can do on its own.</p>
+        </div>
+      </div>
+
+      <p class="line">
+        A lot of "paid career assessment platforms" are simply charging for the free layer described above, wrapped in a longer report and a sales call — not adding the second layer at all. Assessments here stay free either way, so you're not paying for the part a good free test already covers.
+      </p>
+      <p class="line">
+        If your decision is exploratory, low-stakes, or reversible, a free, updated assessment is often genuinely enough for now. If the decision is expensive, urgent, or the result leaves you more confused rather than less, that's the point where structured guidance built around the result — not another test — starts to earn its cost.
+      </p>
+    </section>
+
+    <section id="red-flags" class="container section">
+      <h2>Red flags worth checking before you trust an assessment's result</h2>
+      <p class="line">
+        A fair evaluation has to name what to watch for, not just what to look for. These apply to any assessment provider, not one in particular.
+      </p>
+
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>Signs the test is worth trusting</h3>
+          <ul>
+            <li>Explains, in plain language, what it's actually measuring.</li>
+            <li>Results change meaningfully based on how you actually answer.</li>
+            <li>Gives you a next step, not just a type or a label.</li>
+            <li>Offers a version built for your actual stage — school, college, graduate, or professional.</li>
+            <li>Is upfront that no test can guarantee a specific career or income outcome.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>Signs to slow down</h3>
+          <ul>
+            <li>The full result is locked behind a payment with no preview of what it's based on.</li>
+            <li>Every result funnels toward the same paid course, college, or "premium report."</li>
+            <li>The output reads like a generic personality type with no connection to careers or skills.</li>
+            <li>One test is offered to school students, graduates, and professionals alike, with no adjustment.</li>
+            <li>Claims the test can tell you exactly what career you'll succeed in.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="line">
+        None of this means every paid assessment is weak, or every free one is strong — plenty of paid tests are genuinely well-built, and plenty of free ones are thin. These are the specific, checkable things worth looking for either way, rather than judging a test on its landing page design.
+      </p>
+    </section>
+
+    <section id="life-stage" class="container section">
+      <h2>Matching the test to your actual stage, not a one-size-fits-all quiz</h2>
+      <p class="line">
+        The fifth check above — stage fit — is worth expanding, because it's the one most generic "best career test" lists skip entirely. The question a Class 10 student needs answered is not the question a working professional needs answered, even when both search for "career aptitude test."
+      </p>
+      <div class="grid-two">
+        <div class="card">
+          <h3>Class 10 and below</h3>
+          <p class="line" style="margin:0;">Stream selection, subject preference, and early interest clarity — before board-exam and stream pressure force a decision with limited context.</p>
+          <p class="line" style="margin-top:.6rem;"><a href={BOFU_ASSESSMENT_LINKS.class10AndBelow}>Free assessments for Class 10 and below</a></p>
+        </div>
+        <div class="card">
+          <h3>Class 11 to 12</h3>
+          <p class="line" style="margin:0;">Degree and course fit, engineering or commerce branch selection, and work-style clarity before a stream or exam-path decision hardens.</p>
+          <p class="line" style="margin-top:.6rem;"><a href={BOFU_ASSESSMENT_LINKS.class11To12}>Free assessments for Class 11 to 12</a></p>
+        </div>
+        <div class="card">
+          <h3>Graduates and early professionals</h3>
+          <p class="line" style="margin:0;">Employability, placement readiness, and role-direction clarity once a degree is close to done or finished.</p>
+          <p class="line" style="margin-top:.6rem;"><a href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}>Free assessments for graduates and early professionals</a></p>
+        </div>
+        <div class="card">
+          <h3>Working professionals and career changers</h3>
+          <p class="line" style="margin:0;">Pivot feasibility, income-leverage skill gaps, and automation-risk clarity for people already earning and weighing a change.</p>
+          <p class="line" style="margin-top:.6rem;"><a href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}>Free assessments for working professionals</a></p>
+        </div>
+      </div>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What actually changes when an assessment approach scores well on these checks"
+      subtitle="Not every provider builds a genuine next step or a current framework into the test itself. This is the difference the checks above point to."
+      rows={[
+        { left: 'Paid outdated impractical assessments with weak practical value', right: 'Free updated practical AI-powered career and skill assessments' },
+        { left: 'Degree-first direction with weak skill edge', right: 'Skill-first direction with proof of work and stronger market value' },
+        { left: 'Random upskilling that compounds slowly', right: 'Clearer skill direction tied to growth and income upside' },
+      ]}
+    />
+
+    <section class="container section">
+      <p class="line">
+        A test that scores well on those checks is still just a test. If the result already points somewhere clear, the next honest step is turning it into a plan rather than taking another quiz that says roughly the same thing in different words.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-outline" href={BOFU_INTERNAL_LINKS.careerGuidance}>See what career guidance covers</a>
+        <a class="btn-gold" href={BOFU_PLAN_LINKS.parentGuidance}>Compare plans and pricing</a>
+      </div>
+    </section>
+
+    <section id="choosing" class="container section">
+      <h2>When a free assessment is enough, and when it needs a plan built on top</h2>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>A free assessment is probably enough if</h3>
+          <ul>
+            <li>You're early in exploring and just need to narrow a long list.</li>
+            <li>The decision isn't urgent or expensive yet.</li>
+            <li>You haven't tried a current, stage-specific assessment before.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>The result is worth taking further if</h3>
+          <ul>
+            <li>The decision is expensive, time-pressured, or hard to reverse.</li>
+            <li>The result leaves you more confused, or conflicts with what you already suspected.</li>
+            <li>A parent or family member needs a documented plan to evaluate, not just a test score.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        Once you know which side of that you're on, apply the five checks above to whichever assessment you're weighing, including the ones here. If a free, stage-matched test is enough for now, start there — it costs nothing to try. If the result needs a real plan built around it, that's what a counselling session is for.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Try a free assessment first</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on choosing the best career assessment or aptitude test</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <GuidancePlansSection
+      sectionId="plans"
+      audience="mixed"
+      serviceLabel="Career Guidance"
+      title="Career Guidance Plans"
+    />
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader guidance service, the counselling-platform evaluation, or try a free assessment matched to your stage."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #assessment-platform-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+  .card {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .card a { color: #f6db95; }
+  .card a:hover { color: #fff; }
+
+  .sub-row {
+    margin-top: .85rem;
+    padding: .65rem .8rem;
+    border-radius: 10px;
+    display: grid;
+    gap: .2rem;
+  }
+  .sub-row--fit {
+    background: rgba(45,212,191,.08);
+    border: 1px solid rgba(45,212,191,.22);
+  }
+  .sub-row--caution {
+    background: rgba(229,184,74,.08);
+    border: 1px solid rgba(229,184,74,.22);
+  }
+  .sub-row-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .sub-row--fit .sub-row-label { color: #7ee8d8; }
+  .sub-row--caution .sub-row-label { color: #f6db95; }
+  .sub-row p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,.72);
+    margin: 0;
+  }
+
+  .protocol-stack {
+    display: grid;
+    gap: .9rem;
+    margin-top: 1.2rem;
+  }
+  .protocol-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+  }
+  .protocol-num {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    line-height: 1;
+    color: rgba(229,184,74,.35);
+  }
+  .protocol-body h3 { margin-bottom: .4rem; }
+  .protocol-body p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.66);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+    .protocol-row { grid-template-columns: 44px 1fr; }
+    .protocol-num { font-size: 1.5rem; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

@@ -1,0 +1,460 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+import { STUDENT_GUIDANCE_PLAN, formatGuidancePlanAmount } from '../../../../config/guidancePlans';
+
+const title =
+  'Career Coaching for Freshers | Job-Search Follow-Through, Not Just Advice | Future Career School';
+const description =
+  'Career coaching for freshers built around ongoing follow-through: a concrete job-search action plan, application and interview accountability, and course-correction until an offer converts into a confirmed role.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coaching-for-freshers/';
+
+const studentPrice = formatGuidancePlanAmount(STUDENT_GUIDANCE_PLAN.price);
+const studentComparePrice = formatGuidancePlanAmount(STUDENT_GUIDANCE_PLAN.comparePrice ?? '');
+const studentPriceText = `${studentPrice} (down from ${studentComparePrice}, limited-time price)`;
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[3],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const methodologyItems = [
+  {
+    title: 'A decision made',
+    body: 'Career counselling for freshers is usually assessment-driven and decision-focused: which offer to accept, service company or product company, often resolved in a single structured session.',
+  },
+  {
+    title: 'A search, not yet running',
+    body: 'Knowing the target role, skill direction, or company type is not the same as having a working job-search system that generates interviews on its own.',
+  },
+  {
+    title: 'A plan under ongoing accountability',
+    body: 'Career coaching for freshers is built around execution: a dated job-search action plan, check-ins on outreach and applications, interview-round follow-through, and adjusting the plan until an offer actually converts into a confirmed role.',
+  },
+];
+
+const problemItems = [
+  {
+    eyebrow: 'Applications going out, nothing coming back',
+    title: 'You are applying every week, but the search has no system behind it',
+    listItems: [
+      'A batch of applications gets sent out, then the week gets busy and the follow-up outreach, resume tweaks, or referral requests quietly stop happening',
+      'The gap is rarely a lack of effort in one burst — it is the absence of a repeatable weekly cadence and someone checking whether it held',
+      'A job search without a return date to review it tends to stall the same way any plan does once the initial motivation fades',
+    ],
+  },
+  {
+    eyebrow: 'Interview rounds without a follow-through system',
+    title: 'You are getting some interviews, but preparation and follow-up are inconsistent round to round',
+    listItems: [
+      'Each new round resets to scratch — a different mock question, a different resume angle, no consistent prep checklist carried forward from the last round that went badly',
+      'A missed follow-up email or a skipped thank-you note after a strong technical round is a small thing that adds up across a full interview cycle',
+      'Coaching is built to close that specific gap: not more general interview tips, but a working system for actually executing each round',
+    ],
+  },
+  {
+    eyebrow: 'The first 90 days at a new job',
+    title: 'An offer converts to a start date, but probation and early impressions still need a plan',
+    listItems: [
+      'A fresher\'s first quarter at work sets manager perception, project assignments, and confirmation odds faster than most freshers expect going in',
+      'A general "work hard and it will show" mindset does not replace a concrete early plan for visibility, proof of work, and check-ins with a manager',
+      'Coaching should carry the accountability loop through the offer stage, not stop the moment a signed offer letter arrives',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether coaching produces a working job-search plan, not just a pep talk',
+    body: 'A coaching session should leave you with a specific weekly outreach cadence, target-role list, and application tracker, not a motivational recap of what you already knew about applying to jobs.',
+  },
+  {
+    title: 'Check whether interview follow-through is genuinely structured',
+    body: 'Real support should include a prep checklist that carries forward between rounds and a defined follow-up step after each interview, not an open-ended offer to help if you reach out with questions.',
+  },
+  {
+    title: 'Check whether the plan adjusts after a rejection or a slow month',
+    body: 'A job search rarely goes in a straight line. Stronger coaching should revisit targeting, resume angle, or outreach volume when results are not showing up, rather than repeating the same approach and hoping for a different outcome.',
+  },
+  {
+    title: 'Check that no one is promising a guaranteed offer or placement',
+    body: 'No ethical coach can guarantee a job offer or a specific company — execution still depends on the market, the hiring cycle, and factors outside anyone\'s control. Treat a guarantee as a reason to slow down, not sign up faster.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview across counselling, guidance, and coaching — audiences, plans, and what practical support covers.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-vs-career-coaching/',
+    title: 'Career Counselling vs Career Coaching',
+    description: 'An honest breakdown of how counselling and coaching actually differ, and how to tell which one fits your situation right now.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-freshers/',
+    title: 'Career Counselling for Freshers',
+    description: 'For deciding which offer to accept, service company or product company, or what to do after a placement or first job did not work out.',
+  },
+  {
+    href: '/services/assessments/graduates-and-early-professionals/',
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free clarity on fit, skill direction, and employability, built for freshers and recent graduates before a coaching-driven job-search plan.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free assessments for skill fit, career direction, and stronger next steps before a bigger fresher decision.',
+  },
+  {
+    href: '/career-resources/resume-that-gets-shortlisted-in-india/',
+    title: 'Resume That Gets Shortlisted in India',
+    description: 'A practical guide to building a resume that survives the first filter, especially with a thin work history.',
+  },
+  {
+    href: '/career-resources/creating-a-portfolio-without-work-experience/',
+    title: 'Creating a Portfolio Without Work Experience',
+    description: 'Practical ways to build proof of work to feed into an active job-search plan when you do not have a job history yet.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'Useful once you are a few years in and the questions shift from landing the first job to growth and pivots.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What does "career coaching" actually mean here, compared to counselling for freshers?',
+    answer:
+      'Career counselling for freshers is usually assessment-driven and decision-focused — which offer to accept, service company or product company, often resolved in one structured session. Career coaching for freshers is built around what happens after that decision: turning it into a concrete job-search or first-90-days action plan, then checking on progress and adjusting the plan over time so it actually gets executed.',
+  },
+  {
+    question: 'Who is career coaching for freshers meant for?',
+    answer:
+      'This fits freshers and recent graduates who already have some sense of direction, or reach one through the first session, but need the follow-through part — a working outreach cadence, interview-round accountability, or a first-90-days plan — rather than another one-time verdict.',
+  },
+  {
+    question: 'What does a coaching session actually produce for a fresher job search?',
+    answer:
+      'The 1-on-1 session works through your actual situation — target roles, current applications, and constraints — using free, updated, AI-powered assessments where useful, and closes with a specific plan: a weekly outreach cadence, an interview-prep checklist, and the concrete next step, not general encouragement to "keep applying."',
+  },
+  {
+    question: 'How is this different from career counselling for freshers?',
+    answer:
+      'Career counselling for freshers is built to resolve a specific fork — which offer to accept, service company or product company, what to do after a rough placement season — and close with a clear recommendation. Career coaching for freshers goes further into the execution layer: the plan set from that decision, and whether the outreach, applications, and interview follow-through are actually happening week to week.',
+  },
+  {
+    question: 'My applications are not converting into interviews. Can coaching help with that specifically?',
+    answer:
+      'Yes. That is closer to an execution problem than a decision problem — the targeting, resume angle, or outreach volume usually needs adjustment, and coaching is built to review what is and is not working and reset the plan, rather than repeating the same approach.',
+  },
+  {
+    question: 'Does coaching help once I already have an offer and I am starting a new job?',
+    answer:
+      'Yes. The accountability loop can carry through the first 90 days — early visibility, proof of work, and check-ins with a manager during probation — since that period often decides how a fresher role gets confirmed and how it reads on a resume later.',
+  },
+  {
+    question: 'Are the career and skill assessments free for freshers too?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered — a useful starting layer before a coaching-driven job-search plan gets built.',
+  },
+  {
+    question: 'What does career coaching for freshers cost?',
+    answer: `A student 1-on-1 session is ${studentPriceText}. After the first session, freshers can move into continuous career guidance group sessions — small groups, usually 10 or fewer members — which carries the coaching-style follow-through across the job search. Career and skill assessments stay fully free either way.`,
+  },
+  {
+    question: 'Is career coaching for freshers available online across India?',
+    answer:
+      'Yes. Coaching is delivered fully online across India, so the accountability loop — the session, the plan, and any follow-up check-ins — works from home, a hostel, or your first workplace without depending on local availability.',
+  },
+  {
+    question: 'Do you guarantee a job offer through coaching?',
+    answer:
+      'No ethical coach can guarantee a job offer or a specific company — execution still depends on the market, the hiring cycle, and factors outside anyone\'s control. What coaching can realistically offer is a concrete plan, real follow-through structure, and course-correction as the search progresses, not a promised outcome.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Coaching for Freshers',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coaching for Freshers | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching for Freshers',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coaching for Freshers</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career coaching for freshers: built for job-search follow-through, not a one-time verdict
+      </div>
+
+      <h1 class="hero-title">
+        Career coaching for freshers
+        <span class="gold-text"> when the direction is clear but the job search keeps stalling</span>
+      </h1>
+      <p class="hero-sub">
+        Career coaching for freshers should do more than tell you which offer to accept and move on. It should turn
+        that direction into a concrete job-search action plan, then keep checking whether outreach, applications, and
+        interview follow-through are actually happening, so the skill portfolio you are building compounds toward
+        unlocking high income opportunities and earlier financial freedom instead of the search quietly stalling out.
+      </p>
+      <p class="hero-note">
+        Coaching is delivered fully online across India, so the accountability loop works from home, a hostel, or
+        your first workplace, around whatever stage of the search or the first job you are already in.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for Freshers</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="methodology"
+    title="What career coaching for freshers actually means"
+    subtitle="Career counselling for freshers tends to end at a decision — which offer, which company type. Coaching is built to start there — the accountability and follow-through happen after the decision is already made."
+    items={methodologyItems}
+    variant="signal"
+    columns={3}
+  >
+    <p class="methodology-note">
+      The point of that accountability layer is not activity for its own sake. It exists to keep a high-value,
+      high-income skill portfolio compounding from year one — the right skill mix, proof of work, and positioning —
+      so the plan you commit to today can genuinely unlock high income opportunities and move you toward earlier
+      financial freedom, instead of a strong decision quietly stalling for lack of follow-through.
+    </p>
+    <AssessmentSupportNote
+      body="As a starting point, the free graduate and early-professional assessment can surface strengths and work style before a job-search action plan is built around them."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when fresher coaching includes real accountability"
+    subtitle="Career coaching for freshers should feel different from a single verdict on an offer, a motivational chat, or generic advice to 'just keep applying.'"
+    rows={comparisonRows}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="A job-search plan without a return date rarely survives a slow month"
+    body="Unlocking your first strong offer usually depends less on one more piece of advice and more on whether the outreach and interview plan you already have gets executed and revisited."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Freshers"
+  />
+
+  <BofuListCardSection
+    sectionId="problems"
+    title="The specific problems career coaching for freshers solves"
+    subtitle="Not the moment of choosing an offer or a company type — the harder part that comes after, where a good decision quietly stalls without a follow-through system."
+    items={problemItems}
+    variant="contrast"
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career coaching as a fresher"
+    subtitle="The goal is a working job-search plan and real follow-through, not a rebranded counselling conversation."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Decide with a plan that gets checked, not just made"
+    body="A tested job-search plan with a real follow-through point protects the year-one skill direction and income trajectory a stalled search can quietly cost you."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Freshers"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Coaching"
+    title="Career Coaching for Freshers Plans"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="See the honest counselling-vs-coaching breakdown, the decision-focused fresher page, free fresher-stage assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions freshers ask before choosing career coaching"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Move with a job-search plan built to be checked, not just made once"
+    subtitle="If the offer decision or skill direction is already clear but the follow-through keeps slipping, career coaching for freshers is built for exactly that gap — toward a high-value skill portfolio, stronger income, and earlier financial freedom, while it is still your choice to execute the plan deliberately."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Freshers"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.25rem, 5vw, 3.65rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .methodology-note {
+    margin: 1.2rem 0 0;
+    padding: 1rem 1.2rem;
+    border-radius: 14px;
+    border: 1px solid rgba(229,184,74,.22);
+    background: rgba(229,184,74,.06);
+    color: rgba(255,255,255,.82);
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 920px;
+  }
+
+  #problems,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #compare,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.72rem, 9.3vw, 2.3rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold {
+      justify-content: center;
+    }
+  }
+</style>

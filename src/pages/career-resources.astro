@@ -3,13 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import LinkDirectorySection from '../components/LinkDirectorySection.astro';
+import { completeCareerResourceHrefByTitle, completeCareerResources } from '../config/directory';
 
 // ── RESOURCE DATA ──────────────────────────────────────────────────────────────
 // audience: array of "student" | "graduate" | "professional" | "coach"
 // topic:    one of the topic keys
 // type:     one of the type keys
 
-const resources = [
+const curatedResources = [
   // ── CAREER PLANNING ──
   { title: "Arts & Humanities Careers That Pay Well Today",
     desc: "The real market for humanities graduates — content strategy, law, policy, UX writing, consulting, and 8 more paths with income benchmarks.",
@@ -237,6 +238,9 @@ const resourceHrefByTitle: Record<string, string> = {
   'High-Income Skills for the Next Decade': '/career-resources/high-income-skills-for-the-next-decade/',
 };
 
+const resources = completeCareerResources(curatedResources, resourceHrefByTitle);
+const completeResourceHrefByTitle = completeCareerResourceHrefByTitle(resourceHrefByTitle, resources);
+
 const featuredResources = [
   {
     href: '/career-resources/biology-check-thinking-style/',
@@ -304,9 +308,9 @@ const nextStepLinks = [
     description: 'Open the assessment hub if you want a more structured first step before choosing a path or a course.',
   },
   {
-    href: '/skill-finder',
-    title: 'Skill Finder',
-    description: 'Use the skill finder when the main problem is what to learn next, not only which course to buy.',
+    href: '/career-skills-compass',
+    title: 'Career & Skills Compass',
+    description: 'Use the Career & Skills Compass when the main problem is what to learn next, not only which course to buy.',
   },
 ];
 
@@ -330,9 +334,13 @@ const jsonLd = [
     "inLanguage": "en-IN",
     "numberOfItems": totalCount,
     "publisher": {
-      "@type": "EducationalOrganization",
+      "@type": ["Organization", "ProfessionalService"],
       "name": "Future Career School",
       "url": "https://futurecareerschool.com",
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Visakhapatnam",
@@ -420,8 +428,8 @@ const jsonLd = [
           Start With The Best Resources
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </a>
-        <a href="/skill-finder" class="btn-outline">
-          Explore Skill Finder
+        <a href="/career-skills-compass" class="btn-outline">
+          Open Career & Skills Compass
         </a>
       </div>
       <!-- Quick audience jump -->
@@ -548,7 +556,7 @@ const jsonLd = [
   ═══════════════════════════════════════ -->
   <main class="container cr-main" id="cr-main">
 
-    <!-- Skill Finder callout -->
+    <!-- Career & Skills Compass callout -->
     <aside class="sf-callout card" aria-label="Skill and Course Finder">
       <div class="sf-callout-inner">
         <div class="sf-callout-left">
@@ -558,8 +566,8 @@ const jsonLd = [
             <p class="sf-callout-desc">Try the Skill & Course Finder on the homepage — built around your natural thinking style, not generic lists.</p>
           </div>
         </div>
-        <a href="/skill-finder" class="sf-callout-btn btn-gold">
-          Open Skill Finder
+        <a href="/career-skills-compass" class="sf-callout-btn btn-gold">
+          Open Career & Skills Compass
           <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </a>
       </div>
@@ -571,7 +579,7 @@ const jsonLd = [
         const topic = topicMeta[r.topic];
         const type = typeMeta[r.type];
         const auds = r.audience;
-        const href = resourceHrefByTitle[r.title];
+        const href = completeResourceHrefByTitle[r.title];
         const readMinutes = parseInt(r.readTime, 10) || 0;
         const searchBlob = [r.title, r.desc, ...(r.tags || []), topic.label, type.label]
           .join(' ')
@@ -859,7 +867,7 @@ const jsonLd = [
   /* ── MAIN CONTENT ── */
   .cr-main { padding: 2.5rem 0 4rem; }
 
-  /* Skill finder callout */
+  /* Career & Skills Compass callout */
   .sf-callout { margin-bottom: 2.5rem; }
   .sf-callout-inner {
     display: flex; align-items: center; justify-content: space-between;

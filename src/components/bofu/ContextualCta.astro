@@ -1,0 +1,121 @@
+---
+import { BOFU_PAYMENT_LINKS, type BofuAudience } from '../../config/bofu';
+
+export interface Props {
+  audience?: BofuAudience;
+  title: string;
+  body?: string;
+  studentHref?: string;
+  studentLabel?: string;
+  professionalHref?: string;
+  professionalLabel?: string;
+  sectionClass?: string;
+}
+
+const {
+  audience = 'mixed',
+  title,
+  body = '',
+  studentHref = BOFU_PAYMENT_LINKS.students,
+  studentLabel = 'Get Student Career Guidance',
+  professionalHref = BOFU_PAYMENT_LINKS.workingProfessionals,
+  professionalLabel = 'Get Working Professional Career Guidance',
+  sectionClass = '',
+} = Astro.props;
+
+const actions =
+  audience === 'student'
+    ? [{ href: studentHref, label: studentLabel, className: 'btn-gold pulse' }]
+    : audience === 'professional'
+      ? [{ href: professionalHref, label: professionalLabel, className: 'btn-gold pulse' }]
+      : [
+          { href: studentHref, label: studentLabel, className: 'btn-gold pulse' },
+          { href: professionalHref, label: professionalLabel, className: 'btn-outline' },
+        ];
+---
+
+<section class:list={['contextual-cta-band', sectionClass]}>
+  <div class="container">
+    <div class="contextual-cta card">
+      <div class="contextual-copy">
+        <p class="contextual-kicker">Ready to move</p>
+        <h2>{title}</h2>
+        {body && <p class="contextual-body">{body}</p>}
+      </div>
+      <div class="contextual-actions">
+        {actions.map((item) => (
+          <a href={item.href} class={item.className}>{item.label}</a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contextual-cta-band {
+    padding: 1.2rem 0 0;
+  }
+  .contextual-cta {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, .95fr);
+    gap: 1.1rem 1.4rem;
+    align-items: center;
+    padding: 1.15rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background:
+      radial-gradient(540px 200px at 0% 0%, rgba(45, 212, 191, 0.07), transparent 72%),
+      radial-gradient(460px 180px at 100% 100%, rgba(229, 184, 74, 0.1), transparent 74%),
+      linear-gradient(150deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.018));
+  }
+  .contextual-kicker {
+    margin: 0 0 0.35rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .contextual-cta h2 {
+    margin: 0;
+    font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+    line-height: 1.15;
+    color: #fff;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .contextual-body {
+    margin: 0.6rem 0 0;
+    color: rgba(255, 255, 255, 0.66);
+    line-height: 1.72;
+  }
+  .contextual-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: 12px;
+  }
+  .contextual-actions .btn-gold,
+  .contextual-actions .btn-outline {
+    min-height: 50px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .contextual-cta {
+      grid-template-columns: 1fr;
+    }
+    .contextual-actions {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .contextual-cta-band {
+      padding-top: 0.8rem;
+    }
+    .contextual-cta {
+      padding: 1rem;
+      border-radius: 20px;
+    }
+  }
+</style>

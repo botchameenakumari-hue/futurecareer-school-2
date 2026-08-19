@@ -36,13 +36,19 @@ const {
 const categoryMeta = getBlogCategory(category);
 const currentSlug = canonical.replace(/\/$/, '').split('/').filter(Boolean).at(-1) ?? '';
 
+const AUTHOR_AVATARS: Record<string, string> = {
+  'Allu Vagdevi': '/images/authors/allu-vagdevi.jpg',
+  'Shivanshi Sehgal': '/images/authors/shivanshi-sehgal.jpg',
+};
+const authorAvatar = authorName ? AUTHOR_AVATARS[authorName] : undefined;
+
 const getBlogCtaLabel = (href: string) => {
-  if (href.includes('/services/assessments')) return 'Free Assessments';
-  if (href.includes('/services/career-counselling-and-career-guidance')) return 'Career Guidance';
-  if (href.includes('/skill-finder')) return 'Skill Finder';
+  if (href.includes('/services/assessments')) return 'Free career and skill assessments';
+  if (href.includes('/services/career-counselling-and-career-guidance')) return 'Get Career Guidance';
+  if (href.includes('/career-skills-compass')) return 'Career & Skills Compass';
   if (href.includes('/career-resources')) return 'Career Resources';
   if (href.includes('/services')) return 'Services';
-  return 'Explore';
+  return 'Read More';
 };
 
 const siblingPosts = categoryMeta
@@ -57,7 +63,7 @@ const rawDirectoryItems = [
         href: `${BLOG_BASE_PATH}/${categoryMeta.slug}/`,
         title: `${categoryMeta.title} Guides`,
         description: 'Read more guides in this category if you want a deeper angle on the same decision.',
-        note: 'Topic page',
+        note: 'More guides',
       }
     : null,
   {
@@ -79,7 +85,7 @@ const rawDirectoryItems = [
         href: categoryMeta.secondaryCtaHref,
         title: getBlogCtaLabel(categoryMeta.secondaryCtaHref),
         description: 'Explore a nearby angle if you want more clarity before deciding.',
-        note: 'Explore too',
+        note: 'Related read',
       }
     : null,
   ...siblingPosts.map((post) => ({
@@ -148,7 +154,7 @@ const jsonLd = [
         }
       : {}),
     publisher: {
-      '@type': 'EducationalOrganization',
+      '@type': ['Organization', 'ProfessionalService'],
       name: 'Future Career School',
       url: 'https://futurecareerschool.com',
     },
@@ -165,7 +171,7 @@ const jsonLd = [
   jsonLd={jsonLd}
   noindex={noindex}
 >
-  <Nav />
+  <Nav activePage="blog" />
 
   <main id="blog-post">
     <header class="post-hero">
@@ -189,7 +195,8 @@ const jsonLd = [
           <div class="post-meta">
             {publishedAt && <span class="post-meta-pill">Published: {publishedLabel ?? publishedAt}</span>}
             {authorName && (
-              <a href={authorUrl ?? '#'} class="post-meta-pill post-meta-pill--link">
+              <a href={authorUrl ?? '#'} class="post-meta-pill post-meta-pill--link post-meta-pill--author">
+                {authorAvatar && <img src={authorAvatar} alt={authorName} class="post-meta-avatar" width="22" height="22" />}
                 By {authorName}{authorRole ? ` - ${authorRole}` : ''}
               </a>
             )}
@@ -253,6 +260,8 @@ const jsonLd = [
   }
   .post-meta-pill--link { text-decoration: none; }
   .post-meta-pill--link:hover { color: #fff; border-color: rgba(229,184,74,.35); }
+  .post-meta-pill--author { padding-left: .4rem; gap: .5rem; }
+  .post-meta-avatar { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
 
   /* Constrain the reading column. A 1100px+ line is unreadable; ~760px of
      prose keeps line length near the comfortable 65-80 character range and
@@ -289,6 +298,9 @@ const jsonLd = [
     font-size: clamp(1.55rem, 2.5vw, 2rem);
     line-height: 1.15;
     letter-spacing: -.03em;
+    /* Keeps jump-nav / anchor links from landing headings under the fixed
+       site header (#nav is 70px desktop, 62px tablet, ~58px mobile). */
+    scroll-margin-top: 92px;
   }
   .post-body :global(h2)::before {
     content: '';
@@ -306,6 +318,7 @@ const jsonLd = [
     font-size: clamp(1.14rem, 1.7vw, 1.34rem);
     line-height: 1.22;
     letter-spacing: -.02em;
+    scroll-margin-top: 92px;
   }
   .post-body :global(ul) {
     margin: 1rem 0 1rem 1.2rem;
@@ -558,8 +571,9 @@ const jsonLd = [
       margin-top: 2rem;
       margin-bottom: .85rem;
       font-size: 1.48rem;
+      scroll-margin-top: 78px;
     }
-    .post-body :global(h3) { font-size: 1.12rem; }
+    .post-body :global(h3) { font-size: 1.12rem; scroll-margin-top: 78px; }
   }
 
 </style>

@@ -1,0 +1,596 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../config/guidancePlans';
+
+const title =
+  'Career Counselling Consultation | Talk Before You Commit | Future Career School';
+const description =
+  'Book a career counselling consultation with Future Career School: one focused 1-on-1 conversation you can book without signing up for an ongoing program, so you get a real answer before deciding whether to go further.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-consultation/';
+
+const {
+  studentSessionPrice,
+  studentSessionComparePrice,
+  professionalSessionPrice,
+  professionalSessionComparePrice,
+  studentSessionPriceText,
+  professionalSessionPriceText,
+  freeLayerText,
+} = GUIDANCE_PLAN_PRICE_COPY;
+const consultationPriceBody = `${studentSessionPrice} for students, ${professionalSessionPrice} for working professionals, for one real consultation, no strings attached.`;
+
+const consultationFitItems = [
+  {
+    title: 'You have one specific question, not an open-ended overhaul',
+    body:
+      "Should I take this pivot. Is this stream actually wrong for me. Is this course worth the fees. A career counselling consultation is built for a single sharp question, not a full rebuild of your career story in one sitting.",
+  },
+  {
+    title: "You are not ready to commit to a program, you just want a straight answer first",
+    body:
+      'You do not need to sign up for continuous guidance or a multi-session plan to get real input. One consultation, on its own, should be enough to move a specific decision forward toward a higher-value skill direction and a clearer route to earlier financial freedom.',
+  },
+  {
+    title: 'You want to test the guidance before trusting it with a bigger decision',
+    body:
+      "If you have been burned by advice that sounded confident but was actually generic, a single consultation is a low-risk way to judge whether the input is genuinely useful before you lean on it for something bigger.",
+  },
+];
+
+const stepFlowItems = [
+  {
+    title: 'Say what is actually confusing you, in your own words',
+    body:
+      'No intake form to fill out first, no pre-set path to follow. The consultation starts with your real question, whatever stage it is at right now.',
+  },
+  {
+    title: 'The counsellor checks whether this is a quick-clarity call or a bigger decision',
+    body:
+      'Some questions resolve in one focused conversation. Others point to a longer-running decision that benefits from continuous support. Either way, that gets named honestly instead of assumed.',
+  },
+  {
+    title: 'You leave with a direct answer, not a pitch for more sessions',
+    body:
+      'The consultation should end with a specific answer or next step you can act on immediately. If continuing further genuinely makes sense, that is offered as an option, not pushed as the real point of the call.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether it is a real consultation or a disguised sales call",
+    body:
+      "A lot of what gets marketed online as a 'consultation' spends most of the time building pressure to buy a bigger package. A genuine consultation should spend its time on your actual question, not on selling you the next thing.",
+  },
+  {
+    title: 'Check whether the price is shown before you book, not revealed mid-call',
+    body:
+      'If a provider will not state what the consultation costs until you are already on the phone, treat that as a warning sign. Future Career School shows the price upfront, in the plans below, before you commit to anything.',
+  },
+  {
+    title: 'Check whether you are required to book more sessions to get value from this one',
+    body:
+      'A consultation that only becomes useful once you agree to a longer package is not really a consultation. You should get real value from the single conversation on its own.',
+  },
+  {
+    title: 'Check whether the answer connects to skill direction, not just reassurance',
+    body:
+      'A useful consultation should point toward a higher-value skill direction and income-growth logic, not just make you feel better for thirty minutes without changing what you do next.',
+  },
+];
+
+const audienceItems = [
+  {
+    label: 'Students & Freshers',
+    title: 'Test a stream, course, or early-skill decision before committing to more',
+    body:
+      'One consultation can tell you whether a stream, course, or first-skill direction is worth building on, so you choose the right skill before wasting years on the wrong one and can move toward earlier financial freedom sooner rather than later.',
+  },
+  {
+    label: 'Working Professionals',
+    title: 'Get a straight answer on a pivot without signing up for ongoing coaching',
+    body:
+      'If a pivot, a stagnant role, or AI-driven pressure on your current path needs a real answer now, one consultation can unlock the next move without committing you to an ongoing coaching relationship you have not decided you want yet.',
+  },
+];
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[4],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description:
+      'Use the main service page if the bigger question is the full counselling and guidance decision, not just a single first conversation.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingSession,
+    title: 'Career Counselling Session',
+    description:
+      'Choose this if you already know you want the structured one-on-one, or want to understand the small-group format that follows it.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/free-career-counselling-session/',
+    title: 'Free Career Counselling Session',
+    description:
+      'See exactly what is genuinely free (assessments and resources) and what the paid consultation itself costs, laid out plainly.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'For school students, college students, freshers, recent graduates, and postgraduates who want the fuller student path.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'For pivots, stagnation, salary growth, and stronger long-term positioning once you are ready for more than one conversation.',
+  },
+  {
+    href: '/career-resources/skill-sampling-try-before-you-commit/',
+    title: 'Skill Sampling: Try Before You Commit',
+    description:
+      'The same low-commitment, test-it-first idea applied to skill-building — useful if a single consultation before committing to more feels like the right approach for you.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description:
+      'Use free, updated, practical, AI-powered career and skill assessments as a no-cost starting signal before you book a consultation.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Is a career counselling consultation the same as a career counselling session?',
+    answer:
+      'They use the same underlying one-on-one conversation with a counsellor. The difference is framing: a consultation is how you book that first conversation as a single, low-commitment step, with no requirement to continue afterward. If you already know you want the fuller structured format or the small-group follow-on, see the career counselling session page.',
+  },
+  {
+    question: 'Do I have to commit to ongoing guidance after the consultation?',
+    answer:
+      'No. The consultation stands on its own. If continuing into further support genuinely makes sense for your situation, that is a choice you make afterward, not a condition attached to booking the first conversation.',
+  },
+  {
+    question: 'Is the career counselling consultation free?',
+    answer:
+      `No. It is a real conversation with a counsellor, currently priced at ${studentSessionPrice} for students and ${professionalSessionPrice} for working professionals for a limited time. The career and skill assessments are the genuinely free layer if you want a no-cost starting signal first.`,
+  },
+  {
+    question: 'What if I only have one quick question, not a full career problem?',
+    answer:
+      'That is exactly what a consultation is built for. You do not need an open-ended career overhaul to book one — a single sharp question about a stream, course, pivot, or decision is enough.',
+  },
+  {
+    question: 'Will I be pushed into a bigger package during the call?',
+    answer:
+      'No ethical consultation should work that way. The conversation should focus on your actual question and end with a direct answer or next step. If further support is relevant, it should be offered as an option, not pressured.',
+  },
+  {
+    question: 'How is a consultation different from the free assessments?',
+    answer:
+      'The career and skill assessments are automated, free, and can be described as updated, practical, and AI-powered. A consultation is a real conversation with a counsellor working through your specific situation — a different kind of input, not a replacement for the other.',
+  },
+  {
+    question: 'Can I book just the consultation without committing to continuous guidance?',
+    answer:
+      'Yes. Booking one consultation does not commit you to continuous guidance. Continuing afterward, including small-group support for students, is a separate choice you make once the first conversation has actually helped.',
+  },
+  {
+    question: 'Is the consultation available online across India?',
+    answer:
+      'Yes. It is delivered fully online, so you can join from home, college, or work anywhere in India without waiting for a local offline option.',
+  },
+  {
+    question: 'Do you guarantee an outcome from a single consultation?',
+    answer:
+      'No ethical provider can guarantee a job or income outcome. The consultation is decision support for one specific question, not a placement service.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://futurecareerschool.com/services/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling Consultation',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling Consultation | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling Consultation',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling Consultation</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        One low-commitment conversation, no program signup required
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling consultation
+        <span class="gold-text"> for people who want to talk before they commit to anything bigger</span>
+      </h1>
+      <p class="hero-sub">
+        A career counselling consultation with Future Career School is a single, focused 1-on-1 conversation you can book without signing up for an ongoing program. It exists to give you a real, specific answer on your stream, course, pivot, or skill direction, and to start you toward a higher-value skill portfolio and earlier financial freedom, before you decide whether to go further.
+      </p>
+      <p class="hero-note">
+        This is not a sales call dressed up as a conversation, and it is not a package you have to commit to upfront. It is one consultation, priced honestly, that should stand on its own.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling Consultation</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling Consultation</a>
+      </div>
+      <p class="hero-support">
+        You can stop after this one conversation. If it genuinely helps, going further is a choice you make afterward, not a condition attached upfront.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="consultation-fit"
+    sectionClass="consult-fit-band"
+    variant="decision"
+    title="What a career counselling consultation is actually for"
+    subtitle="Not every question needs a full program. A consultation exists for the moment you want a real answer without signing up for anything bigger yet."
+    items={consultationFitItems}
+  >
+    <AssessmentSupportNote
+      body="If you are not even sure what your question is yet, the free career and skill assessments can help surface strengths and work style first, before you book a consultation."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If one clear answer is what you actually need right now, book the consultation"
+    body="No program signup, no multi-session commitment. One focused conversation, priced upfront."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling Consultation"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling Consultation"
+  />
+
+  <BofuStepFlowSection
+    sectionId="how-it-works"
+    sectionClass="consult-flow-band"
+    title="What actually happens on a career counselling consultation call"
+    subtitle="The format stays simple on purpose: your real question, an honest read on what kind of help it needs, and a direct answer you can use."
+    items={stepFlowItems}
+  />
+
+  <BuyerChecks
+    sectionId="what-to-check"
+    sectionClass="consult-check-band"
+    title="What to check before you trust any 'career counselling consultation' offer"
+    subtitle="Use these checks on any provider, including this one, before you book a single conversation."
+    items={buyerCheckItems}
+  />
+
+  <GuidanceModelSection
+    title="What a genuine consultation should still connect to"
+    subtitle="Even one focused conversation should point toward the same practical work: high-leverage decisions, a high-value skill direction, and a clearer route toward achieving earlier financial freedom, not advice in a vacuum."
+  />
+
+  <AudienceRelevance
+    sectionClass="consult-audience-band"
+    title="Why a single consultation can be the right first move, wherever you are right now"
+    items={audienceItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    sectionClass="consult-comparison-band"
+    title="Why a consultation still has to be more useful than a friendly chat"
+    subtitle="Low-commitment does not mean low-value. A real consultation should still move a decision forward, not just feel pleasant for thirty minutes."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="See the price before you book, then decide if a consultation is enough on its own"
+    body={consultationPriceBody}
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling Consultation"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling Consultation"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling Consultation"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="See the fuller session and mentoring formats, the free-versus-paid breakdown, and free assessments before you decide what fits."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    sectionClass="consult-final-band"
+    title="Book the consultation when you want a real answer, not another program to sign up for"
+    subtitle="A good career counselling consultation should leave you with a specific next step and a stronger route toward higher-value skills and earlier financial freedom, without locking you into anything beyond this one conversation."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling Consultation"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling Consultation"
+  />
+
+  <BofuFaqSection
+    title="Questions people ask before booking a career counselling consultation"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 88px; }
+
+  :global(.consult-fit-band) {
+    background:
+      radial-gradient(720px 260px at 100% 0%, rgba(229,184,74,.065), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.008));
+  }
+  :global(.consult-flow-band) {
+    background:
+      radial-gradient(620px 220px at 18% 100%, rgba(45,212,191,.05), transparent 72%),
+      radial-gradient(560px 220px at 88% 0%, rgba(229,184,74,.05), transparent 72%);
+  }
+  :global(.consult-check-band) {
+    background:
+      radial-gradient(760px 240px at 0% 0%, rgba(229,184,74,.05), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.01), rgba(255,255,255,.006));
+  }
+  :global(.consult-audience-band .section-headline),
+  :global(.consult-comparison-band .section-headline),
+  :global(.consult-check-band .section-headline) {
+    max-width: 22ch;
+  }
+  :global(.consult-audience-band .audience-grid) {
+    max-width: 1080px;
+    margin: 0 auto;
+    gap: 1.15rem;
+  }
+  :global(.consult-audience-band .audience-card) {
+    padding: 1.35rem 1.25rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,.11);
+    background:
+      radial-gradient(360px 150px at 100% 0%, rgba(45,212,191,.08), transparent 74%),
+      linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.014));
+    box-shadow: 0 18px 38px rgba(0,0,0,.2);
+  }
+  :global(.consult-audience-band .audience-card h3) {
+    font-size: 1.08rem;
+    line-height: 1.46;
+  }
+  :global(.consult-audience-band .audience-card p) {
+    font-size: 14.2px;
+    line-height: 1.82;
+  }
+  :global(.consult-comparison-band .compare-shell) {
+    box-shadow: 0 28px 60px rgba(0,0,0,.3);
+  }
+  :global(.consult-check-band .buyer-check-grid) {
+    gap: 1.1rem;
+  }
+  :global(.consult-check-band .buyer-check-card) {
+    min-height: 100%;
+  }
+  :global(.consult-final-band .final-sub) {
+    max-width: 52ch;
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold {
+    width: 520px;
+    height: 520px;
+    top: -170px;
+    left: -110px;
+    background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%);
+  }
+  .orb-teal {
+    width: 420px;
+    height: 420px;
+    top: -40px;
+    right: -120px;
+    background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%);
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.15rem, 4.7vw, 3.7rem);
+    line-height: 1.08;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 1.95vw, 18px);
+    color: rgba(255,255,255,.72);
+    line-height: 1.88;
+    max-width: 820px;
+    margin-bottom: 1rem;
+  }
+  .hero-note {
+    font-size: 14px;
+    color: rgba(255,255,255,.56);
+    line-height: 1.8;
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-actions .btn-gold,
+  .hero-actions .btn-outline {
+    min-width: min(100%, 300px);
+    justify-content: center;
+  }
+  .hero-support {
+    font-size: 14px;
+    color: rgba(255,255,255,.58);
+    line-height: 1.8;
+    max-width: 720px;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.74rem, 9.2vw, 2.4rem);
+      line-height: 1.08;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .breadcrumb {
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-sub,
+    .hero-note,
+    .hero-support {
+      line-height: 1.76;
+    }
+    :global(.consult-audience-band .audience-card) {
+      padding: 1.08rem 1rem .98rem;
+      border-radius: 20px;
+    }
+  }
+</style>

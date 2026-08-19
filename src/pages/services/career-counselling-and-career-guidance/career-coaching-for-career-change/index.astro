@@ -1,0 +1,455 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Coaching for Career Change | Switch Industries or Roles with a Clear Plan | Future Career School';
+const description =
+  'Career coaching for career change for professionals switching industries, functions, or career tracks entirely: transferable-skills mapping, income-dip runway planning, sequencing the move while employed, and a realistic timeline.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coaching-for-career-change/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Reaction vs decision',
+    title: 'You want out of this job, but you are not sure if you want out of this industry',
+    body: 'A bad manager, a flat year, or one brutal quarter can feel identical to a genuine industry or function mismatch. The two need completely different next moves, and acting on the wrong one wastes a year.',
+  },
+  {
+    eyebrow: 'Transferable value',
+    title: 'You do not know what actually carries over into a new field',
+    body: 'Years of experience feel like they should count for something in a new industry or function, but it is unclear which parts of that experience a new employer will actually value versus what you will have to rebuild from zero.',
+  },
+  {
+    eyebrow: 'Money and risk',
+    title: 'The income dip and the timeline are the real blockers, not the idea itself',
+    body: 'The switch itself might be clear. What stalls it is not knowing how long the transition realistically takes, how much income drop to plan for, and whether to make the move while still employed or after leaving.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Objective check',
+    title: 'Whether this is a genuine industry or function mismatch, or a reaction to this specific job',
+    listItems: [
+      'Separating a bad manager, a bad team, or a bad six months from a real mismatch between your strengths and the field you are in',
+      'Testing the pull toward the new direction against more than one bad week: does the interest hold up when you are not currently frustrated',
+      'Naming what specifically about the current path does not fit, instead of a general "I want something different" feeling that does not point anywhere',
+    ],
+  },
+  {
+    eyebrow: 'Transferable skills',
+    title: 'What experience genuinely maps across industries, functions, or tracks, and what does not',
+    listItems: [
+      'Which parts of your current skill set are portable as-is, which need repositioning in different language for a new field, and which do not transfer and need to be rebuilt',
+      'How to translate achievements from your current industry into language a hiring manager in the new one will actually recognize as relevant',
+      'Where a real skill gap exists, and what the fastest credible way to close it looks like without collecting certificates that do not change how you get hired',
+    ],
+  },
+  {
+    eyebrow: 'Runway and risk',
+    title: 'Income-dip tolerance, financial runway, and how long a switch usually takes',
+    listItems: [
+      'What savings runway is realistic for the stretch where income may dip or a job search takes longer than expected',
+      'Why a genuine industry or function switch usually plays out over months, not weeks, and how to plan around that instead of expecting an overnight change',
+      'How to sequence the move: building proof of work and making contacts while still employed versus stepping away first, and what each path actually costs you',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the guidance tests the switch instead of just cheerleading it',
+    body: 'Wanting a change is not the same as the change being the right one. Stronger guidance should help you pressure-test whether this is a real mismatch with your current field or a reaction to one job, one manager, or one bad stretch.',
+  },
+  {
+    title: 'Check whether transferable-skills mapping is specific to your background, not generic',
+    body: 'Generic advice about "switching careers" ignores what you actually bring. Look for guidance that maps your specific experience against the new direction and tells you honestly what carries over and what does not.',
+  },
+  {
+    title: 'Check whether income-dip and runway planning are part of the conversation',
+    body: 'A career change that ignores your financial reality is not a plan, it is a wish. The guidance should help you plan around a realistic income dip and a realistic timeline, not just the destination.',
+  },
+  {
+    title: 'Check whether it helps you sequence the move instead of forcing an all-or-nothing decision',
+    body: 'Quitting first is not the only option, and staying employed indefinitely while "someday" switching is not a plan either. Guidance should help you find the sequencing that fits your specific risk tolerance and runway.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How do I know if I actually want a career change, or if I just want to escape my current job?',
+    answer:
+      'The clearest test is whether the pull toward a new direction holds up on a good week, not just a bad one. If the interest is specific and it survives once the immediate frustration fades, it is more likely a genuine direction question. If it only shows up after a difficult manager conversation or a hard quarter, the more useful next step may be fixing or leaving that specific role, not switching industries.',
+  },
+  {
+    question: 'What actually transfers when I switch industries or functions, and what do I have to rebuild?',
+    answer:
+      'Some of your experience, judgment, and working skills carry over directly. Some carry over but need to be repositioned in language the new field recognizes. Some genuinely does not transfer and needs to be rebuilt through new skills and proof of work. Guidance should map your specific background against the new direction instead of giving a generic answer.',
+  },
+  {
+    question: 'How long does a real career change usually take?',
+    answer:
+      'A genuine industry or function switch is rarely a fast process. It usually plays out over several months once you account for building relevant proof of work, repositioning your story, and the job search itself taking longer than an in-field move would. Planning around a realistic timeline avoids the frustration of expecting an overnight result.',
+  },
+  {
+    question: 'Should I quit my job first, or make the switch while still employed?',
+    answer:
+      'Both paths are used, and the right one depends on your runway, your risk tolerance, and how much of the groundwork can realistically be done alongside a current job. Guidance should help you weigh both sequences honestly instead of assuming quitting first is the only serious option.',
+  },
+  {
+    question: 'How much of an income dip should I plan for during a career change?',
+    answer:
+      'This depends on how far the switch is from your current field, how much of your experience transfers, and how much proof of work you can build before making the move. Guidance should help you plan a realistic runway around this instead of leaving it as an afterthought.',
+  },
+  {
+    question: 'I keep wanting to change my career every year or two. How do I know if this time is different?',
+    answer:
+      'A pattern of frequent restlessness is worth examining honestly. Sometimes it points to a genuine mismatch that has not been named yet, and sometimes it points to a pattern that will repeat in the next field too. Guidance should help you tell the difference instead of assuming this switch will automatically fix things.',
+  },
+  {
+    question: 'My degree and experience are in one field. Can I really switch to something unrelated?',
+    answer:
+      'A degree in one field is not a life sentence, and it is also not something to ignore. What usually matters more for a switch is the skill portfolio and proof of work you build for the new direction, not the original degree alone. Guidance should help you build that skill-first case for the new field.',
+  },
+  {
+    question: 'Is this available online, or do I need to be in a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can work through the decision from home, your current office, or wherever you are, without depending on a local office or in-person-only availability.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help with skill, role, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'A wider working-professional guidance page covering stagnation, pivots, and salary-growth decisions inside your current field.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-it-professionals/',
+    title: 'Career Counselling for IT Professionals',
+    description:
+      'Built specifically for IT professionals weighing layoffs, AI pressure, or a technical-to-management pivot inside tech.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers,
+    title: 'Working Professionals and Career Changers Assessment',
+    description:
+      'Free input on strengths, work style, and role fit before deciding on a new industry, function, or track.',
+  },
+  {
+    href: '/blog/career-change/career-switch-from-it-to-management-india/',
+    title: 'Career Switch from IT to Management',
+    description:
+      'A concrete example of weighing a functional switch against staying on a technical track.',
+  },
+  {
+    href: '/blog/career-change/how-to-switch-from-service-company-to-product-company/',
+    title: 'Service Company to Product Company',
+    description:
+      'A practical look at what a company-type switch usually takes, useful groundwork for a bigger industry change.',
+  },
+  {
+    href: '/career-resources/career-change-without-starting-over/',
+    title: 'Career Change Without Starting Over',
+    description:
+      'Read this if the biggest fear holding you back is having to begin again from zero in a new field.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Coaching for Career Change',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coaching for Career Change | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching for Career Change',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coaching for Career Change</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career coaching for career change: switching industries, functions, or tracks with a plan
+      </div>
+
+      <h1 class="hero-title">
+        Career coaching for career change
+        <span class="gold-text"> when you are ready to switch industries or roles, not just this job</span>
+      </h1>
+      <p class="hero-sub">
+        Career coaching for career change should deal with the decisions a real switch actually requires: telling a
+        genuine mismatch apart from frustration with one job, mapping which of your skills carry into a new
+        industry or function, planning your income-dip runway, and sequencing the move while you are still
+        employed. The goal is a new high-value skill portfolio the market can see, and a realistic route toward
+        earlier financial freedom in the new direction, not a leap made on a bad week.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can work through the decision from home or your
+        current office without the switch itself becoming another source of risk.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for Career Change</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career coaching for career change becomes useful"
+    subtitle="It becomes useful right as the pull toward a different industry, function, or track stops feeling like a passing mood and starts feeling like a real, repeated signal."
+    items={fitItems}
+    variant="signal"
+    columns={3}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Test the signal before you act on it, so the switch is a decision and not a reaction"
+    body="A clearer read on whether this is a real mismatch or a bad-week reaction changes everything that follows, including how much runway and time you actually need."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Career Change"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The decisions a real career change should help you make"
+    subtitle="Not generic 'follow your passion' advice. Direction for the exact questions someone switching industries, functions, or tracks actually needs answered."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help you see your strengths and work style clearly before mapping them against a new industry or function."
+      href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+    />
+  </BofuListCardSection>
+
+  <BofuStepFlowSection
+    sectionId="sequencing"
+    title="Sequencing the switch: while employed vs after you leave"
+    subtitle="Both paths are used. The one that fits you depends on your runway, your risk tolerance, and how much groundwork your current job realistically allows."
+    items={[
+      {
+        title: 'While still employed',
+        body: 'Build proof of work, make contacts in the new field, and test the direction in evenings and weekends before your income depends on the switch working.',
+      },
+      {
+        title: 'A planned transition window',
+        body: 'Set a runway and a decision point in advance, so the move has a timeline instead of dragging indefinitely or forcing a rushed exit.',
+      },
+      {
+        title: 'After you leave',
+        body: 'Some switches genuinely need full attention to close the gap fast. This path trades income stability for speed, and should be a deliberate choice, not a default.',
+      },
+    ]}
+  />
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when a career change is planned instead of reactive"
+    subtitle="Career coaching for career change should feel different from quitting on impulse or drifting toward a new field without a plan for the transition itself."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career coaching for career change"
+    subtitle="The goal is a tested decision, a realistic runway, and a sequencing plan, not encouragement dressed up as guidance."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Do not let a bad quarter make a decision that should be tested first"
+    body="A clearer read on the mismatch, the transferable skills, and the runway now protects the income and time you will need for the switch itself."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Career Change"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Coaching for Career Change"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, IT-specific reading, and free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions people ask before choosing career coaching for a career change"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Test the decision, then build the plan for the switch itself"
+    subtitle="If the pull toward a different industry, function, or track has held up for a while now, move with a tested decision, a transferable-skills map, and a runway plan, instead of letting one more bad week decide it for you."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Career Change"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

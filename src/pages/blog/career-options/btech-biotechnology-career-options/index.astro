@@ -1,0 +1,889 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'BTech Biotechnology Career Options: The Real Placement Story';
+const description =
+  'BTech biotechnology career options explained: the JEE admission route, honest placement data vs CSE, bioprocess engineering roles, and real paths after graduation.';
+const canonical =
+  'https://futurecareerschool.com/blog/career-options/btech-biotechnology-career-options';
+const publishedDateISO = '2026-08-05';
+const publishedDateLabel = '5 August 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: 'The short answer' },
+  { id: 'btech-vs-bsc', label: 'BTech vs BSc Biotechnology: the real difference' },
+  { id: 'jee-route', label: 'The JEE route and which colleges it opens' },
+  { id: 'what-you-study', label: 'What the four years actually cover' },
+  { id: 'placement-reality', label: 'The honest placement reality' },
+  { id: 'bioprocess-role', label: 'Bioprocess engineering: the BTech-specific role' },
+  { id: 'who-hires', label: 'Who actually hires, and what they pay' },
+  { id: 'government-routes', label: 'Government and PSU routes most students never hear about' },
+  { id: 'software-pivot', label: 'Why so many end up in IT' },
+  { id: 'higher-studies', label: 'MTech, MS abroad, and MBA: the real escape valves' },
+  { id: 'emerging-fields', label: 'Gene therapy, genomics, and where the field is actually heading' },
+  { id: 'proof-of-work', label: 'Building proof beyond the degree' },
+  { id: 'fit-check', label: 'Does this path actually fit you' },
+  { id: 'mistakes', label: 'Mistakes that cost people a year' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const compareRows = [
+  { area: 'Admission route', btech: 'JEE Main (most NITs/private) or JEE Advanced (IITs), plus some institute-specific tests', bsc: 'State CETs, university entrance tests, or direct merit on class 12 PCB/PCMB marks' },
+  { area: 'Duration and degree type', btech: '4-year engineering degree (B.Tech / B.E.)', bsc: '3-year pure science degree (B.Sc.), usually followed by an M.Sc. for a serious role' },
+  { area: 'Core training', btech: 'Biology taught through an engineering lens: bioprocess design, fermentation technology, downstream processing, bioreactor scale-up, genetic engineering with process thinking', bsc: 'Deeper bench-science training: microbiology, molecular biology, cell biology, lab technique, and research methodology' },
+  { area: 'Typical first role', btech: 'Bioprocess/production engineer, QA/QC engineer, or an off-branch IT services role', bsc: 'Junior research assistant, lab technician, or QC analyst, usually after an M.Sc.' },
+  { area: 'Natural next degree', btech: 'M.Tech via GATE (BT/XL), MS abroad, or MBA', bsc: 'M.Sc. or PhD is close to mandatory for a real research career' },
+];
+
+const jeeCollegeRows = [
+  { name: 'IIT Delhi, Kharagpur, Roorkee, (BHU) Varanasi, Hyderabad, Guwahati', route: 'JEE Advanced', note: 'Runs under Biochemical Engineering and Biotechnology or a similarly named department; closing ranks sit thousands of ranks behind CSE at the same institute' },
+  { name: 'NIT Warangal, NIT Rourkela, NIT Durgapur, and other NITs offering the branch', route: 'JEE Main', note: 'One of the lower-demand branches at most NITs, which usually means a comparatively softer cutoff for a JEE Main rank' },
+  { name: 'VIT Vellore, SRM Kattankulathur, Manipal Institute of Technology, DTU, Amity, and 250+ other private colleges', route: 'Institute-specific entrance tests, mainly VITEEE (VIT), SRMJEEE (SRM), and MU-OET (Manipal), plus JEE Main-based counselling at several of them', note: 'The largest share of BTech Biotechnology seats in India sit here; placement outcomes vary sharply by campus and department, not just by brand name' },
+];
+
+const rankCompareRows = [
+  { branch: 'Computer Science and Engineering', rank: '126' },
+  { branch: 'Biotechnology and Biochemical Engineering', rank: '4,999' },
+];
+
+const employerRows = [
+  { company: 'Biocon and Syngene International', hires: 'Bioprocess, manufacturing, QC, and contract-research support roles', pay: 'Roughly ₹3.5-6 LPA at entry level' },
+  { company: 'Serum Institute of India and Bharat Biotech', hires: 'Vaccine manufacturing, bioprocess, and QA/QC lines', pay: 'Roughly ₹3.5-6 LPA at entry level' },
+  { company: 'Reliance Life Sciences, Dr. Reddy\'s, Glenmark, Novartis', hires: 'Production/process roles, R&D support, and regulatory affairs', pay: 'Roughly ₹3.5-6 LPA at entry level' },
+  { company: 'Piramal Pharma, Aurobindo Pharma, and Panacea Biotec', hires: 'Production, quality control, and warehouse/formulation roles across manufacturing sites', pay: 'Roughly ₹3-5.5 LPA at entry level' },
+  { company: 'IQVIA and other contract research organisations (CROs)', hires: 'Clinical research coordination, data management, regulatory documentation', pay: 'Roughly ₹4-7 LPA at entry level' },
+  { company: 'TCS, Infosys, Wipro, Cognizant, and other IT services firms', hires: 'Branch-agnostic mass recruitment through aptitude and coding rounds, not a biotech-specific role', pay: 'Roughly ₹3.5-4.5 LPA, the same service-company band any branch gets' },
+];
+
+const govtRouteItems = [
+  {
+    num: '01',
+    title: 'GATE Biotechnology (BT) for BARC, DRDO, ISRO, and PSUs',
+    body: 'A qualifying GATE BT score is the entry ticket to BARC\'s OCES scheme, several DRDO life-science and biomedical labs, and PSU recruitment drives that use GATE as a direct screening filter instead of running a separate written exam. This is the same GATE score covered under M.Tech below, so serious GATE prep opens both doors at once.',
+  },
+  {
+    num: '02',
+    title: 'CSIR-UGC-NET and the newly merged JRF-NET exam',
+    body: 'CSIR-UGC-NET (Life Sciences) qualifies a candidate for Junior Research Fellowship postings inside CSIR\'s national laboratories, a stipend-paid PhD track, and eligibility for government college lecturer posts. From the December 2026 cycle, the government has approved merging CSIR-NET (Life Sciences) with DBT-BET (the Biotechnology Eligibility Test) into one unified Joint CSIR-UGC-DBT JRF-NET exam, so a single qualifying score now covers JRF, PhD admission, and assistant-professor eligibility together instead of three separate exams.',
+  },
+  {
+    num: '03',
+    title: 'ICMR-JRF and ICAR-JRF for specialised research tracks',
+    body: 'ICMR-JRF is the equivalent route for candidates aiming at medical, clinical, or public-health-linked biotech research rather than industrial biotech. ICAR-JRF is the parallel route into agricultural research fellowships, relevant if the plant and agricultural biotechnology specialisation mentioned earlier is the direction you actually want.',
+  },
+  {
+    num: '04',
+    title: 'Drug Inspector and Food Safety Officer posts',
+    body: 'State Public Service Commissions and the central drug-regulation system recruit Drug Inspectors, and FSSAI recruits Food Safety Officers, both through dedicated exams that accept a biotechnology or life-science BTech/BSc as an eligible qualification. These are regulatory, not research, roles, and they run on a fixed government pay scale rather than a private-sector band.',
+  },
+];
+
+const emergingFieldRows = [
+  { field: 'Cell and gene therapy', reality: 'Real, fast-growing, but not a fresher-entry lane yet. Scientist-level cell and gene therapy openings at companies like Aurigene Oncology typically ask for an M.Sc./M.Tech plus several years of relevant lab experience, not a fresh BTech.' },
+  { field: 'Genomics and CRISPR-based gene editing', reality: 'Moving from pure lab research into actual clinical-stage work as India pushes toward its stated ambition of a much larger biotech economy. Entry is realistic mainly through a GATE-based M.Tech or an MS abroad focused on genomics, not directly from a BTech.' },
+  { field: 'Bioinformatics and computational biology', reality: 'The one lane where a fresh BTech graduate can realistically start building an edge early. India\'s bioinformatics market is projected to keep growing at a fast clip through the early 2030s, and demand is currently outpacing the supply of people who can credibly do both the biology and the data work.' },
+];
+
+const higherStudyItems = [
+  {
+    num: '01',
+    title: 'M.Tech through GATE Biotechnology (BT) or Life Sciences (XL)',
+    body: 'This route is genuinely closed to some engineering branches by design: most M.Tech Biotechnology programs only accept BTech Biotechnology, Microbiology, Botany, Zoology, or M.Sc. bioscience graduates. A BTech CSE graduate cannot walk into this program the way a biotech graduate can. A GATE score also opens PSU recruitment and a fellowship stipend during the M.Tech itself, so it is rarely wasted effort even if you later pivot.',
+  },
+  {
+    num: '02',
+    title: 'MS abroad in biotechnology or a related life-science field',
+    body: 'Universities most commonly cited for this route include MIT, Cambridge, ETH Zurich, EPFL, the Technical University of Munich, and strong programs in Australia and Germany. Most ask for roughly a 3.0/4.0 GPA equivalent (about 60-70% in Indian grading), and a growing number of programs, including some in the US, have made the GRE optional rather than mandatory. Germany, Australia, and parts of Asia run meaningfully cheaper than the US or UK for the same degree, so cost comparison across countries matters more than chasing one flagship university.',
+  },
+  {
+    num: '03',
+    title: 'MBA as a genuine pivot, not a rescue plan',
+    body: 'The quantitative grounding from four years of engineering transfers cleanly into CAT-style exams, and a growing number of BTech Biotechnology graduates use an MBA to move into pharma or healthcare business roles, life-sciences consulting, or general management rather than staying on the bench. This only works when it is a deliberate move toward a role you can name, not a default because nothing else worked out.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Treating "biotechnology" as one interchangeable degree',
+    body: 'A BTech and a BSc in biotechnology lead to different work by design. Picking a BTech seat through JEE without knowing it trains you for process and engineering roles, not the bench-research track a BSc-to-MSc path builds, is one of the most common regret points students report after year one.',
+  },
+  {
+    num: '02',
+    title: 'Paying CSE-level private college fees for a biotech seat',
+    body: 'A BTech Biotechnology seat at a large private university can cost close to what a CSE seat at the same college costs, often ₹10-16 lakh across four years. If the biotech department at that campus gets a fraction of the core companies and a noticeably lower average package than its own CSE department, that fee needs course-specific justification, not brand-name comfort. Treat total college spend as a fraction of your full education and skill-building budget, not the whole plan.',
+  },
+  {
+    num: '03',
+    title: 'Waiting until final year to start GATE prep or a portfolio',
+    body: 'GATE Biotechnology and Life Sciences preparation genuinely benefits from an early, steady start, not a final-semester sprint. The same goes for internship applications and a documented project or two. Final-year panic produces a rushed, forgettable resume.',
+  },
+  {
+    num: '04',
+    title: 'Treating an IT pivot as proof the degree failed',
+    body: 'A software-services offer after a biotech degree is not automatically a sign the four years were wasted. It becomes a wasted four years only if no transferable skill, proof of work, or clear next step came out of it either way.',
+  },
+  {
+    num: '05',
+    title: 'Building only the biology-engineering combination and stopping there',
+    body: 'The people who do well from this branch usually add one multiplier on top: data analysis and basic programming for bioinformatics-adjacent work, regulatory and quality-systems knowledge for pharma roles, or business fundamentals for an eventual MBA pivot. The base degree alone rarely does the differentiating work by itself.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'Is BTech Biotechnology better than BSc Biotechnology?',
+    a: 'Neither is universally better; they lead to different work. BTech Biotechnology is a 4-year JEE-admitted engineering degree built around bioprocess and production-engineering thinking, which suits people who want process, manufacturing, or engineering-adjacent roles. BSc Biotechnology is a 3-year pure-science degree that builds deeper bench and lab research skill, which suits people aiming at research or QC work, usually after an M.Sc. Compare the full breakdown on the dedicated BSc biotechnology career options guide before choosing.',
+  },
+  {
+    q: 'What is the average package after BTech Biotechnology in India?',
+    a: 'It varies far more by which companies visit a specific campus than by the college\'s overall brand name. Fresher pay at real biotech employers like Biocon, Syngene, Serum Institute, and similar manufacturing or CRO companies typically runs ₹3.5-6 LPA. A small number of graduates land IT-services offers in the same ₹3.5-4.5 LPA band that any branch gets at the same college, and a very small number reach unusually high outlier packages, which should never be read as the typical outcome for the branch. The dedicated biotechnology careers salary guide breaks this down role by role.',
+  },
+  {
+    q: 'Can BTech Biotechnology students get placed in IT companies?',
+    a: 'Yes, and it is common. Most mass-recruiting IT services firms hire branch-agnostically through aptitude tests and coding rounds rather than filtering by degree subject, so a BTech Biotechnology student with a decent CGPA and basic coding preparation can sit for and clear the same drives as a CSE student. This is one of the biggest reasons the core-biotech and software-pivot numbers both show up at the same college.',
+  },
+  {
+    q: 'Is GATE necessary after BTech Biotechnology?',
+    a: 'Not mandatory, but it is one of the highest-leverage moves available. GATE Biotechnology (BT) or Life Sciences (XL) is the main entrance route into M.Tech Biotechnology programs, which are only open to biotech, microbiology, botany, zoology, or bioscience graduates, not to every engineering branch. A good GATE score also opens PSU recruitment drives and a stipend during the M.Tech itself.',
+  },
+  {
+    q: 'Which IITs and NITs offer BTech Biotechnology?',
+    a: 'IIT Delhi, Kharagpur, Roorkee, (BHU) Varanasi, Hyderabad, and Guwahati offer it through JEE Advanced, usually inside a Biochemical Engineering and Biotechnology department. Several NITs, including Warangal, Rourkela, and Durgapur, offer it through JEE Main. Cutoffs for this branch typically sit thousands of ranks behind CSE or Electrical at the same institute, which is a genuine advantage for students who want an IIT or NIT tag without a top-500 JEE rank, provided they go in knowing what the branch actually trains them for.',
+  },
+  {
+    q: 'Is MS in Biotechnology abroad worth it after a BTech in India?',
+    a: 'It can be, for the right person and program. It is a stronger move when targeting a specific university with real course-level strength in your interest area, and when the cost is compared honestly against the realistic starting salary in that country and any loan involved. Treat a large education loan for study abroad as a high-risk commitment unless the specific program creates a clearly verified, hard-to-replicate advantage, not just a well-known university name.',
+  },
+  {
+    q: 'Are there government job options after BTech Biotechnology?',
+    a: 'Yes, and they are worth planning for early rather than treating as a fallback. GATE Biotechnology (BT) opens BARC\'s OCES scheme, several DRDO labs, and PSU recruitment. CSIR-UGC-NET leads to JRF postings in CSIR national laboratories, a stipend-paid PhD track, and government college lecturer eligibility, and from the December 2026 cycle it merges with DBT-BET into one combined Joint CSIR-UGC-DBT JRF-NET exam. ICMR-JRF and ICAR-JRF cover medical and agricultural research fellowships respectively, and state or central exams recruit Drug Inspectors and FSSAI Food Safety Officers directly from a biotechnology or life-science degree.',
+  },
+  {
+    q: 'Can a BTech Biotechnology graduate work in gene therapy, genomics, or bioinformatics?',
+    a: 'Eventually, yes, but rarely straight out of college. Cell and gene therapy and advanced genomics roles typically ask for an M.Sc./M.Tech plus several years of relevant lab experience, so the realistic route is BTech, then a GATE-based M.Tech or an MS abroad in a genomics-adjacent specialisation, then an entry-level research role a few years later. Bioinformatics and computational biology are the exception: a fresh graduate who layers basic programming and data skills onto core biology can start building toward this lane immediately, since demand for people who can credibly do both is currently outpacing supply.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://futurecareerschool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Career Options', item: 'https://futurecareerschool.com/blog/career-options' },
+      { '@type': 'ListItem', position: 4, name: 'BTech Biotechnology Career Options', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="career-options"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={jsonLd}
+>
+  <p class="lead-para">
+    If you are weighing <strong>BTech biotechnology career options</strong>, start with this: a BTech in
+    Biotechnology is a 4-year, JEE-admitted engineering degree built around bioprocess and production
+    thinking, and it leads to genuinely different work than a BSc Biotechnology degree does. Confusing the
+    two is the single most common regret students report once placement season actually arrives.
+  </p>
+  <p>
+    This guide covers the JEE-based admission route and which colleges it actually gets you into, an honest
+    look at placement outcomes next to CSE and mechanical at the same campuses, the bioprocess and production
+    engineering roles this degree is genuinely built for, the government and PSU research routes most college
+    brochures never mention, and the three real next moves after graduation: GATE-based M.Tech, MS abroad, or
+    an MBA pivot. It also addresses something most college brochures skip entirely: a large share of BTech
+    Biotechnology graduates end up in IT services, and that is not automatically a failure if you understand
+    why it happens. It closes with where the field is genuinely heading, gene therapy, genomics, and
+    computational biology, and what that actually means for someone starting out today.
+  </p>
+  <p>
+    Getting this right early is really a <strong>high-income skill portfolio</strong> decision, not just a
+    branch-name decision. The engineering degree, GATE score, an internship, and one real project stack
+    together into something that moves you toward earlier financial freedom. The branch label alone does not.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>BTech Biotechnology (JEE-admitted, 4 years, engineering-first) and BSc Biotechnology (3 years, pure science) are different tracks that lead to different roles. Confirm which one you actually have before you plan around it.</li>
+      <li>JEE Advanced gets you into IIT biotech departments at closing ranks thousands behind CSE at the same IIT; JEE Main covers NITs and most private colleges.</li>
+      <li>Core-biotech placement packages at most campuses trail CSE and mechanical noticeably, and fewer core companies visit at all, so verify department-specific placement data before paying CSE-level fees for the seat.</li>
+      <li>Bioprocess and production engineering are the roles this degree is genuinely built for; a BSc-to-MSc graduate is more likely to land research- or QC-bench roles instead.</li>
+      <li>GATE (M.Tech), MS abroad, and an MBA pivot are the three real next moves, and each has its own eligibility, cost, and timeline worth planning early, not in final semester.</li>
+    </ul>
+  </div>
+
+  <div class="cta-inline">
+    <a class="btn-gold pulse" href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">Get structured guidance on this decision</a>
+    <a class="btn-outline cta-assessment-lite" href="https://futurecareerschool.com/services/assessments">Use a free assessment as a quick first check</a>
+  </div>
+
+  <p>
+    This guide sits inside our wider <a href="/blog/career-options/biotechnology-career-options/">biotechnology
+    career options</a> hub, which maps every biotechnology entry route side by side. If you are still deciding
+    whether biotechnology is the right field at all, the <a href="/blog/career-options/is-biotechnology-a-good-career/">is
+    biotechnology a good career</a> guide covers that broader question first.
+  </p>
+
+  <nav class="jump-nav" aria-label="Jump to section">
+    <span class="jump-nav__label">Jump to section</span>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((link) => (
+        <li><a href={`#${link.id}`}>{link.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The short answer</h2>
+  <p>
+    BTech Biotechnology gets you a JEE-admitted engineering seat that trains you for bioprocess design,
+    fermentation and production engineering, and downstream processing, not the bench-research track a BSc
+    Biotechnology degree builds toward. Placement outcomes for the branch trail CSE and mechanical at almost
+    every campus, core biotech employers hire in smaller numbers than IT services firms do, and a real share
+    of graduates end up in software roles through the same aptitude-based drives every branch sits for. None
+    of that makes the degree a bad choice by itself. It makes early planning, a GATE attempt, and one real
+    project the difference between drifting into whatever offer comes first and actually choosing your next
+    four years.
+  </p>
+
+  <h2 id="btech-vs-bsc">BTech vs BSc Biotechnology: the real difference</h2>
+  <p>
+    Parents, and a fair number of students, treat "biotechnology" as one degree with two entry points. It is
+    not. The admission exam, the four-vs-three-year structure, and the actual training are different enough
+    that mixing them up costs people a genuinely wasted first year of confusion.
+  </p>
+  <div class="compare-grid">
+    <div class="compare-col compare-col--teal">
+      <p class="compare-col__label">BTech Biotechnology</p>
+      <p class="compare-col__sub">JEE-admitted engineering track</p>
+    </div>
+    <div class="compare-col compare-col--gold">
+      <p class="compare-col__label">BSc Biotechnology</p>
+      <p class="compare-col__sub">Pure-science research track</p>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Area</th>
+          <th>BTech Biotechnology</th>
+          <th>BSc Biotechnology</th>
+        </tr>
+      </thead>
+      <tbody>
+        {compareRows.map((row) => (
+          <tr>
+            <td data-label="Area">{row.area}</td>
+            <td data-label="BTech Biotechnology">{row.btech}</td>
+            <td data-label="BSc Biotechnology">{row.bsc}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      If what you actually want is lab research, a PhD track, or QC-bench work, a BSc followed by a focused
+      M.Sc. usually builds that faster and more directly than a BTech does. If what you want is process
+      thinking, production scale-up, and an engineering credential that also keeps a software-pivot door open,
+      BTech is the better-built path. See the full picture on the
+      <a href="/blog/career-options/bsc-biotechnology-career-options/">BSc biotechnology career options</a> guide
+      before you assume either track is the "safer" one.
+    </p>
+  </div>
+
+  <h2 id="jee-route">The JEE route and which colleges it opens</h2>
+  <p>
+    BTech Biotechnology is one of the few engineering branches where a moderate JEE rank can still buy an IIT
+    or NIT tag. That is the real appeal, and it is worth understanding clearly rather than assuming it means
+    the same career odds as any other branch at that institute.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Where</th>
+          <th>Entry route</th>
+          <th>What to know</th>
+        </tr>
+      </thead>
+      <tbody>
+        {jeeCollegeRows.map((row) => (
+          <tr>
+            <td data-label="Where">{row.name}</td>
+            <td data-label="Entry route">{row.route}</td>
+            <td data-label="What to know">{row.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Entrance exam dates, seat matrices, and cutoffs shift every admission cycle, so verify the current schedule
+    directly on the official <a href="https://jeemain.nta.nic.in/" target="_blank" rel="noopener noreferrer">JEE Main portal</a>
+    before assuming last year's numbers still hold.
+  </p>
+  <p>
+    The rank gap inside a single institute makes the point better than any general statement can. At IIT
+    Delhi in the 2025 JEE Advanced counselling rounds, Computer Science and Engineering closed at rank 126 for
+    the general category, while Biotechnology and Biochemical Engineering closed at rank 4,999, the same
+    institute, the same IIT tag, and a gap of nearly 4,900 ranks.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Branch at IIT Delhi</th>
+          <th>2025 closing rank (general category)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rankCompareRows.map((row) => (
+          <tr>
+            <td data-label="Branch">{row.branch}</td>
+            <td data-label="2025 closing rank">{row.rank}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p>
+    That gap is not a flaw in the exam. It is the market telling you, years before placement season, how the
+    two branches will be treated on campus by recruiters. A softer cutoff for a harder-to-fill seat is a
+    reasonable trade for someone who genuinely wants bioprocess work. It is a costly surprise for someone who
+    picked the branch only to get the IIT or NIT name and assumed the outcomes would track CSE.
+  </p>
+
+  <h2 id="what-you-study">What the four years actually cover</h2>
+  <p>
+    The syllabus leans deliberately toward engineering applied to biology, not biology taught as pure science.
+    Expect core coursework in genetic engineering, cell and molecular biology, bioprocess engineering,
+    fermentation technology, downstream processing, bioreactor design and scale-up, bioinformatics
+    fundamentals, and process instrumentation, layered on the same mathematics, chemistry, and engineering
+    mechanics foundation every BTech branch shares in the first year.
+  </p>
+  <p>
+    A smaller but growing number of colleges also offer a plant and agricultural biotechnology specialisation
+    track within or alongside the general biotechnology branch, aimed at crop science, agri-biotech R&D, and
+    food-processing industries rather than pharma or healthcare. If that specific direction interests you more
+    than pharma-manufacturing work, the
+    <a href="/blog/career-options/plant-and-agricultural-biotechnology-careers/">plant and agricultural
+    biotechnology careers</a> guide covers that branch in full.
+  </p>
+
+  <h2 id="placement-reality">The honest placement reality</h2>
+  <p>
+    This is the section most college websites skip, and it is the one that actually decides whether the next
+    four years pay off. The pattern holds across most campuses that run both a strong CSE program and a
+    biotechnology department: CSE gets more companies, higher average packages, and a wider spread of core
+    roles, while biotechnology gets a noticeably shorter core-recruiter list and a real dependence on the
+    same off-branch IT drives every other non-CS branch competes for.
+  </p>
+  <p>
+    At VIT Vellore, CSE placements report an average package in the ₹10-12 LPA range with a small number of
+    outlier offers reaching far higher, while the biotechnology department sees comparatively few core biotech
+    companies visit, lower average packages, and, at some campuses, restrictions on which consulting or
+    IT-adjacent companies biotech, civil, and chemical students are even eligible to sit for. At SRM
+    Kattankulathur, CSE averages sit lower than VIT's, roughly ₹7-9 LPA, but the same core-vs-branch pattern
+    repeats: CSE draws far more recruiters and a stronger average than the biotechnology department does.
+  </p>
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Outlier numbers exist and get repeated a lot: IIT Delhi's biotechnology department has reported an
+      exceptional package as high as roughly ₹4 crore for a single standout candidate in a strong placement
+      year. Treat that the way you would treat any single top-end number in any field: real, but not
+      remotely typical. It tells you the branch has a ceiling, not that the median outcome matches it. Judge
+      your own decision against realistic entry-level bands, not the best story anyone has ever posted online.
+    </p>
+  </div>
+  <p>
+    The practical takeaway is not "avoid this branch." It is "verify the actual placement report of the
+    specific department at the specific campus you are choosing, not the college's overall brand number,"
+    before you commit four years and, at many private colleges, ₹10-16 lakh in fees to a biotechnology seat.
+    If a private-college fee for this branch cannot be justified by that campus's own biotech placement data,
+    treat the extra spend as a real financial risk, not a safe bet because the college name is well known.
+  </p>
+
+  <h2 id="bioprocess-role">Bioprocess engineering: the BTech-specific role</h2>
+  <p>
+    Here is where the BTech route earns its keep, and where it is genuinely different from what a BSc
+    graduate is trained for. A bioprocess or process engineer designs, scales up, and troubleshoots the
+    systems that turn a lab-scale biological process, a fermentation, a cell culture, an enzyme reaction,
+    into a manufacturing-scale one: bioreactor design, downstream purification, process instrumentation,
+    yield optimisation, and regulatory-compliant scale-up documentation.
+  </p>
+  <p>
+    That is closer to chemical or process engineering applied to biology than it is to bench research. It is
+    also exactly the combination a 4-year engineering syllabus builds and a 3-year pure-science syllabus does
+    not, which is why it is the clearest BTech-specific role in the field rather than something either degree
+    could equally claim.
+  </p>
+  <div class="compare-grid">
+    <div class="compare-col compare-col--teal">
+      <p class="compare-col__label">BTech grad, typical entry role</p>
+      <p class="compare-col__sub">Bioprocess or production engineer: scale-up, fermentation, downstream processing, process troubleshooting on a manufacturing floor.</p>
+    </div>
+    <div class="compare-col compare-col--gold">
+      <p class="compare-col__label">BSc-to-MSc grad, typical entry role</p>
+      <p class="compare-col__sub">Junior research assistant, lab technician, or QC/QA analyst: bench technique, assay work, sample testing, and lab documentation.</p>
+    </div>
+  </div>
+  <p>
+    Entry-level bioprocess engineering pay in India typically runs ₹3.5-6 LPA fresh out of college, rising
+    with two to three years of hands-on plant or manufacturing experience. That is not a headline number, and
+    it should not be sold as one. It is a real, defensible starting point for a role with a genuine skill
+    ceiling attached, especially once someone gains hands-on scale-up experience that is hard to fake in an
+    interview.
+  </p>
+
+  <h2 id="who-hires">Who actually hires, and what they pay</h2>
+  <p>
+    The employer list for core biotechnology roles is shorter than most students expect walking in, which is
+    exactly why understanding it early matters more than discovering it in final-year placement season.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Employer type</th>
+          <th>What they hire BTech Biotech grads for</th>
+          <th>Typical entry-level pay</th>
+        </tr>
+      </thead>
+      <tbody>
+        {employerRows.map((row) => (
+          <tr>
+            <td data-label="Employer type">{row.company}</td>
+            <td data-label="What they hire for">{row.hires}</td>
+            <td data-label="Typical entry-level pay">{row.pay}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Bengaluru's Electronic City cluster and Mangaluru in Karnataka are two of the heaviest fresher-hiring hubs
+    for this field, largely because of the concentration of biopharma manufacturing and contract-research
+    operations there. For a full breakdown of pay by specific role, including how bioprocess compares with
+    research, quality, regulatory, and bioinformatics-adjacent tracks, see the dedicated
+    <a href="/blog/career-options/biotechnology-careers-salary/">biotechnology careers salary</a> guide.
+  </p>
+  <p>
+    Job titles on offer letters rarely say "biotechnologist." They say things closer to production/process
+    trainee, QA/QC executive, clinical research coordinator, regulatory affairs associate, or bioinformatics
+    analyst, depending on which team is hiring. Knowing the actual title to search for on a job board matters
+    more than knowing the industry name.
+  </p>
+
+  <h2 id="government-routes">Government and PSU routes most students never hear about</h2>
+  <p>
+    Most college brochures talk about private placements and stop there, but a meaningful share of
+    biotechnology graduates build a stable career through government research and regulatory recruitment
+    instead. These routes are exam-gated and slower to enter than a campus placement offer, which is exactly
+    why they reward starting preparation early, alongside the GATE prep already discussed above, not after
+    private placements disappoint.
+  </p>
+  <div class="protocol-stack">
+    {govtRouteItems.map((item) => (
+      <div class="protocol-row">
+        <span class="protocol-num">{item.num}</span>
+        <div class="protocol-body">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      A government research or regulatory role trades faster entry for long-term stability, a defined pay
+      scale, and a genuine route into permanent research or academic positions that most private manufacturing
+      jobs do not offer. It does not mean scalable upside disappears entirely; disciplined saving and investing
+      still compound over a career regardless of sector. Treat this as a parallel track worth a real study
+      plan, with a backup plan of its own, not a single high-stakes bet on one exam attempt. Verify current
+      scheme details and exam calendars directly on the official <a href="https://dbtindia.gov.in/" target="_blank" rel="noopener noreferrer">DBT</a>,
+      <a href="https://birac.nic.in/" target="_blank" rel="noopener noreferrer">BIRAC</a>, and
+      <a href="https://csirhrdg.res.in/" target="_blank" rel="noopener noreferrer">CSIR HRDG</a> portals before
+      committing a year of preparation to any one of them.
+    </p>
+  </div>
+
+  <h2 id="software-pivot">Why so many end up in IT, and whether that's a failure</h2>
+  <p>
+    Address this honestly instead of pretending it does not happen: a meaningful share of BTech Biotechnology
+    graduates in India take a software-services offer, not a core biotech role, at the end of four years. This
+    is not a fringe outcome. It is common enough that most placement cells treat it as a normal, expected exit
+    path for the branch.
+  </p>
+  <p>
+    The mechanism is simple. IT services firms like TCS, Infosys, Wipro, and Cognizant recruit almost entirely
+    branch-agnostically, through an aptitude test and a coding or logical-reasoning round, not a biotech-specific
+    skill check. A biotechnology student with a decent CGPA and a few weeks of coding-basics preparation clears
+    the same drive a CSE student does, for roughly the same starting band, while the list of companies actually
+    hiring for core bioprocess or research roles at that same campus is far shorter.
+  </p>
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Ending up in IT after a biotech degree is not automatically wasted potential, and it is not automatically
+      the smart move either. It becomes the right call when it is chosen deliberately, with a plan for what
+      comes next, whether that is staying in tech long-term, using the income to fund a later GATE attempt or
+      MS application, or building toward a health-tech or bio-adjacent tech role that actually uses the domain
+      background. It becomes the wrong call when it is simply the first offer that showed up and nobody asked
+      what they actually wanted from it. If a full pivot away from core biotech is genuinely the direction,
+      the <a href="/blog/career-options/career-after-btech-other-than-software/">career after BTech other than
+      software</a> guide is useful for mapping non-software options too, in case IT is not actually the fit
+      either.
+    </p>
+  </div>
+
+  <h2 id="higher-studies">MTech, MS abroad, and MBA: the real escape valves</h2>
+  <p>
+    Unlike a generic "keep options open" line, these three routes are genuinely different from each other in
+    eligibility, cost, and what they lead to, and picking one deliberately, ideally starting in third year,
+    beats deciding in the last month before final exams.
+  </p>
+  <div class="protocol-stack">
+    {higherStudyItems.map((item) => (
+      <div class="protocol-row">
+        <span class="protocol-num">{item.num}</span>
+        <div class="protocol-body">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+  <div class="callout callout--teal">
+    <p class="callout__eyebrow">Worth knowing</p>
+    <p>
+      An M.Sc. is usually the BSc graduate's route into serious research work, not the BTech graduate's
+      natural next step; GATE-based M.Tech plays that role for BTech grads instead. If you are comparing
+      what an M.Sc. actually leads to versus these three BTech-specific routes, the
+      <a href="/blog/career-options/msc-biotechnology-career-options/">MSc biotechnology career options</a>
+      guide lays out that side of the decision. Exam patterns and eligible-branch lists change most years, so
+      verify the current cycle on the official <a href="https://gate2027.iitg.ac.in/" target="_blank" rel="noopener noreferrer">GATE portal</a>
+      before building a whole plan around last year's syllabus.
+    </p>
+  </div>
+
+  <h2 id="emerging-fields">Gene therapy, genomics, and where the field is actually heading</h2>
+  <p>
+    India's biotechnology sector is scaling up fast, with the government's own stated ambition aiming at a
+    bioeconomy worth well over a hundred billion dollars in the coming years. Gene therapy, cell therapy, and
+    RNA vaccine platforms kept expanding through 2025, and CRISPR-based gene-editing tools have started moving
+    out of pure lab research and into real clinical-stage work. That is genuinely exciting, and it is also
+    genuinely easy to misread as something a fresh BTech graduate can walk straight into.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Emerging area</th>
+          <th>What the entry reality actually looks like</th>
+        </tr>
+      </thead>
+      <tbody>
+        {emergingFieldRows.map((row) => (
+          <tr>
+            <td data-label="Emerging area">{row.field}</td>
+            <td data-label="Entry reality">{row.reality}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Cell and gene therapy, and advanced genomics, are near-guaranteed growth areas over the next decade, but
+      they are not fresher-entry lanes today. The realistic path in is BTech, then a GATE-based M.Tech or an MS
+      abroad in a genomics- or gene-therapy-adjacent specialisation, then an entry-level research role a few
+      years later, not a direct hire straight out of college. Bioinformatics and computational biology are the
+      one part of this shift a fresh graduate can start building toward immediately, since biology-plus-data
+      capability is currently in short supply. AI tools genuinely speed up literature review, sequence
+      analysis, and lab-data processing here, but they do not replace the domain judgment needed to interpret a
+      genomic result or validate a model's output. Treat AI fluency as a real multiplier on top of solid biology
+      and data fundamentals, not a shortcut that skips learning either one, and not a guaranteed 10x outcome by
+      itself.
+    </p>
+  </div>
+
+  <h2 id="proof-of-work">Building proof beyond the degree</h2>
+  <p>
+    Branch is context, not destiny, and that is especially true here, where recruiters cannot always tell from
+    a resume alone whether a biotechnology graduate can actually run a fermentation process, read a bioreactor
+    trend, or just memorised the syllabus for exams. The market pays for proof of work, not attendance, and
+    that gap between a syllabus and what recruiters actually test for is where most people either build an
+    edge or fall behind quietly.
+  </p>
+  <p>
+    A short internship at a manufacturing plant, CRO, or research lab; one documented project with a real
+    dataset or process problem, written up with what was attempted and what was learned, not just a slide
+    deck; a GATE score, even a modest one, signals seriousness beyond marks; and basic data or programming
+    literacy layered on top of the core biology-engineering base all do more for an interview than another
+    certificate collected without a finished output attached to it. One deep, explainable piece of work beats
+    five half-finished course completions.
+  </p>
+  <p>
+    For process and manufacturing-track roles specifically, GMP and GLP awareness training is worth having
+    before you interview, not after a recruiter asks about it, since compliance language is how bioprocess and
+    quality teams actually communicate on the job. A Six Sigma Green Belt or an equivalent process-improvement
+    credential adds real weight for production and QA/QC roles once you have some plant exposure to back it up.
+    Regulatory Affairs Certification (RAC) is a genuine credential in this field, but it is a mid-career signal
+    for someone already working in regulatory affairs, not a fresh-graduate requirement; do not spend money on
+    it before you have the role experience it is meant to certify. Judge every one of these against the same
+    test as any course: does it lead to a checkable output, or just a certificate.
+  </p>
+  <p>
+    This is also where the <strong>high-income skill portfolio</strong> idea gets real for this branch: the
+    degree, plus one visible piece of applied work, plus a clear next step, whether that's a GATE attempt, an
+    MS application, or a targeted software-skills sprint, compounds into something a recruiter or an admissions
+    committee can actually trust, instead of a plain transcript.
+  </p>
+
+  <h2 id="fit-check">Does this path actually fit you</h2>
+  <p>
+    Not every biology-interested student who can clear JEE Main should default into this branch, and not every
+    student who ends up here by rank-based allotment should assume it was a mistake. A few honest questions
+    help more than general encouragement does.
+  </p>
+  <div class="compare-grid">
+    <div class="compare-col compare-col--teal">
+      <p class="compare-col__label">This tends to fit you if...</p>
+      <p class="compare-col__sub">You like process and systems thinking as much as biology itself, you are comfortable with a real quantitative workload, you are open to manufacturing or plant-floor work rather than only lab-bench research, and you are willing to plan a GATE attempt, MS application, or coding backup early rather than hoping placements sort themselves out.</p>
+    </div>
+    <div class="compare-col compare-col--gold">
+      <p class="compare-col__label">Reconsider, or compare the BSc route, if...</p>
+      <p class="compare-col__sub">What actually excites you is bench research, assay work, or a future PhD, you picked this branch mainly for the JEE-based IIT or NIT tag without knowing what it trains you for, or you are counting on a CSE-level package from a biotech seat at the same private college.</p>
+    </div>
+  </div>
+
+  <h2 id="mistakes">Mistakes that cost people a year</h2>
+  <div class="protocol-stack">
+    {mistakeItems.map((item) => (
+      <div class="protocol-row">
+        <span class="protocol-num">{item.num}</span>
+        <div class="protocol-body">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+  <p>
+    If you are still choosing whether to accept a BTech Biotechnology seat, verify that specific campus's
+    biotechnology department placement report, not just the college's headline CSE number, before you commit
+    four years and a large fee to it. If you are already in the program, the highest-leverage move right now
+    is picking one direction, GATE, MS abroad, an MBA pivot, or a deliberate software-skills sprint, and
+    starting on it now instead of in final semester.
+  </p>
+  <div class="highlight-box highlight-box--teal">
+    <p>Confirm department-specific placement data before paying CSE-level fees for a biotech seat.</p>
+    <p>Pick one next-step direction early and start building toward it, rather than deciding under placement-season pressure.</p>
+  </div>
+  <p>
+    Moving toward earlier financial freedom from this branch comes down to the same thing it always does: the
+    right sequence of decisions, visible proof of work, and a next step chosen deliberately rather than by
+    default. If you want a second opinion on whether BTech Biotechnology, a GATE-based M.Tech, MS abroad, or a
+    pivot fits your actual situation, <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career
+    guidance</a> can help you map it out, or start with the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a> if you are
+    still deciding whether this branch is genuinely your lane. You can also browse the wider
+    <a href="/blog/career-options/biotechnology-career-options/">biotechnology career options hub</a> for every
+    entry route side by side.
+  </p>
+
+  <h2 id="faq">FAQs on BTech biotechnology career options</h2>
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .cta-inline {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 1.6rem 0 1.4rem;
+    }
+    .cta-inline a {
+      min-width: 240px;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96);
+      font-weight: 800;
+      margin: 0 0 0.85rem;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li { margin: 0 !important; }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover { color: #fff; }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.4rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--teal { border-color: rgba(45, 212, 191, 0.24); background: rgba(45, 212, 191, 0.06); }
+    .callout--gold { border-color: rgba(229, 184, 74, 0.24); background: rgba(229, 184, 74, 0.06); }
+    .callout__eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 0 0 0.5rem;
+    }
+    .callout p:last-child { margin-bottom: 0; }
+
+    .honest-take {
+      border-left: 3px solid rgba(229, 184, 74, 0.65);
+      background: rgba(229, 184, 74, 0.05);
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.2rem;
+      margin: 1.4rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.95);
+      margin: 0 0 0.5rem;
+    }
+    .honest-take p:last-child { margin-bottom: 0; }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1.4rem 0;
+    }
+    .compare-col {
+      border-radius: 16px;
+      padding: 1.2rem 1.3rem 1.3rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.025);
+    }
+    .compare-col--teal { border-color: rgba(45, 212, 191, 0.3); background: rgba(45, 212, 191, 0.055); }
+    .compare-col--gold { border-color: rgba(229, 184, 74, 0.3); background: rgba(229, 184, 74, 0.055); }
+    .compare-col__label {
+      font-weight: 800;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.94);
+      margin: 0 0 0.5rem;
+    }
+    .compare-col__sub {
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.72);
+      margin: 0;
+    }
+
+    .protocol-stack {
+      display: grid;
+      gap: 0.9rem;
+      margin: 1.4rem 0;
+    }
+    .protocol-row {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.1rem 1.25rem;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .protocol-num {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.3);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 2.2rem;
+    }
+    .protocol-body h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+    .protocol-body p { margin: 0.3rem 0; }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.2rem 1.3rem;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--gold { border-color: rgba(229, 184, 74, 0.28); background: rgba(229, 184, 74, 0.07); }
+    .highlight-box--teal { border-color: rgba(45, 212, 191, 0.28); background: rgba(45, 212, 191, 0.07); }
+    .highlight-box p:last-child { margin-bottom: 0; }
+
+    @media (max-width: 720px) {
+      .jump-nav__list { grid-template-columns: 1fr; }
+      .protocol-row { flex-direction: column; gap: 0.4rem; }
+      .compare-grid { grid-template-columns: 1fr; }
+      .cta-inline a { min-width: 100%; }
+    }
+  </style>
+</BlogPostLayout>

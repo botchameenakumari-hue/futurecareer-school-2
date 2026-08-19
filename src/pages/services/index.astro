@@ -2,8 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import GuidancePlansSection from '../../components/bofu/GuidancePlansSection.astro';
 import LinkDirectorySection from '../../components/LinkDirectorySection.astro';
-import { BOFU_INTERNAL_LINKS, BOFU_PAYMENT_LINKS } from '../../config/bofu';
+import { BOFU_INTERNAL_LINKS } from '../../config/bofu';
+import { completeAssessmentDirectoryItems, completeGuidanceDirectoryItems, completeServiceBrowseItems } from '../../config/directory';
 
 const guidanceDirectoryItems = [
   {
@@ -118,8 +120,8 @@ const assessmentDirectoryItems = [
 
 const toolDirectoryItems = [
   {
-    href: '/skill-finder',
-    title: 'Skill Finder',
+    href: '/career-skills-compass',
+    title: 'Career & Skills Compass',
     description: 'A free tool for narrowing the skill paths that fit your strengths and market direction.',
   },
   {
@@ -128,6 +130,396 @@ const toolDirectoryItems = [
     description: 'Free guides, roadmaps, and checklists for acting on your next move.',
   },
 ];
+
+const serviceCategoryOptions = [
+  { value: 'guidance', label: 'Career guidance' },
+  { value: 'assessment', label: 'Free assessments and tests' },
+  { value: 'resources', label: 'Tools and resources' },
+];
+
+const serviceAudienceOptions = [
+  { value: 'students', label: 'Students' },
+  { value: 'parents', label: 'Parents' },
+  { value: 'graduates', label: 'Freshers and graduates' },
+  { value: 'professionals', label: 'Working professionals' },
+  { value: 'job-seekers', label: 'Job seekers' },
+  { value: 'everyone', label: 'Everyone' },
+];
+
+const serviceNeedOptions = [
+  { value: 'decision-clarity', label: 'Decision clarity' },
+  { value: 'free-assessment', label: 'Free assessment' },
+  { value: 'online-local', label: 'Online or local guidance' },
+  { value: 'after-10th-12th', label: 'After 10th or 12th' },
+  { value: 'aptitude-reasoning', label: 'Aptitude and reasoning' },
+  { value: 'personality-work-style', label: 'Personality and work style' },
+  { value: 'skills-resources', label: 'Skills and resources' },
+];
+
+const getOptionLabel = (options: { value: string; label: string }[], value: string) =>
+  options.find((option) => option.value === value)?.label ?? value;
+
+const isAssessmentChildHref = (href: string) => href.replace(/\/$/, '').startsWith('/services/assessments/');
+
+const curatedServiceBrowseItems = [
+  {
+    href: '/services/career-counselling-and-career-guidance',
+    title: 'Career Counselling and Guidance',
+    description: 'Broader help with stream, course, skill, and next-step decisions when one choice affects everything else.',
+    category: 'guidance',
+    audiences: ['students', 'parents', 'graduates', 'professionals', 'everyone'],
+    need: 'decision-clarity',
+    keywords: 'career counselling career guidance coaching direction confusion course stream skill choice',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-guidance/',
+    title: 'Career Guidance',
+    description: 'Practical direction for people who need clearer next steps, stronger trade-offs, and better skill choices.',
+    category: 'guidance',
+    audiences: ['students', 'graduates', 'professionals', 'everyone'],
+    need: 'decision-clarity',
+    keywords: 'career guidance practical next step skill direction path clarity',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling/',
+    title: 'Career Counselling',
+    description: 'Clarity-first support when the decision feels personal, confusing, or emotionally heavy.',
+    category: 'guidance',
+    audiences: ['students', 'parents', 'graduates', 'professionals', 'everyone'],
+    need: 'decision-clarity',
+    keywords: 'career counselling confusion emotional pressure family decision support',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'For people who need practical online career counselling without depending on a local offline option.',
+    category: 'guidance',
+    audiences: ['students', 'parents', 'graduates', 'professionals', 'everyone'],
+    need: 'online-local',
+    keywords: 'online career counselling remote India home college work local alternative',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coach-near-me/',
+    title: 'Career Coach Near Me',
+    description: 'Online career coaching across India for people who want real guidance, not just local proximity.',
+    category: 'guidance',
+    audiences: ['students', 'graduates', 'professionals', 'everyone'],
+    need: 'online-local',
+    keywords: 'career coach near me online guidance local proximity India',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerGuidanceOnline,
+    title: 'Career Guidance Online',
+    description: 'For people who want practical online career guidance without waiting for a local offline option.',
+    category: 'guidance',
+    audiences: ['students', 'parents', 'graduates', 'professionals', 'everyone'],
+    need: 'online-local',
+    keywords: 'online career guidance remote India practical next step',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12th,
+    title: 'Career Guidance After 12th',
+    description: 'For stream, course, degree, and next-step decisions after school.',
+    category: 'guidance',
+    audiences: ['students', 'parents'],
+    need: 'after-10th-12th',
+    keywords: 'after 12th course degree stream college student parent guidance',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12thOnline,
+    title: 'Career Guidance After 12th Online',
+    description: 'For students and parents who need after-12th guidance online without waiting for local options.',
+    category: 'guidance',
+    audiences: ['students', 'parents'],
+    need: 'after-10th-12th',
+    keywords: 'after 12th online career guidance student parent course degree',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'For school students, college students, freshers, recent graduates, and postgraduates who need stronger direction.',
+    category: 'guidance',
+    audiences: ['students', 'parents', 'graduates'],
+    need: 'decision-clarity',
+    keywords: 'student career guidance school college fresher graduate postgraduate direction',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'For pivots, salary growth, stagnation, and stronger long-term leverage.',
+    category: 'guidance',
+    audiences: ['professionals'],
+    need: 'decision-clarity',
+    keywords: 'working professional career guidance pivot salary growth stagnation career change',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-guidance-for-low-board-scores/',
+    title: 'Career Guidance for Low Board Scores',
+    description: 'For students and parents who need a practical route after marks, results, or board scores changed the plan.',
+    category: 'guidance',
+    audiences: ['students', 'parents'],
+    need: 'after-10th-12th',
+    keywords: 'low board scores low marks failed subject result student parent career guidance',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-benefits/',
+    title: 'Career Counselling Benefits',
+    description: 'A decision page for people comparing whether counselling is actually useful before paying for support.',
+    category: 'guidance',
+    audiences: ['students', 'parents', 'graduates', 'professionals', 'everyone'],
+    need: 'decision-clarity',
+    keywords: 'career counselling benefits worth it compare before paying guidance support',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'City-intent guidance pages for people who want local search relevance without falling back into generic advice.',
+    category: 'guidance',
+    audiences: ['students', 'parents', 'graduates', 'professionals', 'everyone'],
+    need: 'online-local',
+    keywords: 'location city career counselling local online India',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.visakhapatnamCounselling,
+    title: 'Career Counselling in Visakhapatnam',
+    description: 'For people in Visakhapatnam who want clearer next steps, stronger skill direction, and practical counselling support.',
+    category: 'guidance',
+    audiences: ['students', 'parents', 'graduates', 'professionals'],
+    need: 'online-local',
+    keywords: 'Visakhapatnam Vizag local online career counselling guidance',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/locations/career-counselling-in-rajkot/',
+    title: 'Career Counselling in Rajkot',
+    description: 'For people in Rajkot who want practical online guidance with local context, stronger skill direction, and clearer next steps.',
+    category: 'guidance',
+    audiences: ['students', 'parents', 'graduates', 'professionals'],
+    need: 'online-local',
+    keywords: 'Rajkot local online career counselling guidance Gujarat',
+  },
+  {
+    href: '/services/assessments',
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments across school, college, graduate, and professional stages.',
+    category: 'assessment',
+    audiences: ['students', 'parents', 'graduates', 'professionals', 'job-seekers', 'everyone'],
+    need: 'free-assessment',
+    keywords: 'free career assessment skill assessment psychometric aptitude test',
+  },
+  {
+    href: '/services/assessments/class-10-and-below/',
+    title: 'Class 10 and Below Assessment',
+    description: 'Stream-fit, strength-mapping, and early direction before Class 11 choices harden.',
+    category: 'assessment',
+    audiences: ['students', 'parents'],
+    need: 'after-10th-12th',
+    keywords: 'class 10 below stream fit assessment student parent',
+  },
+  {
+    href: '/services/assessments/class-11-to-12/',
+    title: 'Class 11 to 12 Assessment',
+    description: 'Course-fit, degree direction, and after-school decision support before bigger commitments.',
+    category: 'assessment',
+    audiences: ['students', 'parents'],
+    need: 'after-10th-12th',
+    keywords: 'class 11 class 12 course degree assessment student parent',
+  },
+  {
+    href: '/services/assessments/graduates-and-early-professionals/',
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free clarity on fit, skill direction, employability, and market-ready next steps.',
+    category: 'assessment',
+    audiences: ['graduates', 'job-seekers'],
+    need: 'free-assessment',
+    keywords: 'graduates early professionals employability skill direction job readiness',
+  },
+  {
+    href: '/services/assessments/working-professionals-and-career-changers/',
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free input for pivots, salary growth, role fit, and stronger leverage decisions.',
+    category: 'assessment',
+    audiences: ['professionals'],
+    need: 'free-assessment',
+    keywords: 'working professionals career changers pivot salary growth role fit',
+  },
+  {
+    href: '/services/assessments/career-aptitude-test-after-10th/',
+    title: 'Career Aptitude Test After 10th',
+    description: 'A focused free aptitude test for students choosing a stream after Class 10.',
+    category: 'assessment',
+    audiences: ['students', 'parents'],
+    need: 'after-10th-12th',
+    keywords: 'career aptitude test after 10th stream science commerce arts',
+  },
+  {
+    href: '/services/assessments/stream-selector-test-after-10th/',
+    title: 'Stream Selector Test After 10th',
+    description: 'A focused free stream quiz for Science, Commerce, or Arts decisions after Class 10.',
+    category: 'assessment',
+    audiences: ['students', 'parents'],
+    need: 'after-10th-12th',
+    keywords: 'stream selector test after 10th science commerce arts quiz',
+  },
+  {
+    href: '/services/assessments/stream-selector-test-after-12th/',
+    title: 'Stream Selector Test After 12th',
+    description: 'A focused free quiz for course and path direction after Class 12.',
+    category: 'assessment',
+    audiences: ['students', 'parents'],
+    need: 'after-10th-12th',
+    keywords: 'stream selector test after 12th course path direction quiz',
+  },
+  {
+    href: '/services/assessments/career-aptitude-test-after-12th/',
+    title: 'Career Aptitude Test After 12th',
+    description: 'A focused free aptitude test for students choosing a degree, course, or training path after Class 12.',
+    category: 'assessment',
+    audiences: ['students', 'parents'],
+    need: 'after-10th-12th',
+    keywords: 'career aptitude test after 12th degree course training path',
+  },
+  {
+    href: '/services/assessments/placement-aptitude-test/',
+    title: 'Placement Aptitude Test',
+    description: 'A free placement-readiness test for students, freshers, and job seekers preparing for hiring screens.',
+    category: 'assessment',
+    audiences: ['students', 'graduates', 'job-seekers'],
+    need: 'aptitude-reasoning',
+    keywords: 'placement aptitude test hiring screening freshers job seekers',
+  },
+  {
+    href: '/services/assessments/numerical-reasoning-test/',
+    title: 'Numerical Reasoning Test',
+    description: 'A focused free reasoning test for number sense, data interpretation, and placement-style problem solving.',
+    category: 'assessment',
+    audiences: ['students', 'graduates', 'professionals', 'job-seekers'],
+    need: 'aptitude-reasoning',
+    keywords: 'numerical reasoning test data interpretation aptitude placement',
+  },
+  {
+    href: '/services/assessments/verbal-reasoning-test/',
+    title: 'Verbal Reasoning Test',
+    description: 'A focused free test for reading, logic, and communication signals used in many hiring and aptitude screens.',
+    category: 'assessment',
+    audiences: ['students', 'graduates', 'professionals', 'job-seekers'],
+    need: 'aptitude-reasoning',
+    keywords: 'verbal reasoning test communication logic reading aptitude',
+  },
+  {
+    href: '/services/assessments/myers-briggs-career-test/',
+    title: 'Myers-Briggs Career Test',
+    description: 'A free work-style preference test for reflection, not a fixed career verdict.',
+    category: 'assessment',
+    audiences: ['students', 'graduates', 'professionals', 'everyone'],
+    need: 'personality-work-style',
+    keywords: 'Myers Briggs MBTI career test personality work style preference',
+  },
+  {
+    href: '/services/assessments/big-5-personality-test-careers/',
+    title: 'Big 5 Personality Test for Careers',
+    description: 'A free Big Five career test for trait patterns, work environment fit, and practical next experiments.',
+    category: 'assessment',
+    audiences: ['students', 'graduates', 'professionals', 'everyone'],
+    need: 'personality-work-style',
+    keywords: 'Big Five Big 5 personality test careers work environment traits',
+  },
+  {
+    href: '/services/assessments/career-test-online/',
+    title: 'Career Test Online',
+    description: 'A broad online career-test starting point when you want a lighter first read before deeper guidance.',
+    category: 'assessment',
+    audiences: ['students', 'parents', 'graduates', 'professionals', 'everyone'],
+    need: 'free-assessment',
+    keywords: 'career test online free assessment first step',
+  },
+  {
+    href: '/services/assessments/career-aptitude-test-online/',
+    title: 'Career Aptitude Test Online',
+    description: 'An online aptitude-test route for people comparing strengths, fit, and career direction.',
+    category: 'assessment',
+    audiences: ['students', 'graduates', 'job-seekers', 'everyone'],
+    need: 'aptitude-reasoning',
+    keywords: 'career aptitude test online strengths fit direction',
+  },
+  {
+    href: '/services/assessments/aptitude/',
+    title: 'Aptitude Assessment',
+    description: 'A broader aptitude assessment entry point for people comparing ability signals with career direction.',
+    category: 'assessment',
+    audiences: ['students', 'graduates', 'professionals', 'job-seekers'],
+    need: 'aptitude-reasoning',
+    keywords: 'aptitude assessment ability signals career direction',
+  },
+  {
+    href: '/services/assessments/psychometric/',
+    title: 'Psychometric Assessment',
+    description: 'A broader psychometric-test entry point for people comparing personality, interests, and work-style signals.',
+    category: 'assessment',
+    audiences: ['students', 'graduates', 'professionals', 'everyone'],
+    need: 'personality-work-style',
+    keywords: 'psychometric assessment personality interest work style career test',
+  },
+  {
+    href: '/services/assessments/free-job-career-test/',
+    title: 'Free Job Career Test',
+    description: 'A free job-and-career test for people trying to connect role fit with practical next steps.',
+    category: 'assessment',
+    audiences: ['graduates', 'professionals', 'job-seekers'],
+    need: 'free-assessment',
+    keywords: 'free job career test role fit job seekers',
+  },
+  {
+    href: '/services/assessments/job-aptitude-test/',
+    title: 'Job Aptitude Test',
+    description: 'A free job aptitude test for people preparing for hiring screens or checking role-readiness signals.',
+    category: 'assessment',
+    audiences: ['graduates', 'professionals', 'job-seekers'],
+    need: 'aptitude-reasoning',
+    keywords: 'job aptitude test hiring screens role readiness',
+  },
+  {
+    href: '/services/assessments/job-career-aptitude-test/',
+    title: 'Job Career Aptitude Test',
+    description: 'A combined job and career aptitude route for people comparing employability, strengths, and direction.',
+    category: 'assessment',
+    audiences: ['graduates', 'professionals', 'job-seekers'],
+    need: 'aptitude-reasoning',
+    keywords: 'job career aptitude test employability strengths direction',
+  },
+  {
+    href: '/career-skills-compass',
+    title: 'Career & Skills Compass',
+    description: 'A free tool for narrowing the skill paths that fit your strengths and market direction.',
+    category: 'resources',
+    audiences: ['students', 'graduates', 'professionals', 'job-seekers', 'everyone'],
+    need: 'skills-resources',
+    keywords: 'Career & Skills Compass skill path market direction strengths',
+  },
+  {
+    href: '/career-resources',
+    title: 'Career Resources',
+    description: 'Free guides, roadmaps, and checklists for acting on your next move.',
+    category: 'resources',
+    audiences: ['students', 'parents', 'graduates', 'professionals', 'job-seekers', 'everyone'],
+    need: 'skills-resources',
+    keywords: 'career resources guides roadmaps checklists skill roadmap',
+  },
+];
+
+const serviceBrowseItems = completeServiceBrowseItems(curatedServiceBrowseItems)
+  .filter((item) => !isAssessmentChildHref(item.href))
+  .map((item, index) => ({
+  ...item,
+  order: index,
+  categoryLabel: getOptionLabel(serviceCategoryOptions, item.category),
+  audienceLabel: item.audiences.map((audience) => getOptionLabel(serviceAudienceOptions, audience)).join(', '),
+  needLabel: getOptionLabel(serviceNeedOptions, item.need),
+  searchText: [item.title, item.description, item.category, item.need, item.keywords, ...item.audiences]
+    .join(' ')
+    .toLowerCase(),
+}));
+const completeGuidanceItems = completeGuidanceDirectoryItems(guidanceDirectoryItems);
+const completeAssessmentItems = assessmentDirectoryItems.slice(0, 1);
 
 const jsonLd = [
   {
@@ -146,7 +538,7 @@ const jsonLd = [
     "url": "https://futurecareerschool.com/services",
     "inLanguage": "en-IN",
     "publisher": {
-      "@type": "EducationalOrganization",
+      "@type": ["Organization", "ProfessionalService"],
       "name": "Future Career School",
       "url": "https://futurecareerschool.com"
     }
@@ -181,7 +573,7 @@ const jsonLd = [
       </div>
 
       <h1 class="hero-title">
-        Choose the Right Service Track for
+        Choose the Right Career Support for
         <span class="gold-text"> Your Current Stage</span>
       </h1>
       <p class="hero-sub">
@@ -191,12 +583,12 @@ const jsonLd = [
       </p>
       <p class="hero-sub hero-sub-secondary">
         Many providers charge thousands for outdated or impractical assessments.
-        Here, the career and skill assessments are fully free, updated, practical, and AI-powered.
+        Here, the career and skill assessments are fully free, updated, practical, and AI-powered. Guidance is online across India, so people can start from home, college, or work instead of depending on local availability.
       </p>
 
       <div class="hero-actions">
-        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold pulse">Get Student Career Guidance</a>
-        <a href={BOFU_PAYMENT_LINKS.workingProfessionals} class="btn-outline">Get Working Professional Career Guidance</a>
+        <a href="#plans" class="btn-gold pulse">Get Student Career Guidance</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Guidance</a>
       </div>
     </div>
   </section>
@@ -223,7 +615,7 @@ const jsonLd = [
             <li>Skill direction based on market-fit</li>
             <li>Proof of work and income-growth direction</li>
           </ul>
-          <a class="track-link" href="/services/career-counselling-and-career-guidance">Explore Career Guidance &rsaquo;</a>
+          <a class="track-link" href="/services/career-counselling-and-career-guidance">Get Career Guidance &rsaquo;</a>
         </article>
 
         <article class="track card track-featured">
@@ -240,7 +632,7 @@ const jsonLd = [
             <li>Job readiness and skill readiness</li>
             <li>Audience-specific test mapping</li>
           </ul>
-          <a class="track-link" href="/services/assessments">Explore Assessments &rsaquo;</a>
+          <a class="track-link" href="/services/assessments">Free career and skill assessments &rsaquo;</a>
         </article>
 
         <article class="track card">
@@ -281,20 +673,146 @@ const jsonLd = [
     </div>
   </section>
 
+  <section id="service-browser" data-service-browser>
+    <div class="container">
+      <div class="service-browser-heading-row">
+        <div>
+          <div class="section-tag pill"><span class="service-tag-dot"></span> Service library</div>
+          <h2 class="section-headline">Browse All Service Pages</h2>
+          <p class="section-sub">
+            Search by stage, need, test type, or guidance situation. The default view keeps the main service paths first, then shows focused assessment and resource pages.
+          </p>
+        </div>
+        <div class="service-count-card" aria-label="Service page count">
+          <span>{serviceBrowseItems.length}</span>
+          <strong>service pages</strong>
+        </div>
+      </div>
+
+      <form class="service-controls" id="service-controls" action="/services/" role="search" aria-label="Search and filter services">
+        <label class="service-control-field service-control-field--search" for="service-search">
+          <span>Search services</span>
+          <input id="service-search" type="search" placeholder="Search after 12th, aptitude, parent, online..." autocomplete="off" />
+        </label>
+
+        <label class="service-control-field" for="service-category">
+          <span>Category</span>
+          <select id="service-category">
+            <option value="">All categories</option>
+            {serviceCategoryOptions.map((option) => (
+              <option value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </label>
+
+        <label class="service-control-field" for="service-audience">
+          <span>Audience</span>
+          <select id="service-audience">
+            <option value="">All audiences</option>
+            {serviceAudienceOptions.map((option) => (
+              <option value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </label>
+
+        <label class="service-control-field" for="service-need">
+          <span>Need</span>
+          <select id="service-need">
+            <option value="">All needs</option>
+            {serviceNeedOptions.map((option) => (
+              <option value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </label>
+
+        <label class="service-control-field" for="service-sort">
+          <span>Sort by</span>
+          <select id="service-sort">
+            <option value="recommended">Recommended order</option>
+            <option value="az">A-Z</option>
+            <option value="category">Category</option>
+          </select>
+        </label>
+
+        <label class="service-control-field" for="service-page-size">
+          <span>Per page</span>
+          <select id="service-page-size">
+            <option value="12">12</option>
+            <option value="24">24</option>
+            <option value="50">50</option>
+          </select>
+        </label>
+
+        <button class="service-reset-button" id="service-reset" type="button">Reset</button>
+      </form>
+
+      <div class="service-quick-filters" aria-label="Quick service filters">
+        <button class="service-chip" type="button" data-quick-audience="students">Students</button>
+        <button class="service-chip" type="button" data-quick-audience="parents">Parents</button>
+        <button class="service-chip" type="button" data-quick-audience="professionals">Working professionals</button>
+        <button class="service-chip" type="button" data-quick-category="assessment">Free assessments</button>
+        <button class="service-chip" type="button" data-quick-need="after-10th-12th">After 10th / 12th</button>
+        <button class="service-chip" type="button" data-quick-need="online-local">Online or local</button>
+        <button class="service-chip" type="button" data-quick-need="aptitude-reasoning">Aptitude tests</button>
+      </div>
+
+      <div class="service-status-row">
+        <p id="service-status" aria-live="polite">Showing all service pages.</p>
+      </div>
+
+      <div class="service-results-grid" id="service-results">
+        {serviceBrowseItems.map((item) => (
+          <a
+            class="service-card card"
+            href={item.href}
+            data-service-card
+            data-category={item.category}
+            data-audiences={item.audiences.join(' ')}
+            data-need={item.need}
+            data-order={item.order}
+            data-title={item.title.toLowerCase()}
+            data-search={item.searchText}
+          >
+            <div class="service-card__meta">
+              <span>{item.categoryLabel}</span>
+              <span>{item.audienceLabel}</span>
+            </div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            <div class="service-card__bottom">
+              <span>{item.needLabel}</span>
+              <span aria-hidden="true">&rsaquo;</span>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div class="service-empty" id="service-empty" hidden>
+        <strong>No service pages match those filters.</strong>
+        <span>Try a broader audience, category, or search term.</span>
+      </div>
+
+      <div class="service-pagination" id="service-pagination" hidden>
+        <button class="service-page-button" id="service-prev" type="button">Previous</button>
+        <span id="service-page-status">Page 1 of 1</span>
+        <button class="service-page-button" id="service-next" type="button">Next</button>
+      </div>
+    </div>
+  </section>
+  <GuidancePlansSection
+    sectionId="plans"
+    audience="mixed"
+    serviceLabel="Career Guidance"
+    title="Build Future-Ready Skills for Earlier Financial Freedom"
+  />
+
   <LinkDirectorySection
     sectionId="guidance-pages"
     title="Career Guidance for Different Situations"
     subtitle="Explore the guidance option that fits your current decision, stage, or pressure."
-    items={guidanceDirectoryItems}
+    items={completeGuidanceItems}
   />
 
-  <LinkDirectorySection
-    sectionId="assessment-pages"
-    title="Free Career Assessments by Stage"
-    subtitle="Choose the free assessment that matches your stage, whether you need stream clarity, aptitude signals, or career-direction input."
-    items={assessmentDirectoryItems}
-    altBackground={true}
-  />
 
   <LinkDirectorySection
     sectionId="tools-and-resources"
@@ -314,8 +832,8 @@ const jsonLd = [
         Start with the free updated practical AI-powered career and skill assessments, then move to the student or working-professional guidance path that fits your stage best.
       </p>
       <div class="cta-actions">
-        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold pulse">Get Student Career Guidance</a>
-        <a href={BOFU_PAYMENT_LINKS.workingProfessionals} class="btn-outline">Get Working Professional Career Guidance</a>
+        <a href="#plans" class="btn-gold pulse">Get Student Career Guidance</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Guidance</a>
       </div>
         </div>
       </div>
@@ -325,6 +843,161 @@ const jsonLd = [
   <Footer />
 </BaseLayout>
 
+<script>
+  const serviceBrowser = document.querySelector('[data-service-browser]');
+
+  if (serviceBrowser) {
+    const controls = serviceBrowser.querySelector('#service-controls');
+    const grid = serviceBrowser.querySelector('#service-results');
+    const cards = Array.from(serviceBrowser.querySelectorAll('[data-service-card]'));
+    const searchInput = serviceBrowser.querySelector('#service-search');
+    const categorySelect = serviceBrowser.querySelector('#service-category');
+    const audienceSelect = serviceBrowser.querySelector('#service-audience');
+    const needSelect = serviceBrowser.querySelector('#service-need');
+    const sortSelect = serviceBrowser.querySelector('#service-sort');
+    const pageSizeSelect = serviceBrowser.querySelector('#service-page-size');
+    const resetButton = serviceBrowser.querySelector('#service-reset');
+    const quickButtons = Array.from(serviceBrowser.querySelectorAll('[data-quick-category], [data-quick-audience], [data-quick-need]'));
+    const status = serviceBrowser.querySelector('#service-status');
+    const statusRow = serviceBrowser.querySelector('.service-status-row');
+    const emptyState = serviceBrowser.querySelector('#service-empty');
+    const pagination = serviceBrowser.querySelector('#service-pagination');
+    const prevButton = serviceBrowser.querySelector('#service-prev');
+    const nextButton = serviceBrowser.querySelector('#service-next');
+    const pageStatus = serviceBrowser.querySelector('#service-page-status');
+    let currentPage = 1;
+
+    const normalize = (value) => (value || '').toString().toLowerCase().trim();
+
+    const getSortedMatches = () => {
+      const query = normalize(searchInput.value);
+      const category = categorySelect.value;
+      const audience = audienceSelect.value;
+      const need = needSelect.value;
+      const sort = sortSelect.value;
+
+      return cards
+        .filter((card) => {
+          const searchText = normalize(card.dataset.search);
+          const audienceTokens = (card.dataset.audiences || '').split(' ');
+          const categoryMatches = !category || card.dataset.category === category;
+          const audienceMatches = !audience || audienceTokens.includes(audience);
+          const needMatches = !need || card.dataset.need === need;
+          const searchMatches = !query || searchText.includes(query);
+          return categoryMatches && audienceMatches && needMatches && searchMatches;
+        })
+        .sort((a, b) => {
+          if (sort === 'az') return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+          if (sort === 'category') {
+            const categorySort = (a.dataset.category || '').localeCompare(b.dataset.category || '');
+            if (categorySort !== 0) return categorySort;
+          }
+          return Number(a.dataset.order || 0) - Number(b.dataset.order || 0);
+        });
+    };
+
+    const render = () => {
+      const pageSize = Number(pageSizeSelect.value || 12);
+      const matches = getSortedMatches();
+      const totalPages = Math.max(1, Math.ceil(matches.length / pageSize));
+      currentPage = Math.min(currentPage, totalPages);
+      const start = (currentPage - 1) * pageSize;
+      const visibleCards = matches.slice(start, start + pageSize);
+
+      cards.forEach((card) => {
+        card.hidden = true;
+        card.setAttribute('aria-hidden', 'true');
+      });
+
+      matches.forEach((card) => grid.appendChild(card));
+
+      visibleCards.forEach((card) => {
+        card.hidden = false;
+        card.removeAttribute('aria-hidden');
+      });
+
+      emptyState.hidden = matches.length !== 0;
+      pagination.hidden = matches.length <= pageSize;
+      prevButton.disabled = currentPage <= 1;
+      nextButton.disabled = currentPage >= totalPages;
+      pageStatus.textContent = `Page ${currentPage} of ${totalPages}`;
+
+      if (matches.length === 0) {
+        status.textContent = 'No service pages match the current filters.';
+        return;
+      }
+
+      const end = Math.min(start + pageSize, matches.length);
+      status.textContent = `Showing ${start + 1}-${end} of ${matches.length} service pages.`;
+    };
+
+    const scrollToResults = () => {
+      requestAnimationFrame(() => {
+        (statusRow || grid).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    };
+
+    const clearQuickState = () => {
+      quickButtons.forEach((button) => button.classList.remove('is-active'));
+    };
+
+    const resetToFirstPage = () => {
+      clearQuickState();
+      currentPage = 1;
+      render();
+    };
+
+    controls.addEventListener('submit', (event) => event.preventDefault());
+    searchInput.addEventListener('input', resetToFirstPage);
+    categorySelect.addEventListener('change', resetToFirstPage);
+    audienceSelect.addEventListener('change', resetToFirstPage);
+    needSelect.addEventListener('change', resetToFirstPage);
+    sortSelect.addEventListener('change', resetToFirstPage);
+    pageSizeSelect.addEventListener('change', resetToFirstPage);
+
+    resetButton.addEventListener('click', () => {
+      searchInput.value = '';
+      categorySelect.value = '';
+      audienceSelect.value = '';
+      needSelect.value = '';
+      sortSelect.value = 'recommended';
+      pageSizeSelect.value = '12';
+      clearQuickState();
+      currentPage = 1;
+      render();
+      scrollToResults();
+    });
+
+    prevButton.addEventListener('click', () => {
+      currentPage = Math.max(1, currentPage - 1);
+      render();
+      scrollToResults();
+    });
+
+    nextButton.addEventListener('click', () => {
+      currentPage += 1;
+      render();
+      scrollToResults();
+    });
+
+    quickButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        clearQuickState();
+        button.classList.add('is-active');
+        searchInput.value = '';
+        categorySelect.value = button.dataset.quickCategory || '';
+        audienceSelect.value = button.dataset.quickAudience || '';
+        needSelect.value = button.dataset.quickNeed || '';
+        sortSelect.value = 'recommended';
+        currentPage = 1;
+        render();
+        scrollToResults();
+      });
+    });
+
+    render();
+  }
+</script>
 <style>
   section { position: relative; overflow: hidden; }
   #hero { padding: 140px 0 86px; }
@@ -348,6 +1021,24 @@ const jsonLd = [
   .hero-title { font-size: clamp(2.35rem, 5vw, 3.9rem); line-height: 1.04; letter-spacing: -.04em; color: #fff; max-width: 980px; margin-bottom: 1.25rem; }
   .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.56); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
   .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-soft {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 0 1.25rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.04);
+    color: rgba(255,255,255,.82);
+    font-weight: 700;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+  }
+  .btn-soft:hover {
+    border-color: rgba(229,184,74,.32);
+    background: rgba(255,255,255,.07);
+    transform: translateY(-1px);
+  }
 
   #tracks, #who { padding: 6rem 0; }
   #tracks { background: rgba(255,255,255,.012); }
@@ -365,11 +1056,295 @@ const jsonLd = [
   .track li { font-size: 13px; color: rgba(255,255,255,.65); padding-left: 1rem; position: relative; line-height: 1.55; }
   .track li::before { content: '>'; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
   .track-link { margin-top: auto; font-size: 13px; font-weight: 800; color: var(--gold); }
-  .who-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .who-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+    max-width: 920px;
+    margin: 0 auto;
+  }
   .who-card { padding: 1.6rem; }
   .who-title { font-family: "Sora", sans-serif; font-size: 14px; font-weight: 800; letter-spacing: -.02em; margin-bottom: .55rem; color: #fff; }
   .who-card p { font-size: 13.5px; color: rgba(255,255,255,.55); line-height: 1.7; margin-bottom: 1rem; }
 
+  #service-browser {
+    padding: 6rem 0;
+    background: rgba(255,255,255,.012);
+  }
+  .service-browser-heading-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 1.4rem;
+  }
+  .service-tag-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: inline-flex;
+  }
+  .service-count-card {
+    min-width: 150px;
+    border: 1px solid rgba(229,184,74,.2);
+    background: rgba(229,184,74,.06);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .service-count-card span {
+    display: block;
+    color: #fff;
+    font-family: "Sora", sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .service-count-card strong {
+    display: block;
+    margin-top: .35rem;
+    color: rgba(255,255,255,.56);
+    font-size: 12px;
+    font-weight: 750;
+    text-transform: uppercase;
+  }
+  .service-controls {
+    display: grid;
+    grid-template-columns: minmax(220px, 1.4fr) repeat(5, minmax(132px, 1fr)) auto;
+    gap: .8rem;
+    align-items: end;
+    margin-bottom: 1rem;
+  }
+  .service-control-field {
+    display: grid;
+    gap: .45rem;
+    min-width: 0;
+  }
+  .service-control-field span {
+    color: rgba(255,255,255,.58);
+    font-size: 12px;
+    font-weight: 750;
+  }
+  .service-control-field input,
+  .service-control-field select {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 8px;
+    background: rgba(7,10,18,.84);
+    color: rgba(255,255,255,.88);
+    padding: 0 .9rem;
+    font: inherit;
+    outline: none;
+  }
+  .service-control-field input:focus,
+  .service-control-field select:focus {
+    border-color: rgba(229,184,74,.42);
+    box-shadow: 0 0 0 3px rgba(229,184,74,.12);
+  }
+  .service-reset-button,
+  .service-page-button,
+  .service-chip {
+    min-height: 42px;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 8px;
+    background: rgba(255,255,255,.04);
+    color: rgba(255,255,255,.78);
+    padding: 0 .95rem;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .service-reset-button {
+    min-height: 46px;
+  }
+  .service-reset-button:hover,
+  .service-page-button:hover:not(:disabled),
+  .service-chip:hover,
+  .service-chip.is-active {
+    border-color: rgba(229,184,74,.32);
+    background: rgba(229,184,74,.1);
+    color: #fff;
+  }
+  .service-quick-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem;
+    margin: 0 0 1.25rem;
+  }
+  .service-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .service-status-row p {
+    margin: 0;
+    color: rgba(255,255,255,.58);
+    font-size: 13px;
+  }
+  .service-results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: .85rem;
+    min-height: 100%;
+    border-radius: 8px;
+    padding: 1.25rem;
+    border-color: rgba(255,255,255,.1);
+    background:
+      radial-gradient(320px 150px at 100% 0%, rgba(229,184,74,.08), transparent 72%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+    transition: transform .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .service-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(229,184,74,.24);
+    background:
+      radial-gradient(320px 150px at 100% 0%, rgba(229,184,74,.12), transparent 72%),
+      linear-gradient(145deg, rgba(229,184,74,.055), rgba(255,255,255,.016));
+  }
+  .service-card[hidden] {
+    display: none;
+  }
+  .service-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+  }
+  .service-card__meta span,
+  .service-card__bottom span:first-child {
+    display: inline-flex;
+    width: fit-content;
+    border: 1px solid rgba(229,184,74,.2);
+    border-radius: 999px;
+    background: rgba(229,184,74,.08);
+    color: #f6db95;
+    padding: 5px 9px;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+  .service-card__meta span:nth-child(2) {
+    border-color: rgba(45,212,191,.18);
+    background: rgba(45,212,191,.07);
+    color: #9ef2e5;
+  }
+  .service-card h3 {
+    color: #fff;
+    font-size: 1.08rem;
+    line-height: 1.3;
+    margin: 0;
+  }
+  .service-card p {
+    color: rgba(255,255,255,.65);
+    font-size: 13.5px;
+    line-height: 1.7;
+    margin: 0;
+  }
+  .service-card__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: .75rem;
+    margin-top: auto;
+  }
+  .service-card__bottom span:last-child {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(229,184,74,.24);
+    background: rgba(229,184,74,.1);
+    color: var(--gold);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .service-empty {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 8px;
+    padding: 1.25rem;
+    color: rgba(255,255,255,.68);
+    background: rgba(255,255,255,.035);
+    display: grid;
+    gap: .35rem;
+  }
+  .service-empty[hidden] {
+    display: none;
+  }
+  .service-empty strong {
+    color: #fff;
+  }
+  .service-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .85rem;
+    margin-top: 1.5rem;
+    color: rgba(255,255,255,.65);
+    font-size: 13px;
+  }
+  .service-pagination[hidden] {
+    display: none;
+  }
+  .service-page-button:disabled {
+    opacity: .42;
+    cursor: not-allowed;
+  }
+  @media (max-width: 1180px) {
+    .service-controls {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .service-control-field--search {
+      grid-column: 1 / -1;
+    }
+    .service-reset-button {
+      width: 100%;
+    }
+  }
+  @media (max-width: 900px) {
+    .service-browser-heading-row {
+      flex-direction: column;
+    }
+    .service-count-card {
+      width: 100%;
+    }
+    .service-results-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 680px) {
+    #service-browser {
+      padding: 4.8rem 0;
+    }
+    .service-controls,
+    .service-results-grid {
+      grid-template-columns: 1fr;
+    }
+    .service-quick-filters {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .service-chip,
+    .service-page-button,
+    .service-reset-button {
+      justify-content: center;
+      width: 100%;
+    }
+    .service-pagination {
+      display: grid;
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+  }
   #cta { padding: 6rem 0 7rem; }
   .cta-inner { position: relative; overflow: hidden; padding: 3.25rem; text-align: center; border-color: rgba(229,184,74,.14); background: rgba(229,184,74,.02); }
   .cta-glow { position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(229,184,74,.16), transparent 60%); pointer-events: none; }
@@ -386,10 +1361,10 @@ const jsonLd = [
   @media (max-width: 680px) {
     #hero { padding: 120px 0 72px; }
     .hero-actions { flex-direction: column; align-items: stretch; }
-    .hero-actions .btn-gold, .hero-actions .btn-outline { justify-content: center; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
     .cta-inner { padding: 2.25rem 1.5rem; }
     .cta-actions { flex-direction: column; align-items: stretch; }
-    .cta-actions .btn-gold, .cta-actions .btn-outline { justify-content: center; }
+    .cta-actions .btn-gold, .cta-actions .btn-outline, .cta-actions .btn-soft { justify-content: center; }
   }
   @media (max-width: 520px) {
     #tracks, #who { padding: 4.5rem 0; }

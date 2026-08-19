@@ -1,0 +1,112 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>D · Signal</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+body{background:#06070A;color:#E9EDF2;font-family:'Space Grotesk',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,#38E1C0,#7CA8FF);z-index:80;width:100%;transform:scaleX(0);transform-origin:0}
+.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;align-items:center;padding:18px clamp(1.2rem,4vw,3.5rem)}
+.bar b{font-family:'Instrument Serif',serif;font-weight:400;font-size:20px}
+.bar a{border:1px solid rgba(233,237,242,.28);padding:10px 20px;border-radius:99px;font-size:12.5px;font-weight:600;transition:.3s}
+.bar a:hover{background:#E9EDF2;color:#06070A}
+#net{position:fixed;inset:0;z-index:0}
+.hero{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:6rem clamp(1.2rem,5vw,5rem) 3rem}
+.eye{display:flex;align-items:center;gap:.8rem;font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:#38E1C0;margin-bottom:1.8rem}
+.eye::before{content:'';width:8px;height:8px;border-radius:50%;background:#38E1C0;box-shadow:0 0 12px #38E1C0;animation:pl 2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(2.6rem,7.2vw,6.6rem);line-height:1;letter-spacing:-.025em;max-width:15ch;margin-bottom:1.6rem}
+h1 em{font-style:italic;background:linear-gradient(90deg,#38E1C0,#7CA8FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.scr{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:.42em;letter-spacing:.02em;color:#38E1C0;vertical-align:middle}
+.sub{max-width:34rem;font-size:15.5px;line-height:1.75;color:#8b95a4;font-weight:300;margin-bottom:2.2rem}
+.acts{display:flex;gap:.8rem;flex-wrap:wrap}
+.b1{background:linear-gradient(100deg,#38E1C0,#7CA8FF);color:#06070A;padding:15px 30px;border-radius:99px;font-weight:700;font-size:13.5px;transition:.35s;box-shadow:0 8px 30px -8px rgba(56,225,192,.5)}
+.b1:hover{transform:translateY(-3px);box-shadow:0 14px 40px -8px rgba(56,225,192,.7)}
+.b2{border:1px solid rgba(233,237,242,.28);padding:15px 30px;border-radius:99px;font-weight:600;font-size:13.5px;transition:.35s}
+.b2:hover{background:rgba(233,237,242,.08)}
+.hstat{display:flex;gap:clamp(1.4rem,4vw,3.5rem);flex-wrap:wrap;margin-top:2.8rem;padding-top:1.6rem;border-top:1px solid rgba(233,237,242,.12)}
+.hstat b{font-family:'Instrument Serif',serif;font-size:1.7rem;display:block;line-height:1}
+.hstat span{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#6c7686}
+/* SPOTLIGHT */
+.spot{position:relative;z-index:2;min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:4rem clamp(1.2rem,5vw,5rem);overflow:hidden;background:#06070A}
+.spot .ph{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.9;-webkit-mask-image:radial-gradient(circle var(--r,190px) at var(--x,50%) var(--y,50%),#000 0,#000 60%,transparent 100%);mask-image:radial-gradient(circle var(--r,190px) at var(--x,50%) var(--y,50%),#000 0,#000 60%,transparent 100%);transition:opacity .4s}
+.spot h2{position:relative;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(2rem,6vw,4.6rem);line-height:1.06;max-width:18ch;mix-blend-mode:difference;pointer-events:none}
+.spot .hint{position:absolute;bottom:2rem;left:50%;translate:-50%;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#4f5867}
+/* VELOCITY STRIP */
+.strip{position:relative;z-index:2;background:#06070A;padding:clamp(3.5rem,8vw,6rem) 0;overflow:hidden}
+.st-h{padding:0 clamp(1.2rem,5vw,5rem);margin-bottom:2.2rem}
+.st-h p{font-size:11px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:#38E1C0;margin-bottom:.9rem}
+.st-h h3{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(1.7rem,4vw,3rem);max-width:22ch}
+.rail{display:flex;gap:1.2rem;padding:0 clamp(1.2rem,5vw,5rem);overflow-x:auto;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.rail figure{flex:0 0 clamp(230px,30vw,360px);margin:0;border-radius:14px;overflow:hidden;position:relative;transform-origin:center;will-change:transform}
+.rail img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:saturate(.85) contrast(1.05)}
+.rail figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.2rem;background:linear-gradient(transparent,rgba(6,7,10,.92));font-weight:600;font-size:14px}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s,transform .8s cubic-bezier(.16,.84,.28,1)}.rv.in{opacity:1;transform:none}
+@media(max-width:700px){.spot .ph{--r:130px}}
+</style></head><body>
+<i class="prog" id="p"></i><canvas id="net"></canvas>
+<div class="bar"><b>Future Career School</b><a href="#">Get guidance</a></div>
+
+<section class="hero">
+  <p class="eye">Career signal detected · India · fully online</p>
+  <h1>Your career is a <em>network</em>,<br>not a <span class="scr" id="scr">LADDER</span></h1>
+  <p class="sub">We map how you actually think, connect it to skills the market pays a premium for, and build the proof of work that makes opportunity find you.</p>
+  <div class="acts"><a class="b1" href="#">Get Career Guidance</a><a class="b2" href="#">Free assessments</a></div>
+  <div class="hstat">
+    <div><b data-c="10000" data-s="+">10,000+</b><span>Guided</span></div>
+    <div><b data-c="4.9" data-s="/5" data-f="1">4.9/5</b><span>Rating</span></div>
+    <div><b>Free</b><span>Assessments</span></div>
+  </div>
+</section>
+
+<section class="spot" id="spot">
+  <div class="ph" id="ph" style="background-image:url('https://images.unsplash.com/photo-1585201572233-c94c929f1594?auto=format&fit=crop&q=82&w=1700')"></div>
+  <h2>Most people never see the path. Move your cursor — that’s what guidance does.</h2>
+  <span class="hint">Move your mouse / drag on mobile</span>
+</section>
+
+<section class="strip">
+  <div class="st-h rv"><p>Skill directions</p><h3>Five ways of thinking. Five different income paths.</h3></div>
+  <div class="rail" id="rail">
+    <figure><img src="https://images.unsplash.com/photo-1594352121345-6f587972b024?auto=format&fit=crop&crop=faces&q=82&w=700" alt=""><figcaption>Analytical thinker → Data, cloud, finance</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1573497019707-1c04de26e58c?auto=format&fit=crop&crop=faces&q=82&w=700" alt=""><figcaption>People connector → Sales, marketing, UX</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1760110885990-11520997b2f4?auto=format&fit=crop&crop=faces&q=82&w=700" alt=""><figcaption>Visual creator → Design, video, brand</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1590650589327-3f67c43ad8a2?auto=format&fit=crop&crop=faces&q=82&w=700" alt=""><figcaption>Process executor → PM, ops, analysis</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1777635168256-be42aa28c457?auto=format&fit=crop&crop=faces&q=82&w=700" alt=""><figcaption>Builder → Product, no-code, AI</figcaption></figure>
+  </div>
+</section>
+
+<script>
+// ── particle constellation ──
+const c=document.getElementById('net'),x=c.getContext('2d');let W,H,P=[],M={x:-999,y:-999};
+const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight;const n=Math.min(90,Math.floor(W*H/16000));P=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35}))};
+rs();addEventListener('resize',rs);
+addEventListener('mousemove',e=>{M.x=e.clientX;M.y=e.clientY});
+addEventListener('touchmove',e=>{M.x=e.touches[0].clientX;M.y=e.touches[0].clientY},{passive:true});
+(function loop(){x.clearRect(0,0,W,H);
+ for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+  const dx=p.x-M.x,dy=p.y-M.y,d=Math.hypot(dx,dy);if(d<130){p.x+=dx/d*1.4;p.y+=dy/d*1.4}}
+ for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const a=P[i],b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+  if(d<128){x.strokeStyle='rgba(124,168,255,'+(1-d/128)*.32+')';x.lineWidth=.6;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}}
+ for(const p of P){const d=Math.hypot(p.x-M.x,p.y-M.y);x.fillStyle=d<150?'rgba(56,225,192,.95)':'rgba(233,237,242,.5)';x.beginPath();x.arc(p.x,p.y,d<150?2.3:1.5,0,7);x.fill()}
+ requestAnimationFrame(loop)})();
+// ── scramble word ──
+const el=document.getElementById('scr'),words=['LADDER','QUEUE','LOTTERY','LADDER'],ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&';let wi=0;
+const scramble=t=>{let f=0;const o=el.textContent;const iv=setInterval(()=>{el.textContent=t.split('').map((c,i)=>i<f?t[i]:ch[Math.floor(Math.random()*ch.length)]).join('');f+=.5;if(f>=t.length)clearInterval(iv)},40)};
+setInterval(()=>{wi=(wi+1)%words.length;scramble(words[wi])},3200);
+// ── spotlight ──
+const sp=document.getElementById('spot'),ph=document.getElementById('ph');
+const mv=(cx,cy)=>{const r=sp.getBoundingClientRect();ph.style.setProperty('--x',(cx-r.left)+'px');ph.style.setProperty('--y',(cy-r.top)+'px')};
+sp.addEventListener('mousemove',e=>mv(e.clientX,e.clientY));
+sp.addEventListener('touchmove',e=>{mv(e.touches[0].clientX,e.touches[0].clientY)},{passive:true});
+// ── velocity skew on rail ──
+const rail=document.getElementById('rail');let last=0,vel=0;
+addEventListener('scroll',()=>{const y=scrollY;vel=Math.max(-14,Math.min(14,(y-last)*.35));last=y;
+ [...rail.children].forEach(f=>f.style.transform='skewY('+(vel*.35)+'deg) scale('+(1-Math.abs(vel)*.004)+')');
+ const d=document.documentElement;document.getElementById('p').style.transform='scaleX('+(d.scrollTop/(d.scrollHeight-d.clientHeight))+')'},{passive:true});
+setInterval(()=>{vel*=.86;[...rail.children].forEach(f=>f.style.transform='skewY('+(vel*.35)+'deg)')},60);
+// ── reveals + counters ──
+const io=new IntersectionObserver(e=>e.forEach(t=>{if(t.isIntersecting){t.target.classList.add('in');io.unobserve(t.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+const cio=new IntersectionObserver(e=>e.forEach(t=>{if(t.isIntersecting){const el=t.target,v=parseFloat(el.dataset.c),f=el.dataset.f,s=performance.now();const k=n=>{const p=Math.min((n-s)/1500,1);el.textContent=(f?(v*(1-Math.pow(1-p,3))).toFixed(1):Math.round(v*(1-Math.pow(1-p,3))).toLocaleString('en-IN'))+(el.dataset.s||'');if(p<1)requestAnimationFrame(k)};requestAnimationFrame(k);cio.unobserve(el)}}),{threshold:.6});
+document.querySelectorAll('[data-c]').forEach(e=>cio.observe(e));
+</script></body></html>

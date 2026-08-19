@@ -1,0 +1,178 @@
+---
+const photo = (seed, w = 500, h = 640) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
+const cards = ['fcs-k1','fcs-k2','fcs-k3','fcs-k4','fcs-k5','fcs-k6','fcs-k7','fcs-k8'];
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Variant 06 · Liquid Kinetic — Future Career School</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#06060a;--lime:#c6ff00;--blue:#2b6bff;--mag:#ff2bd6;--ink:#f3f3f7;--muted:#9a9aae}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--ink);font-family:"Inter",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    .anton{font-family:"Anton",sans-serif;text-transform:uppercase;letter-spacing:.005em}
+    .syne{font-family:"Syne",sans-serif}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    /* gooey liquid background */
+    .goo{position:fixed;inset:0;z-index:0;width:100%;height:100%;opacity:.85}
+    .bl{transform-box:view-box}
+    .b-a{animation:mv1 14s ease-in-out infinite}
+    .b-b{animation:mv2 18s ease-in-out infinite}
+    .b-c{animation:mv3 16s ease-in-out infinite}
+    .b-d{animation:mv4 20s ease-in-out infinite}
+    @keyframes mv1{0%,100%{transform:translate(0,0)}50%{transform:translate(380px,160px)}}
+    @keyframes mv2{0%,100%{transform:translate(0,0)}50%{transform:translate(-320px,220px)}}
+    @keyframes mv3{0%,100%{transform:translate(0,0)}50%{transform:translate(260px,-200px)}}
+    @keyframes mv4{0%,100%{transform:translate(0,0)}50%{transform:translate(-260px,-160px)}}
+    .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .wrap{max-width:1280px;margin:0 auto;padding:0 1.8rem;position:relative;z-index:3}
+    .badge{position:fixed;top:14px;left:14px;z-index:60;font-family:"Syne";font-weight:800;font-size:11px;letter-spacing:.06em;padding:9px 14px;border-radius:999px;background:var(--lime);color:#06060a}
+    nav.bar{position:relative;z-index:40;display:flex;align-items:center;justify-content:space-between;height:88px;max-width:1280px;margin:0 auto;padding:0 1.8rem}
+    .logo{font-family:"Syne";font-weight:800;font-size:18px;letter-spacing:-.01em}
+    .logo b{color:var(--lime)}
+    .navx{display:flex;gap:26px;font-size:13px;font-weight:600;color:var(--muted)}
+    .navx a:hover{color:#fff}
+    .btn{display:inline-flex;align-items:center;gap:9px;font-family:"Syne";font-weight:800;font-size:14px;padding:13px 24px;border-radius:999px;cursor:pointer;transition:transform .2s,box-shadow .3s}
+    .btn-n{background:var(--lime);color:#06060a}
+    .btn-n:hover{transform:translateY(-3px) rotate(-1deg);box-shadow:0 14px 0 -2px rgba(198,255,0,.3)}
+    .btn-g{border:2px solid #fff;color:#fff}
+    .btn-g:hover{transform:translateY(-3px);background:#fff;color:#06060a}
+    @media(max-width:880px){.navx{display:none}}
+    /* kinetic hero */
+    .hero{padding:3rem 0 4rem;text-align:center}
+    .tag{display:inline-flex;align-items:center;gap:9px;font-family:"Syne";font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#06060a;background:var(--lime);padding:7px 15px;border-radius:999px;margin-bottom:1.8rem}
+    .mega{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:clamp(3.6rem,18vw,15rem);line-height:.82;letter-spacing:-.01em}
+    .mega .l1{display:block;background:linear-gradient(100deg,#fff,#fff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .mega .l2{display:block;
+      background:linear-gradient(100deg,var(--lime),var(--blue) 40%,var(--mag) 75%,var(--lime));
+      background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+      animation:flow 8s linear infinite}
+    @keyframes flow{to{background-position:300% 0}}
+    .mega .out{-webkit-text-fill-color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.5);color:transparent}
+    .scramble{font-family:"Syne";font-weight:700;font-size:clamp(14px,2.2vw,20px);color:var(--muted);margin:1.6rem auto 2rem;max-width:48ch;letter-spacing:.02em}
+    .cta-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+    /* marquee */
+    .marq{position:relative;z-index:3;border-top:2px solid rgba(255,255,255,.12);border-bottom:2px solid rgba(255,255,255,.12);overflow:hidden;padding:1.1rem 0;margin:2rem 0;background:rgba(255,255,255,.02)}
+    .marq-in{display:flex;gap:2.5rem;white-space:nowrap;width:max-content;animation:scroll 26s linear infinite}
+    .marq span{font-family:"Anton";text-transform:uppercase;font-size:clamp(1.4rem,3vw,2.4rem);color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.4)}
+    .marq span.fill{color:var(--lime);-webkit-text-stroke:0}
+    .marq .dot{color:var(--mag);-webkit-text-stroke:0}
+    @keyframes scroll{to{transform:translateX(-50%)}}
+    /* 3D carousel */
+    .stage{position:relative;z-index:3;height:520px;perspective:1400px;display:grid;place-items:center;margin:1rem 0 2rem}
+    .ring3d{position:relative;width:300px;height:380px;transform-style:preserve-3d;animation:turn 30s linear infinite}
+    @keyframes turn{to{transform:rotateY(360deg)}}
+    .cardp{position:absolute;inset:0;border-radius:18px;overflow:hidden;border:2px solid rgba(255,255,255,.18);box-shadow:0 30px 70px -30px #000;backface-visibility:hidden}
+    .cardp img{width:100%;height:100%;object-fit:cover;filter:contrast(1.05) saturate(1.05)}
+    .cardp .cap{position:absolute;left:0;right:0;bottom:0;padding:14px;font-family:"Syne";font-weight:800;font-size:14px;background:linear-gradient(0deg,rgba(6,6,10,.9),transparent)}
+    .stage:hover .ring3d{animation-play-state:paused}
+    /* sections */
+    .sec{padding:6rem 0;position:relative;z-index:3}
+    .lab{font-family:"Syne";font-weight:800;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mag);margin-bottom:1rem}
+    h2.t{font-family:"Syne";font-weight:800;font-size:clamp(2rem,5vw,3.6rem);line-height:1;letter-spacing:-.02em;margin-bottom:1rem}
+    h2.t em{font-style:normal;color:var(--lime)}
+    .sub{color:var(--muted);font-size:16px;line-height:1.7;max-width:54ch;margin-bottom:2.4rem}
+    .duo{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+    .blk{border-radius:22px;padding:2.2rem;border:2px solid rgba(255,255,255,.14);position:relative;overflow:hidden}
+    .blk.a{background:linear-gradient(150deg,rgba(43,107,255,.18),transparent)}
+    .blk.b{background:linear-gradient(150deg,rgba(255,43,214,.16),transparent)}
+    .blk .n{font-family:"Anton";font-size:3rem;color:var(--lime);line-height:1}
+    .blk h3{font-family:"Syne";font-weight:800;font-size:1.5rem;margin:.4rem 0 .5rem}
+    .blk p{color:var(--muted);font-size:14.5px;line-height:1.7}
+    .cta-block{text-align:center;padding:6rem 1.5rem}
+    .cta-block .mega{font-size:clamp(3rem,12vw,9rem)}
+    footer{padding:3rem 0;border-top:2px solid rgba(255,255,255,.12);color:var(--muted);font-size:12px;text-align:center;font-family:"Syne";font-weight:600;letter-spacing:.06em;position:relative;z-index:3}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+    .reveal.in{opacity:1;transform:none}
+    @media(max-width:760px){.duo{grid-template-columns:1fr}.stage{height:440px}}
+    @media(prefers-reduced-motion:reduce){.b-a,.b-b,.b-c,.b-d,.mega .l2,.marq-in,.ring3d{animation:none!important}.reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <svg class="goo" viewBox="0 0 1280 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="24" result="b"/><feColorMatrix in="b" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -13"/></filter></defs>
+    <g filter="url(#goo)">
+      <circle class="bl b-a" cx="300" cy="280" r="130" fill="#2b6bff"/>
+      <circle class="bl b-b" cx="980" cy="240" r="150" fill="#ff2bd6"/>
+      <circle class="bl b-c" cx="640" cy="560" r="120" fill="#c6ff00"/>
+      <circle class="bl b-d" cx="1040" cy="620" r="110" fill="#2b6bff"/>
+    </g>
+  </svg>
+  <div class="grain"></div>
+  <a class="badge" href="/design-demos/">06 · LIQUID KINETIC ◂ ALL</a>
+
+  <nav class="bar">
+    <div class="logo">Future<b> Career</b> School</div>
+    <div class="navx"><a href="#">Services</a><a href="#">Career & Skills Compass</a><a href="#">Resources</a><a href="#">Blog</a></div>
+    <a class="btn btn-n" href="#">Get Guidance</a>
+  </nav>
+
+  <header class="wrap hero">
+    <div class="tag">Career guidance · students · freshers · pros</div>
+    <h1 class="mega">
+      <span class="l1">Build</span>
+      <span class="l2">Momentum</span>
+      <span class="out anton" style="font-size:.42em">not regrets</span>
+    </h1>
+    <p class="scramble" id="scr" data-text="Skill-first guidance. Real proof of work. A roadmap to earlier financial freedom.">Skill-first guidance. Real proof of work. A roadmap to earlier financial freedom.</p>
+    <div class="cta-row"><a class="btn btn-n" href="#">Get Career Guidance →</a><a class="btn btn-g" href="#">Free Assessments</a></div>
+  </header>
+
+  <div class="marq"><div class="marq-in">
+    <span class="fill">Clarity</span><span class="dot">✦</span><span>Skill-first</span><span class="dot">✦</span><span class="fill">Proof of work</span><span class="dot">✦</span><span>Freedom number</span><span class="dot">✦</span>
+    <span class="fill">Clarity</span><span class="dot">✦</span><span>Skill-first</span><span class="dot">✦</span><span class="fill">Proof of work</span><span class="dot">✦</span><span>Freedom number</span><span class="dot">✦</span>
+  </div></div>
+
+  <section class="stage">
+    <div class="ring3d" id="ring">
+      {cards.map((s, i) => (
+        <div class="cardp" style={`transform: rotateY(${i * 45}deg) translateZ(360px)`}>
+          <img src={photo(s)} alt="" width="500" height="640" loading="lazy" />
+          <div class="cap">{['Students','Freshers','Graduates','Pivots','Skills','Proof','Income','Freedom'][i]}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap sec">
+    <div class="lab">Who it's for</div>
+    <h2 class="t reveal syne">Two paths. <em>One engine.</em></h2>
+    <p class="sub reveal">Minimal theory, maximum momentum — wherever you are right now.</p>
+    <div class="duo">
+      <div class="blk a reveal"><div class="n anton">01</div><h3 class="syne">Students &amp; Freshers</h3><p>Stream, course, and early skill clarity — avoid expensive wrong turns and start building proof early.</p></div>
+      <div class="blk b reveal"><div class="n anton">02</div><h3 class="syne">Working Professionals</h3><p>Beat stagnation with stronger positioning, high-value skill stacking, and new income options.</p></div>
+    </div>
+  </section>
+
+  <section class="cta-block">
+    <h2 class="mega"><span class="l2">Let's move.</span></h2>
+    <div class="cta-row reveal" style="margin-top:1.5rem"><a class="btn btn-n" href="#">Get Career Guidance →</a><a class="btn btn-g" href="#">Free Assessments</a></div>
+  </section>
+
+  <footer>FUTURE CAREER SCHOOL · LIQUID KINETIC EXPLORATION</footer>
+
+  <script>
+    const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    // scramble decode on load
+    (()=>{
+      const el=document.getElementById('scr'); if(!el||matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+      const final=el.dataset.text, chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&▮▯/\\<>*';
+      let f=0; const total=final.length;
+      const t=setInterval(()=>{
+        f+=1;
+        el.textContent=final.split('').map((ch,i)=>{ if(ch===' ')return ' '; if(i<f)return final[i]; return chars[Math.floor(Math.random()*chars.length)];}).join('');
+        if(f>=total){clearInterval(t);el.textContent=final;}
+      },28);
+    })();
+  </script>
+</body>
+</html>

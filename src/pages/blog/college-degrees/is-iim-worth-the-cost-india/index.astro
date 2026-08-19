@@ -1,0 +1,1220 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Is IIM worth the cost in India? The real fee-to-placement math';
+const description =
+  'Is IIM worth the cost in India? Real fees and placements by IIM tier, CAT odds, the true 2-year opportunity cost, and honest cases where even an IIM is not the right move.';
+const canonical = 'https://futurecareerschool.com/blog/college-degrees/is-iim-worth-the-cost-india';
+const publishedDateISO = '2026-07-17';
+const publishedDateLabel = '17 July 2026';
+const authorName = 'Allu Vagdevi';
+const authorUrl = 'https://futurecareerschool.com/about/allu-vagdevi/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: 'The short answer' },
+  { id: 'why-question', label: 'Why this question is harder than it looks' },
+  { id: 'fee-placement-by-tier', label: 'Fees vs placements, IIM by IIM' },
+  { id: 'true-cost', label: 'The true cost is not the fee — it is the fee plus 2 years' },
+  { id: 'cat-odds', label: 'CAT odds: what you are actually up against' },
+  { id: 'checkpoint', label: 'The 4-Checkpoint Protocol for this decision' },
+  { id: 'gates', label: 'The 3 Gates before you pay a single rupee' },
+  { id: 'not-worth-it', label: 'Honest cases where even an IIM is not worth it' },
+  { id: 'ai-risk', label: 'What AI is already changing in IIM-track roles' },
+  { id: 'alternatives', label: 'What to do instead if the math does not work' },
+  { id: 'mistakes', label: 'Mistakes to avoid' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const tierRows = [
+  {
+    tier: 'IIM Ahmedabad, Bangalore, Calcutta (the original "big 3")',
+    fees: 'Rs 26-27.5 lakh total, 2 years',
+    salary: 'Rs 34-35.5 LPA average; highest domestic and international offers well above Rs 90 lakh-1.1 crore',
+    payback: 'Roughly 9-10 months of the average post-MBA salary covers the entire fee. The single clearest ROI case in Indian management education.',
+  },
+  {
+    tier: 'Other established IIMs (Lucknow, Indore, Kozhikode and similar)',
+    fees: 'Rs 17-21 lakh total, 2 years',
+    salary: 'Rs 28-32 LPA average',
+    payback: 'Around 7-9 months of post-MBA salary. Still a fast, strong payback without the top-3 brand name.',
+  },
+  {
+    tier: 'Newer IIMs, roughly a decade old (Ranchi, Raipur, Trichy, Udaipur, Rohtak and similar)',
+    fees: 'Rs 17-21 lakh total, 2 years',
+    salary: 'Roughly Rs 18-22 LPA average',
+    payback: 'Around 10-14 months of post-MBA salary. A real, workable ROI case, but the fee and the payback both sit noticeably behind the original three.',
+  },
+  {
+    tier: '"Baby IIMs" (Sirmaur, Sambalpur, Amritsar, Jammu, Bodh Gaya, Visakhapatnam and similar, mostly under 10 years old)',
+    fees: 'Rs 16-21 lakh total, 2 years',
+    salary: 'Roughly Rs 12.7-17 LPA average, with wide variation between individual campuses',
+    payback: 'Often 14-20 months of post-MBA salary. Still recovers the fee, but the newest campuses carry less placement track record, so the outcome is less predictable than the numbers alone suggest.',
+  },
+];
+
+const trueCostRows = [
+  {
+    scenario: 'Direct job after graduation (skip the IIM route)',
+    year0to2: 'Earning roughly Rs 4-8 LPA in a first analyst, associate, or management-trainee role',
+    twoYearTotal: 'Roughly Rs 8-16 lakh earned, zero debt, 2 years of real work experience and proof of work already banked',
+  },
+  {
+    scenario: 'IIM Ahmedabad, Bangalore, or Calcutta',
+    year0to2: 'Rs 26-27.5 lakh spent on fees, plus roughly Rs 8-16 lakh in income given up for 2 years',
+    twoYearTotal: 'True cost of roughly Rs 34-43 lakh by the time you start earning again — against a Rs 34-35.5 LPA role, still paid back inside about 13-15 months of the new salary',
+  },
+  {
+    scenario: 'A newer or baby IIM, on an education loan',
+    year0to2: 'Rs 16-21 lakh in fees plus loan interest, plus roughly Rs 8-16 lakh in income given up for 2 years',
+    twoYearTotal: 'True cost of roughly Rs 24-37 lakh entering year 3, against an average outcome of Rs 12.7-22 LPA — a real but slower payback, and one that assumes the placement report matches the specific campus you attend, not the IIM brand in general',
+  },
+];
+
+const catOddsRows = [
+  {
+    factor: 'How many people actually sit the exam',
+    reality: 'CAT 2025 had close to 2.95 lakh registrations and roughly 2.58 lakh candidates who actually appeared across all three test slots.',
+  },
+  {
+    factor: 'How many seats exist at the end of the funnel',
+    reality: 'Around 7,500 seats across all 21 IIMs, inside a wider pool of roughly 8,425 seats when IITs and top non-IIM B-schools are counted together.',
+  },
+  {
+    factor: 'What percentile the "big 3" actually call at',
+    reality: 'IIM Ahmedabad, Bangalore, and Calcutta call general-category candidates at 99+ percentile — meaning you need to outscore well over 99% of a quarter-million serious, prepared test-takers just to be shortlisted.',
+  },
+  {
+    factor: 'What percentile the newer and baby IIMs call at',
+    reality: 'Newer IIMs typically shortlist in the 90-97 percentile range, and baby IIMs often a little lower still, which is exactly why their placement numbers sit behind the big 3 as well.',
+  },
+];
+
+const checkpointItems = [
+  {
+    num: '01',
+    title: 'Biology',
+    body: 'Can you sustain 10-14 hour days of case prep, group projects, and placement-cycle pressure for two straight years? An IIM program is not a relaxed continuation of college — the workload is closer to a demanding first job, and it starts on day one.',
+    note: 'If you are running on fumes after your degree and want real work experience first, that is useful information, not a weakness. A short, planned stretch of real work before you apply often makes the eventual application and the program itself land better.',
+  },
+  {
+    num: '02',
+    title: 'Context',
+    body: 'Can your family fund Rs 16-27.5 lakh depending on the tier, without that money being needed for something more urgent? If the answer is a loan, run the loan math against the specific institute\'s most recent placement report, not the IIM brand name in general.',
+    note: 'A Rs 20 lakh loan against a Rs 35 LPA starting salary is a completely different risk than the same loan against a Rs 13 LPA starting salary. Same loan amount, very different exposure.',
+  },
+  {
+    num: '03',
+    title: 'Market',
+    body: 'What did this exact campus\'s most recent placement report actually show — this year, not the year the brochure was printed? Average package, median package, percentage placed, and number of unique recruiters matter more than "IIM" as a single label.',
+    note: 'India now has 21 IIMs. Several of the newest campuses are still building out recruiter relationships, and their placement numbers can shift meaningfully from one batch to the next.',
+  },
+  {
+    num: '04',
+    title: 'Survival',
+    body: 'Which part of the job an IIM degree leads to will still need a human in five years? Routine research compilation and first-draft reporting are already shifting to AI tools. Judgment on ambiguous calls, negotiation, and stakeholder trust are not.',
+    note: 'The IIM tag does not future-proof you by itself. The judgment and proof of work you build during and after the program does.',
+  },
+];
+
+const gateItems = [
+  {
+    num: 'Gate 1',
+    title: 'Proof of skill',
+    body: 'Sit one full CAT mock test under real timed conditions before spending a rupee on coaching. If your score maps to below the 90th percentile after genuine preparation, be honest about which tier is realistically reachable, and price the decision against that tier, not the IIM-A dream.',
+  },
+  {
+    num: 'Gate 2',
+    title: 'Proof of communication',
+    body: 'Explain in under two minutes why an IIM specifically, at this specific campus, closes a real gap in your profile — not why "IIM is the safe, obvious choice." If you cannot name the gap it closes, you have not tested this decision yet.',
+  },
+  {
+    num: 'Gate 3',
+    title: 'Proof of value',
+    body: 'Pull the most recent official placement report for the exact campus you are targeting, and talk to one graduate from the last two batches. Compare what they actually got against the number in the brochure. That gap is the real risk you are pricing.',
+  },
+];
+
+const notWorthRows = [
+  {
+    signal: 'You already have a strong, growing career trajectory without it',
+    reality: 'If you are already earning well and moving up through a specific skill — engineering leadership, product, sales, a growing practice — an IIM should be judged as an accelerator for a clear next step you genuinely cannot reach otherwise, not as insurance against uncertainty you do not actually have. Two years and Rs 16-27.5 lakh is a real cost against income and momentum you would otherwise keep compounding.',
+  },
+  {
+    signal: 'Your specialization choice does not match why you are actually good at your work',
+    reality: edgeCase(),
+  },
+  {
+    signal: 'You have 8-10+ years of experience already',
+    reality: 'Most IIM placement pools, even at the top campuses, are built around fresher and early-career recruiting. A senior professional entering the standard 2-year program can end up in a placement band that pays less than what they already earn, unless they specifically target a one-year executive program built for that experience level instead.',
+  },
+  {
+    signal: 'You cannot clear a 70th-percentile mock CAT after genuine preparation',
+    reality: 'This does not mean you cannot do an IIM. It means a newer or baby IIM is the realistic tier available right now, and that tier still has real ROI — but only if you fund it against that tier\'s actual numbers, not the big-3 numbers you saw in a headline.',
+  },
+  {
+    signal: 'You are doing it mainly because you have no other plan',
+    reality: 'An IIM degree is not a two-year pause button on a career decision you have not made yet. It adds real cost and two years of lost income on top of the same unresolved question you started with, because the degree by itself does not build a skill — the work you do inside and after the program does.',
+  },
+];
+
+function edgeCase() {
+  return 'A finance-first specialization for someone whose real edge is people-facing sales, or a general-management track for someone whose real edge is deep technical judgment, wastes the two most valuable things an IIM offers: the recruiter access for that specific track, and the peer and case-study depth that only compounds if it matches how you actually work. The brand name gets you the interview; the specialization fit decides whether the job that follows is actually good for you.';
+}
+
+const aiShrinkGrow = {
+  shrinking: [
+    'First-draft market research, competitor scans, and data compilation, which AI tools now assemble in minutes instead of the junior-analyst days it used to take.',
+    'Routine slide-building and formatting work that used to occupy a large share of a fresh IIM hire\'s first year in consulting or corporate strategy roles.',
+    'Templated financial modelling and basic scenario analysis where the structure is repeatable and the AI tool already knows the pattern.',
+  ],
+  growing: [
+    'Strategic judgment on ambiguous, high-stakes calls where there is no clean textbook answer and someone has to own the decision.',
+    'Client and stakeholder trust-building — the relationship layer that gets a recommendation actually implemented, not just written.',
+    'Directing and reviewing AI-assisted analysis for accuracy, bias, and business context before it reaches a decision-maker.',
+    'Cross-functional leadership: aligning finance, product, operations, and sales teams around one plan, which still needs a human in the room.',
+  ],
+};
+
+const alternativeRows = [
+  {
+    path: 'Build 2-3 years of real work experience first, then apply',
+    bestFor: 'Graduates who want income sooner, a stronger application later, and a placement pool that will value that experience through lateral tracks.',
+    reality: 'IIM Ahmedabad and IIM Indore weigh future potential heavily and take a real share of freshers, but 24-36 months is treated as the sweet spot for shortlisting at most IIMs, and 2+ years of relevant experience often unlocks lateral placement tracks that pay more than the standard fresher pool at the same campus.',
+  },
+  {
+    path: 'A one-year executive program if you already have 8+ years of experience',
+    bestFor: 'Working professionals whose real question is a leadership-track credential, not a fresh-graduate placement pool.',
+    reality: 'Built specifically for the experience level a standard 2-year program is not designed around, with a shorter opportunity-cost window and a recruiter pool matched to senior hiring.',
+  },
+  {
+    path: 'Build one proof-of-work asset in your current specialization, then decide',
+    bestFor: 'Graduates unsure whether management, finance, or a specialist track fits, who want a low-cost way to test fit before spending lakhs.',
+    reality: 'A few months of real, visible work — a financial model, a market analysis, a small project you can show — tells you more about your fit for management-style work than any brochure does, at a fraction of the cost of an application cycle.',
+  },
+  {
+    path: 'An IIM at the tier your honest mock score supports',
+    bestFor: 'Graduates who score well on a genuine timed CAT mock and can either fund the fee without crushing debt, or justify the loan against a specific campus\'s real recent placement data.',
+    reality: 'This remains one of the strongest single ROI moves available in Indian higher education, at every tier from the big 3 down to the newer campuses — when the tier and the applicant\'s actual numbers both check out.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Comparing your target campus to the IIM Ahmedabad number you saw online',
+    body: 'Rs 34-35.5 LPA average packages are real, but they describe three specific campuses out of 21 IIMs. If your target campus is not one of those three, use that campus\'s own most recent placement report as your baseline, not a headline number from a different tier entirely.',
+  },
+  {
+    num: '02',
+    title: 'Sizing the loan to the fee instead of the realistic salary',
+    body: 'A Rs 20 lakh loan is a very different risk against a Rs 35 LPA starting job than against a Rs 13 LPA one. Run the EMI math against the specific campus\'s median outcome, not its best-case outcome, before you sign.',
+  },
+  {
+    num: '03',
+    title: 'Ignoring the 2 years of foregone income in the payback math',
+    body: 'Most people compare fees to salary and stop there. The honest number also includes what you would have earned working for those same 2 years — often Rs 8-16 lakh — which is a real part of the cost, even at a strong campus.',
+  },
+  {
+    num: '04',
+    title: 'Skipping the mock CAT and only guessing at your realistic tier',
+    body: 'Coaching institutes sell hope. A timed, honest mock test sells truth. Take the mock before you commit a rupee to coaching fees, so your entire financial plan is built on a real number.',
+  },
+  {
+    num: '05',
+    title: 'Picking a specialization because it sounds prestigious, not because it fits your edge',
+    body: 'Finance, consulting-style general management, and strategy roles get the most attention, but the specialization that pays off is the one that matches what you were already good at before the IIM tag — not the one with the loudest reputation.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'Is IIM worth the cost in India?',
+    a: 'It depends almost entirely on which of the 21 IIMs, funded how, against what realistic outcome — not on whether "IIM" sounds like the right move. At Ahmedabad, Bangalore, or Calcutta, the math is genuinely strong: fees of Rs 26-27.5 lakh against average placements of Rs 34-35.5 LPA mean the fee alone pays back in under a year, and even counting 2 years of foregone income, the true cost pays back in roughly 13-15 months of the new salary. At a newer or baby IIM, fees of Rs 16-21 lakh against average outcomes of Rs 12.7-22 LPA still pay back, but slower, and the specific campus\'s placement report matters more than the IIM brand in general. Take an honest mock CAT first to know which tier is realistic for you before deciding.',
+  },
+  {
+    q: 'How much does an IIM MBA actually cost in 2026?',
+    a: 'Total 2-year fees range from roughly Rs 26-27.5 lakh at IIM Ahmedabad, Calcutta, and Bangalore, down to roughly Rs 16-21 lakh at the newer and baby IIMs such as Ranchi, Raipur, Sirmaur, Sambalpur, and Amritsar. That figure typically covers tuition, hostel, mess, library, and standard facilities, but excludes a laptop, travel, personal expenses, and loan interest if you finance it. Always check the specific campus\'s current official fee structure before budgeting, since fees are revised most years.',
+  },
+  {
+    q: 'How competitive is CAT really?',
+    a: 'CAT 2025 drew close to 2.95 lakh registrations, with roughly 2.58 lakh candidates actually appearing across all three test slots, competing for around 7,500 seats across all 21 IIMs. IIM Ahmedabad, Bangalore, and Calcutta shortlist general-category candidates at 99+ percentile, meaning you need to outscore well over 99% of a quarter-million prepared test-takers just to be considered. Newer IIMs typically shortlist in the 90-97 percentile range, which is a real, reachable target for a strong, well-prepared candidate even if the top-3 percentile is not.',
+  },
+  {
+    q: 'Is it worth doing a newer or baby IIM, or should I wait and try for a top-3 IIM again?',
+    a: 'A newer IIM (Ranchi, Raipur, Trichy, Udaipur, and similar) still shows a real, workable ROI case at roughly Rs 18-22 LPA average against Rs 17-21 lakh in fees, with payback inside about 10-14 months of salary. A baby IIM (Sirmaur, Sambalpur, Amritsar, Jammu, Bodh Gaya, Visakhapatnam) shows a slower but still positive case, at roughly Rs 12.7-17 LPA average against similar fees. Whether to wait a year and retake CAT for a stronger campus depends on how much a repeat attempt is likely to move your score, and what a year of real work experience in the meantime would add to your profile either way.',
+  },
+  {
+    q: 'When is an IIM MBA not worth it, even if you get in?',
+    a: 'Five honest cases come up repeatedly: you already have a strong, growing career trajectory the program would interrupt rather than accelerate; your intended specialization does not actually match the skill you are already good at; you have 8-10+ years of experience and would enter a placement pool built for freshers; you are funding a newer or baby IIM with a loan sized to the fee rather than to that specific campus\'s realistic salary; or you are doing it mainly because you lack a plan rather than because the IIM closes a specific, named gap.',
+  },
+  {
+    q: 'Can AI make an IIM degree less valuable in the future?',
+    a: 'AI is already automating the more routine layer of IIM-track jobs — first-draft market research, data compilation, and templated financial modelling — the tasks that used to occupy a large share of a fresh hire\'s first year in consulting or corporate strategy roles. What is not automating away is strategic judgment on ambiguous calls, stakeholder trust-building, and cross-functional leadership, which is exactly what a strong program and a good post-MBA role should be building. The IIM tag does not future-proof anyone by itself; the judgment, communication, and AI-direction skills built during and after it do.',
+  },
+  {
+    q: 'What should I check before deciding on an IIM?',
+    a: 'Take one full, timed CAT mock test to get an honest read on your realistic percentile and campus tier. Pull the most recent official placement report for any specific campus you are considering, not a headline brochure number. Run the loan math against that campus\'s median outcome, not its best case, and include the roughly Rs 8-16 lakh in income you would give up over 2 years in your true-cost number. Talk to one graduate from the last two batches about what they actually got. If all of that still points toward a clear yes, the campus and tier are likely a strong move; if it points toward a weak placement record funded by debt, building more work experience or a specific skill first is usually the stronger financial decision.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="college-degrees"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Is IIM worth the cost in India? At Ahmedabad, Bangalore, or Calcutta, yes — the fee pays
+    back inside about a year of salary, one of the fastest payback periods in Indian higher
+    education.</strong> At a newer or baby IIM, the answer is still often yes, but slower, and it
+    depends heavily on the specific campus's real placement report, not the IIM brand as a whole.
+    India now has 21 IIMs, and the gap between the top three and the newest campuses in both fee and
+    outcome is large enough that "is IIM worth it" is really 21 different questions wearing one
+    label. Getting the answer right for your situation means running three numbers honestly: your
+    realistic CAT percentile, the exact campus's current placement data, and the true 2-year cost —
+    fee plus foregone income — against what that specific degree is likely to pay.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>IIM Ahmedabad, Bangalore, and Calcutta charge Rs 26-27.5 lakh and place graduates at Rs 34-35.5 LPA average — the fee pays back in under a year. Newer IIMs (Ranchi, Raipur, Trichy) run Rs 17-21 lakh for Rs 18-22 LPA average; baby IIMs (Sirmaur, Sambalpur, Amritsar) run Rs 16-21 lakh for roughly Rs 12.7-17 LPA average.</li>
+      <li>The true cost is not just the fee. Add roughly Rs 8-16 lakh in income given up over 2 years, and even at a top-3 IIM, the honest payback period stretches to about 13-15 months of the new salary — still fast, but not instant.</li>
+      <li>CAT 2025 had roughly 2.58 lakh candidates competing for around 7,500 IIM seats. The big 3 call at 99+ percentile; newer IIMs typically call at 90-97 percentile, a real and reachable target for strong preparation.</li>
+      <li>An IIM is not automatically the right move even for someone who gets in — a strong existing trajectory, a specialization mismatch, or 8-10+ years of experience can all make the standard 2-year program the wrong tool for the job.</li>
+      <li><strong>The IIM tag is not the finish line. The judgment, communication, and skill portfolio built during and after it is what actually decides your income ceiling and how fast you reach financial freedom.</strong></li>
+      <li>An IIM can justify spending above a conservative education-budget benchmark only when the specific program's verified recruiting, peers, alumni access, and target-role outcomes fit you. Top-tier evidence makes the exception arguable; it never makes debt risk disappear.</li>
+    </ul>
+  </div>
+
+  <p>
+    If you are weighing an IIM against MBAs at other institutes more broadly, read
+    <a href="/blog/career-options/mba-after-bcom-worth-it-in-india/">is an MBA after BCom worth it in India</a>
+    for the tier-by-tier ROI picture across the wider MBA market. This article goes deep specifically
+    on IIMs — the top-tier brand — and whether the cost holds up campus by campus.
+  </p>
+
+  <p>
+    If you want a clearer read on whether a general-management path genuinely fits how you like to
+    work before you spend a rupee on CAT coaching, a session inside
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can help you pressure-test the decision against your specific situation.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The short answer to "is IIM worth the cost in India"</h2>
+
+  <p>
+    Yes, at most tiers — but "IIM" is not one product with one ROI. It is 21 different campuses
+    wearing the same three-letter brand, and the fee-to-outcome math changes sharply as you move down
+    the list.
+  </p>
+
+  <p>
+    At Ahmedabad, Bangalore, and Calcutta, an IIM degree is close to the cleanest ROI case in Indian
+    higher education: a two-year, roughly Rs 26-27.5 lakh program that reliably converts into a
+    Rs 34-35.5 LPA role. At the newer campuses that opened over the last decade — Ranchi, Raipur,
+    Trichy, Udaipur, and similar — the case is still real but noticeably slower, at roughly Rs 17-21
+    lakh in fees for Rs 18-22 LPA average outcomes. At the newest "baby IIMs," fees stay in a similar
+    Rs 16-21 lakh band, but average outcomes drop to roughly Rs 12.7-17 LPA, with far less placement
+    track record behind the number.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Most "is IIM worth it" articles either treat all 21 IIMs as interchangeable because they share
+      a brand name, or fixate only on IIM Ahmedabad's numbers as if they apply everywhere. Neither is
+      honest. The real question was never "IIM or no IIM." It is "which specific campus, funded how,
+      against what realistic outcome" — and that question has a checkable answer once you stop
+      reading the brand and start reading the placement report.
+    </p>
+  </div>
+
+  <h2 id="why-question">Why this question is harder than it looks</h2>
+
+  <p>
+    If you are staring at this decision, you are probably hearing three contradictory things at
+    once: an IIM is always worth it because of the brand, an IIM is only worth it if it is Ahmedabad
+    or Bangalore, and CAT is too competitive to even attempt. All three claims are partly true and
+    partly wrong, which is exactly why the decision feels stuck.
+  </p>
+
+  <p>
+    Here is what actually resolves the confusion: an IIM's value is not fixed by the letters on the
+    degree. It is a direct function of the specific campus's fee and placement reality, your realistic
+    admission chances at that campus, and how you fund it. Once you treat it as a checkable financial
+    decision with a real payback period, instead of a single prestige label, the picture becomes much
+    clearer.
+  </p>
+
+  <p>
+    India has expanded from 6 IIMs to 21 over roughly the last decade and a half. That expansion is
+    good for access — more seats, more geographic reach — but it also means the label "IIM" now spans
+    a genuinely wide range of placement outcomes, and treating all 21 as one decision is where most
+    people get the math wrong.
+  </p>
+
+  <h2 id="fee-placement-by-tier">Fees vs placements, IIM by IIM</h2>
+
+  <p>
+    Set the brand aside for a moment. Here is what total fees, average placement, and approximate
+    payback period actually look like across the real tiers inside "IIM."
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Tier</th>
+          <th>Total fees</th>
+          <th>Average placement</th>
+          <th>Approximate payback</th>
+        </tr>
+      </thead>
+      <tbody>
+        {tierRows.map((item) => (
+          <tr>
+            <td data-label="Tier"><strong>{item.tier}</strong></td>
+            <td data-label="Total fees">{item.fees}</td>
+            <td data-label="Average placement">{item.salary}</td>
+            <td data-label="Approximate payback">{item.payback}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Figures are directional, based on current fee structures and final placement reports published by
+    individual IIMs for the 2025 placement cycle and the 2025-27 admission cycle at the time of
+    writing. Always verify the specific campus's most recent official placement report before making
+    a financial decision — a placement report from three years ago does not reflect a newer campus's
+    current recruiter base.
+  </p>
+
+  <div class="highlight-box highlight-box--amber">
+    <p>
+      Notice the shape of this table: fees barely change across most of the range, staying in a
+      roughly Rs 16-27.5 lakh band across all 21 IIMs. What changes sharply is the outcome — average
+      placement nearly triples from the baby-IIM tier to the big 3. That is the single most important
+      fact in this decision: the fee tells you almost nothing about which IIM you are looking at, but
+      the placement report tells you everything.
+    </p>
+  </div>
+
+  <h2 id="true-cost">The true cost is not the fee — it is the fee plus 2 years</h2>
+
+  <p>
+    Almost every ROI comparison for an IIM stops at "fee versus salary." That misses half the real
+    cost. Two years is also two years of income you did not earn doing something else — usually a
+    first job that would have paid something, even if far less than the post-IIM number.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Path over 2 years</th>
+          <th>What actually happens financially</th>
+          <th>Where you stand entering year 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        {trueCostRows.map((item) => (
+          <tr>
+            <td data-label="Path over 2 years"><strong>{item.scenario}</strong></td>
+            <td data-label="What actually happens financially">{item.year0to2}</td>
+            <td data-label="Where you stand entering year 3">{item.twoYearTotal}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    That comparison is the honest version of the IIM ROI case. Even at the big 3, the true payback
+    period is closer to 13-15 months of the new salary once foregone income is counted, not the
+    9-10 months you get from fee alone. That is still fast — genuinely one of the strongest payback
+    windows available for any professional qualification in India — but it is a different, more
+    honest number than the brochure math.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Education loans in India carry a meaningful non-performing-asset rate among retail loan
+      categories, and lenders point to a common cause: graduates taking on debt against a placement
+      promise the actual outcome did not match. At a newer or baby IIM, where placement track record
+      is thinner and outcomes vary more between individual batches, this is exactly the failure
+      pattern a loan sized to the fee — rather than to the realistic salary — can produce.
+    </p>
+  </div>
+
+  <p>
+    As a strict planning heuristic, not a universal rule, test the total IIM fee against roughly 10%
+    of your family's total education and upskilling budget over the next several years, not just
+    against what a loan approval letter says you can borrow. A top-3 IIM's Rs 26-27.5 lakh fee, and
+    even a newer or baby IIM's Rs 16-21 lakh fee, will sit well above that 10% line for most Indian
+    households. That is not automatically a reason to walk away — the payback math above is real — but
+    spending materially above the 10% share only makes sense when the course-specific evidence backs
+    it: a verified, recent placement report for that exact campus (not the IIM brand in general), a
+    realistic CAT-mock-confirmed shot at that tier, and a loan sized to the median outcome rather than
+    the best-case one. If the evidence is thin, the honest move is a cheaper tier, more work experience
+    first, or a skill-building path that does not require the same upfront bet.
+  </p>
+
+  <h2 id="cat-odds">CAT odds: what you are actually up against</h2>
+
+  <p>
+    CAT eligibility is genuinely open: any graduate with 50% marks (45% for reserved categories) from
+    a recognised university can apply, with no age limit and no cap on attempts. The difficulty sits
+    entirely on the competition side, not the eligibility side.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>What is actually true</th>
+        </tr>
+      </thead>
+      <tbody>
+        {catOddsRows.map((item) => (
+          <tr>
+            <td data-label="Factor"><strong>{item.factor}</strong></td>
+            <td data-label="What is actually true">{item.reality}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      The practical read: reaching a top-3 IIM is genuinely one of the hardest admission filters in
+      Indian higher education, and treating that as your only acceptable outcome is where a lot of
+      good candidates talk themselves out of a real, ROI-positive option lower down the list. A
+      90-97 percentile score is a demanding but realistic target for a well-prepared candidate, and it
+      opens a genuine IIM seat with a genuine payback case — not a consolation prize.
+    </p>
+  </div>
+
+  <p>
+    A strong CAT score alone still does not guarantee a seat. Academic record, the Written Ability
+    Test, and the Personal Interview all carry real weight in the final call, especially at the top
+    campuses. Treat a strong percentile as the entry ticket to the process, not the final outcome.
+  </p>
+
+  <h2 id="checkpoint">Use The 4-Checkpoint Protocol before you commit to this path</h2>
+
+  <p>
+    A single placement number from one campus's report cannot tell you whether an IIM fits your
+    specific situation. The 4-Checkpoint Protocol narrows the decision to what actually matters for
+    you.
+  </p>
+
+  <div class="protocol-stack">
+    {checkpointItems.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+          <div class="checkpoint__note">{item.note}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="gates">Pass The 3 Gates before you pay a single rupee</h2>
+
+  <p>
+    The 4-Checkpoint Protocol tells you whether an IIM fits on paper. The 3 Gates make you test it
+    against the real world before you spend two years and your family's savings finding out the hard
+    way.
+  </p>
+
+  <div class="gates-block">
+    <p class="gates-block__title">
+      Do not pay a coaching fee or an application fee before passing all three gates.
+    </p>
+    <div class="gates-row">
+      {gateItems.map((item) => (
+        <div class="gate">
+          <span class="gate__num">{item.num}</span>
+          <span class="gate__name">{item.title}</span>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <p>
+    If you are still unsure after running this test, a session inside
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can help you compare the IIM route against your other real options with an actual person, instead
+    of guessing alone from CAT forum threads and coaching institute marketing.
+  </p>
+
+  <h2 id="not-worth-it">Honest cases where even an IIM is not worth it</h2>
+
+  <p>
+    This is the section most "should I do an IIM" articles skip, because it is not a good sales pitch
+    for a coaching institute. It is, however, the section that saves people two years and a
+    six-figure or seven-figure decision they did not need to make.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Signal</th>
+          <th>What is actually true</th>
+        </tr>
+      </thead>
+      <tbody>
+        {notWorthRows.map((item) => (
+          <tr>
+            <td data-label="Signal"><strong>{item.signal}</strong></td>
+            <td data-label="What is actually true">{item.reality}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    None of this means these people could never benefit from an IIM. It means the standard 2-year
+    program, right now, at whichever campus is realistically available, may be a weaker move than
+    building more experience, fixing the specialization fit, or choosing a program built for a
+    different career stage — then revisiting the decision from a stronger position.
+  </p>
+
+  <h2 id="ai-risk">What AI is already changing in IIM-track roles</h2>
+
+  <p>
+    Set aside both extremes here: "AI makes an IIM pointless" and "AI changes nothing for management
+    careers." Neither survives contact with what is actually happening inside consulting firms and
+    corporate strategy teams right now.
+  </p>
+
+  <p>
+    Recent industry analysis puts a meaningful share of management-consulting tasks within reach of
+    automation — not jobs disappearing, but the task mix shifting toward AI tools for the routine
+    layer of the work. The junior consultant or fresh IIM hire who used to spend most of their first
+    year on research compilation and slide formatting now spends that time on higher-value analysis
+    and client interaction, because the AI tool already produced the first draft.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">What is shrinking</div>
+      <ul>
+        {aiShrinkGrow.shrinking.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">What is growing</div>
+      <ul>
+        {aiShrinkGrow.growing.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      Recruiters in post-IIM consulting and strategy roles are already screening for AI proficiency
+      alongside the traditional case-interview skill set. The safest position over the next decade is
+      not "avoid AI tools during the program." It is becoming the person who directs AI-assisted
+      research and analysis while owning the judgment call, the client relationship, and the final
+      recommendation a tool cannot be accountable for. That is exactly the kind of
+      <strong>holistic skill portfolio</strong> — technical comfort plus judgment plus communication —
+      that turns an IIM degree into durable income instead of a plateaued title.
+    </p>
+  </div>
+
+  <h2 id="alternatives">What to do instead if the math does not work</h2>
+
+  <p>
+    If your honest mock-CAT score, your family's real financial runway, or a specific campus's actual
+    placement report point toward a weaker outcome, an IIM is not your only path to a stronger income.
+    Here is what a genuinely useful next step looks like instead.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Path</th>
+          <th>Best for</th>
+          <th>Reality</th>
+        </tr>
+      </thead>
+      <tbody>
+        {alternativeRows.map((item) => (
+          <tr>
+            <td data-label="Path"><strong>{item.path}</strong></td>
+            <td data-label="Best for">{item.bestFor}</td>
+            <td data-label="Reality">{item.reality}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Whichever path you take, the underlying goal stays the same: build a genuine
+    <strong>high-value skill portfolio</strong> — one core skill, one multiplier skill, and visible
+    proof the market can trust — instead of betting everything on one credential to do the work for
+    you. A degree opens a door. The skill portfolio decides how far past it you get, and how much
+    sooner that translates into real <strong>high income opportunities</strong>.
+  </p>
+
+  <h2 id="mistakes">Mistakes to avoid when deciding whether an IIM is worth the cost</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not try to answer "is IIM worth the cost" in the abstract for one more month based on a
+    relative's opinion or a coaching institute's ranking list.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      Run yourself through The 4-Checkpoint Protocol above, honestly, on paper.
+    </p>
+    <p>
+      Then pass The 3 Gates — one timed mock CAT, one honest two-minute explanation of the specific
+      gap the IIM closes for you, and one real conversation with a graduate from your target campus's
+      last two batches — before you spend a rupee on coaching or an application fee.
+    </p>
+  </div>
+
+  <p>
+    Achieving earlier financial freedom through an IIM comes down to two things lining up together:
+    getting into a campus where the placement math genuinely works for your funding situation, and
+    pairing the degree with a real <strong>high-value skill portfolio</strong> — analytical depth,
+    communication, and comfort directing the AI tools already reshaping entry-level management work —
+    not the three letters after your name by themselves. Move toward that with
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    if you want a second opinion on your specific situation, or start with the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a>
+    if you are still unsure whether a general-management path is genuinely your lane.
+  </p>
+
+  <div class="related-links">
+    <p class="related-links__label">Keep reading</p>
+    <ul>
+      <li><a href="/blog/career-options/mba-after-bcom-worth-it-in-india/">MBA after BCom worth it in India? The real ROI math by tier</a></li>
+      <li><a href="/blog/college-degrees/education-loan-worth-it-india-private-college/">Education loan worth it in India for a private college? The real risk math</a></li>
+      <li><a href="/blog/college-degrees/how-to-compare-colleges-for-career-outcome-india/">How to compare colleges for career outcome India: the 8-column scorecard</a></li>
+      <li><a href="/blog/career-options/is-ca-a-good-career-in-india/">Is CA a good career in India? The honest verdict</a></li>
+    </ul>
+  </div>
+
+  <h2 id="faq">FAQs on whether IIM is worth the cost in India</h2>
+
+  <div class="faq-list">
+    {faqItems.map((item, index) => (
+      <details class="faq-item" open={index === 0}>
+        <summary class="faq-item__q">{item.q}</summary>
+        <div class="faq-item__a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong {
+      color: #fff;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .key-takeaways {
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.35rem 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.1), transparent 60%),
+        rgba(255, 255, 255, 0.03);
+    }
+    .key-takeaways__label {
+      margin: 0 0 0.7rem !important;
+      font-size: 11px !important;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(45, 212, 191, 0.95) !important;
+    }
+    .key-takeaways ul {
+      margin: 0 !important;
+      padding-left: 1.15rem !important;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .key-takeaways li {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.82) !important;
+      line-height: 1.7 !important;
+      font-size: 15.5px;
+    }
+
+    .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .related-links {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1.2rem 1.25rem 1.3rem;
+      margin: 1.6rem 0 2rem;
+    }
+    .related-links__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(229, 184, 74, 0.92) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .related-links ul {
+      margin: 0 !important;
+      padding: 0 !important;
+      list-style: none !important;
+      display: grid;
+      gap: 0.55rem;
+    }
+    .related-links li {
+      margin: 0 !important;
+    }
+    .related-links a {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.78);
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
+    }
+    .related-links a:hover {
+      color: #fff;
+      border-color: rgba(229, 184, 74, 0.5);
+    }
+
+    .compare-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .compare-card--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .compare-card--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul {
+      margin: 0 0 0 1rem !important;
+      padding: 0 !important;
+    }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .protocol-stack,
+    .faq-list,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .faq-item,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .gates-block {
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+      padding: 1.25rem 1.2rem;
+      margin: 1.45rem 0;
+    }
+    .gates-block__title {
+      font-size: 13px !important;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      line-height: 1.6 !important;
+      margin: 0 0 0.95rem !important;
+    }
+    .gates-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .gate {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1rem 0.95rem;
+    }
+    .gate__num {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(45, 212, 191, 0.82);
+      font-weight: 800;
+      margin-bottom: 0.24rem;
+    }
+    .gate__name {
+      display: block;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.45rem;
+      font-family: "Sora", sans-serif;
+    }
+    .gate p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.66 !important;
+      color: rgba(255, 255, 255, 0.64) !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    .faq-item__q {
+      padding: 0.95rem 1.15rem;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .faq-item__a {
+      padding: 0.95rem 1.15rem 1rem;
+      font-size: 14.5px;
+      line-height: 1.76;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    @media (max-width: 820px) {
+      .comparison-grid,
+      .gates-row,
+      .jump-nav__list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .compare-card,
+      .highlight-box,
+      .checkpoint,
+      .gates-block,
+      .gate,
+      .mistake-item,
+      .faq-item__q,
+      .faq-item__a,
+      .related-links {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 620px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+  </style>
+</BlogPostLayout>

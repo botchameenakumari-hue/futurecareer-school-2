@@ -1,0 +1,457 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Counselling for IT Professionals | Layoffs, AI Pressure & Pivot Clarity | Future Career School';
+const description =
+  'Career counselling for IT professionals dealing with layoff anxiety, hiring slowdowns, AI-driven role disruption, service-to-product moves, or a technical-to-management pivot, with a clearer route to a higher-value skill portfolio.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-it-professionals/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[3],
+  BOFU_COMPARISON_LIBRARY[4],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Layoffs and slowdowns',
+    title: 'Layoff anxiety or a hiring slowdown in your part of tech',
+    body: 'When your team has already seen a round of cuts, hiring in your stack has gone quiet, or the sense of job security you used to have in IT no longer feels real.',
+  },
+  {
+    eyebrow: 'AI disruption',
+    title: 'AI tools doing part of what your role used to require',
+    body: 'When code generation, testing, support, or QA tooling is quietly absorbing tasks you used to be paid for, and it is unclear which parts of your role still compound in value.',
+  },
+  {
+    eyebrow: 'Company type',
+    title: 'Service-company burnout or a stalled product-company move',
+    body: 'When bench time, client-driven priorities, or a rigid service-delivery structure have worn you down, but a product-company or startup move keeps not happening.',
+  },
+  {
+    eyebrow: 'Role direction',
+    title: 'Technical-to-management or management-to-technical doubt',
+    body: 'When a lead or EM track is on offer but you are not sure it fits you, or you took the management path and now want a credible way back to hands-on technical work.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Role security',
+    title: 'What your actual layoff and AI-disruption risk looks like',
+    listItems: [
+      'Which parts of your current role are being automated first, and which parts of your skill set are becoming harder to replace instead of easier',
+      'Whether your risk is really about your company, your stack, your seniority band, or the role itself',
+      'What a realistic 12 to 18 month skill move looks like if your current role keeps narrowing',
+    ],
+  },
+  {
+    eyebrow: 'Company type',
+    title: 'Service company vs product company vs startup',
+    listItems: [
+      'What a service-to-product move genuinely requires from your current stack and experience, not just the appeal of the switch',
+      'Whether a startup role trades stability for growth in a way that fits your actual financial runway',
+      'How to read an offer or internal transfer for real skill-building potential, not only the company name',
+    ],
+  },
+  {
+    eyebrow: 'Technical vs management',
+    title: 'Technical-to-management or back to hands-on technical work',
+    listItems: [
+      'Whether a management or EM track fits your strengths and how you actually like to work, not just the next rung on the ladder',
+      'What it takes to move back to a technical or staff-engineer track credibly after time spent managing',
+      'How to keep technical depth relevant while still building the people and delivery skills a lead role expects',
+    ],
+  },
+  {
+    eyebrow: 'Beyond core tech',
+    title: 'Upskilling within tech vs a domain or role switch',
+    listItems: [
+      'Whether the next high-leverage move is deepening your current stack, adding an adjacent skill like AI tooling or data, or moving toward product, consulting, or a non-coding track',
+      'What proof of work actually signals readiness for that move to a hiring manager, not just a certificate',
+      'How to sequence the switch without walking away from years of technical credibility you have already built',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it engages with your actual role, stack, and company type',
+    body: 'Generic "just upskill in AI" advice does not help when the real question is a specific layoff risk in your team, a specific service-to-product move, or a specific management offer already on the table.',
+  },
+  {
+    title: 'Check whether AI-disruption risk is assessed honestly, not with blanket panic or blanket reassurance',
+    body: 'Some IT roles are genuinely being reshaped faster than others. Stronger guidance should help you see which parts of your specific role and stack are most exposed, instead of a one-size-fits-all take on AI and jobs.',
+  },
+  {
+    title: 'Check whether the technical-to-management decision gets real weight',
+    body: 'This pivot changes your day-to-day work, your growth path, and your income trajectory for years. Look for guidance that treats it as a genuine fork, not a default "yes" because a manager offer showed up first.',
+  },
+  {
+    title: 'Check whether the guidance respects your income and notice-period reality',
+    body: 'As an employed IT professional, you are usually deciding while still working, often inside a notice period or bond. The guidance should help you move without unnecessary risk to your current income, not push a leap you cannot actually afford.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'My company just did a round of layoffs. How do I know if I am actually at risk?',
+    answer:
+      'Layoff risk in IT is rarely evenly spread. It usually concentrates around specific roles, stacks, seniority bands, or cost centres. Guidance should help you read your actual position honestly instead of reacting to headlines or office rumours, and build a skill and positioning plan that reduces that specific risk.',
+  },
+  {
+    question: 'Should I worry that AI tools will replace my role within a few years?',
+    answer:
+      'Some tasks inside most IT roles are already being automated or accelerated by AI tools. The stronger response is not panic-upskilling into whatever is trending. It is understanding which parts of your specific role are becoming AI-enhanced versus AI-replaced, and building the skills, proof of work, and positioning that keep you valuable on the side of that split that still compounds.',
+  },
+  {
+    question: 'I am burned out in a service company. Is a product company or startup actually better?',
+    answer:
+      'It depends on what is driving the burnout. Bench pressure, client-driven priorities, and rigid delivery structures are common service-company frustrations, but a product company or startup move trades some of those problems for others, like tighter ownership and less structure. Guidance should help you weigh your specific situation instead of assuming any switch automatically fixes the burnout.',
+  },
+  {
+    question: 'I got offered a management or team-lead role. Should I take it?',
+    answer:
+      'A management offer is not automatically the right next step just because it is the next rung on the ladder. It changes your day-to-day work substantially, from writing code to managing people, priorities, and delivery. Guidance should help you judge whether that fits your actual strengths and how you like to work, not just the title or the pay bump.',
+  },
+  {
+    question: 'I moved into management and now want to go back to hands-on technical work. Is that realistic?',
+    answer:
+      'Yes, this is a realistic move for many IT professionals, but it usually needs a deliberate plan to keep or rebuild technical depth while showing recent proof of work, not just stating the intention. Guidance should help you map what that transition credibly requires given how long you have been off hands-on work.',
+  },
+  {
+    question: 'Should I go deeper in my current stack, learn AI tooling, or switch domains entirely?',
+    answer:
+      'This depends on how much runway is left in your current stack, how much AI tooling is already reshaping your specific role, and what a domain switch would actually cost you in time and income. Guidance should help you compare these as a real decision with trade-offs, not default to whatever skill is loudest on social media right now.',
+  },
+  {
+    question: 'How is this different from generic tech career advice on YouTube or LinkedIn?',
+    answer:
+      'Generic content is built for a broad audience and cannot see your specific stack, seniority, company type, or financial situation. Guidance here starts from your actual role, risk, and constraints, and connects skill and pivot decisions to a high-value skill portfolio and a clearer route toward earlier financial freedom, not a one-size-fits-all take on the IT job market.',
+  },
+  {
+    question: 'Is this available online, or do I need to be based in a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can work with a coach from home, your current office, or wherever you are, without depending on office hours, a notice-period commute, or a local office.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help with skill, role, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coaching-for-it-professionals/',
+    title: 'Career Coaching for IT Professionals',
+    description:
+      'See this once your direction is already clear and what you need is a structured action plan and ongoing accountability to execute it.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'A wider working-professional guidance page covering stagnation, pivots, and salary-growth decisions across any industry.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers,
+    title: 'Working Professionals and Career Changers Assessment',
+    description:
+      'Free input on role fit, pivot direction, and leverage before deciding on a stack, domain, or management move.',
+  },
+  {
+    href: '/blog/career-change/career-switch-from-it-to-management-india/',
+    title: 'Career Switch from IT to Management',
+    description:
+      'Read this if a team-lead or management offer is on the table and you are weighing it against staying hands-on technical.',
+  },
+  {
+    href: '/blog/career-change/how-to-switch-from-service-company-to-product-company/',
+    title: 'Service Company to Product Company',
+    description:
+      'A practical look at what moving from a service-company role to a product-company role usually takes.',
+  },
+  {
+    href: '/career-resources/how-to-ai-proof-your-career/',
+    title: 'How to AI-Proof Your Career',
+    description:
+      'Useful if AI tools reshaping parts of your role is a real part of what is driving this decision.',
+  },
+  {
+    href: '/career-resources/using-ai-tools-without-getting-replaced/',
+    title: 'Using AI Tools Without Getting Replaced',
+    description:
+      'Practical direction on staying valuable as AI tooling changes how technical work gets done.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling for IT Professionals',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for IT Professionals | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for IT Professionals',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for IT Professionals</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for IT professionals navigating layoffs, AI pressure, and pivots
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for IT professionals
+        <span class="gold-text"> when layoffs, AI pressure, or a pivot decision make staying put feel risky</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for IT professionals should deal with the decisions your role actually faces: hiring-slowdown or
+        layoff anxiety, AI tools reshaping parts of your work, a service-company-to-product move, or a technical-to-management
+        pivot. The goal is a high-value, high-income skill portfolio built for where tech is actually heading, and a clearer
+        route toward earlier financial freedom, not generic "learn AI" advice.
+      </p>
+      <p class="hero-note">
+        If layoffs, AI pressure, or a pivot you have not yet chosen are still the open question, this is the right
+        starting point. If your direction is already clear and what you need now is help executing and staying
+        accountable to the plan, see
+        <a href="/services/career-counselling-and-career-guidance/career-coaching-for-it-professionals/">career coaching for IT professionals</a>
+        instead. Either way, guidance is delivered fully online, so you can work with a coach from home or your
+        current office without taking time away from work hours or a notice period.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for IT Professionals</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career counselling for IT professionals becomes useful"
+    subtitle="It becomes useful right as layoff risk, AI pressure, or a company or role pivot starts to feel real, because the sooner your skill direction is right, the sooner a stronger, higher-income skill portfolio starts compounding instead of drifting toward a role that keeps narrowing."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Make the risk, stack, or role decision clearer before the next hiring cycle or review passes"
+    body="The earlier your direction is right, the sooner a stronger, higher-income skill portfolio starts working for you instead of against you."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for IT Professionals"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The IT-specific decisions this should help you make"
+    subtitle="Not generic tech career advice. Direction for the exact choices working IT professionals actually face right now."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help you see your actual strengths and work style before deciding between deepening your stack, a management track, or a company-type move."
+      href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+    />
+  </BofuListCardSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when IT career guidance is done right"
+    subtitle="Career counselling for IT professionals should feel different from a generic 'upskill in AI' post or a recruiter's pitch for whatever role they are hiring for."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling for IT professionals"
+    subtitle="The goal is a clearer risk, stack, and role decision, not generic advice recycled from a tech influencer thread."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Do not let a layoff cycle or a management offer make the call for you"
+    body="A clearer risk, stack, or role decision now protects the years where skill compounding and income growth matter most."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for IT Professionals"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Counselling for IT Professionals"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, IT-specific reading, and free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions IT professionals ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Take the risk, stack, or role decision seriously before it gets more expensive"
+    subtitle="If layoff anxiety, AI pressure on your role, a service-to-product move, or a technical-to-management pivot already feels important, move with stronger direction now toward a higher-value skill portfolio and earlier financial freedom, instead of letting the next review cycle decide for you."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for IT Professionals"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

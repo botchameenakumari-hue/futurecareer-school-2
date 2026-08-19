@@ -1,0 +1,460 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Coaching for IT Professionals | Execute Your Pivot, Promotion, or Skill Upgrade | Future Career School';
+const description =
+  'Career coaching for IT professionals who already have a tech pivot, promotion push, or skill upgrade in mind but need a structured action plan, real accountability, and follow-through support to actually execute it.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coaching-for-it-professionals/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[4],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Direction, no motion',
+    title: 'You already know the pivot, promotion track, or skill upgrade you want',
+    body: 'The direction is not the confusing part anymore. What is missing is a structured plan, a realistic sequence, and someone checking whether the plan is actually happening week to week.',
+  },
+  {
+    eyebrow: 'Restart pattern',
+    title: 'You keep starting an upskilling plan and quietly abandoning it a few weeks in',
+    body: 'A course gets bought, a roadmap gets written, and then work gets busy and the plan stalls without anyone noticing until months later, when the same plan gets started over from scratch.',
+  },
+  {
+    eyebrow: 'Unused feedback',
+    title: 'You got specific promotion feedback but nothing has actually moved since',
+    body: 'Your manager gave you a real wishlist for the next review cycle. It is written down somewhere. The gap is not clarity on what to do, it is a structure that holds you to actually doing it.',
+  },
+  {
+    eyebrow: 'Solo execution',
+    title: 'You are trying to execute a tech pivot or skill upgrade entirely alone',
+    body: 'No one is checking your progress, adjusting the plan when priorities shift, or noticing when momentum quietly drops off, so the plan depends entirely on willpower holding up every single week.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Skill-upgrade plan',
+    title: 'Turning a skill-upgrade idea into a sequenced plan with proof of work',
+    listItems: [
+      'Breaking a vague "learn AI tooling" or "go deeper in cloud" goal into an ordered sequence instead of a scattered list of courses',
+      'Building actual proof of work alongside the learning, so the skill upgrade shows up in your positioning, not just your notes app',
+      'Keeping the plan realistic against your actual working hours, so it survives a busy sprint instead of collapsing at the first deadline',
+    ],
+  },
+  {
+    eyebrow: 'Promotion push',
+    title: 'Following through on a promotion conversation instead of letting the wishlist sit',
+    listItems: [
+      'Converting manager feedback into specific milestones tied to the next review cycle, not a general intention to "do better"',
+      'Tracking whether the visible work, ownership, and communication your manager asked for are actually showing up month to month',
+      'Adjusting the plan when priorities at work shift, instead of discovering at review time that the plan quietly went stale',
+    ],
+  },
+  {
+    eyebrow: 'Pivot execution',
+    title: 'Executing a pivot you have already decided on, not re-deciding it every few weeks',
+    listItems: [
+      'Sequencing the steps of a technical-to-management move, a stack change, or a company-type switch while you stay employed',
+      'Keeping momentum through the parts of the pivot that feel slow, instead of second-guessing the direction each time progress stalls',
+      'Revisiting the plan on a set cadence rather than only when doubt resurfaces, so adjustments are deliberate, not reactive',
+    ],
+  },
+  {
+    eyebrow: 'Momentum',
+    title: 'Staying on track when work gets busy and plans quietly stall',
+    listItems: [
+      'A regular check-in cadence that catches a stalled plan in weeks, not months, so restarting from zero stops being the default pattern',
+      'Separating a genuinely bad week from a plan that needs to change, so short-term pressure at work does not derail the whole direction',
+      'Keeping the plan visible enough that it survives a demanding sprint, a reorg, or a few weeks of travel without disappearing',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: '"I already know I want to move into X, I just haven\'t executed."',
+    body: 'That gap between knowing the direction and actually moving on it is exactly what ongoing coaching is built for. The work here is not re-deciding your direction, it is turning it into a sequenced plan and holding you to it.',
+  },
+  {
+    title: '"I keep starting upskilling plans and not finishing them."',
+    body: 'A one-time roadmap rarely survives a busy quarter on its own. Regular accountability check-ins catch a stalling plan early and adjust it, instead of leaving you to notice the drop-off months later and start over again.',
+  },
+  {
+    title: '"I got the promotion conversation wishlist but no accountability to follow through."',
+    body: 'Feedback from a manager is a starting point, not a plan. The wishlist needs to become tracked milestones tied to your next review cycle, with someone checking whether the visible work is actually happening.',
+  },
+  {
+    title: '"I don\'t need to be told what\'s wrong, I need someone checking my progress."',
+    body: 'This is the coaching-style part of guidance rather than the counselling-style part: less one-time diagnosis, more a recurring cadence that tracks whether the plan is on track and adjusts it as results and circumstances change.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'I already know I want to move into cloud, data, product, or management. What does coaching actually add if the direction is already clear?',
+    answer:
+      'Direction and execution are two different problems. Coaching does not spend time re-deciding a direction you have already landed on. It turns that direction into a sequenced skill and proof-of-work plan, then checks in regularly on whether the plan is actually moving, so clarity does not sit unused for another quarter.',
+  },
+  {
+    question: 'I keep starting upskilling plans on my own and not finishing them. How is this different from another course or roadmap?',
+    answer:
+      'A course or roadmap gives you a plan on day one and nothing after that. The part that usually breaks is week six or eight, when work gets busy and there is no one checking whether the plan is still happening. Ongoing coaching adds that recurring check-in, so a stalling plan gets caught and adjusted instead of quietly abandoned.',
+  },
+  {
+    question: 'My manager gave me specific feedback for a promotion, but nothing has changed since that conversation. Can coaching help with follow-through?',
+    answer:
+      'Yes, this is a common pattern: the feedback is clear, but it never turns into tracked action. Coaching converts that feedback into specific milestones tied to your next review cycle and checks progress against them regularly, instead of leaving the wishlist as a one-time conversation that fades from memory.',
+  },
+  {
+    question: 'How is career coaching for IT professionals different from career counselling for IT professionals on this site?',
+    answer:
+      'Counselling-style support is built for someone still deciding a direction, such as weighing layoff risk, a service-to-product move, or a technical-to-management pivot. Coaching-style support is built for someone who already has rough clarity on that direction and needs a structured plan, accountability, and follow-through to actually execute it. Many people use both at different points, and the guidance here is not locked to one label.',
+  },
+  {
+    question: 'I don\'t need someone telling me what is wrong with my career, I need someone checking my progress. Is that what this is?',
+    answer:
+      'Yes. The emphasis here is on ongoing execution rather than a one-time verdict: a plan for your pivot, promotion push, or skill upgrade, followed by regular check-ins that track whether it is on schedule and adjust it as your results, workload, or the market shift.',
+  },
+  {
+    question: 'Is this available online, or do I need to be based in a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so ongoing check-ins fit around your existing work hours from home or your current office, without depending on a local office or in-person-only availability.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help with skill, role, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-it-professionals/',
+    title: 'Career Counselling for IT Professionals',
+    description:
+      'See this first if you are still deciding whether to pivot, weighing layoff or AI-disruption risk, or unsure about a technical-to-management move.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-vs-career-coaching/',
+    title: 'Career Counselling vs Career Coaching',
+    description:
+      'An honest breakdown of decision-focused counselling versus ongoing, execution-focused coaching, and how to tell which one fits right now.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'A wider working-professional guidance page covering stagnation, pivots, and salary-growth decisions across any industry.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers,
+    title: 'Working Professionals and Career Changers Assessment',
+    description:
+      'Free input on strengths and work style, useful context before locking in the specifics of a skill-upgrade or pivot plan.',
+  },
+  {
+    href: '/career-resources/using-ai-tools-without-getting-replaced/',
+    title: 'Using AI Tools Without Getting Replaced',
+    description:
+      'Practical direction on staying valuable as AI tooling changes how technical work gets done, useful input for a skill-upgrade plan.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Coaching for IT Professionals',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coaching for IT Professionals | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching for IT Professionals',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coaching for IT Professionals</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career coaching for IT professionals who already know the move and need to execute it
+      </div>
+
+      <h1 class="hero-title">
+        Career coaching for IT professionals
+        <span class="gold-text"> to turn a pivot, promotion push, or skill upgrade you have already decided on into consistent action</span>
+      </h1>
+      <p class="hero-sub">
+        Career coaching for IT professionals should deal with the problem that shows up after direction is already clear:
+        a plan that keeps stalling, feedback that never turns into tracked progress, and no one checking whether the
+        work is actually happening week to week. The goal is a deliberate, high-value skill portfolio that keeps
+        unlocking high income opportunities and moves you toward earlier financial freedom, without blowing up the
+        stability of the role you are in right now.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so ongoing check-ins fit around your existing work hours
+        from home or your current office, without depending on in-person availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for IT Professionals</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career coaching for IT professionals becomes useful"
+    subtitle="It becomes useful once the direction question is mostly settled and the real blocker is follow-through. The sooner a plan turns into consistent action, the sooner a stronger skill portfolio starts unlocking high income opportunities instead of staying a good idea that never got executed."
+    items={fitItems}
+    variant="signal"
+    columns={3}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Turn the plan you already have into weekly progress, not another restart"
+    body="A structure that catches a stalling plan in weeks, not months, protects the time and momentum a pivot, promotion push, or skill upgrade actually needs."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for IT Professionals"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="What ongoing coaching actually helps you do"
+    subtitle="Not another roadmap you read once. Structure and accountability for the specific execution problems working IT professionals actually run into."
+    items={decisionItems}
+    variant="contrast"
+  />
+
+  <BofuStepFlowSection
+    sectionId="cadence"
+    title="How the coaching-style follow-through actually works"
+    subtitle="The 1-on-1 session does the direction-setting and planning work. What follows is the coaching-style part: returning as the plan needs adjusting, instead of a one-time verdict you are left to execute alone."
+    items={[
+      {
+        title: 'Turn the goal into a sequenced plan',
+        body: 'Your pivot, promotion push, or skill upgrade gets broken into an ordered sequence with proof-of-work milestones in the session, not a single long list of things to eventually do.',
+      },
+      {
+        title: 'Come back when the plan needs a check-in',
+        body: 'Book a follow-up session to review whether the plan is actually happening, catch a stall early, and keep momentum visible instead of easy to quietly drop.',
+      },
+      {
+        title: 'Adjust as results and circumstances change',
+        body: 'The plan gets revisited as priorities shift, so a reorg, a busy sprint, or a promotion cycle updates the plan instead of derailing it.',
+      },
+    ]}
+  />
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when execution has real structure behind it"
+    subtitle="Career coaching for IT professionals should feel different from a roadmap you bookmark once and a plan that quietly goes stale by week six."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    sectionId="check-before-paying"
+    title="The real objections worth checking before you commit"
+    subtitle="These are the actual hesitations IT professionals raise before choosing ongoing coaching, answered directly."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="A plan without a check-in cadence tends to quietly disappear"
+    body="Structured accountability now protects the months of skill compounding and income growth a pivot, promotion push, or skill upgrade actually needs to pay off."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for IT Professionals"
+  />
+
+  <section id="assessment-context" class="assessment-context-band">
+    <div class="container">
+      <AssessmentSupportNote
+        body="If any part of the direction itself still feels unsettled before you commit to a plan, the free career and skill assessments can help you sense-check strengths and work style first."
+        href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+      />
+    </div>
+  </section>
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Coaching for IT Professionals"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See decision-focused counselling, the honest difference between the two, and free assessments before you commit to a plan."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions IT professionals ask before choosing ongoing career coaching"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Turn a direction you have already chosen into an executed plan"
+    subtitle="If the pivot, promotion push, or skill upgrade is already clear and the missing piece is structure and accountability, move now toward a higher-value skill portfolio and earlier financial freedom, instead of letting the plan quietly stall again."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for IT Professionals"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  .assessment-context-band { padding: 1.4rem 0 0; }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

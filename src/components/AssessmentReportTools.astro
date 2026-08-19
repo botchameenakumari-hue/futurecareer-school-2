@@ -1,0 +1,801 @@
+---
+import { CONTACT, SITE_URL, WHATSAPP_BOOKING_URL } from '../config/site';
+
+interface Props {
+  title: string;
+  fileName: string;
+  containerId?: string;
+  downloadButtonId?: string;
+  guidanceUrl?: string;
+  guidanceLabel?: string;
+  reportKicker?: string;
+}
+
+const {
+  title,
+  fileName,
+  containerId = 'results-container',
+  downloadButtonId = '',
+  guidanceUrl = `${SITE_URL}/services/career-counselling-and-career-guidance/career-guidance/`,
+  guidanceLabel = 'Explore Personalised Career Guidance',
+  reportKicker = 'PERSONALISED CAREER REPORT',
+} = Astro.props;
+
+const assessmentSlug = Astro.url.pathname
+  .split('/')
+  .filter(Boolean)
+  .at(-1) || 'career-assessment';
+---
+
+<div
+  id="assessment-report-config"
+  data-title={title}
+  data-file-name={fileName}
+  data-container-id={containerId}
+  data-download-button-id={downloadButtonId}
+  data-guidance-url={guidanceUrl}
+  data-guidance-label={guidanceLabel}
+  data-report-kicker={reportKicker}
+  data-assessment-slug={assessmentSlug}
+  data-site-url={SITE_URL}
+  data-whatsapp-url={WHATSAPP_BOOKING_URL}
+  data-phone-display={CONTACT.phoneDisplay}
+  data-phone-e164={CONTACT.phoneE164}
+  hidden
+></div>
+
+<script>
+  import { createVisualAssessmentPdf } from '../scripts/assessmentPdfRenderer';
+  import { supabase } from '../lib/supabase';
+  import type { Json } from '../lib/supabase-types';
+
+  interface ReportOptions {
+    container?: HTMLElement;
+    title?: string;
+    fileName?: string;
+  }
+
+  interface ReportLine {
+    kind: 'heading-1' | 'heading-2' | 'heading-3' | 'bullet' | 'body';
+    text: string;
+  }
+
+  interface ReportSection {
+    title: string;
+    lines: ReportLine[];
+  }
+
+  const config = document.getElementById('assessment-report-config') as HTMLElement | null;
+  const defaultTitle = config?.dataset.title || 'Career Assessment Report';
+  const defaultFileName = config?.dataset.fileName || 'career-assessment-report.pdf';
+  const defaultContainerId = config?.dataset.containerId || 'results-container';
+  const customDownloadButtonId = config?.dataset.downloadButtonId || '';
+  const guidanceUrl =
+    config?.dataset.guidanceUrl ||
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance/';
+  const guidanceLabel = config?.dataset.guidanceLabel || 'Explore Personalised Career Guidance';
+  const reportKicker = config?.dataset.reportKicker || 'PERSONALISED CAREER REPORT';
+  const assessmentSlug = config?.dataset.assessmentSlug || 'career-assessment';
+  const siteUrl = config?.dataset.siteUrl || 'https://futurecareerschool.com';
+  const whatsappUrl = config?.dataset.whatsappUrl || 'https://wa.me/917815927259';
+  const phoneDisplay = config?.dataset.phoneDisplay || '+91 78159 27259';
+  const phoneE164 = config?.dataset.phoneE164 || '+917815927259';
+
+  function cleanPdfText(value: string) {
+    return value
+      .replace(/\u20b9/g, 'Rs. ')
+      .replace(/[\u2012\u2013\u2014\u2212]/g, '-')
+      .replace(/[\u2018\u2019]/g, "'")
+      .replace(/[\u201c\u201d]/g, '"')
+      .replace(/\u2022/g, '-')
+      .replace(/\u00a0/g, ' ')
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^\x20-\x7E]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function collectReportLines(container: HTMLElement): ReportLine[] {
+    const headingKinds = new Map<string, ReportLine['kind']>();
+    const headings = Array.from(container.querySelectorAll('h1,h2,h3,h4,h5,h6'));
+    const primaryHeadingCount = headings.filter(
+      (heading) => Number(heading.tagName.slice(1)) <= 3
+    ).length;
+    const promoteLevelFourHeadings = primaryHeadingCount <= 2;
+
+    headings.forEach((heading) => {
+      const text = cleanPdfText((heading as HTMLElement).innerText);
+      if (!text) return;
+
+      const level = Number(heading.tagName.slice(1));
+      headingKinds.set(
+        text,
+        level <= 3 || (promoteLevelFourHeadings && level === 4)
+          ? 'heading-1'
+          : level === 4
+            ? 'heading-2'
+            : 'heading-3'
+      );
+    });
+
+    const bulletTexts = new Set(
+      Array.from(container.querySelectorAll('li'))
+        .map((item) => cleanPdfText((item as HTMLElement).innerText))
+        .filter(Boolean)
+    );
+
+    const excludedLabels = new Set([
+      'Download PDF',
+      'Download Results as PDF',
+      'Download Detailed PDF',
+      'Save to workspace',
+      'Saving...',
+      'Saved to workspace',
+      'See Career Guidance Pricing',
+      'Retake Assessment',
+      'Retake Test',
+      'Take Test Again',
+      'Save your report',
+      'Save a copy before you continue',
+      'Your results are ready',
+      'Preparing PDF...',
+      'PDF downloaded',
+      'Creating your PDF. This may take a few seconds.',
+      'Your report has been downloaded as a PDF file.',
+      'The PDF could not be created. Please try again.',
+      'Downloads directly as a PDF file. No print screen needed.'
+    ].map((label) => cleanPdfText(label).toLowerCase()));
+
+    const exportContainer = container.cloneNode(true) as HTMLElement;
+    exportContainer
+      .querySelectorAll('.result-actions, .report-actions, [data-result-actions]')
+      .forEach((actions) => actions.remove());
+    exportContainer.querySelectorAll('details').forEach((details) => {
+      details.open = true;
+    });
+    exportContainer.style.cssText =
+      'position:fixed;left:-10000px;top:0;width:900px;opacity:0;pointer-events:none;z-index:-1;';
+    document.body.append(exportContainer);
+    const exportText = exportContainer.innerText;
+    exportContainer.remove();
+
+    const seenConsecutive = { value: '' };
+    return exportText
+      .split(/\r?\n/)
+      .map(cleanPdfText)
+      .filter((text) => {
+        if (
+          !text ||
+          !/[a-z0-9]/i.test(text) ||
+          excludedLabels.has(text.toLowerCase()) ||
+          text === seenConsecutive.value
+        ) {
+          return false;
+        }
+        seenConsecutive.value = text;
+        return true;
+      })
+      .map((text) => ({
+        kind: headingKinds.get(text) || (bulletTexts.has(text) ? 'bullet' : 'body'),
+        text
+      }));
+  }
+
+  async function downloadAssessmentReportPdf(options: ReportOptions = {}) {
+    const container =
+      options.container ||
+      (document.getElementById(defaultContainerId) as HTMLElement | null);
+    if (!container) return false;
+
+    const buttons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('[data-download-assessment-report]')
+    );
+    const statuses = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-report-download-status]')
+    );
+
+    buttons.forEach((button) => {
+      button.disabled = true;
+      button.dataset.originalLabel ||= button.textContent || 'Download PDF';
+      button.textContent = 'Preparing PDF...';
+    });
+    statuses.forEach((status) => {
+      status.textContent = 'Creating your PDF. This may take a few seconds.';
+    });
+
+    try {
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      const lines = collectReportLines(container);
+      if (!lines.length) throw new Error('No result content was available to export.');
+
+      const { jsPDF: PdfDocument } = await import('jspdf');
+      const pdf = createVisualAssessmentPdf(lines, options.title || defaultTitle, PdfDocument, {
+        guidanceUrl,
+        guidanceLabel,
+        reportKicker,
+        siteUrl,
+        whatsappUrl,
+        phoneDisplay,
+        phoneE164,
+      });
+      pdf.save(options.fileName || defaultFileName);
+
+      buttons.forEach((button) => {
+        button.textContent = 'PDF downloaded';
+      });
+      statuses.forEach((status) => {
+        status.textContent = 'Your report has been downloaded as a PDF file.';
+      });
+      window.setTimeout(() => {
+        buttons.forEach((button) => {
+          button.disabled = false;
+          button.textContent = button.dataset.originalLabel || 'Download PDF';
+        });
+      }, 2400);
+      return true;
+    } catch (error) {
+      console.error('Unable to generate assessment PDF:', error);
+      buttons.forEach((button) => {
+        button.disabled = false;
+        button.textContent = button.dataset.originalLabel || 'Download PDF';
+      });
+      statuses.forEach((status) => {
+        status.textContent = 'The PDF could not be created. Please try again.';
+      });
+      return false;
+    }
+  }
+
+  async function triggerReportDownload(container: HTMLElement) {
+    const customDownloadButton = customDownloadButtonId
+      ? (document.getElementById(customDownloadButtonId) as HTMLButtonElement | null)
+      : null;
+
+    if (!customDownloadButton) {
+      return downloadAssessmentReportPdf({ container });
+    }
+
+    const buttons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('[data-download-assessment-report]')
+    );
+    const statuses = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-report-download-status]')
+    );
+
+    buttons.forEach((button) => {
+      button.disabled = true;
+      button.dataset.originalLabel ||= button.textContent || 'Download PDF';
+      button.textContent = 'Preparing PDF...';
+    });
+    statuses.forEach((status) => {
+      status.textContent = 'Creating your detailed PDF. This may take a few seconds.';
+    });
+
+    try {
+      customDownloadButton.click();
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      buttons.forEach((button) => {
+        button.textContent = 'PDF downloaded';
+      });
+      statuses.forEach((status) => {
+        status.textContent = 'Your report has been downloaded as a PDF file.';
+      });
+      window.setTimeout(() => {
+        buttons.forEach((button) => {
+          button.disabled = false;
+          button.textContent = button.dataset.originalLabel || 'Download PDF';
+        });
+      }, 2400);
+      return true;
+    } catch (error) {
+      console.error('Unable to generate detailed assessment PDF:', error);
+      buttons.forEach((button) => {
+        button.disabled = false;
+        button.textContent = button.dataset.originalLabel || 'Download PDF';
+      });
+      statuses.forEach((status) => {
+        status.textContent = 'The PDF could not be created. Please try again.';
+      });
+      return false;
+    }
+  }
+
+  function buildSavedAssessment(container: HTMLElement) {
+    const lines = collectReportLines(container).slice(0, 260);
+    const summaryLine = lines.find((line) => line.kind === 'body') || lines[0];
+    return {
+      assessment_slug: assessmentSlug,
+      assessment_title: defaultTitle,
+      summary: (summaryLine?.text || 'Saved career assessment result').slice(0, 480),
+      score_label: '',
+      scores: {},
+      result_payload: { lines } as unknown as Json,
+      completed_at: new Date().toISOString(),
+    };
+  }
+
+  async function saveAssessmentToWorkspace(container: HTMLElement, button: HTMLButtonElement) {
+    const status = container.querySelector<HTMLElement>('[data-report-save-status]');
+    const pending = buildSavedAssessment(container);
+    const originalLabel = button.textContent || 'Save to workspace';
+    button.disabled = true;
+    button.textContent = 'Saving...';
+    if (status) status.textContent = 'Saving this result to your private workspace.';
+
+    try {
+      if (!supabase) throw new Error('The workspace connection is not configured.');
+      const { data, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) throw sessionError;
+
+      if (!data.session) {
+        window.sessionStorage.setItem('fcs_pending_assessment', JSON.stringify(pending));
+        if (status) status.textContent = 'Sign in once to keep this result in your workspace.';
+        window.location.assign('/dashboard?intent=save-assessment');
+        return;
+      }
+
+      const { error } = await supabase.from('assessment_results').insert({
+        user_id: data.session.user.id,
+        ...pending,
+      });
+      if (error) throw error;
+
+      button.textContent = 'Saved to workspace';
+      button.dataset.saved = 'true';
+      if (status) {
+        status.textContent = 'Saved. You can return to this result from My Career Workspace.';
+      }
+    } catch (error) {
+      console.error('Unable to save assessment result:', error);
+      button.disabled = false;
+      button.textContent = originalLabel;
+      if (status) {
+        status.textContent =
+          'This result could not be saved right now. Your PDF download is still available.';
+      }
+    }
+  }
+
+  function prepareResponsiveTables(container: HTMLElement) {
+    container.querySelectorAll<HTMLTableElement>('table').forEach((table) => {
+      table.classList.add('assessment-responsive-table');
+      const labels = Array.from(table.querySelectorAll<HTMLTableCellElement>('thead th')).map(
+        (heading) => heading.textContent?.trim() || 'Detail'
+      );
+
+      Array.from(table.tBodies).forEach((body) => {
+        Array.from(body.rows).forEach((row) => {
+          Array.from(row.cells).forEach((cell, index) => {
+            cell.dataset.label = labels[index] || `Detail ${index + 1}`;
+          });
+        });
+      });
+    });
+  }
+
+  function addTopDownloadAction(container: HTMLElement) {
+    if (!container.innerHTML.trim()) return;
+
+    container.classList.add('assessment-report-results');
+    prepareResponsiveTables(container);
+    if (container.querySelector('.assessment-report-actions--top')) return;
+
+    const actions = document.createElement('div');
+    actions.className = 'assessment-report-actions assessment-report-actions--top';
+    actions.setAttribute('aria-label', 'Save assessment results');
+    actions.innerHTML = `
+      <div class="assessment-report-actions__copy">
+        <span>Your results are ready</span>
+        <strong>Keep the result or download a copy</strong>
+      </div>
+      <button type="button" class="result-save-button" data-save-assessment-result>
+        Save to workspace
+      </button>
+      <button type="button" class="result-download-button" data-download-assessment-report>
+        Download PDF
+      </button>
+      <p class="result-download-status" data-report-download-status data-report-save-status aria-live="polite">
+        Your workspace keeps results private to your account. PDF downloads stay on this device.
+      </p>
+    `;
+    actions.querySelector<HTMLButtonElement>('[data-save-assessment-result]')?.addEventListener(
+      'click',
+      (event) => {
+        const button = event.currentTarget as HTMLButtonElement;
+        if (button.dataset.saved === 'true') {
+          window.location.assign('/dashboard');
+          return;
+        }
+        void saveAssessmentToWorkspace(container, button);
+      }
+    );
+    actions
+      .querySelector<HTMLButtonElement>('[data-download-assessment-report]')
+      ?.addEventListener('click', () => {
+        void triggerReportDownload(container);
+      });
+    container.prepend(actions);
+  }
+
+  document.querySelectorAll<HTMLElement>('.assessment-first-flow').forEach((flow) => {
+    const assessment = Array.from(flow.children).find((child) => child.id === 'assessment');
+    if (assessment && flow.firstElementChild !== assessment) {
+      flow.prepend(assessment);
+    }
+  });
+
+  const resultsContainer = document.getElementById(defaultContainerId) as HTMLElement | null;
+  if (resultsContainer) {
+    resultsContainer.classList.add('assessment-report-results');
+    addTopDownloadAction(resultsContainer);
+    new MutationObserver(() => addTopDownloadAction(resultsContainer)).observe(resultsContainer, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  (window as any).downloadAssessmentReportPdf = downloadAssessmentReportPdf;
+</script>
+
+<style is:global>
+  .assessment-first-flow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .assessment-first-flow > #assessment {
+    order: -1;
+  }
+
+  .assessment-report-results {
+    scroll-margin-top: 5.5rem;
+  }
+
+  .assessment-report-actions--top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 0.7rem 1rem;
+    margin: 0 0 1.25rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(45, 212, 191, 0.28);
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(45, 212, 191, 0.12), rgba(229, 184, 74, 0.08));
+  }
+
+  .assessment-report-actions__copy {
+    min-width: 0;
+  }
+
+  .assessment-report-actions__copy span {
+    display: block;
+    margin-bottom: 0.15rem;
+    color: var(--teal, #2dd4bf);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .assessment-report-actions__copy strong {
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .result-save-button {
+    min-height: 46px;
+    padding: 0.75rem 1.1rem;
+    border: 1px solid rgba(45, 212, 191, 0.45);
+    border-radius: 11px;
+    background: rgba(45, 212, 191, 0.1);
+    color: #7ce7d8;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .result-save-button:hover {
+    border-color: rgba(45, 212, 191, 0.7);
+    background: rgba(45, 212, 191, 0.17);
+  }
+
+  .result-save-button:focus-visible {
+    outline: 3px solid rgba(45, 212, 191, 0.45);
+    outline-offset: 3px;
+  }
+
+  .result-save-button:disabled {
+    cursor: wait;
+    opacity: 0.72;
+  }
+
+  .result-download-button {
+    min-height: 46px;
+    padding: 0.75rem 1.1rem;
+    border: 0;
+    border-radius: 11px;
+    background: var(--gold, #e5b84a);
+    color: #101626;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .result-download-button:focus-visible {
+    outline: 3px solid rgba(45, 212, 191, 0.55);
+    outline-offset: 3px;
+  }
+
+  .result-download-button:disabled {
+    cursor: wait;
+    opacity: 0.72;
+  }
+
+  .result-download-status {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 760px) {
+    #hero {
+      padding-top: 1.5rem !important;
+      padding-bottom: 2.25rem !important;
+    }
+
+    #hero .breadcrumb {
+      margin-bottom: 1rem !important;
+    }
+
+    #hero .pill {
+      margin-bottom: 1rem !important;
+      padding: 0.45rem 0.7rem;
+      font-size: 0.7rem;
+      line-height: 1.45;
+    }
+
+    #hero h1 {
+      margin-bottom: 0.85rem !important;
+      font-size: clamp(1.8rem, 9vw, 2.35rem) !important;
+    }
+
+    #hero .hero-sub {
+      margin-bottom: 1rem !important;
+      font-size: 0.9rem !important;
+      line-height: 1.6 !important;
+    }
+
+    #hero .meta-chips {
+      margin-bottom: 1.15rem !important;
+      gap: 0.4rem !important;
+    }
+
+    #hero .meta-chip:nth-child(n + 5),
+    #hero .hero-actions > .btn-outline {
+      display: none;
+    }
+
+    #hero .hero-actions,
+    #hero .hero-actions > .hero-cta {
+      width: 100%;
+    }
+
+    #hero .hero-actions > .hero-cta {
+      justify-content: center;
+      min-height: 50px;
+    }
+
+    #assessment {
+      padding-top: 3.25rem !important;
+    }
+
+    #assessment .section-sub {
+      margin-bottom: 1.35rem;
+    }
+
+    #assessment > .container > .section-pill {
+      margin-bottom: 0.7rem;
+    }
+
+    #assessment > .container > .section-title {
+      margin-bottom: 0.6rem;
+      font-size: clamp(1.65rem, 8vw, 2rem);
+    }
+
+    #assessment > .container > .section-sub {
+      margin-bottom: 1rem;
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    #assessment .lang-selector {
+      margin-bottom: 1rem;
+    }
+
+    #assessment .quiz-box {
+      padding: 1.15rem 1rem 1rem;
+    }
+
+    .assessment-report-results,
+    .assessment-report-results * {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .assessment-report-results [style*="display:grid"],
+    .assessment-report-results [style*="display: grid"],
+    .assessment-report-results :where(
+      .ts-grid,
+      .cg-exams-grid,
+      .mi-grid,
+      .air-grid,
+      .air-4c-grid,
+      .ap-all-row,
+      .res-two-col,
+      .exec-dashboard,
+      .results-grid,
+      .score-grid,
+      .dimension-grid,
+      .result-head,
+      .result-metrics,
+      .insight-grid,
+      .indicator-grid,
+      .facet-grid,
+      .axis-grid,
+      .experiment-grid,
+      .diagnostic-grid,
+      .plan-grid,
+      .practice-allocation
+    ) {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .assessment-report-results .air-4c-item,
+    .assessment-report-results :where(.ap-mini, .rule-step, .path-stage) {
+      width: 100% !important;
+      padding: 1rem !important;
+    }
+
+    .assessment-report-results .apt-key {
+      position: relative;
+      display: block;
+      padding-left: 1.35rem;
+      font-size: 0.84rem !important;
+      line-height: 1.65 !important;
+    }
+
+    .assessment-report-results .apt-key .apt-k-dot {
+      position: absolute;
+      top: 0.42rem;
+      left: 0;
+      margin: 0 !important;
+    }
+
+    .assessment-report-results .apt-key strong {
+      display: inline;
+      width: auto !important;
+      min-width: 0 !important;
+      margin-right: 0.25rem;
+      overflow-wrap: normal !important;
+      word-break: normal !important;
+    }
+
+    .assessment-report-results .ct-wrap {
+      overflow: visible !important;
+      border: 0 !important;
+    }
+
+    .assessment-report-results table.assessment-responsive-table {
+      display: block;
+      width: 100% !important;
+      max-width: 100%;
+      border: 0 !important;
+      border-collapse: separate !important;
+      font-size: 0.86rem !important;
+    }
+
+    .assessment-report-results table.assessment-responsive-table thead {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .assessment-report-results table.assessment-responsive-table tbody {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) !important;
+      gap: 0.8rem;
+      width: 100%;
+    }
+
+    .assessment-report-results table.assessment-responsive-table tr {
+      display: block !important;
+      width: 100%;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .assessment-report-results table.assessment-responsive-table td {
+      display: grid !important;
+      grid-template-columns: minmax(7.5rem, 36%) minmax(0, 1fr) !important;
+      gap: 0.8rem;
+      width: 100% !important;
+      padding: 0.75rem 0.85rem !important;
+      border: 0 !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+      text-align: left !important;
+      line-height: 1.55 !important;
+      overflow-wrap: break-word !important;
+      word-break: normal !important;
+      white-space: normal !important;
+    }
+
+    .assessment-report-results table.assessment-responsive-table td:last-child {
+      border-bottom: 0 !important;
+    }
+
+    .assessment-report-results table.assessment-responsive-table td::before {
+      content: attr(data-label);
+      color: rgba(255, 255, 255, 0.48);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.055em;
+      line-height: 1.45;
+      text-transform: uppercase;
+    }
+
+    .assessment-report-results :where(p, li, td, th, h2, h3, h4, span, strong) {
+      overflow-wrap: break-word !important;
+      word-break: normal !important;
+      white-space: normal;
+    }
+
+    .assessment-report-results :where(.res-section, .result-section, .exec-dashboard) {
+      padding: 1rem !important;
+    }
+
+    .assessment-report-actions--top {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 1rem;
+    }
+
+    .result-save-button,
+    .result-download-button {
+      width: 100%;
+      min-height: 50px;
+    }
+
+    .result-download-status {
+      grid-column: 1;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .assessment-report-results table.assessment-responsive-table td {
+      display: block !important;
+    }
+
+    .assessment-report-results table.assessment-responsive-table td::before {
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+  }
+</style>
+
+
+
+

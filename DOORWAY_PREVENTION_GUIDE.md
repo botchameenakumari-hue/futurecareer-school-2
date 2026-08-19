@@ -44,6 +44,8 @@ FutureCareerSchool plans to publish hundreds of location pages, audience variati
 - Original local examples and challenges specific to that city
 - Varied section structure (not all city pages identical order)
 - Unique internal links to local supporting content
+- Clear online-across-India wording without implying a fake local-only office model
+- Natural integration of the city's main areas or neighbourhoods where useful, not random locality stuffing
 
 **Specific requirements for non-local variations:**
 - Distinct problem framing per audience or stage

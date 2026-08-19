@@ -1,0 +1,442 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Executive Career Coaching | Leadership-Track Decisions & Senior Positioning | Future Career School';
+const description =
+  'Executive career coaching for senior professionals weighing a leadership-track move, board or C-suite readiness, executive presence, and a stronger second half of their career.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/executive-career-coaching/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Leadership track vs individual contributor',
+    title: 'Unsure whether to chase the leadership track or stay the strongest expert in the room',
+    body: 'When a manager or VP-level title looks like the obvious next step, but you are not sure it fits your actual strengths better than staying a deep individual expert with broader influence.',
+  },
+  {
+    eyebrow: 'Board or C-suite readiness',
+    title: 'A senior move is on the table, and you cannot tell if you are actually ready for it',
+    body: 'When a board seat, a CXO conversation, or a bigger P&L is being floated, but nobody has given you an honest read on what is genuinely missing versus what is just nerves.',
+  },
+  {
+    eyebrow: 'Executive presence and visibility',
+    title: 'Your track record is strong, but the right people still do not know it',
+    body: 'When the work is good but the recognition, sponsorship, and external visibility have not caught up, so opportunities keep going to people with a louder profile, not a stronger one.',
+  },
+  {
+    eyebrow: 'Second-half career planning',
+    title: 'Ten-plus years in, and the growth curve has quietly gone flat',
+    body: 'When the title still says senior, but the learning curve, the compensation curve, and the sense of forward motion have all leveled off at the same time.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Leadership track vs deep expert track',
+    title: 'Which track actually compounds your income and influence faster',
+    listItems: [
+      'Whether people-leadership genuinely fits your working style, or whether a principal, staff, or specialist-expert track builds more leverage for you specifically',
+      'What the realistic compensation and influence ceiling looks like on each track from where you sit today, not the generic org-chart version',
+      'What would need to be true about your current role for either track to actually open up in the next 12 to 24 months',
+    ],
+  },
+  {
+    eyebrow: 'Board and C-suite readiness',
+    title: 'An honest read on what is missing before the next senior conversation',
+    listItems: [
+      'Separating a real capability gap from a confidence gap, since they need completely different fixes',
+      'What proof of scope, outcomes, and cross-functional influence a board or CXO conversation is actually screening for',
+      'A practical sequence for closing the gap instead of waiting for the next role to somehow prove readiness on its own',
+    ],
+  },
+  {
+    eyebrow: 'Executive presence and personal brand',
+    title: 'Making your track record visible to the people who decide the next move',
+    listItems: [
+      'Where the gap actually sits: internal sponsorship, external visibility, or how the work gets told, since each needs a different fix',
+      'How to build a credible senior profile without it reading as self-promotion or overreach',
+      'How positioning at this level connects to compensation and board or C-suite consideration, not just LinkedIn activity',
+    ],
+  },
+  {
+    eyebrow: 'Second-half career planning',
+    title: 'A deliberate plan for the next decade instead of riding the current role out',
+    listItems: [
+      'Whether the plateau is about the role, the company, the industry, or a skill set that has not kept pace with how senior work is changing',
+      'What a high-value, high-income skill portfolio should look like for the next stage, so growth compounds again instead of drifting sideways',
+      'How to weigh a bigger internal mandate, an external senior move, an advisory or board path, or a founder-style pivot against each other honestly',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it engages with your actual leadership-track decision, not generic "advance your career" talk',
+    body: 'At a senior level, the real question is usually leadership track versus deep expert track, or which senior move actually compounds income and influence. Look for guidance that treats that as a genuine decision, not a motivational nudge to "aim higher".',
+  },
+  {
+    title: 'Check whether readiness gaps get named specifically',
+    body: 'Vague feedback like "work on your presence" or "build more visibility" is not useful at a senior level. Stronger guidance should name the specific gap, capability, sponsorship, or proof of scope, and connect it to a practical next step.',
+  },
+  {
+    title: 'Check whether the offer is honest about what it actually is',
+    body: 'Some providers market "executive coaching" as a bespoke, high-priced, credential-heavy program to justify a premium fee. What should matter more is whether the decision support is specific, honest, and useful for your actual situation, not the size of the price tag attached to the word "executive".',
+  },
+  {
+    title: 'Check whether the guidance respects how expensive your time and your next move both are',
+    body: 'A senior professional\'s opportunity cost is real, and a wrong senior move is expensive to unwind. The guidance should sharpen your decision quickly and specifically, not stretch out a process that could have been resolved in one focused conversation.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How do I know if I should chase the leadership track or stay an individual expert?',
+    answer:
+      'This depends on whether people-leadership genuinely fits your working style and where your influence actually compounds faster: through managing others or through deep expertise. Guidance should help you weigh the realistic compensation and influence ceiling on each track from your current position, instead of assuming leadership is automatically the better path.',
+  },
+  {
+    question: 'Am I actually ready for a board seat or a C-suite move, or is it too early?',
+    answer:
+      'Readiness gaps usually come down to a real capability gap, a confidence gap, or a visibility gap, and each needs a different fix. Guidance should give you an honest read on which one you are dealing with and a practical sequence for closing it, rather than a generic "you are ready when you feel ready" answer.',
+  },
+  {
+    question: 'My work is strong, but I still get passed over for the senior opportunities I want. Why?',
+    answer:
+      'This is usually an executive-presence or visibility gap rather than a competence gap. Strong outcomes that stay invisible to the people who decide promotions, board seats, or senior hires will keep losing to a louder profile. Guidance should help you build credible visibility without it reading as self-promotion.',
+  },
+  {
+    question: "I'm ten-plus years into my career and it feels like the growth has flattened. What now?",
+    answer:
+      'A flattened growth curve after a decade or more usually means the role, the industry, or your current skill set has stopped compounding the way it once did. Guidance should help you decide whether to rebuild a higher-value skill portfolio inside your current path, push for a bigger internal mandate, or make a deliberate external or advisory move.',
+  },
+  {
+    question: 'Is executive career coaching here a separate, more expensive program than the rest of Future Career School?',
+    answer:
+      "No. Executive career coaching uses the same practical, online career guidance and the same working-professional plan used across Future Career School. There is no separate premium executive tier or inflated price attached to the word \"executive\" here, the value is in decision support that is specific to senior-level questions, not a different price point.",
+  },
+  {
+    question: 'Do I need a certified executive coach with a specific credential for this kind of decision?',
+    answer:
+      'A credential alone does not guarantee useful, specific guidance for your situation. What should matter more is whether the guidance engages honestly with your leadership-track question, readiness gap, or positioning problem, and helps you build a stronger, high-value skill and leadership profile going forward.',
+  },
+  {
+    question: 'Should I be building a personal brand at a senior level, or does that only matter early in a career?',
+    answer:
+      'Personal brand and visibility matter more, not less, as you move up, because board seats, CXO roles, and senior external moves depend heavily on who already knows your track record. Guidance should help you connect that visibility work directly to compensation and senior consideration, not treat it as a vanity project.',
+  },
+  {
+    question: 'Is this available online, given how packed a senior schedule usually is?',
+    answer:
+      'Guidance is delivered fully online across India, so you can work with a counsellor around a senior schedule, from home or your office, without a commute or a fixed in-person slot to plan around.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help with skill, role, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'A wider working-professional guidance page covering stagnation, AI pressure, and pivot decisions at any career stage.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers,
+    title: 'Working Professionals and Career Changers Assessment',
+    description:
+      'Free input on strengths, work style, and role fit before deciding on a leadership-track move or a senior repositioning step.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free, updated, practical assessments for direction, skill fit, and career decisions at any stage.',
+  },
+  {
+    href: '/career-skills-compass/',
+    title: 'Career & Skills Compass',
+    description: 'A free tool for narrowing which high-value skills fit your strengths and your next senior move.',
+  },
+  {
+    href: '/career-resources/',
+    title: 'Career Resources',
+    description: 'Free guides and checklists for acting on pivots, positioning, and stronger next steps.',
+  },
+  {
+    href: '/blog/career-growth/how-to-transition-to-a-new-career-role-at-work/',
+    title: 'Career Transitions for Working Professionals',
+    description: 'A practical approach to pivoting roles, functions, or companies while protecting income and stability.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Executive Career Coaching',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Executive Career Coaching | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Executive Career Coaching',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Executive Career Coaching</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Executive career coaching toward a higher-income leadership path and earlier financial freedom
+      </div>
+
+      <h1 class="hero-title">
+        Executive career coaching
+        <span class="gold-text"> for the senior moves that are harder to reverse</span>
+      </h1>
+      <p class="hero-sub">
+        Executive career coaching should deal with the decisions a senior title does not automatically answer: leadership
+        track or deep expert track, whether you are genuinely ready for a bigger mandate or a board-level conversation,
+        and why strong work is not always turning into visibility or opportunity. The goal is a leadership-level, high-value
+        skill and positioning portfolio the market can actually see, so your senior years compound toward stronger
+        opportunities and earlier financial freedom instead of a slow plateau.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India using the same practical, working-professional guidance approach
+        used across Future Career School, not a separate bespoke executive program or a different price point.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Executive Career Coaching for Professionals</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When executive career coaching becomes useful"
+    subtitle="It becomes useful right as a leadership-track question, a readiness doubt, or a visibility gap starts costing you real opportunities, because the sooner your positioning is right, the sooner a stronger senior-level skill portfolio starts compounding again toward higher income and earlier financial freedom, instead of a plateau that quietly gets more expensive to reverse."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Make the leadership-track or readiness call clearly before another review cycle passes"
+    body="The earlier your senior direction is right, the sooner a stronger, higher-income skill and leadership portfolio starts compounding instead of sitting flat."
+    professionalHref="#plans"
+    professionalLabel="Get Executive Career Coaching for Professionals"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The senior-level decisions this should help you make"
+    subtitle="Not generic career-advancement talk. Direction for the exact leadership-track, readiness, and positioning questions senior professionals actually face."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help you see your actual working style and strengths before weighing a leadership-track move against a deep expert path."
+      href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+    />
+  </BofuListCardSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when executive career coaching is done right"
+    subtitle="Executive career coaching should feel different from a generic pep talk about aiming higher."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for executive career coaching"
+    subtitle="The goal is a clearer leadership-track, readiness, or positioning decision, not an inflated price tag attached to the word executive."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Do not let a plateau or an unclear readiness question decide the next senior move for you"
+    body="A clearer leadership-track, board-readiness, or positioning decision now protects the years where senior compensation and influence compound the most."
+    professionalHref="#plans"
+    professionalLabel="Get Executive Career Coaching for Professionals"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Executive Career Coaching"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader working-professional guidance, senior-stage assessments, and free tools before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions senior professionals ask before choosing executive career coaching"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Take the leadership-track or readiness decision seriously before it gets more expensive"
+    subtitle="If a leadership-track question, a readiness doubt, or a visibility gap already feels real, move with stronger direction now toward a higher-value skill portfolio and earlier financial freedom, instead of letting another review cycle decide for you."
+    professionalHref="#plans"
+    professionalLabel="Get Executive Career Coaching for Professionals"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

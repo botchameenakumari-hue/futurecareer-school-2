@@ -1,0 +1,390 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title = 'Career Counselling for Students | Resolve One Decision | Future Career School';
+const description =
+  'Career counselling for students who are stuck between specific streams, subjects, or courses right now. A structured 1-on-1 session built to resolve that one decision, not just discuss direction in general.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-students/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[3],
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Move here when the need is broader ongoing direction across school, college, or early career, not one decision that needs resolving right now.',
+  },
+  {
+    href: '/services/assessments/class-11-to-12/',
+    title: 'Class 11 to 12 Assessment',
+    description: 'A free starting signal on strengths and subject fit before the counselling conversation, useful when the two options still feel equally unclear.',
+  },
+  {
+    href: '/services/assessments/',
+    title: 'Free Career Assessments',
+    description: 'Free assessments across stages for stream, subject, and career-fit signal before a paid counselling session.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12th,
+    title: 'Career Guidance After 12th',
+    description: 'Use this when the decision in front of you is specifically the after-12th course or college step rather than an 11th-grade stream choice.',
+  },
+  {
+    href: '/blog/stream-selection/which-stream-to-choose-in-11th/',
+    title: 'Which Stream to Choose in 11th',
+    description: 'Read this if the specific decision is Science, Commerce, or Arts and you want the reasoning laid out before booking a session.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Counselling and Guidance',
+    description: 'For families weighing several connected decisions together, not one isolated choice.',
+  },
+];
+
+const fitItems = [
+  {
+    title: 'Stuck between two specific streams',
+    body: 'Not "what should I do with my life" in the abstract — a concrete choice like Science versus Commerce, or PCM versus PCB, that needs an answer this week or month.',
+  },
+  {
+    title: 'Torn between similar-sounding courses',
+    body: 'Two or three college or subject options that all look reasonable on paper, where the real difference in skills and outcomes is not obvious from a prospectus.',
+  },
+  {
+    title: 'Parents and you want different specific answers',
+    body: 'When the disagreement is not vague — it is one option your family wants and one option you are leaning toward, and someone needs to move first.',
+  },
+  {
+    title: 'A deadline is already forcing the issue',
+    body: 'Form submission, subject-selection cutoff, or admission date approaching, and continued indecision itself is becoming the cost.',
+  },
+];
+
+const improvementItems = [
+  {
+    title: 'A specific recommendation, not more options',
+    body: 'The session should narrow your actual two or three choices down to one clear direction with the reasoning spelled out, not add a fourth possibility to consider.',
+  },
+  {
+    title: 'Reasoning you can repeat to your parents',
+    body: 'A decision only holds up if you can explain why it was made — fit, market reality, and trade-offs in plain terms, not just "this felt right."',
+  },
+  {
+    title: 'A skill plan attached to the choice',
+    body: 'Once the stream, subject, or course is settled, the next question is what to build alongside it so the decision keeps paying off toward stronger income and earlier financial freedom, not just a safer-sounding label.',
+  },
+  {
+    title: 'A next step, not homework',
+    body: 'You should leave the session with something to act on, not a list of things to go research further on your own.',
+  },
+];
+
+const faqItems = [
+  {
+    question: "I'm stuck between two specific streams. Can one counselling session actually resolve that?",
+    answer:
+      'That is exactly the kind of decision this is built for. Career counselling for students works best when the choice is already narrowed to a small set of concrete options — the session focuses on your fit, the trade-offs between those exact options, and a direct recommendation instead of a general discussion about careers.',
+  },
+  {
+    question: 'Will I get a direct recommendation, or just more questions to think about?',
+    answer:
+      'You should leave with a clear direction and the reasoning behind it, not just a longer list of things to consider. Counselling that only adds more open questions is not doing its job when you came in with a specific decision to make.',
+  },
+  {
+    question: 'My parents want one specific option and I am leaning toward another. Can this help?',
+    answer:
+      'Yes. This is a common situation. A good session should help you build a reasoned case — grounded in your fit, market reality, and trade-offs — that you can actually use in the conversation with your family, rather than just validating whichever side you already agree with.',
+  },
+  {
+    question: 'How is career counselling for students different from student career guidance?',
+    answer:
+      'Student career guidance is built for broader, ongoing direction across school, college, and early career stages. Career counselling for students, as covered here, is built for a narrower moment: a specific stream, subject, or course decision that needs to be resolved now. If your need is broader than one decision, the student career guidance page is the better starting point.',
+  },
+  {
+    question: 'What if the two options I am choosing between both seem equally fine?',
+    answer:
+      'That is often the hardest version of this decision, because there is no obviously wrong answer to rule one out. A structured session should surface the real differences in skill-building, market fit, and long-term direction between the two options instead of leaving you to decide on a coin flip.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. Career and skill assessments are fully free and can be described as updated, practical, and AI-powered. They can be a useful free starting signal before a paid counselling session, especially when the two options still feel equally unclear.',
+  },
+  {
+    question: 'Is career counselling for students available online across India?',
+    answer:
+      'Yes. Counselling is delivered fully online across India, so you can book a session from home, school, or college without depending on a local counsellor being available near you.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it addresses your exact options, not streams in general',
+    body: 'If you are choosing between two specific subjects or courses, generic advice about "how to pick a stream" will not resolve it. Look for counselling that engages directly with the options you are actually weighing.',
+  },
+  {
+    title: 'Check whether you get an actual recommendation',
+    body: 'Some counselling stays deliberately open-ended and leaves the final call to you without ever narrowing it down. If your goal is a resolved decision, make sure the process is built to reach one.',
+  },
+  {
+    title: 'Check whether skill-building is attached to the decision',
+    body: 'A stream, subject, or course choice is only the first layer. Stronger counselling connects that choice to what skills to build next, not just which label to pick.',
+  },
+  {
+    title: 'Check whether the reasoning would survive a conversation with your parents',
+    body: 'If the recommendation cannot be explained and defended afterward, it has not actually resolved anything — it has just delayed the disagreement.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for Students', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        For students stuck between specific stream, subject, or course options
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for students
+        <span class="gold-text"> built to resolve one decision, not just discuss direction</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School offers career counselling for students who already know the exact choice they are stuck on — Science or Commerce, two similar subject combinations, or two colleges that both look reasonable on paper — and need it resolved with reasoning, not more general advice.
+        The goal is a specific recommendation, tied to the higher-value skills that keep paying off toward stronger income and earlier financial freedom, so time and money do not go into the wrong option.
+      </p>
+      <p class="hero-note">
+        Counselling is delivered fully online across India, so you can book a session from home, school, or college without waiting on a local counsellor's availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for Students</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career counselling for students is exactly what you need"
+    subtitle="This is built for a specific decision already in front of you — not a general check-in about the future."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Resolve the specific stream, subject, or course decision before the deadline forces a rushed choice"
+    body="Book a session built around the exact options you are weighing, ending in a direct recommendation tied to the higher-value skills that move you toward earlier financial freedom, not just a safer-sounding label."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Students"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-changes"
+    title="What career counselling for students should actually give you"
+    items={improvementItems}
+    variant="decision"
+  >
+      <AssessmentSupportNote
+        body="If the two options still feel equally unclear, the free career and skill assessments can give you a starting signal on fit before the counselling session narrows it down further."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+  </BofuFeatureSection>
+
+  <BuyerChecks
+    sectionId="check-before-paying"
+    title="What to check before booking career counselling for students"
+    subtitle="If the goal is a resolved decision, the process should be built to reach one — not to leave you with more to think about."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    title="Generic career advice versus counselling built to resolve your decision"
+    subtitle="The difference matters most when you already have specific options in front of you and need one of them answered."
+    rows={comparisonRows}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Stop re-explaining the same two options to different people"
+    body="One structured session, focused on the exact choice you are stuck on, with a direct answer at the end."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling for Students"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See other guidance pages, assessments, and useful reading depending on how broad or specific your decision is."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Get the specific decision resolved instead of carrying it forward"
+    subtitle="If you already know the exact options you are choosing between, move with a direct recommendation now — one tied to real skill direction and earlier financial freedom — instead of letting the deadline or the disagreement drag on."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Students"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 3.9rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 790px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #what-changes,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.82rem, 9.6vw, 2.45rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

@@ -1,0 +1,718 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'How to Become a Data Scientist in India: The Statistics-First Roadmap';
+const description =
+  'A data scientist roadmap India guide built on statistics, SQL, A/B testing, and stakeholder communication, not model deployment. See how this path differs from machine learning engineering.';
+const canonical =
+  'https://futurecareerschool.com/blog/career-options/how-to-become-a-data-scientist-india';
+const publishedDateISO = '2026-07-21';
+const publishedDateLabel = '21 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: 'The short answer' },
+  { id: 'day-to-day', label: 'What a data scientist actually does' },
+  { id: 'statistics', label: 'Statistics and probability, the real foundation' },
+  { id: 'sql', label: 'SQL and data wrangling first' },
+  { id: 'experimentation', label: 'A/B testing and experimentation design' },
+  { id: 'communication', label: 'Business communication: the real differentiator' },
+  { id: 'tools', label: 'The tools, briefly' },
+  { id: 'build-order', label: 'The build order' },
+  { id: 'portfolio', label: 'A portfolio built on insight, not deployment' },
+  { id: 'vs-ml-engineer', label: 'Data scientist vs ML engineer, day to day' },
+  { id: 'mistakes', label: 'Mistakes that stall this path' },
+  { id: 'timeline', label: 'A realistic timeline' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const statsItems = [
+  {
+    num: '01',
+    title: 'Descriptive statistics and distributions',
+    body: 'Mean, median, variance, and standard deviation sound basic, but knowing when a distribution is skewed, when an average is hiding two very different groups, and when a metric is being gamed is what separates useful analysis from a dashboard nobody trusts.',
+    tip: 'Practise on messy, real business data, not clean textbook datasets. A skewed revenue distribution with a handful of outlier customers behaves nothing like a normal curve, and that gap is where most beginner analysis goes wrong.',
+  },
+  {
+    num: '02',
+    title: 'Probability and sampling',
+    body: 'Every business question you answer from a sample, not the full population, carries sampling risk. Understanding confidence intervals, sample size, and selection bias is what stops you from telling a stakeholder a pattern is real when it is actually noise from a small or skewed sample.',
+    tip: 'Build the habit of asking "how confident am I, and why" before you present a number. That single habit is worth more than memorising formulas.',
+  },
+  {
+    num: '03',
+    title: 'Hypothesis testing and correlation vs causation',
+    body: 'p-values, t-tests, and chi-square tests are not academic exercises here — they are what let you say "this change genuinely caused the result" instead of "these two things moved together." Confusing correlation with causation is one of the most common and most expensive mistakes a data scientist can make in front of a business stakeholder.',
+    tip: 'Practise by finding a correlated pair in any public dataset and building the case for why it is or is not causal. That exercise trains the exact judgment interviewers test for.',
+  },
+  {
+    num: '04',
+    title: 'Bayesian thinking, once the basics are solid',
+    body: 'Bayesian reasoning updates a belief as new evidence arrives, and it shows up in real work more than beginners expect: fraud scoring, recommendation confidence, and reading an A/B test that has not reached full sample size yet all lean on it.',
+    tip: 'Treat this as a later layer, not a starting point. Frequentist statistics and hypothesis testing get you through most entry-level work first.',
+  },
+];
+
+const sqlItems = [
+  'Joins and aggregations: pulling data across multiple tables is the daily reality of the job, not an occasional task. Most real business questions live across at least two or three tables.',
+  'Window functions: running totals, rank-within-group, and period-over-period comparisons are the queries that turn raw rows into an actual business answer.',
+  'Data cleaning inside SQL: deduplication, handling nulls, and catching inconsistent formats before the data ever reaches Python saves hours later and catches errors that pandas alone will not flag.',
+  'Query performance basics: knowing why a query is slow and how indexing and filtering order affect it matters once you work with real production-sized tables instead of a sample CSV.',
+];
+
+const experimentItems = [
+  {
+    num: '01',
+    title: 'Framing the hypothesis before touching data',
+    body: 'A weak experiment starts with "let\'s test the new button colour." A strong one starts with a clear null hypothesis, a primary metric, and a defined minimum effect size worth acting on. This framing step is where most self-taught learners skip straight to running numbers.',
+  },
+  {
+    num: '02',
+    title: 'Sample size and test duration',
+    body: 'Stopping a test early because the result looks good is one of the most common ways teams fool themselves. Learning to calculate the sample size needed for statistical power, and holding the line until the test actually reaches it, is a real skill that takes deliberate practice.',
+  },
+  {
+    num: '03',
+    title: 'Guardrail metrics and novelty effects',
+    body: 'A change can win on the metric you are watching while quietly damaging something else, like support tickets or churn. Good experimentation design tracks guardrail metrics alongside the primary one, and accounts for the fact that users often react differently to something new in week one than in week four.',
+  },
+  {
+    num: '04',
+    title: 'Reading and communicating the result honestly',
+    body: 'A statistically significant result is not automatically a business-significant one, and a null result is not automatically a failed test. Explaining what the data does and does not support, without overselling a marginal win, is what makes a data scientist trusted with bigger decisions over time.',
+  },
+];
+
+const buildOrderItems = [
+  {
+    num: '01',
+    title: 'SQL and data wrangling',
+    body: 'Start here, not with Python or machine learning. Almost every real data scientist role begins the day pulling and joining data from a warehouse, and weak SQL is one of the fastest ways to get filtered out of an interview.',
+  },
+  {
+    num: '02',
+    title: 'Statistics and probability, applied to real questions',
+    body: 'Work through distributions, sampling, and hypothesis testing using a real or realistic dataset, not through formulas in isolation. You want to reach the point where you can explain a p-value to someone who has never heard the term.',
+  },
+  {
+    num: '03',
+    title: 'Python for analysis, not modelling yet',
+    body: 'Pandas, NumPy, and a visualization library (Matplotlib or Seaborn) for cleaning, exploring, and presenting data. Hold off on scikit-learn and predictive modelling until this layer and the two before it are solid.',
+  },
+  {
+    num: '04',
+    title: 'Experimentation design',
+    body: 'Learn how to design an A/B test end to end: hypothesis, metric, sample size, guardrails, and interpretation. This is the single most under-taught skill in beginner data science content, and it is one of the most commonly tested skills in real interviews.',
+  },
+  {
+    num: '05',
+    title: 'Business storytelling and visualization',
+    body: 'Learn to build a dashboard or report in Tableau or Power BI that a non-technical stakeholder can act on without you in the room, and practise presenting a finding in under two minutes, leading with the decision it supports.',
+  },
+  {
+    num: '06',
+    title: 'Applied statistical and machine learning models',
+    body: 'Regression, classification, and clustering with scikit-learn come after the layers above, applied to a real business question such as churn, pricing, or segmentation, not as a standalone modelling exercise for its own sake.',
+  },
+  {
+    num: '07',
+    title: 'Portfolio consolidation and interview prep',
+    body: 'Narrow down to three to four analysis-driven case studies, written up with the business question, the method, the result, and the recommendation, and practise explaining each one out loud before you start applying.',
+  },
+];
+
+const portfolioItems = [
+  {
+    title: 'A causal analysis case study',
+    body: 'Take a real or public dataset, frame a business question (did a pricing change actually increase revenue, or did an intervention actually reduce churn), and show your full reasoning from hypothesis to conclusion, including what could confound the result.',
+  },
+  {
+    title: 'A documented A/B test write-up',
+    body: 'Design and simulate or analyse an experiment: state the hypothesis, the metric, the sample size logic, and the honest interpretation of the result, including any guardrail metric that moved.',
+  },
+  {
+    title: 'A cohort or segmentation analysis with a recommendation',
+    body: 'Segment users or customers by behaviour, not just demographics, and end with a specific, defensible business recommendation, not just a chart. The recommendation is what recruiters actually read for.',
+  },
+  {
+    title: 'A stakeholder-facing dashboard or report',
+    body: 'Build one polished, presentation-ready output, in Tableau, Power BI, or even a clean slide deck, that shows you can translate a finding for someone who will never open your notebook.',
+  },
+];
+
+const roleCompareRows = [
+  { area: 'Main output', ds: 'A recommendation, insight, or decision for a stakeholder', ml: 'A model or pipeline running reliably in production' },
+  { area: 'Typical week', ds: 'Querying data, running analysis, testing hypotheses, presenting findings', ml: 'Building pipelines, tuning models, monitoring systems, fixing production issues' },
+  { area: 'Core toolkit', ds: 'SQL, Python for analysis, statistics, visualization tools', ml: 'Python for software, ML frameworks, deployment tools, cloud infrastructure' },
+  { area: 'Who they talk to most', ds: 'Product managers, business leads, marketing, operations', ml: 'Software engineers, platform teams, other ML engineers' },
+  { area: 'Success looks like', ds: 'A decision changed, a metric explained, a strategy shifted', ml: 'A model shipped, latency and uptime met, predictions delivered at scale' },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Jumping straight to machine learning models',
+    body: 'Predictive modelling is the most exciting part of the roadmap and the least useful place to start. Without solid SQL and statistics first, a model becomes a black box you cannot defend when someone asks why it made a specific prediction.',
+  },
+  {
+    num: '02',
+    title: 'Treating communication as an afterthought',
+    body: 'A technically excellent analysis that nobody can act on because it was buried in jargon or a 40-slide deck does not move a business decision. Practising a two-minute explanation of your finding is not a soft skill add-on, it is core to the job.',
+  },
+  {
+    num: '03',
+    title: 'Building a portfolio of model-deployment projects for a data scientist role',
+    body: 'Deploying a model with Docker and an API is a genuinely valuable skill, but it answers the wrong question for most data scientist interviews. What gets tested is whether you can frame a business question, choose the right method, and defend a conclusion, not whether you can containerise a model.',
+  },
+  {
+    num: '04',
+    title: 'Skipping experimentation design entirely',
+    body: 'Many beginner roadmaps go from statistics straight to machine learning and never cover A/B testing properly. That gap shows up immediately in interviews at product-led companies, where experimentation questions are close to guaranteed.',
+  },
+  {
+    num: '05',
+    title: 'Not learning to say "the data does not support that" clearly',
+    body: 'Stakeholders sometimes want a specific answer. Learning to push back on a flawed framing, or to say a result is inconclusive, without losing the room, is a real skill that takes practice and is one of the traits senior data scientists get hired and trusted for.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'What is the real data scientist roadmap India students and professionals should follow?',
+    a: 'Start with SQL and data wrangling, then apply statistics and probability to real questions, then Python for analysis (not modelling yet), then experimentation design and A/B testing, then business storytelling and visualization, and only then applied statistical and machine learning models. Skipping straight to machine learning before the foundations are solid is the most common reason self-taught learners stall in interviews.',
+  },
+  {
+    q: 'How is becoming a data scientist different from the machine learning engineer path?',
+    a: 'A data scientist spends most of the week on analysis, experimentation, and communicating findings that change a business decision, while a machine learning engineer spends most of the week building and maintaining the pipelines and infrastructure that keep a model running reliably in production. If you want the engineering-heavy path with deployment, MLOps, and deep learning depth, the dedicated guide is the machine learning roadmap India, which covers that build order in full.',
+  },
+  {
+    q: 'Do I need to learn machine learning to become a data scientist?',
+    a: 'Yes, eventually, but not first. Most real data scientist work in India is analysis, SQL, statistics, and experimentation before it is predictive modelling. Applied statistical and machine learning models come after those foundations are solid, applied to a real business question rather than practised in isolation.',
+  },
+  {
+    q: 'What should a data scientist portfolio actually contain?',
+    a: 'Three to four analysis-driven case studies work better than model-deployment projects for most data scientist interviews: a causal analysis with a clear business question, a documented A/B test write-up, a cohort or segmentation analysis with a specific recommendation, and one stakeholder-facing dashboard or report. Each should show the full reasoning from question to recommendation, not just code.',
+  },
+  {
+    q: 'How much SQL do I actually need before I start applying for data scientist roles?',
+    a: 'Comfortable with joins, aggregations, window functions, and basic data cleaning inside SQL. A large share of data scientist job descriptions in India list SQL as a core, non-negotiable requirement, and weak SQL is one of the fastest ways to get filtered out early in an interview process, even if your statistics and Python skills are strong.',
+  },
+  {
+    q: 'How long does it realistically take to become job-ready as a data scientist in India?',
+    a: 'There is no single honest number here. People with a related background, such as a statistics, economics, or engineering degree, or existing SQL and analytics experience, often reach an interview-ready portfolio in a focused stretch of a few months. People building SQL, statistics, and a first analysis-driven portfolio from a completely unrelated background more realistically need closer to a year. Judge your own pace against the build order above rather than a fixed timeline.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://futurecareerschool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Career Options', item: 'https://futurecareerschool.com/blog/career-options' },
+      { '@type': 'ListItem', position: 4, name: 'How to Become a Data Scientist in India', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="career-options"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={jsonLd}
+>
+  <p class="lead-para">
+    If you want to know how to become a data scientist in India, the real <strong>data scientist roadmap</strong>
+    runs through statistics and probability, SQL and data wrangling, and experimentation design long before it
+    reaches machine learning models. Most beginner guides flip that order, which is exactly why so many
+    self-taught learners can build a model but cannot defend a business recommendation in an interview.
+  </p>
+  <p>
+    This is a dedicated deep dive into the data scientist path specifically, not a general machine learning
+    guide. If what you actually want is the engineering-heavy route, with deployment, MLOps, and deep learning
+    depth, read the <a href="/blog/skill-roadmaps/machine-learning-roadmap-india/">machine learning roadmap
+          India</a> instead. The guidance below focuses on the analysis-and-decisions side of the same broader field.
+  </p>
+  <p>
+    A data scientist's real job, day to day, is closer to structured investigation than production engineering:
+    exploring data, testing hypotheses, running experiments, and turning the result into a decision a
+    non-technical stakeholder can act on. That last part, business communication, is what separates a data
+    scientist's daily work from a machine learning engineer's, and it is the skill most roadmaps mention once
+    and then never build.
+  </p>
+  <p>
+    Building this roadmap in the right order is really about building a genuine <strong>high-income skill
+    portfolio</strong> — statistics, SQL, experimentation, and the communication to make it count — rather than
+    collecting course certificates. That sequencing is what actually moves you toward earlier financial
+    freedom in this field, not the job title alone.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Build in this order: SQL and data wrangling, then applied statistics and probability, then Python for analysis, then A/B testing and experimentation design, then business storytelling, then applied ML models.</li>
+      <li>A data scientist and a machine learning engineer are genuinely different day-to-day jobs. If you want the engineering-heavy version, the <a href="/blog/skill-roadmaps/machine-learning-roadmap-india/">machine learning roadmap</a> covers that build order.</li>
+      <li>Your portfolio should be built from analysis and insight projects, causal case studies, A/B test write-ups, segmentation with a recommendation, not model-deployment or MLOps projects, which belong to the engineering path.</li>
+      <li>Business communication is not a soft-skill add-on here. It is the skill that decides whether your analysis changes a real decision or gets ignored.</li>
+      <li>The scalable combination is statistics and code plus deep industry context, AI workflow skill, clear explanation, and proof of business impact. A model notebook alone is weaker than an analysis that changes revenue, risk, cost, or operations.</li>
+    </ul>
+  </div>
+
+  <div class="cta-inline">
+    <a class="btn-gold pulse" href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">Get structured guidance on this path</a>
+    <a class="btn-outline cta-assessment-lite" href="https://futurecareerschool.com/services/assessments">Use a free assessment as a quick first check</a>
+  </div>
+
+  <p>
+    This roadmap sits inside our wider <a href="/blog/career-options/">career options</a> guides, which walk
+    through what a role actually involves, what to learn, and how to start, one decision at a time.
+  </p>
+
+  <nav class="jump-nav" aria-label="Jump to section">
+    <span class="jump-nav__label">Jump to section</span>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((link) => (
+        <li><a href={`#${link.id}`}>{link.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The short answer</h2>
+  <p>
+    To become a data scientist in India, build four layers in order: SQL and data wrangling first, applied
+    statistics and probability second, experimentation design third, and business communication as the thread
+    that runs through all of it. Machine learning models come after those foundations, applied to a real
+    business question, not as the starting point. This order matters because most real data scientist
+    interviews in India test SQL fluency, statistical reasoning, and how you explain a result, well before
+    they test model architecture.
+  </p>
+
+  <h2 id="day-to-day">What a data scientist actually does, day to day</h2>
+  <p>
+    Strip away the job title glamour and a typical week looks like this: pulling and cleaning data with SQL,
+    exploring it for patterns, running or analysing an experiment, and presenting a finding to a product
+    manager, marketing lead, or operations team who will make a real decision based on what you tell them.
+    Roughly half the job is communication, not code.
+  </p>
+  <p>
+    This is genuinely different from a machine learning engineer's week, which centres on building and
+    maintaining the pipelines, infrastructure, and monitoring that keep a model serving predictions reliably in
+    production. Both roles sit under the same broad "data and AI" umbrella, and job titles in India are used
+    loosely enough that the line blurs on paper, but the actual daily work does not overlap as much as the
+    titles suggest. If you are still deciding which of the two fits you better, the fuller head-to-head on
+    <a href="/blog/ai-future/machine-learning-vs-data-science-career-path-india/">machine learning vs data
+    science career path India</a> compares daily work, math depth, tools, and salary bands side by side.
+  </p>
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Data scientist salaries in India span roughly ₹6 lakh at entry level up to ₹40 lakh-plus for senior
+      specialists in deep learning, NLP, or data engineering, according to multiple 2026 salary trackers, with
+      Bangalore typically running 15 to 30% above the national average. Do not anchor on any single number from
+      one source. What consistently separates the higher end of that range is not a fancier model, it is SQL
+      fluency, real experimentation experience, and the ability to manage a stakeholder conversation.
+    </p>
+  </div>
+
+  <h2 id="statistics">Statistics and probability, the real foundation</h2>
+  <p>
+    This is the layer most beginner roadmaps rush through to get to the "fun" part. That is a mistake. Every
+    data scientist decision, from reading a dashboard to interpreting an A/B test, rests on statistical
+    reasoning, and weak statistics is one of the fastest ways an otherwise strong candidate gets filtered out in
+    an interview.
+  </p>
+  <div class="protocol-stack">
+    {statsItems.map((item) => (
+      <div class="protocol-row">
+        <span class="protocol-num">{item.num}</span>
+        <div class="protocol-body">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+          <p class="protocol-note">{item.tip}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="sql">SQL and data wrangling, before Python models</h2>
+  <p>
+    If you only have time to get one skill genuinely strong before you start applying, make it SQL. Real company
+    data does not arrive as a clean CSV; it lives across multiple tables in a warehouse, and pulling the right
+    slice of it correctly is a daily, non-negotiable part of the job.
+  </p>
+  <ul>
+    {sqlItems.map((item) => <li>{item}</li>)}
+  </ul>
+  <div class="callout callout--teal">
+    <p class="callout__eyebrow">Honest take</p>
+    <p>
+      A candidate with strong SQL and average Python will usually clear more data scientist screens in India
+      than a candidate with strong Python and weak SQL. SQL is tested first, tested harder, and is closer to
+      what the job actually looks like day to day than most beginners expect.
+    </p>
+  </div>
+
+  <h2 id="experimentation">A/B testing and experimentation design</h2>
+  <p>
+    This is the single most under-taught skill in beginner data science content, and it is one of the most
+    reliably tested skills in real interviews at product-led companies. Experimentation is not just "running a
+    test," it is a full reasoning chain from hypothesis to honest interpretation.
+  </p>
+  <div class="protocol-stack">
+    {experimentItems.map((item) => (
+      <div class="protocol-row">
+        <span class="protocol-num">{item.num}</span>
+        <div class="protocol-body">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="communication">Business communication: the real differentiator</h2>
+  <p>
+    Here is the skill that most separates a data scientist from a machine learning engineer in daily practice:
+    most of your stakeholders will not have a data background, and your analysis only creates value the moment
+    someone else understands it well enough to act on it.
+  </p>
+  <p>
+    Strong communication and visualization are consistently what distinguishes data scientists who influence
+    real decisions from ones who produce analysis nobody uses. That means explaining correlation versus
+    causation in plain terms, making an A/B test result clear and actionable instead of a wall of numbers, and
+    being able to say a result is inconclusive without losing the room. None of this is a soft-skill footnote.
+    It is core, gradeable, interview-tested work.
+  </p>
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      A machine learning engineer's output is judged mostly by whether the system runs reliably in production.
+      A data scientist's output is judged by whether a real decision changed because of it. That single
+      difference is why communication sits at the centre of this roadmap instead of at the edges.
+    </p>
+  </div>
+
+  <h2 id="tools">The tools, briefly</h2>
+  <p>
+    Tools matter less than sequence, and the core data scientist stack is smaller than most roadmaps suggest:
+    SQL for data access, Python with pandas and NumPy for analysis, Matplotlib or Seaborn for exploration,
+    Tableau or Power BI for stakeholder-facing reporting, and scikit-learn once you are ready for applied
+    modelling. If you want the fuller ML toolkit, including deep learning frameworks and deployment tools for
+    the engineering-heavy path, that lives in the
+    <a href="/blog/skill-roadmaps/machine-learning-roadmap-india/">machine learning roadmap India</a>.
+  </p>
+
+  <h2 id="build-order">The build order</h2>
+  <p>
+    Sequence decides whether this roadmap actually works. Jumping to machine learning models before SQL,
+    statistics, and experimentation are solid is the single most common reason people finish several courses
+    and still cannot pass a practical data science interview.
+  </p>
+  <div class="protocol-stack">
+    {buildOrderItems.map((item) => (
+      <div class="protocol-row">
+        <span class="protocol-num">{item.num}</span>
+        <div class="protocol-body">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="portfolio">A portfolio built on insight, not deployment</h2>
+  <p>
+    This is where the data scientist path and the machine learning engineer path diverge most visibly in
+    practice. A machine learning engineer's portfolio needs deployed models, APIs, and pipeline work. A data
+    scientist's portfolio needs to prove you can frame a business question, choose the right method, and defend
+    a conclusion, and that proof comes from analysis-driven case studies, not from containerising a model.
+  </p>
+  <div class="track-grid">
+    {portfolioItems.map((item) => (
+      <div class="track-card">
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+  <div class="highlight-box highlight-box--gold">
+    <p>
+      Skip the model-deployment or MLOps project if your target is a data scientist role, not a machine learning
+      engineer role. It is genuinely valuable work, but it answers the wrong interview question here. If your
+      interest is actually leaning toward that engineering-heavy direction, the
+      <a href="/blog/skill-roadmaps/machine-learning-roadmap-india/">machine learning roadmap India</a> covers
+      the deployment-focused portfolio order instead.
+    </p>
+  </div>
+  <p>
+    This is where the high-income skill portfolio actually gets built and made visible: not through another
+    certificate, but through analysis work a hiring manager can read, question, and trust within minutes.
+  </p>
+
+  <h2 id="vs-ml-engineer">Data scientist vs ML engineer, day to day</h2>
+  <p>
+    Both roles get grouped under "data and AI jobs" in most Indian job postings, and titles are used loosely
+    enough that reading the actual job description matters more than the label. But the daily reality is
+    genuinely different once you are inside the role.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Area</th>
+          <th>Data scientist</th>
+          <th>Machine learning engineer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {roleCompareRows.map((row) => (
+          <tr>
+            <td data-label="Area">{row.area}</td>
+            <td data-label="Data scientist">{row.ds}</td>
+            <td data-label="Machine learning engineer">{row.ml}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p>
+    For the fuller comparison, including math depth, salary bands, and career ceiling, see
+    <a href="/blog/ai-future/machine-learning-vs-data-science-career-path-india/">machine learning vs data
+    science career path India</a>. The short version for this roadmap: if the idea of exploring an open question
+    in data and explaining your conclusion to a room of non-technical people sounds energising, not draining,
+    this path fits. If you would rather spend the week making a system run reliably than convincing someone of
+    a finding, the machine learning engineering path is the better fit, and the
+    <a href="/blog/skill-roadmaps/machine-learning-roadmap-india/">machine learning roadmap India</a> is built
+    for exactly that.
+  </p>
+
+  <h2 id="mistakes">Mistakes that stall this path</h2>
+  <div class="protocol-stack">
+    {mistakeItems.map((item) => (
+      <div class="protocol-row">
+        <span class="protocol-num">{item.num}</span>
+        <div class="protocol-body">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="timeline">A realistic timeline</h2>
+  <p>
+    There is no single honest week count here, and any roadmap that hands you an exact number is guessing.
+    What holds true across most people who build this path: SQL and applied statistics take real, deliberate
+    time if you are starting from zero, experimentation design and business storytelling build on top of that
+    foundation once it is solid, and a genuinely documented analysis portfolio cannot be rushed without it
+    reading as shallow within the first two follow-up questions in an interview.
+  </p>
+  <p>
+    People who already sit close to this work, statistics or economics graduates, existing business analysts,
+    or anyone already comfortable in SQL, often reach an interview-ready portfolio in a focused stretch of a
+    few months. People building SQL fluency, statistical intuition, and a first analysis-driven portfolio from
+    a completely unrelated background more realistically need closer to a year. Judge your own pace against the
+    build order above, not against someone else's timeline post.
+  </p>
+
+  <h2 id="next-step">What to do next</h2>
+  <p>
+    Do not open another statistics course before you have picked your first analysis question and started
+    pulling data for it with SQL. That single decision moves your odds further than another week of watching
+    theory videos.
+  </p>
+  <div class="highlight-box highlight-box--teal">
+    <p>Start with SQL and one real dataset, before any statistics theory or machine learning model.</p>
+    <p>Pick one business question you can defend end to end, and build the full analysis before you start a second one.</p>
+  </div>
+  <p>
+    Moving toward earlier financial freedom through this roadmap comes down to the same thing it always does:
+    the right skill sequence, visible proof, and clear communication about your decisions, stacked deliberately
+    rather than collected at random. If you want a second opinion on whether data science genuinely fits your
+    background and interests, over the machine learning engineering path or another data-adjacent direction,
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career
+    guidance</a> can help you map the entry path that fits your situation, or start with the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a> if you are
+    still deciding whether this is genuinely your lane. You can also explore the wider
+    <a href="/career-skills-compass">Career and Skills Compass</a> or browse more
+    <a href="/career-resources?topic=skills&type=roadmap">skill roadmaps</a> if a different direction fits
+    better.
+  </p>
+
+  <h2 id="faq">FAQs on how to become a data scientist in India</h2>
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .cta-inline {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 1.6rem 0 1.4rem;
+    }
+    .cta-inline a {
+      min-width: 240px;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96);
+      font-weight: 800;
+      margin: 0 0 0.85rem;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li { margin: 0 !important; }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover { color: #fff; }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.4rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--teal { border-color: rgba(45, 212, 191, 0.24); background: rgba(45, 212, 191, 0.06); }
+    .callout--gold { border-color: rgba(229, 184, 74, 0.24); background: rgba(229, 184, 74, 0.06); }
+    .callout__eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 0 0 0.5rem;
+    }
+    .callout p:last-child { margin-bottom: 0; }
+
+    .honest-take {
+      border-left: 3px solid rgba(229, 184, 74, 0.65);
+      background: rgba(229, 184, 74, 0.05);
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.2rem;
+      margin: 1.4rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.95);
+      margin: 0 0 0.5rem;
+    }
+    .honest-take p:last-child { margin-bottom: 0; }
+
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.1rem;
+      margin: 1.5rem 0;
+    }
+    .track-card {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 1.4rem 1.4rem 1.3rem;
+      background: rgba(255, 255, 255, 0.025);
+    }
+    .track-card h3 { margin-top: 0; }
+
+    .protocol-stack {
+      display: grid;
+      gap: 0.9rem;
+      margin: 1.4rem 0;
+    }
+    .protocol-row {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.1rem 1.25rem;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .protocol-num {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.3);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 2.2rem;
+    }
+    .protocol-body h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+    .protocol-body p { margin: 0.3rem 0; }
+    .protocol-note {
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, 0.5);
+      font-style: italic;
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.2rem 1.3rem;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--gold { border-color: rgba(229, 184, 74, 0.28); background: rgba(229, 184, 74, 0.07); }
+    .highlight-box--teal { border-color: rgba(45, 212, 191, 0.28); background: rgba(45, 212, 191, 0.07); }
+    .highlight-box p:last-child { margin-bottom: 0; }
+
+    @media (max-width: 900px) {
+      .track-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .jump-nav__list { grid-template-columns: 1fr; }
+      .protocol-row { flex-direction: column; gap: 0.4rem; }
+      .cta-inline a { min-width: 100%; }
+    }
+  </style>
+</BlogPostLayout>

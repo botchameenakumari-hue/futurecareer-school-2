@@ -1,0 +1,606 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'One-on-One Career Coaching Session | Private 1-on-1 Coaching | Future Career School';
+const description =
+  'Book a private one-on-one career coaching session with Future Career School: a focused 1-on-1 coaching conversation that turns a goal into an action plan, for students and working professionals across India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/one-on-one-career-coaching-session/';
+
+const formatGuaranteeItems = [
+  {
+    title: 'One-on-one means one-on-one, not a shared group call',
+    body:
+      'A 1-on-1 career coaching session is booked for you alone. There is no shared script delivered to a room of people, no group discussion pulling attention away from your goal, and no waiting for turns to speak.',
+  },
+  {
+    title: 'Private enough to say what you would not say in a group',
+    body:
+      'Real numbers, family pressure, a role you are not proud of, or a plan you have not told your manager yet. A private one-on-one session leaves room for the parts of a goal people usually keep quiet about in a group program or webinar.',
+  },
+  {
+    title: 'The full session stays on your goal, not a shared curriculum',
+    body:
+      'Every minute goes toward your specific situation: the skill direction, the income goal, and the plan that moves you toward achieving earlier financial freedom, not a generic session built to suit everyone in a room.',
+  },
+];
+
+const coachingFlowItems = [
+  {
+    title: 'Start from the specific goal, not a broad wish',
+    body:
+      'A career coaching session begins with the goal you actually want to move on now, whether that is a promotion, a pivot, a stronger skill stack, or breaking out of a stalled role, not a general conversation about careers.',
+  },
+  {
+    title: 'Build an action plan around a high-value skill direction',
+    body:
+      'The plan connects to a deliberate high-value, high-income skill portfolio: the right skill mix, proof of work, and market positioning that unlocks high income opportunities, not a vague list of things to eventually try.',
+  },
+  {
+    title: 'Leave with an accountability point, not just notes',
+    body:
+      'A coaching session should end with a specific next step and a clear point of follow-through, so the plan does not quietly fade the way advice from a one-off call usually does.',
+  },
+];
+
+const coachingVsCounsellingItems = [
+  {
+    eyebrow: 'Goal-execution',
+    title: 'One-on-one career coaching session',
+    body:
+      'Built for someone who already has a direction or goal in mind and wants a concrete action plan plus accountability to actually follow through on it.',
+    listItems: [
+      'Best when you know roughly where you want to go and need a plan, not another opinion.',
+      'Ongoing, goal-execution focused: the plan, the skill moves, and the follow-through.',
+      'Ends with a specific next action and a follow-through point, not just a summary.',
+    ],
+  },
+  {
+    eyebrow: 'Decision support',
+    title: 'Career counselling session',
+    body:
+      'Built for someone still deciding between paths, streams, or roles and who needs decision support before committing to a direction at all.',
+    listItems: [
+      'Best when the real question is still which path deserves your effort.',
+      'Assessment-driven and decision-focused, often a single sharper consultation.',
+      'A separate one-on-one session exists for this exact situation.',
+    ],
+  },
+];
+
+const audienceItems = [
+  {
+    label: 'Students & Freshers',
+    title: 'A private coaching session for turning a stream or skill goal into a plan',
+    body:
+      'Useful once you already know the rough direction, such as a skill you want to build or a stream you have chosen, and need a concrete plan plus accountability instead of another list of options.',
+  },
+  {
+    label: 'Working Professionals',
+    title: 'A private coaching session for pivots, promotions, and stalled growth',
+    body:
+      'Useful for turning a goal, such as a pivot, a promotion push, or breaking out of a stagnant role, into a specific plan with follow-through, without pausing to re-debate the direction itself.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the session is genuinely private, not group-adjacent',
+    body:
+      'A 1-on-1 career coaching session should be booked and run for you alone. If the format quietly turns into a shared cohort call or a webinar, it is not the private session you searched for.',
+  },
+  {
+    title: 'Check whether you leave with an action plan, not just encouragement',
+    body:
+      'Coaching should end with a concrete plan tied to a specific skill direction and goal, not motivational language with nothing you can act on the next morning.',
+  },
+  {
+    title: 'Check whether there is a real follow-through point',
+    body:
+      'Good coaching includes a clear next check-in or accountability point. If a provider only offers a single call with no way to track whether the plan was followed, the accountability part of coaching is missing.',
+  },
+  {
+    title: 'Check whether online delivery still fits a private conversation',
+    body:
+      'A one-on-one career coaching session delivered online should feel just as private and focused as an in-person meeting would, from home, college, or work, without losing depth to a rushed video call.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Counselling and Guidance',
+    description:
+      'Use the main service page when the bigger question is the full career decision itself, not only the coaching session format.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingSession,
+    title: 'Career Counselling Session',
+    description:
+      'Choose this if the real question is still which path, stream, or role deserves your effort, not how to execute a goal you have already chosen.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'For school students, college students, freshers, recent graduates, and postgraduates who need stronger overall direction.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'For pivots, stagnation, salary growth, AI pressure, and stronger long-term leverage.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description:
+      'Use free, updated, practical, AI-powered career and skill assessments as a no-cost starting signal before you book a coaching session.',
+  },
+];
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const faqItems = [
+  {
+    question: 'Is a one-on-one career coaching session really private, not a group call?',
+    answer:
+      'Yes. The session is booked and run for you alone. It is not a shared cohort call, a webinar, or a group program with several people on the same call.',
+  },
+  {
+    question: 'What is the difference between a career coaching session and a career counselling session?',
+    answer:
+      'Counselling is usually assessment-driven and decision-focused, built for someone still deciding between paths, streams, or roles. Coaching is ongoing and goal-execution focused, built for someone who already has a direction and wants a concrete action plan with accountability to follow through on it.',
+  },
+  {
+    question: 'Do I get an action plan I can actually follow after the session?',
+    answer:
+      'Yes. The session is built to end with a specific action plan tied to a high-value skill direction and your goal, plus a follow-through point, not just general encouragement.',
+  },
+  {
+    question: 'Is there follow-up accountability, or is it a one-time call?',
+    answer:
+      'A coaching session is designed to include a clear next check-in or follow-through point so the plan does not quietly disappear once the call ends, rather than being a single unconnected conversation.',
+  },
+  {
+    question: 'How much does a one-on-one career coaching session cost?',
+    answer:
+      'Students can book the first 1-on-1 session at a limited-time student price. Working professionals can book a 1-on-1 session at the working-professional rate. Current pricing is shown in the plans section below.',
+  },
+  {
+    question: 'Is a 1-on-1 career coaching session available online across India?',
+    answer:
+      'Yes. The session is delivered fully online, so you can join from home, college, or work anywhere in India while the conversation stays private and focused.',
+  },
+  {
+    question: 'What should I bring to a one-on-one career coaching session?',
+    answer:
+      'Bring the specific goal you want to move on, your current situation, and any constraints such as time, budget, or family pressure. A clear starting goal makes the action plan sharper.',
+  },
+  {
+    question: 'Are the free career and skill assessments part of a coaching session?',
+    answer:
+      'No, the assessments are a separate free step. If you are still unsure of your direction and not ready to set a goal yet, the free, updated, practical, AI-powered career and skill assessments can help surface strengths and work style first.',
+  },
+  {
+    question: 'Do you guarantee a job or income outcome from a coaching session?',
+    answer:
+      'No ethical provider can guarantee a job or income outcome. The session is decision and execution support toward a stronger plan, not a placement service.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://futurecareerschool.com/services/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'One-on-One Career Coaching Session',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'One-on-One Career Coaching Session | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching Session',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">One-on-One Career Coaching Session</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        A private 1-on-1 career coaching session, never a group call, for students and working professionals across India
+      </div>
+
+      <h1 class="hero-title">
+        One-on-one career coaching session
+        <span class="gold-text"> built for execution, not just a decision</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School's one-on-one career coaching session is a private, individual conversation, not a shared webinar or group program.
+        The session is built to move you from a goal to an action plan aimed at a high-value skill portfolio and a clearer route toward achieving earlier financial freedom, not just an hour of talk.
+      </p>
+      <p class="hero-note">
+        This is a 1-on-1 career coaching session: one person, one conversation, built entirely around your goal. Delivered fully online across India, with no group setting at any point.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Coaching Session</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Coaching Session</a>
+      </div>
+      <p class="hero-support">
+        The value is not the meeting itself. It is a private conversation that turns a goal into an action plan you can actually follow through on.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="format-guarantee"
+    sectionClass="coaching-format-band"
+    variant="signal"
+    title="What one-on-one actually guarantees in this session"
+    subtitle="Format is not a small detail here. A private conversation makes room for the parts of a goal that a group setting usually flattens."
+    items={formatGuaranteeItems}
+  />
+
+  <BofuStepFlowSection
+    sectionId="coaching-flow"
+    sectionClass="coaching-flow-band"
+    title="How a one-on-one career coaching session turns a goal into an action plan"
+    subtitle="Coaching stays 1-on-1 throughout, but the work moves through a deliberate arc: goal, plan, and accountability, not a single round of advice."
+    items={coachingFlowItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Book the private 1-on-1 when you are ready to act on a goal, not just talk about it"
+    body="A one-on-one career coaching session should leave you with a specific action plan and a follow-through point, not just a conversation that felt useful in the moment."
+    studentHref="#plans"
+    studentLabel="Get Student Career Coaching Session"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Coaching Session"
+  />
+
+  <BofuListCardSection
+    sectionId="coaching-vs-counselling"
+    sectionClass="coaching-contrast-band"
+    title="A coaching session and a counselling consultation solve different problems"
+    subtitle="Both are one-on-one and both stay inside the same practical service family. The difference is what each conversation is built to move: a decision, or a plan already in motion."
+    items={coachingVsCounsellingItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="If you are still unsure of your direction and not ready to set a goal, the free career and skill assessments can help surface strengths and work style first."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <AudienceRelevance
+    sectionClass="coaching-audience-band"
+    title="How a private coaching session fits where you are right now"
+    items={audienceItems}
+  />
+
+  <GuidanceModelSection
+    title="What a one-on-one career coaching session should actually cover"
+    subtitle="The conversation stays private and personal, but the thinking behind it should go further than motivation: fit, high-leverage decisions, a high-value skill direction, proof of work, and a clearer route toward stronger long-term growth."
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    sectionClass="coaching-comparison-band"
+    title="Why a coaching session has to be more useful than a motivational call"
+    subtitle="The format is always one-on-one here. The session still needs to stay specific, practical, and strong enough to move a real goal forward."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    sectionClass="coaching-check-band"
+    title="What to check before you book a one-on-one career coaching session"
+    subtitle="The goal is not a private call that feels good for thirty minutes. The goal is a session structured enough to change what you actually do next."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the goal is already clear, book the private 1-on-1 before it stalls"
+    body="A well-structured one-on-one career coaching session should leave you with a specific action plan and a way to stay accountable to it."
+    studentHref="#plans"
+    studentLabel="Get Student Career Coaching Session"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Coaching Session"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Coaching Session"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="See the decision-focused counselling session, broader guidance pages, and free assessments before you decide which format fits you."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    sectionClass="coaching-final-band"
+    subtitle="Book a one-on-one career coaching session when the goal is already clear and what you need is a plan plus accountability. A stronger private session should point you toward higher-value skills and a clearer route toward achieving earlier financial freedom, not just another motivational hour."
+    studentHref="#plans"
+    studentLabel="Get Student Career Coaching Session"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Coaching Session"
+  />
+
+  <BofuFaqSection
+    title="Questions people ask before booking a one-on-one career coaching session"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 88px; }
+
+  :global(.coaching-format-band) {
+    background:
+      radial-gradient(720px 240px at 10% 0%, rgba(45,212,191,.055), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.008), transparent 50%);
+  }
+  :global(.coaching-flow-band) {
+    background:
+      radial-gradient(620px 220px at 18% 100%, rgba(45,212,191,.05), transparent 72%),
+      radial-gradient(560px 220px at 88% 0%, rgba(229,184,74,.05), transparent 72%);
+  }
+  :global(.coaching-contrast-band) {
+    background:
+      radial-gradient(760px 240px at 0% 0%, rgba(229,184,74,.06), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.007));
+  }
+  :global(.coaching-audience-band .section-headline),
+  :global(.coaching-comparison-band .section-headline),
+  :global(.coaching-check-band .section-headline) {
+    max-width: 20ch;
+  }
+  :global(.coaching-audience-band .audience-grid) {
+    max-width: 1080px;
+    margin: 0 auto;
+    gap: 1.15rem;
+  }
+  :global(.coaching-audience-band .audience-card) {
+    padding: 1.35rem 1.25rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,.11);
+    background:
+      radial-gradient(360px 150px at 100% 0%, rgba(45,212,191,.08), transparent 74%),
+      linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.014));
+    box-shadow: 0 18px 38px rgba(0,0,0,.2);
+  }
+  :global(.coaching-audience-band .audience-card h3) {
+    font-size: 1.08rem;
+    line-height: 1.46;
+  }
+  :global(.coaching-audience-band .audience-card p) {
+    font-size: 14.2px;
+    line-height: 1.82;
+  }
+  :global(.coaching-comparison-band .compare-shell) {
+    box-shadow: 0 28px 60px rgba(0,0,0,.3);
+  }
+  :global(.coaching-check-band .buyer-check-grid) {
+    gap: 1.1rem;
+  }
+  :global(.coaching-check-band .buyer-check-card) {
+    min-height: 100%;
+  }
+  :global(.coaching-final-band .final-sub) {
+    max-width: 50ch;
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold {
+    width: 520px;
+    height: 520px;
+    top: -170px;
+    left: -110px;
+    background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%);
+  }
+  .orb-teal {
+    width: 420px;
+    height: 420px;
+    top: -40px;
+    right: -120px;
+    background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%);
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 1.95vw, 18px);
+    color: rgba(255,255,255,.72);
+    line-height: 1.88;
+    max-width: 820px;
+    margin-bottom: 1rem;
+  }
+  .hero-note {
+    font-size: 14px;
+    color: rgba(255,255,255,.56);
+    line-height: 1.8;
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-actions .btn-gold,
+  .hero-actions .btn-outline {
+    min-width: min(100%, 290px);
+    justify-content: center;
+  }
+  .hero-support {
+    font-size: 14px;
+    color: rgba(255,255,255,.58);
+    line-height: 1.8;
+    max-width: 720px;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.84rem, 9.6vw, 2.55rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .breadcrumb {
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-sub,
+    .hero-note,
+    .hero-support {
+      line-height: 1.76;
+    }
+    :global(.coaching-audience-band .audience-card) {
+      padding: 1.08rem 1rem .98rem;
+      border-radius: 20px;
+    }
+  }
+</style>

@@ -1,0 +1,627 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS } from '../../../../config/bofu';
+import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../config/guidancePlans';
+
+const title = 'Career Counselling Subscription | Is There One? Honest Answer | Future Career School';
+const description =
+  "Searching for a career counselling subscription? Future Career School has no recurring billing. Here's the honest alternative: a one-time package for ongoing support all year.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-subscription/';
+
+const {
+  studentSessionPrice,
+  professionalSessionPrice,
+  studentContinuousPrice,
+  studentContinuousPriceText,
+  studentContinuousIncludesText,
+} = GUIDANCE_PLAN_PRICE_COPY;
+
+const modelComparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Random upskilling that compounds slowly',
+    right: 'Clearer skill direction tied to growth and income upside',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-fees/',
+    title: 'Career Counselling Fees',
+    description: 'The full price breakdown across every plan, and when the free layer is enough on its own.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingSession,
+    title: 'Career Counselling Session',
+    description: 'A structured one-on-one consultation, plus small-group sessions for students who want continuous support across the year.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A small free check if you are still too early for a paid plan of any kind.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Does Future Career School offer a career counselling subscription?',
+    a: `No. There is no monthly plan that auto-renews or auto-charges a card in the background. What exists instead is a continuous-guidance package: a single limited-time payment of ${studentContinuousPriceText} that ${studentContinuousIncludesText}. If a "subscription" is what you searched for, that word usually stands in for ongoing support rather than a one-off session, and the package is built for exactly that, just paid once instead of every month.`,
+  },
+  {
+    q: 'Why not just offer a real monthly subscription?',
+    a: 'A recurring monthly charge fits well for things you use continuously in small doses, like streaming or software. Career direction usually does not work that way: the useful unit is a year of revisiting a plan as marks, offers, or market conditions change, not a monthly toggle you might forget to cancel. A single annual package covers that same ongoing need without an auto-billing relationship to manage.',
+  },
+  {
+    q: 'What if I only want one session, not a year of support?',
+    a: `That option exists on its own: a single 1-on-1 session, priced at ${studentSessionPrice} for students and ${professionalSessionPrice} for working professionals. It is a one-time payment for one specific decision, with no follow-on charge and no obligation to continue into the continuous-guidance package afterward.`,
+  },
+  {
+    q: 'Is the continuous-guidance package the same thing as a subscription with a different name?',
+    a: `Not quite. A subscription typically bills you repeatedly for continued access and keeps charging until you actively cancel. The continuous-guidance package is paid once, up front, for a fixed year of support (the 1-on-1 plus up to 24 small-group sessions) — there is no recurring charge running in the background to cancel in the first place.`,
+  },
+  {
+    q: 'Is a subscription-style model ever the better fit for something else?',
+    a: 'Yes, honestly. If your priority is the lowest possible entry cost per month and the freedom to walk away at any point with no year-long commitment, a genuine subscription product elsewhere may suit that specific priority better. The trade-off is that most subscription career-support products are built around content access or generic check-ins rather than a structured plan revisited with you across a year.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling Subscription', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Career Counselling Subscription: Is There One, and What Honestly Replaces It',
+    description,
+    datePublished: '2026-07-13',
+    dateModified: '2026-07-13',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="subscription-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Career Counselling Subscription</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>Straight answer, no fine print</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>Career counselling subscription: is there one, and what actually replaces it</h1>
+            <p class="line strong">
+              There is no career counselling subscription here in the recurring-billing sense of the word — no monthly card charge that keeps renewing until you remember to cancel. What comes closest is the continuous-guidance package: a single limited-time payment of {studentContinuousPrice} that {studentContinuousIncludesText}, built to deliver the same ongoing support a "subscription" search usually implies.
+            </p>
+            <p class="line">
+              That is a genuine trade-off, not a spin on the same thing. A real subscription can mean a lower cost to start and the freedom to cancel whenever you like. A package means paying once, up front, for a fixed year of support with nothing left to remember to cancel. Which one actually fits depends on what you are optimising for.
+            </p>
+            <p class="line">Here is what a subscription model usually means, why career guidance is not sold that way here, and how the continuous-guidance package tries to solve the same underlying need instead.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href="#plans">See the continuous-guidance package</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">The short version</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>No recurring monthly subscription or auto-billing exists.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Continuous-guidance package: {studentContinuousPriceText}, paid once for the year.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Includes the 1-on-1 plus up to 24 small-group sessions across the year.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Just need one decision resolved? A single 1-on-1 session is available on its own.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>"Career counselling subscription" is not a product sold here the way the word usually implies — there is nothing that auto-charges a card every month.</li>
+          <li>The genuine equivalent is the continuous-guidance package: one payment, up front, covering the 1-on-1 plus up to 24 small-group sessions across a full year.</li>
+          <li>A real subscription model does have real advantages elsewhere — lower entry cost, cancel anytime — and that trade-off is worth saying plainly rather than pretending it doesn't exist.</li>
+          <li>If a single decision is all you need resolved, a one-time 1-on-1 session exists separately from the year-long package.</li>
+          <li>Career and skill assessments stay free regardless of which option you choose, or none at all.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="what-a-subscription-means" class="container section">
+      <h2>What people usually mean by a "subscription" model</h2>
+      <p class="line">
+        In most categories, a subscription means a recurring charge — monthly or annual — that keeps billing automatically until it is actively cancelled. It usually buys ongoing access to something: a tool, a library of content, or a standing relationship you can dip into whenever you want. The appeal is a lower cost to start and the flexibility to walk away without a big up-front commitment.
+      </p>
+      <p class="line">
+        Someone searching for a "career counselling subscription" is very likely not attached to the billing mechanic itself. What they usually want is ongoing support across time — not a single verdict from one conversation, but a relationship that keeps revisiting the plan as things change. That underlying need is real, even where the exact word "subscription" does not apply.
+      </p>
+    </section>
+
+    <section id="does-fcs-offer-this" class="container section">
+      <h2>Does Future Career School sell career counselling as a subscription</h2>
+      <p class="line">
+        No. There is no plan here that auto-renews or auto-charges a card in the background, and none of the pricing on this site works that way. What exists instead is the continuous-guidance package: a single limited-time payment of {studentContinuousPrice} for students, covering the 1-on-1 session plus up to 24 small-group sessions spread across the year. It is built for the same ongoing-support need a subscription searcher usually has, just billed once instead of every month.
+      </p>
+      <p class="line">
+        If a single, specific decision is the actual need right now — a stream choice, a stuck pivot, a next skill move — a standalone 1-on-1 session covers that on its own, priced at {studentSessionPrice} for students and {professionalSessionPrice} for working professionals, with no ongoing commitment attached.
+      </p>
+    </section>
+
+    <section id="subscription-vs-package" class="container section">
+      <h2>Subscription model vs a one-time package: the honest trade-off</h2>
+      <p class="line">
+        Neither model is universally better. Here is what each one is actually optimised for, without pretending the package is a strictly superior version of a subscription.
+      </p>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>Where a real subscription model wins</h3>
+          <ul>
+            <li>Lower cost to try something for just a month.</li>
+            <li>Easy to walk away without a year-long commitment.</li>
+            <li>Fits well when the need is light, ongoing access rather than a structured plan.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>Where the continuous-guidance package wins</h3>
+          <ul>
+            <li>No recurring charge running in the background to remember to cancel.</li>
+            <li>The full year of support is already paid for once you commit — nothing lapses if a month gets busy.</li>
+            <li>Built around a structured plan revisited with you, not generic ongoing access.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        If the honest priority is the lowest possible entry cost and maximum freedom to cancel at any moment, that points toward a genuine subscription product, and this is not one. If the priority is ongoing support across a year without an auto-billing relationship to keep track of, the package is built for that.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-outline" href={BOFU_INTERNAL_LINKS.careerCounsellingSession}>See what a single session covers</a>
+        <a class="btn-gold" href="#plans">Compare the continuous-guidance package</a>
+      </div>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What the continuous-guidance package is actually built to deliver"
+      subtitle="Not every provider puts the same thing behind ongoing support. This is what changes when the year-long relationship is structured rather than generic."
+      rows={modelComparisonRows}
+    />
+
+    <section id="how-the-package-works" class="container section">
+      <h2>How the continuous-guidance package mirrors ongoing support without the billing risk</h2>
+      <p class="line">
+        The package starts with the 1-on-1 session, then continues through up to 24 small-group sessions spread across the year. That cadence exists so skill direction and plan can be revisited as marks, offers, or the market shift — not resolved once and left untouched for twelve months. It is the same ongoing-support shape a subscription would offer, minus the recurring charge.
+      </p>
+      <p class="line">
+        Because it is one payment for the full year, there is no monthly decision to keep making about whether to continue, and no risk of a lapsed card or a missed cancellation window quietly costing money for a service no longer in use.
+      </p>
+
+      <AssessmentSupportNote
+        body="Not sure yet whether ongoing support is even the right starting point? The free career and skill assessments can surface strengths, preferences, and work style first, at no cost either way."
+      />
+    </section>
+
+    <section id="choosing" class="container section">
+      <h2>How to decide, without a hard sell</h2>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>A single 1-on-1 session probably fits if</h3>
+          <ul>
+            <li>There is one specific decision that needs resolving now.</li>
+            <li>You are not looking for a standing relationship across the year.</li>
+            <li>You have not tried a structured assessment yet and want to start light.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>The continuous-guidance package probably fits if</h3>
+          <ul>
+            <li>You want the plan revisited as things change over the year, not just once.</li>
+            <li>The decision is part of a longer skill-building direction, not a single fork.</li>
+            <li>You would rather pay once than track a recurring charge.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        If neither feels urgent yet, the free assessments are a genuine no-cost starting point before spending on either option.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href="#plans">See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on career counselling subscriptions</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <GuidancePlansSection
+      sectionId="plans"
+      audience="mixed"
+      serviceLabel="Career Guidance"
+      title="Career Guidance Plans"
+    />
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader guidance service, the full fee breakdown, or the free first step."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #subscription-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

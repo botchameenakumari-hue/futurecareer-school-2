@@ -1,0 +1,477 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling for Women | Real Decision Support, Not a Stereotype | Future Career School';
+const description =
+  'Career counselling for women that works through the real decision points — career breaks and re-entry planning, family-influenced "safe" field choices versus genuine fit, and the confidence gap in negotiating or switching. Online across India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-women/';
+
+const decisionPressureItems = [
+  {
+    eyebrow: 'Career break and re-entry',
+    title: 'A career break is a fact on a timeline, not a life sentence on your options',
+    body: 'A break for marriage, childcare, or family responsibility is not a gap that needs explaining away — it needs an actual plan. That plan is a rebuilt, high-value skill portfolio and a positioning story that gets you back into stronger roles, not just any role, and moves you toward earlier financial freedom instead of a lower rung than before. If a career break and return to work is your main decision right now, the dedicated career guidance for women returning to work goes deeper on the gap, the skill refresh, and the confidence rebuild specifically.',
+  },
+  {
+    eyebrow: 'Family and safety pressure',
+    title: '"Choose something safe" is not the same as choosing what fits',
+    body: 'Teaching, government exams, or a handful of other fields often get labelled "safe for women" long before anyone checks whether they match your actual strengths, interests, or income goals. Safety and fit are different questions — this guidance keeps them separate instead of treating the safe-sounding label as the answer.',
+  },
+  {
+    eyebrow: 'Stream and field choice under pressure',
+    title: 'Deciding a stream or field without the loudest opinion in the room winning by default',
+    body: 'Whether it is a stream choice after school or a field choice after graduation, family opinion, safety framing, and marriage timelines often get more say than your own aptitude and interest. A structured decision process gives your actual fit equal weight in that conversation.',
+  },
+  {
+    eyebrow: 'Confidence in negotiating and switching',
+    title: 'The gap is often confidence, not capability',
+    body: 'Under-asking in salary conversations, staying in a role past its usefulness, or hesitating to switch fields are rarely about lacking skill. Guidance here works on the decision and the positioning that unlocks higher income opportunities, not just a motivational push to "be more confident."',
+  },
+];
+
+const decisionPointItems = [
+  {
+    eyebrow: 'Field or stream choice',
+    title: 'Choosing a field you actually want, not the one that sounds safest',
+    body: 'A structured way to separate genuine aptitude and interest from a label that sounds reassuring to relatives.',
+    listItems: [
+      'Checks real strengths and work style against the field, not just its reputation',
+      'Names the trade-offs of the "safe" option honestly instead of dismissing them',
+      'Builds a skill plan around the field you actually want, so the choice can hold up over time',
+    ],
+  },
+  {
+    eyebrow: 'Career break and re-entry',
+    title: 'A concrete return plan, not just "update your resume"',
+    body: 'Re-entry after a break works better with a specific plan than with general encouragement.',
+    listItems: [
+      'Maps what skills need refreshing versus what still transfers directly',
+      'Builds a positioning story for the break that is honest and forward-looking',
+      'Targets roles where the skill portfolio is strong enough to compete, not just any opening',
+    ],
+  },
+  {
+    eyebrow: 'Switching or restarting a direction',
+    title: 'Changing direction without treating it as starting completely over',
+    body: 'Whether the pivot is by choice or shaped by family circumstances, an existing skill base is rarely worthless.',
+    listItems: [
+      'Identifies which existing skills carry over into the new direction',
+      'Builds the missing skill layer deliberately instead of re-learning everything from scratch',
+      'Plans proof of work that makes the switch credible to a new employer or client',
+    ],
+  },
+  {
+    eyebrow: 'Negotiating and visibility',
+    title: 'Asking for what the work is worth',
+    body: 'Positioning and negotiation readiness matter as much as the underlying skill.',
+    listItems: [
+      'Works through what is realistically being under-asked for, based on the actual role and market',
+      'Builds the proof-of-work and positioning that back up a stronger ask',
+      'Treats visibility and negotiation as a skill to build, not a personality trait you either have or do not',
+    ],
+  },
+];
+
+const decisionFilterItems = [
+  {
+    title: 'Genuine interest versus a label that sounds reassuring',
+    body: 'A field being called "safe" or "family-friendly" says nothing about whether you would actually be good at it or enjoy the daily work. Test the label against your real strengths before it becomes the plan.',
+  },
+  {
+    title: 'How long the break actually was, and what changed in that time',
+    body: 'A one-year pause and a seven-year pause need different re-entry plans. The field, the tools, and your own priorities may all have shifted — the plan should account for what genuinely changed, not treat every break the same way.',
+  },
+  {
+    title: 'Financial and family reality, without letting it be the only factor',
+    body: 'Household income needs, childcare logistics, and family expectations are real constraints worth planning around. They should shape the plan, not silently override every other consideration, including what you actually want to do.',
+  },
+  {
+    title: 'Skill gap versus confidence gap',
+    body: 'Some hesitation comes from an actual skill or experience gap that needs closing. Some comes from a confidence gap despite being ready. Guidance should help you tell which one you are dealing with before you commit to fixing the wrong thing.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the process actually plans for a break, not just for people who never paused',
+    body: 'A lot of general career counselling has no real answer for a multi-year gap. Look for guidance that treats re-entry as its own decision, with its own plan, instead of folding it into generic resume advice.',
+  },
+  {
+    title: 'Check whether "safe" options get explained or just listed',
+    body: 'Guidance that hands you a list of "safe careers for women" without checking your actual fit is not decision support — it is a shortcut that can cost you years in a field you never really chose.',
+  },
+  {
+    title: 'Check whether confidence-building sits alongside skill-building',
+    body: 'A plan that only builds skills without addressing negotiation or positioning confidence often stalls at the same point. Stronger guidance treats both as part of the same plan.',
+  },
+  {
+    title: 'Check whether family and financial reality get respected without becoming the whole plan',
+    body: 'Good guidance takes your real constraints seriously while still helping you weigh genuine interest and long-term income potential — not just the option that is easiest to explain at home.',
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Degree-first direction with weak skill edge',
+    right: 'Skill-first direction with proof of work and stronger market value',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Generic low-paying path advice that limits growth',
+    right: 'Higher-value skill direction with clearer income-growth logic',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coaching-for-women/',
+    title: 'Career Coaching for Women',
+    description: 'Use this once the field, return, or negotiation decision is made and the real challenge is staying accountable and following through.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-guidance-for-women-returning-to-work/',
+    title: 'Career Guidance for Women Returning to Work',
+    description: 'The dedicated re-entry plan if a career break is your main decision right now — skill refresh, gap explanation, confidence rebuilding, and targeting the right re-entry level.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Broader student guidance for school, college, and early skill-direction decisions if the stream or course choice is the more immediate question.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'Broader working-professional guidance for stagnation, pivots, and salary-growth decisions beyond the break or re-entry angle.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12th,
+    title: 'Career Guidance After 12th',
+    description: 'Use this when the field-choice pressure is tangled up with a bigger after-12th course or college decision.',
+  },
+  {
+    href: '/services/assessments/working-professionals-and-career-changers/',
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free assessment to check strengths and work style before a break, restart, or field-switch decision.',
+  },
+  {
+    href: '/blog/career-options/safe-career-options-for-girls-in-india/',
+    title: 'Safe Career Options for Girls in India',
+    description: 'A broader read on how the "safe career" framing usually gets used, if you want more context before deciding.',
+  },
+  {
+    href: '/career-resources/career-change-without-starting-over/',
+    title: 'Career Change Without Starting Over',
+    description: 'Practical read on carrying existing skills into a new direction instead of treating a switch or restart as beginning from zero.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Is this only for women who took a career break?',
+    answer:
+      'No. It also covers stream or field choices made under family or safety pressure, switching direction, and building confidence to negotiate or change roles. A career break is one common decision point this guidance works through, not the only one.',
+  },
+  {
+    question: 'How do I plan a return to work after years focused on marriage or childcare?',
+    answer:
+      'Start by mapping which of your existing skills still transfer directly and which need refreshing, then build a positioning story for the break that is honest and forward-looking. For the full re-entry plan — skill refresh, gap explanation, confidence rebuilding, and targeting the right re-entry level — the dedicated career guidance for women returning to work goes into this specifically.',
+  },
+  {
+    question: 'My family wants me to choose a "safe" field. How do I know if it is actually right for me?',
+    answer:
+      'Start by testing the label against your real strengths, interests, and work style, separately from how reassuring it sounds to relatives. A field can be both stable and genuinely wrong for you, or unconventional and genuinely right — the label alone does not tell you which.',
+  },
+  {
+    question: 'I feel behind after a break or a slow start. Where do I begin?',
+    answer:
+      'Begin by separating a real skill gap from a confidence gap, since they need different fixes. Most people in this position are not as far behind as it feels — the more useful next step is a specific plan for the field or role you are aiming at, not a general sense of catching up.',
+  },
+  {
+    question: 'Can this help me negotiate a raise or ask for a role change more confidently?',
+    answer:
+      'Yes. Negotiation and switching are treated as a positioning and preparation problem, not a personality trait. Guidance works through what you can realistically ask for, based on the role and market, and what proof of work backs up that ask.',
+  },
+  {
+    question: 'Is this different from a general career counselling session?',
+    answer:
+      'General career counselling often has no specific answer for a career break, family-pressure-influenced choices, or negotiation confidence, and can default to a generic "safe careers" list. This guidance addresses those decision points directly instead of treating them as an afterthought.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered — a useful starting layer before a break, restart, or field-switch decision.',
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. Guidance is delivered online across India, so you can start from home or wherever fits your schedule, without travel or a local office becoming another blocker.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for Women', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Women | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Women',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Women</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for women, built around real decisions — not a "safe jobs" list
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for women
+        <span class="gold-text"> who want a real decision, not a stereotype</span>
+      </h1>
+      <p class="hero-sub">
+        Career breaks and re-entry planning, "safe for women" field pressure versus genuine fit, and the confidence gap in negotiating or switching roles are treated as real decisions here, not side notes. The direction is a deliberate, high-value skill portfolio built around what actually fits you — the right skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom, instead of settling for the label that was easiest to explain at home.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from home, between household responsibilities, or wherever fits your schedule, without travel or a local office becoming another blocker.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for Women</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="decision-pressure"
+    title="The decision pressure this guidance actually has to answer"
+    subtitle="These are not abstract categories. They are the specific moments where women career-changers and starters in India get asked to decide fast, usually with someone else's opinion carrying more weight than their own fit."
+    items={decisionPressureItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Whichever decision point you are at, a vague sense of 'the safe option' is not a plan"
+    body="A field choice, a break, or a switch all deserve the same thing: a specific plan built around your actual strengths, not the label that sounds most reassuring to explain to family."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for Women"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling for Women"
+  />
+
+  <BofuListCardSection
+    sectionId="decision-points"
+    title="Real decision points this guidance works through"
+    subtitle="Not every woman searching this is at the same stage. These are the situations this guidance is actually built to help with."
+    items={decisionPointItems}
+    columns={2}
+    variant="audience"
+  />
+
+  <BofuFeatureSection
+    sectionId="decision-filters"
+    title="What should actually decide, when 'safe' is not a strategy"
+    subtitle="Choosing a field, planning a return, or deciding to switch is rarely about one clean answer. These are the filters that keep the decision honest."
+    items={decisionFilterItems}
+    variant="decision"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, free career and skill assessments can help map your actual strengths and work style before a field, break, or switch decision — instead of starting from a label."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why career counselling for women needs to go beyond a 'safe careers' list"
+    subtitle="These are the contrast points that matter once you are planning a real field choice, a return to work, or a switch — not just being handed a shortlist."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling aimed at women"
+    subtitle="The goal is a specific, defensible plan for your situation, not a repackaged list of jobs considered acceptable for women."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Build the plan before another year passes on a label that was never really chosen"
+    body="Whether the decision is a stream, a return after a break, or a switch, the earlier the plan is specific, the earlier the right skill-building and positioning can start."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for Women"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling for Women"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling for Women"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader student and working-professional guidance, assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    title="Choose the field and the plan — not just the label that sounds safest"
+    subtitle="A career break, a family-influenced field choice, or a stalled negotiation are all workable decision points with the right plan behind them — the kind built around a high-value skill portfolio that unlocks stronger income opportunities and earlier financial freedom, instead of settling for the label that was easiest to explain at home."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for Women"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling for Women"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decision-filters,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 9.6vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

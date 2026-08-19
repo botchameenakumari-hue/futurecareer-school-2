@@ -1,0 +1,456 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Coaching for Layoff Recovery | Rebuild After a Layoff, Any Industry | Future Career School';
+const description =
+  'Career coaching for layoff recovery for professionals in any industry who have already been laid off: financial runway triage, explaining the layoff in interviews, first-offer decisions, and using the moment to build a stronger skill direction instead of panic-rehiring into the same role.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coaching-for-layoff-recovery/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[3],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Right after the layoff',
+    title: 'The shock is still fresh and every decision feels urgent',
+    body: 'The first few days after a layoff can make everything feel like it needs an answer today — the job search, the money, what to tell people. Career coaching for layoff recovery should help you separate what genuinely needs a decision this week from what can wait until the shock settles.',
+  },
+  {
+    eyebrow: 'Money and runway',
+    title: 'Severance, savings, and a shrinking timeline',
+    body: 'Once notice pay, severance, and the last salary are on the table, you usually have a real, countable number of weeks before money gets tight. Working from that number, instead of guessing, changes how urgently you should be applying and what you can afford to hold out for.',
+  },
+  {
+    eyebrow: 'The interview gap',
+    title: 'You are going to be asked why you left',
+    body: 'Every interview from here starts with some version of that question. How you answer it either makes you look like someone affected by a business decision, or someone still defending themselves for something that was never really about them.',
+  },
+  {
+    eyebrow: 'The next move',
+    title: 'Whether to fix the mismatch or replace the job fast',
+    body: 'A layoff sometimes ends a role that was already a weak fit, in skills, pay, or direction. Career coaching for layoff recovery should help you tell a genuine chance to build a stronger, higher-value skill portfolio apart from panic that pushes you straight back into the same kind of role.',
+  },
+];
+
+const stepItems = [
+  {
+    title: 'Days 1 to 3: Steady the ground',
+    body: 'Give yourself room to process the shock without making big decisions on adrenaline. Get exact clarity on your last working day, notice pay, severance, and benefits, and decide who needs to know before the news travels on its own.',
+  },
+  {
+    title: 'Week 1: Build the number and the story',
+    body: "Turn severance, notice pay, and savings into one honest runway number in weeks, not a vague feeling of 'I'll be fine for a while.' Alongside it, shape a short, true way to describe the layoff before the first recruiter call catches you off guard.",
+  },
+  {
+    title: 'Weeks 2 to 4: Move with direction, not panic',
+    body: 'Start applying against a clear target instead of everywhere at once. Use this window to judge whether the last role was a genuine fit or a mismatch worth fixing, instead of defaulting to the fastest replacement for the same job.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Interview story',
+    title: 'Explaining the layoff without sounding defensive',
+    listItems: [
+      'Keep the explanation to one or two honest sentences instead of over-justifying or over-apologising',
+      'Separate the company’s decision from your own performance without sounding bitter about it',
+      'Redirect quickly into what you are looking for next, instead of dwelling on what happened',
+    ],
+  },
+  {
+    eyebrow: 'Offer pressure',
+    title: 'Taking the first offer or holding out',
+    listItems: [
+      'Read whether an offer is a genuine fit or a decision being made from runway fear',
+      'Weigh a pay cut or a step down honestly against how many weeks of runway are actually left',
+      'Know when it is still reasonable to negotiate, even coming in as someone who was laid off',
+    ],
+  },
+  {
+    eyebrow: 'The bigger decision',
+    title: 'Pivot opportunity or rushing back to the same role',
+    listItems: [
+      'Tell a genuine chance to fix a skill, pay, or industry mismatch apart from panic-driven sameness',
+      'Judge honestly whether the skills that got you laid off are still worth doubling down on',
+      'Decide if this is the moment to build a stronger, higher-value skill portfolio instead of replacing the same job as fast as possible',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it treats this as something that already happened, not a future risk',
+    body: 'Some career content is built around the anxiety of a possible future layoff. If you have already been laid off, in any industry, the guidance should start from your actual situation right now — the shock, the runway, and the search — not a hypothetical.',
+  },
+  {
+    title: 'Check whether your financial runway gets real attention',
+    body: 'Guidance that skips straight to generic "follow your passion" advice without asking how many weeks of severance and savings you have left is not being useful. Runway should shape how urgently you search and what you can afford to hold out for.',
+  },
+  {
+    title: 'Check whether the interview-story help is honest, not a script to memorise',
+    body: 'A canned positive-spin script is weaker than help building a short, true explanation you can say without flinching, one that separates the company’s decision from your own value.',
+  },
+  {
+    title: 'Check whether it protects you from a panic decision',
+    body: 'The goal should not be getting you into literally any available job fastest. It should help you tell a genuine pivot opportunity apart from a rushed downgrade taken purely out of fear.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How soon after a layoff should I start applying for jobs?',
+    answer:
+      'There is no fixed number of days that works for everyone. It depends on your financial runway, how the layoff affected you personally, and whether your resume and story are ready. Coaching should help you find a start point that is neither reactive panic nor an open-ended pause that eats into runway.',
+  },
+  {
+    question: 'How do I explain a layoff in interviews without sounding bitter or defensive?',
+    answer:
+      'Keep it short, factual, and forward-looking: what happened, in one or two honest sentences, then a quick pivot to what you are looking for next. Over-explaining or sounding defensive usually raises more doubt than the layoff itself does.',
+  },
+  {
+    question: 'Should I take the first job offer I get, or hold out for something better?',
+    answer:
+      'This depends on your actual runway, not just how it feels in the moment. An offer that is a genuine fit is different from an offer you are grabbing purely because the fear of an empty calendar is louder than the decision itself. Coaching should help you tell the two apart.',
+  },
+  {
+    question: 'How do I figure out my financial runway after a layoff?',
+    answer:
+      'Add up severance, notice pay, remaining leave payout, and current savings, then divide by your real monthly essential spend, not your full previous budget. That number should shape your search pace, not a general sense of "I should be fine."',
+  },
+  {
+    question: 'Is this the right time to change industries or roles, or should I just get back to the same kind of job fast?',
+    answer:
+      'Sometimes the fastest replacement for the same role is the right call, and sometimes the layoff is ending a role that was already a weak fit. Coaching should help you judge this honestly against your runway and skills, instead of defaulting to either panic-sameness or an unplanned leap.',
+  },
+  {
+    question: 'I got severance. How should I budget it?',
+    answer:
+      'Treat severance as runway, not as a cushion to spend down casually. A working budget that separates essential costs from everything else, alongside a clear number of weeks it buys you, makes the job search less panicked and better paced.',
+  },
+  {
+    question: 'Is career coaching for layoff recovery only for IT or tech professionals?',
+    answer:
+      'No. Layoffs happen across every industry, and the practical questions — runway, the interview story, first-offer decisions, and whether to pivot — are largely the same regardless of the field. This is built for anyone who has already been laid off, not only technology roles.',
+  },
+  {
+    question: 'Is this available online, or do I need to be in a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can start from home without adding a commute or scheduling around office hours to an already disrupted week.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help with skill, role, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'A wider working-professional guidance page covering stagnation, pivots, and salary-growth decisions once you are back in a role.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers,
+    title: 'Working Professionals and Career Changers Assessment',
+    description:
+      'Free input on strengths, work style, and role fit before deciding whether to repeat the last role or move in a new direction.',
+  },
+  {
+    href: '/career-resources/resume-that-gets-shortlisted-in-india/',
+    title: 'Resume That Gets Shortlisted in India',
+    description:
+      'Practical resume fixes useful right when you are restarting a job search after a layoff.',
+  },
+  {
+    href: '/career-resources/linkedin-profile-optimization-the-full-guide/',
+    title: 'LinkedIn Profile Optimization',
+    description:
+      'A full guide to making your profile work for you while recruiters and your network see the "open to work" signal.',
+  },
+  {
+    href: '/career-resources/career-change-without-starting-over/',
+    title: 'Career Change Without Starting Over',
+    description:
+      'Useful if the layoff is turning into a genuine chance to redirect rather than just replace the same role.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Coaching for Layoff Recovery',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coaching for Layoff Recovery | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching for Layoff Recovery',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coaching for Layoff Recovery</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career coaching for layoff recovery, for any industry, right after the layoff happens
+      </div>
+
+      <h1 class="hero-title">
+        Career coaching for layoff recovery
+        <span class="gold-text"> when a layoff has already happened and the next few weeks matter</span>
+      </h1>
+      <p class="hero-sub">
+        Career coaching for layoff recovery should start from where you actually are: the layoff has happened, the
+        shock is real, and the next few weeks decide whether you rebuild toward a stronger, higher-value skill
+        portfolio and earlier financial freedom, or scramble into the first thing that shows up out of panic. This
+        is not anxiety about a possible future layoff. It is what to do now that it is real, in any industry.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start rebuilding from home, without adding a
+        commute or office hours to an already disrupted week.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for Layoff Recovery</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career coaching for layoff recovery matters most"
+    subtitle="It matters most in the weeks right after the layoff, because the sooner your money, your story, and your next move are clear, the sooner you are rebuilding toward a stronger income and earlier financial freedom instead of just filling the gap."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <BofuStepFlowSection
+    sectionId="first-30-days"
+    title="Your first 30 days after a layoff"
+    subtitle="This is the part of career coaching for layoff recovery that matters most in the short term — a practical sequence for the weeks right after the layoff, in any industry."
+    items={stepItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Get the runway, story, and next move clear before panic picks for you"
+    body="The sooner your financial runway, interview story, and next-role direction are clear, the sooner you are rebuilding toward a stronger, higher-value skill portfolio instead of just filling the gap."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Layoff Recovery"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The layoff-specific decisions this should help you make"
+    subtitle="Not advice about protecting a role that might be at risk. This is for after the layoff has already happened, in any industry, when the next choice actually needs to be made."
+    items={decisionItems}
+    columns={3}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help you see what still fits before you decide whether to repeat the last role or move toward a different direction."
+      href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+    />
+  </BofuListCardSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when layoff recovery has real direction"
+    subtitle="Career coaching for layoff recovery should feel different from a generic &ldquo;just keep applying&rdquo; pep talk, or advice that quietly pushes you back into the same low-ceiling role out of urgency."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before choosing career coaching for layoff recovery"
+    subtitle="The goal is a steadier runway, an honest interview story, and a decision you are not making purely out of fear."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Do not let runway fear make the next decision for you"
+    body="A clearer view of your options now protects you from a panic decision that is harder to undo once you are back in a role."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Layoff Recovery"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Coaching for Layoff Recovery"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, practical job-search resources, and free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions people ask before choosing career coaching for layoff recovery"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Do not let the next few weeks decide this for you"
+    subtitle="If a layoff has already happened, in any industry, the choices you make in the next few weeks about money, the story you tell, and the next role can either rebuild toward a stronger, higher-value skill portfolio and earlier financial freedom, or lock you into a panic decision that costs more later."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Layoff Recovery"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #first-30-days,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

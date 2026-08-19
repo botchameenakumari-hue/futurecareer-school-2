@@ -1,0 +1,1207 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Machine learning vs data science career path India: the honest head-to-head';
+const description =
+  'Machine learning vs data science career path India compared on daily work, math and stats depth, tools, salary bands, and career ceiling, plus a fit test for which one to pick.';
+const canonical =
+  'https://futurecareerschool.com/blog/ai-future/machine-learning-vs-data-science-career-path-india';
+const publishedDateISO = '2026-07-20';
+const publishedDateLabel = '20 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: 'The short answer' },
+  { id: 'daily-work', label: 'What the daily work actually looks like' },
+  { id: 'math-depth', label: 'Math and stats depth each role really needs' },
+  { id: 'tools', label: 'Tools and skill stack compared' },
+  { id: 'entry-path', label: 'Entry path, degree, and hiring bar' },
+  { id: 'salary-reality', label: 'Salary reality: fresher to senior' },
+  { id: 'ceiling', label: 'Career ceiling: where each path tops out' },
+  { id: 'checkpoint', label: 'The 4-Checkpoint Protocol for this decision' },
+  { id: 'who-fits-mle', label: 'Who genuinely fits machine learning engineering' },
+  { id: 'who-fits-ds', label: 'Who genuinely fits data science' },
+  { id: 'gates', label: 'The 3 Gates before you commit' },
+  { id: 'switching-later', label: 'Can you switch between them later?' },
+  { id: 'mistakes', label: 'Mistakes to avoid' },
+  { id: 'build-skills', label: 'How to build the skills once you decide' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const workRows = [
+  {
+    aspect: 'Core daily task',
+    mle: 'Build and maintain the training pipelines, feature stores, and serving infrastructure that take a model from a notebook to something answering real requests reliably, at scale, and inside a cost budget.',
+    ds: 'Explore a dataset, form a hypothesis, test it with statistics or a model, and turn the result into a recommendation a non-technical stakeholder can act on.',
+  },
+  {
+    aspect: 'Where the day gets hard',
+    mle: 'A model that scored well in a notebook degrades in production because the live data drifted, a pipeline breaks at 2am, or a service that worked fine at low traffic starts timing out under real load.',
+    ds: 'The data contradicts itself, a stakeholder wants a confident answer to a question the data cannot actually answer, or a model that looked promising fails a proper significance test once you check it honestly.',
+  },
+  {
+    aspect: 'Main tools',
+    mle: 'Python, PyTorch or TensorFlow, Docker, Kubernetes, one cloud platform, CI/CD pipelines, and monitoring tools for drift and latency once a model is live.',
+    ds: 'Python or R, pandas, SQL, a BI tool for stakeholder-facing visuals, and statistical or classical ML libraries such as scikit-learn and statsmodels.',
+  },
+  {
+    aspect: 'Who you talk to most',
+    mle: 'Software engineers, DevOps or platform teams, and product managers — mostly conversations about reliability, latency, cost, and what "production-ready" actually means for this model.',
+    ds: 'Business leaders, product managers, and marketing or operations teams — mostly conversations about what a number means and what decision it should change.',
+  },
+  {
+    aspect: 'How your work gets judged',
+    mle: 'Whether the system stays up, serves predictions fast enough, and keeps performing as real-world data shifts — success is measured in uptime, latency, and model drift, not a one-time report.',
+    ds: 'Whether the recommendation held up once the business acted on it, and whether your analysis survives being challenged by someone who disagrees with the conclusion.',
+  },
+];
+
+const mathItems = [
+  {
+    num: '01',
+    title: 'Statistics and inference',
+    mle: 'Working knowledge is enough for most roles — understanding overfitting, bias-variance trade-offs, and basic evaluation metrics. Deep inferential statistics (hypothesis testing, confidence intervals, causal inference) is not a daily requirement for most production ML engineering work.',
+    ds: 'This is the core of the job. A data scientist is expected to genuinely understand distributions, sampling, hypothesis testing, and causal versus correlational reasoning, because the recommendation they hand to a business leader has to survive being questioned.',
+  },
+  {
+    num: '02',
+    title: 'Linear algebra and calculus',
+    mle: 'Matters more here than in data science, especially past the junior level. Understanding gradients, backpropagation, and matrix operations helps when a deep learning model refuses to converge or a custom architecture needs debugging.',
+    ds: 'Working intuition for vectors and matrices is useful for understanding how a model works internally, but most day-to-day data science work leans on statistics far more than on calculus-level optimisation math.',
+  },
+  {
+    num: '03',
+    title: 'Systems and software math',
+    mle: 'Time and space complexity, distributed systems trade-offs, and an engineer\'s intuition for where a pipeline will break under load matter as much as pure ML math once you are past your first year in the role.',
+    ds: 'Rarely central to the job. A data scientist benefits from being comfortable with SQL query performance, but system design depth is not the core skill being tested in most data science interviews.',
+  },
+];
+
+const toolRows = [
+  {
+    layer: 'Core language',
+    mle: 'Python, with production-grade code quality: typing, testing, version control discipline.',
+    ds: 'Python or R, often written more like analysis scripts than production software.',
+  },
+  {
+    layer: 'Data handling',
+    mle: 'pandas and NumPy for prototyping, but real pipelines increasingly run through distributed tools like Spark once data volume grows.',
+    ds: 'pandas, NumPy, and SQL for querying, cleaning, and reshaping data before analysis or modelling.',
+  },
+  {
+    layer: 'Modelling',
+    mle: 'PyTorch or TensorFlow for deep learning, plus scikit-learn for classical models when a simpler approach genuinely performs as well.',
+    ds: 'scikit-learn and statsmodels for regression, classification, clustering, and statistical testing; deep learning only when the problem genuinely needs it.',
+  },
+  {
+    layer: 'Deployment and infrastructure',
+    mle: 'Docker, Kubernetes, a cloud platform (AWS, GCP, or Azure), CI/CD, and monitoring for drift, latency, and cost.',
+    ds: 'Rarely owns deployment directly; more commonly hands a finished model or finding to an engineering team, though this line is blurring at smaller companies.',
+  },
+  {
+    layer: 'Communication and reporting',
+    mle: 'Technical documentation and design reviews aimed at other engineers.',
+    ds: 'Dashboards (Power BI or Tableau), slide decks, and plain-language write-ups aimed at non-technical decision-makers.',
+  },
+];
+
+const entryRows = [
+  {
+    aspect: 'Common degree backgrounds',
+    mle: 'Computer science, software engineering, or a closely related engineering degree is the most common route, since the role blends ML knowledge with software engineering and DevOps skill.',
+    ds: 'Statistics, mathematics, economics, computer science, or increasingly an MBA with an analytics specialisation; many data scientist job postings still prefer or list a master\'s-level degree in a quantitative field.',
+  },
+  {
+    aspect: 'Degree dependency for hiring',
+    mle: 'Moderate to high at product companies and AI-first startups, where production coding ability is tested directly through system design and coding rounds, similar to a software engineering interview.',
+    ds: 'Moderate. A quantitative postgraduate degree helps at research-heavy or product-analytics teams, but a strong statistics and SQL portfolio can offset a less conventional degree at many companies, especially in analytics-first roles.',
+  },
+  {
+    aspect: 'Interview bar',
+    mle: 'Coding rounds close to a software engineering interview, plus ML system design questions about scaling, latency, and monitoring a model in production.',
+    ds: 'SQL and statistics case studies, take-home data analysis assignments, and a strong emphasis on explaining your reasoning and assumptions out loud.',
+  },
+  {
+    aspect: 'Typical first job titles',
+    mle: 'Junior machine learning engineer, AI engineer, or applied ML engineer at a product company, GCC, or AI-first startup.',
+    ds: 'Junior data scientist, data analyst transitioning into a hybrid analytics-and-ML role, or associate data scientist at an analytics, product, or consulting firm.',
+  },
+];
+
+const salaryRows = [
+  {
+    stage: 'Fresher, 0-1 years',
+    mle: 'Roughly Rs 6-18 LPA, with candidates who show real PyTorch or deep learning deployment projects clearing the higher end at AI-first startups and product companies; a small slice with strong LLM or GenAI project work is reported closer to Rs 15-25 LPA.',
+    ds: 'Roughly Rs 4-14 LPA, with a large share of freshers landing in the Rs 6-8 LPA band at analytics-first and service companies, and stronger SQL-plus-statistics portfolios pushing toward the top of the range.',
+  },
+  {
+    stage: '6-10 years, senior',
+    mle: 'Roughly Rs 40-70 LPA at product companies and GCCs, with senior LLM or GenAI specialists at AI-first startups reported in the Rs 40-80 LPA band.',
+    ds: 'Roughly Rs 32-55 LPA at product companies, with senior data scientists at analytics-first product companies commonly in the Rs 25-45 LPA range depending on company type.',
+  },
+  {
+    stage: '10+ years, highly experienced',
+    mle: 'Roughly Rs 65-120 LPA at top employers, with total compensation including equity frequently exceeding Rs 1.2 crore at leading product companies and GCCs.',
+    ds: 'Roughly Rs 50-80 LPA, with the ceiling rising further for data scientists who move into analytics leadership or a hybrid ML-and-analytics leadership track.',
+  },
+  {
+    stage: 'What moves the number most',
+    mle: 'Real deployment experience (a model that served real traffic, not just a notebook), systems design fluency, and increasingly, GenAI or LLM integration experience.',
+    ds: 'The ability to pair statistical rigor with a business recommendation that survives scrutiny, plus SQL and Python depth that lets you work independently of a data engineering team.',
+  },
+];
+
+const checkpointItems = [
+  {
+    num: '01',
+    title: 'Biology',
+    body: 'Machine learning engineering rewards people who get satisfaction from building something that keeps working under pressure — a pipeline that survives a traffic spike, a model that keeps serving accurate predictions as real-world data shifts under it. Data science rewards people who get satisfaction from a genuinely defensible answer — sitting with a stubborn dataset until a pattern holds up, then explaining why it matters to someone who will push back. Both need real focus — the difference is whether your energy comes from engineering something durable or from proving something true.',
+    note: 'If the idea of debugging why a model that worked yesterday is failing in production today sounds interesting rather than draining, that is a real machine-learning-engineer signal.',
+  },
+  {
+    num: '02',
+    title: 'Context',
+    body: 'Can your family runway absorb a fresher-level salary for the first 1-2 years while you build real proof? A machine learning engineering portfolio needs a genuinely deployed project, which usually needs more solo build time and infrastructure comfort; a data science portfolio can be built on public datasets, but needs real stakeholder-facing communication practice to be convincing in an interview.',
+    note: 'If you already write production-quality code or have real software engineering exposure, that background transfers directly into machine learning engineering and shortens the runway needed.',
+  },
+  {
+    num: '03',
+    title: 'Market',
+    body: 'Both roles are in real demand in India, but the entry filter works differently. Machine learning engineering interviews increasingly mirror software engineering interviews — coding rounds plus system design. Data science interviews lean more on SQL, statistics, and case-study reasoning, with more emphasis on explaining assumptions out loud.',
+    note: 'A coding-heavy filter (machine learning engineering) is a different risk profile from a reasoning-heavy filter (data science) — pick based on where your current strength already sits, not which one sounds more prestigious.',
+  },
+  {
+    num: '04',
+    title: 'Survival',
+    body: 'AI tools now draft first-pass code, summarise datasets, and generate first-draft model architectures in both fields. The safer position in machine learning engineering is becoming the person who can debug why a production system is actually failing, not just the person who can prompt a model into existing. The safer position in data science is becoming the person who catches when an AI-generated analysis quietly skipped a confounding variable, not just the person who asked the question.',
+    note: 'The useful question in both lanes is not "will AI do this task," it is "which judgment call in this role still needs a human to own it."',
+  },
+];
+
+const mleFitItems = [
+  {
+    label: 'Genuine fit',
+    title: 'You want to build things that keep running, not just things that work once',
+    body: 'A model that performs well in a notebook is the easy part. If the challenge of keeping a system reliable under real traffic, real data drift, and real cost constraints sounds like the interesting part of the job, that is close to the center of machine learning engineering.',
+  },
+  {
+    label: 'Genuine fit',
+    title: 'You already think like a software engineer, or want to',
+    body: 'Version control discipline, testing habits, and comfort reading someone else\'s production code are not optional extras here — they are close to half the actual job, alongside the ML-specific skill.',
+  },
+  {
+    label: 'Genuine fit',
+    title: 'You want a path with a steeper near-term pay curve tied to engineering depth',
+    body: 'If the idea of compounding your value through deeper systems and infrastructure skill, not just deeper statistics, appeals to you, the machine learning engineering path is the more direct route there.',
+  },
+];
+
+const dsFitItems = [
+  {
+    label: 'Genuine fit',
+    title: 'You want your conclusion to survive being challenged in a room',
+    body: 'You would rather say "let me check the data before I answer that" than guess confidently. If being proven right by a properly run analysis feels more satisfying than being fast, that instinct is the core of data science.',
+  },
+  {
+    label: 'Genuine fit',
+    title: 'You enjoy translating a number into a decision a non-technical leader can act on',
+    body: 'A finding that stays locked inside a notebook has not done its job. If explaining what a result means, and what it does not mean, energises you more than building the infrastructure behind it, that fits data science better than machine learning engineering.',
+  },
+  {
+    label: 'Genuine fit',
+    title: 'You want a path that stays closer to business decisions over the long run',
+    body: 'If the idea of eventually shaping strategy, product direction, or a company\'s data culture appeals to you more than going deeper into distributed systems, data science keeps you closer to that world.',
+  },
+];
+
+const ceilingItems = [
+  {
+    num: '01',
+    title: 'Machine learning engineer ceiling: toward staff engineer, ML platform, or MLOps leadership',
+    body: 'A strong machine learning engineer who builds real production experience typically progresses to senior ML engineer, then staff or principal engineer, or moves into ML platform and MLOps leadership, owning the infrastructure that other teams build models on top of. A newer, fast-growing branch moves toward applied AI or LLM engineering, integrating foundation models into products rather than training everything from scratch. The ceiling here is pulled up by depth in systems design and the ability to make a model reliable at scale, not just accurate in a benchmark.',
+  },
+  {
+    num: '02',
+    title: 'Data scientist ceiling: toward analytics leadership, research, or a hybrid ML track',
+    body: 'A data scientist typically progresses from junior to senior data scientist, then splits into two branches: a leadership branch toward analytics lead, Head of Data Science, or Chief Data Officer, or a technical branch toward research scientist or a hybrid data scientist and ML engineer role once they add deeper coding and deployment skill. The leadership branch adds people-management and cross-functional influence; the technical branch trades some business exposure for deeper modelling and experimentation depth. The ceiling here is pulled up by the trust a data scientist earns from leadership, built on a track record of recommendations that held up.',
+  },
+];
+
+const overlapItems = [
+  {
+    num: '01',
+    title: 'Applied ML engineer',
+    body: 'Sits closer to machine learning engineering but stays closer to the modelling decisions a data scientist would usually own, especially at smaller companies where one person carries a project from data exploration through deployment.',
+  },
+  {
+    num: '02',
+    title: 'ML-focused data scientist',
+    body: 'A data scientist who has added enough software engineering and deployment comfort to ship a model themselves, instead of handing it to a separate engineering team — increasingly common at product companies that want fewer handoffs.',
+  },
+  {
+    num: '03',
+    title: 'Research scientist track',
+    body: 'Pulls from both lanes at senior levels: deep statistical and ML theory from the data science side, and enough engineering fluency to prototype and sometimes deploy findings, usually reserved for people with a strong research or postgraduate background.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Picking machine learning engineering only because the fresher pay band looks higher',
+    body: 'A higher starting number is not the same as a better long-term fit. Machine learning engineering also carries a heavier coding and systems-design interview bar from day one — pick based on whether you actually want to spend your days debugging production infrastructure, not just the offer letter number.',
+  },
+  {
+    num: '02',
+    title: 'Assuming data science is the "easier math" option',
+    body: 'Data science actually demands deeper working statistics than most machine learning engineering roles do day to day. The math is different in kind, not lighter in weight — inferential statistics and experiment design are a real, learnable skill most beginners underrate.',
+  },
+  {
+    num: '03',
+    title: 'Treating a certificate or a completed course as proof of readiness',
+    body: 'Both fields are crowded with certificate-holders who have never shipped a real project. A single deployed model or a single defensible, end-to-end analysis on messy real data beats a stack of course completions in either lane.',
+  },
+  {
+    num: '04',
+    title: 'Ignoring how much the two roles blur at smaller companies',
+    body: 'At an early-stage startup, one person often does the exploration, the modelling, and the deployment. Job titles at large product companies and GCCs are far more specialised than at a 20-person startup — read the actual job description, not just the title, before assuming either role is purely one thing.',
+  },
+  {
+    num: '05',
+    title: 'Not accounting for how GenAI is reshaping both entry paths',
+    body: 'A meaningful share of current hiring in both fields now expects at least working familiarity with using and evaluating large language models inside a real workflow, not only classical ML or classical statistics. Leaving this out of your learning plan narrows your options in both lanes, not just one.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'Machine learning vs data science career path India: which pays more?',
+    a: 'Machine learning engineers earn more on average at almost every experience level. Fresher ML engineers are commonly reported in the roughly Rs 6-18 LPA range against roughly Rs 4-14 LPA for data science freshers, and the gap tends to widen with seniority, with several 2026 salary trackers reporting ML engineers earning 20-40% more than data scientists at equivalent experience. The gap narrows for data scientists who move into analytics leadership or add deployment skill, and for ML engineers, real production and systems experience matters more than the job title alone.',
+  },
+  {
+    q: 'Which needs more math: machine learning engineering or data science?',
+    a: 'They need different math, not simply more or less of it. Data science leans harder on statistics and inference, since a data scientist has to defend a conclusion against a skeptical stakeholder. Machine learning engineering leans harder on linear algebra, calculus, and systems-level math once you move past classical ML into deep learning and production debugging. Neither needs graduate-level or research-level math to start.',
+  },
+  {
+    q: 'Do I need a computer science degree to become a machine learning engineer in India?',
+    a: 'It is not strictly mandatory, but it is the most common and fastest route, since machine learning engineering interviews increasingly mirror software engineering interviews with coding rounds and system design questions. Statistics, mathematics, or physics graduates with strong self-built software engineering skill do get hired, but they usually need to close a real coding-fluency gap first through deliberate practice and a genuinely deployed project.',
+  },
+  {
+    q: 'Do I need a master\'s degree to become a data scientist in India?',
+    a: 'Not strictly, but many data scientist job postings in India still prefer or list a postgraduate degree in statistics, mathematics, computer science, or a related quantitative field, especially at research-heavy or product-analytics teams. A strong self-built portfolio with real SQL, statistics, and Python depth can offset a less conventional degree at many companies, particularly in analytics-first roles.',
+  },
+  {
+    q: 'Can a data scientist become a machine learning engineer later, or the other way around?',
+    a: 'Yes, and it happens often. A data scientist who builds real software engineering and deployment comfort can move into machine learning engineering or a hybrid applied ML role without abandoning their statistical strength. A machine learning engineer who builds stakeholder communication and statistical-inference depth can move into data science, though the transition usually takes a deliberate, structured stretch of study rather than happening passively on the job.',
+  },
+  {
+    q: 'Which one has better long-term career security against AI?',
+    a: 'Neither is automatically safer, because AI tools are already changing entry-level tasks in both fields — drafting first-pass code, summarising datasets, and producing first-draft model architectures. The safer position in machine learning engineering is owning the judgment calls around reliability, scale, and debugging that an AI tool cannot fully own. The safer position in data science is owning the judgment calls around what a result actually means and what confounds it might be missing. Both roles reward the human layer an automated first draft cannot replace.',
+  },
+  {
+    q: 'Should a fresher target machine learning engineer or data scientist roles first in India?',
+    a: 'Target the one that matches your current strength rather than the one with the higher headline salary. If you already code confidently and enjoy systems thinking, machine learning engineering rewards that strength directly from your first interview. If you are stronger in statistics, SQL, and explaining findings clearly, data science lets you compete without first closing a large software-engineering gap. Many people also enter through a data analyst or data scientist role and move into machine learning engineering later, once they have built real coding and deployment depth.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="ai-future"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={jsonLd}
+>
+  <p class="lead-para">
+    <strong>Machine learning vs data science career path India comes down to one honest trade: machine
+    learning engineering rewards people who want to build systems that keep working reliably under real
+    traffic and real data drift, while data science rewards people who want provable, defensible answers
+    that survive a skeptical stakeholder's questions.</strong>
+    Both roles touch data, both use Python, and job titles blur constantly at smaller companies — but the
+    daily work, the math you actually lean on, and where each path tops out are genuinely different, not
+    just two labels for the same job. Both can genuinely unlock high income opportunities in India's data
+    and AI economy, but which one gets you there faster depends on your current strength, not on picking
+    whichever name sounds more impressive at a family gathering.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Machine learning engineering is closer to software engineering: building and maintaining pipelines, infrastructure, and models that serve real predictions reliably at scale.</li>
+      <li>Data science is closer to structured investigation: exploring data, running statistics, and turning a defensible finding into a business recommendation.</li>
+      <li>Fresher ML engineers are commonly reported earning roughly Rs 6-18 LPA against roughly Rs 4-14 LPA for data science freshers, with the pay gap widening at senior levels, though the roles need genuinely different strengths, not just different pay bands.</li>
+      <li>Data science leans harder on statistics and inference; machine learning engineering leans harder on systems design, deployment, and calculus-level math once you move into deep learning.</li>
+      <li>Test your actual fit with one small project in each lane before committing a course, a certification, or a career switch to either.</li>
+      <li>Whichever lane you choose, add real domain context—finance, healthcare, operations, retail, or another field—because technically correct models become valuable only when they improve an actual decision or workflow.</li>
+    </ul>
+  </div>
+
+  <p>
+    If you are still weighing this against the wider question of staying valuable as AI reshapes roles, read
+    <a href="/blog/ai-future/">more AI and future-of-work guides</a> before narrowing down to just these two
+    lanes.
+  </p>
+
+  <p>
+    If the pressure to decide is real — a course deadline, a job offer, or a career switch you cannot afford
+    to get wrong — a session inside
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can help you weigh this specific decision against your own situation, not a generic comparison chart.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The short answer to machine learning vs data science career path India</h2>
+
+  <p>
+    There is no universal winner here, and any comparison that hands you one has not actually looked at how
+    differently these two roles feel on a normal Tuesday.
+  </p>
+
+  <p>
+    Machine learning engineering wins on pay ceiling and engineering leverage: it pays more at almost every
+    experience level, the interview bar rewards people who already think like software engineers, and it
+    opens a direct road toward staff engineering, ML platform leadership, or applied AI and LLM roles.
+  </p>
+
+  <p>
+    Data science wins on breadth of entry and business proximity: the field accepts a wider range of
+    quantitative backgrounds, the daily work stays closer to real business decisions, and the skill (careful
+    statistical reasoning) transfers cleanly across almost any industry.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Both roles get oversold for opposite reasons. Machine learning engineering gets sold as "the highest
+      paying tech job," which ignores how heavy the software-engineering and systems-design bar has become.
+      Data science gets sold as "become a data scientist in months," which ignores how crowded the entry-level
+      certificate pool already is and how much genuine statistical reasoning the job actually demands. The
+      honest version: both have real demand in India, both have a real entry filter, and your current
+      strength (engineering fluency versus statistical reasoning) should decide more than the salary chart
+      does.
+    </p>
+  </div>
+
+  <h2 id="daily-work">What the daily work actually looks like in each career</h2>
+
+  <p>
+    Most comparisons stop at job titles and salary charts before ever describing what a normal working day
+    feels like. That is the part that should actually drive your decision.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Aspect of the work</th>
+          <th>Machine learning engineer</th>
+          <th>Data scientist</th>
+        </tr>
+      </thead>
+      <tbody>
+        {workRows.map((item) => (
+          <tr>
+            <td data-label="Aspect of the work"><strong>{item.aspect}</strong></td>
+            <td data-label="Machine learning engineer">{item.mle}</td>
+            <td data-label="Data scientist">{item.ds}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    A useful way to picture the split: when a platform recommends the next video or product, a data scientist
+    is often the person who designed the prediction logic and validated it works, while a machine learning
+    engineer is the person who built the system that delivers that recommendation to millions of users in
+    real time without falling over.
+  </p>
+
+  <h2 id="math-depth">Math and stats depth each role really needs</h2>
+
+  <p>
+    "How much math do I need" is usually the first anxious question people ask, and the honest answer is that
+    the two roles need different math, not simply more or less of it.
+  </p>
+
+  <div class="protocol-stack">
+    {mathItems.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p><strong>Machine learning engineer:</strong> {item.mle}</p>
+          <p><strong>Data scientist:</strong> {item.ds}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--amber">
+    <p>
+      Neither role needs olympiad-level or research-level math to get started. The real difference is which
+      math you lean on daily once you are past your first year: statistics and inference for a data
+      scientist defending a conclusion, versus linear algebra, calculus, and systems math for a machine
+      learning engineer debugging a model that will not converge or a pipeline that keeps failing under
+      load.
+    </p>
+  </div>
+
+  <h2 id="tools">Tools and skill stack compared</h2>
+
+  <p>
+    Job postings for both roles list overlapping keywords — Python, SQL, machine learning — which makes the
+    two look more similar on paper than they feel in practice. Here is what each layer of the stack actually
+    weighs in the day-to-day job.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Stack layer</th>
+          <th>Machine learning engineer</th>
+          <th>Data scientist</th>
+        </tr>
+      </thead>
+      <tbody>
+        {toolRows.map((item) => (
+          <tr>
+            <td data-label="Stack layer"><strong>{item.layer}</strong></td>
+            <td data-label="Machine learning engineer">{item.mle}</td>
+            <td data-label="Data scientist">{item.ds}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="entry-path">Entry path, degree, and hiring bar</h2>
+
+  <p>
+    "What should I study" is one of the first real questions in this decision, and the honest answer is that
+    the two hiring bars genuinely test different things.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Entry factor</th>
+          <th>Machine learning engineer</th>
+          <th>Data scientist</th>
+        </tr>
+      </thead>
+      <tbody>
+        {entryRows.map((item) => (
+          <tr>
+            <td data-label="Entry factor"><strong>{item.aspect}</strong></td>
+            <td data-label="Machine learning engineer">{item.mle}</td>
+            <td data-label="Data scientist">{item.ds}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="salary-reality">Salary reality: fresher to senior, without the marketing numbers</h2>
+
+  <p>
+    Salary pages for this exact comparison tend to quote whichever field's best-case numbers fit their
+    narrative. Here is the range you can realistically expect at each stage, based on current 2026
+    salary-tracking sources and hiring reports for the Indian market.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Career stage</th>
+          <th>Machine learning engineer</th>
+          <th>Data scientist</th>
+        </tr>
+      </thead>
+      <tbody>
+        {salaryRows.map((item) => (
+          <tr>
+            <td data-label="Career stage"><strong>{item.stage}</strong></td>
+            <td data-label="Machine learning engineer">{item.mle}</td>
+            <td data-label="Data scientist">{item.ds}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Ranges are directional, based on current salary-tracking sources and hiring reports at the time of
+    writing. Company type (service company versus product company versus AI-first startup) and city move
+    these numbers more than the job title alone — verify current figures against live postings before making
+    a financial decision.
+  </p>
+
+  <h2 id="ceiling">Career ceiling: where each path tops out</h2>
+
+  <p>
+    This is usually the most underweighted part of the decision. Both roles start in a similar place —
+    junior, execution-focused, closely supervised — but the senior destinations look genuinely different, and
+    that difference matters more than any single year's salary number.
+  </p>
+
+  <div class="mistakes-list">
+    {ceilingItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    Neither ceiling is objectively higher. A machine learning engineer's ceiling is pulled up by systems
+    depth and the ability to make a model reliable at scale; a data scientist's ceiling is pulled up by
+    statistical rigor and the trust they earn from leadership. Pick based on which kind of senior role you
+    would rather spend a decade working toward — the one that compounds into a genuine, high-income skill
+    portfolio you control, not just whichever offer letter looks better this year.
+  </p>
+
+  <h2 id="checkpoint">Use The 4-Checkpoint Protocol before you commit to either path</h2>
+
+  <p>
+    A salary chart cannot tell you which one fits your actual thinking style and current strengths. The
+    4-Checkpoint Protocol narrows this decision to what genuinely matters for you.
+  </p>
+
+  <div class="protocol-stack">
+    {checkpointItems.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+          <div class="checkpoint__note">{item.note}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    If you are still unsure after running this test honestly, a session inside
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can help you compare both paths against your specific background, instead of guessing alone from salary
+    screenshots and forum threads.
+  </p>
+
+  <h2 id="who-fits-mle">Who genuinely fits machine learning engineering</h2>
+
+  <div class="feature-grid">
+    {mleFitItems.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="who-fits-ds">Who genuinely fits data science</h2>
+
+  <div class="feature-grid">
+    {dsFitItems.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    Notice neither list requires you to be a "born coder" or a "math genius." Both are built more on which
+    kind of judgment call energises you — engineering reliability versus statistical proof — than on a fixed
+    personality label.
+  </p>
+
+  <h2 id="gates">Pass The 3 Gates before you spend real time or money on this</h2>
+
+  <p>
+    The 4-Checkpoint Protocol tells you which lane fits on paper. The 3 Gates make you test it in the real
+    world before you commit a course fee, a certification, or a full career switch to it.
+  </p>
+
+  <div class="gates-block">
+    <p class="gates-block__title">
+      Do not commit to a full bootcamp, a master's degree, or a mid-career switch before passing all three
+      gates in your chosen lane.
+    </p>
+    <div class="gates-row">
+      <div class="gate">
+        <span class="gate__num">Gate 1</span>
+        <span class="gate__name">Proof of skill</span>
+        <p>
+          For machine learning engineering, take one real model and actually deploy it behind a simple API,
+          even on a free-tier cloud instance, instead of leaving it in a notebook. For data science, take
+          one real, messy public dataset and produce one genuine, statistically defensible finding, not a
+          tutorial clone everyone else has already used.
+        </p>
+      </div>
+      <div class="gate">
+        <span class="gate__num">Gate 2</span>
+        <span class="gate__name">Proof of communication</span>
+        <p>
+          Explain in under two minutes, in plain language, what your deployed system or your analysis found
+          and why it matters. If you can only explain the mechanics, not the decision it supports, you are
+          not ready to sell this in an interview.
+        </p>
+      </div>
+      <div class="gate">
+        <span class="gate__num">Gate 3</span>
+        <span class="gate__name">Proof of value</span>
+        <p>
+          Show the work to a working machine learning engineer or data scientist and ask one direct
+          question: "Would this get shortlisted at your company?" Use their answer, not your own hope, to
+          decide.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="switching-later">Can you switch between them later?</h2>
+
+  <p>
+    Yes, and the switch happens constantly, especially at smaller companies where the two roles already
+    blur into an applied ML or ML-focused data scientist lane, described above.
+  </p>
+
+  <p>
+    Data scientists moving toward machine learning engineering usually need a focused stretch of software
+    engineering practice — version control discipline, testing habits, and one genuinely deployed project —
+    before the switch becomes credible to employers. Their existing statistical foundation is a real head
+    start; what they are missing is production coding and systems fluency, not modelling instinct.
+  </p>
+
+  <p>
+    Machine learning engineers moving toward data science usually need to build inferential statistics depth
+    and stakeholder-facing communication practice, since shipping a reliable system is a different skill from
+    defending a business recommendation in a room full of people who disagree with it.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      Neither switch is instant, and neither switch is rare. Treat your first choice as a strong starting
+      lane, not a life sentence — the overlap lane between these two careers is wider than most comparison
+      charts suggest.
+    </p>
+  </div>
+
+  <h2 id="mistakes">Mistakes to avoid when making this decision</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="build-skills">How to build the skills once you decide</h2>
+
+  <p>
+    Once you have run yourself through the checkpoints and gates above and leaned toward machine learning
+    engineering, the next question is not which course to buy — it is the right build order: math scoped
+    honestly, a Python and ML toolkit built in sequence, and a real, deployed portfolio instead of a shelf of
+    certificates.
+  </p>
+
+  <p>
+    The <a href="/blog/skill-roadmaps/machine-learning-roadmap-india/">machine learning roadmap for India</a>
+    walks through that exact sequence step by step: the math prerequisites without the scare tactics, the
+    Python and ML toolkit in the order that actually matters, and the project-based build order that gets
+    interviews, including a deeper look at how machine learning engineer, data scientist, and applied AI
+    engineer roles differ once you are ready to specialise.
+  </p>
+
+  <p>
+    If data science is the stronger fit for you instead, that same roadmap's statistics-and-tools sequence
+    (Python, SQL, statistics, then scikit-learn) is the right starting order — the difference is that you
+    would spend proportionally more time on inferential statistics and stakeholder communication practice,
+    and less on deployment infrastructure, than someone building toward machine learning engineering.
+  </p>
+
+  <p>
+    For a related decision one step earlier in the funnel — whether to go into data-and-AI roles at all
+    versus classic software engineering — see
+    <a href="/blog/career-options/data-science-vs-software-engineering-career-india/">data science vs software engineering career India</a>.
+  </p>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not try to settle "machine learning vs data science career path India" from vibes, one relative's
+    opinion, or a single salary screenshot for one more week.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      Run yourself through The 4-Checkpoint Protocol above, honestly, on paper.
+    </p>
+    <p>
+      Then pass The 3 Gates on one small project in whichever lane you are leaning toward, before you commit
+      a course fee, a master's degree, or a career switch to it.
+    </p>
+  </div>
+
+  <p>
+    Achieving earlier financial freedom in either field comes down to building a genuine
+    <strong>high-value skill portfolio</strong>, real proof of work, and the ability to explain your
+    decisions clearly to someone who is not technical, not the job title on your first offer letter. Move
+    toward that with
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    if you want a second opinion on your specific situation, or start with the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a> if you are
+    still unsure which lane genuinely fits you.
+  </p>
+
+  <h2 id="faq">FAQs on machine learning vs data science career path India</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong {
+      color: #fff;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .key-takeaways {
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.35rem 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.1), transparent 60%),
+        rgba(255, 255, 255, 0.03);
+    }
+    .key-takeaways__label {
+      margin: 0 0 0.7rem !important;
+      font-size: 11px !important;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(45, 212, 191, 0.95) !important;
+    }
+    .key-takeaways ul {
+      margin: 0 !important;
+      padding-left: 1.15rem !important;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .key-takeaways li {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.82) !important;
+      line-height: 1.7 !important;
+      font-size: 15.5px;
+    }
+
+    .feature-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .feature-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .feature-card__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      color: rgba(45, 212, 191, 0.96);
+      margin-bottom: 0.5rem;
+    }
+    .feature-card__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.93);
+      line-height: 1.28;
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .feature-card p {
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0 !important;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .protocol-stack,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .gates-block {
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+      padding: 1.25rem 1.2rem;
+      margin: 1.45rem 0;
+    }
+    .gates-block__title {
+      font-size: 13px !important;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      line-height: 1.6 !important;
+      margin: 0 0 0.95rem !important;
+    }
+    .gates-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .gate {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1rem 0.95rem;
+    }
+    .gate__num {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(45, 212, 191, 0.82);
+      font-weight: 800;
+      margin-bottom: 0.24rem;
+    }
+    .gate__name {
+      display: block;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.45rem;
+      font-family: "Sora", sans-serif;
+    }
+    .gate p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.66 !important;
+      color: rgba(255, 255, 255, 0.64) !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    @media (max-width: 820px) {
+      .gates-row,
+      .jump-nav__list {
+        grid-template-columns: 1fr;
+      }
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .feature-card,
+      .highlight-box,
+      .checkpoint,
+      .gates-block,
+      .gate,
+      .mistake-item {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 620px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+  </style>
+</BlogPostLayout>

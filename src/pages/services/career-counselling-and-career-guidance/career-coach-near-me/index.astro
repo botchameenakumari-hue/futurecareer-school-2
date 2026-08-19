@@ -11,25 +11,45 @@ import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro
 import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
 import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
 import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import FinalCta from '../../../../components/bofu/FinalCta.astro';
 import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
 import {
   BOFU_ASSESSMENT_LINKS,
   BOFU_INTERNAL_LINKS,
-  BOFU_PAYMENT_LINKS,
 } from '../../../../config/bofu';
 
 const title = 'Career Coach Near Me | Practical Online Career Guidance | Future Career School';
 const description =
   'Looking for a career coach near me? Get practical online career guidance across India for clearer decisions, stronger skill direction, proof of work, income growth, and a clearer route toward achieving earlier financial freedom.';
 const canonical =
-  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coach-near-me';
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coach-near-me/';
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether location alone is not enough',
+    body: 'Being physically nearby is convenient, but it does not guarantee better guidance. The stronger filter is whether the coach can actually improve your decisions, skill direction, and growth outcomes.',
+  },
+  {
+    title: 'Check whether the process starts with YOUR specific situation',
+    body: 'A good local coach should start by understanding your stage, your pressure, your options, and your real constraints — not apply a generic framework they use for everyone.',
+  },
+  {
+    title: 'Check whether you leave with a practical next move',
+    body: 'The test of good coaching is not whether the session felt good. It is whether you leave with clearer trade-offs, narrower options, and a decision you can actually act on.',
+  },
+  {
+    title: 'Check whether the coach respects your time and money reality',
+    body: 'A session should be worth the time and money you invest. It should improve decision quality and prevent expensive wrong moves, not just repeat things you could figure out on your own.',
+  },
+];
 
 const faqItems = [
   {
     question: 'Is this available if I am searching for a career coach near me in my city?',
     answer:
-      'Yes. Guidance is delivered online across India. The practical question is not only whether the coach is physically nearby. The better question is whether the guidance improves your decisions, skill direction, and growth path.',
+      'Yes. Guidance is delivered online across India, so you can join from home, college, or work instead of depending on one nearby office. The practical question is not only whether the coach is physically nearby. The better question is whether the guidance improves your decisions, skill direction, and growth path.',
   },
   {
     question: 'How is this different from normal career counseling?',
@@ -40,6 +60,11 @@ const faqItems = [
     question: 'Are the career and skill assessments free?',
     answer:
       'Yes. The career and skill assessments are fully free. They can be described as updated, practical, and AI-powered. Many providers charge thousands for outdated or impractical assessments; these are meant to be a stronger free starting layer instead.',
+  },
+  {
+    question: 'How do I hire a career coach through Future Career School?',
+    answer:
+      'Sessions run fully online across India, and the process starts with your stage, goals, and current pressure before it moves toward a practical next step, higher-value skill direction, proof of work, and income growth. If you want a closer look at what to check before hiring and exactly what the process involves, see the dedicated guide on hiring a career coach.',
   },
   {
     question: 'Is a career coach really different from career guidance or career counselling?',
@@ -116,12 +141,10 @@ const localityItems = [
   {
     title: 'I want support that feels real, reachable, and practical',
     body: 'That usually means you want clearer personal branding, a better next step, and less risk of paying for advice that sounds nice but changes nothing.',
-    eyebrow: 'What people often mean',
   },
   {
     title: 'The better filter is fit, clarity, and decision quality',
-    body: 'If the guidance maps your situation first, gives a practical next step, and keeps longer support optional, that usually matters more than physical proximity alone.',
-    eyebrow: 'What matters more',
+    body: 'If the guidance maps your situation first, gives a practical next step, and still works from home, college, or work, that usually matters more than physical proximity alone.',
   },
 ];
 
@@ -204,6 +227,11 @@ const objectionItems = [
 
 const relatedDirectoryItems = [
   {
+    href: '/services/career-counselling-and-career-guidance/hire-a-career-coach',
+    title: 'Hire a Career Coach',
+    description: 'See what to check on credentials, the full hiring process, and exactly what you get once you commit.',
+  },
+  {
     href: '/services',
     title: 'Career Guidance, Assessments, and Tools',
     description: 'See every guidance option, assessment, and free tool in one place.',
@@ -221,11 +249,11 @@ const relatedDirectoryItems = [
   {
     href: '/services/assessments',
     title: 'Free Assessments',
-    description: 'All assessments, resources, skill-finder, and course-finder tools are fully free.',
+    description: 'All assessments, resources, Career & Skills Compass, and course-finder tools are fully free.',
   },
   {
-    href: '/skill-finder',
-    title: 'Skill Finder',
+    href: '/career-skills-compass',
+    title: 'Career & Skills Compass',
     description: 'Start exploring high-value skill direction before bigger commitments.',
   },
   {
@@ -260,13 +288,13 @@ const jsonLd = [
         '@type': 'ListItem',
         position: 2,
         name: 'Services',
-        item: 'https://futurecareerschool.com/services',
+        item: 'https://futurecareerschool.com/services/',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Career Counselling and Career Guidance',
-        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
       },
       {
         '@type': 'ListItem',
@@ -287,7 +315,7 @@ const jsonLd = [
     areaServed: { '@type': 'Country', name: 'India' },
     inLanguage: 'en-IN',
     provider: {
-      '@type': 'EducationalOrganization',
+      '@type': ['Organization', 'ProfessionalService'],
       name: 'Future Career School',
       url: 'https://futurecareerschool.com',
     },
@@ -330,13 +358,11 @@ const jsonLd = [
         It is who can improve the quality of your decisions, skill direction, proof of work, and income growth path.
       </p>
       <p class="hero-note">
-        Many providers charge thousands for outdated or impractical assessments.
-        Here, the career and skill assessments are fully free, updated, practical, and AI-powered.
-        Guidance is available online across India.
+        Guidance is delivered fully online across India. You do not have to wait for a nearby office to be the right fit — join from home, work, or college instead.
       </p>
       <div class="hero-actions">
-        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold pulse">Get Student Career Coaching</a>
-        <a href={BOFU_PAYMENT_LINKS.workingProfessionals} class="btn-outline">Get Working Professional Career Coaching</a>
+        <a href="#plans" class="btn-gold pulse">Get Student Career Coaching</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Coaching</a>
       </div>
       <p class="hero-support">
         The stronger filter is not distance alone. It is whether the guidance improves decision quality, skill direction, and your next move.
@@ -344,15 +370,18 @@ const jsonLd = [
     </div>
   </section>
 
-  <BofuListCardSection
-    sectionId="fit"
-    title="When a career coach becomes useful"
-    subtitle="A career coach becomes useful when you need clearer direction before you waste more time, money, or effort. The better filter is not just distance. It is whether the process gives you practical clarity and a next move you can trust."
-    items={fitItems}
-    variant="contrast"
-  >
-    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
-  </BofuListCardSection>
+  <ComparisonMatrix
+    sectionId="different"
+    title="What makes this more useful than a generic near me search"
+    subtitle="The point is clearer skill direction, proof of work, stronger income-growth logic, and a clearer route toward achieving earlier financial freedom."
+  />
+
+  <BofuFeatureSection
+    sectionId="objections"
+    title="Common objections before starting"
+    items={objectionItems}
+    variant="signal"
+  />
 
   <BofuFeatureSection
     sectionId="locality-logic"
@@ -363,6 +392,16 @@ const jsonLd = [
   >
     <BofuSummaryStrip items={localitySummaryItems} variant="signal" />
   </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="fit"
+    title="When a career coach becomes useful"
+    subtitle="A career coach becomes useful when you need clearer direction before you waste more time, money, or effort. The better filter is not just distance. It is whether the process gives you practical clarity and a next move you can trust."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
 
   <BofuListCardSection
     sectionId="what-you-get"
@@ -390,28 +429,41 @@ const jsonLd = [
 
   <AudienceRelevance title="How the right support can fit where you are right now" />
 
-  <ComparisonMatrix
-    sectionId="different"
-    title="What makes this more useful than a generic near me search"
-    subtitle="The point is clearer skill direction, proof of work, stronger income-growth logic, and a clearer route toward achieving earlier financial freedom."
-  />
-
-  <BofuFeatureSection
-    sectionId="objections"
-    title="Common objections before starting"
-    items={objectionItems}
-    variant="signal"
+  <ContextualCta
+    audience="mixed"
+    title="Use the near-me search as a trust shortcut, but choose based on decision quality before you commit"
+    body="If the main concern is getting support that feels real and useful, the better filter is practical clarity, not proximity alone."
+    studentHref="#plans"
+    studentLabel="Get Student Career Coaching"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Coaching"
   />
 
   <BuyerChecks
     title="What to check before paying any career coach near me"
     subtitle="Do not compare only price or convenience. The better comparison is whether the process improves decision quality and reduces the chance of another wrong turn."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If you searched for a career coach near you because the decision already feels serious, do not let the wrong filter make the choice"
+    body="A stronger process should improve the next move, the skill direction, and the long-term upside before more effort goes the wrong way."
+    studentHref="#plans"
+    studentLabel="Get Student Career Coaching"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Coaching"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Coaching"
   />
 
   <LinkDirectorySection
     sectionId="related-links"
     title="Explore related help"
-    subtitle="See broader guidance, assessments, tools, and useful reading before you decide."
+    subtitle="See other guidance pages, assessments, tools, and useful reading before you decide."
     items={relatedDirectoryItems}
     altBackground={true}
   />
@@ -420,7 +472,9 @@ const jsonLd = [
 
   <FinalCta
     audience="mixed"
+    studentHref="#plans"
     studentLabel="Get Student Career Coaching"
+    professionalHref="#plans"
     professionalLabel="Get Working Professional Career Coaching"
   />
 
@@ -475,8 +529,10 @@ const jsonLd = [
     #hero { padding: 118px 0 72px; }
     .hero-actions { flex-direction: column; align-items: stretch; }
     .hero-actions .btn-gold,
-    .hero-actions .btn-outline { justify-content: center; }
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
   }
 </style>
+
 
 

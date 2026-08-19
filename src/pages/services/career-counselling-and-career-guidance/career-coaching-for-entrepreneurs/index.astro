@@ -1,0 +1,408 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title = 'Career Coaching for Entrepreneurs | Venture vs Employment Clarity | Future Career School';
+const description =
+  'Career coaching for entrepreneurs deciding whether to keep building the venture, return to employment, or do both, including how to turn founder experience into a resume and interview narrative employers value.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coaching-for-entrepreneurs/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[3],
+];
+
+const fitItems = [
+  {
+    title: 'The venture stopped compounding the way it used to',
+    body: 'When growth has flattened, options have narrowed, or the effort required no longer matches the return, and you need an honest read on whether to keep going.',
+  },
+  {
+    title: 'You need employment to make sense on paper again',
+    body: 'When the founder years have to translate into a resume and interview story that shows real strength, not something you feel you have to explain away.',
+  },
+  {
+    title: 'A side venture is pulling harder than the day job',
+    body: 'When the time, income, and energy a side venture is already demanding are starting to outgrow keeping it as something you run after hours.',
+  },
+];
+
+const decisionItems = [
+  {
+    title: 'Venture, employment, or both',
+    body: 'Whether the venture still has a real growth path, whether employment solves problems the venture cannot, or whether both can genuinely coexist for a while without either one being neglected.',
+  },
+  {
+    title: 'Turning founder experience into an employability narrative',
+    body: 'How to describe ownership, decision-making, and results from running something yourself in a way that reads as strength to an employer, not as time spent away from a conventional job.',
+  },
+  {
+    title: 'Whether a side venture is ready to go full-time',
+    body: 'Looking at revenue consistency, how much time and income it already pulls from your main work, and what would genuinely change if you gave it full attention, instead of deciding on excitement alone.',
+  },
+  {
+    title: 'The identity and pride questions around going back to a job',
+    body: 'Founders often carry real discomfort about stepping back into employment. That discomfort deserves a straight conversation about the actual trade-offs, not a lecture about ego.',
+  },
+  {
+    title: 'Using founder skills as a genuine strength in a job search',
+    body: 'Ownership, resourcefulness, and resilience built from running something are real, transferable skills. The work is presenting them so a hiring manager sees them the way you do.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it treats venture vs employment as a real decision',
+    body: 'Founder-to-employee coaching should not default to either "never give up" or "get a real job." Look for guidance that weighs your venture’s actual trajectory against your income needs and runway.',
+  },
+  {
+    title: 'Check whether it helps you rewrite the founder story, not just soften it',
+    body: 'A resume line that says "Founder" needs context. Look for support that turns what you built, decided, and fixed into language a hiring manager can actually evaluate.',
+  },
+  {
+    title: 'Check whether side-venture readiness is judged by real numbers',
+    body: 'Whether a side venture should go full-time is a runway and revenue question as much as a passion question. Look for guidance that treats it that way instead of only asking how you feel about it.',
+  },
+  {
+    title: 'Check whether the identity side of the decision gets real space',
+    body: 'Going back to employment after running something of your own can feel like a step backward, even when it is not. Guidance that only talks strategy and skips this misses half the actual decision.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Should I go back to a full-time job or keep pushing my venture?',
+    answer:
+      'This is rarely a simple yes or no. It depends on the venture’s real trajectory, your financial runway, and what employment would actually solve that the venture cannot. Coaching should help you weigh these honestly instead of defaulting to either "never give up" or "get a real job."',
+  },
+  {
+    question: 'How do I explain running a startup on my resume without it looking like a gap?',
+    answer:
+      'The founder years are not a gap if they are framed around real outcomes: what you built, decided, and were responsible for. Coaching should help you turn that into language a hiring manager can evaluate, not a story you feel you need to apologise for.',
+  },
+  {
+    question: 'My side business makes some money. How do I know if it is ready to become full-time?',
+    answer:
+      'Look at revenue consistency over time, how much of your current income or hours it already demands, and what would genuinely change if you gave it your full attention. That is a runway and numbers question, not only a passion question.',
+  },
+  {
+    question: 'I feel like going back to a job means I failed. How do I deal with that?',
+    answer:
+      'That discomfort is common and worth taking seriously, not dismissing. A clear-eyed look at your venture’s real trajectory alongside your financial and career goals usually makes the decision feel less like failure and more like a deliberate next move.',
+  },
+  {
+    question: 'Will employers see my time as a founder as a weakness in interviews?',
+    answer:
+      'Not if it is framed well. Ownership, resourcefulness, and the ability to make decisions with incomplete information are exactly what many employers want. The work is presenting your founder years as proof of those skills, not something to explain away.',
+  },
+  {
+    question: 'Can I keep my side venture running while I take a full-time job?',
+    answer:
+      'Often yes, depending on what the venture demands and what the new role expects. Coaching can help you look at this honestly instead of assuming it has to be all one or the other.',
+  },
+  {
+    question: 'Are the career and skill assessments free for people coming from entrepreneurship?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered, useful whether your background is a traditional job history or years spent running something of your own.',
+  },
+  {
+    question: 'Is this available online, or do I need to be in a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can start from wherever you are currently working from, without depending on local availability.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Get broader help when several connected decisions, not just venture vs employment, need to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'Useful once employment is the confirmed direction and the questions shift to positioning, pivots, and income growth.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers,
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free input on fit, strengths, and direction, useful for founders weighing a move back into employment.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free assessments for skill fit, work style, and direction before a bigger decision.',
+  },
+  {
+    href: '/career-skills-compass/',
+    title: 'Career & Skills Compass',
+    description: 'A free tool for narrowing the skill paths that fit your strengths and market direction.',
+  },
+  {
+    href: '/career-resources/resume-that-gets-shortlisted-in-india/',
+    title: 'Resume That Gets Shortlisted in India',
+    description: 'A practical guide to building a resume that survives the first filter, including how to frame founder experience.',
+  },
+  {
+    href: '/career-resources/side-income-while-employed-7-legit-options/',
+    title: 'Side Income While Employed',
+    description: 'Practical options for keeping a venture or side income running once employment is back in the picture.',
+  },
+  {
+    href: '/career-resources/personal-brand-without-posting-every-day/',
+    title: 'Personal Brand Without Posting Every Day',
+    description: 'A practical approach to positioning your experience, including a founder story, without it feeling forced.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Coaching for Entrepreneurs', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coaching for Entrepreneurs | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching for Entrepreneurs',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coaching for Entrepreneurs</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career coaching for entrepreneurs weighing venture vs employment
+      </div>
+
+      <h1 class="hero-title">
+        Career coaching for entrepreneurs
+        <span class="gold-text"> deciding what comes after the startup chapter</span>
+      </h1>
+      <p class="hero-sub">
+        Career coaching for entrepreneurs helps with the decision most founders eventually face: keep building the venture, return to employment, or run both for a while. The goal is a clear-eyed call plus the high-income skill portfolio and stronger positioning that keep you moving toward earlier financial freedom, whichever direction you choose.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from wherever you are currently building or working, without waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for Entrepreneurs</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career coaching for entrepreneurs becomes the right move"
+    subtitle="Whichever way this goes, the goal is the same: unlocking high income opportunities through a deliberate skill portfolio, not restarting from zero with no plan."
+    items={fitItems}
+    variant="signal"
+    columns={3}
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free working professionals and career changers assessment can help clarify strengths and direction before a bigger venture-vs-employment call."
+      href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+    />
+  </BofuFeatureSection>
+
+  <ContextualCta
+    audience="professional"
+    title="Do not let the venture-vs-employment question drag on with no real decision"
+    body="A focused session can turn a vague feeling that something needs to change into an actual next step."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Entrepreneurs"
+  />
+
+  <BofuStepFlowSection
+    sectionId="entrepreneur-decisions"
+    title="The decisions career coaching for entrepreneurs should help you make"
+    subtitle="These are not abstract founder questions. They are the specific calls entrepreneurs are weighing right now, often with income and runway pressure attached."
+    items={decisionItems}
+  />
+
+  <ComparisonMatrix
+    title="What changes with focused entrepreneur career coaching"
+    subtitle="Founders moving toward employment rarely lose out from a lack of drive. They lose time to generic advice, a resume that undersells the venture years, and assessments built for people who never ran anything of their own."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career coaching as an entrepreneur"
+    subtitle="The goal is a clear-eyed venture-vs-employment call and a stronger story about your founder years, not generic encouragement to follow your gut."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Do not let another quarter pass without a real answer on venture vs employment"
+    body="A sharper decision now protects your runway, your resume story, and the skill direction you build from here."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Entrepreneurs"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Coaching for Entrepreneurs"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See other guidance pages, career-changer assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions entrepreneurs ask before choosing career coaching"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Make the venture-vs-employment call with clarity, not just gut feel"
+    subtitle="Whether the next step is staying the founder course, moving into employment, or running both for a while, treat it as the decision that builds your next high-income skill portfolio and moves you toward earlier financial freedom, not something to decide on instinct alone."
+    professionalHref="#plans"
+    professionalLabel="Get Career Coaching for Entrepreneurs"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 3.9rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 790px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #fit,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #entrepreneur-decisions { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

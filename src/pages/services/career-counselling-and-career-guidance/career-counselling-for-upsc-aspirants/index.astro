@@ -1,0 +1,477 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling for UPSC Aspirants | Decide the Next Attempt or the Next Step | Future Career School';
+const description =
+  'Career counselling for UPSC aspirants deciding whether to attempt, whether another attempt is worth it, and what to do after a limit or a repeated setback. Decision support, not exam coaching. Online across India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-upsc-aspirants/';
+
+const decisionPressureItems = [
+  {
+    eyebrow: 'Deciding whether to attempt at all',
+    title: 'The first real decision is not strategy — it is fit',
+    body: 'Before a single mock test, the bigger question is whether a multi-year UPSC attempt is actually the right route for your strengths, interests, and financial runway, or whether a different high-value path would serve you better. That decision deserves the same rigour as any other high-stakes bet, not just momentum from what everyone around you is attempting.',
+  },
+  {
+    eyebrow: 'The attempt count and the age limit',
+    title: 'A finite number of tries, on a clock that keeps moving',
+    body: 'Every attempt has a real cost in time, money, and the years your peers spend building income and experience elsewhere. Once a few attempts have passed without clearing prelims or mains, the question stops being "should I try harder" and becomes "is one more attempt still the highest-leverage move toward earlier financial freedom" — a call worth making deliberately, not by default.',
+  },
+  {
+    eyebrow: 'Quitting a job to prepare full-time',
+    title: 'Leaving stable income for an outcome that is never guaranteed',
+    body: 'Working professionals who resign to prepare are trading a known income and a growing resume for an unknown outcome years later. That trade-off deserves an honest look at savings runway, re-entry difficulty, and what the resignation actually buys in preparation time, not just the assumption that quitting equals seriousness.',
+  },
+  {
+    eyebrow: 'Family pressure and prestige',
+    title: 'When the goal is partly someone else\'s dream',
+    body: 'UPSC preparation often carries family prestige, community expectation, and years of sunk emotional investment that make it hard to reassess honestly. Guidance here treats family expectation as real and worth respecting, while keeping the decision anchored to your own strengths, runway, and long-term outcome instead of only the fear of disappointing someone.',
+  },
+];
+
+const decisionPointItems = [
+  {
+    eyebrow: 'Before the first attempt',
+    title: 'Weighing UPSC against other high-value paths honestly',
+    body: 'A structured way to check whether a civil services attempt fits your actual strengths and interests, before years go into a path chosen mainly for its prestige.',
+    listItems: [
+      'Maps your natural strengths against what the exam and the job genuinely reward',
+      'Names the realistic time, cost, and opportunity-cost trade-offs upfront, not after year two',
+      'Compares UPSC honestly against other paths that could use the same discipline and analytical ability',
+    ],
+  },
+  {
+    eyebrow: 'Two or more attempts in',
+    title: 'Deciding if another attempt is still the highest-leverage move',
+    body: 'The hardest call in this journey usually comes after a result that is close but not close enough.',
+    listItems: [
+      'Looks at what genuinely changed between attempts, not just "try harder" as a plan',
+      'Weighs the remaining attempts and age window against your other options right now',
+      'Builds a real Plan B in parallel instead of treating a next attempt as the only path',
+    ],
+  },
+  {
+    eyebrow: 'After the limit or a hard stop',
+    title: 'Converting years of preparation into a real next career',
+    body: 'Hitting the attempt limit or the age cutoff is not the end of the story — it is a pivot point that still needs a plan.',
+    listItems: [
+      'Translates analytical ability, current-affairs depth, and writing skill into roles that value them directly',
+      'Builds proof of work and a positioning story that explains the preparation years as an asset, not a gap',
+      'Targets realistic entry points instead of a vague "I will figure something out" plan',
+    ],
+  },
+  {
+    eyebrow: 'Working professionals mid-decision',
+    title: 'Quitting a job to prepare, or preparing while still employed',
+    body: 'This decision affects income, savings, and how hard re-entry into the job market would be if the attempt does not work out.',
+    listItems: [
+      'Checks savings runway and realistic preparation time against a full resignation',
+      'Explores whether a reduced-hours, remote, or lower-intensity role could fund a serious attempt',
+      'Plans a credible return-to-work story in advance, so a setback does not become a second crisis',
+    ],
+  },
+];
+
+const decisionFilterItems = [
+  {
+    title: 'Genuine fit versus prestige and default momentum',
+    body: 'UPSC is often the default "serious" choice for strong students, independent of whether the actual work of a civil servant matches their strengths. Testing fit honestly, before or during preparation, prevents years spent chasing a title rather than a role you would actually be good at.',
+  },
+  {
+    title: 'What one more attempt actually costs versus what it could realistically change',
+    body: 'Another year of preparation is not free — it costs income, market currency, and time your peers spend growing elsewhere. Weigh that real cost against what genuinely changed in your preparation, not against hope alone.',
+  },
+  {
+    title: 'Family expectation versus your own runway and risk tolerance',
+    body: 'Family pressure and prestige are real and worth taking seriously, but they are not the same as your financial runway, savings, or risk tolerance. A decision that only satisfies expectation while ignoring your own reality tends to compound the pressure later.',
+  },
+  {
+    title: 'A closed door versus a starting point',
+    body: 'Reaching the attempt or age limit ends the UPSC route, not your career. The analytical ability, current-affairs depth, and disciplined writing built over years of preparation are transferable assets, not a blank slate you have to explain away.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it helps you decide, not just cheer you on',
+    body: 'This is not exam coaching, mock-test evaluation, or answer-writing practice, and it should not pretend to be. Look for guidance that helps you make the attempt, continue, or pivot decision clearly — not motivational talk that avoids the real question.',
+  },
+  {
+    title: 'Check whether it takes the attempt and age limit seriously',
+    body: 'Generic career advice rarely accounts for a hard cap on attempts and age. Stronger guidance treats the remaining window as a real constraint that shapes the decision, not a detail to gloss over.',
+  },
+  {
+    title: 'Check whether it respects the sunk years without ignoring them',
+    body: 'Years of preparation are not wasted just because a next step changes direction, but they also should not be used to justify one more attempt that the numbers no longer support. Good guidance holds both of those honestly at the same time.',
+  },
+  {
+    title: 'Check whether it has a real plan for life after UPSC, not just for UPSC itself',
+    body: 'Whether the plan is another attempt, a parallel Plan B, or a full pivot after the limit, it should include concrete next roles, proof of work, and positioning — not just reassurance that "something will work out."',
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Degree-first direction with weak skill edge',
+    right: 'Skill-first direction with proof of work and stronger market value',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Get broader help with skill, path, and next-step decisions when the UPSC question is only one part of a bigger picture.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'For professionals weighing stagnation, pivots, or a return to work after stepping away to prepare, beyond the UPSC-specific decision.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'For college students and graduates who are still deciding between UPSC and other paths before committing years to either.',
+  },
+  {
+    href: '/services/assessments/graduates-and-early-professionals/',
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free clarity on strengths, fit, and skill direction if you are weighing a UPSC attempt against other paths early on.',
+  },
+  {
+    href: '/services/assessments/working-professionals-and-career-changers/',
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free input for a job-versus-preparation decision, or for planning a pivot after stepping back from UPSC preparation.',
+  },
+  {
+    href: '/career-resources/tarzan-rule-the-exact-moment-to-quit-your-job/',
+    title: 'The Exact Moment to Quit Your Job',
+    description: 'A practical read on timing a resignation deliberately, useful before quitting a job to prepare full-time.',
+  },
+  {
+    href: '/career-resources/career-change-without-starting-over/',
+    title: 'Career Change Without Starting Over',
+    description: 'Practical read on carrying existing skills into a new direction, useful for converting UPSC preparation years into a private-sector pivot.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Should I attempt UPSC at all, or is another path better for me?',
+    answer:
+      'That depends on your actual strengths, interests, financial runway, and risk tolerance, not on how prestigious the exam sounds. Guidance here works through your genuine fit against what the exam and the job reward, and compares that honestly against other high-value paths that could use the same discipline and analytical ability.',
+  },
+  {
+    question: 'How many attempts is too many before I should consider switching direction?',
+    answer:
+      'There is no universal number, because it depends on what changed between attempts, your remaining attempts and age window, and what a next year of preparation would realistically cost you elsewhere. The useful question is not "how many attempts is normal" but "is another attempt still the highest-leverage move for me right now," and that needs an honest, specific answer, not a rule of thumb.',
+  },
+  {
+    question: 'I have used all my attempts or crossed the age limit. What now?',
+    answer:
+      'The UPSC route is closed, but your preparation years are not wasted. Analytical ability, current-affairs depth, structured writing, and discipline built over years of preparation are transferable to research, policy-adjacent, editorial, teaching, and analysis-heavy roles. The next step is converting that into a real plan with proof of work and positioning, not starting over from zero.',
+  },
+  {
+    question: 'Can career counselling help me clear UPSC or improve my exam score?',
+    answer:
+      'No. This is not UPSC exam coaching, mock-test evaluation, or answer-writing practice, and it should not be mistaken for one. It is decision support for the choices around the exam — whether to attempt, whether to continue, and what to do next — not preparation for the exam itself.',
+  },
+  {
+    question: 'I quit my job to prepare full-time. How do I know if I should return to work or try again?',
+    answer:
+      'That call depends on your savings runway, what genuinely changed in your last attempt, and how much longer a serious effort would realistically take. Guidance should help you weigh that against re-entry difficulty and income lost, and build a credible return-to-work plan in parallel, so a decision either way is deliberate rather than reactive.',
+  },
+  {
+    question: 'How do I explain years of UPSC preparation to employers if I switch to a private-sector career?',
+    answer:
+      'Preparation years can be framed as a real asset when the story is specific: the analytical, writing, and research skills built, and how they apply to the role you are targeting now. Guidance should help you build that positioning and the proof of work that backs it up, instead of leaving the gap unexplained on a resume.',
+  },
+  {
+    question: 'My family expects me to keep attempting. How do I handle that pressure?',
+    answer:
+      'Family expectation and prestige around UPSC are real and worth taking seriously, but they are not the same as your own financial runway, risk tolerance, or long-term outcome. Guidance should help you have that conversation with your family grounded in your actual situation, not avoid the conversation or ignore the pressure entirely.',
+  },
+  {
+    question: 'Are the career and skill assessments free, and is this available online?',
+    answer:
+      'Yes to both. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered, and guidance is delivered fully online across India, so you can start from your preparation city, hometown, or wherever you are right now.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for UPSC Aspirants', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for UPSC Aspirants | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for UPSC Aspirants',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for UPSC Aspirants</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for UPSC aspirants weighing another attempt or a new direction
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for UPSC aspirants
+        <span class="gold-text"> before another attempt costs another year</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for UPSC aspirants should help with the hardest calls in this journey: whether to attempt at all, whether another attempt is still worth the cost, and what to do after a limit or a repeated setback.
+        The aim is a decision that protects your remaining attempts, your savings, and your route toward earlier financial freedom, instead of letting momentum alone decide another year for you.
+      </p>
+      <p class="hero-note">
+        This is career counselling about the decisions around the exam — not UPSC exam coaching, mock-test evaluation, or answer-writing practice.
+        Guidance is delivered fully online across India, so you can start from your preparation city, your hometown, or wherever you are right now.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for UPSC Aspirants</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="decision-pressure"
+    title="The decision pressure behind a UPSC attempt"
+    subtitle="These are not abstract stages. They are the specific moments where drifting without a plan compounds against your income and your route toward earlier financial freedom — before the first attempt, mid-way through several, or after a resignation that already happened."
+    items={decisionPressureItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Whichever stage you are at, drifting into another year without a plan is its own decision"
+    body="Deciding to attempt, to continue, or to pivot all deserve the same thing: a specific plan built around your actual runway and strengths, not just momentum from how far you have already come."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for UPSC Aspirants"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling for UPSC Aspirants"
+  />
+
+  <BofuListCardSection
+    sectionId="decision-points"
+    title="Real decision points this guidance works through"
+    subtitle="Not every UPSC aspirant searching this is at the same stage. These are the situations this guidance is actually built to help with."
+    items={decisionPointItems}
+    columns={2}
+    variant="audience"
+  />
+
+  <BofuFeatureSection
+    sectionId="decision-filters"
+    title="What should actually decide, when the exam alone will not tell you"
+    subtitle="Attempting, continuing, or pivoting away from UPSC is rarely one clean answer. These are the filters that keep the decision honest."
+    items={decisionFilterItems}
+    variant="decision"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, free career and skill assessments can help map your actual strengths and work style before an attempt, continuation, or pivot decision — instead of deciding on prestige or momentum alone."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="different"
+    title={'Why this needs to go beyond "try again" or "give up"'}
+    subtitle="These are the contrast points that matter once real attempts, age limits, and years of preparation are on the line."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling aimed at UPSC aspirants"
+    subtitle="The goal is a clear-eyed decision about the exam and what comes after it, not motivational talk dressed up as guidance."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Make the next-attempt or next-step decision deliberately, before it gets made for you"
+    body="A remaining attempt, a savings runway, and a career window are all finite. The earlier the decision is specific, the more of each you keep control over."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for UPSC Aspirants"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling for UPSC Aspirants"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling for UPSC Aspirants"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader student and working-professional guidance, assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    title="Decide the next attempt, or the next step, on purpose"
+    subtitle="Whether that means preparing for another attempt with a clearer plan, or converting years of preparation into a strong private-sector direction with real income growth, the decision works better made deliberately now — toward earlier financial freedom — than left to run out the clock on its own."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for UPSC Aspirants"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling for UPSC Aspirants"
+  />
+
+  <BofuFaqSection
+    title="Questions UPSC aspirants ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decision-filters,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 9.6vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

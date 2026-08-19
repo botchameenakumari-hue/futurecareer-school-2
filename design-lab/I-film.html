@@ -1,0 +1,120 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>I · The Film</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+html{scroll-behavior:smooth}
+body{background:#000;color:#fff;font-family:Inter,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+/* fixed film layer */
+.reel{position:fixed;inset:0;z-index:0}
+.frame{position:absolute;inset:0;opacity:0;transition:opacity 1.2s cubic-bezier(.4,0,.2,1)}
+.frame.on{opacity:1}
+.frame img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:transform 7s cubic-bezier(.2,0,.3,1)}
+.frame.on img{transform:scale(1)}
+.vig{position:fixed;inset:0;z-index:1;background:radial-gradient(ellipse at center,transparent 28%,rgba(0,0,0,.72) 100%),linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,.25) 40%,rgba(0,0,0,.82))}
+.gr{position:fixed;inset:0;z-index:2;opacity:.4;mix-blend-mode:overlay;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E")}
+.bars{position:fixed;left:0;right:0;z-index:6;height:clamp(28px,5vh,64px);background:#000;pointer-events:none}
+.bars.t{top:0}.bars.b{bottom:0}
+/* HUD */
+.hud{position:fixed;z-index:8;left:clamp(1.2rem,4vw,3rem);bottom:clamp(2.6rem,7vh,5rem);display:flex;align-items:center;gap:.9rem;font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.hud i{width:46px;height:1px;background:rgba(255,255,255,.3);position:relative;overflow:hidden}
+.hud i b{position:absolute;inset:0;background:#fff;transform:scaleX(0);transform-origin:0;transition:transform .5s}
+.brand{position:fixed;z-index:8;top:clamp(2.4rem,6.5vh,4.4rem);left:clamp(1.2rem,4vw,3rem);font-family:'Instrument Serif',serif;font-size:18px;letter-spacing:.01em;z-index:8}
+.skip{position:fixed;z-index:8;top:clamp(2.4rem,6.5vh,4.4rem);right:clamp(1.2rem,4vw,3rem);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:3px}
+/* scenes */
+.sc{position:relative;z-index:5;min-height:100svh;display:flex;align-items:center;padding:0 clamp(1.4rem,7vw,7rem)}
+.sc .txt{max-width:22ch;opacity:0;transform:translateY(34px);transition:opacity 1.1s cubic-bezier(.16,.84,.28,1),transform 1.1s cubic-bezier(.16,.84,.28,1)}
+.sc.on .txt{opacity:1;transform:none}
+.no{display:block;font-size:11px;letter-spacing:.34em;color:rgba(255,255,255,.5);margin-bottom:1.4rem}
+.line{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(2.1rem,6.2vw,5.4rem);line-height:1.04;letter-spacing:-.025em}
+.line em{font-style:italic;color:#FF7A45}
+.say{margin-top:1.3rem;max-width:30rem;font-size:15px;line-height:1.8;color:rgba(255,255,255,.62);font-weight:300}
+.mid{justify-content:center;text-align:center}.mid .txt{max-width:24ch}
+.rgt{justify-content:flex-end;text-align:right}.rgt .txt{max-width:22ch}
+/* final */
+.end{position:relative;z-index:5;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 1.4rem}
+.end .txt{opacity:0;transform:translateY(30px);transition:1.1s cubic-bezier(.16,.84,.28,1)}
+.end.on .txt{opacity:1;transform:none}
+.end h2{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,6.4vw,5rem);line-height:1.04;letter-spacing:-.025em;max-width:16ch;margin:0 auto 1.2rem}
+.end h2 em{font-style:italic;color:#FF7A45}
+.end p{max-width:32rem;margin:0 auto 2.2rem;color:rgba(255,255,255,.68);line-height:1.75;font-weight:300}
+.acts{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+.b1{background:#fff;color:#000;padding:16px 32px;border-radius:2px;font-weight:600;font-size:13.5px;letter-spacing:.03em;transition:.3s}
+.b1:hover{background:#FF7A45;color:#fff}
+.b2{border:1px solid rgba(255,255,255,.35);padding:16px 32px;border-radius:2px;font-weight:500;font-size:13.5px;transition:.3s}
+.b2:hover{background:rgba(255,255,255,.14)}
+.meta{margin-top:2rem;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.42)}
+@media(max-width:700px){.rgt{justify-content:flex-start;text-align:left}.rgt .txt,.mid .txt{max-width:16ch}.mid{justify-content:flex-start;text-align:left}}
+</style></head><body>
+
+<div class="reel" id="reel">
+  <div class="frame on"><img src="https://images.unsplash.com/photo-1594352121345-6f587972b024?auto=format&fit=crop&crop=faces&q=82&w=1800"></div>
+  <div class="frame"><img src="https://images.unsplash.com/photo-1544456203-0af5a69f5789?auto=format&fit=crop&q=82&w=1800"></div>
+  <div class="frame"><img src="https://images.unsplash.com/photo-1653656120364-1edf9ddcb440?auto=format&fit=crop&q=82&w=1800"></div>
+  <div class="frame"><img src="https://images.unsplash.com/photo-1585201572233-c94c929f1594?auto=format&fit=crop&q=82&w=1800"></div>
+  <div class="frame"><img src="https://images.unsplash.com/photo-1781246212288-7fa538344718?auto=format&fit=crop&q=82&w=1800"></div>
+  <div class="frame"><img src="https://images.unsplash.com/photo-1619279302118-43033660826a?auto=format&fit=crop&q=82&w=1800"></div>
+</div>
+<div class="vig"></div><div class="gr"></div>
+<div class="bars t"></div><div class="bars b"></div>
+<div class="brand">Future Career School</div>
+<a class="skip" href="#end">Skip to guidance</a>
+<div class="hud"><span id="hn">01</span><i><b id="hb"></b></i><span id="ht">The choice</span></div>
+
+<section class="sc" data-i="0" data-t="The choice"><div class="txt">
+  <span class="no">Chapter 01</span>
+  <p class="line">At seventeen, someone hands you a form.</p>
+  <p class="say">Science, commerce or arts. Three boxes. No one tells you it quietly sets the next fourteen years of your income.</p>
+</div></section>
+
+<section class="sc mid" data-i="1" data-t="The credential"><div class="txt">
+  <span class="no">Chapter 02</span>
+  <p class="line">Three years later you hold a <em>credential.</em></p>
+  <p class="say">Not a career. A degree proves you can finish something. It does not prove anyone should pay you a premium.</p>
+</div></section>
+
+<section class="sc rgt" data-i="2" data-t="The plateau"><div class="txt">
+  <span class="no">Chapter 03</span>
+  <p class="line">Then the ceiling arrives — <em>quietly.</em></p>
+  <p class="say">Nine percent a year. Same role, new title. Most people never notice the moment their path stopped compounding.</p>
+</div></section>
+
+<section class="sc" data-i="3" data-t="The shift"><div class="txt">
+  <span class="no">Chapter 04</span>
+  <p class="line">Machines take the predictable middle.</p>
+  <p class="say">Template work, instruction-following, commodity skills. What survives is judgment, communication, creativity and relationships.</p>
+</div></section>
+
+<section class="sc mid" data-i="4" data-t="The engine"><div class="txt">
+  <span class="no">Chapter 05</span>
+  <p class="line">The people who move early build an <em>engine.</em></p>
+  <p class="say">Fit, market and proof — stacked in the right order, then a small group of people who pass each other work.</p>
+</div></section>
+
+<section class="sc rgt" data-i="5" data-t="The outcome"><div class="txt">
+  <span class="no">Chapter 06</span>
+  <p class="line">Same degree. <em>Completely different life.</em></p>
+  <p class="say">The gap is never talent. It is fourteen years of small decisions, made with or without a map.</p>
+</div></section>
+
+<section class="end" id="end" data-i="5" data-t="Begin"><div class="txt">
+  <h2>Get the map before the <em>next</em> decision.</h2>
+  <p>Free assessments and strength mapping first. Then focused guidance for skill direction, proof of work, and a roadmap toward earlier financial freedom.</p>
+  <div class="acts"><a class="b1" href="#">Get Career Guidance</a><a class="b2" href="#">Take a free assessment</a></div>
+  <p class="meta">10,000+ guided · 4.9/5 · fully online across India</p>
+</div></section>
+
+<script>
+const scs=[...document.querySelectorAll('.sc,.end')],frames=[...document.querySelectorAll('.frame')];
+const hn=document.getElementById('hn'),ht=document.getElementById('ht'),hb=document.getElementById('hb');
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+ if(e.intersectionRatio>.45){
+  e.target.classList.add('on');
+  const i=+e.target.dataset.i;
+  frames.forEach((f,n)=>f.classList.toggle('on',n===i));
+  hn.textContent=String(i+1).padStart(2,'0');
+  ht.textContent=e.target.dataset.t;
+  hb.style.transform='scaleX('+((i+1)/frames.length)+')';
+ }
+}),{threshold:[.45]});
+scs.forEach(s=>io.observe(s));
+</script></body></html>

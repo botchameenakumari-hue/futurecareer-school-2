@@ -1,0 +1,429 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Coaching for Engineering Students | Skill Plan, Accountability & Placement Prep | Future Career School';
+const description =
+  'Career coaching for engineering students who already have a rough direction but need a structured skill-building plan, weekly accountability, and placement-prep follow-through instead of another one-time decision session.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coaching-for-engineering-students/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[4],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Direction without follow-through',
+    title: 'You already know roughly where you want to go, but keep drifting',
+    body: 'DSA, a product-company target, a portfolio, a pivot away from core — the direction is picked. What is missing is a weekly plan and someone checking whether you actually did the work.',
+  },
+  {
+    eyebrow: 'Scattered effort',
+    title: 'Skill-building keeps starting over instead of compounding',
+    body: 'A half-finished DSA sheet, an abandoned web-dev course, a LinkedIn profile that has not moved in months — effort exists, but it resets every few weeks instead of building on itself.',
+  },
+  {
+    eyebrow: 'Placement countdown',
+    title: 'Placement season is closing in and there is no structured sequence',
+    body: 'Resume, projects, mock interviews, aptitude rounds, and company-specific prep all need to land in the right order before the placement window opens, not be figured out the week it does.',
+  },
+  {
+    eyebrow: 'No one checking',
+    title: 'Nobody is actually tracking whether the plan is being executed',
+    body: 'A roadmap from a video or a senior is easy to save and hard to stick to alone. Coaching-style support means someone checks progress on a set cadence, not just once at the start.',
+  },
+];
+
+const stepItems = [
+  {
+    title: 'Lock the skill-building goal',
+    body: 'Start from where you already are — a target role, a branch pivot, or a placement goal — and turn it into one concrete skill-building goal instead of a vague intention.',
+  },
+  {
+    title: 'Build the action plan',
+    body: 'Break that goal into a sequenced plan: which skills, which proof-of-work projects, and in what order, so effort compounds into a stronger high-value skill portfolio instead of resetting.',
+  },
+  {
+    title: 'Stay accountable across the year',
+    body: 'Small-group continuous guidance sessions check progress on a set cadence, adjust the plan as placements, results, or opportunities shift, and keep skill direction current instead of going stale.',
+  },
+  {
+    title: 'Carry it through placement prep',
+    body: 'As placement season approaches, the same plan folds in resume, project positioning, and interview readiness, so prep work is sequenced instead of scrambled in the final weeks.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it builds a plan, not just a pep talk',
+    body: 'Coaching should turn a goal you already have into a concrete, sequenced skill-building plan — not a motivational session that leaves you exactly where you started once it ends.',
+  },
+  {
+    title: 'Check whether there is real accountability after the first session',
+    body: 'A single conversation rarely fixes a follow-through problem. Look for a structure with actual check-ins on a set cadence, not a one-time plan you are left to execute alone.',
+  },
+  {
+    title: 'Check whether the plan folds into placement prep, not just skills in isolation',
+    body: 'Skill-building that never connects to resume, projects, and interview readiness leaves a gap right when placement season starts. The plan should carry through to that moment, not stop short of it.',
+  },
+  {
+    title: 'Check whether the assessments behind the plan are current, not recycled',
+    body: 'Many providers charge thousands for outdated or impractical assessments and present them like deal-breakers. Future Career School can be described truthfully as offering free, updated, practical, AI-powered career and skill assessments as the starting signal for the plan.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How is career coaching for engineering students different from career counselling for engineering students?',
+    answer:
+      'Counselling is built for a decision you have not made yet — which branch, which offer, whether to pivot away from core engineering. Coaching is built for after that decision, when the direction is roughly set and the real gap is turning it into a sequenced skill-building plan with accountability. If you are still weighing a branch, offer, or higher-studies choice, career counselling for engineering students is the closer fit; if you already have a direction and keep losing momentum on it, this is built for that instead.',
+  },
+  {
+    question: 'I already have a roadmap from YouTube or a senior. Why would I need coaching on top of that?',
+    answer:
+      'A saved roadmap is not the same as a plan someone checks on. Most roadmaps fail from lack of sequencing and follow-through, not lack of information. Coaching-style support turns the roadmap into a concrete action plan and adds accountability across the year, so the plan does not quietly stall the way a self-managed one often does.',
+  },
+  {
+    question: 'Does this help with placement prep specifically, or only general skill-building?',
+    answer:
+      'Both, in sequence. The skill-building plan is built to eventually fold into placement prep — resume, project positioning, and interview readiness — so the same plan carries through the countdown to placement season instead of treating skills and placement prep as two separate, disconnected efforts.',
+  },
+  {
+    question: 'What does the accountability actually look like across the year?',
+    answer:
+      'After the first 1-on-1 session builds the plan, continuous guidance moves into small groups, usually 10 or fewer members, with sessions across the year that check progress, adjust the plan as results or opportunities shift, and keep skill direction from going stale. This is the coaching-style, ongoing part of the support, not a one-time verdict.',
+  },
+  {
+    question: 'I am not sure my current skill plan is even the right one. Should I still start with coaching?',
+    answer:
+      'If the direction itself is still genuinely uncertain — the branch, the company type, or whether to pivot at all — that uncertainty is worth resolving first, and career counselling for engineering students is built for exactly that question. Coaching assumes a rough direction already exists and focuses on executing it; the first session here can also help confirm the direction is sound before building the plan around it.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered. They are a useful starting signal for the skill-building plan, especially before deciding which skills to prioritize first.',
+  },
+  {
+    question: 'Is this available online across India, or does it depend on my college having a placement cell coaching program?',
+    answer:
+      'Guidance is delivered fully online across India, so this does not depend on what your specific college placement cell offers. You can start from your hostel, home, or college and keep the accountability cadence going regardless of what support exists on campus.',
+  },
+  {
+    question: 'Does coaching guarantee a placement or a specific outcome?',
+    answer:
+      'No ethical provider can guarantee a job or a specific placement outcome, and this is not a placement-guarantee service. What coaching realistically offers is a sequenced plan, accountability to stick with it, and stronger skill direction and proof of work heading into placement season — not a promised result.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help with skill, course, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-engineering-students/',
+    title: 'Career Counselling for Engineering Students',
+    description:
+      'See this first if the real question is still a branch, company, or higher-studies decision you have not made yet.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'A wider student guidance page for school, college, fresher, and postgraduate decisions beyond engineering-specific coaching.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-vs-career-coaching/',
+    title: 'Career Counselling vs Career Coaching',
+    description:
+      'An honest breakdown of the difference between decision-focused counselling and ongoing, accountability-focused coaching.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description:
+      'Free clarity on fit, skill direction, and employability before you build a skill-building plan around it.',
+  },
+  {
+    href: '/blog/career-options/is-service-company-job-worth-it-for-freshers/',
+    title: 'Is a Service Company Job Worth It for Freshers?',
+    description:
+      'Useful context if part of the skill-building plan includes deciding how to use time before or after a service-company offer.',
+  },
+  {
+    href: '/blog/career-options/career-after-btech-other-than-software/',
+    title: 'Career After B.Tech Other Than Software',
+    description:
+      'Explore paths beyond a coding-first role if the skill-building plan needs to point somewhere other than software.',
+  },
+  {
+    href: '/career-resources/how-to-ai-proof-your-career/',
+    title: 'How to AI-Proof Your Career',
+    description:
+      'Practical reading on building skills that hold up as AI changes technical and coding work, useful context for the plan.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Coaching for Engineering Students',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coaching for Engineering Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching for Engineering Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coaching for Engineering Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career coaching for engineering students and B.Tech students
+      </div>
+
+      <h1 class="hero-title">
+        Career coaching for engineering students
+        <span class="gold-text"> who already have a direction but keep losing momentum on it</span>
+      </h1>
+      <p class="hero-sub">
+        Career coaching for engineering students is built for a different moment than a branch or offer decision: you already have a rough
+        direction — DSA, a product-company target, a portfolio, a pivot away from core — and the real gap is a sequenced skill-building plan
+        with real accountability, not another one-time verdict. The goal is a high-value skill portfolio that compounds instead of resetting,
+        so income opportunities and earlier financial freedom stay realistic rather than always one semester away.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so weekly accountability keeps going from your hostel, home, or college without
+        depending on a campus placement cell's schedule.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for Engineering Students</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career coaching for engineering students becomes the right fit"
+    subtitle="It fits the moment right after a direction is roughly picked, when a stronger, higher-income skill portfolio and earlier financial freedom depend on execution, not on choosing again."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Turn a saved roadmap into a plan someone actually checks"
+    body="The earlier a skill-building plan gets real accountability, the sooner it starts compounding into a stronger, higher-income skill portfolio instead of resetting every few weeks."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Engineering Students"
+  />
+
+  <BofuStepFlowSection
+    sectionId="process"
+    title="How the coaching plan is built and kept on track"
+    subtitle="Not a single verdict handed down once. A plan that starts from where you already are and stays accountable through placement season."
+    items={stepItems}
+  >
+    <AssessmentSupportNote
+      body="As a starting signal, the free career and skill assessments can help confirm your current skill direction is sound before the action plan is built around it."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuStepFlowSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when the follow-through is actually coached"
+    subtitle="Career coaching for engineering students should feel different from a saved roadmap or a one-time pep talk you are left to execute alone."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career coaching for engineering students"
+    subtitle="The goal is a sequenced skill-building plan with real accountability, not a motivational session that fades by the following week."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let another semester pass on a plan nobody is checking"
+    body="Placement season rewards a plan that has been executed consistently, not one that was only ever written down once."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Engineering Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Coaching for Engineering Students"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See the decision-focused counselling page, broader student guidance, and free assessments before you commit to a plan."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions engineering and B.Tech students ask before choosing career coaching"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Stop restarting the skill-building plan. Start executing it with accountability."
+    subtitle="If the direction is roughly set and what is missing is a sequenced plan and someone checking your progress, move now toward a higher-value skill portfolio and earlier financial freedom, instead of letting another placement cycle pass on good intentions alone."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Engineering Students"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

@@ -1,0 +1,477 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling for Arts Students | Real Paths Beyond the Stigma | Future Career School';
+const description =
+  'Career counselling for arts students who are done hearing that arts has no future. Get clear direction across law, design, media, civil services, humanities research, and psychology before a rushed course choice closes doors.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-arts-students/';
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Broader student guidance for school, college, and early skill-direction decisions across any stream.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12th,
+    title: 'Career Guidance After 12th',
+    description: 'Use this when the arts decision is tangled up with a bigger after-12th course or degree choice.',
+  },
+  {
+    href: '/services/assessments/class-11-to-12/',
+    title: 'Class 11 to 12 Assessment',
+    description: 'Free assessment to check whether an arts direction actually fits your strengths before you commit further.',
+  },
+  {
+    href: '/services/assessments/graduates-and-early-professionals/',
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'For arts graduates who need clarity on skill direction and employability after the degree is done.',
+  },
+  {
+    href: '/blog/career-options/career-options-in-arts/',
+    title: 'Career Options in Arts',
+    description: 'A broader read on arts career categories if you are still mapping out what is even on the table.',
+  },
+  {
+    href: '/career-resources/arts-and-humanities-careers-that-pay-well-today/',
+    title: 'Arts and Humanities Careers That Pay Well Today',
+    description: 'Practical read on where arts and humanities backgrounds are converting into strong income today.',
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Degree-first direction with weak skill edge',
+    right: 'Skill-first direction with proof of work and stronger market value',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Generic low-paying path advice that limits growth',
+    right: 'Higher-value skill direction with clearer income-growth logic',
+  },
+];
+
+const stigmaItems = [
+  {
+    title: '"Arts is for students who couldn’t get science or commerce"',
+    body: 'This line usually comes from comparing cut-offs, not comparing outcomes. Law, design, civil services, and psychology all draw serious arts students who chose the stream on purpose, not as a fallback.',
+  },
+  {
+    title: '"There’s no real career after a BA"',
+    body: 'A BA alone, left without direction, is a weak plan — the same way an unfocused BTech or BCom is. The problem is degree-only thinking, not the arts stream itself. Paired with the right skill and proof of work, a BA becomes a launchpad, not a dead end.',
+  },
+  {
+    title: '"Arts only leads to teaching or a government job"',
+    body: 'Teaching and public service are real, valid paths — but they are two options out of dozens. Media, design, research, policy, law, and psychology all run through arts and humanities routes and can pay well when the skill direction is deliberate.',
+  },
+  {
+    title: '"You will regret not taking science later"',
+    body: 'Regret usually comes from an unclear path, not from the stream label. A arts student with sharp direction and visible proof of work is in a stronger position than a science or commerce student drifting without one.',
+  },
+];
+
+const decisionPathItems = [
+  {
+    eyebrow: 'Law',
+    title: 'Law',
+    body: 'A structured, exam-driven route (CLAT and state-level law entrances) into litigation, corporate law, or policy work.',
+    listItems: [
+      'Fits students who enjoy argument, reading dense material, and structured thinking',
+      'Requires early commitment to entrance prep, usually from class 11',
+      'Corporate law and specialised litigation carry strong long-term earning potential',
+    ],
+  },
+  {
+    eyebrow: 'Design',
+    title: 'Design (UX/UI, graphic, communication)',
+    body: 'A portfolio-driven route where visual and communication skills from arts training convert directly into design work.',
+    listItems: [
+      'Fits students who think visually and enjoy communicating ideas through form',
+      'Entry depends far more on portfolio and proof of work than on the degree name',
+      'Design skills stack well with tech-adjacent tools, which strengthens long-term positioning',
+    ],
+  },
+  {
+    eyebrow: 'Media and communication',
+    title: 'Media, journalism, and content',
+    body: 'A route built on writing, research, and storytelling skill, ranging from journalism to content strategy to corporate communication.',
+    listItems: [
+      'Fits students who are strong writers, researchers, or verbal communicators',
+      'Fast-moving field where a visible body of published or produced work matters more than credentials alone',
+      'Income spread is wide, so skill direction and positioning genuinely change the outcome',
+    ],
+  },
+  {
+    eyebrow: 'Civil services and public policy',
+    title: 'Civil services and public policy',
+    body: 'An exam-and-research-heavy route into administration, policy analysis, or public-sector leadership.',
+    listItems: [
+      'Fits students with strong general knowledge, analytical reading, and long-horizon patience',
+      'Preparation timelines are long, so the decision to commit needs to be deliberate, not default',
+      'Policy and think-tank roles outside the exam route are a growing, less-discussed alternative',
+    ],
+  },
+  {
+    eyebrow: 'Humanities research and academia',
+    title: 'Humanities research and academia',
+    body: 'A postgraduate-and-research route for students who want to go deep into history, literature, sociology, or economics.',
+    listItems: [
+      'Fits students who genuinely enjoy sustained research and academic writing, not just the subject casually',
+      'Realistic planning around postgraduate study, fellowships, and research roles matters early',
+      'Research skill and publication record become the real proof of work here, not the degree alone',
+    ],
+  },
+  {
+    eyebrow: 'Psychology',
+    title: 'Psychology and counselling',
+    body: 'A licensure-and-practice route from a psychology-adjacent arts degree into clinical, organisational, or counselling work.',
+    listItems: [
+      'Fits students genuinely interested in human behaviour, not just the subject’s current popularity',
+      'Postgraduate specialisation and supervised practice hours matter more than the undergraduate label',
+      'Organisational and HR-adjacent psychology roles are a strong, less-crowded income path',
+    ],
+  },
+];
+
+const decisionFilterItems = [
+  {
+    title: 'Interest versus trend',
+    body: 'Psychology and design are popular right now. Popularity is not the same as fit — check whether the actual daily work matches how you think and work, not just how the field sounds.',
+  },
+  {
+    title: 'Exam-route versus portfolio-route',
+    body: 'Law and civil services are exam-driven and reward early, structured prep. Design and media are portfolio-driven and reward early proof of work. Picking the wrong preparation style wastes the most time.',
+  },
+  {
+    title: 'How long you are willing to commit before income starts',
+    body: 'Civil services and research routes can take years before real income. Design, media, and content can start generating income and proof of work far earlier if the skill direction is right.',
+  },
+  {
+    title: 'What skill stack sits underneath the degree',
+    body: 'The degree opens the door. Writing, research, visual, argument, or people-reading skill — built deliberately and shown through real work — is what actually gets you through it.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the guidance actually knows arts-specific paths',
+    body: 'Generic career counselling built around science and commerce examples often has no real answer for law, design, humanities research, or psychology. Look for guidance that can speak to these paths specifically, not just redirect you toward a safer-sounding stream.',
+  },
+  {
+    title: 'Check whether the stigma gets addressed honestly, not dismissed',
+    body: 'Guidance that pretends the "arts has no future" pressure does not exist is not useful. Better guidance should acknowledge the pressure and then show you the real data and real paths that counter it.',
+  },
+  {
+    title: 'Check whether skill-building sits alongside the degree plan',
+    body: 'A law, design, media, or psychology plan without a parallel skill and proof-of-work plan is still a weak plan. Stronger guidance connects the arts path to a concrete skill stack from early on.',
+  },
+  {
+    title: 'Check whether the process helps you choose between exam-route and portfolio-route paths',
+    body: 'Law and civil services need early structured prep. Design and media need early portfolio work. If the guidance does not help you tell these apart, you risk starting the wrong kind of preparation.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Is arts really a weaker stream than science or commerce?',
+    answer:
+      'No. That belief usually comes from comparing entrance cut-offs, not comparing real outcomes. Law, design, civil services, media, humanities research, and psychology are all serious, income-capable paths that run through arts. The stream is not the risk — drifting through it without a skill plan is.',
+  },
+  {
+    question: 'My parents think arts means teaching or nothing else. How do I explain the other options?',
+    answer:
+      'Bring specifics, not just reassurance. Law, design, civil services, media and communication, humanities research, and psychology are distinct, well-defined paths with their own entry routes and income potential. Naming the actual path you are aiming for, along with the skill-building plan behind it, usually lands better than a general argument about arts being fine.',
+  },
+  {
+    question: 'How do I choose between law, design, media, civil services, humanities research, and psychology?',
+    answer:
+      'Start with how you actually like to work: structured exam prep (law, civil services), a portfolio built over time (design, media), or sustained research (humanities, some psychology paths). Then check how long you are willing to wait before earning, since some of these paths take years longer than others to start paying off.',
+  },
+  {
+    question: 'Is a BA alone enough to get a good job?',
+    answer:
+      'Usually not on its own. A BA alone, without direction, is a weak plan — the same is true for an unfocused degree in any stream. What changes the outcome is pairing the degree with a deliberate skill stack and visible proof of work aimed at law, design, media, research, psychology, or whichever specific path fits.',
+  },
+  {
+    question: 'Are the career and skill assessments free for arts students?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered. They are a useful starting layer before deciding between arts-specific paths.',
+  },
+  {
+    question: 'What if I already regret choosing arts and feel behind?',
+    answer:
+      'Regret usually comes from an unclear path, not from the stream itself. A student with sharp direction inside arts is in a stronger position than a student in any stream who is still drifting. The next useful step is picking a specific direction and building the skill and proof-of-work plan behind it.',
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. Guidance is delivered online across India, so you can start from home, college, or wherever you already are instead of depending on local availability.',
+  },
+  {
+    question: 'How is this different from a general career counselling session?',
+    answer:
+      'General career counselling often has a thin answer for arts-specific paths and defaults to teaching or government exams. This guidance addresses the arts stigma directly and works through law, design, media, civil services, humanities research, and psychology as distinct, real paths with their own entry routes and skill requirements.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for Arts Students', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Arts Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Arts Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Arts Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for arts students beyond the "no future" label
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for arts students
+        <span class="gold-text"> who are done hearing "arts has no future"</span>
+      </h1>
+      <p class="hero-sub">
+        Arts students hear the stigma before they hear the actual paths. This guidance replaces that noise with a real skill-first plan across law, design, media, civil services, humanities research, and psychology &mdash; the direction that unlocks high income opportunities and earlier financial freedom, not just a safer-sounding label.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from home, college, or wherever you already are without waiting for local availability or travel time.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for Arts Students</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="stigma"
+    title="The arts stigma you are actually dealing with"
+    subtitle="Most of the pressure around arts is not about the subject &mdash; it is a handful of repeated lines that rarely get checked against real outcomes."
+    items={stigmaItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Replace the stigma with a specific plan before another year drifts without direction"
+    body="The stronger move is not proving arts is fine in the abstract. It is picking a specific path and building the skill stack that makes it work."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Arts Students"
+  />
+
+  <BofuListCardSection
+    sectionId="arts-paths"
+    title="Real career paths that come out of arts"
+    subtitle="These are not the only options, but they cover the range most arts students are genuinely choosing between right now."
+    items={decisionPathItems}
+    columns={3}
+    variant="audience"
+  />
+
+  <BofuFeatureSection
+    sectionId="decision-filters"
+    title="What should actually decide between these paths"
+    subtitle="Choosing between law, design, media, civil services, humanities research, and psychology is not about which one sounds most impressive. It is about fit, working style, and how long you can wait before income starts."
+    items={decisionFilterItems}
+    variant="decision"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, free career and skill assessments can help map your working style and strengths against these arts-specific paths before a bigger decision."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why arts-specific guidance has to go further than a general session"
+    subtitle="These are the contrast points that matter most once you are choosing a real direction inside arts, not just defending the stream."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for arts career counselling"
+    subtitle="The goal is a specific, defensible path, not a general pep talk about arts being a valid choice."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Pick the path before another semester goes by without a plan"
+    body="Whether it is law, design, media, civil services, humanities research, or psychology, the earlier the direction is clear, the earlier the right skill-building can start."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Arts Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling for Arts Students"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader student guidance, assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Stop defending arts and start choosing a path"
+    subtitle="Law, design, media, civil services, humanities research, and psychology are all real, income-capable directions. The next useful step is picking one and building the skill plan that makes it work."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Arts Students"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decision-filters,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 9.6vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

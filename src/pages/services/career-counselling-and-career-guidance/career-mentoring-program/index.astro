@@ -1,0 +1,681 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Mentoring Program | Ongoing Guidance Across the Year | Future Career School';
+const description =
+  'Future Career School\'s career mentoring program pairs a 1-on-1 with continuous small-group sessions across the year, so your skill direction and plan can keep up as circumstances change. Online across India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-mentoring-program/';
+
+const relationshipItems = [
+  {
+    title: 'One relationship across the year, not a single verdict',
+    body:
+      'A career mentoring program starts with a 1-on-1 that maps your profile, pressure, and the decision in front of you. From there, the same relationship continues through small-group sessions across the year instead of ending the moment the first call does.',
+  },
+  {
+    title: 'Built for a direction that keeps needing revisiting',
+    body:
+      'A single decision usually needs one focused conversation. A direction — skill portfolio, income growth, career positioning — usually needs more than one, because the market, your results, and your own priorities keep shifting under it.',
+  },
+  {
+    title: 'A career mentor online who already knows your context',
+    body:
+      'Every session builds on the last instead of starting over. That is the real difference a career mentor online should offer over a one-time consultation: less re-explaining your situation, more time spent moving it forward.',
+  },
+];
+
+const whyOngoingItems = [
+  {
+    title: 'The job market keeps moving under your plan',
+    body:
+      'AI-driven role changes, new hiring patterns, and shifting skill demand can make a plan that was right six months ago feel outdated now. A mentoring relationship checks the plan against the current market instead of leaving you to notice the drift on your own.',
+  },
+  {
+    title: 'A new opportunity can show up mid-year',
+    body:
+      'An unexpected offer, a chance to switch teams, a scholarship, or an exam result can change what the smartest next move is. Ongoing mentoring gives you somewhere to bring that decision quickly instead of waiting for it to become a separate, isolated question.',
+  },
+  {
+    title: 'Plans need revisiting, not just writing down',
+    body:
+      'A plan written once and never checked again tends to quietly stop being followed. Career mentoring keeps the plan and the reality of your year in the same room at regular points, not filed away after the first session.',
+  },
+];
+
+const cadenceItems = [
+  {
+    eyebrow: 'Session one',
+    title: 'The 1-on-1 that starts the relationship',
+    body:
+      'A focused one-on-one conversation about your profile, pressure, and the real decision in front of you right now — the same starting point as a single career counselling session, but here it is the opening move of a longer relationship, not the whole engagement.',
+    listItems: [
+      'Maps strengths, work style, and the decision under the most pressure.',
+      'Sets an initial direction for skill choices and next steps.',
+      'Becomes the shared context every later session builds on.',
+    ],
+  },
+  {
+    eyebrow: 'Across the year',
+    title: 'Up to 24 small-group sessions that keep the plan current',
+    body:
+      'After the 1-on-1, students continue into small-group mentoring sessions, usually 10 or fewer members, spread across the year rather than delivered all at once.',
+    listItems: [
+      'Each session checks the plan against what has actually changed since the last one.',
+      'Skill direction, proof of work, and positioning get revisited, not just set once.',
+      'The group stays small enough that it still feels like your situation, not a lecture.',
+    ],
+  },
+];
+
+const differenceFlowItems = [
+  {
+    title: 'A session answers one question',
+    body:
+      'A single career counselling session is built for one decision under pressure — a stream, a course, a pivot. It should end with a narrower shortlist and a next step you can use immediately.',
+  },
+  {
+    title: 'A mentoring relationship answers the next question too',
+    body:
+      'A career mentoring program keeps the same relationship open past that first decision, so when the next question shows up — a new opportunity, a result that changes things, a stalled plan — there is already a shared starting point instead of a fresh introduction.',
+  },
+  {
+    title: 'Accountability is built into the return visits',
+    body:
+      'Coming back into the same small group across the year creates a natural check-in point: did the plan actually get followed, what changed, and what should change next. That accountability is difficult to build into a single one-off conversation.',
+  },
+];
+
+const proofItems = [
+  {
+    title: 'What was decided last time actually gets checked',
+    body:
+      'Instead of a plan that only exists in notes from one call, mentoring sessions revisit whether the last direction is still being followed and why, if not.',
+  },
+  {
+    title: 'Skill direction updates as proof of work builds',
+    body:
+      'As you build proof of work — projects, certifications, portfolio pieces, results — the mentoring relationship can adjust the next skill move around what is actually working, not just the original guess.',
+  },
+  {
+    title: 'Family or work pressure gets addressed as it evolves',
+    body:
+      'Pressure from parents, a partner, or an employer often changes shape across a year. A returning relationship can respond to that shift instead of treating the pressure as fixed from day one.',
+  },
+  {
+    title: 'The financial-freedom route gets checked against reality',
+    body:
+      'A route toward achieving earlier financial freedom through stronger skill choices is easier to hold onto when someone is checking it with you across the year, not only describing it once.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether "mentoring" is really ongoing, or just a bigger single session',
+    body:
+      'Some providers use the word mentoring to describe one longer call. A genuine career mentoring program should include multiple touchpoints spread across months, not one extended conversation renamed.',
+  },
+  {
+    title: 'Check whether the group, if there is one, actually stays small',
+    body:
+      'Ongoing small-group mentoring should stay small enough, usually 10 or fewer members, that each session still feels specific to your situation instead of a repeated lecture.',
+  },
+  {
+    title: 'Check whether sessions build on each other or start over each time',
+    body:
+      'A real mentoring relationship should reference what was decided last time. If every session feels like meeting a stranger again, the continuity that makes mentoring worth paying for is missing.',
+  },
+  {
+    title: 'Check whether the plan is honest about being revisited, not fixed',
+    body:
+      'A mentoring program should expect the plan to change as the market, your results, or your circumstances shift — not present the first session\'s advice as a final, unchangeable answer.',
+  },
+];
+
+const audienceItems = [
+  {
+    label: 'Students & Freshers',
+    title: 'A career mentoring program for skill choices that need to stay current across the year',
+    body:
+      'Continuous small-group mentoring, usually 10 or fewer members, follows the first 1-on-1 so stream, course, and skill decisions keep pace with what is actually changing rather than staying frozen at one point in time.',
+  },
+  {
+    label: 'Working Professionals',
+    title: 'A career mentor online for pivots and positioning that keep shifting',
+    body:
+      'Working professionals can return for further 1-on-1 sessions as stagnation, AI pressure, or a pivot decision evolves, so the relationship with the same context can continue rather than starting over with a new provider each time.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Counselling and Guidance',
+    description:
+      'Use the main service page for the full picture of how guidance works here, across every format and stage.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingSession,
+    title: 'Career Counselling Session',
+    description:
+      'See this if the real need right now is one focused one-on-one for a single decision, not an ongoing relationship.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-vs-career-coaching/',
+    title: 'Career Counselling vs Career Coaching',
+    description:
+      'An honest breakdown of how counselling-style decision support and coaching-style follow-through differ, and where they overlap.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'For school students, college students, freshers, recent graduates, and postgraduates who need stronger direction.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'For pivots, stagnation, salary growth, AI pressure, and stronger long-term leverage.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description:
+      'Use free, updated, practical, AI-powered career and skill assessments as a no-cost starting point before you commit to a mentoring relationship.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What is a career mentoring program at Future Career School?',
+    answer:
+      'It is the same guidance service presented as an ongoing relationship rather than a single call: a 1-on-1 session that maps your situation and direction, followed by continuous small-group sessions across the year, usually 10 or fewer members, that keep revisiting the plan as things change. It is not a separate product — it is the continuous guidance path, described through the lens of an ongoing relationship.',
+  },
+  {
+    question: 'How is a career mentoring program different from a career counselling session?',
+    answer:
+      'A career counselling session is one focused one-on-one built around a single decision under pressure. A career mentoring program keeps that same relationship going afterward through small-group sessions across the year, so the next question, the next market shift, or the next opportunity has somewhere to go instead of starting from zero with a new consultation.',
+  },
+  {
+    question: 'What does a career mentor online actually do differently from a one-time consultant?',
+    answer:
+      'A career mentor online who works with you across multiple sessions already has context on your situation, so each conversation builds on the last instead of re-explaining your background every time. The value is continuity: checking whether the plan is being followed, updating it as proof of work builds, and adjusting for pressure or opportunities that show up mid-year.',
+  },
+  {
+    question: 'How often do the mentoring check-ins happen across the year?',
+    answer:
+      'Students move from the first 1-on-1 into continuous small-group sessions, up to 24 across the year, so the plan gets revisited at multiple points rather than left untouched after one conversation. The exact spacing is set to keep the group small and useful, not to hit a session count for its own sake.',
+  },
+  {
+    question: 'Do working professionals get an ongoing mentoring plan too?',
+    answer:
+      'Working professionals can book a 1-on-1 session and return for further 1-on-1 sessions as their pivot, stagnation, or positioning decisions evolve, keeping the same relationship and context going. The structured small-group continuous-guidance track currently exists for students; for working professionals, ongoing support works through repeat 1-on-1 sessions rather than a separate group format.',
+  },
+  {
+    question: 'What happens if my plan needs to change halfway through the year?',
+    answer:
+      'That is the situation ongoing mentoring is built for. Because the small-group sessions continue across the year, a new opportunity, a changed result, or a shift in family or work pressure can be brought into the next session instead of waiting for a fresh, separate booking.',
+  },
+  {
+    question: 'Is a career mentoring program the same as career coaching?',
+    answer:
+      'They overlap heavily. Coaching usually refers to ongoing, goal-execution support with accountability, which is close to what the continuous small-group sessions do here. Mentoring, counselling, coaching, and guidance are treated as one practical service family rather than separate products with different rules.',
+  },
+  {
+    question: 'How much does the career mentoring program cost?',
+    answer:
+      'Students can start with the first 1-on-1 session at a limited-time price, then continue into continuous guidance across the year, which includes the 1-on-1 and up to 24 small-group sessions, also at a limited-time annual price. Working professionals can book a 1-on-1 session at the working-professional rate. Current pricing is shown in the plans section below.',
+  },
+  {
+    question: 'Is career mentoring available online across India?',
+    answer:
+      'Yes. Every 1-on-1 and every small-group mentoring session is delivered fully online, so you can join from home, college, or work anywhere in India without depending on a local offline option.',
+  },
+  {
+    question: 'Are the free career and skill assessments part of the mentoring program?',
+    answer:
+      'No, the assessments are a separate free step. If you are still deciding whether to commit to an ongoing relationship, the free, updated, practical, AI-powered career and skill assessments can help surface strengths and work style first.',
+  },
+  {
+    question: 'Does the mentoring program guarantee a job or a specific outcome?',
+    answer:
+      'No ethical provider can guarantee a job or a specific income outcome. The program is ongoing decision support and accountability, not a placement service — execution still depends on you, the market, and circumstances outside anyone\'s control.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://futurecareerschool.com/services/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Mentoring Program',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Mentoring Program | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Mentoring Program',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Mentoring Program</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        An ongoing career mentor online for students and working professionals across India
+      </div>
+
+      <h1 class="hero-title">
+        Career mentoring program
+        <span class="gold-text"> built around a relationship that continues, not a single call</span>
+      </h1>
+      <p class="hero-sub">
+        A career mentoring program with Future Career School starts with a 1-on-1 session and keeps going through continuous small-group sessions across the year, so your skill portfolio, direction, and route toward earlier financial freedom keep pace with what actually changes instead of freezing at one decision.
+      </p>
+      <p class="hero-note">
+        Students move from the first 1-on-1 into continuous guidance: small-group mentoring, usually 10 or fewer members, up to 24 sessions across the year. Working professionals can return for further 1-on-1 sessions as their pivot or positioning evolves. Every session is delivered fully online across India.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Mentoring</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Mentoring</a>
+      </div>
+      <p class="hero-support">
+        The value is not one good conversation. It is a relationship that keeps checking your plan against a market and a life that keep moving.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="mentoring-relationship"
+    sectionClass="mentoring-relationship-band"
+    variant="signal"
+    title="What makes a career mentoring program different from a single session"
+    subtitle="The format matters because a direction, unlike a single decision, tends to need revisiting more than once."
+    items={relationshipItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Start the relationship when the plan you have now already needs more than one check-in"
+    body="A career mentoring program should keep your skill direction and financial-freedom route current across the year, not settle it once and move on."
+    studentHref="#plans"
+    studentLabel="Get Student Career Mentoring"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Mentoring"
+  />
+
+  <BofuFeatureSection
+    sectionId="why-ongoing"
+    sectionClass="mentoring-why-band"
+    variant="decision"
+    title="Why an ongoing relationship helps when circumstances keep changing"
+    subtitle="A single conversation is enough for a single decision. It is rarely enough for a direction that has to hold up across a full year of market shifts, new opportunities, and changing pressure."
+    items={whyOngoingItems}
+  >
+    <AssessmentSupportNote
+      body="If you are still early and not ready to commit to an ongoing relationship, the free career and skill assessments can surface strengths and work style first."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="mentoring-cadence"
+    sectionClass="mentoring-cadence-band"
+    title="What a career mentoring relationship actually looks like across a year"
+    subtitle="It starts the same way a career counselling session does. What is different is what happens after."
+    items={cadenceItems}
+    variant="contrast"
+  />
+
+  <BofuStepFlowSection
+    sectionId="session-vs-mentoring"
+    sectionClass="mentoring-flow-band"
+    title="A career counselling session vs a career mentoring program"
+    subtitle="Both use the same first conversation. The difference is what happens once that conversation ends."
+    items={differenceFlowItems}
+  />
+
+  <BofuFeatureSection
+    sectionId="accountability"
+    sectionClass="mentoring-proof-band"
+    variant="prep"
+    title="What accountability actually looks like inside a mentoring relationship"
+    subtitle="The point of returning to the same small group across the year is that the plan gets checked, not just written down once and filed away."
+    items={proofItems}
+  />
+
+  <GuidanceModelSection
+    title="What a career mentoring program should keep building across the year"
+    subtitle="The relationship continues, but the thinking inside it should stay the same: fit, high-leverage decisions, high-value skill direction, proof of work, and a clearer route toward stronger long-term growth."
+  />
+
+  <AudienceRelevance
+    sectionClass="mentoring-audience-band"
+    title="How ongoing mentoring fits where you are right now"
+    items={audienceItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    sectionClass="mentoring-comparison-band"
+    title="Why an ongoing relationship has to stay more useful than a single good conversation"
+    subtitle="The format is a 1-on-1 plus continuous sessions, but it still needs to earn its place across the whole year, not just the first call."
+    centered={true}
+  />
+
+  <BuyerChecks
+    sectionClass="mentoring-check-band"
+    title="What to check before you commit to a career mentoring program"
+    subtitle="The goal is not a bigger single session relabelled as mentoring. The goal is a relationship structured enough to keep your plan current."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If your plan already feels out of date, bring it back into the relationship before it drifts further"
+    body="A career mentoring program should revisit your skill direction and route toward earlier financial freedom as often as your situation actually changes."
+    studentHref="#plans"
+    studentLabel="Get Student Career Mentoring"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Mentoring"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Mentoring"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="See a single-session option, the terminology behind mentoring and coaching, and free assessments before you commit to an ongoing relationship."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    sectionClass="mentoring-final-band"
+    subtitle="Start a career mentoring program when one conversation will not be enough to keep your direction current. A relationship that continues should point you toward higher-value skills and a clearer route toward achieving earlier financial freedom, checked against reality more than once."
+    studentHref="#plans"
+    studentLabel="Get Student Career Mentoring"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Mentoring"
+  />
+
+  <BofuFaqSection
+    title="Questions people ask before starting a career mentoring program"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 88px; }
+
+  :global(.mentoring-relationship-band) {
+    background:
+      radial-gradient(720px 240px at 10% 0%, rgba(45,212,191,.055), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.008), transparent 50%);
+  }
+  :global(.mentoring-why-band) {
+    background:
+      radial-gradient(720px 260px at 100% 0%, rgba(229,184,74,.065), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.008));
+  }
+  :global(.mentoring-cadence-band) {
+    background:
+      radial-gradient(760px 240px at 0% 0%, rgba(229,184,74,.06), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.007));
+  }
+  :global(.mentoring-flow-band) {
+    background:
+      radial-gradient(620px 220px at 18% 100%, rgba(45,212,191,.05), transparent 72%),
+      radial-gradient(560px 220px at 88% 0%, rgba(229,184,74,.05), transparent 72%);
+  }
+  :global(.mentoring-proof-band) {
+    background:
+      radial-gradient(760px 240px at 100% 0%, rgba(45,212,191,.045), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.006));
+  }
+  :global(.mentoring-audience-band .section-headline),
+  :global(.mentoring-comparison-band .section-headline),
+  :global(.mentoring-check-band .section-headline) {
+    max-width: 20ch;
+  }
+  :global(.mentoring-audience-band .audience-grid) {
+    max-width: 1080px;
+    margin: 0 auto;
+    gap: 1.15rem;
+  }
+  :global(.mentoring-audience-band .audience-card) {
+    padding: 1.35rem 1.25rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,.11);
+    background:
+      radial-gradient(360px 150px at 100% 0%, rgba(45,212,191,.08), transparent 74%),
+      linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.014));
+    box-shadow: 0 18px 38px rgba(0,0,0,.2);
+  }
+  :global(.mentoring-audience-band .audience-card h3) {
+    font-size: 1.08rem;
+    line-height: 1.46;
+  }
+  :global(.mentoring-audience-band .audience-card p) {
+    font-size: 14.2px;
+    line-height: 1.82;
+  }
+  :global(.mentoring-comparison-band .compare-shell) {
+    box-shadow: 0 28px 60px rgba(0,0,0,.3);
+  }
+  :global(.mentoring-check-band .buyer-check-grid) {
+    gap: 1.1rem;
+  }
+  :global(.mentoring-check-band .buyer-check-card) {
+    min-height: 100%;
+  }
+  :global(.mentoring-final-band .final-sub) {
+    max-width: 50ch;
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold {
+    width: 520px;
+    height: 520px;
+    top: -170px;
+    left: -110px;
+    background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%);
+  }
+  .orb-teal {
+    width: 420px;
+    height: 420px;
+    top: -40px;
+    right: -120px;
+    background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%);
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 1.95vw, 18px);
+    color: rgba(255,255,255,.72);
+    line-height: 1.88;
+    max-width: 820px;
+    margin-bottom: 1rem;
+  }
+  .hero-note {
+    font-size: 14px;
+    color: rgba(255,255,255,.56);
+    line-height: 1.8;
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-actions .btn-gold,
+  .hero-actions .btn-outline {
+    min-width: min(100%, 290px);
+    justify-content: center;
+  }
+  .hero-support {
+    font-size: 14px;
+    color: rgba(255,255,255,.58);
+    line-height: 1.8;
+    max-width: 720px;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.84rem, 9.6vw, 2.55rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .breadcrumb {
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-sub,
+    .hero-note,
+    .hero-support {
+      line-height: 1.76;
+    }
+    :global(.mentoring-audience-band .audience-card) {
+      padding: 1.08rem 1rem .98rem;
+      border-radius: 20px;
+    }
+  }
+</style>

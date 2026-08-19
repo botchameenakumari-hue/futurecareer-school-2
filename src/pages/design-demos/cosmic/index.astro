@@ -1,0 +1,184 @@
+---
+const photo = (seed, w = 600, h = 400) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Variant 05 · Orbital / Spatial OS — Future Career School</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#04060d;--cyan:#22d3ee;--indigo:#6366f1;--mag:#d946ef;--ink:#e6ecff;--muted:#8a93bd}
+    html{scroll-behavior:smooth}
+    body{background:radial-gradient(1200px 800px at 70% -10%,rgba(99,102,241,.22),transparent 60%),radial-gradient(900px 700px at 10% 110%,rgba(217,70,239,.16),transparent 60%),var(--bg);color:var(--ink);font-family:"Inter",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    .tech{font-family:"Orbitron",sans-serif;letter-spacing:.02em}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    canvas#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+    .scan{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(180deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);mix-blend-mode:overlay;opacity:.5}
+    .vig{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 80% 70% at 50% 45%,transparent 55%,rgba(2,4,10,.85))}
+    .wrap{max-width:1240px;margin:0 auto;padding:0 1.6rem;position:relative;z-index:3}
+    .badge{position:fixed;top:14px;left:14px;z-index:60;font-family:"Orbitron";font-size:11px;letter-spacing:.1em;padding:9px 14px;border-radius:8px;background:rgba(8,12,24,.7);border:1px solid rgba(34,211,238,.5);backdrop-filter:blur(10px);color:#bfefff}
+    nav.bar{position:relative;z-index:40;display:flex;align-items:center;justify-content:space-between;height:84px;max-width:1240px;margin:0 auto;padding:0 1.6rem}
+    .logo{font-family:"Orbitron";font-weight:700;font-size:17px;letter-spacing:.06em}
+    .logo b{color:var(--cyan)}
+    .navx{display:flex;gap:24px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .navx a:hover{color:#fff}
+    .btn{display:inline-flex;align-items:center;gap:8px;font-family:"Orbitron";font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:13px 22px;border-radius:10px;cursor:pointer;transition:transform .25s,box-shadow .3s;border:1px solid transparent}
+    .btn-n{color:#04060d;background:linear-gradient(120deg,var(--cyan),var(--indigo));box-shadow:0 0 26px -4px var(--cyan)}
+    .btn-n:hover{transform:translateY(-2px);box-shadow:0 0 40px -2px var(--cyan)}
+    .btn-g{border-color:rgba(255,255,255,.25);color:#fff;background:rgba(255,255,255,.05)}
+    .btn-g:hover{border-color:var(--cyan);transform:translateY(-2px)}
+    @media(max-width:880px){.navx{display:none}}
+    /* hero */
+    .hero{position:relative;min-height:calc(100vh - 84px);display:grid;grid-template-columns:1.02fr .98fr;align-items:center;gap:2rem}
+    .hero-l{position:relative;z-index:5}
+    .eye{display:inline-flex;align-items:center;gap:9px;font-family:"Orbitron";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#bfefff;padding:8px 15px;border-radius:999px;background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.4);margin-bottom:1.8rem}
+    .eye i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:bl 1.5s infinite}
+    @keyframes bl{50%{opacity:.3}}
+    .hero h1{font-family:"Orbitron";font-weight:900;font-size:clamp(2.4rem,5.4vw,4.6rem);line-height:1.02;letter-spacing:-.01em;margin-bottom:1.4rem;text-transform:uppercase}
+    .hero h1 .g{background:linear-gradient(110deg,var(--cyan),var(--indigo) 50%,var(--mag));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 24px rgba(99,102,241,.5))}
+    .hero p.lead{color:#aab2da;font-size:17px;line-height:1.7;max-width:42ch;margin-bottom:2rem}
+    .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+    /* 3D orbital scene */
+    .scene{position:relative;height:560px;perspective:1100px;display:grid;place-items:center;z-index:4}
+    .orbit-wrap{transform-style:preserve-3d;transform:rotateX(var(--py,0deg)) rotateY(var(--px,0deg));transition:transform .3s ease}
+    .system{position:relative;width:440px;height:440px;transform-style:preserve-3d;transform:rotateX(62deg)}
+    .ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid rgba(140,170,255,.25)}
+    .ring::after{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%}
+    .r1{width:440px;height:440px;animation:orb 16s linear infinite}
+    .r1::after{background:var(--cyan);box-shadow:0 0 16px var(--cyan)}
+    .r2{width:330px;height:330px;border-color:rgba(217,70,239,.25);animation:orb 11s linear infinite reverse}
+    .r2::after{background:var(--mag);box-shadow:0 0 16px var(--mag)}
+    .r3{width:225px;height:225px;border-color:rgba(99,102,241,.3);animation:orb 7s linear infinite}
+    .r3::after{background:var(--indigo);box-shadow:0 0 16px var(--indigo)}
+    @keyframes orb{to{transform:translate(-50%,-50%) rotate(360deg)}}
+    .ring{transform:translate(-50%,-50%)}
+    .core{position:absolute;top:50%;left:50%;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:50%;background:conic-gradient(from 0deg,var(--cyan),var(--indigo),var(--mag),var(--cyan));filter:blur(2px);box-shadow:0 0 70px rgba(99,102,241,.7);animation:spin 9s linear infinite}
+    .core::after{content:"";position:absolute;inset:20%;border-radius:50%;background:#060912;box-shadow:inset 0 0 40px rgba(34,211,238,.5)}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    /* floating HUD chips (parallax) */
+    .hud{position:absolute;z-index:6;font-family:"Orbitron";font-size:11px;letter-spacing:.06em;padding:11px 14px;border-radius:12px;background:rgba(8,14,28,.72);border:1px solid rgba(34,211,238,.35);backdrop-filter:blur(12px);box-shadow:0 20px 50px -20px #000}
+    .hud .k{color:var(--muted);font-size:9px;letter-spacing:.14em}
+    .hud .v{font-size:18px;font-weight:900;color:#fff}
+    .h1{top:8%;left:2%;animation:fl 6s ease-in-out infinite}
+    .h2{top:24%;right:-2%;animation:fl 7.5s ease-in-out infinite .5s}
+    .h3{bottom:12%;left:8%;animation:fl 8s ease-in-out infinite 1s}
+    @keyframes fl{50%{transform:translateY(-14px)}}
+    /* sections */
+    .sec{padding:7rem 0;position:relative;z-index:3}
+    .lab{font-family:"Orbitron";font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--cyan);margin-bottom:1rem}
+    h2.t{font-family:"Orbitron";font-weight:700;font-size:clamp(1.8rem,3.6vw,2.8rem);text-transform:uppercase;margin-bottom:.8rem}
+    .sub{color:var(--muted);font-size:16px;line-height:1.7;max-width:54ch;margin-bottom:2.6rem}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+    .c3d{border-radius:18px;overflow:hidden;background:linear-gradient(160deg,rgba(34,211,238,.08),rgba(255,255,255,.02));border:1px solid rgba(140,170,255,.2);transition:transform .3s,box-shadow .3s;transform-style:preserve-3d}
+    .c3d:hover{transform:translateY(-8px) rotateX(6deg);box-shadow:0 40px 80px -34px #000,0 0 40px -10px rgba(34,211,238,.4)}
+    .c3d .ph{aspect-ratio:3/2;overflow:hidden;position:relative}
+    .c3d .ph img{width:100%;height:100%;object-fit:cover;filter:saturate(.6) hue-rotate(-10deg)}
+    .c3d .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(34,211,238,.4),rgba(217,70,239,.3));mix-blend-mode:screen}
+    .c3d .b{padding:1.4rem}
+    .c3d .b h3{font-family:"Orbitron";font-size:1rem;text-transform:uppercase;margin-bottom:.4rem}
+    .c3d .b p{color:var(--muted);font-size:13.5px;line-height:1.6}
+    .cta{position:relative;z-index:3;text-align:center;padding:7rem 1.5rem}
+    .cta h2{font-family:"Orbitron";font-weight:900;font-size:clamp(2rem,5vw,3.4rem);text-transform:uppercase;margin-bottom:1rem}
+    .cta h2 .g{background:linear-gradient(110deg,var(--cyan),var(--mag));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .cta p{color:var(--muted);max-width:46ch;margin:0 auto 2rem;line-height:1.7}
+    footer{padding:3rem 0;border-top:1px solid rgba(140,170,255,.15);color:var(--muted);font-size:12px;text-align:center;position:relative;z-index:3;font-family:"Orbitron";letter-spacing:.08em}
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+    .reveal.in{opacity:1;transform:none}
+    @media(max-width:980px){.hero{grid-template-columns:1fr;min-height:0;padding:2rem 0 4rem}.scene{order:-1;height:420px}.cards{grid-template-columns:1fr}}
+    @media(prefers-reduced-motion:reduce){.r1,.r2,.r3,.core,.hud,.eye i{animation:none!important}.reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+  <div class="scan"></div><div class="vig"></div>
+  <a class="badge" href="/design-demos/">05 · ORBITAL ◂ ALL</a>
+
+  <nav class="bar">
+    <div class="logo tech">FUTURE<b> CAREER</b> SCHOOL</div>
+    <div class="navx"><a href="#">Services</a><a href="#">Career & Skills Compass</a><a href="#">Resources</a><a href="#">Blog</a></div>
+    <a class="btn btn-n" href="#">Get Guidance</a>
+  </nav>
+
+  <header class="wrap hero" id="hero">
+    <div class="hero-l">
+      <div class="eye"><i></i> Career intelligence system</div>
+      <h1>Navigate your <span class="g">career orbit.</span></h1>
+      <p class="lead">Map your fit, lock the high-value skill, and chart a trajectory toward earlier financial freedom — a precision guidance system for students, freshers &amp; professionals.</p>
+      <div class="cta-row"><a class="btn btn-n" href="#">Get Career Guidance →</a><a class="btn btn-g" href="#">Run Free Assessment</a></div>
+    </div>
+    <div class="scene" id="scene">
+      <div class="orbit-wrap" id="owrap">
+        <div class="system">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+          <div class="core"></div>
+        </div>
+      </div>
+      <div class="hud h1"><div class="k">FIT INDEX</div><div class="v">94</div></div>
+      <div class="hud h2"><div class="k">TRAJECTORY</div><div class="v">SKILL-FIRST</div></div>
+      <div class="hud h3"><div class="k">FREEDOM NO.</div><div class="v">ON TRACK</div></div>
+    </div>
+  </header>
+
+  <section class="wrap sec">
+    <div class="lab">System modules</div>
+    <h2 class="t reveal">Three modules, one trajectory.</h2>
+    <p class="sub reveal">Minimal noise, maximum signal — the parts that actually move your career.</p>
+    <div class="cards">
+      <div class="c3d reveal"><div class="ph"><img src={photo('fcs-cos-1')} alt="" width="600" height="400" loading="lazy"/></div><div class="b"><h3>Fit Mapping</h3><p>Strengths, work-style, and market readiness — calibrated before big moves.</p></div></div>
+      <div class="c3d reveal"><div class="ph"><img src={photo('fcs-cos-2')} alt="" width="600" height="400" loading="lazy"/></div><div class="b"><h3>Skill Lock</h3><p>Interest × market × scalability resolves to the one skill worth your effort.</p></div></div>
+      <div class="c3d reveal"><div class="ph"><img src={photo('fcs-cos-3')} alt="" width="600" height="400" loading="lazy"/></div><div class="b"><h3>Proof &amp; Freedom</h3><p>Portfolio, positioning, and a compounding path to your Freedom Number.</p></div></div>
+    </div>
+  </section>
+
+  <section class="cta reveal">
+    <h2>Lock your <span class="g">trajectory.</span></h2>
+    <p>Start with practical clarity. Continue only if you need deeper support.</p>
+    <div class="cta-row" style="justify-content:center"><a class="btn btn-n" href="#">Get Career Guidance →</a><a class="btn btn-g" href="#">Run Free Assessment</a></div>
+  </section>
+
+  <footer>FUTURE CAREER SCHOOL · ORBITAL / SPATIAL OS EXPLORATION</footer>
+
+  <script>
+    // Interactive starfield + constellation
+    (()=>{
+      const c=document.getElementById('stars'); if(!c) return; const x=c.getContext('2d');
+      let w,h,P=[],M={x:-1e3,y:-1e3};
+      const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+      const N=Math.min(150,Math.floor(innerWidth/11));
+      function rs(){w=c.width=innerWidth;h=c.height=innerHeight}
+      rs(); addEventListener('resize',rs,{passive:true});
+      addEventListener('pointermove',e=>{M.x=e.clientX;M.y=e.clientY},{passive:true});
+      for(let i=0;i<N;i++)P.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.5+.4});
+      function frame(){
+        x.clearRect(0,0,w,h);
+        for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;
+          x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fillStyle='rgba(190,225,255,.85)';x.fill();}
+        for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const a=P[i],b=P[j],dx=a.x-b.x,dy=a.y-b.y,d=dx*dx+dy*dy;
+          if(d<11000){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.strokeStyle='rgba(99,102,241,'+(1-d/11000)*.35+')';x.lineWidth=1;x.stroke();}}
+        for(const p of P){const dx=p.x-M.x,dy=p.y-M.y,d=dx*dx+dy*dy;if(d<26000){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(M.x,M.y);x.strokeStyle='rgba(34,211,238,'+(1-d/26000)*.6+')';x.stroke();}}
+        if(!reduce) requestAnimationFrame(frame);
+      }
+      frame();
+    })();
+    // mouse parallax on orbital scene
+    (()=>{
+      const s=document.getElementById('scene'),o=document.getElementById('owrap');
+      if(!s||!o||!matchMedia('(hover:hover)').matches||matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+      s.addEventListener('pointermove',e=>{const r=s.getBoundingClientRect();const px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;o.style.setProperty('--px',(px*22).toFixed(2)+'deg');o.style.setProperty('--py',(-py*16).toFixed(2)+'deg');});
+      s.addEventListener('pointerleave',()=>{o.style.setProperty('--px','0deg');o.style.setProperty('--py','0deg');});
+    })();
+    // reveal
+    const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>

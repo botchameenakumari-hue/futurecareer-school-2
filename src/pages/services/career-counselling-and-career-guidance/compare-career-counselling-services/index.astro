@@ -1,0 +1,680 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../config/guidancePlans';
+
+const title = 'Compare Career Counselling Services | Side-by-Side Matrix | Future Career School';
+const description =
+  'Compare career counselling services side by side: who counsels you, personalization, assessment cost, pricing transparency, format, and ongoing support.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/compare-career-counselling-services/';
+
+const {
+  studentSessionPriceText,
+  studentContinuousPriceText,
+  professionalSessionPriceText,
+} = GUIDANCE_PLAN_PRICE_COPY;
+
+const matrixRows = [
+  {
+    criterion: 'Who counsels you',
+    independent: 'Usually the person you book directly — credentials and experience vary widely from one counsellor to the next.',
+    schoolTied: 'Often a teacher or in-house staff member handling a full batch, not always a trained career counsellor.',
+    platform: 'Can be routed through an admissions or sales advisor before you reach anyone with counselling training.',
+    fcs: 'Structured decision support around your path, skill, and risk — not a script built to close a course or college enrollment.',
+  },
+  {
+    criterion: 'Personalization',
+    independent: 'Can be genuinely high with one counsellor across sessions, though their availability limits how many people they can serve well.',
+    schoolTied: 'Usually the same session structure for an entire batch, with limited time per student.',
+    platform: 'Recommendations can read the same for very different profiles when the process runs at high volume.',
+    fcs: 'Weighed against your actual profile, financial and family reality, and market fit — not a generic personality-type list.',
+  },
+  {
+    criterion: 'Assessment cost and quality',
+    independent: 'Varies — some use free public tools, others charge separately for a written report.',
+    schoolTied: 'Often a single aptitude test administered once, with little follow-up.',
+    platform: 'Many charge a significant one-time fee for assessments that can be outdated by the time you take them.',
+    fcs: 'Career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    criterion: 'Pricing transparency',
+    independent: 'Usually stated upfront, since it is a direct one-to-one booking.',
+    schoolTied: 'Typically bundled into existing fees or free, but the scope stays narrow.',
+    platform: 'Sometimes withheld until after a "discovery call" built to create urgency.',
+    fcs: 'Listed openly — current session and package pricing appear on this site before you book anything.',
+  },
+  {
+    criterion: 'Session format',
+    independent: 'Usually one-off, or a short, loosely defined block of sessions.',
+    schoolTied: 'Typically one session, rarely repeated.',
+    platform: 'Often bundled with a course or program enrollment rather than sold on its own.',
+    fcs: 'A focused 1-on-1 for one decision, or continuous guidance with up to 24 small-group sessions across the year for ongoing direction.',
+  },
+  {
+    criterion: 'Ongoing support',
+    independent: 'Depends heavily on that individual’s availability and whether they offer a follow-up structure at all.',
+    schoolTied: 'Rarely continues once the single session ends.',
+    platform: 'Can depend on further paid enrollment rather than the counselling relationship itself.',
+    fcs: 'Continuous guidance is a defined option from the start, not an upsell added after the fact.',
+  },
+  {
+    criterion: 'Outcome claims',
+    independent: 'Varies by individual; ethical counsellors avoid guarantees.',
+    schoolTied: 'Rarely makes outcome claims — mostly informational.',
+    platform: 'Some lean on placement-style promises, which is worth treating as a caution sign rather than reassurance.',
+    fcs: 'No job or income guarantee. The goal is clearer decisions and stronger skill direction — execution still depends on you.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counselling-platform/',
+    title: 'Best Career Counselling Platform',
+    description: 'Already narrowed to one platform? Use this checklist to evaluate that one in depth instead of comparing categories.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See this if immediate clarity on the next decision is the main thing you need.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-fees/',
+    title: 'Career Counselling Fees',
+    description: 'A full breakdown of what counselling actually costs and what the free layer already covers.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A small free check if you are still comparing options and not ready to book yet.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Which career counselling service is best?',
+    a: 'There is no single universal answer — the honest way to decide is to compare career counselling services against the same criteria every time: who actually counsels you, how personalized the process is, assessment cost and quality, pricing transparency, session format, and whether support continues after the first session. Weigh those against the two or three that matter most for your situation, and the strongest option for you usually becomes clear without needing one universal "best."',
+  },
+  {
+    q: 'How do I actually compare career counselling services instead of just reading reviews?',
+    a: 'Line the options up against the same table of criteria rather than judging each one in isolation. Reviews can be inflated or hard to verify; a side-by-side comparison of who counsels you, what the assessments cost, and how transparent the pricing is tends to be more reliable and is checkable before you pay anything.',
+  },
+  {
+    q: 'Is an independent counsellor better than a large platform?',
+    a: 'Not automatically. An independent counsellor can offer strong personal rapport but is limited by their own availability. A larger platform can offer more structure and scale but sometimes trades away personalization at volume. Neither type wins on every row of the comparison — the right fit depends on which factors matter most for your decision.',
+  },
+  {
+    q: 'Is a free assessment enough, or do I need to compare paid services at all?',
+    a: 'A free, updated assessment can genuinely narrow a long list and surface real interest and work-style patterns — that can be enough if your decision is still exploratory or low-stakes. Comparing paid services starts to matter more once the decision is expensive, time-pressured, or you are still stuck after trying to work through it yourself.',
+  },
+  {
+    q: 'What does Future Career School cost if I decide a paid session is worth it?',
+    a: `For students, a first 1-on-1 session is ${studentSessionPriceText}, with continuous guidance across the year at ${studentContinuousPriceText}, including up to 24 small-group sessions. For working professionals, a 1-on-1 session is ${professionalSessionPriceText}. Career and skill assessments stay free regardless of which plan you choose.`,
+  },
+  {
+    q: 'Does any career counselling service guarantee a job or a specific outcome?',
+    a: 'No ethical service can guarantee a job or a specific income outcome, including this one. Treat that kind of promise as a reason to slow down rather than a reason to trust a service more. The realistic value of any service worth comparing is better decision quality and clearer skill direction — the execution still depends on you.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Compare Career Counselling Services', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Compare Career Counselling Services: A Side-by-Side Matrix Before You Choose',
+    description,
+    datePublished: '2026-07-13',
+    dateModified: '2026-07-13',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="compare-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Compare Career Counselling Services</span>
+        </nav>
+
+        <div class="pill hero-pill"><span class="pill-dot"></span>A side-by-side matrix, not a ranked list</div>
+
+        <h1>Compare career counselling services side by side, not one at a time</h1>
+        <p class="line strong">
+          When you compare career counselling services, the real differences rarely show up in a headline claim — they show up when you line up who actually counsels you, how personalized the process is, what the assessments really cost, how transparent the pricing is, and what happens after the first session, side by side.
+        </p>
+        <p class="line">
+          If the question behind your search is really "which career counselling service is best," the honest answer is that it depends on which of those factors matters most for your situation. That is what the matrix below is built to show, instead of handing you one universal winner.
+        </p>
+
+        <div class="cta-pair">
+          <a class="btn-gold" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how career guidance works here</a>
+          <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>Career counselling services roughly split into four patterns: independent counsellors, school- or college-tied counsellors, larger coaching or ed-tech platforms, and services like this one built around structured guidance and free assessments.</li>
+          <li>No single pattern wins on every row of the comparison — an independent counsellor can offer strong rapport but limited availability, and a large platform can offer scale but weaker personalization.</li>
+          <li>The two rows that separate genuinely useful services from weak ones fastest are pricing transparency and whether support continues past one session.</li>
+          <li>A free, updated assessment can already answer a low-stakes or exploratory question — comparing paid services matters more once the decision is expensive or you are still stuck.</li>
+          <li>No honest service — including this one — can guarantee a job or a specific income outcome. Treat that claim as a caution sign, not reassurance.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="matrix" class="container section">
+      <h2>The side-by-side comparison matrix</h2>
+      <p class="line">
+        These are broad patterns, not a claim that every provider in a category behaves identically — individual counsellors and platforms vary. Use the matrix to see which pattern typically shows up where, then check the specific service you are weighing against it.
+      </p>
+
+      <div class="card highlight-card matrix-card">
+        <div class="table-wrap">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>Criteria</th>
+                <th>Independent counsellor</th>
+                <th>School- or college-tied counsellor</th>
+                <th>Coaching or ed-tech platform</th>
+                <th class="th-featured">Future Career School</th>
+              </tr>
+            </thead>
+            <tbody>
+              {matrixRows.map((row) => (
+                <tr>
+                  <td data-label="Criteria" class="td-criterion">{row.criterion}</td>
+                  <td data-label="Independent counsellor">{row.independent}</td>
+                  <td data-label="School- or college-tied counsellor">{row.schoolTied}</td>
+                  <td data-label="Coaching or ed-tech platform">{row.platform}</td>
+                  <td data-label="Future Career School" class="td-featured">{row.fcs}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        No single row should decide the whole comparison on its own. If personal rapport matters most to you, weigh the "who counsels you" and "personalization" rows more heavily. If cost and clarity matter most, weigh "assessment cost and quality" and "pricing transparency" instead. The service that scores best on the two or three rows that matter most for your situation is the right one for you.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-gold" href={BOFU_INTERNAL_LINKS.careerCounselling}>See what a counselling session covers</a>
+      </div>
+    </section>
+
+    <section id="free-vs-paid" class="container section">
+      <h2>Before comparing paid services, check whether a free assessment already answers your question</h2>
+      <p class="line">
+        Every row above assumes you have already decided a paid service is the right next step. That is not always true. A lot of people start comparing paid platforms when a free, updated assessment would already resolve their current question.
+      </p>
+      <p class="line">
+        If your decision is still exploratory, low-stakes, or easily reversible, a free assessment is a reasonable place to start before spending time comparing paid services at all. If the decision is expensive, time-pressured, or you are already stuck after trying on your own, that is the point where the matrix above starts to earn its usefulness.
+      </p>
+      <AssessmentSupportNote
+        body="Career and skill assessments here are fully free, updated, practical, and AI-powered — a genuine way to narrow your options before you start comparing paid services in detail."
+      />
+    </section>
+
+    <section id="cost" class="container section">
+      <h2>What the pricing-transparency row actually looks like in numbers</h2>
+      <p class="line">
+        The matrix above lists pricing transparency as one of the criteria worth checking on any service. Here is what that looks like concretely on this one, so you have real numbers to hold any other service against.
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Plan">Career and skill assessments</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student 1-on-1 session</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student continuous guidance (year, includes the 1-on-1 plus up to 24 small-group sessions)</td>
+                <td data-label="Price">{studentContinuousPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Working-professional 1-on-1 session</td>
+                <td data-label="Price">{professionalSessionPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Guidance runs fully online across India, so a service comparison does not need to be limited to whatever happens to be available locally.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-gold" href={BOFU_PLAN_LINKS.parentGuidance}>Compare plans at these prices</a>
+      </div>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What actually changes once you weigh these rows and choose accordingly"
+      subtitle="This is the difference the comparison above is pointing toward once a decision is made."
+      rows={[
+        { left: 'Generic advice that still leaves you unclear', right: 'High-leverage decision support around path, skill, and risk' },
+        { left: 'Paid outdated impractical assessments with weak practical value', right: 'Free updated practical AI-powered career and skill assessments' },
+        { left: 'Degree-first direction with weak skill edge', right: 'Skill-first direction with proof of work and stronger market value' },
+        { left: 'Random upskilling that compounds slowly', right: 'Clearer skill direction tied to growth and income upside' },
+      ]}
+    />
+
+    <section id="objections" class="container section">
+      <h2>Objections worth answering before you pick a row</h2>
+      <div class="protocol-stack">
+        <div class="protocol-row">
+          <div class="protocol-body">
+            <h3>"Isn't the cheapest option always the safer bet?"</h3>
+            <p>Not necessarily. A free or low-cost school-tied session can be genuinely useful for a first, narrow question, but the matrix above shows it usually stops at one session with limited personalization. Cheapest and best-fit are different questions — check the rows that matter to your specific decision, not just the price row.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <div class="protocol-body">
+            <h3>"What if two services score well on different rows?"</h3>
+            <p>That is common, and it is fine. Decide which two or three rows matter most for the specific decision in front of you — a stream choice, a college shortlist, a mid-career pivot — and let those rows carry more weight than the rest.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <div class="protocol-body">
+            <h3>"Does a bigger platform automatically mean better counselling?"</h3>
+            <p>No. Scale can bring more structure and consistency, but the matrix above shows it can also mean less personalization and pricing that is not disclosed until after a call. Size is not one of the criteria that predicts fit — the six rows above are.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on comparing career counselling services</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section id="closing" class="container section closing-section">
+      <h2>Once you know which rows matter most, here is how to start</h2>
+      <p class="line">
+        If the free layer already answered your question, that is a reasonable place to stop for now. If the decision is bigger than that, the next step is straightforward: look at the guidance plans and pick the format — a single 1-on-1, or continuous guidance across the year — that matches what the matrix above told you about your own situation.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader guidance service, a deeper look at one platform, or the free first step."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #compare-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 62px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 920px; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-pill { width: fit-content; margin-bottom: 1.4rem; font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); display: inline-block; }
+
+  .hero h1 {
+    font-size: clamp(2rem, 4.6vw, 3.2rem);
+    line-height: 1.08;
+    letter-spacing: -.04em;
+    color: #fff;
+    margin-bottom: 1.1rem;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .section { padding: 56px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.05rem; margin-bottom: .5rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .highlight-card { margin-top: 1rem; }
+  .matrix-card { padding: .9rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; }
+  .matrix-table { min-width: 940px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13px;
+    line-height: 1.62;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; font-size: 12.5px; }
+  .th-featured { color: #f6db95; }
+  .td-criterion { color: #fff; font-weight: 650; white-space: nowrap; }
+  .td-featured { background: rgba(229,184,74,.07); color: #fff; font-weight: 500; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.9rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+      white-space: normal !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .protocol-stack {
+    display: grid;
+    gap: .9rem;
+    margin-top: 1.1rem;
+  }
+  .protocol-row {
+    padding: 1.1rem 1.2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+  }
+  .protocol-body p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.66);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 50px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  .closing-section { padding-bottom: 40px; }
+
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 50px; }
+    .section { padding: 44px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

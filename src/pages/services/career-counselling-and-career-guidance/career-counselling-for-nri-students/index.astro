@@ -1,0 +1,453 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling for NRI Students | India vs Abroad Career Clarity | Future Career School';
+const description =
+  'Career counselling for NRI students weighing India against abroad, credential recognition confusion, and reconnecting with the Indian job market after years overseas. Practical, skill-first decision support delivered online.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-nri-students/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[3],
+];
+
+const decisionPressureItems = [
+  {
+    eyebrow: 'India vs abroad',
+    title: "The country isn't the decision — the skill portfolio is",
+    body: "Treating \"India\" or \"abroad\" as the whole decision usually means the real question gets skipped: which market actually rewards the skill portfolio you're building. This guidance works through building a deliberate, high-value skill portfolio that holds up in either direction and unlocks stronger income opportunities, instead of locking in a country guess first and hoping the skills catch up.",
+  },
+  {
+    eyebrow: 'Credential recognition confusion',
+    title: 'Does your degree actually translate the way you assume it does?',
+    body: "A foreign degree doesn't automatically read the way you expect to an Indian recruiter, and an Indian degree doesn't automatically open doors abroad the way it gets assumed to at home. Checking that assumption early avoids finding out the hard way, after an application has already been filtered out.",
+  },
+  {
+    eyebrow: 'Reconnecting with the Indian job market',
+    title: 'Years away change more about hiring than most people expect',
+    body: 'Interview formats, resume conventions, realistic salary ranges, and how much weight recruiters give to pedigree versus proof of work all shift while you are away. Reconnecting needs an actual update on how hiring works now, not a guess based on what it looked like when you left.',
+  },
+  {
+    eyebrow: 'Family expectations',
+    title: '"Come back home" or "stay settled" is a family opinion, not a career plan',
+    body: "Pressure to return for family, or pressure to stay abroad because it looks more settled, is a real constraint worth planning around. It shouldn't be the thing that quietly decides your skill direction and market choice by default.",
+  },
+];
+
+const decisionPointItems = [
+  {
+    eyebrow: 'Still deciding: India or abroad',
+    title: 'Choosing a country before locking in a stream, course, or first job',
+    body: 'For students who have not committed to either direction yet, the country choice and the skill choice need to be worked through together, not one after the other.',
+    listItems: [
+      'Checks real strengths, interests, and market fit against both directions, not just family preference',
+      'Builds a skill plan that keeps genuine optionality between India and abroad for as long as it should',
+      'Names the trade-offs of each path honestly, including cost, timeline, and realistic outcomes',
+    ],
+  },
+  {
+    eyebrow: 'Recently finished studying abroad',
+    title: 'Weighing a first job in India against staying where you studied',
+    body: 'Visa timelines, market conditions, and family pull all get louder right after graduation. The decision deserves more than whichever pressure is loudest that month.',
+    listItems: [
+      'Maps what your foreign degree and any work experience actually signal to Indian employers',
+      'Builds a realistic view of entry-level roles and pay in both markets for your specific field',
+      'Plans the skill and positioning gap that needs closing either way, not just the visa logistics',
+    ],
+  },
+  {
+    eyebrow: 'Years into a career abroad',
+    title: 'Reconnecting with the Indian job market after years away',
+    body: 'A long gap from the Indian hiring scene means the mental map of "how things work" is probably out of date, even for someone who grew up here.',
+    listItems: [
+      'Updates your sense of interview formats, resume conventions, and realistic compensation in India today',
+      'Identifies which of your existing skills and experience carry over directly, and which need repositioning',
+      'Builds a proof-of-work and positioning plan that reads as current, not dated, to Indian recruiters',
+    ],
+  },
+  {
+    eyebrow: 'Studied in India, considering abroad',
+    title: "Checking whether an Indian degree actually supports the direction you're picturing",
+    body: 'The reverse confusion is just as common: assuming an Indian degree or Indian work experience will carry the same weight internationally that it does at home.',
+    listItems: [
+      'Tests that assumption against the specific country, field, and role being considered, not a general impression',
+      'Flags where additional certification, skill-building, or proof of work is actually needed before applying',
+      'Builds a skill portfolio that strengthens your position whether the plan holds or the direction shifts',
+    ],
+  },
+];
+
+const decisionFilterItems = [
+  {
+    title: 'Genuine market fit versus a credential assumption',
+    body: 'A degree carrying weight "at home" or "abroad" is often assumed rather than checked. Test the assumption against the specific market and role before it becomes the plan.',
+  },
+  {
+    title: 'How recent your India context actually is',
+    body: 'A one-year gap and a ten-year gap from the Indian job market need different plans. Hiring norms, salary bands, and which skills are in demand may all have shifted since you last had a clear read on it.',
+  },
+  {
+    title: 'Family and financial reality, without letting it be the only factor',
+    body: 'Family expectations about returning or staying, and the financial reality on either side, are real constraints worth planning around. They should shape the plan, not silently decide it for you.',
+  },
+  {
+    title: 'Skill portfolio strength versus country label',
+    body: 'A strong, deliberate skill portfolio with real proof of work travels better than any single country choice. Guidance should help you build that portfolio first, so the country decision has less riding on it either way.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it actually addresses credential recognition, not just "study vs work"',
+    body: 'General career counselling often skips straight past whether a specific foreign or Indian degree will actually be recognised the way it is assumed to be. Look for guidance that checks this directly for your field and target market.',
+  },
+  {
+    title: "Check whether it accounts for how the Indian job market has shifted since you left",
+    body: 'A counsellor working from an outdated picture of Indian hiring is not much more useful than guessing on your own. Look for guidance that reflects current hiring reality, not assumptions from years ago.',
+  },
+  {
+    title: 'Check whether family pressure gets planned around, not just validated or dismissed',
+    body: '"Come back home" and "stay settled abroad" are both real pressures. Stronger guidance treats them as a constraint to plan around, not a verdict to agree with or argue against.',
+  },
+  {
+    title: 'Check whether skills and proof of work get weighed against both markets',
+    body: 'Look for guidance that can genuinely compare your skill portfolio against Indian and international market realities, not just the one market the counsellor happens to know best.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Broader student guidance for stream, course, and skill-direction decisions if the country question is layered on top of an earlier-stage choice.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'Broader working-professional guidance for stagnation, pivots, and salary-growth decisions once you are a few years into a career on either side.',
+  },
+  {
+    href: '/services/assessments/graduates-and-early-professionals/',
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free assessment to check strengths, work style, and fit before a first-job or return decision after finishing studies.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free, updated, practical assessments for skill fit and career direction before a bigger India-versus-abroad decision.',
+  },
+  {
+    href: '/career-resources/resume-that-gets-shortlisted-in-india/',
+    title: 'Resume That Gets Shortlisted in India',
+    description: 'A practical guide to Indian resume conventions if you are reconnecting with the Indian job market after time abroad.',
+  },
+  {
+    href: '/career-resources/linkedin-profile-optimization-the-full-guide/',
+    title: 'LinkedIn Profile Optimization: The Full Guide',
+    description: 'Useful for rebuilding visibility and a professional network in a market you have been away from.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'I grew up abroad and I am not sure if my foreign degree will be valued in the Indian job market. How do I know?',
+    answer:
+      'It depends on the field, the specific degree, and the type of employer, and this is often assumed rather than actually checked. Guidance works through what your degree and any work experience genuinely signal to Indian recruiters in your target field, so you know where you stand before applying, not after being filtered out silently.',
+  },
+  {
+    question: 'I studied in India and I am considering opportunities abroad. Does my degree actually support that?',
+    answer:
+      "This is the reverse version of the same confusion, and it is just as common. The answer depends on the specific country, field, and role, not a general impression that an Indian degree \"should\" or \"shouldn't\" carry weight. Guidance checks the assumption against your actual target and flags where extra certification, skill-building, or proof of work would strengthen your position.",
+  },
+  {
+    question: 'My family wants me to move back to India, but I am not sure it is the right career move. How do I decide?',
+    answer:
+      'Family pressure to return, or to stay settled abroad, is a real constraint worth taking seriously, but it should not be the only input into the decision. Guidance treats it as one factor to plan around alongside market fit, skill direction, and your own financial and career goals, not the deciding vote by itself.',
+  },
+  {
+    question: 'I have been away from India for years. Will my sense of the job market even be accurate anymore?',
+    answer:
+      'Probably not entirely, and that is common. Interview formats, resume expectations, realistic compensation, and which skills are in demand all shift over a few years. Guidance updates that picture directly instead of letting an outdated mental model quietly shape your decision.',
+  },
+  {
+    question: 'Is this guidance only for students still deciding between India and abroad, or does it help after I have already moved?',
+    answer:
+      'Both. It covers students still weighing the country decision, recent graduates deciding on a first job after finishing studies abroad, and people further into a career who are reconnecting with the Indian job market or reassessing an international move already made.',
+  },
+  {
+    question: 'Are the career and skill assessments free for this too?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered — a useful starting layer before a bigger India-versus-abroad decision.',
+  },
+  {
+    question: 'Is this available if I am not currently based in India?',
+    answer:
+      'Yes. Guidance is delivered online, so being based outside India does not put you out of reach — you join the same way as anyone booking from India.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for NRI Students', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for NRI Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for NRI Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for NRI Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for NRI students weighing India against abroad
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for NRI students
+        <span class="gold-text"> choosing between India and abroad with real clarity</span>
+      </h1>
+      <p class="hero-sub">
+        Whether you grew up abroad and are weighing a move to India, or you studied overseas and are not sure whether to return, the real risk is rarely the country itself — it is building a skill portfolio around an outdated assumption about which credential or which market actually pays off. This guidance works through the India-versus-abroad decision, foreign-degree-versus-Indian-job-market recognition confusion, and family pressure to "come back home" or "stay settled abroad," so you build the high-value skill portfolio that unlocks stronger income opportunities and earlier financial freedom, wherever you land.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered online, so being based outside India does not put you out of reach — you join the same way as anyone booking from India, from wherever you currently are.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for NRI Students</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="decision-pressure"
+    title="The decisions NRI students actually have to make"
+    subtitle="These are not abstract categories. They are the specific calls NRI students and young professionals face, often with a family opinion already attached before the actual market fit has been checked."
+    items={decisionPressureItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Wherever you land, the plan should be the skill portfolio, not the country label"
+    body="A country choice made without a skill plan behind it tends to cost more time than the choice itself. Build the skill portfolio first, and the country decision carries less risk either way."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for NRI Students"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling for NRI Students"
+  />
+
+  <BofuListCardSection
+    sectionId="decision-points"
+    title="Real decision points this guidance works through"
+    subtitle="Not every NRI student is at the same stage. These are the situations this guidance is actually built to help with."
+    items={decisionPointItems}
+    columns={2}
+    variant="audience"
+  />
+
+  <BofuFeatureSection
+    sectionId="decision-filters"
+    title="What should actually decide the direction, when the country label isn't enough"
+    subtitle="An India-versus-abroad decision is rarely one clean answer. These are the filters that keep it honest."
+    items={decisionFilterItems}
+    variant="decision"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, free career and skill assessments can help map your actual strengths and market fit before an India-versus-abroad decision — instead of starting from a credential assumption."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why career counselling for NRI students needs more than a generic relocation take"
+    subtitle="These are the contrast points that matter once credential recognition, market fit, and family pressure are all part of the same decision."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling aimed at NRI students"
+    subtitle="The goal is a decision that holds up in either market, not reassurance that whichever direction you were already leaning toward is fine."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Check the credential assumption before it costs you an application, not after"
+    body="Whether the question is a foreign degree in the Indian market or an Indian degree abroad, the earlier that assumption gets checked, the earlier the right skill-building can start."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for NRI Students"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling for NRI Students"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling for NRI Students"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader student and working-professional guidance, assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    title="Build the skill portfolio first — let the country decision follow"
+    subtitle="A credential assumption, a family expectation, or a rusty read on the Indian job market are all workable with the right plan behind them — the kind built around a high-value skill portfolio that unlocks stronger income opportunities and earlier financial freedom, wherever you decide to build your career."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling for NRI Students"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling for NRI Students"
+  />
+
+  <BofuFaqSection
+    title="Questions NRI students ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decision-filters,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 9.6vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

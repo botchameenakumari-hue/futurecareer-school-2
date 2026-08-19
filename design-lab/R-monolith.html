@@ -1,0 +1,105 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>R · Monolith</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+:root{--bg:#070709;--t0:#F4F4F6;--t1:#A9A9B4;--t2:#6A6A76;--acc:#5CF2C0;--e:cubic-bezier(.16,1,.3,1)}
+html,body{height:100%}
+body{background:var(--bg);color:var(--t0);font-family:Inter,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+/* scroll driver */
+.driver{height:760vh}
+/* fixed camera viewport */
+.view{position:fixed;inset:0;perspective:900px;perspective-origin:50% 46%;overflow:hidden;z-index:2}
+.world{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.plane{position:absolute;left:50%;top:50%;translate:-50% -50%;transform-style:preserve-3d;text-align:center;width:min(1100px,90vw)}
+.plane .big{font-family:Anton,sans-serif;text-transform:uppercase;font-size:clamp(2.4rem,8.6vw,8rem);line-height:.88;letter-spacing:-.03em}
+.plane .big em{font-style:normal;color:var(--acc)}
+.plane .big .out{-webkit-text-stroke:1.5px var(--t0);color:transparent}
+.plane p{margin-top:1.2rem;font-size:15px;line-height:1.75;color:var(--t1);font-weight:300;max-width:34rem;margin-inline:auto}
+.plane .k{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--t2);margin-bottom:1.2rem}
+.plane figure{margin:0 auto;width:min(560px,74vw);aspect-ratio:16/10;overflow:hidden;border:1px solid rgba(244,244,246,.16);box-shadow:0 60px 120px -50px #000}
+.plane figure img{width:100%;height:100%;object-fit:cover;filter:contrast(1.06) saturate(.9)}
+.plane .cap{margin-top:.9rem;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--t2)}
+/* fog */
+.fog{position:fixed;inset:0;z-index:3;pointer-events:none;
+ background:radial-gradient(70% 60% at 50% 46%,transparent 30%,rgba(7,7,9,.86) 78%,#070709 100%)}
+.grain{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:.28;mix-blend-mode:overlay;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+/* chrome */
+.top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:1.1rem clamp(1.2rem,4vw,3rem)}
+.top b{font-weight:600;font-size:14px;letter-spacing:-.02em}
+.top a{font-size:11.5px;font-weight:600;background:var(--acc);color:#04120E;padding:9px 17px;border-radius:99px;transition:.4s var(--e)}
+.top a:hover{background:#fff}
+.hud{position:fixed;left:clamp(1.2rem,4vw,3rem);bottom:clamp(1.4rem,4vh,2.4rem);z-index:20;display:flex;align-items:center;gap:.8rem;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--t2)}
+.hud .tk{width:120px;height:1px;background:rgba(244,244,246,.18);position:relative}
+.hud .tk i{position:absolute;inset:0;background:var(--acc);transform:scaleX(0);transform-origin:0}
+.cue{position:fixed;right:clamp(1.2rem,4vw,3rem);bottom:clamp(1.4rem,4vh,2.4rem);z-index:20;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--t2);opacity:1;transition:opacity .6s}
+/* final CTA overlay */
+.end{position:fixed;inset:0;z-index:12;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 1.4rem;
+ background:radial-gradient(60% 50% at 50% 50%,rgba(7,7,9,.7),rgba(7,7,9,.96));opacity:0;pointer-events:none;transition:opacity .8s var(--e)}
+.end.on{opacity:1;pointer-events:auto}
+.end h2{font-family:Anton,sans-serif;text-transform:uppercase;font-size:clamp(2rem,6.4vw,5rem);line-height:.92;letter-spacing:-.03em;max-width:16ch;margin-bottom:1.2rem}
+.end h2 em{font-style:normal;color:var(--acc)}
+.end p{max-width:32rem;color:var(--t1);font-weight:300;line-height:1.75;margin-bottom:2rem}
+.acts{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+.b1{background:var(--acc);color:#04120E;font-weight:700;font-size:13.5px;padding:15px 30px;border-radius:99px;transition:.4s var(--e)}
+.b1:hover{background:#fff;transform:translateY(-2px)}
+.b2{border:1px solid rgba(244,244,246,.28);padding:15px 30px;border-radius:99px;font-weight:500;font-size:13.5px;transition:.4s var(--e)}
+.b2:hover{background:rgba(244,244,246,.1)}
+.meta{margin-top:1.8rem;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--t2)}
+@media(max-width:760px){.view{perspective:620px}.plane figure{width:82vw}}
+</style></head><body>
+<div class="top"><b>Future Career School</b><a href="#">Get guidance</a></div>
+
+<div class="view">
+  <div class="world" id="world">
+    <div class="plane" data-z="0"><p class="k">Career guidance · India</p><h2 class="big">SAME<br><span class="out">DEGREE</span></h2></div>
+    <div class="plane" data-z="-1100"><h2 class="big">DIFFERENT<br><em>DECADE</em></h2><p>Two people leave the same college. Fourteen years later one is capped at ₹52,000 and one is past ₹2.4 lakh. The gap was never talent.</p></div>
+    <div class="plane" data-z="-2200"><figure><img src="https://images.unsplash.com/photo-1594352121345-6f587972b024?auto=format&fit=crop&crop=faces&q=88&w=1100"></figure><p class="cap">01 — Natural fit, mapped before commitment</p></div>
+    <div class="plane" data-z="-3300"><h2 class="big">A DEGREE IS<br>A <em>CREDENTIAL</em></h2><p>Income comes from a T-shaped stack — your existing knowledge plus one skill the market pays a premium for, with visible proof you can do it.</p></div>
+    <div class="plane" data-z="-4400"><figure><img src="https://images.unsplash.com/photo-1777635168256-be42aa28c457?auto=format&fit=crop&crop=faces&q=88&w=1100"></figure><p class="cap">02 — Market demand, verified not assumed</p></div>
+    <div class="plane" data-z="-5500"><h2 class="big">PROOF<br><span class="out">BEATS</span><br>PAPER</h2><p>Portfolio, positioning, and a small curated group that passes each other real opportunities. This is the part that converts skill into income.</p></div>
+    <div class="plane" data-z="-6600"><figure><img src="https://images.unsplash.com/photo-1781246212288-7fa538344718?auto=format&fit=crop&q=88&w=1100"></figure><p class="cap">03 — Proof of work, assembled deliberately</p></div>
+  </div>
+</div>
+<div class="fog"></div><div class="grain"></div>
+
+<div class="hud"><span id="ch">01</span><span class="tk"><i id="tk"></i></span><span id="cl">Same degree</span></div>
+<span class="cue" id="cue">Scroll ↓</span>
+
+<div class="end" id="end">
+  <h2>Get the map before the <em>next</em> decision.</h2>
+  <p>Free assessments and strength mapping first. Then focused guidance for skill direction, proof of work, and a roadmap toward earlier financial freedom.</p>
+  <div class="acts"><a class="b1" href="#">Get Career Guidance</a><a class="b2" href="#">Take a free assessment</a></div>
+  <p class="meta">10,000+ guided · 4.9/5 · fully online across India</p>
+</div>
+
+<div class="driver" id="driver"></div>
+<script>
+const world=document.getElementById('world'),planes=[...document.querySelectorAll('.plane')],driver=document.getElementById('driver');
+const LAB=['Same degree','Different decade','Natural fit','The credential','Market demand','Proof of work','Assembly'];
+const DEPTH=7000;let cam=0,target=0;
+planes.forEach(p=>{p.dataset.zz=p.dataset.z});
+const frame=()=>{
+ cam+=(target-cam)*.085;
+ world.style.transform='translateZ('+cam+'px)';
+ planes.forEach(p=>{
+  const z=parseFloat(p.dataset.zz)+cam;           // distance from camera
+  const d=Math.abs(z);
+  const op=d>760?0:1-Math.pow(d/760,2.2);
+  p.style.transform='translate(-50%,-50%) translateZ('+p.dataset.zz+'px)';
+  p.style.opacity=op.toFixed(3);
+  p.style.filter='blur('+Math.min(9,d/150)+'px)';
+ });
+ const t=Math.min(cam/DEPTH,1);
+ document.getElementById('tk').style.transform='scaleX('+t+')';
+ const i=Math.min(planes.length-1,Math.round(cam/1100));
+ document.getElementById('ch').textContent=String(i+1).padStart(2,'0');
+ document.getElementById('cl').textContent=LAB[i];
+ document.getElementById('cue').style.opacity=t>.04?0:1;
+ document.getElementById('end').classList.toggle('on',t>.965);
+ requestAnimationFrame(frame);
+};
+addEventListener('scroll',()=>{const d=document.documentElement;
+ target=(d.scrollTop/(driver.offsetHeight-d.clientHeight))*DEPTH},{passive:true});
+frame();
+</script></body></html>

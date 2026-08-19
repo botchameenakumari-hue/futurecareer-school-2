@@ -1,0 +1,882 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY } from '../../../../config/bofu';
+import { STUDENT_GUIDANCE_PLAN } from '../../../../config/guidancePlans';
+
+const title = 'Best Career Counselling for Students | A Student-Specific Way to Judge One | Future Career School';
+const description =
+  'Best career counselling for students: how to judge it through a student-specific lens — age-appropriate approach, parent involvement, exam-timeline awareness, and stream credibility.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/best-career-counselling-for-students/';
+
+const studentPlanLink = `${BOFU_INTERNAL_LINKS.students}#plans`;
+
+const formatPlanAmount = (amount: string) => amount.replace('₹', 'Rs ');
+const studentSessionPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.price);
+const studentSessionComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.comparePrice ?? '');
+const studentContinuousPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationPrice ?? '');
+const studentContinuousComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationComparePrice ?? '');
+const studentSessionPriceText = `${studentSessionPrice} (limited-time price, down from ${studentSessionComparePrice})`;
+const studentContinuousPriceText = `${studentContinuousPrice} (limited-time price, down from ${studentContinuousComparePrice})`;
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[3],
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Move here once you know what to check — broader ongoing direction across school, college, and early career.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-students/',
+    title: 'Career Counselling for Students',
+    description: 'See this if the need is one specific, already-narrowed stream or subject decision that needs resolving now.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counsellor/',
+    title: 'Best Career Counsellor',
+    description: "A different question: how to judge the individual person counselling you, not the student-specific process around them.",
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counselling-platform/',
+    title: 'Best Career Counselling Platform',
+    description: 'The general, audience-agnostic version of this evaluation — useful if you want the broader six-criteria checklist too.',
+  },
+  {
+    href: '/services/assessments/class-11-to-12/',
+    title: 'Class 11 to 12 Assessment',
+    description: 'A free starting signal on stream and subject fit before a paid counselling conversation.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A small free check across every stage if you are still comparing options and not ready to book yet.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Does the best career counselling for a student need to involve parents, or should it work directly with the student?',
+    a: "Neither extreme works well. A process that only talks to the parent while the student sits in silence produces a decision the student never actually owns — and one that shuts the parent out entirely often ignores real financial and family constraints that matter. Worth asking directly: does the process make space for the student's own voice in the room, while still being honest with the family about cost, marks, and fit? A student-specific process should be able to describe how it handles that balance, not dodge the question.",
+  },
+  {
+    q: "How do I know if a counselling process is actually age-appropriate, not just generic career advice?",
+    a: "Age-appropriate does not mean talking down to a 15-year-old, and it does not mean using the same corporate framing built for a working professional either. It means the questions asked, the language used, and the pace of the conversation match where a student actually is — someone who may be deciding a stream for the first time, not repositioning a decade-long career. If the same script would work word-for-word for a mid-career professional, it likely was not built for a student.",
+  },
+  {
+    q: 'Does timing matter — should counselling happen before board exams, after results, or during subject selection?',
+    a: "Timing matters a lot for students specifically, more than it does for most working-professional decisions. Subject-selection cutoffs, board exam calendars, and admission-form deadlines create real windows that a counselling process should work around rather than ignore. A process worth trusting should be able to say plainly whether it is built to work before a deadline is close, right after results are declared, or only once things have already settled — and should not treat every month of the year as identical for a student's situation.",
+  },
+  {
+    q: 'How specific should a counsellor get about my exact stream or subject choice, like Science versus Commerce or PCM versus PCB?',
+    a: "Specific enough that the reasoning would sound different for a PCM student than a PCB student, and different again for someone weighing Commerce with Maths against Commerce without it. Vague reassurance like \"follow your passion\" is not evidence of stream-specific credibility. A process that can name the actual trade-offs between your exact options — not a generic list of \"streams that suit your personality\" — is doing the specific part of this job, not just the general counselling part.",
+  },
+  {
+    q: 'Can any provider guarantee admission, a specific rank, or a placement as part of student career counselling?',
+    a: 'No ethical provider can guarantee an admission outcome, an exam rank, or a placement — treat a claim like that as a warning sign rather than reassurance, the same way an outcome guarantee would be a red flag for any career counselling claim. The honest value here is clearer stream and subject direction and stronger reasoning a student can defend to their family, not a promise about a result no counsellor actually controls.',
+  },
+  {
+    q: 'What does student career counselling cost, and is a free assessment enough first?',
+    a: `A free, updated assessment can genuinely narrow stream or subject options if the decision is still exploratory and not urgent. If a paid conversation is what the situation actually needs, a first 1-on-1 session for students is priced at ${studentSessionPrice} (down from ${studentSessionComparePrice}) as a limited-time offer, with continuous guidance across the year at ${studentContinuousPrice} (down from ${studentContinuousComparePrice}), including up to 24 small-group sessions. Career and skill assessments stay free either way.`,
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Best Career Counselling for Students', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Best Career Counselling for Students: A Student-Specific Way to Judge One',
+    description,
+    datePublished: '2026-07-13',
+    dateModified: '2026-07-13',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="student-best-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Best Career Counselling for Students</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>Judged for a student's situation, not a generic checklist</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>The best career counselling for students isn't the best-reviewed platform in general — it's the one built around a student's actual situation</h1>
+            <p class="line strong">
+              A platform can score well on the usual evaluation questions — who counsels you, pricing transparency, assessment quality — and still be a poor fit for a student. Judging counselling for a student specifically means checking four more things: whether the approach is genuinely age-appropriate, how parents are involved without drowning out the student's own voice, whether it works around exam and admission timelines instead of ignoring them, and whether it gets concrete about the actual stream or subject choice in front of you.
+            </p>
+            <p class="line">
+              None of this replaces the general questions worth asking of any provider — it sits alongside them, because a student's decision carries pressures a working professional's usually does not: family dynamics in the room, a board-exam calendar that will not wait, and a stream choice with a long tail.
+            </p>
+            <p class="line">A process that is vague on more than one of these four is worth a second look before a family commits time or money to it.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how career guidance works here</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">The four student-specific checks</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Age-appropriate — talks to a student as a decision-maker, not a generic adult script.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Parent involvement handled openly, without erasing the student's own voice.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Aware of board exam, subject-selection, and admission deadlines.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Specific to the actual stream or subject choice, not "follow your passion."</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>The general evaluation questions — who counsels you, personalization, assessment quality, pricing transparency — still apply to a student's situation. They are just not the whole picture.</li>
+          <li>A student's decision usually involves a second stakeholder in the room: a parent or family member with their own concerns about cost, safety, and long-term outcomes. How that gets handled matters as much as the counselling content itself.</li>
+          <li>Students are working against real calendars — subject-selection cutoffs, board exam dates, admission windows — that a working professional's career decision usually is not.</li>
+          <li>"Follow your passion" is not stream-specific credibility. A process that can name real trade-offs between your exact options is doing more work than one offering broad reassurance.</li>
+          <li>No honest provider — including this one — can guarantee an admission outcome, a rank, or a placement. Treat that promise as a warning sign, not a selling point.</li>
+          <li>A free, updated assessment can be genuinely enough if the decision is still exploratory. A paid conversation earns its cost once the decision is close, expensive, or already causing real friction at home.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#criteria">The four student-specific checks</a>
+          <a href="#free-vs-paid">When a free assessment is enough for a student</a>
+          <a href="#red-flags">Red flags specific to student counselling</a>
+          <a href="#what-changes">What actually changes for a student</a>
+          <a href="#cost">What it costs for a student, concretely</a>
+          <a href="#choosing">How to shortlist for a student's situation</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="criteria" class="container section">
+      <h2>Four checks that matter specifically for a student's situation</h2>
+      <p class="line">
+        These sit on top of the general questions worth asking any counselling provider — who actually counsels you, whether pricing is transparent, whether outcomes are framed honestly. For a student, four more things separate a genuinely good fit from a process that just happens to also serve students.
+      </p>
+
+      <div class="protocol-stack">
+        <div class="protocol-row">
+          <span class="protocol-num">1</span>
+          <div class="protocol-body">
+            <h3>Age-appropriate engagement, not a generic adult script</h3>
+            <p>A process built for students should sound different from one built for a mid-career professional weighing a pivot — different questions, different pace, different framing of risk. That does not mean talking down to a teenager; it means treating a student as a real decision-maker in a conversation that matches where they actually are, not repurposing language meant for someone twenty years further into their working life.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">2</span>
+          <div class="protocol-body">
+            <h3>Parent involvement handled openly, not silently decided for you</h3>
+            <p>Most student decisions involve a parent's concerns about cost, safety, or long-term outcome, and pretending that pressure does not exist rarely helps. What matters is whether the process is upfront about how it handles that — making room for the student's actual voice while still being honest with the family about fit, marks, and financial reality, rather than a session that quietly becomes a conversation with the parent alone while the student listens.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">3</span>
+          <div class="protocol-body">
+            <h3>Awareness of the exam and admission calendar</h3>
+            <p>Board exam dates, subject-selection cutoffs, and admission-form deadlines create real windows that do not exist in the same way for most working-professional decisions. A process worth trusting should be able to say plainly how it works around that calendar — whether it is meant to happen well before a deadline closes in, right after results are declared, or once the immediate pressure has already passed — rather than treating every month as interchangeable.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">4</span>
+          <div class="protocol-body">
+            <h3>Credibility on the actual stream or subject choice</h3>
+            <p>Vague encouragement to "follow your passion" is not the same as stream-specific credibility. A process worth paying for should be able to talk through the real difference between, say, PCM and PCB, or Commerce with Maths versus without it — and connect that choice to a skill-first direction with proof of work, not just a safer-sounding label. If the reasoning would read the same regardless of which stream you actually named, it is not specific to your situation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="free-vs-paid" class="container section">
+      <h2>When a free assessment is enough for a student, and when it isn't</h2>
+      <p class="line">
+        Before weighing which counselling process fits a student's situation, it is worth asking whether a student needs a paid conversation at all yet.
+      </p>
+
+      <div class="card highlight-card">
+        <h3>What each layer actually contributes for a student</h3>
+        <div class="sub-row sub-row--fit">
+          <span class="sub-row-label">A good free assessment does this</span>
+          <p>Surfaces early interest, strengths, and work-style signals a student may not have put into words yet, and narrows a long, vague list of streams or subjects into a shorter, comparable set — without cost or a sales conversation attached.</p>
+        </div>
+        <div class="sub-row sub-row--caution">
+          <span class="sub-row-label">Only a strong paid conversation adds this</span>
+          <p>Works through the family's financial reality, weighs the exam or admission calendar bearing down on the decision, and gives a student reasoning they can actually defend to their parents — the judgment work a one-time test result cannot do on its own.</p>
+        </div>
+      </div>
+
+      <p class="line">
+        If a student's decision is still exploratory — early in 9th or 10th, or simply narrowing a first rough list — a free assessment is often genuinely enough for now. Career and skill assessments here are fully free, updated, practical, and AI-powered, so starting free costs nothing while the family decides if more is needed.
+      </p>
+      <p class="line">
+        If a deadline is close, the family is already disagreeing, or a student has tried to work through it alone and is still stuck, that is the point where a student-specific counselling process starts to earn its cost.
+      </p>
+    </section>
+
+    <section id="red-flags" class="container section">
+      <h2>Red flags specific to counselling built (or not built) for students</h2>
+      <p class="line">
+        These are on top of the general red flags worth checking for any provider — undisclosed pricing, one-size-fits-all recommendations, guaranteed outcomes. These four are specific to whether a process was actually built with a student's situation in mind.
+      </p>
+
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>Signs the process actually fits a student</h3>
+          <ul>
+            <li>Asks the student direct questions, not just the parent in the room.</li>
+            <li>Can describe how it balances parent concerns with the student's own preferences.</li>
+            <li>Names real trade-offs between your exact stream or subject options.</li>
+            <li>Is upfront about working around exam and admission deadlines.</li>
+            <li>Is honest that no admission, rank, or placement can be guaranteed.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>Signs to slow down</h3>
+          <ul>
+            <li>The student barely speaks in the session; every question goes to the parent.</li>
+            <li>Advice reads the same regardless of which stream or subject was actually named.</li>
+            <li>No mention of exam dates, subject-selection cutoffs, or admission windows at all.</li>
+            <li>Claims of guaranteed admission, a specific rank, or guaranteed placement.</li>
+            <li>Pressure to decide immediately, with "seats closing" or countdown-style framing.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="line">
+        None of this means a process using a group session or a longer intake form is automatically weak — plenty aren't. It means these are the specific, checkable things worth watching for in a first conversation, rather than judging a provider on its homepage alone.
+      </p>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What actually changes for a student when a process passes these checks"
+      subtitle="Not every provider adds the same thing once the four checks above hold up. This is the difference they point to."
+      rows={comparisonRows}
+    />
+
+    <section id="cost" class="container section">
+      <h2>What it actually costs for a student, so you can compare fairly</h2>
+      <p class="line">
+        Pricing transparency is one of the general checks worth applying to any provider, so here are the real numbers for students rather than a vague "contact us for pricing."
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Plan">Career and skill assessments</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student 1-on-1 session</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student continuous guidance (year, includes the 1-on-1 plus up to 24 small-group sessions)</td>
+                <td data-label="Price">{studentContinuousPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Use these numbers as a benchmark against whatever else a family is comparing — including whether a provider's price maps to a single session or to support that continues across the year as stream, subject, or skill decisions keep coming up. Guidance is delivered fully online across India, so location is not a factor either.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-outline" href={BOFU_INTERNAL_LINKS.students}>See what student career guidance covers</a>
+        <a class="btn-gold" href={studentPlanLink}>Compare student plans and pricing</a>
+      </div>
+    </section>
+
+    <section id="choosing" class="container section">
+      <h2>How to shortlist for a student's situation, without a hard sell</h2>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>A free assessment is probably enough if</h3>
+          <ul>
+            <li>The student is early in exploring and just needs to narrow a long list.</li>
+            <li>No deadline is close yet, and the decision still feels reversible.</li>
+            <li>The family hasn't tried a structured, updated assessment before.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>A paid, student-specific conversation is worth it if</h3>
+          <ul>
+            <li>An exam, subject-selection, or admission deadline is already close.</li>
+            <li>The student and parents want different specific answers.</li>
+            <li>The family needs reasoning documented well enough to actually act on, not just a feeling.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        Once you know which side of that a student is on, apply the four checks above to whichever counselling processes are on the table, including this one. If the answers hold up, the next step is straightforward: look at student guidance plans if the decision already feels close, or start with a free assessment if the family is still comparing.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={studentPlanLink}>See student guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on the best career counselling for students</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader student guidance service, a narrower decision, or the free first step."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #student-best-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.75rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+  .card {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .sub-row {
+    margin-top: .85rem;
+    padding: .65rem .8rem;
+    border-radius: 10px;
+    display: grid;
+    gap: .2rem;
+  }
+  .sub-row--fit {
+    background: rgba(45,212,191,.08);
+    border: 1px solid rgba(45,212,191,.22);
+  }
+  .sub-row--caution {
+    background: rgba(229,184,74,.08);
+    border: 1px solid rgba(229,184,74,.22);
+  }
+  .sub-row-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .sub-row--fit .sub-row-label { color: #7ee8d8; }
+  .sub-row--caution .sub-row-label { color: #f6db95; }
+  .sub-row p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,.72);
+    margin: 0;
+  }
+
+  .protocol-stack {
+    display: grid;
+    gap: .9rem;
+    margin-top: 1.2rem;
+  }
+  .protocol-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+  }
+  .protocol-num {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    line-height: 1;
+    color: rgba(229,184,74,.35);
+  }
+  .protocol-body h3 { margin-bottom: .4rem; }
+  .protocol-body p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.66);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+    .protocol-row { grid-template-columns: 44px 1fr; }
+    .protocol-num { font-size: 1.5rem; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

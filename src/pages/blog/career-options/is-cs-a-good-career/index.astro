@@ -1,0 +1,1283 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Is CS a Good Career in India? What the JEE Cutoff Doesn\'t Tell You';
+const description =
+  'Is CS a good career in India? Real JEE/GATE cutoffs, CS vs IT vs AI branch differences, and the career map beyond software engineer, honestly assessed for 2026.';
+const canonical =
+  'https://futurecareerschool.com/blog/career-options/is-cs-a-good-career';
+const publishedDateISO = '2026-08-15';
+const publishedDateLabel = '15 August 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: 'The short answer' },
+  { id: 'not-swe', label: 'Not the same question as "is software engineering good"' },
+  { id: 'admission-reality', label: 'The real filter: JEE, CSAB, and state cutoffs' },
+  { id: 'cs-vs-it-vs-aiml', label: 'CS vs IT vs AI & Data Science' },
+  { id: 'curriculum', label: 'What a CS degree actually teaches' },
+  { id: 'branch-map', label: 'Where a CS degree actually leads' },
+  { id: 'seat-expansion', label: 'The seat-expansion problem nobody explains' },
+  { id: 'outcome-pay', label: 'Real pay by outcome, not by job title' },
+  { id: 'who-fits', label: 'Who this degree genuinely fits' },
+  { id: 'who-pause', label: 'Who should think twice' },
+  { id: 'checkpoint', label: 'The 4-Checkpoint Protocol' },
+  { id: 'gates', label: 'The 3 Gates before you commit four years' },
+  { id: 'mistakes', label: 'Mistakes that waste a CS degree' },
+  { id: 'parents', label: 'What to tell a worried family' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const admissionRows = [
+  {
+    tier: 'IIT Bombay, Delhi, Madras (top-3)',
+    rank: 'CSE closing rank roughly 66-171 (open category, JEE Advanced 2025)',
+    note: 'The single most competitive seat allocation in Indian higher education, full stop. A rank outside the low hundreds does not get a CSE seat at these three, regardless of how strong the candidate is otherwise.',
+  },
+  {
+    tier: 'IIT Kharagpur and other established IITs',
+    rank: 'CSE closing rank roughly 400-1,000 (open category, 2025)',
+    note: 'Still a serious national-level filter, but a materially wider door than the top three.',
+  },
+  {
+    tier: 'Newer IITs (Jodhpur, Jammu, Bhilai, Goa, Palakkad, Tirupati, Dharwad)',
+    rank: 'CSE closing rank roughly 2,500-6,000 (open category, 2025)',
+    note: 'Same "IIT CSE" label on the degree certificate, a genuinely different applicant pool, faculty base, and recruiter footfall on campus.',
+  },
+  {
+    tier: 'GATE for M.Tech/research CS entry',
+    rank: 'Qualifying mark around 27-30 out of 100 in 2025, but real IIT M.Tech admission cutoffs run far above the qualifying mark',
+    note: 'A second, separate filter for anyone choosing the postgraduate or research route into CS rather than the undergraduate one.',
+  },
+];
+
+const branchTable = [
+  {
+    branch: 'Computer Science (CS/CSE)',
+    coverage: 'Broadest theory floor: algorithms, operating systems, databases, networks, compilers, theory of computation, computer architecture.',
+    signal: 'The oldest, most recognised branch label. Usually the single most competitive cutoff at any given college, IIT or otherwise.',
+  },
+  {
+    branch: 'Information Technology (IT)',
+    coverage: 'Roughly 70-80% curriculum overlap with CS in the first two years, then leans more toward applied systems, enterprise software, and networking electives.',
+    signal: 'Almost always sits one notch below CS on the same college\'s cutoff list, sometimes by a wide margin, sometimes by very little. Recruiters mostly do not distinguish CS from IT for standard developer roles.',
+  },
+  {
+    branch: 'AI & Data Science / AI & ML',
+    coverage: 'Same CS foundation for roughly the first two years, then diverges into machine learning, deep learning, robotics, and data-science-specific electives from year two or three.',
+    signal: 'Marketed as the newest "premium" branch. At IIT Madras in 2025, CSE closed at rank 159-171 while AI & Data Science closed at rank 292-419, the next-best seat for a candidate who narrowly missed CSE, not automatically a worse or better degree, just a different bet on a younger, less-tested department.',
+  },
+];
+
+const curriculumFloor = [
+  {
+    label: 'The non-negotiable floor',
+    title: 'Data structures, algorithms, and discrete math',
+    body: 'The reasoning toolkit every other CS course builds on. This is also exactly what gets tested in the interview rounds at top product companies, research-lab hiring, and quant recruiting, and it is what a short coding bootcamp almost never covers in real depth.',
+  },
+  {
+    label: 'The systems layer',
+    title: 'Operating systems, computer networks, and architecture',
+    body: 'How a program actually runs on real hardware, talks across a network, and gets scheduled. Skip this and you can still ship a working web app, but you cannot debug a production outage caused by memory pressure, or reason about why a system falls over under load.',
+  },
+  {
+    label: 'The theory layer',
+    title: 'Theory of computation and compiler design',
+    body: 'The part most students find the least "practical" in the moment and then rediscover the value of years later, when a research role, a systems role, or a genuinely hard optimisation problem needs it. This is the clearest single dividing line between a CS degree and a coding bootcamp.',
+  },
+];
+
+const outcomeCards = [
+  {
+    label: 'The default lane',
+    title: 'Software engineer / developer',
+    body: 'The most common outcome by headcount, and the one most people mean when they say "CS job." It deserves its own dedicated, honest look at demand, AI impact, and pay by employer type, which is exactly what a separate article on that specific question is for.',
+  },
+  {
+    label: 'The applied-math lane',
+    title: 'Data scientist / ML engineer',
+    body: 'Builds and ships models, pipelines, and data products rather than general application features. Needs the CS floor plus real statistics and applied-math depth, not just a few online ML courses stacked on top of basic Python.',
+  },
+  {
+    label: 'The long-runway lane',
+    title: 'Research scientist and academia',
+    body: 'A genuinely different daily rhythm: reading, writing, long feedback loops, and years of training before real income. IIT M.Tech students currently receive a monthly stipend of roughly Rs 12,400; PhD scholars receive roughly Rs 37,000 a month for the first two years, rising to about Rs 42,000 for the remaining years. This is a training wage, not a career salary, and it only makes sense for someone with genuine curiosity and stamina for the work itself.',
+  },
+  {
+    label: 'The deep-technical lane',
+    title: 'Core systems, compilers, and OS/kernel engineering',
+    body: 'The smallest lane by headcount and the one that leans hardest on the theory floor above. Mostly concentrated in a handful of product companies and the systems teams inside larger GCCs, but it is real, well-paid, and one of the branches least exposed to routine AI-assisted coding tools.',
+  },
+  {
+    label: 'The bridge lane',
+    title: 'Technical product management',
+    body: 'CS foundation plus business judgment and communication. Does not require staying a hands-on coder forever; it does require enough technical depth to hold a real conversation with an engineering team about trade-offs, not just a project-management vocabulary.',
+  },
+  {
+    label: 'The narrow, high-ceiling lane',
+    title: 'Quant developer / algorithmic trading',
+    body: 'The most selective outcome on this list, and the one with the widest pay ceiling: average quant compensation in India runs into several tens of lakhs, with the strongest campus offers at top IITs going to firms like Jane Street, Tower Research, and similar quantitative trading shops. This lane rewards a specific combination, strong probability and math on top of the CS floor, not general programming ability alone.',
+  },
+  {
+    label: 'The government-scale lane',
+    title: 'Core research at DRDO, ISRO, CDAC, and NIC',
+    body: 'Reached mostly through GATE and PSU-specific recruitment rather than campus placement. Slower pay growth than the private-sector lanes above, but real national-scale problems, defined pay bands, and long-term stability that a private-sector CS career rarely offers in the same form.',
+  },
+];
+
+const outcomePayRows = [
+  {
+    outcome: 'Software engineer / developer, fresher',
+    pay: 'Roughly Rs 3.5-15 LPA depending on employer type (services vs product)',
+    note: 'This split by employer type, and the AI-driven squeeze on entry-level coding roles, is covered in full in a dedicated article on the software engineering job market.',
+  },
+  {
+    outcome: 'Data scientist / ML engineer, fresher',
+    pay: 'Roughly Rs 6-15 LPA, higher at firms with real applied-AI work',
+    note: 'The pay premium tracks applied-math depth and a visible project or competition record, not just having "AI" on the transcript.',
+  },
+  {
+    outcome: 'M.Tech (GATE route), while studying',
+    pay: 'Stipend around Rs 12,400 a month',
+    note: 'A training wage during the degree, not a career salary; the payoff comes from what the M.Tech unlocks afterward.',
+  },
+  {
+    outcome: 'PhD scholar, while studying',
+    pay: 'Roughly Rs 37,000 a month (years 1-2), rising to roughly Rs 42,000 a month (years 3-5) at most IITs',
+    note: 'A modest but real, guaranteed income for a genuinely long training runway, generally five to six years before it converts into a research-scientist or faculty income.',
+  },
+  {
+    outcome: 'Research scientist, industry',
+    pay: 'Roughly Rs 6-20+ LPA depending on sector and seniority',
+    note: 'Pharma, biotech, and applied-AI research labs generally sit toward the higher end of this range; general R&D roles sit toward the lower end.',
+  },
+  {
+    outcome: 'Assistant professor, government college (post-PhD, NET-qualified)',
+    pay: 'Basic pay around Rs 57,700 a month (7th Pay Commission, Level 10); gross roughly Rs 90,000-1.1 lakh a month with allowances',
+    note: 'Private-college faculty pay is typically lower, roughly Rs 40,000-60,000 a month, with far more variation by institute.',
+  },
+  {
+    outcome: 'Quant developer / analyst, top-college campus placement',
+    pay: 'Average around Rs 23 LPA, with a range roughly Rs 15-49+ LPA, and a small number of international offers far above that',
+    note: 'Concentrated almost entirely among the strongest CS/AI math performers at a handful of top institutes; not a representative outcome for the median CS graduate.',
+  },
+];
+
+const seatCallout = [
+  'AICTE approved roughly 15.98 lakh engineering seats for 2025-26, a 7% rise over the previous year, and the growth is overwhelmingly concentrated in computer science and AI-related branches.',
+  'Several states, including Telangana, Karnataka, and Tamil Nadu, have pushed back on colleges converting mechanical and civil engineering seats into CS or AI seats, because the conversion is leaving lakhs of seats vacant in the branches being abandoned.',
+  'A "CS" or "AI & Data Science" department at a private college in 2025-26 may genuinely be a two-year-old conversion of a mechanical or civil department chasing demand, not an established, faculty-deep CS programme, even though the admission brochure and the degree certificate look identical to one that is.',
+];
+
+const checkpointItems = [
+  {
+    num: '01',
+    title: 'Biology',
+    body: 'Can you sit with an abstract, symbolic problem, a proof, an algorithm, a data structure, for long stretches without needing constant variety or human interaction? CS rewards precision and sustained focus more than it rewards broad curiosity across many subjects at once.',
+    note: 'If your energy comes from talking to people and variety hour to hour, that does not disqualify you from CS, but it is a real signal to target the outcomes on this page that use CS as a foundation for communication-heavy work, like product management, over the deep-technical lanes.',
+  },
+  {
+    num: '02',
+    title: 'Context',
+    body: 'Many private colleges now charge a fee premium specifically for the "CS" or "AI & Data Science" branch label over other branches at the same institute. Check whether that premium buys a genuinely older, better-staffed department, or just a more in-demand admission brochure.',
+    note: 'Use roughly 10% of your family\'s total education budget as a starting benchmark for the course fee itself, a strict planning heuristic, not a universal rule, especially when the branch premium is not backed by verified faculty depth or lab access.',
+  },
+  {
+    num: '03',
+    title: 'Market',
+    body: 'Demand for CS-trained people is real and spans far beyond one job title, software development, data science, research, product, quant work, and government-scale core research all draw from the same degree. The seat count chasing that demand has also grown faster than most colleges can build real teaching depth.',
+    note: 'The honest question is not "is there demand for CS graduates." It is "does the specific college and branch you are choosing have the depth to actually deliver on that demand," which the seat-expansion section above answers directly.',
+  },
+  {
+    num: '04',
+    title: 'Survival',
+    body: 'AI is reshaping which CS specialisations hold their value fastest. Routine, boilerplate coding is the most exposed; systems-level work, research judgment, and applied-math-heavy roles like data science and quant work are comparatively more resistant because they need human verification and judgment, not just working syntax.',
+    note: 'The full breakdown of AI\'s impact on the software-engineer job specifically lives in a dedicated article; this page is about which branch of the wider CS degree is built to absorb that shift better than others.',
+  },
+];
+
+const gateItems = [
+  {
+    num: 'Gate 1',
+    title: 'Proof of skill',
+    body: 'Solve a meaningful set of real algorithm and data-structure problems, and build one small project that uses an actual CS concept, a search or sort you implemented yourself, a simple compiler or interpreter, a basic database engine, not another tutorial-following CRUD app.',
+  },
+  {
+    num: 'Gate 2',
+    title: 'Proof of communication',
+    body: 'Explain one CS concept, how a hash table works, why a database index speeds up a query, in plain language to someone with no technical background, in under two minutes. If you can only repeat the textbook definition, the understanding is not there yet.',
+  },
+  {
+    num: 'Gate 3',
+    title: 'Proof of value',
+    body: 'Show your project and problem-solving record to a current CS student, a working engineer, or a faculty member and ask directly: "Does this look like real aptitude, or like tutorial-following?" Use their honest answer, not your own hope, before you commit four years and a real fee to this specific branch.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Chasing the CS or AI branch label for cutoff prestige, without checking the department behind it',
+    body: 'A branch name that is in high demand nationally tells you nothing about whether your specific college has the faculty, labs, and curriculum depth to actually teach it well. Ask directly how old the department is, how many full-time faculty specialise in the branch, and what the last two years of placement data actually show, branch by branch, not just for the college as a whole.',
+  },
+  {
+    num: '02',
+    title: 'Assuming "AI & Data Science" automatically means a higher starting salary than plain CS',
+    body: 'It is not automatic. Many AI & Data Science departments are only a few years old, and recruiters still weigh a genuinely strong, well-established CS department\'s output more heavily than a newer AI programme\'s brand name alone, especially outside the top handful of institutes.',
+  },
+  {
+    num: '03',
+    title: 'Skipping the math foundation and hoping to catch up later',
+    body: 'Discrete mathematics, probability, and linear algebra are not side subjects in a CS degree. They are the load-bearing wall under algorithms, machine learning, and any research-adjacent elective. Weak math in year one quietly compounds into a genuinely hard year three and four.',
+  },
+  {
+    num: '04',
+    title: 'Treating a CS degree and a coding bootcamp as interchangeable for every goal',
+    body: 'If the real target is shipping web or app features fast, a strong bootcamp plus a real portfolio can be a legitimate, faster, cheaper route, and the college-decision heuristics that apply to any expensive course apply here too. If the real target is systems work, research, quant work, or academia, the formal theory floor is close to non-negotiable, because the work and the interviews for those lanes genuinely test it.',
+  },
+  {
+    num: '05',
+    title: 'Preparing for only one narrow outcome, the standard SDE interview, and ignoring every other lane this degree opens',
+    body: 'A CS degree is a single foundation that opens several different careers, not a ticket for exactly one job. Spending four years preparing for only the standard SDE interview format closes off data science, research, product, quant, and government-research paths that the same coursework already half-prepares you for, at very little extra cost.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'Is CS a good career in India right now?',
+    a: 'Yes, as a degree and field, computer science remains one of the strongest foundations available in Indian higher education, because it opens far more than one job title: software development, data science, research, core systems work, product roles, quant work, and government-scale research all draw on the same coursework. The catch is not demand for CS graduates, it is that seat expansion has outrun teaching depth at many colleges, so the specific department you join matters as much as the branch label on your admission letter.',
+  },
+  {
+    q: 'Is "is CS a good career" a different question from "is software engineering a good career"?',
+    a: 'Yes, and they deserve different answers. Software engineering is one job outcome of a CS degree, writing and shipping code for a living, and a separate, dedicated article on this site covers that specific question in depth: hiring demand, AI\'s impact on coding jobs, and real pay by employer type. This page is about the wider decision of choosing CS as your degree or stream in the first place, the admission cutoffs, the CS-vs-IT-vs-AI branch choice, the theory curriculum, and the full map of outcomes a CS degree opens well beyond becoming a software engineer.',
+  },
+  {
+    q: 'Should I choose CS, IT, or AI & Data Science?',
+    a: 'All three share roughly 70-80% of their curriculum in the first two years, so the difference matters most from year two or three onward. CS gives the broadest, most established theory floor and usually carries the highest cutoff and the widest recruiter recognition. IT sits close behind CS with a similar core plus more applied and networking-heavy electives. AI & Data Science leans into machine learning and data-science coursework earlier, but many AI departments are only a few years old, so verify the specific college\'s faculty depth and actual placement record for that branch before assuming the trendier name guarantees a better outcome.',
+  },
+  {
+    q: 'What does a CS degree actually teach that a coding bootcamp does not?',
+    a: 'A CS degree covers operating systems, computer networks, computer architecture, theory of computation, and compiler design on top of programming and data structures, the systems and theory layer that explains why things work the way they do, not just how to make them work. A short bootcamp can teach you to build and ship a working web or mobile app fast, which is genuinely enough for many entry-level developer roles, but it typically skips this deeper layer entirely, which becomes a real gap for systems roles, top-tier product-company interviews, research work, and quant recruiting.',
+  },
+  {
+    q: 'Are CS engineering seats oversupplied in India?',
+    a: 'AICTE approved roughly 15.98 lakh engineering seats for 2025-26, a 7% rise, with the growth concentrated almost entirely in computer science and AI-related branches, and several states have already pushed back on colleges converting other branches into CS or AI seats faster than they can staff them properly. This is a seat-quality risk at admission time, not just a job-market oversupply story: a newly converted "CS department" at a private college may not have the faculty depth its brochure implies, so verify the department\'s actual age, faculty strength, and branch-specific placement record before enrolling.',
+  },
+  {
+    q: 'What can I do with a CS degree besides becoming a software developer?',
+    a: 'A genuinely wide set of outcomes: data science and machine learning engineering, research and academia through an M.Tech or PhD, core systems and compiler engineering, technical product management, quantitative development and algorithmic trading, cybersecurity, and government-scale research roles at organisations like DRDO, ISRO, CDAC, and NIC, usually reached through GATE and PSU-specific recruitment. Each lane rewards a different mix on top of the same CS foundation, applied math for data science, systems depth for core engineering, probability and speed for quant work, so the right next step is picking one deliberately rather than defaulting to the most talked-about option.',
+  },
+  {
+    q: 'What if I don\'t get into a top IIT for CS?',
+    a: 'JEE Advanced 2025 closing ranks for CSE ranged from roughly 66 at IIT Bombay to the low hundreds at IIT Delhi and Madras, but climbed to roughly 2,500-6,000 at the newer IITs, and CS seats exist far beyond the IIT system through NITs, IIITs, and strong state and private universities. The deciding factor for your outcome is less the exact college brand and more whether you build real projects, a genuine problem-solving record, and internships during the degree, since recruiters across every lane on this page weigh demonstrated work alongside, and sometimes above, the college name.',
+  },
+  {
+    q: 'Do I need strong math to succeed in a CS degree?',
+    a: 'Yes, more than most students expect going in. Discrete mathematics, probability, and linear algebra underpin algorithms, machine learning, theory of computation, and most of the higher-paying outcome lanes on this page, especially data science and quant work. A student who finds these subjects genuinely difficult can still succeed in application-focused developer roles, but should honestly weigh that against research, ML, and quant lanes, which lean on math depth far more heavily.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="career-options"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Is CS a good career in India? Yes, but the honest answer starts one step before any job title: it is a question about which branch, which college department, and which of several genuinely different outcomes you are actually choosing.</strong>
+    Computer science is not one bet on "coding jobs." The same four years of coursework branches into data
+    science, research, core systems engineering, product roles, quant work, and government-scale research,
+    alongside the software-developer path most families picture first. JEE Advanced 2025 CSE closing ranks ran from
+    roughly 66 at IIT Bombay to the thousands at newer IITs, while a genuinely separate, faster-growing pool
+    of private-college CS and AI seats has expanded seat count well ahead of teaching depth in many places.
+    Which department and which lane you actually build toward, not the three-letter branch code on your
+    admit card, decides whether this degree becomes a real <strong>high-value skill portfolio</strong> or four
+    years spent chasing a cutoff for its own sake.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Yes, CS is a strong degree choice in India, but treat it as a branch-and-college decision with real quality variance, not a guaranteed outcome once you clear the cutoff.</li>
+      <li>CS, IT, and AI & Data Science share 70-80% of their curriculum in the first two years; the gap that matters opens up from year two onward, and a trendier branch name does not automatically outrank an established CS department.</li>
+      <li>AICTE-approved engineering seats grew 7% for 2025-26, driven almost entirely by CS and AI branches, and several states are already flagging that seat growth is outrunning faculty depth at many colleges.</li>
+      <li>A CS degree opens data science, research and academia, core systems engineering, product roles, quant work, and PSU-level research, not just one software-developer outcome.</li>
+      <li><strong>The real decision is not "is CS good." It is which specific lane and which specific college department genuinely fits your math tolerance, your budget, and your timeline, because that combination is what unlocks stronger income opportunities and earlier financial freedom, not the branch label alone.</strong></li>
+      <li>Test your fit with one real algorithm-and-project proof before committing four years and a real fee to a specific college and branch.</li>
+    </ul>
+  </div>
+
+  <p>
+    If your real question is narrower, specifically the software-developer job itself, hiring demand, AI's
+    effect on coding roles, and pay by employer type, <a href="/blog/career-options/is-software-engineering-a-good-career-in-india/">is software engineering a good career in India</a>
+    covers that directly. This page is about the wider degree and branch decision that usually comes first.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The short answer to "is CS a good career"</h2>
+
+  <p>
+    Computer science remains one of the strongest degree foundations available in India, and the demand
+    behind it is real: private colleges are converting other engineering branches into CS and AI seats
+    specifically because that is where applicant demand and employer interest both point.
+  </p>
+
+  <p>
+    But "good career" does not mean "any CS seat, any college, guaranteed high package."
+  </p>
+
+  <p>
+    It means: the coursework opens real, varied outcomes; the admission filter is genuinely tough at the
+    top and genuinely wide once you move down the college tiers; and the branch label alone tells you far
+    less about your actual college department's quality than most admission brochures suggest.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      This is not the "CS guarantees a high-paying job" story that pulls a rank-holder toward the highest
+      cutoff branch without a plan. It is also not the "CS is oversaturated, avoid it" panic some families
+      have started repeating back. Both miss the real picture: the degree opens genuinely strong, varied
+      outcomes, and the department you actually study in decides how much of that promise you get to cash
+      in.
+    </p>
+  </div>
+
+  <h2 id="not-swe">Why this is not the same question as "is software engineering a good career"</h2>
+
+  <p>
+    These two questions get treated as one online, and that is a real problem, because they sit at different
+    points in the decision.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">Two different decisions</p>
+    <ul class="callout__list">
+      <li>"Is CS a good career" is an admission-stage, degree-choice question: which stream, which branch, which college, before you have written a single line of production code.</li>
+      <li>"Is software engineering a good career" is a job-market question about one specific outcome of that degree: hiring demand, AI's effect on coding roles, and pay by employer type.</li>
+      <li>A CS degree does not obligate you to become a software developer. Data science, research, systems engineering, product roles, quant work, and PSU-level research all start from the same coursework.</li>
+      <li>The risks are different too: the software-engineering question is mostly about a squeezed entry-level job market. The CS-degree question is mostly about seat quality, branch choice, and math readiness at the point of admission.</li>
+    </ul>
+    <p class="callout__footer">
+      Answering "should I study CS" by only reading about the software-developer job market skips the actual
+      decision in front of you: which branch, which college, and which of several real lanes you are
+      genuinely building toward.
+    </p>
+  </div>
+
+  <h2 id="admission-reality">The real filter: JEE, CSAB, and state cutoffs</h2>
+
+  <p>
+    Start with the number that actually gates this decision for most students: the rank you need to get a
+    CS seat, and how sharply that number changes depending on which college you are talking about.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>College tier</th>
+          <th>CS closing rank (2025)</th>
+          <th>What it actually means</th>
+        </tr>
+      </thead>
+      <tbody>
+        {admissionRows.map((item) => (
+          <tr>
+            <td data-label="College tier"><strong>{item.tier}</strong></td>
+            <td data-label="CS closing rank (2025)">{item.rank}</td>
+            <td data-label="What it actually means">{item.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Ranks are directional, based on JEE Advanced 2025 round-wise data and GATE 2025 cutoff reporting at the
+    time of writing. Verify current-year seat counts and closing ranks against JoSAA/CSAB before making an
+    admission decision.
+  </p>
+
+  <p>
+    Outside the IIT system, CS seats exist through NITs, IIITs, and state-level engineering entrance exams,
+    each with its own cutoff curve. The pattern repeats everywhere: CS is almost always the single most
+    competitive branch at any given college, which is exactly why the branch-versus-college trade-off below
+    matters so much.
+  </p>
+
+  <h2 id="cs-vs-it-vs-aiml">CS vs IT vs AI & Data Science: same family, different bets</h2>
+
+  <p>
+    Most families treat "computer science" as one branch. At most colleges today it is actually three
+    separate branches sitting next to each other on the same admission form, with genuinely different
+    cutoffs and genuinely different levels of institutional maturity behind them.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Branch</th>
+          <th>What the curriculum actually covers</th>
+          <th>What the label actually signals</th>
+        </tr>
+      </thead>
+      <tbody>
+        {branchTable.map((item) => (
+          <tr>
+            <td data-label="Branch"><strong>{item.branch}</strong></td>
+            <td data-label="What the curriculum actually covers">{item.coverage}</td>
+            <td data-label="What the label actually signals">{item.signal}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box highlight-box--amber">
+    <p>
+      A newer AI or AI & Data Science branch at a strong, established college can be a genuinely good bet.
+      The same branch name at a college that only opened the department in the last two or three admission
+      cycles is a different risk profile entirely, even though the certificate will read almost the same.
+      Ask for the department's founding year and current full-time faculty count before assuming the trendier
+      name is automatically the better choice over a longer-established CS programme at the same institute.
+    </p>
+  </div>
+
+  <h2 id="curriculum">What a CS degree actually teaches you</h2>
+
+  <p>
+    This is the part most cutoff-focused admission conversations skip entirely, and it is the part that
+    decides which outcomes on the branch map below are realistically open to you later.
+  </p>
+
+  <div class="feature-grid">
+    {curriculumFloor.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    A short coding bootcamp can teach you to build and ship a working app fast, genuinely enough for many
+    entry-level developer roles, and the same college-spending discipline that applies to any paid course
+    applies here: do not assume a longer, more expensive route is automatically better without checking what
+    it specifically adds. But bootcamps almost never cover the systems and theory layer above, and that gap
+    shows up directly in top-tier product-company interviews, systems and research roles, and quant
+    recruiting, all of which lean hard on exactly this coursework.
+  </p>
+
+  <h2 id="branch-map">Where a CS degree actually leads: outcomes beyond one job title</h2>
+
+  <p>
+    Before comparing pay, it helps to see the actual shape of the field, because "software developer" as a
+    single target undersells how many different careers the same four years of coursework can open.
+  </p>
+
+  <div class="feature-grid">
+    {outcomeCards.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    None of these lanes is "the real CS career" with the rest as fallback options. They are genuinely
+    different jobs sharing a common theory floor, and the strongest outcomes belong to students who pick one
+    deliberately, through internships, projects, and real exposure, sometime in the middle years of the
+    degree, instead of drifting toward whichever placement drive happens to come first.
+  </p>
+
+  <p>
+    <strong>This is the real leverage in a CS degree:</strong> picking one lane deliberately and building
+    visible proof inside it turns the coursework into a genuine <strong>high-value skill portfolio</strong>
+    that unlocks stronger income opportunities, instead of four years spent collecting theory with no clear
+    direction behind it.
+  </p>
+
+  <h2 id="seat-expansion">The seat-expansion problem nobody explains at admission time</h2>
+
+  <p>
+    Here is the part that makes this decision genuinely harder than the cutoff table above suggests on its
+    own.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">What is actually happening to CS seats</p>
+    <ul class="callout__list">
+      {seatCallout.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="callout__footer">
+      This is a different risk from the "too many graduates chasing too few jobs" story you hear about the
+      software-engineering job market. It is a seat-quality risk that shows up before you even graduate: the
+      department teaching you for four years may not have caught up to the demand that got it built.
+    </p>
+  </div>
+
+  <p>
+    The practical response is straightforward, even if colleges rarely volunteer the information: ask
+    directly how many years the CS or AI & Data Science department has existed at your target college, how
+    many full-time faculty specialise in it, and what the branch-specific placement numbers looked like for
+    the last two graduating batches, not the college's overall placement headline.
+  </p>
+
+  <h2 id="outcome-pay">Real pay by outcome, not by job title</h2>
+
+  <p>
+    "CS graduate salary in India" is close to a meaningless single number, because the gap between a fresh
+    software developer, a PhD stipend, and a top-college quant offer can be enormous, and they are not
+    competing outcomes so much as genuinely different multi-year paths.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Outcome</th>
+          <th>Typical pay</th>
+          <th>Context</th>
+        </tr>
+      </thead>
+      <tbody>
+        {outcomePayRows.map((item) => (
+          <tr>
+            <td data-label="Outcome"><strong>{item.outcome}</strong></td>
+            <td data-label="Typical pay">{item.pay}</td>
+            <td data-label="Context">{item.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Figures are directional, based on current campus-placement reporting, official pay-commission data, and
+    stipend schedules at the time of writing. Verify current numbers against your specific college and
+    target employer before making a financial decision.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      The quant and top-product-company numbers are the ones that circulate in family WhatsApp groups. They
+      are real, and they belong to a genuinely small slice of each year's CS graduates, concentrated at a
+      handful of institutes with the strongest math and problem-solving culture. Most CS graduates land
+      somewhere in the software-developer or data-analyst range, which is still a solid, viable outcome, not
+      a consolation prize.
+    </p>
+  </div>
+
+  <h2 id="who-fits">Who this degree genuinely fits</h2>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card__label">Genuine fit</div>
+      <div class="feature-card__title">You are comfortable with abstract, symbolic reasoning</div>
+      <p>Algorithms, proofs, and data structures reward people who can sit with an abstract problem and work through it methodically. Liking the idea of "building things" is not the same signal as genuinely enjoying this kind of reasoning.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__label">Genuine fit</div>
+      <div class="feature-card__title">You want to know why, not just that it works</div>
+      <p>A program that runs is not the same as understanding why it runs the way it does. Students who stop at "it works" plateau earlier than students who keep asking what is happening one layer underneath.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__label">Genuine fit</div>
+      <div class="feature-card__title">You can tolerate precision-heavy, sometimes solitary work</div>
+      <p>Debugging, proof-writing, and careful algorithm design are quiet, detail-heavy work. If your energy comes mainly from constant collaboration and variety, that points you toward the product-management or communication-heavy lanes on the branch map, not away from CS entirely.</p>
+    </div>
+  </div>
+
+  <h2 id="who-pause">Who should think twice before committing</h2>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Warning sign</th>
+          <th>What is actually true</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Warning sign"><strong>Choosing the branch purely because it had the highest cutoff</strong></td>
+          <td data-label="What is actually true">A high cutoff proves other students wanted the seat. It proves nothing about whether the specific department has the faculty and lab depth to teach it well, especially at a private college with a recently converted CS or AI programme.</td>
+        </tr>
+        <tr>
+          <td data-label="Warning sign"><strong>Genuinely weak in math and hoping four years of coursework fixes it</strong></td>
+          <td data-label="What is actually true">Discrete math, probability, and linear algebra are load-bearing for algorithms, machine learning, and most of the higher-ceiling outcomes on the branch map. A shaky foundation in year one compounds, it does not resolve itself by year three.</td>
+        </tr>
+        <tr>
+          <td data-label="Warning sign"><strong>Assuming the AI & Data Science branch name alone guarantees a better job than plain CS</strong></td>
+          <td data-label="What is actually true">Many AI departments are only a few years old. Recruiters, especially outside the top handful of institutes, still weigh a genuinely established CS department's track record more heavily than a newer, trendier branch name by itself.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    None of this means these students cannot succeed in CS. It means the specific college, branch, and math
+    foundation deserve a second, honest look before four years and a real fee go into the decision.
+  </p>
+
+  <h2 id="checkpoint">Use The 4-Checkpoint Protocol before you lock in CS</h2>
+
+  <p>
+    A cutoff rank tells you whether you can get the seat. It does not tell you whether the seat fits your
+    money, your math tolerance, and your actual target outcome. Run the decision through The 4-Checkpoint
+    Protocol instead, honestly, for your real situation.
+  </p>
+
+  <div class="protocol-stack">
+    {checkpointItems.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+          <div class="checkpoint__note">{item.note}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="gates">Pass The 3 Gates before you commit four years</h2>
+
+  <p>
+    The 4-Checkpoint Protocol tells you whether CS fits on paper. The 3 Gates make you test it in the real
+    world before you commit admission counselling time, coaching fees, and four years to a specific branch
+    and college.
+  </p>
+
+  <div class="gates-block">
+    <p class="gates-block__title">
+      Do not lock in a CS or AI-branch seat before passing all three gates.
+    </p>
+    <div class="gates-row">
+      {gateItems.map((item) => (
+        <div class="gate">
+          <span class="gate__num">{item.num}</span>
+          <span class="gate__name">{item.title}</span>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <p>
+    If you are still unsure after running this test, a session inside
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can help you compare the branch, the college, and your realistic outcomes with an actual person, instead
+    of guessing alone from cutoff charts and relatives' opinions.
+  </p>
+
+  <h2 id="mistakes">Mistakes that waste a CS degree</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="parents">What to tell a worried family</h2>
+
+  <p>
+    A worried parent rarely calms down because someone repeats "CS is a good field." They calm down when the
+    actual branches, the college's real department depth, and the honest timeline are on the table.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">What worries most families</div>
+      <ul>
+        <li>Fear that skipping the highest-cutoff CS seat closes off every good outcome.</li>
+        <li>Stories about "too many CS graduates" and a saturated software job market.</li>
+        <li>Not knowing whether an AI & Data Science seat is a smart alternative to CS, or a riskier, newer bet.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">What actually reassures them</div>
+      <ul>
+        <li>Real outcomes exist well beyond one IIT's CSE cutoff, across NITs, IIITs, and strong state universities, and well beyond one job title, across data science, research, systems work, product roles, and government-scale research.</li>
+        <li>A realistic timeline: a genuine department and math foundation matter more in years one and two than the exact college rank chased at admission time.</li>
+        <li>One visible proof step already taken, like a completed project or an honest conversation with a current student in the target department, not just an intention to "study CS."</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Another round of comparing cutoff charts in the abstract will not settle this. Neither will letting a
+    relative's opinion about "CS is the safe choice" make the call for you.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      Run yourself through The 4-Checkpoint Protocol above, honestly, on paper, for the actual college and
+      branch you are considering, not a hypothetical average student.
+    </p>
+    <p>
+      Then pass The 3 Gates on one real project and problem-solving record before you commit coaching time,
+      admission fees, and four years to a specific department.
+    </p>
+  </div>
+
+  <p>
+    Achieving earlier financial freedom through a CS degree comes down to building a genuine
+    <strong>high-value skill portfolio</strong>, a real project record, verified department depth at your
+    chosen college, and a deliberately chosen outcome lane, not the three-letter branch code on your
+    admission letter alone. Move toward that with
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    if you want a second opinion on your specific situation, or start with the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a>
+    if you are still unsure whether CS, or which lane within it, genuinely fits you. For related decisions,
+    <a href="/blog/career-options/is-software-engineering-a-good-career-in-india/">is software engineering a good career in India</a>
+    covers the specific developer job market, and
+    <a href="/blog/career-options/is-data-science-a-good-career-in-india/">is data science a good career in India</a>
+    covers the applied-math lane in full.
+  </p>
+
+  <h2 id="faq">FAQs on is CS a good career in India</h2>
+
+  <div class="faq-list">
+    {faqItems.map((item, index) => (
+      <details class="faq-item" open={index === 0}>
+        <summary class="faq-item__q">{item.q}</summary>
+        <div class="faq-item__a" set:html={item.a} />
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong {
+      color: #fff;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .key-takeaways {
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.35rem 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.1), transparent 60%),
+        rgba(255, 255, 255, 0.03);
+    }
+    .key-takeaways__label {
+      margin: 0 0 0.7rem !important;
+      font-size: 11px !important;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(45, 212, 191, 0.95) !important;
+    }
+    .key-takeaways ul {
+      margin: 0 !important;
+      padding-left: 1.15rem !important;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .key-takeaways li {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.82) !important;
+      line-height: 1.7 !important;
+      font-size: 15.5px;
+    }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.06);
+    }
+    .callout__eyebrow {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.7rem !important;
+    }
+    .callout__list {
+      margin: 0 0 0.2rem 1.1rem !important;
+      padding: 0 !important;
+    }
+    .callout__list li {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.7 !important;
+      margin: 0.32rem 0 !important;
+    }
+    .callout__footer {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      margin: 0.8rem 0 0 !important;
+      line-height: 1.74 !important;
+    }
+
+    .feature-grid,
+    .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .feature-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .feature-card,
+    .compare-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .feature-card__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      color: rgba(45, 212, 191, 0.96);
+      margin-bottom: 0.5rem;
+    }
+    .feature-card__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.93);
+      line-height: 1.28;
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .feature-card p {
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0 !important;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .compare-card--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .compare-card--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul {
+      margin: 0 0 0 1rem !important;
+      padding: 0 !important;
+    }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .protocol-stack,
+    .faq-list,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .faq-item,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .gates-block {
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+      padding: 1.25rem 1.2rem;
+      margin: 1.45rem 0;
+    }
+    .gates-block__title {
+      font-size: 13px !important;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      line-height: 1.6 !important;
+      margin: 0 0 0.95rem !important;
+    }
+    .gates-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .gate {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1rem 0.95rem;
+    }
+    .gate__num {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(45, 212, 191, 0.82);
+      font-weight: 800;
+      margin-bottom: 0.24rem;
+    }
+    .gate__name {
+      display: block;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.45rem;
+      font-family: "Sora", sans-serif;
+    }
+    .gate p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.66 !important;
+      color: rgba(255, 255, 255, 0.64) !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    .faq-item__q {
+      padding: 0.95rem 1.15rem;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .faq-item__a {
+      padding: 0.95rem 1.15rem 1rem;
+      font-size: 14.5px;
+      line-height: 1.76;
+      color: rgba(255, 255, 255, 0.68);
+    }
+    .faq-item__a a {
+      color: var(--gold);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    @media (max-width: 820px) {
+      .comparison-grid,
+      .gates-row,
+      .jump-nav__list {
+        grid-template-columns: 1fr;
+      }
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .feature-card,
+      .compare-card,
+      .highlight-box,
+      .checkpoint,
+      .gates-block,
+      .gate,
+      .mistake-item,
+      .faq-item__q,
+      .faq-item__a {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 620px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+  </style>
+</BlogPostLayout>

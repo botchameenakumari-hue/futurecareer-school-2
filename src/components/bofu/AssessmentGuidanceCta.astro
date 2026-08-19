@@ -1,0 +1,251 @@
+---
+import {
+  getAssessmentPlansConfig,
+  type AssessmentPlansMode,
+} from '../../config/assessmentPlans';
+
+type AssessmentGuidanceMode = AssessmentPlansMode;
+
+interface Props {
+  sectionId?: string;
+  mode?: AssessmentGuidanceMode;
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  sectionId = 'guidance-next-step',
+  mode = 'mixed',
+  title,
+  subtitle,
+} = Astro.props;
+
+type AssessmentGuidancePreset = {
+  title: string;
+  subtitle: string;
+  points: string[];
+};
+
+const presets: Record<AssessmentGuidanceMode, AssessmentGuidancePreset> = {
+  student: {
+    title: 'Free results help. Full student clarity needs stronger guidance.',
+    subtitle:
+      'The free assessment gives signals. Updated student career guidance is where those signals turn into stronger stream, course, skill, and career decisions before more time and money get wasted.',
+    points: [
+      'Avoid wrong streams, weak degrees, and low-value skill choices.',
+      'Choose future-ready skills instead of outdated paths that slow growth.',
+      'Build toward earlier financial freedom through a series of better decisions.',
+    ],
+  },
+  after12th: {
+    title: 'Free results help. After-12th decisions need a real plan.',
+    subtitle:
+      'The free assessment narrows direction. Updated career guidance is where degree choice, exam strategy, stronger skill direction, and the bigger career decision get planned properly.',
+    points: [
+      'Avoid degree and course choices that waste years and money.',
+      'Choose stronger next steps with future readiness in mind.',
+      'Use the right skill direction earlier instead of correcting late.',
+    ],
+  },
+  graduate: {
+    title: 'Free results help. Graduate decisions still need sharper career guidance.',
+    subtitle:
+      'The assessment can show fit and leverage. Updated career guidance is where role direction, stronger skills, positioning, and the career move that grows income get decided more carefully.',
+    points: [
+      'Avoid random courses, weak applications, and low-signal career moves.',
+      'Choose higher-value skills and clearer role direction earlier.',
+      'Move toward stronger income growth and earlier financial freedom.',
+    ],
+  },
+  professional: {
+    title: 'Free results help. Working professionals still need a sharper plan.',
+    subtitle:
+      'The assessment shows leverage and risk. Updated career guidance is where pivot quality, positioning, compensation logic, and the next high-value skill move get decided properly.',
+    points: [
+      'Avoid stagnation, bad pivots, and random upskilling that wastes money.',
+      'Choose stronger positioning and higher-value skills with more leverage.',
+      'Move toward stronger compensation and earlier financial freedom.',
+    ],
+  },
+  mixed: {
+    title: 'Free assessment results are useful. Real career decisions need stronger guidance.',
+    subtitle:
+      'Start with the free test that fits your stage. When the decision gets serious, move to updated career guidance that turns those signals into better choices, stronger skills, and higher leverage.',
+    points: [
+      'Use free results to narrow the problem before you commit to a bigger decision.',
+      'Use guidance to avoid wasted years, wasted money, and low-value skill choices.',
+      'Use the right plan for your stage to move toward future readiness and earlier financial freedom.',
+    ],
+  },
+};
+
+const preset = presets[mode];
+const plansConfig = getAssessmentPlansConfig(mode);
+const resolvedTitle = title ?? preset.title;
+const resolvedSubtitle = subtitle ?? preset.subtitle;
+---
+
+<section id={sectionId} class="assessment-guidance-bridge">
+  <div class="container">
+    <div class="assessment-guidance-bridge__card card">
+      <div class="assessment-guidance-bridge__pill">
+        Free results are step one
+      </div>
+      <h2>{resolvedTitle}</h2>
+      <p class="assessment-guidance-bridge__subtitle">{resolvedSubtitle}</p>
+
+      <div class="assessment-guidance-bridge__points">
+        {preset.points.map((point) => (
+          <div class="assessment-guidance-bridge__point">
+            <span class="assessment-guidance-bridge__dot" aria-hidden="true"></span>
+            <p>{point}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="assessment-guidance-bridge__actions">
+        <a href={plansConfig.jumpHref} class="btn-gold pulse assessment-guidance-bridge__cta">
+          {plansConfig.jumpLabel}
+        </a>
+      </div>
+
+      <p class="assessment-guidance-bridge__note">
+        Sessions are online across India. The stronger plan gets built inside the guidance service.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .assessment-guidance-bridge {
+    padding: 5.4rem 0 0;
+  }
+
+  .assessment-guidance-bridge__card {
+    padding: 1.5rem;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background:
+      radial-gradient(560px 220px at 0% 0%, rgba(45, 212, 191, 0.08), transparent 72%),
+      radial-gradient(560px 220px at 100% 100%, rgba(229, 184, 74, 0.12), transparent 74%),
+      linear-gradient(150deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.016));
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+    text-align: center;
+  }
+
+  .assessment-guidance-bridge__pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 0 0.95rem;
+    border-radius: 999px;
+    border: 1px solid rgba(45, 212, 191, 0.24);
+    background: rgba(45, 212, 191, 0.08);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(45, 212, 191, 0.96);
+    margin-bottom: 1rem;
+  }
+
+  .assessment-guidance-bridge h2 {
+    margin: 0 auto 0.8rem;
+    max-width: 22ch;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    color: #fff;
+    text-wrap: balance;
+  }
+
+  .assessment-guidance-bridge__subtitle {
+    margin: 0 auto;
+    max-width: 64ch;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .assessment-guidance-bridge__points {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin-top: 1.3rem;
+  }
+
+  .assessment-guidance-bridge__point {
+    display: grid;
+    gap: 0.45rem;
+    align-content: start;
+    justify-items: center;
+    padding: 1rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  .assessment-guidance-bridge__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2dd4bf, #e5b84a);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.04);
+  }
+
+  .assessment-guidance-bridge__point p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.58;
+    color: rgba(255, 255, 255, 0.86);
+    text-wrap: pretty;
+  }
+
+  .assessment-guidance-bridge__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 1.2rem;
+  }
+
+  .assessment-guidance-bridge__cta {
+    min-height: 50px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .assessment-guidance-bridge__note {
+    margin: 0.9rem 0 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.46);
+  }
+
+  @media (max-width: 900px) {
+    .assessment-guidance-bridge__points {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .assessment-guidance-bridge {
+      padding-top: 4.8rem;
+    }
+
+    .assessment-guidance-bridge__card {
+      padding: 1.15rem;
+      border-radius: 22px;
+    }
+
+    .assessment-guidance-bridge__actions {
+      flex-direction: column;
+    }
+
+    .assessment-guidance-bridge__actions .btn-gold,
+    .assessment-guidance-bridge__actions .btn-outline {
+      width: 100%;
+    }
+  }
+</style>

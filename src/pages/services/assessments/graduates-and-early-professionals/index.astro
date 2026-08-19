@@ -2,9 +2,16 @@
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
-import { WHATSAPP_BOOKING_URL } from '../../../../config/site';
+import AssessmentReportTools from '../../../../components/AssessmentReportTools.astro';
+import AssessmentGuidanceCta from '../../../../components/bofu/AssessmentGuidanceCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import { getAssessmentPlansConfig } from '../../../../config/assessmentPlans';
 
 const pageUrl = 'https://futurecareerschool.com/services/assessments/graduates-and-early-professionals/';
+const plansConfig = getAssessmentPlansConfig('graduate');
+const guidanceCardHref = plansConfig.jumpHref;
+const guidanceResultsHref = plansConfig.jumpHref;
+const guidanceResultsLabel = plansConfig.jumpLabel;
 
 const jsonLd = [
   {
@@ -27,7 +34,7 @@ const jsonLd = [
     operatingSystem: 'Any',
     isAccessibleForFree: true,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-    provider: { '@type': 'EducationalOrganization', name: 'Future Career School', url: 'https://futurecareerschool.com' },
+    provider: { '@type': ['Organization', 'ProfessionalService'], name: 'Future Career School', url: 'https://futurecareerschool.com' },
     inLanguage: 'en-IN',
   },
 ];
@@ -68,10 +75,14 @@ const jsonLd = [
         <span class="meta-chip">✓ 100% free</span>
         <span class="meta-chip">🎯 6 tests in one</span>
       </div>
-      <a href="#assessment" class="btn-gold pulse">Start Free Assessment <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></a>
+      <div class="hero-actions">
+        <a href="#assessment" class="btn-gold pulse hero-cta">Start Free Assessment <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></a>
+        <a href={plansConfig.jumpHref} class="btn-outline hero-cta">{plansConfig.jumpLabel}</a>
+      </div>
     </div>
   </section>
 
+  <div class="assessment-first-flow">
   <!-- WHAT THIS TESTS -->
   <section id="what-this-tests">
     <div class="container">
@@ -89,7 +100,7 @@ const jsonLd = [
           <div class="signal-icon-wrap"><span class="signal-icon">🗺️</span></div>
           <div class="signal-tag">Role Strategy</div>
           <h3>Role &amp; Domain Guide</h3>
-          <p>Based on your background and interests, maps specific roles you're suited for, salary ranges, entry paths, and the next move to accelerate your growth.</p>
+          <p>Based on your background and interests, maps specific roles you're suited for, salary ranges, entry paths, and the stronger career move to accelerate your growth.</p>
         </div>
         <div class="signal-card signal-mi">
           <div class="signal-icon-wrap"><span class="signal-icon">🧠</span></div>
@@ -159,6 +170,7 @@ const jsonLd = [
       <div id="results-container" class="results-box" style="display:none" role="main" aria-live="polite" aria-label="Assessment Results"></div>
     </div>
   </section>
+  </div>
 
   <!-- FAQ -->
   <section id="faq">
@@ -168,7 +180,7 @@ const jsonLd = [
       <div class="faq-list">
         <details class="faq-item">
           <summary class="faq-q">Who should take this assessment?<svg class="faq-arr" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
-          <div class="faq-a">Graduates (just out of college) and early professionals with 0–3 years of experience. Whether you are clear on your direction or completely lost, this assessment gives you a structured picture of your career interests, role fit, and the next move to accelerate your growth.</div>
+          <div class="faq-a">Graduates (just out of college) and early professionals with 0–3 years of experience. Whether you are clear on your direction or completely lost, this assessment gives you a structured picture of your career interests, role fit, and the stronger move to accelerate your growth.</div>
         </details>
         <details class="faq-item">
           <summary class="faq-q">What does this assessment cover?<svg class="faq-arr" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
@@ -195,11 +207,11 @@ const jsonLd = [
     <div class="container">
       <div class="section-pill"><span style="color:var(--teal)">&#8635;</span>&nbsp;After This Assessment</div>
       <h2 class="section-title">Where to Go Next</h2>
-      <p class="section-sub">This assessment is a starting point. These pages help you take the next practical step.</p>
+      <p class="section-sub">This assessment is a starting point. These options help you move from free clarity to a stronger role, skill, or career decision.</p>
       <div class="links-grid">
-        <a href="/services/career-counselling-and-career-guidance" class="link-card">
+        <a href={guidanceCardHref} class="link-card">
           <div class="lc-icon">💼</div>
-          <div><div class="lc-title">Get Career Guidance</div><div class="lc-desc">1-on-1 session for a personalised career plan and role strategy</div></div>
+          <div><div class="lc-title">{plansConfig.jumpLabel}</div><div class="lc-desc">Move from free results to the pricing section when role direction, skills, and positioning need a sharper plan.</div></div>
         </a>
         <a href="/services/assessments" class="link-card">
           <div class="lc-icon">📋</div>
@@ -213,9 +225,9 @@ const jsonLd = [
           <div class="lc-icon">🎓</div>
           <div><div class="lc-title">Class 11–12 Assessment</div><div class="lc-desc">Share with a younger sibling for stream selection and college planning</div></div>
         </a>
-        <a href="/skill-finder" class="link-card">
+        <a href="/career-skills-compass" class="link-card">
           <div class="lc-icon">🔍</div>
-          <div><div class="lc-title">Skill Finder</div><div class="lc-desc">Explore high-value skills that match your career direction</div></div>
+          <div><div class="lc-title">Career & Skills Compass</div><div class="lc-desc">Explore high-value skills that match your career direction</div></div>
         </a>
         <a href="/services" class="link-card">
           <div class="lc-icon">⚙️</div>
@@ -225,23 +237,29 @@ const jsonLd = [
     </div>
   </section>
 
-  <!-- FINAL CTA -->
-  <section id="final-cta">
-    <div class="container cta-inner">
-      <div class="cta-pill"><span class="dot"></span>Start with a free assessment — book a session only if you want a detailed plan</div>
-      <h2 class="cta-headline">Results Are a Starting Point.<br /><span class="gold-text">A Session Builds Your Real Plan.</span></h2>
-      <p class="cta-sub">This assessment gives you direction. A 1-on-1 session translates that direction into a concrete plan — which role to target, which skill to build first, how to position yourself in the market, and what your next 12 months should look like.</p>
-      <div class="cta-actions">
-        <a href="/services/career-counselling-and-career-guidance" class="btn-gold pulse">Get Career Guidance<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
-        <a href="/services/assessments" class="btn-outline">See All Assessments</a>
-      </div>
-      <p class="cta-note">All assessments are free &nbsp;&middot;&nbsp; 100% online &nbsp;&middot;&nbsp; Available across India</p>
-    </div>
-  </section>
+  <AssessmentGuidanceCta mode="graduate" sectionId="guidance-bridge" />
 
+  <GuidancePlansSection
+    sectionId="plans"
+    audience={plansConfig.audience}
+    serviceLabel={plansConfig.serviceLabel}
+    title={plansConfig.sectionTitle}
+  />
+
+  <AssessmentReportTools
+    title="Graduates and Early Professionals Assessment Report"
+    fileName="graduate-career-assessment-report.pdf"
+    reportKicker="EARLY CAREER GROWTH REPORT"
+    guidanceLabel="Explore Early Career Guidance"
+    guidanceUrl="https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance/"
+  />
   <Footer />
 </BaseLayout>
 
+<script is:inline define:vars={{ guidanceResultsHref, guidanceResultsLabel }}>
+globalThis.guidanceResultsHref = guidanceResultsHref;
+globalThis.guidanceResultsLabel = guidanceResultsLabel;
+</script>
 <script is:inline>
 var scores = {R:0,I:0,A:0,S:0,E:0,C:0, lin:0,log:0,spa:0,bk:0,inter:0,intra:0,mus:0,nat:0, num:0,ver:0,lgc:0, vis:0,aud:0,kin:0, tech:0,biz:0,cre:0,sci:0,hum:0};
 var currentQ = 0;
@@ -922,6 +940,9 @@ function updateProgress() {
   nextBtn.disabled = !isAnswered;
   nextBtn.innerHTML = (currentQ === total - 1 ? 'See My Results' : 'Next Question') + ' <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>';
 }
+
+globalThis.prevQuestion = prevQuestion;
+globalThis.nextQuestion = nextQuestion;
 </script>
 
 <script is:inline>
@@ -2121,7 +2142,7 @@ function showResults() {
 
   // ===== PHASE 5: UNIVERSAL SECTIONS END =====
 
-  html += '<div class="res-guidance" style="background:linear-gradient(135deg,rgba(229,184,74,.08),rgba(45,212,191,.04));border:2px solid rgba(229,184,74,.25);border-radius:20px;padding:2rem;text-align:center;margin-bottom:.5rem"><div class="rg-icon-row" style="font-size:2rem;margin-bottom:.75rem">'+P.emoji+' + 🗺️</div><h3 style="font-size:1.6rem;font-weight:800;margin-bottom:.75rem">Want to Go Deeper?</h3><p style="font-size:14.5px;color:rgba(255,255,255,.6);line-height:1.75;max-width:580px;margin:0 auto 1.5rem">'+P.guidance+'</p><div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem"><a href="/services/career-counselling-and-career-guidance" class="btn-gold">Get Career Guidance <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a><button class="btn-outline" onclick="downloadResultsAsPDF()" style="background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.3);color:#2dd4bf;font-weight:600;padding:12px 22px;border-radius:10px;cursor:pointer;text-decoration:none;margin:0">📥 Download Results as PDF</button><button class="btn-outline" onclick="retakeQuiz()" style="background:transparent;color:rgba(255,255,255,.8);font-weight:600;padding:12px 22px;border:1px solid rgba(255,255,255,.2);border-radius:10px;cursor:pointer;text-decoration:none;margin:0">Retake Assessment</button></div><p style="font-size:12.5px;color:rgba(255,255,255,.35)">All assessments are free &nbsp;&middot;&nbsp; Sessions online &nbsp;&middot;&nbsp; Available across India</p></div>';
+  html += '<div class="res-guidance" style="background:linear-gradient(135deg,rgba(229,184,74,.08),rgba(45,212,191,.04));border:2px solid rgba(229,184,74,.25);border-radius:20px;padding:2rem;text-align:center;margin-bottom:.5rem"><div class="rg-icon-row" style="font-size:2rem;margin-bottom:.75rem">'+P.emoji+' + 🗺️</div><h3 style="font-size:1.6rem;font-weight:800;margin-bottom:.75rem">Want to Go Deeper?</h3><p style="font-size:14.5px;color:rgba(255,255,255,.6);line-height:1.75;max-width:580px;margin:0 auto 1.5rem">'+P.guidance+'</p><div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem"><a href="' + guidanceResultsHref + '" class="btn-gold">' + guidanceResultsLabel + ' <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a><button class="btn-outline" onclick="downloadResultsAsPDF()" style="background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.3);color:#2dd4bf;font-weight:600;padding:12px 22px;border-radius:10px;cursor:pointer;text-decoration:none;margin:0">📥 Download Results as PDF</button><button class="btn-outline" onclick="retakeQuiz()" style="background:transparent;color:rgba(255,255,255,.8);font-weight:600;padding:12px 22px;border:1px solid rgba(255,255,255,.2);border-radius:10px;cursor:pointer;text-decoration:none;margin:0">Retake Assessment</button></div><p style="font-size:12.5px;color:rgba(255,255,255,.35)">All assessments are free &nbsp;&middot;&nbsp; Sessions online &nbsp;&middot;&nbsp; Available across India</p></div>';
 
   document.getElementById('results-container').innerHTML = html;
   document.getElementById('results-container').style.display = 'block';
@@ -2141,37 +2162,15 @@ function showResults() {
 
 function downloadResultsAsPDF() {
   var resultsContainer = document.getElementById('results-container');
-  var element = resultsContainer.cloneNode(true);
+  if (!resultsContainer || !window.downloadAssessmentReportPdf) {
+    return;
+  }
 
-  // Remove buttons from clone
-  var buttons = element.querySelectorAll('button');
-  buttons.forEach(function(btn) {
-    btn.parentElement.removeChild(btn);
+  window.downloadAssessmentReportPdf({
+    title: 'Graduates and Early Professionals Assessment Report',
+    fileName: 'graduate-career-assessment-report.pdf',
+    container: resultsContainer
   });
-
-  // Create a new window for printing
-  var printWindow = window.open('', '', 'height=800,width=800');
-  printWindow.document.write('<!DOCTYPE html><html><head><meta charset="utf-8">');
-  printWindow.document.write('<title>Career Assessment Results</title>');
-  printWindow.document.write('<style>');
-  printWindow.document.write('body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0a0f1e; color: #fff; padding: 20px; line-height: 1.6; }');
-  printWindow.document.write('h2, h3 { margin: 0; }');
-  printWindow.document.write('p { margin: 10px 0; }');
-  printWindow.document.write('table { width: 100%; border-collapse: collapse; margin: 10px 0; }');
-  printWindow.document.write('table th, table td { border: 1px solid rgba(255,255,255,.1); padding: 8px; text-align: left; }');
-  printWindow.document.write('ul, ol { margin: 10px 0; }');
-  printWindow.document.write('@page { margin: 15mm; size: A4; } ');
-  printWindow.document.write('@media print { body { background: #0a0f1e !important; color: rgba(255,255,255,.9) !important; } }');
-  printWindow.document.write('</style>');
-  printWindow.document.write('</head><body>');
-  printWindow.document.write(element.innerHTML);
-  printWindow.document.write('</body></html>');
-  printWindow.document.close();
-
-  // Wait a moment for content to load, then print to PDF
-  setTimeout(function() {
-    printWindow.print();
-  }, 250);
 }
 
 function retakeQuiz() {
@@ -2185,6 +2184,9 @@ function retakeQuiz() {
   document.getElementById('q-opts').focus();
   document.getElementById('quiz-container').scrollIntoView({behavior:'smooth',block:'start'});
 }
+
+globalThis.downloadResultsAsPDF = downloadResultsAsPDF;
+globalThis.retakeQuiz = retakeQuiz;
 
 function classifyJobSearchReadiness(riasec, domain, ap) {
   var readiness = {};
@@ -2293,8 +2295,9 @@ section{position:relative;overflow:hidden}
 h1{font-size:clamp(2rem,4.8vw,3.4rem);font-weight:800;line-height:1.1;letter-spacing:-.04em;color:#fff;margin-bottom:1.25rem}
 .hero-sub{font-size:clamp(15px,2vw,17px);line-height:1.78;color:rgba(255,255,255,.58);max-width:760px;margin:0 0 1.6rem}
 .meta-chips{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:1.8rem}
+.hero-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:.85rem}
 .meta-chip{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.75);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:5px 12px;border-radius:999px}
-.hero-cta{font-size:15px;padding:14px 28px}
+.hero-cta{display:inline-flex;align-items:center;gap:9px;font-size:15px;padding:14px 28px}
 #what-this-tests{padding:5.5rem 0;text-align:center}
 .signals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;text-align:left}
 .signal-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.5rem;transition:border-color .2s,background .2s}
@@ -2329,10 +2332,10 @@ h1{font-size:clamp(2rem,4.8vw,3.4rem);font-weight:800;line-height:1.1;letter-spa
 .q-text{font-size:clamp(17px,2.5vw,21px);font-weight:700;color:#fff;line-height:1.45;margin-bottom:1.5rem}
 .q-opts{display:flex;flex-direction:column;gap:.7rem}
 .opt-radio{position:absolute;opacity:0;width:0;height:0}
-.opt-label{display:flex;align-items:flex-start;gap:.9rem;background:rgba(255,255,255,.04);border:none;border-radius:13px;padding:1rem 1.2rem;text-align:left;color:rgba(255,255,255,.8);font-size:15px;line-height:1.55;font-family:inherit;cursor:pointer;transition:background .2s ease,color .2s ease,transform .2s ease,box-shadow .2s ease}
-.opt-label:hover{background:rgba(255,255,255,.08);color:#fff;transform:translateX(4px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.opt-label{display:flex;align-items:flex-start;gap:.9rem;background:rgba(255,255,255,.04);border:none;border-radius:13px;padding:1rem 1.2rem;text-align:left;color:rgba(255,255,255,.8);font-size:15px;line-height:1.55;font-family:inherit;cursor:pointer;transition:background .2s ease,color .2s ease,box-shadow .2s ease}
+.opt-label:hover{background:rgba(255,255,255,.08);color:#fff;box-shadow:0 10px 22px rgba(0,0,0,.14)}
 .opt-label:focus-within{outline:2px solid var(--teal);outline-offset:2px}
-.opt-label:active{transform:translateX(2px)}
+.opt-label:active{box-shadow:0 6px 14px rgba(0,0,0,.12)}
 .opt-letter{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.08);border:none;font-size:13px;font-weight:800;color:rgba(255,255,255,.55);flex-shrink:0;margin-top:1px;transition:background .18s,color .18s}
 .opt-text{flex:1}
 .opt-label:hover .opt-letter{background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}

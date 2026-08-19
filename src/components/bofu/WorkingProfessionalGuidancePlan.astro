@@ -1,0 +1,64 @@
+---
+import { WORKING_PROFESSIONAL_GUIDANCE_PLAN } from '../../config/guidancePlans';
+
+export interface Props {
+  serviceLabel?: string;
+  ctaLabel?: string;
+}
+
+const {
+  serviceLabel = 'Career Guidance',
+} = Astro.props;
+
+const plan = WORKING_PROFESSIONAL_GUIDANCE_PLAN;
+const planTitle = `Working Professional ${serviceLabel}`;
+const ctaLabel = Astro.props.ctaLabel ?? plan.ctaLabel;
+const serviceLabelLower = serviceLabel.toLowerCase();
+const summary = plan.summary.replace('{{service}}', serviceLabelLower);
+---
+
+<article class="plan-card plan-card--professional">
+  <div class="plan-card__meta">
+    <p class="plan-card__eyebrow">{plan.eyebrow}</p>
+    <span class="plan-card__tag">{plan.tag}</span>
+  </div>
+
+  <div class="plan-card__hero">
+    <div class="plan-card__hero-copy">
+      <h3 class="plan-card__title">{planTitle}</h3>
+      <p class="plan-card__summary">{summary}</p>
+    </div>
+
+    <aside class="plan-card__spotlight">
+      <div class="plan-card__spotlight-copy">
+        <div class="plan-card__offer">{plan.offerLabel}</div>
+        {plan.comparePrice && <div class="plan-card__compare-price">{plan.comparePrice}</div>}
+        <div class="plan-card__price">{plan.price}</div>
+        <div class="plan-card__price-note">{plan.priceNote}</div>
+        <p class="plan-card__support-line">{plan.supportLine}</p>
+      </div>
+      <div class="plan-card__spotlight-actions">
+        <a href={plan.ctaHref} class="btn-gold pulse">{ctaLabel}</a>
+      </div>
+      <p class="plan-card__availability">{plan.availabilityNote}</p>
+    </aside>
+  </div>
+
+  <div class="plan-card__fact-list">
+    <div class="plan-card__fact">
+      <span class="plan-card__fact-label">{plan.fitLabel}</span>
+      <p>{plan.fitText}</p>
+    </div>
+
+    <div class="plan-card__fact plan-card__fact--edge">
+      <span class="plan-card__fact-label">{plan.edgeLabel}</span>
+      <p>{plan.edgeText}</p>
+    </div>
+
+    <div class="plan-card__fact plan-card__fact--featured">
+      <span class="plan-card__fact-label">{plan.continuationLabel}</span>
+      <p>{plan.continuationText}</p>
+    </div>
+  </div>
+
+</article>

@@ -1,0 +1,794 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'How to Use AI at Work Effectively in India: Leverage Without the Trap';
+const description =
+  'How to use AI at work effectively in India: draft and analyse faster, protect company data, stay transparent with your manager, and avoid over-trusting the output.';
+const canonical = 'https://futurecareerschool.com/blog/ai-future/how-to-use-ai-at-work-effectively-india';
+const publishedDateISO = '2026-07-20';
+const publishedDateLabel = '20 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'reality', label: 'What effective AI use at work actually looks like' },
+  { id: 'where-it-helps', label: 'Where AI genuinely saves time' },
+  { id: 'data-policy', label: 'Using AI without breaking data rules' },
+  { id: 'transparency', label: 'Telling your manager you use AI' },
+  { id: 'over-trust', label: 'The over-trust trap' },
+  { id: 'mistakes', label: 'Mistakes that get people flagged' },
+  { id: 'build-habit', label: 'Building a habit that survives scrutiny' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const taskCards = [
+  {
+    label: 'Drafting and editing',
+    title: 'First drafts, rewrites, and tone fixes',
+    body:
+      'Use AI to get a rough draft of an email, report, proposal, or policy note out of your head fast, then edit it into your own voice with your own facts.',
+    fit: 'Best for: status updates, client emails, internal memos, slide narration, and documentation nobody has written from scratch before.',
+    caution: 'Watch out: never paste a draft straight through without checking names, numbers, and claims against the source material.',
+  },
+  {
+    label: 'Data and analysis',
+    title: 'Faster first-pass analysis, not final answers',
+    body:
+      'AI can summarise a spreadsheet, spot a pattern in survey responses, or write a formula you would have Googled anyway. It compresses the boring middle of analysis work.',
+    fit: 'Best for: summarising a data dump, generating a starting hypothesis, or writing formulas and queries you would otherwise search for.',
+    caution: 'Watch out: AI tools invent numbers with total confidence. Recompute anything you plan to present, quote, or bill against.',
+  },
+  {
+    label: 'Meeting summaries',
+    title: 'Notes, action items, and follow-ups',
+    body:
+      'A transcript-based summary tool can turn a 45-minute call into a clean list of decisions and owners in a couple of minutes, instead of you writing notes from memory later.',
+    fit: 'Best for: recurring meetings, client calls, and any discussion where "who owns what" tends to get lost.',
+    caution: 'Watch out: many tools bill this as automatic recording. Confirm consent and company policy before you record anyone, internal or external.',
+  },
+  {
+    label: 'Workflow automation',
+    title: 'Repetitive steps stitched together',
+    body:
+      'Routing tickets, tagging incoming requests, formatting reports, or triggering a follow-up email after a form is submitted are all places where AI-assisted automation removes small repeated effort.',
+    fit: 'Best for: any task you do the same way more than a few times a week with almost no judgment call involved.',
+    caution: 'Watch out: automation hides errors at scale. A wrong rule now processes a hundred cases wrong instead of one.',
+  },
+];
+
+const disclosureRows = [
+  {
+    label: 'Weak disclosure',
+    title: 'Staying quiet and hoping nobody asks',
+    body: 'You use AI for a report but present it as fully manual work. If quality drops or a factual error surfaces, you now look careless and secretive at the same time.',
+  },
+  {
+    label: 'Strong disclosure',
+    title: 'Naming the tool and the check you ran',
+    body: '"I used AI to draft the first pass of this summary, then checked the figures against the source report" tells your manager exactly what happened and that you did not skip the verification step.',
+  },
+];
+
+const protocolItems = [
+  {
+    num: '01',
+    title: 'Source layer',
+    body: 'Trace every fact, figure, name, date, or quote back to something real: a document, a system, a person. If you cannot point to where it came from, it does not go out under your name.',
+    note: 'This is the single check that stops fabricated statistics and invented case details from reaching a client or your manager.',
+  },
+  {
+    num: '02',
+    title: 'Logic layer',
+    body: 'Read the reasoning, not just the conclusion. Does the recommendation actually follow from the data you gave it, or did the tool pattern-match to a generic answer that sounds right?',
+    note: 'AI tools are fluent, not necessarily correct. Fluency is exactly what makes a wrong answer easy to miss.',
+  },
+  {
+    num: '03',
+    title: 'Consequence layer',
+    body: 'Ask what happens if this specific line is wrong. A wrong word in a casual internal note costs little. A wrong number in a client proposal, a legal clause, or a financial report can cost real money or trust.',
+    note: 'Spend your review time where the consequence is highest, not equally across every sentence.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Pasting client or company data into a public AI tool',
+    body: 'Contracts, customer lists, source code, financial figures, or anything under an NDA should never go into a consumer-grade AI tool unless your company has explicitly approved that tool for that data.',
+  },
+  {
+    num: '02',
+    title: 'Treating AI output as a finished answer',
+    body: 'The most common failure pattern is sending or presenting AI output with no independent check. Fluent, confident text is not the same thing as correct text.',
+  },
+  {
+    num: '03',
+    title: 'Using AI in secret and getting caught later',
+    body: 'Being found out after the fact damages trust far more than disclosing upfront. Most managers care less about the tool and more about whether you checked the work.',
+  },
+  {
+    num: '04',
+    title: 'Letting AI replace your own thinking, not just your typing',
+    body: 'Using AI to skip the analysis step entirely, instead of using it to speed up the mechanical part of a task you already understand, is how skills quietly erode.',
+  },
+  {
+    num: '05',
+    title: 'Assuming "the company has no policy" means "anything goes"',
+    body: 'No written policy usually means undefined risk, not permission. Ask your manager or IT team directly rather than guessing.',
+  },
+];
+
+const habitSteps = [
+  {
+    title: 'Pick one recurring task, not your whole job',
+    body: 'Choose a task you already do often and understand well, such as weekly status reports or first-draft client emails. Do not hand over a task you cannot already judge the quality of.',
+  },
+  {
+    title: 'Run it for a real stretch before judging it',
+    body: 'Some people see the time saved within a few tries. Others need a longer stretch of consistent use before the workflow actually settles into something reliable. Judge it by results over that stretch, not by the first attempt.',
+  },
+  {
+    title: 'Keep a visible record of your checks',
+    body: 'A simple habit, such as a short note on what you verified before sending AI-assisted work, becomes your proof of judgment if anyone ever asks how the output was produced.',
+  },
+  {
+    title: 'Compare hours saved against hours spent verifying',
+    body: 'If verification eats most of the time you saved, the task was a bad fit for AI assistance, or you have not yet learned where that specific tool tends to go wrong.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'How do I use AI at work effectively without breaking company policy?',
+    a: 'Check whether your company has an approved AI tool list before you start. If it does not, ask your manager or IT team directly rather than guessing. Keep confidential data, client information, and source code out of public AI tools unless explicitly approved, and disclose that you used AI when you share the output.',
+  },
+  {
+    q: 'Is it safe to paste company data into ChatGPT or similar tools?',
+    a: 'Not by default. Many free and consumer versions of AI tools may use your input to train future models, and even enterprise versions carry data-handling terms you should actually read. Treat any tool without a written company approval as unsafe for confidential, client, or personal data.',
+  },
+  {
+    q: 'Should I tell my manager I use AI for my work?',
+    a: 'Yes. Naming the tool and the verification step you ran builds more trust than staying quiet, and it protects you if an error is later found in AI-assisted work. Most managers are less concerned about the tool itself and more concerned about whether the output was checked.',
+  },
+  {
+    q: 'What tasks should I never hand fully to AI?',
+    a: 'Anything where a wrong fact carries real consequence: client-facing numbers, legal or compliance language, financial figures, medical or safety information, and any judgment call that depends on context the tool does not have. Use AI to speed up the drafting or first pass, then apply your own review before it goes out.',
+  },
+  {
+    q: 'Does using AI at work make me look less skilled?',
+    a: 'Only if you cannot explain or defend the output. Using AI to move faster on mechanical work while applying real judgment on the parts that matter is a skill in itself. Submitting unchecked AI output that turns out wrong is what actually damages your reputation.',
+  },
+  {
+    q: 'How much time can AI realistically save at work?',
+    a: "It depends heavily on the task and how disciplined your verification habit is. Indian employees who use AI regularly report meaningfully higher time savings than the global average in recent workplace surveys, but those gains only hold up when the output is checked, not blindly trusted.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="ai-future"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Learning how to use AI at work effectively in India means treating it as a speed tool for
+    tasks you already understand, not a replacement for your judgment.</strong>
+    The people getting real value from AI on the job are the ones who use it to draft faster, analyse
+    faster, and clear repetitive work faster, while keeping a firm check on data confidentiality,
+    manager transparency, and their own review of what goes out under their name.
+    <strong>Used this way, AI use becomes part of a genuine high-income skill portfolio rather than a shortcut
+    that quietly erodes your judgment — the difference that actually moves you toward earlier financial
+    freedom instead of just a faster inbox.</strong>
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>AI helps most with drafting and editing, first-pass data analysis, meeting summaries, and stitching together repetitive workflow steps — not with tasks that need context the tool does not have.</li>
+      <li>Never put confidential, client, or proprietary data into a tool your company has not approved for that purpose.</li>
+      <li>Disclose your AI use to your manager in plain terms; naming the tool and the check you ran builds more trust than staying quiet.</li>
+      <li>Run every AI-assisted output through a source check, a logic check, and a consequence check before it leaves your hands — the biggest professional risk right now is not using AI, it is trusting it without checking it.</li>
+      <li>Build leverage one domain workflow at a time. When your field knowledge helps you direct and verify an automation that reliably saves hours or improves quality, AI becomes an income multiplier rather than a novelty.</li>
+    </ul>
+  </div>
+
+  <p>
+    If you want the wider context on AI and work first, start with
+    <a href="/blog/ai-future/">AI and the Future of Work</a>. If AI at work is making you question
+    your role's stability altogether, structured
+    <a href="/services/career-counselling-and-career-guidance/">career counselling and career guidance</a>
+    can help you separate a real skill gap from a passing anxiety.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="reality">What effective AI use at work actually looks like in India right now</h2>
+
+  <p>
+    India is not lagging on this. It is leading it.
+  </p>
+
+  <p>
+    EY's 2025 Work Reimagined Survey found India has the highest AI adoption of any market surveyed,
+    with the large majority of employees using AI at work and a large share using it nearly every
+    day. A separate BCG study found Indian employees who use AI regularly report saving close to a
+    full working day every week, well above the global average.
+  </p>
+
+  <p>
+    That sounds like an unambiguous win. It is not quite that simple.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">The uncomfortable finding</p>
+    <p class="callout__footer">
+      The same research also found a growing gap between using AI often and actually feeling more
+      productive: frequent daily users were more likely, not less likely, to report feeling less
+      productive than people who barely used it at all. Volume of AI use is not the same thing as
+      effective use of AI.
+    </p>
+  </div>
+
+  <p>
+    That gap is the entire point of this article. Using AI at work effectively is not about how often
+    you open the tool. It is about which tasks you hand to it, how you protect what goes into it, how
+    honestly you talk about it, and how carefully you check what comes out.
+  </p>
+
+  <h2 id="where-it-helps">Where AI genuinely saves time at work</h2>
+
+  <p>
+    Not every task benefits equally. AI tends to help most where the task is mechanical, repeatable,
+    or a rough first pass, and least where it needs judgment, context, or accountability you cannot
+    outsource.
+  </p>
+
+  <div class="task-grid">
+    {taskCards.map((item) => (
+      <article class="task-card">
+        <span class="task-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        <p class="task-card__fit"><strong>Best for:</strong> {item.fit.replace('Best for: ', '')}</p>
+        <p class="task-card__caution"><strong>Watch out:</strong> {item.caution.replace('Watch out: ', '')}</p>
+      </article>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      A simple filter: if you could hand the task to a competent new joiner and just check their work
+      before it goes out, AI can probably help with the first pass. If the task needs institutional
+      memory, a relationship, or a call only you can make, AI can support your thinking, not replace
+      it.
+    </p>
+  </div>
+
+  <h2 id="data-policy">How to use AI without breaking your company's data rules</h2>
+
+  <p>
+    This is where "effective" and "risky" start to overlap, and it is the part most people skip
+    reading about until something goes wrong.
+  </p>
+
+  <p>
+    A recent workplace AI risk survey found that fewer than a quarter of organisations actively
+    monitor how employees use AI tools, and only a little over a third have a formal AI policy in
+    place at all. That gap does not mean employees are free to do as they like. It means the
+    responsibility for judging risk sits with you until a policy catches up.
+  </p>
+
+  <div class="callout callout--teal">
+    <p class="callout__eyebrow">Before you paste anything into an AI tool</p>
+    <ul class="callout__list">
+      <li>Check if your company has an approved AI tool list or a written AI policy. If it exists, use only what is on it.</li>
+      <li>Never input client names, contracts, financial figures, source code, health data, or anything under an NDA into a consumer or free-tier AI tool.</li>
+      <li>Assume anything you type into a free AI tool could be stored, reviewed, or used to train the model, unless your company has a specific enterprise agreement that says otherwise.</li>
+      <li>Anonymise or strip identifying details before you paste content in, if you are unsure whether the tool is approved.</li>
+      <li>When in doubt, ask your manager or IT team directly. A two-line message costs you nothing; a data leak does not.</li>
+    </ul>
+  </div>
+
+  <p class="section-note">
+    Nearly half of employees in a recent survey admitted to uploading sensitive company data or
+    intellectual property to public AI platforms. Most of them were not trying to cause harm. They
+    just never stopped to ask the question before pasting.
+  </p>
+
+  <h2 id="transparency">Telling your manager and team you use AI</h2>
+
+  <p>
+    Some people hide their AI use out of fear it will look like they are cutting corners. In practice,
+    the opposite usually happens: quiet use that gets discovered later reads as concealment, while
+    upfront disclosure reads as competence.
+  </p>
+
+  <div class="disclosure-grid">
+    {disclosureRows.map((item) => (
+      <article class="disclosure-card">
+        <span class="disclosure-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <p>
+    You do not need a formal announcement. A short line in your handover, your report, or your reply
+    to your manager does the job: name the tool, name what you checked. That single habit protects
+    you if an error is later traced back to AI-assisted work, because it shows you disclosed the
+    process rather than hid it.
+  </p>
+
+  <h2 id="over-trust">The over-trust trap: why AI-assisted work still needs your judgment</h2>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      The biggest professional risk in using AI at work right now is not using it too little. It is
+      trusting it too much. Recent workplace research found that nearly six in ten employees admit
+      to making AI-fuelled errors at work, and most of those errors trace back to the same root
+      cause: accepting fluent-sounding output without checking it.
+    </p>
+  </div>
+
+  <p>
+    AI tools are built to sound confident. That confidence has nothing to do with whether the answer
+    is correct. A wrong number stated plainly reads exactly the same as a right one, which is why
+    "it sounded reasonable" is not a verification step.
+  </p>
+
+  <p>
+    Use <strong>The 3-Layer Verification Check</strong> before any AI-assisted output leaves your
+    hands, whether it is going to your manager, a client, or a wider team.
+  </p>
+
+  <div class="protocol-list">
+    {protocolItems.map((item) => (
+      <article class="protocol">
+        <div class="protocol__num">{item.num}</div>
+        <div class="protocol__content">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+          <p class="protocol__note">{item.note}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <p class="section-note">
+    Run the same 3-Layer Verification Check from above any time output feels "good enough to send
+    quickly." That instinct is exactly when the check matters most.
+  </p>
+
+  <h2 id="mistakes">Mistakes that get people flagged, not fired for using AI</h2>
+
+  <p>
+    Most companies are not trying to stop AI use. They are trying to stop the specific failure
+    patterns underneath it.
+  </p>
+
+  <div class="mistake-list">
+    {mistakeItems.map((item) => (
+      <article class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <h2 id="build-habit">Building an AI habit that survives scrutiny</h2>
+
+  <p>
+    You do not need a perfect system on day one. You need a habit that holds up if someone asks you
+    to explain exactly how a piece of work was produced.
+  </p>
+
+  <div class="habit-list">
+    {habitSteps.map((item, i) => (
+      <article class="habit-step">
+        <div class="habit-step__num">{String(i + 1).padStart(2, '0')}</div>
+        <div class="habit-step__content">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--blue">
+    <p>
+      The goal is not to use AI on everything. It is to build one or two workflows you trust
+      completely, where you know exactly what the tool is good at and exactly where you need to step
+      in, instead of treating every task the same way.
+    </p>
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>This is what separates a replaceable AI user from a valuable one.</strong> Judgment,
+      verification discipline, and the ability to explain your process to a non-technical manager are
+      exactly the parts of a <strong>high-income skill portfolio</strong> that a tool cannot do for you —
+      they are also the parts that keep compounding your market value while AI tools themselves keep changing.
+    </p>
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    If AI is already part of your daily work, the next useful step is not learning another tool. It
+    is tightening the three habits that actually separate effective use from risky use: knowing what
+    data you can safely input, saying out loud how you used it, and checking the output before it
+    carries your name.
+  </p>
+
+  <div class="next-step">
+    <p class="next-step__title">Better next moves</p>
+    <ul class="next-step__list">
+      <li>
+        Read <a href="/blog/ai-future/skills-to-work-with-ai-instead-of-being-replaced/">Skills to work with AI instead of being replaced by it</a>
+        if you want the broader skill layer behind day-to-day AI use.
+      </li>
+      <li>
+        Read <a href="/blog/ai-future/ai-tools-for-career-growth-india/">AI tools for career growth India</a>
+        if what you actually need right now is help with your resume, interview prep, or job search, not your current role.
+      </li>
+      <li>
+        Read <a href="/blog/ai-future/ai-impact-on-it-jobs-india/">AI impact on IT jobs India</a>
+        if you want a clearer read on which parts of your field are actually shifting.
+      </li>
+      <li>
+        If AI use at work has raised a bigger question about where your role or skill set is heading,
+        use <a href="/services/career-counselling-and-career-guidance/">career counselling and career guidance</a>
+        to get a clearer, structured answer instead of guessing.
+      </li>
+    </ul>
+  </div>
+
+  <h2 id="faq">FAQs</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, i) => (
+      <details open={i === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para strong {
+      color: rgba(255, 255, 255, 0.98);
+    }
+
+    .jump-nav {
+      margin: 1.45rem 0 1.8rem;
+      padding: 1.05rem 1.1rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .jump-nav__label {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.92) !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .jump-nav__list li { margin: 0 !important; }
+    .jump-nav__list a {
+      display: block;
+      padding: 0.58rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    .jump-nav__list a:hover {
+      border-color: rgba(125, 211, 252, 0.36);
+      color: rgba(255, 255, 255, 0.96);
+    }
+
+    .callout {
+      margin: 1.35rem 0;
+      padding: 1.15rem 1.2rem 1.2rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .callout--amber {
+      background: linear-gradient(180deg, rgba(229, 184, 74, 0.08), rgba(255, 255, 255, 0.025));
+      border-color: rgba(229, 184, 74, 0.2);
+    }
+    .callout--teal {
+      background: linear-gradient(180deg, rgba(45, 212, 191, 0.07), rgba(255, 255, 255, 0.025));
+      border-color: rgba(45, 212, 191, 0.22);
+    }
+    .callout__eyebrow {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.96) !important;
+    }
+    .callout--teal .callout__eyebrow {
+      color: rgba(45, 212, 191, 0.96) !important;
+    }
+    .callout__list {
+      margin: 0 !important;
+      padding-left: 1.05rem !important;
+    }
+    .callout__list li {
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.72 !important;
+      margin: 0 0 0.45rem !important;
+    }
+    .callout__footer {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.75 !important;
+    }
+
+    .task-grid,
+    .disclosure-grid {
+      display: grid;
+      gap: 0.95rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .task-card,
+    .disclosure-card {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+      padding: 1.15rem 1.15rem 1.12rem;
+    }
+
+    .task-card__label,
+    .disclosure-card__label {
+      display: inline-block;
+      margin-bottom: 0.52rem;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: rgba(45, 212, 191, 0.92);
+    }
+
+    .task-card h3,
+    .disclosure-card h3,
+    .protocol h3,
+    .mistake-item__content h3,
+    .habit-step__content h3 {
+      margin: 0 0 0.42rem !important;
+      font-family: "Sora", sans-serif;
+      font-size: 1rem !important;
+      line-height: 1.34 !important;
+      color: rgba(255, 255, 255, 0.93) !important;
+    }
+
+    .task-card p,
+    .disclosure-card p,
+    .protocol p,
+    .mistake-item__content p,
+    .habit-step__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+
+    .task-card__fit,
+    .task-card__caution {
+      margin-top: 0.6rem !important;
+      font-size: 13px !important;
+      padding: 0.55rem 0.7rem;
+      border-radius: 10px;
+    }
+    .task-card__fit {
+      background: rgba(45, 212, 191, 0.08);
+      color: rgba(255, 255, 255, 0.78) !important;
+    }
+    .task-card__caution {
+      background: rgba(229, 184, 74, 0.08);
+      color: rgba(255, 255, 255, 0.78) !important;
+    }
+
+    .section-note {
+      margin: 0.85rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.62) !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+    }
+
+    .highlight-box {
+      border-radius: 18px;
+      padding: 1.08rem 1.15rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      background: rgba(45, 212, 191, 0.05);
+      border-color: rgba(45, 212, 191, 0.22);
+    }
+    .highlight-box--blue {
+      background: rgba(125, 211, 252, 0.06);
+      border-color: rgba(125, 211, 252, 0.2);
+    }
+    .highlight-box p {
+      margin: 0 !important;
+      font-size: 14.5px !important;
+      line-height: 1.76 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+    }
+
+    .honest-take {
+      margin: 1.35rem 0;
+      padding: 1.1rem 1.2rem 1.15rem;
+      border-radius: 14px;
+      border-left: 3px solid rgba(229, 184, 74, 0.8);
+      background: rgba(229, 184, 74, 0.06);
+    }
+    .honest-take__label {
+      margin: 0 0 0.6rem !important;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.94) !important;
+    }
+    .honest-take p:last-child {
+      margin: 0 !important;
+      font-size: 14.5px !important;
+      line-height: 1.76 !important;
+      color: rgba(255, 255, 255, 0.78) !important;
+    }
+
+    .protocol-list,
+    .mistake-list,
+    .habit-list {
+      display: grid;
+      gap: 0.85rem;
+      margin: 1.4rem 0;
+    }
+
+    .protocol,
+    .mistake-item,
+    .habit-step {
+      display: flex;
+      gap: 1rem;
+      padding: 1.1rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    }
+    .protocol__num,
+    .mistake-item__num,
+    .habit-step__num {
+      width: 54px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.95rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      padding-top: 0.05rem;
+    }
+    .protocol__num { color: rgba(45, 212, 191, 0.24); }
+    .mistake-item__num { color: rgba(229, 184, 74, 0.2); }
+    .habit-step__num { color: rgba(125, 211, 252, 0.28); }
+
+    .protocol__note {
+      margin-top: 0.6rem !important;
+    }
+
+    .next-step {
+      margin: 1.4rem 0;
+      padding: 1.15rem 1.15rem 1.1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .next-step__title {
+      margin: 0 0 0.8rem !important;
+      font-size: 12px !important;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.94) !important;
+    }
+    .next-step__list {
+      margin: 0 !important;
+      padding-left: 1rem !important;
+    }
+    .next-step__list li {
+      margin: 0 0 0.55rem !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      line-height: 1.76 !important;
+    }
+
+    @media (max-width: 860px) {
+      .task-grid,
+      .disclosure-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .protocol,
+      .mistake-item,
+      .habit-step {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .protocol__num,
+      .mistake-item__num,
+      .habit-step__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .task-card,
+      .disclosure-card,
+      .protocol,
+      .mistake-item,
+      .habit-step,
+      .next-step,
+      .honest-take {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .jump-nav__list a {
+        width: 100%;
+      }
+    }
+  </style>
+</BlogPostLayout>

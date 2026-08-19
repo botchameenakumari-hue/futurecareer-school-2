@@ -1,0 +1,123 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>M · Fault Line</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+:root{--bg:#0E0E0E;--tx:#EDEAE4;--dim:#8A857D;--sig:#FF3B1F;--ln:rgba(237,234,228,.14)}
+body{background:var(--bg);color:var(--tx);font-family:'Inter Tight',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+/* the fault */
+.fault{position:fixed;top:0;bottom:0;left:50%;width:1px;background:var(--ln);z-index:30;pointer-events:none}
+.fault::before{content:'';position:absolute;top:0;bottom:0;left:0;width:1px;background:var(--sig);transform:scaleY(0);transform-origin:top;transition:transform .1s linear}
+.fmark{position:fixed;left:50%;z-index:31;translate:-50% 0;font-family:'Inter Tight';font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);background:var(--bg);padding:6px 0;pointer-events:none}
+.fm1{top:76px}.fm2{bottom:20px}
+.pg{position:relative;z-index:10;width:min(1400px,100%);margin:0 auto;padding:0 clamp(1rem,3vw,2.4rem)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid var(--ln)}
+.top b{font-family:'Bodoni Moda',serif;font-weight:400;font-size:19px;letter-spacing:.01em}
+.top a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid var(--sig);padding-bottom:3px;color:var(--sig)}
+/* hero: type split by the fault */
+.hero{padding:clamp(3rem,9vh,7rem) 0 clamp(2rem,5vw,4rem);position:relative}
+.kick{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:clamp(2rem,5vw,3.4rem)}
+.split{font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(2.6rem,11.5vw,10rem);line-height:.86;letter-spacing:-.035em}
+.split .rw{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:baseline}
+.split .a{text-align:right;padding-right:clamp(.6rem,1.6vw,1.6rem);transform:translateX(var(--sx,0px));transition:transform .18s linear}
+.split .b{text-align:left;padding-left:clamp(.6rem,1.6vw,1.6rem);color:var(--sig);font-style:italic;transform:translateX(calc(var(--sx,0px) * -1));transition:transform .18s linear}
+.split .b.o{color:transparent;-webkit-text-stroke:1px var(--tx);font-style:normal}
+.sub2{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:clamp(1.8rem,4vw,3rem);border-top:1px solid var(--ln);padding-top:1.4rem}
+.sub2 .l{padding-right:clamp(1rem,3vw,2.6rem);text-align:right}
+.sub2 .r{padding-left:clamp(1rem,3vw,2.6rem)}
+.sub2 p{font-size:14.5px;line-height:1.7;color:var(--dim);font-weight:300;max-width:30rem}
+.sub2 .r p{color:var(--tx)}
+.sub2 .lab{display:block;font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;margin-bottom:.7rem;color:var(--dim)}
+.sub2 .r .lab{color:var(--sig)}
+.acts{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.4rem}
+.b1{background:var(--sig);color:#0E0E0E;padding:14px 26px;font-size:12.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;transition:.25s}
+.b1:hover{background:var(--tx)}
+.b2{border:1px solid var(--ln);padding:14px 26px;font-size:12.5px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;transition:.25s}
+.b2:hover{border-color:var(--tx)}
+/* mirrored photo pair straddling the fault */
+.pair{display:grid;grid-template-columns:1fr 1fr;margin-top:clamp(2.4rem,6vw,4.2rem);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)}
+.pair figure{margin:0;position:relative;overflow:hidden;aspect-ratio:1/1}
+.pair img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.9,.3,1),filter .8s}
+.pair .L img{filter:grayscale(1) brightness(.44) contrast(1.2)}
+.pair .R img{filter:saturate(1.02) contrast(1.04)}
+.pair figcaption{position:absolute;left:0;right:0;bottom:0;padding:1rem;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;background:linear-gradient(transparent,rgba(14,14,14,.94))}
+.pair .L figcaption{color:var(--dim)}.pair .R figcaption{color:var(--sig)}
+.pair .L{border-right:1px solid var(--ln)}
+/* ledger rows split by fault */
+.led{border-bottom:1px solid var(--ln)}
+.lrow{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ln);transition:background .4s}
+.lrow:hover{background:rgba(255,59,31,.05)}
+.lrow>div{padding:1.3rem clamp(1rem,3vw,2.4rem)}
+.lrow .l{text-align:right;border-right:1px solid var(--ln);color:var(--dim)}
+.lrow .num{font-family:'Bodoni Moda',serif;font-size:clamp(1.6rem,3.4vw,2.6rem);line-height:1;font-variant-numeric:tabular-nums;display:block;margin-bottom:.4rem}
+.lrow .l .num{color:#5E5A54}
+.lrow .r .num{color:var(--sig)}
+.lrow span.t{font-size:12.5px;letter-spacing:.02em;line-height:1.55;display:block;font-weight:300}
+.lrow .age{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-bottom:.7rem;display:block}
+.sec{padding:clamp(2.6rem,6vw,4.4rem) 0}
+.sh{text-align:center;margin-bottom:2rem}
+.sh h2{font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(1.7rem,4.4vw,3.2rem);letter-spacing:-.02em;line-height:1.06}
+.sh h2 em{font-style:italic;color:var(--sig)}
+.sh p{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+.rv{opacity:0;transform:translateY(24px)}.rv.in{opacity:1;transform:none;transition:opacity .8s,transform .9s cubic-bezier(.2,.9,.3,1)}
+@media(max-width:820px){
+ .fault,.fmark{display:none}
+ .split .rw,.sub2,.pair,.lrow{grid-template-columns:1fr}
+ .split .a,.split .b,.sub2 .l{text-align:left;padding:0}
+ .sub2 .r{padding:1.4rem 0 0}.sub2 .l{padding-bottom:1.2rem;border-bottom:1px solid var(--ln)}
+ .lrow .l{text-align:left;border-right:none;border-bottom:1px solid var(--ln)}
+ .pair .L{border-right:none;border-bottom:1px solid var(--ln)}
+}
+</style></head><body>
+<div class="fault" id="fault"></div>
+<span class="fmark fm1">Drift</span><span class="fmark fm2">Guided</span>
+
+<div class="pg">
+  <header class="top"><b>Future Career School</b><a href="#">Get guidance</a></header>
+
+  <section class="hero">
+    <p class="kick rv">Career guidance · students, freshers &amp; professionals · India</p>
+    <div class="split">
+      <div class="rw rv"><span class="a">SAME</span><span class="b">DEGREE</span></div>
+      <div class="rw rv"><span class="a o">SAME</span><span class="b">YEARS</span></div>
+      <div class="rw rv"><span class="a">DIFFERENT</span><span class="b">LIFE</span></div>
+    </div>
+    <div class="sub2">
+      <div class="l rv"><span class="lab">Without a map</span><p>A course chosen because everyone chose it. A credential with no proof. Nine percent a year, and a ceiling that arrives before you notice it.</p></div>
+      <div class="r rv"><span class="lab">With guidance</span><p>Fit mapped before commitment, validated against what the market genuinely pays for, and proof of work that makes opportunity arrive on its own.</p>
+        <div class="acts"><a class="b1" href="#">Get career guidance</a><a class="b2" href="#">Free assessment</a></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pair">
+    <figure class="L rv"><img src="https://images.unsplash.com/photo-1653656120364-1edf9ddcb440?auto=format&fit=crop&q=85&w=1000" alt=""><figcaption>Path A — drift · 84% automatable</figcaption></figure>
+    <figure class="R rv"><img src="https://images.unsplash.com/photo-1781246212288-7fa538344718?auto=format&fit=crop&q=85&w=1000" alt=""><figcaption>Path B — guided · compounding</figcaption></figure>
+  </div>
+
+  <section class="sec">
+    <div class="sh rv"><p>The ledger</p><h2>Fourteen years, side by side. <em>The gap is never talent.</em></h2></div>
+    <div class="led">
+      <div class="lrow rv"><div class="l"><span class="age">Age 22</span><span class="num">₹18,000</span><span class="t">A degree, no proof of work, three hundred applications.</span></div><div class="r"><span class="age">Age 22</span><span class="num">₹42,000</span><span class="t">A degree plus one market-validated skill and a portfolio.</span></div></div>
+      <div class="lrow rv"><div class="l"><span class="age">Age 26</span><span class="num">₹34,000</span><span class="t">Same role, nine percent hikes, quietly stuck.</span></div><div class="r"><span class="age">Age 26</span><span class="num">₹1,10,000</span><span class="t">Skill stacked twice. Moved into a premium niche.</span></div></div>
+      <div class="lrow rv"><div class="l"><span class="age">Age 32</span><span class="num">₹52,000</span><span class="t">Role is 84% automatable. No plan B.</span></div><div class="r"><span class="age">Age 32</span><span class="num">₹2,40,000</span><span class="t">Judgment work AI can't replace. Two income streams.</span></div></div>
+    </div>
+  </section>
+</div>
+<script>
+const f=document.getElementById('fault');
+addEventListener('scroll',()=>{const d=document.documentElement,p=d.scrollTop/(d.scrollHeight-d.clientHeight);
+ f.style.setProperty('--p',p);f.querySelector;f.style.background='rgba(237,234,228,.14)';
+ f.firstChild;document.styleSheets;
+ f.style.setProperty('--x',p);
+ f.querySelectorAll?0:0;
+ f.style.cssText=f.style.cssText;
+ const b=f;b.style.setProperty('--sc',p);
+ b.style.backgroundImage='linear-gradient(to bottom, var(--sig) '+(p*100)+'%, rgba(237,234,228,.14) '+(p*100)+'%)';
+ const sx=Math.min(28,Math.abs(window._v||0)*1.6);
+ document.querySelectorAll('.split').forEach(s=>s.style.setProperty('--sx',sx+'px'));
+},{passive:true});
+let last=0;addEventListener('scroll',()=>{window._v=scrollY-last;last=scrollY},{passive:true});
+setInterval(()=>{window._v=(window._v||0)*.82;document.querySelectorAll('.split').forEach(s=>s.style.setProperty('--sx',Math.min(28,Math.abs(window._v)*1.6)+'px'))},60);
+const io=new IntersectionObserver(e=>e.forEach(t=>{if(t.isIntersecting){t.target.classList.add('in');io.unobserve(t.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+</script></body></html>

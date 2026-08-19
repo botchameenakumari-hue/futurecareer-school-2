@@ -1,0 +1,446 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Counselling for MBA Graduates | Specialization Fit, ROI & Functional Track | Future Career School';
+const description =
+  'Career counselling for MBA graduates weighing a specialization-vs-actual-role mismatch, whether the degree delivered the expected ROI or salary jump, and which functional track to commit to next.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-mba-graduates/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[4],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Specialization mismatch',
+    title: 'You specialized in one track but your actual role looks nothing like it',
+    body: 'When the marketing, finance, or HR specialization on your degree has quietly turned into a generalist, coordination, or back-office role that never uses what you actually studied for.',
+  },
+  {
+    eyebrow: 'ROI doubt',
+    title: 'The salary jump the MBA was supposed to deliver has not shown up',
+    body: 'When the loan, the two years out of the workforce, or the fees are paid off, but the compensation bump you expected going in still has not materialized a year or two later.',
+  },
+  {
+    eyebrow: 'Institute tier',
+    title: 'A tier-2 or tier-3 B-school placement that did not match the pitch',
+    body: 'When the campus placement brochure promised one salary band and consulting, marketing, or product roles, but the offer that actually came through looked more like a sales or operations job with an MBA label on it.',
+  },
+  {
+    eyebrow: 'Functional track',
+    title: 'Choosing between consulting, product, marketing, finance, or ops and still unsure',
+    body: 'When two or three functional tracks all look plausible on paper, and picking wrong this early would mean re-specializing years into a career instead of now.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Specialization vs role',
+    title: 'Whether to fight for your specialization or reposition around your actual role',
+    listItems: [
+      'Whether the mismatch between your MBA specialization and your current role is a company-specific placement issue or a signal that the specialization itself needs revisiting',
+      'What it actually takes to move internally or externally back toward the function you specialized in, versus building fresh credibility in the role you already have',
+      'How to read your current role for transferable, high-value skills instead of writing it off as wasted time',
+    ],
+  },
+  {
+    eyebrow: 'ROI reality check',
+    title: 'What to do when the expected salary jump has not materialized',
+    listItems: [
+      'Whether the gap is about your specific offer, your institute tier, your function, or a broader compression in that role band right now',
+      'What a realistic 12 to 18 month plan looks like to close the gap through skill-building, an internal move, or a targeted external switch',
+      'How to avoid a second expensive credential chase when the real issue is proof of work and positioning, not another degree',
+    ],
+  },
+  {
+    eyebrow: 'Tier-2 or tier-3 B-school',
+    title: 'Making the degree work harder when the campus brand alone will not open doors',
+    listItems: [
+      'How recruiters actually weigh a tier-2 or tier-3 MBA against proof of work, prior experience, and specific functional skills',
+      'What to build so your resume competes on substance instead of relying on a placement cell or institute name that will not carry you past the first screen',
+      'Whether an additional certification, a portfolio of case work, or a lateral move does more for your next offer than the MBA tag alone',
+    ],
+  },
+  {
+    eyebrow: 'Functional track choice',
+    title: 'Consulting, product, marketing, finance, or ops: choosing with more than gut feel',
+    listItems: [
+      'How each track actually pays, promotes, and compounds skill value over the first five years, not just at the entry-level offer stage',
+      'Which track fits your actual working style and strengths versus the one with the loudest campus reputation',
+      'How to use your MBA network and alumni base deliberately for warm introductions and realistic role information, instead of leaving it untapped after graduation',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it engages with your specialization, not just your MBA as a generic label',
+    body: 'Generic postgraduate career advice does not help when the real question is why your finance specialization landed you in an operations role, or which functional track fits you between consulting, product, marketing, and finance.',
+  },
+  {
+    title: 'Check whether ROI is assessed honestly against your specific institute tier and offer',
+    body: 'A tier-1 placement and a tier-2 or tier-3 placement face different real markets. Stronger guidance should judge your ROI gap against your actual tier and function, not a generic "MBA is always worth it" or "MBA is never worth it" take.',
+  },
+  {
+    title: 'Check whether the functional-track decision gets real weight',
+    body: 'Consulting, product, marketing, finance, and ops compound differently over five years. Look for guidance that treats this as a genuine comparison of pay, promotion pace, and skill portfolio, not a default toward whichever track recruited loudest on campus.',
+  },
+  {
+    title: 'Check whether your MBA network and credential get used deliberately, not left idle',
+    body: 'An MBA credential and alumni network are assets most graduates under-use after placement. Guidance should help you use both on purpose for warm introductions, referrals, and realistic role information, not treat them as a one-time placement-season tool.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'My MBA specialization was in marketing but I am doing generalist work. Should I push to switch?',
+    answer:
+      'It depends on whether the mismatch is a placement-cycle issue at your current company or a deeper signal that the role itself will not move toward your specialization. Guidance should help you separate the two and decide whether to push for an internal move, build a case for an external switch, or reposition around the skills your current role is actually giving you.',
+  },
+  {
+    question: 'I took an education loan for my MBA and the salary jump has not come yet. What now?',
+    answer:
+      'This is one of the more stressful versions of ROI doubt because the loan repayment timeline does not wait for your career to catch up. Guidance should help you build a realistic 12 to 18 month plan that closes the gap through skill-building, a targeted internal move, or an external switch, rather than a vague "give it more time" answer.',
+  },
+  {
+    question: 'Is an MBA from a tier-2 or tier-3 college actually worth less in the job market?',
+    answer:
+      'Institute tier does affect how recruiters weigh a resume at the first screen, but it is not the only variable. Proof of work, prior experience, and specific functional skills matter more the further you get from graduation. Guidance should help you build the parts of your profile that compete on substance instead of relying on the institute name alone.',
+  },
+  {
+    question: 'How do I choose between consulting, product, marketing, finance, and ops after my MBA?',
+    answer:
+      'Each track pays, promotes, and builds skill value differently over the first five years, and the right fit depends on your actual working style, not just which track had the loudest campus reputation. Guidance should help you compare these tracks honestly against your strengths and long-term income logic instead of defaulting to whichever recruited first.',
+  },
+  {
+    question: 'Is it too late to change my functional track two or three years after my MBA?',
+    answer:
+      'It is usually harder, not impossible. The further you are from graduation, the more a track change depends on demonstrated skills and a credible transition story rather than the degree alone. Guidance should help you judge whether the switch is worth the reset and what proof of work would make it credible.',
+  },
+  {
+    question: 'I have an MBA network and alumni base I have barely used. How do I use it properly?',
+    answer:
+      'Most graduates treat the alumni network as a placement-season tool and let it go quiet afterward. A more deliberate approach uses it for warm introductions, realistic information about specific roles and companies, and referrals when you are actually ready to move, not just once during campus recruitment.',
+  },
+  {
+    question: 'Was my MBA a mistake if the salary jump and role I expected have not happened?',
+    answer:
+      'An MBA is a credential, not a complete career strategy on its own. It rarely means the decision was wrong; it usually means the next layer, skills, proof of work, positioning, and a deliberate functional-track choice, has not been built yet. Guidance should help you build that next layer instead of relitigating a decision that already happened.',
+  },
+  {
+    question: 'Is this available online, or do I need to be based in a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can work with a counsellor from home, your current office, or wherever you are, without depending on a local office or taking time off during work hours.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help with skill, role, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'A wider working-professional guidance page covering stagnation, pivots, and salary-growth decisions across any industry.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-freshers/',
+    title: 'Career Counselling for Freshers',
+    description:
+      'Useful if you are closer to your first offer stage: evaluating job offers, service vs product company, and building a resume from limited experience.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description:
+      'Free input on strengths, work style, and role fit before committing to a functional track or a repositioning move.',
+  },
+  {
+    href: '/blog/career-options/mba-after-bcom-worth-it-in-india/',
+    title: 'MBA After BCom Worth It in India?',
+    description:
+      'Real ROI math by institute tier if you are still weighing what your specific MBA outcome should have looked like.',
+  },
+  {
+    href: '/blog/career-options/best-mba-specialization-for-engineers/',
+    title: 'Best MBA Specialization for Engineers',
+    description:
+      'Compare functional tracks by real salary data if an engineering background is part of how you are weighing specialization fit.',
+  },
+  {
+    href: '/career-skills-compass/',
+    title: 'Career & Skills Compass',
+    description: 'A free tool for narrowing the skill paths that fit your strengths and the functional track you are leaning toward.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling for MBA Graduates',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for MBA Graduates | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for MBA Graduates',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for MBA Graduates</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for MBA graduates weighing specialization fit, ROI, and functional track
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for MBA graduates
+        <span class="gold-text"> when the specialization, ROI, or salary jump did not turn out the way you expected</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for MBA graduates should deal with the decisions your degree actually left you with: a
+        specialization that does not match your real role, doubts about whether a tier-2 or tier-3 B-school delivered
+        real ROI, and an unresolved choice between consulting, product, marketing, finance, or ops. The goal is a
+        high-value, high-income skill portfolio the market can see beyond the MBA label, and a clearer route toward
+        earlier financial freedom, not a generic "an MBA is always worth it" answer.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online, so you can work with a counsellor from home or your current office without
+        taking time away from work hours.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for MBA Graduates</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career counselling for MBA graduates becomes useful"
+    subtitle="It becomes useful right as the specialization mismatch, ROI doubt, or functional-track decision starts to feel real, because the sooner your direction is right, the sooner a stronger, higher-income skill portfolio starts compounding beyond the MBA credential alone, moving you toward earlier financial freedom instead of a role that keeps drifting from what you trained for."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Make the specialization, ROI, or functional-track call clearer before another appraisal cycle passes"
+    body="The earlier your direction is right, the sooner a stronger, higher-income skill portfolio starts working for you beyond the MBA label alone."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for MBA Graduates"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The MBA-specific decisions this should help you make"
+    subtitle="Not generic postgraduate career advice. Direction for the exact choices MBA graduates actually face after the degree is done."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help you see your actual strengths and work style before deciding between a functional-track switch, a repositioning move, or doubling down on your current role."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when MBA-graduate career counselling is done right"
+    subtitle="Career counselling for MBA graduates should feel different from a generic postgraduate pep talk or a placement-cell script."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling for MBA graduates"
+    subtitle="The goal is a clearer specialization, ROI, and functional-track decision, not a generic pitch recycled for every postgraduate."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let a mismatched role or a stalled salary jump make the next call for you"
+    body="A clearer specialization, ROI, and functional-track decision now protects the years where skill compounding and income growth matter most after an MBA."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for MBA Graduates"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling for MBA Graduates"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, MBA-specific reading, and free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions MBA graduates ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Take the specialization, ROI, or functional-track decision seriously before it gets more expensive"
+    subtitle="If a specialization mismatch, ROI doubt, or an unresolved functional-track choice already feels important, move with stronger direction now toward a higher-value skill portfolio and earlier financial freedom, instead of letting another appraisal cycle decide for you."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for MBA Graduates"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

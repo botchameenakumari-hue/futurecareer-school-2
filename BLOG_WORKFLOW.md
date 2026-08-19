@@ -91,6 +91,7 @@ Execution lock rule:
 - for service-location BOFU pages inside an existing guidance branch, prefer the nested pattern:
   - `/services/career-counselling-and-career-guidance/locations/`
   - `/services/career-counselling-and-career-guidance/locations/<city-or-keyword-slug>/`
+  - for those city pages, apply the detailed BOFU local SEO rules from `BOFU_PAGE_PROMPT.md`, including explicit online-across-India wording and natural integration of the city's main areas or neighbourhoods where useful
 
 3. Parent-Child Depth & The Two-Click Rule (Critical)
 - important pages should be reachable within 2 clicks from homepage
@@ -168,6 +169,7 @@ Article design and mobile-first readability rule:
 - assign real author from live author pages:
   - `/about/shivanshi-sehgal/`
   - `/about/allu-vagdevi/`
+  - both authors have real headshots (`public/images/authors/shivanshi-sehgal.jpg`, `public/images/authors/allu-vagdevi.jpg`); `BlogPostLayout.astro` maps `authorName` to the photo automatically, so setting `authorName` on a new post is enough — no per-post image work needed
 
 2. BOFU pages:
 - primary schema should be `Service`
@@ -289,7 +291,7 @@ Current live indexable routes are defined in `src/config/site.ts` as `LIVE_INDEX
 - `/services/assessments/stream-selector-test-after-12th`
 - `/services/assessments/career-aptitude-test-after-12th`
 - `/career-resources`
-- `/skill-finder`
+- `/career-skills-compass`
 - `/blog`
 - `/blog/ai-future`
 - `/blog/ai-future/top-careers-for-the-future`
@@ -366,12 +368,12 @@ Approved default CTA copy:
   - `Find the right fit.`
   - `Build the right skills.`
   - `Move toward earlier financial freedom through stronger skill choices.`
-- primary button: `Explore Free Career and Skill Assessments`
-- secondary button: `Explore Career Guidance`
+- primary button: `Get Career Guidance`
+- small supporting button/link: `Free career and skill assessments`
 
 Approved default CTA links:
-- primary: `https://futurecareerschool.com/services/assessments`
-- secondary: `https://futurecareerschool.com/services/career-counselling-and-career-guidance/`
+- primary: `https://futurecareerschool.com/services/career-counselling-and-career-guidance/`
+- small supporting link: `https://futurecareerschool.com/services/assessments`
 
 Execution rule for future agents:
 - when creating a new blog page, use the shared `BlogBottomCta.astro` component by default even if the prompt does not repeat CTA instructions
@@ -444,7 +446,7 @@ Execution rule for future agents:
 #### `src/components/Nav.astro`
 Current public primary nav should emphasize:
 - `/services`
-- `/skill-finder`
+- `/career-skills-compass`
 - `/career-resources`
 
 The internal coaches dashboard should not be promoted as a primary public nav destination.
@@ -493,7 +495,7 @@ Core themes:
 - positioning and tech leverage
 - income growth and earlier financial freedom planning
 
-#### `src/pages/skill-finder.astro`
+#### `src/pages/career-skills-compass.astro`
 Role:
 - interactive skill discovery page
 
@@ -583,10 +585,11 @@ Current state:
   - `/blog/career-options/pcm-career-options`
   - `/blog/career-guidance/how-to-choose-a-career-after-12th`
   - `/blog/stream-selection/career-options-after-10th`
-- `/blog/`, `/blog/ai-future/`, `/blog/career-guidance/`, `/blog/career-options/`, and `/blog/stream-selection/` are indexable because real published posts exist
-- paired CTA destinations used in the article:
-  - assessments: `/services/assessments`
-  - career guidance: `/services/career-counselling-and-career-guidance/`
+  - `/blog/resume/resume-tips-for-freshers-india`
+- `/blog/`, `/blog/ai-future/`, `/blog/career-guidance/`, `/blog/career-options/`, `/blog/stream-selection/`, and `/blog/resume/` are indexable because real published posts exist
+- CTA destination priority used in the article:
+  - career guidance/counselling: `/services/career-counselling-and-career-guidance/` as the visually primary paid action
+  - assessments: `/services/assessments` only as a smaller contextual support link/button unless the page is assessment-intent
 
 Publishing rule:
 - keep `/blog` or `/blog/<category>` out of the sitemap until they have real post support
@@ -600,6 +603,7 @@ Publishing rule:
 - breadcrumb trails should mirror the URL hierarchy
 - assessment-focused CTA blocks should route to `/services/assessments`
 - career counselling, guidance, and coaching CTAs should route to `/services/career-counselling-and-career-guidance`
+- when editing actual assessment pages under `/services/assessments/`, read `ASSESSMENT_PAGE_PROMPT.md` first and use the shared plans flow built from `src/config/assessmentPlans.ts` and `src/components/bofu/GuidancePlansSection.astro`
 
 ### Updated SEO Content Strategy Overlay
 
@@ -640,7 +644,7 @@ If context is tight, remember this:
 - `/services/` is now the live parent hub for future service silos.
 - `SEO_ARCHITECTURE.md` contains the URL, silo, internal-linking, and anti-doorway rules.
 - `career-landing.html` and `coaches-dashboard.html` are not primary SEO pages.
-- `skill-finder.astro` and `career-resources.astro` are rich content hubs that should feed future nested pages.
+- `career-skills-compass.astro` and `career-resources.astro` are rich content hubs that should feed future nested pages.
 
 ## Core Architecture Rules
 
@@ -719,7 +723,7 @@ Current live indexable pages:
 - `/services/career-counselling-and-career-guidance`
 - `/services/assessments`
 - `/career-resources`
-- `/skill-finder`
+- `/career-skills-compass`
 - `/blog`
 - `/blog/career-options`
 - `/blog/career-options/career-options-in-commerce`
@@ -911,7 +915,7 @@ If a location page is created, support it with:
 ### Topical Authority Rules
 
 The project already has strong raw topic data inside:
-- `src/pages/skill-finder.astro`
+- `src/pages/career-skills-compass.astro`
 - `src/pages/career-resources.astro`
 
 These should inform future nested content clusters.
@@ -1051,7 +1055,7 @@ Global navigation should favor real parent hubs and discovery pages.
 Current preferred primary nav focus:
 - `/services`
 - `/services/career-counselling-and-career-guidance`
-- `/skill-finder`
+- `/career-skills-compass`
 - `/career-resources`
 
 Do not give primary public nav weight to:
@@ -1103,7 +1107,7 @@ This checklist is designed so you can publish one SEO article at a time without 
 3. Decide the one main CTA destination:
    - guidance intent -> `/services/career-counselling-and-career-guidance/`
    - assessment intent -> `/services/assessments`
-   - skill intent -> `/skill-finder` or `/career-resources?topic=skills&type=roadmap`
+   - skill intent -> `/career-skills-compass` or `/career-resources?topic=skills&type=roadmap`
 
 #### 2) URL + slug rules
 
@@ -1134,7 +1138,7 @@ If the post uses a named framework:
 
 Within the first third of the post:
 - link to the parent category page `/blog/<category>/`
-- link to exactly one main service CTA (guidance or assessments or skill finder)
+- link to exactly one main service CTA; blogs and MOFU pages should usually make guidance/counselling the main service CTA when the reader has decision pressure, with assessment links kept smaller and contextual
 
 Near the end of the post:
 - link laterally to 1-3 closely related posts in the same category (when they exist)

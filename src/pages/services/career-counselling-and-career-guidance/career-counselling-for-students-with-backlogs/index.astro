@@ -1,0 +1,493 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling for Students with Backlogs | Future Career School';
+const description =
+  'Career counselling for students with backlogs - a practical plan for placement eligibility, university clearance rules, interview disclosure, and building skills in parallel while you clear pending subjects.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-students-with-backlogs/';
+
+const lowCgpaUrl = '/services/career-counselling-and-career-guidance/career-counselling-for-low-cgpa-students/';
+const engineeringUrl = '/services/career-counselling-and-career-guidance/career-counselling-for-engineering-students/';
+const freshersUrl = '/services/career-counselling-and-career-guidance/career-counselling-for-freshers/';
+const graduatesAssessmentUrl = '/services/assessments/graduates-and-early-professionals/';
+const portfolioGuideUrl = '/career-resources/creating-a-portfolio-without-work-experience/';
+const placementReportGuideUrl = '/blog/college-degrees/how-to-read-college-placement-report-india/';
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Broader student guidance for stream, course, and skill-direction decisions beyond one backlog-driven decision.',
+  },
+  {
+    href: lowCgpaUrl,
+    title: 'Career Counselling for Low CGPA Students',
+    description: 'Use this if the real worry is your overall average rather than a specific subject still pending clearance.',
+  },
+  {
+    href: engineeringUrl,
+    title: 'Career Counselling for Engineering Students',
+    description: 'Branch regret, service-vs-product offers, and skill direction for engineering students beyond one pending subject.',
+  },
+  {
+    href: freshersUrl,
+    title: 'Career Counselling for Freshers',
+    description: 'Support for the first-job decision once your degree and backlogs are fully behind you.',
+  },
+  {
+    href: graduatesAssessmentUrl,
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'A free signal on skill fit and employability if you are close to clearing your last backlog or already have.',
+  },
+  {
+    href: portfolioGuideUrl,
+    title: 'Creating a Portfolio Without Work Experience',
+    description: 'A practical read on building proof of skill in parallel with backlog clearance, not after it.',
+  },
+  {
+    href: placementReportGuideUrl,
+    title: 'How to Read a College Placement Report',
+    description: 'Understand what placement numbers actually mean before assuming a pending subject rules a company out.',
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Degree-first direction with weak skill edge',
+    right: 'Skill-first direction with proof of work and stronger market value',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Random upskilling that compounds slowly',
+    right: 'Clearer skill direction tied to growth and income upside',
+  },
+];
+
+const howManyItems = [
+  {
+    title: 'One or two backlogs, final year',
+    body: 'A single pending subject rarely closes every door on its own. Many recruiters treat one or two live backlogs as a case-by-case shortlisting risk rather than an automatic reject, especially when you are clearly on track to clear them before a joining date. The number that actually matters is not a rumor from a senior - it is the specific line your target recruiters and your own university use, checked early enough that you can still clear it and keep building the high-value skill portfolio that carries weight once the backlog line is behind you.',
+  },
+  {
+    title: 'Three to five backlogs, still mid-degree',
+    body: 'At this stage, the concern usually shifts from one placement drive to whether you will be promoted into the next year of your program on the standard timeline. This is also the stage with the most room to move - enough time left to sequence backlog clearance properly while starting parallel proof-of-work instead of waiting for a clean transcript first.',
+  },
+  {
+    title: 'More than five, or backlogs repeated across years',
+    body: 'Here the real risk is time, not just one placement cycle - your degree completion date itself can slip if clearance keeps getting pushed. The plan needs to prioritize a realistic clearance sequence first, then fit skill-building and placement preparation around it, instead of treating every subject as equally urgent.',
+  },
+];
+
+const universityRuleItems = [
+  {
+    title: 'Promotion caps between years',
+    body: 'Most universities set a maximum number of active backlogs you are allowed to carry before you can be promoted into the next year of your program. This cap varies by university and department, so the number that matters is the one written in your own examination regulations, not what a friend at a different college mentioned.',
+  },
+  {
+    title: 'Maximum time to clear every backlog',
+    body: 'Almost every university also sets an outer time limit - commonly the program duration plus a couple of extra years - within which every backlog must be cleared before your enrollment itself lapses. Knowing this exact window early changes how much pressure you are actually under.',
+  },
+  {
+    title: 'Supplementary exams and condonation',
+    body: 'Supplementary or re-exam cycles usually run a few times a year, and some universities allow condonation or grace attempts for a subject cleared by a narrow margin. Checking these cycles against your own placement or graduation timeline is worth doing before assuming the next chance is far away.',
+  },
+  {
+    title: 'Internal backlog vs university-level backlog',
+    body: 'A subject failed internally at your college and a subject failed at the university-level exam can follow different re-attempt processes. Confirming which type each pending subject is prevents wasted time preparing for the wrong exam window.',
+  },
+];
+
+const recruiterRealityItems = [
+  {
+    title: 'IT services and mass campus recruiters',
+    body: 'A large share of IT services recruiters running high-volume campus drives treat zero active backlogs at the time of joining as a hard line, tied directly to your provisional degree certificate - even when they let you sit for the interview itself with one or two subjects still pending.',
+  },
+  {
+    title: 'Product companies and startups',
+    body: 'Product companies and startups more often screen first on projects, problem-solving rounds, and portfolio work. But they still eventually need proof your degree is complete, so a live backlog usually becomes a joining-date problem rather than an interview-day problem at almost every employer, not only IT services ones.',
+  },
+  {
+    title: 'The real gate is the degree certificate, not the interview',
+    body: 'In most cases, what actually blocks an offer is not the interview panel learning about a backlog - it is HR being unable to issue a joining letter without your provisional or final degree certificate. That is why the clearance date matters more than the interview date.',
+  },
+];
+
+const disclosureItems = [
+  {
+    title: 'You do not need to lead with it',
+    body: 'You do not need to open an interview by announcing a pending subject. Your placement cell or the recruiter\'s own eligibility check usually surfaces it separately, and interviewers are mostly focused on what you know and how you think through a problem.',
+  },
+  {
+    title: 'If asked directly, answer straight and move to the plan',
+    body: 'If a backlog does come up, a short, honest answer followed by your clearance timeline reads far better than deflecting, over-explaining, or apologizing repeatedly. One clear sentence on the subject and your plan to clear it is usually enough.',
+  },
+  {
+    title: 'Do not let it become the whole conversation',
+    body: 'A pending subject is one line on a transcript, not the story of your capability. Redirecting quickly toward a project, an internship, or something you built keeps the conversation on what actually earns you the offer.',
+  },
+];
+
+const clearancePlanItems = [
+  {
+    title: 'Mid-degree, real time on the clock',
+    body: 'If you still have a few semesters left, there is genuine room to sequence backlog clearance around exam windows while also starting parallel proof of skill, so neither your promotion to the next year nor your future placement chances depend on the backlog alone.',
+  },
+  {
+    title: 'Final year, placements approaching',
+    body: 'With placements close, the priority usually flips: clear whatever is realistically clearable before the drives you actually want to sit for, and put remaining effort into one or two strong projects and a resume built around what you can prove, not the subject still pending.',
+  },
+  {
+    title: 'Final year, backlogs still unresolved',
+    body: 'If subjects are still pending as your final semester results approach, the plan needs to map every remaining supplementary exam window against your expected graduation date, understand what your target recruiters will accept before a joining date, and decide whether a placement offer needs to be deferred rather than lost.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it separates real cutoffs from assumptions',
+    body: 'Useful counselling should help you check which specific recruiters and which university rule actually govern your situation, instead of letting rumor decide which companies or paths are off the table.',
+  },
+  {
+    title: 'Check whether clearance and skill-building are planned together',
+    body: 'A plan that only talks about clearing subjects is incomplete. Stronger guidance should sequence backlog clearance and parallel proof-of-work together, so you are not starting your skill portfolio only after the transcript is clean.',
+  },
+  {
+    title: 'Check whether it covers what to say if it comes up in an interview',
+    body: 'Backlog anxiety often shows up hardest in interview prep. Guidance should include how to handle the question if it is asked, not just how to plan the exam calendar.',
+  },
+  {
+    title: 'Check whether the assessments are practical or just expensive theatre',
+    body: 'Many providers charge thousands for outdated or impractical assessments. Future Career School can be described truthfully as offering free, updated, practical, AI-powered career and skill assessments.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How many backlogs is too many for placement eligibility?',
+    answer:
+      'There is no single universal number - it depends on the specific recruiter and your own university\'s rules. One or two pending subjects are often treated as a case-by-case risk rather than an automatic reject, especially if you are on track to clear them before a joining date. Three or more usually raises more questions, and a pattern of repeated backlogs tends to affect your graduation timeline more than any single placement drive.',
+  },
+  {
+    question: 'Can I sit for a campus interview with an active backlog?',
+    answer:
+      'Often yes, though it depends on the recruiter\'s eligibility criteria for that specific drive. Many companies allow you to sit for the interview with one or two pending subjects but require every backlog cleared before they can issue a joining letter, since that is usually tied to your provisional degree certificate.',
+  },
+  {
+    question: 'Will a backlog delay my graduation date?',
+    answer:
+      'It can, if it is not cleared within your university\'s supplementary exam cycles before your final results are due. Most universities also set an outer time limit - commonly the program duration plus a couple of extra years - to clear every backlog before your enrollment itself lapses, so checking your own university\'s exact window matters.',
+  },
+  {
+    question: 'Do I have to disclose a backlog in an interview if I am not asked?',
+    answer:
+      'You do not need to lead with it. Your placement cell or the recruiter\'s own eligibility check usually surfaces it separately. If you are asked directly, a short, honest answer followed by your clearance plan reads better than deflecting or over-explaining.',
+  },
+  {
+    question: 'Is having a backlog the same as having a low CGPA?',
+    answer:
+      'No. A low CGPA usually reflects subjects you have already passed with lower scores, while a backlog means a subject still needs to be cleared through a supplementary or re-exam. Backlogs tend to affect eligibility more strictly at some recruiters and universities because they involve an unfinished requirement, not just a lower score, so the two situations need slightly different plans.',
+  },
+  {
+    question: 'What if I still have backlogs going into my final semester?',
+    answer:
+      'That is when the plan matters most - mapping every remaining supplementary exam window against your expected graduation date, checking what your target recruiters will actually accept before a joining date, and deciding whether a placement offer needs to be deferred rather than assumed lost.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free. They can be described as updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Is this a service that clears my backlog exams for me or guarantees a job?',
+    answer:
+      'No. This is not an exam-clearing service and not a job-guarantee or placement service. It is decision support - helping you separate real eligibility limits from assumed ones, sequence clearance with parallel skill-building, and plan what to say if a backlog comes up in an interview.',
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. Guidance is delivered online across India, so college students can join from their hostel, home, or campus without depending on local availability.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for Students with Backlogs', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Students with Backlogs | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Students with Backlogs',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Students with Backlogs</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for students with active or pending backlogs
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for students with backlogs
+        <span class="gold-text"> who still want a strong placement and earlier financial freedom</span>
+      </h1>
+      <p class="hero-sub">
+        One or two pending subjects on your transcript do not have to decide your placement chances, your graduation date, or your income potential. Career counselling for students with backlogs should replace guesswork with a clear plan - how many active backlogs actually block a specific recruiter, what your own university's clearance rules require before you graduate, and how to keep building <strong>the high-value skill portfolio that unlocks higher income opportunities</strong> once the backlog line is behind you.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from your hostel room, home, or campus without waiting on a local option.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for Students</a>
+      </div>
+      <p class="hero-support">
+        This is not a service that clears your backlog exams for you and not a job guarantee. It is decision support that turns backlog anxiety into one clear plan for clearance, disclosure, and skill-building in parallel.
+      </p>
+    </div>
+  </section>
+
+  <BofuStepFlowSection
+    sectionId="how-many"
+    title="How many backlogs is too many for placement?"
+    subtitle="The number that matters is not a rumor from a senior - it is the specific line your target recruiters and your own university use, checked early enough that you can still clear it and keep building the skill portfolio that opens higher income opportunities later."
+    items={howManyItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Get a plan that matches your university's real backlog rules before assumption costs you a placement cycle"
+    body="Rumors about backlog cutoffs travel fast on campus. A plan built on your exact transcript and your exact university's rules is worth more than what a senior heard two years ago."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Students"
+  />
+
+  <BofuFeatureSection
+    sectionId="university-rules"
+    title="University rules on backlogs you need to know"
+    subtitle="Most of the fear around backlogs comes from not knowing the actual rule. These are the specific limits worth checking in your own university's examination regulations."
+    items={universityRuleItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="recruiter-reality"
+    title="How companies actually treat an active backlog"
+    subtitle="Not every employer treats a pending subject the same way, and the real block usually shows up later than you expect."
+    items={recruiterRealityItems}
+    variant="decision"
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why this needs sharper guidance than generic placement advice"
+    subtitle="A pending subject deserves a specific plan, not just reassurance that it will be fine. These are the contrast points that matter once you need a real next step."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Build proof of work while you clear backlogs, not after"
+    body="Waiting for a completely clean transcript before starting your skill portfolio costs time you do not need to lose. Start the parallel track now."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Students"
+  />
+
+  <BofuFeatureSection
+    sectionId="disclosure"
+    title="Should you disclose a backlog in an interview?"
+    subtitle="Backlog anxiety often shows up hardest right before an interview. Here is how to handle it without letting one subject take over the conversation."
+    items={disclosureItems}
+    variant="prep"
+  />
+
+  <BofuStepFlowSection
+    sectionId="clearance-plan"
+    title="Your plan depends on where you are right now"
+    subtitle="Whether you still have semesters left, placements are approaching, or your final semester results are close with subjects still pending, the right next step is not the same."
+    items={clearancePlanItems}
+  >
+    <AssessmentSupportNote
+      body="As a starting signal, the free graduates and early-professionals assessment can help map strengths and skill direction while you plan backlog clearance around your remaining time."
+      href="/services/assessments/graduates-and-early-professionals/"
+      label="Free career and skill assessments"
+    />
+  </BofuStepFlowSection>
+
+  <BuyerChecks
+    title="What to check before paying for career counselling on backlogs"
+    subtitle="The point is a specific plan for your exact transcript, university rules, and goals - not generic reassurance or a longer list of worries."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Move on one clear plan instead of guessing at the cutoff"
+    body="If the real problem is not effort but not knowing which rule actually applies to you, stronger counselling helps before another exam cycle or placement season passes."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling for Students with Backlogs"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader student guidance, related transcript concerns, stage-specific assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Turn your backlog into one clear plan instead of an open worry"
+    subtitle="A pending subject is a specific, clearable limitation - not a verdict on your placement chances, your graduation date, or your route to earlier financial freedom. Build the plan now instead of carrying the uncertainty into the next exam cycle."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Students"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.2rem, 4.7vw, 3.85rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #recruiter-reality,
+  #clearance-plan,
+  #faq { background: rgba(255,255,255,.01); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.45rem);
+      line-height: 1.05;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

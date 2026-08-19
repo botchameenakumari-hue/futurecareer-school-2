@@ -1,0 +1,1066 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import AssessmentGuidanceCta from '../../../../components/bofu/AssessmentGuidanceCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import {
+  ASSESSMENT_PAGES,
+  ASSESSMENT_PAGE_REDIRECTS,
+  ASSESSMENT_TARGETS,
+  type AssessmentPage,
+  type AssessmentTargetId,
+} from '../../../../config/assessmentPages';
+import {
+  getAssessmentPlansConfig,
+  resolveAssessmentPlansMode,
+} from '../../../../config/assessmentPlans';
+
+export function getStaticPaths() {
+  return [
+    ...ASSESSMENT_PAGES.map((page) => ({
+      params: { slug: page.slug },
+      props: { page },
+    })),
+    ...Object.entries(ASSESSMENT_PAGE_REDIRECTS).map(([slug, canonicalSlug]) => ({
+      params: { slug },
+      props: { redirectTarget: `/services/assessments/${canonicalSlug}/` },
+    })),
+  ];
+}
+
+const { page, redirectTarget } = Astro.props as {
+  page?: AssessmentPage;
+  redirectTarget?: string;
+};
+
+if (redirectTarget) {
+  return Astro.redirect(redirectTarget, 301);
+}
+
+if (!page) {
+  return Astro.redirect('/services/assessments/', 302);
+}
+const target = ASSESSMENT_TARGETS[page.target];
+const pageUrl = `https://futurecareerschool.com/services/assessments/${page.slug}/`;
+const requestedAssessmentTargets: AssessmentTargetId[] = [
+  page.target,
+  ...(page.relatedTargets ?? []),
+];
+const expandedAssessmentTargets = requestedAssessmentTargets.includes('personality')
+  ? [...requestedAssessmentTargets, 'big5' as AssessmentTargetId]
+  : requestedAssessmentTargets;
+const relevantAssessmentTargets = expandedAssessmentTargets.filter((id, index, all) => all.indexOf(id) === index).map((id) => ({
+  id,
+  ...ASSESSMENT_TARGETS[id],
+}));
+const plansMode = resolveAssessmentPlansMode(
+  relevantAssessmentTargets.map((item) => item.guidanceMode),
+);
+const plansConfig = getAssessmentPlansConfig(plansMode);
+const showRelevantAssessmentChoices = relevantAssessmentTargets.length > 1;
+const heroPrimaryHref = showRelevantAssessmentChoices ? '#hero-assessment-choices' : target.href;
+const heroPrimaryLabel = showRelevantAssessmentChoices ? 'Choose Your Free Assessment' : target.label;
+const heroSecondaryHref = plansConfig.jumpHref;
+const heroSecondaryLabel = plansConfig.jumpLabel;
+const visibleRelatedPhrases = [
+  ...new Set([page.hubTitle, ...page.relatedPhrases, ...(page.coveredPhrases ?? [])]),
+].slice(0, 6);
+
+const toSentenceCase = (value: string) =>
+  value
+    .split(/(\s+)/)
+    .map((part, index) => {
+      if (!part.trim()) {
+        return part;
+      }
+
+      if (/^[A-Z0-9]{2,}$/.test(part)) {
+        return part;
+      }
+
+      const lowered = part.toLowerCase();
+      return index === 0 ? lowered.charAt(0).toUpperCase() + lowered.slice(1) : lowered;
+    })
+    .join('');
+
+const cleanAssessmentCopy = (value: string) =>
+  value
+    .replace(
+      /\bA broad landing page for ([^.]*) before deciding\b/gi,
+      'A broad starting point for $1 before choosing',
+    )
+    .replace(/\bFor (?:a |an )?broad [a-z0-9 -]+? search,\s*/gi, 'When the need is broad, ')
+    .replace(/\bFor (?:a |an )?[a-z0-9 -]+? search,\s*/gi, 'For this kind of need, ')
+    .replace(/\bWhen (?:a |an )?broad ([a-z0-9 -]+?) search becomes useful\b/gi, 'When to use a broad $1')
+    .replace(/\bWhen ([^.]+?) becomes useful\b/gi, 'When to use $1')
+    .replace(/\bA ([^.]+?) search is usually broad\./gi, 'Many people start with a broad $1.')
+    .replace(/\bA ([a-z0-9 -]+?) search usually appears when\b/gi, 'Use $1 when')
+    .replace(/\bThis search matters when\b/gi, 'Use this when')
+    .replace(/\bA broad ([a-z0-9 -]+?) search should\b/gi, 'A broad $1 need should')
+    .replace(/\bA ([a-z0-9 -]+?) search should\b/gi, 'A $1 need should')
+    .replace(/\bthe search to the correct\b/gi, 'the need to the correct')
+    .replace(/\bsearch people use\b/gi, 'phrase people use')
+    .replace(/\bsearch looks broad\b/gi, 'need looks broad')
+    .replace(/\bsearches\b/gi, 'needs')
+    .replace(/\bbroad ([a-z0-9 -]+?) search\b/gi, 'broad $1 need')
+    .replace(/\bThe better first move is not\b/gi, 'A better first step is not')
+    .replace(/\bthe person knows\b/gi, 'you know')
+    .replace(/\byour search still feels\b/gi, 'your situation still feels')
+    .replace(/\bsearch is really about\b/gi, 'need is really about')
+    .replace(/\bsearch still\b/gi, 'need still')
+    .replace(/\bsearch feels\b/gi, 'need feels')
+    .replace(/\bsearch is\b/gi, 'need is')
+    .replace(/\bfor this search\b/gi, '')
+    .replace(/\bthis search is broad enough\b/gi, '')
+    .replace(/\bsearchers who want\b/gi, 'people who want')
+    .replace(/\bfor people searching\b/gi, 'for')
+    .replace(/\bfor people who want\b/gi, 'for')
+    .replace(/\bBut users should still compare\b/gi, 'Compare')
+    .replace(/\bBut users should compare\b/gi, 'Compare')
+    .replace(/\busers should still compare\b/gi, 'compare')
+    .replace(/\busers should compare\b/gi, 'compare')
+    .replace(/\bbroad searchers should compare\b/gi, 'compare')
+    .replace(/\bstudent searchers should compare\b/gi, 'students should compare')
+    .replace(/\bbroad online searchers should compare\b/gi, 'compare')
+    .replace(/\bwhen users\b/gi, 'when you')
+    .replace(/\bSchool students, after-12th users\b/gi, 'School students, after-12th students')
+    .replace(/\bschool and after-12th users\b/gi, 'school and after-12th students')
+    .replace(/\bschool-stage users\b/gi, 'school-stage students')
+    .replace(/\bClass 11 and 12 users\b/gi, 'Class 11 and 12 students')
+    .replace(/\bafter-12th users\b/gi, 'after-12th students')
+    .replace(/\bShould after-10th and after-12th users (use|take)\b/gi, 'Should after-10th and after-12th students $1')
+    .replace(/\busers from taking\b/gi, 'people from taking')
+    .replace(/\busers can\b/gi, 'you can')
+    .replace(/\busers\b/gi, 'people')
+    .replace(/\bwhat people usually mean\b/gi, 'what this usually points to')
+    .replace(/\blanding page\b/gi, 'option')
+    .replace(/\bpaid guidance layer\b/gi, 'updated career guidance')
+    .replace(/\bthe paid layer\b/gi, 'updated career guidance')
+    .replace(/\bfree first layer\b/gi, 'free starting point')
+    .replace(/\bfuller career guidance\b/gi, 'updated career guidance')
+    .replace(/\bfuller guidance\b/gi, 'stronger guidance')
+    .replace(/\bbroader career guidance\b/gi, 'career guidance')
+    .replace(/\bbroader guidance\b/gi, 'more complete guidance')
+    .replace(/\bThe stronger first move is choosing\b/gi, 'Start with')
+    .replace(/\bThe stronger first move is\b/gi, 'Start with')
+    .replace(/\bThe stronger move is choosing\b/gi, 'Start with')
+    .replace(/\bStart with not\b/gi, 'The right first step is not')
+    .replace(/\bThe useful first step is\b/gi, 'Start with')
+    .replace(/\bThe stronger move is\b/gi, 'Start with')
+    .replace(
+      /\bWhat still needs the updated career guidance after the test\b/gi,
+      'What may still need updated guidance after the test',
+    )
+    .replace(/\bThis search usually appears when\b/gi, 'Use this when')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s+([,.])/g, '$1')
+    .trim();
+
+const renderedPage = {
+  metaTitle: cleanAssessmentCopy(page.metaTitle),
+  metaDescription: cleanAssessmentCopy(page.metaDescription),
+  hubTitle: cleanAssessmentCopy(page.hubTitle),
+  h1: toSentenceCase(cleanAssessmentCopy(page.h1)),
+  pill: cleanAssessmentCopy(page.pill),
+  heroSub: cleanAssessmentCopy(page.heroSub),
+  fitTitle: cleanAssessmentCopy(page.fitTitle),
+  fitSubtitle: cleanAssessmentCopy(page.fitSubtitle),
+  fitItems: page.fitItems.map((item) => ({
+    title: cleanAssessmentCopy(item.title),
+    body: cleanAssessmentCopy(item.body),
+  })),
+  decideTitle: cleanAssessmentCopy(page.decideTitle),
+  decideSubtitle: cleanAssessmentCopy(page.decideSubtitle),
+  decideItems: page.decideItems.map((item) => ({
+    title: cleanAssessmentCopy(item.title),
+    body: cleanAssessmentCopy(item.body),
+  })),
+  bestFitTitle: cleanAssessmentCopy(page.bestFitTitle),
+  bestFitBody: cleanAssessmentCopy(page.bestFitBody),
+  faqItems: page.faqItems.map((item) => ({
+    question: cleanAssessmentCopy(item.question),
+    answer: cleanAssessmentCopy(item.answer),
+  })),
+};
+
+const bestFitHeading = renderedPage.bestFitTitle.replace(/ for this search/gi, '');
+const bestFitBody = renderedPage.bestFitBody;
+const relatedAssessmentHrefs = new Set(relevantAssessmentTargets.map((item) => item.href));
+const supportLinksByTarget: Record<
+  AssessmentTargetId,
+  { href: string; title: string; description: string }[]
+> = {
+  class10: [
+    {
+      href: '/services/assessments/class-10-and-below/',
+      title: 'Class 10 and Below Assessment',
+      description:
+        'Use the full student assessment when the question is not only stream choice, but overall student fit and early direction.',
+    },
+    {
+      href: '/services/assessments/stream-selector-test-after-10th/',
+      title: 'Stream Selector Test After 10th',
+      description:
+        'Use the direct stream quiz when the decision is specifically Science, Commerce, or Arts after Class 10.',
+    },
+    {
+      href: '/services/assessments/career-aptitude-test-after-10th/',
+      title: 'Career Aptitude Test After 10th',
+      description:
+        'Use the aptitude test when the bigger need is understanding natural strengths before stream pressure hardens.',
+    },
+  ],
+  class1112: [
+    {
+      href: '/services/assessments/class-11-to-12/',
+      title: 'Class 11 and 12 Assessment',
+      description:
+        'Use the full student assessment when the real need is student direction across interests, aptitude, learning style, and fuller clarity.',
+    },
+    {
+      href: '/services/assessments/stream-selector-test-after-12th/',
+      title: 'Career Test After 12th',
+      description:
+        'Use the direct after-12th quiz when you want broader path-fit clarity before choosing a degree or course family.',
+    },
+    {
+      href: '/services/assessments/career-aptitude-test-after-12th/',
+      title: 'Career Aptitude Test After 12th',
+      description:
+        'Use the aptitude test when the stronger need is skill-fit clarity before choosing a degree or training path after Class 12.',
+    },
+  ],
+  graduates: [
+    {
+      href: '/services/assessments/graduates-and-early-professionals/',
+      title: 'Graduates and Early Professionals Assessment',
+      description:
+        'Use the full graduate assessment when the issue is role fit, employability, career clarity, or skill direction after graduation.',
+    },
+    {
+      href: '/services/assessments/working-professionals-and-career-changers/',
+      title: 'Working Professional and Career Changer Assessment',
+      description:
+        'Use this when the decision is starting to lean toward transition, salary growth, or under-leveraged professional skills.',
+    },
+    {
+      href: '/services/assessments/',
+      title: 'All Free Career Assessments',
+      description:
+        'Compare all twelve free assessments when you want to see every student, graduate, job-seeker, and working-professional option in one place.',
+    },
+  ],
+  placement: [
+    {
+      href: '/services/assessments/placement-aptitude-test/',
+      title: 'Placement Aptitude Test',
+      description:
+        'Check numerical, logical, verbal, data-interpretation, and workplace-judgement readiness before placement or job aptitude rounds.',
+    },
+    {
+      href: '/services/assessments/graduates-and-early-professionals/',
+      title: 'Graduates and Early Professionals Assessment',
+      description:
+        'Use the broader graduate assessment when the question also includes role fit, employability, skill direction, and career clarity.',
+    },
+    {
+      href: '/services/assessments/',
+      title: 'All Free Career Assessments',
+      description:
+        'Compare the complete set of free assessments for students, graduates, job seekers, and working professionals.',
+    },
+  ],
+  numerical: [
+    {
+      href: '/services/assessments/numerical-reasoning-test/',
+      title: 'Numerical Reasoning Test',
+      description:
+        'Check percentages, ratios, rates, number logic, data interpretation, estimation, and practical quantitative decisions.',
+    },
+    {
+      href: '/services/assessments/placement-aptitude-test/',
+      title: 'Placement Aptitude Test',
+      description:
+        'Use the wider placement test when you also need logical, verbal, data, and workplace-judgement practice.',
+    },
+    {
+      href: '/services/assessments/',
+      title: 'All Free Career Assessments',
+      description:
+        'Compare the complete set of free assessments for students, graduates, job seekers, and working professionals.',
+    },
+  ],
+  verbal: [
+    {
+      href: '/services/assessments/verbal-reasoning-test/',
+      title: 'Verbal Reasoning Test',
+      description:
+        'Check comprehension, vocabulary in context, language precision, inference, verbal relationships, and clear communication.',
+    },
+    {
+      href: '/services/assessments/placement-aptitude-test/',
+      title: 'Placement Aptitude Test',
+      description:
+        'Use the wider placement test when you also need numerical, logical, data-interpretation, and workplace-judgement practice.',
+    },
+    {
+      href: '/services/assessments/',
+      title: 'All Free Career Assessments',
+      description:
+        'Compare the complete set of free assessments for students, graduates, job seekers, and working professionals.',
+    },
+  ],
+  personality: [
+    {
+      href: '/services/assessments/myers-briggs-career-test/',
+      title: 'Career Preference Type Test',
+      description:
+        'Explore four work-style preference pairs, preference strength, context sensitivity, career experiments, and environment fit without turning a type code into a career verdict.',
+    },
+    {
+      href: '/services/assessments/graduates-and-early-professionals/',
+      title: 'Graduates and Early Professionals Assessment',
+      description:
+        'Use the broader graduate assessment when the question also includes readiness, employability, role direction, and high-value skill building.',
+    },
+    {
+      href: '/services/assessments/',
+      title: 'All Free Career Assessments',
+      description:
+        'Compare the complete set of free assessments for students, graduates, job seekers, and working professionals.',
+    },
+  ],
+  professionals: [
+    {
+      href: '/services/assessments/working-professionals-and-career-changers/',
+      title: 'Working Professional and Career Changer Assessment',
+      description:
+        'Use the full professional assessment when the issue is transition, stagnation, AI pressure, skill under-leverage, or a higher-value career move.',
+    },
+    {
+      href: '/services/assessments/graduates-and-early-professionals/',
+      title: 'Graduates and Early Professionals Assessment',
+      description:
+        'Use this if your situation still feels closer to early-career role fit and employability than a full professional pivot.',
+    },
+    {
+      href: '/services/assessments/',
+      title: 'All Free Career Assessments',
+      description:
+        'Compare every free assessment when you want to choose between graduate, transition, aptitude, and student-first assessment options.',
+    },
+  ],
+  stream10: [
+    {
+      href: '/services/assessments/stream-selector-test-after-10th/',
+      title: 'Stream Selector Test After 10th',
+      description:
+        'Use the direct free stream quiz when the decision is specifically Science, Commerce, or Arts after Class 10.',
+    },
+    {
+      href: '/services/assessments/career-aptitude-test-after-10th/',
+      title: 'Career Aptitude Test After 10th',
+      description:
+        'Use the aptitude test when the stronger need is understanding natural strength patterns before stream selection.',
+    },
+    {
+      href: '/services/assessments/class-10-and-below/',
+      title: 'Class 10 and Below Assessment',
+      description:
+        'Use the full student assessment when stream choice is only one part of a larger student-direction question.',
+    },
+  ],
+  aptitude10: [
+    {
+      href: '/services/assessments/career-aptitude-test-after-10th/',
+      title: 'Career Aptitude Test After 10th',
+      description:
+        'Use the direct free aptitude test when the question is strength-fit before stream choice after Class 10.',
+    },
+    {
+      href: '/services/assessments/stream-selector-test-after-10th/',
+      title: 'Stream Selector Test After 10th',
+      description:
+        'Use the stream quiz when the issue is choosing Science, Commerce, or Arts rather than aptitude alone.',
+    },
+    {
+      href: '/services/assessments/class-10-and-below/',
+      title: 'Class 10 and Below Assessment',
+      description:
+        'Use the full student assessment when stream choice is only one part of a larger school-stage direction question.',
+    },
+  ],
+  stream12: [
+    {
+      href: '/services/assessments/stream-selector-test-after-12th/',
+      title: 'Career Test After 12th',
+      description:
+        'Use the direct free path-fit test when the bigger question is which course or broad direction fits better after Class 12.',
+    },
+    {
+      href: '/services/assessments/career-aptitude-test-after-12th/',
+      title: 'Career Aptitude Test After 12th',
+      description:
+        'Use the aptitude test when the stronger question is natural strengths before choosing a course or degree path.',
+    },
+    {
+      href: '/services/assessments/class-11-to-12/',
+      title: 'Class 11 and 12 Assessment',
+      description:
+        'Use the full student assessment when you still need interests, aptitude, and direction together instead of one narrower test only.',
+    },
+  ],
+  aptitude12: [
+    {
+      href: '/services/assessments/career-aptitude-test-after-12th/',
+      title: 'Career Aptitude Test After 12th',
+      description:
+        'Use the direct free aptitude test when the key question is skill fit before choosing a degree or training path after Class 12.',
+    },
+    {
+      href: '/services/assessments/stream-selector-test-after-12th/',
+      title: 'Career Test After 12th',
+      description:
+        'Use the after-12th path quiz when the issue is course or degree direction beyond aptitude alone.',
+    },
+    {
+      href: '/services/assessments/class-11-to-12/',
+      title: 'Class 11 and 12 Assessment',
+      description:
+        'Use the full student assessment when the issue includes interests, learning style, aptitude, and after-school direction together.',
+    },
+  ],
+};
+
+const siblingAssessmentLinks = ASSESSMENT_PAGES.filter(
+  (item) => item.slug !== page.slug && item.hubGroup === page.hubGroup,
+)
+  .slice(0, 3)
+  .map((item) => ({
+    href: `/services/assessments/${item.slug}/`,
+    title: cleanAssessmentCopy(item.hubTitle),
+    description: cleanAssessmentCopy(item.hubDescription),
+  }));
+
+const clientFacingDescription = (value: string) =>
+  cleanAssessmentCopy(value)
+    .replace(/\bpages\b/gi, 'options')
+    .replace(/\bpage\b/gi, 'option');
+
+const relatedLinks = [...supportLinksByTarget[page.target], ...siblingAssessmentLinks]
+  .filter((item) => !(showRelevantAssessmentChoices && relatedAssessmentHrefs.has(item.href)))
+  .filter((item, index, all) => all.findIndex((candidate) => candidate.href === item.href) === index)
+  .map((item) => ({
+    ...item,
+    description: clientFacingDescription(item.description),
+  }));
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://futurecareerschool.com/services',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Assessments',
+        item: 'https://futurecareerschool.com/services/assessments',
+      },
+      { '@type': 'ListItem', position: 4, name: renderedPage.hubTitle, item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: renderedPage.metaTitle,
+    description: renderedPage.metaDescription,
+    url: pageUrl,
+    inLanguage: 'en-IN',
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: renderedPage.faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title={renderedPage.metaTitle}
+  description={renderedPage.metaDescription}
+  canonical={pageUrl}
+  jsonLd={jsonLd}
+>
+  <Nav activePage="services" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/assessments">Assessments</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">{renderedPage.hubTitle}</span>
+      </nav>
+
+      <div class="pill">
+        <span class="dot"></span>
+        {renderedPage.pill}
+      </div>
+
+      <h1>{renderedPage.h1}</h1>
+      <p class="hero-sub">{renderedPage.heroSub}</p>
+
+      <div class="meta-chips">
+        <span class="meta-chip">100% free</span>
+        <span class="meta-chip">Practical and updated</span>
+        <span class="meta-chip">AI-based career and skill assessment</span>
+        <span class="meta-chip">No payment required</span>
+      </div>
+
+      <div class="meta-chips meta-chips-muted">
+        {visibleRelatedPhrases.map((phrase) => <span class="meta-chip meta-chip-muted">{phrase}</span>)}
+      </div>
+
+      <div class="hero-actions">
+        <a href={heroPrimaryHref} class="btn-gold pulse">{heroPrimaryLabel}</a>
+        <a href={heroSecondaryHref} class="btn-outline">{heroSecondaryLabel}</a>
+      </div>
+
+      {showRelevantAssessmentChoices && (
+        <div id="hero-assessment-choices" class="hero-choice-wrap card">
+          <div class="hero-choice-copy">
+            <div class="hero-choice-kicker">Start here</div>
+            <h2>Choose the free assessment that fits you best</h2>
+            <p>
+              Different stages need different free assessments. Pick the one that matches where
+              you are and the kind of clarity you need right now.
+            </p>
+          </div>
+
+          <div class="hero-choice-grid">
+            {relevantAssessmentTargets.map((item) => (
+              <article class="hero-choice-card">
+                <div class="hero-choice-badge">100% free</div>
+                <h3>{item.title}</h3>
+                <p>{item.summary}</p>
+                <a href={item.href} class="btn-gold hero-choice-cta">{item.label}</a>
+              </article>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="when-it-fits"
+    title={renderedPage.fitTitle}
+    subtitle={renderedPage.fitSubtitle}
+    items={renderedPage.fitItems}
+    variant="signal"
+    columns={3}
+  />
+
+  {!showRelevantAssessmentChoices && (
+    <section id="best-fit">
+      <div class="container">
+        <div class="best-fit-card card">
+          <div class="best-fit-copy">
+            <div class="best-fit-kicker">Recommended free assessment</div>
+            <h2>{bestFitHeading}</h2>
+            <p class="best-fit-body">{bestFitBody}</p>
+          </div>
+
+          <div class="best-fit-panel">
+            <div class="best-fit-panel-title">{target.title}</div>
+            <p>{target.summary}</p>
+            <div class="best-fit-actions">
+              <a href={target.href} class="btn-gold pulse">{target.label}</a>
+              <a href={heroSecondaryHref} class="btn-outline">{heroSecondaryLabel}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <BofuFeatureSection
+    sectionId="what-it-should-help"
+    title={renderedPage.decideTitle}
+    subtitle={renderedPage.decideSubtitle}
+    items={renderedPage.decideItems}
+    variant="decision"
+    columns={3}
+  />
+
+  <LinkDirectorySection
+    sectionId="related-assessment-pages"
+    title={showRelevantAssessmentChoices ? 'You may also want these next' : 'Related free assessments'}
+    subtitle={
+      showRelevantAssessmentChoices
+        ? 'If your decision is already more specific, use one of these options next.'
+        : 'Use these options if the decision needs a different stage, a narrower test, or a more complete assessment.'
+    }
+    items={relatedLinks}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Common questions before you start"
+    items={renderedPage.faqItems}
+  />
+
+  <AssessmentGuidanceCta mode={plansMode} sectionId="guidance-bridge" />
+
+  <GuidancePlansSection
+    sectionId="plans"
+    audience={plansConfig.audience}
+    serviceLabel={plansConfig.serviceLabel}
+    title={plansConfig.sectionTitle}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section {
+    position: relative;
+    overflow: hidden;
+  }
+  #hero {
+    padding: 134px 0 84px;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(110px);
+  }
+  .orb-gold {
+    width: 480px;
+    height: 480px;
+    top: -120px;
+    left: -60px;
+    background: radial-gradient(circle, rgba(229, 184, 74, 0.18), transparent 70%);
+  }
+  .orb-teal {
+    width: 420px;
+    height: 420px;
+    top: -12px;
+    right: -84px;
+    background: radial-gradient(circle, rgba(45, 212, 191, 0.12), transparent 72%);
+  }
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 1.55rem;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.42);
+  }
+  .breadcrumb a {
+    color: rgba(255, 255, 255, 0.56);
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+  }
+  #hero h1 {
+    font-size: clamp(2.2rem, 5.1vw, 3.8rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: #fff;
+    margin: 1rem 0 1.1rem;
+    max-width: 900px;
+    text-wrap: balance;
+  }
+  .hero-sub {
+    max-width: 780px;
+    margin: 0 0 1.5rem;
+    font-size: clamp(15px, 2vw, 18px);
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.64);
+  }
+  .meta-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem;
+    margin-bottom: 1.15rem;
+  }
+  .meta-chip {
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .meta-chips-muted {
+    margin-bottom: 1.8rem;
+  }
+  .meta-chip-muted {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  .hero-choice-wrap {
+    width: 100%;
+    margin-top: 1.35rem;
+    padding: 1.1rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    background:
+      radial-gradient(540px 200px at 0% 0%, rgba(45, 212, 191, 0.08), transparent 70%),
+      radial-gradient(560px 200px at 100% 100%, rgba(229, 184, 74, 0.1), transparent 72%),
+      linear-gradient(150deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.014));
+    text-align: left;
+  }
+  .hero-choice-copy {
+    margin-bottom: 0.9rem;
+  }
+  .hero-choice-kicker {
+    margin: 0 0 0.45rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.48);
+  }
+  .hero-choice-copy h2 {
+    margin: 0 0 0.7rem;
+    font-size: clamp(1.35rem, 2.8vw, 2rem);
+    line-height: 1.14;
+    letter-spacing: -0.03em;
+    color: #fff;
+  }
+  .hero-choice-copy p {
+    margin: 0;
+    max-width: 70ch;
+    color: rgba(255, 255, 255, 0.68);
+    line-height: 1.76;
+  }
+  .hero-choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+  .hero-choice-card {
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012));
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.2);
+  }
+  .hero-choice-badge {
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(45, 212, 191, 0.24);
+    background: rgba(45, 212, 191, 0.1);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(45, 212, 191, 0.96);
+  }
+  .hero-choice-card h3 {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.42;
+    color: #fff;
+  }
+  .hero-choice-card p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.68);
+    line-height: 1.72;
+  }
+  .hero-choice-cta {
+    justify-content: center;
+    min-height: 48px;
+    text-align: center;
+  }
+
+  #best-fit {
+    padding: 1rem 0 5.2rem;
+  }
+  .best-fit-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.95fr);
+    gap: 1.2rem;
+    padding: 1.35rem;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background:
+      radial-gradient(620px 220px at 0% 0%, rgba(45, 212, 191, 0.08), transparent 72%),
+      radial-gradient(560px 220px at 100% 100%, rgba(229, 184, 74, 0.12), transparent 74%),
+      linear-gradient(150deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+    box-shadow: 0 24px 52px rgba(0, 0, 0, 0.24);
+  }
+  .best-fit-copy {
+    text-align: left;
+  }
+  .best-fit-kicker {
+    margin: 0 0 0.45rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.48);
+  }
+  .best-fit-card h2 {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: #fff;
+    text-wrap: balance;
+  }
+  .best-fit-body {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.82;
+  }
+  .best-fit-panel {
+    display: grid;
+    align-content: start;
+    gap: 0.85rem;
+    padding: 1rem;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.045);
+  }
+  .best-fit-panel-title {
+    font-size: 1.02rem;
+    font-weight: 800;
+    line-height: 1.4;
+    color: #fff;
+  }
+  .best-fit-panel p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.74;
+  }
+  .best-fit-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 0.15rem;
+  }
+  .best-fit-actions .btn-gold,
+  .best-fit-actions .btn-outline {
+    justify-content: center;
+    min-height: 50px;
+    text-align: center;
+  }
+  .best-fit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+  .best-fit-option {
+    display: grid;
+    gap: 0.8rem;
+    align-content: start;
+    padding: 1rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    background: rgba(255, 255, 255, 0.045);
+  }
+  .best-fit-option p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.72;
+  }
+  .best-fit-option-cta {
+    justify-content: center;
+    min-height: 48px;
+    text-align: center;
+  }
+
+  #related-tests {
+    padding: 0 0 5.2rem;
+  }
+  .related-tests-intro {
+    padding: 1.15rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    background:
+      radial-gradient(560px 210px at 100% 0%, rgba(229, 184, 74, 0.1), transparent 72%),
+      linear-gradient(150deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.014));
+    margin-bottom: 1rem;
+  }
+  .related-tests-kicker {
+    margin: 0 0 0.45rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.48);
+  }
+  .related-tests-intro h2 {
+    margin: 0 0 0.7rem;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: #fff;
+  }
+  .related-tests-intro p {
+    margin: 0;
+    max-width: 66ch;
+    color: rgba(255, 255, 255, 0.68);
+    line-height: 1.8;
+  }
+  .related-tests-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .related-test-card {
+    display: grid;
+    gap: 0.9rem;
+    align-content: start;
+    padding: 1.2rem;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    background:
+      radial-gradient(340px 160px at 100% 0%, rgba(45, 212, 191, 0.08), transparent 72%),
+      linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012));
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+  }
+  .related-test-top {
+    display: grid;
+    gap: 0.55rem;
+  }
+  .related-test-badge {
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(45, 212, 191, 0.24);
+    background: rgba(45, 212, 191, 0.1);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(45, 212, 191, 0.96);
+  }
+  .related-test-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.42;
+    color: #fff;
+  }
+  .related-test-card p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.68);
+    line-height: 1.74;
+  }
+  .related-test-cta {
+    justify-content: center;
+    min-height: 50px;
+    text-align: center;
+  }
+
+  @media (max-width: 940px) {
+    .best-fit-card {
+      grid-template-columns: 1fr;
+    }
+    .hero-choice-grid,
+    .best-fit-grid,
+    .related-tests-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    #hero {
+      padding: 118px 0 74px;
+    }
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline {
+      width: 100%;
+      justify-content: center;
+    }
+    .hero-choice-wrap {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    #best-fit {
+      padding: 0.6rem 0 4.8rem;
+    }
+    #related-tests {
+      padding: 0 0 4.8rem;
+    }
+    .best-fit-card {
+      padding: 1rem;
+      border-radius: 22px;
+    }
+    .best-fit-panel {
+      padding: 0.9rem;
+      border-radius: 18px;
+    }
+    .related-tests-intro,
+    .related-test-card {
+      padding: 1rem;
+      border-radius: 18px;
+    }
+  }
+</style>

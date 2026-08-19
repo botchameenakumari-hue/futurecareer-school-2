@@ -1,0 +1,841 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+import { STUDENT_GUIDANCE_PLAN, WORKING_PROFESSIONAL_GUIDANCE_PLAN } from '../../../../config/guidancePlans';
+
+const title = 'Career Guidance Platform Review | Future Career School, Reviewed Honestly | Future Career School';
+const description =
+  'An honest self-review of Future Career School as a career guidance platform: who counsels you, what the free assessments actually cover, real pricing, and genuine limitations.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-platform-review/';
+
+const formatPlanAmount = (amount: string) => amount.replace('₹', 'Rs ');
+const studentSessionPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.price);
+const studentSessionComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.comparePrice ?? '');
+const studentContinuousPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationPrice ?? '');
+const studentContinuousComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationComparePrice ?? '');
+const professionalSessionPrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.price);
+const professionalSessionComparePrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.comparePrice ?? '');
+const studentSessionPriceText = `${studentSessionPrice} (limited-time price, down from ${studentSessionComparePrice})`;
+const studentContinuousPriceText = `${studentContinuousPrice} (limited-time price, down from ${studentContinuousComparePrice})`;
+const professionalSessionPriceText = `${professionalSessionPrice} (limited-time price, down from ${professionalSessionComparePrice})`;
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counselling-platform/',
+    title: 'Best Career Counselling Platform',
+    description: 'The general checklist for evaluating any provider — use it to judge this platform too, not just this review.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerGuidance,
+    title: 'Career Guidance',
+    description: 'See this if the need is broader than one decision — path, skills, and execution together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-fees/',
+    title: 'Career Counselling Fees',
+    description: 'A full breakdown of what counselling actually costs and what the free layer already covers.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A small free check if you are still comparing options and not ready to book yet.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Does Future Career School have star ratings or customer reviews to look at?',
+    a: "No, and nothing is invented to fill that gap. There is no third-party review aggregator badge, star rating, or curated testimonial quoted on this site — that kind of review data does not exist yet in a form worth showing, and inventing it would defeat the point of an honest review. What you get instead is a plain description of what the process is, what it costs, and what it does not claim, so you can judge it the same way you would judge any platform you had to research independently.",
+  },
+  {
+    q: "Isn't a self-written review automatically biased?",
+    a: "Yes, structurally — a platform reviewing itself has an obvious incentive to look good, and that limitation is real, not something to wave away. The way to handle that honestly is not to pretend the bias doesn't exist, but to apply the same scrutiny a skeptical outside reviewer would: name the actual pricing instead of hiding it, state plainly what the service does not do (no job guarantees, no placement promises), and describe who it is a weak fit for, not only who it suits.",
+  },
+  {
+    q: 'What would make this review more trustworthy than a typical platform review?',
+    a: "Specificity and checkability. A trustworthy review names the actual price, the actual delivery format, and the actual limits instead of vague praise. Every number stated here matches what you would see on the booking page itself, and every limitation listed here is one you can verify by asking directly before you pay — not a hidden asterisk found only after a sales call.",
+  },
+  {
+    q: 'Who is this platform genuinely not a good fit for?',
+    a: "Someone looking for daily or weekly touchpoints, an app-based habit-tracking experience, or a guaranteed job or salary outcome will not find that here — sessions are periodic, not a daily-use product, and no ethical provider can promise a specific job or income result. It is also a weaker fit for someone who wants an in-person, in-office meeting, since delivery is fully online. If any of that is the actual need, it is worth knowing before booking, not after.",
+  },
+  {
+    q: 'What does a session actually cost, with no hidden step before the price is shown?',
+    a: `Career and skill assessments are fully free. A first 1-on-1 session for students is ${studentSessionPrice} (down from ${studentSessionComparePrice}) as a limited-time offer, with continuous guidance across the year at ${studentContinuousPrice} (down from ${studentContinuousComparePrice}), including up to 24 small-group sessions. For working professionals, a 1-on-1 session is ${professionalSessionPrice} (down from ${professionalSessionComparePrice}). These are the same numbers shown on the plans and booking pages — nothing different is quoted after a call.`,
+  },
+  {
+    q: 'Can I verify any of this myself before booking?',
+    a: 'Yes, and that is the point of writing it this way rather than as a pitch. Try the free assessments first with no payment involved, read the plans page for the exact prices and what each tier includes, and ask directly during a first conversation who is actually running the session and what happens if you decide not to continue afterward. A platform confident in its process should hold up to that kind of direct checking.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Guidance Platform Review', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Career Guidance Platform Review: An Honest Look at Future Career School Itself',
+    description,
+    datePublished: '2026-07-13',
+    dateModified: '2026-07-13',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="review-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Career Guidance Platform Review</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>An honest self-review, not a curated testimonial page</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>A career guidance platform review of Future Career School — written the way an honest review should be, including what to expect and what falls short</h1>
+            <p class="line strong">
+              This is Future Career School reviewing itself, held to the same standard a genuine third-party review would demand: name the real price, describe who actually runs a session, and say plainly where the service is a weak fit rather than only where it shines.
+            </p>
+            <p class="line">
+              There are no star ratings or customer testimonials here. That review data does not exist yet in a form worth showing, so instead of inventing quotes or scores, this review describes what to actually expect — the process, the pricing, and the honest limitations — so you can judge it on facts you can check yourself.
+            </p>
+            <p class="line">A review that only lists strengths is a pitch wearing a review's format. This one tries not to be that.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how career guidance works here</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">What this review covers honestly</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Who actually runs a session, and their background.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>What the free layer covers, and what a paid session adds.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Exact pricing, with no hidden step before you see it.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Who this is genuinely not a good fit for.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>No star ratings, no aggregated review score, and no quoted testimonials appear here — none of that exists in a verifiable form yet, so none of it is fabricated for this review.</li>
+          <li>Sessions are run by a counsellor working through your actual profile, not a scripted sales conversation — but that claim is worth checking directly in your first conversation rather than taking on faith.</li>
+          <li>Career and skill assessments are fully free, updated, practical, and AI-powered. A paid 1-on-1 session is separate, priced, and optional.</li>
+          <li>Delivery is fully online across India — there is no in-person office visit, and no downloadable app either.</li>
+          <li>No job guarantee, no placement promise, and no guaranteed income outcome is made anywhere on this site — any provider claiming otherwise should be treated with more suspicion, not less.</li>
+          <li>This is a genuinely limited review in one sense: it is written by the platform being reviewed. Read the "what this review cannot honestly claim" section below before treating it as neutral.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="what-review-covers" class="container section">
+      <h2>What an honest review of a career guidance platform actually has to answer</h2>
+      <p class="line">
+        A useful platform review answers the same handful of questions regardless of which provider it's about: who is on the other end of the session, whether the process is personalized, how good the assessments are, whether pricing is shown upfront, whether support continues past one conversation, and how honestly outcomes are framed. Here is how Future Career School answers each one, specifically, rather than in general terms.
+      </p>
+
+      <div class="protocol-stack">
+        <div class="protocol-row">
+          <span class="protocol-num">1</span>
+          <div class="protocol-body">
+            <h3>Who actually runs the session</h3>
+            <p>A career counsellor works through your profile directly — this is not a sales rep whose job is to close a course or college enrollment. The standard held to is high-leverage decision support around your actual path, skill, and risk, not a script that ends at a purchase. Confirming who you'll actually speak with is a fair question to ask before booking, and a reasonable one for any platform, including this one.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">2</span>
+          <div class="protocol-body">
+            <h3>Personalization, not a templated report</h3>
+            <p>The process is built to work through your actual constraints — marks, family financial situation, risk appetite, stream or work history — rather than handing back a generic "careers that suit your personality type" list. It also weighs whether a degree alone is enough or whether a skill-first direction with visible proof of work fits your specific case better. Degrees still have a place; the concern is degree-only thinking without skill-building alongside it.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">3</span>
+          <div class="protocol-body">
+            <h3>Assessment quality</h3>
+            <p>Many providers in the market charge a large one-time fee for assessments that turn out to be outdated or generic. Here, career and skill assessments are fully free, updated, practical, and AI-powered — the assessment layer is meant to earn trust before it earns money, not the other way around.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">4</span>
+          <div class="protocol-body">
+            <h3>Pricing transparency</h3>
+            <p>The numbers are stated plainly further down and match what you'll see on the plans and booking pages — no "contact us for pricing" step, and nothing different quoted after a call.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">5</span>
+          <div class="protocol-body">
+            <h3>One-off session vs continuing support</h3>
+            <p>A single 1-on-1 session can resolve a narrow, urgent question. Skill direction and career positioning tend to shift as the market and your own results change, which is the reasoning behind also offering a continuous guidance track with small-group sessions across the year, alongside the single-session option — for whichever fits your actual decision.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">6</span>
+          <div class="protocol-body">
+            <h3>How honestly outcomes are framed</h3>
+            <p>No job guarantee, no placement promise, and no guaranteed income outcome is claimed here. The more defensible promise is better decision quality and a clearer route toward achieving earlier financial freedom through stronger skill choices — execution still depends on you, and that limit is stated here rather than buried.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="no-fake-reviews" class="container section">
+      <h2>What this review cannot honestly claim, and why there are no star ratings here</h2>
+      <p class="line">
+        Most platform reviews lean on star ratings, review-site badges, or quoted testimonials to build trust quickly. None of that appears here, for one direct reason: that review data does not exist in a form that would be honest to show. Manufacturing a star rating or writing a testimonial quote that no real person said would defeat the entire point of a review — it would make the review less trustworthy, not more.
+      </p>
+      <div class="card highlight-card">
+        <h3>What you get here instead</h3>
+        <div class="sub-row sub-row--fit">
+          <span class="sub-row-label">What you get here</span>
+          <p>A plain description of the process, the exact pricing, and the specific limitations — the kind of detail you could go and verify yourself before paying anything.</p>
+        </div>
+        <div class="sub-row sub-row--caution">
+          <span class="sub-row-label">What you will not find here</span>
+          <p>Star ratings, an aggregated review score, quoted testimonials, or any claim about how other people rated their experience. If that kind of independently verified review data becomes available, the honest approach is to link to it directly rather than paraphrase it into a claim here.</p>
+        </div>
+      </div>
+      <p class="line">
+        The fair way to read this review is as "what to expect," not as "what other people said." Those are different things, and treating one as the other is exactly the kind of dressed-up marketing this review is trying not to be.
+      </p>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What this platform is built around, stated plainly"
+      subtitle="Not a claim of superiority over every other provider — this is what the process here is actually built to do."
+      rows={[
+        { left: 'Generic advice that still leaves you unclear', right: 'High-leverage decision support around path, skill, and risk' },
+        { left: 'Paid outdated impractical assessments with weak practical value', right: 'Free updated practical AI-powered career and skill assessments' },
+        { left: 'Degree-first direction with weak skill edge', right: 'Skill-first direction with proof of work and stronger market value' },
+        { left: 'Random upskilling that compounds slowly', right: 'Clearer skill direction tied to growth and income upside' },
+      ]}
+    />
+
+    <section id="free-first" class="container section">
+      <h2>When the free layer is already enough, honestly</h2>
+      <p class="line">
+        A fair review has to say when you might not need to pay at all yet. If you're early in exploring — narrowing a long list of options, or just curious what an updated assessment would surface — the free career and skill assessments often answer that on their own, with no cost and no sales conversation attached.
+      </p>
+      <p class="line">
+        A paid 1-on-1 session earns its cost when the decision is expensive, time-pressured, or you're still stuck after trying to work through it yourself — that's the point where cross-checking a shortlist against your real financial and family situation, and getting a plan you can revisit, becomes genuinely useful over a free result on its own.
+      </p>
+    </section>
+
+    <section id="limitations" class="container section">
+      <h2>Who this platform is genuinely not a good fit for</h2>
+      <p class="line">
+        A review that only lists who it suits is incomplete. Here is who is likely to be disappointed by this specific platform, stated directly rather than left for you to discover after paying.
+      </p>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>This tends to fit well if</h3>
+          <ul>
+            <li>You want a structured session with a real counsellor working through your specific situation.</li>
+            <li>You're comfortable with fully online delivery — video call, no in-person office visit.</li>
+            <li>You want transparent, upfront pricing before committing time to anything.</li>
+            <li>You're looking for periodic guidance across a decision, not a daily-use habit tool.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>This is a weaker fit if</h3>
+          <ul>
+            <li>You specifically want an in-person, in-office meeting rather than a video call.</li>
+            <li>You're expecting a downloadable app rather than a browser-based session and assessments.</li>
+            <li>You want a guaranteed job, placement, or income outcome — no ethical provider can promise that, including this one.</li>
+            <li>You're looking for a published, independently verified review score before you'll consider any platform — that kind of third-party data isn't available here yet.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="cost" class="container section">
+      <h2>What it actually costs, stated the same way it appears on the booking page</h2>
+      <p class="line">
+        Pricing transparency is one of the six things this review holds itself to, so here are the real numbers instead of a vague "contact us."
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Plan">Career and skill assessments</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student 1-on-1 session</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student continuous guidance (year, includes the 1-on-1 plus up to 24 small-group sessions)</td>
+                <td data-label="Price">{studentContinuousPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Working-professional 1-on-1 session</td>
+                <td data-label="Price">{professionalSessionPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Guidance is delivered fully online across India, so these numbers are the whole picture — there isn't a separate in-person tier or a travel cost to factor in.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-outline" href={BOFU_INTERNAL_LINKS.careerCounselling}>See what a counselling session covers</a>
+        <a class="btn-gold" href={BOFU_PLAN_LINKS.parentGuidance}>Compare plans at these prices</a>
+      </div>
+    </section>
+
+    <section id="verify" class="container section">
+      <h2>How to verify any of this yourself before deciding</h2>
+      <p class="line">
+        Since this review comes from the platform it describes, the honest move is to make it easy to check rather than ask you to trust it outright. A few concrete ways to do that:
+      </p>
+      <div class="card win-card">
+        <ul>
+          <li>Try a free assessment first — there's no payment step, so you can judge the assessment quality before deciding anything about a paid session.</li>
+          <li>Compare the prices stated here against the plans page and the booking link directly — they should match exactly, with no different number appearing later.</li>
+          <li>Ask directly, before booking, who will run your session and what their background is.</li>
+          <li>Ask what happens if you decide not to continue after a first session — a platform confident in its process should still have a straightforward answer.</li>
+        </ul>
+      </div>
+      <p class="line">
+        Once you've checked what matters to you, the next step is straightforward: use the guidance plans if the decision already feels important enough to act on, or start with a free assessment if you're still comparing.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on this career guidance platform review</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="Use the general evaluation checklist, see the full service overview, or start with the free assessments."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #review-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+    line-height: 1.08;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 960px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.75rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+  .card {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .sub-row {
+    margin-top: .85rem;
+    padding: .65rem .8rem;
+    border-radius: 10px;
+    display: grid;
+    gap: .2rem;
+  }
+  .sub-row--fit {
+    background: rgba(45,212,191,.08);
+    border: 1px solid rgba(45,212,191,.22);
+  }
+  .sub-row--caution {
+    background: rgba(229,184,74,.08);
+    border: 1px solid rgba(229,184,74,.22);
+  }
+  .sub-row-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .sub-row--fit .sub-row-label { color: #7ee8d8; }
+  .sub-row--caution .sub-row-label { color: #f6db95; }
+  .sub-row p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,.72);
+    margin: 0;
+  }
+
+  .protocol-stack {
+    display: grid;
+    gap: .9rem;
+    margin-top: 1.2rem;
+  }
+  .protocol-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+  }
+  .protocol-num {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    line-height: 1;
+    color: rgba(229,184,74,.35);
+  }
+  .protocol-body h3 { margin-bottom: .4rem; }
+  .protocol-body p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.66);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .protocol-row { grid-template-columns: 44px 1fr; }
+    .protocol-num { font-size: 1.5rem; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

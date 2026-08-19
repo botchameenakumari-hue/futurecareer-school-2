@@ -1,0 +1,432 @@
+---
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Bookmark,
+  CalendarDays,
+  Check,
+  ChevronRight,
+  CircleCheckBig,
+  ClipboardCheck,
+  Compass,
+  ExternalLink,
+  Eye,
+  KeyRound,
+  LayoutDashboard,
+  ListChecks,
+  LoaderCircle,
+  LockKeyhole,
+  LogOut,
+  Mail,
+  Plus,
+  Route,
+  Settings,
+  Target,
+  Trash2,
+  UserRound,
+  X,
+} from '@lucide/astro';
+---
+
+<div id="career-workspace" class="career-workspace">
+  <div id="workspace-boot" class="workspace-boot" aria-live="polite">
+    <div class="workspace-mark" aria-hidden="true"><Compass size={22} stroke-width={2.2} /></div>
+    <div>
+      <strong>Future Career School</strong>
+      <span>Opening your workspace</span>
+    </div>
+    <LoaderCircle class="spin" size={20} aria-hidden="true" />
+  </div>
+
+  <section id="auth-shell" class="auth-shell" aria-labelledby="auth-title" hidden>
+    <div class="auth-context">
+      <a class="auth-back" href="/">
+        <ArrowLeft size={16} aria-hidden="true" />
+        Back to Future Career School
+      </a>
+
+      <div class="auth-brand-lockup">
+        <div class="workspace-mark" aria-hidden="true"><Compass size={24} stroke-width={2.2} /></div>
+        <span>My Career Workspace</span>
+      </div>
+
+      <div class="auth-context-copy">
+        <p class="workspace-eyebrow">Your private planning space</p>
+        <h1 id="auth-title">Turn career clarity into a plan you can actually follow.</h1>
+        <p>Keep assessments, possible paths, and this week's next steps together. No feeds, streak theatre, or motivational noise.</p>
+      </div>
+
+      <div class="auth-proof-list" aria-label="Workspace benefits">
+        <div><ClipboardCheck size={18} aria-hidden="true" /><span><strong>Assessment history</strong> that stays available after the tab closes.</span></div>
+        <div><Route size={18} aria-hidden="true" /><span><strong>Career comparisons</strong> based on fit, trade-offs, and real tests.</span></div>
+        <div><ListChecks size={18} aria-hidden="true" /><span><strong>A short weekly plan</strong> that makes the next move obvious.</span></div>
+      </div>
+
+      <p class="auth-private-note"><LockKeyhole size={14} aria-hidden="true" /> Your personal data is private to your account.</p>
+    </div>
+
+    <div class="auth-entry">
+      <div class="auth-entry-inner">
+        <div class="segmented" role="tablist" aria-label="Account access">
+          <button id="show-sign-in" class="is-active" type="button" role="tab" aria-selected="true" aria-controls="sign-in-form">Sign in</button>
+          <button id="show-sign-up" type="button" role="tab" aria-selected="false" aria-controls="sign-up-form">Create account</button>
+        </div>
+
+        <div class="auth-heading">
+          <h2 id="auth-form-title">Welcome back</h2>
+          <p id="auth-form-copy">Continue from the decision or action you left open.</p>
+        </div>
+
+        <form id="sign-in-form" class="auth-form" novalidate>
+          <label>
+            <span>Email</span>
+            <span class="input-shell"><Mail size={17} aria-hidden="true" /><input id="sign-in-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@example.com" /></span>
+          </label>
+          <label>
+            <span>Password</span>
+            <span class="input-shell"><KeyRound size={17} aria-hidden="true" /><input id="sign-in-password" name="password" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters" /><button class="password-toggle" type="button" data-password-toggle="sign-in-password" aria-label="Show password" title="Show password"><Eye size={17} aria-hidden="true" /></button></span>
+          </label>
+          <button id="sign-in-submit" class="primary-action" type="submit">Sign in <ChevronRight size={17} aria-hidden="true" /></button>
+          <button id="forgot-password" class="text-action" type="button">Send me a password reset link</button>
+        </form>
+
+        <form id="sign-up-form" class="auth-form" novalidate hidden>
+          <label>
+            <span>Your name</span>
+            <span class="input-shell"><UserRound size={17} aria-hidden="true" /><input id="sign-up-name" name="name" type="text" autocomplete="name" maxlength="80" required placeholder="What should we call you?" /></span>
+          </label>
+          <label>
+            <span>Email</span>
+            <span class="input-shell"><Mail size={17} aria-hidden="true" /><input id="sign-up-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@example.com" /></span>
+          </label>
+          <label>
+            <span>Create password</span>
+            <span class="input-shell"><KeyRound size={17} aria-hidden="true" /><input id="sign-up-password" name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters" /><button class="password-toggle" type="button" data-password-toggle="sign-up-password" aria-label="Show password" title="Show password"><Eye size={17} aria-hidden="true" /></button></span>
+          </label>
+          <button id="sign-up-submit" class="primary-action" type="submit">Create my workspace <ChevronRight size={17} aria-hidden="true" /></button>
+          <p class="form-fine-print">Use an email you can access. New accounts may need email confirmation.</p>
+        </form>
+
+        <div id="auth-status" class="form-status" aria-live="polite"></div>
+        <div id="config-warning" class="config-warning" hidden>
+          The workspace is not connected yet. Add the public Supabase URL and publishable key to the site environment.
+        </div>
+        <div id="load-warning" class="config-warning" hidden>
+          The workspace did not finish loading. <a class="load-retry" href="/dashboard">Reload workspace</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="workspace-shell" class="workspace-shell" hidden>
+    <aside class="workspace-sidebar" aria-label="Career workspace navigation">
+      <a class="sidebar-brand" href="/dashboard" aria-label="My Career Workspace home">
+        <span class="workspace-mark" aria-hidden="true"><Compass size={21} stroke-width={2.2} /></span>
+        <span><strong>Future Career School</strong><small>My Career Workspace</small></span>
+      </a>
+
+      <nav class="workspace-nav">
+        <button class="workspace-nav-item is-active" type="button" data-view-target="overview" aria-current="page"><LayoutDashboard size={18} aria-hidden="true" /><span>Overview</span></button>
+        <button class="workspace-nav-item" type="button" data-view-target="assessments"><ClipboardCheck size={18} aria-hidden="true" /><span>Assessments</span><span id="assessment-nav-count" class="nav-count">0</span></button>
+        <button class="workspace-nav-item" type="button" data-view-target="careers"><Route size={18} aria-hidden="true" /><span>Career paths</span><span id="career-nav-count" class="nav-count">0</span></button>
+        <button class="workspace-nav-item" type="button" data-view-target="plan"><ListChecks size={18} aria-hidden="true" /><span>Weekly plan</span><span id="task-nav-count" class="nav-count">0</span></button>
+        <button class="workspace-nav-item" type="button" data-view-target="saved"><Bookmark size={18} aria-hidden="true" /><span>Saved</span><span id="saved-nav-count" class="nav-count">0</span></button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <a href="/" class="sidebar-site-link"><ArrowUpRight size={16} aria-hidden="true" />Visit the public site</a>
+        <button class="sidebar-account" type="button" data-open-profile>
+          <span class="avatar" data-user-initials>FC</span>
+          <span><strong data-user-name>Your account</strong><small data-user-email></small></span>
+          <Settings size={16} aria-hidden="true" />
+        </button>
+      </div>
+    </aside>
+
+    <header class="workspace-mobile-header">
+      <a class="mobile-brand" href="/dashboard"><span class="workspace-mark" aria-hidden="true"><Compass size={19} /></span><strong>My Career Workspace</strong></a>
+      <button id="mobile-account-button" class="icon-button" type="button" data-open-profile aria-label="Open profile" title="Profile"><span class="avatar" data-user-initials>FC</span></button>
+    </header>
+
+    <main class="workspace-main">
+      <header class="workspace-topbar">
+        <div>
+          <p id="workspace-date" class="workspace-eyebrow"></p>
+          <h1 id="workspace-greeting">Your career workspace</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="secondary-action" type="button" data-open-task aria-label="Add next step" title="Add next step"><Plus size={16} aria-hidden="true" /><span>Add next step</span></button>
+          <button class="icon-button" type="button" data-open-profile aria-label="Open profile settings" title="Profile settings"><Settings size={18} aria-hidden="true" /></button>
+        </div>
+      </header>
+
+      <section class="workspace-view is-active" data-workspace-view="overview" aria-labelledby="overview-title">
+        <h2 id="overview-title" class="sr-only">Overview</h2>
+        <div class="focus-panel">
+          <div class="focus-index" aria-hidden="true">01</div>
+          <div class="focus-copy">
+            <span>Next useful move</span>
+            <h3 id="focus-title">Complete your profile</h3>
+            <p id="focus-description">A little context lets the workspace point you to the right assessment and next step.</p>
+          </div>
+          <button id="focus-action" class="focus-action" type="button">Set up profile <ChevronRight size={17} aria-hidden="true" /></button>
+        </div>
+
+        <div class="progress-strip" aria-label="Career workspace progress">
+          <div><span>Workspace progress</span><strong id="workspace-progress-value">0%</strong></div>
+          <progress id="workspace-progress" max="100" value="0">0%</progress>
+          <p id="workspace-progress-copy">Start with your stage and current goal.</p>
+        </div>
+
+        <div class="overview-grid">
+          <section class="workspace-panel overview-actions-panel" aria-labelledby="overview-actions-title">
+            <div class="panel-heading">
+              <div><span>This week</span><h3 id="overview-actions-title">Your short action list</h3></div>
+              <button class="link-action" type="button" data-view-target="plan">Open plan <ChevronRight size={15} aria-hidden="true" /></button>
+            </div>
+            <div id="overview-actions-list" class="compact-list"></div>
+          </section>
+
+          <section class="workspace-panel overview-paths-panel" aria-labelledby="overview-paths-title">
+            <div class="panel-heading">
+              <div><span>Decision board</span><h3 id="overview-paths-title">Career paths in play</h3></div>
+              <button class="link-action" type="button" data-view-target="careers">Compare paths <ChevronRight size={15} aria-hidden="true" /></button>
+            </div>
+            <div id="overview-career-list" class="compact-list"></div>
+          </section>
+
+          <section class="workspace-panel overview-assessments-panel" aria-labelledby="overview-assessments-title">
+            <div class="panel-heading">
+              <div><span>Evidence</span><h3 id="overview-assessments-title">Recent assessment results</h3></div>
+              <button class="link-action" type="button" data-view-target="assessments">View history <ChevronRight size={15} aria-hidden="true" /></button>
+            </div>
+            <div id="overview-assessment-list" class="compact-list"></div>
+          </section>
+
+          <aside class="decision-note" aria-label="Career planning principle">
+            <Target size={22} aria-hidden="true" />
+            <p><strong>Do not choose a path because it sounds impressive.</strong> Keep it only if it survives a small real-world test.</p>
+            <a href="/career-resources/skill-sampling-try-before-you-commit">Use the skill-sampling method <ArrowUpRight size={15} aria-hidden="true" /></a>
+          </aside>
+        </div>
+      </section>
+
+      <section class="workspace-view" data-workspace-view="assessments" aria-labelledby="assessments-title" hidden>
+        <div class="view-heading">
+          <div><p class="workspace-eyebrow">Evidence before commitment</p><h2 id="assessments-title">Assessments</h2><p>Use results as decision inputs, then test the strongest signal in the real world.</p></div>
+          <a class="secondary-action" href="/services/assessments">Browse every assessment <ArrowUpRight size={16} aria-hidden="true" /></a>
+        </div>
+
+        <section class="assessment-picker" aria-labelledby="recommended-assessment-title">
+          <div class="section-label-row"><h3 id="recommended-assessment-title">Start with the assessment for your stage</h3><span id="recommended-stage-label">Personalised after profile setup</span></div>
+          <div class="assessment-grid">
+            <a class="assessment-option" data-assessment-stage="class-10-below" href="/services/assessments/class-10-and-below/">
+              <span class="assessment-number">01</span><div><strong>Class 10 and below</strong><p>Strengths, learning style, and stream-fit signals before a major school decision.</p></div><ArrowUpRight size={17} aria-hidden="true" />
+            </a>
+            <a class="assessment-option" data-assessment-stage="class-11-12" href="/services/assessments/class-11-to-12/">
+              <span class="assessment-number">02</span><div><strong>Class 11 and 12</strong><p>Course direction, aptitude patterns, and practical options after school.</p></div><ArrowUpRight size={17} aria-hidden="true" />
+            </a>
+            <a class="assessment-option" data-assessment-stage="college graduate" href="/services/assessments/graduates-and-early-professionals/">
+              <span class="assessment-number">03</span><div><strong>Graduate and early career</strong><p>Role fit, employability gaps, skill direction, and a stronger first move.</p></div><ArrowUpRight size={17} aria-hidden="true" />
+            </a>
+            <a class="assessment-option" data-assessment-stage="professional career-change" href="/services/assessments/working-professionals-and-career-changers/">
+              <span class="assessment-number">04</span><div><strong>Professional or career change</strong><p>Transferable strengths, transition readiness, income risk, and next-path fit.</p></div><ArrowUpRight size={17} aria-hidden="true" />
+            </a>
+          </div>
+        </section>
+
+        <section class="workspace-panel history-panel" aria-labelledby="assessment-history-title">
+          <div class="panel-heading"><div><span>Saved to your account</span><h3 id="assessment-history-title">Assessment history</h3></div><span id="assessment-history-count" class="panel-count">0 results</span></div>
+          <div id="assessment-history-list" class="history-list"></div>
+        </section>
+      </section>
+
+      <section class="workspace-view" data-workspace-view="careers" aria-labelledby="careers-title" hidden>
+        <div class="view-heading">
+          <div><p class="workspace-eyebrow">Compare before you commit</p><h2 id="careers-title">Career paths</h2><p>Keep the shortlist small. Record why a path fits, what could make it fail, and the next test.</p></div>
+          <button class="primary-action compact" type="button" data-open-career><Plus size={16} aria-hidden="true" />Add a path</button>
+        </div>
+        <div class="career-legend" aria-label="Career path comparison guide"><span><i class="legend-dot fit"></i>Fit is your current confidence, not a permanent score.</span><span><i class="legend-dot test"></i>Testing means you are gathering real evidence.</span></div>
+        <div id="career-path-list" class="career-path-list"></div>
+      </section>
+
+      <section class="workspace-view" data-workspace-view="plan" aria-labelledby="plan-title" hidden>
+        <div class="view-heading">
+          <div><p class="workspace-eyebrow">Small moves, visible progress</p><h2 id="plan-title">Weekly plan</h2><p>Keep this list short enough to finish. Career clarity improves through action, not more tabs.</p></div>
+          <button class="primary-action compact" type="button" data-open-task><Plus size={16} aria-hidden="true" />Add next step</button>
+        </div>
+        <div class="plan-summary">
+          <div><span>This week</span><strong id="plan-completion-label">0 of 0 done</strong></div>
+          <progress id="plan-progress" max="100" value="0">0%</progress>
+          <button id="clear-completed" class="text-action" type="button">Clear completed</button>
+        </div>
+        <div id="plan-board" class="plan-board"></div>
+      </section>
+
+      <section class="workspace-view" data-workspace-view="saved" aria-labelledby="saved-title" hidden>
+        <div class="view-heading">
+          <div><p class="workspace-eyebrow">Your working library</p><h2 id="saved-title">Saved resources</h2><p>Keep only what supports a current decision or action. A smaller useful library beats an unread pile.</p></div>
+          <a class="secondary-action" href="/career-resources">Explore resources <ArrowUpRight size={16} aria-hidden="true" /></a>
+        </div>
+
+        <div class="saved-grid">
+          <section class="workspace-panel" aria-labelledby="saved-list-title">
+            <div class="panel-heading"><div><span>Your library</span><h3 id="saved-list-title">Saved for later</h3></div><span id="saved-resource-count" class="panel-count">0 saved</span></div>
+            <div id="saved-resource-list" class="saved-resource-list"></div>
+          </section>
+
+          <aside class="resource-shelf" aria-labelledby="resource-shelf-title">
+            <div class="section-label-row"><h3 id="resource-shelf-title">Worth using next</h3><span>Practical tools</span></div>
+            <div class="resource-recommendations">
+              <article data-resource-card data-resource-path="/career-skills-compass" data-resource-title="Career and Skills Compass" data-resource-category="Tool"><div><span>Tool</span><h4>Career and Skills Compass</h4><p>Compare 38 skills by market value, learning curve, and work style.</p></div><button class="save-resource-button" type="button" aria-label="Save Career and Skills Compass" title="Save resource"><Bookmark size={17} aria-hidden="true" /></button></article>
+              <article data-resource-card data-resource-path="/career-resources/skill-sampling-try-before-you-commit" data-resource-title="Skill Sampling" data-resource-category="Method"><div><span>Method</span><h4>Skill sampling</h4><p>Run a small test before spending months learning the wrong thing.</p></div><button class="save-resource-button" type="button" aria-label="Save Skill Sampling" title="Save resource"><Bookmark size={17} aria-hidden="true" /></button></article>
+              <article data-resource-card data-resource-path="/career-resources/t-shaped-skill-stack-builder" data-resource-title="T-Shaped Skill Stack Builder" data-resource-category="Builder"><div><span>Builder</span><h4>T-shaped skill stack</h4><p>Combine one deep capability with the supporting skills that increase its value.</p></div><button class="save-resource-button" type="button" aria-label="Save T-Shaped Skill Stack Builder" title="Save resource"><Bookmark size={17} aria-hidden="true" /></button></article>
+              <article data-resource-card data-resource-path="/career-resources/how-to-ai-proof-your-career" data-resource-title="How to AI-Proof Your Career" data-resource-category="Guide"><div><span>Guide</span><h4>AI-proof your career</h4><p>Separate automatable tasks from the judgement and ownership that make you valuable.</p></div><button class="save-resource-button" type="button" aria-label="Save How to AI-Proof Your Career" title="Save resource"><Bookmark size={17} aria-hidden="true" /></button></article>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <nav class="workspace-mobile-nav" aria-label="Career workspace mobile navigation">
+      <button class="is-active" type="button" data-view-target="overview" aria-current="page"><LayoutDashboard size={19} aria-hidden="true" /><span>Overview</span></button>
+      <button type="button" data-view-target="assessments"><ClipboardCheck size={19} aria-hidden="true" /><span>Tests</span></button>
+      <button type="button" data-view-target="careers"><Route size={19} aria-hidden="true" /><span>Paths</span></button>
+      <button type="button" data-view-target="plan"><ListChecks size={19} aria-hidden="true" /><span>Plan</span></button>
+      <button type="button" data-view-target="saved"><Bookmark size={19} aria-hidden="true" /><span>Saved</span></button>
+    </nav>
+  </div>
+
+  <dialog id="onboarding-dialog" class="workspace-dialog onboarding-dialog" aria-labelledby="onboarding-title">
+    <form id="onboarding-form">
+      <div class="dialog-heading"><div><span>Set your starting point</span><h2 id="onboarding-title">What decision are you working through?</h2><p>This takes about a minute and makes the workspace immediately more useful.</p></div></div>
+      <label><span>Your name</span><input id="profile-name" name="name" type="text" autocomplete="name" maxlength="80" required /></label>
+      <fieldset>
+        <legend>Your current stage</legend>
+        <div class="stage-options">
+          <label><input type="radio" name="stage" value="class-10-below" required /><span><strong>Class 10 or below</strong><small>Early direction and stream choices</small></span></label>
+          <label><input type="radio" name="stage" value="class-11-12" /><span><strong>Class 11 or 12</strong><small>Course and after-school direction</small></span></label>
+          <label><input type="radio" name="stage" value="college" /><span><strong>In college</strong><small>Skills, internships, and first-role fit</small></span></label>
+          <label><input type="radio" name="stage" value="graduate" /><span><strong>Graduate or fresher</strong><small>Employability and role direction</small></span></label>
+          <label><input type="radio" name="stage" value="professional" /><span><strong>Working professional</strong><small>Growth, leverage, or a better role</small></span></label>
+          <label><input type="radio" name="stage" value="career-change" /><span><strong>Changing career</strong><small>A lower-risk bridge to a new path</small></span></label>
+        </div>
+      </fieldset>
+      <label><span>What would feel like progress in the next 90 days?</span><textarea id="profile-outcome" name="outcome" rows="3" maxlength="280" required placeholder="For example: choose between two degree paths, become job-ready for a data role, or test a career change without quitting."></textarea></label>
+      <label><span>City <small>(optional)</small></span><input id="profile-city" name="city" type="text" autocomplete="address-level2" maxlength="80" placeholder="Visakhapatnam" /></label>
+      <div id="onboarding-status" class="form-status" aria-live="polite"></div>
+      <button class="primary-action" type="submit">Build my starting plan <ChevronRight size={17} aria-hidden="true" /></button>
+    </form>
+  </dialog>
+
+  <dialog id="career-dialog" class="workspace-dialog" aria-labelledby="career-dialog-title">
+    <form id="career-form">
+      <div class="dialog-heading"><div><span>Add to your decision board</span><h2 id="career-dialog-title">Add a career path</h2><p>Record your current thinking. You can revise it as evidence changes.</p></div><button class="icon-button dialog-close" type="button" data-close-dialog aria-label="Close" title="Close"><X size={18} aria-hidden="true" /></button></div>
+      <label><span>Path or role</span><input id="career-title" name="title" type="text" maxlength="120" required placeholder="Product designer" /></label>
+      <label class="range-label"><span><span>Current fit confidence</span><output id="career-fit-output" for="career-fit">65%</output></span><input id="career-fit" name="fit" type="range" min="0" max="100" step="5" value="65" /></label>
+      <label><span>Why it may fit <small>(one reason per line)</small></span><textarea id="career-reasons" name="reasons" rows="3" maxlength="600" placeholder="Strong visual problem solving&#10;Enjoys talking to users"></textarea></label>
+      <label><span>Trade-offs or doubts <small>(one per line)</small></span><textarea id="career-tradeoffs" name="tradeoffs" rows="3" maxlength="600" placeholder="Portfolio will take time&#10;Need to test day-to-day work"></textarea></label>
+      <label><span>Smallest useful next test</span><input id="career-next-step" name="nextStep" type="text" maxlength="220" required placeholder="Complete one UX teardown and speak to a working designer" /></label>
+      <div id="career-form-status" class="form-status" aria-live="polite"></div>
+      <button class="primary-action" type="submit">Add to comparison <Plus size={17} aria-hidden="true" /></button>
+    </form>
+  </dialog>
+
+  <dialog id="task-dialog" class="workspace-dialog" aria-labelledby="task-dialog-title">
+    <form id="task-form">
+      <div class="dialog-heading"><div><span>Keep it concrete</span><h2 id="task-dialog-title">Add a next step</h2><p>Write an action you can finish, not a vague outcome.</p></div><button class="icon-button dialog-close" type="button" data-close-dialog aria-label="Close" title="Close"><X size={18} aria-hidden="true" /></button></div>
+      <label><span>Action</span><input id="task-title" name="title" type="text" maxlength="180" required placeholder="Interview two people working in product analytics" /></label>
+      <div class="form-row">
+        <label><span>Type</span><select id="task-category" name="category"><option value="explore">Explore</option><option value="learn">Learn</option><option value="build">Build</option><option value="connect">Connect</option><option value="apply">Apply</option><option value="decide">Decide</option></select></label>
+        <label><span>Due date</span><input id="task-due-date" name="dueDate" type="date" /></label>
+      </div>
+      <label class="check-label"><input id="task-important" name="important" type="checkbox" /><span><strong>Mark as important</strong><small>Use this for the one action that should not slip.</small></span></label>
+      <div id="task-form-status" class="form-status" aria-live="polite"></div>
+      <button class="primary-action" type="submit">Add to weekly plan <Plus size={17} aria-hidden="true" /></button>
+    </form>
+  </dialog>
+
+  <dialog id="profile-dialog" class="workspace-dialog" aria-labelledby="profile-dialog-title">
+    <form id="profile-form">
+      <div class="dialog-heading"><div><span>Workspace settings</span><h2 id="profile-dialog-title">Your profile</h2><p>Update the context used for assessment and planning recommendations.</p></div><button class="icon-button dialog-close" type="button" data-close-dialog aria-label="Close" title="Close"><X size={18} aria-hidden="true" /></button></div>
+      <label><span>Name</span><input id="settings-name" name="name" type="text" maxlength="80" required /></label>
+      <label><span>Current stage</span><select id="settings-stage" name="stage"><option value="exploring">Still exploring</option><option value="class-10-below">Class 10 or below</option><option value="class-11-12">Class 11 or 12</option><option value="college">In college</option><option value="graduate">Graduate or fresher</option><option value="professional">Working professional</option><option value="career-change">Changing career</option></select></label>
+      <label><span>Current 90-day outcome</span><textarea id="settings-outcome" name="outcome" rows="3" maxlength="280"></textarea></label>
+      <label><span>City</span><input id="settings-city" name="city" type="text" maxlength="80" /></label>
+      <p id="settings-email" class="account-email"></p>
+      <div id="profile-form-status" class="form-status" aria-live="polite"></div>
+      <div class="dialog-actions"><button class="primary-action" type="submit">Save changes <Check size={17} aria-hidden="true" /></button><button id="sign-out-button" class="danger-action" type="button"><LogOut size={16} aria-hidden="true" />Sign out</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="report-dialog" class="workspace-dialog report-dialog" aria-labelledby="report-dialog-title">
+    <div class="dialog-heading"><div><span>Saved assessment</span><h2 id="report-dialog-title">Assessment result</h2><p id="report-dialog-meta"></p></div><button class="icon-button dialog-close" type="button" data-close-dialog aria-label="Close" title="Close"><X size={18} aria-hidden="true" /></button></div>
+    <div id="report-dialog-content" class="report-dialog-content"></div>
+  </dialog>
+
+  <dialog id="password-dialog" class="workspace-dialog" aria-labelledby="password-dialog-title">
+    <form id="password-form">
+      <div class="dialog-heading"><div><span>Account recovery</span><h2 id="password-dialog-title">Choose a new password</h2><p>Use at least eight characters and avoid a password used elsewhere.</p></div></div>
+      <label><span>New password</span><span class="input-shell"><KeyRound size={17} aria-hidden="true" /><input id="new-password" name="password" type="password" autocomplete="new-password" minlength="8" required /></span></label>
+      <div id="password-status" class="form-status" aria-live="polite"></div>
+      <button class="primary-action" type="submit">Update password <Check size={17} aria-hidden="true" /></button>
+    </form>
+  </dialog>
+
+  <div id="workspace-toast" class="workspace-toast" role="status" aria-live="polite" hidden></div>
+
+  <template id="icon-check"><Check size={16} aria-hidden="true" /></template>
+  <template id="icon-complete"><CircleCheckBig size={18} aria-hidden="true" /></template>
+  <template id="icon-chevron"><ChevronRight size={16} aria-hidden="true" /></template>
+  <template id="icon-external"><ExternalLink size={15} aria-hidden="true" /></template>
+  <template id="icon-bookmark"><Bookmark size={16} aria-hidden="true" /></template>
+  <template id="icon-trash"><Trash2 size={15} aria-hidden="true" /></template>
+  <template id="icon-calendar"><CalendarDays size={15} aria-hidden="true" /></template>
+</div>
+
+<style>
+  #career-workspace .load-retry {
+    margin-left: 4px;
+    color: inherit;
+    font-weight: 800;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 760px) {
+    #career-workspace .auth-proof-list,
+    #career-workspace .topbar-actions .secondary-action span {
+      display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    window.setTimeout(() => {
+      const root = document.getElementById('career-workspace');
+      const boot = root?.querySelector('#workspace-boot');
+      if (!(boot instanceof HTMLElement) || boot.hidden) return;
+
+      const auth = root?.querySelector('#auth-shell');
+      const workspace = root?.querySelector('#workspace-shell');
+      const warning = root?.querySelector('#load-warning');
+
+      boot.hidden = true;
+      if (auth instanceof HTMLElement) auth.hidden = false;
+      if (workspace instanceof HTMLElement) workspace.hidden = true;
+      if (warning instanceof HTMLElement) warning.hidden = false;
+      root?.querySelectorAll('.auth-form button[type="submit"]').forEach((button) => {
+        if (button instanceof HTMLButtonElement) button.disabled = true;
+      });
+    }, 7000);
+  })();
+</script>
+
+<script>
+  import '../../scripts/careerWorkspace';
+</script>
+
+
+
+
+

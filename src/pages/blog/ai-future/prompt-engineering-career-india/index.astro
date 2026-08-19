@@ -1,0 +1,830 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Prompt engineering career India: is the job title worth chasing in 2026?';
+const description =
+  'Prompt engineering career India: the standalone job title is shrinking while the skill spreads into AI, product, and content roles. Here is the honest picture, and how to actually build it.';
+const canonical = 'https://futurecareerschool.com/blog/ai-future/prompt-engineering-career-india';
+const publishedDateISO = '2026-07-20';
+const publishedDateLabel = '20 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career strategist';
+
+const jumpLinks = [
+  { id: 'what-it-is', label: 'What prompt engineering actually is' },
+  { id: 'is-it-real', label: 'Is it a real job title in India?' },
+  { id: 'absorbed', label: 'Where the work went instead' },
+  { id: 'daily-work', label: 'What the work actually looks like' },
+  { id: 'skill-stack', label: 'The 4-Layer Skill Stack' },
+  { id: 'two-paths', label: 'Two realistic career paths' },
+  { id: 'salary', label: 'Salary reality in India' },
+  { id: 'mistakes', label: 'Mistakes to avoid' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const absorbedCards = [
+  {
+    label: 'AI / LLM engineer',
+    body:
+      'Engineers who build applications on top of language models now treat prompting as one skill inside a larger job: API integration, retrieval systems, evaluation pipelines, and cost and latency tuning.',
+  },
+  {
+    label: 'AI product manager',
+    body:
+      'Product people who design AI features write and test prompts as part of shipping the feature, then hand off evaluation criteria to engineering instead of owning a separate prompting job.',
+  },
+  {
+    label: 'AI trainer / domain specialist',
+    body:
+      'Subject-matter experts, lawyers, doctors, teachers, and analysts who already know a domain are being pulled in to shape prompts and review model output in their specific field, often as a part-time or contract layer on top of their main job.',
+  },
+  {
+    label: 'Content, marketing, and ops leads',
+    body:
+      'People running content, marketing, or operations workflows use prompting daily to draft, structure, and automate work, without the job title ever mentioning "prompt" anywhere.',
+  },
+];
+
+const skillStack = [
+  {
+    num: '01',
+    title: 'Foundations: how the model actually behaves',
+    body:
+      'Learn what a token and a context window are, how temperature and system prompts change output, and why the same prompt behaves differently across models. Without this, prompting stays trial-and-error guesswork instead of a repeatable skill.',
+  },
+  {
+    num: '02',
+    title: 'Applied prompting patterns',
+    body:
+      'Practice few-shot examples, chain-of-thought style reasoning prompts, role and persona framing, and forcing structured output such as JSON that a downstream system can actually use. Build a small library of patterns you can reuse and adapt.',
+  },
+  {
+    num: '03',
+    title: 'Evaluation and iteration',
+    body:
+      'This is the layer most beginners skip, and it is the one that separates a hobbyist from someone employable. Build test sets, score outputs against a rubric for accuracy, tone, and format, and track how a change to the prompt moves the score. Tools built for this include Promptfoo and Braintrust, but a simple spreadsheet scoring system works for a first project.',
+  },
+  {
+    num: '04',
+    title: 'Systems integration',
+    body:
+      'Learn basic Python for calling an LLM API and parsing the response, understand retrieval-augmented generation (RAG) for grounding answers in real documents, and get comfortable with tool-calling and simple agent workflows. This is where prompting stops being a standalone skill and becomes part of building something that works in production.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Learning tricks instead of evaluation',
+    body:
+      'Memorising clever prompt formulas without learning how to test whether a prompt actually works reliably is the single biggest gap between hobbyists and people who get hired.',
+  },
+  {
+    num: '02',
+    title: 'Chasing the exact job title instead of the skill',
+    body:
+      'Searching only for postings titled "Prompt Engineer" misses most of the real demand, which now sits inside AI engineer, AI product manager, and domain-specialist roles that list prompting as one required skill among several.',
+  },
+  {
+    num: '03',
+    title: 'Skipping Python and API basics entirely',
+    body:
+      'Non-technical prompting can get you started, but almost every paid role now expects enough scripting ability to call an API, handle a response, and wire a prompt into a small workflow.',
+  },
+  {
+    num: '04',
+    title: 'Building certificates instead of a portfolio',
+    body:
+      'A completion certificate proves you sat through a course. A documented project that shows a baseline, test cases, a failure analysis, and a measurable improvement proves you can actually do the work.',
+  },
+  {
+    num: '05',
+    title: 'Treating a prompt as a one-time fix',
+    body:
+      'Models get updated, and a prompt that worked well last quarter can quietly degrade. Employable prompt work includes checking and re-testing prompts over time, not writing them once and walking away.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'Is prompt engineering a real career in India?',
+    a: 'The standalone job titled "Prompt Engineer" exists in India but is a shrinking slice of the market. The underlying skill, however, is spreading fast into AI engineering, AI product management, content and marketing roles, and domain-expert consulting. Treat it as a valuable skill to build rather than a single job title to chase.',
+  },
+  {
+    q: 'Is the prompt engineer job title going away?',
+    a: 'Industry job-board tracking through 2026 shows postings with "Prompt Engineer" specifically in the title declining, while postings that list prompting as a required skill inside other titles have grown sharply. The title is fading; the skill requirement is not.',
+  },
+  {
+    q: 'Do I need to code to work in prompt engineering?',
+    a: 'You can start without coding, but most paid roles in 2026 expect basic Python for calling an API and parsing a response, plus comfort with evaluation tools. Non-technical prompting alone is a weaker position than it was a couple of years ago.',
+  },
+  {
+    q: 'What is the salary for prompt engineering in India?',
+    a: 'Reported ranges vary widely by source, seniority, and how technical the role is. Entry-level and content-focused roles tend to sit in the lower single-digit lakhs per year, mid-level roles with Python, evaluation, or RAG experience move higher, and senior roles at product companies or freelance contracts with global clients can reach well beyond that. Treat any single number as a rough anchor, not a guarantee.',
+  },
+  {
+    q: 'Is prompt engineering a good career for freshers?',
+    a: 'It can be a strong entry skill if paired with a real technical or domain foundation, but it is risky as a standalone specialisation for someone with no other skill behind it. Freshers do better treating prompting as one layer of a broader skill stack, such as data analysis, software development, or a specific domain expertise, rather than the entire plan.',
+  },
+  {
+    q: 'What skills do I need to learn prompt engineering?',
+    a: 'Four layers matter: understanding how language models actually behave, applied prompting patterns like few-shot examples and structured output, evaluation and testing so you can prove a prompt works, and basic systems integration such as Python, APIs, and retrieval-augmented generation.',
+  },
+  {
+    q: 'Will prompt engineering still matter in a few years?',
+    a: 'The exact job title may keep shrinking as tools make basic prompting easier and models get better at inferring intent. But the deeper skill of designing, testing, and improving how a system communicates with an AI model is likely to stay valuable, because someone still has to define what "good output" means and verify the system delivers it.',
+  },
+  {
+    q: 'Should I look for a dedicated prompt engineering job or build the skill inside my current role?',
+    a: 'For most people already working in a field, building prompting skill inside an existing role is the lower-risk path: it adds leverage to a foundation you already have. A dedicated prompt/AI role usually makes more sense if you already have or are building strong technical foundations and want to work directly inside an AI-native team.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="ai-future"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>A prompt engineering career in India today is really two different questions in one.</strong>
+    Is "Prompt Engineer" a standalone job title worth chasing? Mostly no, and it is getting weaker every
+    quarter. Is prompting a genuinely valuable skill worth building? Yes, and demand for the skill itself
+    is growing fast, just spread across roles that do not carry the word "prompt" in the title at all.
+    <strong>Chasing the skill instead of the title is also the smarter route to a genuine high-income
+    skill portfolio and earlier financial freedom, because it does not collapse the day one narrow job
+    title falls out of fashion.</strong>
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>The dedicated "Prompt Engineer" job title is shrinking on job boards, while prompting as a required skill inside other roles is growing.</li>
+      <li>The work has moved into AI engineer, AI product manager, AI trainer, and domain-specialist roles, plus everyday content, marketing, and operations work.</li>
+      <li>Real competence needs four layers: model foundations, applied prompting patterns, evaluation and testing, and basic systems integration such as Python and APIs.</li>
+      <li>For most people, building the skill inside your current field beats chasing a standalone prompt-engineer title with no other foundation behind it.</li>
+    </ul>
+  </div>
+
+  <p>
+    This guide sits inside our broader
+    <a href="/blog/ai-future/">AI and the Future of Work</a> coverage, but goes deep on this one decision
+    instead of surveying every AI-era career at once. If you are weighing this against other AI-adjacent
+    paths or want a plan built around your actual background, budget, and timeline instead of a generic
+    roadmap, that is exactly what
+    <a href="/services/career-counselling-and-career-guidance/">career counselling and career guidance</a>
+    is for.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="what-it-is">What prompt engineering actually is</h2>
+
+  <p>
+    Prompt engineering is the practice of designing, testing, and refining the instructions you give a
+    language model so it reliably produces the output you actually need, not just an output that looks
+    plausible once.
+  </p>
+
+  <p>
+    That includes choosing how to frame a task, deciding what examples or context to include, setting
+    constraints on format and tone, and then checking the result against real cases instead of one lucky
+    try. Done properly, it is closer to a testing and systems-design discipline than to "typing clever
+    sentences into a chatbot."
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">The usual hype</p>
+    <ul class="callout__list">
+      <li>Anyone can become a highly paid prompt engineer after one weekend course.</li>
+      <li>Prompt engineering is the single highest-paying entry-level tech job available right now.</li>
+      <li>You never need to code, ever, no matter how far you want to go in this field.</li>
+      <li>A collection of clever prompt templates is the same thing as a real, employable skill.</li>
+    </ul>
+    <p class="callout__footer">
+      None of that survives contact with an actual hiring process in 2026. What survives is people who
+      can prove a prompt works, not just that it sounds good once.
+    </p>
+  </div>
+
+  <h2 id="is-it-real">Is "prompt engineer" a durable standalone job title in India?</h2>
+
+  <p>
+    This is the part most explainers oversimplify in one direction or the other. The honest picture has
+    two halves that are both true at the same time.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Industry job-board tracking through 2026 shows a consistent pattern: postings with the exact title
+      "Prompt Engineer" have been declining, while postings that list prompt engineering as a required
+      skill inside other job titles, such as AI engineer, LLM engineer, or AI product manager, have grown
+      sharply. On LinkedIn specifically, the skill tag has been growing even as the standalone title
+      shrinks. The takeaway is not "prompt engineering is dying." It is "the standalone job title is
+      dying, and the skill is being absorbed into almost everything AI-adjacent."
+    </p>
+  </div>
+
+  <p>
+    This is not unique to prompt engineering. Narrow, hype-driven job titles from earlier tech waves have
+    followed a similar arc: a title appears when a skill is new and rare, then fades as the skill becomes
+    a baseline expectation inside broader roles instead of a job on its own.
+  </p>
+
+  <p>
+    So if your plan is "get hired as a Prompt Engineer, specifically," you are targeting a narrowing lane.
+    If your plan is "become genuinely good at getting reliable, tested output out of AI systems, and apply
+    that inside a field I already understand or am building toward," you are targeting a growing one.
+  </p>
+
+  <h2 id="absorbed">Where the standalone role went instead</h2>
+
+  <p>
+    The skill did not disappear. It moved into roles that already had a home for it.
+  </p>
+
+  <div class="category-grid">
+    {absorbedCards.map((item) => (
+      <article class="category-card">
+        <span class="category-card__label">{item.label}</span>
+        <p>{item.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <p>
+    Notice the pattern: in every case, prompting is a multiplier skill layered on top of something else,
+    not the entire job. That is the practical reality behind the phrase "the skill is being absorbed."
+  </p>
+
+  <h2 id="daily-work">What the work actually looks like day to day</h2>
+
+  <p>
+    Skip the vague version of this role and picture the real tasks, because that is what actually gets
+    tested in an interview or a trial project.
+  </p>
+
+  <div class="grid-two">
+    <div class="card">
+      <h3>Typical real tasks</h3>
+      <ul>
+        <li>Designing a prompt that extracts specific fields from messy documents with minimal hallucination.</li>
+        <li>Building a test set of real or realistic inputs and scoring outputs for accuracy, tone, and format.</li>
+        <li>Debugging why a prompt that worked in testing produces inconsistent output at scale.</li>
+        <li>Writing evaluation rubrics that a non-technical reviewer can also use to judge output quality.</li>
+        <li>Adjusting prompts after a model update instead of assuming they still work as-is.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>What it is not, in practice</h3>
+      <ul>
+        <li>Writing one impressive prompt once and being done with the task.</li>
+        <li>Guessing at wording until something looks right, with no test cases behind it.</li>
+        <li>A job that never touches an API, a script, or a spreadsheet of scored results.</li>
+        <li>A title you get purely from finishing an online certificate.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="note-line">
+    If the daily tasks above sound closer to testing and quality work than to "creative writing with AI,"
+    that is accurate. It is why the strongest candidates increasingly come from analytical, engineering,
+    or domain-expert backgrounds rather than general enthusiasm alone.
+  </p>
+
+  <h2 id="skill-stack">The 4-Layer Skill Stack for genuine prompt engineering competence</h2>
+
+  <p>
+    Build these four layers in order. Skipping straight to clever prompt patterns without the layers under
+    and around them is the single most common reason people stall out at "hobbyist" instead of reaching
+    "employable."
+  </p>
+
+  <div class="protocol-list">
+    {skillStack.map((item) => (
+      <article class="protocol">
+        <div class="protocol__num">{item.num}</div>
+        <div class="protocol__content">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>Portfolio beats certificates here more than almost anywhere else.</strong> A documented
+      project that shows a starting baseline, real test cases, a failure analysis, and a measured
+      improvement demonstrates competence far more directly than a course-completion badge. Pick one real
+      problem, run it through all four layers above, and write it up so someone else can follow your
+      reasoning.
+    </p>
+  </div>
+
+  <p>
+    A short test project is enough to prove real skill: some people can build a solid first project in a
+    few focused weeks of consistent practice, others need a couple of months around a job or classes.
+    Match your pace to your actual schedule instead of a fixed deadline that does not fit your life.
+  </p>
+
+  <h2 id="two-paths">Two realistic career paths, not one</h2>
+
+  <p>
+    Given the shrinking-title, growing-skill picture above, there are two genuinely different ways to
+    build a career around this, and they suit different people.
+  </p>
+
+  <div class="grid-two">
+    <div class="card">
+      <h3>Path A: A dedicated AI-focused role</h3>
+      <ul>
+        <li>Titles: AI engineer, LLM engineer, applied AI engineer, AI solutions architect, evaluation or "AI trainer" specialist.</li>
+        <li>Fits people building real technical depth: Python, APIs, evaluation tooling, RAG, and agent or tool-calling systems.</li>
+        <li>Usually sits inside an AI-native team, an AI product company, or a tech company's AI platform group.</li>
+        <li>Higher ceiling if you go deep, but a narrower door if your only asset is prompting alone.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Path B: The skill embedded in your existing field</h3>
+      <ul>
+        <li>Fits product managers, marketers, content leads, analysts, operations leads, teachers, lawyers, and other domain specialists.</li>
+        <li>Prompting becomes a multiplier on expertise you already have, not a brand-new career from zero.</li>
+        <li>Lower risk: you are not betting your whole employability on one narrow, fast-moving title.</li>
+        <li>Often faster to monetise, because you are adding a valuable layer to a role that already pays you.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>
+    Most people reading this are better served by Path B. It uses what you already know, it does not
+    require betting everything on a job title that is actively narrowing, and it still lets you build real,
+    demonstrable prompting skill that shows up as faster output, better quality, and less rework in
+    whatever you already do.
+  </p>
+
+  <p>
+    Path A is worth pursuing specifically if you are already building or committed to building strong
+    technical foundations, and you want prompting to be one part of a genuine AI-engineering career rather
+    than the entire plan.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>Either path only pays off as part of a wider high-income skill portfolio.</strong> The right
+      skill mix for your background, a documented proof-of-work project, the ability to explain the work to
+      a non-technical hiring manager, and a realistic read on where the market is actually paying — not
+      prompting skill in isolation — are what protect your income if this specific title fades further.
+    </p>
+  </div>
+
+  <h2 id="salary">Salary reality in India</h2>
+
+  <p>
+    Salary figures for this field vary a lot across sources, because "prompt engineer" gets used loosely
+    to describe everything from content-generation roles to serious applied-AI engineering. Treat the
+    ranges below as a rough orientation, not a guarantee for any specific offer.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Typical profile</th>
+          <th>Reported range signal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Level">Entry-level / content-leaning</td>
+          <td data-label="Typical profile">Little to no coding, mostly prompt drafting and light testing</td>
+          <td data-label="Reported range signal">Lower single-digit lakhs per year</td>
+        </tr>
+        <tr>
+          <td data-label="Level">Mid-level / technical</td>
+          <td data-label="Typical profile">Python, API integration, evaluation tooling, some RAG exposure</td>
+          <td data-label="Reported range signal">Noticeably higher, moving into double-digit lakhs</td>
+        </tr>
+        <tr>
+          <td data-label="Level">Senior / applied AI</td>
+          <td data-label="Typical profile">Owns evaluation systems, agent workflows, or production AI features at a product company</td>
+          <td data-label="Reported range signal">Highest end of the range, comparable to senior engineering pay</td>
+        </tr>
+        <tr>
+          <td data-label="Level">Freelance / global clients</td>
+          <td data-label="Typical profile">Contract work for international clients, hourly or project-based</td>
+          <td data-label="Reported range signal">Can exceed typical India full-time pay when billed at global rates</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    City and employer matter as much as title: metro tech hubs and AI-focused product companies tend to
+    pay meaningfully more than generalist roles that only touch prompting occasionally. Technical depth,
+    especially Python, APIs, and evaluation experience, is consistently what pushes pay from the lower
+    end of a range toward the higher end.
+  </p>
+
+  <h2 id="mistakes">Mistakes to avoid</h2>
+
+  <div class="mistake-list">
+    {mistakeItems.map((item) => (
+      <article class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not try to become a generic "AI person." Pick a lane based on what you already have, then build the
+    skill stack on top of it.
+  </p>
+
+  <div class="next-step">
+    <p class="next-step__title">Better next moves</p>
+    <ul class="next-step__list">
+      <li>
+        If you are unsure whether prompting fits better as a standalone role or a layer on your current
+        skill, read <a href="/blog/ai-future/artificial-intelligence-career-paths/">artificial intelligence career paths</a>
+        for the wider map of AI-era roles before you commit to one lane.
+      </li>
+      <li>
+        Read <a href="/blog/ai-future/skills-to-work-with-ai-instead-of-being-replaced/">skills to work with AI instead of being replaced by it</a>
+        if your real goal is staying valuable in your existing field, not switching into a new AI title.
+      </li>
+      <li>
+        Read <a href="/blog/ai-future/ai-tools-for-career-growth-india/">AI tools for career growth India</a>
+        for the practical tool categories worth learning alongside prompting itself.
+      </li>
+      <li>
+        Use the <a href="/career-skills-compass/">Career & Skills Compass</a> if you want a clearer read on
+        whether this skill direction actually fits your background before you invest real time.
+      </li>
+      <li>
+        If you want a plan built around your actual background, budget, and timeline instead of a generic
+        roadmap, use
+        <a href="/services/career-counselling-and-career-guidance/">career counselling and career guidance</a>.
+      </li>
+    </ul>
+  </div>
+
+  <h2 id="faq">FAQs</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, i) => (
+      <details open={i === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para strong {
+      color: rgba(255, 255, 255, 0.98);
+    }
+
+    .jump-nav {
+      margin: 1.45rem 0 1.8rem;
+      padding: 1.05rem 1.1rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .jump-nav__label {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.92) !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      padding: 0.58rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    .jump-nav__list a:hover {
+      border-color: rgba(125, 211, 252, 0.36);
+      color: rgba(255, 255, 255, 0.96);
+    }
+
+    .callout {
+      margin: 1.35rem 0;
+      padding: 1.15rem 1.2rem 1.2rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .callout--amber {
+      background: linear-gradient(180deg, rgba(229, 184, 74, 0.08), rgba(255, 255, 255, 0.025));
+      border-color: rgba(229, 184, 74, 0.2);
+    }
+    .callout__eyebrow {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.96) !important;
+    }
+    .callout__list {
+      margin: 0 !important;
+      padding-left: 1.05rem !important;
+    }
+    .callout__list li {
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.72 !important;
+      margin: 0 0 0.45rem !important;
+    }
+    .callout__footer {
+      margin: 0.75rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.75 !important;
+    }
+
+    .category-grid {
+      display: grid;
+      gap: 0.95rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .category-card {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+      padding: 1.15rem 1.15rem 1.12rem;
+    }
+
+    .category-card:nth-child(1) { border-color: rgba(45, 212, 191, 0.28); }
+    .category-card:nth-child(2) { border-color: rgba(229, 184, 74, 0.28); }
+    .category-card:nth-child(3) { border-color: rgba(139, 92, 246, 0.28); }
+    .category-card:nth-child(4) { border-color: rgba(96, 165, 250, 0.28); }
+
+    .category-card__label {
+      display: inline-block;
+      margin-bottom: 0.52rem;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: rgba(45, 212, 191, 0.92);
+    }
+
+    .category-card h3,
+    .protocol h3,
+    .mistake-item__content h3 {
+      margin: 0 0 0.42rem !important;
+      font-family: "Sora", sans-serif;
+      font-size: 1rem !important;
+      line-height: 1.34 !important;
+      color: rgba(255, 255, 255, 0.93) !important;
+    }
+
+    .category-card p,
+    .protocol p,
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+
+    .honest-take {
+      margin: 1.3rem 0;
+      padding: 1.05rem 1.15rem;
+      border-radius: 14px;
+      border-left: 3px solid #e5b84a;
+      background: rgba(229, 184, 74, 0.06);
+    }
+    .honest-take__label {
+      margin: 0 0 0.5rem !important;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.94) !important;
+    }
+    .honest-take p:last-child {
+      margin: 0 !important;
+      font-size: 14.5px !important;
+      line-height: 1.78 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.95rem;
+      margin: 1.4rem 0;
+    }
+    .grid-two .card {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1.15rem 1.15rem 1.1rem;
+    }
+    .grid-two .card h3 {
+      margin: 0 0 0.7rem !important;
+      font-size: 1rem !important;
+      color: rgba(255, 255, 255, 0.92) !important;
+    }
+    .grid-two .card ul {
+      margin: 0 !important;
+      padding-left: 1.05rem !important;
+    }
+    .grid-two .card li {
+      color: rgba(255, 255, 255, 0.7) !important;
+      line-height: 1.72 !important;
+      margin: 0 0 0.5rem !important;
+      font-size: 14px !important;
+    }
+
+    .note-line {
+      margin: 1rem 0 !important;
+      color: rgba(255, 255, 255, 0.64) !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+    }
+
+    .protocol-list,
+    .mistake-list {
+      display: grid;
+      gap: 0.85rem;
+      margin: 1.4rem 0;
+    }
+
+    .protocol {
+      display: flex;
+      gap: 1rem;
+      padding: 1.1rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    }
+    .protocol__num {
+      width: 54px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.95rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: rgba(45, 212, 191, 0.24);
+      padding-top: 0.05rem;
+    }
+
+    .highlight-box {
+      border-radius: 18px;
+      padding: 1.08rem 1.15rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      background: rgba(45, 212, 191, 0.05);
+      border-color: rgba(45, 212, 191, 0.22);
+    }
+    .highlight-box p {
+      margin: 0 !important;
+      font-size: 14.5px !important;
+      line-height: 1.76 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.12rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: rgba(229, 184, 74, 0.2);
+      padding-top: 0.05rem;
+    }
+
+    .next-step {
+      margin: 1.4rem 0;
+      padding: 1.15rem 1.15rem 1.1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .next-step__title {
+      margin: 0 0 0.8rem !important;
+      font-size: 12px !important;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.94) !important;
+    }
+    .next-step__list {
+      margin: 0 !important;
+      padding-left: 1rem !important;
+    }
+    .next-step__list li {
+      margin: 0 0 0.55rem !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      line-height: 1.76 !important;
+    }
+
+    @media (max-width: 860px) {
+      .category-grid,
+      .grid-two {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .protocol,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .protocol__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .category-card,
+      .protocol,
+      .mistake-item,
+      .next-step,
+      .honest-take,
+      .grid-two .card {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .jump-nav__list a {
+        width: 100%;
+      }
+    }
+  </style>
+</BlogPostLayout>

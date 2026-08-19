@@ -1,0 +1,456 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS } from '../../../../config/bofu';
+import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../config/guidancePlans';
+
+const title = 'Career Counselling for Parents | Future Career School';
+const description =
+  'Career counselling for parents who want a trusted, structured way to help their child choose a stream, course, or skill direction - without guessing whether the counsellor is credible or whether your child will actually engage.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-parents/';
+
+const {
+  studentSessionPrice,
+  studentSessionComparePrice,
+  professionalSessionPrice,
+  professionalSessionComparePrice,
+  studentSessionPriceText,
+  professionalSessionPriceText,
+  freeLayerText,
+} = GUIDANCE_PLAN_PRICE_COPY;
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'The broader guidance page written for your child directly, if you want to see what the sessions themselves look like.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12th,
+    title: 'Career Guidance After 12th',
+    description: 'Use this when the immediate decision is a post-board course, degree, or college choice rather than an earlier stream decision.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-class-10-students/',
+    title: 'Career Counselling for Class 10 Students',
+    description: 'A closer look at the Science, Commerce, or Arts decision if your child is approaching 11th.',
+  },
+  {
+    href: '/services/assessments/',
+    title: 'Free Career Assessments',
+    description: 'Free assessments your child can try first, so you both have a shared, neutral starting point before a paid session.',
+  },
+  {
+    href: '/blog/parents/how-to-support-child-during-career-confusion/',
+    title: 'How to Support Your Child During Career Confusion',
+    description: 'A practical read on the conversation itself - useful before or alongside a counselling session.',
+  },
+  {
+    href: '/blog/parents/signs-of-career-confusion-in-teenager-india/',
+    title: 'Signs of Career Confusion in a Teenager',
+    description: 'Check this if you are still deciding whether the confusion at home needs outside support yet.',
+  },
+];
+
+const fitItems = [
+  {
+    title: 'You are the one researching, not your child',
+    body: 'Your child has not asked for counselling, or has agreed but will not chase it themselves. You are the one comparing options, checking credibility, and deciding when to book.',
+  },
+  {
+    title: 'You and your child see the decision differently',
+    body: 'You want a safer or more familiar path; your child wants something you are less sure about. Neither of you wants the next conversation to turn into another argument.',
+  },
+  {
+    title: 'A one-off session already happened and did not stick',
+    body: 'Your child had a counselling session somewhere, felt good about it for a week, and then drifted back to the same confusion with no follow-through.',
+  },
+  {
+    title: 'You need to be able to explain this to your spouse or family',
+    body: 'Whatever comes out of this needs to survive a second conversation at home, not just make sense to your child alone.',
+  },
+];
+
+const trustItems = [
+  {
+    eyebrow: 'Before you pay',
+    title: 'Is this credible, or just another paid opinion?',
+    body: 'A parent booking counselling for a child is trusting a stranger with a decision that affects years, not a purchase you can undo easily.',
+    listItems: [
+      'Ask what the session is actually built around - a real profile of your child\'s strengths and work style, not a generic script',
+      'Ask what happens after the first session, not just what happens during it',
+      'Ask whether the guidance stays honest even when the easy answer is not the right one',
+    ],
+  },
+  {
+    eyebrow: 'During the process',
+    title: 'Will my child actually engage, or just sit through it?',
+    body: 'Counselling that talks at a teenager rarely changes anything. Counselling that gets them talking usually does.',
+    listItems: [
+      'A session your child can speak honestly in works better than one built to please the parent in the room',
+      'Look for guidance that asks your child what they actually enjoy and are good at, not just what marks or exams suggest',
+      'Engagement shows up afterward - in whether your child brings the topic up again on their own',
+    ],
+  },
+  {
+    eyebrow: 'After the session',
+    title: 'How do I know it is actually working?',
+    body: `A parent should not have to guess whether ${studentSessionPrice} was well spent based on vague reassurance.`,
+    listItems: [
+      'Look for a clearer next step you can both describe in one sentence, not just a good feeling',
+      'Real progress shows up as fewer repeated arguments about the same undecided question',
+      'Ongoing guidance should build on the first session instead of restarting the same conversation each time',
+    ],
+  },
+];
+
+const routeOptionItems = [
+  {
+    title: 'The first 1-on-1 is with your child',
+    body: 'The session focuses on your child\'s strengths, work style, and real options - not a lecture aimed at making you feel reassured. You can be part of the conversation, but the direction has to make sense to your child first.',
+  },
+  {
+    title: 'You get a next step you can both explain',
+    body: 'The outcome is a specific direction and reasoning simple enough to repeat to a spouse, grandparent, or relative who will ask about it - not a vague "it went well."',
+  },
+  {
+    title: 'Ongoing guidance keeps the decision from drifting again',
+    body: 'One conversation rarely settles a stream, course, or skill decision for good. Continuous small-group guidance keeps your child\'s direction on track through the year instead of resetting to confusion after a few weeks.',
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'What if my child refuses to take this seriously?',
+    body: 'Bring your child into choosing to book it, even loosely - "let\'s try one session and see" tends to land better than presenting it as a decision already made for them. A session that is clearly about their strengths, not a lecture, usually gets more genuine participation than they expect going in.',
+  },
+  {
+    title: 'What if the counsellor and I disagree about my child\'s path?',
+    body: 'That is a normal outcome, not a failure of the process. The goal is not to confirm the direction you already had in mind - it is a clearer, evidence-based view of fit, market reality, and trade-offs, which you can then weigh against your own judgment as a parent.',
+  },
+  {
+    title: 'How do I involve my child without deciding for them?',
+    body: 'Share the session as a starting point, not a verdict. Free assessments give your child a low-pressure way to explore first; the paid session then works through the direction with them, and the ongoing group sessions keep them engaged as their own thinking develops - instead of one decision being handed down from a single conversation.',
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Degree-first direction with weak skill edge',
+    right: 'Skill-first direction with proof of work and stronger market value',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How do I know career counselling for my child is credible before I pay?',
+    answer:
+      'Check whether the process is built around a real profile of your child\'s strengths and work style rather than a generic script, and whether it explains what happens after the first session, not just during it. Free assessments can give you and your child a neutral starting signal before a paid session, so you are not judging credibility from a sales page alone.',
+  },
+  {
+    question: 'My child does not want to talk to a career counsellor. What should I do?',
+    answer:
+      'This is common, and pushing usually backfires. Framing the first session as a low-pressure conversation about strengths and options - not a decision that is already made - tends to get more genuine participation. Free assessments can also be a lower-pressure first step your child can try on their own time before a live session.',
+  },
+  {
+    question: 'What if the counsellor tells my child something different from what I expect?',
+    answer:
+      'That can happen, and it is not a sign the guidance is wrong. The session is built around your child\'s actual strengths, interests, and market fit, so the direction may differ from what feels safest to you as a parent. You still make the final call as a family - the goal is to make that conversation better informed, not to hand the decision to a stranger.',
+  },
+  {
+    question: 'Is one session enough, or does my child need ongoing support?',
+    answer:
+      'A single 1-on-1 session gives a real starting direction, but most stream, course, and skill decisions benefit from follow-through rather than a one-time conversation. Continuous small-group guidance - usually 10 or fewer students per group - is built for students who need their direction reinforced and adjusted across the year instead of a single session that is easy to forget.',
+  },
+  {
+    question: 'Are the career and skill assessments actually free, or is that a hook for something paid?',
+    answer:
+      'The assessments are fully free, and can be described as updated, practical, and AI-powered. Many providers charge thousands for outdated or impractical assessments; these are meant to be a genuinely useful free starting layer for your child, with no obligation to book a paid session afterward.',
+  },
+  {
+    question: 'How much does career counselling for my child cost?',
+    answer:
+      `The first 1-on-1 session is priced at a limited-time rate of ${studentSessionPrice}. Students can then move into ongoing small-group guidance sessions across the year for continued support, rather than paying for another isolated one-off session each time a new question comes up.`,
+  },
+  {
+    question: 'Is this available if we are not in a big city?',
+    answer:
+      'Yes. Guidance is delivered fully online across India, so your child can join from home, school, or wherever is convenient, without your family needing to depend on a local counsellor being available or good.',
+  },
+  {
+    question: 'What if my child and I still cannot agree after the session?',
+    answer:
+      'That is a realistic outcome, not a sign that the process failed. The session gives you both clearer reasoning and real options to weigh - the final family conversation is still yours to have. Many parents find that a well-reasoned outside opinion at least narrows the disagreement to one or two specific points instead of a general standoff.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for Parents', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Parents | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Parents',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Parents</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for parents booking on behalf of their child
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for parents
+        <span class="gold-text"> who want their child on the right skill path early</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School offers career counselling for parents who are ready to book but still weighing the questions that matter most from your side of the table - is this credible, will your child actually open up, and how do you know it is working. The session is built around your child\'s real strengths, so the direction they move toward can support <strong>achieving earlier financial freedom through the right skills</strong>, instead of another year lost to indecision.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so your child can join from home, school, or wherever is convenient, without your family depending on a local counsellor being available or good.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Book Student Career Counselling for Your Child</a>
+      </div>
+      <p class="hero-support">
+        This is not a job-guarantee or placement service, and it will not decide your child's future for you. It is structured support so the next family conversation is based on clarity instead of guesswork.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career counselling for parents becomes the right move"
+    subtitle="This usually matters most when you are the one carrying the decision - researching, comparing, and deciding when to act - while your child is still working through the confusion itself. The goal is not just picking a safe-sounding option, but a direction that supports achieving earlier financial freedom through the right skill choices, made early instead of after years of drift."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Get your child a real starting direction before another term passes without one"
+    body="A short, honest session now is easier to act on than a bigger, more expensive decision made later under pressure."
+    studentHref="#plans"
+    studentLabel="Book Student Career Counselling for Your Child"
+  />
+
+  <BofuListCardSection
+    sectionId="trust"
+    title="What parents actually want to know before booking"
+    subtitle="These are the real questions behind the search - not the ones a sales page usually answers, but the ones that decide whether you trust the process enough to pay for it."
+    items={trustItems}
+    columns={3}
+    variant="audience"
+  >
+    <AssessmentSupportNote
+      body="If you want your child to try something free first, the stage-specific career and skill assessments give a neutral starting signal before any paid session."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuStepFlowSection
+    sectionId="how-it-works"
+    title="How this works when a parent is the one booking"
+    subtitle="The session is for your child, but you are not left out of the process or guessing what happened in the room."
+    items={routeOptionItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why this needs more than a reassuring conversation"
+    subtitle="A stream, course, or skill decision carries real weight. These are the contrasts that matter once you are deciding who to trust with it."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling for your child"
+    subtitle="The goal is a decision you and your child can both stand behind, not a session that only sounds good in the moment."
+    items={objectionItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Book the first session before the same argument comes up again at home"
+    body="One structured conversation, built around your child's actual strengths, usually moves things further than another month of back-and-forth."
+    studentHref="#plans"
+    studentLabel="Book Student Career Counselling for Your Child"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling"
+    title="Career Counselling Plans for Your Child"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See the student-facing guidance page, stage-specific support, free assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Give your child a clearer direction instead of another year of drift"
+    subtitle="You have already done the research. The next step is one session that turns your child's strengths into a skill direction aimed at earlier financial freedom - a decision you can both explain with confidence."
+    studentHref="#plans"
+    studentLabel="Book Student Career Counselling for Your Child"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 4.8vw, 3.85rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.7); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #trust,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #different,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.82rem, 9.6vw, 2.45rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

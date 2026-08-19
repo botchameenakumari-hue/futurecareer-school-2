@@ -1,0 +1,111 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K · Atlas</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Roboto+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+body{background:#F4F1EB;color:#16130F;font-family:Inter,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.gridlines{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(90deg,rgba(22,19,15,.055) 1px,transparent 1px);background-size:calc(100%/12) 100%;opacity:.9}
+.pg{position:relative;z-index:2;width:min(1340px,100%);margin:0 auto;padding:0 clamp(1rem,3vw,2.4rem)}
+.mast{display:flex;justify-content:space-between;align-items:baseline;padding:1.1rem 0;border-bottom:1.5px solid #16130F;position:sticky;top:0;background:#F4F1EB;z-index:30}
+.mast b{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(1rem,2vw,1.35rem);letter-spacing:-.01em}
+.mast .mono{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7d766c}
+.mast a{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;border-bottom:1.5px solid #16130F;padding-bottom:2px}
+/* ── hero spread ── */
+.spread{position:relative;padding:clamp(2rem,5vw,4rem) 0 clamp(3rem,7vw,5rem);border-bottom:1px solid rgba(22,19,15,.2)}
+.kicker{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:#B2471F;margin-bottom:clamp(1.4rem,3vw,2.4rem)}
+h1{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(2.7rem,10vw,9.4rem);line-height:.9;letter-spacing:-.035em;margin-bottom:.4rem}
+h1 .it{font-style:italic;font-weight:400}
+h1 .sm{display:block;font-size:.34em;letter-spacing:-.01em;line-height:1.15;margin-top:.5rem;max-width:24ch}
+.hero-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(.8rem,2vw,1.6rem);align-items:end;margin-top:clamp(1.6rem,4vw,2.6rem)}
+.im-a{grid-column:1/6;position:relative}
+.im-a img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(.15) contrast(1.04)}
+.im-b{grid-column:7/11;position:relative;margin-bottom:clamp(1rem,4vw,3.5rem)}
+.im-b img{width:100%;aspect-ratio:1/1;object-fit:cover;filter:grayscale(1) contrast(1.08)}
+.dek{grid-column:11/13;align-self:end}
+.dek p{font-size:13.5px;line-height:1.72;color:#5a544b;font-weight:300}
+.dek a{display:inline-block;margin-top:1rem;font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;border-bottom:1.5px solid #B2471F;color:#B2471F;padding-bottom:2px}
+.cap{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8a8378;margin-top:.55rem;display:block}
+.rot{position:absolute;right:-1.6rem;top:22%;writing-mode:vertical-rl;font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#B2471F}
+/* ── numeral band ── */
+.band{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid rgba(22,19,15,.2)}
+.band div{padding:clamp(1.4rem,3vw,2.4rem) 0;border-right:1px solid rgba(22,19,15,.14);padding-right:1rem}
+.band div:last-child{border-right:none}
+.band b{display:block;font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(2.2rem,5.4vw,4.4rem);line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.band span{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#7d766c;display:block;margin-top:.6rem}
+/* ── editorial rows ── */
+.art{padding:clamp(2.6rem,6vw,4.4rem) 0;border-bottom:1px solid rgba(22,19,15,.2)}
+.art-h{display:grid;grid-template-columns:repeat(12,1fr);gap:1.4rem;margin-bottom:clamp(1.6rem,4vw,2.6rem)}
+.art-h .n{grid-column:1/2;font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);line-height:.8;color:rgba(22,19,15,.3)}
+.art-h h2{grid-column:2/9;font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(1.6rem,3.6vw,2.9rem);line-height:1.06;letter-spacing:-.02em}
+.art-h .side{grid-column:10/13;font-size:13px;line-height:1.7;color:#5a544b;font-weight:300;align-self:end}
+.rows{border-top:1px solid rgba(22,19,15,.2)}
+.row{display:grid;grid-template-columns:repeat(12,1fr);gap:1.4rem;padding:1.5rem 0;border-bottom:1px solid rgba(22,19,15,.14);align-items:baseline;transition:background .45s,padding-left .45s}
+.row:hover{background:rgba(178,71,31,.05);padding-left:.7rem}
+.row .q{grid-column:1/2;font-family:'Roboto Mono',monospace;font-size:11px;color:#B2471F}
+.row h3{grid-column:2/7;font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(1.05rem,2vw,1.45rem);line-height:1.2}
+.row p{grid-column:7/12;font-size:13.5px;line-height:1.72;color:#5a544b;font-weight:300}
+.row .go{grid-column:12/13;text-align:right;font-family:'Roboto Mono',monospace;font-size:14px;color:#B2471F;transition:transform .4s}
+.row:hover .go{transform:translateX(5px)}
+/* ── pull spread ── */
+.pull{padding:clamp(3rem,7vw,5.5rem) 0;display:grid;grid-template-columns:repeat(12,1fr);gap:1.4rem;align-items:center;border-bottom:1px solid rgba(22,19,15,.2)}
+.pull blockquote{grid-column:1/8;font-family:'Playfair Display',serif;font-style:italic;font-weight:400;font-size:clamp(1.6rem,4.4vw,3.4rem);line-height:1.1;letter-spacing:-.02em}
+.pull blockquote span{color:#B2471F}
+.pull figure{grid-column:9/13;margin:0;position:relative}
+.pull img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(.2)}
+.rv{opacity:0;transform:translateY(26px)}.rv.in{opacity:1;transform:none;transition:opacity .85s,transform .95s cubic-bezier(.2,.9,.3,1)}
+.par{will-change:transform}
+@media(max-width:900px){
+ .hero-grid{grid-template-columns:1fr;gap:1.4rem}.im-a,.im-b,.dek{grid-column:1/-1}.im-b{margin-bottom:0}
+ .band{grid-template-columns:1fr 1fr}.band div{padding-left:.6rem}
+ .art-h{grid-template-columns:1fr}.art-h .n,.art-h h2,.art-h .side{grid-column:1/-1}
+ .row{grid-template-columns:1fr auto;gap:.5rem}.row .q{grid-column:1/-1}.row h3,.row p{grid-column:1/2}.row .go{grid-column:2/3}
+ .pull{grid-template-columns:1fr}.pull blockquote,.pull figure{grid-column:1/-1}
+ .rot{display:none}
+}
+</style></head><body>
+<div class="gridlines"></div>
+<div class="pg">
+  <header class="mast"><b>Future Career School</b><span class="mono">No. 01 — Career guidance, India</span><a href="#">Get guidance →</a></header>
+
+  <section class="spread">
+    <p class="kicker rv">Students · Freshers · Working professionals · Fully online</p>
+    <h1 class="rv">A degree is<br><span class="it">a credential.</span><span class="sm">A skill the market pays a premium for is an income. We help you tell the difference — before it costs you a decade.</span></h1>
+    <div class="hero-grid">
+      <figure class="im-a rv"><img class="par" src="https://images.unsplash.com/photo-1594352121345-6f587972b024?auto=format&fit=crop&crop=faces&q=85&w=1000" alt=""><span class="cap">Fig. 1 — Fit mapped before commitment</span><span class="rot">Practical fit check</span></figure>
+      <figure class="im-b rv"><img class="par" src="https://images.unsplash.com/photo-1777635168256-be42aa28c457?auto=format&fit=crop&crop=faces&q=85&w=900" alt=""><span class="cap">Fig. 2 — Market validation</span></figure>
+      <div class="dek rv"><p>Practical clarity first — free assessments and strength mapping. Then focused execution: skill direction, proof of work, and a roadmap toward earlier financial freedom.</p><a href="#">Get career guidance →</a></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="rv"><b data-c="10000" data-s="+">10,000+</b><span>Guided</span></div>
+    <div class="rv"><b data-c="4.9" data-s="/5" data-f="1">4.9/5</b><span>Average rating</span></div>
+    <div class="rv"><b>Free</b><span>Assessments &amp; tools</span></div>
+    <div class="rv"><b>Zero</b><span>Fake guarantees</span></div>
+  </section>
+
+  <section class="art">
+    <div class="art-h">
+      <span class="n rv">01</span>
+      <h2 class="rv">The three questions that quietly decide your income</h2>
+      <p class="side rv">Most career advice answers none of these. It answers what is popular, not what fits you and pays.</p>
+    </div>
+    <div class="rows">
+      <div class="row rv"><span class="q">Q.01</span><h3>Which skill direction actually fits me?</h3><p>Inclinations, strengths and work style mapped, then matched against what the market genuinely rewards.</p><span class="go">→</span></div>
+      <div class="row rv"><span class="q">Q.02</span><h3>My degree isn’t producing income</h3><p>Income comes from a T-shaped stack — existing knowledge plus one market-validated skill with visible proof.</p><span class="go">→</span></div>
+      <div class="row rv"><span class="q">Q.03</span><h3>How do I reach financial freedom earlier?</h3><p>Core depth, transferable skills, communication and tech leverage — stacked deliberately, in the right order.</p><span class="go">→</span></div>
+    </div>
+  </section>
+
+  <section class="pull">
+    <blockquote class="rv">“Picking a skill is like <span>getting married.</span> Most people choose it like a restaurant.”</blockquote>
+    <figure class="rv"><img class="par" src="https://images.unsplash.com/photo-1573497019707-1c04de26e58c?auto=format&fit=crop&crop=faces&q=85&w=900" alt=""><span class="cap">Fig. 3 — Interest × Market × Scalability</span></figure>
+  </section>
+</div>
+<script>
+const io=new IntersectionObserver(e=>e.forEach(t=>{if(t.isIntersecting){t.target.classList.add('in');io.unobserve(t.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+const cio=new IntersectionObserver(e=>e.forEach(t=>{if(t.isIntersecting){const el=t.target,v=parseFloat(el.dataset.c),f=el.dataset.f,s=performance.now();const k=n=>{const p=Math.min((n-s)/1600,1);el.textContent=(f?(v*(1-Math.pow(1-p,3))).toFixed(1):Math.round(v*(1-Math.pow(1-p,3))).toLocaleString('en-IN'))+(el.dataset.s||'');if(p<1)requestAnimationFrame(k)};requestAnimationFrame(k);cio.unobserve(el)}}),{threshold:.6});
+document.querySelectorAll('[data-c]').forEach(e=>cio.observe(e));
+const ps=[...document.querySelectorAll('.par')];
+addEventListener('scroll',()=>{ps.forEach((p,i)=>{const r=p.getBoundingClientRect();const v=(r.top+r.height/2-innerHeight/2)/innerHeight;p.style.transform='translateY('+(v*(i%2?26:-32))+'px)'})},{passive:true});
+</script></body></html>

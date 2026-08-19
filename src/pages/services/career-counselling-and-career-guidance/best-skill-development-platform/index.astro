@@ -1,0 +1,892 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+import { STUDENT_GUIDANCE_PLAN, WORKING_PROFESSIONAL_GUIDANCE_PLAN } from '../../../../config/guidancePlans';
+
+const title = 'Best Skill Development Platform | How to Evaluate One Honestly | Future Career School';
+const description =
+  'How to evaluate the best skill development platform for you: proof-of-work, personalization, market relevance, cost, and where career guidance fits before you pick one.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/best-skill-development-platform/';
+
+const formatPlanAmount = (amount: string) => amount.replace('₹', 'Rs ');
+const studentSessionPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.price);
+const studentSessionComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.comparePrice ?? '');
+const studentContinuousPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationPrice ?? '');
+const studentContinuousComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationComparePrice ?? '');
+const professionalSessionPrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.price);
+const professionalSessionComparePrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.comparePrice ?? '');
+const studentSessionPriceText = `${studentSessionPrice} (limited-time price, down from ${studentSessionComparePrice})`;
+const studentContinuousPriceText = `${studentContinuousPrice} (limited-time price, down from ${studentContinuousComparePrice})`;
+const professionalSessionPriceText = `${professionalSessionPrice} (limited-time price, down from ${professionalSessionComparePrice})`;
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerGuidance,
+    title: 'Career Guidance',
+    description: 'See this if the need is broader than one skill decision — path, skills, and execution together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counselling-platform/',
+    title: 'Best Career Counselling Platform',
+    description: 'A separate question: how to judge who is actually counselling you, not which skill to build.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-assessment-platform/',
+    title: 'Best Career Assessment Platform',
+    description: 'How to judge an aptitude or personality test, if that is the comparison you actually need.',
+  },
+  {
+    href: '/career-skills-compass',
+    title: 'Career & Skills Compass',
+    description: 'A free tool for narrowing the skill paths that fit your strengths and market direction.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A small free check if you are still comparing options and not ready to book yet.',
+  },
+];
+
+const faq = [
+  {
+    q: 'What actually makes a skill development platform the best one for me?',
+    a: 'Five things: whether it produces real proof of work (projects, a portfolio, something you can show, not just a certificate), whether the curriculum stays current with what the market actually pays for, whether there is real support when you get stuck, whether the pricing and refund terms are transparent, and whether it is honest that finishing a course does not guarantee a job. A platform that is vague on more than one of these is worth a second look before you pay.',
+  },
+  {
+    q: 'Does Future Career School teach the actual skills, like Coursera or Udemy?',
+    a: 'No. Future Career School is a career counselling and guidance service, not a course-delivery or skill-training platform — it does not run coding bootcamps, design courses, or video lesson libraries. What it does is help you work out which skill or skill portfolio is actually worth building for your profile, market, and financial situation, as part of a guidance session, before you go and choose a platform like the ones evaluated here.',
+  },
+  {
+    q: 'Should I pick a skill development platform before or after figuring out which skill to build?',
+    a: 'After, if you can manage it. The most common expensive mistake is not a bad platform — it is a platform used to build the wrong skill for your situation. A free Career & Skills Compass check or a guidance session can narrow that decision first, so the time and money spent on an actual course or bootcamp goes toward something with real market and income logic behind it.',
+  },
+  {
+    q: 'Is a free Career & Skills Compass tool enough, or do I need paid guidance first?',
+    a: "A free tool can genuinely narrow a long list of possible skills into a shorter, more comparable one — that can be enough if you're still exploring broadly. Paid guidance earns its cost when the decision is more specific: weighing two or three realistic skill paths against your actual financial situation, family constraints, and how much time you can realistically commit, which a generic tool can't account for.",
+  },
+  {
+    q: 'What should I check about pricing and refunds before committing to a skill development platform?',
+    a: 'Check whether the price is shown clearly before you have to sit through a sales call, whether there is a genuine trial or refund window rather than a "no refunds once started" clause buried in fine print, and whether ongoing costs (subscriptions, "advanced tier" upsells) are disclosed upfront. A platform confident in its content usually has nothing to hide in its pricing page.',
+  },
+  {
+    q: 'What does career guidance cost here if I want help deciding which skill to build?',
+    a: `For students, a first 1-on-1 session is priced at ${studentSessionPrice} (down from ${studentSessionComparePrice}) as a limited-time offer, with continuous guidance across the year at ${studentContinuousPrice} (down from ${studentContinuousComparePrice}), including up to 24 small-group sessions. For working professionals, a 1-on-1 session is ${professionalSessionPrice} (down from ${professionalSessionComparePrice}). The Career & Skills Compass tool and career assessments stay free regardless of which plan you choose. This is the cost of the direction-setting guidance, not the cost of an actual skill-training course.`,
+  },
+  {
+    q: 'Does finishing a course on a good skill development platform guarantee a job?',
+    a: 'No ethical platform can promise that, and one that does should be treated as a warning sign rather than a selling point. A strong platform can genuinely build a skill and a portfolio; whether that converts into income still depends on how the skill is positioned, how it is proven, and how it fits the wider market — which is closer to a guidance question than a course-content question.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Best Skill Development Platform', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Best Skill Development Platform: How to Evaluate One Before You Commit Time or Money',
+    description,
+    datePublished: '2026-07-14',
+    dateModified: '2026-07-14',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="platform-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Best Skill Development Platform</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>An honest evaluation, not a course catalog</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>The best skill development platform depends on a decision most people skip: which skill is actually worth building first</h1>
+            <p class="line strong">
+              There is no single "best" skill development platform for everyone — a strong coding bootcamp for one person can be the wrong spend for another. Judging any platform means checking five things: does it produce real proof of work, does the curriculum stay current with what the market pays for, is there real support when you get stuck, is pricing transparent, and is it honest that finishing a course doesn't guarantee a job.
+            </p>
+            <p class="line">
+              Worth saying upfront: Future Career School is a career counselling and guidance service — it does not run courses, bootcamps, or a video lesson library the way a skill-training platform does. What it does is help you work out which skill is actually worth your time and money before you commit to one of those platforms, so the spend goes toward the right thing.
+            </p>
+            <p class="line">A platform that's vague on more than one or two of the checks below is worth a second look before you pay.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how skill-direction guidance works here</a>
+              <a class="btn-outline" href="/career-skills-compass">Free Career & Skills Compass tool</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">What to check before you pay</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Real proof of work — projects and a portfolio, not just a certificate.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Curriculum kept current with what the market actually pays for.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Real support and community, not a self-paced library with no help.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Pricing, refunds, and upsells stated clearly upfront.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>"Best" is situational — the right platform depends on the skill, your current level, how you learn, and how much structure you need, not on which platform has the loudest ads.</li>
+          <li>The single biggest quality signal is proof of work: can the platform show you what a finished learner actually produced, not just a completion rate or a star rating.</li>
+          <li>A platform choosing the wrong skill for you is usually a more expensive mistake than choosing a slightly weaker platform for the right skill — get the skill direction right first.</li>
+          <li>Future Career School does not deliver skill training itself. It helps with the direction question — which skill, and why — as part of career guidance, using free tools and paid sessions.</li>
+          <li>No honest platform, including a skill-training one, can guarantee a job from finishing a course. Treat that claim as a warning sign, not a selling point.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#criteria">The five things that actually separate platforms</a>
+          <a href="#direction-first">Why the skill decision comes before the platform decision</a>
+          <a href="#red-flags">Red flags worth checking before you pay</a>
+          <a href="#what-changes">What clearer skill direction actually changes</a>
+          <a href="#cost">What guidance costs here, concretely</a>
+          <a href="#choosing">How to shortlist, honestly</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="criteria" class="container section">
+      <h2>The five things that actually separate a good skill development platform from a weak one</h2>
+      <p class="line">
+        None of these require insider knowledge — they're checkable from the platform's own course pages, sample lessons, and refund policy, before you pay anything. The same checklist applies whether you're weighing a coding bootcamp, a design course, a data or marketing certification, or any platform marketing itself as the best skill development platform available.
+      </p>
+
+      <div class="protocol-stack">
+        <div class="protocol-row">
+          <span class="protocol-num">1</span>
+          <div class="protocol-body">
+            <h3>Real proof of work, not just a certificate</h3>
+            <p>A certificate proves attendance; a portfolio proves capability. Look for platforms structured around projects you can actually show — code you wrote, designs you shipped, campaigns you built — rather than ones where the main output is a PDF at the end. Proof of work is what a hiring manager or client actually checks.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">2</span>
+          <div class="protocol-body">
+            <h3>Curriculum kept current with the market</h3>
+            <p>Skills that pay well shift — tools, frameworks, and in-demand specializations change faster than a static curriculum can. Ask when the course content was last updated and whether it reflects current tools and hiring patterns, not a syllabus written several years ago and left unchanged.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">3</span>
+          <div class="protocol-body">
+            <h3>Real support when you get stuck</h3>
+            <p>Self-paced video libraries are cheap to produce and easy to abandon halfway through. A platform that offers mentor review, a real community, or structured feedback on your work tends to have far higher completion, because getting unstuck alone is where most people quit.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">4</span>
+          <div class="protocol-body">
+            <h3>Pricing, refund, and upsell transparency</h3>
+            <p>Check whether the price is visible before a sales call, whether there's a genuine trial or refund window, and whether "advanced tier" or placement-support upsells are disclosed upfront rather than pitched only after you've already paid for the base course.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">5</span>
+          <div class="protocol-body">
+            <h3>Honest framing of outcomes</h3>
+            <p>No ethical platform can guarantee a job or a specific salary from finishing a course — execution, positioning, and market timing still matter. A platform leaning on "guaranteed placement" language is optimizing for the sale, not for an honest process. The more defensible promise is a real, demonstrable skill and portfolio — not a placement claim no provider can actually back.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="direction-first" class="container section">
+      <h2>Why the skill decision usually matters more than the platform decision</h2>
+      <p class="line">
+        Most comparisons jump straight to "which platform is best," but the more expensive mistake is usually upstream of that: building a skill that doesn't actually fit your market, financial situation, or how you work, on an otherwise perfectly good platform. A holistic skill approach means weighing the right skill mix for you, proof of work, communication skills, market positioning, and your financial and family reality together — not picking a trending skill off a list.
+      </p>
+
+      <div class="card highlight-card">
+        <h3>What each layer actually contributes</h3>
+        <div class="sub-row sub-row--fit">
+          <span class="sub-row-label">A skill development platform is built for</span>
+          <p>Teaching the actual skill — lessons, projects, practice, and (on the better platforms) real feedback and a portfolio you can show.</p>
+        </div>
+        <div class="sub-row sub-row--caution">
+          <span class="sub-row-label">Career guidance here is built for</span>
+          <p>The decision before that: which skill or skill portfolio is worth building for your profile, how it fits your income and financial-freedom goals, and whether a degree-only path or a skill-first path with proof of work makes more sense for your situation — not the actual teaching.</p>
+        </div>
+      </div>
+
+      <p class="line">
+        This is not a claim that Future Career School replaces a skill-training platform — it doesn't, and describing it that way would be misleading. It is a narrower, honest claim: getting the direction right first, using a free Career & Skills Compass check or a guidance session, tends to make whichever platform you eventually choose a better spend, because the time and money go toward a skill with real market and income logic behind it, not just a trending one.
+      </p>
+    </section>
+
+    <section id="red-flags" class="container section">
+      <h2>Red flags worth checking before you pay any skill development platform</h2>
+      <p class="line">
+        A fair comparison has to name what to watch for, not just what to look for. These apply to any provider in this space, not one in particular.
+      </p>
+
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>Signs a platform is worth trusting</h3>
+          <ul>
+            <li>Shows real projects or a portfolio from past learners, not just testimonials.</li>
+            <li>States pricing and refund terms clearly before you commit.</li>
+            <li>Curriculum has a visible, recent update history.</li>
+            <li>Offers real mentor or community support, not just recorded videos.</li>
+            <li>Is upfront that no course can guarantee a job or a salary outcome.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>Signs to slow down</h3>
+          <ul>
+            <li>Pricing only revealed after a "counselling call" designed to build urgency.</li>
+            <li>Claims of guaranteed jobs, guaranteed placement, or guaranteed income.</li>
+            <li>No visible, checkable proof of what finished learners actually built.</li>
+            <li>Curriculum hasn't visibly changed in years despite the skill area moving fast.</li>
+            <li>Pressure to enroll immediately, with a countdown or "batch closing" framing.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="line">
+        None of this means every platform using a counselling call or offering tiered pricing is acting in bad faith — plenty aren't. These are the specific, checkable things worth asking about before money changes hands, rather than judging a platform on its ad spend or homepage design.
+      </p>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What actually changes when skill direction is clearer before you pick a platform"
+      subtitle="This isn't about which skill-training platform to choose — it's the difference clearer direction makes to whichever one you pick."
+      rows={[
+        { left: 'Random upskilling that compounds slowly', right: 'Clearer skill direction tied to growth and income upside' },
+        { left: 'Generic advice that still leaves you unclear', right: 'High-leverage decision support around path, skill, and risk' },
+        { left: 'Degree-first direction with weak skill edge', right: 'Skill-first direction with proof of work and stronger market value' },
+        { left: 'Isolated skill decisions with no bigger picture', right: 'A deliberate, high-value skill portfolio that compounds over time' },
+      ]}
+    />
+
+    <section id="cost" class="container section">
+      <h2>What career guidance costs here, so you know what you're weighing</h2>
+      <p class="line">
+        To be clear, this is the cost of direction-setting guidance — deciding which skill to build — not the cost of an actual skill-training course, which you'd pay for separately on whichever platform you choose.
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Plan">Career &amp; Skills Compass and career assessments</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student 1-on-1 session</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student continuous guidance (year, includes the 1-on-1 plus up to 24 small-group sessions)</td>
+                <td data-label="Price">{studentContinuousPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Working-professional 1-on-1 session</td>
+                <td data-label="Price">{professionalSessionPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Guidance is delivered fully online across India, so location isn't a factor. Use the free Career & Skills Compass check first if you're only exploring; move to a paid session once the decision feels specific enough to be worth an expert's time.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-outline" href="/career-skills-compass">Try the free Career & Skills Compass tool</a>
+        <a class="btn-gold" href={BOFU_PLAN_LINKS.parentGuidance}>Compare guidance plans at these prices</a>
+      </div>
+    </section>
+
+    <section id="choosing" class="container section">
+      <h2>How to shortlist, without a hard sell</h2>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>The free Career & Skills Compass is probably enough if</h3>
+          <ul>
+            <li>You're early in exploring and just need to narrow a long list of possible skills.</li>
+            <li>You haven't picked a direction at all yet and want a quick, no-cost starting point.</li>
+            <li>The eventual platform spend is still hypothetical, not imminent.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>A guidance session is worth booking if</h3>
+          <ul>
+            <li>You're weighing two or three specific skills and the wrong pick would cost real time or money.</li>
+            <li>Your financial or family situation makes the decision higher-stakes than a generic tool can account for.</li>
+            <li>You're about to enroll in a specific platform and want a second opinion on whether it's the right skill for you first.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        Once the skill direction feels settled, apply the five platform criteria above to whichever skill development platforms you're actually comparing — Future Career School isn't one of them, since it doesn't deliver the training itself. The next step from here is either the free Career & Skills Compass if you're still exploring, or a guidance session if the decision already feels important.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on choosing the best skill development platform</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader guidance service, a related evaluation page, or the free first step."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #platform-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.75rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+  .card {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .sub-row {
+    margin-top: .85rem;
+    padding: .65rem .8rem;
+    border-radius: 10px;
+    display: grid;
+    gap: .2rem;
+  }
+  .sub-row--fit {
+    background: rgba(45,212,191,.08);
+    border: 1px solid rgba(45,212,191,.22);
+  }
+  .sub-row--caution {
+    background: rgba(229,184,74,.08);
+    border: 1px solid rgba(229,184,74,.22);
+  }
+  .sub-row-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .sub-row--fit .sub-row-label { color: #7ee8d8; }
+  .sub-row--caution .sub-row-label { color: #f6db95; }
+  .sub-row p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,.72);
+    margin: 0;
+  }
+
+  .protocol-stack {
+    display: grid;
+    gap: .9rem;
+    margin-top: 1.2rem;
+  }
+  .protocol-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+  }
+  .protocol-num {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    line-height: 1;
+    color: rgba(229,184,74,.35);
+  }
+  .protocol-body h3 { margin-bottom: .4rem; }
+  .protocol-body p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.66);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+    .protocol-row { grid-template-columns: 44px 1fr; }
+    .protocol-num { font-size: 1.5rem; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

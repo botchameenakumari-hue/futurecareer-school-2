@@ -2,8 +2,11 @@
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
-import { BOFU_INTERNAL_LINKS, BOFU_PAYMENT_LINKS } from '../../../../config/bofu';
+import { BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+import { completeLocationDirectoryItems } from '../../../../config/directory';
 
 const locationItems = [
   {
@@ -20,18 +23,20 @@ const locationItems = [
   },
 ];
 
+const completeLocationItems = completeLocationDirectoryItems(locationItems);
+
 const supportItems = [
   {
     href: BOFU_INTERNAL_LINKS.parentGuidance,
     title: 'Career Counselling and Guidance',
     description:
-      'Use the broader guidance page if the city is less important than the overall career decision itself.',
+      'Use the main guidance page if the city is less important than the overall career decision itself.',
   },
   {
     href: BOFU_INTERNAL_LINKS.careerCounselling,
     title: 'Career Counselling',
     description:
-      'See the broader counselling page when you want clarity-first support beyond the city-specific search.',
+      'See the main counselling page when you want clarity-first support beyond the city-specific search.',
   },
   {
     href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
@@ -47,18 +52,18 @@ const jsonLd = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Career Counselling and Career Guidance',
-        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
       },
       {
         '@type': 'ListItem',
         position: 4,
         name: 'Locations',
-        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
       },
     ],
   },
@@ -68,10 +73,10 @@ const jsonLd = [
     name: 'Career Counselling and Guidance by Location | Future Career School',
     description:
       'City-intent career counselling and guidance pages for people who want location-aware support without losing the online-first, India-wide guidance model.',
-    url: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations',
+    url: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
     inLanguage: 'en-IN',
     publisher: {
-      '@type': 'EducationalOrganization',
+      '@type': ['Organization', 'ProfessionalService'],
       name: 'Future Career School',
       url: 'https://futurecareerschool.com',
     },
@@ -82,7 +87,7 @@ const jsonLd = [
 <BaseLayout
   title="Career Counselling and Guidance by Location | Future Career School"
   description="Explore city-intent career counselling and guidance pages for students, freshers, and working professionals who want location-aware clarity without depending on generic local advice."
-  canonical="https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations"
+  canonical="https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/"
   jsonLd={jsonLd}
 >
   <Nav activePage="career-guidance" />
@@ -118,11 +123,11 @@ const jsonLd = [
         The better filter is not only locality. It is whether the guidance improves decision quality, skill direction, proof of work, and long-term growth.
       </p>
       <p class="hero-sub hero-sub-secondary">
-        Guidance is delivered online across India, so location pages should help people compare fit and context without trapping them inside weak local-only assumptions.
+        Guidance is delivered online across India, so people can start from home, college, or work instead of depending on one nearby office. Location pages should help people compare fit and context without trapping them inside weak local-only assumptions.
       </p>
       <div class="hero-actions">
-        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold pulse">Get Student Career Guidance</a>
-        <a href={BOFU_PAYMENT_LINKS.workingProfessionals} class="btn-outline">Get Working Professional Career Guidance</a>
+        <a href="#plans" class="btn-gold pulse">Get Student Career Guidance</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Guidance</a>
       </div>
     </div>
   </section>
@@ -131,15 +136,40 @@ const jsonLd = [
     sectionId="city-pages"
     title="City-Specific Career Guidance Pages"
     subtitle="Open the city page that matches your search intent, then compare the next step based on clarity, practical value, and decision quality."
-    items={locationItems}
+    items={completeLocationItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the city page when locality helps you start, but move based on the strongest next step"
+    body="The practical goal is clearer decisions, stronger skill direction, and better follow-through, not a weak local-only filter."
+    studentHref="#plans"
+    studentLabel="Get Student Career Guidance"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance"
   />
 
   <LinkDirectorySection
     sectionId="city-support-pages"
     title="Broader Guidance Pages"
-    subtitle="If the city matters less than the decision itself, these broader guidance pages are the stronger next filter."
+    subtitle="If the city matters less than the decision itself, these main guidance pages are the stronger next filter."
     items={supportItems}
     altBackground={true}
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Guidance"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the city matters less than the full career decision, use the main guidance path before waiting longer"
+    body="A broader page is the better next move when the real problem is path fit, skill direction, or growth pressure rather than locality itself."
+    studentHref="#plans"
+    studentLabel="Get Student Career Guidance"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance"
   />
 
   <section id="cta">
@@ -150,11 +180,11 @@ const jsonLd = [
           <div class="pill cta-pill">Next step</div>
           <h2 class="cta-title">Choose the stronger next move</h2>
           <p class="cta-sub">
-            Start with the city page if local search intent matters. If the bigger issue is the career decision itself, move straight into the broader guidance path.
+            Start with the city page if local search intent matters. If the bigger issue is the career decision itself, move straight into the main guidance path.
           </p>
           <div class="cta-actions">
-            <a href={BOFU_INTERNAL_LINKS.visakhapatnamCounselling} class="btn-gold pulse">Explore Visakhapatnam Guidance</a>
-            <a href={BOFU_INTERNAL_LINKS.parentGuidance} class="btn-outline">Explore Broader Career Guidance</a>
+            <a href={BOFU_INTERNAL_LINKS.visakhapatnamCounselling} class="btn-gold pulse">Get Visakhapatnam Guidance</a>
+            <a href={BOFU_INTERNAL_LINKS.parentGuidance} class="btn-outline">Get Broader Career Guidance</a>
           </div>
         </div>
       </div>
@@ -199,9 +229,10 @@ const jsonLd = [
   @media (max-width: 680px) {
     #hero { padding: 120px 0 72px; }
     .hero-actions { flex-direction: column; align-items: stretch; }
-    .hero-actions .btn-gold, .hero-actions .btn-outline { justify-content: center; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
     .cta-inner { padding: 2.25rem 1.5rem; }
     .cta-actions { flex-direction: column; align-items: stretch; }
     .cta-actions .btn-gold, .cta-actions .btn-outline { justify-content: center; }
   }
 </style>
+

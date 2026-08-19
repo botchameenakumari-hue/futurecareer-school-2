@@ -1,5 +1,7 @@
 ---
-import { DEFAULT_OG_IMAGE_URL } from '../config/site';
+import { DEFAULT_OG_IMAGE_URL, SITE_NAME } from '../config/site';
+import ConsentBanner from '../components/ConsentBanner.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 
 export interface Props {
   title: string;
@@ -30,6 +32,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="generator" content={Astro.generator} />
+  <GoogleAnalytics />
 
   <!-- Primary SEO -->
   <title>{title}</title>
@@ -62,29 +65,57 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
   <!-- Sitemap -->
   <link rel="sitemap" href="/sitemap.xml" />
 
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title={`${SITE_NAME} Blog`} href="/rss.xml" />
+
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <script is:inline>
+    (() => {
+      if (!matchMedia('(min-width: 761px)').matches) return;
+      const head = document.head;
+      const fontStylesheet = 'https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap';
+      [
+        ['https://fonts.googleapis.com', ''],
+        ['https://fonts.gstatic.com', 'anonymous']
+      ].forEach(([href, crossOrigin]) => {
+        const connection = document.createElement('link');
+        connection.rel = 'preconnect';
+        connection.href = href;
+        if (crossOrigin) connection.crossOrigin = crossOrigin;
+        head.append(connection);
+      });
+      const styles = document.createElement('link');
+      styles.rel = 'stylesheet';
+      styles.href = fontStylesheet;
+      head.append(styles);
+    })();
+  </script>
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+      rel="stylesheet"
+    />
+  </noscript>
 
   <!-- Global Styles -->
   <style is:global>
     /* Design tokens for Future Career School */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: clip; }
     body {
       background: #080c18;
       color: rgba(255,255,255,0.85);
-      font-family: "DM Sans", sans-serif;
+      font-family: "DM Sans", "Segoe UI", sans-serif;
       -webkit-font-smoothing: antialiased;
       min-width: 320px;
-      overflow-x: hidden;
+      overflow-x: clip;
+      max-width: 100%;
     }
-    h1,h2,h3,h4 { font-family: "Sora", sans-serif; line-height: 1.1; }
-    h1,h2,h3,h4,p,li { overflow-wrap: anywhere; }
+    h1,h2,h3,h4 { font-family: "Sora", "Trebuchet MS", sans-serif; line-height: 1.1; }
+    h1,h2,h3,h4,p,li { overflow-wrap: break-word; word-break: normal; }
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; display: block; }
 
@@ -158,6 +189,24 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       transition: all .3s;
     }
     .btn-outline:hover { border-color: rgba(229,184,74,.4); transform: translateY(-2px); }
+    .btn-outline.cta-assessment-lite {
+      padding: 9px 15px;
+      min-height: 40px;
+      border-radius: 999px;
+      border-color: rgba(255,255,255,.14);
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.74);
+      font-size: 12.5px;
+      font-weight: 600;
+      box-shadow: none;
+      animation: none;
+    }
+    .btn-outline.cta-assessment-lite:hover {
+      color: #fff;
+      border-color: rgba(45,212,191,.32);
+      background: rgba(45,212,191,.06);
+      transform: translateY(-1px);
+    }
 
     @keyframes pulseGold {
       0%,100% { box-shadow: 0 4px 20px rgba(229,184,74,.35); }
@@ -175,14 +224,47 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       .container { padding: 0 1.1rem; }
       .btn-gold,
       .btn-outline { max-width: 100%; }
+      .btn-outline.cta-assessment-lite { width: 100%; justify-content: center; }
     }
 
     @media (max-width: 460px) {
       .container { padding: 0 .95rem; }
     }
+
+    @supports (content-visibility: auto) {
+      main > section:not(:first-child),
+      main > article,
+      body > footer {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 800px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .pulse,
+      .animate-up {
+        animation: none !important;
+      }
+
+      .animate-up {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
   <slot />
+  <ConsentBanner />
 </body>
 </html>

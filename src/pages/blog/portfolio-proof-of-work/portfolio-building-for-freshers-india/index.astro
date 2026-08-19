@@ -1,0 +1,874 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Portfolio building for freshers India: what actually belongs in it';
+const description =
+  'Portfolio building for freshers India: what to include by field, how to build genuine pieces from coursework, where to host them, and the mistakes that cost interviews.';
+const canonical =
+  'https://futurecareerschool.com/blog/portfolio-proof-of-work/portfolio-building-for-freshers-india';
+const publishedDateISO = '2026-07-20';
+const publishedDateLabel = '20 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: 'The short answer' },
+  { id: 'what-a-portfolio-proves', label: 'What a portfolio actually needs to prove' },
+  { id: 'by-field', label: 'What to show, by field' },
+  { id: 'no-job-yet', label: 'Building real pieces when you have no job yet' },
+  { id: 'writing-up-a-piece', label: 'How to write up each piece so it reads as real work' },
+  { id: 'where-to-host', label: 'Where to host and present a portfolio' },
+  { id: 'mistakes', label: 'Mistakes that quietly cost interviews' },
+  { id: 'gates', label: 'The 3 Gates: a filter before you publish anything' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const fieldRows = [
+  {
+    field: 'Software / web development',
+    show: 'Deployed projects with a live link and public GitHub repo, not just local code. Include a README explaining the problem, your stack, and one decision you made and why.',
+  },
+  {
+    field: 'UI/UX and product design',
+    show: '2-3 full case studies, not a grid of screens. Each one should walk through the problem, constraints, research or reasoning, and what changed between your first and final version.',
+  },
+  {
+    field: 'Content and copywriting',
+    show: 'Published or self-initiated writing samples across 2-3 formats you actually want to be hired for (blog, product copy, scripts), each with a one-line note on the brief or goal.',
+  },
+  {
+    field: 'Data and business analytics',
+    show: 'End-to-end case studies: a real or public dataset, your cleaning and analysis steps, one clear visual, and a plain-language takeaway a non-technical manager could act on.',
+  },
+  {
+    field: 'Marketing / social / growth',
+    show: 'Campaigns or content you actually ran, even for a college fest, small business, or your own page, with the numbers you tracked and what you would change next time.',
+  },
+];
+
+const noJobYetRows = [
+  {
+    source: 'A final-year or capstone project',
+    turnIt: 'Rebuild the weakest part properly, deploy it if it is code, and write it up as if a stranger has to understand it in two minutes with no context from your professor.',
+  },
+  {
+    source: 'A college assignment or case competition',
+    turnIt: 'Strip out anything written only for a grade. Keep the analysis and reasoning, add what you would do differently now that no one is grading it.',
+  },
+  {
+    source: 'A self-initiated project with no client',
+    turnIt: 'Pick a real, specific problem, not a generic tutorial clone. A redesign of an app you actually use, or a dataset you actually care about, reads as more genuine than a copied "to-do app" template.',
+  },
+  {
+    source: 'Unpaid work for a friend, family business, or student club',
+    turnIt: 'Treat it with the same rigor as paid client work: state the goal, what you delivered, and any result you can honestly measure, even a small one.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Cramming in everything you have ever made',
+    body: 'A portfolio with twelve mixed-quality pieces reads weaker than one with three strong ones, because it forces the person reviewing it to do the filtering work you should have done yourself. Pick your best 2-4 pieces and cut the rest, even if that means removing something you are personally attached to.',
+  },
+  {
+    num: '02',
+    title: 'Showing the output with no explanation of your role or process',
+    body: 'A finished screenshot, a polished PDF, or a live link tells a reviewer what exists, not what you actually did. Without a short note on the problem, your specific role, and the decisions you made, a strong piece of work can read as unclear about whether it was really yours.',
+  },
+  {
+    num: '03',
+    title: 'Using someone else\'s brief or tutorial with no personal twist',
+    body: 'Reviewers who look at portfolios regularly recognize repeated tutorial projects on sight, because dozens of other freshers submit the exact same one. If you started from a tutorial or template, change the problem, the data, or the audience enough that the final piece is genuinely yours.',
+  },
+  {
+    num: '04',
+    title: 'No clear next step for the person reviewing it',
+    body: 'A portfolio that ends at the last project with no contact link, no resume link, and no way to reach you wastes the attention it just earned. Every portfolio needs a simple way for someone interested to take the next step.',
+  },
+  {
+    num: '05',
+    title: 'Letting the portfolio go stale after the first version',
+    body: 'A portfolio built once during placement season and never touched again quietly falls behind your actual skill level within a year. Treat it as a living document you update every time you finish something worth showing, not a one-time task to check off.',
+  },
+  {
+    num: '06',
+    title: 'Copying a sibling\'s or classmate\'s structure and layout exactly',
+    body: 'When several people from the same college submit portfolios with an identical layout, near-identical project write-ups, and the same visual template, it reads as low effort even if the underlying work is different. Your structure can follow a sensible pattern, but the reasoning and voice in each write-up should be yours.',
+  },
+];
+
+const gateItems = [
+  {
+    title: 'Proof of skill',
+    body: 'Does this piece show you can actually do the core task the role needs, not just describe it? A working app, a real case study, a published piece of writing, or a genuine data analysis all count. A certificate alone does not, because it proves you sat through content, not that you can apply it.',
+  },
+  {
+    title: 'Proof of communication',
+    body: 'Can someone with no context understand what you did and why in under two minutes? If a reviewer has to guess your role, your reasoning, or what problem you were even solving, the piece is not finished yet, no matter how good the underlying work is.',
+  },
+  {
+    title: 'Proof of value',
+    body: 'Did this piece change, fix, or improve something, even at a small scale? A metric, a before-and-after, a user reaction, or a specific problem it solved all count. If a piece has no answer here, it is a demo, not proof, and it is fine to include one or two demos, but they should not carry the whole portfolio.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'How many projects should a fresher put in a portfolio?',
+    a: 'Two to four strong, complete pieces almost always outperform a long list of thin ones. Reviewers spend limited time on each portfolio, so a small set of well-explained work makes a stronger case than a large set where nothing gets a real look.',
+  },
+  {
+    q: 'What if I genuinely have no internship or job experience at all?',
+    a: 'A portfolio does not need a job history to work. Coursework projects rebuilt properly, self-initiated projects around a real problem, and unpaid work for a friend, family business, or student club can all become genuine portfolio pieces if you write them up with the same rigor as paid work: problem, your role, process, and outcome.',
+  },
+  {
+    q: 'Where should I host my portfolio as a fresher in India?',
+    a: 'It depends on your field. Developers typically use GitHub plus a live deployed link and sometimes a simple personal site. Designers commonly use Behance or a personal site built with a no-code tool. Writers often use a simple personal site or a dedicated writing-portfolio platform. A LinkedIn "Featured" section can support any field as a secondary, easy-to-find location, alongside your main portfolio.',
+  },
+  {
+    q: 'Should I include college assignments in my portfolio?',
+    a: 'Only if you strip out anything that was written purely to satisfy a grading rubric and rebuild the weak parts as if the assignment never had a grade attached. A raw, unedited assignment usually reads as academic rather than work-ready, but the same assignment rebuilt with a clearer problem statement and a stronger final version can become a legitimate portfolio piece.',
+  },
+  {
+    q: 'Do recruiters actually check portfolio links, or is a resume enough?',
+    a: 'For skill-heavy roles like design, development, analytics, and content, reviewers commonly use the portfolio as the primary evidence and the resume as the summary that gets them there. A resume claims a skill; a portfolio demonstrates it, which is why a portfolio link that does not work, is empty, or is clearly unfinished can cost more than not including one at all.',
+  },
+  {
+    q: 'What is the biggest portfolio mistake freshers make in India?',
+    a: 'The two most common mistakes are showing too much unfocused content with no clear best work, and showing finished output with no explanation of the role, process, or reasoning behind it. Both mistakes force the reviewer to do work that the candidate should have already done, which usually means the portfolio gets skipped rather than studied.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="portfolio-proof-of-work"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Portfolio building for freshers in India does not start with a website template or a design tool. It starts with picking 2-4 pieces of real, specific work and being able to explain your role in each one.</strong>
+    Most freshers either have nothing to show, or they have a pile of course files and half-finished
+    experiments with no shape to them. Neither problem gets fixed by more polish. It gets fixed by turning
+    what you already have into work you can defend in a two-minute conversation.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>A well-built portfolio is what turns real skill-building into unlocking higher-paying opportunities faster — it is proof an employer can act on today, not a credential that promises something later.</li>
+      <li>A portfolio needs to prove skill, communication, and value, not just show finished output.</li>
+      <li>What belongs in it depends on your field: developers show shipped and deployed projects, designers show full case studies, writers show samples in the formats they want to be hired for, and analysts show end-to-end case studies with a plain-language takeaway.</li>
+      <li>Coursework and self-initiated projects can become genuine portfolio pieces if you strip out anything written only for a grade and rebuild the weak parts honestly.</li>
+      <li>Host it where your field's reviewers actually look: GitHub and a live link for developers, Behance or a personal site for designers, a personal site for writers, plus LinkedIn's Featured section as a secondary location for anyone.</li>
+      <li>The two mistakes that cost the most interviews: too much unfocused content, and no explanation of your role or process behind each piece.</li>
+    </ul>
+  </div>
+
+  <p>
+    This guide sits in Future Career School's
+    <a href="/blog/portfolio-proof-of-work/">portfolio and proof-of-work library</a>, which covers how
+    students and freshers can build real evidence of skill instead of waiting for a job to hand them one.
+  </p>
+
+  <p>
+    If you are not sure which skill your portfolio should even be built around yet, that is a fit question,
+    not a formatting question. A session with
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can help you pick a direction before you spend weeks building proof for the wrong lane.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The short answer on portfolio building for freshers in India</h2>
+
+  <p>
+    A portfolio is not a gallery. It is evidence that you can do the specific work a role needs, presented so
+    a stranger can judge it in a couple of minutes without asking you questions first. For a fresher, that
+    means 2-4 real pieces, each with enough context that someone unfamiliar with the assignment, the course,
+    or the tool you used can still understand what you did and why it mattered.
+  </p>
+
+  <p>
+    The field decides the format. A developer's proof looks like a working app and a public repository. A
+    designer's proof looks like a case study that walks through a decision. A writer's proof looks like
+    published or self-initiated samples in the exact formats they want to be hired for. What stays constant
+    across every field is the underlying test: does this piece show skill, explain itself, and point to a
+    result.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Most fresher portfolios fail quietly, not loudly. Nobody tells a candidate their portfolio was too
+      unfocused or too unexplained. The reviewer just spends fifteen seconds on it, does not find a clear
+      answer to "can this person do the job," and moves to the next application. The fix is rarely more
+      projects. It is usually fewer, better-explained ones.
+    </p>
+  </div>
+
+  <h2 id="what-a-portfolio-proves">What a portfolio actually needs to prove</h2>
+
+  <p>
+    Employers trust evidence over claims. A resume line that says "strong analytical skills" is a claim. A
+    case study that shows you cleaning a messy dataset, running an analysis, and reaching a clear conclusion
+    is evidence. A portfolio exists to convert claims into evidence, and that conversion only works if each
+    piece answers three questions a reviewer is silently asking.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">The three silent questions every reviewer asks</p>
+    <ul class="callout__list">
+      <li><strong>What problem were you solving?</strong> Not the tool you used, the actual problem behind it.</li>
+      <li><strong>What did you specifically do?</strong> Especially if the piece involved a team, a group project, or borrowed starter code.</li>
+      <li><strong>What happened as a result?</strong> A number if you genuinely have one, a clear outcome if you do not.</li>
+    </ul>
+    <p class="callout__footer">
+      A piece that only shows a finished screenshot or a live link leaves all three questions for the
+      reviewer to guess. Most reviewers will not guess. They will move on.
+    </p>
+  </div>
+
+  <h2 id="by-field">What to show, by field</h2>
+
+  <p>
+    The exact shape of a strong portfolio changes by field, because reviewers in each field are trained to
+    look for different things. Here is what genuinely counts as proof in five common fresher-relevant fields.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>What belongs in the portfolio</th>
+        </tr>
+      </thead>
+      <tbody>
+        {fieldRows.map((item) => (
+          <tr>
+            <td data-label="Field"><strong>{item.field}</strong></td>
+            <td data-label="What belongs in the portfolio">{item.show}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    If your target role does not sit neatly in any of these categories, use the same underlying logic: find
+    what a reviewer in that field actually checks before they trust a claim, then build toward that, not
+    toward a generic "portfolio" template that ignores the field's real habits.
+  </p>
+
+  <h2 id="no-job-yet">Building real pieces when you have no job yet</h2>
+
+  <p>
+    The most common reason freshers avoid starting a portfolio is a belief that it needs client work or a
+    paid role first. It does not. Coursework, self-initiated projects, and unpaid work for people you already
+    know can all become genuine portfolio pieces, as long as you are honest about upgrading them rather than
+    pasting them in unchanged.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>What you already have</th>
+          <th>How to turn it into a real piece</th>
+        </tr>
+      </thead>
+      <tbody>
+        {noJobYetRows.map((item) => (
+          <tr>
+            <td data-label="What you already have"><strong>{item.source}</strong></td>
+            <td data-label="How to turn it into a real piece">{item.turnIt}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">Weak version</div>
+      <ul>
+        <li>A tutorial clone submitted with the same brief and the same solution as hundreds of other freshers.</li>
+        <li>A group assignment shown with no note on which parts were yours.</li>
+        <li>A finished file with no explanation of the problem it was solving.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">Stronger version</div>
+      <ul>
+        <li>The same starter idea, changed enough in scope, data, or audience that the final work is genuinely yours.</li>
+        <li>A clear one-line note on your specific role inside any group work.</li>
+        <li>A short write-up covering the problem, your process, and what changed by the end.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="writing-up-a-piece">How to write up each piece so it reads as real work</h2>
+
+  <p>
+    The write-up is often more important than the piece itself, because it is what turns "I made this" into
+    "here is what I can do for you." Keep it short. A paragraph or two per piece is usually enough if it
+    covers the right ground.
+  </p>
+
+  <ul>
+    <li>
+      <strong>State the problem in one line.</strong> Not "a machine learning project," but "a system to
+      flag likely spam in a 5,000-email dataset."
+    </li>
+    <li>
+      <strong>Name your specific role.</strong> If it was solo work, say so. If it was a group project, name
+      exactly which part was yours, since a reviewer will otherwise assume the smallest possible
+      contribution.
+    </li>
+    <li>
+      <strong>Show one real decision, not just the final output.</strong> What you tried first, why it did
+      not work, and what you changed says more about your thinking than the polished final screen ever will.
+    </li>
+    <li>
+      <strong>End with a result or a clear takeaway.</strong> A number if you honestly have one, a specific,
+      believable outcome if you do not. Do not invent a metric you cannot explain if asked.
+    </li>
+  </ul>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      A useful test before you publish a write-up: read it as if you are a stranger who has never met you and
+      knows nothing about your course. If that stranger would still understand the problem, your role, and
+      the outcome, the write-up is doing its job.
+    </p>
+  </div>
+
+  <h2 id="where-to-host">Where to host and present a portfolio</h2>
+
+  <p>
+    Where you host a portfolio matters less than what is in it, but it still needs to sit somewhere your
+    field's reviewers actually check. A brilliant case study buried in a random folder does no work for you.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">Common by field</div>
+      <ul>
+        <li><strong>Developers:</strong> GitHub for code, a live deployed link where relevant, and sometimes a simple personal site pulling both together.</li>
+        <li><strong>Designers:</strong> Behance or a personal site built with a no-code tool, structured as case studies rather than a loose image gallery.</li>
+        <li><strong>Writers:</strong> A simple personal site, a dedicated writing-portfolio platform, or a well-organized document with published and self-initiated samples.</li>
+        <li><strong>Analysts:</strong> GitHub for code and notebooks, paired with a short write-up site or document explaining each case study in plain language.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">Works alongside any field</div>
+      <ul>
+        <li>A LinkedIn "Featured" section, so anyone reviewing your profile can find your best work without a separate link.</li>
+        <li>A single-page personal site with links out to the platform-specific work (GitHub, Behance, published pieces).</li>
+        <li>A resume line pointing directly to the portfolio link, not just a general "portfolio available on request."</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="note-line">
+    Pick one primary location and keep it current. A portfolio spread across five half-updated profiles is
+    harder to trust than one well-maintained location, even if that one location is simple.
+  </p>
+
+  <h2 id="mistakes">Mistakes that quietly cost interviews</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="gates">The 3 Gates: a filter before you publish anything</h2>
+
+  <p>
+    Before adding any piece to your portfolio, run it through The 3 Gates: proof of skill, proof of
+    communication, and proof of value. A piece that clears all three earns its place. A piece that clears
+    only one or two is either a weak demo you should keep out, or a strong piece that just needs a better
+    write-up before it goes in.
+  </p>
+
+  <p>
+    This is also where portfolio building connects to the bigger picture: the right skill mix for you, real
+    proof of that skill, how clearly you communicate it, and how it positions you in the market all move
+    together. A brilliant piece of work that nobody can find or understand does little for your financial
+    reality. A well-explained, easy-to-find piece of ordinary-but-real work often converts faster, because it
+    actually gets seen and trusted.
+  </p>
+
+  <div class="protocol-stack">
+    {gateItems.map((item, i) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{String(i + 1).padStart(2, '0')}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    Apply the same 3 Gates the next time you finish coursework, a side project, or unpaid work for someone
+    you know. The framework does not change; only the piece being tested does.
+  </p>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not wait for a "real" job to start building proof. Pick one piece of existing work, run it through
+    The 3 Gates from above, rewrite the explanation so a stranger would understand it, and publish it in the
+    one location your field's reviewers actually check. A portfolio with one strong, well-explained piece is
+    already more useful than an empty one, and it gives you a place to add the next piece as you build it.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      If you genuinely have no project worth showing yet, that is a starting-point problem, not a formatting
+      one. The
+      <a href="/career-skills-compass/">Career &amp; Skills Compass</a> and the
+      <a href="https://futurecareerschool.com/career-resources?topic=portfolio">portfolio resources library</a>
+      can help you pick a small, realistic first project matched to a skill worth building.
+    </p>
+  </div>
+
+  <p>
+    If you already have work to show but it is still not converting into interviews, the gap is often
+    positioning, not the pieces themselves. A session with
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can help you figure out whether the portfolio, the roles you are targeting, or your skill direction is
+    the actual problem, or start with the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a>
+    if you are still unsure which direction fits how you like to work.
+  </p>
+
+  <h2 id="faq">FAQs on portfolio building for freshers in India</h2>
+
+  <div class="faq-list">
+    {faqItems.map((item) => (
+      <details class="faq-item">
+        <summary class="faq-item__q">{item.q}</summary>
+        <div class="faq-item__a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong {
+      color: #fff;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .key-takeaways {
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.35rem 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.1), transparent 60%),
+        rgba(255, 255, 255, 0.03);
+    }
+    .key-takeaways__label {
+      margin: 0 0 0.7rem !important;
+      font-size: 11px !important;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(45, 212, 191, 0.95) !important;
+    }
+    .key-takeaways ul {
+      margin: 0 !important;
+      padding-left: 1.15rem !important;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .key-takeaways li {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.82) !important;
+      line-height: 1.7 !important;
+      font-size: 15.5px;
+    }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.06);
+    }
+    .callout__eyebrow {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.7rem !important;
+    }
+    .callout__list {
+      margin: 0 0 0.2rem 1.1rem !important;
+      padding: 0 !important;
+    }
+    .callout__list li {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.7 !important;
+      margin: 0.32rem 0 !important;
+    }
+    .callout__footer {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      margin: 0.8rem 0 0 !important;
+      line-height: 1.74 !important;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .compare-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .compare-card--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .compare-card--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul {
+      margin: 0 0 0 1rem !important;
+      padding: 0 !important;
+    }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .protocol-stack,
+    .faq-list,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .faq-item,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(45, 212, 191, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    .faq-item__q {
+      padding: 0.95rem 1.15rem;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .faq-item__a {
+      padding: 0.95rem 1.15rem 1rem;
+      font-size: 14.5px;
+      line-height: 1.76;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    @media (max-width: 820px) {
+      .comparison-grid,
+      .jump-nav__list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .compare-card,
+      .highlight-box,
+      .checkpoint,
+      .mistake-item,
+      .faq-item__q,
+      .faq-item__a {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 620px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+  </style>
+</BlogPostLayout>

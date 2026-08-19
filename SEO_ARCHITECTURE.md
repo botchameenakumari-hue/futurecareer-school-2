@@ -94,97 +94,15 @@ Whenever a new page is genuinely ready for search traffic:
 
 ## Live Information Architecture
 
-Current live indexable pages:
-- `/`
-- `/services`
-- `/services/career-counselling-and-career-guidance`
-- `/services/career-counselling-and-career-guidance/career-guidance`
-- `/services/career-counselling-and-career-guidance/career-coach-near-me`
-- `/services/career-counselling-and-career-guidance/career-counselling`
-- `/services/career-counselling-and-career-guidance/career-counselling-online`
-- `/services/career-counselling-and-career-guidance/locations`
-- `/services/career-counselling-and-career-guidance/locations/career-counselling-in-visakhapatnam`
-- `/services/career-counselling-and-career-guidance/student-career-guidance`
-- `/services/career-counselling-and-career-guidance/career-guidance-after-12th`
-- `/services/career-counselling-and-career-guidance/career-guidance-after-12th-online`
-- `/services/career-counselling-and-career-guidance/career-guidance-online`
-- `/services/career-counselling-and-career-guidance/working-professional-career-guidance`
-- `/services/assessments`
-- `/services/assessments/class-10-and-below`
-- `/services/assessments/class-11-to-12`
-- `/services/assessments/graduates-and-early-professionals`
-- `/services/assessments/stream-selector-test-after-10th`
-- `/services/assessments/career-aptitude-test-after-10th`
-- `/services/assessments/stream-selector-test-after-12th`
-- `/services/assessments/career-aptitude-test-after-12th`
-- `/career-resources`
-- `/career-resources/biology-check-thinking-style`
-- `/career-resources/biology-check-self-assessment`
-- `/career-resources/how-to-pick-the-right-online-course`
-- `/career-resources/skill-sampling-try-before-you-commit`
-- `/career-resources/t-shaped-skill-stack-builder`
-- `/career-resources/freedom-number-how-much-do-you-actually-need-to-earn`
-- `/career-resources/the-4-checkpoint-career-protocol-explained`
-- `/career-resources/3-career-profiles-which-type-are-you`
-- `/career-resources/career-profile-quiz-perfect-plan-passion-or-empire-builder`
-- `/career-resources/are-you-a-people-thinker-or-systems-thinker`
-- `/career-resources/what-to-do-when-your-passion-doesnt-pay`
-- `/career-resources/multiplier-skill-guide-one-addition-that-doubles-value`
-- `/career-resources/tarzan-rule-the-exact-moment-to-quit-your-job`
-- `/career-resources/night-shift-plan-learn-7pm-11pm-without-burning-out`
-- `/career-resources/how-to-ai-proof-your-career`
-- `/career-resources/ai-multiplier-skills-for-the-next-decade`
-- `/career-resources/side-income-while-employed-7-legit-options`
-- `/career-resources/career-change-without-starting-over`
-- `/career-resources/creating-a-portfolio-without-work-experience`
-- `/career-resources/personal-brand-without-posting-every-day`
-- `/career-resources/resume-that-gets-shortlisted-in-india`
-- `/career-resources/prompt-engineering-for-non-technical-professionals`
-- `/career-resources/using-ai-tools-without-getting-replaced`
-- `/career-resources/tech-leverage-automate-80-percent-of-your-work-reclaim-4-hours`
-- `/career-resources/linkedin-profile-optimization-the-full-guide`
-- `/career-resources/arts-and-humanities-careers-that-pay-well-today`
-- `/career-resources/new-jobs-ai-will-create-not-just-replace`
-- `/career-resources/github-for-non-developers-build-a-portfolio-without-code`
-- `/career-resources/from-employee-to-freelancer-the-real-roadmap`
-- `/career-resources/how-indian-freelancers-make-1-5-lakh-month`
-- `/career-resources/digital-marketing-career-roadmap`
-- `/career-resources/data-science-analytics-career-roadmap`
-- `/career-resources/ux-ui-design-career-roadmap`
-- `/career-resources/web-development-career-roadmap`
-- `/career-resources/video-editing-content-creation-roadmap`
-- `/career-resources/copywriting-career-roadmap`
-- `/career-resources/graphic-design-career-roadmap`
-- `/career-resources/ai-prompt-engineering-roadmap`
-- `/career-resources/how-to-ask-for-a-salary-raise-with-scripts`
-- `/career-resources/salary-negotiation-what-to-say-and-what-never-to-say`
-- `/career-resources/sales-career-roadmap-from-rep-to-revenue-leader`
-- `/career-resources/financial-modelling-career-roadmap`
-- `/career-resources/high-income-skills-for-the-next-decade`
-- `/skill-finder`
-- `/blog`
-- `/blog/ai-future`
-- `/blog/ai-future/top-careers-for-the-future`
-- `/blog/career-options`
-- `/blog/career-options/best-career-options-with-high-salary`
-- `/blog/career-options/bca-career-options`
-- `/blog/career-options/bba-career-options`
-- `/blog/career-options/career-options-after-12th-commerce`
-- `/blog/career-options/career-options-after-12th-pcb`
-- `/blog/career-options/career-options-after-12th-science`
-- `/blog/career-options/career-options-in-commerce`
-- `/blog/career-options/career-options-in-arts`
-- `/blog/career-options/pcb-career-options-without-neet`
-- `/blog/career-options/pcm-career-options`
-- `/blog/career-guidance`
-- `/blog/career-guidance/how-to-choose-a-career-after-12th`
-- `/blog/stream-selection`
-- `/blog/stream-selection/career-options-after-10th`
-- `/about`
-- `/locations`
-- `/contact`
+The full, authoritative list of live indexable pages is `LIVE_INDEXABLE_ROUTES` in
+`src/config/site.ts` (plus the assessment routes spread in from
+`src/config/assessmentPages.ts`). Do not hand-maintain a duplicate list here — it
+will drift out of sync with the code as pages are added. Read `site.ts` directly
+whenever you need the current count or the current URL set.
 
-Meaning:
+The notes below are representative examples of the *shape* of the live
+architecture (what each branch means and how it should link) — not an
+exhaustive list, and not guaranteed to be complete or current:
 - `/services/` is the client-facing services hub
 - `/services/career-counselling-and-career-guidance/` is the primary client-facing career counselling, guidance, and coaching service page
 - `/services/career-counselling-and-career-guidance/career-guidance/` is a live BOFU child page for direct `career guidance` intent, framed around practical direction, skill-path decisions, and the threshold between free exploration and paid guidance
@@ -202,10 +120,15 @@ Meaning:
 - `/services/assessments/` is the assessment and career-test hub
 - `/services/assessments/class-10-and-below/` is the broader free assessment page for school students up to Class 10
 - `/services/assessments/class-11-to-12/` is the broader free assessment page for Class 11 and 12 students
+- `/services/assessments/graduates-and-early-professionals/` is the broader free assessment page for graduates and early professionals
+- `/services/assessments/working-professionals-and-career-changers/` is the broader free assessment page for working professionals and career changers
 - `/services/assessments/stream-selector-test-after-10th/` is the focused quick quiz for direct stream-choice intent after Class 10
 - `/services/assessments/career-aptitude-test-after-10th/` is the focused quick quiz for direct aptitude-after-10th intent
 - `/services/assessments/stream-selector-test-after-12th/` is the focused quick quiz for direct career-test or path-choice intent after Class 12
 - `/services/assessments/career-aptitude-test-after-12th/` is the focused quick quiz for direct aptitude-after-12th intent
+- `/services/assessments/[slug]/` is the live assessment-page landing layer for broader search phrases such as `career assessment`, `psychometric test`, `skill assessment`, `career transition assessment`, and `AI career readiness test`
+- `src/config/assessmentPages.ts` is the source of truth for those assessment page routes
+- `src/pages/services/assessments/[slug]/index.astro` is the rendering template for those routes
 - `/about/` is the hub for company information — links to /about/team/, /about/vision/, /about/reviews/ (child pages build out over time)
 - `/locations/` is the hub for city-specific career guidance pages — links to city child pages (built step by step)
 - `/contact/` is the functional contact page with WhatsApp, email, phone, and address — links to /contact/book-session/ (planned)
@@ -246,9 +169,9 @@ They are planning targets, not all current live pages.
 - `/services/counselling/students/undergraduate/`
 - `/services/counselling/professionals/`
 - `/services/assessments/`
-- `/services/assessments/psychometric/`
+- `/services/assessments/psychometric-test/`
 - `/services/assessments/skill-assessment/`
-- `/services/assessments/aptitude/`
+- `/services/assessments/aptitude-test/`
 - `/services/coaching/`
 - `/services/coaching/growth/`
 - `/services/coaching/leadership/`
@@ -311,7 +234,7 @@ Examples:
 Every child page should link back to its parent.
 
 Examples:
-- `/services/assessments/psychometric/` -> `/services/assessments/`
+- `/services/assessments/psychometric-test/` -> `/services/assessments/`
 - `/services/counselling/students/class-11-12/` -> `/services/counselling/students/`
 
 ### Two-click access
@@ -328,7 +251,7 @@ Sibling pages can link to each other when useful.
 
 Examples:
 - `class-8-10` can link to `class-11-12`
-- `psychometric` can link to `aptitude`
+- `psychometric-test` can link to `aptitude-test`
 
 ### Hub flow
 Blog, resources, and content pages should pass relevance upward into the right commercial or topical hub.
@@ -411,7 +334,7 @@ If a location page is created, support it with:
 ## Topical Authority Rules
 
 The project already has strong raw topic data inside:
-- `src/pages/skill-finder.astro`
+- `src/pages/career-skills-compass.astro`
 - `src/pages/career-resources.astro`
 
 These should inform future nested content clusters.
@@ -453,7 +376,7 @@ These examples demonstrate how strong subfolder grouping creates massive topical
 - Lesson: exact-match subfolder slug concentrates authority for the entire practice area; children inherit that topical signal.
 
 **Application to Future Career School**
-- `/services/assessments/` should be built out with child pages `/services/assessments/psychometric/`, `/services/assessments/aptitude/`, `/services/assessments/skill-assessment/`.
+- `/services/assessments/` should be built out with child pages `/services/assessments/psychometric-test/`, `/services/assessments/aptitude-test/`, `/services/assessments/skill-assessment/`.
 - `/blog/career-options/` is a live hub for role-by-role career path articles.
 - `/blog/career-guidance/` is the hub; each published article strengthens career guidance topical authority.
 - `/locations/` when built should follow the same hub-and-child model: parent hub at `/locations/` with unique city-specific children.
@@ -500,7 +423,7 @@ Global navigation should favor real parent hubs and discovery pages.
 Current preferred primary nav focus:
 - `/services`
 - `/services/career-counselling-and-career-guidance`
-- `/skill-finder`
+- `/career-skills-compass`
 - `/career-resources`
 
 Do not give primary public nav weight to:
@@ -552,7 +475,7 @@ This checklist is designed so you can publish one SEO article at a time without 
 3. Decide the one main CTA destination:
    - guidance intent -> `/how-guidance-works`
    - assessment intent -> `/services/assessments`
-   - skill intent -> `/skill-finder` or `/career-resources?topic=skills&type=roadmap`
+   - skill intent -> `/career-skills-compass` or `/career-resources?topic=skills&type=roadmap`
 
 ### 2) URL + slug rules
 
@@ -578,7 +501,7 @@ Every post must have:
 
 Within the first third of the post:
 - link to the parent category page `/blog/<category>/`
-- link to exactly one main service CTA (guidance or assessments or skill finder)
+- link to exactly one main service CTA; for blogs and MOFU pages, guidance/counselling should usually be the main paid CTA, with assessments only as smaller contextual support unless the page is assessment-intent
 
 Near the end of the post:
 - link laterally to 1-3 closely related posts in the same category (when they exist)
@@ -607,25 +530,10 @@ When the blog hub is ready for search:
 1. remove `noindex` from `/blog/`
 2. add `/blog` to `LIVE_INDEXABLE_ROUTES` in `src/config/site.ts`
 
-Current live implementation in this repo:
-- `/blog` is indexable
-- `/blog/ai-future` is indexable because it has a real published post
-- `/blog/ai-future/top-careers-for-the-future` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-guidance` is indexable because it has a real published post
-- `/blog/career-guidance/how-to-choose-a-career-after-12th` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options` is indexable because it has a real published post
-- `/blog/career-options/best-career-options-with-high-salary` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/bca-career-options` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/bba-career-options` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/career-options-after-12th-commerce` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/career-options-after-12th-pcb` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/career-options-after-12th-science` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/career-options-in-commerce` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/career-options-in-arts` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/pcb-career-options-without-neet` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/pcm-career-options` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/stream-selection` is indexable because it has a real published post
-- `/blog/stream-selection/career-options-after-10th` is in `LIVE_INDEXABLE_ROUTES`
+For the current live blog categories and posts, read `LIVE_INDEXABLE_ROUTES` in
+`src/config/site.ts` directly rather than trusting a list here — this list is
+maintained in code, not in docs, precisely because it changes every time a post
+is published.
 
 Never:
 - add empty category pages to `LIVE_INDEXABLE_ROUTES`

@@ -1,0 +1,906 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+import { STUDENT_GUIDANCE_PLAN, WORKING_PROFESSIONAL_GUIDANCE_PLAN } from '../../../../config/guidancePlans';
+
+const title = 'Best Career Counselling Platform | How to Evaluate One Honestly | Future Career School';
+const description =
+  'How to evaluate the best career counselling platform: who counsels you, personalization, assessment quality, pricing transparency, and ongoing support.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/best-career-counselling-platform/';
+
+const formatPlanAmount = (amount: string) => amount.replace('₹', 'Rs ');
+const studentSessionPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.price);
+const studentSessionComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.comparePrice ?? '');
+const studentContinuousPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationPrice ?? '');
+const studentContinuousComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationComparePrice ?? '');
+const professionalSessionPrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.price);
+const professionalSessionComparePrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.comparePrice ?? '');
+const studentSessionPriceText = `${studentSessionPrice} (limited-time price, down from ${studentSessionComparePrice})`;
+const studentContinuousPriceText = `${studentContinuousPrice} (limited-time price, down from ${studentContinuousComparePrice})`;
+const professionalSessionPriceText = `${professionalSessionPrice} (limited-time price, down from ${professionalSessionComparePrice})`;
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See this if immediate clarity on the next decision is the main thing you need.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerGuidance,
+    title: 'Career Guidance',
+    description: 'See this if the need is broader than one decision — path, skills, and execution together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-fees/',
+    title: 'Career Counselling Fees',
+    description: 'A full breakdown of what counselling actually costs and what the free layer already covers.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A small free check if you are still comparing options and not ready to book yet.',
+  },
+];
+
+const faq = [
+  {
+    q: 'What actually makes a career counselling platform the best one, not just the most advertised?',
+    a: 'Six things: who is genuinely counselling you (a qualified counsellor vs a sales rep), whether the process is personalized to your profile and family situation or just a templated report, whether the assessments behind it are current and practical, whether pricing is shown upfront, whether support continues past one session, and whether the platform is honest that it cannot guarantee a job or income outcome. A platform that is vague on more than one of these is worth a second look before you pay.',
+  },
+  {
+    q: 'Is a free assessment enough, or do I need a paid platform?',
+    a: 'A free, updated assessment can genuinely narrow a long list and surface real interest and work-style patterns — that can be enough if your decision is still exploratory. A paid platform earns its cost when it can cross-check that shortlist against your actual financial and family reality and give you a plan you can revisit as things change, not just a one-time result.',
+  },
+  {
+    q: 'How do I know if a platform is just selling courses or colleges instead of counselling me?',
+    a: 'Ask directly what happens after the session if you decide not to buy anything else — a platform built around counselling should still be useful. If every path in the conversation leads back to the same paid course or the same partner college regardless of your profile, that is a sign the "counselling" is really a sales funnel.',
+  },
+  {
+    q: 'Should pricing be transparent before I book a session?',
+    a: 'Yes. A platform that will not state a number until after a "discovery call" is usually building toward a larger, less negotiable pitch. Transparent pricing lets you compare the cost against the decision you are actually making.',
+  },
+  {
+    q: 'Does Future Career School guarantee a job or a specific outcome?',
+    a: 'No ethical platform can guarantee a job or a specific income outcome, and any platform that claims to should be treated as a red flag rather than a selling point. The realistic value is better decision quality, clearer skill direction, and stronger competitiveness — the execution still depends on you.',
+  },
+  {
+    q: 'What does a paid session cost if the free layer is not enough?',
+    a: `For students, a first 1-on-1 session is priced at ${studentSessionPrice} (down from ${studentSessionComparePrice}) as a limited-time offer, with continuous guidance across the year at ${studentContinuousPrice} (down from ${studentContinuousComparePrice}), including up to 24 small-group sessions. For working professionals, a 1-on-1 session is ${professionalSessionPrice} (down from ${professionalSessionComparePrice}). Assessments stay free regardless of which plan you choose.`,
+  },
+  {
+    q: 'How do I compare career counselling services and know which one is best?',
+    a: 'Compare career counselling services against the same six criteria every time: who actually counsels you, whether the process is personalized, assessment quality, pricing transparency, whether support continues past one session, and how honestly outcomes are framed. If you are trying to work out which career counselling service is best for a specific decision — a stream choice, a college shortlist, a mid-career pivot — weigh those criteria against that decision rather than looking for one universal winner. The service that scores best on the two or three criteria that matter most for your situation is the right one, not necessarily the one with the biggest marketing budget.',
+  },
+  {
+    q: 'What should I look for when reading a career guidance platform review?',
+    a: "Read a career guidance platform review the way you'd read any product review: check whether it's specific — does it name the actual session, assessment, or plan, or is it vague praise that could apply to anything? Check whether it describes a real, checkable outcome (a decision made, a plan followed) rather than just a feeling. And check whether it's verifiable — an independent review or a named account carries more weight than a curated quote sitting only on the platform's own homepage. A review with no detail about what actually happened tells you very little either way, however many stars it has.",
+  },
+  {
+    q: 'Is there a career guidance app, or is this web-based?',
+    a: "There's no app to download here — sessions and assessments run in the browser, on a phone or a laptop, over video call. If you're searching for the best career guidance app in India expecting a download, it's worth reconsidering whether you actually need one: a web-based platform means no app-store install, no storage space taken up, and no update to keep current — you open a link and the session starts. For something you'll use a handful of times a year rather than daily, that's a genuine advantage of staying web-based, not a gap.",
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Best Career Counselling Platform', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Best Career Counselling Platform: How to Actually Evaluate One Before You Pay',
+    description,
+    datePublished: '2026-07-12',
+    dateModified: '2026-07-12',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="platform-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Best Career Counselling Platform</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>An honest evaluation, not a ranking list</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>The best career counselling platform isn't the one with the biggest ad budget — here's how to actually tell</h1>
+            <p class="line strong">
+              There is no single "best" platform for everyone. There is a best platform for your situation, and you find it by checking six things: who is actually counselling you, whether the process is personalized or templated, how good the assessments behind it really are, whether pricing is shown upfront, whether support continues past one session, and whether the outcomes claimed are honest.
+            </p>
+            <p class="line">
+              Most comparison lists online rank top career coaching services by star ratings that are easy to inflate and hard to verify. Skip that, and use the criteria a genuinely careful comparison actually needs — the same criteria you can apply to any platform you're weighing, including this one.
+            </p>
+            <p class="line">A platform that is vague on more than one or two of these is worth a second look before you pay.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how career guidance works here</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">What to check before you pay</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Who is actually counselling you — credentials, not just a job title.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Personalized to your profile, or the same report for everyone.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Assessment quality — current and practical, not outdated theatre.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Pricing shown upfront, not revealed after a sales call.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>"Best" is situational, not universal — a platform that fits a confused 12th-grader may be the wrong fit for a working professional weighing a pivot, and vice versa.</li>
+          <li>The single biggest quality signal is who is on the other end of the session — a trained counsellor working through your actual profile, or a sales rep steering every conversation toward the same course or college.</li>
+          <li>Assessment quality varies a lot. Many providers in the market charge thousands for tests that are outdated or generic; free does not automatically mean weak, and paid does not automatically mean strong.</li>
+          <li>If a platform will not tell you the price until after a call, that is a process designed to build pressure, not to help you decide.</li>
+          <li>A single one-off session can be genuinely useful for a narrow, urgent question. It is a weaker fit for an ongoing decision like skill direction, which tends to need revisiting as things change.</li>
+          <li>No honest platform — including this one — can guarantee a job or a specific income outcome. Treat that promise as a warning sign, not a selling point.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#criteria">The six things that actually separate platforms</a>
+          <a href="#free-vs-paid">When a free assessment is enough</a>
+          <a href="#red-flags">Red flags worth checking before you pay</a>
+          <a href="#what-changes">What a stronger platform actually changes</a>
+          <a href="#cost">What it costs here, concretely</a>
+          <a href="#choosing">How to shortlist, honestly</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="criteria" class="container section">
+      <h2>The six things that actually separate a good career counselling platform from a weak one</h2>
+      <p class="line">
+        None of these require insider knowledge — they are checkable in a first conversation or on the platform's own pricing page, before you commit to anything. The same checklist works whether you're weighing a narrow counselling service, a broader best career guidance website, or any platform marketing itself as the best online career guidance available — the criteria don't change just because the marketing does.
+      </p>
+
+      <div class="protocol-stack">
+        <div class="protocol-row">
+          <span class="protocol-num">1</span>
+          <div class="protocol-body">
+            <h3>Who is actually counselling you</h3>
+            <p>Ask directly who runs the session and what their background is. A platform built around counselling should have a real answer. If every question routes back to a sales rep whose job is to close a course or college enrollment, the "counselling" label is doing more work than the process behind it. The standard worth holding any platform to, including this one, is high-leverage decision support around your actual path, skill, and risk — not a script that ends at a purchase.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">2</span>
+          <div class="protocol-body">
+            <h3>Personalization vs a templated report</h3>
+            <p>A strong process works through your actual constraints — your marks, your family's financial situation, your risk appetite, your stream or work history — not just a generic list of "careers that suit your personality type." It should also weigh whether a degree alone is enough or whether a skill-first direction with visible proof of work is the stronger route for your specific case. If the recommendation would read the same for almost anyone, it is not really personalized.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">3</span>
+          <div class="protocol-body">
+            <h3>Assessment quality, not just assessment existence</h3>
+            <p>Many providers in the market charge a large one-time fee for assessments that turn out to be outdated or generic. Career and skill assessments here are treated as fully free, updated, practical, and AI-powered — the point being that a platform's assessment layer should earn trust before it earns money, not the other way around.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">4</span>
+          <div class="protocol-body">
+            <h3>Pricing transparency</h3>
+            <p>A platform confident in its value shows a number before you commit time to a call. "Contact us for pricing" after a long qualifying conversation is usually a sign the price will be shaped by how invested you sound, not by what the service is actually worth.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">5</span>
+          <div class="protocol-body">
+            <h3>One-off session vs continuing support</h3>
+            <p>A single session can resolve a narrow, urgent question well. Skill direction and career positioning are not one-time decisions — they shift as the market, your results, and your circumstances change, so continuing support tends to hold up better than a single verdict handed down once. That is the reasoning behind offering both formats here: a focused 1-on-1 for an immediate question, and a continuous guidance track with small-group sessions across the year for the ongoing decision.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">6</span>
+          <div class="protocol-body">
+            <h3>How honestly outcomes are framed</h3>
+            <p>No ethical platform can guarantee a job or a specific income outcome — execution still depends on you. A platform that leans on "guaranteed placement" language is optimizing for the sale, not for an honest process. The more defensible promise is better decision quality and a clearer route toward achieving earlier financial freedom through stronger skill choices — not a placement claim no provider can actually back.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="free-vs-paid" class="container section">
+      <h2>When a free assessment is enough to decide, and when it isn't</h2>
+      <p class="line">
+        Before comparing paid platforms at all, it is worth asking whether you need one yet. A lot of people jump straight to "which platform should I pay" when a free, updated assessment would already answer their current question.
+      </p>
+
+      <div class="card highlight-card">
+        <h3>What each layer actually contributes</h3>
+        <div class="sub-row sub-row--fit">
+          <span class="sub-row-label">A good free assessment does this</span>
+          <p>Surfaces interest and work-style patterns you haven't put into words yet, and narrows a long, vague list into a shorter, comparable one — quickly, and without cost or sales pressure.</p>
+        </div>
+        <div class="sub-row sub-row--caution">
+          <span class="sub-row-label">Only a strong paid platform adds this</span>
+          <p>Cross-checks that shortlist against your real financial and family situation, catches when a result doesn't match lived reality, and keeps the plan current as your circumstances or the market shift — the part a one-time test cannot do.</p>
+        </div>
+      </div>
+
+      <p class="line">
+        If your current decision is low-stakes or easily reversible — you're simply exploring, or narrowing a first rough list — a free assessment is often genuinely enough for now. The career and skill assessments here are fully free, updated, practical, and AI-powered, so starting free costs nothing while you decide if you need more.
+      </p>
+      <p class="line">
+        If the decision is expensive, time-pressured, or you're still stuck after trying to work through it yourself, that's the point where a platform that scores well on the six criteria above starts to earn its cost.
+      </p>
+    </section>
+
+    <section id="red-flags" class="container section">
+      <h2>Red flags worth checking before you pay any platform</h2>
+      <p class="line">
+        A fair comparison has to name what to watch for, not just what to look for. These apply to any provider in this space, not one in particular.
+      </p>
+
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>Signs a platform is worth trusting</h3>
+          <ul>
+            <li>States pricing clearly before asking you to commit time to a call.</li>
+            <li>Can explain who counsels you and what their background is.</li>
+            <li>Assessments feel specific to you, not a generic personality-type list.</li>
+            <li>Talks about ongoing support and revisiting the plan, not just one verdict.</li>
+            <li>Is upfront that no outcome can be guaranteed.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>Signs to slow down</h3>
+          <ul>
+            <li>Pricing only revealed after a "discovery call" designed to build urgency.</li>
+            <li>Every recommendation leads back to the same partner course or college.</li>
+            <li>Assessment results read the same regardless of what you answered.</li>
+            <li>Claims of guaranteed jobs, guaranteed placement, or guaranteed income.</li>
+            <li>Pressure to decide immediately, with a countdown or "seats closing" framing.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="line">
+        None of this means every platform using a discovery call or offering paid assessments is acting in bad faith — plenty aren't. It means these are the specific, checkable things worth asking about before money changes hands, rather than judging a platform on its homepage design or ad spend.
+      </p>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What actually changes when a platform scores well on these criteria"
+      subtitle="Not every provider adds the same thing on top of an assessment result. This is the difference the evaluation criteria above point to."
+      rows={[
+        { left: 'Generic advice that still leaves you unclear', right: 'High-leverage decision support around path, skill, and risk' },
+        { left: 'Paid outdated impractical assessments with weak practical value', right: 'Free updated practical AI-powered career and skill assessments' },
+        { left: 'Degree-first direction with weak skill edge', right: 'Skill-first direction with proof of work and stronger market value' },
+        { left: 'Random upskilling that compounds slowly', right: 'Clearer skill direction tied to growth and income upside' },
+      ]}
+    />
+
+    <section id="cost" class="container section">
+      <h2>What it actually costs here, so you can compare against any other platform</h2>
+      <p class="line">
+        Pricing transparency is one of the six criteria above, so here are the real numbers rather than a vague "contact us for pricing."
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Plan">Career and skill assessments</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student 1-on-1 session</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student continuous guidance (year, includes the 1-on-1 plus up to 24 small-group sessions)</td>
+                <td data-label="Price">{studentContinuousPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Working-professional 1-on-1 session</td>
+                <td data-label="Price">{professionalSessionPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Use these numbers as a benchmark against whatever else you're comparing — including whether a platform's price maps to a one-off session or to ongoing support across the year. Guidance is delivered fully online across India, so location isn't a factor in the comparison either.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-outline" href={BOFU_INTERNAL_LINKS.careerCounselling}>See what a counselling session covers</a>
+        <a class="btn-gold" href={BOFU_PLAN_LINKS.parentGuidance}>Compare plans at these prices</a>
+      </div>
+    </section>
+
+    <section id="choosing" class="container section">
+      <h2>How to shortlist a platform, without a hard sell</h2>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>A free assessment is probably enough if</h3>
+          <ul>
+            <li>You're early in exploring and just need to narrow a long list.</li>
+            <li>The decision isn't urgent or expensive yet.</li>
+            <li>You haven't tried a structured, updated assessment before.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>A paid platform is worth evaluating closely if</h3>
+          <ul>
+            <li>The decision is expensive, time-pressured, or hard to reverse.</li>
+            <li>You've already read enough and are still stuck.</li>
+            <li>A parent or family member needs a documented plan to evaluate, not just an idea.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        Once you know which side of that you're on, apply the six criteria above to whichever platforms you're weighing, including this one. If the answers hold up, the next step is straightforward: look at the guidance plans if the decision already feels important, or use a free assessment first if you're still comparing.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on choosing the best career counselling platform</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader guidance service, a narrower option, or the free first step."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #platform-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.75rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+  .card {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .sub-row {
+    margin-top: .85rem;
+    padding: .65rem .8rem;
+    border-radius: 10px;
+    display: grid;
+    gap: .2rem;
+  }
+  .sub-row--fit {
+    background: rgba(45,212,191,.08);
+    border: 1px solid rgba(45,212,191,.22);
+  }
+  .sub-row--caution {
+    background: rgba(229,184,74,.08);
+    border: 1px solid rgba(229,184,74,.22);
+  }
+  .sub-row-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .sub-row--fit .sub-row-label { color: #7ee8d8; }
+  .sub-row--caution .sub-row-label { color: #f6db95; }
+  .sub-row p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,.72);
+    margin: 0;
+  }
+
+  .protocol-stack {
+    display: grid;
+    gap: .9rem;
+    margin-top: 1.2rem;
+  }
+  .protocol-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+  }
+  .protocol-num {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    line-height: 1;
+    color: rgba(229,184,74,.35);
+  }
+  .protocol-body h3 { margin-bottom: .4rem; }
+  .protocol-body p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.66);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+    .protocol-row { grid-template-columns: 44px 1fr; }
+    .protocol-num { font-size: 1.5rem; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

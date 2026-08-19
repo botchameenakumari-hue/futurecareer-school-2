@@ -1,0 +1,835 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY } from '../../../../config/bofu';
+import { STUDENT_GUIDANCE_PLAN, WORKING_PROFESSIONAL_GUIDANCE_PLAN } from '../../../../config/guidancePlans';
+
+const title = 'Best Career Guidance Website | What to Check About the Site Itself | Future Career School';
+const description =
+  'Best career guidance website: what to check about the website as a property — real readable content, named authors, visible pricing, and whether free tools give a real result.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/best-career-guidance-website/';
+
+const formatPlanAmount = (amount: string) => amount.replace('₹', 'Rs ');
+const studentSessionPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.price);
+const studentSessionComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.comparePrice ?? '');
+const professionalSessionPrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.price);
+const professionalSessionComparePrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.comparePrice ?? '');
+const studentSessionPriceText = `${studentSessionPrice} (limited-time price, down from ${studentSessionComparePrice})`;
+const professionalSessionPriceText = `${professionalSessionPrice} (limited-time price, down from ${professionalSessionComparePrice})`;
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[3],
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const relatedDirectoryItems = [
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counselling-platform/',
+    title: 'Best Career Counselling Platform',
+    description: 'The broader evaluation of the counselling process and provider behind the site, not the site as content.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-assessment-platform/',
+    title: 'Best Career Assessment Platform',
+    description: 'Evaluating the quality of the assessment itself, once you have decided the site is trustworthy.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerGuidance,
+    title: 'Career Guidance',
+    description: 'Once you know what to check about a site, this is the actual guidance service.',
+  },
+  {
+    href: '/about/',
+    title: 'About Future Career School',
+    description: 'Who is actually behind this site, in the interest of being checkable rather than anonymous.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'See for yourself whether the free tools here give a real result before you commit to anything paid.',
+  },
+];
+
+const faq = [
+  {
+    q: 'How can I tell if a career guidance website has real content, or filler written to rank?',
+    a: 'Check whether you can actually read something useful without signing up first — a genuinely useful site lets you see real content, not just a headline behind a signup wall. Vague, generic advice that could apply to any career decision anywhere is a sign the content was written to fill a page rather than help a specific reader.',
+  },
+  {
+    q: 'Does it matter whether a website names its authors?',
+    a: 'Yes. Content attributed to a real, checkable person — someone with a name, and ideally a background you can verify — carries more accountability than an anonymous "our team" byline. It does not guarantee quality on its own, but it is a reasonable signal that someone stands behind what is written.',
+  },
+  {
+    q: 'Should a career guidance website show its pricing openly?',
+    a: 'Yes. A site that will not state a number until after you contact them or book a "discovery call" is usually building toward a larger, less negotiable pitch. Pricing shown directly on the page lets you compare the real cost against the decision you are actually making, before you hand over any contact details.',
+  },
+  {
+    q: 'How do I know if a free tool on a career website actually gives me a result?',
+    a: 'A genuine free tool produces something specific and useful at the end — a profile summary, a shortlist, a concrete signal you can act on. A lead-generation quiz is designed mainly to capture your email or phone number, with a vague or generic result at the end regardless of how you answered. Try the tool and judge the actual output before deciding whether it was worth your details.',
+  },
+  {
+    q: 'Is a more polished-looking website automatically more trustworthy?',
+    a: 'No. Visual polish is easy to produce and says nothing about whether the content is genuinely useful, the pricing is honest, or the free tools give a real result. Judge the site on the four checks above rather than how it looks.',
+  },
+  {
+    q: 'What does it cost to actually use the service behind this website, and is the free layer enough first?',
+    a: `The free layer — career and skill assessments, resources, and course-finder tools — is fully free and genuinely gives you a result, not just a lead-capture form. If a paid conversation is what your situation needs, a first 1-on-1 session is ${studentSessionPriceText} for students or ${professionalSessionPriceText} for working professionals.`,
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Best Career Guidance Website', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Best Career Guidance Website: What to Check About the Site Itself',
+    description,
+    datePublished: '2026-08-01',
+    dateModified: '2026-08-01',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="guidance-website-best-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Best Career Guidance Website</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>Judging the site itself, not the service behind it</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>The best career guidance website isn't the most polished one — it's the one that gives you something real before it asks for anything</h1>
+            <p class="line strong">
+              A website can look professional and still be built to capture your details before it gives you anything useful. Judging the site itself means checking four things: whether you can actually read real, specific content without signing up first, whether the people writing it are named and checkable, whether pricing is shown on the page, and whether any free tool it offers gives a genuine result or is just a lead-generation quiz in disguise.
+            </p>
+            <p class="line">
+              This is separate from evaluating the counselling process or provider behind the site — a good service can sit behind a weak website, and a polished website can sit in front of a weak service. The focus here is the site itself.
+            </p>
+            <p class="line">A site that fails more than one of these checks is worth a second look before you hand over your details.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how guidance works here</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">The four checks on the site</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Real, readable content — not signup-gated marketing pages.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Named, checkable authors instead of an anonymous "our team."</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Pricing shown on the page, not hidden behind a call.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Free tools that give a real result, not a lead-gen quiz.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>A polished-looking website says nothing on its own about whether the content, pricing, or free tools behind it are genuinely useful.</li>
+          <li>Real content should be readable without a signup wall — try before you're asked to hand over any details.</li>
+          <li>Named, checkable authors are a stronger accountability signal than an anonymous "our team" byline.</li>
+          <li>Pricing shown directly on the page lets you compare cost fairly before you commit time to a call.</li>
+          <li>A genuine free tool gives a specific, useful result — a lead-generation quiz is mostly built to capture your details.</li>
+          <li>This checks the website itself; whether the actual guidance process is a good fit is a separate question worth checking too.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#criteria">The four checks on the site</a>
+          <a href="#free-vs-paid">What the free layer here actually gives you</a>
+          <a href="#red-flags">Red flags specific to the website</a>
+          <a href="#what-changes">What actually changes when this holds up</a>
+          <a href="#cost">What it costs, concretely</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="criteria" class="container section">
+      <h2>Four checks that judge the website as a property</h2>
+      <p class="line">
+        These are separate from evaluating the counselling process or provider — they're about the site itself, before you've even spoken to anyone.
+      </p>
+
+      <div class="protocol-stack">
+        <div class="protocol-row">
+          <span class="protocol-num">1</span>
+          <div class="protocol-body">
+            <h3>Real, readable content before any signup</h3>
+            <p>A genuinely useful site lets you read something specific and useful — real guidance, real detail — without creating an account or handing over contact information first. If every page of substance sits behind a signup wall, that's worth noticing before you commit anything.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">2</span>
+          <div class="protocol-body">
+            <h3>Named authors you can actually check</h3>
+            <p>Content attributed to a real, named person carries more accountability than an anonymous "our team" byline. It's worth looking for who actually wrote what you're reading, and whether that person's background is visible and checkable rather than hidden.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">3</span>
+          <div class="protocol-body">
+            <h3>Pricing shown on the page, not hidden behind a call</h3>
+            <p>A site that won't state a number until after a "discovery call" is usually building toward a larger, less negotiable pitch. Pricing shown directly on the page lets you compare the real cost against the decision you're actually making.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">4</span>
+          <div class="protocol-body">
+            <h3>Free tools that give a real result</h3>
+            <p>A genuine free assessment or tool produces something specific and useful at the end. A lead-generation quiz is built mainly to capture your email or phone number, with a vague, generic result regardless of your actual answers. Try the tool yourself and judge the output before deciding it was worth your details.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="free-vs-paid" class="container section">
+      <h2>What a genuinely free layer on a website should actually give you</h2>
+      <p class="line">
+        The fourth check above deserves a closer look, since "free" is easy to claim and easy to fake.
+      </p>
+
+      <div class="card highlight-card">
+        <h3>What a real free layer looks like</h3>
+        <div class="sub-row sub-row--fit">
+          <span class="sub-row-label">A genuine free tool does this</span>
+          <p>Gives you a specific result you can act on — a profile summary, a shortlist, a concrete signal — regardless of whether you ever pay for anything else.</p>
+        </div>
+        <div class="sub-row sub-row--caution">
+          <span class="sub-row-label">A lead-generation quiz does this instead</span>
+          <p>Asks a few generic questions, then gates the actual "result" behind an email or phone number, often followed by a sales call rather than a useful answer.</p>
+        </div>
+      </div>
+
+      <p class="line">
+        Career and skill assessments here are fully free, updated, practical, and AI-powered, and give a real result before any paid conversation is even mentioned — the same standard worth applying to any site claiming a free tool.
+      </p>
+    </section>
+
+    <section id="red-flags" class="container section">
+      <h2>Red flags specific to the website itself</h2>
+      <p class="line">
+        A site can look trustworthy and still be built to extract your details before it gives you anything real. These four signs are about the website as a property, separate from the usual red flags — outdated advice, guaranteed outcomes.
+      </p>
+
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>Signs the website is worth your time</h3>
+          <ul>
+            <li>Lets you read real, specific content before asking for anything.</li>
+            <li>Names its authors, with a checkable background.</li>
+            <li>Shows pricing directly on the page.</li>
+            <li>Free tools give a specific, useful result.</li>
+            <li>Is honest about who is behind the site and what it does not do.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>Signs to slow down</h3>
+          <ul>
+            <li>Every page of real substance sits behind a signup wall.</li>
+            <li>Content is credited only to an anonymous "our team."</li>
+            <li>Pricing is hidden behind a "book a call" or "contact us" form.</li>
+            <li>A "free assessment" gates any result behind your contact details.</li>
+            <li>Vague, generic advice that could apply to any career question anywhere.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What actually changes when a website passes these checks"
+      subtitle="Not every site adds the same thing. This is the difference a genuinely useful one points toward."
+      rows={comparisonRows}
+    />
+
+    <section id="cost" class="container section">
+      <h2>What the service behind this website actually costs</h2>
+      <p class="line">
+        The third check above asked whether a site shows its pricing directly. Here it is, held to the same standard — real numbers on the page, not a prompt to get in touch first.
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Plan">Career and skill assessments</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student 1-on-1 session</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Working professional 1-on-1 session</td>
+                <td data-label="Price">{professionalSessionPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="cta-pair">
+        <a class="btn-outline" href={BOFU_INTERNAL_LINKS.careerGuidance}>See what career guidance covers here</a>
+        <a class="btn-gold" href={`${BOFU_INTERNAL_LINKS.parentGuidance}#plans`}>Compare plans and pricing</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on choosing the best career guidance website</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_ASSESSMENT_LINKS.hub}>Try the free assessments here</a>
+        <a class="btn-outline" href="/about/">See who is behind this site</a>
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader provider question, the assessment quality question, or the actual guidance service."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #guidance-website-best-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.75rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .sub-row {
+    margin-top: .85rem;
+    padding: .65rem .8rem;
+    border-radius: 10px;
+    display: grid;
+    gap: .2rem;
+  }
+  .sub-row--fit {
+    background: rgba(45,212,191,.08);
+    border: 1px solid rgba(45,212,191,.22);
+  }
+  .sub-row--caution {
+    background: rgba(229,184,74,.08);
+    border: 1px solid rgba(229,184,74,.22);
+  }
+  .sub-row-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .sub-row--fit .sub-row-label { color: #7ee8d8; }
+  .sub-row--caution .sub-row-label { color: #f6db95; }
+  .sub-row p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,.72);
+    margin: 0;
+  }
+
+  .protocol-stack {
+    display: grid;
+    gap: .9rem;
+    margin-top: 1.2rem;
+  }
+  .protocol-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+  }
+  .protocol-num {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    line-height: 1;
+    color: rgba(229,184,74,.35);
+  }
+  .protocol-body h3 { margin-bottom: .4rem; }
+  .protocol-body p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.66);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+    .protocol-row { grid-template-columns: 44px 1fr; }
+    .protocol-num { font-size: 1.5rem; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

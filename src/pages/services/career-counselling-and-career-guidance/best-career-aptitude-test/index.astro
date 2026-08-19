@@ -1,0 +1,760 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+
+const title = 'Best Career Aptitude Test | What It Actually Measures | Future Career School';
+const description =
+  'What a real career aptitude test measures versus a personality quiz, how to tell a credible one from a gimmick, and where a free, AI-powered aptitude read fits before paying for a report.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/best-career-aptitude-test/';
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers once an aptitude result needs interpreting.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-assessment-platform/',
+    title: 'Best Career Assessment Platform',
+    description: 'The broader question: how to judge any career assessment platform, including personality, interest, and skill tests, not just aptitude specifically.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.careerAptitudeAfter10th,
+    title: 'Career Aptitude Test After 10th',
+    description: 'A free, stage-matched aptitude read for stream and subject decisions right after Class 10.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.careerAptitudeAfter12th,
+    title: 'Career Aptitude Test After 12th',
+    description: 'A free, stage-matched aptitude read for degree and course decisions right after Class 12.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-fees/',
+    title: 'Career Counselling Fees',
+    description: 'What paid guidance costs if an aptitude result needs a real plan built around it, and what the free layer already covers.',
+  },
+];
+
+const faq = [
+  {
+    q: 'What does a real career aptitude test actually measure?',
+    a: 'Reasoning and ability, not preference. A genuine aptitude test measures how you handle things like numerical reasoning, verbal reasoning, logical/abstract reasoning, and spatial reasoning — the kind of thinking classic school-context tools like DBDA (David\'s Battery of Differential Abilities) or CII-style aptitude batteries were built around. That is different from an interest inventory (what you enjoy) or a personality test (how you tend to behave), even though many platforms market all three under the same "career test" label.',
+  },
+  {
+    q: 'Is "best career aptitude test" even the right question, or does it depend on the person?',
+    a: 'It depends on the person and the decision. A stream-selection aptitude read for a Class 10 student is answering a different question than an aptitude check for a working professional weighing a pivot, even if both are marketed under the same label. The more useful question is not "which test is best overall" but "which test\'s reasoning categories and stage-fit actually match my decision."',
+  },
+  {
+    q: 'How is an aptitude test different from the assessments most career platforms sell?',
+    a: 'Many career platforms bundle personality typing, interest inventories, and a thin ability check into one report and call the whole thing an "aptitude test." A test that only sorts you into a personality type or lists your interests has not actually measured aptitude — it has measured something adjacent to it. If a platform cannot say which specific reasoning categories it is testing, it likely is not testing aptitude in the strict sense.',
+  },
+  {
+    q: 'Can a free aptitude test be as credible as a paid one like DBDA or CII?',
+    a: 'Free does not automatically mean weak, and a price tag does not automatically mean the reasoning categories are more rigorous. Plenty of paid providers charge a large one-time fee for an aptitude report built on frameworks that have not meaningfully changed in decades, with limited adjustment for current market context. A free, updated, AI-powered aptitude read can be genuinely credible if it names its reasoning categories clearly and adjusts to your specific answers rather than slotting you into one of a small, fixed set of scores.',
+  },
+  {
+    q: "What does Future Career School's assessment cover on the aptitude dimension specifically?",
+    a: "The free assessments here include reasoning and ability signals as part of a broader, updated, AI-powered read — not a standalone, decades-old psychometric battery in the classic DBDA/CII mould. That means the aptitude signal is current and stage-matched, but if your specific need is a formal, standardised aptitude battery with published norms, that is a narrower ask worth naming explicitly before you take any test, free or paid.",
+  },
+  {
+    q: 'What happens after the aptitude result — is that the end of the process?',
+    a: 'For a low-stakes or exploratory decision, an aptitude signal alone can be enough to narrow options for now. For a decision that is expensive, time-pressured, or still confusing once the result is in, the aptitude read is a starting point, not a finish line — it works best when someone can weigh it against your actual interests, financial situation, and family context and turn it into an actual plan. No ethical provider can guarantee that plan leads to a specific job or income outcome, but it can make the next decision clearer.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Best Career Aptitude Test', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Best Career Aptitude Test: What It Actually Measures, and How to Tell a Real One From a Quiz',
+    description,
+    datePublished: '2026-07-14',
+    dateModified: '2026-07-14',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="aptitude-test-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Best Career Aptitude Test</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>Aptitude specifically, not the full assessment picture</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>The best career aptitude test measures reasoning and ability — not just what you like or how you behave</h1>
+            <p class="line strong">
+              An aptitude test in the strict sense checks how you reason: numerical, verbal, logical, and spatial ability — the same territory classic school-context tools like DBDA and CII cover. It is narrower than a full career "assessment," which can also include personality and interest testing. There is no single test that is best for everyone; there is a test whose reasoning categories are clearly named and whose difficulty and framing actually match your stage.
+            </p>
+            <p class="line">
+              That is a narrower question than judging a career assessment platform overall, which also covers personality and interest testing — see the broader comparison linked below if that is what you actually need.
+            </p>
+            <p class="line">A report that never tells you which reasoning categories it tested is worth questioning before you trust the score.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how career guidance works here</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Try a free assessment</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">What "aptitude" actually means here</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Reasoning and ability — numerical, verbal, logical, spatial — not preference or personality.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Distinct from interest inventories and personality typing, even when sold under one "career test" label.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Rooted in the same territory as DBDA/CII-style school aptitude batteries.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Only useful once it connects the score to an actual next step.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>"Aptitude" is narrower than "assessment." Aptitude means reasoning and ability specifically — the assessment umbrella can also include personality, interest, and skill testing.</li>
+          <li>The classic reference point for a real aptitude test is something like DBDA or CII: named reasoning categories (numerical, verbal, logical, spatial) with an actual score per category, not a single vague label.</li>
+          <li>A platform that calls a personality quiz or interest inventory an "aptitude test" without measuring reasoning ability is stretching the term, not testing aptitude.</li>
+          <li>Free does not automatically mean weak on the aptitude dimension, and a price tag does not automatically mean the reasoning categories are more current or rigorous.</li>
+          <li>The free assessments here include reasoning and ability signals as part of a broader, updated, AI-powered read — genuinely useful for narrowing a decision, though it is not a standalone, formally standardised psychometric battery in the classic DBDA/CII mould.</li>
+          <li>No honest aptitude test — or the guidance built on top of it — can guarantee a specific stream, course, or job outcome. Treat that promise as a warning sign, not a selling point.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="what-is-aptitude" class="container section">
+      <h2>What a career aptitude test actually is, and what it is not</h2>
+      <p class="line">
+        "Career assessment" has become an umbrella term. Under that umbrella sit at least four different kinds of tools, and they answer different questions:
+      </p>
+
+      <div class="protocol-stack">
+        <div class="protocol-row">
+          <span class="protocol-num">A</span>
+          <div class="protocol-body">
+            <h3>Aptitude test — reasoning and ability</h3>
+            <p>Measures how you handle numerical reasoning, verbal reasoning, logical/abstract reasoning, and spatial reasoning. This is the strict, original meaning of "aptitude test" and the territory covered by classic school-context tools such as DBDA (David's Battery of Differential Abilities) and CII-style aptitude batteries. It answers: what kind of thinking are you naturally stronger at?</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">B</span>
+          <div class="protocol-body">
+            <h3>Interest inventory — what you enjoy</h3>
+            <p>Measures preferences and interests, not ability. Two people with identical reasoning scores can have very different interest profiles, and the reverse is also true. It answers: what do you gravitate toward, independent of how good you are at it?</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">C</span>
+          <div class="protocol-body">
+            <h3>Personality test — how you tend to behave</h3>
+            <p>Measures behavioural and temperament patterns. It answers: how do you tend to work, decide, and interact, regardless of what you are good at or interested in?</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">D</span>
+          <div class="protocol-body">
+            <h3>Skill test — current, learned ability</h3>
+            <p>Measures a specific, learned skill you already have or are building, as opposed to an innate reasoning strength. It answers: where do you already stand on a specific, practical capability?</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="line">
+        A platform marketing "the best career aptitude test" is not automatically wrong to also include interest or personality questions — many useful career assessments blend more than one of these layers. The honest issue is when a test that is really just B or C gets labelled and sold as A, with no actual reasoning-ability component inside it.
+      </p>
+    </section>
+
+    <section id="credible-vs-gimmick" class="container section">
+      <h2>How to tell a credible aptitude test from a gimmicky quiz</h2>
+      <p class="line">
+        This is checkable before you trust a score, using the same discipline a school counsellor would apply to a DBDA or CII report — the label on the box does not matter, the substance inside it does.
+      </p>
+
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>Signs the aptitude test is credible</h3>
+          <ul>
+            <li>Names its reasoning categories explicitly — numerical, verbal, logical, spatial, or a clearly stated equivalent.</li>
+            <li>Gives you a score or a read per category, not one overall "type" or label.</li>
+            <li>Explains, in plain language, what each category is actually testing.</li>
+            <li>Results shift meaningfully based on how you actually answer, not a fixed script.</li>
+            <li>Is upfront that no aptitude score can guarantee a specific stream, course, or career outcome.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>Signs it is a gimmick wearing "aptitude" as a label</h3>
+          <ul>
+            <li>Calls itself an aptitude test but only asks about interests, hobbies, or personality traits.</li>
+            <li>Delivers one vague "type" or code with no reasoning-category breakdown.</li>
+            <li>The full breakdown is locked behind a payment with no preview of what it measures.</li>
+            <li>One identical test is offered to school students, graduates, and working professionals with no adjustment.</li>
+            <li>Claims the result can tell you exactly which career or stream will guarantee success.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="line">
+        None of this means every paid aptitude battery is weak, or every free one is strong — DBDA and CII-style batteries are genuinely rigorous when administered properly, and plenty of free online quizzes are thin. These are the specific, checkable things worth confirming either way, rather than judging a test by how polished its landing page looks.
+      </p>
+    </section>
+
+    <section id="free-vs-paid" class="container section">
+      <h2>Free vs paid, specifically for the aptitude dimension</h2>
+      <p class="line">
+        Many providers charge a substantial one-time fee for a formal aptitude battery, often positioned as the "real" or "scientific" option versus anything free. That framing deserves a closer look rather than automatic trust.
+      </p>
+
+      <div class="card highlight-card">
+        <h3>What each layer actually contributes on aptitude specifically</h3>
+        <div class="sub-row sub-row--fit">
+          <span class="sub-row-label">A good free, AI-powered read gives you</span>
+          <p>A current, stage-matched signal on reasoning and ability alongside interest and work-style patterns, in one focused sitting with an instant result — enough to see where your reasoning strengths point before spending money on a formal battery.</p>
+        </div>
+        <div class="sub-row sub-row--caution">
+          <span class="sub-row-label">A formal, standardised battery (like DBDA/CII) adds</span>
+          <p>Published norms, a longer administered format, and a category-by-category numerical score benchmarked against a wider population — genuinely useful when a school, exam board, or family wants a formal document, not just a directional signal.</p>
+        </div>
+      </div>
+
+      <p class="line">
+        The free, AI-powered assessments here include reasoning and ability signals as part of a broader read, and stay free by design, not free-with-a-catch-later. That is a fair, current alternative to a paid, outdated aptitude quiz that turns out to be thin underneath a polished paywall — but it is honestly not a substitute for a formally standardised battery if that specific document is what you need, for example for a school record or a formal counselling referral.
+      </p>
+      <p class="line">
+        If your decision is exploratory or you mainly want directional clarity on your reasoning strengths, a free, updated aptitude read is often genuinely enough for now. If you specifically need a formal, published-norm aptitude score for an institutional purpose, that is the case for a standardised battery rather than any AI-powered free tool, free or paid.
+      </p>
+    </section>
+
+    <section id="life-stage" class="container section">
+      <h2>Matching the aptitude test to your actual stage</h2>
+      <p class="line">
+        A reasoning-ability question for a Class 10 student weighing Science, Commerce, or Arts is not the same question as one for a working professional weighing a pivot, even when both search for "best career aptitude test."
+      </p>
+      <div class="grid-two">
+        <div class="card">
+          <h3>Class 10 and below</h3>
+          <p class="line" style="margin:0;">Early reasoning-strength signals to inform stream selection, alongside interest clarity, before board-exam pressure forces a decision with limited context.</p>
+          <p class="line" style="margin-top:.6rem;"><a href={BOFU_ASSESSMENT_LINKS.careerAptitudeAfter10th}>Free career aptitude test after 10th</a></p>
+        </div>
+        <div class="card">
+          <h3>Class 11 to 12</h3>
+          <p class="line" style="margin:0;">Reasoning-category clarity for degree and course fit — numerical strength for engineering or commerce-heavy paths, verbal and logical strength for humanities or law-leaning paths.</p>
+          <p class="line" style="margin-top:.6rem;"><a href={BOFU_ASSESSMENT_LINKS.careerAptitudeAfter12th}>Free career aptitude test after 12th</a></p>
+        </div>
+        <div class="card">
+          <h3>Graduates and early professionals</h3>
+          <p class="line" style="margin:0;">Reasoning-ability signals combined with employability and role-direction clarity once a degree is close to done or finished.</p>
+          <p class="line" style="margin-top:.6rem;"><a href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}>Free assessments for graduates and early professionals</a></p>
+        </div>
+        <div class="card">
+          <h3>Working professionals and career changers</h3>
+          <p class="line" style="margin:0;">Reasoning strengths weighed against pivot feasibility, skill gaps, and automation-risk clarity for people already earning and weighing a change.</p>
+          <p class="line" style="margin-top:.6rem;"><a href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}>Free assessments for working professionals</a></p>
+        </div>
+      </div>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What actually changes when an aptitude read is current, not decades old"
+      subtitle="A reasoning score is only as useful as what happens once you have it. This is the difference an updated, AI-powered read points to."
+      rows={[
+        { left: 'Paid outdated impractical assessments with weak practical value', right: 'Free updated practical AI-powered career and skill assessments' },
+        { left: 'Degree-first direction with weak skill edge', right: 'Skill-first direction with proof of work and stronger market value' },
+        { left: 'Random upskilling that compounds slowly', right: 'Clearer skill direction tied to growth and income upside' },
+      ]}
+    />
+
+    <section class="container section">
+      <p class="line">
+        A strong aptitude score still only measures reasoning. If the result already points toward a clear direction, the next honest step is turning it into an actual plan — weighing it against interest, market fit, and your financial situation — rather than taking another aptitude quiz that says roughly the same thing in different words.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-outline" href={BOFU_INTERNAL_LINKS.careerGuidance}>See what career guidance covers</a>
+        <a class="btn-gold" href={BOFU_PLAN_LINKS.parentGuidance}>Compare plans and pricing</a>
+      </div>
+    </section>
+
+    <section id="choosing" class="container section">
+      <h2>When a free aptitude read is enough, and when it needs a plan built on top</h2>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>A free aptitude read is probably enough if</h3>
+          <ul>
+            <li>You're early in exploring and mainly want a directional signal on your reasoning strengths.</li>
+            <li>The decision isn't urgent, expensive, or tied to a formal institutional requirement yet.</li>
+            <li>You haven't tried a current, stage-specific aptitude read before.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>The result is worth taking further if</h3>
+          <ul>
+            <li>The decision is expensive, time-pressured, or hard to reverse.</li>
+            <li>The reasoning-category result conflicts with your interests or what you already suspected.</li>
+            <li>A school, family member, or formal process needs a documented plan built around the score, not just the score itself.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        Once you know which side of that you're on, apply the credibility checks above to whichever aptitude test you're weighing, including the one here. If a free, stage-matched reasoning read is enough for now, start there — it costs nothing to try. If the result needs a real plan built around it, that's what a counselling session is for.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Try a free assessment first</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on choosing the best career aptitude test</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <GuidancePlansSection
+      sectionId="plans"
+      audience="mixed"
+      serviceLabel="Career Guidance"
+      title="Career Guidance Plans"
+    />
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader guidance service, the full assessment-platform evaluation, or try a free, stage-matched aptitude read."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #aptitude-test-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+  .card {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .card a { color: #f6db95; }
+  .card a:hover { color: #fff; }
+
+  .sub-row {
+    margin-top: .85rem;
+    padding: .65rem .8rem;
+    border-radius: 10px;
+    display: grid;
+    gap: .2rem;
+  }
+  .sub-row--fit {
+    background: rgba(45,212,191,.08);
+    border: 1px solid rgba(45,212,191,.22);
+  }
+  .sub-row--caution {
+    background: rgba(229,184,74,.08);
+    border: 1px solid rgba(229,184,74,.22);
+  }
+  .sub-row-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .sub-row--fit .sub-row-label { color: #7ee8d8; }
+  .sub-row--caution .sub-row-label { color: #f6db95; }
+  .sub-row p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,.72);
+    margin: 0;
+  }
+
+  .protocol-stack {
+    display: grid;
+    gap: .9rem;
+    margin-top: 1.2rem;
+  }
+  .protocol-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+  }
+  .protocol-num {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    line-height: 1;
+    color: rgba(229,184,74,.35);
+  }
+  .protocol-body h3 { margin-bottom: .4rem; }
+  .protocol-body p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.66);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .protocol-row { grid-template-columns: 44px 1fr; }
+    .protocol-num { font-size: 1.5rem; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

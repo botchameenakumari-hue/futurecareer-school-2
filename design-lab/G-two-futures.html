@@ -1,0 +1,144 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>G · Two Futures</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+body{background:#0D0D0F;color:#fff;font-family:Inter,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.bar{position:fixed;top:0;left:0;right:0;z-index:70;display:flex;justify-content:space-between;align-items:center;padding:16px clamp(1.2rem,4vw,3rem);mix-blend-mode:difference}
+.bar b{font-family:'Instrument Serif',serif;font-weight:400;font-size:19px}
+.bar a{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.intro{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:5rem 1.4rem 3rem;position:relative}
+.intro .k{font-size:11px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#8b8b95;margin-bottom:1.6rem}
+.intro h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(2.4rem,7vw,6rem);line-height:1.02;letter-spacing:-.025em;max-width:15ch;margin-bottom:1.3rem}
+.intro h1 em{font-style:italic;color:#FF6B4A}
+.intro p{max-width:34rem;color:#9a9aa5;line-height:1.75;font-weight:300;font-size:15.5px}
+.intro .down{position:absolute;bottom:2rem;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:#6a6a75;display:flex;flex-direction:column;align-items:center;gap:.6rem}
+.intro .down i{width:1px;height:38px;background:linear-gradient(#FF6B4A,transparent);animation:c 2s ease-in-out infinite}
+@keyframes c{0%,100%{opacity:.2;transform:scaleY(.4);transform-origin:top}50%{opacity:1;transform:scaleY(1);transform-origin:top}}
+/* ── the split experience ── */
+.exp{height:620vh;position:relative}
+.pin{position:sticky;top:0;height:100svh;overflow:hidden;display:flex}
+.side{position:absolute;inset:0;overflow:hidden}
+.side img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s ease}
+.side img.on{opacity:1}
+.L{filter:grayscale(1) brightness(.42) contrast(1.1)}
+.R{clip-path:inset(0 0 0 var(--split,50%))}
+.R img{filter:saturate(1.05)}
+.tintL{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,13,15,.55),rgba(13,13,15,.9))}
+.tintR{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,8,4,.35),rgba(13,13,15,.85))}
+.divider{position:absolute;top:0;bottom:0;left:var(--split,50%);width:2px;background:#FF6B4A;z-index:20;cursor:ew-resize;box-shadow:0 0 24px rgba(255,107,74,.8)}
+.knob{position:absolute;top:50%;left:50%;translate:-50% -50%;width:46px;height:46px;border-radius:50%;background:#FF6B4A;display:flex;align-items:center;justify-content:center;font-size:15px;color:#0D0D0F;font-weight:700;box-shadow:0 0 30px rgba(255,107,74,.7)}
+.hud{position:absolute;inset:0;z-index:15;display:grid;grid-template-columns:1fr 1fr;pointer-events:none}
+.col{padding:clamp(5rem,11vh,7rem) clamp(1.2rem,4vw,3.4rem) clamp(2rem,5vh,3rem);display:flex;flex-direction:column;justify-content:space-between}
+.lab{font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;margin-bottom:.9rem}
+.col.l .lab{color:#8b8b95}.col.r .lab{color:#FF6B4A;text-align:right}
+.col.r{text-align:right}
+.big{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(1.5rem,3.6vw,2.9rem);line-height:1.1;letter-spacing:-.02em;max-width:14ch;transition:opacity .5s,transform .5s}
+.col.r .big{margin-left:auto}
+.col.l .big{color:#c3c3cc}
+.money{font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4.6vw,3.6rem);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.col.l .money{color:#7d7d88}.col.r .money{color:#FF6B4A}
+.mlab{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#7d7d88;margin-top:.4rem}
+.note{font-size:13px;line-height:1.6;color:#9a9aa5;font-weight:300;max-width:22ch;margin-top:.8rem}
+.col.r .note{margin-left:auto;color:#d8cfc9}
+.age{position:absolute;top:clamp(4.5rem,10vh,6rem);left:50%;translate:-50%;z-index:25;text-align:center;pointer-events:none}
+.age b{display:block;font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,3.4rem);line-height:1;font-variant-numeric:tabular-nums}
+.age span{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:#8b8b95}
+.track{position:absolute;bottom:clamp(1rem,3vh,2rem);left:50%;translate:-50%;z-index:25;display:flex;gap:7px;pointer-events:none}
+.track i{width:26px;height:3px;border-radius:2px;background:rgba(255,255,255,.2);transition:background .4s}
+.track i.on{background:#FF6B4A}
+.hint{position:absolute;bottom:clamp(3rem,7vh,4.6rem);left:50%;translate:-50%;z-index:25;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#6a6a75;pointer-events:none}
+/* ── close ── */
+.close{min-height:90svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 1.4rem;background:#0D0D0F}
+.close h2{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(2rem,5.6vw,4.2rem);line-height:1.05;max-width:18ch;margin-bottom:1.2rem}
+.close h2 em{font-style:italic;color:#FF6B4A}
+.close p{max-width:34rem;color:#9a9aa5;line-height:1.75;font-weight:300;margin-bottom:2.2rem}
+.acts{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+.b1{background:#FF6B4A;color:#0D0D0F;padding:16px 32px;border-radius:99px;font-weight:700;font-size:13.5px;transition:.3s}
+.b1:hover{transform:translateY(-3px);filter:brightness(1.1)}
+.b2{border:1px solid rgba(255,255,255,.28);padding:16px 32px;border-radius:99px;font-weight:600;font-size:13.5px;transition:.3s}
+.b2:hover{background:rgba(255,255,255,.1)}
+@media(max-width:760px){.big{font-size:clamp(1.05rem,4vw,1.5rem)}.money{font-size:clamp(1.3rem,6vw,2rem)}.note{display:none}.col{padding-left:1rem;padding-right:1rem}}
+</style></head><body>
+<div class="bar"><b>Future Career School</b><a href="#">Get guidance</a></div>
+
+<section class="intro">
+  <p class="k">Career guidance · India · fully online</p>
+  <h1>Two people. Same degree. <em>Fourteen years apart.</em></h1>
+  <p>One drifted. One was guided. Scroll to watch both lives run side by side — and drag the line to compare.</p>
+  <span class="down"><i></i>Scroll</span>
+</section>
+
+<div class="exp" id="exp">
+  <div class="pin">
+    <div class="side L" id="L">
+      <img class="on" src="https://images.unsplash.com/photo-1594352121345-6f587972b024?auto=format&fit=crop&crop=faces&q=80&w=1400">
+      <img src="https://images.unsplash.com/photo-1653656120364-1edf9ddcb440?auto=format&fit=crop&q=80&w=1400">
+      <img src="https://images.unsplash.com/photo-1752776541969-a4a883830ece?auto=format&fit=crop&q=80&w=1400">
+      <img src="https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?auto=format&fit=crop&q=80&w=1400">
+      <span class="tintL"></span>
+    </div>
+    <div class="side R" id="R">
+      <img class="on" src="https://images.unsplash.com/photo-1760110885990-11520997b2f4?auto=format&fit=crop&crop=faces&q=80&w=1400">
+      <img src="https://images.unsplash.com/photo-1713947506934-c0b6519e069d?auto=format&fit=crop&q=80&w=1400">
+      <img src="https://images.unsplash.com/photo-1781246212288-7fa538344718?auto=format&fit=crop&q=80&w=1400">
+      <img src="https://images.unsplash.com/photo-1573497019707-1c04de26e58c?auto=format&fit=crop&crop=faces&q=80&w=1400">
+      <span class="tintR"></span>
+    </div>
+    <div class="divider" id="div"><span class="knob">⇄</span></div>
+    <div class="age"><b id="age">18</b><span id="stage">Choosing a course</span></div>
+    <div class="hud">
+      <div class="col l">
+        <div><p class="lab">Without guidance</p><p class="big" id="lbig">Picks the course everyone else picked.</p></div>
+        <div><p class="money" id="lmon">₹0</p><p class="mlab">Monthly income</p><p class="note" id="lnote">No idea what the market actually pays for.</p></div>
+      </div>
+      <div class="col r">
+        <div><p class="lab">With guidance</p><p class="big" id="rbig">Maps how they think — then picks.</p></div>
+        <div><p class="money" id="rmon">₹0</p><p class="mlab">Monthly income</p><p class="note" id="rnote">Fit, market and proof mapped before committing.</p></div>
+      </div>
+    </div>
+    <div class="track" id="track"></div>
+    <p class="hint">Drag the orange line ⇄</p>
+  </div>
+</div>
+
+<section class="close">
+  <h2>The gap isn’t talent. It’s <em>fourteen years of small decisions.</em></h2>
+  <p>Practical clarity first — free assessments, strength and market mapping — then focused execution support. 10,000+ guided · 4.9/5 · fully online across India.</p>
+  <div class="acts"><a class="b1" href="#">Get Career Guidance</a><a class="b2" href="#">Take a free assessment</a></div>
+</section>
+
+<script>
+const S=[
+ {age:18,st:'Choosing a course',l:'Picks the course everyone else picked.',r:'Maps how they think — then picks.',lm:0,rm:0,ln:'No idea what the market actually pays for.',rn:'Fit, market and proof mapped before committing.'},
+ {age:22,st:'First job hunt',l:'A degree, no proof of work, 300 applications.',r:'A degree plus one market-validated skill and a portfolio.',lm:18000,rm:42000,ln:'Competing on paper alone.',rn:'Competing on evidence.'},
+ {age:26,st:'The plateau',l:'Same role, 9% annual hike, quietly stuck.',r:'Skill stacked twice. Moved into a premium niche.',lm:34000,rm:110000,ln:'Salary ceiling arrives early and silently.',rn:'Ceiling raised deliberately, not by luck.'},
+ {age:32,st:'The AI shift',l:'Role is 84% automatable. No plan B.',r:'Judgment-heavy work AI can’t replace. Two income streams.',lm:52000,rm:240000,ln:'Exposed to exactly the roles being cut.',rn:'Future-Ready score checked every year.'}
+];
+const exp=document.getElementById('exp'),L=document.getElementById('L'),R=document.getElementById('R'),tr=document.getElementById('track');
+S.forEach(()=>tr.insertAdjacentHTML('beforeend','<i></i>'));
+const $=i=>document.getElementById(i);let cur=-1,shown={lm:0,rm:0};
+const fmt=v=>'₹'+Math.round(v).toLocaleString('en-IN');
+const anim=(id,from,to)=>{const s=performance.now();const k=n=>{const p=Math.min((n-s)/900,1);$(id).textContent=fmt(from+(to-from)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(k)};requestAnimationFrame(k)};
+const set=i=>{if(i===cur)return;const d=S[i];
+ $('age').textContent=d.age;$('stage').textContent=d.st;
+ ['lbig','rbig','lnote','rnote'].forEach(x=>{$(x).style.opacity=0;$(x).style.transform='translateY(10px)'});
+ setTimeout(()=>{$('lbig').textContent=d.l;$('rbig').textContent=d.r;$('lnote').textContent=d.ln;$('rnote').textContent=d.rn;
+  ['lbig','rbig','lnote','rnote'].forEach(x=>{$(x).style.opacity=1;$(x).style.transform='none'})},260);
+ anim('lmon',shown.lm,d.lm);anim('rmon',shown.rm,d.rm);shown={lm:d.lm,rm:d.rm};
+ [...L.querySelectorAll('img')].forEach((m,n)=>m.classList.toggle('on',n===i));
+ [...R.querySelectorAll('img')].forEach((m,n)=>m.classList.toggle('on',n===i));
+ [...tr.children].forEach((t,n)=>t.classList.toggle('on',n<=i));
+ cur=i};
+addEventListener('scroll',()=>{const r=exp.getBoundingClientRect(),t=Math.min(Math.max(-r.top/(exp.offsetHeight-innerHeight),0),.999);set(Math.floor(t*S.length))},{passive:true});
+set(0);
+// draggable divider
+const dv=document.getElementById('div'),pin=dv.parentElement;let drag=false;
+const move=cx=>{const r=pin.getBoundingClientRect();const p=Math.min(Math.max((cx-r.left)/r.width,.08),.92)*100;
+ pin.style.setProperty('--split',p+'%');R.style.setProperty('--split',p+'%');dv.style.left=p+'%'};
+dv.addEventListener('mousedown',e=>{drag=true;e.preventDefault()});
+addEventListener('mouseup',()=>drag=false);
+addEventListener('mousemove',e=>{if(drag)move(e.clientX)});
+dv.addEventListener('touchstart',()=>drag=true,{passive:true});
+addEventListener('touchend',()=>drag=false);
+addEventListener('touchmove',e=>{if(drag)move(e.touches[0].clientX)},{passive:true});
+</script></body></html>

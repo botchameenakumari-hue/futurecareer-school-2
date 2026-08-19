@@ -1,0 +1,882 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+import BlogBottomCta from '../../../../components/BlogBottomCta.astro';
+
+const title = 'DevOps roadmap India: how to become a DevOps engineer starting from Linux, not Kubernetes';
+const description =
+  'A DevOps roadmap India guide built on real pipeline mechanics: Linux and networking first, then CI/CD, Terraform, Docker, Kubernetes, observability, and the honest DevOps vs SRE split.';
+const canonical = 'https://futurecareerschool.com/blog/career-options/devops-roadmap-india';
+const publishedDateISO = '2026-07-21';
+const publishedDateLabel = '21 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: 'The short answer' },
+  { id: 'devops-vs-sre', label: 'DevOps vs SRE: the honest split' },
+  { id: 'foundations', label: 'Start here: Linux, networking, scripting' },
+  { id: 'cicd', label: 'CI/CD: what the pipeline actually does' },
+  { id: 'iac', label: 'Infrastructure as code: Terraform vs Ansible' },
+  { id: 'containers', label: 'Docker and Kubernetes, without the buzzwords' },
+  { id: 'observability', label: 'Monitoring and observability' },
+  { id: 'sequence', label: 'The build order, step by step' },
+  { id: 'portfolio', label: 'The home-lab portfolio that actually gets noticed' },
+  { id: 'certifications', label: 'Which certification is worth the money' },
+  { id: 'salary', label: 'What DevOps roles actually pay in India' },
+  { id: 'mistakes', label: 'Mistakes that stall the roadmap' },
+  { id: 'timeline', label: 'A realistic timeline' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const devopsVsSreCols = [
+  {
+    label: 'DevOps engineer',
+    points: [
+      'Owns the full delivery lifecycle: builds pipelines, automates deployments, and works closely with developers to ship code faster and more safely.',
+      'Success is measured by delivery speed and deployment frequency — how quickly and reliably new code reaches production.',
+      'Day-to-day work leans toward pipeline design, infrastructure automation, and removing friction between writing code and running it.',
+    ],
+  },
+  {
+    label: 'SRE (site reliability engineer)',
+    points: [
+      'Owns production stability using measurable targets: service level indicators (SLIs), service level objectives (SLOs), and an error budget that caps how much unreliability is acceptable.',
+      'Success is measured by uptime, latency, and how well the team protects its error budget instead of just shipping faster.',
+      'Day-to-day work leans toward incident response, capacity planning, and automating away the repetitive operational toil that used to fall on system administrators.',
+    ],
+  },
+];
+
+const foundationCards = [
+  {
+    badge: 'Operating system',
+    title: 'Linux fundamentals',
+    body: 'Almost every production server, container, and CI runner you will touch runs Linux. You need to be comfortable with the file system, permissions, process management, package managers, and shell scripting before any pipeline or cloud tool makes real sense.',
+    fit: 'Practice on a real machine or VM, not just tutorial videos. Break something and fix it — that is where the actual learning happens.',
+    caution: 'Skipping this to jump straight into Kubernetes YouTube tutorials is the single most common reason DevOps beginners stall in technical interviews.',
+    tags: ['Non-negotiable first step', 'Interview-tested'],
+  },
+  {
+    badge: 'Networking',
+    title: 'Networking basics',
+    body: 'DNS, TCP/IP, load balancers, firewalls, and how a request actually travels from a browser to a server and back. Every outage postmortem you will ever read touches at least one of these concepts.',
+    fit: 'You do not need a CCNA. You need to be able to explain, in plain language, why a service is unreachable and where to look first.',
+    caution: 'Recruiters and interviewers test this with scenario questions, not definitions. "What is DNS" matters less than "why would this service return a 502."',
+    tags: ['Debugging foundation', 'Commonly interview-tested'],
+  },
+  {
+    badge: 'Scripting',
+    title: 'Bash and Python',
+    body: 'Bash for quick automation, log parsing, and glue scripts between tools. Python for anything more structured — automation scripts, small tooling, and reading infrastructure-as-code logic that increasingly looks like software.',
+    fit: 'You do not need to be a software engineer. You need to read and write scripts that automate a repetitive task without breaking on the second run.',
+    caution: 'A portfolio with zero scripts and only GUI-clicked cloud consoles reads as "followed a tutorial," not "can automate a real workflow."',
+    tags: ['Automation layer', 'Shows up in every tool below'],
+  },
+];
+
+const cicdStages = [
+  {
+    stage: 'Trigger',
+    detail: 'A commit, pull request, or merge to a branch fires the pipeline automatically. This is the entire point of continuous integration: nobody manually kicks off a build.',
+  },
+  {
+    stage: 'Build',
+    detail: 'The code compiles or packages into a runnable artifact — often a container image. A broken build stops the pipeline here, before anything reaches a real environment.',
+  },
+  {
+    stage: 'Test',
+    detail: 'Automated unit and integration tests run against the build. This stage is what actually earns the word "continuous" — without it, you just have automated deployment with no safety net.',
+  },
+  {
+    stage: 'Artifact and registry',
+    detail: 'A tested build gets a version tag and lands in an artifact or container registry, so any environment can pull the exact same, already-verified build instead of rebuilding from source.',
+  },
+  {
+    stage: 'Deploy',
+    detail: 'The pipeline pushes the artifact to staging, then production, usually with a rollout strategy (rolling update, blue-green, or canary) that limits blast radius if something is wrong.',
+  },
+  {
+    stage: 'Verify and rollback',
+    detail: 'Automated health checks confirm the new version is actually healthy. A pipeline that cannot roll back automatically on a failed health check is not finished — it just looks finished.',
+  },
+];
+
+const iacCols = [
+  {
+    label: 'Terraform (provisioning)',
+    points: [
+      'Declares the infrastructure that should exist — servers, networks, databases, load balancers — and creates or changes cloud resources to match that declaration.',
+      'Cloud-agnostic by design: the same mental model applies whether you are provisioning on AWS, Azure, or GCP, even though the provider syntax changes.',
+      'Answers the question: "what infrastructure should exist, and does reality currently match that?"',
+    ],
+  },
+  {
+    label: 'Ansible (configuration management)',
+    points: [
+      'Configures what already exists — installing packages, managing users, pushing config files, restarting services on servers that Terraform (or something else) already created.',
+      'Agentless and connects over SSH, which makes it faster to adopt on existing infrastructure than tools that need a pre-installed agent.',
+      'Answers the question: "given that this server exists, what state should it be in?"',
+    ],
+  },
+];
+
+const containerRows = [
+  {
+    concept: 'Image',
+    detail: 'A packaged, immutable snapshot of an application plus everything it needs to run. Built once from a Dockerfile, then run identically anywhere.',
+  },
+  {
+    concept: 'Container',
+    detail: 'A running instance of an image. Lightweight compared to a virtual machine because it shares the host operating system kernel instead of virtualizing an entire OS.',
+  },
+  {
+    concept: 'Pod',
+    detail: 'Kubernetes\' smallest deployable unit — one or more tightly coupled containers that share networking and storage. Almost always one main container per pod in practice.',
+  },
+  {
+    concept: 'Deployment',
+    detail: 'Manages a set of identical pods, handles rolling updates, and restarts pods automatically if they crash. This is what gives Kubernetes its self-healing reputation.',
+  },
+  {
+    concept: 'Service',
+    detail: 'A stable network address that routes traffic to the right pods even as individual pods get replaced. Without this, every pod restart would break connectivity.',
+  },
+];
+
+const sequenceSteps = [
+  {
+    num: '01',
+    title: 'Linux, networking, and one scripting language',
+    body: 'Get comfortable in a real Linux shell, understand how a request travels across a network, and pick Bash or Python and actually use it, not just read about it. This is the base every tool below sits on.',
+  },
+  {
+    num: '02',
+    title: 'Git and version control workflows',
+    body: 'Branching, pull requests, merge conflicts, and how a team actually collaborates on code. This is the trigger point for every CI/CD pipeline you will build next.',
+  },
+  {
+    num: '03',
+    title: 'One cloud platform, chosen deliberately',
+    body: 'Pick AWS, Azure, or GCP based on which platform your target employers actually use (check real job postings, not personal preference) and learn compute, storage, networking, and IAM basics on it.',
+  },
+  {
+    num: '04',
+    title: 'Docker, then Kubernetes',
+    body: 'Containerize a real application with Docker before touching Kubernetes. Kubernetes without a solid Docker foundation turns into memorizing YAML instead of understanding what the YAML is actually configuring.',
+  },
+  {
+    num: '05',
+    title: 'A CI/CD pipeline, built by hand at least once',
+    body: 'Wire up a real pipeline in GitHub Actions, GitLab CI, or Jenkins that builds, tests, and deploys a real project. Copy-pasting a template teaches you far less than debugging your own broken pipeline.',
+  },
+  {
+    num: '06',
+    title: 'Infrastructure as code with Terraform',
+    body: 'Provision real cloud resources through Terraform instead of clicking through a console. This is usually the step that separates a "cloud console user" from someone who can actually work on a DevOps team.',
+  },
+  {
+    num: '07',
+    title: 'Monitoring and observability',
+    body: 'Add Prometheus and Grafana (or a cloud-native equivalent) to something you built, and practice reading dashboards, setting basic alerts, and telling the difference between noise and a real incident.',
+  },
+];
+
+const portfolioProjects = [
+  {
+    badge: 'Project 1',
+    title: 'Containerized app with a full CI/CD pipeline',
+    body: 'Take a small application you build yourself (not a fork), containerize it with Docker, and wire a pipeline that automatically builds, tests, and deploys it on every push. This single project demonstrates more real skill than five certification badges.',
+    tags: ['Docker', 'CI/CD', 'GitHub Actions'],
+  },
+  {
+    badge: 'Project 2',
+    title: 'Terraform-provisioned infrastructure, version controlled',
+    body: 'Provision a small but real environment (a VM, a database, basic networking) entirely through Terraform code committed to a repository, not through the cloud console. Document what happens when you destroy and re-apply it.',
+    tags: ['Terraform', 'IaC', 'AWS/Azure/GCP'],
+  },
+  {
+    badge: 'Project 3',
+    title: 'A Kubernetes deployment with self-healing proof',
+    body: 'Deploy your containerized app to a small Kubernetes cluster (Minikube or a free-tier managed cluster), then deliberately kill a pod and screenshot it recovering on its own. This proves you understand what Kubernetes actually does, not just its vocabulary.',
+    tags: ['Kubernetes', 'Self-healing', 'kubectl'],
+  },
+  {
+    badge: 'Project 4',
+    title: 'A monitoring dashboard with one real alert',
+    body: 'Wire Prometheus and Grafana (or a cloud-native monitoring stack) to one of the projects above, build a dashboard that shows something meaningful, and set up one alert that actually fires under a real condition you create.',
+    tags: ['Prometheus', 'Grafana', 'Observability'],
+  },
+];
+
+const certRows = [
+  {
+    cert: 'AWS Certified Solutions Architect – Associate (or the Azure/GCP equivalent)',
+    note: 'The broadest, most recognized entry-level cloud certification. Worth it if your target employers run on that specific cloud — check real job postings before choosing the platform.',
+  },
+  {
+    cert: 'Certified Kubernetes Administrator (CKA)',
+    note: 'A fully hands-on, CLI-based exam rather than multiple choice, which makes it a much stronger signal than most certifications. Recruiters and hiring managers weigh it heavily because it is genuinely hard to pass without real cluster experience.',
+  },
+  {
+    cert: 'HashiCorp Certified: Terraform Associate',
+    note: 'Confirms you understand infrastructure-as-code concepts, not just Terraform syntax. Useful once you already have a Terraform project in your portfolio, not as a replacement for one.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Learning Kubernetes before Docker and Linux are solid',
+    body: 'Kubernetes is an orchestration layer on top of containers, which run on top of an operating system. Skipping straight to Kubernetes tutorials produces someone who can recite YAML but cannot explain what a pod actually is under the hood.',
+  },
+  {
+    num: '02',
+    title: 'Collecting certifications with no projects behind them',
+    body: 'A resume with three cloud badges and zero GitHub repositories reads as exam-taking. Interviewers ask what you built and what broke while you built it, not which multiple-choice exam you passed.',
+  },
+  {
+    num: '03',
+    title: 'Clicking through the cloud console instead of writing infrastructure as code',
+    body: 'Manually provisioning resources through a web console might get a demo working, but it does not teach the version-controlled, repeatable workflow that real DevOps teams actually run on. Terraform experience is what separates a portfolio project from a real skill.',
+  },
+  {
+    num: '04',
+    title: 'Treating CI/CD as "just automation" without understanding rollback',
+    body: 'A pipeline that deploys automatically but has no automated rollback or health check is only half-built. This is exactly the kind of gap interviewers probe for once they see a pipeline on your resume.',
+  },
+  {
+    num: '05',
+    title: 'Ignoring monitoring until the end, or skipping it entirely',
+    body: 'Observability is not a bonus chapter — it is how a real DevOps or SRE team knows something is wrong before a customer complains. A portfolio with pipelines and infrastructure but zero dashboards or alerts is missing a core part of the job.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'What is the realistic DevOps roadmap for a beginner in India?',
+    a: 'Start with Linux, basic networking, and one scripting language (Bash or Python). Then learn Git workflows, pick one cloud platform based on real job postings, containerize an application with Docker before touching Kubernetes, build a real CI/CD pipeline by hand, provision infrastructure with Terraform instead of the cloud console, and add monitoring with Prometheus and Grafana. Skipping the Linux and networking foundation is the most common reason beginners stall later.',
+  },
+  {
+    q: 'What is the difference between DevOps and SRE?',
+    a: 'DevOps is a culture and practice focused on the full delivery lifecycle: writing, building, testing, and shipping code faster through automation. SRE (site reliability engineering) is a more specific discipline that treats production reliability as an engineering problem, using measurable targets like service level objectives (SLOs) and an error budget to decide how much instability is acceptable before feature work pauses in favor of stability work. DevOps engineers are usually measured on delivery speed; SREs are usually measured on uptime and how well they protect the error budget. Many organizations use both practices together rather than choosing one.',
+  },
+  {
+    q: 'Should I learn Terraform or Ansible first?',
+    a: 'Learn Terraform first if your immediate goal is provisioning cloud infrastructure (servers, networks, databases) through code, since that is the more common entry point in Indian DevOps hiring right now. Learn Ansible once you need to configure what already exists — installing software, managing users, pushing configuration to servers that are already running. Most real DevOps roles eventually use both: Terraform to create the infrastructure, Ansible (or a similar tool) to configure it.',
+  },
+  {
+    q: 'Do I need Kubernetes to get a DevOps job in India?',
+    a: 'Not always for your very first role, but it appears in a large share of DevOps and cloud job postings, and the Certified Kubernetes Administrator (CKA) is one of the strongest hands-on certifications you can hold as a fresher. If your target companies run containerized workloads (most product companies and mid-size tech firms do), skipping Kubernetes will narrow your options. Learn Docker solidly first, since Kubernetes without that foundation is mostly memorization.',
+  },
+  {
+    q: 'What does a DevOps engineer actually pay in India?',
+    a: 'Reported 2026 hiring data shows entry-level DevOps engineers commonly in the roughly ₹4-6 lakh range, mid-level engineers with 2-5 years of experience in the roughly ₹8-18 lakh range, and senior engineers with 6+ years in the roughly ₹18-35 lakh range, with Bengaluru, Hyderabad, and Pune typically paying above the national average. A hands-on certification like CKA can meaningfully lift starting offers even for freshers. Treat any single number as a rough signal and check a few current job postings and salary trackers for your target city and role before anchoring a decision on one figure.',
+  },
+  {
+    q: 'How long does it realistically take to become job-ready in DevOps?',
+    a: 'There is no single honest week or month count that applies to everyone. Someone who already works in IT support, system administration, or software development often reaches a job-ready stage in a focused stretch of a few months, because the Linux, scripting, and troubleshooting instincts already exist. Someone starting from a completely unrelated background, building Linux fundamentals, one cloud platform, Docker, Kubernetes, a real CI/CD pipeline, and Terraform experience from zero, more realistically needs closer to six months to a year of consistent, hands-on work. Judge your own pace against the build order above, not against a marketing claim.',
+  },
+  {
+    q: 'I already work in cloud computing — should I read a different guide first?',
+    a: 'If you are still deciding between cloud engineer, DevOps engineer, cloud architect, and cloud security as career directions, or you want an AWS vs Azure vs GCP comparison before committing to a platform, start with our broader guide on cloud computing career skills in India. This guide assumes you have already decided DevOps is the direction and want the specific pipeline, infrastructure-as-code, container, and observability build order.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://futurecareerschool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Career Options', item: 'https://futurecareerschool.com/blog/career-options' },
+      { '@type': 'ListItem', position: 4, name: 'DevOps Roadmap India', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="career-options"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={jsonLd}
+>
+  <p class="lead-para">
+    A working <strong>DevOps roadmap for India</strong> starts with Linux, networking, and scripting, not with
+    Kubernetes tutorials, and it treats CI/CD pipelines, infrastructure as code, containers, and monitoring as
+    four separate skills that build on each other in a specific order — built correctly, in that order, it is
+    one of the more reliable high-income skill portfolios in Indian tech hiring right now.
+  </p>
+  <p>
+    Most beginner roadmaps jump straight to tool names — Docker, Kubernetes, Terraform, Jenkins — without
+    explaining what each tool is actually solving, or which order to learn them in so each one makes the next
+    one easier instead of more confusing. That gap is exactly why so many self-taught DevOps learners can recite
+    definitions in an interview but freeze on the follow-up question: "walk me through what actually happens
+    when this pipeline runs."
+  </p>
+  <p>
+    This guide fixes that. It covers how a real CI/CD pipeline works stage by stage, the honest difference
+    between Terraform and Ansible, what Docker and Kubernetes concepts actually mean day to day, why monitoring
+    is not an afterthought, and the specific split between DevOps and SRE that most guides blur together.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Linux, networking, and scripting come first — skipping them is the most common reason beginners stall in interviews later.</li>
+      <li>DevOps focuses on shipping code faster; SRE focuses on keeping production reliable against measurable targets like SLOs and an error budget. Different job, not a synonym.</li>
+      <li>Learn Docker before Kubernetes, and write infrastructure as code with Terraform instead of clicking through a cloud console.</li>
+      <li>A home-lab portfolio with a real pipeline, provisioned infrastructure, a self-healing Kubernetes deployment, and one working monitoring dashboard beats a stack of certification badges.</li>
+      <li>If you are still choosing between cloud engineer, DevOps, cloud architect, and cloud security as directions, our <a href="/blog/skill-roadmaps/cloud-computing-career-skills-india/">cloud computing career skills India</a> guide compares those roles and AWS vs Azure vs GCP first.</li>
+      <li><strong>Real proof — a hand-built pipeline, provisioned infrastructure, a self-healing deployment — is what unlocks higher-paying DevOps and SRE offers</strong>, not certification count.</li>
+      <li>The higher ceiling comes from systems depth plus AI-assisted operations, cost and reliability judgment, communication during incidents, and measurable proof. That combination can grow into platform leadership, consulting, managed services, or tooling products.</li>
+    </ul>
+  </div>
+
+  <div class="cta-inline">
+    <a class="btn-gold pulse" href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">Get structured guidance on your DevOps path</a>
+    <a class="btn-outline cta-assessment-lite" href="https://futurecareerschool.com/services/assessments">Use a free assessment as a quick first check</a>
+  </div>
+
+  <p>
+    This roadmap sits inside our wider <a href="/blog/career-options/">career options</a> guides, which walk
+    through what a role actually involves, what to learn, and how to take the first real step toward it.
+  </p>
+
+  <nav class="jump-nav" aria-label="Jump to section">
+    <span class="jump-nav__label">Jump to section</span>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((link) => (
+        <li><a href={`#${link.id}`}>{link.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The short answer</h2>
+  <p>
+    If you are building a <strong>DevOps roadmap for India</strong>, sequence it like this: Linux, networking,
+    and one scripting language first, then Git workflows, one cloud platform, Docker before Kubernetes, a
+    hand-built CI/CD pipeline, Terraform for infrastructure as code, and monitoring with Prometheus and Grafana
+    or a cloud-native equivalent. People who stall usually jumped to Kubernetes or a certification before the
+    fundamentals were solid, or collected badges without a single real project to back them up.
+  </p>
+
+  <h2 id="devops-vs-sre">DevOps vs SRE: the honest split</h2>
+  <p>
+    These two titles get used almost interchangeably in job postings, but the underlying job is genuinely
+    different, and picking blind can leave you in a role that does not match what you actually wanted.
+  </p>
+  <div class="track-grid track-grid--2col">
+    {devopsVsSreCols.map((col) => (
+      <div class="track-card">
+        <h3>{col.label}</h3>
+        <ul>
+          {col.points.map((point) => <li>{point}</li>)}
+        </ul>
+      </div>
+    ))}
+  </div>
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      A service level objective (SLO) sets a target for reliability — for example, 99.9% of requests succeed.
+      The error budget is simply what is left over: 1 minus the SLO. If the SLO allows 99.9% success, the error
+      budget is the 0.1% of failures a team can absorb before it pauses feature work and prioritizes stability.
+      That single idea is the clearest practical difference between the two roles: DevOps optimizes for shipping
+      speed, SRE optimizes for protecting that error budget. Most Indian job postings labeled "DevOps" are
+      closer to the DevOps definition above; roles that explicitly mention SLOs, error budgets, or on-call
+      rotations are closer to SRE, even if the title still says DevOps.
+    </p>
+  </div>
+
+  <h2 id="foundations">Start here: Linux, networking, scripting</h2>
+  <p>
+    Every tool covered further down this roadmap assumes you already have this layer. Treat it as the actual
+    starting line, not an optional chapter to skim.
+  </p>
+  <div class="track-grid">
+    {foundationCards.map((card) => (
+      <div class="track-card">
+        <span class="track-badge">{card.badge}</span>
+        <h3>{card.title}</h3>
+        <p>{card.body}</p>
+        <div class="sub-row sub-row--fit">
+          <span class="sub-row-label">Do this</span>
+          <p>{card.fit}</p>
+        </div>
+        <div class="sub-row sub-row--caution">
+          <span class="sub-row-label">Watch out</span>
+          <p>{card.caution}</p>
+        </div>
+        <div class="tag-row">
+          {card.tags.map((tag) => <span class="tag-pill">{tag}</span>)}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="cicd">CI/CD: what the pipeline actually does</h2>
+  <p>
+    "CI/CD" gets treated as one buzzword, but continuous integration and continuous delivery are two connected
+    ideas, and a real pipeline moves through distinct stages. Knowing these stages by name and function is what
+    separates someone who can explain a pipeline from someone who only knows the tool's dashboard.
+  </p>
+  <div class="protocol-stack">
+    {cicdStages.map((stage, index) => (
+      <div class="protocol-row">
+        <span class="protocol-num">{String(index + 1).padStart(2, '0')}</span>
+        <div class="protocol-body">
+          <h3>{stage.stage}</h3>
+          <p>{stage.detail}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+  <p>
+    Tools like GitHub Actions, GitLab CI, and Jenkins are just different ways of configuring these same stages.
+    Learning the stages first means switching tools later is a syntax problem, not a relearning-the-concept
+    problem.
+  </p>
+
+  <h2 id="iac">Infrastructure as code: Terraform vs Ansible</h2>
+  <p>
+    These two tools get lumped together as "infrastructure automation," but they solve different problems, and
+    knowing which one to reach for is a real interview question, not a technicality.
+  </p>
+  <div class="track-grid track-grid--2col">
+    {iacCols.map((col) => (
+      <div class="track-card">
+        <h3>{col.label}</h3>
+        <ul>
+          {col.points.map((point) => <li>{point}</li>)}
+        </ul>
+      </div>
+    ))}
+  </div>
+  <div class="callout callout--gold">
+    <p class="callout__eyebrow">Honest take</p>
+    <p>
+      Most real DevOps roles in India use both, not one or the other: Terraform provisions the servers,
+      networks, and databases, then Ansible (or a similar configuration tool) sets up what runs on them. If you
+      can only build one project before your next interview, build the Terraform one first — it shows up in
+      more job descriptions right now than Ansible does on its own.
+    </p>
+  </div>
+
+  <h2 id="containers">Docker and Kubernetes, without the buzzwords</h2>
+  <p>
+    Kubernetes gets treated as the entire DevOps job in a lot of beginner content, but it only makes sense once
+    you understand what it is orchestrating. Here are the concepts in the order they actually build on each
+    other.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Concept</th>
+          <th>What it actually means</th>
+        </tr>
+      </thead>
+      <tbody>
+        {containerRows.map((row) => (
+          <tr>
+            <td data-label="Concept">{row.concept}</td>
+            <td data-label="What it actually means">{row.detail}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Learn and build with Docker until packaging and running a container feels routine before you open a
+    Kubernetes tutorial. Kubernetes without that foundation turns into memorizing YAML files instead of
+    understanding what each object is actually managing underneath.
+  </p>
+
+  <h2 id="observability">Monitoring and observability</h2>
+  <p>
+    A pipeline that ships code and infrastructure that runs it are only half the job. The other half is knowing
+    when something is wrong before a customer reports it, and that is what monitoring and observability tooling
+    is for.
+  </p>
+  <ul>
+    <li><strong>Metrics</strong> (Prometheus and similar tools): numeric data over time — CPU usage, request latency, error rate — that feeds directly into the SLIs and SLOs covered in the DevOps vs SRE section above.</li>
+    <li><strong>Logs</strong>: the detailed record of what actually happened inside an application or system, used to investigate an incident once metrics have told you something is wrong.</li>
+    <li><strong>Dashboards</strong> (Grafana and similar tools): visual views of metrics that let a team see system health at a glance instead of running manual queries during an incident.</li>
+    <li><strong>Alerts</strong>: automated notifications that fire when a metric crosses a threshold, so a human finds out about a problem from a page, not from an angry user.</li>
+  </ul>
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      A portfolio project that includes even one working dashboard and one alert that actually fires under a
+      real condition demonstrates more practical skill than a certification badge in observability tooling.
+    </p>
+  </div>
+
+  <h2 id="sequence">The build order, step by step</h2>
+  <p>
+    Putting the pieces above in the wrong order is the single biggest reason beginner DevOps learners feel
+    stuck despite months of studying. This sequence is designed so each step makes the next one easier instead
+    of introducing a new unexplained dependency.
+  </p>
+  <div class="protocol-stack">
+    {sequenceSteps.map((step) => (
+      <div class="protocol-row">
+        <span class="protocol-num">{step.num}</span>
+        <div class="protocol-body">
+          <h3>{step.title}</h3>
+          <p>{step.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="portfolio">The home-lab portfolio that actually gets noticed</h2>
+  <p>
+    Certifications get you past an automated resume filter. Projects get you through the interview. Build these
+    four, in this rough order, using a free-tier cloud account and your own small application rather than a
+    tutorial's exact repository.
+  </p>
+  <div class="track-grid">
+    {portfolioProjects.map((project) => (
+      <div class="track-card">
+        <span class="track-badge">{project.badge}</span>
+        <h3>{project.title}</h3>
+        <p>{project.body}</p>
+        <div class="tag-row">
+          {project.tags.map((tag) => <span class="tag-pill">{tag}</span>)}
+        </div>
+      </div>
+    ))}
+  </div>
+  <p>
+    Put all four in a public repository with a short README explaining what each project does and what broke
+    while you built it. The "what broke" part matters more than most beginners realize — it is direct evidence
+    of real debugging, not a copy-pasted tutorial.
+  </p>
+  <div class="highlight-box highlight-box--gold">
+    <p>
+      Tool skill alone does not fully explain who gets hired fastest. The DevOps engineers who move up quickest
+      also do three other things well: they can explain a pipeline or an outage to a non-technical manager in
+      plain language (communication), they position themselves clearly for either the DevOps or the SRE track
+      instead of a vague "cloud stuff" resume (market positioning), and they are honest about whether they enjoy
+      on-call, incident-driven work or prefer steady delivery work (personal fit). That combination, more than
+      any single certification, is what compounds this roadmap into a genuine high-income skill portfolio.
+    </p>
+  </div>
+
+  <h2 id="certifications">Which certification is worth the money</h2>
+  <p>
+    Certifications are not required to break into DevOps in India, but a well-chosen one can meaningfully help
+    once you already have projects behind it. Reported 2026 hiring data suggests the Certified Kubernetes
+    Administrator can lift starting offers even for freshers, partly because it is a fully hands-on, CLI-based
+    exam rather than a multiple-choice test, which makes it harder to pass without genuine cluster experience.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Certification</th>
+          <th>Why it is worth considering</th>
+        </tr>
+      </thead>
+      <tbody>
+        {certRows.map((row) => (
+          <tr>
+            <td data-label="Certification">{row.cert}</td>
+            <td data-label="Why it is worth considering">{row.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="salary">What DevOps roles actually pay in India</h2>
+  <p>
+    DevOps salary figures vary a lot by source, city, and company type, so treat any single number as a rough
+    signal, not a promise. Job platforms in India have listed tens of thousands of active DevOps openings
+    through 2026, and that sustained demand is a real part of why pay has held up across experience levels.
+  </p>
+  <ul>
+    <li><strong>Entry-level (0-2 years):</strong> commonly reported in the roughly ₹4-6 lakh range for freshers, with a hands-on certification like CKA sometimes lifting starting offers to the roughly ₹8-12 lakh range.</li>
+    <li><strong>Mid-level (2-5 years):</strong> commonly the roughly ₹8-18 lakh range, depending on cloud platform depth, Kubernetes experience, and infrastructure-as-code proficiency.</li>
+    <li><strong>Senior (6+ years):</strong> commonly the roughly ₹18-35 lakh range, with platform engineering and SRE-titled senior roles often clustering at the higher end.</li>
+    <li><strong>Location premium:</strong> Bengaluru, Hyderabad, and Pune typically pay above the national average for equivalent DevOps experience, reflecting where the largest concentration of product and cloud-native companies hire.</li>
+  </ul>
+  <div class="highlight-box highlight-box--gold">
+    <p>
+      Pull a couple of current salary trackers or job postings for your exact target role and city before you
+      anchor a career decision on one number you saw somewhere online.
+    </p>
+  </div>
+
+  <h2 id="mistakes">Mistakes that stall the roadmap</h2>
+  <div class="protocol-stack">
+    {mistakeItems.map((item) => (
+      <div class="protocol-row">
+        <span class="protocol-num">{item.num}</span>
+        <div class="protocol-body">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="timeline">A realistic timeline</h2>
+  <p>
+    There is no single honest week count here, and any roadmap that gives you an exact number is guessing. What
+    holds up across most people entering DevOps: the Linux, networking, and scripting layer takes real time to
+    build if you are starting from zero, and a hand-built CI/CD pipeline or Terraform project cannot be rushed
+    without it showing up in the first follow-up interview question.
+  </p>
+  <p>
+    People who already sit close to this work — system administrators, backend developers, IT support staff
+    with scripting experience — often reach a job-ready stage in a focused stretch of a few months. People
+    building Linux fundamentals, a cloud platform, Docker, Kubernetes, and Terraform experience from a
+    completely unrelated background more realistically need closer to six months to a year. Judge your own pace
+    against the build order above, not against a training provider's marketing timeline.
+  </p>
+
+  <h2 id="next-step">What to do next</h2>
+  <p>
+    Do not open a Kubernetes tutorial or enroll in another certification course before you can comfortably
+    navigate a Linux shell and explain, in your own words, what happens when a request fails to reach a server.
+    That single foundation does more for your odds than another week of watching tool-specific videos.
+  </p>
+  <div class="highlight-box highlight-box--teal">
+    <p>Set up a free-tier cloud account and provision one resource through Terraform before you touch anything else on this roadmap.</p>
+    <p>Containerize one small application you already understand, and get it running with Docker before opening a Kubernetes tutorial.</p>
+  </div>
+  <p>
+    Moving toward earlier financial freedom through this roadmap comes down to the same thing it always does:
+    the right sequence, real hands-on proof, and a clear-eyed choice between DevOps and SRE-style work, stacked
+    deliberately rather than collected at random. If you want a second opinion on whether DevOps genuinely fits
+    your background and which track suits you, <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can help you map the entry path that fits your situation, or start with the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a> if you are
+    still deciding whether this is genuinely your lane. If you are still comparing DevOps against other cloud
+    roles first, read <a href="/blog/skill-roadmaps/cloud-computing-career-skills-india/">cloud computing career skills India</a>
+    for the broader role comparison and AWS vs Azure vs GCP breakdown, or see our
+    <a href="/blog/career-options/cybersecurity-roadmap-india/">cybersecurity roadmap India</a> if security work
+    interests you more than delivery and reliability engineering. You can also browse more
+    <a href="/career-skills-compass">Career and Skills Compass</a> options if a different direction fits better.
+  </p>
+
+  <h2 id="faq">FAQs on the DevOps roadmap for India</h2>
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <BlogBottomCta />
+
+  <style>
+    .cta-inline {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 1.6rem 0 1.4rem;
+    }
+    .cta-inline a {
+      min-width: 240px;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96);
+      font-weight: 800;
+      margin: 0 0 0.85rem;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li { margin: 0 !important; }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover { color: #fff; }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.4rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--teal { border-color: rgba(45, 212, 191, 0.24); background: rgba(45, 212, 191, 0.06); }
+    .callout--gold { border-color: rgba(229, 184, 74, 0.24); background: rgba(229, 184, 74, 0.06); }
+    .callout__eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 0 0 0.5rem;
+    }
+    .callout p:last-child { margin-bottom: 0; }
+
+    .honest-take {
+      border-left: 3px solid rgba(229, 184, 74, 0.65);
+      background: rgba(229, 184, 74, 0.05);
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.2rem;
+      margin: 1.4rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.95);
+      margin: 0 0 0.5rem;
+    }
+    .honest-take p:last-child { margin-bottom: 0; }
+
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.1rem;
+      margin: 1.5rem 0;
+    }
+    .track-grid--2col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .track-card {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 1.4rem 1.4rem 1.3rem;
+      background: rgba(255, 255, 255, 0.025);
+    }
+    .track-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(45, 212, 191, 0.95);
+      background: rgba(45, 212, 191, 0.1);
+      border-radius: 999px;
+      padding: 0.3rem 0.7rem;
+      margin-bottom: 0.7rem;
+    }
+    .track-card h3 { margin-top: 0.2rem; }
+    .track-card ul { margin: 0.6rem 0 0; }
+    .sub-row {
+      display: flex;
+      gap: 0.6rem;
+      align-items: baseline;
+      border-radius: 10px;
+      padding: 0.55rem 0.75rem;
+      margin: 0.6rem 0;
+      font-size: 14px;
+    }
+    .sub-row--fit { background: rgba(45, 212, 191, 0.08); }
+    .sub-row--caution { background: rgba(229, 184, 74, 0.08); }
+    .sub-row-label {
+      flex-shrink: 0;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .sub-row--fit .sub-row-label { color: rgba(45, 212, 191, 0.95); }
+    .sub-row--caution .sub-row-label { color: rgba(229, 184, 74, 0.95); }
+    .sub-row p { margin: 0; color: rgba(255, 255, 255, 0.78); }
+    .tag-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.8rem; }
+    .tag-pill {
+      font-size: 11.5px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 999px;
+      padding: 0.3rem 0.65rem;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .protocol-stack {
+      display: grid;
+      gap: 0.9rem;
+      margin: 1.4rem 0;
+    }
+    .protocol-row {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.1rem 1.25rem;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .protocol-num {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.3);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 2.2rem;
+    }
+    .protocol-body h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+    .protocol-body p { margin: 0.3rem 0; }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.2rem 1.3rem;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--gold { border-color: rgba(229, 184, 74, 0.28); background: rgba(229, 184, 74, 0.07); }
+    .highlight-box--teal { border-color: rgba(45, 212, 191, 0.28); background: rgba(45, 212, 191, 0.07); }
+    .highlight-box p:last-child { margin-bottom: 0; }
+
+    @media (max-width: 900px) {
+      .track-grid { grid-template-columns: 1fr; }
+      .track-grid--2col { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .jump-nav__list { grid-template-columns: 1fr; }
+      .protocol-row { flex-direction: column; gap: 0.4rem; }
+      .cta-inline a { min-width: 100%; }
+    }
+  </style>
+</BlogPostLayout>

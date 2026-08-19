@@ -1,0 +1,475 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title =
+  'Career Counselling for CA Aspirants | Decide the Next Attempt or the Next Step | Future Career School';
+const description =
+  'Career counselling for CA aspirants facing repeated attempts, articleship pressure, or doubts about continuing. Honest decision support on another attempt versus a finance-and-accounting pivot. Online across India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-ca-aspirants/';
+
+const ctaLabel = 'Get Career Counselling for CA Aspirants';
+
+const decisionPressureItems = [
+  {
+    eyebrow: 'The attempt cycle',
+    title: 'Clearing CA rarely happens in one clean run',
+    body: 'Foundation, Intermediate, and Final each carry some of the toughest pass records of any professional qualification in the country, and multiple attempts at more than one level is the norm, not a personal failure. The honest question is not "why am I not clearing it yet" but whether the next attempt is still the highest-leverage use of your time toward earlier financial freedom, or whether a related finance or accounting path would get you there faster.',
+  },
+  {
+    eyebrow: 'Articleship versus exam prep',
+    title: 'Two demanding commitments, running on the same clock',
+    body: 'Articleship absorbs most of a working week for a stipend that rarely covers real expenses, leaving exam preparation to whatever hours are left after long client hours. That trade-off deserves an honest look at realistic study time and energy, not guilt dressed up as "not trying hard enough."',
+  },
+  {
+    eyebrow: 'Family and prestige pressure',
+    title: 'When CA became the family\'s proof that commerce was worth it',
+    body: 'In many commerce households, CA is treated as the credential that validates the whole stream, which makes stepping back feel like letting the family down rather than making a considered career call. Guidance here takes that pressure seriously while keeping the decision anchored to your own fit, runway, and outcome, not only the fear of disappointing someone.',
+  },
+  {
+    eyebrow: 'Sunk years and sunk fees',
+    title: 'Years and coaching fees already spent are not a reason on their own',
+    body: 'Time and money already committed to CA can make continuing feel like the only option, even when interest or market fit has genuinely shifted. A forward-looking decision separates what the next attempt would actually change from what has already been spent and cannot be recovered either way.',
+  },
+];
+
+const decisionPointItems = [
+  {
+    eyebrow: 'Before or early into Foundation or Intermediate',
+    title: 'Weighing a first serious CA attempt against a clear-eyed alternative',
+    body: 'A structured way to check whether the CA route genuinely fits your strengths and pace, before years of coaching fees and attempts go into a path chosen mainly for its prestige.',
+    listItems: [
+      'Maps your natural strengths and study style against what CA preparation and the work of a practising CA actually demand',
+      'Names the realistic attempt count, cost, and stipend-period income upfront, not after the first setback',
+      'Compares CA honestly against CS, CMA, or a B.Com-plus-skills route that could use the same discipline',
+    ],
+  },
+  {
+    eyebrow: 'Multiple attempts into Intermediate or Final',
+    title: 'Deciding if the next attempt is still the highest-leverage move',
+    body: 'The hardest call in this journey usually lands after a result that is close but not close enough, again.',
+    listItems: [
+      'Looks at what genuinely changed in preparation between attempts, not just "study harder" as a plan',
+      'Weighs the cost of another attempt cycle against your other options and income needs right now',
+      'Builds a real Plan B in parallel instead of treating a next attempt as the only path forward',
+    ],
+  },
+  {
+    eyebrow: 'Mid-articleship, exam and training pulling apart',
+    title: 'Making the articleship-and-exam balance sustainable, not just survivable',
+    body: 'When both training hours and study hours are non-negotiable, something has to give, and that decision is worth making deliberately.',
+    listItems: [
+      'Reviews what a realistic weekly study block looks like against your actual articleship schedule',
+      'Checks whether a firm change, role change, or attempt-timing change would genuinely help',
+      'Keeps the articleship experience itself valuable even if the exam timeline shifts',
+    ],
+  },
+  {
+    eyebrow: 'Stepping away partway qualified',
+    title: 'Converting Foundation, Intermediate, or articleship experience into a real next role',
+    body: 'Leaving the CA route partway through is not starting from zero — it is a pivot point that still needs a concrete plan.',
+    listItems: [
+      'Turns cleared levels and articleship experience into a credible story for accounting, finance, and analysis roles',
+      'Builds proof of work and positioning around the technical grounding already built, not just the exam attempts',
+      'Targets realistic entry points in finance and accounting-adjacent roles instead of a vague "I will figure it out" plan',
+    ],
+  },
+];
+
+const decisionFilterItems = [
+  {
+    title: 'Genuine fit versus family prestige and default momentum',
+    body: 'CA is often the default "serious" commerce choice, independent of whether the actual day-to-day of audit, tax, and compliance work matches your strengths. Testing that fit honestly, early or mid-way, prevents years spent chasing a title rather than work you would actually be good at.',
+  },
+  {
+    title: 'What one more attempt actually costs versus what changed',
+    body: 'Another attempt cycle is not free — it costs coaching fees, stipend-period income, and time your peers spend growing elsewhere. Weigh that real cost against what genuinely changed in your preparation, not against hope or habit alone.',
+  },
+  {
+    title: 'Sunk years versus a forward-looking decision',
+    body: 'Years and fees already spent on CA are real, but they are not a reason to continue on their own. A decision that only protects past investment while ignoring current fit and runway tends to compound the pressure later.',
+  },
+  {
+    title: 'A partial CA credential as an asset, not a gap',
+    body: 'Cleared levels, articleship hours, and technical grounding in accounting and compliance are transferable, marketable skills, not a blank slate that has to be explained away. Stepping back from CA does not erase what was already built.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it helps you decide, not just cheer you on',
+    body: 'This is not CA exam coaching, revision classes, or mock-test evaluation, and it should not pretend to be. Look for guidance that helps you make the attempt, continue, or pivot decision clearly — not motivational talk that avoids the real question.',
+  },
+  {
+    title: 'Check whether it takes articleship reality seriously',
+    body: 'Generic career advice rarely accounts for a full training week on top of exam preparation. Stronger guidance treats your actual weekly hours and stipend-period income as real constraints that shape the decision, not a detail to gloss over.',
+  },
+  {
+    title: 'Check whether it respects the years already spent without using them to force a decision',
+    body: 'Time and fees already invested are not wasted just because a next step changes direction, but they also should not be used to justify one more attempt the numbers no longer support. Good guidance holds both of those honestly at the same time.',
+  },
+  {
+    title: 'Check whether it has a real plan for the exit, not just for the next attempt',
+    body: 'Whether the plan is another attempt, a parallel Plan B, or a full pivot after stepping back, it should include concrete next roles, proof of work, and positioning built on what you already cleared — not just reassurance that "something will work out."',
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Degree-first direction with weak skill edge',
+    right: 'Skill-first direction with proof of work and stronger market value',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-commerce-students/',
+    title: 'Career Counselling for Commerce Students',
+    description: 'Broader help if the real fork is still CA versus CS versus CMA versus B.Com, not yet a decision about continuing CA specifically.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Wider support for skill, path, and next-step decisions once the CA question is only one part of a bigger picture.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Get broader help with path, skill, and next-step decisions when CA is only one thread in a larger plan.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free clarity on strengths, fit, and skill direction if you are weighing an exit from CA into a finance or accounting role.',
+  },
+  {
+    href: '/blog/career-options/is-ca-a-good-career-in-india/',
+    title: 'Is CA a Good Career in India?',
+    description: 'An honest look at the CA path, real articleship life, and what it actually leads to once qualified.',
+  },
+  {
+    href: '/blog/career-options/career-in-finance-vs-accounting-india/',
+    title: 'Career in Finance vs Accounting India',
+    description: 'A head-to-head comparison useful for CA aspirants weighing an exit into finance analyst roles versus accounting and audit roles.',
+  },
+  {
+    href: '/blog/career-options/career-after-bcom-other-than-ca-and-mba/',
+    title: 'Career After B.Com Other Than CA and MBA',
+    description: 'Real paths for a B.Com background beyond CA, useful groundwork if you are weighing a pivot away from the CA route.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Is it normal to fail a CA exam more than once?',
+    answer:
+      'Yes. CA has one of the toughest pass records of any professional qualification in the country, and clearing Foundation, Intermediate, and Final with multiple attempts at more than one level is common, not a sign that something is uniquely wrong with you. The useful question is not "how many attempts is normal" but whether your next attempt is still the highest-leverage move for you right now, and that needs an honest, specific answer, not a rule of thumb.',
+  },
+  {
+    question: 'How do I know if another attempt is still worth it, or if I should exit?',
+    answer:
+      'That depends on what genuinely changed in your preparation between attempts, your realistic study time against articleship or work commitments, and what the coaching fees and time cost of another attempt cycle would mean for your other options right now. Guidance here works through that honestly instead of defaulting to either "never give up" or "just quit."',
+  },
+  {
+    question: 'How do I balance articleship with repeated exam attempts?',
+    answer:
+      'It starts with an honest review of your actual weekly hours between training and study, not an idealised schedule. Guidance can help you check whether a realistic study block is possible as things stand, whether a firm or role change would genuinely help, and how to keep the articleship experience valuable even if your exam timeline shifts.',
+  },
+  {
+    question: 'My family sees CA as the credential that proves commerce was worth it. How do I handle that pressure?',
+    answer:
+      'That pressure is real and worth taking seriously, especially in commerce households where CA is treated as the default proof of a serious career. Guidance should help you have that conversation grounded in your actual fit, runway, and outcome, not avoid the conversation or let it override every other consideration.',
+  },
+  {
+    question: 'I have cleared some CA levels and completed part of my articleship. Is that wasted if I stop?',
+    answer:
+      'No. Cleared levels and articleship hours build real, transferable skills in accounting, compliance, and financial reporting that are valued in finance and accounting-adjacent roles. The next step is turning that into a credible story and proof of work for the role you are targeting, not treating it as a gap to explain away.',
+  },
+  {
+    question: 'Can career counselling help me clear my CA exams?',
+    answer:
+      'No. This is not CA exam coaching, revision classes, or mock-test evaluation, and it should not be mistaken for one. It is decision support for the choices around the exam — whether to attempt again, whether to continue, and what to do if you step back — not preparation for the exam itself.',
+  },
+  {
+    question: 'What roles can I move into if I exit the CA route?',
+    answer:
+      'Depending on how far you got, real options include accounting, financial reporting, tax and compliance support, financial analysis, and broader finance roles that value the technical grounding CA preparation and articleship already built. The stronger the proof of work and positioning around that grounding, the stronger the pivot.',
+  },
+  {
+    question: 'Are the career and skill assessments free, and is this available online?',
+    answer:
+      'Yes to both. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered, and guidance is delivered fully online across India, so you can start from your articleship city, hometown, or wherever you are right now.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for CA Aspirants', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for CA Aspirants | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for CA Aspirants',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for CA Aspirants</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for CA aspirants deciding on another attempt or a clear exit
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for CA aspirants
+        <span class="gold-text"> before another attempt costs another year</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for CA aspirants should help with the hardest calls in this journey: whether another attempt is still worth the fees and the time, how to balance articleship with exam prep that keeps not landing, and what a real exit looks like if you step back partway qualified.
+        The aim is a decision that protects your remaining attempts, your income, and your route toward earlier financial freedom — built around the high-value skill portfolio your accounting and compliance grounding already supports — instead of letting sunk cost or family pressure decide another year for you.
+      </p>
+      <p class="hero-note">
+        This is career counselling about the decisions around the exam — not CA exam coaching, revision classes, or mock-test evaluation.
+        Guidance is delivered fully online across India, so you can start from your articleship city, your hometown, or wherever you are right now.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">{ctaLabel}</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="decision-pressure"
+    title="The decision pressure behind a CA attempt"
+    subtitle="These are not abstract stages. They are the specific moments where drifting into another attempt without a plan compounds against your income and your route toward earlier financial freedom — early into Foundation, mid-way through repeated Intermediate or Final attempts, or partway through articleship."
+    items={decisionPressureItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Whichever level you are at, drifting into another attempt without a plan is its own decision"
+    body="Deciding to attempt again, to continue as you are, or to pivot all deserve the same thing: a specific plan built around your actual fit and runway, not just momentum from how far you have already come."
+    studentHref="#plans"
+    studentLabel={ctaLabel}
+  />
+
+  <BofuListCardSection
+    sectionId="decision-points"
+    title="Real decision points this guidance works through"
+    subtitle="Not every CA aspirant searching this is at the same stage. These are the situations this guidance is actually built to help with."
+    items={decisionPointItems}
+    columns={2}
+    variant="audience"
+  />
+
+  <BofuFeatureSection
+    sectionId="decision-filters"
+    title="What should actually decide, when the exam result alone will not tell you"
+    subtitle="Attempting again, continuing as you are, or stepping back from CA is rarely one clean answer. These are the filters that keep the decision honest."
+    items={decisionFilterItems}
+    variant="decision"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, free career and skill assessments can help map your actual strengths and work style before an attempt, continuation, or exit decision — instead of deciding on prestige or sunk cost alone."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <ComparisonMatrix
+    sectionId="different"
+    title={'Why this needs to go beyond "attempt again" or "just quit"'}
+    subtitle="These are the contrast points that matter once real attempts, articleship hours, and years of preparation are on the line."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling aimed at CA aspirants"
+    subtitle="The goal is a clear-eyed decision about the exam and what comes after it, not motivational talk dressed up as guidance."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Make the next-attempt or next-step decision deliberately, before it gets made for you"
+    body="A remaining attempt, a stipend-period income, and years of articleship are all finite. The earlier the decision is specific, the more of each you keep control over."
+    studentHref="#plans"
+    studentLabel={ctaLabel}
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling for CA Aspirants"
+    title="Career Counselling Plans for CA Aspirants"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader student guidance, assessments, and CA-specific reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Decide the next attempt, or the next step, on purpose"
+    subtitle="Whether that means preparing for another attempt with a clearer plan, or converting cleared levels and articleship experience into a strong finance or accounting role with real income growth, the decision works better made deliberately now — toward earlier financial freedom — than left to run out on sunk cost alone."
+    studentHref="#plans"
+    studentLabel={ctaLabel}
+  />
+
+  <BofuFaqSection
+    title="Questions CA aspirants ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decision-filters,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 9.6vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

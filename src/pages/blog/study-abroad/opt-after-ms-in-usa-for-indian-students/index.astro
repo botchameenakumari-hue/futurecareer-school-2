@@ -1,0 +1,892 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import BlogBottomCta from '../../../../components/BlogBottomCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+
+const primaryKeyword = 'OPT after MS in USA for Indian students';
+const canonical = 'https://futurecareerschool.com/blog/study-abroad/opt-after-ms-in-usa-for-indian-students';
+const publishedDateISO = '2026-07-20';
+const publishedDateLabel = '20 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+const assessmentsUrl = 'https://futurecareerschool.com/services/assessments';
+const guidanceUrl = 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/';
+const ogImage = 'https://futurecareerschool.com/og-image.svg';
+
+const relatedDirectoryItems = [
+  {
+    href: '/blog/study-abroad/',
+    title: 'More Study Abroad Guides',
+    description: 'More outcome-first breakdowns on country choice, program fit, visas, and true cost before you commit.',
+    note: 'More guides',
+  },
+  {
+    href: '/blog/study-abroad/is-ms-in-usa-worth-it-india/',
+    title: 'Is MS in USA Worth It for Indian Students?',
+    description: 'Want the bigger financial picture first? See the full cost, salary, and H1B-odds ROI math before you dig into OPT mechanics alone.',
+    note: 'Bigger picture',
+  },
+  {
+    href: '/blog/study-abroad/return-to-india-after-ms-abroad/',
+    title: 'Return to India After MS Abroad',
+    description: 'Planning your exit either way? See how to time a return around your OPT and H1B outcome without losing income.',
+    note: 'Plan B',
+  },
+  {
+    href: '/blog/career-guidance/first-job-vs-higher-studies-india/',
+    title: 'First Job vs Higher Studies India',
+    description: 'Still deciding whether an MS abroad is the right move at all? Run this comparison before you apply.',
+    note: 'Earlier decision',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/',
+    title: 'Career Guidance Service',
+    description: 'One-on-one support for mapping your OPT timeline, STEM eligibility, and H1B odds against your own program and field.',
+    note: 'Next step',
+  },
+  {
+    href: '/services/assessments/',
+    title: 'Free Career Assessments',
+    description: 'Free aptitude and interest assessments to check whether your target field genuinely fits you before you plan a visa strategy around it.',
+    note: 'Related read',
+  },
+];
+
+const faq = [
+  {
+    q: 'How long can Indian students work in the US on OPT after an MS?',
+    a: 'Every eligible F-1 graduate gets 12 months of standard post-completion OPT. If your degree is on the official STEM Designated Degree Program List and your employer is enrolled in E-Verify, you can apply for a further 24-month STEM OPT extension, taking your total work authorization to up to 36 months. Non-STEM graduates are capped at the 12-month window with no extension option.',
+  },
+  {
+    q: 'When should I file my OPT application after finishing my MS?',
+    a: 'USCIS accepts Form I-765 for post-completion OPT starting 90 days before your program end date, and no later than 60 days after it. USCIS also requires the application to reach them within 30 days of the date your Designated School Official (DSO) enters the OPT recommendation on your I-20. Given that processing commonly runs 90-120 days, most advisors recommend filing as close to the 90-day-early mark as your school allows, not waiting until graduation.',
+  },
+  {
+    q: 'How many days of unemployment am I allowed on OPT before I fall out of status?',
+    a: 'You get a maximum of 90 days of unemployment during the initial 12-month OPT period. If you move into the 24-month STEM OPT extension, you get an additional 60 days, for a combined cap of 150 days across the full 36-month window. USCIS and your school track unemployment days cumulatively, and crossing the limit puts your F-1 status at risk, so short employment gaps need to be reported and closely tracked, not ignored.',
+  },
+  {
+    q: 'Does my employer need to do anything special to sponsor my STEM OPT extension?',
+    a: 'Yes. To hire you under the 24-month STEM OPT extension, your employer must be enrolled in E-Verify and remain in good standing with the program, and must complete Form I-983, a formal training plan that lays out the specific knowledge and skills you will gain on the job. A standard 12-month OPT job has no E-Verify or I-983 requirement, which is one reason some employers are comfortable with initial OPT hires but hesitate before the STEM extension.',
+  },
+  {
+    q: 'How does OPT connect to the H1B visa lottery?',
+    a: 'OPT is your work authorization while you wait for, or attempt, the H1B lottery — it is not itself a path to long-term status. Your employer registers you during the H1B registration window (typically March), the lottery runs shortly after, and if selected, they file the full petition between April 1 and June 30 for an October 1 start. If your OPT or STEM OPT authorization is still valid when a cap-gap-eligible H1B petition is filed on your behalf, your work authorization automatically extends through the cap-gap period so you are not forced to stop working while the petition is pending.',
+  },
+  {
+    q: 'Does the STEM OPT extension actually improve my odds of getting an H1B?',
+    a: 'It does not change your odds on any single attempt, but it changes how many attempts you get. A non-STEM graduate on the 12-month track typically gets one, sometimes two, H1B lottery attempts before their authorization runs out. A STEM OPT graduate on the 36-month track can register across two or three H1B cycles instead of one, which meaningfully raises your cumulative chance of eventually being selected, even though each individual year still runs on the same wage-weighted selection system.',
+  },
+  {
+    q: 'Can I travel internationally while on OPT or STEM OPT?',
+    a: 'Yes, but it carries real risk and needs planning. You generally need a valid passport, a valid F-1 visa stamp, a properly endorsed I-20 with a recent travel signature from your DSO, and either a valid job offer letter or proof of current employment to re-enter smoothly. Travel during the gap after filing your I-765 but before approval is especially risky and is generally discouraged. Confirm your specific situation with your DSO before booking any international trip while your OPT status is pending or active.',
+  },
+  {
+    q: 'Can I be self-employed or freelance on OPT?',
+    a: 'Limited self-employment is allowed on standard OPT if you can show the work is directly related to your field of study and you can document it, for example through a registered business or contracts. The STEM OPT extension is stricter: it generally requires a formal employer-employee relationship with I-983 training plan obligations, which makes pure self-employment much harder to structure under the STEM extension specifically. Verify your exact situation with your DSO before relying on self-employment as your primary OPT plan.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://futurecareerschool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Study Abroad', item: 'https://futurecareerschool.com/blog/study-abroad' },
+      { '@type': 'ListItem', position: 4, name: 'OPT After MS in USA for Indian Students', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'OPT after MS in USA for Indian students: the rules that decide your timeline',
+    description:
+      'OPT after MS in USA for Indian students, explained end to end: 12-month OPT vs 24-month STEM OPT extension eligibility, filing windows, the 90/150-day unemployment limit, E-Verify sponsorship rules, and how OPT bridges into the H1B lottery.',
+    datePublished: publishedDateISO,
+    dateModified: publishedDateISO,
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: authorName,
+      url: authorUrl,
+      jobTitle: authorRole,
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+    articleSection: ['Study Abroad', 'Visa and Immigration Mechanics', 'Career Guidance'],
+    keywords: [
+      primaryKeyword,
+      'OPT rules for Indian students',
+      'STEM OPT extension eligibility',
+      '90 day unemployment rule OPT',
+      'OPT to H1B timeline',
+      'E-Verify STEM OPT employer',
+      'OPT filing window I-765',
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title="OPT After MS in USA for Indian Students: The Full Mechanics"
+  description="OPT after MS in USA for Indian students: 12-month OPT vs 24-month STEM extension, filing windows, the 90/150-day unemployment limit, E-Verify rules, and the real H1B bridge timeline."
+  canonical={canonical}
+  ogType="article"
+  ogImage={ogImage}
+  jsonLd={jsonLd}
+>
+  <Nav activePage="blog" />
+
+  <article id="opt-mechanics-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/blog">Blog</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/blog/study-abroad">Study Abroad</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">OPT After MS in USA for Indian Students</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>MS graduates and final-semester students planning work authorization</span>
+          <span class="date-pill">Published: {publishedDateLabel}</span>
+          <a class="date-pill date-pill--link" href={authorUrl}>By {authorName}</a>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>OPT after MS in USA for Indian students: the rules that decide your timeline</h1>
+            <p class="line strong">
+              OPT after MS in USA for Indian students runs on a set of fixed mechanics, not a vague "work permit after graduation" idea: a 12-month standard window, an optional 24-month STEM extension if your degree and employer qualify, a strict 90-day (or 150-day) unemployment clock, and a specific bridge into the H1B lottery through cap-gap protection. Miss one of these mechanics and you can lose work authorization even with a job offer in hand. This article walks through each rule in the order you will actually hit it, from your I-765 filing window to the day your H1B petition either gets filed or your OPT clock runs out.
+            </p>
+
+            <div class="key-takeaways">
+              <p class="key-takeaways__label">The short version</p>
+              <ul>
+                <li>Standard OPT gives every eligible F-1 graduate 12 months of work authorization. A 24-month STEM OPT extension is only available if your degree is on the official STEM Designated Degree Program List and your employer is enrolled in E-Verify — that can take your total to 36 months.</li>
+                <li>File Form I-765 up to 90 days before your program end date; USCIS must receive it within 60 days after that date, and within 30 days of your DSO's OPT recommendation on your I-20. Processing commonly runs 90-120 days, so late filing directly eats into your working window.</li>
+                <li>You get a maximum of 90 days of unemployment on standard OPT, and 60 additional days on the STEM extension — 150 days total across the full 36-month track. Cross that limit and your F-1 status is at risk.</li>
+                <li>OPT itself does not lead to long-term status. It bridges into the H1B lottery through cap-gap protection, and a STEM OPT extension buys you two or three lottery attempts instead of one.</li>
+                <li><strong>Treat these deadlines as fixed external facts, not flexible plans — file early, track your unemployment days from day one, and build a return-to-India plan alongside the H1B attempt, not after it fails.</strong></li>
+                <li>The real goal behind these dates is protecting the income and skill portfolio you are building on OPT — a missed filing window or an unreported employment gap can undo years of career progress in a single administrative mistake.</li>
+              </ul>
+            </div>
+
+            <p class="line">Confused about whether your specific MS degree even qualifies for the 24-month STEM extension?</p>
+            <p class="line">Worried you will lose your job search window to slow visa processing or a missed filing date?</p>
+            <p class="line">Not sure how many real shots you get at H1B before your OPT clock runs out?</p>
+            <p class="line">This article lays out the actual rules, in order, so you can plan your job search and visa timeline around facts instead of guesses.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={guidanceUrl}>Get personalised career guidance</a>
+              <a class="btn-outline cta-assessment-lite" href={assessmentsUrl}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">The OPT sequence at a glance</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>File I-765 up to 90 days before your program ends — do not wait for graduation day.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Check if your degree qualifies for the 24-month STEM extension before you assume it does.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Track your unemployment days from the first day of OPT, not from when a gap starts.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Understand cap-gap protection before your OPT end date collides with H1B filing season.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <h2>Why the mechanics matter more than the headline number</h2>
+      <p class="line">
+        Most explanations of OPT stop at "12 months, or 36 if you did a STEM degree." That headline hides the parts that actually determine whether you keep your work authorization: exact filing windows, a hard unemployment-day cap, an employer requirement most companies do not know about, and a lottery-dependent bridge to anything longer-term. Indian students make up one of the largest groups on OPT in the US, and the students who run into trouble are rarely the ones who did not understand the concept — they are the ones who assumed the deadlines had more flexibility than they do.
+      </p>
+      <p class="line">
+        What follows is the mechanics only: eligibility, timelines, the unemployment rule, employer obligations, and the OPT-to-H1B bridge. If you are still deciding whether an MS in the US is worth the cost and risk in the first place, read
+        <a href="/blog/study-abroad/is-ms-in-usa-worth-it-india/">is MS in USA worth it for Indian students</a> for the full financial and lottery-odds picture before you commit. If you want help mapping these rules against your own program, field, and timeline,
+        <a href={guidanceUrl}>talk to a career guidance counsellor</a> before your filing window opens, not after you have already missed a step — the goal is protecting the income and skill portfolio you are building, whichever country you end up working in. You can also see how these guides fit into the wider
+        <a href="/blog/study-abroad">study abroad</a> decision series if you are earlier in the planning process.
+      </p>
+    </section>
+
+    <section class="container section">
+      <h2>Standard 12-month OPT vs the 24-month STEM OPT extension</h2>
+      <p class="line">
+        Every F-1 student who completes a degree is eligible to apply for standard post-completion Optional Practical Training: 12 months of work authorization in a role directly related to your field of study. This applies regardless of your major — a non-STEM MS graduate gets the same 12 months as a STEM graduate at this stage.
+      </p>
+      <p class="line">
+        The 24-month STEM OPT extension is a separate, additional benefit layered on top of that 12-month period, and it comes with its own eligibility test. You do not automatically get it just because your MS "sounds technical."
+      </p>
+
+      <div class="card">
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr>
+                <th data-label="Requirement">Requirement</th>
+                <th data-label="Standard OPT (12 months)">Standard OPT (12 months)</th>
+                <th data-label="STEM OPT extension (+24 months)">STEM OPT extension (+24 months)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Requirement">Degree eligibility</td>
+                <td data-label="Standard OPT (12 months)">Any completed degree, any field</td>
+                <td data-label="STEM OPT extension (+24 months)">Degree must appear on the official STEM Designated Degree Program List</td>
+              </tr>
+              <tr>
+                <td data-label="Requirement">Employer requirement</td>
+                <td data-label="Standard OPT (12 months)">Job must relate to your field of study; no E-Verify requirement</td>
+                <td data-label="STEM OPT extension (+24 months)">Employer must be enrolled and in good standing with E-Verify</td>
+              </tr>
+              <tr>
+                <td data-label="Requirement">Formal training plan</td>
+                <td data-label="Standard OPT (12 months)">Not required</td>
+                <td data-label="STEM OPT extension (+24 months)">Form I-983 training plan required, agreed with the employer</td>
+              </tr>
+              <tr>
+                <td data-label="Requirement">Unemployment allowance</td>
+                <td data-label="Standard OPT (12 months)">Up to 90 days</td>
+                <td data-label="STEM OPT extension (+24 months)">An additional 60 days (150 days combined with the initial period)</td>
+              </tr>
+              <tr>
+                <td data-label="Requirement">Total possible work authorization</td>
+                <td data-label="Standard OPT (12 months)">12 months</td>
+                <td data-label="STEM OPT extension (+24 months)">Up to 36 months combined</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Verify your exact degree code (CIP code) against the current STEM Designated Degree Program List on your Designated School Official's guidance before assuming eligibility — some data-adjacent and business-analytics-style programs are on the list and some are not, and this single detail decides whether you get 12 months or 36.
+      </p>
+
+      <div class="honest-take card">
+        <p class="honest-label">Honest take</p>
+        <p class="line">
+          A non-STEM MS graduate is not locked out of the H1B process, but they are working with a much tighter runway: one, sometimes two, H1B lottery attempts before OPT ends, versus two or three for a STEM OPT graduate. If your degree sits close to the STEM/non-STEM boundary, it is worth checking the exact CIP code before you finalize your program choice, not after you have already enrolled.
+        </p>
+      </div>
+    </section>
+
+    <section class="container section">
+      <h2>OPT application timeline and filing windows</h2>
+      <p class="line">
+        The filing window is the part students most commonly get wrong, usually by treating "after graduation" as the trigger instead of the actual program end date on their I-20.
+      </p>
+
+      <div class="card">
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr>
+                <th data-label="Milestone">Milestone</th>
+                <th data-label="Rule">Rule</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Milestone">Earliest you can file Form I-765</td>
+                <td data-label="Rule">90 days before your program end date</td>
+              </tr>
+              <tr>
+                <td data-label="Milestone">Latest you can file after program end date</td>
+                <td data-label="Rule">60 days after your program end date</td>
+              </tr>
+              <tr>
+                <td data-label="Milestone">DSO recommendation window</td>
+                <td data-label="Rule">USCIS must receive your application within 30 days of your DSO entering the OPT recommendation in SEVIS</td>
+              </tr>
+              <tr>
+                <td data-label="Milestone">Typical processing time</td>
+                <td data-label="Rule">Roughly 90-120 days, sometimes longer during peak filing season</td>
+              </tr>
+              <tr>
+                <td data-label="Milestone">Grace period if you miss the window</td>
+                <td data-label="Rule">Falling out of the filing window without departing risks falling out of status</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Because processing routinely takes 90-120 days, filing early is not a suggestion — it is the only way to avoid a gap between your program ending and your work authorization actually starting. Most international student offices recommend filing at the earliest point your school allows, well before your last semester finishes, rather than waiting until you have a confirmed job offer. You do not need a job in hand to file for OPT; you need work authorization by the time you have one.
+      </p>
+
+      <div class="honest-take card">
+        <p class="honest-label">Honest take</p>
+        <p class="line">
+          A confirmed job offer feels like the natural trigger to start the paperwork. In practice, the paperwork needs to start months before that, because the earliest filing date is tied to your program end date, not your offer date. Students who wait for an offer before filing routinely end up with a gap in authorization even after landing a role, purely because the I-765 was filed too late to clear processing in time.
+        </p>
+      </div>
+    </section>
+
+    <section class="container section">
+      <h2>The unemployment-day-limit rule</h2>
+      <p class="line">
+        OPT is employment authorization, not a general permission to stay in the US while you search. USCIS tracks how many days you spend without a qualifying job, and there is a hard ceiling.
+      </p>
+      <ul>
+        <li><strong>Initial 12-month OPT:</strong> a maximum of 90 days of unemployment across the full period.</li>
+        <li><strong>24-month STEM OPT extension:</strong> an additional 60 days, on top of the 90 already used or available in the initial period.</li>
+        <li><strong>Combined 36-month track:</strong> a maximum of 150 days of unemployment across the entire OPT and STEM OPT period.</li>
+      </ul>
+      <p class="line">
+        These days accumulate from the moment your OPT begins, whether the gap is at the start (still searching for your first role), in the middle (laid off and looking again), or scattered across the whole period. Part-time work below the minimum required hours, unpaid internships that do not meet the training criteria, and volunteer roles that are not genuinely tied to your field of study generally do not stop the unemployment clock — they need to be reported and tracked correctly through your school's international student office and the SEVIS portal, not assumed to be safe by default.
+      </p>
+
+      <div class="honest-take card">
+        <p class="honest-label">Honest take</p>
+        <p class="line">
+          A layoff is the scenario students plan for the least and the one most likely to trigger the unemployment clock without warning. If you are laid off on OPT, the 90 or 150-day window starts running immediately, and it does not pause for notice periods, severance, or your own hesitation about updating your school's records. Report the change promptly and start the job search the same week, not after you have processed the loss.
+        </p>
+      </div>
+    </section>
+
+    <section class="container section">
+      <h2>Employer sponsorship requirements: what changes with STEM OPT</h2>
+      <p class="line">
+        A standard 12-month OPT hire is administratively simple for an employer — there is no special registration or ongoing compliance obligation tied to the visa category itself, beyond confirming the role connects to your field of study. The STEM OPT extension is a different commitment, and this is exactly why some employers who are happy to hire you for the initial 12 months hesitate, or decline, when the STEM extension conversation comes up.
+      </p>
+
+      <div class="grid-two">
+        <div class="card">
+          <h3>What the employer must do for STEM OPT</h3>
+          <ul>
+            <li>Be actively enrolled in E-Verify and remain in good standing with the program for the length of your STEM OPT employment.</li>
+            <li>Complete and sign Form I-983, a structured training plan describing the specific goals, skills, and supervision you will receive.</li>
+            <li>Report material changes, such as a change in your role, supervisor, or worksite, within the required timeframe.</li>
+            <li>Conduct periodic self-evaluations with you as part of the I-983 training plan, typically at the midpoint and end of the extension.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Why some employers avoid it</h3>
+          <ul>
+            <li>Smaller companies and startups sometimes are not enrolled in E-Verify and choose not to enroll just for one hire.</li>
+            <li>The I-983 paperwork and periodic evaluation requirement add an administrative layer some HR teams prefer to skip.</li>
+            <li>Some employers conflate STEM OPT sponsorship with H1B sponsorship and assume it carries the same cost and legal complexity, when it does not.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="line">
+        Ask about E-Verify enrollment directly and early in your job search if you know you will need the STEM extension, rather than discovering the gap after you have accepted an offer. Most large employers who regularly hire international graduates are already enrolled in E-Verify as a matter of course; the risk sits mostly with smaller or newer companies.
+      </p>
+    </section>
+
+    <section class="container section">
+      <h2>How OPT bridges into the H1B lottery timeline</h2>
+      <p class="line">
+        OPT was never designed as a long-term status. It is a temporary authorization that gives you time to work while you attempt to secure a longer-term visa, most commonly the H1B. Understanding how the two calendars line up is the difference between a smooth transition and a forced departure.
+      </p>
+
+      <div class="card">
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr>
+                <th data-label="Period">Period</th>
+                <th data-label="What happens">What happens</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Period">January-February</td>
+                <td data-label="What happens">USCIS announces the H1B cap registration period and instructions for the upcoming fiscal year</td>
+              </tr>
+              <tr>
+                <td data-label="Period">March</td>
+                <td data-label="What happens">H1B electronic registration window opens; employers register candidates, including OPT employees</td>
+              </tr>
+              <tr>
+                <td data-label="Period">Late March</td>
+                <td data-label="What happens">USCIS runs the lottery from all registrations under the wage-weighted selection system</td>
+              </tr>
+              <tr>
+                <td data-label="Period">April</td>
+                <td data-label="What happens">Selected registrants are notified; employers can begin filing full H1B petitions</td>
+              </tr>
+              <tr>
+                <td data-label="Period">April 1 - June 30</td>
+                <td data-label="What happens">Filing window for selected petitions</td>
+              </tr>
+              <tr>
+                <td data-label="Period">October 1</td>
+                <td data-label="What happens">H1B employment begins for approved petitions from the new fiscal year</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        The critical mechanic here is <strong>cap-gap protection</strong>. If your OPT or STEM OPT authorization would otherwise expire before October 1, and your employer's H1B registration for you was selected in the lottery with a timely petition filed on or after April 1, your F-1 status and work authorization automatically extend to cover the gap, so you are not forced to stop working while the petition is processed. Recent rule changes extended this cap-gap coverage through April 1 of the following fiscal year in many cases, closing a gap that previously left some selected candidates without valid work authorization for a stretch of months. Cap-gap protection only applies if your underlying OPT or STEM OPT authorization is still valid on the date the H1B petition is filed — it does not revive authorization that has already expired.
+      </p>
+
+      <p class="line">
+        This is exactly where the STEM OPT extension earns its value beyond the extra working time itself. A non-STEM graduate typically gets one H1B registration attempt, occasionally a second if timing lines up closely, before their 12 months run out. A STEM OPT graduate on the 36-month track can register across two, sometimes three, H1B cycles. It does not raise the odds of any single lottery draw — those odds are set by the current wage-weighted selection system, where higher salary levels get more entries — but it multiplies the number of draws you get before your work authorization runs out entirely.
+      </p>
+
+      <div class="honest-take card">
+        <p class="honest-label">Honest take</p>
+        <p class="line">
+          Do not build your entire post-MS plan around "OPT will convert to H1B eventually." It is a probabilistic bridge, not a guarantee, and even STEM OPT's extra attempts only improve cumulative odds, not certainty. Keep a real backup plan alive throughout your OPT period — whether that is a return-to-India role search, a different visa category you may qualify for, or a graduate program that extends your F-1 status — so the H1B outcome is one branch of your plan, not the entire plan.
+        </p>
+      </div>
+    </section>
+
+    <section class="container section">
+      <h2>Your options if the H1B lottery does not select you</h2>
+      <p class="line">
+        Most OPT graduates who enter the lottery are not selected in any given year, so this is worth
+        planning for in advance rather than reacting to it after the results come out.
+      </p>
+      <ul>
+        <li><strong>Re-register the following cycle if OPT time remains:</strong> a STEM OPT graduate on the 36-month track can usually try again in a later fiscal year if enough authorized time is still left on the clock.</li>
+        <li><strong>Check cap-exempt employers:</strong> universities, affiliated nonprofit research organizations, and certain government research roles can sponsor H1B petitions outside the annual lottery cap entirely.</li>
+        <li><strong>Look at O-1 eligibility if your profile is genuinely exceptional:</strong> strong publication records, notable awards, or clear evidence of extraordinary ability in your field can qualify for an O-1 visa, though the bar is high and evidence-heavy.</li>
+        <li><strong>Consider a further degree that restarts F-1 status:</strong> enrolling in another qualifying academic program is a legitimate way to extend your stay and try the lottery again later, though this should be a genuine academic step, not a paperwork move alone.</li>
+        <li><strong>Treat a return to India as a real plan, not a failure state:</strong> the skill portfolio, project experience, and international exposure you built on OPT carry real value in the Indian job market — see <a href="/blog/study-abroad/return-to-india-after-ms-abroad/">return to India after MS abroad</a> for how to time and position that move well.</li>
+      </ul>
+      <div class="honest-take card">
+        <p class="honest-label">Honest take</p>
+        <p class="line">
+          The H1B lottery is genuinely uncertain even for strong candidates, and no visa strategy should assume selection. The stronger long-term protection is the actual skill portfolio and proof of work you build during OPT — that value travels with you whether you end up staying in the US or returning to India.
+        </p>
+      </div>
+    </section>
+
+    <section class="container section">
+      <h2>A quick decision filter for your OPT timeline</h2>
+      <p class="line">
+        Use this as a starting checklist, then confirm the exact dates and requirements against your own I-20, DSO guidance, and USCIS processing times for the current cycle.
+      </p>
+
+      <div class="card">
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr>
+                <th data-label="Your situation">Your situation</th>
+                <th data-label="What to do">What to do</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Your situation">Program ends in the next 3-4 months and you have not filed I-765</td>
+                <td data-label="What to do">File now — do not wait for a job offer, and confirm your exact eligible filing date with your DSO</td>
+              </tr>
+              <tr>
+                <td data-label="Your situation">Not sure if your degree qualifies for STEM OPT</td>
+                <td data-label="What to do">Check your program's exact CIP code against the current STEM Designated Degree Program List with your DSO before assuming either way</td>
+              </tr>
+              <tr>
+                <td data-label="Your situation">Have an offer from a company you have not confirmed is E-Verify enrolled</td>
+                <td data-label="What to do">Ask directly before accepting, especially if you will need the STEM extension later</td>
+              </tr>
+              <tr>
+                <td data-label="Your situation">Between jobs on OPT right now</td>
+                <td data-label="What to do">Track your unemployment days from the exact date your last role ended, report changes to your school, and treat the 90/150-day cap as a hard deadline</td>
+              </tr>
+              <tr>
+                <td data-label="Your situation">OPT end date falls close to October 1 of an H1B fiscal year</td>
+                <td data-label="What to do">Confirm cap-gap eligibility conditions with your employer's immigration counsel well before your authorization expires</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section">
+      <h2>Source-backed reality check</h2>
+      <p class="line">Rules around OPT, STEM OPT, and the H1B lottery change with policy updates. Verify current filing windows, unemployment caps, and cap-gap conditions against official USCIS and DHS guidance before you rely on any specific date.</p>
+      <ul class="sources">
+        <li>
+          Official rules and eligibility for post-completion Optional Practical Training for F-1 students.
+          <a href="https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-opt-for-f-1-students" target="_blank" rel="noopener noreferrer">USCIS: Optional Practical Training (OPT) for F-1 Students</a>
+        </li>
+        <li>
+          Official rules for the 24-month STEM OPT extension, including E-Verify and Form I-983 requirements.
+          <a href="https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-extension-for-stem-students-stem-opt" target="_blank" rel="noopener noreferrer">USCIS: STEM OPT Extension</a>
+        </li>
+        <li>
+          DHS Student and Exchange Visitor Program guidance on OPT timelines and SEVIS recordkeeping.
+          <a href="https://www.ice.gov/sevis/opt" target="_blank" rel="noopener noreferrer">ICE SEVP: Optional Practical Training</a>
+        </li>
+        <li>
+          Official cap-gap extension rules connecting OPT and STEM OPT to a filed H1B petition.
+          <a href="https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations/extension-of-post-completion-optional-practical-training-opt-and-f-1-status-for-eligible-students" target="_blank" rel="noopener noreferrer">USCIS: Cap-Gap Extension of OPT and F-1 Status</a>
+        </li>
+        <li>
+          Government-recognised career and job services portal for India.
+          <a href="https://www.ncs.gov.in/" target="_blank" rel="noopener noreferrer">National Career Service (NCS)</a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="container section faq-block">
+      <h2>FAQs on OPT after MS in USA for Indian students</h2>
+      <div class="faq-grid">
+        {faq.map((item) => (
+          <details class="faq-item">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Explore This Decision Further"
+      subtitle="Keep reading, or open the next page that helps you move forward."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+
+    <section class="container">
+      <BlogBottomCta />
+    </section>
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #opt-mechanics-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+  .date-pill {
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.03);
+    padding: 6px 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,.45);
+  }
+  .date-pill--link { text-decoration: none; }
+  .date-pill--link:hover { color: rgba(255,255,255,.82); border-color: rgba(229,184,74,.35); }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.35rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 960px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .line a {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .honest-take {
+    margin-top: 1rem;
+    border-left: 3px solid rgba(229,184,74,.6);
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(229,184,74,.06), rgba(255,255,255,.02));
+  }
+  .honest-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.95);
+    margin-bottom: .55rem;
+  }
+
+  .section ul {
+    margin: .9rem 0 .9rem 1.2rem;
+    display: grid;
+    gap: .55rem;
+  }
+  .section > ul li,
+  .section li {
+    color: rgba(255,255,255,.7);
+    line-height: 1.8;
+    font-size: 15px;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+  .table-shell {
+    overflow-x: auto;
+    margin-top: .15rem;
+    padding-bottom: .15rem;
+  }
+  .table-shell table {
+    min-width: 720px;
+  }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 8px;
+    font-size: 13px;
+    line-height: 1.58;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; }
+
+  .card ul,
+  .sources {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li,
+  .sources li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .sources a {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-left: 4px;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-grid {
+    display: grid;
+    gap: .82rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.02);
+    padding: .9rem 1rem;
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    color: rgba(255,255,255,.92);
+    line-height: 1.5;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-item p {
+    margin-top: .8rem;
+    color: rgba(255,255,255,.64);
+    line-height: 1.8;
+    font-size: 14px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .line { font-size: 15px; }
+    .table-shell table { min-width: 640px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

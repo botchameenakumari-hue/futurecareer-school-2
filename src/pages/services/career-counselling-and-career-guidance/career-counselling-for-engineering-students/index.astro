@@ -1,0 +1,464 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Counselling for Engineering Students | Clearer Branch, Job & Skill Decisions | Future Career School';
+const description =
+  'Career counselling for engineering students and B.Tech students facing branch or specialization regret, service company vs product company offers, higher studies vs job doubts, or a pivot away from core engineering.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-engineering-students/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[3],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Branch regret',
+    title: 'The branch does not feel like the right fit anymore',
+    body: 'When mechanical, civil, ECE, or even CS starts to feel like the wrong long-term direction, and switching branches formally is no longer realistic.',
+  },
+  {
+    eyebrow: 'Placements',
+    title: 'Service company vs product company confusion',
+    body: 'When a service-company offer is already on the table, but it is unclear whether to accept it, keep preparing for product-company roles, or wait another placement cycle.',
+  },
+  {
+    eyebrow: 'Doubt',
+    title: 'Uncertainty about whether engineering still pays off',
+    body: 'When placement stories, AI headlines, and talk of oversaturated coding jobs make the degree itself feel like a smaller edge than it used to be.',
+  },
+  {
+    eyebrow: 'Next step',
+    title: 'Higher studies vs starting work',
+    body: 'When M.Tech, an MS abroad, an MBA, or a certification feels tempting, but the real trade-off against working and building skills stays unclear.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Branch and specialization',
+    title: 'Branch and specialization clarity',
+    listItems: [
+      'Whether to go deeper into your current branch or build a skill stack that fits you better than the branch label alone',
+      'How to read your actual strengths against what your branch, college, and family expectations are pushing you toward',
+      'What a realistic specialization path looks like without pretending you can start the degree over from zero',
+    ],
+  },
+  {
+    eyebrow: 'First job',
+    title: 'Service company vs product company',
+    listItems: [
+      'What a specific service-company offer is actually worth for your situation, not as a blanket good-or-bad label',
+      'Whether preparing longer for product-company roles is worth the delay for you specifically',
+      'How proof of work and skills, not just the company name on the offer letter, shape your next two or three moves',
+    ],
+  },
+  {
+    eyebrow: 'After graduation',
+    title: 'Higher studies vs jumping into work',
+    listItems: [
+      'Whether M.Tech, an MS abroad, or an MBA genuinely strengthens your direction or mainly delays a decision',
+      'How working first and building proof of work compares to studying first for your specific goals',
+      'What the real cost in time, money, and opportunity looks like for each path, not just the prestige of the option',
+    ],
+  },
+  {
+    eyebrow: 'Beyond core engineering',
+    title: 'A path beyond core technical work',
+    listItems: [
+      'Whether product, business, consulting, or a non-coding track is a realistic move from your specific branch',
+      'What skills and proof of work would make that pivot credible to employers instead of just a wish',
+      'How to move toward work that fits you better without treating the engineering degree as wasted effort',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it engages with your actual branch and offer situation',
+    body: 'Generic "follow your passion" advice does not help when the real question is a specific service-company offer, a specific branch mismatch, or a specific higher-studies option already in front of you.',
+  },
+  {
+    title: 'Check whether service-vs-product and higher-studies trade-offs get taken seriously',
+    body: 'These are some of the most expensive decisions in an engineering student’s timeline. Stronger guidance should walk through the real trade-offs instead of defaulting to whatever sounds safest to a placement WhatsApp group.',
+  },
+  {
+    title: 'Check whether skills and proof of work matter as much as the branch name',
+    body: 'A branch label on a degree is rarely enough on its own anymore. Look for guidance that treats high-value skills and proof of work as part of the plan, not an afterthought bolted onto a placement pitch.',
+  },
+  {
+    title: 'Check whether the assessments are practical or just expensive theatre',
+    body: 'Many providers charge thousands for outdated or impractical assessments and present them like deal-breakers. Future Career School can be described truthfully as offering free, updated, practical, AI-powered career and skill assessments instead.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'My branch does not feel like the right fit anymore. Is it too late to change direction?',
+    answer:
+      'It is rarely too late to change direction, even when switching the branch itself is not realistic. Guidance can help you separate the branch on your degree from the skill direction you actually build. Many engineers move toward a stronger path by adding the right skills and proof of work on top of the branch they already have, instead of waiting for a formal branch change.',
+  },
+  {
+    question: 'Should I accept a service-company offer or keep preparing for product companies?',
+    answer:
+      'This depends on your specific skill level, timeline, and financial situation, not a blanket rule. Guidance should help you weigh the real trade-off, such as accepting the offer while continuing to build product-ready skills versus a longer runway with more preparation risk, instead of copying whatever your friend group decided.',
+  },
+  {
+    question: 'Is engineering still a good career with AI changing coding work so fast?',
+    answer:
+      'A degree alone was never a complete career strategy, and that is more visible now that AI is changing how coding and technical work get done. The stronger response is building high-value skills and proof of work on top of your engineering foundation, not assuming the degree by itself will keep carrying you.',
+  },
+  {
+    question: 'Should I do M.Tech, an MS abroad, or an MBA instead of starting work right away?',
+    answer:
+      'Higher studies can genuinely strengthen a specific direction, but it is not automatically the safer choice. Guidance should help you check whether the degree adds a real skill or credential you need, or whether it mainly delays a decision you could make now with a clearer plan and an earlier start on proof of work.',
+  },
+  {
+    question: 'I am in a tier-2 or tier-3 engineering college. Does that limit my options permanently?',
+    answer:
+      'College tier can affect some early opportunities, but it does not permanently cap your options. Skills, proof of work, and how you position yourself matter more the further you get from graduation. Guidance should help you build a realistic plan that does not depend on your college name doing the work for you.',
+  },
+  {
+    question: 'Can I move into a non-technical role like product management or business after B.Tech?',
+    answer:
+      'Yes, this is a realistic path for many engineering graduates, but it usually needs a deliberate skill and proof-of-work plan rather than a sudden switch. Guidance should help you map what that pivot actually requires and how to build toward it without treating your technical foundation as wasted effort.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered. Many providers charge thousands for outdated assessments; these are meant to be a stronger free starting layer instead, especially before a branch, company, or higher-studies decision.',
+  },
+  {
+    question: 'Is this available online across India, or only for students near a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so engineering and B.Tech students can start from their hostel, home, or college without waiting for a campus counsellor or depending on a local office.',
+  },
+  {
+    question: 'Is this career counselling or career coaching for engineering students?',
+    answer:
+      'This is built for the decision itself: branch or specialization regret, a service-company offer against a product-company wait, higher studies versus starting work, or whether to pivot away from core engineering. Once that direction is set and the real gap becomes staying on track with a skill-building plan through placement season, career coaching for engineering students is the dedicated page for that ongoing, accountability-focused support.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help with skill, course, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coaching-for-engineering-students/',
+    title: 'Career Coaching for Engineering Students',
+    description:
+      'See this once the branch, company, or higher-studies direction is set and the gap is a skill-building plan with real accountability.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'A wider student guidance page for school, college, fresher, and postgraduate decisions beyond engineering-specific choices.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description:
+      'Free clarity on fit, skill direction, and employability for engineering students moving toward placements or graduation.',
+  },
+  {
+    href: '/blog/career-options/is-engineering-still-a-good-career-in-india/',
+    title: 'Is Engineering Still a Good Career?',
+    description:
+      'An honest look at whether an engineering degree is still worth it if that doubt is part of what is holding you back.',
+  },
+  {
+    href: '/blog/career-options/is-service-company-job-worth-it-for-freshers/',
+    title: 'Is a Service Company Job Worth It for Freshers?',
+    description:
+      'Read this if a service-company offer is on the table and you are weighing it against waiting or preparing further.',
+  },
+  {
+    href: '/blog/career-change/how-to-switch-from-service-company-to-product-company/',
+    title: 'Service Company to Product Company',
+    description:
+      'A practical look at what moving from a service-company role to a product-company role usually takes.',
+  },
+  {
+    href: '/blog/career-options/career-after-btech-other-than-software/',
+    title: 'Career After B.Tech Other Than Software',
+    description:
+      'Explore paths beyond a coding-first role if software development does not feel like the right fit for you.',
+  },
+  {
+    href: '/blog/career-options/career-options-for-non-cs-engineers/',
+    title: 'Career Options for Non-CS Engineers',
+    description:
+      'Useful if your branch is mechanical, civil, electrical, or another non-CS stream and tech-only advice keeps missing you.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling for Engineering Students',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Engineering Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Engineering Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Engineering Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for engineering students and B.Tech students
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for engineering students
+        <span class="gold-text"> before a branch, company, or skill decision gets expensive</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for engineering students should deal with the real decisions B.Tech students face: branch or specialization regret,
+        a service-company offer against waiting for a product company, whether higher studies is worth it, and whether engineering is still the
+        right track at all. The goal is a high-value, high-income skill portfolio and a clearer route toward earlier financial freedom, not just
+        the safest-sounding option in the placement group.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from your hostel, home, or college without waiting for a campus
+        counsellor or a local office.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for Engineering Students</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career counselling for engineering students becomes useful"
+    subtitle="It becomes useful right when a branch, company, or skill decision starts to feel expensive, because the sooner the direction is right, the sooner a stronger, higher-income skill portfolio starts compounding instead of drifting."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Make the branch, company, or skill decision clearer before another placement cycle passes"
+    body="The earlier the direction is right, the sooner a stronger, higher-income skill portfolio starts working for you instead of against you."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Engineering Students"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The engineering-specific decisions this should help you make"
+    subtitle="Not generic career advice. Direction for the exact choices B.Tech students and engineering graduates actually face."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help you see your actual strengths and work style before deciding between a branch, a company type, or a pivot out of core engineering."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when engineering career guidance is done right"
+    subtitle="Career counselling for engineering students should feel different from a placement-cell announcement or a WhatsApp forward about which branch is safe."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling for engineering students"
+    subtitle="The goal is a clearer branch, company, and skill decision, not generic advice recycled from a career fair pamphlet."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let placement season or a delayed decision make the call for you"
+    body="A clearer branch, company, or skill decision now protects the years right after graduation, when income and skill compounding matter most."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Engineering Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling for Engineering Students"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, engineering-specific reading, and free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions engineering and B.Tech students ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Take the branch, company, or skill decision seriously before it gets expensive"
+    subtitle="If a branch, service-vs-product offer, higher-studies option, or pivot away from core engineering already feels important, move with stronger direction now toward a higher-value skill portfolio and earlier financial freedom, instead of letting placement pressure decide for you."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Engineering Students"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

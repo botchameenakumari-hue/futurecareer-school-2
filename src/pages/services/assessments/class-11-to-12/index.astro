@@ -2,10 +2,17 @@
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
-import { WHATSAPP_BOOKING_URL } from '../../../../config/site';
+import AssessmentReportTools from '../../../../components/AssessmentReportTools.astro';
+import AssessmentGuidanceCta from '../../../../components/bofu/AssessmentGuidanceCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { getAssessmentPlansConfig } from '../../../../config/assessmentPlans';
 
 const pageUrl = 'https://futurecareerschool.com/services/assessments/class-11-to-12/';
+const plansConfig = getAssessmentPlansConfig('student');
+const guidanceCardHref = plansConfig.jumpHref;
+const guidanceResultsHref = plansConfig.jumpHref;
+const guidanceResultsLabel = plansConfig.jumpLabel;
 const focusedTests = [
   {
     href: '/services/assessments/stream-selector-test-after-12th/',
@@ -41,7 +48,7 @@ const jsonLd = [
     isAccessibleForFree: true,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
     provider: {
-      '@type': 'EducationalOrganization',
+      '@type': ['Organization', 'ProfessionalService'],
       name: 'Future Career School',
       url: 'https://futurecareerschool.com',
     },
@@ -147,13 +154,17 @@ const jsonLd = [
         <span class="meta-chip">&#127919; 6 tests in one</span>
       </div>
 
-      <a href="#assessment" class="btn-gold pulse hero-cta">
-        Start Free Assessment
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-      </a>
+      <div class="hero-actions">
+        <a href="#assessment" class="btn-gold pulse hero-cta">
+          Start Free Assessment
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </a>
+        <a href={plansConfig.jumpHref} class="btn-outline hero-cta">{plansConfig.jumpLabel}</a>
+      </div>
     </div>
   </section>
 
+  <div class="assessment-first-flow">
   <!-- WHAT THIS TESTS -->
   <section id="what-this-tests">
     <div class="container">
@@ -263,6 +274,7 @@ const jsonLd = [
       <div id="results-container" class="results-box" style="display:none" aria-live="polite"></div>
     </div>
   </section>
+  </div>
 
   <!-- FAQ -->
   <section id="faq">
@@ -285,7 +297,7 @@ const jsonLd = [
 
         <details class="faq-item">
           <summary class="faq-q">Does this assessment tell me which college or entrance exam to target?<svg class="faq-arr" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
-          <div class="faq-a">Yes — it provides a College Entrance Strategy section personalised to your stream (JEE / NEET / CA Foundation / CLAT / CUET depending on what you are studying). It gives you the relevant exams, a preparation timeline, and the career paths that open from each. For a more detailed, personalised plan — including which specific colleges to target based on your current preparation level — a 1-on-1 session is the right next step.</div>
+          <div class="faq-a">Yes — it provides a College Entrance Strategy section personalised to your stream (JEE / NEET / CA Foundation / CLAT / CUET depending on what you are studying). It gives you the relevant exams, a preparation timeline, and the career paths that open from each. For a more detailed, personalised plan — including which specific colleges to target based on your current preparation level — the stronger move is updated, skill-first career guidance built around your future readiness and long-term direction.</div>
         </details>
 
         <details class="faq-item">
@@ -295,7 +307,7 @@ const jsonLd = [
 
         <details class="faq-item">
           <summary class="faq-q">Is this result a final career decision?<svg class="faq-arr" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
-          <div class="faq-a">No. This is a structured starting point — a framework for thinking about direction, not a final answer. It identifies patterns worth taking seriously. For decisions as significant as college choice or career commitment, a 1-on-1 guidance session that accounts for your specific situation, constraints, and goals is the appropriate next step.</div>
+          <div class="faq-a">No. This is a structured starting point — a framework for thinking about direction, not a final answer. It identifies patterns worth taking seriously. For decisions as significant as college choice or career commitment, the stronger move is updated, skill-first career guidance that accounts for your specific situation, constraints, and long-term goals.</div>
         </details>
 
         <details class="faq-item">
@@ -309,7 +321,7 @@ const jsonLd = [
   <LinkDirectorySection
     sectionId="focused-tests"
     title="Focused Free Tests for After 12th"
-    subtitle="If you want a quicker answer to one specific decision after Class 12, use these dedicated assessment pages."
+    subtitle="If you want a quicker answer to one specific decision after Class 12, use these dedicated free assessments."
     items={focusedTests}
     altBackground={true}
   />
@@ -321,20 +333,20 @@ const jsonLd = [
         <span style="color:var(--teal)">&#8635;</span>&nbsp;After This Assessment
       </div>
       <h2 class="section-title">Where to Go Next</h2>
-      <p class="section-sub">This assessment is a starting point. These pages help you take the next practical step.</p>
+      <p class="section-sub">This assessment is a starting point. These options help you move from free clarity to a stronger academic and career decision.</p>
       <div class="links-grid">
-        <a href="/services/career-counselling-and-career-guidance" class="link-card">
+        <a href={guidanceCardHref} class="link-card">
           <div class="lc-icon">&#128172;</div>
           <div>
-            <div class="lc-title">Get Career Guidance</div>
-            <div class="lc-desc">1-on-1 career counselling session for a personalised college and career plan</div>
+            <div class="lc-title">See Student Guidance Plans</div>
+            <div class="lc-desc">Move from free results to a paid guidance plan when the next course or career decision needs stronger support.</div>
           </div>
         </a>
-        <a href="/services/career-counselling-and-career-guidance/student-career-guidance/" class="link-card">
+        <a href="#guidance-bridge" class="link-card">
           <div class="lc-icon">&#127891;</div>
           <div>
-            <div class="lc-title">Student Guidance</div>
-            <div class="lc-desc">Career guidance specifically built for school and early college students</div>
+            <div class="lc-title">Why Paid Guidance Helps</div>
+            <div class="lc-desc">See why updated, skill-first guidance gives fuller clarity than a free test alone.</div>
           </div>
         </a>
         <a href="/services/assessments" class="link-card">
@@ -351,10 +363,10 @@ const jsonLd = [
             <div class="lc-desc">Share this with a younger sibling — the Class 10 version covers stream selection</div>
           </div>
         </a>
-        <a href="/skill-finder" class="link-card">
+        <a href="/career-skills-compass" class="link-card">
           <div class="lc-icon">&#128269;</div>
           <div>
-            <div class="lc-title">Skill Finder</div>
+            <div class="lc-title">Career & Skills Compass</div>
             <div class="lc-desc">Explore which high-value skills match your thinking style and career direction</div>
           </div>
         </a>
@@ -369,35 +381,29 @@ const jsonLd = [
     </div>
   </section>
 
-  <!-- FINAL CTA -->
-  <section id="final-cta">
-    <div class="container cta-inner">
-      <div class="cta-pill">
-        <span class="dot"></span>
-        Start with a free assessment — book a session only if you want a detailed plan
-      </div>
-      <h2 class="cta-headline">
-        Results Are a Starting Point.<br />
-        <span class="gold-text">A Session Builds the Full Plan.</span>
-      </h2>
-      <p class="cta-sub">
-        This assessment gives you direction. A 1-on-1 session translates that direction into a concrete plan —
-        which college, which entrance exam to prioritise, which skill to build first, and what your next 12 months should look like.
-      </p>
-      <div class="cta-actions">
-        <a href="/services/career-counselling-and-career-guidance" class="btn-gold pulse">
-          Get Career Guidance
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-        <a href="/services/assessments" class="btn-outline">See All Assessments</a>
-      </div>
-      <p class="cta-note">All assessments are free &nbsp;&middot;&nbsp; 100% online &nbsp;&middot;&nbsp; Available across India</p>
-    </div>
-  </section>
+  <AssessmentGuidanceCta mode="student" sectionId="guidance-bridge" />
 
+  <GuidancePlansSection
+    sectionId="plans"
+    audience={plansConfig.audience}
+    serviceLabel={plansConfig.serviceLabel}
+    title={plansConfig.sectionTitle}
+  />
+
+  <AssessmentReportTools
+    title="Class 11 and 12 Career Assessment Report"
+    fileName="class-11-12-career-assessment-report.pdf"
+    reportKicker="STREAM AND CAREER DIRECTION REPORT"
+    guidanceLabel="Explore Guidance After Class 12"
+    guidanceUrl="https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-12th/"
+  />
   <Footer />
 </BaseLayout>
 
+<script is:inline define:vars={{ guidanceResultsHref, guidanceResultsLabel }}>
+globalThis.guidanceResultsHref = guidanceResultsHref;
+globalThis.guidanceResultsLabel = guidanceResultsLabel;
+</script>
 <script is:inline>
 /* ─────────────────────────────────────────────
    SCORE DIMENSIONS
@@ -1012,6 +1018,9 @@ function updateProgress() {
   var isLast = currentQ === total - 1;
   nextBtn.innerHTML = (isLast ? 'See My Results' : 'Next Question') + ' <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>';
 }
+
+globalThis.prevQuestion = prevQuestion;
+globalThis.nextQuestion = nextQuestion;
 </script>
 
 <script is:inline>
@@ -3309,7 +3318,7 @@ function showResults() {
       '<p class="rg-body">' + P.guidance + '</p>' +
       '<div class="rg-actions">' +
         '<button class="btn-outline" onclick="downloadResultsAsPDF()" style="background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.3);color:#2dd4bf">📥 Download Results as PDF</button>' +
-        '<a href="/services/career-counselling-and-career-guidance" class="btn-gold">Get Career Guidance <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>' +
+        '<a href="' + guidanceResultsHref + '" class="btn-gold">' + guidanceResultsLabel + ' <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>' +
         '<button class="btn-outline" onclick="retakeQuiz()">Retake Assessment</button>' +
       '</div>' +
       '<p class="rg-note">All assessments are free &nbsp;&middot;&nbsp; Sessions are online &nbsp;&middot;&nbsp; Available across India</p>' +
@@ -3333,42 +3342,15 @@ function showResults() {
 
 function downloadResultsAsPDF() {
   var resultsContainer = document.getElementById('results-container');
-  var element = resultsContainer.cloneNode(true);
+  if (!resultsContainer || !window.downloadAssessmentReportPdf) {
+    return;
+  }
 
-  // Remove buttons from clone
-  var buttons = element.querySelectorAll('button, .rg-actions');
-  buttons.forEach(function(btn) {
-    if (btn.classList.contains('rg-actions')) {
-      btn.parentElement.removeChild(btn);
-    }
+  window.downloadAssessmentReportPdf({
+    title: 'Class 11 and 12 Career Assessment Report',
+    fileName: 'class-11-12-career-assessment-report.pdf',
+    container: resultsContainer
   });
-
-  // Create a new window for printing
-  var printWindow = window.open('', '', 'height=800,width=800');
-  printWindow.document.write('<!DOCTYPE html><html><head><meta charset="utf-8">');
-  printWindow.document.write('<title>Career Assessment Results</title>');
-  printWindow.document.write('<style>');
-  printWindow.document.write('body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0a0f1e; color: #fff; padding: 20px; line-height: 1.6; }');
-  printWindow.document.write('.res-header { border: 2px solid rgba(255,255,255,.1); padding: 20px; margin-bottom: 20px; border-radius: 12px; }');
-  printWindow.document.write('.res-section { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); padding: 15px; margin-bottom: 15px; border-radius: 8px; page-break-inside: avoid; }');
-  printWindow.document.write('.res-section-header { margin-bottom: 10px; font-weight: bold; font-size: 16px; }');
-  printWindow.document.write('h2, h3 { margin: 0; }');
-  printWindow.document.write('p { margin: 10px 0; }');
-  printWindow.document.write('table { width: 100%; border-collapse: collapse; margin: 10px 0; }');
-  printWindow.document.write('table th, table td { border: 1px solid rgba(255,255,255,.1); padding: 8px; text-align: left; }');
-  printWindow.document.write('ul, ol { margin: 10px 0; }');
-  printWindow.document.write('@page { margin: 15mm; size: A4; } ');
-  printWindow.document.write('@media print { body { background: #0a0f1e !important; color: rgba(255,255,255,.9) !important; } .res-section { background: rgba(255,255,255,.03) !important; border: 1px solid rgba(255,255,255,.1) !important; page-break-inside: avoid; } }');
-  printWindow.document.write('</style>');
-  printWindow.document.write('</head><body>');
-  printWindow.document.write(element.innerHTML);
-  printWindow.document.write('</body></html>');
-  printWindow.document.close();
-
-  // Wait a moment for content to load, then print to PDF
-  setTimeout(function() {
-    printWindow.print();
-  }, 250);
 }
 
 function retakeQuiz() {
@@ -3381,6 +3363,9 @@ function retakeQuiz() {
   updateProgress();
   document.getElementById('quiz-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+globalThis.downloadResultsAsPDF = downloadResultsAsPDF;
+globalThis.retakeQuiz = retakeQuiz;
 </script>
 
 <style is:global>
@@ -3414,6 +3399,7 @@ function retakeQuiz() {
   h1 { font-size: clamp(2rem, 4.8vw, 3.4rem); font-weight: 800; line-height: 1.1; letter-spacing: -.04em; color: #fff; margin-bottom: 1.25rem; }
   .hero-sub { font-size: clamp(15px, 2vw, 17px); line-height: 1.78; color: rgba(255,255,255,.58); max-width: 760px; margin: 0 0 1.6rem; }
   .meta-chips { display: flex; flex-wrap: wrap; gap: .55rem; margin-bottom: 1.8rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .85rem; }
   .meta-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.75); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); padding: 5px 12px; border-radius: 999px; }
   .hero-cta { font-size: 15px; padding: 14px 28px; }
 
@@ -3457,7 +3443,7 @@ function retakeQuiz() {
   .q-text { font-size: clamp(17px, 2.5vw, 21px); font-weight: 700; color: #fff; line-height: 1.45; margin-bottom: 1.5rem; }
   .q-opts { display: flex; flex-direction: column; gap: .7rem; }
   .opt-btn { display: flex; align-items: flex-start; gap: .9rem; background: rgba(255,255,255,.04); border: none; border-radius: 13px; padding: 1rem 1.2rem; text-align: left; color: rgba(255,255,255,.8); font-size: 15px; line-height: 1.55; font-family: inherit; cursor: pointer; transition: background .18s, color .18s, transform .15s; }
-  .opt-btn:hover { background: rgba(255,255,255,.08); color: #fff; transform: translateX(4px); }
+  .opt-btn:hover { background: rgba(255,255,255,.08); color: #fff; box-shadow: 0 10px 22px rgba(0,0,0,.14); }
   .opt-letter { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 8px; background: rgba(255,255,255,.08); border: none; font-size: 13px; font-weight: 800; color: rgba(255,255,255,.55); flex-shrink: 0; margin-top: 1px; transition: background .18s, color .18s; }
   .opt-text { flex: 1; }
   .opt-btn:hover .opt-letter { background: rgba(255,255,255,.12); color: rgba(255,255,255,.8); }

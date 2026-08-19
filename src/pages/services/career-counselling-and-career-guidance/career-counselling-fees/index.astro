@@ -1,0 +1,814 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../config/guidancePlans';
+
+const title = 'Career Counselling Fees | What It Actually Costs | Future Career School';
+const description =
+  'Career counselling fees explained honestly: real prices, what a package includes, why there is no recurring subscription, and when the free layer is enough.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-fees/';
+
+const {
+  studentSessionPrice,
+  studentSessionComparePrice,
+  studentContinuousPrice,
+  studentContinuousComparePrice,
+  professionalSessionPrice,
+  professionalSessionComparePrice,
+  studentSessionPriceText,
+  studentContinuousPriceText,
+  professionalSessionPriceText,
+  studentContinuousIncludesText,
+} = GUIDANCE_PLAN_PRICE_COPY;
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See this if immediate clarity on the next decision is the main thing you need.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-benefits/',
+    title: 'Career Counselling Benefits',
+    description: 'The evidence on what counselling actually improves, and when it may not be worth paying for yet.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-package/',
+    title: 'Career Counselling Package',
+    description: 'What is actually bundled into a single 1-on-1 session versus the continuous-guidance package, beyond the price alone.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A small free check if you are still too early for paid guidance.',
+  },
+];
+
+const faq = [
+  {
+    q: 'How much does career counselling cost?',
+    a: `Here, a first 1-on-1 session for students is priced at ${studentSessionPriceText}. For working professionals, a 1-on-1 session is ${professionalSessionPriceText}. If you want continuous support across a full year, the student continuous-guidance package is ${studentContinuousPriceText} and ${studentContinuousIncludesText}. Career and skill assessments are fully free regardless of which plan you choose.`,
+  },
+  {
+    q: 'What does a career counselling package include?',
+    a: 'The single 1-on-1 session is a one-time, focused session for a specific decision. The continuous-guidance package is broader: it includes the 1-on-1 plus up to 24 small-group sessions spread across the year, meant for people whose skill direction needs revisiting as the market or their situation changes, not just a single verdict. If you searched for this as a career coaching package online, it is the same plan, delivered over video call, so location is not a barrier.',
+  },
+  {
+    q: 'Is there a career counselling subscription?',
+    a: 'No. There is no recurring monthly subscription billing here. The closest equivalent is the continuous-guidance package, which is a single limited-time payment that covers a full year of small-group sessions on top of the 1-on-1 â€” not a card that gets charged every month. If a provider elsewhere is describing career counselling as a subscription, ask exactly what renews, at what price, and whether it auto-charges before committing.',
+  },
+  {
+    q: 'Is career counselling actually affordable, or are there hidden costs?',
+    a: 'The prices above are the full cost of each plan, with no separate charge for assessments layered on top. Many providers in the market charge thousands just for an assessment before counselling even starts; here the career and skill assessments are free on their own, so you are not paying to find out whether a paid session is worth it.',
+  },
+  {
+    q: 'Should I pay for career counselling, or is the free layer enough?',
+    a: 'If your decision is still early, low-stakes, or easily reversible, the free assessments and resources are often all you need for now. If the decision is expensive, time-pressured, or you are stuck despite trying to work through it yourself, a paid session tends to add more than a free test can on its own.',
+  },
+  {
+    q: 'Does paying more get you a guaranteed outcome?',
+    a: 'No ethical provider can guarantee a job or a specific income outcome, and the fee here is not sold that way. What the fee buys is structured decision support around path, skill, and risk â€” the actual outcome still depends on the direction you choose and the effort you put in after the session.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling Fees', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Career Counselling Fees: What It Actually Costs, and What Counts as a Package',
+    description,
+    datePublished: '2026-07-11',
+    dateModified: '2026-07-11',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="fees-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Career Counselling Fees</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>Real numbers, no vague pricing</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>Career counselling fees: what it actually costs, and what a package covers</h1>
+            <p class="line strong">
+              Career counselling fees here run from {studentSessionPrice} for a first student 1-on-1 session up to {studentContinuousPrice} for a full year of continuous guidance. There is no recurring subscription that quietly renews every month â€” the annual package is a single limited-time payment, and the career and skill assessments stay free no matter what you choose.
+            </p>
+            <p class="line">
+              Whether that fee is worth paying right now depends on where you already are. If your decision is small and reversible, the free layer might resolve it without spending anything. If it is expensive, time-pressured, or you are stuck despite trying to figure it out yourself, a paid session tends to add more than a free test can.
+            </p>
+            <p class="line">Here are the real prices, what counts as a package versus a subscription, and how to decide without a hard sell.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">The short version</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Student 1-on-1: {studentSessionPriceText}.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Working-professional 1-on-1: {professionalSessionPriceText}.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Student annual package: {studentContinuousPriceText}, up to 24 group sessions.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Career and skill assessments: free, always, not a paid tier.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>A first 1-on-1 session is not the full spend most people picture: it is {studentSessionPrice} for students and {professionalSessionPrice} for working professionals, both limited-time prices.</li>
+          <li>A "package" here means the continuous-guidance option â€” the 1-on-1 plus up to 24 small-group sessions across a year for {studentContinuousPrice}, not a vague bundle with unclear contents.</li>
+          <li>There is no recurring subscription that auto-renews or auto-charges. The annual package is paid once, up front, for the year.</li>
+          <li>Many providers in the market charge separately, and often a large amount, just for an assessment before counselling even starts. The career and skill assessments here are free on their own, so you are never paying just to find out if a paid session is worth it.</li>
+          <li>If your current decision is small and reversible, the free layer is often enough — the honest answer is not always "pay now."</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#cost">How much does career counselling cost</a>
+          <a href="#affordable">Is career counselling affordable</a>
+          <a href="#packages">What counts as a package</a>
+          <a href="#subscription">Is there a subscription</a>
+          <a href="#free-vs-paid">When the free layer is enough</a>
+          <a href="#choosing">How to decide</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="cost" class="container section">
+      <h2>How much does career counselling cost, exactly</h2>
+      <p class="line">
+        Vague pricing ("contact us for a quote") is one of the most common frustrations people run into while comparing career counselling fees. Here are the real numbers, with nothing added on top at checkout.
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Plan">Career and skill assessments</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student 1-on-1 session</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student continuous guidance package (year, includes the 1-on-1 plus up to 24 small-group sessions)</td>
+                <td data-label="Price">{studentContinuousPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Working-professional 1-on-1 session</td>
+                <td data-label="Price">{professionalSessionPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Notice what is not on this table: a separate assessment fee, a "processing" charge, or a price that only appears after a sales call. The career and skill assessments are free on their own and stay free even if you never book a paid session.
+      </p>
+    </section>
+
+    <section id="affordable" class="container section">
+      <h2>Is career counselling affordable, or is the fee a stretch for what you get</h2>
+      <p class="line">
+        "Affordable" only means something next to a comparison, so here is the honest one. Many career counselling providers in India charge a large one-time fee, often in the thousands, just for an assessment or a diagnostic session before any real guidance starts. That is where "career counselling is expensive" as a search complaint usually comes from.
+      </p>
+      <p class="line">
+        Weighed against the cost of a wrong-fit degree, a loan-funded course with a weak return, or a stalled career pivot, a {studentSessionPrice} or {professionalSessionPrice} session is a small outlay. It is still a real cost, though, and the honest position is that you should only spend it once the free layer â€” assessments, resources, the Career & Skills Compass tool â€” has stopped being enough for your specific decision. A page that pretends there is never a trade-off is not being straight with you.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-outline" href={BOFU_INTERNAL_LINKS.careerCounselling}>See what a counselling session covers</a>
+        <a class="btn-gold" href={BOFU_PLAN_LINKS.parentGuidance}>Compare plans at these prices</a>
+      </div>
+    </section>
+
+    <section id="packages" class="container section">
+      <h2>What actually counts as a career counselling package here</h2>
+      <p class="line">
+        "Package" gets used loosely across the market to mean anything from a single session to a vague multi-month bundle with unclear contents. If you have been searching for a career coaching package online, this is the same plan under a different name: continuous guidance across a year, with clear contents and one fixed price.
+      </p>
+
+      <div class="card highlight-card">
+        <h3>1-on-1 session vs the continuous-guidance package</h3>
+        <div class="sub-row sub-row--fit">
+          <span class="sub-row-label">A single 1-on-1 session</span>
+          <p>One focused session for a specific decision that needs resolving now â€” a stream choice, a stuck pivot, a next skill move. Priced at {studentSessionPrice} for students and {professionalSessionPrice} for working professionals.</p>
+        </div>
+        <div class="sub-row sub-row--caution">
+          <span class="sub-row-label">The continuous-guidance package</span>
+          <p>The 1-on-1 plus up to 24 small-group sessions spread across the year, at {studentContinuousPrice} for students. Built for people whose skill direction needs revisiting as the market, their marks, or their situation changes â€” not a one-time verdict.</p>
+        </div>
+      </div>
+
+      <p class="line">
+        A single session tends to fit a specific, immediate decision. The package tends to fit an ongoing one â€” someone building a skill portfolio over a year rather than resolving one question and stopping. Pick based on which one actually describes your situation rather than which sounds like better value on paper.
+      </p>
+    </section>
+
+    <section id="subscription" class="container section">
+      <h2>Is career counselling sold as a subscription</h2>
+      <p class="line">
+        Not here. There is no monthly plan that auto-renews or auto-charges your card in the background. The closest equivalent to a subscription is the continuous-guidance package described above, and it works differently in one important way: it is a single limited-time payment covering the full year, not a recurring charge you would need to remember to cancel.
+      </p>
+      <p class="line">
+        If a "career counselling subscription" is what you searched for, that likely means you want ongoing support rather than a one-off session â€” which is exactly what the continuous-guidance package is designed for, just billed once instead of every month. If you come across a provider elsewhere describing career counselling as a genuine subscription, it is worth asking what renews, at what price, and whether cancellation is simple before signing up.
+      </p>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What the fee is actually paying for"
+      subtitle="Not every provider adds the same thing behind the price. This is the difference that matters when you are comparing career counselling fees."
+      rows={[
+        { left: 'Paid outdated impractical assessments with weak practical value', right: 'Free updated practical AI-powered career and skill assessments' },
+        { left: 'Generic advice that still leaves you unclear', right: 'High-leverage decision support around path, skill, and risk' },
+        { left: 'One-off session format with no follow-through', right: 'Continuous small-group guidance that keeps skill direction current as the market shifts' },
+        { left: 'Degree-first direction with weak skill edge', right: 'Skill-first direction with proof of work and stronger market value' },
+      ]}
+    />
+
+    <section id="free-vs-paid" class="container section">
+      <h2>When the free layer is enough, and you should not pay yet</h2>
+      <p class="line">
+        A fair page about fees also has to say when not to spend. If you are early in exploring, the decision is not urgent, and you have not yet tried a structured assessment, the free career and skill assessments can often narrow a long list into a shorter, comparable one without any cost. Starting free costs nothing while you decide whether you need more.
+      </p>
+      <p class="line">
+        What a free test cannot do is cross-check that shortlist against your real financial and family situation, catch when a result does not match lived reality, or give you a plan you revisit as things change over a year. That gap is what the paid session and the continuous-guidance package are built to close.
+      </p>
+    </section>
+
+    <section id="choosing" class="container section">
+      <h2>How to decide, without a hard sell</h2>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>The free layer is probably enough if</h3>
+          <ul>
+            <li>You are early in exploring and just need to narrow a long list.</li>
+            <li>The decision is not urgent or expensive yet.</li>
+            <li>You have not tried a structured assessment before.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>A paid session or package is worth considering if</h3>
+          <ul>
+            <li>The decision is expensive, time-pressured, or hard to reverse.</li>
+            <li>You have already read enough and are still stuck.</li>
+            <li>You want ongoing support across the year, not a single verdict.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        Once you know which side of that you are on, the next step is straightforward: look at the guidance plans if the decision already feels important, or use a free assessment as a light first check if you are still exploring.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on career counselling fees</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <GuidancePlansSection
+      sectionId="plans"
+      audience="mixed"
+      serviceLabel="Career Guidance"
+      title="Career Guidance Plans"
+    />
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader guidance service, the evidence on benefits, or the free first step."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #fees-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.75rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+  .card {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .sub-row {
+    margin-top: .85rem;
+    padding: .65rem .8rem;
+    border-radius: 10px;
+    display: grid;
+    gap: .2rem;
+  }
+  .sub-row--fit {
+    background: rgba(45,212,191,.08);
+    border: 1px solid rgba(45,212,191,.22);
+  }
+  .sub-row--caution {
+    background: rgba(229,184,74,.08);
+    border: 1px solid rgba(229,184,74,.22);
+  }
+  .sub-row-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .sub-row--fit .sub-row-label { color: #7ee8d8; }
+  .sub-row--caution .sub-row-label { color: #f6db95; }
+  .sub-row p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,.72);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>
+
+

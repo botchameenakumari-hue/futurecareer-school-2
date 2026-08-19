@@ -1,0 +1,872 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = "AI and Human Skills Needed in India: What's Rising and What's Falling";
+const description =
+  "AI and human skills needed in India, based on WEF and India labour data: which skills are rising fastest, which are declining, and what it means for your next move.";
+const canonical = 'https://futurecareerschool.com/blog/ai-future/ai-and-human-skills-needed-india';
+const publishedDateISO = '2026-07-20';
+const publishedDateLabel = '20 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career strategist and writer';
+
+const jumpLinks = [
+  { id: 'why', label: 'Why this data matters now' },
+  { id: 'snapshot', label: 'The Skills-Demand Shift Snapshot' },
+  { id: 'rising-global', label: "What's rising globally" },
+  { id: 'declining-global', label: "What's declining globally" },
+  { id: 'india-data', label: 'India-specific demand signals' },
+  { id: 'compare', label: 'India vs the global trend' },
+  { id: 'why-now', label: 'Why the shift is happening' },
+  { id: 'durable', label: 'Skills holding steady' },
+  { id: 'mistakes', label: 'Common misreadings of this data' },
+  { id: 'next-move', label: 'What this means for your next move' },
+  { id: 'source-check', label: 'Source check' },
+  { id: 'next-step', label: 'Related reading' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const risingCards = [
+  {
+    label: 'Technology',
+    title: 'AI and big data',
+    body:
+      "The fastest-growing technical skill category in the WEF 2025 employer survey, ahead of networks and cybersecurity and general technology literacy. Employers report that GenAI adoption is already changing daily tasks, not just future job descriptions.",
+  },
+  {
+    label: 'Technology',
+    title: 'Networks and cybersecurity',
+    body:
+      'Ranks among the top rising technical skills as more business processes, payments, and records move onto connected systems that need protecting.',
+  },
+  {
+    label: 'Cognitive',
+    title: 'Analytical thinking',
+    body:
+      'The most consistently top-ranked core skill across WEF surveys since 2020. It now sits alongside AI literacy as one of the two skills employers most want, at entry level and mid-career alike.',
+  },
+  {
+    label: 'Cognitive',
+    title: 'Creative thinking',
+    body:
+      'Rising because AI tools can produce drafts and options fast. Deciding which option is actually good, original, or right for the specific situation still needs a person.',
+  },
+  {
+    label: 'Self-management',
+    title: 'Resilience, flexibility and agility',
+    body:
+      "One of the clearest skills WEF names as separating growing job roles from declining ones, as workplaces reorganise around new tools faster than job titles update.",
+  },
+  {
+    label: 'Self-management',
+    title: 'Curiosity and lifelong learning',
+    body:
+      "Rising because the skill list itself keeps moving. WEF projects that 39% of workers' core skills will change by 2030, so the ability to keep learning is becoming a skill in its own right, not just a virtue.",
+  },
+];
+
+const decliningRows = [
+  {
+    skill: 'Manual dexterity, endurance and precision',
+    signal: '24% of employers surveyed expect this to matter less',
+    reason: 'Automation and robotics are absorbing more repetitive physical tasks in manufacturing and logistics roles.',
+  },
+  {
+    skill: 'Reading, writing and mathematics as standalone skills',
+    signal: 'Ranked lower as a differentiator, not as a requirement',
+    reason: 'Still a baseline expectation everywhere, but AI tools now handle a large share of routine drafting, summarising, and calculation, so they no longer separate a strong candidate from an average one.',
+  },
+  {
+    skill: 'Dependability and attention to detail, on their own',
+    signal: 'Declining relative to newer verification skills',
+    reason: "Checking whether AI-generated output is actually correct is a more active, judgment-heavy skill than traditional carefulness, and it is what employers are starting to test for instead.",
+  },
+];
+
+const indiaShortCards = [
+  'AI/ML roles carry more than 290,000 open postings in India with a demand-supply gap of around 51%, according to NASSCOM data.',
+  'Across cloud computing, cybersecurity, data science, DevOps, and full-stack development, NASSCOM reports demand-supply gaps in the 60-73% range.',
+  'Close to a million young people enter the Indian workforce every month, which raises both the opportunity and the pressure to close these gaps quickly.',
+];
+
+const indiaImproveCards = [
+  'National employability rose to 54.81% in the India Skills Report 2025, up from 51.25% the year before.',
+  'Management graduates report the highest employability at 78%, followed by engineering at 71.5% and MCA at 71%, with science graduates lower at 58%.',
+  'Employability varies sharply by state, from Maharashtra at 84% down to states still building out placement infrastructure, so location genuinely changes the odds.',
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Treating "AI skills" as one line on a resume',
+    body:
+      'AI literacy is closer to a process than a single skill: giving a tool clear context, checking its output, and knowing when not to use it at all. A single course or certificate does not cover that.',
+  },
+  {
+    num: '02',
+    title: 'Assuming a declining skill is now worthless',
+    body:
+      'Reading, writing, and basic maths are still expected everywhere. They have declined as differentiators, not as requirements. You still need them; they just no longer set you apart on their own.',
+  },
+  {
+    num: '03',
+    title: "Copying a global top-10 list without checking India's own postings",
+    body:
+      "LinkedIn's global fastest-rising list and its India-specific list do not match exactly. India's list leans harder toward applied problem-solving and code review, alongside AI literacy for tech-adjacent roles.",
+  },
+  {
+    num: '04',
+    title: 'Ignoring the demand-supply gap number',
+    body:
+      "Knowing that AI/ML is in demand is not a plan. A 51-73% demand-supply gap in a skill area means the opportunity is real, but so is the distance most people still need to close before they are hireable in it.",
+  },
+  {
+    num: '05',
+    title: 'Waiting for the "final" skill list before starting',
+    body:
+      "WEF's own projection is that the skill list keeps changing through 2030. There is no stable endpoint to wait for. Building the habit of tracking and adjusting matters more than picking one fixed target.",
+  },
+];
+
+const sourceCards = [
+  {
+    label: 'World Economic Forum',
+    title: 'Future of Jobs Report 2025: Skills Outlook',
+    body:
+      'Names AI and big data, networks and cybersecurity, and technology literacy as the fastest-rising technical skills, alongside creative thinking, resilience, and curiosity as rising human skills. Manual dexterity, endurance and precision, and standalone literacy skills rank among the fastest-declining.',
+    href: 'https://www.weforum.org/publications/the-future-of-jobs-report-2025/in-full/3-skills-outlook/',
+    linkLabel: 'Read the WEF skills outlook',
+  },
+  {
+    label: 'LinkedIn Economic Graph',
+    title: 'Skills on the Rise 2025',
+    body:
+      "LinkedIn's global list puts AI literacy at the top of fastest-rising skills, with 64% of job-related skills expected to change by 2030 worldwide.",
+    href: 'https://www.linkedin.com/business/talent/blog/learning-and-development/skills-on-the-rise',
+    linkLabel: 'Read the LinkedIn report',
+  },
+  {
+    label: 'Analytics India Magazine',
+    title: "LinkedIn's India-specific skills data",
+    body:
+      "India's fastest-growing skills lean toward creativity and innovation, code review, problem-solving, and strategic thinking, with AI literacy, LLMs, and prompt engineering rising sharply across tech and non-tech roles alike.",
+    href: 'https://analyticsindiamag.com/ai-news-updates/linkedin-reveals-indias-top-skills-for-2025-ai-literacy-takes-lead/',
+    linkLabel: "Read India's skills data",
+  },
+  {
+    label: 'Wheebox, AICTE, CII, AIU',
+    title: 'India Skills Report 2025',
+    body:
+      'National employability climbed to 54.81% in 2025 from 51.25% in 2024, with sharp gaps by degree type and by state.',
+    href: 'https://wheebox.com/india-skills-report.htm',
+    linkLabel: 'Read the India Skills Report',
+  },
+  {
+    label: 'India Employer Forum',
+    title: 'Future of Jobs Report 2025: Key Insights for India',
+    body:
+      'Synthesises the WEF findings for the Indian labour market, including the scale of new workforce entrants each month and the collaboration needed between employers, workers, and policymakers.',
+    href: 'https://indiaemployerforum.org/world-of-work/future-of-jobs-report-2025-key-insights/',
+    linkLabel: 'Read the India-specific analysis',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'What are the AI and human skills needed in India right now?',
+    a: 'AI and big data, analytical thinking, creative thinking, resilience and flexibility, and curiosity or lifelong learning are the fastest-rising skills globally, according to the WEF Future of Jobs Report 2025. In India specifically, LinkedIn data shows creativity and innovation, code review, problem-solving, and AI literacy rising fastest, alongside a large demand-supply gap in AI/ML, cloud, and cybersecurity roles.',
+  },
+  {
+    q: 'Which skills are declining in demand?',
+    a: 'Manual dexterity, endurance and precision are declining fastest, along with reading, writing, and mathematics as standalone differentiators, and dependability or attention to detail on their own. These skills are still required as a baseline; they have simply stopped being what separates a strong candidate from an average one.',
+  },
+  {
+    q: 'Is this the same as saying AI is replacing jobs in India?',
+    a: 'Not directly. This data is about which skills employers say they need more or less of inside roles, not a list of jobs disappearing. A role can stay stable in headcount while the mix of skills it needs shifts significantly.',
+  },
+  {
+    q: 'How is India different from the global skills trend?',
+    a: "India shows the same broad direction as the global data, but with its own emphasis: LinkedIn's India-specific list leans more toward applied problem-solving and code review than the global list, and the country carries a much larger demand-supply gap in technical roles, around 51% for AI/ML and 60-73% across cloud, cybersecurity, data science, DevOps, and full-stack development, according to NASSCOM data.",
+  },
+  {
+    q: 'Does a rising skill on this list guarantee a job?',
+    a: 'No. A skill being in demand tells you where opportunity is concentrated, not that you are automatically qualified for it. The demand-supply gap numbers exist precisely because most people have not closed the distance between "this is in demand" and "I can prove I can do this."',
+  },
+  {
+    q: 'How often does this kind of data change?',
+    a: "WEF revises its Future of Jobs Report roughly every two years, and LinkedIn updates its Skills on the Rise list annually. The report itself projects that 39% of workers' core skills will change by 2030, so treat any single list as a current snapshot, not a fixed target.",
+  },
+  {
+    q: 'Should students and working professionals read this data differently?',
+    a: 'The direction of the data applies to both, but the response differs. Students have more room to build analytical thinking and AI literacy into coursework and projects from the start. Working professionals usually need to prioritise which single gap to close first, based on what their current role and industry are already signalling.',
+  },
+  {
+    q: 'Where can I get help applying this to my own situation?',
+    a: 'A skills-demand snapshot tells you what the market is rewarding in general. Turning that into a personal plan, given your background, industry, and constraints, is what career counselling and career guidance is built for.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="ai-future"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>The AI and human skills needed in India right now are shifting fast enough that a two-year-old skill list is already out of date.</strong>
+    The World Economic Forum's Future of Jobs Report and India-specific labour data both point the same direction:
+    AI and analytical skills are rising, several long-standard skills are declining as differentiators, and the
+    gap between what employers want and what candidates can prove is wide, especially in India's technical roles.
+    Closing that specific gap, not collecting a generic list of "future skills," is what turns this data into a
+    genuine <strong>high-income skill portfolio</strong> instead of a headline you nod along to.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Globally, AI and big data, analytical thinking, creative thinking, and resilience or flexibility are the fastest-rising skills, while manual dexterity and standalone literacy or numeracy skills are declining as differentiators.</li>
+      <li>India tracks the same broad direction but with its own emphasis: applied problem-solving, code review, and AI literacy are rising fastest here, alongside a 51-73% demand-supply gap across AI/ML, cloud, cybersecurity, and data roles.</li>
+      <li>A skill being "in demand" is not the same as you being qualified in it. The gap between the two is exactly what the data is measuring.</li>
+      <li><strong>Treat this as a snapshot to check against, not a fixed target: WEF itself projects 39% of core skills will change again by 2030.</strong></li>
+      <li>The strongest combination is deep domain knowledge plus AI direction, verification, communication, and workflow automation. That stack can multiply output dramatically, but only when it solves a real problem and produces proof another person can trust.</li>
+    </ul>
+  </div>
+
+  <p>
+    If you want the broader parent topic first, start with <a href="/blog/ai-future/">AI and the Future of Work</a>.
+  </p>
+
+  <p>
+    If this shift is already showing up as real pressure at work or in a course decision, not just something to
+    read about, <a href="/services/career-counselling-and-career-guidance/">career counselling and career guidance</a>
+    can help you turn this snapshot into a plan built around your own background and constraints.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="why">Why this data matters now, not as background reading</h2>
+
+  <p>
+    Most career advice about AI stays vague: "AI is changing everything, so keep learning." That is true and
+    also not very useful on its own.
+  </p>
+
+  <p>
+    What is useful is the actual research employers are basing hiring and training decisions on right now. The
+    World Economic Forum surveys hundreds of large employers across dozens of economies every couple of years
+    and asks a direct question: which skills do you expect to need more of, and which do you expect to need
+    less of, over the next five years? LinkedIn asks a related question of its own hiring and skills data every
+    year. India's own labour-market bodies track a version of the same question locally.
+  </p>
+
+  <p>
+    Read together, these three data sets are not opinion pieces. They are the closest thing career planning has
+    to a live readout of what is actually changing in hiring, not what sounds dramatic in a headline.
+  </p>
+
+  <h2 id="snapshot">The Skills-Demand Shift Snapshot</h2>
+
+  <p>
+    This article uses one simple structure to organise the data: three signals, read together, not in isolation.
+  </p>
+
+  <div class="checkpoint-list">
+    <article class="checkpoint">
+      <div class="checkpoint__num">01</div>
+      <div class="checkpoint__content">
+        <h3>What's rising</h3>
+        <p>Skills employers report needing more of over the next five years, across both technical and human categories.</p>
+      </div>
+    </article>
+    <article class="checkpoint">
+      <div class="checkpoint__num">02</div>
+      <div class="checkpoint__content">
+        <h3>What's declining</h3>
+        <p>Skills employers report needing less of as a differentiator, even where the skill is still a baseline requirement.</p>
+      </div>
+    </article>
+    <article class="checkpoint">
+      <div class="checkpoint__num">03</div>
+      <div class="checkpoint__content">
+        <h3>Where India sits</h3>
+        <p>How the Indian labour market's own data lines up with, or diverges from, the global picture.</p>
+      </div>
+    </article>
+  </div>
+
+  <p class="section-note">
+    A rising or declining skill only tells you half the story without the third signal: how large the gap
+    already is between what is in demand and how many people can actually prove it. That gap is where the
+    real opportunity, and the real competition, sits.
+  </p>
+
+  <h2 id="rising-global">What's rising globally, according to WEF and LinkedIn</h2>
+
+  <p>
+    The World Economic Forum's Future of Jobs Report 2025 surveyed employers representing more than 14 million
+    workers worldwide. AI and big data top the list of fastest-growing technical skills. Beyond the obvious
+    technical category, several human skills rise alongside it.
+  </p>
+
+  <div class="career-grid">
+    {risingCards.map((item) => (
+      <article class="career-card">
+        <span class="career-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="section-note">
+    Also on WEF's top-10 rising list: leadership and social influence, talent management, and environmental
+    stewardship. The pattern across all ten is consistent: the skills rising fastest are the ones that decide
+    how AI output gets used, not the ones that compete with AI at producing it.
+  </p>
+
+  <h2 id="declining-global">What's declining, and what that actually means</h2>
+
+  <p>
+    "Declining" in this data does not mean "no longer needed." It means employers report these skills matter
+    less as a way to tell candidates apart, usually because AI tools already handle the routine version of the
+    task.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Skill</th>
+          <th>Signal</th>
+          <th>Why it's declining as a differentiator</th>
+        </tr>
+      </thead>
+      <tbody>
+        {decliningRows.map((row) => (
+          <tr>
+            <td data-label="Skill">{row.skill}</td>
+            <td data-label="Signal">{row.signal}</td>
+            <td data-label="Why it's declining as a differentiator">{row.reason}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">Read this carefully</p>
+    <p class="callout__footer">
+      None of these skills became optional. A declining skill on this list is closer to a skill that used to be
+      a competitive edge and has now become table stakes. You still need it. It just will not be the thing that
+      gets you hired over someone else.
+    </p>
+  </div>
+
+  <h2 id="india-data">India-specific demand signals</h2>
+
+  <p>
+    India's own labour-market data adds detail the global averages cannot show: how large the gap actually is
+    between demand and supply in the roles the global data flags as rising.
+  </p>
+
+  <div class="grid-two">
+    <div class="card">
+      <h3>Where India is short</h3>
+      <ul>
+        {indiaShortCards.map((line) => (
+          <li>{line}</li>
+        ))}
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Where India is improving</h3>
+      <ul>
+        {indiaImproveCards.map((line) => (
+          <li>{line}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <p class="note-line">
+    Read together, these numbers say something specific: overall employability is climbing, but the skills
+    driving the biggest hiring gaps, AI/ML, cloud, cybersecurity, data, and full-stack development, are climbing
+    even faster than the supply of people who can do them well.
+  </p>
+
+  <h2 id="compare">How India's shift compares to the global trend</h2>
+
+  <p>
+    The direction is the same. The emphasis is not identical.
+  </p>
+
+  <div class="grid-two">
+    <div class="card judgment-card judgment-card--ai">
+      <h3>Global signal (WEF, LinkedIn worldwide)</h3>
+      <ul>
+        <li>AI and big data lead the technical skills list</li>
+        <li>Analytical thinking has topped the core-skills list since 2020</li>
+        <li>Resilience, flexibility and agility named as a top differentiator between growing and declining roles</li>
+        <li>64% of job-related skills expected to change globally by 2030</li>
+      </ul>
+    </div>
+    <div class="card judgment-card judgment-card--human">
+      <h3>India signal (LinkedIn India, NASSCOM, India Skills Report)</h3>
+      <ul>
+        <li>Creativity and innovation, code review, and problem-solving lead India's fastest-rising list</li>
+        <li>AI literacy, LLMs, and prompt engineering spreading into non-tech roles, not staying tech-only</li>
+        <li>Demand-supply gap of 51-73% in AI/ML, cloud, cybersecurity, data, and full-stack roles</li>
+        <li>National employability up to 54.81%, but with sharp gaps by degree type and state</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="section-note">
+    The practical takeaway is that a global "top skills" list is a useful starting point, not a finished answer
+    for someone building a career in India. The size of the local demand-supply gap matters as much as the
+    global ranking does.
+  </p>
+
+  <h2 id="why-now">Why this shift is happening now</h2>
+
+  <p>
+    Three forces are moving together, which is part of why the shift feels faster than past skills cycles.
+  </p>
+
+  <ul>
+    <li>Generative AI tools became genuinely usable for everyday work tasks within the last few years, not just for specialists, which is why AI literacy shows up on both technical and non-technical skills lists now.</li>
+    <li>Employers are reorganising roles around what AI tools can already do well, which is exactly why WEF flags resilience and flexibility as a top differentiator between growing and shrinking roles.</li>
+    <li>India's workforce is growing fast enough, close to a million new entrants a month, that even a modest skills gap compounds into a large absolute shortage in the roles employers most want filled.</li>
+  </ul>
+
+  <h2 id="durable">Skills that are holding steady either way</h2>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>Not everything on the map is moving.</strong> Domain expertise in a specific field, basic
+      workplace communication, and the ability to work inside a team have stayed relatively stable across every
+      recent WEF survey. They are not rising fast enough to headline a list, and they are not declining either.
+      They are the floor the rest of this data sits on top of, and the combination of that floor with one or two
+      rising skills, not either alone, is what moves someone toward earlier financial freedom and unlocking
+      higher-income opportunities over the next few years.
+    </p>
+  </div>
+
+  <h2 id="mistakes">Common misreadings of this data</h2>
+
+  <div class="mistake-list">
+    {mistakeItems.map((item) => (
+      <article class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <h2 id="next-move">What this means for your next move</h2>
+
+  <p>
+    This snapshot is meant to be checked against, not memorised. Three practical uses of it:
+  </p>
+
+  <ul>
+    <li>If you are choosing what to study or add to a course plan, weight analytical thinking and AI literacy higher than a single tool or software name, since the tools change faster than the underlying skill does.</li>
+    <li>If you are already working, compare your role's actual task list against the rising and declining columns above. The gap between the two is usually a better guide than a generic "future skills" list.</li>
+    <li>If you are choosing between two paths with similar pay, the one with a larger current demand-supply gap in India is usually the one where being competent, not exceptional, is enough to stand out for now.</li>
+  </ul>
+
+  <p>
+    For a deeper, step-by-step approach to building AI-era skills personally, not just reading about the trend,
+    see <a href="/blog/ai-future/skills-to-work-with-ai-instead-of-being-replaced/">Skills to work with AI instead of being replaced by it</a>.
+  </p>
+
+  <h2 id="source-check">Source check</h2>
+
+  <p>
+    Every number in this article comes from a named, current source. None of it is estimated or rounded for
+    effect.
+  </p>
+
+  <div class="source-grid">
+    {sourceCards.map((item) => (
+      <article class="source-card">
+        <span class="source-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        <a href={item.href} rel="noreferrer" target="_blank">{item.linkLabel}</a>
+      </article>
+    ))}
+  </div>
+
+  <h2 id="next-step">Related reading</h2>
+
+  <div class="next-step">
+    <p class="next-step__title">Better next moves</p>
+    <ul class="next-step__list">
+      <li>
+        Read <a href="/blog/ai-future/skills-to-work-with-ai-instead-of-being-replaced/">Skills to work with AI instead of being replaced by it</a>
+        for the 4-layer approach to actually building these skills, not just tracking them.
+      </li>
+      <li>
+        Read <a href="/blog/ai-future/top-careers-for-the-future/">Top careers for the future</a> if you want
+        to see which career clusters carry the strongest demand behind this skills data.
+      </li>
+      <li>
+        Read <a href="/blog/ai-future/jobs-ai-cannot-replace-india/">Jobs AI cannot replace in India</a> for
+        role-by-role evidence, not just skill-category trends.
+      </li>
+      <li>
+        Use the <a href="/career-skills-compass/">Career & Skills Compass</a> to see which of the rising skills
+        above already fits your natural strengths.
+      </li>
+      <li>
+        If you want this snapshot turned into a plan for your own background and goals, use
+        <a href="/services/career-counselling-and-career-guidance/">career counselling and career guidance</a>.
+      </li>
+    </ul>
+  </div>
+
+  <h2 id="faq">FAQs</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, i) => (
+      <details open={i === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para strong {
+      color: rgba(255, 255, 255, 0.98);
+    }
+
+    .jump-nav {
+      margin: 1.45rem 0 1.8rem;
+      padding: 1.05rem 1.1rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .jump-nav__label {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.92) !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      padding: 0.58rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    .jump-nav__list a:hover {
+      border-color: rgba(125, 211, 252, 0.36);
+      color: rgba(255, 255, 255, 0.96);
+    }
+
+    .callout {
+      margin: 1.35rem 0;
+      padding: 1.15rem 1.2rem 1.2rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .callout--amber {
+      background: linear-gradient(180deg, rgba(229, 184, 74, 0.08), rgba(255, 255, 255, 0.025));
+      border-color: rgba(229, 184, 74, 0.2);
+    }
+    .callout__eyebrow {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.96) !important;
+    }
+    .callout__footer {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.75 !important;
+    }
+
+    .career-grid,
+    .source-grid {
+      display: grid;
+      gap: 0.95rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .career-card,
+    .source-card {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+      padding: 1.15rem 1.15rem 1.12rem;
+    }
+
+    .career-card__label,
+    .source-card__label {
+      display: inline-block;
+      margin-bottom: 0.52rem;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: rgba(45, 212, 191, 0.92);
+    }
+
+    .career-card h3,
+    .source-card h3,
+    .checkpoint h3,
+    .mistake-item__content h3,
+    .judgment-card h3,
+    .card h3 {
+      margin: 0 0 0.42rem !important;
+      font-family: "Sora", sans-serif;
+      font-size: 1rem !important;
+      line-height: 1.34 !important;
+      color: rgba(255, 255, 255, 0.93) !important;
+    }
+
+    .career-card p,
+    .source-card p,
+    .checkpoint p,
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+
+    .section-note {
+      margin: 0.85rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.62) !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+    }
+
+    .note-line {
+      margin: 0.9rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+      font-size: 14.5px !important;
+      line-height: 1.76 !important;
+    }
+
+    .highlight-box {
+      border-radius: 18px;
+      padding: 1.08rem 1.15rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      background: rgba(45, 212, 191, 0.05);
+      border-color: rgba(45, 212, 191, 0.22);
+    }
+    .highlight-box p {
+      margin: 0 !important;
+      font-size: 14.5px !important;
+      line-height: 1.76 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+    }
+
+    .checkpoint-list,
+    .mistake-list {
+      display: grid;
+      gap: 0.85rem;
+      margin: 1.4rem 0;
+    }
+
+    .checkpoint {
+      display: flex;
+      gap: 1rem;
+      padding: 1.1rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    }
+    .checkpoint__num {
+      width: 54px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.95rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: rgba(45, 212, 191, 0.24);
+      padding-top: 0.05rem;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.95rem;
+      margin: 1.4rem 0;
+    }
+    .card {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+      padding: 1.15rem 1.15rem 1.12rem;
+    }
+    .card ul {
+      margin: 0 !important;
+      padding-left: 1.05rem !important;
+    }
+    .card ul li {
+      color: rgba(255, 255, 255, 0.7) !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      margin: 0 0 0.4rem !important;
+    }
+    .judgment-card--ai {
+      border-color: rgba(229, 184, 74, 0.22);
+    }
+    .judgment-card--human {
+      border-color: rgba(45, 212, 191, 0.24);
+    }
+
+    .source-card a {
+      display: inline-flex;
+      margin-top: 0.75rem;
+      color: rgba(125, 211, 252, 0.94);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .source-card a:hover {
+      color: rgba(255, 255, 255, 0.96);
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.12rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: rgba(229, 184, 74, 0.2);
+      padding-top: 0.05rem;
+    }
+
+    .next-step {
+      margin: 1.4rem 0;
+      padding: 1.15rem 1.15rem 1.1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .next-step__title {
+      margin: 0 0 0.8rem !important;
+      font-size: 12px !important;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.94) !important;
+    }
+    .next-step__list {
+      margin: 0 !important;
+      padding-left: 1rem !important;
+    }
+    .next-step__list li {
+      margin: 0 0 0.55rem !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      line-height: 1.76 !important;
+    }
+
+    @media (max-width: 860px) {
+      .career-grid,
+      .source-grid,
+      .grid-two {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .career-card,
+      .checkpoint,
+      .card,
+      .source-card,
+      .mistake-item,
+      .next-step {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .jump-nav__list a {
+        width: 100%;
+      }
+    }
+  </style>
+</BlogPostLayout>

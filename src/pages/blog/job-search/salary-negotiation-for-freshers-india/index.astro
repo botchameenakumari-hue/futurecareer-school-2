@@ -1,0 +1,819 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Salary Negotiation for Freshers India: How Much Room You Actually Have';
+const description =
+  'Salary negotiation for freshers India: how much room really exists in an entry-level offer, how to find a fair range, and scripts that do not sound pushy or ungrateful.';
+const canonical =
+  'https://futurecareerschool.com/blog/job-search/salary-negotiation-for-freshers-india';
+const publishedDateISO = '2026-07-20';
+const publishedDateLabel = '20 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'how-much-room', label: 'How much room do you actually have?' },
+  { id: 'full-ctc', label: 'Negotiating the full CTC, not just base pay' },
+  { id: 'research-range', label: 'Find your fair range before you say a number' },
+  { id: 'leverage-check', label: 'The Leverage Check: when you can push harder' },
+  { id: 'no-leverage', label: 'What to do when you have none of that leverage' },
+  { id: 'scripts', label: "Scripts that don't sound entitled" },
+  { id: 'non-salary', label: 'Non-salary levers worth asking for' },
+  { id: 'red-flags', label: 'Red flags in a fresher offer' },
+  { id: 'when-to-accept', label: 'When to just say yes' },
+  { id: 'mistakes', label: 'Mistakes that cost freshers money' },
+  { id: 'sources', label: 'Check the sources behind these numbers' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const ctcRows = [
+  { component: 'Base salary', flex: 'Low. Sits inside a fixed, HR-approved band with a small built-in cushion.', check: 'This is the number every future hike, PF contribution, and loan eligibility is calculated from - worth pushing on, but expect a modest move, not a big one.' },
+  { component: 'Variable or incentive pay', flex: 'Medium, but often not real cash on day one.', check: 'Ask what percentage is realistically paid out in year one, and to whom - a headline CTC that leans heavily on variable pay can overstate what actually lands in your account.' },
+  { component: 'Joining bonus', flex: 'Medium-high. A one-time cost is easier for HR to approve than a permanent band change.', check: 'Almost always comes with a service-bond clause - read the recovery terms and the exact lock-in period before asking for a larger one.' },
+  { component: 'ESOPs or stock', flex: 'Usually fixed by level for freshers, rarely negotiated individually.', check: 'Ask about the vesting schedule and strike price rather than the headline value - an ESOP grant quoted at a large notional number is not the same as guaranteed cash.' },
+  { component: 'Relocation or joining allowance', flex: 'Medium. Often has more room than base pay if you are moving cities for the role.', check: 'Confirm whether it is reimbursed against bills or paid as a flat amount, and when it actually arrives relative to your move.' },
+];
+
+const redFlagItems = [
+  { label: 'The number is far below every source you checked', body: 'A single site running low is normal noise. A figure sitting well under two or three independent sources for your exact role, city, and experience level is a genuine gap worth raising, not just checking your own maths again.' },
+  { label: 'The CTC leans heavily on components that may never fully pay out', body: 'A headline number built mostly from variable pay, a large notional ESOP grant, or vague "perks" - with a small, unusually low fixed base - is a structure worth asking about directly before you compare it to a competing offer with a simpler breakdown.' },
+  { label: 'Vague or shifting answers about the fixed component', body: 'A recruiter who cannot give you a clear fixed-vs-variable split, or who changes the number between calls, is worth a direct, polite follow-up question in writing so you have a clear record before you decide.' },
+  { label: 'Pressure to sign within hours with no written offer yet', body: 'A legitimate offer can usually wait a day or two for a written letter. Heavy pressure to verbally commit before you have seen the CTC breakdown in writing is a reasonable moment to slow down and ask for the letter first.' },
+];
+
+const rangeRows = [
+  { source: 'AmbitionBox', bestFor: 'Company-specific pay ranges reported by employees at that exact employer, useful for matching your ask to what the company itself has actually paid', watchOut: 'Sample size can be thin for smaller companies or newer roles' },
+  { source: 'Glassdoor India', bestFor: 'Larger MNCs and mid-size companies, plus interview and offer-process notes from recent candidates', watchOut: 'Weaker coverage for startups and regional employers' },
+  { source: 'LinkedIn Salary Insights', bestFor: 'City and role-level benchmarks when you filter by experience level (0-1 years)', watchOut: 'Self-reported, and the fresher-specific sample is often smaller than the mid-career sample' },
+  { source: 'Naukri JobSpeak and hiring trend reports', bestFor: 'Sector-level hiring and pay-trend direction, not an individual number, but useful context for whether the market is tight or loose right now', watchOut: 'Reports trends and indices, not a specific number for your exact role' },
+];
+
+const leverageGates = [
+  {
+    num: '01',
+    title: 'A real competing offer',
+    body: 'A second written offer, or a clear verbal one from a company that has already confirmed a number, is the strongest leverage a fresher can have. It does not need to be a better company - it only needs to be real, since a bluffed competing offer is easy for an experienced recruiter to sense, and getting caught costs you the whole conversation, not just the extra money.',
+  },
+  {
+    num: '02',
+    title: 'A skill the role specifically needs, not just a skill you have',
+    body: 'A certification, a shipped project, or a tool the job description names by name gives you something concrete to point to. "I am hardworking" is not leverage. "I already have the AWS/GST/Figma/SQL skill your JD lists as a plus" is closer to leverage, especially if most other fresher candidates for that role do not have it yet.',
+  },
+  {
+    num: '03',
+    title: 'A hiring timeline that favours you',
+    body: 'If the role has been open for a while, if you can start sooner than most candidates the company is considering, or if the team has a hard deadline to fill the seat, the company has more reason to accommodate a reasonable ask than in a role with a long shortlist and no urgency. You usually cannot see this directly, but a recruiter who moves fast through rounds and pushes for a quick decision is a soft signal that it exists.',
+  },
+];
+
+const noLeverageCards = [
+  {
+    label: 'Make your proof do the asking',
+    body: 'A specific project, internship outcome, or piece of shipped work you can describe in one sentence carries more weight in a negotiation than a general claim about your potential. If you have it, mention it plainly when you make your ask - it is the closest thing to leverage a fresh graduate usually has.',
+  },
+  {
+    label: 'Ask smaller, and ask for the number they can actually move',
+    body: 'Without a competing offer, a request for a dramatically higher base salary rarely lands, because most fresher offers sit inside a fixed, HR-approved band with little discretion. A modest ask - closer to the top of that band rather than far outside it - is more likely to get a real yes than a "no" that ends the conversation.',
+  },
+  {
+    label: 'Shift the ask to what has more flexibility',
+    body: 'Base salary bands for campus and fresher hiring are often the most rigid part of an offer, while a joining bonus, an earlier performance review date, or a remote-work day often has more room precisely because it does not require reopening the whole band for every fresher hired that cycle.',
+  },
+];
+
+const scriptSteps = [
+  {
+    step: 'The verbal ask, right after HR states the number',
+    body: "\"Thank you, I'm genuinely excited about this role. Before I confirm, I wanted to check if there's any flexibility on the number - based on [your research / a specific project or certification], I was hoping for something closer to [your number].\" Then stop talking. Let the silence sit. Do not fill it by apologising or lowering your own ask before they respond.",
+  },
+  {
+    step: 'The written counter, sent within a day or two of the offer letter',
+    body: "Subject: Offer for [Role] - quick question before I confirm. \"Hi [Name], thank you again for the offer for [Role] - I'm looking forward to joining the team. Before I sign, I wanted to check if there is room to revisit the compensation. Based on [market research / a specific skill or project], I was expecting a figure closer to [number]. I'm still very keen to join and wanted to raise this directly rather than after signing.\"",
+  },
+  {
+    step: '"This is our standard fresher offer" pushback',
+    body: '"I understand this is the standard offer for the role, and I appreciate you sharing that. Given [your specific reason - a certification, project, or researched range], would it be possible to look at the joining bonus, or move up my first review date instead?" This keeps the conversation open without repeating a request they have already declined, and it shows you understood their constraint instead of ignoring it. "Standard offer" usually means the base band genuinely will not move for you specifically - it does not mean every part of the offer is closed.',
+  },
+  {
+    step: 'Closing it out, either way',
+    body: '"That works for me - thank you for considering it, I\'m looking forward to starting." A short, genuine close matters as much as the ask itself. HR remembers how the conversation ended, not just how it started.',
+  },
+];
+
+const nonSalaryRows = [
+  { lever: 'Joining bonus', why: 'Often the single easiest yes for HR, since it is a one-time cost rather than a change to a fixed pay band that applies to every fresher hired that cycle', watchOut: 'Usually comes with a service-bond clause - read the recovery terms before you ask for a larger one' },
+  { lever: 'Earlier performance review date', why: 'Gets you to your first raise sooner instead of waiting for the standard annual cycle, which matters more the further your offer sits below your target', watchOut: 'A review date only helps if the company\'s review process actually results in real increments - ask what the typical hike range has been' },
+  { lever: 'Remote or hybrid work days', why: 'Has real financial value through saved commute time and cost, and is frequently easier for a manager to approve than a pay-band exception', watchOut: 'Confirm this is written into the offer, not a verbal promise that quietly disappears after onboarding' },
+  { lever: 'Learning or certification budget', why: 'Directly builds the proof and skill leverage you can use in your next negotiation, inside or outside the company', watchOut: 'Ask what it actually covers - some budgets are restricted to internal training platforms only' },
+];
+
+const mistakeCards = [
+  {
+    num: '01',
+    title: 'Naming a number before you have researched one',
+    body: 'A number pulled from a friend\'s offer, a random forum post, or a guess is easy for HR to dismiss. A number backed by two or three checked sources for your exact role, city, and experience level is much harder to wave away.',
+  },
+  {
+    num: '02',
+    title: 'Treating a fresher offer like a mid-career negotiation',
+    body: 'Mid-career professionals negotiate against their own track record. Freshers are negotiating against a pre-approved band with very little individual discretion in it. Asking for a dramatically higher number in that context usually reads as a misunderstanding of the process, not confidence.',
+  },
+  {
+    num: '03',
+    title: 'Bluffing a competing offer that does not exist',
+    body: 'An experienced recruiter has heard this before and often asks a direct follow-up question that exposes a bluff quickly. Getting caught costs you more trust than simply not having a second offer in the first place.',
+  },
+  {
+    num: '04',
+    title: 'Apologising for asking at all',
+    body: 'Opening with "I\'m so sorry to even bring this up" undercuts the ask before HR has even responded. A calm, direct, polite request is not rude - it is a normal part of how offers are finalised, and HR teams handle this conversation regularly.',
+  },
+  {
+    num: '05',
+    title: 'Going silent instead of accepting or negotiating',
+    body: 'Sitting on an offer without responding either way, hoping the company raises it on its own, usually just runs out the clock on your own deadline. If you want more, ask directly and specifically; if the offer works, confirm it and move on.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'Can freshers really negotiate salary in India, or is the offer usually fixed?',
+    a: 'Most fresher offers sit inside a pre-approved band, so the base salary has some room but not a wide one - many recruiters describe roughly 5-15% built into an initial number, depending on the company and role. A polite, well-researched ask for a modest increase, or for a joining bonus or earlier review date instead, is a normal and reasonable request, not an overreach.',
+  },
+  {
+    q: 'How much more should a fresher ask for during salary negotiation?',
+    a: 'Without a competing offer, a request that is roughly 10-20% above the initial number, or a specific amount you can justify from market research, tends to land better than a dramatically higher ask. Naming a number far outside what a fresher band typically allows usually gets a flat no rather than a counter.',
+  },
+  {
+    q: 'Will a company withdraw an offer if a fresher tries to negotiate?',
+    a: 'A single, polite, professional request to discuss the number does not typically get an offer withdrawn - recruiters at large employers handle this conversation routinely. Offers get withdrawn far more often over red flags like dishonesty about a competing offer, unprofessional behaviour, or repeated last-minute demands, not over one respectful ask.',
+  },
+  {
+    q: 'What should a fresher do if they have no competing offer and no special skill to point to?',
+    a: 'Shift the ask away from base salary and toward levers that have more flexibility, such as a joining bonus, an earlier performance review date, or remote-work days. These are frequently easier for a manager to approve than reopening a fixed fresher pay band, and they still add real value even when the base number does not move.',
+  },
+  {
+    q: 'How do I research a fair salary range before negotiating as a fresher in India?',
+    a: 'Cross-check at least two or three sources before naming a number: AmbitionBox and Glassdoor India for company-specific and role-specific pay data, LinkedIn Salary Insights filtered to 0-1 years of experience for your city, and recent hiring-trend reports for a sense of whether the sector is tight or loose right now. A number backed by more than one source is harder for HR to dismiss than a single guess.',
+  },
+  {
+    q: 'Does negotiating salary as a fresher actually make a difference in the long run?',
+    a: 'International salary-negotiation research consistently finds that people who negotiate their first offer end up with meaningfully higher pay than people who accept without asking, and that gap tends to compound through future raises and job switches that are often calculated as a percentage of the current number. India-specific data on this exact effect is limited, but the underlying logic - that your starting number becomes the base every later raise is calculated from - holds regardless of country.',
+  },
+  {
+    q: 'Should I negotiate over email or in a call?',
+    a: 'Either works, but a short written follow-up after any verbal conversation is worth doing either way, since it gives you a clear record of what was discussed and agreed. If you are unsure how the HR team prefers to communicate, mirror the channel they have used with you so far.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="job-search"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Salary negotiation for freshers in India usually has real room, but it is smaller and more specific than most confident advice online suggests.</strong>
+    Recruiters commonly build a modest cushion, often in the range of roughly 5-15%, into a first fresher offer, and pushing far past that without a competing offer or a specific, scarce skill usually spends goodwill instead of building on it. The honest starting point is knowing exactly which kind of room you have - base pay, joining bonus, review timing, or start date - before you decide what to ask for.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Fresher offers usually sit inside a fixed, pre-approved band with a small built-in cushion, not a wide-open number.</li>
+      <li>Research your figure from two or three sources before you name one - a checked number is harder to dismiss than a guess.</li>
+      <li>Real leverage is a genuine competing offer, a specific scarce skill the role needs, or a hiring timeline that favours you - not general confidence.</li>
+      <li>With no leverage, shift your ask toward joining bonus, review timing, or remote days instead of a big base-pay jump.</li>
+      <li>A single, polite, well-researched ask almost never gets an offer withdrawn - going silent or bluffing does more damage than asking.</li>
+      <li><strong>This one ask moves a few thousand rupees. A genuine high-income skill portfolio is what moves your entire salary bracket, in this job and the next one</strong> - the negotiation matters, but it is not the only lever on your income.</li>
+    </ul>
+  </div>
+
+  <p>
+    This sits inside our <a href="/blog/job-search/">job search guides</a> on landing and structuring a first offer, alongside advice on actually getting shortlisted in the first place. If the uncertainty is less about the script and more about whether you are reading the whole offer correctly - CTC structure, notice period, bond clauses, review cycle - <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">structured career guidance</a> can look at your specific offer letter with you instead of a generic checklist. Getting this first number right matters, and building the skills that make every later negotiation easier matters more - that combination is what actually moves someone toward earlier financial freedom, not one clever email.
+  </p>
+
+  <nav class="jump-nav" aria-label="Jump to section">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="how-much-room">How much room do you actually have?</h2>
+
+  <p>
+    Most advice on salary negotiation is written for mid-career professionals with a track record to point to. A fresher is negotiating against something different: a pay band that HR has already approved for the role before you walked into the interview, with a small amount of built-in discretion for exactly this conversation. That discretion is real, but it is not unlimited, and treating it like a wide-open number is the single fastest way to turn a reasonable ask into an awkward one.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      An HR recruiter offering a fresher role rarely has the authority to invent a new number outside the approved band on the spot. What they usually can do is move you toward the top of that band, or offer something outside base pay entirely. Knowing which of those two things you are actually asking for changes how you should phrase the request.
+    </p>
+  </div>
+
+  <p>
+    That means the honest question is not "can I negotiate?" - almost always, yes, in some form. It is "which part of this offer has room, and how much." A modest ask on base pay, closer to the top of a realistic band rather than far outside it, tends to get a real answer. A dramatically higher number tends to get a firm no, because the person you are talking to often cannot approve it even if they wanted to.
+  </p>
+
+  <h2 id="full-ctc">Negotiating the full CTC, not just base pay</h2>
+
+  <p>
+    A fresher offer is rarely just one number. It is a stack of components - base salary, variable pay, a possible joining bonus, sometimes ESOPs, sometimes a relocation allowance - and each one has a different amount of real flexibility. Negotiating well means knowing which line in the CTC actually has room, instead of treating the total figure as one fixed block or asking to move all of it at once.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>CTC component</th>
+          <th>How negotiable it usually is</th>
+          <th>What to check</th>
+        </tr>
+      </thead>
+      <tbody>
+        {ctcRows.map((item) => (
+          <tr>
+            <td data-label="CTC component"><strong>{item.component}</strong></td>
+            <td data-label="How negotiable it usually is">{item.flex}</td>
+            <td data-label="What to check">{item.check}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Ask HR for the exact fixed-vs-variable split in writing before you compare two offers. Two roles with the same headline CTC can have very different take-home pay in year one if one leans heavily on variable pay or a large notional ESOP grant.
+  </p>
+
+  <h2 id="research-range">Find your fair range before you say a number</h2>
+
+  <p>
+    Naming a figure without checking it first is the most common way a fresher's negotiation goes nowhere. A number pulled from a friend's offer at a different company, or a rough guess, is easy for HR to dismiss. A number cross-checked across a couple of sources for your specific role, city, and experience level is much harder to wave away, because it signals you did the homework instead of picking a figure that simply felt good.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Best for</th>
+          <th>Watch out for</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rangeRows.map((item) => (
+          <tr>
+            <td data-label="Source"><strong>{item.source}</strong></td>
+            <td data-label="Best for">{item.bestFor}</td>
+            <td data-label="Watch out for">{item.watchOut}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Cross-check at least two sources before you settle on a target number. If two independent sources point to a similar range for your role, city, and experience level, treat that overlap as your realistic anchor - not the single highest figure you happened to see. Note that the 5-15% cushion and 10-20% ask figures used through this article are typical patterns recruiters and negotiation data report, not a guarantee for your specific offer - your company size, sector, city, and hiring urgency all shift the real number up or down.
+  </p>
+
+  <h2 id="leverage-check">The Leverage Check: when you can push harder</h2>
+
+  <p>
+    Not every fresher negotiation has the same amount of room, because not every fresher has the same leverage going into it. Before you decide how hard to push, run your situation through <strong>The Leverage Check</strong> - three honest signals that actually change how much a company is likely to move.
+  </p>
+
+  <div class="protocol-stack">
+    {leverageGates.map((item) => (
+      <div class="protocol-row">
+        <div class="protocol-row__num">{item.num}</div>
+        <div class="protocol-row__body">
+          <p class="protocol-row__title">{item.title}</p>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <p class="note-line">
+    If you can genuinely check even one of those three boxes, you have a legitimate reason to ask for more than the minimum polite adjustment. If none apply yet, that is normal for a first job search, and it changes your strategy rather than closing the door - see the section below.
+  </p>
+
+  <h2 id="no-leverage">What to do when you have none of that leverage</h2>
+
+  <p>
+    Most freshers reading this will not have a competing offer or a rare certification sitting in hand on the day the offer letter arrives. That does not mean the conversation is closed - it means the target shifts from a big base-pay jump to something more specific and more likely to actually happen.
+  </p>
+
+  <div class="feature-grid">
+    {noLeverageCards.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="honest-take">
+    <p class="honest-take__label">The bigger picture</p>
+    <h3 style="margin-top:0;">Build the high-income skill portfolio that makes the next negotiation easier</h3>
+    <p>
+      Every point above is really about proof - having something concrete to point to instead of asking on confidence alone. That proof does not come from this one negotiation. It comes from deliberately building a mix of things over time: the right skill mix for the role you actually want, a visible body of work you can show, the ability to explain your work clearly to a non-technical person, a realistic read of where you stand against other candidates, honest self-assessment of what you are actually good at, and a clear-eyed view of your own financial reality while you build it. Freshers who work on that full mix - not just a technical skill list - walk into every future offer conversation with more leverage than a script alone can give them, and that is what unlocks genuinely higher-income opportunities over a career, not one well-timed email.
+    </p>
+  </div>
+
+  <h2 id="scripts">Scripts that don't sound entitled</h2>
+
+  <p>
+    The biggest hesitation most freshers have is not knowing the target number - it is not knowing how to say it without sounding demanding or ungrateful. The fix is not confidence, exactly. It is a script that is specific, short, and leaves room for the other person to respond, instead of a long justification that reads as an apology in disguise.
+  </p>
+
+  <p class="note-line">
+    Timing matters as much as wording. The right moment is after you have a number in hand - verbally from HR or in a written offer letter - and before you sign or verbally confirm. Raising it earlier, during interview rounds, usually gets deflected because no number has been approved yet. Raising it after you have already confirmed acceptance rarely works and can damage trust, since the company has already started paperwork on the number you agreed to.
+  </p>
+
+  <div class="rich-list">
+    {scriptSteps.map((item) => (
+      <div class="rich-list-item">
+        <div class="rich-list-item__num">{item.step}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--gold">
+    <p>
+      Notice what none of these scripts do: they do not threaten to walk away, they do not compare the company unfavourably to anyone else, and they do not apologise for asking. A calm, specific, time-bound request reads as professional. A vague, emotional, or repeated request reads as pressure - and pressure is what actually damages an otherwise reasonable ask.
+    </p>
+  </div>
+
+  <h2 id="non-salary">Non-salary levers worth asking for</h2>
+
+  <p>
+    When the base number genuinely will not move, the conversation does not have to end there. Several parts of a fresher offer often carry more flexibility than the base salary line, because they do not require reopening the whole pay band that applies to every fresher hired that cycle.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Lever</th>
+          <th>Why it often moves</th>
+          <th>Watch out for</th>
+        </tr>
+      </thead>
+      <tbody>
+        {nonSalaryRows.map((item) => (
+          <tr>
+            <td data-label="Lever"><strong>{item.lever}</strong></td>
+            <td data-label="Why it often moves">{item.why}</td>
+            <td data-label="Watch out for">{item.watchOut}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="red-flags">Red flags in a fresher offer</h2>
+
+  <p>
+    Most fresher offers are exactly what they look like: a fair, standard band for the role. A few signals are worth a closer look before you decide whether to negotiate, accept, or simply ask more questions.
+  </p>
+
+  <div class="feature-grid">
+    {redFlagItems.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p class="note-line">
+    A red flag is a reason to ask sharper questions, not necessarily a reason to walk away - some of these are genuinely explainable (a startup leaning on ESOPs because cash is tight, for instance). The goal is a clear-eyed decision, not an automatic no.
+  </p>
+
+  <h2 id="when-to-accept">When to just say yes</h2>
+
+  <p>
+    Negotiating is not always the right move, and knowing when to stop asking matters as much as knowing how to ask. A few situations where accepting the offer as it stands is usually the smarter call:
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">Reasonable to accept as-is</div>
+      <ul>
+        <li>The offer already sits at or near the top of the range you researched from more than one source.</li>
+        <li>It is a genuine campus placement with a fixed, published fresher band applied equally to every hire in your batch.</li>
+        <li>It is a role, team, or manager you specifically want, and the gap between the offer and your target is small enough that the risk of a strained start outweighs the extra amount.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">Worth at least one polite ask</div>
+      <ul>
+        <li>The number sits noticeably below what two or more independent sources show for your role, city, and experience level.</li>
+        <li>You have a specific, checkable skill or piece of proof the job description named as valuable.</li>
+        <li>The base pay will not move, but you have not yet asked about joining bonus, review timing, or work arrangement.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="note-line">
+    A single polite ask costs you almost nothing even in the "accept as-is" situations above - the difference is mainly how much you should expect to get from it, and how quickly you should be ready to say yes if the answer is no.
+  </p>
+
+  <h2 id="mistakes">Mistakes that cost freshers money</h2>
+
+  <ol class="mistake-list">
+    {mistakeCards.map((item) => (
+      <li>
+        <strong>{item.title}.</strong>
+        {' '}{item.body}
+      </li>
+    ))}
+  </ol>
+
+  <h2 id="sources">Check the sources behind these numbers</h2>
+
+  <p>Do not trust any single career article blindly, including this one. Check the primary sources and apply your own judgment to your specific offer.</p>
+  <ul class="sources">
+    <li>
+      Fresher salary negotiation practices and India-specific tools.
+      <a href="https://www.naukri.com/campus/career-guidance/how-to-negotiate-salary-for-freshers" target="_blank" rel="noopener noreferrer">Naukri Campus: how to negotiate salary with HR</a>
+    </li>
+    <li>
+      India-specific negotiation range guidance and non-salary levers.
+      <a href="https://www.crescendo-global.com/blog/2026/05/how-to-negotiate-a-job-offer-in-india-without-losing-the-offer" target="_blank" rel="noopener noreferrer">Crescendo Global: how to negotiate a job offer in India without losing it</a>
+    </li>
+    <li>
+      Share of workers who do not negotiate a job offer.
+      <a href="https://www.hrdive.com/news/54-percent-of-workers-didnt-negotiate-most-recent-job-salary/694346/" target="_blank" rel="noopener noreferrer">HR Dive: 54% of workers didn't negotiate their most recent job salary</a>
+    </li>
+    <li>
+      Employer-side data on willingness to negotiate salary.
+      <a href="https://resources.careerbuilder.com/news-research/73-of-employers-would-negotiate-salary-55-of-workers-don-t-ask" target="_blank" rel="noopener noreferrer">CareerBuilder: 73% of employers would negotiate salary, 55% of workers don't ask</a>
+    </li>
+    <li>
+      Outcomes for candidates who counter-offer after a job offer.
+      <a href="https://www.cnbc.com/2022/05/13/85-percent-of-americans-who-negtiated-a-job-offer-were-successful.html" target="_blank" rel="noopener noreferrer">CNBC: negotiating a job offer works - most who counter-offered succeeded</a>
+    </li>
+    <li>
+      India fresher and entry-level hiring trend context.
+      <a href="https://www.naukri.com/blog/naukri-jobspeak-march-26-records-a-9-rise-in-white-collar-hiring-as-fy26-closes-at-8-the-strongest-job-growth-in-three-years/" target="_blank" rel="noopener noreferrer">Naukri JobSpeak, March 2026 hiring trend report</a>
+    </li>
+  </ul>
+
+  <h2 id="faq">FAQs on salary negotiation for freshers in India</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <p>
+    A fresher's first negotiation rarely changes a career on its own, but the habit it builds matters more than the exact rupee amount - the next negotiation, and the one after that, all start from wherever this one ends. If you want a second opinion on your specific offer letter, CTC structure, or notice period before you respond, <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">structured career guidance</a> can walk through it with you.
+  </p>
+
+  <div class="highlight-box highlight-box--gold">
+    <p class="honest-take__label" style="color:#2dd4bf !important;">Play the longer game</p>
+    <p>
+      <strong>The real driver of long-term income is not one negotiation - it is building a genuine high-income skill portfolio that keeps unlocking better offers, raises, and roles over your whole career.</strong> Getting a fair first number matters, but a fresher who invests in the right skills, proof of work, and market positioning reaches financial freedom earlier than one who only negotiates well once and stops there.
+    </p>
+  </div>
+
+  <p>
+    Explore more practical guidance in <a href="/blog/job-search/">job search strategy</a>, or check your skill direction with the <a href="https://futurecareerschool.com/career-skills-compass">Career and Skills Compass</a>.
+  </p>
+</BlogPostLayout>
+
+<style>
+  .honest-take {
+    margin: 1.6rem 0;
+    padding: 1.25rem 1.35rem 1.2rem;
+    border-left: 3px solid #e5b84a;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.025);
+  }
+  .honest-take__label {
+    margin: 0 0 0.55rem !important;
+    font-size: 11px !important;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #e5b84a !important;
+  }
+  .honest-take p {
+    margin: 0.4rem 0 !important;
+    font-size: 15.5px !important;
+    line-height: 1.78 !important;
+    color: rgba(255, 255, 255, 0.78) !important;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+    margin: 1.4rem 0;
+  }
+  .feature-card {
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.3rem 1.3rem 1.2rem;
+  }
+  .feature-card__label {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #2dd4bf;
+    margin-bottom: 0.55rem;
+  }
+  .feature-card p {
+    font-size: 14.5px !important;
+    line-height: 1.74 !important;
+    color: rgba(255, 255, 255, 0.68) !important;
+    margin: 0 !important;
+  }
+
+  .protocol-stack {
+    display: grid;
+    gap: 0.9rem;
+    margin: 1.4rem 0;
+  }
+  .protocol-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: 16px;
+    background: rgba(45, 212, 191, 0.03);
+  }
+  .protocol-row__num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: rgba(45, 212, 191, 0.35);
+    line-height: 1;
+  }
+  .protocol-row__title {
+    margin: 0 0 0.35rem !important;
+    font-size: 15px !important;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.92) !important;
+  }
+  .protocol-row__body p {
+    margin: 0 !important;
+    font-size: 14.5px !important;
+    line-height: 1.72 !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+  @media (max-width: 560px) {
+    .protocol-row {
+      grid-template-columns: 1fr;
+    }
+    .protocol-row__num {
+      font-size: 1.4rem;
+    }
+  }
+
+  .rich-list {
+    display: grid;
+    gap: 0.85rem;
+    margin: 1.3rem 0;
+  }
+  .rich-list-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 0.8rem;
+    align-items: start;
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .rich-list-item__num {
+    font-size: 13px;
+    font-weight: 800;
+    color: #e5b84a;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+  }
+  .rich-list-item p {
+    margin: 0 !important;
+    font-size: 15px !important;
+    line-height: 1.72 !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+  }
+  @media (max-width: 640px) {
+    .rich-list-item {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .highlight-box {
+    margin: 1.6rem 0;
+    padding: 1.25rem 1.4rem 1.2rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .highlight-box--gold {
+    border-color: rgba(229, 184, 74, 0.28);
+    background: radial-gradient(circle at 0% 0%, rgba(229, 184, 74, 0.09), transparent 60%), rgba(255, 255, 255, 0.025);
+  }
+  .highlight-box p {
+    margin: 0.35rem 0 !important;
+    font-size: 15.5px !important;
+    line-height: 1.76 !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .compare-card {
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.3rem 1.3rem 1.2rem;
+  }
+  .compare-card--gold { border-color: rgba(229, 184, 74, 0.3); background: rgba(229, 184, 74, 0.045); }
+  .compare-card--teal { border-color: rgba(45, 212, 191, 0.3); background: rgba(45, 212, 191, 0.045); }
+  .compare-card__label {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 0.75rem;
+  }
+  .compare-card ul {
+    margin: 0 !important;
+    padding-left: 1.1rem !important;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .compare-card li {
+    font-size: 14px !important;
+    line-height: 1.68 !important;
+    color: rgba(255, 255, 255, 0.68) !important;
+    margin: 0 !important;
+  }
+
+  .mistake-list {
+    list-style: none !important;
+    margin: 1.3rem 0 !important;
+    padding: 0 !important;
+    display: grid;
+    gap: 0.85rem;
+    counter-reset: mistake-list;
+  }
+  .mistake-list li {
+    position: relative;
+    margin: 0 !important;
+    padding: 0.95rem 1.15rem 0.95rem 3.1rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    font-size: 15px !important;
+    line-height: 1.72 !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+    counter-increment: mistake-list;
+  }
+  .mistake-list li::before {
+    content: counter(mistake-list, decimal-leading-zero);
+    position: absolute;
+    left: 1.05rem;
+    top: 0.95rem;
+    font-size: 13px;
+    font-weight: 800;
+    color: #e5b84a;
+  }
+  .mistake-list li strong {
+    color: rgba(255, 255, 255, 0.94) !important;
+  }
+
+  .note-line {
+    font-size: 13.5px !important;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.5) !important;
+    line-height: 1.68 !important;
+    margin: 0.9rem 0 1.4rem !important;
+  }
+
+  .jump-nav {
+    margin: 1.6rem 0 2rem;
+    padding: 1.2rem 1.3rem 1.1rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.025);
+  }
+  .jump-nav__label {
+    margin: 0 0 0.7rem !important;
+    font-size: 11px !important;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+  .jump-nav__list {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 1rem;
+  }
+  .jump-nav__list li { margin: 0 !important; }
+  .jump-nav__list a {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.68);
+    text-decoration: none;
+  }
+  .jump-nav__list a:hover { color: #e5b84a; }
+
+  .paths-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+  }
+  @media (max-width: 560px) {
+    .paths-table {
+      min-width: 0;
+    }
+  }
+  .paths-table th {
+    text-align: left;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.55);
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .paths-table td {
+    padding: 0.9rem 1rem;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.72);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    vertical-align: top;
+  }
+  .paths-table tr:last-child td { border-bottom: none; }
+
+  .sources {
+    margin: 0.9rem 0 1.4rem;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .sources li {
+    color: rgba(255, 255, 255, 0.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+  .sources a {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-left: 4px;
+  }
+
+  @media (max-width: 720px) {
+    .jump-nav__list { grid-template-columns: 1fr; }
+  }
+</style>

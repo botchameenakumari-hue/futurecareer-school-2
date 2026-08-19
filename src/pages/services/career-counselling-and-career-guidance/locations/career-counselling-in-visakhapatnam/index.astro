@@ -11,9 +11,11 @@ import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.as
 import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
 import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
 import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
 import FinalCta from '../../../../../components/bofu/FinalCta.astro';
 import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
-import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS, BOFU_PAYMENT_LINKS } from '../../../../../config/bofu';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
 
 // Vizag page shows the last 5 of 6 comparison rows — drops the first row to
 // prioritise the rows most relevant to pharma, port-logistics, and IT corridor
@@ -94,7 +96,7 @@ const cityDecisionItems = [
     ],
   },
   {
-    title: 'Use the broader guidance path when the decision itself is the bigger problem',
+    title: 'Use the main guidance path when the decision itself is the bigger problem',
     listItems: [
       'You are stuck between multiple courses, roles, or skill directions',
       'Family pressure, degree pressure, or income pressure matters more than local wording',
@@ -145,6 +147,32 @@ const deliverableItems = [
   },
 ];
 
+const onlineAdvantageItems = [
+  {
+    title: 'You can start from home, college, office, or anywhere else in the city',
+    body: 'Career counselling is available online in Visakhapatnam and across India. That means the decision does not have to wait for a nearby office, a specific commute, or one local slot opening up. The useful filter is whether the guidance improves the next move enough to matter.',
+  },
+  {
+    title: 'Online guidance is often easier when parents, schedules, or work pressure are part of the issue',
+    body: 'Vizag students often need family buy-in, and working professionals often need a format that fits around work. Online support makes it easier to join from where you already are instead of turning travel and logistics into another reason the harder decision keeps getting pushed forward.',
+  },
+  {
+    title: 'The stronger comparison is not nearby versus far away — it is generic versus genuinely useful',
+    body: 'A nearby or local-sounding option can still leave you with generic advice, degree-first pressure, or outdated paid assessments. The better filter is whether the guidance gives you stronger skill direction, proof-of-work thinking, clearer trade-offs, and a more practical next step for Vizag, Hyderabad, or remote-first paths.',
+  },
+];
+
+const visakhapatnamAreaItems = [
+  {
+    title: 'Vizag decisions often come from very different parts of the city',
+    body: 'A student or professional in Dwaraka Nagar, Siripuram, MVP Colony, Seethammadhara, Maddilapalem, Arilova, and Hanumanthavaka may be dealing with a very different day-to-day reality than someone in Madhurawada, PM Palem, Rushikonda, Gajuwaka, Duvvada, Sheela Nagar, Gopalapatnam, or Pendurthi. Good counselling should feel grounded in that spread instead of treating Visakhapatnam like one flat generic location.',
+  },
+  {
+    title: 'Different areas often point to different opportunity clusters and pressures',
+    body: 'Some parts of Vizag stay closer to established education and commercial corridors, while others connect more naturally to pharma, port, steel, defence, IT-corridor, or remote-first decision pressure. That is why local clarity matters: the stronger next move should reflect where you are starting from and what sectors are realistically within reach.',
+  },
+];
+
 const prepItems = [
   {
     title: 'The real decision you need to solve first',
@@ -192,7 +220,7 @@ const relatedItems = [
   {
     href: BOFU_INTERNAL_LINKS.careerCounselling,
     title: 'Career Counselling',
-    description: 'See the broader counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
   },
   {
     href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
@@ -212,7 +240,7 @@ const relatedItems = [
   {
     href: BOFU_ASSESSMENT_LINKS.hub,
     title: 'Free Career Assessments',
-    description: 'Start with the free assessments if you want a lower-pressure first step before booking stronger guidance.',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
   },
   {
     href: '/career-resources/data-science-analytics-career-roadmap',
@@ -221,7 +249,31 @@ const relatedItems = [
   },
 ];
 
+const buyerCheckItems = [
+  {
+    title: 'Check whether the counselor understands Visakhapatnam\'s specific sector dynamics',
+    body: 'Vizag has strong pharma, port, maritime, and industrial presence alongside growing IT. Good guidance should help you see what is genuinely possible locally in these sectors vs when a Hyderabad move is worth the trade-off.',
+  },
+  {
+    title: 'Check whether Hyderabad comparison is realistic, not just automatic',
+    body: 'Many people from Vizag compare Hyderabad moves without real analysis. Better guidance should help you judge the cost, opportunity cost, and skill value of staying vs moving — not assume Hyderabad is always better.',
+  },
+  {
+    title: 'Check whether local sector opportunities are truly mapped',
+    body: 'Vizag\'s pharma, port, and industrial sectors have real career paths. The guidance should help you understand what those paths actually lead to before assuming remote or metro options are the only way forward.',
+  },
+  {
+    title: 'Check whether the next move fits your Vizag situation realistically',
+    body: 'Good guidance for Vizag should respect that relocation costs matter, local networks matter, and sector expertise in Vizag sectors has real value — not treat them as obstacles to overcome.',
+  },
+];
+
 const faqItems = [
+  {
+    question: 'Why choose online career counselling in Visakhapatnam instead of only looking for a nearby offline office?',
+    answer:
+      'Because proximity alone does not improve the decision. Online guidance lets you start from home, college, or work without waiting for local availability, and the stronger comparison is whether the support gives you clearer trade-offs, stronger skill direction, and a more practical next step. In Vizag especially, where people often compare local options, Hyderabad moves, and remote-first routes, usefulness matters more than simply choosing the nearest provider.',
+  },
   {
     question: 'What career paths have the strongest growth potential from Visakhapatnam?',
     answer:
@@ -250,7 +302,7 @@ const faqItems = [
   {
     question: 'What if I searched for Visakhapatnam but the bigger issue is not the city?',
     answer:
-      'That is common. Many people use the city search as a trust shortcut, then realise the bigger need is better decision support itself — for stream selection, skill choice, or career change. In that case, the broader counselling and guidance pages are the stronger next filter. The Vizag page is most useful when local context, local industries, or trust around proximity is part of the decision.',
+      'That is common. Many people use the city search as a trust shortcut, then realise the bigger need is better decision support itself — for stream selection, skill choice, or career change. In that case, the main counselling and guidance pages are the stronger next filter. The Vizag page is most useful when local context, local industries, or trust around proximity is part of the decision.',
   },
   {
     question: 'Do you guarantee a job?',
@@ -278,18 +330,18 @@ const jsonLd = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Career Counselling and Career Guidance',
-        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
       },
       {
         '@type': 'ListItem',
         position: 4,
         name: 'Locations',
-        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
       },
       {
         '@type': 'ListItem',
@@ -310,7 +362,7 @@ const jsonLd = [
     areaServed: { '@type': 'City', name: 'Visakhapatnam' },
     inLanguage: 'en-IN',
     provider: {
-      '@type': 'EducationalOrganization',
+      '@type': ['Organization', 'ProfessionalService'],
       name: 'Future Career School',
       url: 'https://futurecareerschool.com',
     },
@@ -355,11 +407,11 @@ const jsonLd = [
         If you are at a real decision point — whether to stay or move, which skill to build, whether a degree is the right next step — the goal is getting clear before more time and money go the wrong way.
       </p>
       <p class="hero-note">
-        Guidance is available online across India. The career and skill assessments are fully free, updated, practical, and AI-powered.
+        Guidance is delivered fully online in Visakhapatnam and across India. You can start from home, college, work, or wherever you already are — no travel, no waiting for local availability.
       </p>
       <div class="hero-actions">
-        <a href={BOFU_PAYMENT_LINKS.students} class="btn-gold pulse">Get Student Career Counselling</a>
-        <a href={BOFU_PAYMENT_LINKS.workingProfessionals} class="btn-outline">Get Working Professional Career Counselling</a>
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
       </div>
       <p class="hero-support">
         The stronger filter is not only whether the search started with Visakhapatnam. It is whether the guidance improves the next move enough to matter.
@@ -377,6 +429,16 @@ const jsonLd = [
     <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
   </BofuListCardSection>
 
+  <ContextualCta
+    audience="mixed"
+    title="If the Visakhapatnam search already reflects a serious decision, move before more time goes into the wrong direction"
+    body="Use this when you want stronger guidance now, not another round of delay while the decision keeps getting more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
   <BofuFeatureSection
     sectionId="city-search-logic"
     title="What should get clearer before you commit harder"
@@ -388,7 +450,7 @@ const jsonLd = [
   <BofuListCardSection
     sectionId="city-page-vs-broader-guidance"
     title="Choose the stronger starting point for your situation"
-    subtitle="For some people, a Visakhapatnam search is the easiest way to start. For others, the broader guidance path is the better fit because the decision itself is already the bigger issue."
+    subtitle="For some people, a Visakhapatnam search is the easiest way to start. For others, the main guidance path is the better fit because the decision itself is already the bigger issue."
     items={cityDecisionItems}
     columns={2}
     variant="contrast"
@@ -405,10 +467,18 @@ const jsonLd = [
     variant="signal"
   >
     <AssessmentSupportNote
-      body="If you want a lower-pressure first step before going deeper, the free assessments can help surface strengths, preferences, and work style before a bigger counselling decision."
+      body="If you are still early and not ready for guidance yet, the free assessments can help surface strengths, preferences, and work style before a bigger counselling decision."
       href={BOFU_ASSESSMENT_LINKS.hub}
     />
   </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="vizag-areas"
+    title="Visakhapatnam's main areas can shape the decision differently"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Vizag rather than pretending every user is comparing the same options from the same part of the city."
+    items={visakhapatnamAreaItems}
+    variant="signal"
+  />
 
   <BofuFeatureSection
     sectionId="what-to-keep-ready"
@@ -416,6 +486,14 @@ const jsonLd = [
     subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
     items={prepItems}
     variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Visakhapatnam"
+    subtitle="If the city search began as a trust shortcut, the next question is whether online guidance gives you a clearer, more practical next move than defaulting to whoever simply happens to be nearby."
+    items={onlineAdvantageItems}
+    variant="decision"
   />
 
   <GuidanceModelSection
@@ -444,12 +522,28 @@ const jsonLd = [
   <BuyerChecks
     title="What to check before paying any career counselling service"
     subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the city page when locality matters, but choose based on decision quality rather than the city name alone"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
   />
 
   <LinkDirectorySection
     sectionId="related-help"
     title="Explore related help"
-    subtitle="See the broader guidance pages, free assessments, and nearby support pages before you decide."
+    subtitle="See the main guidance pages, free assessments, and nearby support pages before you decide."
     items={relatedItems}
     altBackground={true}
   />
@@ -462,7 +556,9 @@ const jsonLd = [
 
   <FinalCta
     audience="mixed"
+    studentHref="#plans"
     studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
     professionalLabel="Get Working Professional Career Counselling"
   />
 
@@ -517,6 +613,8 @@ const jsonLd = [
     #hero { padding: 118px 0 72px; }
     .hero-actions { flex-direction: column; align-items: stretch; }
     .hero-actions .btn-gold,
-    .hero-actions .btn-outline { justify-content: center; }
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
   }
 </style>
+

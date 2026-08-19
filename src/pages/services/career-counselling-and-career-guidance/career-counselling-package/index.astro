@@ -1,0 +1,714 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../config/guidancePlans';
+
+const title = 'Career Counselling Package | What’s Actually Included | Future Career School';
+const description =
+  'What a career counselling package actually includes: a single 1-on-1 session vs continuous guidance with up to 24 sessions a year, and which one fits you.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-package/';
+
+const {
+  studentSessionPriceText,
+  studentContinuousPriceText,
+  professionalSessionPriceText,
+} = GUIDANCE_PLAN_PRICE_COPY;
+
+const feesHref = '/services/career-counselling-and-career-guidance/career-counselling-fees/';
+const groupSessionHref = '/services/career-counselling-and-career-guidance/group-career-counselling-session/';
+const oneOnOneHref = '/services/career-counselling-and-career-guidance/one-on-one-career-coaching-session/';
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: feesHref,
+    title: 'Career Counselling Fees',
+    description: 'The real prices for each structure, if the cost question matters more to you right now than the composition.',
+  },
+  {
+    href: groupSessionHref,
+    title: 'Group Career Counselling Session',
+    description: 'A closer look at how the small-group sessions inside the continuous package actually run.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A free first check if you are still deciding whether either package is worth booking yet.',
+  },
+];
+
+const compositionRows = [
+  { left: 'One-off session format with no follow-through', right: 'Continuous small-group guidance that keeps skill direction current as the market shifts' },
+  { left: 'Generic advice that still leaves you unclear', right: 'High-leverage decision support around path, skill, and risk' },
+  { left: 'Paid outdated impractical assessments with weak practical value', right: 'Free updated practical AI-powered career and skill assessments' },
+  { left: 'Degree-first direction with weak skill edge', right: 'Skill-first direction with proof of work and stronger market value' },
+];
+
+const faq = [
+  {
+    q: 'What is included in a career counselling package?',
+    a: `Here, the continuous-guidance package is the 1-on-1 session plus up to 24 small-group sessions, in groups of 10 or fewer, spread across a year. It is not a vague bundle of undefined "support" — the first 1-on-1 maps your situation, then the small-group sessions continue that work as your decisions, marks, or the market change. It is currently structured for students; working professionals continue through focused 1-on-1 sessions instead.`,
+  },
+  {
+    q: 'What is the difference between a single session and a package?',
+    a: `A single 1-on-1 session (${studentSessionPriceText} for students, ${professionalSessionPriceText} for working professionals) resolves one specific decision and ends there. The continuous-guidance package (${studentContinuousPriceText} for students) keeps that support going for a full year through the small-group sessions, for people who expect more than one decision to work through.`,
+  },
+  {
+    q: 'How many sessions are in a career counselling package?',
+    a: 'The continuous-guidance package includes the first 1-on-1 session plus up to 24 small-group sessions across the year — close to a bi-weekly cadence if used fully, though the exact pace depends on what is actually coming up in your situation.',
+  },
+  {
+    q: 'Is a career coaching package online the same as this?',
+    a: 'Yes. Whether it is searched as a career counselling package or a career coaching package online, this is the same structure — 1-on-1 plus small-group continuation — delivered fully by video call, so location is not a factor.',
+  },
+  {
+    q: 'Can working professionals get the continuous small-group package?',
+    a: 'Not currently. The small-group continuation is part of the student continuous-guidance plan. Working professionals move through focused 1-on-1 sessions instead, built around pivots, stagnation, and compensation decisions as they come up.',
+  },
+  {
+    q: 'Do the free assessments come with the package?',
+    a: 'The career and skill assessments are free on their own, for anyone, whether or not you book a paid session or package. They are not bundled inside either paid structure and are not required before booking either one.',
+  },
+  {
+    q: 'Do you guarantee an outcome from the package?',
+    a: 'No ethical provider can guarantee a job or a specific income outcome, and neither structure here is sold that way. What the package buys is a repeatable structure for staying on top of decisions across the year — the outcome still depends on the direction chosen and the effort put in between sessions.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling Package', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Career Counselling Package: What’s Actually Included, and Which Structure Fits You',
+    description,
+    datePublished: '2026-07-13',
+    dateModified: '2026-07-13',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="package-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Career Counselling Package</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>What's actually inside each structure</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>Career counselling package: what's actually included, and which structure fits you</h1>
+            <p class="line strong">
+              A career counselling package here comes down to two real structures, not a vague bundle: a single 1-on-1 session for one specific decision, or a continuous-guidance package that adds up to 24 small-group sessions, in groups of 10 or fewer, across a full year on top of that first 1-on-1. The free career and skill assessments sit outside both, available either way.
+            </p>
+            <p class="line">
+              "Package" gets used loosely across the market to mean anything from one call to an open-ended promise of future access. Before paying for the bigger structure, it is worth checking whether you actually have more than one decision coming up this year, or whether a single session (or even the free layer) already covers what is in front of you.
+            </p>
+            <p class="line">Here's what is actually bundled into each structure, who each one suits, and how to decide without guessing.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+              <a class="btn-outline" href={feesHref}>Compare exact fees</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">The structure, in short</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Single 1-on-1 session: one meeting, one decision, nothing ongoing.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Continuous-guidance package: the 1-on-1 plus up to 24 small-group sessions across the year.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Small groups stay at 10 students or fewer, so it is still specific, not a broadcast.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Assessments are free and separate from both structures, always.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>A "package" here means one of two structures: a single 1-on-1 session, or the continuous-guidance package that adds up to 24 small-group sessions across a year.</li>
+          <li>The single session and the package solve different problems: one resolves a specific decision now, the other keeps skill direction current as things keep changing through the year.</li>
+          <li>The small-group sessions inside the package stay capped at 10 students or fewer, so the format is still built around real attention, not an open broadcast.</li>
+          <li>The continuous package is currently a student structure. Working professionals continue through focused 1-on-1 sessions instead, as pivots or stagnation decisions come up.</li>
+          <li>Picking the wrong structure, a package for a one-time question, or a single session for something that will keep needing revisiting, is a more common mistake than picking the wrong price point.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#composition">What's inside each package</a>
+          <a href="#not-included">What's not bundled in</a>
+          <a href="#who-fits">Who each structure suits</a>
+          <a href="#objections">Common doubts about packages</a>
+          <a href="#free-layer">When the free layer is enough</a>
+          <a href="#choosing">How to decide</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="composition" class="container section">
+      <h2>What's actually inside a career counselling package here</h2>
+      <p class="line">
+        The word "package" should describe a specific set of contents, not a marketing label. Here is exactly what sits inside each structure.
+      </p>
+
+      <div class="card highlight-card">
+        <h3>Single 1-on-1 session vs the continuous-guidance package</h3>
+        <div class="sub-row sub-row--fit">
+          <span class="sub-row-label">A single 1-on-1 session</span>
+          <p>One focused, private session built around a specific decision that needs resolving now, a stream choice, a stuck pivot, a next skill move. This is also the starting point for the package below: every continuous-guidance plan begins with this same 1-on-1, so the small-group sessions that follow are never a cold start.</p>
+        </div>
+        <div class="sub-row sub-row--caution">
+          <span class="sub-row-label">The continuous-guidance package</span>
+          <p>The 1-on-1 above, plus up to 24 small-group sessions across the year, delivered in groups of 10 students or fewer. Built for people who expect more than one decision this year, stream, courses, skills, internships, not just one, and want that thinking revisited as things change rather than paying for a fresh session every time a question comes up.</p>
+        </div>
+      </div>
+
+      <p class="line">
+        Two details matter more than the headline number of sessions. First, the group stays small on purpose, at 10 or fewer, so a session still gets to your specific question instead of functioning like a webinar. Second, the cadence is real: up to 24 sessions across a year works out close to a session every two weeks if used fully, not a vague promise of "ongoing access" that quietly never gets used.
+      </p>
+    </section>
+
+    <section id="not-included" class="container section">
+      <h2>What's not bundled into either structure</h2>
+      <p class="line">
+        A package description is only honest if it also says what is outside it. The career and skill assessments are not part of either paid structure, they are free on their own, for anyone, whether or not a session gets booked. There is also no recurring subscription hidden inside the continuous package: it is a single limited-time payment for the year, not a card that gets charged every month. The exact prices for both structures are covered in full on the fees page rather than repeated here.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+        <a class="btn-gold" href={feesHref}>See the exact prices</a>
+      </div>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What the composition actually changes"
+      subtitle="Not every provider builds the same thing behind the word 'package.' This is the difference that matters once you look past the label."
+      rows={compositionRows}
+    />
+
+    <section id="who-fits" class="container section">
+      <h2>Who each package structure actually suits</h2>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>The single 1-on-1 session tends to fit if</h3>
+          <ul>
+            <li>There is one specific decision that needs resolving, not an ongoing series of them.</li>
+            <li>You want to test the format before committing to anything bigger.</li>
+            <li>You are a working professional, since the continuation here is currently structured for students.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>The continuous-guidance package tends to fit if</h3>
+          <ul>
+            <li>You are a student expecting more than one decision across the year, stream, courses, skills, or internships.</li>
+            <li>You want skill direction revisited as marks, opportunities, or the market change, not settled once and left alone.</li>
+            <li>You would rather pay once for the year than book a fresh session every time a new question comes up.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        If neither description feels obviously true yet, that is a sign the free layer, assessments and resources, is the more honest next step before either paid structure.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See both structures side by side</a>
+        <a class="btn-outline" href={oneOnOneHref}>Read about the 1-on-1 session</a>
+      </div>
+    </section>
+
+    <section id="objections" class="container section">
+      <h2>Common doubts about a career counselling package</h2>
+      <p class="line">
+        Package-shaped questions tend to be structural, not just about price. A few of the honest answers:
+      </p>
+      <div class="grid-two">
+        <div class="card">
+          <h3>Will a group session actually be personal?</h3>
+          <p class="line" style="margin:0;">
+            The group stays capped at 10 students or fewer specifically so your own situation still gets real attention, and every group participant has already had a private 1-on-1 first, so the sessions build on something specific rather than starting from a shared script.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Can I start with the single session and add the package later?</h3>
+          <p class="line" style="margin:0;">
+            Yes. The 1-on-1 is the entry point either way, so booking it first does not lock you out of moving into the continuous package afterward if more than one decision turns out to be coming.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="free-layer" class="container section">
+      <h2>When the free layer is genuinely enough, before either package</h2>
+      <p class="line">
+        A fair page about a package also has to say when not to buy one yet. If you are early in exploring and have not tried a structured assessment, the free career and skill assessments can often narrow a long list into a shorter, comparable one without spending anything. What the free layer cannot do is turn that shortlist into a plan you keep revisiting as your actual year unfolds, marks changing, an internship falling through, a new opportunity opening up, which is the specific gap the continuous package is built to close.
+      </p>
+    </section>
+
+    <section id="choosing" class="container section">
+      <h2>How to decide, without guessing</h2>
+      <p class="line">
+        Once the structures are clear, the choice usually comes down to one honest question: is there one decision in front of you right now, or a series of them across the year. Answer that first, then look at the plans below to see the exact composition and pricing for each.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on the career counselling package</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <GuidancePlansSection
+      sectionId="plans"
+      audience="mixed"
+      serviceLabel="Career Guidance"
+      title="Career Guidance Plans"
+    />
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="Compare exact fees, see the small-group format up close, or check the free first step."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #package-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+  .card {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .sub-row {
+    margin-top: .85rem;
+    padding: .65rem .8rem;
+    border-radius: 10px;
+    display: grid;
+    gap: .2rem;
+  }
+  .sub-row--fit {
+    background: rgba(45,212,191,.08);
+    border: 1px solid rgba(45,212,191,.22);
+  }
+  .sub-row--caution {
+    background: rgba(229,184,74,.08);
+    border: 1px solid rgba(229,184,74,.22);
+  }
+  .sub-row-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .sub-row--fit .sub-row-label { color: #7ee8d8; }
+  .sub-row--caution .sub-row-label { color: #f6db95; }
+  .sub-row p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,.72);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

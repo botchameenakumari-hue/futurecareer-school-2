@@ -2,10 +2,17 @@
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
+import AssessmentReportTools from '../../../../components/AssessmentReportTools.astro';
+import AssessmentGuidanceCta from '../../../../components/bofu/AssessmentGuidanceCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { getAssessmentPlansConfig } from '../../../../config/assessmentPlans';
 
 const pageUrl = 'https://futurecareerschool.com/services/assessments/career-aptitude-test-after-10th/';
-const keywordAliases = [
+const plansConfig = getAssessmentPlansConfig('student');
+const guidanceResultsHref = plansConfig.jumpHref;
+const guidanceResultsLabel = plansConfig.jumpLabel;
+const relatedTestNames = [
   'career aptitude test after 10th',
   'aptitude test for career after 10th',
   'aptitude test after 10th',
@@ -76,7 +83,7 @@ const jsonLd = [
     operatingSystem: 'Any',
     isAccessibleForFree: true,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-    provider: { '@type': 'EducationalOrganization', name: 'Future Career School', url: 'https://futurecareerschool.com' },
+    provider: { '@type': ['Organization', 'ProfessionalService'], name: 'Future Career School', url: 'https://futurecareerschool.com' },
     inLanguage: 'en-IN',
   },
   {
@@ -135,14 +142,18 @@ const jsonLd = [
         <span class="meta-chip">🆓 No sign-up</span>
       </div>
 
-      <div class="meta-chips meta-chips-keywords">
-        {keywordAliases.map((keyword) => <span class="meta-chip meta-chip-muted">{keyword}</span>)}
+      <div class="meta-chips meta-chips-related">
+        {relatedTestNames.map((name) => <span class="meta-chip meta-chip-muted">{name}</span>)}
       </div>
 
-      <a href="#assessment" class="btn-gold pulse hero-cta">Start the Test</a>
+      <div class="hero-actions">
+        <a href="#assessment" class="btn-gold pulse hero-cta">Start the Test</a>
+        <a href={plansConfig.jumpHref} class="btn-outline hero-cta">{plansConfig.jumpLabel}</a>
+      </div>
     </div>
   </section>
 
+  <div class="assessment-first-flow">
   <!-- HOW IT WORKS -->
   <section id="how">
     <div class="container">
@@ -201,6 +212,7 @@ const jsonLd = [
       <div id="results-container" class="results-box" style="display:none" aria-live="polite"></div>
     </div>
   </section>
+  </div>
 
   <!-- FAQ -->
   <section id="faq">
@@ -219,26 +231,28 @@ const jsonLd = [
 
   <LinkDirectorySection
     sectionId="related-assessment-pages"
-    title="More Assessment Pages for Students"
-    subtitle="Pair the focused stream and aptitude pages when you want both stream clarity and strength-fit clarity."
+    title="More Assessment Options for Students"
+    subtitle="Pair the focused stream and aptitude tests when you want both stream clarity and strength-fit clarity."
     items={relatedLinks}
     altBackground={true}
   />
 
-  <!-- CTA -->
-  <section id="cta">
-    <div class="container cta-inner">
-      <h2 class="cta-headline">Want a Full Plan, Not Just a Result?</h2>
-      <p class="cta-sub">
-        This test shows your strengths. A one-on-one career guidance session turns that into a clear plan —
-        which stream and subjects to take, and what to do next.
-      </p>
-      <div class="cta-actions">
-        <a href="/services/career-counselling-and-career-guidance" class="btn-gold pulse">Get Career Guidance</a>
-        <a href="/services/assessments" class="btn-outline">See All Assessments</a>
-      </div>
-    </div>
-  </section>
+  <AssessmentGuidanceCta mode="student" sectionId="guidance-bridge" />
+
+  <GuidancePlansSection
+    sectionId="plans"
+    audience={plansConfig.audience}
+    serviceLabel={plansConfig.serviceLabel}
+    title={plansConfig.sectionTitle}
+  />
+
+  <AssessmentReportTools
+    title="Career Aptitude Test After 10th Report"
+    fileName="career-aptitude-test-after-10th-report.pdf"
+    reportKicker="STUDENT APTITUDE STRENGTHS REPORT"
+    guidanceLabel="Explore Class 10 Career Guidance"
+    guidanceUrl="https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-class-10-students/"
+  />
 
   <Footer />
 </BaseLayout>
@@ -253,8 +267,9 @@ const jsonLd = [
   .hero-sub { font-size: clamp(15px, 1.9vw, 17px); line-height: 1.8; color: rgba(255,255,255,.6); max-width: 660px; margin-bottom: 1.75rem; }
   .meta-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; margin-bottom: 2rem; }
   .meta-chip { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.72); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 999px; padding: .4rem .85rem; }
-  .meta-chips-keywords { margin-top: -0.4rem; }
+  .meta-chips-related { margin-top: -0.4rem; }
   .meta-chip-muted { color: rgba(255,255,255,.58); }
+  .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .85rem; }
   .hero-cta { font-size: 15px; padding: 15px 32px; }
 
   section { padding: 4.5rem 0; }
@@ -279,7 +294,7 @@ const jsonLd = [
   .q-text { font-size: clamp(17px, 2.4vw, 21px); font-weight: 700; color: #fff; line-height: 1.45; margin-bottom: 1.4rem; }
   .q-opts { display: flex; flex-direction: column; gap: .65rem; }
   .opt-btn { display: flex; align-items: flex-start; gap: .85rem; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); border-radius: 13px; padding: 1rem 1.15rem; text-align: left; color: rgba(255,255,255,.82); font-size: 15px; line-height: 1.55; font-family: inherit; cursor: pointer; transition: background .18s, transform .15s, border-color .18s; }
-  .opt-btn:hover { background: rgba(255,255,255,.08); color: #fff; transform: translateX(3px); }
+  .opt-btn:hover { background: rgba(255,255,255,.08); color: #fff; box-shadow: 0 10px 22px rgba(0,0,0,.14); }
   .opt-letter { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,.08); font-size: 13px; font-weight: 800; color: rgba(255,255,255,.55); flex-shrink: 0; }
   .opt-btn.selected { background: linear-gradient(135deg, rgba(229,184,74,.14), rgba(229,184,74,.05)); border-color: rgba(229,184,74,.4); color: #fff; }
   .opt-btn.selected .opt-letter { background: var(--gold); color: #0a0f1e; }
@@ -333,7 +348,7 @@ const jsonLd = [
   }
 </style>
 
-<script is:inline>
+<script is:inline define:vars={{ guidanceResultsHref, guidanceResultsLabel }}>
 /* ── Aptitude Test for Career After 10th ── */
 var QUESTIONS = [
   { q: "Which task is easy and fun for you?", opts: [
@@ -651,10 +666,10 @@ function showResults() {
     + '<p>You are at the best age to explore. Try small skills now — a little coding, writing, or design — to find out what you truly enjoy. You do not need to earn money yet; the goal is simply to learn about yourself.</p>'
     + '<p>Also build the habit of deep focus — try to study or work hard for two hours without checking your phone. This one habit will help you in every stream and every career. And start using AI tools as helpers for boring tasks, not as a replacement for your own thinking.</p></div>';
 
-  html += '<div class="res-section"><h4>Remember</h4><p>This result shows your strengths today. Skills are not fixed — they grow with practice. This test is a helpful starting point, not a final answer. For a clear, one-on-one plan made just for you, a career guidance session is the best next step.</p></div>';
+  html += '<div class="res-section"><h4>Remember</h4><p>This result shows your strengths today. Skills are not fixed — they grow with practice. This test is a helpful starting point, not a final answer. For fuller clarity before stream and skill choices start costing time and money, the stronger move is updated, skill-first career guidance built around your future readiness and long-term direction.</p></div>';
 
   html += '<div class="res-actions">';
-  html += '<a href="/services/career-counselling-and-career-guidance" class="btn-gold">Get Career Guidance</a>';
+  html += '<a href="' + guidanceResultsHref + '" class="btn-gold">' + guidanceResultsLabel + '</a>';
   html += '<button class="res-retake" onclick="retakeQuiz()">Take Test Again</button>';
   html += '</div>';
 
@@ -674,4 +689,8 @@ function retakeQuiz() {
   updateProgress();
   document.getElementById('quiz-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+globalThis.prevQuestion = prevQuestion;
+globalThis.nextQuestion = nextQuestion;
+globalThis.retakeQuiz = retakeQuiz;
 </script>

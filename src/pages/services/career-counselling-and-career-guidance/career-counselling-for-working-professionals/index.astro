@@ -1,0 +1,385 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title = 'Career Counselling for Working Professionals | Resolve the Decision You Are Stuck On | Future Career School';
+const description =
+  'Career counselling for working professionals built around one specific decision - stay, pivot, specialise, or wait - using assessment input and a risk-adjusted recommendation instead of open-ended advice.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-working-professionals/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[3],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const resolveItems = [
+  {
+    title: 'One decision, not a full career audit',
+    body: 'Career counselling here is built around the fork actually in front of you - stay or move, specialise or pivot, accept the offer or wait - not a broad review of everything about your career at once.',
+  },
+  {
+    title: 'Assessment signal used inside the session',
+    body: 'Your strengths, work-style, and preference signal from the free assessment become decision material inside the counselling conversation, not a report you are left to interpret alone.',
+  },
+  {
+    title: 'A risk-adjusted recommendation, not more options',
+    body: 'The session should end with a clear direction and the reasoning behind it - weighed against your income, runway, and skill gap - instead of a longer list of things to keep thinking about.',
+  },
+  {
+    title: 'Income math attached to the decision',
+    body: 'Whichever way the decision goes, it should be connected to your compensation trajectory and a realistic route toward earlier financial freedom, not treated as a separate conversation.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the session maps to your specific decision',
+    body: 'Genuine career counselling for working professionals should respond to the exact fork you are facing - an offer on the table, a review cycle, a burnout point - instead of reciting the same framework to every caller.',
+  },
+  {
+    title: 'Check whether you leave with a decision, not homework',
+    body: 'The point of counselling is to end the indecision. If the session hands you another set of things to go figure out on your own, it has not done its job.',
+  },
+  {
+    title: 'Check whether the assessment is actually used, not just handed to you',
+    body: 'A free assessment before or during counselling should genuinely inform your specific decision. If it only exists to collect your details for a sales follow-up, it is not doing real work.',
+  },
+  {
+    title: 'Check whether the counsellor separates emotion and FOMO from the real math',
+    body: 'Stay-or-pivot decisions get clouded by frustration, comparison to peers, or a bad week at work. Real counselling should ground the choice in your income trajectory, runway, and skill gap instead of a reaction.',
+  },
+];
+
+const fitItems = [
+  {
+    title: 'You are choosing between two or three specific options',
+    body: 'An offer versus staying, a lateral move versus waiting for a promotion, or a pivot versus one more year in the current role.',
+  },
+  {
+    title: 'A deadline is forcing the decision',
+    body: 'A notice period, an offer expiry, a review cycle, or a renewal date that means the choice cannot stay open indefinitely.',
+  },
+  {
+    title: 'You already have the information, not the clarity',
+    body: 'You have read enough, asked enough people, and now need someone to help you actually decide instead of adding one more opinion to the pile.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: '/services/career-counselling-and-career-guidance/',
+    title: 'Broader Career Guidance',
+    description: 'Get wider help with stream, course, skill, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/working-professional-career-guidance/',
+    title: 'Working Professional Career Guidance',
+    description: 'Ongoing direction across skill choice, positioning, and income growth when the need is ahead of any one decision.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coaching-for-mid-career-professionals/',
+    title: 'Career Coaching for Mid-Career Professionals',
+    description: 'For the specific plateau after eight to fifteen years, where promotions have slowed and the specialise-or-pivot decision is overdue.',
+  },
+  {
+    href: '/services/assessments/working-professionals-and-career-changers/',
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free input on role fit, pivot readiness, and salary-growth direction before a counselling session.',
+  },
+  {
+    href: '/services/assessments/',
+    title: 'Free Career Assessments',
+    description: 'Free assessments for direction, skill fit, and stronger next-step clarity.',
+  },
+  {
+    href: '/career-resources/tarzan-rule-the-exact-moment-to-quit-your-job/',
+    title: 'The Tarzan Rule: The Exact Moment to Quit Your Job',
+    description: 'A practical framework for judging timing when a pivot decision is already on the table.',
+  },
+  {
+    href: '/career-resources/how-to-ask-for-a-salary-raise-with-scripts/',
+    title: 'How to Ask for a Salary Raise',
+    description: 'Practical scripts for the compensation conversation once the direction is clear.',
+  },
+  {
+    href: '/career-skills-compass/',
+    title: 'Career & Skills Compass',
+    description: 'A free tool for narrowing which skill direction fits your strengths and market position.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What is the difference between career counselling and career guidance for working professionals?',
+    answer:
+      'Career counselling here is a structured process built around one specific decision - using your profile and assessment signal to reach a risk-adjusted recommendation. Working professional career guidance covers the same practical territory but is framed around ongoing direction across skill-building, positioning, and income growth, rather than one fork in front of you right now.',
+  },
+  {
+    question: 'Do I need to take an assessment before the counselling session?',
+    answer:
+      'It is not required, but it helps. The free career and skill assessments are updated, practical, and AI-powered, and their output can be used directly inside the counselling session as decision input rather than sitting unused in a separate report.',
+  },
+  {
+    question: 'Will I actually get a decision, or just more things to think about?',
+    answer:
+      'The goal of career counselling is to end the indecision, not extend it. A session should close with a clear, risk-adjusted direction and the reasoning behind it, weighed against your income, runway, and skill gap.',
+  },
+  {
+    question: 'I already know I should pivot. I just do not know into what.',
+    answer:
+      'That is still a specific decision, not a broad exploration. Counselling should help you compare the realistic options against your strengths, market value, and income goals, and narrow toward a direction with proof of work you can act on, not just a list of career ideas.',
+  },
+  {
+    question: 'How is this different from career coaching for mid-career professionals?',
+    answer:
+      'Career coaching for mid-career professionals is built for a specific stage: eight to fifteen years in, where promotions have slowed and the specialise-or-pivot decision is overdue. Career counselling for working professionals is not tied to that stage - it applies whenever a specific decision, at any point in your career, needs resolving.',
+  },
+  {
+    question: 'Is career counselling for working professionals available online across India?',
+    answer:
+      'Yes. Sessions are delivered fully online across India. You can join from home, your office, or wherever you are, without waiting for a local offline slot.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for Working Professionals', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Working Professionals | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Working Professionals',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Working Professionals</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for working professionals: structured support for the one decision you cannot keep putting off
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for working professionals
+        <span class="gold-text"> when you need a decision, not another opinion</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for working professionals should resolve a specific fork - stay or move, specialise or pivot, take the offer or wait -
+        using your profile and assessment signal as real decision input. The point is a risk-adjusted recommendation that connects to stronger
+        compensation and unlocks high income opportunities you are not reaching by staying under-leveraged in the current role.
+      </p>
+      <p class="hero-note">
+        Counselling is delivered fully online across India. You can start from home or work - no commute, no scheduled office visits, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for Working Professionals</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="resolve"
+    title="What career counselling for working professionals should resolve"
+    items={resolveItems}
+    variant="decision"
+  >
+      <AssessmentSupportNote
+        body="As a starting point, the free career and skill assessments can surface strengths, preferences, and work-style signal that feeds directly into your counselling session."
+        href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+      />
+  </BofuFeatureSection>
+
+  <ContextualCta
+    audience="professional"
+    title="Bring the exact decision you are stuck on, not a general question"
+    body="Career counselling works best when there is a real fork on the table - an offer, a deadline, or a choice you have delayed long enough."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Working Professionals"
+  />
+
+  <ComparisonMatrix
+    title="How career counselling for working professionals compares"
+    subtitle="The difference is not effort or good intentions. It is whether the process actually resolves your specific decision."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    sectionId="check-before-booking"
+    title="What to check before booking career counselling for working professionals"
+    subtitle="The goal is a clear decision grounded in your income, runway, and skill gap, not a longer version of the advice you have already heard."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Do not let the deadline decide for you"
+    body="If a notice period, offer expiry, or review cycle is already forcing the timeline, a sharper decision now protects your compensation and options later."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Working Professionals"
+  />
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career counselling for working professionals becomes the right next step"
+    items={fitItems}
+    variant="signal"
+    columns={3}
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, stage-specific coaching, free assessments, and practical tools before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions working professionals ask before booking career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Resolve the decision instead of carrying it into next quarter"
+    subtitle="A structured counselling session, built around your specific fork and grounded in your income reality, is usually faster and cheaper than another few months of drift - and it keeps you moving toward stronger compensation and earlier financial freedom instead of stalling on the same choice."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Working Professionals"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%); opacity: .16; }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 3.9rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 790px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #resolve,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-booking { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.76rem, 9.3vw, 2.35rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

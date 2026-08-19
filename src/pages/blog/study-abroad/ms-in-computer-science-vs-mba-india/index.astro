@@ -1,0 +1,929 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'MS in Computer Science vs MBA: Which Should Indian Engineers Actually Pursue?';
+const description =
+  'MS in Computer Science vs MBA for Indian engineers: real cost and duration, where each path leads, which background fits which, and honest cases for going deeper technical vs pivoting to business.';
+const canonical =
+  'https://futurecareerschool.com/blog/study-abroad/ms-in-computer-science-vs-mba-india';
+const publishedDateISO = '2026-07-20';
+const publishedDateLabel = '20 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'answer', label: 'The direct answer' },
+  { id: 'leads-to', label: 'Where each path actually leads' },
+  { id: 'cost', label: 'Cost and duration compared' },
+  { id: 'salary', label: 'Salary and career trajectory' },
+  { id: 'fit', label: 'Which background fits which path' },
+  { id: 'case-mscs', label: 'The honest case for MSCS' },
+  { id: 'case-mba', label: 'The honest case for an MBA' },
+  { id: 'skill-ceiling-check', label: 'The Skill-Ceiling Check' },
+  { id: 'mistakes', label: 'Mistakes that waste either path' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const leadsToPoints = [
+  {
+    label: 'What an MSCS path leads to',
+    tone: 'teal',
+    items: [
+      'Deeper technical specialization: systems, ML/AI, security, distributed computing, or a research-adjacent track.',
+      'Roles like software engineer, ML engineer, applied scientist, or platform/infra engineer, usually at a higher technical ceiling than a bachelor\'s-only hire.',
+      'A direct route into US or Canadian tech hiring, since most MSCS programmes are built around campus recruiting for engineering roles.',
+      'A narrower but deeper resume: the story is "I went deeper into the craft," not "I broadened my scope."',
+    ],
+  },
+  {
+    label: 'What an MBA path leads to',
+    tone: 'gold',
+    items: [
+      'A generalist management track: product management, strategy, consulting, operations, or general leadership roles.',
+      'Roles like product manager, business analyst, strategy associate, or (later) general manager, not hands-on engineering roles.',
+      'A network built for business hiring: consulting firms, banks, and corporate leadership programmes recruit heavily from MBA campuses.',
+      'A broader but shallower technical story: the value shifts from "I can build this" to "I can decide what should be built and why."',
+    ],
+  },
+];
+
+const costRows = [
+  {
+    label: 'Typical duration',
+    mscs: '1.5-2 years, usually taken right after a bachelor\'s degree or with 0-2 years of work experience',
+    mba: '1-2 years, but most competitive programmes expect 2-5 years of work experience before you apply',
+  },
+  {
+    label: 'Total cost (tuition + living, abroad)',
+    mscs: 'Roughly $40,000-$75,000 a year at a US university once tuition and living costs are combined; public universities usually run cheaper ($20,000-$35,000 a year in tuition alone) than private ones ($40,000+)',
+    mba: 'A top Indian MBA (IIM-tier) runs roughly ₹17-27.5 lakh for the full programme; an MBA abroad typically runs ₹80 lakh to ₹2.5 crore once tuition, insurance, and relocation are included',
+  },
+  {
+    label: 'Entrance test',
+    mscs: 'GRE (increasingly optional at many US programmes), strong CS fundamentals, and often a research or project-heavy application',
+    mba: 'GMAT or GRE, plus work-experience essays, references, and often an interview round that weighs leadership signals over test scores alone',
+  },
+  {
+    label: 'Funding reality',
+    mscs: 'Some funded research assistantships exist, mostly at PhD-track-adjacent labs; most MSCS students self-fund through education loans',
+    mba: 'Merit scholarships exist at a handful of top schools, but most Indian MBA abroad applicants still fund the bulk of the cost through loans',
+  },
+];
+
+const salaryPoints = [
+  {
+    title: 'Early-career pay usually favours MSCS',
+    body: 'In the US tech market, MSCS graduates in software and applied roles typically start in the $80,000-$130,000 range, often ahead of MBA graduates in generalist roles at $70,000-$120,000, because technical hiring pays a premium for hands-on skill from day one.',
+  },
+  {
+    title: 'Long-term ceiling can favour either, depending on the track you take',
+    body: 'MBA graduates who move into senior leadership, consulting partner tracks, or executive roles can eventually out-earn a purely technical career. MSCS graduates who move into senior or staff engineering, applied research, or engineering leadership roles can reach a similar ceiling without ever leaving hands-on technical work.',
+  },
+  {
+    title: 'Demand growth currently leans technical',
+    body: 'Computer and technical occupations are projected to grow faster than management occupations over the next decade in most labour-market projections, which is a demand signal worth weighing alongside personal fit, not a reason by itself to pick one path over the other.',
+  },
+];
+
+const fitMscsItems = [
+  'You enjoy the actual act of building: writing code, debugging systems, or designing algorithms, and you would rather go deeper into that than manage people doing it.',
+  'You already have a reasonably strong CS or engineering foundation and want to specialize (AI/ML, systems, security) rather than broaden.',
+  'You are early in your career (0-2 years experience) or straight out of a bachelor\'s degree, which fits MSCS admission norms better than most competitive MBA programmes.',
+  'Your target outcome is a technical role at a product company, not a seat at the leadership table.',
+];
+
+const fitMbaItems = [
+  'You have already worked for a few years and found the parts of the job you enjoy most are the ones involving strategy, coordination, budgets, or people, not the code itself.',
+  'You want to pivot away from hands-on engineering into product, consulting, strategy, or general management, and you need the network and credential to make that pivot credible.',
+  'You are comfortable that your technical depth will plateau in favour of breadth: you are trading "I can build it" for "I can decide what gets built."',
+  'You can meet or are close to meeting the 2-5 years of work experience most strong MBA programmes expect from applicants.',
+];
+
+const mscsCaseItems = [
+  {
+    title: 'Your engineering skill is still your strongest asset',
+    body: 'If your resume, projects, and interview performance already prove you can build and ship real technical work, an MSCS compounds that asset instead of diluting it. Staying technical protects the specific skill the market is already paying you for, rather than trading it for a broader but less proven one.',
+  },
+  {
+    title: 'You want the shortest path into a strong-paying technical role abroad',
+    body: 'Most MSCS programmes are built around campus recruiting pipelines into product and tech companies. If your target is a software engineering or applied AI role at a company that hires straight out of that specific programme, the MSCS is usually the more direct route than an MBA aimed at the same company.',
+  },
+  {
+    title: 'You are not ready to give up the technical ceiling yet',
+    body: 'Senior and staff-level engineering roles, applied research positions, and technical leadership tracks can match or exceed general-management pay without requiring you to leave hands-on work. If you are not sure you want to manage people or budgets for the rest of your career, staying technical keeps that door open longer.',
+  },
+];
+
+const mbaCaseItems = [
+  {
+    title: 'You have already tested that you enjoy the business side more than the build side',
+    body: 'If a few years into your engineering job the parts you found most engaging were prioritization calls, stakeholder conversations, or business strategy, that is real evidence, not a guess. An MBA is a stronger bet when it confirms a direction you have already started living, not when it is used to discover one.',
+  },
+  {
+    title: 'Your target role genuinely needs the MBA credential and network, not just business knowledge',
+    body: 'Roles like management consulting, investment banking, and many product leadership tracks at large companies recruit specifically through MBA campus pipelines. If those are your actual target roles, the credential is doing real work for you, not just adding a line to your resume.',
+  },
+  {
+    title: 'You want to build a broader base before a leadership or founder track',
+    body: 'If your longer-term plan involves running a business, leading a large team, or making resource-allocation decisions across functions, the broader exposure an MBA gives you (finance, operations, marketing, strategy) can matter more than staying narrowly technical, especially once you already have solid engineering fundamentals to build on.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Choosing MBA because engineering felt hard, not because business felt right',
+    body: 'Burnout from a tough engineering job is a reason to look at your workload, manager, or team, not automatic proof that you want a career in business. Test the actual work of strategy, coordination, or people management before betting a costly degree on it.',
+  },
+  {
+    num: '02',
+    title: 'Choosing MSCS just to "delay" a career decision',
+    body: 'An MSCS is a strong move if you want to go deeper technically. It is a weak move if the real reason is avoiding the job market for two more years. If you cannot name the specific technical role you want at the end of it, the degree is solving the wrong problem.',
+  },
+  {
+    num: '03',
+    title: 'Applying for a top MBA without the work experience that makes you a competitive candidate',
+    body: 'Most strong MBA programmes expect 2-5 years of real work experience, and admissions committees can tell the difference between a candidate with genuine leadership stories and one padding a resume early. Applying too early usually means a weaker school, a weaker cohort, and a weaker return.',
+  },
+  {
+    num: '04',
+    title: 'Comparing headline salaries without comparing the full cost and visa picture',
+    body: 'A high starting salary abroad means little if the total programme cost, loan interest, and post-study work visa odds are not part of the same comparison. Run the numbers for MSCS and MBA in the same currency, after tax, against the actual loan you would be repaying, the same way you would compare any other large financial decision.',
+  },
+  {
+    num: '05',
+    title: 'Assuming the two paths are mutually exclusive forever',
+    body: 'Plenty of engineers do an MSCS first, build a few years of strong technical experience, and only then consider an MBA once they have real leadership signals to bring to the application. Sequencing the two paths is often a stronger move than trying to pick the "final" one too early.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'Is MS in Computer Science better than an MBA for Indian engineers?',
+    a: 'Neither is universally better. An MSCS is the stronger choice if you want to go deeper into technical work and are early in your career, since most MSCS programmes are built for candidates straight out of a bachelor\'s degree or with a year or two of experience. An MBA is the stronger choice if you have already tested that you prefer strategy, coordination, or leadership work over hands-on building, and you have the 2-5 years of experience most competitive MBA programmes expect.',
+  },
+  {
+    q: 'Which costs less, MS in Computer Science or an MBA?',
+    a: 'An MSCS abroad typically costs $40,000-$75,000 a year including living expenses, or roughly $60,000-$130,000 total for the programme. An MBA in India at a top school runs roughly ₹17-27.5 lakh, while an MBA abroad typically runs ₹80 lakh to ₹2.5 crore. If cost is the deciding factor, an MBA in India is usually the cheapest route by a wide margin, and an MSCS abroad is usually cheaper than an MBA abroad.',
+  },
+  {
+    q: 'Can I do an MS in Computer Science right after my engineering degree?',
+    a: 'Yes. Most MSCS programmes are designed for candidates with 0-2 years of experience, and many admit students directly after a bachelor\'s degree. This is different from most competitive MBA programmes, which typically expect 2-5 years of work experience before you apply.',
+  },
+  {
+    q: 'Does an MBA pay more than an MS in Computer Science in the long run?',
+    a: 'It depends on the track, not the degree alone. Early-career pay in the US tech market usually favours MSCS graduates in technical roles. Long-term pay can favour either path: MBA graduates who reach senior leadership or consulting partner roles can out-earn a purely technical career, while MSCS graduates who reach senior or staff engineering roles can reach a similar ceiling without leaving hands-on technical work.',
+  },
+  {
+    q: 'Should I do an MSCS first and an MBA later?',
+    a: 'This is a realistic sequence for many engineers. Building a few years of strong technical experience after an MSCS gives you concrete project and leadership evidence to bring to a later MBA application, which tends to produce a stronger admissions outcome than applying to a top MBA programme straight out of undergrad.',
+  },
+  {
+    q: 'Does an MSCS make it easier to get a US work visa than an MBA?',
+    a: 'Not directly, but it does change the odds. MSCS graduates in STEM-designated programmes typically qualify for up to 36 months of OPT (12 months plus a 24-month STEM extension), against 12 months for most MBA graduates unless the MBA itself carries a STEM designation. That extra runway gives an MSCS graduate more chances to enter the H-1B lottery before their work authorization runs out, but it does not change the lottery odds themselves, and both degrees ultimately depend on the same uncertain selection process for long-term status.',
+  },
+  {
+    q: 'Is a technology-focused MBA (like an MBA in product management or technology management) a middle path between the two?',
+    a: 'It can work as a middle path if your target role is technical product management or engineering leadership, since these programmes blend some technical coursework with the MBA network and credential. But they do not replace deep technical specialization the way an MSCS does, and recruiters hiring for hands-on engineering roles will still weight an MSCS or strong technical resume more heavily. Treat a tech-focused MBA as closer to the MBA path in outcome, not a genuine third option.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="study-abroad"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>MS in Computer Science vs MBA, for an Indian engineer, comes down to one honest question:
+    do you still want to build things, or do you want to decide what gets built?</strong> An MSCS
+    deepens your technical skill and usually opens a faster route into strong-paying engineering
+    roles abroad, at a lower total cost than an MBA abroad. An MBA broadens you into management,
+    strategy, or consulting, usually pays off best once you already have a few years of work
+    experience, and costs more unless you stay inside India. Neither path is the "smarter" one in
+    general — the right one depends on what part of the job you actually enjoyed doing, and what you
+    can prove about that already.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li><strong>Where they lead:</strong> MSCS deepens technical work (engineering, ML, systems, research-adjacent roles); MBA pivots toward management, product, strategy, or consulting.</li>
+      <li><strong>Cost and duration:</strong> an MSCS abroad runs roughly $40,000-$75,000 a year for 1.5-2 years; an MBA in India runs ₹17-27.5 lakh, while an MBA abroad runs ₹80 lakh-2.5 crore.</li>
+      <li><strong>Fit:</strong> MSCS suits engineers who still enjoy building and are early in their career; MBA suits those who have already tested and enjoyed the strategy or people side of work, with 2-5 years of experience.</li>
+      <li><strong>Salary:</strong> MSCS usually wins on early-career pay; long-term ceiling depends on the specific track (senior engineering vs senior leadership), not the degree name alone.</li>
+      <li>Decide by what you already know you enjoy and are good at, not by which degree sounds more prestigious.</li>
+      <li><strong>Bigger picture:</strong> the degree that compounds fastest into a genuine, high-income skill portfolio — not just a brand name — is the one that moves you toward earlier financial freedom.</li>
+      <li>Do not borrow for either label without course-specific placement evidence and a repayment case that survives a weak hiring year. A lower-cost route plus targeted AI, communication, and domain proof can beat a much larger degree bill.</li>
+    </ul>
+  </div>
+
+  <p>
+    This decision sits inside the wider <a href="/blog/study-abroad/">study abroad</a> planning
+    process, and it overlaps with the broader
+    <a href="/blog/study-abroad/mba-abroad-vs-mba-in-india/">MBA abroad vs MBA in India</a> cost and
+    visa comparison if you have already leaned toward business. If you are still unsure which lane
+    even fits your background, a second opinion from
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    is built for exactly this kind of high-cost, high-stakes decision.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="answer">The direct answer: MS in Computer Science vs MBA</h2>
+
+  <p>
+    These are not two versions of the same decision. An MSCS is a specialization move: it takes an
+    engineering background and makes it deeper, narrower, and more technically valuable. An MBA is a
+    pivot move: it takes an engineering background and repositions it toward management, strategy, or
+    business leadership, usually at the cost of some technical depth.
+  </p>
+
+  <p>
+    The honest framing is not "MSCS is safer" or "MBA pays more eventually." It is: what part of your
+    engineering work did you actually enjoy and prove you were good at, and which degree extends that
+    strength instead of abandoning it.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">The usual bad advice you will hear</p>
+    <ul class="callout__list">
+      <li>"An MBA always pays more than a technical master's."</li>
+      <li>"MS is only for people who can't get into a good MBA programme."</li>
+      <li>"You should do whichever one your friends or seniors did."</li>
+      <li>"Any master's abroad guarantees a strong return."</li>
+    </ul>
+    <p class="callout__footer">
+      None of these hold up once you check the real cost, timeline, and role outcomes. The actual
+      driver of your outcome is fit between the degree and the work you want to keep doing, not the
+      degree's reputation.
+    </p>
+  </div>
+
+  <h2 id="leads-to">Where each path actually leads</h2>
+
+  <p>
+    Before comparing cost or salary, it helps to see what each degree is structurally built to
+    produce, since that decides whether the ROI numbers even apply to your target role.
+  </p>
+
+  <div class="comparison-grid">
+    {leadsToPoints.map((group) => (
+      <div class={`compare-card compare-card--${group.tone}`}>
+        <div class="compare-card__label">{group.label}</div>
+        <ul>
+          {group.items.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      An MSCS does not close the door to management later, and an MBA does not erase your technical
+      background. But each degree spends two years and a large amount of money pulling your resume in
+      a specific direction. Pick the direction that matches where you actually want your next five
+      years of daily work to sit, not the one that sounds more impressive at a family gathering.
+    </p>
+  </div>
+
+  <h2 id="cost">Cost and duration compared</h2>
+
+  <p>
+    The numbers below are the full picture most comparisons skip: not just tuition, but duration,
+    entrance requirements, and how each programme is typically funded.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>MS in Computer Science</th>
+          <th>MBA</th>
+        </tr>
+      </thead>
+      <tbody>
+        {costRows.map((row) => (
+          <tr>
+            <td data-label="Factor"><strong>{row.label}</strong></td>
+            <td data-label="MS in Computer Science">{row.mscs}</td>
+            <td data-label="MBA">{row.mba}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      If cost alone is deciding this for you, an MBA completed in India is the cheapest route by a
+      wide margin, and an MSCS abroad is usually cheaper than an MBA abroad. But cost should be the
+      second filter, not the first — a cheaper degree that points away from the work you actually want
+      to do is still the wrong purchase.
+    </p>
+  </div>
+
+  <h2 id="salary">Salary and career trajectory</h2>
+
+  <div class="path-grid">
+    {salaryPoints.map((item) => (
+      <div class="path-card path-card--teal">
+        <div class="path-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    If you are weighing the OPT and work-authorization timeline that decides whether an MSCS salary
+    number is even realistic for you, the mechanics are covered in more depth in
+    <a href="/blog/study-abroad/opt-after-ms-in-usa-for-indian-students/">OPT after MS in USA for Indian students</a>.
+  </p>
+
+  <h2 id="fit">Which background fits which path</h2>
+
+  <p>
+    Self-assessment beats guesswork here. Read both lists honestly before deciding which one actually
+    describes you right now, not which one you wish described you.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">Signs an MSCS fits you</div>
+      <ul>
+        {fitMscsItems.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">Signs an MBA fits you</div>
+      <ul>
+        {fitMbaItems.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="case-mscs">The honest case for staying technical (MSCS)</h2>
+
+  <div class="path-grid">
+    {mscsCaseItems.map((item) => (
+      <div class="path-card path-card--teal">
+        <div class="path-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    If an MSCS is looking like the stronger fit, the full ROI picture by university tier, including
+    honest H-1B odds after graduation, is broken down separately in
+    <a href="/blog/study-abroad/is-ms-in-usa-worth-it-india/">is MS in USA worth it for Indian students</a>.
+  </p>
+
+  <h2 id="case-mba">The honest case for pivoting to business (MBA)</h2>
+
+  <div class="path-grid">
+    {mbaCaseItems.map((item) => (
+      <div class="path-card path-card--teal">
+        <div class="path-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    If an MBA is looking like the stronger fit and you are still deciding on the exact focus area, a
+    branch-by-branch breakdown of which specialization actually pays off for engineers is covered in
+    <a href="/blog/career-options/best-mba-specialization-for-engineers/">best MBA specialization for engineers</a>.
+  </p>
+
+  <h2 id="skill-ceiling-check">The Skill-Ceiling Check</h2>
+
+  <p>
+    Run your specific situation through these three checkpoints, in order, before you commit to
+    either application cycle.
+  </p>
+
+  <div class="protocol-stack">
+    <div class="checkpoint">
+      <div class="checkpoint__num">01</div>
+      <div class="checkpoint__body">
+        <div class="checkpoint__title">What did you actually enjoy proving you could do?</div>
+        <p>Look back at your best work over the last one to three years. Was your proudest moment shipping a hard technical feature, or was it convincing a room of stakeholders to change direction? The Skill-Ceiling Check starts here because the honest answer usually already exists in your recent work history, not in a personality quiz.</p>
+        <div class="checkpoint__note">If you cannot point to a specific project or moment for either answer, you likely need more real-world experience before either degree makes sense. Either way, the real asset you are building is a holistic high-income skill portfolio — the right skill mix, visible proof of work, and communication — not just a transcript.</div>
+      </div>
+    </div>
+    <div class="checkpoint">
+      <div class="checkpoint__num">02</div>
+      <div class="checkpoint__body">
+        <div class="checkpoint__title">Does your experience level match the programme's expectation?</div>
+        <p>MSCS programmes are built for candidates with 0-2 years of experience; strong MBA programmes are built for candidates with 2-5 years. Applying against the grain of that norm usually means a weaker admit, a weaker cohort, and a weaker return on the money spent.</p>
+        <div class="checkpoint__note">If you are fresh out of engineering and set on an MBA, working for a few years first is usually the stronger move, not a wasted delay.</div>
+      </div>
+    </div>
+    <div class="checkpoint">
+      <div class="checkpoint__num">03</div>
+      <div class="checkpoint__body">
+        <div class="checkpoint__title">Can your family absorb the cost without real financial risk?</div>
+        <p>An MSCS abroad and an MBA abroad both represent a large loan. Run the total cost against your realistic post-degree salary, in the same currency, after tax, before you sign anything. If the loan is the single biggest financial bet your household has ever made, size it down or pick the cheaper route that still fits your direction.</p>
+        <div class="checkpoint__note">An MBA completed in India removes most of this risk if the India-market outcome still fits your goals.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="mistakes">Mistakes that waste either path</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not decide this based on which degree your college seniors chose, or which one sounds more
+    impressive to explain at home. Decide it using the Skill-Ceiling Check above, applied honestly to
+    your own recent work and financial situation.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      Name the work you actually enjoyed proving you could do first, check whether your experience
+      level matches the programme's real expectation second, and size the financial risk against your
+      family's actual situation third. That order decides this choice far more reliably than any
+      ranking list or a relative's opinion.
+    </p>
+  </div>
+
+  <p>
+    If you are still weighing which lane fits your specific background, a second, honest opinion from
+    <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    is built for exactly this kind of high-cost decision — the aim is a path that unlocks high-income
+    opportunities and earlier financial freedom, not just the degree with the better brand name. And if
+    you want a lower-stakes starting point before you commit to either application cycle, the free
+    <a href="https://futurecareerschool.com/services/assessments">career and skill assessments</a>
+    can help you see your own fit signals more clearly first.
+  </p>
+
+  <h2 id="faq">FAQs on MS in Computer Science vs MBA</h2>
+
+  <div class="faq-list">
+    {faqItems.map((item) => (
+      <details class="faq-item">
+        <summary class="faq-item__q">{item.q}</summary>
+        <div class="faq-item__a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong {
+      color: #fff;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .key-takeaways {
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.35rem 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.1), transparent 60%),
+        rgba(255, 255, 255, 0.03);
+    }
+    .key-takeaways__label {
+      margin: 0 0 0.7rem !important;
+      font-size: 11px !important;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(45, 212, 191, 0.95) !important;
+    }
+    .key-takeaways ul {
+      margin: 0 !important;
+      padding-left: 1.15rem !important;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .key-takeaways li {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.82) !important;
+      line-height: 1.7 !important;
+      font-size: 15.5px;
+    }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.06);
+    }
+    .callout__eyebrow {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.7rem !important;
+    }
+    .callout__list {
+      margin: 0 0 0.2rem 1.1rem !important;
+      padding: 0 !important;
+    }
+    .callout__list li {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.7 !important;
+      margin: 0.32rem 0 !important;
+    }
+    .callout__footer {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      margin: 0.8rem 0 0 !important;
+      line-height: 1.74 !important;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 620px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .path-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin: 1.2rem 0 1.6rem;
+    }
+    .path-card {
+      border-radius: 16px;
+      padding: 1.25rem 1.25rem 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .path-card--teal {
+      border-color: rgba(45, 212, 191, 0.28);
+      background: rgba(45, 212, 191, 0.05);
+      border-left: 3px solid rgba(45, 212, 191, 0.55);
+    }
+    .path-card__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.94);
+      line-height: 1.32;
+      margin-bottom: 0.5rem;
+      font-family: "Sora", sans-serif;
+    }
+    .path-card p {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0 !important;
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .protocol-stack,
+    .faq-list,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .faq-item,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .compare-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .compare-card--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .compare-card--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul {
+      margin: 0 0 0 1rem !important;
+      padding: 0 !important;
+    }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    .faq-item__q {
+      padding: 0.95rem 1.15rem;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .faq-item__a {
+      padding: 0.95rem 1.15rem 1rem;
+      font-size: 14.5px;
+      line-height: 1.76;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    @media (max-width: 820px) {
+      .path-grid,
+      .comparison-grid,
+      .jump-nav__list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .path-card,
+      .compare-card,
+      .highlight-box,
+      .checkpoint,
+      .mistake-item,
+      .faq-item__q,
+      .faq-item__a {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 620px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+  </style>
+</BlogPostLayout>

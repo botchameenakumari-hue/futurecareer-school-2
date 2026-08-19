@@ -1,0 +1,1337 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Generative AI Career Path India: The Roles This New Field Actually Created';
+const description =
+  'A generative AI career path in India means LLM app development, RAG and fine-tuning work, GenAI product roles, safety evaluation, or creative-AI work, not classical machine learning. See the real roles and how to enter.';
+const canonical =
+  'https://futurecareerschool.com/blog/ai-future/generative-ai-career-path-india';
+const publishedDateISO = '2026-07-20';
+const publishedDateLabel = '20 July 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career strategy and skills lead';
+
+const jumpLinks = [
+  { id: 'what-is-genai', label: 'What counts as generative AI work' },
+  { id: 'vs-ml', label: 'Generative AI vs classical ML engineering' },
+  { id: 'core-roles', label: 'Core generative AI roles' },
+  { id: 'product-roles', label: 'Product and business roles' },
+  { id: 'safety-roles', label: 'Safety and evaluation roles' },
+  { id: 'creative-roles', label: 'Creative-AI roles in media and design' },
+  { id: 'skills', label: 'The skill stack that actually matters' },
+  { id: 'tools', label: 'Tools worth learning' },
+  { id: 'entry-paths', label: 'Realistic entry paths' },
+  { id: 'portfolio', label: 'What a hireable portfolio looks like' },
+  { id: 'india-reality', label: 'India hiring reality' },
+  { id: 'salary-reality', label: 'Salary and pay reality' },
+  { id: 'mistakes', label: 'Mistakes to avoid' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const differenceCards = [
+  {
+    label: 'Theory depth',
+    title: 'Classical ML rewards deep maths and training expertise',
+    body:
+      'A traditional ML engineer needs real strength in statistics, linear algebra, and model training so they can build and tune a model from data. Generative AI application work uses models that are already trained by someone else, so the daily bar for maths depth is lower.',
+  },
+  {
+    label: 'Daily work',
+    title: 'Generative AI work is closer to software engineering than research',
+    body:
+      'Most generative AI jobs are about wiring a pre-trained model into a working product: calling an API, retrieving the right context, managing a prompt, and handling failures gracefully. That is systems and product thinking more than model science.',
+  },
+  {
+    label: 'New building blocks',
+    title: 'Retrieval, embeddings, and agents did not exist as job skills a few years ago',
+    body:
+      'Vector databases, retrieval-augmented generation (RAG), prompt design, and multi-step agent workflows are recent, generative-AI-specific skills. Classical ML roles rarely touch any of these directly.',
+  },
+  {
+    label: 'Barrier to entry',
+    title: 'You can start building without a research background',
+    body:
+      'Because you are not training models from scratch, someone strong in Python and APIs can build a working generative AI project faster than they could build a working classical ML pipeline. That lowers the entry barrier but raises the bar on shipped proof, since the tools are easy to access for everyone.',
+  },
+];
+
+const coreRoleCards = [
+  {
+    label: 'LLM application developer',
+    title: 'Builds the products that sit on top of language models',
+    body:
+      'This is the most common generative-AI-specific job today. The work is calling model APIs, designing prompts, managing conversation state, streaming responses, and handling errors and cost inside a real application.',
+    fit: 'Best if you already write software and want to add an AI layer to real products.',
+    caution: 'Demo apps are easy. Production reliability, cost control, and latency are where most candidates fall short.',
+  },
+  {
+    label: 'RAG and retrieval engineer',
+    title: 'Connects a model to your own data so answers stay grounded',
+    body:
+      'Retrieval-augmented generation pulls relevant documents from a knowledge base before the model answers, so responses are based on real content instead of the model guessing. The job covers chunking documents, embeddings, vector search, and reducing hallucinated answers.',
+    fit: 'Best if you like data pipelines and enjoy the puzzle of making an answer verifiably correct.',
+    caution: 'A working demo is common. A RAG system that stays accurate on messy, real-world documents at scale is rare and valuable.',
+  },
+  {
+    label: 'Fine-tuning and model-adaptation specialist',
+    title: 'Adjusts an existing model to behave better for one specific use case',
+    body:
+      'Fine-tuning, LoRA, and instruction-tuning are used when prompting alone is not consistent enough for a task. This role sits closer to classical ML than most generative AI jobs, since it needs training-loop and evaluation skills, but it is applied to a pre-trained foundation model instead of a model built from zero.',
+    fit: 'Best if you enjoy classical ML fundamentals and want to specialise inside the generative AI world instead of leaving it behind.',
+    caution: 'Fewer entry-level openings than application-layer roles, because most teams reach for prompting and RAG before they reach for fine-tuning.',
+  },
+  {
+    label: 'AI agent and workflow engineer',
+    title: 'Builds systems where a model plans and executes multi-step tasks',
+    body:
+      'Agent frameworks let a model call tools, browse data, and chain several steps together instead of answering once. This is one of the fastest-moving parts of generative AI work, and job descriptions for it barely existed before large language models became reliable enough to use in production.',
+    fit: 'Best if you like systems design and are comfortable with a fast-changing toolset.',
+    caution: 'Agent reliability is still an open problem industry-wide. Employers value people who can reason about failure modes, not just wire tools together.',
+  },
+];
+
+const productRoleCards = [
+  {
+    label: 'GenAI product manager',
+    title: 'Decides what an AI feature should actually do',
+    body:
+      'This role translates a business problem into a workable AI feature: what the model should and should not attempt, how failure is handled, and how success is measured. It leans on standard product management skills plus a working understanding of model limits.',
+    fit: 'Best for people who already understand product thinking and want to specialise in AI-shaped problems.',
+  },
+  {
+    label: 'AI solutions or implementation consultant',
+    title: 'Helps a company adopt generative AI inside real workflows',
+    body:
+      'Many businesses know they want to use AI but do not know where it will actually save time or money. This role maps use cases, scopes a pilot, and manages the rollout, often for a specific industry like legal, healthcare, or finance.',
+    fit: 'Best for people with strong communication skills and some domain knowledge in a specific industry.',
+  },
+  {
+    label: 'AI-assisted content and marketing specialist',
+    title: 'Uses generative tools to produce and scale content work',
+    body:
+      'This role uses text, image, and video generation tools inside a real content operation: campaigns, product copy, design variants, and localisation, while keeping brand voice and factual accuracy under control.',
+    fit: 'Best for people from a content, design, or marketing background who want to add a genuinely useful AI layer instead of just prompting for fun.',
+  },
+];
+
+const safetyRoleCards = [
+  {
+    label: 'AI red team analyst',
+    title: 'Tries to break the model on purpose, before someone else does',
+    body:
+      'Red teamers write adversarial prompts to find where a model gives unsafe, biased, or manipulated answers. This is a genuinely new job category built entirely around generative AI, and it rewards creative, adversarial thinking as much as technical skill.',
+    fit: 'Best for people with strong writing, analytical thinking, or a security mindset, even without a coding background.',
+  },
+  {
+    label: 'AI evaluation and quality specialist',
+    title: 'Measures whether a model behaves the way it is supposed to',
+    body:
+      'Evaluators design test sets, score model outputs against defined criteria, and track quality over time as the model or prompts change. This role has grown alongside rising regulatory and enterprise pressure to prove AI systems behave predictably.',
+    fit: 'Best for people who are precise, enjoy structured testing, and can write clear criteria for a fuzzy problem.',
+  },
+  {
+    label: 'AI ethics and responsible AI reviewer',
+    title: 'Reviews AI systems for fairness, bias, and real-world harm before launch',
+    body:
+      'This role checks how a model performs across different groups and use cases, and flags where a system could cause harm at scale. It often pulls in people from psychology, sociology, law, or policy backgrounds, not only engineers.',
+    fit: 'Best for people who think carefully about second-order consequences and can hold a firm line under launch pressure.',
+  },
+];
+
+const creativeRoleCards = [
+  {
+    label: 'AI-assisted visual or motion designer',
+    title: 'Uses image and video generation models as part of a real creative process',
+    body:
+      'Designers now use tools built on diffusion models for concept art, storyboards, ad variants, and production assets. The valuable skill is creative direction and taste applied to a generative tool, not just typing a prompt and accepting the first output.',
+    fit: 'Best for people who already have design judgment and want to move faster without losing quality control.',
+  },
+  {
+    label: 'AI voice and audio producer',
+    title: 'Works with voice cloning, synthetic narration, and generative music tools',
+    body:
+      'This spans dubbing, audiobook narration, ad voiceovers, and background scoring, using generative audio models while still managing licensing, consent, and quality the way a traditional audio producer would.',
+    fit: 'Best for people from an audio, film, or music production background who want to stay relevant as these tools enter mainstream production pipelines.',
+  },
+  {
+    label: 'Prompt and creative-direction specialist',
+    title: 'Turns a creative brief into consistent, on-brand generative output',
+    body:
+      'This is not "typing prompts for fun." It is understanding a specific model well enough to get consistent, controllable results across a campaign or product line, and knowing when the model output needs a human pass before it ships.',
+    fit: 'Best for people who already understand a creative domain and want the model to extend their taste, not replace it.',
+  },
+];
+
+const entrySteps = [
+  {
+    n: 1,
+    title: 'Pick one entry lane, not the whole field',
+    body:
+      'Generative AI is too broad to enter all at once. Choose one lane based on your current strength: LLM application development if you already code, RAG and evaluation if you like structured analysis, or creative-AI work if you already have design, writing, or audio skill. Depth in one lane beats a shallow grasp of five.',
+  },
+  {
+    n: 2,
+    title: 'Learn the specific building blocks of that lane',
+    body:
+      'For an application lane: API calls, prompt design, and basic RAG. For an evaluation lane: how to design test cases and score model output against clear criteria. For a creative lane: how to get controllable, consistent output from a specific generation tool inside a real brief.',
+  },
+  {
+    n: 3,
+    title: 'Build one project that actually runs, end to end',
+    body:
+      'A deployed RAG assistant over real documents, a small evaluation report comparing two prompt versions on a defined metric, or a finished creative campaign built with a generation tool. It needs a live link, a clear write-up of decisions, and honesty about where it fails.',
+  },
+  {
+    n: 4,
+    title: 'Get in through the nearest real door, not the ideal title',
+    body:
+      'Because this sub-field is new, internships, contract work, and "add an AI feature" tasks inside a normal software, content, or support role are often the fastest way in. Very few companies hire a pure "generative AI engineer" straight out of a course with zero work history.',
+  },
+  {
+    n: 5,
+    title: 'Let your proof do the talking in applications and outreach',
+    body:
+      'Share the project, the decisions behind it, and what broke, in the places hiring managers and founders already look: LinkedIn, GitHub, a portfolio site, or a short write-up. A working, imperfect project shared honestly outperforms a finished certificate with nothing built.',
+  },
+];
+
+const skillTiers = [
+  {
+    tier: 'Tier: Base layer',
+    note: 'Needed for almost every generative AI lane',
+    accent: 'teal',
+    skills: [
+      "Python fundamentals and comfort reading someone else's code",
+      'Working with APIs, JSON, and basic authentication',
+      'Git and version control for shipping real projects',
+      'Clear written communication for prompts, briefs, and documentation',
+    ],
+  },
+  {
+    tier: 'Tier: Generative-AI-specific',
+    note: 'What actually separates this field from classical ML',
+    accent: 'gold',
+    skills: [
+      'Prompt design and iteration for a specific model family',
+      'Embeddings, vector search, and retrieval-augmented generation',
+      'Evaluation methods for open-ended model output, not just accuracy scores',
+      'Basic agent and tool-calling patterns for multi-step workflows',
+    ],
+  },
+  {
+    tier: 'Tier: Judgment layer',
+    note: 'What keeps you employable once the tools get easier to use',
+    accent: 'violet',
+    skills: [
+      'Domain knowledge in one industry so you know what a good answer actually looks like',
+      'Risk sense: where a wrong or biased output causes real damage',
+      'Cost and latency thinking, since a slow or expensive AI feature gets cut',
+      'Enough classical ML literacy to know when prompting is not enough and fine-tuning is needed',
+    ],
+  },
+];
+
+const toolGroups = [
+  {
+    label: 'Model access',
+    tools: ['OpenAI / Anthropic / Gemini APIs', 'Open-source models via Hugging Face', 'Local inference for cost control'],
+  },
+  {
+    label: 'Retrieval and orchestration',
+    tools: ['LangChain or LlamaIndex', 'Vector databases (Pinecone, FAISS, Chroma)', 'Chunking and embedding pipelines'],
+  },
+  {
+    label: 'Evaluation and safety',
+    tools: ['Structured eval frameworks (RAGAS and similar)', 'Manual red-teaming and adversarial prompt sets', 'Logging and output-monitoring tools'],
+  },
+  {
+    label: 'Creative generation',
+    tools: ['Diffusion-based image and video tools', 'Voice cloning and synthetic audio tools', 'Prompt-consistency and style-control workflows'],
+  },
+];
+
+const mistakeItems = [
+  {
+    num: 1,
+    title: 'Treating "prompt engineering" as the whole career',
+    body:
+      'Writing a good prompt is a small, fast-learned skill on its own. The roles that actually pay are built around a full pipeline: retrieval, evaluation, product judgment, or creative direction wrapped around the prompt, not the prompt alone.',
+  },
+  {
+    num: 2,
+    title: 'Skipping evaluation and shipping only demos',
+    body:
+      'A chatbot that works once in a screen recording is not proof of skill. Employers want to see that you tested edge cases, measured failure rate, and made a deliberate call about what "good enough" means for that use case.',
+  },
+  {
+    num: 3,
+    title: 'Ignoring the classical ML foundations completely',
+    body:
+      'You do not need a research-level maths background to work in generative AI application roles. But zero understanding of how models are trained, evaluated, and where they fail statistically will cap how far you can grow inside this field.',
+  },
+  {
+    num: 4,
+    title: 'Waiting for a "Generative AI Engineer" job title to appear',
+    body:
+      'Many companies are adding generative AI work inside existing software, data, content, or support roles rather than opening a brand-new title. Searching only for the exact title filters out a large share of the real opportunities.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'Is a generative AI career path in India different from a general AI or machine learning career?',
+    a: 'Yes. A general AI or ML career usually still involves training models from data, with heavier statistics and maths depth. A generative AI career path is centred on using already-trained large language and image models: prompt design, retrieval, evaluation, and integrating those models into real products, workflows, or creative output. The daily skill mix is closer to software engineering, product work, or creative production than to research.',
+  },
+  {
+    q: 'Do I need a computer science degree to start a generative AI career in India?',
+    a: 'No, but the requirement depends on the lane. Application-layer roles like LLM development or RAG engineering want strong Python and API skills, which you can build without a CS degree. Non-technical lanes like evaluation, red teaming, or AI ethics review value domain knowledge, clear thinking, and writing skill over a coding background. Fine-tuning and deep model-adaptation work is the one lane where classical ML fundamentals still matter most.',
+  },
+  {
+    q: 'What is the fastest realistic entry path into generative AI work with no experience?',
+    a: 'Build one deployed project in a specific lane, such as a retrieval-based assistant over real documents, and use it to get into the field through the nearest real door: an internship, a contract project, or a role that lets you add an AI feature to existing work. Because this sub-field is new, almost nobody is hired purely on a certificate. A working project you can explain in detail carries more weight than a course completion badge.',
+  },
+  {
+    q: 'Are generative AI roles at risk of disappearing as the tools get easier to use?',
+    a: 'The easy parts, like writing a basic prompt, are getting commoditised quickly since the tools themselves are improving. What stays valuable is the judgment layer around the tool: knowing a specific domain well enough to catch a wrong answer, evaluating output rigorously, controlling cost and risk, and directing creative or product decisions the model cannot make on its own. Build toward that layer instead of the prompt-writing task alone.',
+  },
+  {
+    q: 'Should I learn classical machine learning before moving into generative AI work?',
+    a: 'Not necessarily before, but eventually it helps. Most people can start building real generative AI projects with API and software skills alone. As you grow into fine-tuning, model evaluation at depth, or research-adjacent roles, classical ML fundamentals like statistics and model training become genuinely useful. Treat it as a layer to add later rather than a gate you must clear first.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="ai-future"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>A generative AI career path in India is not the same as a general AI or machine learning
+    career.</strong>
+    It is a specific, fast-growing sub-field built around large language models and image, video, and
+    audio generation models: building products on top of them, keeping their answers grounded and safe,
+    and using them inside real creative and business work. The skills, entry points, and even the job
+    titles are different from classical ML engineering.
+  </p>
+
+  <p>
+    For the wider view of AI and machine learning careers, including roles that need deeper classical ML
+    theory, start with <a href="/blog/ai-future/">AI and the Future of Work</a> or the broader
+    <a href="/blog/ai-future/artificial-intelligence-career-paths/">artificial intelligence career paths</a> guide.
+  </p>
+
+  <p>
+    If you want a clearer read on your strengths before choosing a lane inside generative AI, our
+    <a href="/services/career-counselling-and-career-guidance/">career guidance and counselling</a>
+    can help you test fit before you commit months to one direction.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Generative AI is its own sub-field: LLM and image/video/audio generation work, not general AI or classical ML.</li>
+      <li>The daily skills lean toward APIs, retrieval pipelines, and prompt and evaluation work, not deep model training.</li>
+      <li>Real roles span technical building, product, safety and evaluation, and creative-AI work in media and design.</li>
+      <li>Because the field is new, most people enter through a nearby door and a shipped project, not a matching job title.</li>
+      <li>Getting into a genuinely scarce lane early — RAG, evaluation, or agent engineering — is one of the more direct routes to a high-income skill portfolio in India's current AI hiring market.</li>
+      <li>The strongest candidates pair that technical layer with a real domain—law, finance, healthcare, education, media, or operations—then prove an automation or product that improves a specific outcome.</li>
+    </ul>
+  </div>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="what-is-genai">What actually counts as generative AI work</h2>
+
+  <p>
+    Generative AI covers models that create new content: text from large language models (LLMs), images
+    and video from diffusion models, and audio from voice and music generation models. That is different
+    from the older idea of "AI" that mostly meant prediction and classification: fraud scoring, demand
+    forecasting, recommendation engines.
+  </p>
+
+  <p>
+    A <a href="/blog/ai-future/artificial-intelligence-career-paths/">general artificial intelligence
+    career path</a> can lead toward research, classical machine learning, computer vision, or AI
+    governance. A generative AI career path is narrower and newer: it is specifically about building with,
+    controlling, and shipping products around these content-generating models.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">The usual bad advice</p>
+    <ul class="callout__list">
+      <li>Take one prompt-writing course and call yourself a generative AI professional.</li>
+      <li>Assume "generative AI" and "AI" are the same career with the same skill list.</li>
+      <li>Chase every new model release instead of getting good at one working pipeline.</li>
+      <li>Wait for a job posting titled exactly "Generative AI Engineer" before applying anywhere.</li>
+    </ul>
+    <p class="callout__footer">
+      None of that tells you which real role fits your background, what the daily work looks like, or how
+      beginners in India are actually getting hired right now.
+    </p>
+  </div>
+
+  <h2 id="vs-ml">Generative AI work vs classical ML engineering</h2>
+
+  <p>
+    This is the distinction most guides skip. Classical machine learning engineering is about building
+    and training a model from data to solve a prediction problem. Generative AI application work almost
+    always starts from a model someone else has already trained, and the job is making that model useful,
+    safe, and grounded inside a real product or workflow.
+  </p>
+
+  <div class="driver-grid">
+    {differenceCards.map((item) => (
+      <article class="driver-card">
+        <span class="driver-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <div class="honest-take">
+    <p class="honest-take__eyebrow">Honest take</p>
+    <p>
+      This does not make generative AI work "easier" as a career. It shifts where the difficulty sits.
+      Instead of fighting with training loops and loss curves, you are fighting with unreliable output,
+      cost control, and proving a system is trustworthy enough to ship. Both are real skill, just different
+      skill.
+    </p>
+  </div>
+
+  <h2 id="core-roles">Core generative AI roles worth targeting</h2>
+
+  <p>
+    These are the technical roles built specifically around generative models, not general ML roles with
+    "AI" added to the title.
+  </p>
+
+  <div class="career-grid">
+    {coreRoleCards.map((item) => (
+      <article class="career-card">
+        <span class="career-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        <p class="career-card__fit"><strong>Best for:</strong> {item.fit}</p>
+        <p class="career-card__caution"><strong>Watch out:</strong> {item.caution}</p>
+      </article>
+    ))}
+  </div>
+
+  <h2 id="product-roles">Product and business roles built around generative AI</h2>
+
+  <p>
+    Not every valuable generative AI role is engineering. As companies adopt these tools, they need people
+    who can decide what to build, guide adoption, and use the tools well inside real business work.
+  </p>
+
+  <div class="career-grid">
+    {productRoleCards.map((item) => (
+      <article class="career-card">
+        <span class="career-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        <p class="career-card__fit"><strong>{item.fit}</strong></p>
+      </article>
+    ))}
+  </div>
+
+  <p class="section-note">
+    These roles reward domain expertise plus AI literacy over pure technical depth, which makes them a
+    realistic entry point for people coming from a non-engineering background.
+  </p>
+
+  <h2 id="safety-roles">Safety and evaluation roles: the newest category</h2>
+
+  <p>
+    As generative AI systems touch real decisions, money, and reputations, the demand for people who test,
+    measure, and review these systems has grown quickly. These roles genuinely did not exist as a job
+    category before large language models became widely deployed.
+  </p>
+
+  <div class="career-grid">
+    {safetyRoleCards.map((item) => (
+      <article class="career-card">
+        <span class="career-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        <p class="career-card__fit"><strong>{item.fit}</strong></p>
+      </article>
+    ))}
+  </div>
+
+  <div class="honest-take">
+    <p class="honest-take__eyebrow">Honest take</p>
+    <p>
+      Safety and evaluation roles are one of the few places in generative AI where a non-coding background
+      is not a disadvantage. Strong writing, structured thinking, and domain expertise often matter more
+      than a programming language here.
+    </p>
+  </div>
+
+  <h2 id="creative-roles">Creative-AI roles in media and design</h2>
+
+  <p>
+    Image, video, and audio generation models created a new layer of work inside media, design, and
+    production teams: using generative tools without losing creative quality or control.
+  </p>
+
+  <div class="career-grid">
+    {creativeRoleCards.map((item) => (
+      <article class="career-card">
+        <span class="career-card__label">{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        <p class="career-card__fit"><strong>{item.fit}</strong></p>
+      </article>
+    ))}
+  </div>
+
+  <p class="section-note">
+    In every creative-AI role, the tool speeds up production. It does not replace the taste, judgment, and
+    client or brand understanding a working creative already has. That judgment is exactly what keeps these
+    roles from being fully automated away.
+  </p>
+
+  <h2 id="skills">The skill stack that actually matters</h2>
+
+  <p>
+    Generative AI roles do not need the full classical ML curriculum. They need a narrower, more practical
+    stack layered on top of basic technical or domain literacy.
+  </p>
+
+  <div class="tier-stack">
+    {skillTiers.map((tier) => (
+      <div class={`tier tier--${tier.accent}`}>
+        <div class="tier__head">
+          <span class="tier__name">{tier.tier}</span>
+          <span class="tier__note">{tier.note}</span>
+        </div>
+        <ul class="tier__list">
+          {tier.skills.map((s) => (
+            <li><span class="tier__dot"></span>{s}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <p class="section-note">
+    Notice that only the judgment layer overlaps meaningfully with classical ML theory. Most of the daily
+    skill for generative AI work sits in the base and generative-AI-specific layers. Stacking all three
+    layers deliberately, instead of only chasing the newest tool, is what turns this into a genuine
+    high-income skill portfolio rather than a set of disconnected certificates.
+  </p>
+
+  <h2 id="tools">Tools worth learning by category</h2>
+
+  <div class="career-grid">
+    {toolGroups.map((group) => (
+      <article class="career-card">
+        <span class="career-card__label">{group.label}</span>
+        <ul class="tool-list">
+          {group.tools.map((t) => (
+            <li>{t}</li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
+
+  <div class="honest-take">
+    <p class="honest-take__eyebrow">Honest take on tools</p>
+    <p>
+      These specific tool names will change. Some of them will be replaced within a couple of years. What
+      will not change is the underlying pattern: connect a model to real data, control its output, and
+      measure whether it worked. Learn the pattern through one tool, not every tool at once.
+    </p>
+  </div>
+
+  <h2 id="entry-paths">Realistic entry paths into generative AI work</h2>
+
+  <p>
+    Because this sub-field is genuinely new, there is no long-established ladder like there is for, say,
+    software engineering or chartered accountancy. Most people get in through proof of work and a nearby
+    door, not through a perfectly matching job title.
+  </p>
+
+  <div class="rich-numbered">
+    {entrySteps.map((item) => (
+      <div class="rich-step">
+        <span class="rich-step__n">{item.n}</span>
+        <div>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="portfolio">What a hireable generative AI portfolio looks like</h2>
+
+  <p>
+    Certificates rarely move the needle on their own in this field, because the underlying courses are
+    widely available and easy to complete without ever building something that survives real use.
+  </p>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Portfolio piece</th>
+          <th>What it needs to prove</th>
+          <th>Common weakness to avoid</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Portfolio piece">Deployed RAG assistant</td>
+          <td data-label="What it needs to prove">Grounded, source-cited answers over a real, non-trivial document set</td>
+          <td data-label="Common weakness to avoid">A notebook that only runs on your laptop, with no live link</td>
+        </tr>
+        <tr>
+          <td data-label="Portfolio piece">Evaluation write-up</td>
+          <td data-label="What it needs to prove">You can define quality criteria and measure output against them</td>
+          <td data-label="Common weakness to avoid">No comparison, no metric, just "it seemed to work"</td>
+        </tr>
+        <tr>
+          <td data-label="Portfolio piece">Creative-AI campaign or asset set</td>
+          <td data-label="What it needs to prove">Consistent, on-brief output plus your creative decision-making</td>
+          <td data-label="Common weakness to avoid">Raw, unedited model output with no editorial pass</td>
+        </tr>
+        <tr>
+          <td data-label="Portfolio piece">Agent or workflow demo</td>
+          <td data-label="What it needs to prove">The system handles at least one realistic failure case gracefully</td>
+          <td data-label="Common weakness to avoid">Only shows the happy path where everything goes right</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="india-reality">India hiring reality for generative AI roles</h2>
+
+  <p>
+    Indian job boards now list thousands of postings that mention generative AI, LLMs, or RAG, spread
+    across product companies, IT services firms building client AI features, and a fast-growing set of
+    AI-native startups. Entry-level generative AI roles are typically graded closer to a strong software or
+    analytics hire than to a specialised research position, because most of them do not require training a
+    model from scratch.
+  </p>
+
+  <p>
+    Hiring managers across these postings repeat the same signal: they want evidence of a working, deployed
+    system over academic credentials alone. A candidate who can walk through a real RAG pipeline they built
+    and explain why it sometimes fails is treated as stronger than one who only lists a certificate.
+  </p>
+
+  <div class="vs-grid">
+    <div class="vs-col vs-col--teal">
+      <span class="vs-col__label">What actually helps in India right now</span>
+      <ul>
+        <li>A deployed project you can demo live and explain in detail.</li>
+        <li>Domain knowledge from your current field, layered on top of AI tool skill.</li>
+        <li>Comfort with fast tool changes instead of chasing one fixed toolkit forever.</li>
+        <li>Willingness to enter through internships or a nearby existing role.</li>
+      </ul>
+    </div>
+    <div class="vs-col vs-col--gold">
+      <span class="vs-col__label">What quietly wastes time</span>
+      <ul>
+        <li>Collecting certificates without shipping anything that runs.</li>
+        <li>Waiting for a job titled exactly like the course you finished.</li>
+        <li>Learning every framework shallowly instead of one lane deeply.</li>
+        <li>Assuming a single prompting skill is enough to compete for these roles.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="salary-reality">Salary and pay reality for generative AI roles in India</h2>
+
+  <p>
+    Pay for generative AI work varies more by proof of shipped work and company type than by job title
+    alone, but the broad bands below give a realistic starting picture for the Indian market.
+  </p>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Career stage</th>
+          <th>Typical range</th>
+          <th>What moves the number most</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Career stage">Entry-level, 0-2 years (LLM app dev, RAG, evaluation)</td>
+          <td data-label="Typical range">Roughly Rs 6-14 LPA at product companies and AI-native startups; lower at IT services firms building client AI features</td>
+          <td data-label="What moves the number most">A deployed, demoable project beats a certificate every time at this stage</td>
+        </tr>
+        <tr>
+          <td data-label="Career stage">Mid-level, 3-6 years</td>
+          <td data-label="Typical range">Roughly Rs 15-30 LPA, with fine-tuning and agent-engineering specialists at the higher end</td>
+          <td data-label="What moves the number most">Ownership of a production system, including its cost and reliability, not just its accuracy</td>
+        </tr>
+        <tr>
+          <td data-label="Career stage">Senior and specialist tracks, 6+ years</td>
+          <td data-label="Typical range">Roughly Rs 30-60 LPA and above at product companies and AI-native startups, higher with equity at scaled startups</td>
+          <td data-label="What moves the number most">A track record of systems that stayed reliable and cost-controlled in production, or product and safety leadership over AI features</td>
+        </tr>
+        <tr>
+          <td data-label="Career stage">Non-technical lanes (safety, evaluation, GenAI product)</td>
+          <td data-label="Typical range">Broadly in line with equivalent product, policy, or QA roles, often Rs 8-25 LPA depending on seniority and industry</td>
+          <td data-label="What moves the number most">Domain expertise combined with AI literacy, not AI skill alone</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="section-note">
+    These ranges are directional and change quickly as the field matures. Verify current figures against
+    live postings for your city and company type before making a financial decision, and treat any single
+    number you see quoted online as one data point, not a guarantee.
+  </p>
+
+  <h2 id="mistakes">Mistakes to avoid</h2>
+
+  <div class="mistake-list">
+    {mistakeItems.map((item) => (
+      <article class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not try to learn generative AI in general. Pick one lane from this article, build one project that
+    actually runs, and let that project open the first real door.
+  </p>
+
+  <div class="next-step">
+    <p class="next-step__title">Better next moves</p>
+    <ul class="next-step__list">
+      <li>
+        Take the <a href="/services/assessments">free career and skill assessments</a> if you want a
+        clearer signal on which generative AI lane fits your strengths before you commit months to it.
+      </li>
+      <li>
+        Read <a href="/blog/ai-future/artificial-intelligence-career-paths/">Artificial intelligence
+        career paths</a> if you want the wider AI and ML picture beyond generative-AI-specific roles.
+      </li>
+      <li>
+        Read <a href="/blog/ai-future/skills-to-work-with-ai-instead-of-being-replaced/">Skills to work
+        with AI instead of being replaced by it</a> if you want the broader skill layer that applies
+        whatever field you are already in.
+      </li>
+      <li>
+        If you want structured help choosing and building toward the right generative AI lane for your
+        background, our <a href="/services/career-counselling-and-career-guidance/">career guidance and
+        counselling</a> focuses on realistic skill direction and planning toward earlier financial
+        freedom, not a single generic session.
+      </li>
+    </ul>
+  </div>
+
+  <h2 id="faq">FAQs</h2>
+
+  <p class="section-note">Tap a question to expand the answer.</p>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, i) => (
+      <details open={i === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para strong {
+      color: rgba(255, 255, 255, 0.98);
+    }
+
+    .jump-nav {
+      margin: 1.45rem 0 1.8rem;
+      padding: 1.05rem 1.1rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .jump-nav__label {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.92) !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      padding: 0.58rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    .jump-nav__list a:hover {
+      border-color: rgba(125, 211, 252, 0.36);
+      color: rgba(255, 255, 255, 0.96);
+    }
+
+    .callout {
+      margin: 1.35rem 0;
+      padding: 1.15rem 1.2rem 1.2rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .callout--amber {
+      background: linear-gradient(180deg, rgba(229, 184, 74, 0.08), rgba(255, 255, 255, 0.025));
+      border-color: rgba(229, 184, 74, 0.2);
+    }
+    .callout__eyebrow {
+      margin: 0 0 0.75rem !important;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.96) !important;
+    }
+    .callout__list {
+      margin: 0 !important;
+      padding-left: 1.05rem !important;
+    }
+    .callout__list li {
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.72 !important;
+      margin: 0 0 0.45rem !important;
+    }
+    .callout__footer {
+      margin: 0.75rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.75 !important;
+    }
+
+    .driver-grid,
+    .career-grid {
+      display: grid;
+      gap: 1.1rem;
+      margin: 1.55rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .driver-card,
+    .career-card {
+      --accent: #2dd4bf;
+      --accent-soft: rgba(45, 212, 191, 0.5);
+      position: relative;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+      padding: 1.55rem 1.5rem 1.5rem;
+      overflow: hidden;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .driver-card::before,
+    .career-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+    }
+    .driver-card:hover,
+    .career-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-soft);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    .driver-grid > :nth-child(4n + 1),
+    .career-grid > :nth-child(4n + 1) {
+      --accent: #2dd4bf;
+      --accent-soft: rgba(45, 212, 191, 0.45);
+    }
+    .driver-grid > :nth-child(4n + 2),
+    .career-grid > :nth-child(4n + 2) {
+      --accent: #e5b84a;
+      --accent-soft: rgba(229, 184, 74, 0.45);
+    }
+    .driver-grid > :nth-child(4n + 3),
+    .career-grid > :nth-child(4n + 3) {
+      --accent: #a78bfa;
+      --accent-soft: rgba(167, 139, 250, 0.45);
+    }
+    .driver-grid > :nth-child(4n + 4),
+    .career-grid > :nth-child(4n + 4) {
+      --accent: #7dd3fc;
+      --accent-soft: rgba(125, 211, 252, 0.45);
+    }
+
+    .driver-card__label,
+    .career-card__label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.55rem;
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--accent);
+    }
+    .driver-card__label::before,
+    .career-card__label::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+    }
+
+    .driver-card h3,
+    .career-card h3,
+    .mistake-item__content h3,
+    .rich-step h3 {
+      margin: 0 0 0.5rem !important;
+      font-family: "Sora", sans-serif;
+      font-size: 1.07rem !important;
+      line-height: 1.32 !important;
+      color: rgba(255, 255, 255, 0.95) !important;
+    }
+
+    .driver-card p,
+    .career-card p,
+    .mistake-item__content p,
+    .rich-step p {
+      margin: 0 !important;
+      font-size: 15px !important;
+      line-height: 1.8 !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+    }
+
+    .career-card__fit,
+    .career-card__caution {
+      margin-top: 0.7rem !important;
+      padding: 0.55rem 0.7rem !important;
+      border-radius: 11px;
+      font-size: 13px !important;
+      line-height: 1.62 !important;
+    }
+    .career-card__fit {
+      background: rgba(45, 212, 191, 0.08);
+      border: 1px solid rgba(45, 212, 191, 0.2);
+      color: rgba(255, 255, 255, 0.78) !important;
+    }
+    .career-card__caution {
+      background: rgba(229, 184, 74, 0.08);
+      border: 1px solid rgba(229, 184, 74, 0.2);
+      color: rgba(255, 255, 255, 0.78) !important;
+    }
+    .career-card__fit strong { color: rgba(45, 212, 191, 0.95); }
+    .career-card__caution strong { color: rgba(229, 184, 74, 0.96); }
+
+    .tool-list {
+      list-style: none !important;
+      margin: 0.65rem 0 0 !important;
+      padding: 0 !important;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .tool-list li {
+      margin: 0 !important;
+      padding: 0.3rem 0.65rem !important;
+      border-radius: 999px;
+      border: 1px solid rgba(45, 212, 191, 0.28);
+      background: rgba(45, 212, 191, 0.08);
+      color: rgba(255, 255, 255, 0.82) !important;
+      font-size: 12.5px;
+      line-height: 1.35;
+    }
+
+    .section-note {
+      margin: 0.85rem 0 0 !important;
+      color: rgba(255, 255, 255, 0.62) !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+    }
+
+    .honest-take {
+      margin: 1.35rem 0;
+      padding: 1.1rem 1.2rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(229, 184, 74, 0.2);
+      border-left: 3px solid rgba(229, 184, 74, 0.7);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .honest-take__eyebrow {
+      margin: 0 0 0.55rem !important;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      color: rgba(229, 184, 74, 0.96) !important;
+    }
+    .honest-take p:last-child {
+      margin: 0 !important;
+      font-size: 14.5px !important;
+      line-height: 1.78 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+    }
+
+    .rich-numbered {
+      display: grid;
+      gap: 0.8rem;
+      margin: 1.4rem 0;
+    }
+    .rich-step {
+      display: flex;
+      gap: 0.95rem;
+      align-items: flex-start;
+      padding: 1.05rem 1.15rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    }
+    .rich-step__n {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #e5b84a;
+      color: #0b1220;
+      font-size: 14px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tier-stack {
+      display: grid;
+      gap: 0.85rem;
+      margin: 1.4rem 0;
+    }
+    .tier {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .tier__head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5rem 0.8rem;
+      padding: 0.85rem 1.15rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .tier--gold .tier__head { background: rgba(229, 184, 74, 0.09); }
+    .tier--teal .tier__head { background: rgba(45, 212, 191, 0.09); }
+    .tier--violet .tier__head { background: rgba(139, 92, 246, 0.1); }
+    .tier__name {
+      font-family: "Sora", sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.95);
+    }
+    .tier__note {
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .tier__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0.85rem 1.15rem 0.95rem !important;
+      display: grid;
+      gap: 0.55rem;
+    }
+    .tier__list li {
+      position: relative;
+      margin: 0 !important;
+      padding-left: 1.35rem !important;
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.72);
+    }
+    .tier__dot {
+      position: absolute;
+      left: 0;
+      top: 0.62rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .tier--gold .tier__dot { background: #e5b84a; }
+    .tier--teal .tier__dot { background: #2dd4bf; }
+    .tier--violet .tier__dot { background: #a78bfa; }
+
+    .table-wrap {
+      margin: 1.4rem 0;
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 560px;
+      font-size: 13.5px;
+    }
+    .data-table th,
+    .data-table td {
+      text-align: left;
+      padding: 0.8rem 0.95rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      line-height: 1.6;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(255, 255, 255, 0.045);
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .data-table td {
+      color: rgba(255, 255, 255, 0.72);
+    }
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .vs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.95rem;
+      margin: 1.4rem 0;
+    }
+    .vs-col {
+      border-radius: 18px;
+      padding: 1.15rem 1.2rem 1.05rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .vs-col--gold {
+      background: rgba(229, 184, 74, 0.05);
+      border-color: rgba(229, 184, 74, 0.2);
+    }
+    .vs-col--teal {
+      background: rgba(45, 212, 191, 0.05);
+      border-color: rgba(45, 212, 191, 0.22);
+    }
+    .vs-col__label {
+      display: inline-block;
+      margin-bottom: 0.6rem;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .vs-col--gold .vs-col__label { color: rgba(229, 184, 74, 0.96); }
+    .vs-col--teal .vs-col__label { color: rgba(45, 212, 191, 0.96); }
+    .vs-col ul {
+      margin: 0 !important;
+      padding-left: 1.05rem !important;
+    }
+    .vs-col li {
+      margin: 0 0 0.5rem !important;
+      font-size: 14px !important;
+      line-height: 1.7 !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+    }
+
+    .mistake-list {
+      display: grid;
+      gap: 0.85rem;
+      margin: 1.4rem 0;
+    }
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.12rem 1.15rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: rgba(229, 184, 74, 0.2);
+      padding-top: 0.05rem;
+    }
+
+    .next-step {
+      margin: 1.4rem 0;
+      padding: 1.15rem 1.15rem 1.1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(255, 255, 255, 0.025));
+    }
+    .next-step__title {
+      margin: 0 0 0.8rem !important;
+      font-size: 12px !important;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(125, 211, 252, 0.94) !important;
+    }
+    .next-step__list {
+      margin: 0 !important;
+      padding-left: 1rem !important;
+    }
+    .next-step__list li {
+      margin: 0 0 0.55rem !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      line-height: 1.76 !important;
+    }
+
+    @media (max-width: 860px) {
+      .driver-grid,
+      .career-grid,
+      .vs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+
+      .table-wrap {
+        overflow: visible;
+        border: none;
+        border-radius: 0;
+      }
+      .data-table {
+        min-width: 0;
+        display: block;
+        font-size: 13.5px;
+      }
+      .data-table thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+      .data-table tbody,
+      .data-table tr,
+      .data-table td {
+        display: block;
+        width: 100%;
+      }
+      .data-table tr {
+        margin: 0 0 0.85rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        overflow: hidden;
+      }
+      .data-table td {
+        padding: 0.6rem 0.9rem 0.7rem !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+      }
+      .data-table tr td:last-child {
+        border-bottom: none !important;
+      }
+      .data-table td:first-child {
+        background: rgba(255, 255, 255, 0.035);
+        color: rgba(255, 255, 255, 0.92);
+        font-weight: 600;
+      }
+      .data-table td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 3px;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: rgba(45, 212, 191, 0.9);
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .driver-card,
+      .career-card,
+      .mistake-item,
+      .honest-take,
+      .rich-step,
+      .vs-col,
+      .next-step {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .jump-nav__list a {
+        width: 100%;
+      }
+    }
+  </style>
+</BlogPostLayout>

@@ -6,14 +6,21 @@ import { BLOG_CATEGORIES, BLOG_PUBLISHED_POSTS } from '../../config/blog';
 
 const hasPublishedPosts = BLOG_PUBLISHED_POSTS.length > 0;
 
-const latestPosts = [...BLOG_PUBLISHED_POSTS]
+const categoryTitlesBySlug = new Map(BLOG_CATEGORIES.map((category) => [category.slug, category.title]));
+
+const browsePosts = [...BLOG_PUBLISHED_POSTS]
   .sort((a, b) => b.publishedAtISO.localeCompare(a.publishedAtISO))
-  .slice(0, 6);
+  .map((post) => ({
+    ...post,
+    categoryTitle: categoryTitlesBySlug.get(post.categorySlug) ?? post.categorySlug.replaceAll('-', ' '),
+  }));
 
 const postCountsByCategory = new Map<string, number>();
 for (const post of BLOG_PUBLISHED_POSTS) {
   postCountsByCategory.set(post.categorySlug, (postCountsByCategory.get(post.categorySlug) ?? 0) + 1);
 }
+
+const visibleCategoryOptions = BLOG_CATEGORIES.filter((cat) => (postCountsByCategory.get(cat.slug) ?? 0) > 0);
 
 const formatDate = (isoDate: string) =>
   new Intl.DateTimeFormat('en-IN', {
@@ -40,7 +47,7 @@ const jsonLd = [
     url: 'https://futurecareerschool.com/blog',
     inLanguage: 'en-IN',
     publisher: {
-      '@type': 'EducationalOrganization',
+      '@type': ['Organization', 'ProfessionalService'],
       name: 'Future Career School',
       url: 'https://futurecareerschool.com',
     },
@@ -79,41 +86,118 @@ const jsonLd = [
       </p>
       <div class="hero-actions">
         <a href="/services/career-counselling-and-career-guidance" class="btn-gold pulse">Career Guidance</a>
-        <a href="/services/assessments" class="btn-outline">Assessments</a>
-        <a href="/skill-finder" class="btn-outline">Skill Finder</a>
+        <a href="/services/assessments" class="btn-outline cta-assessment-lite">Free career and skill assessments</a>
+        <a href="/career-skills-compass" class="btn-outline">Career & Skills Compass</a>
       </div>
     </div>
   </section>
 
   {hasPublishedPosts && (
-    <section id="latest-posts">
+    <section id="latest-posts" data-blog-browser>
       <div class="container">
-        <div class="section-tag pill"><span style="color:var(--gold)">&#9673;</span>&nbsp;Latest Guides</div>
-        <h2 class="section-title">Latest Published Articles</h2>
-        <p class="section-sub">Start with these practical guides, then move deeper into each category.</p>
+        <div class="browse-heading-row">
+          <div>
+            <div class="section-tag pill"><span style="color:var(--gold)">&#9673;</span>&nbsp;Article Library</div>
+            <h2 class="section-title">Latest Published Articles</h2>
+            <p class="section-sub">Latest articles are shown first by default. Search, filter, and choose how many guides you want to scan at once.</p>
+          </div>
+          <div class="browse-count-card" aria-label="Published article count">
+            <span>{browsePosts.length}</span>
+            <strong>published guides</strong>
+          </div>
+        </div>
 
-        <div class="post-grid">
-          {latestPosts.map((post) => (
+        <form class="browse-controls" id="blog-controls" action="/blog/" role="search" aria-label="Search and filter blog articles">
+          <label class="control-field control-field--search" for="blog-search">
+            <span>Search articles</span>
+            <input id="blog-search" type="search" placeholder="Search career, AI, college, parent..." autocomplete="off" />
+          </label>
+
+          <label class="control-field" for="blog-category">
+            <span>Topic</span>
+            <select id="blog-category">
+              <option value="">All topics</option>
+              {visibleCategoryOptions.map((cat) => (
+                <option value={cat.slug}>{cat.title} ({postCountsByCategory.get(cat.slug) ?? 0})</option>
+              ))}
+            </select>
+          </label>
+
+
+          <label class="control-field" for="blog-sort">
+            <span>Sort by</span>
+            <select id="blog-sort">
+              <option value="latest">Latest published</option>
+              <option value="oldest">Oldest published</option>
+            </select>
+          </label>
+
+          <label class="control-field" for="blog-page-size">
+            <span>Articles per page</span>
+            <select id="blog-page-size">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+          </label>
+
+          <button class="reset-button" id="blog-reset" type="button">Reset</button>
+        </form>
+
+        <div class="quick-browse" aria-label="Quick article filters">
+          <span>Quick browse</span>
+          <button type="button" class="quick-chip is-active" data-quick-filter data-query="" data-category="">All</button>
+          <button type="button" class="quick-chip" data-quick-filter data-query="after 12th" data-category="">After 12th</button>
+          <button type="button" class="quick-chip" data-quick-filter data-query="" data-category="parents">Parents</button>
+          <button type="button" class="quick-chip" data-quick-filter data-query="engineering" data-category="">Engineering</button>
+          <button type="button" class="quick-chip" data-quick-filter data-query="commerce" data-category="">Commerce</button>
+          <button type="button" class="quick-chip" data-quick-filter data-query="" data-category="college-degrees">College/Degrees</button>
+          <button type="button" class="quick-chip" data-quick-filter data-query="" data-category="ai-future">AI/Future</button>
+          <button type="button" class="quick-chip" data-quick-filter data-query="" data-category="skills">Skills</button>
+        </div>
+
+        <div class="browse-status-row">
+          <p id="browse-status" aria-live="polite">Showing latest published articles.</p>
+        </div>
+
+        <div class="post-grid" id="post-grid">
+          {browsePosts.map((post) => (
             <a
               class="post-card card"
               href={`/blog/${post.categorySlug}/${post.slug}/`}
               aria-label={`Read ${post.title}`}
+              data-post-card
+              data-title={post.title}
+              data-description={post.description}
+              data-category={post.categorySlug}
+              data-category-title={post.categoryTitle}
+              data-date={post.publishedAtISO}
+              data-search={`${post.title} ${post.description} ${post.categorySlug} ${post.categoryTitle}`.toLowerCase()}
             >
               <div class="post-card-top">
-                <span class="post-tag">{post.categorySlug.replaceAll('-', ' ')}</span>
+                <span class="post-tag">{post.categoryTitle}</span>
                 <span class="post-date">{formatDate(post.publishedAtISO)}</span>
               </div>
               <h3>{post.title}</h3>
               <p>{post.description}</p>
-              <div class="post-meta">{post.readTimeMinutes} min read</div>
               <div class="post-link">Read article &rsaquo;</div>
             </a>
           ))}
         </div>
+
+        <div class="empty-state" id="blog-empty" hidden>
+          <h3>No articles match those filters.</h3>
+          <p>Try a broader search term, choose all topics, or reset the filters.</p>
+        </div>
+
+        <div class="pagination" id="blog-pagination" hidden>
+          <button class="page-button" id="blog-prev" type="button">Previous</button>
+          <span id="blog-page-status">Page 1 of 1</span>
+          <button class="page-button" id="blog-next" type="button">Next</button>
+        </div>
       </div>
     </section>
   )}
-
   <section id="categories">
     <div class="container">
       <div class="section-tag pill"><span style="color:var(--teal)">&#9673;</span>&nbsp;Topics</div>
@@ -137,6 +221,139 @@ const jsonLd = [
   <Footer />
 </BaseLayout>
 
+<script>
+  const blogBrowser = document.querySelector('[data-blog-browser]');
+
+  if (blogBrowser) {
+    const grid = blogBrowser.querySelector('#post-grid');
+    const cards = Array.from(blogBrowser.querySelectorAll('[data-post-card]'));
+    const searchInput = blogBrowser.querySelector('#blog-search');
+    const categorySelect = blogBrowser.querySelector('#blog-category');
+    const sortSelect = blogBrowser.querySelector('#blog-sort');
+    const quickButtons = Array.from(blogBrowser.querySelectorAll('[data-quick-filter]'));
+    const pageSizeSelect = blogBrowser.querySelector('#blog-page-size');
+    const resetButton = blogBrowser.querySelector('#blog-reset');
+    const status = blogBrowser.querySelector('#browse-status');
+    const resultsTop = blogBrowser.querySelector('.browse-status-row');
+    const emptyState = blogBrowser.querySelector('#blog-empty');
+    const pagination = blogBrowser.querySelector('#blog-pagination');
+    const prevButton = blogBrowser.querySelector('#blog-prev');
+    const nextButton = blogBrowser.querySelector('#blog-next');
+    const pageStatus = blogBrowser.querySelector('#blog-page-status');
+    let currentPage = 1;
+
+    const normalize = (value) => (value || '').toString().toLowerCase().trim();
+
+
+    const getSortedMatches = () => {
+      const query = normalize(searchInput.value);
+      const category = categorySelect.value;
+      const sort = sortSelect.value;
+
+      return cards
+        .filter((card) => {
+          const searchText = normalize(card.dataset.search);
+          const categoryMatches = !category || card.dataset.category === category;
+          const searchMatches = !query || searchText.includes(query);
+          return categoryMatches && searchMatches;
+        })
+        .sort((a, b) => {
+          if (sort === 'oldest') return a.dataset.date.localeCompare(b.dataset.date);
+          return b.dataset.date.localeCompare(a.dataset.date);
+        });
+    };
+
+    const render = () => {
+      const pageSize = Number(pageSizeSelect.value || 10);
+      const matches = getSortedMatches();
+      const totalPages = Math.max(1, Math.ceil(matches.length / pageSize));
+      currentPage = Math.min(currentPage, totalPages);
+      const start = (currentPage - 1) * pageSize;
+      const visibleCards = matches.slice(start, start + pageSize);
+
+      cards.forEach((card) => {
+        card.hidden = true;
+        card.setAttribute('aria-hidden', 'true');
+      });
+
+      matches.forEach((card) => grid.appendChild(card));
+
+      visibleCards.forEach((card) => {
+        card.hidden = false;
+        card.removeAttribute('aria-hidden');
+      });
+
+      emptyState.hidden = matches.length !== 0;
+      pagination.hidden = matches.length <= pageSize;
+      prevButton.disabled = currentPage <= 1;
+      nextButton.disabled = currentPage >= totalPages;
+      pageStatus.textContent = `Page ${currentPage} of ${totalPages}`;
+
+      if (matches.length === 0) {
+        status.textContent = 'No articles match the current filters.';
+        return;
+      }
+
+      const end = Math.min(start + pageSize, matches.length);
+      const categoryLabel = categorySelect.value ? categorySelect.options[categorySelect.selectedIndex].text.replace(/ \(\d+\)$/, '') : 'all topics';
+      status.textContent = `Showing ${start + 1}-${end} of ${matches.length} articles from ${categoryLabel}.`;
+    };
+
+    const scrollToResults = () => {
+      requestAnimationFrame(() => {
+        (resultsTop || grid).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    };
+
+    const resetToFirstPage = () => {
+      quickButtons.forEach((item) => item.classList.remove('is-active'));
+      currentPage = 1;
+      render();
+    };
+
+    searchInput.addEventListener('input', resetToFirstPage);
+    categorySelect.addEventListener('change', resetToFirstPage);
+    sortSelect.addEventListener('change', resetToFirstPage);
+    pageSizeSelect.addEventListener('change', resetToFirstPage);
+
+    prevButton.addEventListener('click', () => {
+      currentPage = Math.max(1, currentPage - 1);
+      render();
+      scrollToResults();
+    });
+
+    nextButton.addEventListener('click', () => {
+      currentPage += 1;
+      render();
+      scrollToResults();
+    });
+
+    quickButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        quickButtons.forEach((item) => item.classList.remove('is-active'));
+        button.classList.add('is-active');
+        searchInput.value = button.dataset.query || '';
+        categorySelect.value = button.dataset.category || '';
+        currentPage = 1;
+        render();
+      });
+    });
+
+    resetButton.addEventListener('click', () => {
+      searchInput.value = '';
+      categorySelect.value = '';
+      sortSelect.value = 'latest';
+      pageSizeSelect.value = '10';
+      quickButtons.forEach((item) => item.classList.remove('is-active'));
+      quickButtons[0]?.classList.add('is-active');
+      currentPage = 1;
+      render();
+      searchInput.focus();
+    });
+
+    render();
+  }
+</script>
 <style>
   section { position: relative; overflow: hidden; }
   #blog-hero { padding: 140px 0 84px; }
@@ -153,6 +370,26 @@ const jsonLd = [
   .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.56); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
   .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
   #latest-posts { padding: 5.5rem 0 2rem; }
+  .browse-heading-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem; align-items: end; margin-bottom: 1.5rem; }
+  .browse-heading-row .section-title, .browse-heading-row .section-sub { text-align: left; margin-left: 0; margin-right: 0; }
+  .browse-heading-row .section-sub { margin-bottom: 0; }
+  .browse-count-card { min-width: 168px; border: 1px solid rgba(255,255,255,.10); border-radius: 14px; padding: 1rem 1.1rem; background: rgba(255,255,255,.035); text-align: right; }
+  .browse-count-card span { display: block; font-family: "Sora", sans-serif; font-size: 2rem; line-height: 1; font-weight: 900; color: var(--gold); }
+  .browse-count-card strong { display: block; margin-top: .35rem; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.56); }
+  .browse-controls { display: grid; grid-template-columns: minmax(240px, 1.7fr) repeat(3, minmax(140px, 1fr)) auto; gap: .8rem; align-items: end; margin: 2rem 0 1rem; padding: 1rem; border: 1px solid rgba(255,255,255,.10); border-radius: 16px; background: rgba(255,255,255,.03); box-shadow: 0 22px 60px rgba(0,0,0,.16); }
+  .control-field { display: flex; flex-direction: column; gap: .45rem; min-width: 0; }
+  .control-field span { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.48); font-weight: 800; }
+  .control-field input, .control-field select { width: 100%; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(9,13,18,.9); color: rgba(255,255,255,.88); min-height: 44px; padding: 0 .9rem; font: inherit; outline: none; }
+  .control-field input:focus, .control-field select:focus { border-color: rgba(45,212,191,.58); box-shadow: 0 0 0 3px rgba(45,212,191,.12); }
+  .control-field input::placeholder { color: rgba(255,255,255,.30); }
+  .reset-button, .page-button { min-height: 44px; border: 1px solid rgba(229,184,74,.24); border-radius: 10px; background: rgba(229,184,74,.08); color: var(--gold); font-weight: 900; cursor: pointer; padding: 0 1rem; transition: transform .2s, border-color .2s, background .2s; }
+  .reset-button:hover, .page-button:hover:not(:disabled) { transform: translateY(-1px); border-color: rgba(229,184,74,.44); background: rgba(229,184,74,.13); }
+  .page-button:disabled { opacity: .42; cursor: not-allowed; }
+  .quick-browse { display: flex; align-items: center; gap: .55rem; flex-wrap: wrap; margin: .85rem 0 1rem; }
+  .quick-browse span { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.42); font-weight: 900; margin-right: .25rem; }
+  .quick-chip { border: 1px solid rgba(255,255,255,.12); border-radius: 999px; background: rgba(255,255,255,.035); color: rgba(255,255,255,.66); min-height: 34px; padding: 0 .8rem; font-size: 12px; font-weight: 800; cursor: pointer; transition: color .2s, border-color .2s, background .2s, transform .2s; }
+  .quick-chip:hover, .quick-chip.is-active { color: #fff; border-color: rgba(45,212,191,.44); background: rgba(45,212,191,.10); transform: translateY(-1px); }  .browse-status-row { display: flex; justify-content: space-between; align-items: center; margin: .85rem 0 1.2rem; min-height: 24px; }
+  .browse-status-row p { margin: 0; color: rgba(255,255,255,.52); font-size: 13px; line-height: 1.6; }
   .post-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .post-card { padding: 1.35rem; border-color: rgba(255,255,255,.1); transition: transform .25s, border-color .25s, background .25s; }
   .post-card:hover { transform: translateY(-3px); border-color: rgba(45,212,191,.34); background: rgba(45,212,191,.04); }
@@ -161,9 +398,12 @@ const jsonLd = [
   .post-date { font-size: 12px; color: rgba(255,255,255,.45); }
   .post-card h3 { color: #fff; font-size: 1.08rem; line-height: 1.35; margin-bottom: .6rem; }
   .post-card p { color: rgba(255,255,255,.58); font-size: 14px; line-height: 1.72; margin-bottom: .7rem; }
-  .post-meta { font-size: 12px; color: rgba(255,255,255,.4); margin-bottom: .55rem; }
   .post-link { font-size: 13px; font-weight: 800; color: var(--gold); }
-
+  .empty-state { border: 1px solid rgba(255,255,255,.10); border-radius: 16px; padding: 1.4rem; background: rgba(255,255,255,.03); text-align: center; }
+  .empty-state h3 { color: #fff; font-size: 1.1rem; margin-bottom: .45rem; }
+  .empty-state p { color: rgba(255,255,255,.56); line-height: 1.7; margin: 0; }
+  .pagination { display: flex; justify-content: center; align-items: center; gap: .9rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  #blog-page-status { color: rgba(255,255,255,.58); font-size: 13px; font-weight: 800; }
   #categories { padding: 3.3rem 0 7rem; background: rgba(255,255,255,.012); }
   .section-tag { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.6); margin-bottom: 1.25rem; }
   .section-title { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800; line-height: 1.1; letter-spacing: -.03em; color: #fff; margin-bottom: 1rem; text-align: center; }
@@ -178,7 +418,13 @@ const jsonLd = [
   .cat-live { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: rgba(45,212,191,.88); margin-bottom: .65rem; }
   .cat-link { margin-top: auto; font-size: 13px; font-weight: 800; color: var(--gold); }
 
+  @media (max-width: 1180px) {
+    .browse-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .control-field--search, .reset-button { grid-column: 1 / -1; }
+  }
   @media (max-width: 980px) {
+    .browse-heading-row { grid-template-columns: 1fr; align-items: start; }
+    .browse-count-card { text-align: left; width: fit-content; }
     .post-grid { grid-template-columns: 1fr; }
     .cat-grid { grid-template-columns: 1fr; }
   }

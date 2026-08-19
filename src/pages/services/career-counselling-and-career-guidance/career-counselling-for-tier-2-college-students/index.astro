@@ -1,0 +1,535 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Counselling for Tier 2 College Students | Close the Brand Gap With Skills | Future Career School';
+const description =
+  'Career counselling for tier 2 college students dealing with fewer campus recruiters, a thinner alumni network, and recruiter brand bias — a realistic plan built around off-campus applications, proof of work, and a skill-first portfolio the college name cannot provide.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-tier-2-college-students/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[3],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Recruiter access',
+    title: 'Fewer, and often narrower, companies visit your campus',
+    body: 'When the placement cell brings in mostly service companies and regional employers, while the product companies and larger tech names your tier-1 peers casually mention never show up.',
+  },
+  {
+    eyebrow: 'Network gap',
+    title: 'No senior already sitting inside the company you want',
+    body: 'When a tier-1 friend gets a warm referral in one message, and you are starting from a cold application with no one on the inside to vouch for you.',
+  },
+  {
+    eyebrow: 'Perception',
+    title: 'A resume screen that stalls before your skills get seen',
+    body: 'When you suspect, or have been told outright, that a college name lower down a recruiter\'s shortlist is quietly working against you before anyone reads what you actually built.',
+  },
+  {
+    eyebrow: 'Comparison pressure',
+    title: 'Watching tier-1 peers get further with what looks like less effort',
+    body: 'When it stops feeling like a fair contest, and it becomes hard to tell whether to work harder at the same plan or change the plan entirely.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Beyond the placement cell',
+    title: 'Off-campus applications as a primary channel, not a backup',
+    listItems: [
+      'How to treat off-campus drives, direct company applications, and open national tests as equal or greater priority than waiting for the campus placement cycle',
+      'Where to register early instead of only searching once final year starts and the placement cell has already set the pace',
+      'How to read which of your target companies actually hire off-campus, so effort goes where it can convert',
+    ],
+  },
+  {
+    eyebrow: 'Proof over pedigree',
+    title: 'Building a portfolio that outweighs the college line on your resume',
+    listItems: [
+      'What one finished, checkable piece of work — a project, a case study, a documented result — should look like for your specific field',
+      'How to turn college assignments, internships, or self-directed projects you already have into proof a recruiter can verify in minutes',
+      'How proof of work changes what a resume screen is actually judging you on',
+    ],
+  },
+  {
+    eyebrow: 'Working around bias',
+    title: 'Getting a fair look despite recruiter brand bias',
+    listItems: [
+      'How warm outreach, alumni-adjacent networks, and direct messages to people in your target field can substitute for a thin in-college alumni base',
+      'How to position your college background so it reads as one data point about you, not the whole résumé',
+      'When a brand-blind route — a certification, a licensing exam, a national qualifying test, or a merit-based process — is worth building around specifically because it does not weigh college name at all',
+    ],
+  },
+  {
+    eyebrow: 'Expectations',
+    title: 'Setting a realistic, honest timeline without losing momentum',
+    listItems: [
+      'What is genuinely true about the gap between tier 2 and tier 1 outcomes, without either denying it or treating it as permanent',
+      'Which parts of the gap close with a good strategy in months, and which need a longer runway across a few application cycles',
+      'How to keep building a high-value skill portfolio in the background even while a specific route is still uncertain',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it treats the recruiter-access gap honestly',
+    body: 'Guidance that either denies fewer recruiters visit tier 2 campuses, or tells you the college name has already decided your outcome, is not being straight with you. Look for guidance that names the gap and then works on what is actually within your control.',
+  },
+  {
+    title: 'Check whether off-campus strategy gets real attention, not a footnote',
+    body: 'If off-campus applications, open national tests, and direct outreach are mentioned once and then dropped for generic "keep trying" advice, that is not enough for someone facing a thinner campus recruiter pool. This should be a core part of the plan, not an afterthought.',
+  },
+  {
+    title: 'Check whether proof of work is treated as the actual lever',
+    body: 'Being told to "build projects" without direction on what to build, how to document it, or how to present it to a recruiter who has never heard of your college is not a plan. Look for guidance that turns proof of work into something concrete and specific to you.',
+  },
+  {
+    title: 'Check whether the assessments are genuinely useful or just a paid formality',
+    body: 'Many providers charge thousands for outdated or impractical assessments and present them like a required first step. Future Career School can be described truthfully as offering free, updated, practical, AI-powered career and skill assessments instead — a starting layer, not the whole service.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Does going to a tier 2 or tier 3 college permanently limit my career options?',
+    answer:
+      'No. It affects some early advantages, mainly how many recruiters visit your campus and how large your in-college alumni network is inside hiring companies. Neither of those is the same as a permanent cap on what you can achieve. Skills, proof of work, and how you position yourself matter more the further you get from graduation, and several strong routes into good roles do not weigh college name at all.',
+  },
+  {
+    question: 'How do I get noticed by companies that do not send recruiters to my campus?',
+    answer:
+      'Off-campus applications, direct company career-page submissions, and open national hiring tests are usually the strongest route here, because they accept applicants from any college and judge on the test or the application itself. Guidance should help you build a plan that treats this channel as a priority rather than something to try only after the placement cell disappoints you.',
+  },
+  {
+    question: 'My friends from tier 1 colleges are getting stronger offers with what looks like less effort. Does that mean I am behind?',
+    answer:
+      'It means they are starting with more recruiter access and a bigger built-in network, not that you have less potential. That gap is real, and it is also one of the more closable gaps in Indian career planning, because proof of work, certifications, and merit-based routes judge the work and the score, not the college crest. The comparison is a signal to change strategy, not a verdict on your ability.',
+  },
+  {
+    question: 'Is there really such a thing as recruiter bias against certain colleges, or is that just an excuse?',
+    answer:
+      'Some recruiters do weight college name as a fast filter, especially at high application volumes, because it is a quick way to shortlist. That is a real, if unfair, part of some hiring processes. It is also not universal, and it matters far less once you are past an initial screen and being judged on a project, a test score, or an interview. Guidance should help you get past that first filter more often, not pretend the filter does not exist.',
+  },
+  {
+    question: 'Should I just wait for the campus placement cell, or spend real effort on off-campus applications too?',
+    answer:
+      'For a tier 2 or tier 3 college with fewer campus recruiters, off-campus applications usually deserve equal or greater effort than the placement cell, not backup-plan status. Waiting only on campus season means competing for a smaller, often narrower set of offers than students actively applying off-campus and building proof of work in parallel.',
+  },
+  {
+    question: 'Will building a strong portfolio actually make up for my college not being well known?',
+    answer:
+      'A strong, verifiable piece of work changes what a recruiter is evaluating. Instead of judging you mainly on the college line on your resume, they have something concrete to check. It does not erase every disadvantage instantly, but it is one of the few levers that is entirely within your control and compounds the more you build.',
+  },
+  {
+    question: 'Are the career and skill assessments free for tier 2 college students too?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered. Many providers charge thousands for outdated assessments; this is meant to be a stronger, no-cost starting layer before deciding where to put your limited time and effort.',
+  },
+  {
+    question: 'Is this guidance available if my college is in a smaller city, or only for students near a major metro?',
+    answer:
+      'Guidance is delivered fully online across India, so a smaller city or a college outside a major metro does not limit access. You can start from your hostel, home, or college without depending on a local office or a campus counsellor your college may not have.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get wider support with course, skill, and next-step decisions when more than the college-brand question needs to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'A wider student guidance page for school, college, fresher, and postgraduate decisions beyond college-tier-specific concerns.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description:
+      'Free clarity on fit, skill direction, and employability as you build a portfolio to stand out beyond your college name.',
+  },
+  {
+    href: '/blog/career-options/tier-2-college-student-career-options-india/',
+    title: 'Tier 2 College Student Career Options in India',
+    description:
+      'A closer look at the routes, data, and skill plan behind the recruiter-access gap, if you want the fuller picture first.',
+  },
+  {
+    href: '/blog/career-options/is-service-company-job-worth-it-for-freshers/',
+    title: 'Is a Service Company Job Worth It for Freshers?',
+    description:
+      'Useful if a service-company offer is the one on the table and you are weighing it against a longer off-campus search.',
+  },
+  {
+    href: '/career-resources/creating-a-portfolio-without-work-experience/',
+    title: 'Creating a Portfolio Without Work Experience',
+    description:
+      'Practical ways to turn projects, coursework, and self-directed learning into proof of work a recruiter can verify quickly.',
+  },
+  {
+    href: '/career-resources/resume-that-gets-shortlisted-in-india/',
+    title: 'Resume That Gets Shortlisted in India',
+    description:
+      'A practical guide to getting past the first resume filter, especially useful when a college name is working against you.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-engineering-students/',
+    title: 'Career Counselling for Engineering Students',
+    description:
+      'Branch, service-vs-product, and higher-studies decision support if engineering-specific choices are also part of your situation.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling for Tier 2 College Students',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Tier 2 College Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Tier 2 College Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Tier 2 College Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for tier 2 college students facing the recruiter-access gap
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for tier 2 college students
+        <span class="gold-text"> who are ready to out-build the college name on their resume</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for tier 2 college students should deal with the real disadvantage you are up against: fewer campus recruiters,
+        a thinner alumni network already sitting inside the companies you want, and a resume screen that can quietly work against a
+        college name recruiters do not recognise. None of that is a verdict on your ability — it is a gap you close with off-campus
+        strategy, proof of work, and a genuine high-value skill portfolio that gets you judged on what you built, not where you studied,
+        so a stronger income and earlier financial freedom stop depending on your college's brand.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from your hostel, home, or college without waiting for a
+        campus counsellor your college may not have.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for Tier 2 College Students</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When this becomes the right kind of support"
+    subtitle="This becomes useful once the recruiter-access gap is visibly affecting your outcomes, not while you are still assuming hard work alone will close it."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let another placement cycle pass on the campus channel alone"
+    body="A skill-first plan built around off-campus routes and proof of work is what actually unlocks high income opportunities here — it starts compounding toward earlier financial freedom the moment you commit to it, whether or not this semester's recruiters visit your college."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Tier 2 College Students"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The tier-2-specific decisions this should help you make"
+    subtitle="Not generic placement advice. Direction for the exact gap tier 2 and tier 3 college students actually face: fewer recruiters, thinner networks, and a resume that has to work harder to get read."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help you see your actual strengths and work style before deciding where to put your limited time: an off-campus push, a certification route, or a specific portfolio project."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <section id="reality-check">
+    <div class="container">
+      <div class="reality-card">
+        <p class="reality-eyebrow">An honest look at where you stand</p>
+        <h2 class="reality-title">Realistic, not discouraging: what the gap with tier 1 peers actually means</h2>
+        <div class="reality-grid">
+          <div class="reality-item">
+            <strong>The gap is real</strong>
+            <span>Tier 1 colleges do get more campus recruiters and a stronger built-in alumni network inside hiring teams. Pretending otherwise would not help you plan around it.</span>
+          </div>
+          <div class="reality-item">
+            <strong>It is not a talent gap</strong>
+            <span>Fewer companies visiting your campus is a recruiter-cost and logistics decision, not a judgment on what you are capable of building or becoming.</span>
+          </div>
+          <div class="reality-item">
+            <strong>Timelines can genuinely differ</strong>
+            <span>Closing this gap through off-campus applications, certifications, or a portfolio-led route can take longer than a single placement season. That is a planning fact, not a discouraging one.</span>
+          </div>
+          <div class="reality-item">
+            <strong>Several routes do not check college tier at all</strong>
+            <span>Certification exams, licensing routes, merit-based national tests, and proof-of-work-first hiring all judge the work or the score, not which city your college sits in.</span>
+          </div>
+        </div>
+        <p class="reality-footer">
+          Comparing yourself to a tier 1 timeline is the wrong benchmark. A more useful one is whether your own skill portfolio, proof of work, and application strategy are stronger this quarter than last quarter.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BuyerChecks
+    title="What to check before paying for career counselling as a tier 2 college student"
+    subtitle="The goal is a plan that gets you seen and judged on your work, not generic encouragement about following your passion."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when the plan is built around the real gap"
+    subtitle="Career counselling for tier 2 college students should feel different from being told to just work harder and hope a recruiter eventually notices."
+    rows={comparisonRows}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Build the proof of work that makes the college name a smaller part of the story"
+    body="The sooner a real portfolio and a deliberate off-campus strategy are in place, the sooner recruiter bias stops being the deciding factor in your outcome."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Tier 2 College Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling for Tier 2 College Students"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, the fuller data on the tier 2 placement gap, and free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions tier 2 and tier 3 college students ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Get judged on what you built, not just where you studied"
+    subtitle="The recruiter-access gap is real, but it is not permanent. A clearer off-campus strategy, a genuine portfolio, and a high-value, high-income skill portfolio can close more of it than another semester spent waiting on the placement cell alone — and put earlier financial freedom back in your control instead of your college's."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Tier 2 College Students"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+
+  #reality-check { padding: 4.5rem 0; }
+  .reality-card {
+    border-radius: 26px;
+    border: 1px solid rgba(229,184,74,.24);
+    background:
+      radial-gradient(560px 220px at 0% 0%, rgba(229,184,74,.08), transparent 70%),
+      rgba(255,255,255,.025);
+    padding: 2.4rem clamp(1.4rem, 4vw, 2.6rem) 2.2rem;
+  }
+  .reality-eyebrow {
+    margin: 0 0 .6rem !important;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #e5b84a;
+  }
+  .reality-title {
+    margin: 0 0 1.6rem !important;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.3;
+    letter-spacing: -.02em;
+    color: #fff;
+    max-width: 760px;
+  }
+  .reality-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 1rem;
+    margin-bottom: 1.6rem;
+  }
+  .reality-item {
+    display: grid;
+    gap: .4rem;
+    padding: 1.1rem 1.2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+  }
+  .reality-item strong { color: #fff; font-size: 14.5px; }
+  .reality-item span { color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.7; }
+  .reality-footer {
+    margin: 0 !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.72);
+    max-width: 760px;
+  }
+  @media (max-width: 720px) {
+    .reality-grid { grid-template-columns: 1fr; }
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.65rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.72rem, 9.4vw, 2.35rem);
+      line-height: 1.06;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>
