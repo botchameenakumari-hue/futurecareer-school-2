@@ -1,0 +1,418 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuSummaryStrip from '../../../../components/bofu/BofuSummaryStrip.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling for Adults | Future Career School';
+const description =
+  'Career counselling for adults built around grown-up stakes, not a student template: real time constraints, an existing skill base to build on, and a weekly system that survives a job, EMIs, and family life.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-adults/';
+
+const whyDifferentItems = [
+  {
+    eyebrow: 'Time',
+    title: 'A weekly system, not a student-style free afternoon',
+    body: 'Adult life rarely has open stretches of free time. A plan built for adults has to fit around a job, commute, shift pattern, or household duties instead of assuming hours that do not exist.',
+  },
+  {
+    eyebrow: 'Stakes',
+    title: 'Fewer redos, more that is already riding on the decision',
+    body: 'A wrong turn at 17 usually costs a year. A wrong turn at 32, 40, or 50 can cost income already relied on, an EMI schedule, or a household that depends on that paycheque. The margin for a guess is smaller.',
+  },
+  {
+    eyebrow: 'Base',
+    title: 'Something to build on, not a blank slate',
+    body: 'A student is choosing a starting point. An adult already has years of work, skill, and judgment behind them. Guidance built for adults should use that history as raw material, not treat it as irrelevant background.',
+  },
+  {
+    eyebrow: 'Tone',
+    title: 'Realism instead of youth-coded reinvention talk',
+    body: 'Generic career content leans on startup-founder energy and "just quit and follow your passion" framing. That tone does not fit someone with dependents, a mortgage, or fifteen years of sunk experience to account for.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the plan assumes free time you do not have',
+    body: 'A lot of career guidance quietly expects hours of daily study or a weekend-long deep dive. Ask whether the plan can run on a realistic weekly rhythm — a handful of hours around a job, not a full-time commitment.',
+  },
+  {
+    title: 'Check whether your existing experience gets used or ignored',
+    body: 'If the process starts from zero regardless of what you already know and have done, it is not built for an adult career decision. Your current skills, track record, and judgment should shape the plan, not get discarded.',
+  },
+  {
+    title: 'Check whether financial and family reality gets factored in',
+    body: 'A pivot that ignores an EMI schedule, a dependent, or a single-income household is not a serious plan — it is a slogan. Ask whether runway, risk tolerance, and household impact get discussed honestly before any direction is recommended.',
+  },
+  {
+    title: 'Check whether the advice sounds like it was written for a 22-year-old',
+    body: '"Take a leap", "follow your passion", and "hustle harder" are aimed at people with fewer obligations and more time to recover from a mistake. Adult guidance should sound like it understands what is actually at stake.',
+  },
+];
+
+const improvementItems = [
+  {
+    title: 'A direction sized to real constraints',
+    body: 'Clarity built around the hours, money, and responsibilities you actually have — not a plan that only works for someone with no dependents and unlimited free time.',
+  },
+  {
+    title: 'A skill portfolio built on what you already carry',
+    body: 'Your existing experience becomes the base for the next high-value skill, instead of getting set aside for a from-scratch restart that wastes years already invested.',
+  },
+  {
+    title: 'A route toward income growth, not just movement for its own sake',
+    body: 'The goal is not activity. It is a realistic path toward unlocking higher income opportunities and, over time, achieving earlier financial freedom — measured against what you can actually risk right now.',
+  },
+  {
+    title: 'Guidance delivered where adult life already happens',
+    body: 'Sessions run online across India, so the process fits around a job, commute, or household schedule instead of asking you to carve out a special trip for it.',
+  },
+];
+
+const realityCheckItems = [
+  { title: 'Weekly hours', body: 'A handful of hours around a job usually matters more than a rare free day.' },
+  { title: 'What is at risk', body: 'Income, an EMI schedule, or a household relying on you — not just a year of school.' },
+  { title: 'Starting point', body: 'Years of existing skill and judgment to build the next move on, not a blank slate.' },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Random upskilling that compounds slowly',
+    right: 'Clearer skill direction tied to growth and income upside',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How is career counselling for adults different from career counselling for students?',
+    answer:
+      'The core support — strengths, work style, market fit, and skill direction — is the same idea. What changes is the constraints: an adult usually has less free time, more financial obligations, and years of existing experience to build on instead of starting from a blank slate. The plan has to respect all of that instead of copying a student-style approach.',
+  },
+  {
+    question: 'I do not have hours of free time every day. Will this still work for me?',
+    answer:
+      'Yes. Adult guidance should run on a realistic weekly rhythm around a job, shift pattern, or household duties, not assume a student-style schedule. A smaller, repeatable system usually beats an ambitious plan that collapses after one bad week.',
+  },
+  {
+    question: 'Will my existing experience be taken seriously, or will I be treated like I am starting over?',
+    answer:
+      'Your existing work history, skills, and judgment are the starting material, not something to discard. Guidance should use what you already carry to shape the next high-value skill and the strongest next move, not reset you to zero.',
+  },
+  {
+    question: 'Does this consider financial obligations like EMIs, dependents, or a single income household?',
+    answer:
+      'It should. A realistic plan accounts for runway, risk tolerance, and what a household can actually absorb, rather than recommending a dramatic reset that ignores real financial pressure.',
+  },
+  {
+    question: 'Is this the same as career counselling for working professionals?',
+    answer:
+      'They overlap but are not identical. Career counselling for working professionals is framed around someone currently employed and dealing with in-role questions like stagnation or a pivot. Career counselling for adults is broader and centers on what makes any adult career decision different from a student one — the time, stakes, and existing base involved — regardless of whether you currently hold a job.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered, and can be used as a starting signal before a paid counselling session.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: '/services/career-counselling-and-career-guidance/',
+    title: 'Broader Career Guidance',
+    description: 'Get broader help with path, skill, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-adults-online/',
+    title: 'Career Counselling for Adults Online',
+    description: 'The same adult audience, framed around joining fully online whatever your current employment status is.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/working-professional-career-guidance/',
+    title: 'Working Professional Career Guidance',
+    description: 'For people already in a role and dealing with stagnation, AI pressure, pivots, or positioning while employed.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coaching-for-mid-career-professionals/',
+    title: 'Career Coaching for Mid-Career Professionals',
+    description: 'For the specific plateau around 8 to 15 years in, when promotions slow and a comfortable salary makes change feel riskier.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-guidance-for-30-year-olds/',
+    title: 'Career Guidance for 30 Year Olds',
+    description: 'A narrower window than this page: the specific decision pressure at around 30, when a pivot is still comparatively cheap but the runway before bigger obligations is closing.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/executive-career-coaching/',
+    title: 'Executive Career Coaching',
+    description: 'For senior and leadership-track questions after a decade-plus in the workforce.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-guidance-for-women-returning-to-work/',
+    title: 'Career Guidance for Women Returning to Work',
+    description: 'A dedicated path for re-entering the workforce after a break, with break-length-specific guidance.',
+  },
+  {
+    href: '/services/assessments/working-professionals-and-career-changers/',
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free input for pivots, role fit, and stronger leverage decisions at any adult career stage.',
+  },
+  {
+    href: '/services/assessments/',
+    title: 'Free Career Assessments',
+    description: 'Free assessments for skill fit, direction, and stronger next-step decisions.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for Adults', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Adults | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Adults',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Adults</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Built for grown-up stakes, not a student template
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for adults
+        <span class="gold-text"> built around real life, not free afternoons</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School offers career counselling for adults that starts from what actually shapes an adult
+        decision — limited free time, real financial obligations, and years of existing skill and experience to
+        build on. The direction is a high-value skill portfolio, stronger positioning, and a realistic route toward
+        unlocking high income opportunities and achieving earlier financial freedom, sized to what you can actually
+        risk right now.
+      </p>
+      <p class="hero-note">
+        Sessions run fully online across India, so the process fits around a job, commute, or household schedule
+        instead of asking for a special trip or a block of time you do not have.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for Adults</a>
+      </div>
+      <BofuSummaryStrip items={realityCheckItems} variant="signal" sectionClass="hero-reality-strip" />
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="why-different"
+    title="Why career counselling for adults needs a different starting point"
+    subtitle="Most career counselling online is written with a student's schedule and a student's stakes in mind. This is built around a high-value skill portfolio and a realistic route to earlier financial freedom sized to grown-up constraints instead."
+    items={whyDifferentItems}
+    variant="signal"
+    columns={2}
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can surface strengths, work style, and direction before a paid session — built on what you already carry, not a blank-slate quiz."
+      href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+    />
+  </BofuListCardSection>
+
+  <BuyerChecks
+    title="Checks before choosing career counselling built for adult life"
+    subtitle="The goal is a process that starts from your real schedule, your real obligations, and what you already know — not a plan built for someone with fewer responsibilities."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="The longer a decision waits, the more it costs against real obligations"
+    body="An unclear direction is expensive at any age, but for an adult it usually means income, time, and momentum that is harder to rebuild than a lost school year."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Adults"
+  />
+
+  <ComparisonMatrix
+    title="What changes when counselling accounts for grown-up constraints"
+    subtitle="Time, money, and an existing track record are not side notes for an adult career decision. They should shape the plan from the start, on the way toward unlocking higher income opportunities."
+    rows={comparisonRows}
+  />
+
+  <BofuFeatureSection
+    sectionId="what-changes"
+    title="What career counselling for adults should actually improve"
+    items={improvementItems}
+    variant="decision"
+    columns={2}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="A weekly system that survives real life beats a plan you cannot follow"
+    body="Structured guidance built around your actual time and obligations moves faster than another stretch of generic, one-size-fits-all advice."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Adults"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See other counselling and guidance pages, career-changer assessments, and free tools before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions adults ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Your schedule and your track record should shape the plan, not get ignored by it"
+    subtitle="A structured, fully online session built around real time and real stakes can move you toward stronger skill direction and a realistic route to achieving earlier financial freedom."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Adults"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%); opacity: .16; }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 3.9rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 790px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-reality-strip { max-width: 860px; margin-top: 2rem; }
+
+  #why-different,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.76rem, 9.3vw, 2.35rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

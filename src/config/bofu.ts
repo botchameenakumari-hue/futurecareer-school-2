@@ -10,6 +10,64 @@ export const BOFU_INTERNAL_LINKS = {
     '/services/career-counselling-and-career-guidance/locations/career-counselling-in-visakhapatnam/',
   rajkotCounselling:
     '/services/career-counselling-and-career-guidance/locations/career-counselling-in-rajkot/',
+  puneCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-pune/',
+  kolkataCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-kolkata/',
+  bangaloreCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-bangalore/',
+  chennaiCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-chennai/',
+  delhiCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-delhi/',
+  hyderabadCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-hyderabad/',
+  mumbaiCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-mumbai/',
+  thaneCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-thane/',
+  chandigarhCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-chandigarh/',
+  gurgaonCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-gurgaon/',
+  nagpurCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-nagpur/',
+  ahmedabadCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-ahmedabad/',
+  suratCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-surat/',
+  ludhianaCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-ludhiana/',
+  guwahatiCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-guwahati/',
+  vadodaraCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-vadodara/',
+  jalandharCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-jalandhar/',
+  raipurCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-raipur/',
+  nashikCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-nashik/',
+  aurangabadCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-aurangabad/',
+  coimbatoreCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-coimbatore/',
+  noidaCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-noida/',
+  ranchiCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-ranchi/',
+  bhubaneswarCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-bhubaneswar/',
+  kolhapurCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-kolhapur/',
+  naviMumbaiCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-navi-mumbai/',
+  siliguriCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-siliguri/',
+  kanpurCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-kanpur/',
+  goaCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-goa/',
   assessments: '/services/assessments/',
   careerGuidance: '/services/career-counselling-and-career-guidance/career-guidance/',
   careerCounselling:
@@ -20,8 +78,16 @@ export const BOFU_INTERNAL_LINKS = {
     '/services/career-counselling-and-career-guidance/virtual-career-counselling/',
   careerCounsellingSession:
     '/services/career-counselling-and-career-guidance/career-counselling-session/',
+  careerGuidanceSession:
+    '/services/career-counselling-and-career-guidance/career-guidance-session/',
   careerCounsellingConsultation:
     '/services/career-counselling-and-career-guidance/career-counselling-consultation/',
+  oneOnOneCareerCoachingSession:
+    '/services/career-counselling-and-career-guidance/one-on-one-career-coaching-session/',
+  groupCareerCounsellingSession:
+    '/services/career-counselling-and-career-guidance/group-career-counselling-session/',
+  careerPlanningSessionOnline:
+    '/services/career-counselling-and-career-guidance/career-planning-session-online/',
   careerGuidanceOnline:
     '/services/career-counselling-and-career-guidance/career-guidance-online/',
   careerCoachNearMe:
@@ -31,11 +97,23 @@ export const BOFU_INTERNAL_LINKS = {
     '/services/career-counselling-and-career-guidance/career-guidance-after-12th-online/',
   counsellingFor12thStudents:
     '/services/career-counselling-and-career-guidance/career-counselling-for-12th-students/',
+  counsellingAfter12th:
+    '/services/career-counselling-and-career-guidance/career-counselling-after-12th/',
   students: '/services/career-counselling-and-career-guidance/student-career-guidance/',
+  careerCounsellingForStudents:
+    '/services/career-counselling-and-career-guidance/career-counselling-for-students/',
   workingProfessionals:
     '/services/career-counselling-and-career-guidance/working-professional-career-guidance/',
   nriStudents:
     '/services/career-counselling-and-career-guidance/career-counselling-for-nri-students/',
+  pcmStudents:
+    '/services/career-counselling-and-career-guidance/career-counselling-for-pcm-students/',
+  pcbStudents:
+    '/services/career-counselling-and-career-guidance/career-counselling-for-pcb-students/',
+  careerCounsellingProgram:
+    '/services/career-counselling-and-career-guidance/career-counselling-program/',
+  careerCounsellingQuestionsForStudents:
+    '/services/career-counselling-and-career-guidance/career-counselling-questions-for-students/',
 } as const;
 
 export const BOFU_PUBLIC_LINKS = {
@@ -46,6 +124,64 @@ export const BOFU_PUBLIC_LINKS = {
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-visakhapatnam/',
   rajkotCounselling:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-rajkot/',
+  puneCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-pune/',
+  kolkataCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kolkata/',
+  bangaloreCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-bangalore/',
+  chennaiCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-chennai/',
+  delhiCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-delhi/',
+  hyderabadCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-hyderabad/',
+  mumbaiCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-mumbai/',
+  thaneCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-thane/',
+  chandigarhCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-chandigarh/',
+  gurgaonCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-gurgaon/',
+  nagpurCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-nagpur/',
+  suratCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-surat/',
+  ahmedabadCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-ahmedabad/',
+  ludhianaCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-ludhiana/',
+  guwahatiCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-guwahati/',
+  vadodaraCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-vadodara/',
+  jalandharCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-jalandhar/',
+  raipurCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-raipur/',
+  nashikCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-nashik/',
+  aurangabadCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-aurangabad/',
+  coimbatoreCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-coimbatore/',
+  noidaCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-noida/',
+  ranchiCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-ranchi/',
+  bhubaneswarCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-bhubaneswar/',
+  kolhapurCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kolhapur/',
+  naviMumbaiCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-navi-mumbai/',
+  siliguriCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-siliguri/',
+  kanpurCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kanpur/',
+  goaCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-goa/',
   assessments: 'https://futurecareerschool.com/services/assessments/',
   careerGuidance:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance/',
@@ -57,8 +193,16 @@ export const BOFU_PUBLIC_LINKS = {
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/virtual-career-counselling/',
   careerCounsellingSession:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-session/',
+  careerGuidanceSession:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-session/',
   careerCounsellingConsultation:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-consultation/',
+  oneOnOneCareerCoachingSession:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/one-on-one-career-coaching-session/',
+  groupCareerCounsellingSession:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/group-career-counselling-session/',
+  careerPlanningSessionOnline:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-planning-session-online/',
   careerGuidanceOnline:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-online/',
   careerCoachNearMe:
@@ -69,10 +213,18 @@ export const BOFU_PUBLIC_LINKS = {
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-12th-online/',
   counsellingFor12thStudents:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-12th-students/',
+  counsellingAfter12th:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-after-12th/',
   students:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/student-career-guidance/',
+  careerCounsellingForStudents:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-students/',
   workingProfessionals:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/working-professional-career-guidance/',
+  careerCounsellingProgram:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-program/',
+  careerCounsellingQuestionsForStudents:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-questions-for-students/',
 } as const;
 
 export const BOFU_PAYMENT_LINKS = {
@@ -88,6 +240,7 @@ export const BOFU_PLAN_LINKS = {
   careerCounsellingOnline: `${BOFU_INTERNAL_LINKS.careerCounsellingOnline}#plans`,
   virtualCareerCounselling: `${BOFU_INTERNAL_LINKS.virtualCareerCounselling}#plans`,
   careerCounsellingSession: `${BOFU_INTERNAL_LINKS.careerCounsellingSession}#plans`,
+  careerGuidanceSession: `${BOFU_INTERNAL_LINKS.careerGuidanceSession}#plans`,
   careerCounsellingConsultation: `${BOFU_INTERNAL_LINKS.careerCounsellingConsultation}#plans`,
   careerGuidanceOnline: `${BOFU_INTERNAL_LINKS.careerGuidanceOnline}#plans`,
   careerCoachNearMe: `${BOFU_INTERNAL_LINKS.careerCoachNearMe}#plans`,

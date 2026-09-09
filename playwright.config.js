@@ -11,11 +11,10 @@ export default defineConfig({
   reporter: 'line',
   use: {
     acceptDownloads: true,
-    channel: 'chrome',
     headless: true,
   },
   webServer: {
-    command: 'corepack pnpm preview --host 127.0.0.1',
+    command: 'npm run preview -- --host 127.0.0.1',
     port: 4321,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

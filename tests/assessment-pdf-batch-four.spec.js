@@ -1,15 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import path from 'node:path';
-
-const outputDirectory = path.resolve('test-results', 'pdf-batch-four');
+import { readFile, writeFile } from 'node:fs/promises';
 const reportFileName = 'future-career-school-big-5-career-personality-report.pdf';
 
-test.beforeAll(async () => {
-  await mkdir(outputDirectory, { recursive: true });
-});
-
-test('big-five result and PDF audit', async ({ page }) => {
+test('big-five result and PDF audit', async ({ page }, testInfo) => {
   const pageErrors = [];
   page.on('pageerror', (error) => pageErrors.push(error.message));
 
@@ -44,7 +37,7 @@ test('big-five result and PDF audit', async ({ page }) => {
   expect(resultStructure.facetCards).toBe(20);
   expect(resultStructure.responseRows).toBe(40);
   await writeFile(
-    path.join(outputDirectory, 'big-five-structure.json'),
+    testInfo.outputPath('big-five-structure.json'),
     JSON.stringify(resultStructure, null, 2)
   );
 
@@ -53,7 +46,7 @@ test('big-five result and PDF audit', async ({ page }) => {
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe(reportFileName);
 
-  const pdfPath = path.join(outputDirectory, reportFileName);
+  const pdfPath = testInfo.outputPath(reportFileName);
   await download.saveAs(pdfPath);
   const pdfBytes = await readFile(pdfPath);
   expect(pdfBytes.subarray(0, 5).toString()).toBe('%PDF-');

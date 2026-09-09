@@ -1,0 +1,661 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import BofuSummaryStrip from '../../../../components/bofu/BofuSummaryStrip.astro';
+import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Guidance Session | Direction, Skill Priority, and a Growth Plan | Future Career School';
+const description =
+  'Career guidance session: direction on path, skill priority, and growth in one sitting. For students and working professionals across India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-session/';
+
+// This page sits beside career-counselling-session (single-decision resolution) and
+// career-planning-session-online (multi-year roadmap with milestones). A career guidance
+// session is neither: it is one focused conversation that maps direction, skill priority,
+// and growth logic across the whole picture in front of you, not one narrowed decision and
+// not a multi-year plan with milestones. Comparison rows keep the skill/income-growth rows
+// that fit that framing and drop the assessment-vs-assessment row, which belongs on
+// assessment-intent pages rather than a session-format page.
+const comparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (row) => !row.left.toLowerCase().includes('assessment'),
+);
+
+const whatSessionCoversItems = [
+  {
+    title: 'The whole picture, not one narrowed question',
+    body:
+      'A career guidance session looks at path, skill direction, and growth together instead of resolving a single stream, course, or role decision in isolation. If you already know exactly which one decision you need resolved, a focused counselling session may move faster — this session is for when more than one thing is unclear at once.',
+  },
+  {
+    title: 'Where your skill portfolio actually stands',
+    body:
+      'Before recommending a direction, the session maps what you already have against what the market actually pays for, so the next skill you build is chosen on fit and demand, not guesswork.',
+  },
+  {
+    title: 'A priority order, not a long options list',
+    body:
+      'The output is not a bigger list of things you could do. It is a ranked sense of what matters first, second, and later, so effort stops spreading thin across too many directions at once.',
+  },
+  {
+    title: 'A growth logic you can keep using',
+    body:
+      'The session should leave you able to judge your next few moves yourself — a general filter that keeps working after the session, not a one-time answer that goes stale the moment your situation shifts.',
+  },
+];
+
+const notThisItems = [
+  {
+    title: 'Career guidance session vs a career counselling session',
+    body:
+      'A career counselling session is built to resolve one specific decision under pressure — a stream, a course, a pivot — and closes with a shortlist and one next step. A career guidance session is broader: it is useful when direction, skill choice, and growth all feel unclear together, not when one decision is already isolated and just needs deciding.',
+    listItems: [
+      'Choose counselling when one decision is already narrowed and needs a close.',
+      'Choose guidance when path, skills, and growth all feel tangled together.',
+      'Both are one-on-one and delivered the same way — the difference is scope, not format.',
+    ],
+  },
+  {
+    title: 'Career guidance session vs a career planning session online',
+    body:
+      'A career planning session builds a structured, multi-year plan with milestones sequenced across time. A career guidance session is the shorter, single-sitting version: direction and skill priority right now, without committing to a multi-year roadmap in the same conversation.',
+    listItems: [
+      'Choose the planning session when you want a full multi-year map with milestones.',
+      'Choose the guidance session for direction and skill priority in one sitting.',
+      'A guidance session can lead into the fuller planning session later if the picture is that layered.',
+    ],
+  },
+];
+
+const notThisSummaryItems = [
+  {
+    title: 'Broader than counselling',
+    body: 'Covers path, skill, and growth together instead of resolving one narrow decision.',
+  },
+  {
+    title: 'Shorter than planning',
+    body: 'One sitting on direction and skill priority, not a multi-year milestone map.',
+  },
+  {
+    title: 'Same format either way',
+    body: 'Always one-on-one, always online, whichever scope actually fits your situation.',
+  },
+];
+
+const flowItems = [
+  {
+    title: 'Map where you actually stand',
+    body:
+      'The session starts with your real profile — strengths, stage, current skills, and the pressure you are under — instead of a generic intake form.',
+  },
+  {
+    title: 'Weigh path, skill, and growth together',
+    body:
+      'Instead of treating stream, course, skill, and income questions as separate conversations, the session looks at how they affect each other in your specific situation.',
+  },
+  {
+    title: 'Rank what matters first',
+    body:
+      'You leave knowing which one or two moves deserve your next serious effort, and which options are genuinely fine to set aside for now.',
+  },
+  {
+    title: 'Leave with a usable growth filter',
+    body:
+      'Beyond the immediate next step, the session should leave you able to judge future options the same way, without needing a new session for every small question.',
+  },
+];
+
+const audienceItems = [
+  {
+    label: 'Students & Freshers',
+    title: 'A career guidance session for stream, skill, and early-career direction together',
+    body:
+      'Useful when a stream, course, or first-skill choice does not stand alone — when marks, family pressure, and a fuzzy sense of long-term direction are all part of the same decision at once.',
+  },
+  {
+    label: 'Working Professionals',
+    title: 'A career guidance session for stagnation, skill gaps, and growth direction together',
+    body:
+      'Useful when a plateau is not just about one job change — when skill relevance, positioning, and income growth all feel connected to the same underlying direction question.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the session actually covers more than one thread',
+    body:
+      'If the conversation only resolves one narrow decision, that is a counselling session, not a guidance session. A genuine guidance session should connect path, skill, and growth in the same conversation.',
+  },
+  {
+    title: 'Check whether the skill priority is tied to real market demand',
+    body:
+      'A ranked skill direction is only useful if it is checked against what the market actually pays for, not just what sounds interesting to build next.',
+  },
+  {
+    title: 'Check whether you leave with a filter, not just an answer',
+    body:
+      'A stronger session should leave you able to judge your next few choices yourself, not dependent on booking another session for every new question.',
+  },
+  {
+    title: 'Check whether online delivery still gives you the full picture',
+    body:
+      'A career guidance session online should feel as complete as an in-person conversation — covering path, skill, and growth together — not a shortened version because it happens on a screen.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingSession,
+    title: 'Career Counselling Session',
+    description:
+      'A focused one-on-one consultation built to resolve one specific decision under pressure, for when your real question is already narrowed to a single choice.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerPlanningSessionOnline,
+    title: 'Career Planning Session Online',
+    description:
+      'A structured, multi-year plan with milestones and a sequenced skill portfolio, for when the real need is a longer roadmap rather than one sitting.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerGuidance,
+    title: 'Career Guidance',
+    description:
+      'The complete guidance service beyond one session, for skill direction, proof of work, and income-growth support over time.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description:
+      'The full decision-support service for career and skill direction, when the bigger issue goes beyond session format alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'Direction for school students, college students, freshers, and postgraduates who need stronger stream, course, or skill direction.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description:
+      'Support for pivots, stagnation, salary growth, AI pressure, and stronger long-term positioning.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description:
+      'Free, updated, practical, AI-powered career and skill assessments — a no-cost way to surface strengths and work style before a session.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What actually happens in a career guidance session?',
+    answer:
+      'A career guidance session maps where you stand, then works through path, skill direction, and growth together in one conversation. You leave with a ranked sense of what matters first, not just a single decision resolved.',
+  },
+  {
+    question: 'How is a career guidance session different from a career counselling session?',
+    answer:
+      'A career counselling session is built to resolve one specific decision under pressure, such as a stream, course, or pivot. A career guidance session is broader — useful when path, skill choice, and growth direction all feel unclear together, not when one decision is already isolated.',
+  },
+  {
+    question: 'How is this different from a career planning session online?',
+    answer:
+      'A career planning session builds a full multi-year plan with milestones. A career guidance session is the shorter, single-sitting version: direction and skill priority right now. It can lead into the fuller planning session later if your situation genuinely needs a multi-year map.',
+  },
+  {
+    question: 'Is a career guidance session one-on-one?',
+    answer:
+      'Yes. The session is a one-on-one consultation built around your real profile and situation, not a shared script or group webinar.',
+  },
+  {
+    question: 'How much does a career guidance session cost?',
+    answer:
+      'Students can book the session at the current student rate, and working professionals can book it at the working-professional rate. Current pricing is shown in the plans section below.',
+  },
+  {
+    question: 'Is a career guidance session available online across India?',
+    answer:
+      'Yes. The session is delivered fully online, so you can join from home, college, or work anywhere in India without waiting for a local offline option.',
+  },
+  {
+    question: 'What should I prepare before a career guidance session?',
+    answer:
+      'Bring your current stage, the skills you already have, the options you are weighing, and where confusion keeps repeating. The more of the real picture you bring, the more useful the priority order you leave with.',
+  },
+  {
+    question: 'Can working professionals book a career guidance session too?',
+    answer:
+      'Yes. Working professionals use it when a plateau is not just about one job change — when skill relevance, positioning, and income growth all feel connected to the same underlying direction question.',
+  },
+  {
+    question: 'Are the free career and skill assessments part of the session?',
+    answer:
+      'The assessments are a separate free step, not part of the paid session. If you are still early and not ready to book, the free, updated, practical, AI-powered career and skill assessments can help surface strengths and work style first.',
+  },
+  {
+    question: 'Do you guarantee a job or income outcome from the session?',
+    answer:
+      'No ethical provider can guarantee a job or income outcome. The session is decision and direction support, not a placement service.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://futurecareerschool.com/services/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Guidance Session',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Guidance Session | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Guidance Session',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Guidance Session</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        One-on-one career guidance session for students and working professionals across India
+      </div>
+
+      <h1 class="hero-title">
+        Career guidance session
+        <span class="gold-text"> for direction, skill priority, and a growth plan — not just one decision</span>
+      </h1>
+      <p class="hero-sub">
+        A career guidance session with Future Career School looks at your path, your skill direction, and your growth together in one conversation, aimed at helping you build a <strong>high-value skill portfolio</strong> and move toward <strong>earlier financial freedom</strong>, not just settle one isolated question.
+      </p>
+      <p class="hero-note">
+        If your situation is already narrowed to one specific decision, a focused career counselling session may move faster. This session is for when direction, skills, and growth all feel unclear at once. Delivered fully online across India.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Guidance Session</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Guidance Session</a>
+      </div>
+      <p class="hero-support">
+        The value is not the conversation itself. It is leaving with a priority order that points your next skill and effort toward <strong>unlocking high income opportunities</strong>, instead of guessing at what to do next.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="session-covers"
+    sectionClass="cgsession-signal-band"
+    variant="signal"
+    title="What a career guidance session actually covers"
+    subtitle="The session is built to connect path, skill, and growth instead of treating them as separate questions answered on separate days."
+    items={whatSessionCoversItems}
+  >
+    <AssessmentSupportNote
+      body="If you are still early and not ready to book, the free career and skill assessments can surface strengths and work style first."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="Book the guidance session when more than one thing feels unclear at once"
+    body="A career guidance session is built for when path, skill choice, and growth direction are tangled together, not just one narrow decision."
+    studentHref="#plans"
+    studentLabel="Get Student Career Guidance Session"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance Session"
+  />
+
+  <BofuListCardSection
+    sectionId="not-the-same"
+    sectionClass="cgsession-contrast-band"
+    title="Career guidance session, career counselling session, or career planning session?"
+    subtitle="All three are one-on-one and delivered online. The real difference is scope, not format."
+    items={notThisItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={notThisSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <BofuStepFlowSection
+    sectionId="how-it-works"
+    sectionClass="cgsession-flow-band"
+    title="How a career guidance session moves from confusion to a priority order"
+    subtitle="The conversation stays practical: your real stand, the trade-offs, a ranked next move, and a way to judge future choices the same way."
+    items={flowItems}
+  />
+
+  <GuidanceModelSection
+    title="What the guidance session draws on"
+    subtitle="Beyond the single conversation, the same underlying chain applies: the right skill portfolio unlocks high income opportunities, and higher income is what buys earlier financial freedom."
+  />
+
+  <AudienceRelevance
+    sectionClass="cgsession-audience-band"
+    title="How a career guidance session fits where you are right now"
+    items={audienceItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    sectionClass="cgsession-comparison-band"
+    title="Why a career guidance session still has to earn its place over generic advice"
+    subtitle="Calling something a 'guidance session' does not automatically make it useful. It still has to connect path, skill, and growth into something you can act on."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    sectionClass="cgsession-check-band"
+    title="What to check before booking a career guidance session"
+    subtitle="The goal is not a conversation that feels thoughtful for an hour. The goal is a priority order you can actually use afterward."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If path, skills, and growth all feel tangled together, start here"
+    body="A career guidance session is built to untangle all three in one sitting, not just answer one narrow question."
+    studentHref="#plans"
+    studentLabel="Get Student Career Guidance Session"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance Session"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Guidance Session"
+    title="Career Guidance Session Plans"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="See how this compares with a focused counselling session or a longer planning session, plus other guidance pages and free assessments, before you book."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="mixed"
+    sectionClass="cgsession-final-band"
+    subtitle="Book a career guidance session when direction, skill choice, and growth all feel unclear at once. A stronger session points you toward a high-value skill portfolio, unlocking high income opportunities, and achieving earlier financial freedom sooner, not another round of vague advice."
+    studentHref="#plans"
+    studentLabel="Get Student Career Guidance Session"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Guidance Session"
+  />
+
+  <BofuFaqSection
+    title="Questions people ask before booking a career guidance session"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 88px; }
+
+  :global(.cgsession-signal-band) {
+    background:
+      radial-gradient(720px 240px at 10% 0%, rgba(45,212,191,.055), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.008), transparent 50%);
+  }
+  :global(.cgsession-contrast-band) {
+    background:
+      radial-gradient(760px 240px at 100% 0%, rgba(229,184,74,.06), transparent 72%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.007));
+  }
+  :global(.cgsession-contrast-band .list-card-grid.is-two-col) {
+    align-items: stretch;
+  }
+  :global(.cgsession-contrast-band .bofu-summary-strip) {
+    margin-top: 1.2rem;
+  }
+  :global(.cgsession-flow-band) {
+    background:
+      radial-gradient(620px 220px at 18% 100%, rgba(45,212,191,.05), transparent 72%),
+      radial-gradient(560px 220px at 88% 0%, rgba(229,184,74,.05), transparent 72%);
+  }
+  :global(.cgsession-audience-band .section-headline),
+  :global(.cgsession-comparison-band .section-headline),
+  :global(.cgsession-check-band .section-headline) {
+    max-width: 22ch;
+  }
+  :global(.cgsession-audience-band .audience-grid) {
+    max-width: 1080px;
+    margin: 0 auto;
+    gap: 1.15rem;
+  }
+  :global(.cgsession-audience-band .audience-card) {
+    padding: 1.35rem 1.25rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,.11);
+    background:
+      radial-gradient(360px 150px at 100% 0%, rgba(45,212,191,.08), transparent 74%),
+      linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.014));
+    box-shadow: 0 18px 38px rgba(0,0,0,.2);
+  }
+  :global(.cgsession-audience-band .audience-card h3) {
+    font-size: 1.08rem;
+    line-height: 1.46;
+  }
+  :global(.cgsession-audience-band .audience-card p) {
+    font-size: 14.2px;
+    line-height: 1.82;
+  }
+  :global(.cgsession-comparison-band .compare-shell) {
+    box-shadow: 0 28px 60px rgba(0,0,0,.3);
+  }
+  :global(.cgsession-check-band .buyer-check-grid) {
+    gap: 1.1rem;
+  }
+  :global(.cgsession-check-band .buyer-check-card) {
+    min-height: 100%;
+  }
+  :global(.cgsession-final-band .final-sub) {
+    max-width: 52ch;
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold {
+    width: 520px;
+    height: 520px;
+    top: -170px;
+    left: -110px;
+    background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%);
+  }
+  .orb-teal {
+    width: 420px;
+    height: 420px;
+    top: -40px;
+    right: -120px;
+    background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%);
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 1.95vw, 18px);
+    color: rgba(255,255,255,.72);
+    line-height: 1.88;
+    max-width: 820px;
+    margin-bottom: 1rem;
+  }
+  .hero-sub strong { color: #fff; }
+  .hero-note {
+    font-size: 14px;
+    color: rgba(255,255,255,.56);
+    line-height: 1.8;
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-actions .btn-gold,
+  .hero-actions .btn-outline {
+    min-width: min(100%, 290px);
+    justify-content: center;
+  }
+  .hero-support {
+    font-size: 14px;
+    color: rgba(255,255,255,.58);
+    line-height: 1.8;
+    max-width: 720px;
+    margin-top: 1rem;
+  }
+  .hero-support strong { color: rgba(255,255,255,.86); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.84rem, 9.6vw, 2.55rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .breadcrumb {
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-sub,
+    .hero-note,
+    .hero-support {
+      line-height: 1.76;
+    }
+    :global(.cgsession-audience-band .audience-card) {
+      padding: 1.08rem 1rem .98rem;
+      border-radius: 20px;
+    }
+  }
+</style>

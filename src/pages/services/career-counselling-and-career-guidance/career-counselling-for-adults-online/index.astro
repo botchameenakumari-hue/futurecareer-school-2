@@ -2,7 +2,6 @@
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
-import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
 import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
 import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
 import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
@@ -11,11 +10,11 @@ import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
 import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import FinalCta from '../../../../components/bofu/FinalCta.astro';
 import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
-import { BOFU_ASSESSMENT_LINKS } from '../../../../config/bofu';
+import { BOFU_COMPARISON_LIBRARY } from '../../../../config/bofu';
 
 const title = 'Career Counselling for Adults Online | Future Career School';
 const description =
-  'Career counselling for adults online, built for anyone past school or college age — employed, between roles, restarting after a break, or self-employed. Fully online across India.';
+  'Career counselling for adults online, for anyone past school or college age: employed, between roles, restarting, or self-employed. Fully online, across India.';
 const canonical =
   'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-adults-online/';
 
@@ -72,7 +71,7 @@ const buyerCheckItems = [
   },
   {
     title: 'Check whether online actually means online',
-    body: 'Some services describe themselves as online but still expect an in-person visit at some stage. Confirm the entire process — including any assessment and the counselling session itself — runs online before you commit.',
+    body: 'Some services describe themselves as online but still expect an in-person visit at some stage. Confirm every part of the process — including the counselling session itself — runs online before you commit.',
   },
 ];
 
@@ -95,12 +94,12 @@ const faqItems = [
   {
     question: 'Is this actually available fully online, or do I need to visit an office eventually?',
     answer:
-      'Guidance is delivered fully online across India for the entire process, including the free assessments and the counselling session itself. There is no office visit or in-person requirement at any stage.',
+      'Guidance is delivered fully online across India for the entire process, including the counselling session itself. There is no office visit or in-person requirement at any stage.',
   },
   {
     question: 'Is this the same as career counselling for working professionals?',
     answer:
-      'They are close, but the framing differs. Career counselling for working professionals usually assumes you are currently employed and dealing with in-role questions like stagnation or a pivot. Career counselling for adults online is built for the wider group — anyone past school or college age making a career or skill decision, regardless of whether they currently hold a job.',
+      'No. Career counselling for working professionals is built around someone who already has a current job title and an in-role question to resolve. This is built for a wider group — including people with no current job title at all, such as someone between roles or restarting after a break — with every part of the process, including the session itself, confirmed to run fully online rather than assuming an in-person option exists somewhere along the way.',
   },
   {
     question: 'Are the career and skill assessments free?',
@@ -119,6 +118,11 @@ const relatedDirectoryItems = [
     href: '/services/career-counselling-and-career-guidance/career-counselling-online/',
     title: 'Career Counselling Online',
     description: 'Direct online counselling support for anyone who wants a structured session without visiting an office.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-adults/',
+    title: 'Career Counselling for Adults',
+    description: 'The same adult audience without the online-delivery emphasis — built instead around real time constraints, higher stakes, and the existing skill base an adult already has.',
   },
   {
     href: '/services/career-counselling-and-career-guidance/working-professional-career-guidance/',
@@ -152,23 +156,14 @@ const relatedDirectoryItems = [
   },
 ];
 
+// Pulled live from BOFU_COMPARISON_LIBRARY (src/config/bofu.ts) rather than a page-local copy,
+// and deliberately not the same subset as the career-counselling-for-adults sibling page
+// (which uses indices 0, 5, 2) to avoid a near-duplicate comparison block.
 const comparisonRows = [
-  {
-    left: 'Generic advice that still leaves you unclear',
-    right: 'High-leverage decision support around path, skill, and risk',
-  },
-  {
-    left: 'Degree-first direction with weak skill edge',
-    right: 'Skill-first direction with proof of work and stronger market value',
-  },
-  {
-    left: 'Low-growth paths that delay real earning progress',
-    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
-  },
-  {
-    left: 'Paid outdated impractical assessments with weak practical value',
-    right: 'Free updated practical AI-powered career and skill assessments',
-  },
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[4],
+  BOFU_COMPARISON_LIBRARY[3],
 ];
 
 const jsonLd = [
@@ -265,16 +260,11 @@ const jsonLd = [
   <BofuFeatureSection
     sectionId="fit"
     title="Who career counselling for adults online is built for"
-    subtitle="This is not counselling scoped to one employment status. It is built for the wider group of adults making a real career or skill decision right now."
+    subtitle="This is not online career guidance for adults scoped to one employment status. It is built for the wider group of adults making a real career or skill decision right now, aimed at a high-value skill portfolio and earlier financial freedom rather than just a job title."
     items={fitItems}
     variant="signal"
     columns={2}
-  >
-    <AssessmentSupportNote
-      body="As a starting point, the free career and skill assessments can surface strengths, work style, and direction before a paid session — useful whatever your current employment status is."
-      href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
-    />
-  </BofuFeatureSection>
+  />
 
   <ComparisonMatrix
     title="What changes when counselling is not built only for the currently employed"

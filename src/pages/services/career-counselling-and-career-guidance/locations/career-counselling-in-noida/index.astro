@@ -1,0 +1,574 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Noida page drops index 1 (degree-first-vs-skill-first, already carried
+// directly by the page's own Samsung-production-floor / Film-City-technical-
+// crew framing and the Amity/Jaypee campus-placement discussion), index 3
+// (paid-outdated-vs-free-updated assessments, already carried directly by the
+// page's own single contextual AssessmentSupportNote), and index 4 (generic
+// low-paying path advice, the weakest fit for an electronics-manufacturing
+// and media-production economy where the real risk is a skilled but narrow
+// production-line or back-office role rather than a plainly low-paying one).
+// Keeping rows 0, 2, and 5 covers the generic-advice contrast, the
+// stronger-skill-choices-for-earlier-financial-freedom framing, and the
+// random-upskilling contrast. This three-index drop (1, 3, 4) is
+// deliberately NOT the same as the (3, 4) two-index drop used by Coimbatore
+// (an earlier version of this comment incorrectly claimed the (3, 4) pair
+// was unique, but Coimbatore already uses exactly that pair - see its own
+// comment). The two-index drops in use elsewhere are: Delhi (drops 0 and 5),
+// Ahmedabad (drops 3 and 5), Surat (drops 0 and 3), Thane/Vadodara (drop 1
+// and 3), Ludhiana (drops 1 and 4), Guwahati (drops 2 and 4), Jalandhar
+// (drops 2 and 5), Raipur (drops 2 and 3), Nashik (drops 1 and 2), Aurangabad
+// (drops 0 and 4), Kolhapur (drops 0 and 2), and Coimbatore (drops 3 and 4).
+// Single-index drops in use: Vizag (0), Kolkata (1), Hyderabad (2), Pune (3),
+// Mumbai/Chandigarh/Gurgaon/Nagpur (4), Rajkot and Chennai (5). Rajkot,
+// Vizag, and Bangalore show the full or near-full library. No other sibling
+// uses this three-index (1, 3, 4) combination.
+const noidaComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 1 && index !== 3 && index !== 4,
+);
+
+const title = 'Career Counselling in Noida | Online Guidance Across India | Future Career School';
+const description =
+  'Career counselling in Noida for students and professionals weighing electronics-manufacturing careers around Samsung, Film City media production, the Sector 62 IT-BPO corridor, or Greater Noida automotive.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-noida/';
+
+const manufacturingMediaItems = [
+  {
+    title: 'Samsung anchors a genuine electronics-manufacturing economy most career advice never mentions',
+    body: "Samsung's mobile-phone manufacturing plant in Noida is one of the largest of its kind anywhere in the world, and it sits inside a wider electronics-manufacturing base that stretches through the city's dedicated electronics SEZ. That is a fundamentally different economy from a services or GCC city - it runs on production engineering, quality and process roles, supply-chain and vendor-management work, and hardware-adjacent technical skill rather than only software or consulting roles. Most generic career guidance defaults straight to IT advice and never engages with production-floor, process-engineering, or hardware-supply-chain career paths at all, even though building a high-value skill portfolio around them can genuinely unlock high income opportunities and move someone toward earlier financial freedom just as effectively as a software-first route.",
+  },
+  {
+    title: 'Film City Noida runs its own media and television production economy',
+    body: "Film City in Sector 16A is not a side note - it is the working base for a large share of North India's television-serial production, dubbing, post-production, and broadcast work, genuinely distinct from Mumbai's film and OTT industry. Editors, production crews, on-air talent, sound and post-production technicians, and broadcast-technology roles all draw a real, ongoing livelihood from this cluster. A student or professional weighing a media career from Noida is not chasing a long shot the way a Mumbai-style acting dream can feel like - there is a genuine, working, technical-and-creative production economy right here, and the honest question is which specific role inside it actually fits their skills, not whether the industry exists at all.",
+  },
+  {
+    title: 'Sector 62, 16, and 58 hold a real but smaller and more back-office IT-BPO corridor',
+    body: "Noida's own IT and BPO offices across Sector 62, Sector 16, and Sector 58 form a genuine tech-adjacent economy, but it runs meaningfully smaller and more support-and-operations-flavored than Gurgaon's Cyber City cluster of Global Capability Centres and MNC regional headquarters. Someone weighing a Noida IT-BPO role against a Gurgaon GCC role is not comparing two versions of the same job - the day-to-day work, the promotion ceiling, and the skill-building opportunity genuinely differ, and that comparison deserves an honest answer rather than treating every NCR tech job as interchangeable.",
+  },
+  {
+    title: 'A large Amity and Jaypee student population feeds directly into this same local economy',
+    body: 'Amity University and Jaypee Institute of Information Technology bring a large, ongoing student population into Noida, many of whom will weigh a campus placement into the local IT-BPO corridor against an electronics-manufacturing role, a Film City production track, or a move toward Gurgaon or another metro entirely. That is a genuinely different set of live options than a student in a single-industry city faces, and the right next step depends on which of these tracks actually fits, not which one the campus placement drive happens to push hardest.',
+  },
+];
+
+const fitItems = [
+  {
+    title: 'Your search for Noida usually points to one of a few real forks',
+    listItems: [
+      'A production, process-engineering, or supply-chain role at Samsung or another electronics-manufacturing employer, versus a software or IT-services path',
+      'A Film City media, post-production, or broadcast-technology opportunity you are not sure is a stable career or a long shot',
+      'A Sector 62 or Sector 16 IT-BPO offer you are trying to honestly weigh against a Gurgaon GCC role',
+      'A Greater Noida automotive or motorsport-adjacent engineering path near the Buddh International Circuit',
+    ],
+  },
+  {
+    title: 'What should matter more than which employer called first',
+    listItems: [
+      'Whether the role is building a genuinely higher-value skill portfolio, not just filling a headcount on a production line or a back-office desk',
+      'Whether a hardware, media-production, or automotive-engineering skill set compounds as well over time as a software-first path would',
+      'Whether the comparison against Gurgaon or Delhi is being made honestly, not assumed away because Noida is geographically closer',
+      'Whether Amity or Jaypee campus placement pressure is being weighed against the full set of real local and NCR options',
+    ],
+  },
+];
+
+const localAreaItems = [
+  {
+    title: 'The Samsung and electronics-SEZ belt: Sector 81 and the wider manufacturing corridor',
+    body: "Samsung's manufacturing plant and Noida's dedicated electronics-manufacturing SEZ concentrate a genuine hardware-production economy in the city's manufacturing corridor, running on production, quality, process-engineering, and supply-chain roles rather than the services-first jobs most NCR career advice assumes by default.",
+  },
+  {
+    title: 'Film City, Sector 16A: North India\'s television and media-production base',
+    body: 'Film City holds studios, production houses, and post-production facilities that run a large share of North India\'s television-serial and broadcast content, alongside dubbing and sound work - a genuine technical-and-creative production economy distinct from Mumbai\'s film industry.',
+  },
+  {
+    title: 'Sector 62, Sector 16, and Sector 58: the IT-BPO office corridor',
+    body: "These sectors hold Noida's own tech-adjacent office economy - a real but smaller, more support-and-operations-flavored corridor than Gurgaon's GCC cluster, worth comparing honestly rather than assuming every NCR tech address offers the same career trajectory.",
+  },
+  {
+    title: 'Amity University and the Jaypee Institute campus belt',
+    body: "A large, ongoing student population around these campuses feeds directly into Noida's electronics-manufacturing, media-production, and IT-BPO economy, alongside the option to look toward Gurgaon, Delhi, or another metro after graduation.",
+  },
+  {
+    title: 'Greater Noida and the Buddh International Circuit: an automotive and motorsport-adjacent fork',
+    body: "Greater Noida's automotive-manufacturing base, alongside the Buddh International Circuit's motorsport-adjacent economy, opens a further, genuinely different engineering and events-management fork for people willing to look a little beyond Noida proper.",
+  },
+];
+
+const onlineAdvantageItems = [
+  {
+    title: 'Being close to Samsung or Film City does not settle which role inside them actually fits you',
+    body: "Living near the electronics-manufacturing belt or Film City puts real, working local industries within reach, but proximity alone does not tell you whether a production-engineering role, a post-production career, an IT-BPO desk, or a Gurgaon GCC move is the stronger fit for your specific skills and goals. Online guidance can bring that outside comparison in without requiring you to already be inside one of these industries to get an honest read on it.",
+  },
+  {
+    title: 'The real comparison is Noida versus Gurgaon versus Delhi, not Noida versus nothing',
+    body: 'Most people weighing a career move from Noida are not choosing between staying local and leaving the region - they are comparing a Noida electronics, media, or IT-BPO role against a Gurgaon GCC offer or a Delhi-based path, all within the same commute radius. Good guidance should be able to make that specific three-way comparison honestly instead of treating Noida as a lesser version of its NCR neighbours by default.',
+  },
+  {
+    title: 'Family and campus pressure can push toward the most familiar option, not the strongest one',
+    body: 'A campus placement drive at Amity or Jaypee, or family familiarity with "IT jobs" as the safe default, can crowd out a genuinely stronger fit in electronics manufacturing, media production, or automotive engineering. Getting an outside, online opinion into that conversation makes it easier to weigh the real options rather than the most visible one.',
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'Everyone treats Noida as just an IT-BPO suburb of Delhi - is there really anything else here?',
+    body: "That assumption misses two of Noida's most genuine local industries. Samsung's manufacturing plant and the city's electronics-manufacturing SEZ run a real hardware-production economy, and Film City runs a genuine television and media-production base serving much of North India. The IT-BPO corridor across Sector 62 and Sector 16 is real too, but it is one option among several, not the whole picture.",
+  },
+  {
+    title: 'Is a media or production career at Film City a stable path or a long shot?',
+    body: "It is closer to a stable, working industry than the Mumbai-film-industry image most people default to. Film City runs an ongoing base of television-serial production, dubbing, post-production, and broadcast-technology work with real, recurring employment - the honest question is which specific technical or creative role inside that production economy fits your actual skills, not whether the industry itself is viable.",
+  },
+  {
+    title: 'Should I take the Sector 62 IT-BPO offer or hold out for something in Gurgaon?',
+    body: "Both can be genuinely reasonable, and the honest comparison depends on what the specific role actually builds toward - a Gurgaon GCC role often carries a different promotion structure and skill-building ceiling than a Noida IT-BPO desk, but a strong Noida role with real ownership can still beat a generic entry-level GCC seat. That comparison deserves an honest look at the actual roles, not a blanket rule either way.",
+  },
+  {
+    title: 'My family expects an IT job because that is what "Noida" means to them - how do I raise electronics manufacturing or media production instead?',
+    body: 'That gap is common and understandable - IT-BPO work is the most visible Noida career story, while Samsung\'s manufacturing scale and Film City\'s production economy are less talked about even though they are genuinely large local employers. Bringing real information about what each path actually pays and builds toward usually makes that family conversation easier, not harder.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      'Whether an electronics-manufacturing, production-engineering, or supply-chain role fits your strengths better than a software-first path',
+      'How a Film City media or post-production opportunity compares honestly against a more conventional career track',
+      'Whether a Sector 62 or Sector 16 IT-BPO offer or a Gurgaon GCC role is the stronger move for your specific situation',
+      'How an Amity or Jaypee campus placement fits against the wider set of local and NCR options actually available to you',
+    ],
+  },
+  {
+    title: 'A skill direction built for achieving earlier financial freedom either way',
+    listItems: [
+      'A high-value skill portfolio suited to whichever track fits - hardware and production skill, media and post-production craft, IT-services skill, or automotive engineering',
+      'Proof-of-work positioning that carries weight whether you are applying inside Samsung\'s manufacturing ecosystem, a Film City production house, or an IT-BPO employer',
+      'A realistic comparison of which moves are genuinely unlocking high income opportunities versus which ones just fill the most familiar-sounding job title',
+      'One practical next step instead of defaulting to whichever option a campus placement drive or family expectation pushes hardest',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the counsellor even knows Noida has an electronics-manufacturing and media-production economy',
+    body: "A lot of generic career guidance treats every NCR city as an IT-BPO extension of Delhi or Gurgaon. Guidance worth paying for should be able to speak seriously to Samsung's manufacturing scale and Film City's production economy, not just default straight to software-career advice.",
+  },
+  {
+    title: 'Check whether a Film City media career gets taken seriously as real, working employment',
+    body: 'Good guidance should treat production, post-production, and broadcast-technology roles as a genuine, ongoing local industry - not dismiss them as an unrealistic long shot the way a Mumbai-film-industry ambition sometimes gets treated.',
+  },
+  {
+    title: 'Check whether the Noida-versus-Gurgaon IT comparison is made honestly, not assumed',
+    body: "Sector 62's IT-BPO corridor and Gurgaon's GCC cluster are genuinely different opportunities. Guidance that treats every NCR tech address as interchangeable has not actually looked at your specific offer or option.",
+  },
+  {
+    title: 'Check whether campus and family pressure are named honestly, not quietly reinforced',
+    body: 'A lot of Amity- or Jaypee-linked career decisions get shaped by whichever option the campus placement drive pushes hardest. Good guidance should help you see the full set of options clearly, not just validate the most visible one.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.gurgaonCounselling,
+    title: 'Career Counselling in Gurgaon',
+    description:
+      "See this if your real questions run through Gurgaon's GCC and MNC corporate ladder, consulting or BFSI culture, or a lateral move between Cyber City employers, rather than Noida's electronics-manufacturing, media-production, and IT-BPO economy.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.delhiCounselling,
+    title: 'Career Counselling in Delhi',
+    description:
+      "Use this if your real questions run through the capital's UPSC-exam culture, Delhi University, or the government-versus-private-sector tension rather than Noida's manufacturing and media economy.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'Online-first approach across India if your real concern is easier access rather than the city itself.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What career paths does Noida actually support beyond IT and BPO work?',
+    answer:
+      "More than most people assume. Samsung's mobile-phone manufacturing plant, one of the largest of its kind in the world, anchors a genuine electronics-manufacturing economy through the city's dedicated electronics SEZ - production, process-engineering, quality, and supply-chain roles included. Film City in Sector 16A runs a real, ongoing television and media-production base serving much of North India. The Sector 62, Sector 16, and Sector 58 corridor holds a smaller, more back-office-flavored IT-BPO economy. Greater Noida adds an automotive-manufacturing and motorsport-adjacent fork through the Buddh International Circuit. The right path depends on your actual strengths and goals, not on which of these industries happens to be most talked about.",
+  },
+  {
+    question: 'Is a media or production career at Film City Noida a realistic option, or just a long shot?',
+    answer:
+      "It is genuinely more realistic than the Mumbai-film-industry image most people picture. Film City Noida is a working production base with ongoing television-serial, dubbing, post-production, and broadcast-technology work, not a one-in-a-million acting dream. The honest question is which specific technical or creative role inside that production economy fits your actual skills, not whether the industry itself can support a career.",
+  },
+  {
+    question: 'Should I choose a Noida IT-BPO job or hold out for a Gurgaon GCC role?',
+    answer:
+      "There is no single right answer - it depends on what the specific role actually builds toward. Gurgaon's GCC cluster often carries a different promotion structure and skill-building ceiling than Noida's more support-and-operations-flavored IT-BPO corridor, but a strong Noida role with genuine ownership can still outperform a generic entry-level GCC seat. Good counselling should help you compare the actual roles honestly rather than assuming one city automatically wins.",
+  },
+  {
+    question: 'I am studying at Amity or Jaypee - how does that affect my options?',
+    answer:
+      "A large, ongoing student population around these campuses feeds directly into Noida's electronics-manufacturing, media-production, and IT-BPO economy, and also toward Gurgaon, Delhi, or another metro after graduation. The useful approach is weighing your campus placement options against the fuller set of local and NCR paths, not defaulting to whichever offer the placement drive pushes hardest.",
+  },
+  {
+    question: 'Is career counselling in Noida delivered online or in person?',
+    answer:
+      'Guidance is delivered fully online, in Noida and across India. You can start from a hostel near Amity or Jaypee, a flat near the electronics-manufacturing belt, or your workplace near Film City or Sector 62, without needing to visit an office in person.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Noida?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages, including engineering and media students at Amity or Jaypee weighing their first move. The guidance is online across India, so it works whether you grew up in Noida or moved here for college, a manufacturing role, or a media-production opportunity.',
+  },
+  {
+    question: 'How is this different from career counselling in Gurgaon?',
+    answer:
+      "Noida and Gurgaon sit in the same wider National Capital Region but run on genuinely different local economies. This page is built around Noida's own electronics-manufacturing base anchored by Samsung, Film City's media and television-production economy, the smaller and more back-office-flavored Sector 62 IT-BPO corridor, and the Amity and Jaypee student population. The Gurgaon page is built around Cyber City and the DLF corridor's GCC and MNC corporate-ladder economy - band-and-level promotion structures and consulting or BFSI culture. Choose whichever page actually reflects the pressure you are dealing with.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Noida', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Noida | Future Career School',
+    description:
+      'Career counselling in Noida for students, freshers, and working professionals. Online guidance for clearer decisions across electronics-manufacturing, Film City media production, IT-BPO, and automotive-engineering paths.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Noida' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Noida</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Noida
+      </div>
+
+      <h1 class="hero-title">
+        Career Counselling in <span class="gold-text">Noida</span>
+      </h1>
+      <p class="hero-sub">
+        Noida runs on an economy most career advice never names - Samsung's mobile-phone manufacturing plant, one of the largest in the world, anchors a genuine electronics-manufacturing base, while Film City in Sector 16A runs a real television and media-production economy serving much of North India. A smaller, more back-office IT-BPO corridor across Sector 62, Sector 16, and Sector 58, a large Amity and Jaypee student population, and Greater Noida's automotive-and-motorsport fork round out a city that is genuinely its own economy, not a smaller copy of Gurgaon. The stronger question is whether your next move actually builds a high-value skill portfolio and moves you toward earlier financial freedom, whichever of these tracks it turns out to be.
+      </p>
+      <p class="hero-sub hero-sub-secondary">
+        Guidance is delivered fully online in Noida and across India. You can start from a hostel near Amity or Jaypee, a flat near the electronics-manufacturing belt, or your desk near Film City or Sector 62 - no need to find time for an office visit just to get an honest second opinion.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="noida-manufacturing-media"
+    title="The Noida career reality generic advice rarely names"
+    subtitle="Noida's economy runs on electronics manufacturing and media production alongside a smaller tech-adjacent corridor - a genuinely different mix from any other NCR city. Good counselling should engage with that reality directly instead of treating Noida like a smaller Gurgaon."
+    items={manufacturingMediaItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="noida-areas"
+    title="Noida's own geography shapes which version of this decision you are in"
+    subtitle="A useful local page should recognise that a flat near the electronics-manufacturing belt, a desk near Film City, and a hostel near Amity or Jaypee are not living through the same version of Noida."
+    items={localAreaItems}
+    variant="decision"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Noida search already reflects a real fork, look at it honestly before a campus placement or family default decides it for you"
+    body="Use this when you want a genuine read on a manufacturing, media, IT-BPO, or automotive-engineering decision, not another round of whichever option sounds most familiar."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Noida"
+    subtitle="If you are already living near Samsung's manufacturing belt, Film City, or the Sector 62 corridor, the honest question is not whether help is nearby. It almost always is. It is whether that help actually understands the specific industries here."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="intent-clarity"
+    title="Why this decision already feels heavier here"
+    subtitle="When people search for career counselling in Noida, the search usually points to something specific - a manufacturing role, a Film City opportunity, an IT-BPO offer, or a campus placement decision already in motion. The real pressure is rarely about the city name itself. It is about seeing the actual trade-off clearly instead of defaulting to whichever option is most visible."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="Not another opinion that defaults straight to IT advice. A clearer read on manufacturing, media, IT-BPO, and automotive-engineering paths, and a route toward earlier financial freedom regardless of which one you choose."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city with a genuine electronics-manufacturing and media-production economy that most advice skips over, the real risk is guidance that defaults straight to generic IT advice. The comparison below shows what separates high-leverage guidance from that default."
+    rows={noidaComparisonRows}
+  />
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Noida.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use - even inside a city where the most familiar-sounding option is not always the strongest one.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Noida"
+    subtitle="Do not compare only how close a counsellor's office is to Sector 62 or Film City. Compare whether the process actually understands Noida's specific industries and improves decision quality on the fork you are facing."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Noida page when locality matters, but choose based on decision quality, not the most familiar-sounding option"
+    body="The practical value is an honest read on manufacturing, media, IT-BPO, and automotive-engineering paths, and a concrete next step before a campus placement or family default decides it for you."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Noida" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a manufacturing role, a Film City opportunity, an IT-BPO offer, and a campus placement drive are all pulling in different directions - and when the real goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom, whichever path you choose."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill { width: fit-content; margin-bottom: 1.6rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title { font-size: clamp(2.35rem, 5vw, 3.9rem); line-height: 1.04; letter-spacing: -.04em; color: #fff; max-width: 980px; margin-bottom: 1.25rem; overflow-wrap: anywhere; }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.72); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-sub-secondary { color: rgba(255,255,255,.6); font-size: 14px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 1.6rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #noida-manufacturing-media,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

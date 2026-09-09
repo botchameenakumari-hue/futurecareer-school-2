@@ -1,0 +1,665 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Vadodara page drops two rows: index 1 (degree-first-vs-skill-first) and
+// index 3 (paid-outdated-vs-free-updated-assessments). Vadodara's defining
+// fork is not a degree-vs-no-degree question the way Surat's or Ludhiana's is -
+// both sides of the PSU-vs-fine-arts decision already require a formal,
+// credentialed degree (an engineering degree for the PSU track, an MSU Faculty
+// of Fine Arts degree for the arts track), so a degree-first-vs-skill-first
+// framing would misrepresent the actual choice. The assessment-comparison row
+// is dropped here to keep the page's one permitted assessment mention (in
+// AssessmentSupportNote, lower on the page) as the only assessment reference
+// rather than doubling it inside the comparison matrix too. This drops a
+// distinct pair of indices, keeping rows 0, 2, 4, 5 - a combination not used
+// by any sibling: Rajkot (rows 0-4), Vizag (rows 1-5), Bangalore (full
+// library), Pune (drops 3), Kolkata (drops 1), Chennai (drops 5), Hyderabad
+// (drops 2), Mumbai/Chandigarh/Gurgaon/Nagpur (each drop 4), Delhi (drops 0
+// and 5), Ahmedabad (drops 3 and 5), Surat (drops 0 and 3), Ludhiana (drops 1
+// and 4), and Guwahati (drops 2 and 4).
+// AUDIT CORRECTION: the uniqueness claim above was previously wrong - a
+// sitewide audit found Thane also dropped exactly indices 1 and 3, an
+// undetected duplicate the comment above never checked for (Thane wasn't
+// even mentioned in the sibling list). Vadodara is kept as-is here as the
+// first-built page of the two; Thane has been moved to a distinct
+// triple-index drop (indices 0, 2, and 3) so no other page shares this
+// selection anymore.
+const vadodaraComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 1 && index !== 3);
+
+const title =
+  'Career Counselling in Vadodara | PSU, Chemicals, and Fine Arts Paths | Future Career School';
+const description =
+  "Career counselling in Vadodara for students, freshers, and working professionals weighing a PSU or heavy-engineering-and-chemicals track against a genuine MSU fine-arts or humanities calling, or PSU job security against private-sector growth.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-vadodara/';
+
+const psuVsArtsItems = [
+  {
+    title: 'The default in Vadodara runs through a PSU or a heavy-engineering-and-chemicals job, and it rarely gets questioned',
+    listItems: [
+      "Vadodara (Baroda) grew up around some of Gujarat's largest public-sector and heavy-industrial employers - Gujarat Refinery (IOCL) at Koyali, Gujarat State Fertilizers & Chemicals (GSFC), Gujarat Alkalies and Chemicals (GACL) - and a generation of households built their sense of a stable, respectable career around a chemical-engineering or mechanical-engineering degree leading into one of them",
+      "That expectation is not unreasonable - these are real, large, long-running employers - but it can crowd out an honest look at whether that specific track fits the person, or whether it is simply the path nobody in the family ever had reason to question",
+      "The Maharaja Sayajirao University of Baroda's Faculty of Technology and Engineering feeds directly into this pipeline, so a technical student here can go from classroom to PSU-track expectation without ever formally weighing the alternative",
+    ],
+  },
+  {
+    title: "MSU's Faculty of Fine Arts is a genuinely rare, respected calling that most Indian cities simply cannot offer",
+    listItems: [
+      "The Maharaja Sayajirao University of Baroda is one of India's oldest and most academically broad universities, and its Faculty of Fine Arts is widely regarded as one of the country's most serious institutions for painting, sculpture, applied art, and art history - a genuine, credentialed path into a creative practice, not an informal or unstructured one",
+      "This is a real structural difference from most of the other cities where Future Career School works: a student with a genuine pull toward art, design, or a humanities discipline in Vadodara has an actual respected local institution to study at, not just a distant, unproven ambition",
+      "That changes the shape of the decision - it is not \"give up a stable career for an uncertain passion,\" it is \"choose between two credentialed, genuinely viable paths that pull in very different directions\"",
+    ],
+  },
+  {
+    title: 'Naming this fork honestly is the point - neither side should win by default',
+    listItems: [
+      "The honest starting point is treating both routes as real: a PSU or heavy-engineering-and-chemicals career offers a well-understood, structured route toward earlier financial freedom for someone whose strengths and interest genuinely fit it, while a fine-arts or humanities path through MSU can be built into a genuine high-value skill portfolio - through practice, portfolio-building, teaching, design work, or applied creative fields - for someone whose actual aptitude sits there instead",
+      "What should not happen is either side getting chosen purely because it was the assumed family script, or dismissed purely because it feels less conventional - both outcomes waste years before the real trade-offs get compared honestly",
+    ],
+  },
+];
+
+const contextItems = [
+  {
+    title: "Vadodara's public-sector and heavy-chemicals identity is genuinely different from Gujarat's other business cities",
+    body: "Unlike Ahmedabad's trading-and-finance economy or Surat's diamond-and-textile trade, Vadodara's defining industrial identity runs through large public-sector and heavy-chemical-engineering employers. Gujarat Refinery, operated by Indian Oil Corporation at Koyali on the city's edge, is one of India's oldest and largest oil refineries and has anchored a genuine petrochemical and heavy-engineering ecosystem around it for decades. Gujarat State Fertilizers & Chemicals (GSFC) is headquartered in Vadodara and remains one of the state's largest chemical and fertilizer manufacturers, alongside Gujarat Alkalies and Chemicals (GACL). This creates a PSU-and-heavy-industry employment culture that is structurally distinct from a private-trade or family-business economy - stable, well-defined career ladders, but also a genuinely different risk-and-growth profile from a private-sector role.",
+  },
+  {
+    title: 'Alembic Pharmaceuticals adds a real, homegrown private-sector counterpoint to the PSU default',
+    body: "Alembic Pharmaceuticals, one of India's oldest pharmaceutical companies, is headquartered in Vadodara and has built a genuine private-sector pharma and life-sciences employment base in the city, alongside a wider cluster of smaller pharma, chemical, and engineering firms in the Gorwa, Makarpura, and Nandesari GIDC estates. For someone weighing PSU-track stability against private-sector growth, Alembic and the surrounding pharma-and-chemicals private sector are a real, local, non-hypothetical alternative - not a reason to assume a move to Ahmedabad or a metro is the only way to build a private-sector career.",
+  },
+  {
+    title: "MSU is unusually broad for an Indian university, and that shapes the city's whole academic identity",
+    body: "The Maharaja Sayajirao University of Baroda, established under the patronage of the Gaekwad royal family, is one of India's oldest and most academically diverse universities, running genuine faculties across arts, fine arts, technology and engineering, medicine, science, commerce, and social work rather than functioning as a narrow engineering-or-business institution. That breadth is itself a defining local fact: Vadodara is one of the few Indian cities in this set where a serious, credentialed path exists for a humanities or fine-arts calling alongside the engineering-and-PSU default, rather than treating either as the obvious answer for every student.",
+  },
+  {
+    title: "The Gaekwad royal legacy still shapes Vadodara's identity as Gujarat's cultural and educational capital",
+    body: "Vadodara carries a genuine cultural identity distinct from Gujarat's business cities, rooted in the Gaekwad dynasty's patronage of education, art, and public institutions - visible today in Laxmi Vilas Palace, the Baroda Museum and Picture Gallery, and Sayaji Baug, and carried forward institutionally through MSU itself. This is part of why the fine-arts and humanities path in Vadodara feels genuinely local and legitimate rather than imported, and why the city is often described as Gujarat's cultural and educational capital rather than only its industrial one.",
+  },
+];
+
+const psuVsPrivateItems = [
+  {
+    title: 'A second, quieter fork sits underneath the first one: PSU job security versus private-sector growth',
+    body: "Even among students and professionals who are clearly headed toward engineering, chemistry, or a technical track rather than fine arts, Vadodara raises a distinct decision that many other cities do not force as directly: whether to pursue the well-defined, secure ladder of a PSU role - at Gujarat Refinery, GSFC, GACL, or a related public-sector employer - or to build toward faster growth and higher variable upside in the private sector, whether at Alembic, a private chemical or engineering firm in the Gorwa-Makarpura-Nandesari belt, or a role built outside Vadodara entirely.",
+  },
+  {
+    title: 'PSU security is real, but it is not automatically the higher-value choice for every person',
+    body: "A PSU role at a large employer like Gujarat Refinery or GSFC offers genuine, well-documented job security, structured progression, and a stable income floor - and for many families in Vadodara, that security is treated as the obviously correct answer without much further comparison. What often goes unexamined is the actual income ceiling and growth pace of that ladder compared with a private-sector or entrepreneurial path built on a genuinely useful, high-value skill portfolio, which can move someone toward earlier financial freedom faster, at the cost of a different risk profile.",
+  },
+  {
+    title: 'The honest approach compares both paths on your actual situation, not on family habit',
+    body: "Neither PSU security nor private-sector growth is the universally right answer. The useful comparison looks at your actual risk appetite, financial runway, family context, and the specific skills you would need to build for each route - not which one has always been assumed to be safer in your household.",
+  },
+];
+
+const areaItems = [
+  {
+    title: 'Alkapuri, Fatehgunj, and Sayajigunj: the academic, commercial, and cultural core',
+    body: "Alkapuri is Vadodara's established commercial and residential heart, while Fatehgunj and Sayajigunj sit close to MSU's main campus, drawing much of the city's student population and the coaching and college ecosystem built around it. Many first career and stream decisions in Vadodara take shape in conversations that start in this part of the city.",
+  },
+  {
+    title: 'Gorwa, Makarpura, and Nandesari: the industrial and GIDC belt',
+    body: "These Gujarat Industrial Development Corporation estates host a dense cluster of chemical, pharmaceutical, and engineering manufacturing units, including firms connected to Alembic's wider ecosystem, and anchor a real share of Vadodara's private-sector industrial employment alongside the PSU giants on the city's edge.",
+  },
+  {
+    title: 'Koyali and the refinery belt: where the PSU-and-petrochemical identity runs deepest',
+    body: "The Gujarat Refinery at Koyali and the surrounding petrochemical complex anchor Vadodara's heaviest industrial employment and its strongest PSU-track pull, drawing engineering graduates from across the region into a well-defined, secure career ladder.",
+  },
+  {
+    title: 'Manjalpur, Waghodia Road, and Karelibaug: the growing residential and professional belt',
+    body: "These fast-growing residential areas host a large share of Vadodara's students and young professionals commuting toward MSU, the GIDC estates, or the corporate and pharma offices scattered across the city, often weighing the PSU-versus-private and engineering-versus-arts questions from the same household.",
+  },
+  {
+    title: "Sayaji Baug and the palace precincts: the city's cultural identity made visible",
+    body: "Sayaji Baug, Laxmi Vilas Palace, and the Baroda Museum keep Vadodara's Gaekwad-era cultural and educational legacy visibly present in daily life, reinforcing why a fine-arts or humanities path feels like a genuinely local option here rather than an imported ambition.",
+  },
+];
+
+const fitItems = [
+  {
+    title: 'What you actually need right now',
+    listItems: [
+      'You want the PSU-and-chemicals-versus-fine-arts fork treated as a real decision, not settled by whichever direction your family already expects.',
+      'You want an honest comparison between PSU job security and private-sector growth, based on your actual risk appetite, not habit.',
+      'You want to know whether MSU\'s Faculty of Fine Arts, its engineering and technology track, or a private pharma or chemicals path genuinely suits your strengths.',
+      'You want a practical next step, not another round of vague reassurance.',
+    ],
+  },
+  {
+    title: 'What should matter more than the city label alone',
+    listItems: [
+      "Whether the guidance actually understands Vadodara's PSU-and-heavy-industry culture and its genuine fine-arts pull",
+      'Whether the next step becomes clearer and easier to act on',
+      'Whether the process strengthens skill direction and proof of work rather than just describing your options',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the decision actually creating pressure right now',
+    listItems: [
+      'Whether a PSU or heavy-engineering-and-chemicals track, or an MSU fine-arts or humanities path, genuinely fits your strengths and interest',
+      'Whether PSU job security or private-sector growth serves your actual situation better, rather than defaulting to whichever your family has always assumed',
+      'What the honest income and growth ceiling looks like for the specific ladder you are currently on',
+      'Whether a private pharma, chemicals, or engineering role in Vadodara itself, or a move elsewhere, is worth building toward',
+    ],
+  },
+  {
+    title: "Skill direction that fits Vadodara's real economy",
+    listItems: [
+      'Proof-of-work thinking over degree-first or PSU-admission-first positioning alone',
+      'A genuine plan for turning a fine-arts or humanities calling into a high-value skill portfolio - through practice, portfolio-building, teaching, design, or applied creative work',
+      'Technical and engineering skills relevant to Vadodara\'s PSU, petrochemical, and private-pharma economy',
+      'A realistic route toward earlier financial freedom that accounts for your specific risk appetite and family context',
+    ],
+  },
+  {
+    title: 'A practical next step you can act on',
+    listItems: [
+      'Online guidance delivered across India with no dependence on local offline availability',
+      'A clear, honest comparison of your two or three real options instead of an assumed default',
+      'A concrete skill and income direction, not just a label for what you already suspected',
+      'One decision to move on now instead of more time spent circling the same unexamined choice',
+    ],
+  },
+];
+
+const objectionItems = [
+  {
+    title: "My family expects me to aim for a PSU job at the refinery or GSFC - is it even reasonable to consider something else?",
+    body: "Yes. PSU roles at employers like Gujarat Refinery, GSFC, or GACL are genuinely good options for the right person, but they are one option, not the only respectable one. If your actual strengths point toward MSU's fine-arts track, a humanities path, or a private-sector role, that deserves the same serious comparison, not automatic dismissal.",
+  },
+  {
+    title: 'I want to study fine arts at MSU, but my family sees it as a risk compared to engineering or a PSU track - how do I weigh that honestly?',
+    body: "MSU's Faculty of Fine Arts is a genuinely respected, credentialed institution, not an unproven gamble. The honest comparison is not \"stable job versus risky passion\" - it is building a real, high-value skill portfolio on either side: proof of work, portfolio strength, and market positioning matter whether the direction is engineering or fine arts.",
+  },
+  {
+    title: 'Is a PSU job actually the safer choice, or is private-sector growth worth the extra risk?',
+    body: "Both are genuine paths with different trade-offs. A PSU role offers real security and a stable income floor; private-sector growth at a company like Alembic, or elsewhere, can offer a faster-moving income ceiling at a different risk level. The right answer depends on your specific financial runway, risk appetite, and skill direction, not a blanket rule.",
+  },
+  {
+    title: 'I am studying engineering at MSU mainly because it was the assumed path - is it too late to reconsider?',
+    body: "No. A degree already in progress does not lock in one specific career ladder. The more useful question is what skill-first direction you build on top of that degree, whether that means leaning further into the PSU-and-technical track or building toward something genuinely different.",
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Vadodara's PSU-and-heavy-industry culture, not just generic family-business succession",
+    body: "Vadodara's defining pressure is not a family trade or a b-school bar - it is a PSU-and-heavy-engineering-and-chemicals default. Good guidance should be able to speak credibly to whether a refinery, GSFC, or GACL-track role, or a genuinely different path, actually fits your situation.",
+  },
+  {
+    title: "Check whether MSU's fine-arts and humanities path is taken as seriously as the engineering-and-PSU track",
+    body: "Because the PSU default is so visible in Vadodara, some guidance can unintentionally treat a fine-arts or humanities calling as a lesser option by default. Better guidance should name that pressure directly and take a genuine MSU fine-arts path as seriously as an engineering one.",
+  },
+  {
+    title: 'Check whether PSU security and private-sector growth are both weighed honestly',
+    body: "Vadodara's real economy spans large PSU employers and a genuine private pharma-and-chemicals sector through Alembic and the Gorwa-Makarpura-Nandesari belt. Guidance that only speaks to one of these, or assumes PSU is always safer, is missing the actual local picture.",
+  },
+  {
+    title: 'Check whether the next move respects your specific risk appetite and family context',
+    body: "Good guidance for Vadodara should be realistic about family expectation, PSU-versus-private trade-offs, and the actual skill gaps involved in each option - not push a single default answer regardless of your situation.",
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See other city guidance options if you want to compare before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.ahmedabadCounselling,
+    title: 'Career Counselling in Ahmedabad',
+    description: 'See this if your bigger question is a family-business-succession or GIFT City finance decision rather than a PSU-versus-fine-arts fork.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.suratCounselling,
+    title: 'Career Counselling in Surat',
+    description: 'See this if a family diamond or textile trade, not a PSU or fine-arts path, is the decision you are actually facing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'See this if a stagnating PSU role, a private-sector pivot, or a career-growth question is the bigger issue, beyond the city itself.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Vadodara instead of only looking for a nearby offline office?',
+    answer:
+      "Because proximity alone does not resolve Vadodara's real fork - PSU or heavy-engineering-and-chemicals stability versus an MSU fine-arts or humanities calling, or PSU security versus private-sector growth. Online guidance lets you start from home, an MSU-affiliated campus, or a GIDC-linked workplace without waiting for local availability, and it should still be judged on whether it understands that specific decision.",
+  },
+  {
+    question: 'My family wants me on a PSU track at the refinery or GSFC. Is it reasonable to consider MSU\'s fine-arts path instead?',
+    answer:
+      "Yes. A PSU role is a genuine, respectable option for the right person, but so is a credentialed fine-arts or humanities path through MSU's Faculty of Fine Arts - one of India's most respected institutions of its kind. The honest approach compares both against your actual strengths and interest, not against which one your family has always assumed.",
+  },
+  {
+    question: 'Is a PSU job at Gujarat Refinery, GSFC, or GACL actually the safer choice compared to a private-sector role?',
+    answer:
+      "A PSU role offers genuine job security and a stable income floor, while private-sector roles - at Alembic Pharmaceuticals, other Gorwa-Makarpura-Nandesari-belt firms, or elsewhere - can offer a faster-moving income ceiling with a different risk profile. Neither is automatically better; the right choice depends on your specific risk appetite, financial runway, and skill direction.",
+  },
+  {
+    question: 'What career paths actually make sense for someone in Vadodara?',
+    answer:
+      "It depends on the person, not only the city. Vadodara has genuine opportunity across its PSU and heavy-chemical-engineering base (Gujarat Refinery, GSFC, GACL), a real private pharma and chemicals sector led by Alembic Pharmaceuticals, and a genuinely respected fine-arts and humanities track through MSU - alongside its broader technology, medicine, and commerce faculties. The right direction is the one that fits your strengths and has real income-growth potential, not just the one that was always assumed.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Vadodara?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Vadodara users.',
+  },
+  {
+    question: 'What if I am from Vadodara but the bigger issue is not the city, the PSU track, or fine arts at all?',
+    answer:
+      "That is common. The city search is often a trust shortcut. If the real pressure is stream selection, degree choice, skill direction, or a career change unrelated to the PSU-versus-fine-arts fork, the main counselling and guidance pages are the stronger next filter. This page is most useful when Vadodara's specific PSU, heavy-industry, or MSU fine-arts context is genuinely part of your decision.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Vadodara', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Vadodara | Future Career School',
+    description:
+      "Career counselling in Vadodara for students, freshers, and working professionals weighing a PSU or heavy-engineering-and-chemicals track against a genuine MSU fine-arts or humanities calling, or PSU job security against private-sector growth.",
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Vadodara' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Vadodara</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Vadodara
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Vadodara
+        <span class="gold-text"> for PSU, chemicals, and fine-arts decisions</span>
+      </h1>
+      <p class="hero-sub">
+        Vadodara raises a career fork few other cities force this directly: whether to build toward a PSU or heavy-engineering-and-chemicals
+        role at an employer like Gujarat Refinery, GSFC, or GACL, or toward a genuinely respected fine-arts or humanities calling through
+        MSU's Faculty of Fine Arts - and, underneath that, whether PSU job security or private-sector growth actually fits your situation
+        better. Getting clear on the real trade-offs, and building the kind of high-value skill portfolio that unlocks high income
+        opportunities, matters more than defaulting to whichever option was never really questioned.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Vadodara and across India. You can start from home, an MSU campus, or work, wherever you
+        already are - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Vadodara. It is whether the guidance understands the specific fork
+        your decision actually sits inside - PSU stability, private-sector growth, engineering, or a genuine fine-arts calling.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="psu-vs-arts"
+    title="The PSU-and-chemicals default versus MSU's fine-arts calling - the fork Vadodara rarely names out loud"
+    subtitle="This is the single most defining career fork in the city, and it has no equivalent framing on any other city page: a genuine choice between a well-established technical track and a genuinely respected creative one."
+    items={psuVsArtsItems}
+    variant="contrast"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the PSU-versus-fine-arts fork, or the PSU-versus-private-growth question, already feels real, move before the default hardens"
+    body="Use this when you want stronger guidance now, building toward earlier financial freedom, not another round of delay while an unexamined choice quietly becomes the only one left."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="vadodara-context"
+    title="Vadodara's economy and identity run on public-sector heavy industry and a genuinely rare academic breadth"
+    subtitle="A useful page for this city has to speak to more than one script - the honest picture spans PSU and petrochemical employment, a real private pharma sector, and a fine-arts and humanities tradition few Indian cities can match."
+    items={contextItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="psu-vs-private"
+    title="PSU job security versus private-sector growth - the second, quieter fork"
+    subtitle="Even for students and professionals already committed to a technical track, Vadodara forces an honest comparison between a secure PSU ladder and faster-moving private-sector growth."
+    items={psuVsPrivateItems}
+    variant="decision"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In Vadodara's PSU-and-heavy-industry economy, the real risk is advice that only speaks to one metro-shaped script and ignores the PSU-versus-private-growth question or the genuine MSU fine-arts path. The comparison below shows what separates high-leverage guidance from that."
+    rows={vadodaraComparisonRows}
+  />
+
+  <BofuFeatureSection
+    sectionId="vadodara-areas"
+    title="Which part of Vadodara you're deciding from changes the real trade-off"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Vadodara rather than treating every resident as facing the same fork."
+    items={areaItems}
+    variant="decision"
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Vadodara"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process understands the PSU-versus-fine-arts and PSU-versus-private trade-offs, and whether it improves decision quality and skill direction."
+    items={buyerCheckItems}
+  />
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  />
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use. Here is what that looks like for Vadodara's PSU, chemicals, and fine-arts economy.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Honest answers to what people wonder"
+    subtitle="Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Vadodara."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is a clearer view of the PSU, private-sector, and fine-arts trade-offs, and a concrete next step before the default hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Vadodara"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="This decision is not only about a PSU role, a fine-arts calling, or private-sector growth in isolation. It is about building a high-value skill portfolio that keeps unlocking high income opportunities, whichever path you choose to build it on."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .section-block {
+    padding: 3.5rem 0;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 1.2rem;
+  }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.15rem, 5vw, 3.7rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  .btn-gold,
+  .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #e5b84a, #d4a83a);
+    color: #000;
+  }
+
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3);
+  }
+
+  .btn-outline {
+    border: 1px solid rgba(45, 212, 191, 0.5);
+    color: #2dd4bf;
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    background: rgba(45, 212, 191, 0.1);
+    border-color: #2dd4bf;
+  }
+
+  .pulse {
+    animation: pulse-ring 2s infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #deliverables,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #psu-vs-arts,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+
+    .section-block {
+      padding: 2.5rem 0;
+    }
+  }
+</style>

@@ -10,6 +10,18 @@ export type CareerPreset = {
   tags: string[];
 };
 
+/**
+ * A small, reusable progression keeps every skill actionable for a learner
+ * starting from zero while still showing what stronger evidence looks like.
+ * These are guidance examples, not a pass/fail assessment or a claim that a
+ * learner must follow one fixed route.
+ */
+export type SkillLevelGuidance = {
+  level: 'Starter' | 'Working' | 'Advanced';
+  example: string;
+  advice: string;
+};
+
 export type SkillPreset = {
   key: string;
   title: string;
@@ -17,6 +29,12 @@ export type SkillPreset = {
   targetLevel: number;
   priority: 'core' | 'important' | 'useful';
   developmentGoal: string;
+  starterTask?: string;
+  evidenceHint?: string;
+  estimatedMinutes?: number;
+  recommendedStages?: string[];
+  relatedCareerGroups?: string[];
+  progression?: SkillLevelGuidance[];
 };
 
 export type ActionPreset = {
@@ -25,6 +43,9 @@ export type ActionPreset = {
   category: 'explore' | 'learn' | 'build' | 'connect' | 'apply' | 'decide';
   details: string;
   dueDays: number;
+  milestone?: 'Decide' | 'Start' | 'Build' | 'Publish or apply' | 'Connect' | 'Evaluate';
+  estimatedMinutes?: number;
+  evidenceHint?: string;
 };
 
 export type SessionPreset = {
@@ -58,7 +79,7 @@ const careerBlueprints = [
     environment: 'Product companies, IT services, startups, consulting teams, research labs, government technology units, or remote and hybrid teams.',
     nextStep: 'Complete a two-hour beginner task for this role and review whether the actual work feels engaging.',
     featured: ['Software Engineer', 'Data Analyst', 'Cybersecurity Analyst', 'Product Manager', 'Cloud Engineer', 'UI/UX Designer'],
-    titles: ['Software Engineer', 'Frontend Developer', 'Backend Developer', 'Full-stack Developer', 'Mobile App Developer', 'Game Developer', 'Data Analyst', 'Business Intelligence Analyst', 'Data Scientist', 'Machine Learning Engineer', 'AI Engineer', 'AI Product Specialist', 'Cybersecurity Analyst', 'Security Engineer', 'Ethical Hacker', 'Cloud Engineer', 'DevOps Engineer', 'Site Reliability Engineer', 'Database Administrator', 'QA Automation Engineer', 'IT Support Specialist', 'Network Engineer', 'Systems Administrator', 'Solutions Architect', 'Technical Product Manager', 'Product Manager', 'Business Analyst', 'ERP Consultant', 'Blockchain Developer', 'AR/VR Developer', 'UI/UX Designer', 'UX Researcher'],
+    titles: ['Software Engineer', 'Frontend Developer', 'Backend Developer', 'Full-stack Developer', 'Mobile App Developer', 'Game Developer', 'Data Analyst', 'Business Intelligence Analyst', 'Data Scientist', 'Machine Learning Engineer', 'AI Engineer', 'AI and Machine Learning Engineer', 'AI Product Specialist', 'Product Management Specialist', 'AI Automation Specialist', 'Technical Writing Specialist', 'Cybersecurity Analyst', 'Security Engineer', 'Ethical Hacker', 'Cloud Engineer', 'DevOps Engineer', 'Cloud and DevOps Engineer', 'Site Reliability Engineer', 'Database Administrator', 'QA Automation Engineer', 'IT Support Specialist', 'Network Engineer', 'Systems Administrator', 'Solutions Architect', 'Technical Product Manager', 'Product Manager', 'Business Analyst', 'ERP Consultant', 'Blockchain Developer', 'AR/VR Developer', 'UI/UX Designer', 'UX Researcher', 'Semiconductor Engineer', 'Healthcare Technology Specialist', 'Legal Technology Specialist', 'Supply Chain Technology Specialist'],
   },
   {
     category: 'Engineering & Built Environment',
@@ -72,11 +93,11 @@ const careerBlueprints = [
   {
     category: 'Health & Life Sciences',
     route: 'Map the regulated degree, licensing, supervised practice, entrance examination, and internship requirements before comparing clinical, research, allied-health, and management routes.',
-    requirements: 'Science prerequisites and licensing vary widely. Patient safety, communication, ethical judgment, sustained study, and verified clinical or laboratory exposure matter.',
+    requirements: 'Science prerequisites and licensing vary widely. Patient safety, communication, ethical judgement, sustained study, and verified clinical or laboratory exposure matter.',
     environment: 'Hospitals, clinics, laboratories, rehabilitation centres, community health programmes, research organisations, pharmaceutical companies, and private practice.',
     nextStep: 'Interview a practitioner and compare a typical working day with the training and licensing commitment.',
     featured: ['Doctor', 'Clinical Psychologist', 'Physiotherapist', 'Pharmacist', 'Biotechnologist'],
-    titles: ['Doctor', 'Dentist', 'Nurse', 'Physiotherapist', 'Occupational Therapist', 'Pharmacist', 'Clinical Psychologist', 'Counselling Psychologist', 'Psychiatrist', 'Nutritionist', 'Dietitian', 'Public Health Specialist', 'Medical Laboratory Technologist', 'Radiology Technologist', 'Optometrist', 'Audiologist', 'Speech and Language Therapist', 'Veterinarian', 'Biotechnologist', 'Microbiologist', 'Bioinformatics Specialist', 'Clinical Research Associate', 'Genetic Counsellor', 'Epidemiologist', 'Forensic Scientist', 'Biomedical Scientist', 'Healthcare Administrator', 'Hospital Operations Manager', 'Health Informatics Specialist', 'Medical Writer', 'Pharmacovigilance Specialist', 'Regulatory Affairs Specialist', 'Emergency Medical Technician'],
+    titles: ['Doctor', 'Medicine and Clinical Practice', 'Dentist', 'Nurse', 'Physiotherapist', 'Occupational Therapist', 'Pharmacist', 'Clinical Psychologist', 'Counselling Psychologist', 'Psychiatrist', 'Nutritionist', 'Dietitian', 'Public Health Specialist', 'Medical Laboratory Technologist', 'Radiology Technologist', 'Optometrist', 'Audiologist', 'Speech and Language Therapist', 'Veterinarian', 'Biotechnologist', 'Microbiologist', 'Bioinformatics Specialist', 'Clinical Research Associate', 'Genetic Counsellor', 'Epidemiologist', 'Forensic Scientist', 'Biomedical Scientist', 'Healthcare Administrator', 'Hospital Operations Manager', 'Health Informatics Specialist', 'Medical Writer', 'Pharmacovigilance Specialist', 'Regulatory Affairs Specialist', 'Emergency Medical Technician'],
   },
   {
     category: 'Commerce, Finance & Economics',
@@ -90,11 +111,11 @@ const careerBlueprints = [
   {
     category: 'Business, Marketing & Operations',
     route: 'Build broad business foundations, then test the function through projects, internships, case competitions, sales exposure, operations work, or a small venture before specialising.',
-    requirements: 'Communication, ownership, customer understanding, commercial judgment, teamwork, and measurable outcomes often matter as much as a specific degree.',
+    requirements: 'Communication, ownership, customer understanding, commercial judgement, teamwork, and measurable outcomes often matter as much as a specific degree.',
     environment: 'Companies of every size, startups, consulting firms, agencies, retail and e-commerce operations, field teams, and independent ventures.',
     nextStep: 'Run a small role simulation or project with a clear customer, deadline, and measurable outcome.',
     featured: ['Entrepreneur', 'Digital Marketing Specialist', 'Human Resources Manager', 'Management Consultant', 'Operations Manager'],
-    titles: ['Entrepreneur', 'Business Owner', 'Management Consultant', 'Strategy Analyst', 'Operations Manager', 'Project Manager', 'Programme Manager', 'Supply Chain Manager', 'Logistics Manager', 'Procurement Manager', 'Quality Manager', 'Process Improvement Analyst', 'Sales Manager', 'Business Development Manager', 'Key Account Manager', 'Customer Success Manager', 'Marketing Manager', 'Brand Manager', 'Digital Marketing Specialist', 'Performance Marketing Specialist', 'SEO Specialist', 'Market Research Analyst', 'Growth Manager', 'E-commerce Manager', 'Retail Manager', 'Merchandising Manager', 'Human Resources Manager', 'Talent Acquisition Specialist', 'Learning and Development Manager', 'Compensation and Benefits Analyst', 'Organisational Development Specialist', 'Franchise Manager', 'Export-Import Manager'],
+    titles: ['Entrepreneur', 'Business Owner', 'Management Consultant', 'Strategy Analyst', 'Strategy and Consulting Specialist', 'Operations Manager', 'Project Manager', 'Programme Manager', 'Supply Chain Manager', 'Logistics Manager', 'Procurement Manager', 'Quality Manager', 'Process Improvement Analyst', 'Sales Manager', 'Business Development Manager', 'Key Account Manager', 'Customer Success Manager', 'Marketing Manager', 'Brand Manager', 'Digital Marketing Specialist', 'Performance Marketing Specialist', 'SEO Specialist', 'Market Research Analyst', 'Growth Manager', 'E-commerce Manager', 'Retail Manager', 'Merchandising Manager', 'Human Resources Manager', 'Talent Acquisition Specialist', 'Learning and Development Manager', 'Compensation and Benefits Analyst', 'Organisational Development Specialist', 'Franchise Manager', 'Export-Import Manager'],
   },
   {
     category: 'Design, Media & Creative Arts',
@@ -103,7 +124,7 @@ const careerBlueprints = [
     environment: 'Studios, agencies, production houses, publishers, product teams, cultural organisations, freelance practice, live venues, and creator businesses.',
     nextStep: 'Complete one small portfolio brief under a real deadline and request critique from a practitioner.',
     featured: ['Graphic Designer', 'Animator', 'Filmmaker', 'Content Writer', 'Fashion Designer'],
-    titles: ['Graphic Designer', 'Visual Communication Designer', 'UI Designer', 'Product Designer', 'Industrial Designer', 'Fashion Designer', 'Textile Designer', 'Jewellery Designer', 'Interior Designer', 'Animator', '3D Artist', 'VFX Artist', 'Game Designer', 'Illustrator', 'Photographer', 'Filmmaker', 'Cinematographer', 'Video Editor', 'Sound Designer', 'Music Producer', 'Journalist', 'Content Writer', 'Content Editor', 'Copywriter', 'Technical Writer', 'UX Writer', 'Advertising Creative', 'Art Director', 'Public Relations Specialist', 'Social Media Manager', 'Radio Producer', 'Podcast Producer', 'Theatre Professional', 'Performing Artist', 'Museum Curator'],
+    titles: ['Graphic Designer', 'Visual Communication Designer', 'UI Designer', 'Product Designer', 'UX and Product Design Specialist', 'Industrial Designer', 'Fashion Designer', 'Textile Designer', 'Jewellery Designer', 'Interior Designer', 'Animator', '3D Artist', 'VFX Artist', 'Game Designer', 'Illustrator', 'Photographer', 'Filmmaker', 'Cinematographer', 'Video Editor', 'Sound Designer', 'Music Producer', 'Journalist', 'Content Writer', 'Content Editor', 'Copywriter', 'Technical Writer', 'UX Writer', 'Advertising Creative', 'Art Director', 'Public Relations Specialist', 'Social Media Manager', 'Radio Producer', 'Podcast Producer', 'Theatre Professional', 'Performing Artist', 'Museum Curator'],
   },
   {
     category: 'Law, Government & Public Service',
@@ -121,7 +142,7 @@ const careerBlueprints = [
     environment: 'Schools, colleges, training organisations, counselling settings, nonprofits, foundations, government programmes, community organisations, and learning technology companies.',
     nextStep: 'Facilitate or observe one real learning, counselling, or community activity and record what the work required.',
     featured: ['School Teacher', 'Career Counsellor', 'Special Educator', 'Social Worker'],
-    titles: ['School Teacher', 'Primary Teacher', 'Subject Teacher', 'Special Educator', 'College Lecturer', 'Professor', 'Academic Researcher', 'Instructional Designer', 'Curriculum Designer', 'Education Technology Specialist', 'Career Counsellor', 'School Counsellor', 'Child Psychologist', 'Educational Psychologist', 'Social Worker', 'NGO Programme Manager', 'Community Development Officer', 'Youth Worker', 'Child Development Specialist', 'Learning and Development Facilitator', 'Corporate Trainer', 'Education Policy Analyst', 'Academic Administrator', 'School Leader', 'Education Entrepreneur', 'Research Assistant', 'Monitoring and Evaluation Specialist', 'Fundraising Professional'],
+    titles: ['School Teacher', 'Teaching and Learning', 'Primary Teacher', 'Subject Teacher', 'Special Educator', 'College Lecturer', 'Professor', 'Academic Researcher', 'Instructional Designer', 'Curriculum Designer', 'Education Technology Specialist', 'Career Counsellor', 'School Counsellor', 'Child Psychologist', 'Educational Psychologist', 'Social Worker', 'NGO Programme Manager', 'Community Development Officer', 'Youth Worker', 'Child Development Specialist', 'Learning and Development Facilitator', 'Corporate Trainer', 'Education Policy Analyst', 'Academic Administrator', 'School Leader', 'Education Entrepreneur', 'Research Assistant', 'Monitoring and Evaluation Specialist', 'Fundraising Professional'],
   },
   {
     category: 'Science, Research & Environment',
@@ -168,10 +189,82 @@ const careerBlueprints = [
     featured: ['Translator', 'Foreign Language Specialist', 'International Relations Specialist'],
     titles: ['Translator', 'Interpreter', 'Foreign Language Specialist', 'Localisation Specialist', 'International Relations Specialist', 'International Development Professional', 'Export-Import Specialist', 'Global Mobility Specialist', 'Cross-Cultural Trainer', 'Foreign Correspondent', 'Language Teacher', 'Diplomatic Services Specialist', 'Migration Policy Researcher', 'Global Supply Chain Specialist', 'International Admissions Adviser'],
   },
+  {
+    category: 'Technology & Data',
+    route: 'Build foundations in computing, logic, and digital problem solving, then choose a degree, diploma, certification, apprenticeship, or portfolio-led entry route that matches the role.',
+    requirements: 'Evidence of problem solving, comfort with continuous learning, and role-relevant projects. Formal mathematics or computing requirements vary by course and employer.',
+    environment: 'Product companies, IT services, startups, consulting teams, research labs, government technology units, or remote and hybrid teams.',
+    nextStep: 'Complete a two-hour beginner task for this role and review whether the actual work feels engaging.',
+    featured: [],
+    titles: ['Data Engineer', 'Data Governance Specialist', 'Data Quality Analyst', 'Prompt Engineer', 'LLM Engineer', 'AI Research Scientist', 'AI Implementation Specialist', 'Computer Vision Engineer', 'NLP Engineer', 'Embedded Systems Engineer', 'Firmware Engineer', 'Release Engineer', 'Platform Engineer', 'Technical Support Engineer', 'FinOps Specialist'],
+  },
+  {
+    category: 'Engineering & Built Environment',
+    route: 'Compare accredited engineering, architecture, planning, diploma, and technician routes. Add internships, site exposure, laboratories, design projects, or industry certification.',
+    requirements: 'Mathematics and science requirements depend on the route. Practical design ability, safety awareness, and evidence from projects or site exposure strengthen entry.',
+    environment: 'Design offices, manufacturing plants, construction sites, infrastructure projects, laboratories, utilities, consulting firms, and field locations.',
+    featured: [],
+    nextStep: 'Inspect one real project, lab, drawing, or site workflow and speak with someone doing the work.',
+    titles: ['Mechatronics Technician', 'Automation Engineer', 'Controls Engineer', 'Railway Engineer', 'Fire Protection Engineer', 'Building Services Engineer', 'Water Treatment Engineer', 'Energy Auditor', 'Transport Planner', 'Construction Estimator', 'BIM Coordinator'],
+  },
+  {
+    category: 'Health & Life Sciences',
+    route: 'Map the regulated degree, licensing, supervised practice, entrance examination, and internship requirements before comparing clinical, research, allied-health, and management routes.',
+    requirements: 'Science prerequisites and licensing vary widely. Patient safety, communication, ethical judgement, sustained study, and verified clinical or laboratory exposure matter.',
+    environment: 'Hospitals, clinics, laboratories, rehabilitation centres, community health programmes, research organisations, pharmaceutical companies, and private practice.',
+    featured: [],
+    nextStep: 'Interview a practitioner and compare a typical working day with the training and licensing commitment.',
+    titles: ['Cardiac Technologist', 'Clinical Nutritionist', 'Dental Hygienist', 'Medical Illustrator', 'Medical Transcriptionist', 'Occupational Health Specialist', 'Health Information Manager', 'Clinical Data Analyst', 'Laboratory Quality Officer', 'Medical Device Specialist', 'Rehabilitation Counsellor', 'Geneticist'],
+  },
+  {
+    category: 'Commerce, Finance & Economics',
+    route: 'Compare degree-led, professional qualification, apprenticeship, and employer-training routes. Build spreadsheet, accounting, analysis, and business communication evidence alongside exams.',
+    requirements: 'Numeracy, accuracy, ethics, analytical reasoning, and commercial judgement are central. Professional roles may require staged examinations and supervised experience.',
+    environment: 'Accounting firms, banks, investment companies, insurers, corporate finance teams, consulting firms, fintech companies, government, and independent practice.',
+    featured: [],
+    nextStep: 'Complete a realistic financial analysis or accounting sample and compare two qualification routes.',
+    titles: ['Business Intelligence Analyst', 'Financial Controller', 'Treasury Manager', 'Credit Risk Manager', 'Fraud Investigator', 'FinTech Product Manager', 'Economic Policy Analyst', 'Corporate Treasurer', 'Pricing Analyst', 'Benefits Consultant', 'Valuation Specialist', 'Financial Planner'],
+  },
+  {
+    category: 'Business, Marketing & Operations',
+    route: 'Build broad business foundations, then test the function through projects, internships, case competitions, sales exposure, operations work, or a small venture before specialising.',
+    requirements: 'Communication, ownership, customer understanding, commercial judgement, teamwork, and measurable outcomes often matter as much as a specific degree.',
+    environment: 'Companies of every size, startups, consulting firms, agencies, retail and e-commerce operations, field teams, and independent ventures.',
+    featured: [],
+    nextStep: 'Run a small role simulation or project with a clear customer, deadline, and measurable outcome.',
+    titles: ['Product Operations Manager', 'Revenue Operations Specialist', 'Community Manager', 'Partnerships Manager', 'Customer Insights Specialist', 'Digital Transformation Manager', 'Change Manager', 'Service Designer', 'Business Continuity Manager', 'Workforce Planner', 'Category Manager', 'Operations Research Manager'],
+  },
+  {
+    category: 'Design, Media & Creative Arts',
+    route: 'Develop fundamentals, then build a focused portfolio through briefs, commissions, competitions, internships, performances, or published work. Compare degree, diploma, studio, and apprenticeship routes.',
+    requirements: 'A relevant portfolio, consistent practice, critique, audience awareness, and production discipline are usually decisive. Some fields also require auditions or technical software skill.',
+    environment: 'Studios, agencies, production houses, publishers, product teams, cultural organisations, freelance practice, live venues, and creator businesses.',
+    featured: [],
+    nextStep: 'Complete one small portfolio brief under a real deadline and request critique from a practitioner.',
+    titles: ['Motion Graphics Designer', 'Service Designer', 'Interaction Designer', 'Information Designer', 'Exhibition Designer', 'Set Designer', 'Lighting Designer', 'Editorial Designer', 'Brand Strategist', 'Creative Technologist', 'Audio Producer', 'Music Therapist'],
+  },
+  {
+    category: 'Law, Government & Public Service',
+    route: 'Map the required degree, competitive examination, licensing, internship, language, and service pathway. Keep a parallel plan because many public routes have long selection cycles.',
+    requirements: 'Reading, writing, reasoning, ethics, current affairs, public communication, and sustained preparation are central. Regulated legal roles require formal qualifications.',
+    environment: 'Courts, law firms, corporate legal teams, civil services, regulators, local government, policy organisations, defence services, and public institutions.',
+    featured: [],
+    nextStep: 'Analyse one real case, policy, or role examination and interview someone inside the system.',
+    titles: ['Human Rights Officer', 'Environmental Lawyer', 'Data Protection Officer', 'Public Affairs Specialist', 'Regulatory Investigator', 'Court Administrator', 'Community Safety Officer', 'Intelligence Researcher', 'Procurement Officer', 'Public Information Officer', 'Diplomatic Assistant', 'Electoral Data Officer'],
+  },
+  {
+    category: 'Education, Psychology & Social Impact',
+    route: 'Combine subject or human-development knowledge with supervised practice, teaching demonstrations, counselling exposure, programme delivery, research, or community work.',
+    requirements: 'Communication, patience, safeguarding, reflective practice, and evidence of working responsibly with learners or communities are essential. Licensing varies by role.',
+    environment: 'Schools, colleges, training organisations, counselling settings, nonprofits, foundations, government programmes, community organisations, and learning technology companies.',
+    featured: [],
+    nextStep: 'Facilitate or observe one real learning, counselling, or community activity and record what the work required.',
+    titles: ['Speech and Language Educator', 'Educational Technologist', 'Student Success Adviser', 'Admissions Counsellor', 'Research Coordinator', 'Volunteer Coordinator', 'Family Support Worker', 'Restorative Practice Facilitator', 'Inclusion Adviser', 'Learning Analytics Specialist', 'Community Researcher', 'Youth Programme Coordinator'],
+  },
 ] as const;
 
 export const careerPresets: CareerPreset[] = careerBlueprints.flatMap((blueprint) =>
-  blueprint.titles.map((title) => ({
+  blueprint.titles.map((title: string) => ({
     key: slug(title),
     title,
     category: blueprint.category,
@@ -193,13 +286,13 @@ const skillGroups: Array<{
   priority: SkillPreset['priority'];
   titles: string[];
 }> = [
-  { category: 'communication', targetLevel: 3, priority: 'core', titles: ['Clear writing', 'Professional email writing', 'Presentation skills', 'Public speaking', 'Active listening', 'Interview communication', 'Group discussion', 'Storytelling', 'Negotiation', 'Persuasion', 'Question asking', 'Giving and receiving feedback', 'Client communication', 'Cross-cultural communication', 'Conflict resolution', 'Facilitation', 'Meeting communication', 'Technical communication'] },
+  { category: 'communication', targetLevel: 3, priority: 'core', titles: ['Clear writing', 'Clear speaking', 'Professional email writing', 'Asynchronous communication', 'Presentation skills', 'Public speaking', 'Active listening', 'Interview communication', 'Group discussion', 'Storytelling', 'Negotiation', 'Persuasion', 'Selling and persuasion', 'Question asking', 'Giving and receiving feedback', 'Client communication', 'Cross-cultural communication', 'Conflict resolution', 'Facilitation', 'Meeting communication', 'Technical communication'] },
   { category: 'analytical', targetLevel: 3, priority: 'core', titles: ['Critical thinking', 'Problem framing', 'Quantitative reasoning', 'Data interpretation', 'Research skills', 'Source evaluation', 'Decision making', 'Systems thinking', 'Logical reasoning', 'Statistical thinking', 'Financial literacy', 'Commercial awareness', 'Root-cause analysis', 'Scenario planning', 'Risk assessment', 'Experimental thinking', 'Policy analysis', 'Attention to detail'] },
-  { category: 'digital', targetLevel: 3, priority: 'important', titles: ['Computer fundamentals', 'Online research', 'Word processing', 'Spreadsheet fundamentals', 'Advanced spreadsheets', 'Presentation software', 'Digital collaboration', 'Data privacy', 'Cybersecurity awareness', 'AI tool literacy', 'Prompt and output evaluation', 'SQL fundamentals', 'Python fundamentals', 'Data visualisation', 'Version control with Git', 'Web publishing', 'No-code automation', 'Cloud fundamentals', 'CRM fundamentals', 'Digital analytics', 'CAD fundamentals', 'GIS fundamentals', 'Design software fundamentals', 'Video editing fundamentals'] },
+  { category: 'digital', targetLevel: 3, priority: 'important', titles: ['Computer and phone literacy', 'Computer fundamentals', 'Typing fluency', 'Internet search', 'Online research', 'Source checking', 'Word processing', 'Spreadsheet fundamentals', 'Advanced spreadsheets', 'Presentation software', 'Digital collaboration', 'Data privacy', 'Security and privacy basics', 'Online safety', 'Cybersecurity awareness', 'AI tool literacy', 'Basic AI usage', 'Prompt and output evaluation', 'SQL fundamentals', 'Python fundamentals', 'Data visualisation', 'Data literacy', 'Version control with Git', 'Git and version control', 'Web literacy', 'Web publishing', 'No-code automation', 'Cloud fundamentals', 'Cloud literacy', 'API literacy', 'CRM fundamentals', 'Digital analytics', 'CAD fundamentals', 'GIS fundamentals', 'Design software fundamentals', 'Video editing fundamentals'] },
   { category: 'technical', targetLevel: 3, priority: 'important', titles: ['Programming logic', 'Web development', 'Mobile development', 'Database design', 'Software testing', 'API fundamentals', 'Network fundamentals', 'Cybersecurity operations', 'Machine learning fundamentals', 'Accounting fundamentals', 'Financial modelling', 'Bookkeeping', 'Laboratory technique', 'Scientific measurement', 'Engineering drawing', '3D modelling', 'Electrical safety', 'Mechanical fabrication', 'Project scheduling', 'Quality assurance', 'Supply chain planning', 'Market research', 'SEO execution', 'Performance marketing', 'Clinical documentation', 'Legal research'] },
-  { category: 'creative', targetLevel: 3, priority: 'important', titles: ['Visual design', 'Design thinking', 'Idea generation', 'Creative problem solving', 'Sketching', 'Photography', 'Video production', 'Animation fundamentals', 'Content creation', 'Copywriting', 'Editorial judgment', 'User experience design', 'Portfolio curation', 'Brand thinking', 'Sound editing', 'Spatial design', 'Fashion illustration', 'Creative direction'] },
+  { category: 'creative', targetLevel: 3, priority: 'important', titles: ['Visual design', 'Design thinking', 'Idea generation', 'Creative problem solving', 'Sketching', 'Photography', 'Video production', 'Animation fundamentals', 'Content creation', 'Copywriting', 'Editorial judgement', 'User experience design', 'Portfolio curation', 'Brand thinking', 'Sound editing', 'Spatial design', 'Fashion illustration', 'Creative direction'] },
   { category: 'leadership', targetLevel: 3, priority: 'important', titles: ['Personal ownership', 'Teamwork', 'Delegation', 'Coaching others', 'Planning and prioritisation', 'Project leadership', 'Stakeholder management', 'Decision ownership', 'Change management', 'Resource planning', 'Ethical leadership', 'Inclusive leadership', 'Volunteer leadership', 'Community leadership', 'Performance conversations'] },
-  { category: 'employability', targetLevel: 3, priority: 'core', titles: ['Time management', 'Reliability', 'Adaptability', 'Learning how to learn', 'Career research', 'Goal setting', 'Professional networking', 'Resume writing', 'LinkedIn profile building', 'Portfolio building', 'Job search strategy', 'Internship search', 'Interview preparation', 'Workplace etiquette', 'Remote work discipline', 'Personal productivity', 'Resilience', 'Self-awareness', 'Growth mindset', 'Professional ethics'] },
+  { category: 'employability', targetLevel: 3, priority: 'core', titles: ['Time management', 'Deep work and focus', 'Reliability', 'Adaptability', 'Learning how to learn', 'Note-taking', 'Logical thinking', 'Reading documentation', 'Project habits and finishing things', 'School-level mathematics', 'Financial literacy', 'Personal money safety', 'Career research', 'Goal setting', 'High agency', 'Professional networking', 'Personal branding', 'CV writing', 'LinkedIn profile building', 'Portfolio building', 'Project management', 'Project completion', 'Job search strategy', 'Internship search', 'Interview preparation', 'Workplace etiquette', 'Remote work discipline', 'Personal productivity', 'Resilience and handling rejection', 'Resilience', 'Self-awareness', 'Growth mindset', 'Professional ethics'] },
   { category: 'domain', targetLevel: 3, priority: 'important', titles: ['Industry knowledge', 'Role knowledge', 'Customer understanding', 'Regulatory awareness', 'Safety awareness', 'Sustainability awareness', 'Healthcare awareness', 'Education-system knowledge', 'Financial-market awareness', 'Public-policy awareness', 'Manufacturing awareness', 'Agricultural value-chain knowledge', 'Hospitality operations knowledge', 'Media-industry knowledge', 'Entrepreneurship fundamentals'] },
   { category: 'language', targetLevel: 3, priority: 'useful', titles: ['Academic English', 'Business English', 'Hindi communication', 'Regional language proficiency', 'Foreign language proficiency', 'Translation', 'Interpretation', 'Vocabulary development', 'Reading comprehension', 'Professional pronunciation'] },
 ];
@@ -216,8 +309,101 @@ function skillGoal(title: string, category: SkillPreset['category']) {
     language: 'use it in a real written and spoken task',
     employability: 'apply it consistently for four weeks and record evidence',
   };
-  return `Develop ${title.toLowerCase()} through deliberate weekly practice; ${proof[category]}.`;
+  return `Develop ${title.toLowerCase()} through deliberate weekly work; ${proof[category]}.`;
 }
+
+const skillStarterTask = (title: string, category: SkillPreset['category']) => {
+  const lower = title.toLowerCase();
+  if (lower.includes('writing') || lower.includes('email')) return 'Write a clear 150-word explanation for a real audience and revise it once.';
+  if (lower.includes('presentation') || lower.includes('public speaking')) return 'Explain one idea aloud for two minutes, then note one improvement.';
+  if (lower.includes('spreadsheet') || lower.includes('data')) return 'Use a small dataset to answer one practical question and save the working file.';
+  if (lower.includes('program') || lower.includes('python') || lower.includes('sql') || lower.includes('coding')) return 'Complete one small exercise without copying the example and keep the result.';
+  if (lower.includes('research') || lower.includes('source')) return 'Compare two trustworthy sources and record what agrees, differs, and remains uncertain.';
+  if (lower.includes('time') || lower.includes('planning') || lower.includes('productivity')) return 'Plan one week of focused work, complete the first block, and review what changed.';
+  if (category === 'creative') return 'Create one small piece from a clear brief and ask for one specific critique.';
+  if (category === 'technical') return 'Complete one supervised practical task and record the quality or safety checks used.';
+  return 'Use this skill in one small, real task and record what you did, what worked, and what to try next.';
+};
+
+const skillEvidenceHint = (title: string) => {
+  const lower = title.toLowerCase();
+  if (lower.includes('communication') || lower.includes('writing') || lower.includes('presentation')) return 'Draft, recording, or feedback from the audience';
+  if (lower.includes('data') || lower.includes('spreadsheet') || lower.includes('program') || lower.includes('python') || lower.includes('sql')) return 'File, link, screenshots, or a short walkthrough';
+  if (lower.includes('research') || lower.includes('source')) return 'Source notes with your conclusion and uncertainty';
+  return 'Work sample, link, photo, result, or coach feedback';
+};
+
+export function skillProgressionFor(title: string, category: SkillPreset['category']): SkillLevelGuidance[] {
+  const name = title.trim() || 'this skill';
+  const examples: Record<SkillPreset['category'], [string, string, string]> = {
+    technical: [
+      `Follow a clear checklist to complete one small ${name.toLowerCase()} task with support.`,
+      `Complete a realistic ${name.toLowerCase()} task independently, test the result, and explain your choices.`,
+      `Design or improve a reliable ${name.toLowerCase()} workflow, handle an edge case, and help someone else use it safely.`,
+    ],
+    digital: [
+      `Use a digital tool to finish one small ${name.toLowerCase()} task and save the work clearly.`,
+      `Choose an efficient workflow for ${name.toLowerCase()}, check its accuracy and privacy, and repeat it reliably.`,
+      `Improve a ${name.toLowerCase()} workflow for a real team, document the limits, and coach others through it.`,
+    ],
+    communication: [
+      `Share one clear message about ${name.toLowerCase()} with a listener or reader and ask what was unclear.`,
+      `Adapt your ${name.toLowerCase()} to a real audience, handle a question, and use feedback to revise it.`,
+      `Lead a high-stakes ${name.toLowerCase()} situation, align different viewpoints, and leave a durable record.`,
+    ],
+    analytical: [
+      `Use a simple example to practise ${name.toLowerCase()} and state what the evidence does and does not show.`,
+      `Apply ${name.toLowerCase()} to a realistic case, compare alternatives, and justify a recommendation with sources.`,
+      `Build a repeatable ${name.toLowerCase()} approach for uncertain decisions, test its assumptions, and review its impact.`,
+    ],
+    creative: [
+      `Make a small piece using a brief that names the purpose and audience for ${name.toLowerCase()}.`,
+      `Develop and revise a ${name.toLowerCase()} piece after specific critique, keeping the brief and decisions visible.`,
+      `Set the creative direction for a complex ${name.toLowerCase()} project, balance constraints, and raise the quality of the work around you.`,
+    ],
+    leadership: [
+      `Take ownership of one small ${name.toLowerCase()} responsibility with a clear deadline and ask for help early.`,
+      `Coordinate people and trade-offs for ${name.toLowerCase()}, communicate progress, and deliver the agreed result.`,
+      `Lead an ambiguous ${name.toLowerCase()} outcome across teams, develop other people, and improve the system after review.`,
+    ],
+    domain: [
+      `Learn the key terms and standards for ${name.toLowerCase()} and use them correctly in one guided task.`,
+      `Apply ${name.toLowerCase()} to a real case, identify the relevant risks or rules, and explain the decision.`,
+      `Advise on a complex ${name.toLowerCase()} problem, reconcile competing requirements, and update practice when the domain changes.`,
+    ],
+    language: [
+      `Complete one short written or spoken ${name.toLowerCase()} task with a model or supportive feedback.`,
+      `Use ${name.toLowerCase()} in a realistic professional interaction, adjust for context, and correct recurring errors.`,
+      `Handle nuanced ${name.toLowerCase()} work across audiences, preserve meaning under pressure, and mentor another speaker or writer.`,
+    ],
+    employability: [
+      `Use ${name.toLowerCase()} once in a small study or work task and record what helped you follow through.`,
+      `Apply ${name.toLowerCase()} consistently for four weeks, communicate constraints, and show a dependable outcome.`,
+      `Use ${name.toLowerCase()} to improve a team or project system, anticipate failure points, and share the learning with others.`,
+    ],
+  };
+  const advice: Record<SkillPreset['category'], [string, string, string]> = {
+    technical: ['Start with supervision and safety checks.', 'Repeat the task until the result is reliable, not merely finished.', 'Show tests, edge cases, and a short handover so others can trust the work.'],
+    digital: ['Name the purpose, keep files organised, and protect personal information.', 'Compare the output with a source or expected result before sharing it.', 'Record trade-offs, permissions, and failure recovery so the workflow scales responsibly.'],
+    communication: ['Prefer one clear point and invite a check for understanding.', 'Change the message for the audience instead of only adding more words.', 'Make disagreement safer by naming decisions, owners, and next steps.'],
+    analytical: ['Write down the question and your uncertainty before calculating.', 'Show sources, assumptions, alternatives, and the reason for your recommendation.', 'Test how the conclusion changes when key assumptions or evidence change.'],
+    creative: ['Keep the brief small and finish a first version before polishing.', 'Treat critique as information; record what changed and why.', 'Balance originality with audience, access, rights, budget, and a repeatable process.'],
+    leadership: ['Choose a small responsibility and make the next action visible.', 'Set expectations, listen for blockers, and close the loop with evidence.', 'Build capability in others and improve the conditions that produced the result.'],
+    domain: ['Use a glossary, credible sources, and supervision where rules matter.', 'Connect domain knowledge to a real decision and state the consequences.', 'Track changes in standards, evidence, and context before advising others.'],
+    language: ['Practise little and often, then ask for a specific correction.', 'Notice audience, tone, and professional conventions as well as grammar.', 'Protect meaning and relationships when the context is ambiguous or high stakes.'],
+    employability: ['Make a small promise you can keep and record it.', 'Use a calendar or checklist to make consistency visible.', 'Improve the surrounding workflow so reliable behaviour does not depend on memory alone.'],
+  };
+  return (['Starter', 'Working', 'Advanced'] as const).map((level, index) => ({ level, example: examples[category][index], advice: advice[category][index] }));
+}
+
+const skillStages: Record<SkillPreset['category'], string[]> = {
+  technical: ['Start', 'Build'], digital: ['Start', 'Build'], communication: ['Start', 'Connect'], analytical: ['Decide', 'Build'],
+  creative: ['Build', 'Publish or apply'], leadership: ['Connect', 'Evaluate'], domain: ['Start', 'Build'], language: ['Start', 'Connect'], employability: ['Start', 'Evaluate'],
+};
+const skillCareerGroups: Record<SkillPreset['category'], string[]> = {
+  technical: ['Technology and data', 'Engineering and applied work'], digital: ['Technology and data', 'Business and operations'], communication: ['Every career family'], analytical: ['Data, finance, research, and policy'],
+  creative: ['Design, media, and communication'], leadership: ['Business, people, and entrepreneurship'], domain: ['The subject area you choose'], language: ['International and people-facing work'], employability: ['Every career family'],
+};
 
 export const skillPresets: SkillPreset[] = skillGroups.flatMap((group) =>
   group.titles.map((title) => ({
@@ -227,8 +413,32 @@ export const skillPresets: SkillPreset[] = skillGroups.flatMap((group) =>
     targetLevel: group.targetLevel,
     priority: group.priority,
     developmentGoal: skillGoal(title, group.category),
+    starterTask: skillStarterTask(title, group.category),
+    evidenceHint: skillEvidenceHint(title),
+    estimatedMinutes: group.category === 'technical' ? 60 : group.category === 'creative' ? 45 : 30,
+    recommendedStages: skillStages[group.category],
+    relatedCareerGroups: skillCareerGroups[group.category],
+    progression: skillProgressionFor(title, group.category),
   })),
 );
+
+// Specialist reference families remain optional: they enrich the catalogue
+// without adding more default skills to a student's roadmap.
+const specialistSkillPresets: SkillPreset[] = [
+  ['Semiconductor fundamentals', 'technical'], ['Digital hardware and chip design', 'technical'],
+  ['AI agent workflow design', 'digital'], ['AI governance and model risk', 'analytical'],
+  ['Smart contract fundamentals', 'technical'], ['Legal technology operations', 'domain'],
+  ['Instructional design', 'domain'], ['Supply chain technology', 'domain'],
+  ['FinOps and cloud cost control', 'analytical'], ['Technical B2B sales', 'communication'],
+  // Explicit tool skills named in the reference dashboards. These stay
+  // optional specialist choices rather than inflating every student plan.
+  ['Data structures and algorithms basics', 'technical'], ['Pandas data analysis', 'technical'],
+  ['Matplotlib data visualisation', 'technical'], ['GitHub portfolio practice', 'digital'],
+  ['Figma interface prototyping', 'creative'], ['Canva visual communication', 'creative'],
+  ['Tally accounting basics', 'domain'], ['PubMed research literacy', 'domain'],
+  ['Hugging Face model workflow', 'digital'],
+].map(([title, category]) => ({ key: slug(title), title, category: category as SkillPreset['category'], targetLevel: 2, priority: 'useful', developmentGoal: skillGoal(title, category as SkillPreset['category']), starterTask: skillStarterTask(title, category as SkillPreset['category']), evidenceHint: skillEvidenceHint(title), estimatedMinutes: 60, recommendedStages: ['Start', 'Build'], relatedCareerGroups: ['Technology and data', 'Specialist or cross-disciplinary work'], progression: skillProgressionFor(title, category as SkillPreset['category']) }));
+skillPresets.push(...specialistSkillPresets);
 
 export const skillCategories = skillGroups.map((group) => group.category);
 
@@ -240,10 +450,10 @@ export const actionPresets: ActionPreset[] = [
   { key: 'college-comparison', category: 'explore', title: 'Compare three colleges or training providers', details: 'Verify accreditation, curriculum, faculty, facilities, internships, outcomes, fees, and refund terms.', dueDays: 10 },
   { key: 'job-description-scan', category: 'explore', title: 'Scan 20 real job descriptions', details: 'Count the most repeated skills, qualifications, tools, experience requirements, and locations.', dueDays: 7 },
   { key: 'salary-demand-check', category: 'explore', title: 'Check demand and early-career pay', details: 'Use multiple current sources; separate typical entry pay from exceptional claims and note regional differences.', dueDays: 7 },
-  { key: 'constraint-fit-check', category: 'explore', title: 'Check the option against real constraints', details: 'Compare cost, time, commute, relocation, family responsibilities, health, access, and risk tolerance.', dueDays: 4 },
-  { key: 'backup-route-map', category: 'explore', title: 'Map a practical alternative route', details: 'Choose an option that preserves important interests while reducing the main risk of the primary direction.', dueDays: 7 },
+  { key: 'constraint-fit-check', category: 'explore', title: 'Check the option against your circumstances', details: 'Compare cost, time, travel, relocation, family responsibilities, health, access, and comfort with risk.', dueDays: 4 },
+  { key: 'backup-route-map', category: 'explore', title: 'Map a practical alternative route', details: 'Choose an option that preserves important interests while reducing the main risk of the primary career option.', dueDays: 7 },
   { key: 'beginner-course-sample', category: 'learn', title: 'Complete a beginner course sample', details: 'Study for at least two focused hours, complete the exercise, and record what felt energising or draining.', dueDays: 7 },
-  { key: 'skill-practice-plan', category: 'learn', title: 'Create a four-week skill practice plan', details: 'Set a weekly target, practice task, evidence item, feedback source, and review date.', dueDays: 4 },
+  { key: 'skill-practice-plan', category: 'learn', title: 'Create a four-week skill development plan', details: 'Set a weekly target, a task to practise, evidence, a feedback source, and a check-in date.', dueDays: 4 },
   { key: 'foundation-topic', category: 'learn', title: 'Learn one foundation topic', details: 'Choose a topic that appears repeatedly in course curricula or job descriptions and explain it in your own words.', dueDays: 7 },
   { key: 'tool-tutorial', category: 'learn', title: 'Finish one role-relevant tool tutorial', details: 'Recreate the example independently and save the result as evidence.', dueDays: 7 },
   { key: 'weekly-reading', category: 'learn', title: 'Start a weekly industry reading habit', details: 'Read two credible pieces each week and keep a short note on trends, terminology, and open questions.', dueDays: 14 },
@@ -255,19 +465,47 @@ export const actionPresets: ActionPreset[] = [
   { key: 'professional-interviews', category: 'connect', title: 'Conduct two informational interviews', details: 'Ask about daily work, entry routes, early mistakes, hiring evidence, progression, and who should avoid the field.', dueDays: 10 },
   { key: 'alumni-conversation', category: 'connect', title: 'Speak with an alumnus or recent entrant', details: 'Focus on the transition from study to first work and what they wish they had tested earlier.', dueDays: 10 },
   { key: 'workplace-visit', category: 'connect', title: 'Arrange a workplace visit or observation', details: 'Observe the environment, pace, tools, teamwork, customer contact, and less-visible routine work.', dueDays: 21 },
-  { key: 'mentor-feedback', category: 'connect', title: 'Request feedback from a practitioner', details: 'Share one work sample and ask for the top two strengths, top two gaps, and next practice task.', dueDays: 10 },
+  { key: 'mentor-feedback', category: 'connect', title: 'Request feedback from a practitioner', details: 'Share one work sample and ask for the top two strengths, top two gaps, and the next task to practise.', dueDays: 10 },
   { key: 'network-map', category: 'connect', title: 'Build a ten-person learning network', details: 'Include peers, seniors, educators, practitioners, alumni, and one professional body or community.', dueDays: 14 },
-  { key: 'resume-tailor', category: 'apply', title: 'Tailor the resume for one target role', details: 'Use evidence from the role description; remove generic claims and quantify relevant outcomes.', dueDays: 5 },
+  { key: 'resume-tailor', category: 'apply', title: 'Tailor your CV for one target role', details: 'Use evidence from the role description; remove generic claims and quantify relevant outcomes.', dueDays: 5 },
   { key: 'portfolio-publish', category: 'apply', title: 'Publish a focused portfolio', details: 'Include three strongest evidence items, clear context, your contribution, outcome, and contact information.', dueDays: 14 },
   { key: 'internship-shortlist', category: 'apply', title: 'Shortlist ten realistic internships', details: 'Track eligibility, deadline, contact, required evidence, status, and a tailored next action.', dueDays: 7 },
   { key: 'application-submit', category: 'apply', title: 'Submit one high-quality application', details: 'Tailor every section, proofread, save the version, and schedule a follow-up date.', dueDays: 5 },
   { key: 'mock-interview', category: 'apply', title: 'Complete a recorded mock interview', details: 'Answer role-specific questions, review the recording, and improve two specific behaviours.', dueDays: 7 },
   { key: 'decision-scorecard', category: 'decide', title: 'Complete a weighted decision scorecard', details: 'Score fit, interest, ability, opportunity, cost, time, constraints, reversibility, and evidence quality.', dueDays: 5 },
-  { key: 'primary-focus-decision', category: 'decide', title: 'Choose the primary focus percentage', details: 'Commit 50-90% of available effort to the primary direction and reserve the remainder for deliberate alternatives.', dueDays: 3 },
+  { key: 'primary-focus-decision', category: 'decide', title: 'Choose your serious career options', details: 'Mark the career options you want to explore seriously, keep useful alternatives open, and set a date to check what you learn.', dueDays: 3 },
   { key: 'option-elimination', category: 'decide', title: 'Rule out one option with evidence', details: 'State the evidence, trade-off, and condition that could justify revisiting the option later.', dueDays: 5 },
-  { key: 'decision-conversation', category: 'decide', title: 'Hold a family decision conversation', details: 'Share evidence, constraints, cost, timeline, risks, alternatives, and the next review point.', dueDays: 7 },
-  { key: 'ninety-day-plan', category: 'decide', title: 'Write a 90-day execution plan', details: 'Set monthly outcomes, weekly commitments, evidence milestones, support needed, and review dates.', dueDays: 5 },
+  { key: 'decision-conversation', category: 'decide', title: 'Hold a family decision conversation', details: 'Share evidence, constraints, cost, timeline, risks, alternatives, and the next check-in point.', dueDays: 7 },
+  { key: 'ninety-day-plan', category: 'decide', title: 'Write a 90-day execution plan', details: 'Set monthly outcomes, weekly commitments, evidence milestones, support needed, and check-in dates.', dueDays: 5 },
+  { key: 'publish-work-explanation', category: 'apply', title: 'Publish a clear explanation of your work', details: 'Explain the problem, your approach, result, and what you learned in a format another person can understand.', dueDays: 10 },
+  { key: 'contact-five-organisations', category: 'connect', title: 'Contact five relevant people or organisations', details: 'Send respectful, specific messages asking about entry routes, practical work, or feedback. Track replies and follow-ups.', dueDays: 14 },
+  { key: 'season-review', category: 'decide', title: 'Write a season review', details: 'Record evidence created, actions completed, blockers, what changed, and whether to continue, adjust, or change your career option.', dueDays: 7 },
+  { key: 'thirty-day-career-test', category: 'decide', title: 'Run a 30-day career test', details: 'Choose one career option, define a small weekly routine and evidence target, then decide whether to continue, adjust, or change your career option.', dueDays: 30 },
+  { key: 'active-learning-sprint', category: 'learn', title: 'Complete 30 hours of active learning', details: 'Split the time into focused sessions with practice, retrieval, and a saved output. Record what remains difficult.', dueDays: 30 },
+  { key: 'portfolio-readme', category: 'apply', title: 'Write a portfolio README', details: 'Explain the problem, your contribution, tools, decisions, result, limitations, and what you would improve next.', dueDays: 7 },
+  { key: 'public-data-project', category: 'build', title: 'Analyse a public dataset', details: 'Choose a trustworthy dataset, document cleaning, answer one useful question, and present the result with limitations.', dueDays: 14 },
+  { key: 'personal-finance-model', category: 'build', title: 'Build a practical finance model', details: 'Create a simple budget or scenario model, state assumptions, test alternatives, and explain the decision it supports.', dueDays: 10 },
+  { key: 'starter-career-test', category: 'decide', title: 'Run a 30-minute career taste test', details: 'Read one realistic task brief or watch one credible working-day account, then record what interested you, what felt difficult, and one question to investigate.', dueDays: 3, estimatedMinutes: 30 },
+  { key: 'one-week-practical-test', category: 'build', title: 'Complete a one-week practical test', details: 'Spend a few focused sessions completing one small role-relevant task. Save the output, note the time it took, and record what you would improve.', dueDays: 7, estimatedMinutes: 180 },
+  { key: 'four-week-portfolio-project', category: 'build', title: 'Complete a four-week portfolio project', details: 'Define a useful brief, work in weekly stages, gather feedback, and publish a clear explanation of the finished result and its limitations.', dueDays: 28, estimatedMinutes: 600 },
+  { key: 'deep-portfolio-project', category: 'build', title: 'Build a deeper portfolio project', details: 'Choose a meaningful problem, research the context, build and test a robust solution, document decisions, and explain the result to a real audience.', dueDays: 56, estimatedMinutes: 1200 },
+  { key: 'two-hour-role-task', category: 'build', title: 'Complete a two-hour role task', details: 'Use a realistic beginner brief for the career option you are considering. Work without copying, save the result, and record what felt interesting, difficult, or unclear.', dueDays: 7, estimatedMinutes: 120 },
+  { key: 'build-break-explain-lab', category: 'build', title: 'Build, break, and explain one small project', details: 'Create a small working version, deliberately test one failure case, fix it, and explain the decisions and limitations in plain language.', dueDays: 30, estimatedMinutes: 600 },
+  { key: 'deep-work-routine', category: 'learn', title: 'Run three phone-free focus sessions', details: 'Complete three 45–60 minute sessions with the phone away, one defined task, and no unrelated tabs. Record what helped you sustain attention.', dueDays: 7, estimatedMinutes: 180 },
+  { key: 'source-and-ai-check', category: 'learn', title: 'Verify an AI-assisted answer', details: 'Ask an AI tool for a draft, check important claims against two trustworthy sources, correct the errors, and record what the tool got wrong.', dueDays: 5, estimatedMinutes: 45 },
+  { key: 'money-safety-check', category: 'decide', title: 'Make a simple personal money plan', details: 'List expected income, essential costs, learning costs, and a small buffer. Use it to check whether the proposed route is financially safe and reversible.', dueDays: 7, estimatedMinutes: 60 },
 ];
+
+const actionMilestone = (category: ActionPreset['category']): ActionPreset['milestone'] => ({
+  explore: 'Decide', decide: 'Decide', learn: 'Start', build: 'Build', apply: 'Publish or apply', connect: 'Connect',
+}[category] as ActionPreset['milestone']);
+
+// Keep the catalogue concise while giving every action a useful completion signal.
+for (const action of actionPresets) {
+  action.milestone = action.key === 'season-review' ? 'Evaluate' : actionMilestone(action.category);
+  action.estimatedMinutes ??= action.category === 'build' || action.category === 'apply' ? 120 : action.category === 'connect' ? 45 : 60;
+  action.evidenceHint = action.category === 'connect' ? 'Conversation notes, contact, or agreed next step' : 'Save the output, link, notes, or feedback that shows completion';
+}
 
 export const sessionPresets: SessionPreset[] = [
   { key: 'cohort-orientation', group: 'Start well', sessionType: 'orientation', topic: 'Cohort orientation and coaching agreement', agenda: 'Purpose, roles, confidentiality, participation norms, coaching rhythm, support routes, and the first commitment.', preparation: 'Bring one career question and one practical constraint you want the group to understand.', durationMinutes: 60 },
@@ -279,32 +517,32 @@ export const sessionPresets: SessionPreset[] = [
   { key: 'career-reality', group: 'Explore options', sessionType: 'career-options', topic: 'Career reality: routine work, pressure, and progression', agenda: 'Compare the public image with daily tasks, early-career work, pressure, training, pay, location, and progression.', preparation: 'Bring one job description and one credible day-in-the-life source.', durationMinutes: 60 },
   { key: 'education-routes', group: 'Explore options', sessionType: 'career-options', topic: 'Degrees, diplomas, certifications, and alternative routes', agenda: 'Eligibility, curriculum, duration, cost, accreditation, outcomes, apprenticeships, and route flexibility.', preparation: 'Shortlist two routes for one career option.', durationMinutes: 75 },
   { key: 'future-demand', group: 'Explore options', sessionType: 'career-options', topic: 'Demand, technology change, and transferable skills', agenda: 'Demand signals, task change, geographic variation, automation exposure, durable skills, and evidence quality.', preparation: 'Collect three current demand signals from credible sources.', durationMinutes: 60 },
-  { key: 'primary-alternative', group: 'Make decisions', sessionType: 'decision-planning', topic: 'Choose a primary direction and deliberate alternatives', agenda: 'Review evidence, select one primary focus, allocate 50-90% effort, define alternatives, and set review conditions.', preparation: 'Complete the option scorecard and propose an effort split.', durationMinutes: 75 },
+  { key: 'primary-alternative', group: 'Make decisions', sessionType: 'decision-planning', topic: 'Choose serious career options and useful alternatives', agenda: 'Review evidence, identify one or more primary career options, keep useful alternatives open, and set review conditions.', preparation: 'Complete the option scorecard and bring the career options you want to explore next.', durationMinutes: 75 },
   { key: 'decision-scorecard', group: 'Make decisions', sessionType: 'decision-planning', topic: 'Evidence-based career option scorecard', agenda: 'Weight fit, ability, opportunity, constraints, cost, time, risk, reversibility, and current evidence.', preparation: 'Bring two to four options with at least one real-world test each.', durationMinutes: 75 },
-  { key: 'family-alignment', group: 'Make decisions', sessionType: 'parent-briefing', topic: 'Family alignment without losing student ownership', agenda: 'Shared goals, evidence, concerns, finances, safety, timelines, alternatives, and the next review checkpoint.', preparation: 'Student and family each bring top three hopes and top three concerns.', durationMinutes: 75 },
-  { key: 'skill-gap-map', group: 'Build capability', sessionType: 'skill-building', topic: 'Skill gap map for the primary direction', agenda: 'Identify core, important, and useful skills; rate current evidence; choose weekly practice and proof.', preparation: 'Bring three target-role descriptions or course curricula.', durationMinutes: 75 },
+  { key: 'family-alignment', group: 'Make decisions', sessionType: 'parent-briefing', topic: 'Family alignment without losing student ownership', agenda: 'Shared goals, evidence, concerns, finances, safety, timelines, alternatives, and the next check-in checkpoint.', preparation: 'Student and family each bring top three hopes and top three concerns.', durationMinutes: 75 },
+  { key: 'skill-gap-map', group: 'Build capability', sessionType: 'skill-building', topic: 'Skill gap map for serious career options', agenda: 'Identify core, important, and useful skills; rate current evidence; choose a weekly way to practise and proof.', preparation: 'Bring three target-role descriptions or course curricula.', durationMinutes: 75 },
   { key: 'proof-of-work', group: 'Build capability', sessionType: 'skill-building', topic: 'Build proof of work, not just certificates', agenda: 'Projects, work samples, feedback, volunteering, competitions, documentation, and portfolio quality.', preparation: 'Bring one existing output that could become evidence.', durationMinutes: 60 },
-  { key: 'communication-clinic', group: 'Build capability', sessionType: 'skill-building', topic: 'Communication clinic: explain your work clearly', agenda: 'Concise introductions, project explanation, questioning, listening, feedback, and improvement practice.', preparation: 'Prepare a 90-second explanation of one project or interest.', durationMinutes: 60 },
+  { key: 'communication-clinic', group: 'Build capability', sessionType: 'skill-building', topic: 'Communication clinic: explain your work clearly', agenda: 'Concise introductions, project explanation, questioning, listening, feedback, and ways to improve.', preparation: 'Prepare a 90-second explanation of one project or interest.', durationMinutes: 60 },
   { key: 'research-clinic', group: 'Build capability', sessionType: 'skill-building', topic: 'Career research and source evaluation clinic', agenda: 'Search strategy, source quality, salary claims, outcome data, bias, synthesis, and documenting uncertainty.', preparation: 'Bring one confusing or contradictory career claim.', durationMinutes: 60 },
   { key: 'networking-practice', group: 'Build capability', sessionType: 'skill-building', topic: 'Professional networking without awkwardness', agenda: 'Who to contact, respectful outreach, informational interviews, follow-up, reciprocity, and network tracking.', preparation: 'Draft one outreach message to a real person.', durationMinutes: 60 },
   { key: 'industry-guest', group: 'Experience work', sessionType: 'industry-exposure', topic: 'Industry practitioner conversation', agenda: 'Daily work, entry routes, hiring evidence, early mistakes, progression, pressure, inclusion, and student questions.', preparation: 'Research the guest and submit one non-generic question.', durationMinutes: 75 },
   { key: 'role-simulation-review', group: 'Experience work', sessionType: 'industry-exposure', topic: 'Role simulation and work-sample review', agenda: 'Brief, approach, output review, peer critique, practitioner standard, and next iteration.', preparation: 'Complete the assigned mini-project before the session.', durationMinutes: 90 },
   { key: 'application-system', group: 'Execute', sessionType: 'execution', topic: 'Build an application and deadline tracking system', agenda: 'Target list, eligibility, evidence, tailoring, deadlines, follow-up, status, and weekly review.', preparation: 'Bring five real opportunities and their deadlines.', durationMinutes: 60 },
-  { key: 'resume-portfolio', group: 'Execute', sessionType: 'execution', topic: 'Resume, portfolio, and evidence alignment', agenda: 'Target role, strongest evidence, outcome statements, portfolio order, gaps, and next improvement.', preparation: 'Bring the current resume and one target opportunity.', durationMinutes: 75 },
-  { key: 'interview-lab', group: 'Execute', sessionType: 'execution', topic: 'Interview and selection practice lab', agenda: 'Role questions, behavioural evidence, problem solving, group discussion, feedback, and practice plan.', preparation: 'Prepare three evidence stories using situation, action, and result.', durationMinutes: 90 },
-  { key: 'monthly-review', group: 'Review progress', sessionType: 'progress-review', topic: 'Monthly cohort progress review', agenda: 'Wins, evidence created, actions completed, blockers, focus allocation, peer support, and next commitments.', preparation: 'Update options, skills, actions, and evidence in the dashboard.', durationMinutes: 60 },
-  { key: 'quarterly-reset', group: 'Review progress', sessionType: 'progress-review', topic: 'Quarterly direction and execution reset', agenda: 'Review evidence, primary fit, alternative relevance, capability growth, constraints, outcomes, and the next 90 days.', preparation: 'Bring the strongest evidence and the most important unanswered question from the quarter.', durationMinutes: 90 },
+  { key: 'resume-portfolio', group: 'Execute', sessionType: 'execution', topic: 'CV, portfolio, and evidence alignment', agenda: 'Target role, strongest evidence, outcome statements, portfolio order, gaps, and next improvement.', preparation: 'Bring your current CV and one target opportunity.', durationMinutes: 75 },
+  { key: 'interview-lab', group: 'Execute', sessionType: 'execution', topic: 'Interview and selection preparation lab', agenda: 'Role questions, behavioural evidence, problem solving, group discussion, feedback, and a plan to practise.', preparation: 'Prepare three evidence stories using situation, action, and result.', durationMinutes: 90 },
+  { key: 'monthly-review', group: 'Review progress', sessionType: 'progress-review', topic: 'Monthly cohort progress review', agenda: 'Wins, evidence created, actions completed, blockers, peer support, and next commitments.', preparation: 'Update career options, skills, actions, and evidence in the dashboard.', durationMinutes: 60 },
+  { key: 'quarterly-reset', group: 'Review progress', sessionType: 'progress-review', topic: 'Quarterly career option and execution reset', agenda: 'Review evidence, primary fit, alternative relevance, capability growth, constraints, outcomes, and the next 90 days.', preparation: 'Bring the strongest evidence and the most important unanswered question from the quarter.', durationMinutes: 90 },
 ];
 
 export const cohortPresets: CohortPreset[] = [
   { key: 'career-foundations', label: 'Career Foundations', programTrack: 'career-foundations', coachingStage: 'mixed', deliveryMode: 'hybrid', capacity: 30, scheduleNote: 'Two group sessions per month with weekly action follow-through.', description: 'A broad coaching cohort for students building self-understanding, career awareness, decision habits, and foundational skills.' },
   { key: 'stream-selection', label: 'Class 9-10 Stream Selection', programTrack: 'stream-selection', coachingStage: 'career-exploration', deliveryMode: 'hybrid', capacity: 25, scheduleNote: 'Fortnightly group coaching through the stream decision period.', description: 'For students comparing subject streams, learning preferences, career families, academic requirements, and practical constraints.' },
-  { key: 'class-11-12', label: 'Class 11-12 Career Direction', programTrack: 'college-and-course', coachingStage: 'option-validation', deliveryMode: 'hybrid', capacity: 30, scheduleNote: 'Two sessions per month plus deadline and application checkpoints.', description: 'For career option validation, course and college research, entrance routes, alternative plans, and skill evidence.' },
+  { key: 'class-11-12', label: 'Class 11-12 Career Options', programTrack: 'college-and-course', coachingStage: 'option-validation', deliveryMode: 'hybrid', capacity: 30, scheduleNote: 'Two sessions per month plus deadline and application checkpoints.', description: 'For career option validation, course and college research, entrance routes, alternative plans, and skill evidence.' },
   { key: 'college-course', label: 'College and Course Decisions', programTrack: 'college-and-course', coachingStage: 'decision', deliveryMode: 'online', capacity: 35, scheduleNote: 'Weekly during active admission windows; fortnightly otherwise.', description: 'A decision cohort focused on credible provider comparison, affordability, outcomes, applications, and backup routes.' },
-  { key: 'graduate-launch', label: 'Graduate Career Launch', programTrack: 'career-launch', coachingStage: 'execution', deliveryMode: 'online', capacity: 30, scheduleNote: 'Weekly execution lab with a monthly direction review.', description: 'For internships, first-job search, portfolio evidence, networking, applications, interviews, and early-career choices.' },
+  { key: 'graduate-launch', label: 'Graduate Career Launch', programTrack: 'career-launch', coachingStage: 'execution', deliveryMode: 'online', capacity: 30, scheduleNote: 'Weekly execution lab with a monthly career option review.', description: 'For internships, first-job search, portfolio evidence, networking, applications, interviews, and early-career choices.' },
   { key: 'engineering-options', label: 'Engineering Career Options', programTrack: 'career-launch', coachingStage: 'career-exploration', deliveryMode: 'online', capacity: 35, scheduleNote: 'Fortnightly sector exploration plus role simulations.', description: 'For engineering students comparing technical, product, analytics, operations, research, management, and non-core pathways.' },
   { key: 'commerce-professional', label: 'Commerce and Professional Routes', programTrack: 'college-and-course', coachingStage: 'option-validation', deliveryMode: 'online', capacity: 35, scheduleNote: 'Fortnightly qualification and career comparison sessions.', description: 'For CA, CMA, CS, finance, economics, business, banking, analytics, and alternative professional routes.' },
-  { key: 'exam-alternatives', label: 'Competitive Exams and Alternatives', programTrack: 'exam-and-alternatives', coachingStage: 'decision', deliveryMode: 'online', capacity: 30, scheduleNote: 'Monthly direction review with fortnightly alternative-plan work.', description: 'For realistic exam planning, attempt limits, parallel skills, backup routes, wellbeing, and decision checkpoints.' },
+  { key: 'exam-alternatives', label: 'Competitive Exams and Alternatives', programTrack: 'exam-and-alternatives', coachingStage: 'decision', deliveryMode: 'online', capacity: 30, scheduleNote: 'Monthly career option review with fortnightly alternative-plan work.', description: 'For realistic exam planning, attempt limits, parallel skills, backup routes, wellbeing, and decision checkpoints.' },
   { key: 'career-transition', label: 'Career Transition', programTrack: 'career-transition', coachingStage: 'option-validation', deliveryMode: 'online', capacity: 20, scheduleNote: 'Fortnightly coaching with weekly transition actions.', description: 'For working professionals testing a change, translating experience, closing skill gaps, managing risk, and executing a transition.' },
   { key: 'portfolio-lab', label: 'Portfolio and Proof-of-Work Lab', programTrack: 'custom', coachingStage: 'execution', deliveryMode: 'online', capacity: 20, scheduleNote: 'Weekly working session with peer and coach feedback.', description: 'A focused execution cohort for projects, work samples, case studies, documentation, critique, and portfolio publication.' },
 ];
@@ -314,7 +552,7 @@ export const nonNegotiablePresets = [
   'No relocation for now', 'Family responsibilities must continue', 'Predictable working hours',
   'Health-compatible schedule', 'Accessible learning environment', 'Strong job placement evidence',
   'Recognised accreditation', 'Earn while learning', 'Option to work remotely',
-  'Work aligned with personal values', 'Clear backup route', 'Can change direction later',
+  'Work aligned with personal values', 'Clear backup route', 'Can change career option later',
 ];
 
 export const examTargetPresets = [

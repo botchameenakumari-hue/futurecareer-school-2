@@ -1,0 +1,577 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Kanpur page drops three rows instead of one or two - index 0 (the plain
+// generic-advice row, the weakest fit once the page already leads with named,
+// specific local forks: the Jajmau tannery transition, IIT Kanpur, the
+// Ordnance Factory cluster, and the shut cotton mills), index 3 (paid-
+// outdated-vs-free-updated assessments, already carried directly by the
+// page's own single contextual AssessmentSupportNote), and index 5 (random
+// upskilling, too vague against forks this specific, the same reasoning
+// Jalandhar used for the same row). Keeping rows 1, 2, and 4 (degree-first-
+// vs-skill-first, low-growth-paths-vs-earlier-financial-freedom, and
+// generic-low-paying-path-vs-higher-value-skill-direction) covers the
+// degree-obsession-around-IIT-Kanpur contrast, the leather/mill-decline-vs-
+// earlier-financial-freedom framing, and the shrinking-tannery-income
+// contrast. Every two-index drop combination is already claimed by an
+// existing sibling - Delhi (0,5), Ahmedabad (3,5), Surat (0,3), Thane/
+// Vadodara (1,3), Ludhiana (1,4), Guwahati (2,4), Jalandhar (2,5), Raipur
+// (2,3), Nashik (1,2), Aurangabad (0,4), Coimbatore/Noida (3,4), Ranchi
+// (1,5), Kolhapur (0,2), Navi Mumbai (4,5), and Siliguri (0,1) - and every
+// single-index drop is claimed too - Vizag (drops 0), Rajkot (drops 5), Pune
+// (drops 3), Kolkata (drops 1), Hyderabad (drops 2), and Mumbai/Chandigarh/
+// Gurgaon/Nagpur (each drop 4) - with the full library already used by
+// Bangalore, so this three-index drop (0, 3, 5) is the first of its kind and
+// distinct from every sibling built as of this page.
+const kanpurComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 0 && index !== 3 && index !== 5
+);
+
+const title = 'Career Counselling in Kanpur | Online Guidance Across India | Future Career School';
+const description =
+  "Career counselling in Kanpur for students and professionals weighing the Jajmau leather trade's environmental-era transition, an IIT Kanpur ambition, Ordnance Factory or PSU work, or the city's shut cotton-mill legacy.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kanpur/';
+
+const fitItems = [
+  {
+    title: 'Your Kanpur search usually points to one of a few real forks',
+    listItems: [
+      'A family tannery, leather-finishing, or export unit in Jajmau or the old city facing real environmental-compliance pressure, with no clear next generation plan',
+      'A JEE-Advanced attempt aimed squarely at IIT Kanpur, with no back-up skill plan if the rank does not land',
+      'A pull toward Ordnance Factory Kanpur, the Field Gun Factory, or another defence-PSU role for the security it offers',
+      'A family memory of the cotton-mill years - Elgin, Muir, Cooper Allen - that shapes what "a real job in Kanpur" is even supposed to mean now',
+    ],
+  },
+  {
+    title: 'What should decide it instead of habit or family pressure',
+    listItems: [
+      'Whether the path you are leaning toward is actually building a high-value skill portfolio, or just repeating a family default because it feels safer than choosing',
+      'Whether a tannery-adjacent career is treated as finished or as a real trade now needing compliance, design, and export skill layered on top',
+      'Whether an IIT Kanpur attempt is the only route to a serious technical career here, or one route among several',
+      'Whether the government-PSU-versus-private-skill decision is being made on income and fit, not only on which feels less risky to say out loud',
+    ],
+  },
+];
+
+const kanpurLandscapeItems = [
+  {
+    title: 'Jajmau anchored one of India\'s largest leather clusters, and it is genuinely mid-transition, not finished',
+    body: "For well over a century, the tanning-and-leather cluster at Jajmau has been one of the reasons Kanpur earned its old nickname, the Manchester of the East. It is still one of the largest leather-processing hubs in the country. It is also genuinely working through a hard, real transition - Ganga-pollution-control rulings, common-effluent-treatment requirements, and phased tannery relocation to designated leather parks have closed or squeezed a real share of the smaller units, and that pressure is not settling down quietly. None of that means the trade is over. It means the honest next question for a family inside it has shifted from \"how do I run the unit the way my father did\" to \"what does a compliant, design-forward, export-capable version of this trade actually need,\" and that question deserves a real answer instead of either false comfort or blanket pessimism.",
+  },
+  {
+    title: 'IIT Kanpur sits inside the same city as a genuinely separate, tech-first economy',
+    body: 'IIT Kanpur is one of the oldest IITs in the country, built in 1959 with an early US-collaboration programme that shaped its strong engineering and research reputation, and its Kalyanpur campus now runs a real startup and innovation ecosystem through its own incubation centre. For a Kanpur family with a JEE-Advanced ambition, that campus can start to feel like the only version of a serious future the city offers - everything else can start to look like a fallback. Treating an IIT Kanpur attempt as the single acceptable outcome, rather than one strong route among a few real ones, is what actually narrows a student\'s options here, not the exam itself.',
+  },
+  {
+    title: 'The Ordnance Factory cluster is a real, separate industrial track most outside career advice never mentions',
+    body: 'Kanpur hosts a genuine defence-manufacturing cluster around Fazalganj and the Armapore estate - Ordnance Factory Kanpur, the Field Gun Factory, and the Ordnance Parachute Factory among them - offering a public-sector manufacturing and engineering track distinct from both the leather trade and an IIT-track ambition. For families weighing government-linked stability against a private-sector or skill-first path, this cluster is a real, specific option, not an abstraction, and the comparison against private-sector income deserves to be made honestly rather than defaulted to whichever option feels safer to explain to relatives.',
+  },
+  {
+    title: 'The cotton-mill years are over, and that closure still shapes what "a good job" means here',
+    body: 'Kanpur\'s cotton-textile mills - Elgin Mills, Muir Mills, Cooper Allen, and others - once employed a large share of the city\'s working families and were as central to the Manchester-of-the-East identity as the leather trade. Most of them shut between the 1980s and the 2000s, and that closure left a real scar on how job security gets talked about in mill-worker families even now, two generations later. Harcourt Butler Technical University, once a textile-focused institute, still carries a textile-technology academic thread forward even though the mills themselves are largely gone - a genuine reminder that a trade can survive its factories closing if the skill underneath it moves somewhere new.',
+  },
+];
+
+const kanpurAreaItems = [
+  {
+    title: 'Jajmau and Chamanganj: the leather-and-tannery belt',
+    body: 'Jajmau concentrates the tanning and leather-processing cluster itself, while Chamanganj and the surrounding old-city lanes hold much of the finished-leather-goods, footwear, and export-trade side of the same industry - a genuinely different set of skills from tanning, built more on design, quality control, and buyer relationships.',
+  },
+  {
+    title: 'Kalyanpur: the IIT Kanpur campus corridor',
+    body: 'IIT Kanpur\'s campus and the neighbourhoods around it hold a dense concentration of engineering-aspirant coaching, research culture, and the institute\'s own startup-incubation activity - a genuinely separate world from the industrial city a few kilometres away.',
+  },
+  {
+    title: 'Fazalganj and the Armapore estate: the defence-manufacturing cluster',
+    body: 'Ordnance Factory Kanpur, the Field Gun Factory, and the Ordnance Parachute Factory sit in this belt, anchoring a real public-sector defence-manufacturing employment track with its own recruitment pattern, distinct from both the leather trade and the IIT-linked tech economy.',
+  },
+  {
+    title: 'The old mill belt around Kalpi Road and Fazalganj-Metool',
+    body: 'The shut cotton-textile mills - Elgin, Muir, Cooper Allen - once ran along this corridor. The factories themselves are largely gone, but the neighbourhoods around them still carry the mill-worker identity that shapes how job security gets discussed in many Kanpur households.',
+  },
+  {
+    title: 'Civil Lines and Mall Road: the city\'s professional and commercial core',
+    body: 'Civil Lines and Mall Road hold Kanpur\'s denser commercial, retail, and professional-services activity - a smaller but real white-collar layer that sits outside the leather, textile, and defence-manufacturing tracks entirely.',
+  },
+  {
+    title: 'Govind Nagar, Kidwai Nagar, and Panki: residential belts feeding all three economies',
+    body: 'These residential areas send students and workers into the leather trade, the IIT-linked and professional-services economy, and the Panki industrial estate\'s broader manufacturing base alike, often within the same extended family.',
+  },
+];
+
+const onlineAdvantageItems = [
+  {
+    title: "Living near Jajmau or Kalyanpur does not settle which of Kanpur's tracks actually fits you",
+    body: 'Proximity to the tannery belt or the IIT Kanpur campus puts a real local industry within reach, but it does not tell you whether a compliance-and-export path in the family trade, a JEE-linked technical track, an Ordnance Factory role, or a private-sector skill path is the stronger fit for your specific situation. Online guidance brings that outside comparison in without requiring you to already be inside one of these worlds to get an honest read on it.',
+  },
+  {
+    title: 'The real comparison is between Kanpur\'s own tracks, not Kanpur versus a metro',
+    body: 'Many people searching for career counselling in Kanpur are not deciding whether to leave the city at all - they are weighing a family tannery future against an IIT-linked ambition, or a defence-PSU role against a private-sector skill path, all from inside the same city. Good guidance should be able to make that specific comparison honestly instead of defaulting to a generic "should I move to a bigger city" script that does not match the actual question.',
+  },
+  {
+    title: 'Family history can push toward the most familiar option, not the strongest one',
+    body: "A family that has run a tannery unit for generations, or one still shaped by a grandfather's mill-worker years, can quietly steer the next decision toward whichever option matches that history - continue the trade, or escape it entirely - rather than the option that actually fits the person deciding. An outside, online opinion in that conversation makes it easier to see the real options rather than only the most familiar one.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'My family has run a leather or tannery unit for generations and the rules keep tightening - is there still a future in it?',
+    body: 'The trade itself is not finished, but the version that survives looks different from your father\'s or grandfather\'s version of it. Compliance and effluent-treatment knowledge, leather-technology and design skill, and export documentation are what a Jajmau-linked business needs now, on top of the trade itself. That is a real skill decision, not a verdict on whether the family business has a future.',
+  },
+  {
+    title: 'Everyone here says get into IIT Kanpur or your future is decided - is that actually true?',
+    body: "No. IIT Kanpur is a genuinely strong route, but it is not the only serious technical or professional path this city supports. Treating it as the single acceptable outcome adds pressure that does not match reality and can crowd out a private-sector skill path, a defence-manufacturing role, or another route that may fit the person better than a single exam rank.",
+  },
+  {
+    title: 'The mills my grandfather worked in are all gone - does that mean Kanpur does not have real industry anymore?',
+    body: "The cotton-mill era genuinely ended, and that loss is real, not something to minimise. But Kanpur still runs a large leather-and-export economy, a defence-manufacturing cluster around Fazalganj, and IIT Kanpur's own research and startup ecosystem. The mills closing does not mean the city stopped working - it means the honest map of what Kanpur offers now looks different from what it offered two generations ago.",
+  },
+  {
+    title: 'Should I hold out for an Ordnance Factory or another government role, or build a private-sector skill instead?',
+    body: 'Both can be genuinely reasonable, and the honest comparison depends on your own runway, risk tolerance, and what you actually want to build. A defence-PSU role offers real security. A private-sector path built on a strong, high-value skill portfolio can offer a faster route toward higher income and earlier financial freedom. Neither is automatically the wiser choice - the comparison deserves to be made on your numbers, not on which one is easier to explain to relatives.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      'Whether a compliance, design, or export-skill layer can genuinely carry a family leather business through its current transition, or whether a different path fits better',
+      'Whether an IIT Kanpur attempt should be your only plan, or one strong option alongside a real back-up skill direction',
+      'How an Ordnance Factory or defence-PSU role compares honestly against a private-sector skill path for your specific situation',
+      'What a realistic technical or professional path looks like now that the cotton-mill jobs your family may remember are gone',
+    ],
+  },
+  {
+    title: 'A skill direction built for achieving earlier financial freedom either way',
+    listItems: [
+      'A high-value skill portfolio suited to whichever track fits - leather-technology and export skill, an engineering or research direction, defence-manufacturing engineering, or a private-sector professional path',
+      'Proof-of-work positioning that carries weight whether you are applying inside a family export business, a defence-PSU recruitment process, or a private-sector employer',
+      'A realistic comparison of which moves are genuinely unlocking high income opportunities versus which ones simply repeat a family default',
+      'One practical next step instead of a decision made by habit, family pressure, or which option feels least risky to explain',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor even knows Kanpur has a leather-export economy and a defence-manufacturing cluster",
+    body: 'A lot of generic career guidance defaults straight to "get an engineering seat" advice for any UP city. Guidance worth paying for should be able to speak seriously to the Jajmau leather trade\'s real transition and the Fazalganj defence-manufacturing cluster, not just default to exam-and-degree advice.',
+  },
+  {
+    title: 'Check whether a family leather or tannery business is treated as a real, evolving trade, not a dead end',
+    body: 'Good guidance should be able to name what a compliant, design-forward, export-capable version of the trade actually needs, rather than treating environmental-regulation pressure as proof the whole trade is finished.',
+  },
+  {
+    title: 'Check whether an IIT Kanpur ambition is handled as one strong option, not the only respectable one',
+    body: "Guidance that quietly treats every other path as a consolation prize compared to an IIT Kanpur seat has not actually engaged with what happens if the rank does not land, or with a student's genuine fit outside that one track.",
+  },
+  {
+    title: 'Check whether the government-versus-private-sector comparison gets made on real numbers',
+    body: 'Whether the option on the table is Ordnance Factory Kanpur or a private-sector skill path, the comparison should be made honestly against your actual income potential and risk tolerance, not settled by which option is easier to explain to family.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.delhiCounselling,
+    title: 'Career Counselling in Delhi',
+    description:
+      "See this if your real questions run through the capital's UPSC-exam culture, Delhi University, or the government-versus-private-sector tension rather than Kanpur's leather, textile-mill, and defence-manufacturing economy.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.noidaCounselling,
+    title: 'Career Counselling in Noida',
+    description:
+      "See this if your real questions run through electronics manufacturing near Samsung, Film City media production, or the Sector 62 IT-BPO corridor rather than Kanpur's leather-trade transition and IIT Kanpur fork.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'Online-first approach across India if your real concern is easier access rather than the city itself.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What career paths make sense for someone from a Kanpur leather or tannery family right now?',
+    answer:
+      "It depends on the specific unit and the family's own situation, but the honest map has widened rather than shrunk. Compliance and effluent-treatment knowledge, leather-technology and design skill, and export documentation and buyer-relationship skill are all real, needed layers on top of the trade itself as the Jajmau cluster works through its environmental-regulation transition. The trade is not finished - the version of it that survives needs a different skill mix than it did a generation ago.",
+  },
+  {
+    question: 'Do I need to get into IIT Kanpur to have a real technical career from Kanpur?',
+    answer:
+      "No. IIT Kanpur is a genuinely strong, one of the country's oldest and most respected engineering and research institutions, and its own startup and innovation ecosystem is real. But it is one strong route among several, not the only one. A private-sector skill path, a defence-manufacturing engineering role, or another technical route can all lead to a genuinely strong outcome without a JEE-Advanced rank at that specific level.",
+  },
+  {
+    question: "Is Kanpur's textile industry completely gone now that the mills have shut?",
+    answer:
+      "The large cotton-mill era - Elgin Mills, Muir Mills, Cooper Allen, and others - has genuinely ended, and that closure reshaped a real share of Kanpur's working families. But Harcourt Butler Technical University still carries a textile-technology academic thread forward, and apparel, garment, and textile-adjacent work continues in smaller forms. The mills closing does not mean every version of that skill and trade disappeared with them.",
+  },
+  {
+    question: 'Is an Ordnance Factory or another defence-PSU job the safer bet compared to a private-sector skill path?',
+    answer:
+      "There is no single right answer - it depends on your own runway, risk tolerance, and what you are actually building toward. A defence-manufacturing PSU role around Fazalganj offers real, genuine security. A private-sector path built on a strong, high-value skill portfolio can offer a faster route toward higher income and earlier financial freedom. Good counselling should help you compare both against your actual numbers, not assume one is automatically wiser.",
+  },
+  {
+    question: 'Is career counselling in Kanpur delivered online or in person?',
+    answer:
+      'Guidance is delivered fully online, in Kanpur and across India. You can start from a home near Jajmau, a hostel near the IIT Kanpur campus, or your workplace near Civil Lines, without needing to visit an office in person.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Kanpur?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages, including people from family leather or textile businesses weighing what comes next. The guidance is online across India, so it works whether you grew up in Kanpur or moved here for IIT Kanpur, work, or family reasons.',
+  },
+  {
+    question: 'How is this different from career counselling in Delhi or Noida?',
+    answer:
+      "Delhi, Noida, and Kanpur are all Uttar Pradesh-region or NCR-adjacent cities, but they run on entirely different local economies. The Delhi page is built around the capital's UPSC-exam culture, Delhi University, and the government-versus-private-sector tension. The Noida page is built around electronics manufacturing near Samsung, Film City media production, and the Sector 62 IT-BPO corridor. This page is built around Kanpur's own leather-and-tannery economy working through a genuine environmental-regulation transition, IIT Kanpur's tech and research ecosystem, the Fazalganj defence-manufacturing cluster, and the city's shut cotton-mill legacy - none of which appear on either of those pages.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Kanpur', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Kanpur | Future Career School',
+    description:
+      'Career counselling in Kanpur for students, freshers, and working professionals. Online guidance for clearer decisions across the Jajmau leather-export trade, an IIT Kanpur ambition, Ordnance Factory or defence-PSU work, and private-sector skill paths.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Kanpur' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Kanpur</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Kanpur
+      </div>
+
+      <h1 class="hero-title">
+        Career Counselling in <span class="gold-text">Kanpur</span>
+      </h1>
+      <p class="hero-sub">
+        Kanpur earned its old name, the Manchester of the East, on the strength of the Jajmau leather cluster and a cotton-mill economy that once employed lakhs of the city's own families. That industrial base is now working through a genuine environmental-regulation transition and a decades-old decline in mill-town employment, even as IIT Kanpur, right across the same city, anchors one of India's oldest and most respected engineering and research ecosystems. The stronger question for a Kanpur family right now is not which side of that split feels safer to admit to. It is whether the next skill decision builds a genuine high-value skill portfolio that keeps unlocking high income opportunities and moves you toward earlier financial freedom, whichever side of the city's two economies you are starting from.
+      </p>
+      <p class="hero-sub hero-sub-secondary">
+        Guidance is delivered fully online in Kanpur and across India. You can start from a home near Jajmau, a hostel near the IIT Kanpur campus, or your workplace near Civil Lines - no requirement to visit an office in person just to get an honest second opinion.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="intent-clarity"
+    title="Why this decision already feels heavier here"
+    subtitle="A tannery-succession decision, an Ordnance Factory or public-sector application, and a JEE-Advanced-driven IIT Kanpur ambition are not variations of the same conversation. Each one carries a genuinely different route toward earlier financial freedom and a different high-value skill portfolio to build, and the real pressure rarely has much to do with the city name itself."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="kanpur-landscape"
+    title="The Kanpur career reality generic advice rarely names"
+    subtitle="A family exiting or restructuring the leather trade is not just leaving one industry - they are choosing which high-value skill portfolio replaces it, and whether that choice actually unlocks high income opportunities or simply trades one uncertain income for another. Good counselling should engage with Kanpur's real, mid-transition industrial base directly instead of treating it like any other UP city."
+    items={kanpurLandscapeItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Kanpur search already reflects a real fork, look at it honestly before another year gets committed by default"
+    body="Use this when you want a genuine read on a family leather-business transition, an IIT Kanpur attempt, or a government-versus-private-sector decision, not another round of whichever option feels least risky to explain."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="kanpur-areas"
+    title="Kanpur's own geography shapes which version of this decision you are in"
+    subtitle="A useful local page should recognise that a home near Jajmau, a hostel near the IIT Kanpur campus, and a house near the old mill belt are not living through the same version of Kanpur."
+    items={kanpurAreaItems}
+    variant="decision"
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="Not another opinion that defaults straight to exam-and-degree advice. A clearer read on the leather trade's transition, an IIT Kanpur ambition, defence-manufacturing work, and private-sector paths, plus a route toward earlier financial freedom regardless of which one you choose."
+  />
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Kanpur"
+    subtitle="If you already live near Jajmau, Kalyanpur, or Fazalganj, the honest question is not whether help is nearby. It is whether that help actually understands the specific economies here, not just a generic UP-city script."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city split between a leather trade in genuine transition and an elite technical institute, the real risk is advice that either romanticises one exam or writes off an entire industry. The comparison below shows what separates high-leverage guidance from both."
+    rows={kanpurComparisonRows}
+  />
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Kanpur.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use - even inside a city carrying this much industrial history and family expectation on every choice.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Kanpur"
+    subtitle="Do not compare only how close a counsellor's office is to Jajmau or the IIT Kanpur campus. Compare whether the process actually understands Kanpur's specific industries and improves decision quality on the fork you are facing."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Kanpur page when locality matters, but choose based on decision quality, not family default"
+    body="The practical value is an honest read on the leather trade's transition, an IIT Kanpur ambition, defence-manufacturing work, or a private-sector skill path, and a concrete next step before another year gets committed by habit."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Kanpur" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a family leather business, an IIT Kanpur attempt, and a government-versus-private-sector question are all pulling in different directions - and when the real goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom, whichever path you choose."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill { width: fit-content; margin-bottom: 1.6rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title { font-size: clamp(2.35rem, 5vw, 3.9rem); line-height: 1.04; letter-spacing: -.04em; color: #fff; max-width: 980px; margin-bottom: 1.25rem; overflow-wrap: anywhere; }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.72); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-sub-secondary { color: rgba(255,255,255,.6); font-size: 14px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 1.6rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #kanpur-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

@@ -1,0 +1,576 @@
+---
+import BaseLayout from "../../../../../layouts/BaseLayout.astro";
+import Nav from "../../../../../components/Nav.astro";
+import Footer from "../../../../../components/Footer.astro";
+import AssessmentSupportNote from "../../../../../components/bofu/AssessmentSupportNote.astro";
+import BofuFaqSection from "../../../../../components/bofu/BofuFaqSection.astro";
+import BofuFeatureSection from "../../../../../components/bofu/BofuFeatureSection.astro";
+import BofuListCardSection from "../../../../../components/bofu/BofuListCardSection.astro";
+import ComparisonMatrix from "../../../../../components/bofu/ComparisonMatrix.astro";
+import GuidanceModelSection from "../../../../../components/bofu/GuidanceModelSection.astro";
+import AudienceRelevance from "../../../../../components/bofu/AudienceRelevance.astro";
+import BuyerChecks from "../../../../../components/bofu/BuyerChecks.astro";
+import ContextualCta from "../../../../../components/bofu/ContextualCta.astro";
+import GuidancePlansSection from "../../../../../components/bofu/GuidancePlansSection.astro";
+import FinalCta from "../../../../../components/bofu/FinalCta.astro";
+import LinkDirectorySection from "../../../../../components/LinkDirectorySection.astro";
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from "../../../../../config/bofu";
+
+// Aurangabad (Chhatrapati Sambhajinagar) drops the "generic advice vs
+// high-leverage decision support" row (index 0) and the "generic low-paying
+// path advice vs higher-value skill direction" row (index 4) - both framings
+// are too generic against this page's own named, specific forks (Marathwada
+// farm-income volatility, the Waluj/Chikalthana auto-ancillary and pharma
+// cluster, and the Ajanta-Ellora heritage-tourism economy), so the page's own
+// sections already carry that ground more precisely than either row would.
+// This combination (drops 0 and 4) is not used by any sibling: Rajkot (rows
+// 0-4), Vizag (rows 1-5), Bangalore (full library), Pune (drops 3), Kolkata
+// (drops 1), Chennai (drops 5), Hyderabad (drops 2), Mumbai/Chandigarh/
+// Gurgaon/Nagpur (each drop 4), Delhi (drops 0 and 5), Ahmedabad (drops 3 and
+// 5), Surat (drops 0 and 3), Thane/Vadodara (drop 1 and 3), Ludhiana (drops 1
+// and 4), Guwahati (drops 2 and 4), Jalandhar (drops 2 and 5), and Raipur
+// (drops 2 and 3).
+const aurangabadComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 0 && index !== 4);
+
+const title = "Career Counselling in Aurangabad (Chhatrapati Sambhajinagar) | Future Career School";
+const description =
+  "Career counselling in Aurangabad, also known as Chhatrapati Sambhajinagar, for students, freshers, and working professionals weighing Marathwada's farm-income pressure, the Waluj-Chikalthana auto and pharma manufacturing belt, and real Ajanta-Ellora heritage-tourism careers.";
+const canonical =
+  "https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-aurangabad/";
+
+const aurangabadContextItems = [
+  {
+    title: "Aurangabad sits inside Marathwada, a farm-dependent hinterland where an unreliable monsoon still shapes family career decisions",
+    body: "Aurangabad is the largest city in Marathwada, a historically drought-prone, agrarian region of Maharashtra where a large share of household income still depends on rain-fed cotton and sugarcane farming rather than a fixed salary. Even with the Jayakwadi Dam's Nath Sagar reservoir - one of Maharashtra's largest irrigation projects - anchoring canal-fed farming closer to the city, Marathwada as a whole remains far more exposed to monsoon failure and crop-price swings than Maharashtra's coastal and western belts. That volatility is a genuine, specific reason many Aurangabad families push the next generation toward a stable professional or salaried skill path rather than staying dependent on land alone, and it deserves to be named directly instead of folded into a vague 'tier-2 city' story.",
+  },
+  {
+    title: "Waluj and Chikalthana turned Aurangabad into a real auto-ancillary and pharmaceutical manufacturing base, not just a farm-belt city",
+    body: "The Waluj MIDC and Chikalthana MIDC industrial estates host a genuine, decades-old auto-component manufacturing cluster: Bajaj Auto runs a major two-wheeler and three-wheeler plant at Waluj, Endurance Technologies - an auto-components company that grew up in this city and now supplies manufacturers nationally - is headquartered here, and a wider base of ancillary units supplies bearings, castings, and components into the region's vehicle-assembly economy. Alongside it sits a genuinely deep pharmaceutical-manufacturing presence, with Wockhardt and Lupin both running production facilities in the city. This gives Aurangabad an industrial floor most people searching for career guidance here do not expect from a Marathwada city.",
+  },
+];
+
+const heritageTourismItems = [
+  {
+    title: "The Ajanta and Ellora Caves make Aurangabad one of the few Indian cities with two UNESCO World Heritage Sites in its own district",
+    body: "The Ellora Caves sit roughly 30 kilometres from the city and the Ajanta Caves around 100 kilometres away, and both are UNESCO World Heritage Sites carved between roughly the 2nd century BCE and the 10th century CE. Alongside them, Bibi Ka Maqbara - often called the 'Mini Taj Mahal' - and Daulatabad Fort sit inside or near the city itself. This is not a passing tourist-brochure fact: it supports a real, ongoing local employment layer in licensed heritage tour-guiding, hotel and hospitality operations built around a steady inbound-tourist flow, and conservation-adjacent work connected to the Archaeological Survey of India's presence at these sites - a genuine career direction with essentially no equivalent on any other city page here.",
+  },
+  {
+    title: "Paithan's handloom-sari economy adds a craft-heritage income layer most outsiders never connect to Aurangabad",
+    body: "Paithan, a town roughly 50 kilometres from Aurangabad on the banks of the Godavari near the Jayakwadi Dam, has given its name to the Paithani sari - a handwoven silk sari tradition recognised nationally as one of India's finest, still produced by weaver families in the region. It is a smaller, more specialised economy than the auto-pharma cluster or the heritage-tourism circuit, but it is a real one, and for someone from a weaving or craft-adjacent family, deciding whether to build on that traditional skill, move toward a design or textile-marketing direction built on it, or step away from it entirely toward an unrelated professional path is a genuine decision worth naming rather than ignoring.",
+  },
+];
+
+const marathwadaForkItems = [
+  {
+    title: "Family farm-income pressure versus a professional or salaried skill path",
+    listItems: [
+      "A poor monsoon, a crop-price crash, or a bad cotton or sugarcane season can wipe out a year's household income overnight in ways a salaried role in Aurangabad's industrial or services economy does not",
+      "That pressure is real and pushes many Aurangabad and wider-Marathwada families to want the next generation on a stable, skill-based income path, not because farming is looked down on, but because its income is genuinely less predictable",
+      "The honest next step is building a high-value skill portfolio deliberately aimed at that stability, rather than assuming any degree automatically delivers it",
+    ],
+  },
+  {
+    title: "Waluj-Chikalthana's auto-ancillary and pharma cluster versus a metro move",
+    listItems: [
+      "Bajaj Auto's Waluj plant, Endurance Technologies, and the pharmaceutical manufacturing units run by Wockhardt and Lupin are genuine, stable local employers across engineering, quality, production, and pharma-manufacturing roles",
+      "That said, the cluster's roles skew toward manufacturing, quality, and plant-operations skill directions specifically - it is a real base, not a substitute for Pune's or Mumbai's much larger IT and services markets for every skill direction",
+      "Getting this specific fit right - rather than assuming either 'Aurangabad has nothing' or 'the industrial belt covers every skill' - is what actually moves someone toward unlocking high income opportunities sooner",
+    ],
+  },
+  {
+    title: "The Ajanta-Ellora heritage-tourism economy as a genuine third path, not a fallback",
+    listItems: [
+      "Licensed tour-guiding, hospitality and hotel operations, and conservation-adjacent research or archival work around Ajanta, Ellora, Daulatabad, and Bibi Ka Maqbara form a real, if smaller and more seasonal, career layer specific to this city",
+      "It suits a genuinely different skill set - language ability, historical and cultural depth, hospitality service skills, or conservation-science interest - than either the farm-to-professional shift or the auto-pharma manufacturing track",
+      "Weighing it honestly against the other two paths, rather than treating it as a hobby interest, is part of getting a real Aurangabad decision right",
+    ],
+  },
+];
+
+const aurangabadAreaItems = [
+  {
+    title: "Waluj and Chikalthana carry Aurangabad's manufacturing and pharma economy",
+    body: "Waluj MIDC, on the city's western edge, is anchored by Bajaj Auto's plant and a wide ancillary-component base, while Chikalthana MIDC, closer to Aurangabad Airport, hosts Wockhardt's and other manufacturers' facilities alongside further engineering and auto-component units. Someone rooted in this side of the city is typically weighing a production, quality, or plant-engineering role against a services or heritage-tourism-linked path elsewhere in the city.",
+  },
+  {
+    title: "Cidco-N and Garkheda reflect the city's newer, more professional residential growth",
+    body: "The Cidco (City and Industrial Development Corporation) sectors and Garkheda, developed from the 1970s onward as Aurangabad's planned residential extension, house much of the city's newer professional and salaried-family population, often with closer ties to Waluj-Chikalthana employment or to Dr. Babasaheb Ambedkar Marathwada University than to the old city's trading economy.",
+  },
+  {
+    title: "The old city around Kranti Chowk, Nirala Bazar, and Paithan Gate carries Aurangabad's historic commerce and Bibi Ka Maqbara's precinct",
+    body: "Kranti Chowk sits at the heart of the city's commercial core, with Nirala Bazar and the Paithan Gate area carrying older trading and small-business activity, and Bibi Ka Maqbara's Mughal-era mausoleum standing close by. Families rooted in this part of the city are often weighing an existing family trade or business against a shift toward the industrial belt, a salaried professional path, or heritage-tourism-linked work in the same historic precinct.",
+  },
+  {
+    title: "Osmanpura, Jalna Road, and the university belt anchor Aurangabad's education and administrative identity",
+    body: "Dr. Babasaheb Ambedkar Marathwada University's campus, along with the Government College of Engineering, Aurangabad, sits near this belt, and Jalna Road running through Osmanpura and toward the Cidco sectors carries much of the city's newer commercial and office activity. This is usually where the pull toward higher studies, a government or administrative path, or a first professional job outside the industrial belt is strongest.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: "Should I search for career counselling in Aurangabad or Chhatrapati Sambhajinagar - does the renamed city change anything about the guidance?",
+    body: "No. The city was officially renamed Chhatrapati Sambhajinagar in 2023, but 'Aurangabad' remains the name most people still search, use in conversation, and recognise on official documents and addresses issued before the change. The guidance itself, the local economy, and the decisions in front of you are exactly the same whichever name you use - this page and the counselling process treat both as the same city.",
+  },
+  {
+    title: "My family depends on farm income and wants me settled in a stable job - how does counselling actually help with that specific pressure?",
+    body: "That pressure is real and common across Marathwada, and it deserves a direct answer rather than generic 'follow your passion' advice. Good counselling should map your specific aptitude and interests against Aurangabad's actual stable-income paths - the Waluj-Chikalthana industrial and pharma cluster, a services or administrative role, or further study - and help you build the skill direction that gets you there, rather than assuming any single degree automatically delivers stability.",
+  },
+  {
+    title: "Is it worth building a career around Bajaj Auto's plant or the pharma companies here, or should I aim for Pune or Mumbai instead?",
+    body: "Both can be right, depending on your specific skill direction. Waluj and Chikalthana's auto-ancillary and pharmaceutical-manufacturing base offers genuine engineering, quality, and production roles, but it is a narrower slice of the economy than Pune's or Mumbai's much larger industrial and services markets. The honest answer depends on whether your specific skill fits what this local cluster is actually hiring for right now, not on assuming either city is automatically the better bet.",
+  },
+  {
+    title: "Is a tour-guiding or hospitality career around Ajanta and Ellora a real path, or just seasonal work?",
+    body: "It is a genuine, if smaller and more seasonal, career layer specific to Aurangabad's heritage-tourism economy - licensed guiding, hotel and hospitality operations, and conservation-adjacent roles connected to two UNESCO World Heritage Sites in the same district. Whether it suits you depends on your own language ability, service orientation, and interest in cultural and historical depth, which is exactly the kind of fit a real counselling conversation should help you test honestly, rather than dismissing it or overselling it.",
+  },
+  {
+    title: "Does a degree from Dr. Babasaheb Ambedkar Marathwada University or a local Aurangabad college carry less weight outside the city?",
+    body: "A degree's real weight comes from the institution's own standing and the skills and proof of work you build alongside it, not from being based in a Marathwada city rather than a metro. Dr. Babasaheb Ambedkar Marathwada University and the Government College of Engineering, Aurangabad, are recognised on their own merit. What matters more when competing for roles outside Aurangabad's own industrial and services base is pairing that degree with a genuinely deliberate, high-value skill portfolio rather than the degree alone.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: "Clarity on the specific fork pressing you right now",
+    listItems: [
+      "Whether a stable professional or salaried path genuinely fits you better than staying tied to family farm income, given Marathwada's real monsoon and crop-price volatility",
+      "Whether your skill direction already has a real opening inside the Waluj-Chikalthana auto-ancillary and pharma cluster, or needs a metro's larger market first",
+      "Whether the Ajanta-Ellora heritage-tourism economy - guiding, hospitality, or conservation-adjacent work - is a genuine fit for your interests and skills, or a distraction from a stronger direction",
+      "What a realistic income trajectory looks like on your current path, given how thin or thick Aurangabad's local market actually is for that specific skill",
+    ],
+  },
+  {
+    title: "Skill direction built for what Aurangabad's actual economy is hiring for",
+    listItems: [
+      "A high-value skill portfolio aimed at production, quality, or plant-engineering roles if the auto-pharma manufacturing cluster genuinely fits you",
+      "Honest fit-checking between a heritage-tourism or hospitality direction and a manufacturing, services, or administrative path, instead of guessing from family expectation alone",
+      "Proof-of-work positioning strong enough to compete for a stronger opportunity in Pune, Mumbai, or elsewhere, if that is the honest read for your specific direction",
+      "A clearer route toward unlocking high income opportunities and earlier financial freedom that treats Aurangabad's real, present-day economy as the starting point, not an assumed one",
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Aurangabad's actual mix, not a generic Marathwada script",
+    body: "Useful guidance for Aurangabad should speak specifically to the Waluj-Chikalthana auto-ancillary and pharmaceutical-manufacturing cluster, the real farm-income pressure behind many family expectations, and the Ajanta-Ellora heritage-tourism economy - not treat the city as an interchangeable tier-2 town.",
+  },
+  {
+    title: "Check whether the advice is honest about scale, not just enthusiastic about the industrial belt",
+    body: "Bajaj Auto's plant, Endurance Technologies, and the pharma manufacturers here are real, stable employers, but they serve a narrower set of skill directions than Pune's or Mumbai's much larger markets. Guidance worth paying for should say plainly when a specific skill direction needs a bigger market, instead of overselling the local cluster to keep the conversation optimistic.",
+  },
+  {
+    title: "Check whether staying close to family and land in Marathwada is treated as a real constraint to plan around, not argued out of",
+    body: "Wanting to stay near family, or carrying real responsibility for family land and farm income, is a genuine factor for many Aurangabad students and professionals. Guidance should help build the strongest possible path from where you are, not push relocation as the only serious option.",
+  },
+  {
+    title: "Check whether a heritage-tourism or craft-linked direction is evaluated on its own merits, not dismissed by default",
+    body: "A counsellor who only measures success by a manufacturing or corporate offer is missing a real, if smaller, career layer around Ajanta, Ellora, and Paithan's weaving economy. The guidance should evaluate a path on its actual fit for you, not its resemblance to the more obvious industrial or services default.",
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: "Career Guidance by Location",
+    description: "Explore other city-specific guidance pages if you want to compare before committing.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.nagpurCounselling,
+    title: "Career Counselling in Nagpur",
+    description: "Useful if you are also weighing another Maharashtra tier-2 city with its own stay-or-move fork alongside an Aurangabad-area decision.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.puneCounselling,
+    title: "Career Counselling in Pune",
+    description: "Useful if Pune's automotive-and-IT scale is the metro option you are weighing against staying in Aurangabad's industrial belt.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: "Career Counselling",
+    description: "Use the main counselling page if the city matters less than the overall need for clarity.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: "Broader Career Guidance",
+    description: "Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.",
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: "Free Career Assessments",
+    description: "Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "Why choose online career counselling in Aurangabad instead of only looking for a nearby offline option?",
+    answer:
+      "Because proximity alone does not resolve Aurangabad's real fork - a stable professional path versus continued dependence on volatile farm income, a role inside the Waluj-Chikalthana auto-ancillary and pharma cluster, or a genuine heritage-tourism direction around Ajanta and Ellora. Online guidance lets you start from home, from Dr. Babasaheb Ambedkar Marathwada University or another campus, or from work near Waluj or Chikalthana, and it should still be judged on whether it gives you a clear, specific answer for your situation.",
+  },
+  {
+    question: "Is Aurangabad the same city as Chhatrapati Sambhajinagar?",
+    answer:
+      "Yes. The city was officially renamed Chhatrapati Sambhajinagar in 2023, but Aurangabad remains the name most people still search and use day to day. Both names refer to the same city, the same local economy, and the same guidance on this page.",
+  },
+  {
+    question: "Does farm-income pressure in Marathwada actually factor into career counselling, or is that too specific a concern?",
+    answer:
+      "It is specific, and that is exactly why it belongs in the conversation. Marathwada's real exposure to monsoon failure and crop-price swings is a genuine, common reason many Aurangabad families want the next generation on a stable skill-based income path. Good counselling should treat that pressure directly rather than defaulting to generic advice written for a region without it.",
+  },
+  {
+    question: "Should I aim for a role in Aurangabad's auto-ancillary and pharma cluster, or move to Pune or Mumbai?",
+    answer:
+      "That depends on whether your specific skill direction already has a genuine opening inside the Waluj-Chikalthana cluster today, not on how promising either city sounds in general. Bajaj Auto's plant, Endurance Technologies, and the local pharma manufacturers are real, stable employers, but a narrower slice of the economy than a metro's much larger market. Good counselling should map your actual fit against that real, current picture.",
+  },
+  {
+    question: "Is a career around the Ajanta and Ellora Caves realistic, or only useful as a side interest?",
+    answer:
+      "It is a genuine, if smaller and more seasonal, career layer - licensed tour-guiding, hospitality and hotel operations, and conservation-adjacent work connected to two UNESCO World Heritage Sites in the same district. Whether it fits you depends on your own language ability, service orientation, and interest in cultural and historical depth, which is exactly what counselling should help clarify.",
+  },
+  {
+    question: "Are the career and skill assessments free?",
+    answer: "Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.",
+  },
+  {
+    question: "Can this help students, freshers, and working professionals in Aurangabad?",
+    answer:
+      "Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you are based in Aurangabad, studying at Dr. Babasaheb Ambedkar Marathwada University, working near Waluj or Chikalthana, or weighing a move to a bigger city.",
+  },
+  {
+    question: "What if I searched for Aurangabad but the bigger issue is not the city at all?",
+    answer:
+      "That is common - a city search is often a trust shortcut. If the real pressure is stream selection, degree choice, skill direction, or a career change rather than location, the main counselling and guidance pages are the stronger next filter. This page is most useful when local context - Marathwada's farm-income pressure, the Waluj-Chikalthana industrial belt, or the Ajanta-Ellora heritage economy - is genuinely part of your decision.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://futurecareerschool.com/" },
+      { "@type": "ListItem", position: 2, name: "Services", item: "https://futurecareerschool.com/services/" },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Career Counselling and Career Guidance",
+        item: "https://futurecareerschool.com/services/career-counselling-and-career-guidance/",
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: "Locations",
+        item: "https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/",
+      },
+      { "@type": "ListItem", position: 5, name: "Career Counselling in Aurangabad", item: canonical },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Career Counselling in Aurangabad (Chhatrapati Sambhajinagar) | Future Career School",
+    description:
+      "Career counselling in Aurangabad, also known as Chhatrapati Sambhajinagar, for students, freshers, and working professionals. Online guidance for Marathwada's farm-income pressure, the Waluj-Chikalthana auto and pharma manufacturing belt, and the Ajanta-Ellora heritage-tourism economy.",
+    url: canonical,
+    serviceType: "Career Counselling and Career Guidance",
+    areaServed: [
+      { "@type": "City", name: "Aurangabad" },
+      { "@type": "City", name: "Chhatrapati Sambhajinagar" },
+      { "@type": "Country", name: "India" },
+    ],
+    inLanguage: "en-IN",
+    provider: {
+      "@type": ["Organization", "ProfessionalService"],
+      name: "Future Career School",
+      url: "https://futurecareerschool.com",
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Aurangabad</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Aurangabad
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Aurangabad
+        <span class="gold-text"> for Marathwada's real forks</span>
+      </h1>
+      <p class="hero-sub">
+        Aurangabad, officially renamed Chhatrapati Sambhajinagar in 2023 but still the name most people search and use, sits at the centre of
+        Marathwada - a historically drought-prone, farm-dependent region where an unreliable monsoon still pushes many families toward a stable
+        professional or salaried skill path rather than land alone. That same city is also home to a genuine auto-ancillary and pharmaceutical
+        manufacturing belt across Waluj and Chikalthana, and to the Ajanta and Ellora Caves - two UNESCO World Heritage Sites in the same district
+        supporting a real heritage-tourism career layer. Good career counselling here means building the kind of high-value skill portfolio that
+        keeps unlocking high income opportunities across whichever of those paths genuinely fits you, not generic advice written for a region
+        without Marathwada's specific pressures.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Aurangabad and across India. You can start from home, from Dr. Babasaheb Ambedkar Marathwada
+        University or another campus, or from work near Waluj or Chikalthana - no travel required before the underlying skill direction is even
+        clear.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not whether Aurangabad's industrial or tourism growth sounds promising in general. It is whether your specific
+        skill direction already has a real opening here, and whether it moves you toward earlier financial freedom faster than the default your
+        family or neighbourhood expects.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="aurangabad-career-landscape"
+    title="The Aurangabad career reality generic tier-2-city advice misses"
+    subtitle="Aurangabad is not simply a farm-belt city or simply an industrial one - it carries a genuine agrarian hinterland, a real manufacturing base, and a distinct heritage-tourism economy at once. Good career counselling should help you build the high-value skill portfolio that unlocks high income opportunities from whichever of these paths actually fits you."
+    items={aurangabadContextItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="ajanta-ellora-heritage-economy"
+    title="Ajanta, Ellora, and Paithan give Aurangabad a career layer no other city page on this site carries"
+    subtitle="Two UNESCO World Heritage Sites and a recognised handloom-craft tradition sit inside this one district, supporting real, specific work most outside guidance never accounts for."
+    items={heritageTourismItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="marathwada-fork"
+    title="Farm pressure, the industrial belt, or heritage tourism - the real fork behind most Aurangabad searches"
+    subtitle="This is the decision most Aurangabad and wider-Marathwada families actually face, and it has no equivalent framing anywhere else on this site: whether to move away from volatile farm income toward a stable skill-based path, build inside the Waluj-Chikalthana auto-ancillary and pharma cluster, or take the Ajanta-Ellora heritage-tourism economy seriously as a genuine third option."
+    items={marathwadaForkItems}
+    variant="contrast"
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Aurangabad"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process understands Aurangabad's actual mix of agriculture, industry, and heritage tourism, and whether it is honest about the trade-offs between them."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city where the farm-belt reputation, the industrial-belt story, and the heritage-tourism economy all hold some truth, the risk is generic advice that only knows one script. The comparison below shows what separates high-leverage guidance from that."
+    rows={aurangabadComparisonRows}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the farm-versus-industry-versus-heritage question already feels urgent, resolve it before more time goes into the wrong bet"
+    body="Use this when you want a decision that moves you toward earlier financial freedom, not another season of waiting on the monsoon or the market to decide for you."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <BofuFeatureSection
+    sectionId="aurangabad-areas"
+    title="Aurangabad's geography shapes the decision, not just the commute"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Aurangabad, not treat every search as coming from the same part of the city."
+    items={aurangabadAreaItems}
+    variant="signal"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="The point is not another opinion about whether Aurangabad is 'catching up'. The point is a clearer decision, stronger skill direction, proof of work, and a real route toward earlier financial freedom, whichever of these three real paths it runs through."
+  />
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use. Here is what that looks like for Aurangabad's farm-industry-heritage fork.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Aurangabad.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Aurangabad page when locality matters, but decide based on your actual skill fit, not city reputation alone"
+    body="The practical value is a clear read on whether the Waluj-Chikalthana industrial belt, a heritage-tourism direction, or a move elsewhere already fits your direction, stronger skill positioning either way, and a concrete next step before the wrong bet gets more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Aurangabad" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a real fork - moving away from volatile farm income, building inside Aurangabad's auto-ancillary and pharma belt, or taking the Ajanta-Ellora heritage-tourism economy seriously - is genuinely in front of you, and the goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #aurangabad-career-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

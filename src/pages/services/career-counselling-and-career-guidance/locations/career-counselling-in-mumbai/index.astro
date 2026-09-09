@@ -1,0 +1,607 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// AUDIT FIX (sitewide comparison-matrix dedupe): this page previously dropped
+// only index 4, which was byte-for-byte identical to Chandigarh, Gurgaon, and
+// Nagpur (all of which also dropped only index 4) - the prior comment's claim
+// of uniqueness was wrong because it was never checked against those three
+// pages. Mumbai now drops indices 0, 1, and 3 (keeping rows 2, 4, and 5),
+// which is a combination no other page uses. Chandigarh keeps the original
+// single-index drop (index 4) as the first-built page in that group;
+// Gurgaon now drops indices 0, 1, and 2; Nagpur now drops indices 0, 1, and
+// 4. See also Rajkot (rows 0-4, i.e. drops index 5) and Vizag (rows 1-5, i.e.
+// drops index 0), which remain unchanged as the two original pages.
+const mumbaiComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 0 && index !== 1 && index !== 3,
+);
+
+const title =
+  'Career Counselling in Mumbai | Practical Online Guidance | Future Career School';
+const description =
+  "Career counselling in Mumbai for students, freshers, and working professionals weighing BFSI, media and entertainment, or another track, with Mumbai's real cost-of-living pressure on the decision.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-mumbai/';
+
+const dualEconomyItems = [
+  {
+    title: "BKC, Nariman Point, and Lower Parel run India's largest finance and BFSI economy",
+    body: "Mumbai is the country's financial capital, and that is not a slogan here - the Bandra Kurla Complex alone hosts a dense cluster of global banks, NBFCs, mutual fund houses, and insurance majors, alongside the Bombay Stock Exchange and the National Stock Exchange, the Reserve Bank of India's headquarters, and the corporate offices of Tata group and Reliance companies at Nariman Point and Lower Parel. For a commerce, finance, or analytics-minded graduate, that means genuine depth: investment banking, equity research, wealth management, actuarial and risk roles, and fintech all compete for the same talent pool inside a few square kilometres. The gap most people here actually face is not access to opportunity - it is deciding which BFSI track fits their actual strengths and building the kind of high-value skill portfolio that keeps unlocking high income opportunities in a market this specialised and this competitive.",
+  },
+  {
+    title: "Mumbai is also India's only real entertainment and media capital, and no other city offers this fork",
+    body: "Bollywood production houses, streaming and OTT platforms, advertising agencies, and national television networks are headquartered in and around Mumbai in a way no other Indian city can match - not as a side industry, but as a full career economy with acting, direction, editing, screenwriting, production management, marketing, and content-strategy roles inside it. For families and students in Mumbai, this creates a genuinely different pressure than a tech-corridor or manufacturing-belt city: a real, visible, and often glamorised path exists alongside the safer BFSI or corporate route, and the two rarely get compared honestly in the same conversation.",
+  },
+  {
+    title: 'A dense corporate and consulting layer sits on top of both economies',
+    body: "Beyond finance and entertainment, Mumbai carries a large share of India's corporate headquarters - FMCG majors, consulting firms, and Reliance and Tata group businesses across sectors - concentrated through South Mumbai, Lower Parel, and the western suburbs. That adds a third, more generalist corporate-career track that many Mumbai families default to without weighing it seriously against the finance or media routes their child may actually be better suited for.",
+  },
+  {
+    title: 'IIT Bombay, NMIMS, Mumbai University, and St. Xavier\'s pull ambition from across the country',
+    body: "IIT Bombay's Powai campus is one of India's most recognised engineering and research destinations, NMIMS and Mumbai University's affiliated colleges feed directly into the city's finance and management pipeline, and St. Xavier's College carries its own long-standing pull for arts, commerce, and mass-media students. Together they concentrate a genuinely high-achieving, high-pressure student population into one city, which raises the real stakes of a wrong specialisation or track choice made at exactly this stage - the kind of decision where achieving earlier financial freedom depends more on the specific skill direction chosen than on simply being in Mumbai at all.",
+  },
+];
+
+const areaItems = [
+  {
+    title: 'Bandra Kurla Complex (BKC) and Nariman Point: the financial and corporate core',
+    body: "BKC is Mumbai's newer financial district - global banks, consulting firms, and large corporate offices dominate it, while Nariman Point remains the older, established seat of Mumbai's corporate and financial power. A decision made from here is usually a BFSI-versus-corporate-generalist fork, or a specific specialisation choice inside finance itself.",
+  },
+  {
+    title: 'Andheri, Versova, and Goregaon: the production and media belt',
+    body: "Mumbai's film and television production houses, editing studios, and a growing share of OTT and digital-content companies cluster through Andheri, Versova, and Goregaon. Someone deciding from this part of the city is often weighing a media or entertainment-industry path against a more conventional corporate track, with far less certainty about income and progression at the entry stage.",
+  },
+  {
+    title: 'Powai: IIT Bombay, tech offices, and a research-and-engineering identity',
+    body: "Powai's identity is shaped heavily by IIT Bombay alongside a growing cluster of tech and product company offices. Students and early-career professionals here are often weighing a core-engineering, higher-studies, or tech-pivot decision, closer in shape to the fork more commonly associated with Bangalore or Hyderabad, but inside a city otherwise dominated by finance and media.",
+  },
+  {
+    title: 'Lower Parel and Worli: the redeveloped corporate and media-adjacent business district',
+    body: "Once Mumbai's mill land, Lower Parel and Worli are now home to corporate headquarters, advertising agencies, and a meaningful share of media and entertainment-company offices side by side. That mix means a resident here can genuinely be weighing a BFSI, corporate, or media-industry path within the same few streets.",
+  },
+  {
+    title: 'The extended suburbs and satellite towns: Thane, Navi Mumbai, and beyond',
+    body: "A large share of Mumbai's working population actually lives well outside South Mumbai or BKC, in Thane, Navi Mumbai, and further suburbs, and commutes in daily. For this group, the career decision is rarely just about which industry - it is also about how much of each day and each rupee a role's location will genuinely cost them.",
+  },
+];
+
+const costPressureItems = [
+  {
+    title: 'A wrong career turn compounds faster here because the fixed costs arrive sooner',
+    body: "Mumbai's rent, especially anywhere within a reasonable commute of BKC, Lower Parel, or South Mumbai, is among the highest in the country, and a daily commute from the suburbs can cost two to three hours each way. That means a low-paying first job or an unclear early direction does not just delay progress quietly - it starts eating into rent, commute time, and savings almost immediately, in a way a lower-cost city allows more room to absorb.",
+  },
+  {
+    title: 'The commute itself becomes a career-decision input, not just a lifestyle detail',
+    body: "Choosing between a BKC-based BFSI role, an Andheri-based media job, and a Powai-based tech role in Mumbai is rarely just about the work itself - the realistic commute from wherever you actually live becomes part of the honest comparison. Two roles that look identical on a job description can carry very different real costs once daily travel time and expense are counted in.",
+  },
+  {
+    title: 'High visible income examples can distort what "normal" progression looks like',
+    body: "Mumbai's finance and entertainment industries both produce visible, sometimes extreme, high-income examples - a senior banker's package, a breakout actor's or content creator's earnings - that are not representative of typical early-career progression in either field. That gap between the visible outlier and the realistic starting path is worth naming honestly before it quietly shapes an unrealistic plan.",
+  },
+  {
+    title: 'The pressure to "make it in Mumbai" specifically, not just make a good career choice',
+    body: "Because Mumbai is where so many people come specifically to build a finance or entertainment career, there is often an added layer of pressure to succeed in this city particularly, on top of the underlying career decision itself. Separating the two - what actually fits your strengths, versus what proving something in this specific city would mean - tends to produce a clearer decision.",
+  },
+];
+
+const fitItems = [
+  {
+    title: 'What you actually need right now',
+    listItems: [
+      'You want support that treats Mumbai as a finance-and-media city, not a single-industry corporate town.',
+      "You want the real cost-of-living and commute trade-off named honestly, not glossed over.",
+      'You want something more practical than broad internet advice written for a generic metro grad.',
+      'You want a real next step, not only motivational talk or a label.',
+    ],
+  },
+  {
+    title: 'What should matter more than city alone',
+    listItems: [
+      "Whether the guidance actually understands Mumbai's BFSI-versus-media-versus-corporate split",
+      'Whether the next step becomes clearer and easier to act on',
+      'Whether the process helps with stronger skill direction and proof of work',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Closer should still mean clearer',
+    body: 'Searching locally is useful only if it leads to better decision support, not just physical proximity.',
+  },
+  {
+    title: 'Quality before convenience',
+    body: 'The better filter is whether the guidance improves your next move, not whether the office would have been nearby.',
+  },
+  {
+    title: 'Act before the wrong turn compounds',
+    body: "The practical goal is to get clear before more time, money, and rent go the wrong way - and to start building the high-value skill portfolio that keeps unlocking high income opportunities and moves you toward earlier financial freedom.",
+  },
+];
+
+const prepItems = [
+  {
+    title: 'The real decision you need to solve first',
+    body: 'Bring the actual question that is creating pressure right now, whether that is a BFSI-versus-media choice, a specialisation call, or a stay-in-Mumbai-versus-relocate question.',
+  },
+  {
+    title: 'The serious options you are already considering',
+    body: 'Write down the two to four routes you are actually comparing - including the media or entertainment option if it is genuinely on the table. Stronger counselling happens when the real trade-offs are visible from the start.',
+  },
+  {
+    title: 'What feels risky, delayed, or expensive',
+    body: 'Be clear about what you do not want to repeat: a wrong specialisation bet, a first job that barely covers rent and commute, or more time spent undecided while options narrow.',
+  },
+  {
+    title: 'The constraints that cannot be ignored',
+    body: 'Include family expectation, budget, rent and commute reality, or timeline pressure early so the guidance stays practical instead of idealised.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the real decision creating pressure right now',
+    listItems: [
+      'Whether a BFSI track, a media and entertainment path, or a broader corporate role actually fits your strengths',
+      'What your realistic income and cost-of-living trade-off looks like on each path over the next few years',
+      'Which expensive wrong turn is most urgent to stop repeating right now',
+      'Whether a Mumbai-based role or a lower-cost city genuinely serves your goals better',
+    ],
+  },
+  {
+    title: "Skill direction tied to Mumbai's actual economy",
+    listItems: [
+      'Finance, analytics, and communication skills relevant to BFSI and corporate employers in BKC and Lower Parel',
+      'Proof-of-work positioning that carries real weight in a media, content, or production-industry job search',
+      'Where an NMIMS or Mumbai University-track specialisation, or an IIT Bombay-adjacent technical direction, genuinely fits',
+      'A clearer route toward earlier financial freedom from your actual starting point',
+    ],
+  },
+  {
+    title: 'A lower-friction way to start moving',
+    listItems: [
+      'Online guidance accessible across India with no local-access dependence',
+      'A conversation you can start today without a formal decision already made or research already finished',
+      'A realistic career target and the clearest path to reach it from where you are now',
+      'One concrete next step instead of a theory discussion you still have to decode yourself',
+    ],
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'I want to break into Bollywood, OTT, or media production - is that a real career or a gamble?',
+    body: "It can be a genuine career, but the honest picture includes both the visible outlier success stories and a much less certain early-stage income and progression path than BFSI or a corporate role typically offers. A useful conversation names both sides clearly instead of either dismissing the path or romanticising it.",
+  },
+  {
+    title: 'Should I take a lower-paying BKC finance role for the brand name, or a better-paying role elsewhere?',
+    body: "This is a genuinely common Mumbai decision, and the honest answer depends on the specific role, the actual skill-building it offers, and whether Mumbai's cost of living makes the lower pay unsustainable in the near term - not a blanket rule that a big-name BFSI employer is always worth it.",
+  },
+  {
+    title: "Is it worth staying in Mumbai if the rent and commute eat into most of what I earn?",
+    body: "For some roles and career stages, yes, because the specific opportunity, network, or skill exposure genuinely justifies it. For others, a lower cost-of-living city offering comparable roles may serve the same career goal with less financial strain. The decision should rest on the specific role and stage, not on Mumbai's reputation alone.",
+  },
+  {
+    title: 'My family expects a stable BFSI or corporate job, but I am drawn to media - how does counselling help?',
+    body: "Counselling should treat the media and entertainment path as a genuine option with its own real trade-offs - a less predictable early income against BFSI or corporate's comparative stability - rather than assuming one is automatically the safer or better choice. It should also help you see honest hybrid options where they exist.",
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Mumbai's finance-and-media split",
+    body: "Mumbai runs a genuine BFSI and corporate economy alongside a genuine media and entertainment economy. Good guidance should be able to speak credibly to whichever one your actual decision sits inside, not default to generic corporate-city advice.",
+  },
+  {
+    title: "Check whether the cost-of-living and commute trade-off is addressed honestly",
+    body: "Many people compare Mumbai roles purely on salary or brand name without weighing rent, commute time, and the real cost of daily life against a lower-cost alternative. Better guidance should help you judge the actual trade-off, not just the headline number.",
+  },
+  {
+    title: 'Check whether the media or entertainment path is taken seriously, not dismissed',
+    body: "For students and professionals genuinely drawn to Mumbai's entertainment industry, the guidance should treat it as a real career option with real trade-offs - not something to talk you out of by default, and not oversold either.",
+  },
+  {
+    title: 'Check whether the next move fits your actual Mumbai situation',
+    body: "Good guidance for Mumbai should respect that rent, commute, and family expectation all carry real weight here - not treat them as obstacles to overcome on the way to a single \"obvious\" answer.",
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See other city guidance options if you want to compare before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.puneCounselling,
+    title: 'Career Counselling in Pune',
+    description: "See this if you are weighing Mumbai against Pune's student-influx and automotive-versus-IT fork.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.thaneCounselling,
+    title: 'Career Counselling in Thane',
+    description: "See this if your real question is whether to keep commuting into Mumbai or build a career inside Thane's own Wagle Estate, Kolshet Road, and Thane-Belapur economy instead.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'See the online page if easier access across India matters more than city-based search wording.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCoachNearMe,
+    title: 'Career Coach Near Me',
+    description: 'See this if your original search was more about trust and proximity than the counselling label itself.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Mumbai instead of only looking for a nearby offline office?',
+    answer:
+      "Because proximity alone does not improve the decision. Online guidance lets you start from home, campus, or work without waiting for local availability, and the stronger comparison is whether the support genuinely understands Mumbai's finance, media, and corporate economies - not just whether an office happens to be nearby.",
+  },
+  {
+    question: 'What career paths have the strongest growth potential from Mumbai?',
+    answer:
+      "It depends on your starting point, but a few directions stand out. BFSI, analytics, and corporate roles across BKC, Nariman Point, and Lower Parel have strong employer density among global banks, NBFCs, and Tata and Reliance group businesses. Media, entertainment, and content roles connect into the Andheri-Versova-Goregaon production belt and Mumbai's OTT and advertising industry. Tech and research-adjacent roles connect through Powai's IIT Bombay-linked ecosystem. And for some, a lower cost-of-living city offering a comparable role can serve the same goal with less financial strain.",
+  },
+  {
+    question: 'Is a career in Bollywood, OTT, or media production actually viable, or is it too risky?',
+    answer:
+      "It can be a genuine, viable path, but it carries a real early-stage income and progression uncertainty that a BFSI or corporate role typically does not. The honest approach is naming both the visible success stories and the less certain early path clearly, then deciding with that full picture rather than either dismissing or romanticising the industry.",
+  },
+  {
+    question: "Does Mumbai's cost of living actually change the career decision, or is it just a lifestyle detail?",
+    answer:
+      "It genuinely changes the decision for many people. Rent and commute time in Mumbai can be high enough that a lower-paying first role starts affecting savings and stability almost immediately, so weighing a role's realistic take-home value against Mumbai's cost of living - not just its salary or brand name - is a real part of good guidance here.",
+  },
+  {
+    question: 'Is career counselling in Mumbai different from career counselling in Thane?',
+    answer:
+      "Yes. This page is built around Mumbai proper - the BFSI-versus-media-and-entertainment fork across BKC, Nariman Point, Andheri, and Lower Parel, and Mumbai's own cost-of-living and commute pressure. The Thane page is built around a different question: whether to keep commuting into Mumbai for pay or build a career inside Thane's own Wagle Estate, Kolshet Road, and Thane-Belapur economy, alongside Thane's distinct lake-city identity and Marathi-speaking family culture. If your real pressure is the Mumbai-commute-versus-local-Thane-job decision, the Thane page is the better starting point.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free. They are updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Mumbai?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Mumbai users.',
+  },
+  {
+    question: 'What if I searched for Mumbai but the bigger issue is not the city?',
+    answer:
+      "That is common. Many people use the city search as a trust shortcut, then realise the bigger need is better decision support itself - for specialisation choice, skill direction, or a career change. In that case, the main counselling and guidance pages are the stronger next filter. This page is most useful when Mumbai's specific finance, media, or cost-of-living context is part of the decision.",
+  },
+  {
+    question: 'Do you guarantee a job?',
+    answer:
+      'No ethical provider can guarantee a job. The practical goal is better decision quality, stronger skill direction, and a clearer path forward.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Mumbai',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Mumbai | Future Career School',
+    description:
+      'Career counselling in Mumbai for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, and better income-growth direction.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'City', name: 'Mumbai' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Mumbai</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Mumbai
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Mumbai
+        <span class="gold-text"> for finance, media, and cost-of-living-aware career clarity</span>
+      </h1>
+      <p class="hero-sub">
+        Mumbai is India's financial capital through BKC, Nariman Point, and Lower Parel, and its only real entertainment and media capital through the Andheri-Versova-Goregaon production belt - a fork no other Indian city forces this sharply.
+        On top of that, Mumbai's rent and commute pressure mean a wrong early decision compounds faster here than almost anywhere else. The goal is getting clear before more time and money go the wrong way, and building the kind of high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom, whichever track actually fits.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Mumbai and across India. You can start from home, campus, or work, or wherever you already are - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Mumbai. It is whether the guidance understands which of Mumbai's economies, and which real cost trade-off, your decision actually sits inside.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="mumbai-economy"
+    title="Mumbai runs on finance and media at once, in a way no other Indian city does"
+    subtitle="A useful page for this city has to speak to more than BFSI - the honest picture includes entertainment, a wider corporate layer, and a genuinely high-pressure academic pipeline."
+    items={dualEconomyItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="mumbai-areas"
+    title="Which part of Mumbai you're deciding from changes the real trade-off"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Mumbai rather than pretending every user is comparing the same options from the same part of the city."
+    items={areaItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="cost-of-living-pressure"
+    title="Mumbai's cost of living makes a wrong early decision compound faster"
+    subtitle="Rent, commute, and daily cost of living are not background details here - they are a real input into which career decision actually makes sense."
+    items={costPressureItems}
+    variant="decision"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Mumbai search already reflects a serious decision, move before rent and time make it more expensive"
+    body="Use this when you want stronger guidance now, not another round of delay while the decision keeps getting more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In Mumbai's finance-and-media economy, the risk is advice that only speaks to BFSI and ignores media, the wider corporate layer, or the honest cost-of-living trade-off. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={mumbaiComparisonRows}
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="As context, we offer free assessments that can help surface strengths, preferences, and work style before a bigger counselling decision, if you are still early and not ready for guidance yet."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Mumbai"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Career counselling here is not about one isolated decision. It is about building a high-value skill portfolio that keeps unlocking high income opportunities as your situation across Mumbai's finance, media, or corporate economy changes."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #mumbai-economy,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

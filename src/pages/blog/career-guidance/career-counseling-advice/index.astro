@@ -1,0 +1,556 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Career Counseling Advice: The 6-Point Filter Before You Trust It';
+const description =
+  'Career counseling advice is only useful if it passes 6 checks. The filter, the red flags to skip, and what to actually do with advice once you have it.';
+const canonical =
+  'https://futurecareerschool.com/blog/career-guidance/career-counseling-advice';
+const publishedDateISO = '2026-08-30';
+const publishedDateLabel = '30 August 2026';
+const authorName = 'Allu Vagdevi';
+const authorUrl = 'https://futurecareerschool.com/about/allu-vagdevi/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'two-kinds', label: 'Two different things people mean by this' },
+  { id: 'filter', label: 'The 6-Point Advice Filter' },
+  { id: 'filter-table', label: 'Run any piece of advice through the filter' },
+  { id: 'red-flags', label: 'Advice patterns worth ignoring' },
+  { id: 'by-stage', label: 'The advice that actually changes by life stage' },
+  { id: 'source', label: 'Where the advice comes from matters as much as the advice' },
+  { id: 'turn-into-action', label: 'Turning advice into a plan instead of a feeling' },
+  { id: 'when-to-pay', label: 'When free advice is enough, and when it is not' },
+  { id: 'sources', label: 'Check the sources behind these claims' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const filterRows = [
+  {
+    check: '1. Specific to you, not generic',
+    passes: 'References your actual marks, budget, city, family situation, or stated interests.',
+    fails: '"Follow your passion" or "every field has scope if you work hard" with nothing tied to your case.',
+  },
+  {
+    check: '2. Backed by current data, not memory',
+    passes: 'Cites a current hiring pattern, cutoff, entrance requirement, or pay range from the last year or two.',
+    fails: 'Repeats what was true when the advice-giver was your age, ten or twenty years ago.',
+  },
+  {
+    check: '3. Names the trade-off, not just the upside',
+    passes: 'Tells you what you give up, what it costs, or what the risk is - alongside the benefit.',
+    fails: 'Sells one option as risk-free or obviously superior with no honest downside.',
+  },
+  {
+    check: '4. Ends in an action, not a mood',
+    passes: 'Gives you a next step you could act on soon - a form, a test, a conversation, a small project.',
+    fails: 'Leaves you feeling either reassured or panicked, with nothing concrete to do differently.',
+  },
+  {
+    check: '5. Survives a second opinion',
+    passes: 'Holds up when you check it against one more source, counselor, or working professional in the field.',
+    fails: 'Falls apart the moment someone with real, current experience in that field hears it.',
+  },
+  {
+    check: '6. Comes from someone with something to lose if they are wrong',
+    passes: 'A counselor, mentor, or professional whose credibility depends on giving you an honest read.',
+    fails: 'A stranger on a forum, an influencer with no stake in your outcome, or a coaching sales pitch.',
+  },
+];
+
+const redFlagCards = [
+  {
+    num: '01',
+    title: '"This one field is the safest bet for the next 20 years"',
+    body: 'No field is immune to automation, policy change, or market shift over two decades. Advice that removes all uncertainty is hiding it, not solving it.',
+  },
+  {
+    num: '02',
+    title: '"Everyone in your family did X, so you should too"',
+    body: 'Family precedent is one data point about access and comfort, not evidence about your fit or the market today. Good advice separates the two.',
+  },
+  {
+    num: '03',
+    title: '"Take the test and we will tell you your one true career"',
+    body: 'A single test score treated as a verdict, sold with urgency, is a red flag on both the test and the counselor - not a proof of expertise.',
+  },
+  {
+    num: '04',
+    title: '"You are too old / too behind / it is too late for that now"',
+    body: 'Real constraints exist and deserve an honest answer. But advice that shuts a door without checking the specific case first is a shortcut, not counseling.',
+  },
+];
+
+const stageTips = [
+  {
+    tag: 'School (class 9-10)',
+    tip: 'The most useful advice at this stage is rarely about picking a career - it is about picking a stream (Science, Commerce, Arts) that keeps the most doors open given your actual marks pattern and interests, not the stream your friend group is choosing.',
+  },
+  {
+    tag: 'After 12th',
+    tip: 'Advice that only names a course or college is incomplete. Useful advice at this point also covers entrance-exam odds, a genuine backup plan, and what the degree needs to be paired with to be worth the years spent on it.',
+  },
+  {
+    tag: 'Fresher / graduate',
+    tip: 'The advice that matters most is rarely "apply to more places." It is which specific skill or proof-of-work gap is actually costing you interview calls, and what to build in the next stretch to close it.',
+  },
+  {
+    tag: 'Working professional',
+    tip: 'Advice worth trusting here separates "you are bored" from "you are structurally capped" - a plateau caused by the wrong skill stack needs a different fix than one caused by the wrong company or manager.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'What is the most important piece of career counseling advice?',
+    a: 'There is no single universal answer, but the advice that holds up across situations is: test your assumptions against current data before committing years to a path, and build visible proof of the skill rather than collecting certificates or good intentions alone.',
+  },
+  {
+    q: 'How do I know if career counseling advice is actually good?',
+    a: 'Run it through the 6-Point Advice Filter above: is it specific to your case, backed by current data, honest about trade-offs, does it end in an action, does it survive a second opinion, and does it come from someone with real stake in getting it right for you.',
+  },
+  {
+    q: 'Is free career advice online as good as paid career counseling?',
+    a: 'Free content and quizzes are useful for a first pass and for narrowing a wide field. They usually cannot combine that with your specific marks, budget, family situation, and a structured decision process the way a real counseling conversation can - the gap widens as the decision gets more consequential.',
+  },
+  {
+    q: 'Why do different counselors sometimes give different advice for the same situation?',
+    a: 'Because a genuine decision usually has more than one defensible path, and counselors weigh trade-offs (risk tolerance, timeline, family pressure, cost) differently. Different but well-reasoned advice is normal; advice that ignores your actual constraints is the problem, not disagreement itself.',
+  },
+  {
+    q: 'What career advice should I ignore?',
+    a: 'Be skeptical of advice that removes all uncertainty ("this is 100% safe"), advice based only on family precedent with no market check, a single test sold as a final verdict, and advice that tells you it is "too late" without examining your specific case first.',
+  },
+  {
+    q: 'Should I get a second opinion on career counseling advice?',
+    a: 'For any decision with real cost or years attached - a course, a loan, a job switch, a field change - yes. Advice that only survives one conversation and collapses under a second, informed opinion was not solid enough to act on alone.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="career-guidance"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Good career counseling advice is specific to your actual situation, backed by current data, honest about trade-offs, and ends in something you can act on soon</strong> - not a reassuring sentence that could apply to literally anyone. Most advice people repeat about careers fails this test the moment you check it: it is either outdated, borrowed from a completely different market, or designed to make you feel better rather than decide better. The advice that actually moves you toward a high-value skill and real income options looks different, and it is checkable.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>"Career counseling advice" covers two different things: advice a counselor gives you, and advice about how to pick a counselor or process worth trusting. Both matter, and they are covered separately below.</li>
+      <li>Run any advice through the 6-Point Advice Filter: specific, current, honest about trade-offs, action-ending, second-opinion-proof, and from someone with real stake in your outcome.</li>
+      <li>Some advice patterns are near-universal red flags - "this is the one safe field," a single test sold as a verdict, or family precedent presented as market evidence.</li>
+      <li>The advice that changes the most by life stage is not the career name itself - it is which specific gap (stream fit, entrance odds, skill proof, or plateau cause) the advice needs to close.</li>
+      <li>Advice you cannot turn into a concrete next action was probably too vague to be useful in the first place.</li>
+    </ul>
+  </div>
+
+  <p>
+    This is a narrower question than "why does career counseling matter" or "what does it exist to do." Those explain the practice itself. This is about the actual sentences and recommendations you get handed - from a counselor, a relative, a forum, or an assessment report - and how to tell which ones deserve to change what you do next.
+  </p>
+
+  <p>
+    A structured <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career counseling and guidance</a> session is one place advice like this gets tested against your actual marks, budget, and constraints instead of staying generic. But whether the advice comes from a paid session or a free conversation, the same filter below applies.
+  </p>
+
+  <nav class="jump-nav" aria-label="Jump to section">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="two-kinds">Two different things people mean by this</h2>
+
+  <p>
+    Before filtering advice, it helps to know which question you are actually asking. "Career counseling advice" usually means one of two things.
+  </p>
+
+  <p>
+    The first is <strong>advice from career counseling</strong> - the actual recommendations a counselor gives once they know your marks, interests, budget, and constraints: which stream fits, which course is worth the fee, which skill to build first. This is advice produced by a process.
+  </p>
+
+  <p>
+    The second is <strong>advice about career counseling</strong> - how to pick a counselor worth trusting, what a real session should look like, and what a red-flag process looks like before you hand over money or time. This is advice about the process itself.
+  </p>
+
+  <p class="note-line">
+    Both are covered here, because bad advice about how to choose a counselor usually leads straight to bad advice from that counselor. The filter below works on either kind.
+  </p>
+
+  <h2 id="filter">The 6-Point Advice Filter</h2>
+
+  <p>
+    Most career advice fails not because it is malicious, but because it is generic enough to survive being repeated to anyone. <strong>The 6-Point Advice Filter</strong> is a fast way to separate advice that is genuinely load-bearing from advice that just sounds reasonable.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      A piece of advice that could be pasted, word for word, into ten other people's situations and still sound correct is not really advice - it is a platitude wearing advice's clothes. Real advice gets sharper, not vaguer, the more specific your situation is.
+    </p>
+  </div>
+
+  <h2 id="filter-table">Run any piece of advice through the filter</h2>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Check</th>
+          <th>What it looks like when it passes</th>
+          <th>What it looks like when it fails</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filterRows.map((item) => (
+          <tr>
+            <td data-label="Check"><strong>{item.check}</strong></td>
+            <td data-label="What it looks like when it passes">{item.passes}</td>
+            <td data-label="What it looks like when it fails">{item.fails}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    You do not need advice to pass all six checks perfectly before it is worth considering. But advice that fails three or more of these at once - vague, outdated, no downside named, no next step, falls apart on a second opinion, and comes from someone with nothing at stake - should not be the thing you make a real decision on.
+  </p>
+
+  <h2 id="red-flags">Advice patterns worth ignoring</h2>
+
+  <p>
+    A handful of specific sentences show up repeatedly in career advice, in India and elsewhere, and almost all of them fail the filter above the moment you check them against real market data.
+  </p>
+
+  <div class="feature-grid">
+    {redFlagCards.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">Red flag {item.num}</div>
+        <p><strong>{item.title}.</strong> {item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    None of these four are automatically wrong in every single case - a family business or a stable field can genuinely be the right call for a specific person. The problem is not the conclusion; it is when the advice gets handed over without checking whether it actually applies to your case, your marks, your budget, or the current market.
+  </p>
+
+  <h2 id="by-stage">The advice that actually changes by life stage</h2>
+
+  <p>
+    People often assume career advice needs to change completely by age or stage. What actually changes is narrower: which specific gap the advice is trying to close.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      A school student's real gap is usually stream fit. A 12th-pass student's real gap is usually course-and-backup clarity. A fresher's real gap is usually a missing proof-of-work signal, not a lack of applications. A working professional's real gap is usually a skill-stack mismatch, not a lack of motivation. Advice aimed at the wrong gap - telling a fresher to "apply more" when the real issue is a thin portfolio - can be technically true and still useless.
+    </p>
+  </div>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Stage</th>
+          <th>What useful advice actually targets</th>
+        </tr>
+      </thead>
+      <tbody>
+        {stageTips.map((item) => (
+          <tr>
+            <td data-label="Stage"><strong>{item.tag}</strong></td>
+            <td data-label="What useful advice actually targets">{item.tip}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Building the right skill portfolio for your stage, not just picking a career-sounding label, is what turns advice into actual income options later - a plateaued professional getting told to "network more" without a skill-stack fix is being handed the wrong gap's advice.
+  </p>
+
+  <h2 id="source">Where the advice comes from matters as much as the advice</h2>
+
+  <p>
+    The same sentence carries different weight depending on who is saying it and what they have to lose if it turns out wrong. A relative who means well but has not checked a hiring page in a decade, a forum post from a stranger, an influencer selling a course, and a counselor whose reputation depends on your outcome are not equally reliable sources - even when their advice sounds identical on the surface.
+  </p>
+
+  <p>
+    This is the part of "career counseling advice" that is really about the second meaning - advice about the process. Before trusting a source, check: does this person or process know your actual marks, budget, and constraints, or are they generalizing from their own path? Do they name a downside, or only an upside? Would their advice survive them explaining their reasoning to another expert in the field?
+  </p>
+
+  <h2 id="turn-into-action">Turning advice into a plan instead of a feeling</h2>
+
+  <p>
+    Advice that only changes how you feel - reassured, panicked, motivated for a day - has not actually done its job. Advice that passes the filter should convert into three concrete things before you consider it "used":
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card__label">Step 1</div>
+      <p><strong>One thing to verify.</strong> A specific claim in the advice - a cutoff, a salary range, a demand trend - checked against a current, primary source before you act on it.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__label">Step 2</div>
+      <p><strong>One thing to test.</strong> A small, low-cost way to check whether the advice fits you specifically - a short project, a conversation with someone actually doing the work, a free assessment.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__label">Step 3</div>
+      <p><strong>One thing to schedule.</strong> A next action with an actual date attached - a form, a course start, a conversation with your family, a follow-up session - not an open-ended intention.</p>
+    </div>
+  </div>
+
+  <p>
+    Advice that cannot survive being turned into these three things was probably too vague to have been worth much in the first place - regardless of how confident it sounded when you first heard it.
+  </p>
+
+  <h2 id="when-to-pay">When free advice is enough, and when it is not</h2>
+
+  <p>
+    Free advice - articles, forums, a well-meaning relative, a single quiz - is genuinely enough for low-stakes questions: narrowing a wide field, getting a first sense of your interests, or checking a basic fact. Its limits show up fast once the decision gets specific and consequential: a stream choice tied to your exact marks, a course decision tied to a real loan, or a field switch tied to years of income.
+  </p>
+
+  <p>
+    <a href="https://futurecareerschool.com/services/assessments">Free career and skill assessments</a> are a reasonable starting point for the "test" step above. Once the decision involves real money, a real timeline, or family disagreement, advice that has actually been checked against your specific numbers - through a structured <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career counseling and guidance</a> process - tends to hold up better than advice assembled from good intentions and general knowledge alone.
+  </p>
+
+  <h2 id="sources">Check the sources behind these claims</h2>
+
+  <p>Do not trust any single career article blindly, including this one. Check the primary research and apply your own judgment.</p>
+  <ul class="sources">
+    <li>
+      Career development and vocational psychology as a field of study.
+      <a href="https://www.apa.org/topics/careers" target="_blank" rel="noopener noreferrer">American Psychological Association: Careers</a>
+    </li>
+    <li>
+      Standards and ethics for career development practitioners.
+      <a href="https://ncda.org/" target="_blank" rel="noopener noreferrer">National Career Development Association</a>
+    </li>
+    <li>
+      Free, research-based interest and skill matching (RIASEC framework).
+      <a href="https://www.mynextmove.org/explore/ip" target="_blank" rel="noopener noreferrer">O*NET Interest Profiler</a>
+    </li>
+    <li>
+      Official Indian government career and job service.
+      <a href="https://www.ncs.gov.in/" target="_blank" rel="noopener noreferrer">National Career Service</a>
+    </li>
+    <li>
+      Current global skills and hiring-demand shifts relevant to checking dated advice.
+      <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/in-full/3-skills-outlook/" target="_blank" rel="noopener noreferrer">WEF Future of Jobs Report 2025</a>
+    </li>
+  </ul>
+
+  <h2 id="faq">FAQs on career counseling advice</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <p>
+    Advice is only as useful as the check you run it through. If you want that check done against your actual marks, budget, and situation rather than in the abstract, <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">structured career guidance</a> is built to do exactly that. Curious what the process is fundamentally built to fix before you book anything? Read <a href="/blog/career-guidance/purpose-of-career-counseling/">the purpose of career counseling</a> next.
+  </p>
+</BlogPostLayout>
+
+<style>
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+    margin: 1.4rem 0;
+  }
+  .feature-card {
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-top: 3px solid rgba(45, 212, 191, 0.5);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.3rem 1.3rem 1.2rem;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .feature-card:nth-child(3n+2) { border-top-color: rgba(229, 184, 74, 0.55); }
+  .feature-card:nth-child(3n+3) { border-top-color: rgba(167, 139, 250, 0.5); }
+  .feature-card:nth-child(3n+2) .feature-card__label { color: #e5b84a; }
+  .feature-card:nth-child(3n+3) .feature-card__label { color: #a78bfa; }
+  @media (hover: hover) {
+    .feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    }
+  }
+  .feature-card__label {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #2dd4bf;
+    margin-bottom: 0.55rem;
+  }
+  .feature-card p {
+    font-size: 14.5px !important;
+    line-height: 1.74 !important;
+    color: rgba(255, 255, 255, 0.68) !important;
+    margin: 0 !important;
+  }
+
+  .honest-take {
+    margin: 1.6rem 0;
+    padding: 1.25rem 1.35rem 1.2rem;
+    border-left: 3px solid #e5b84a;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.025);
+  }
+  .honest-take__label {
+    margin: 0 0 0.55rem !important;
+    font-size: 11px !important;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #e5b84a !important;
+  }
+  .honest-take p {
+    margin: 0.4rem 0 !important;
+    font-size: 15.5px !important;
+    line-height: 1.78 !important;
+    color: rgba(255, 255, 255, 0.78) !important;
+  }
+
+  .highlight-box {
+    margin: 1.6rem 0;
+    padding: 1.25rem 1.4rem 1.2rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .highlight-box--teal {
+    border-color: rgba(45, 212, 191, 0.28);
+    background: radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.09), transparent 60%), rgba(255, 255, 255, 0.025);
+  }
+  .highlight-box p {
+    margin: 0.35rem 0 !important;
+    font-size: 15.5px !important;
+    line-height: 1.76 !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  .note-line {
+    font-size: 13.5px !important;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.5) !important;
+    line-height: 1.68 !important;
+    margin: 0.9rem 0 1.4rem !important;
+  }
+
+  .jump-nav {
+    margin: 1.6rem 0 2rem;
+    padding: 1.2rem 1.3rem 1.1rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.025);
+  }
+  .jump-nav__label {
+    margin: 0 0 0.7rem !important;
+    font-size: 11px !important;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+  .jump-nav__list {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 1rem;
+  }
+  .jump-nav__list li { margin: 0 !important; }
+  .jump-nav__list a {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.68);
+    text-decoration: none;
+  }
+  .jump-nav__list a:hover { color: #e5b84a; }
+
+  .paths-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 620px;
+  }
+  @media (max-width: 560px) {
+    .paths-table {
+      min-width: 0;
+    }
+  }
+  .paths-table th {
+    text-align: left;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.55);
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .paths-table td {
+    padding: 0.9rem 1rem;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.72);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    vertical-align: top;
+  }
+  .paths-table tr:last-child td { border-bottom: none; }
+
+  .sources {
+    margin: 0.9rem 0 1.4rem;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .sources li {
+    color: rgba(255, 255, 255, 0.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+  .sources a {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-left: 4px;
+  }
+
+  @media (max-width: 720px) {
+    .jump-nav__list { grid-template-columns: 1fr; }
+  }
+</style>

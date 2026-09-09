@@ -62,13 +62,17 @@ async function mockAdmin(page) {
   });
 }
 
-for (const viewport of [{ name: 'desktop', width: 1440, height: 900 }, { name: 'mobile', width: 390, height: 844 }]) {
+for (const viewport of [
+  { name: 'desktop', width: 1440, height: 900 },
+  { name: 'tablet', width: 768, height: 1024 },
+  { name: 'mobile', width: 390, height: 844 },
+]) {
   test(`admin operations layout is visually stable on ${viewport.name}`, async ({ page }, testInfo) => {
     await page.setViewportSize(viewport);
     await mockAdmin(page);
     await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('#workspace-shell')).toBeVisible({ timeout: 10_000 });
-    const peopleNavigation = viewport.name === 'mobile'
+    const peopleNavigation = viewport.width <= 860
       ? page.locator('#mobile-nav [data-view-target="people"]')
       : page.locator('.workspace-nav [data-view-target="people"]');
     await peopleNavigation.click();
@@ -96,6 +100,8 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 900 }, { name: '
         dialogHorizontalOverflow: dialog.scrollWidth - dialog.clientWidth,
         dialogInsideViewport: rect.left >= -1 && rect.right <= viewportWidth + 1 && rect.top >= -1 && rect.bottom <= viewportHeight + 1,
         textOverflow,
+        mobileNavCount: window.innerWidth <= 820 ? document.querySelectorAll('#mobile-nav button').length : 0,
+        mobileNavOverflow: window.innerWidth <= 820 ? document.querySelector('#mobile-nav')?.scrollWidth - document.querySelector('#mobile-nav')?.clientWidth : 0,
       };
     });
     expect(visualState, JSON.stringify(visualState, null, 2)).toEqual({
@@ -103,7 +109,56 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 900 }, { name: '
       dialogHorizontalOverflow: 0,
       dialogInsideViewport: true,
       textOverflow: [],
+      mobileNavCount: viewport.width <= 820 ? expect.any(Number) : 0,
+      mobileNavOverflow: viewport.width <= 820 ? 0 : 0,
     });
+    if (viewport.width <= 820) expect(visualState.mobileNavCount).toBeLessThanOrEqual(4);
+    await page.locator('[data-close-dialog="manage-account-dialog"]').first().click();
+
+    const viewsToCheck = ['overview', 'caseload', 'cohorts', 'people', 'branches', 'activity'];
+    for (const view of viewsToCheck) {
+      let navigation = viewport.width <= 860
+        ? page.locator(`#mobile-nav [data-view-target="${view}"]`)
+        : page.locator(`.workspace-nav [data-view-target="${view}"]`);
+      if (viewport.width <= 860 && await navigation.count() === 0) {
+        // The fixed phone bar contains shortcuts only. Less frequent views
+        // remain available in the full menu opened from the mobile header.
+        await page.locator('#mobile-menu-button').click();
+        navigation = page.locator(`.workspace-nav [data-view-target="${view}"]`);
+      }
+      if (viewport.width <= 860) {
+        // Sidebar shortcuts can sit below the visible phone viewport; invoke
+        // the same button handler without making the test depend on a long
+        // sidebar scroll.
+        await navigation.evaluate((element) => (element instanceof HTMLElement) && element.click());
+      } else {
+        await navigation.click();
+      }
+      await expect(page.locator(`[data-workspace-view="${view}"]`)).toBeVisible();
+      if (viewport.width <= 820) {
+        await expect(page.locator(`#mobile-nav [data-view-target="${view}"]`)).toHaveAttribute('aria-current', 'page');
+      }
+      const layoutChecks = await page.evaluate(() => {
+        const visibleButtons = [...document.querySelectorAll('button')].filter((button) => {
+          if (!(button instanceof HTMLElement)) return false;
+          const style = getComputedStyle(button);
+          const rect = button.getBoundingClientRect();
+          return style.display !== 'none' && style.visibility !== 'hidden' && !button.hidden && rect.width > 0 && rect.height > 0;
+        });
+        return {
+          pageOverflow: document.documentElement.scrollWidth - window.innerWidth,
+          undersizedButtons: visibleButtons
+            .filter((button) => button.getBoundingClientRect().height < 32)
+            .map((button) => `${button.id || button.textContent?.trim().slice(0, 30) || 'button'}:${Math.round(button.getBoundingClientRect().height)}`),
+          mobileNavTruncated: [...document.querySelectorAll('#mobile-nav button span')]
+            .filter((span) => /\.\.\.|…/.test(span.textContent || ''))
+            .map((span) => span.textContent?.trim()),
+        };
+      });
+      expect(layoutChecks.pageOverflow, `${view} overflows on ${viewport.name}`).toBeLessThanOrEqual(1);
+      expect(layoutChecks.undersizedButtons, `${view} has undersized controls on ${viewport.name}`).toEqual([]);
+      expect(layoutChecks.mobileNavTruncated, `${view} truncates a mobile navigation label on ${viewport.name}`).toEqual([]);
+    }
     await page.screenshot({ path: testInfo.outputPath(`admin-${viewport.name}.png`), fullPage: true });
   });
 }

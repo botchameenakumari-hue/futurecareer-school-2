@@ -165,8 +165,13 @@
       return false;
     }
 
+    var printMarkup = buildDocument(title, subtitle, clone.innerHTML);
+    var parsedPrintDocument = new DOMParser().parseFromString(printMarkup, 'text/html');
     printWindow.document.open();
-    printWindow.document.write(buildDocument(title, subtitle, clone.innerHTML));
+    printWindow.document.replaceChild(
+      printWindow.document.importNode(parsedPrintDocument.documentElement, true),
+      printWindow.document.documentElement
+    );
     printWindow.document.close();
     triggerPrint(printWindow);
     return true;

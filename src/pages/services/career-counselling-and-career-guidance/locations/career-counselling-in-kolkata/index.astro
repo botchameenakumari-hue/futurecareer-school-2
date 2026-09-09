@@ -1,0 +1,610 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Kolkata page drops the degree-first-vs-skill-first row (index 1) - Kolkata's
+// pressure point is less about degree obsession (Presidency, Jadavpur, and
+// IIM Calcutta already carry strong academic weight here) and more about
+// income ceiling and relocation timing, so the remaining five rows lean into
+// that instead. This is a different subset from both the Rajkot page (rows
+// 0-4) and the Vizag page (rows 1-5), keeping the shared matrix genuinely
+// reselected rather than reused wholesale.
+const kolkataComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 1);
+
+const title = 'Career Counselling in Kolkata | Online Guidance Across India | Future Career School';
+const description =
+  'Career counselling in Kolkata for students and working professionals - practical online guidance on skill direction and the stay-or-relocate decision.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kolkata/';
+
+const fitItems = [
+  {
+    title: 'You are weighing a decision that feels bigger than one city',
+    listItems: [
+      'Whether to keep building a career in Kolkata or move for a faster-growing market',
+      'Which skill direction actually has income upside from where you already are',
+      'Whether another year in the same track is worth it, or a change is overdue',
+    ],
+  },
+  {
+    title: 'You searched by city because it felt more trustworthy to start there',
+    listItems: [
+      'Kolkata in the search is a reasonable way to feel closer to something real',
+      'But the decision quality matters more than where the counsellor is based',
+      'The stronger question is whether the guidance actually improves your next move',
+    ],
+  },
+  {
+    title: 'You already know generic advice will not resolve this',
+    listItems: [
+      'Most advice you have heard so far is either "just move" or "just wait it out"',
+      'Neither answer accounts for your specific skills, finances, or family situation',
+      'You want a clearer, more specific next step - not another opinion to weigh',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'The city search is a starting point, not the answer',
+    body: 'Searching "Kolkata" is often about trust and familiarity. The real filter should be whether the guidance helps you choose with more clarity before time and money get wasted on the wrong path.',
+  },
+  {
+    title: 'Stay-or-move deserves an actual analysis',
+    body: 'This is one of the most common real decisions for people building a career from Kolkata, and it rarely gets a fair, specific answer instead of a generic push in either direction.',
+  },
+];
+
+const kolkataContextItems = [
+  {
+    title: "Kolkata's traditional strongholds are real, but they are not where most new income growth is happening",
+    body: "Kolkata still carries real economic weight through jute and tea trading houses, a large public-sector and banking presence - regional and zonal offices for State Bank of India, UCO Bank, Allahabad Bank, and Coal India among them - and a legacy manufacturing base built around engineering and steel-linked industries. These sectors offer genuine stability, often with structured, pensionable roles that many families in the city still consider the safest outcome. What they do not offer as reliably any more is fast income growth. Entry-level roles in these traditional sectors typically start in the Rs 2.5-4 LPA range, and the ceiling for someone who stays purely inside that track moves slowly compared to skill-first paths elsewhere.",
+  },
+  {
+    title: 'The IT and services sector is real, but it grew smaller and slower than Bangalore, Hyderabad, or Pune',
+    body: "Sector V in Salt Lake and the newer developments in New Town do host real employers - TCS, Cognizant, Wipro, IBM, and a number of BPO and services operations. This is not a city without a tech sector. But the scale, pace of hiring, and depth of senior/specialist roles in Kolkata's IT corridor has consistently trailed the four larger tech hubs, which means the ceiling for a purely campus-to-corporate IT career often gets reached faster here than it would elsewhere. That gap is exactly why the brain-drain pattern from Kolkata and West Bengal - ambitious graduates moving to Bangalore, Mumbai, Delhi, or abroad once they are a few years in - is such a well-known and well-documented dynamic for this city specifically, not a stereotype.",
+  },
+  {
+    title: 'Remote-first, proof-of-work skills change the equation without requiring a move at all',
+    body: "Fields like data analytics, digital marketing, UX design, financial modelling - a natural extension of Kolkata's banking and finance legacy - content and video production, and software development do not depend on a Bangalore or Mumbai address. Graduates from Presidency University, Jadavpur University, IIM Calcutta, and the wider network of Kolkata colleges are academically strong; the gap is usually skill direction and visible proof of work, not raw ability. Building that portfolio early can turn the stay-or-move question from a forced choice into a genuine option, with a realistic route toward achieving earlier financial freedom through stronger skill choices rather than through geography alone.",
+  },
+  {
+    title: 'The stay-for-family-and-culture pull is genuine and deserves to be taken seriously, not dismissed',
+    body: "Kolkata's pull on people who could earn more elsewhere is real and well known: joint-family closeness, a lower cost of living than Mumbai or Bangalore, a slower and more livable pace, and a cultural life - adda conversations, Durga Puja, the city's food and arts scene - that many people genuinely do not want to give up for a metro salary. That is not a weakness to correct. It is one legitimate side of a real trade-off, and good counselling should help weigh it honestly against the income and growth question rather than treating relocation as the automatically \"correct\" answer.",
+  },
+];
+
+const legacyVsSkillItems = [
+  {
+    title: 'The academic-prestige track and the skill-first track are not the same thing',
+    body: "Kolkata families often measure a career by admission into Presidency, Jadavpur, IIM Calcutta, or a government/PSU exam clearance - and those are genuinely strong credentials. But a strong degree from a strong institution does not automatically produce the digital, analytics, or proof-of-work skills that decide income growth today. The stronger approach treats the degree as a real asset and adds a deliberate, high-value skill portfolio on top of it, instead of assuming the degree alone will keep pace with a changing job market.",
+  },
+  {
+    title: 'A government or PSU-track family expectation deserves an honest conversation, not a dismissal',
+    body: "For many Kolkata households, a stable government, bank, or PSU role is the expected and respected outcome, shaped by a real legacy of secure public-sector employment in the city. That expectation is worth engaging with directly - what the security is actually worth, what the income ceiling looks like over ten or fifteen years, and whether a skill-first path can be built alongside exam preparation instead of only after it, rather than after it fails.",
+  },
+];
+
+const onlineAdvantageItems = [
+  {
+    title: 'You do not need to wait for a nearby office to get useful guidance',
+    body: 'Career counselling is available online in Kolkata and across India. You can start from home, college, your workplace, or wherever you already are, instead of waiting for a local slot or assuming a nearby office would automatically be the better choice.',
+  },
+  {
+    title: 'Online guidance is often easier when family expectations are part of the decision',
+    body: "Kolkata decisions frequently involve joint-family opinions, a government-job expectation, or a spouse's or parent's concern about relocation. Online sessions make it easier to include the people who actually influence the decision without turning travel or scheduling into another reason to keep delaying it.",
+  },
+  {
+    title: 'The stronger comparison is not local versus online - it is generic versus specific',
+    body: "A Kolkata-based option can still hand you generic advice, degree-first pressure, or an outdated paid assessment. The better filter is whether the guidance gives you high-leverage decision support around path, skill, and risk that is actually specific to whether you should build here, build remote-first, or relocate - not just reassurance because the provider happens to be local.",
+  },
+];
+
+const kolkataAreaItems = [
+  {
+    title: 'IT-corridor areas face a different calculation than the rest of the city',
+    body: 'Salt Lake Sector V and New Town/Rajarhat are where most of the newer IT and services employment sits. Someone commuting from here is usually already inside the city\'s strongest tech-adjacent job cluster, which changes the real question from "should I move for IT work" to "is this specific IT track worth staying inside, or does a skill-first pivot open a stronger path."',
+  },
+  {
+    title: 'South Kolkata\'s academic and residential belt shapes a different set of pressures',
+    body: 'Areas around Jadavpur, Gariahat, Golpark, and Ballygunge sit close to the city\'s strongest colleges and a dense, older residential culture. Students and young professionals here often feel the academic-prestige and family-expectation pull most directly, since it is reinforced by proximity to the institutions themselves.',
+  },
+  {
+    title: 'Older commercial and legacy-business areas carry their own trade-offs',
+    body: 'Park Street, Camac Street, and the Esplanade-Dalhousie belt still anchor a meaningful share of Kolkata\'s traditional trading houses, corporate offices, and professional services firms. Someone whose family runs a business or works in this belt is often weighing a very different question - modernise or extend an existing trade, rather than choose between staying and leaving.',
+  },
+  {
+    title: 'Howrah and the industrial river belt carry the city\'s manufacturing legacy',
+    body: 'Howrah and the areas along the Hooghly connected to it still hold real engineering and manufacturing employment tied to Kolkata\'s older industrial base, alongside a genuine cross-river commute cost for people working on the Kolkata side. That commute reality is a real, practical constraint that generic city-wide advice tends to ignore.',
+  },
+  {
+    title: 'The wider suburban belt often means a longer trade-off between commute and cost',
+    body: 'Behala, Garia, Tollygunge, and the Dum Dum-Baranagar stretch in the north house a large share of Kolkata\'s middle-class working population, often at a longer commute distance from Sector V or the central business areas. For people here, a remote-first or hybrid skill direction can matter more than it would for someone already living inside the IT corridor.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the decision that is actually creating pressure',
+    listItems: [
+      'Whether staying in Kolkata, building remote-first, or relocating is the stronger move for your specific skill and stage',
+      'What the honest income ceiling looks like if you stay purely on your current track',
+      'How to weigh a genuine desire to stay near family and community against a real income and growth gap',
+      'Whether a government, bank, or PSU-track expectation still fits your actual goals',
+    ],
+  },
+  {
+    title: 'Skill direction that works whether you stay or go',
+    listItems: [
+      'Remote-first digital and analytics skills that do not require a Bangalore or Mumbai address',
+      'Proof-of-work positioning that carries weight beyond a college name or a single credential',
+      'A holistic skill approach - the right skill mix, communication, and market positioning, not one skill in isolation',
+      'A realistic route toward unlocking high income opportunities from wherever you are building right now',
+    ],
+  },
+  {
+    title: 'A practical next step you can actually act on',
+    listItems: [
+      'Online guidance delivered across India, with no dependence on local offline availability',
+      'Free, updated, practical, AI-powered assessments before a bigger commitment, instead of a paid outdated one',
+      'A realistic income target and the skill path most likely to reach it from your current starting point',
+      'One clear next move instead of another round of advice you still have to decode yourself',
+    ],
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'Everyone says the real opportunities are in Bangalore, Mumbai, or abroad - so why stay?',
+    body: "That pressure is real and well documented for Kolkata specifically, not something you are imagining. But the stronger first question is which skill direction is actually worth building, not which city to move to. Some paths genuinely need metro presence. Remote-first digital and analytics work increasingly does not. Getting that clear first means a move, if it happens, is a deliberate choice rather than a reaction to pressure.",
+  },
+  {
+    title: "My family expects a government job or PSU role - is it wrong to want something else?",
+    body: "It is not wrong, and it is not automatically right either. The stable-job expectation in Kolkata comes from a real legacy of secure public-sector and banking employment in the city, and that security has genuine value. The honest approach is to weigh what that security is actually worth against the income ceiling over the next decade, and to see whether a skill-first path can run alongside an exam attempt instead of only being considered if the exam attempt fails.",
+  },
+  {
+    title: "I don't want to leave Kolkata just for a bigger salary - is that a mistake?",
+    body: "No. Wanting to stay close to family, community, and a city you are genuinely attached to is a legitimate part of the decision, not a weakness to be talked out of. The more useful question is whether a stronger skill direction can close enough of the income gap that staying does not have to mean settling for a much smaller ceiling.",
+  },
+  {
+    title: "Is Kolkata's IT sector actually growing, or is it already behind for good?",
+    body: 'It is growing, but slower and later than Bangalore, Hyderabad, or Pune, and that gap is unlikely to close quickly. For entry-level and remote-first digital roles, Kolkata and its IT corridor are a genuinely viable base. For senior or highly specialised technical leadership roles, the deeper pools of that kind of work still sit in the bigger hubs. Knowing which category your target role falls into changes what "growing" should mean for your own plan.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Compare other city-intent guidance pages if you want a wider view before committing to one.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'See the online-first page if easier access across India matters more than the city itself.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when stream, course, skill, or career direction matters more than the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure first step if you are not ready for full guidance yet.',
+  },
+  {
+    href: '/career-resources/financial-modelling-career-roadmap',
+    title: 'Financial Modelling Career Roadmap',
+    description: "A skill path with a natural fit for Kolkata's existing banking and finance base - buildable without relocating first.",
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor actually understands Kolkata's specific economic mix",
+    body: 'Kolkata runs on a mix of legacy trading and industrial strength, a large public-sector and banking presence, and a smaller, slower-growing IT sector. Good guidance for Kolkata should engage with all three, not talk as if the city were a smaller version of Bangalore.',
+  },
+  {
+    title: 'Check whether relocation is treated as a genuine choice, not an automatic default',
+    body: "Many generic guidance services assume everyone should move to a bigger metro. For Kolkata, better guidance should be honest about what is realistically achievable locally and remotely, and when a move is actually worth the income trade-off versus when it is not.",
+  },
+  {
+    title: 'Check whether family and cultural attachment are treated as a real input, not an obstacle',
+    body: "In Kolkata, family closeness, a government or PSU-track expectation, and attachment to the city itself are common and genuine parts of the decision. The guidance should help you weigh those honestly against income and growth, not brush past them to push a single answer.",
+  },
+  {
+    title: 'Check whether the next step respects your actual starting point',
+    body: "Good guidance for Kolkata should be realistic about local opportunity, the real cost and upside of relocating, and which skill paths can be built from here without waiting on either a move or a fully different career.",
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Kolkata instead of only looking for a nearby offline option?',
+    answer:
+      "Because being nearby does not by itself improve the decision. Online guidance lets you start from home, college, or work without waiting for local availability, and it should still be judged on whether it gives you high-leverage decision support around path, skill, and risk. In Kolkata specifically, where the real question is often whether to stay, build remote-first, or move, usefulness matters more than simply choosing the closest provider.",
+  },
+  {
+    question: 'Should I stay in Kolkata or move to Bangalore, Mumbai, Delhi, or abroad for my career?',
+    answer:
+      "There is no single right answer, and the honest process starts with the skill direction, not the city. Some paths - senior corporate tech roles, certain finance and consulting tracks - do benefit from being physically closer to where that work concentrates. Others, especially remote-first digital, analytics, and content-based work, can be built from Kolkata without a move at all. Getting clear on which category your target path falls into is the useful first step, before the city decision gets made under pressure.",
+  },
+  {
+    question: "Is Kolkata's IT sector actually a viable place to build a tech career?",
+    answer:
+      "Yes, for a real but specific set of roles. Sector V and New Town host genuine employers, and entry-level to mid-level digital, analytics, and services roles are realistically available. What Kolkata does not yet offer at the same depth as Bangalore, Hyderabad, or Pune is a large pool of senior specialist and leadership tech roles, which is part of why the city has a well-known pattern of ambitious professionals relocating a few years into their careers. Knowing which of those two categories your goal falls into changes the plan.",
+  },
+  {
+    question: 'My family wants me to prepare for a government or bank job - how do I think about that honestly?',
+    answer:
+      "That expectation comes from a real legacy of secure public-sector and banking employment in Kolkata, and the security it offers is genuine, not something to dismiss. The more useful approach is comparing that security against the income ceiling over the next decade, and looking at whether a skill-first path can run in parallel with an exam attempt rather than only being considered as a fallback if the attempt does not work out.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Kolkata?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. Guidance is delivered online across India, so there is no dependence on local offline availability.',
+  },
+  {
+    question: 'What if I searched for Kolkata but the bigger issue is not really the city?',
+    answer:
+      'That is common. The city search is often a trust shortcut. If the real pressure is stream selection, degree choice, skill direction, or a career change that has nothing to do with location, the main counselling and guidance pages are the stronger next filter. The Kolkata page is most useful when local context, family expectations tied to the city, or the stay-versus-relocate question are genuinely part of the decision.',
+  },
+  {
+    question: 'Do you guarantee a job or a move to a specific city?',
+    answer: 'No ethical provider can guarantee a job or a relocation outcome. The practical goal is better decision quality, a clearer skill direction, and a next step you can actually act on.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Kolkata',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Kolkata | Future Career School',
+    description:
+      'Career counselling in Kolkata for students, freshers, and working professionals who want clearer decisions, stronger skill direction, and a realistic view of the stay-versus-relocate question.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Kolkata' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Kolkata</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Kolkata
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Kolkata
+        <span class="gold-text"> for the stay-or-move decision, done with real clarity</span>
+      </h1>
+      <p class="hero-sub">
+        Kolkata's economy runs on a real mix - legacy jute, tea, and manufacturing strength, a large public-sector and banking presence, and an IT corridor that has grown smaller and slower than Bangalore, Hyderabad, or Pune. That gap is exactly why so many ambitious graduates and professionals from the city eventually move. The goal here is to help you choose with more clarity before more time and money get wasted, and to build the kind of high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom - whether that happens from Kolkata or somewhere else.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Kolkata and across India. You can start from home, college, work, or wherever you already are - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Kolkata. It is whether the guidance gives you high-leverage decision support around path, skill, and risk.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels heavier than a normal career question"
+    subtitle="You want support that feels easier to trust and easier to start - and something more specific than another round of 'just move' or 'just wait it out.'"
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Kolkata search already reflects a real decision, get clarity before the wrong turn gets more expensive"
+    body="Use this when you want stronger guidance now, not another round of family opinions or delay while the decision keeps costing time."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="kolkata-career-landscape"
+    title="The Kolkata career reality behind the stay-or-move question"
+    subtitle="Good career counselling should work from Kolkata's actual economy - legacy strength, a real public-sector base, and a smaller tech sector - not from advice written for a Bangalore graduate and relabelled for this city."
+    items={kolkataContextItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="legacy-vs-skill-economy"
+    title="Academic prestige, family expectation, and skill-first direction are three different things"
+    subtitle="Kolkata's strong academic and public-sector culture is a real asset. The question worth answering honestly is whether it is enough on its own, or whether it needs a deliberate skill portfolio built alongside it."
+    items={legacyVsSkillItems}
+    variant="decision"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move this decision forward"
+    subtitle="The point is not a vague conversation about staying versus leaving. The point is a clearer decision, stronger skill direction, proof of work, and a realistic route toward earlier financial freedom through stronger skill choices."
+  />
+
+  <AudienceRelevance title="Whichever stage you are at, the stay-or-move question needs a different lens" />
+
+  <BofuFeatureSection
+    sectionId="kolkata-areas"
+    title="Kolkata's main areas shape this decision differently"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across the city, not treat Kolkata as one flat, generic location."
+    items={kolkataAreaItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Kolkata"
+    subtitle="If the city search began as a trust shortcut, the next question is whether online guidance gives you a clearer, more specific next move than defaulting to whoever happens to be nearby."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic career counselling"
+    subtitle="In a city where the real risk is advice that ignores the actual stay-or-move trade-off, the comparison below shows what separates high-leverage guidance from generic counselling that pushes one answer without engaging with your specific situation."
+    rows={kolkataComparisonRows}
+  />
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller set of real options, and one practical
+        next step you can actually use - not a longer list of things to keep thinking about.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for full guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving honestly before you pay for any career counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Kolkata"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is a clearer stay-or-move answer, stronger skill direction, and a concrete next step before the decision gets harder to reverse."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Kolkata"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Whether the right move is building from Kolkata, going remote-first, or relocating, the goal is a high-value skill portfolio that keeps unlocking high income opportunities as your situation changes."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .section-block {
+    padding: 3.5rem 0;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 1.2rem;
+  }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #kolkata-career-landscape,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+
+    .section-block {
+      padding: 2.5rem 0;
+    }
+  }
+</style>

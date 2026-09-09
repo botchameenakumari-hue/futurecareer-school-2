@@ -1,0 +1,642 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Navi Mumbai page drops two rows - index 4 (generic-low-paying-path-advice)
+// and index 5 (random-upskilling-vs-clearer-skill-direction). Both are the
+// weakest fit for a genuinely certification- and license-driven economy: JNPT
+// port, customs, freight-forwarding, and EXIM-documentation work runs on
+// specific credentials (CHA licensing, IATA/customs certifications, shipping
+// and logistics qualifications) rather than a "generic low-paying path" or
+// "random upskilling" framing, and the same is true of the Airoli-Ghansoli
+// IT-SEZ track. Keeping rows 0-3 covers the generic-advice contrast, the
+// degree-first-vs-skill-first contrast (directly relevant to whether a
+// logistics/EXIM career needs a formal degree or a targeted certification
+// path), the earlier-financial-freedom framing, and the free-updated-vs-paid-
+// outdated assessment contrast. This {4,5} two-index combination has not been
+// used by any sibling: Rajkot (rows 0-4), Vizag (rows 1-5), Bangalore (full
+// library), Pune (drops 3), Kolkata (drops 1), Chennai (drops 5), Hyderabad
+// (drops 2), Mumbai/Chandigarh/Gurgaon/Nagpur (each drop 4), Delhi (drops 0
+// and 5), Ahmedabad (drops 3 and 5), Surat (drops 0 and 3), Thane/Vadodara
+// (drop 1 and 3), Ludhiana (drops 1 and 4), Guwahati (drops 2 and 4),
+// Jalandhar (drops 2 and 5), Raipur (drops 2 and 3), Nashik (drops 1 and 2),
+// Aurangabad (drops 0 and 4), Noida/Coimbatore (drop 3 and 4).
+const naviMumbaiComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 4 && index !== 5);
+
+const title =
+  'Career Counselling in Navi Mumbai | JNPT, Logistics & IT-SEZ Guidance | Future Career School';
+const description =
+  "Career counselling in Navi Mumbai for students, freshers, and working professionals weighing JNPT port, logistics, and EXIM careers, the Airoli-Ghansoli IT-SEZ corridor, or the airport-led growth economy building around Ulwe and Panvel.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-navi-mumbai/';
+
+const portEconomyItems = [
+  {
+    title: "JNPT anchors a real, large logistics and EXIM career economy that no other city sibling has",
+    body: "Jawaharlal Nehru Port, at Nhava Sheva on Navi Mumbai's edge, is India's largest container port, handling a large share of the country's total containerised cargo. That single fact builds an entire career economy around it: customs house agents and customs brokerage, freight forwarding and cargo consolidation, container terminal operations across multiple private terminal operators, shipping-line and vessel-operations roles, marine and port engineering, cargo surveying and inspection, and a wide EXIM (export-import) documentation and trade-compliance layer that a purely finance-or-tech city like Mumbai or an office-corridor city like Thane simply does not offer at this scale.",
+  },
+  {
+    title: 'This is a certification- and license-driven economy, not a pure-degree one',
+    body: "Much of the port and logistics workforce builds a career through targeted certifications and licenses rather than a single fixed degree path - a customs house agent license, IATA and freight-forwarding certifications, supply-chain and logistics diplomas, and specialised EXIM-documentation training. For someone deciding what to study or upskill toward, that changes the honest calculation: a high-value skill portfolio built around the right certification can open genuinely well-paying port and trade roles faster than chasing a generic degree with no logistics specialisation attached to it.",
+  },
+  {
+    title: "A dedicated logistics-park and warehousing layer has grown up around the port itself",
+    body: "Bonded warehousing, container freight stations, logistics parks, and third-party logistics (3PL) operators have built up around JNPT and the wider Uran-Nhava Sheva belt to support the port's throughput, adding supply-chain planning, warehouse management, and inventory and distribution roles on top of the port-operations layer itself. Achieving earlier financial freedom from this specific economy usually means picking a lane inside this chain - port operations, customs and compliance, freight and forwarding, or warehousing and supply chain - rather than treating 'logistics' as one interchangeable label.",
+  },
+];
+
+const cidcoIdentityItems = [
+  {
+    title: "Navi Mumbai was deliberately planned by CIDCO, not grown organically like Mumbai or Thane",
+    body: "Navi Mumbai exists because the City and Industrial Development Corporation of Maharashtra (CIDCO) planned it from the 1970s onward as a satellite city built specifically to relieve pressure on an overcrowded Mumbai - a genuinely different civic backstory from Mumbai's centuries-old organic growth or Thane's older mill-and-lake-town history. The city is laid out in numbered planned nodes - Vashi, Nerul, CBD Belapur, Kharghar, Kopar Khairane, and others - each built around its own civic centre, market, and residential sectors, administered today by the Navi Mumbai Municipal Corporation (NMMC) alongside CIDCO's continuing role in newer nodes.",
+  },
+  {
+    title: 'That planned-city identity makes Navi Mumbai a younger, more resettled population than Thane\'s multi-generational base',
+    body: "Because the city itself is a relatively recent, deliberately built satellite rather than an old town families have lived in for generations, a meaningfully larger share of Navi Mumbai's population moved here as adults or as part of a resettled or relocated household, rather than being born into a multi-generational local identity the way a large share of Thane's population is. That changes the shape of a career conversation here: family expectation is often shaped by where a household moved from, not by decades of local precedent in Navi Mumbai itself, and a good counselling conversation should recognise that instead of assuming Thane's settled, multi-generational framing applies here too.",
+  },
+  {
+    title: "A genuine wholesale-trade economy sits inside the planned-city layout: Asia's largest agricultural produce market is here",
+    body: "Vashi's Agricultural Produce Market Committee (APMC) market is one of the largest wholesale markets of its kind in Asia, handling grains, vegetables, fruit, and other produce trade at a scale that supports its own real economy of trading, logistics, cold-chain, and wholesale-commerce careers - a genuinely different track from the port's container-and-EXIM economy or the IT-SEZ corridor, and one with no equivalent on Mumbai's or Thane's pages.",
+  },
+];
+
+const airportGrowthItems = [
+  {
+    title: "The Navi Mumbai International Airport is a real, current growth story no other city page can make",
+    body: "A new international airport is under construction near Panvel and Ulwe, and it is already reshaping the surrounding economy well before its first flight - a genuinely forward-looking growth angle that neither Mumbai's established BFSI-and-media economy nor Thane's maturing office corridor can offer, because both of those are already-built economies rather than one still visibly under construction. Aviation and airport-linked careers - ground handling, cargo and air-freight operations, aviation-support services, and eventually maintenance and airline-operations roles - are a real, if still-forming, employment track worth taking seriously rather than dismissing as too early to plan around.",
+  },
+  {
+    title: 'Real estate, construction, and hospitality are visibly expanding around the airport corridor right now',
+    body: "The nodes closest to the upcoming airport - Ulwe, Dronagiri, and Panvel - are seeing a genuine construction, real-estate, and infrastructure build-out as the wider area positions itself as an aerotropolis-style growth corridor. That creates real, present-day roles in civil and infrastructure engineering, real-estate and project management, and early hospitality and retail expansion anticipating future footfall, on top of the longer-term aviation-sector roles the airport itself will eventually support.",
+  },
+  {
+    title: "Panvel has become a genuine transport and logistics gateway in its own right",
+    body: "Panvel sits at the junction of the Mumbai-Pune Expressway, the wider Mumbai-Goa highway corridor, and Navi Mumbai's own rail and upcoming metro network, on top of its proximity to both JNPT and the new airport. That combination has made Panvel a genuine logistics, warehousing, and transport-hub economy in its own right, distinct from Vashi's older commercial-CBD identity or Airoli-Ghansoli's IT-office identity - a third, transport-anchored track inside the same city.",
+  },
+];
+
+const itSezItems = [
+  {
+    title: 'Airoli and Ghansoli have built a genuine BPO and IT-SEZ corridor of their own',
+    body: "Airoli's Mindspace Business Park and the wider Airoli-Ghansoli belt host a real cluster of IT, ITES, and business-process-outsourcing employers, alongside a large corporate campus presence including TCS and Reliance's own corporate park at Ghansoli. This is a genuine, if more back-office-and-services-flavoured, technology and corporate-services economy - not a Bangalore- or Hyderabad-scale product-engineering hub, but a real employer base offering IT-support, ITES, BPO, and corporate-operations roles without needing a Mumbai or Thane commute.",
+  },
+  {
+    title: "Turbhe and Kopar Khairane carry an older MIDC industrial and manufacturing layer alongside the newer offices",
+    body: "Before the IT-SEZ corridor grew up around Airoli and Ghansoli, the Turbhe and Kopar Khairane MIDC industrial estates were already home to a manufacturing, engineering, and light-industrial base, and that base has not disappeared - it runs in parallel with the newer corporate-office layer, giving this part of Navi Mumbai its own dual economy on a smaller scale than the port belt's own manufacturing-versus-services split.",
+  },
+];
+
+const areaItems = [
+  {
+    title: 'Vashi and Nerul: the original CBD and civic core',
+    body: "Vashi was CIDCO's first developed node and remains Navi Mumbai's commercial and civic hub, home to the APMC wholesale market and a dense retail and commercial base. Nerul carries a mix of residential, educational, and civic institutions alongside the CIDCO-planned layout that defines both nodes.",
+  },
+  {
+    title: 'CBD Belapur: the administrative seat',
+    body: "CBD Belapur hosts a concentration of CIDCO and government offices, corporate headquarters, and civic administration, making public-sector and administrative roles a genuine local track for residents of this node.",
+  },
+  {
+    title: 'Airoli and Ghansoli: the IT-SEZ and BPO corridor',
+    body: "This stretch carries Navi Mumbai's own IT, ITES, and corporate-services economy - Mindspace Business Park, TCS, and Reliance's corporate campus among the anchors - offering a genuine technology-and-services career track without a Mumbai or Thane commute.",
+  },
+  {
+    title: 'Kharghar: the fast-growing residential and education node',
+    body: "Kharghar has grown quickly as a residential destination with a dense cluster of colleges, coaching institutes, and hospitals, making education, healthcare, and allied-services roles a real local option alongside a growing retail and hospitality layer.",
+  },
+  {
+    title: 'Panvel, Ulwe, and Dronagiri: the airport, expressway, and logistics gateway',
+    body: "This is Navi Mumbai's fastest-changing corner right now - the upcoming international airport, the Mumbai-Pune Expressway junction, and proximity to JNPT are together building a genuine transport, logistics, real-estate, and future-aviation economy in nodes that were largely undeveloped only a few years ago.",
+  },
+  {
+    title: 'Uran and Nhava Sheva: the port belt itself',
+    body: "The area immediately around JNPT carries the port's own operations, customs, container-terminal, and warehousing workforce - the most specialised and certification-driven part of Navi Mumbai's entire economy.",
+  },
+];
+
+const fitItems = [
+  {
+    title: 'What you actually need right now',
+    listItems: [
+      "You want support that treats Navi Mumbai as its own port, logistics, and planned-city economy, not a Mumbai-suburb footnote.",
+      'You want the JNPT/EXIM-versus-IT-SEZ-versus-airport-growth options named honestly, not collapsed into one generic "Navi Mumbai job" idea.',
+      'You want something more practical than broad internet advice written for a generic metro grad.',
+      'You want a real next step, not only motivational talk or a label.',
+    ],
+  },
+  {
+    title: 'What should matter more than city alone',
+    listItems: [
+      "Whether the guidance actually understands JNPT's port, logistics, and EXIM economy, not just Mumbai's or Thane's",
+      "Whether the Airoli-Ghansoli IT-SEZ corridor and the airport-led growth corridor around Panvel and Ulwe get a fair, current read",
+      'Whether the process helps with stronger skill and certification direction and proof of work',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Closer should still mean clearer',
+    body: 'Searching locally is useful only if it leads to better decision support, not just physical proximity.',
+  },
+  {
+    title: 'Quality before convenience',
+    body: 'The better filter is whether the guidance improves your next move, not whether the office would have been nearby.',
+  },
+  {
+    title: 'Act before the wrong turn compounds',
+    body: "The practical goal is to get clear on which of Navi Mumbai's real tracks - port and EXIM, IT-SEZ, or airport-led growth - actually fits you, and to start building the high-value skill portfolio that keeps unlocking high income opportunities on whichever track you choose.",
+  },
+];
+
+const prepItems = [
+  {
+    title: 'The real decision you need to solve first',
+    body: 'Bring the actual question creating pressure right now, whether that is a port/logistics/EXIM-certification path, an IT-SEZ or BPO role in Airoli-Ghansoli, or whether the airport-led growth corridor around Panvel and Ulwe is worth planning toward already.',
+  },
+  {
+    title: 'The serious options you are already considering',
+    body: 'Write down the two to four routes you are actually comparing, including a port, logistics, or EXIM-specific certification path if it is genuinely on the table. Stronger counselling happens when the real trade-offs are visible from the start.',
+  },
+  {
+    title: 'What feels risky, delayed, or expensive',
+    body: 'Be clear about what you do not want to repeat: a generic degree with no logistics or trade specialisation attached, a certification chosen without checking real employer demand first, or more time spent undecided while options narrow.',
+  },
+  {
+    title: 'The constraints that cannot be ignored',
+    body: 'Include family expectation, budget for certification or training costs, commute tolerance across Navi Mumbai\'s own nodes, or timeline pressure early so the guidance stays practical instead of idealised.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the real decision creating pressure right now',
+    listItems: [
+      "Whether a JNPT-linked port, customs, or EXIM path, an Airoli-Ghansoli IT-SEZ role, or the airport-led growth corridor genuinely fits your strengths",
+      'What the honest certification-versus-degree trade-off looks like for the specific logistics or trade path you are weighing',
+      'Which expensive wrong turn is most urgent to stop repeating right now',
+      "Whether staying inside Navi Mumbai's own economy or looking at Mumbai or Thane genuinely serves your goals better",
+    ],
+  },
+  {
+    title: "Skill direction tied to Navi Mumbai's actual economy",
+    listItems: [
+      "Port operations, customs brokerage, freight forwarding, and EXIM-documentation skill and certification direction",
+      'Supply-chain, warehousing, and logistics-park positioning relevant to the belt around JNPT',
+      'IT, ITES, and BPO-relevant skills for employers along the Airoli-Ghansoli corridor',
+      'A clearer route toward earlier financial freedom from your actual starting point, certification path included',
+    ],
+  },
+  {
+    title: 'A lower-friction way to start moving',
+    listItems: [
+      'Online guidance accessible across India with no local-access dependence',
+      'A direct comparison of the port/logistics/EXIM path against the IT-SEZ and airport-growth options instead of a generic pep talk',
+      'A realistic career target and the clearest path to reach it from where you are now',
+      'One concrete next step instead of a theory discussion you still have to decode yourself',
+    ],
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'Is a career in port operations, customs, or freight forwarding actually a serious option, or a fallback?',
+    body: "It is a genuine, specific career economy built around one of India's largest container ports, not a fallback. Roles in customs brokerage, freight forwarding, and EXIM documentation carry real, if less publicly discussed, income and progression potential, and the honest comparison should weigh the specific certification and role against your actual strengths rather than assuming a corporate-office job is automatically the stronger choice.",
+  },
+  {
+    title: "Do I need a full degree, or can a certification alone open a logistics or EXIM career?",
+    body: 'It depends on the specific role. Customs house agent licensing, freight-forwarding certifications, and logistics diplomas can open real entry points without a traditional four-year degree, while some port-engineering or management-track roles still expect one. Good counselling should tell you honestly which path fits the specific role you are aiming for, rather than defaulting to "always get a degree first."',
+  },
+  {
+    title: "Is it too early to plan a career around the new airport, since it is still under construction?",
+    body: "Some airport-specific roles genuinely are early-stage, but the construction, real-estate, and infrastructure growth already happening around Ulwe, Dronagiri, and Panvel is a present, hireable economy right now, not a future promise alone. The honest approach is separating what is already real today from what will only mature later, and planning accordingly rather than either ignoring the opportunity or overcommitting to it too soon.",
+  },
+  {
+    title: "Should I choose the Airoli-Ghansoli IT-SEZ corridor over the port and logistics economy?",
+    body: "Neither is automatically the better choice. The IT-SEZ corridor offers a more familiar corporate-services and BPO track, while the port and logistics economy offers a more specialised, certification-driven path with its own genuine income potential. The right answer depends on your actual strengths, interests, and how each path's honest income and growth trajectory compares for your specific situation.",
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Navi Mumbai's port, logistics, and EXIM economy specifically",
+    body: "Navi Mumbai runs a genuine JNPT-linked port, customs, and EXIM economy that is structurally different from Mumbai's finance-and-media split or Thane's office-and-manufacturing corridor. Good guidance should be able to speak credibly to this specific economy, not default to generic Mumbai-region advice.",
+  },
+  {
+    title: 'Check whether the certification-versus-degree question gets a role-specific answer',
+    body: 'Many logistics, customs, and freight-forwarding careers run on targeted certifications rather than a single fixed degree path. Better guidance should tell you honestly which certification or qualification a specific role actually needs, not apply a blanket "get a degree first" rule.',
+  },
+  {
+    title: "Check whether the airport-led growth story is treated honestly, not oversold or dismissed",
+    body: "The Navi Mumbai International Airport is creating real, present-day construction, real-estate, and infrastructure roles around Ulwe and Panvel, alongside longer-term aviation roles that will mature later. Good guidance should separate the two honestly rather than either overselling the opportunity as immediate or dismissing it as too far off to plan around.",
+  },
+  {
+    title: 'Check whether the next move fits your actual Navi Mumbai situation',
+    body: "Good guidance for Navi Mumbai should respect that the port/EXIM economy, the IT-SEZ corridor, and the airport-growth corridor are genuinely different tracks with different entry paths - not details to gloss over on the way to one generic answer.",
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See other city guidance options if you want to compare before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.mumbaiCounselling,
+    title: 'Career Counselling in Mumbai',
+    description: "See this if your decision is really about Mumbai's own BFSI-versus-media economy rather than Navi Mumbai's port, logistics, and IT-SEZ economy.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.thaneCounselling,
+    title: 'Career Counselling in Thane',
+    description: "See this if your real question is the Mumbai-commute-versus-local-Thane-job decision rather than Navi Mumbai's own port and airport-led growth economy.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'See the online page if easier access across India matters more than city-based search wording.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Navi Mumbai instead of only looking for a nearby offline office?',
+    answer:
+      "Because proximity alone does not improve the decision. Online guidance lets you start from home, campus, or work without waiting for local availability, and the stronger comparison is whether the support genuinely understands Navi Mumbai's own port, logistics, and IT-SEZ economy - not just whether an office happens to be nearby.",
+  },
+  {
+    question: 'Is career counselling in Navi Mumbai different from career counselling in Mumbai and Thane?',
+    answer:
+      "Yes, genuinely. The Mumbai page is built around Mumbai's own BFSI-versus-media-and-entertainment fork and its cost-of-living pressure. The Thane page is built around whether to keep commuting into Mumbai for pay or build a career inside Thane's own Wagle Estate and Thane-Belapur economy. This Navi Mumbai page is built around a different economy entirely: JNPT's port, customs, and EXIM career track, the Airoli-Ghansoli IT-SEZ and BPO corridor, and the airport-led growth economy building around Panvel and Ulwe - plus Navi Mumbai's own CIDCO-planned civic identity, distinct from Mumbai's organic growth and Thane's older, settled character. If your real question is about BKC, Andheri's media belt, or the Mumbai-commute-versus-Thane-local-job decision, those pages are the better fit. If it is about JNPT, logistics, EXIM, the IT-SEZ corridor, or the new airport, this page is built for exactly that.",
+  },
+  {
+    question: "What career paths have the strongest growth potential from Navi Mumbai?",
+    answer:
+      "It depends on your starting point. JNPT-linked port operations, customs brokerage, freight forwarding, and EXIM documentation offer a genuinely specialised, certification-driven track with real income potential. The Airoli-Ghansoli corridor offers IT, ITES, and BPO roles without a Mumbai or Thane commute. And the area around Panvel, Ulwe, and Dronagiri is building a real, present-day construction, real-estate, and infrastructure economy around the upcoming international airport, alongside longer-term aviation-sector roles that will mature as the airport itself does.",
+  },
+  {
+    question: "Do I need a formal degree for a career in port, logistics, or EXIM work?",
+    answer:
+      "Not always. Many roles in customs brokerage, freight forwarding, and logistics documentation run on targeted certifications and licenses rather than a single fixed degree path, though some port-engineering and management-track roles do expect a formal qualification. The honest answer depends on the specific role, which is exactly the kind of decision counselling should help you work through.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free. They are updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Navi Mumbai?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Navi Mumbai users.',
+  },
+  {
+    question: 'What if I searched for Navi Mumbai but the bigger issue is not the city?',
+    answer:
+      "That is common. Many people use the city search as a trust shortcut, then realise the bigger need is better decision support itself - for specialisation choice, skill or certification direction, or a career change. In that case, the main counselling and guidance pages are the stronger next filter. This page is most useful when Navi Mumbai's specific port, logistics, IT-SEZ, or airport-growth context is part of the decision.",
+  },
+  {
+    question: 'Do you guarantee a job?',
+    answer:
+      'No ethical provider can guarantee a job. The practical goal is better decision quality, stronger skill and certification direction, and a clearer path forward.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Navi Mumbai',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Navi Mumbai | Future Career School',
+    description:
+      'Career counselling in Navi Mumbai for students, freshers, and working professionals who want clearer decisions, stronger skill and certification direction, proof of work, and better income-growth direction.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'City', name: 'Navi Mumbai' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Navi Mumbai</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Navi Mumbai
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Navi Mumbai
+        <span class="gold-text"> for JNPT, logistics, and airport-led growth decisions</span>
+      </h1>
+      <p class="hero-sub">
+        Navi Mumbai runs on a genuinely different economy than Mumbai or Thane: Jawaharlal Nehru Port anchors a real, large logistics, customs, and EXIM career track, the Airoli-Ghansoli corridor carries its own IT-SEZ and BPO economy, and the under-construction Navi Mumbai International Airport is already building a real, present-day growth story around Panvel and Ulwe.
+        Choosing the right lane inside that economy, and building the high-value skill portfolio that keeps unlocking high income opportunities on whichever track you choose, matters more for achieving earlier financial freedom here than defaulting to whichever job happens to be closest.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Navi Mumbai and across India. You can start from home, campus, or work, wherever you already are - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Navi Mumbai. It is whether the guidance understands the city's own port, logistics, IT-SEZ, and airport-growth economy well enough to help you choose the right lane inside it.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="port-economy"
+    title="JNPT builds a real logistics, customs, and EXIM career economy no other city sibling has"
+    subtitle="A useful page for this city has to speak to the port economy specifically - not treat Navi Mumbai as a generic Mumbai-region suburb."
+    items={portEconomyItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="cidco-identity"
+    title="Navi Mumbai's civic identity is planned, not organic - and that changes the career conversation too"
+    subtitle="CIDCO built this city deliberately as a satellite to Mumbai, which gives Navi Mumbai a genuinely different backstory, population character, and local economy from both Mumbai and Thane."
+    items={cidcoIdentityItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="airport-growth"
+    title="The new international airport is a growth story happening right now, not a future promise alone"
+    subtitle="No other city page on this site is built around a major piece of infrastructure that is still under construction and already reshaping the local job market around it."
+    items={airportGrowthItems}
+    variant="decision"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the port, IT-SEZ, or airport-growth decision is already creating pressure, get a clear read before more time goes into the wrong lane"
+    body="Use this when you want a fair, current comparison across Navi Mumbai's genuinely different tracks, not one generic answer."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="it-sez-corridor"
+    title="Airoli and Ghansoli carry a genuine IT-SEZ and BPO economy of their own"
+    subtitle="A third real track inside Navi Mumbai's economy, alongside the port belt and the airport-growth corridor."
+    items={itSezItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="navi-mumbai-areas"
+    title="Which part of Navi Mumbai you're deciding from changes the real trade-off"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Navi Mumbai's planned nodes rather than pretending every user is comparing the same options from the same part of the city."
+    items={areaItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill and certification direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In Navi Mumbai's port, IT-SEZ, and airport-growth economy, the risk is advice that ignores the city's specific certification-driven tracks entirely. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={naviMumbaiComparisonRows}
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="As context, we offer free assessments that can help surface strengths, preferences, and work style before a bigger counselling decision, if you are still early and not ready for guidance yet."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill and certification direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Navi Mumbai"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Career counselling here is not about one isolated decision. It is about building a high-value skill portfolio that keeps unlocking high income opportunities, whether that path runs through JNPT's port and EXIM economy, the Airoli-Ghansoli IT-SEZ corridor, or the airport-led growth corridor around Panvel and Ulwe."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #port-economy,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

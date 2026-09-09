@@ -431,12 +431,13 @@ const jsonLd = {
 </style>
 
 <script>
+  type CompassRole = Record<string, any> & { id: string; title: string };
   const dataElement = document.getElementById('compass-data');
   const data = JSON.parse(dataElement?.textContent || '{}');
-  const roles = data.roles || [];
-  const byId = new Map(roles.map((role) => [role.id, role]));
-  const $ = (selector, root=document) => root.querySelector(selector);
-  const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
+  const roles: CompassRole[] = data.roles || [];
+  const byId = new Map<string, CompassRole>(roles.map((role) => [role.id, role]));
+  const $ = <T extends Element = Element>(selector: string, root: ParentNode = document) => root.querySelector<T>(selector);
+  const $$ = <T extends Element = Element>(selector: string, root: ParentNode = document): T[] => [...root.querySelectorAll<T>(selector)];
   const escapeHtml = (value='') => String(value).replace(/[&<>'"]/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
   const profile = { stage:'', goal:'', interests:[], values:[], modes:[], access:'', pace:'', constraints:[] };
   let currentStep = 1;
@@ -759,7 +760,7 @@ const jsonLd = {
     const picker=$('#stage-guidance-select'); if(picker)picker.value=stage;
     $$('[data-ai-stage]').forEach((card)=>card.open=card.dataset.aiStage===stage);
   }
-  $('#stage-guidance-select')?.addEventListener('change',(event)=>showStageGuidance(event.target.value));
+  $('#stage-guidance-select')?.addEventListener('change',(event)=>showStageGuidance((event.currentTarget as HTMLSelectElement).value));
 
   function bridgeThemeHits(role,themes) {
     const terms=themes.flatMap((theme)=>experienceThemeMatchers[theme]||[]);
@@ -1052,39 +1053,40 @@ const jsonLd = {
     const panel=input.closest('[data-skill-progression]'); if(!panel)return; const checks=$$('[data-skill-progress]',panel); const count=checks.filter((item)=>item.checked).length; const countNode=$('[data-skill-progress-count]',panel); const guidance=$('[data-skill-progress-guidance]',panel); const next={new:'guided practice',guided:'independent practice',independent:'adaptive practice',adaptive:'deeper domain specialisation'}[skillSprintLevel];
     if(countNode)countNode.textContent=`${count} / ${checks.length} evidenced`; if(guidance)guidance.textContent=count===4?`Evidence supports attempting ${next}. Keep the current artifacts as your baseline.`:count===3?'Promising but incomplete: repeat the missing condition once before raising difficulty.':count>=1?'Some progress is visible. Repeat or redesign the sprint around the unticked evidence.':'Complete the sprint before deciding what the result means.';
   }
-  document.addEventListener('click',(event)=>{
-    const route=event.target.closest('[data-route-intent]'); if(route)followIntent(route,event);
-    const sensitivityCopy=event.target.closest('[data-copy-sensitivity]'); if(sensitivityCopy)copySensitivity(sensitivityCopy);
-    const inventoryCopy=event.target.closest('[data-copy-inventory]'); if(inventoryCopy)copySkillInventory(inventoryCopy);
-    const inventoryFilter=event.target.closest('[data-inventory-filter]'); if(inventoryFilter){inventoryFilter.setAttribute('aria-pressed',String(inventoryFilter.getAttribute('aria-pressed')!=='true'));updateSkillInventory(inventoryFilter)}
-    const inventoryClear=event.target.closest('[data-clear-inventory]'); if(inventoryClear){$$('[data-skill-evidence]',inventoryClear.closest('#role-dialog')).forEach((select)=>{select.value='unassessed';select.closest('[data-inventory-skill]').dataset.evidenceState='unassessed'});updateSkillInventory(inventoryClear)}
-    const open=event.target.closest('[data-open]'); if(open) openRole(open.dataset.open);
-    const pin=event.target.closest('[data-compare]'); if(pin) togglePinned(pin.dataset.compare);
-    const advert=event.target.closest('[data-analyse-ad]'); if(advert) analyseJobAd(advert);
-    const sprint=event.target.closest('[data-copy-sprint]'); if(sprint) copySprint(sprint);
-    const interview=event.target.closest('[data-copy-interview]'); if(interview) copyInterview(interview);
-    const journal=event.target.closest('[data-copy-journal]'); if(journal) copyDecisionJournal(journal);
-    const triageChoice=event.target.closest('[data-triage-choice]'); if(triageChoice){const row=triageChoice.closest('[data-triage-row]');row.dataset.triageState=triageChoice.dataset.triageChoice;$$('[data-triage-choice]',row).forEach((button)=>button.setAttribute('aria-pressed',String(button===triageChoice)));updateEvidenceTriage(row.closest('[data-evidence-triage]'))}
-    const triageCopy=event.target.closest('[data-copy-triage]'); if(triageCopy)copyEvidenceTriage(triageCopy);
-    const experienceTheme=event.target.closest('[data-experience-theme]'); if(experienceTheme)toggleExperienceTheme(experienceTheme);
-    const bridge=event.target.closest('[data-skill-bridge]'); if(bridge) toggleSkillBridge(bridge);
-    const removeBridge=event.target.closest('[data-remove-bridge-skill]'); if(removeBridge){selectedSkills.delete(removeBridge.dataset.removeBridgeSkill);renderSkillBridge()}
-    const removeTheme=event.target.closest('[data-remove-bridge-theme]'); if(removeTheme){selectedExperienceThemes.delete(removeTheme.dataset.removeBridgeTheme);renderSkillBridge()}
-    if(event.target.closest('#copy-shortlist')) copyShortlist();
-    const skillSprint=event.target.closest('[data-skill-sprint]'); if(skillSprint)openSkillSprint(skillSprint);
-    const skillMinutes=event.target.closest('[data-skill-minutes]'); if(skillMinutes){skillSprintMinutes=Number(skillMinutes.dataset.skillMinutes);renderSkillSprint()}
-    const skillPace=event.target.closest('[data-skill-pace]'); if(skillPace){skillSprintPace=skillPace.dataset.skillPace;renderSkillSprint()}
-    const skillLevel=event.target.closest('[data-skill-level]'); if(skillLevel){skillSprintLevel=skillLevel.dataset.skillLevel;renderSkillSprint()}
-    const skillRole=event.target.closest('[data-skill-role]'); if(skillRole){$('#skill-sprint-dialog').close();openRole(skillRole.dataset.skillRole)}
-    if(event.target.closest('[data-copy-skill-sprint]'))copySkillSprint();
-    const plan=event.target.closest('[data-plan]'); if(plan) openExperiment(plan.dataset.plan);
-    const hours=event.target.closest('[data-hours]'); if(hours){ plannerHours=Number(hours.dataset.hours); renderExperiment(byId.get(activePlannerRole)); }
-    const rating=event.target.closest('[data-rate]'); if(rating){ experimentRatings.set(rating.dataset.rate,Number(rating.dataset.rating)); updateExperimentScore(); }
-    if(event.target.closest('[data-back-role]')){ $('#experiment-dialog').close(); openRole(activePlannerRole); requestAnimationFrame(()=>{$('#role-dialog .dialog-shell').scrollTop=returnRoleScroll;}); }
-    if(event.target.closest('[data-copy-plan]')) copyExperiment();
-    if(event.target.closest('[data-print-plan]')){ document.body.classList.add('experiment-print'); window.print(); }
+  document.addEventListener('click',(event: MouseEvent)=>{
+    const target=event.target instanceof Element ? event.target : null; if(!target)return;
+    const route=target.closest('[data-route-intent]'); if(route)followIntent(route,event);
+    const sensitivityCopy=target.closest('[data-copy-sensitivity]'); if(sensitivityCopy)copySensitivity(sensitivityCopy);
+    const inventoryCopy=target.closest('[data-copy-inventory]'); if(inventoryCopy)copySkillInventory(inventoryCopy);
+    const inventoryFilter=target.closest('[data-inventory-filter]'); if(inventoryFilter){inventoryFilter.setAttribute('aria-pressed',String(inventoryFilter.getAttribute('aria-pressed')!=='true'));updateSkillInventory(inventoryFilter)}
+    const inventoryClear=target.closest('[data-clear-inventory]'); if(inventoryClear){$$('[data-skill-evidence]',inventoryClear.closest('#role-dialog')).forEach((select)=>{select.value='unassessed';select.closest('[data-inventory-skill]').dataset.evidenceState='unassessed'});updateSkillInventory(inventoryClear)}
+    const open=target.closest('[data-open]'); if(open) openRole(open.dataset.open);
+    const pin=target.closest('[data-compare]'); if(pin) togglePinned(pin.dataset.compare);
+    const advert=target.closest('[data-analyse-ad]'); if(advert) analyseJobAd(advert);
+    const sprint=target.closest('[data-copy-sprint]'); if(sprint) copySprint(sprint);
+    const interview=target.closest('[data-copy-interview]'); if(interview) copyInterview(interview);
+    const journal=target.closest('[data-copy-journal]'); if(journal) copyDecisionJournal(journal);
+    const triageChoice=target.closest('[data-triage-choice]'); if(triageChoice){const row=triageChoice.closest('[data-triage-row]');row.dataset.triageState=triageChoice.dataset.triageChoice;$$('[data-triage-choice]',row).forEach((button)=>button.setAttribute('aria-pressed',String(button===triageChoice)));updateEvidenceTriage(row.closest('[data-evidence-triage]'))}
+    const triageCopy=target.closest('[data-copy-triage]'); if(triageCopy)copyEvidenceTriage(triageCopy);
+    const experienceTheme=target.closest('[data-experience-theme]'); if(experienceTheme)toggleExperienceTheme(experienceTheme);
+    const bridge=target.closest('[data-skill-bridge]'); if(bridge) toggleSkillBridge(bridge);
+    const removeBridge=target.closest('[data-remove-bridge-skill]'); if(removeBridge){selectedSkills.delete(removeBridge.dataset.removeBridgeSkill);renderSkillBridge()}
+    const removeTheme=target.closest('[data-remove-bridge-theme]'); if(removeTheme){selectedExperienceThemes.delete(removeTheme.dataset.removeBridgeTheme);renderSkillBridge()}
+    if(target.closest('#copy-shortlist')) copyShortlist();
+    const skillSprint=target.closest('[data-skill-sprint]'); if(skillSprint)openSkillSprint(skillSprint);
+    const skillMinutes=target.closest('[data-skill-minutes]'); if(skillMinutes){skillSprintMinutes=Number(skillMinutes.dataset.skillMinutes);renderSkillSprint()}
+    const skillPace=target.closest('[data-skill-pace]'); if(skillPace){skillSprintPace=skillPace.dataset.skillPace;renderSkillSprint()}
+    const skillLevel=target.closest('[data-skill-level]'); if(skillLevel){skillSprintLevel=skillLevel.dataset.skillLevel;renderSkillSprint()}
+    const skillRole=target.closest('[data-skill-role]'); if(skillRole){$('#skill-sprint-dialog').close();openRole(skillRole.dataset.skillRole)}
+    if(target.closest('[data-copy-skill-sprint]'))copySkillSprint();
+    const plan=target.closest('[data-plan]'); if(plan) openExperiment(plan.dataset.plan);
+    const hours=target.closest('[data-hours]'); if(hours){ plannerHours=Number(hours.dataset.hours); renderExperiment(byId.get(activePlannerRole)); }
+    const rating=target.closest('[data-rate]'); if(rating){ experimentRatings.set(rating.dataset.rate,Number(rating.dataset.rating)); updateExperimentScore(); }
+    if(target.closest('[data-back-role]')){ $('#experiment-dialog').close(); openRole(activePlannerRole); requestAnimationFrame(()=>{$('#role-dialog .dialog-shell').scrollTop=returnRoleScroll;}); }
+    if(target.closest('[data-copy-plan]')) copyExperiment();
+    if(target.closest('[data-print-plan]')){ document.body.classList.add('experiment-print'); window.print(); }
   });
-  document.addEventListener('change',(event)=>{ if(event.target.matches('[data-plan-stage]')){ plannerStage=event.target.value; renderExperiment(byId.get(activePlannerRole)); } if(event.target.matches('[data-readiness-item]')) updateApplicationCheck(event.target); if(event.target.matches('[data-skill-stage]')){skillSprintStage=event.target.value;renderSkillSprint()} if(event.target.matches('[data-skill-progress]'))updateSkillProgress(event.target); if(event.target.matches('[data-skill-evidence]'))updateSkillInventory(event.target); });
+  document.addEventListener('change',(event: Event)=>{ const target=event.target instanceof Element ? event.target : null; if(!target)return; const input=target as HTMLInputElement | HTMLSelectElement; if(target.matches('[data-plan-stage]')){ plannerStage=input.value; renderExperiment(byId.get(activePlannerRole)); } if(target.matches('[data-readiness-item]')) updateApplicationCheck(input); if(target.matches('[data-skill-stage]')){skillSprintStage=input.value;renderSkillSprint()} if(target.matches('[data-skill-progress]'))updateSkillProgress(input); if(target.matches('[data-skill-evidence]'))updateSkillInventory(input); });
   $('[data-close-role]')?.addEventListener('click',()=>$('#role-dialog').close()); $('[data-close-compare]')?.addEventListener('click',()=>$('#compare-dialog').close()); $('[data-close-experiment]')?.addEventListener('click',()=>$('#experiment-dialog').close()); $('[data-close-skill-sprint]')?.addEventListener('click',()=>$('#skill-sprint-dialog').close());
   $$('.career-dialog').forEach((dialog)=>dialog.addEventListener('click',(event)=>{if(event.target===dialog)dialog.close()}));
   window.addEventListener('afterprint',()=>document.body.classList.remove('experiment-print'));

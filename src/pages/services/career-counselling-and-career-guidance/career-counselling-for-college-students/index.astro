@@ -1,0 +1,522 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Counselling for College Students | Turn Degree Years Into Proof | Future Career School';
+const description =
+  'Career counselling for college students on specialization, internships, and job-vs-higher-studies — build real proof before graduation, not just a degree.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-college-students/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[5],
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Specialization pressure',
+    title: 'Picking a major, elective track, or specialization before seeing the real work',
+    body: 'Choosing between two or three tracks inside your own degree using only subject names and placement rumours, with no real sense of what the day-to-day work in each one actually involves.',
+  },
+  {
+    eyebrow: 'Internship gap',
+    title: 'An internship that came and went without turning into anything',
+    body: 'You did the internship, got the certificate, and the pre-placement offer never came — or you have not landed one yet and are not sure what would actually change that.',
+  },
+  {
+    eyebrow: 'The next-degree question',
+    title: 'Deciding between a job, a master\'s, or an MBA right after this degree',
+    body: 'Everyone around you seems to have an opinion — more study looks safer, a job looks faster — and neither choice has been tested against what it would actually cost or unlock for you specifically.',
+  },
+  {
+    eyebrow: 'Nothing to show',
+    title: 'Coursework is done, but there is still nothing public to point to',
+    body: 'Assignments are submitted, exams are cleared, and none of it exists anywhere a recruiter, client, or admissions committee could actually look at and judge.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Inside the degree',
+    title: 'A specialization or elective choice grounded in the real work, not the subject name',
+    listItems: [
+      'What each specialization or elective track actually asks you to do day-to-day, beyond the syllabus description',
+      'How placement outcomes for each track compare where that data is genuinely available, without treating one rumour as fact',
+      'How to test a direction quickly — one short project, one conversation with someone doing that work now — before committing a full semester to it',
+    ],
+  },
+  {
+    eyebrow: 'Internship to offer',
+    title: 'Turning an internship — or the lack of one — into real leverage',
+    listItems: [
+      'How to convert an internship that did not lead to a pre-placement offer into a usable reference point instead of a dead end',
+      'What to build in parallel if no internship is lined up yet, so year one after graduation does not start from a blank slate',
+      'How internships, campus projects, and coursework can be documented as one coherent piece of proof instead of three disconnected lines on a resume',
+    ],
+  },
+  {
+    eyebrow: 'Job or more study',
+    title: 'A real comparison between a job, a master\'s, and an MBA — not a default',
+    listItems: [
+      'What a master\'s or MBA is actually likely to change for your specific specialization and goals, versus what it mostly delays',
+      'How to weigh the cost, time, and opportunity lost against a job that starts building income and experience now',
+      'When more study is the genuinely stronger move, and when it is a comfortable way to postpone a harder decision',
+    ],
+  },
+  {
+    eyebrow: 'Before you graduate',
+    title: 'One visible proof asset built while you are still enrolled',
+    listItems: [
+      'What counts as a real, checkable piece of work for your field — a project, a case study, a documented result — versus something that only looks like effort',
+      'How to turn a campus responsibility, a class project, or a self-directed idea into something a recruiter or client can actually see',
+      'Why starting this in your current year, however much of it is left, beats waiting for a "ready" moment that graduation does not automatically create',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it engages your actual specialization options, not general degree talk',
+    body: 'If you are choosing between two or three real tracks inside your degree, generic "follow what excites you" advice will not resolve it. Look for guidance that engages with the specific tracks in front of you.',
+  },
+  {
+    title: 'Check whether the internship-to-offer question gets a real plan',
+    body: 'A missed pre-placement offer or a still-missing internship deserves more than "keep applying." The plan should say what to build or fix, not just repeat the goal back to you.',
+  },
+  {
+    title: 'Check whether higher studies gets an honest cost comparison, not a default push',
+    body: 'Some guidance leans toward "do a master\'s" because it sounds safe, without ever pricing it against the years and money spent, or against a job that starts building proof of work now.',
+  },
+  {
+    title: 'Check whether you leave with one thing to build, not just more reassurance',
+    body: 'If the session ends with confidence but no concrete next asset to create, it has not resolved the actual gap — a degree with nothing public standing behind it yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'I already picked a specialization and now I am not sure it was right. Is it too late to fix from inside college?',
+    answer:
+      'Usually not, and the fix rarely means starting the degree over. It more often means testing the direction properly for the first time — one short project, one real conversation with someone doing that work — before deciding whether to adjust your electives, add a parallel skill, or continue and compensate with proof of work built alongside it.',
+  },
+  {
+    question: 'My internship did not turn into a pre-placement offer. What now?',
+    answer:
+      'An internship that did not convert is still usable — as a reference point on what worked and what did not, and as one line of experience you can document properly. The stronger move from here is usually building one clear piece of proof of work in parallel with your next application round, rather than waiting for another internship cycle to fix it on its own.',
+  },
+  {
+    question: 'Should I do a master\'s or MBA right after this degree, or take a job first?',
+    answer:
+      'That depends on what the extra degree would actually change for your specific specialization and goals versus what it mostly delays. A useful session should price the real cost and time against a job that starts building income, experience, and proof of work immediately, instead of defaulting to "more study is always safer."',
+  },
+  {
+    question: 'I have finished most of my coursework but have nothing to actually show for it. Where do I even start?',
+    answer:
+      'Start with whatever real work already exists — a class project, an internship task, a campus responsibility — and turn one of them into something checkable: a short write-up, a working sample, a documented result. One finished, visible piece of work started this term is worth more than a longer list of things you plan to eventually build.',
+  },
+  {
+    question: 'How is career counselling for college students different from career counselling for students or student career guidance?',
+    answer:
+      'Career counselling for students is built for a narrower pre-college moment: an already-narrowed stream, subject, or course decision. Student career guidance is broader ongoing direction across school, college, and early career together. Career counselling for college students is scoped specifically to someone currently enrolled in an undergraduate degree, in any stream or college, working through the decisions that come up inside that degree — specialization, internships, and the job-versus-higher-studies choice — rather than the decision of which degree or college to join in the first place.',
+  },
+  {
+    question: 'Does my college\'s tier or my CGPA change what this session focuses on?',
+    answer:
+      'Not by default. The focus here is on the decisions most college students face regardless of college tier or academic performance — specialization fit, internship conversion, and the job-versus-higher-studies choice. If a thinner campus recruiter pool or a lower CGPA is the sharper pressure in your situation, the dedicated tier-2 college and low-CGPA guidance goes deeper into those specific gaps.',
+  },
+  {
+    question: 'Are the career and skill assessments free for college students too?',
+    answer:
+      'Yes. The career and skill assessments are fully free, and they are built to be updated, practical, and AI-powered rather than generic. They work well as a starting signal on fit and work style before a specialization, internship, or job-versus-study decision gets discussed in a paid session.',
+  },
+  {
+    question: 'Is career counselling for college students available online across India?',
+    answer:
+      'Yes. Guidance is delivered fully online across India, so you can book a session from your hostel, home, or campus without depending on a local counsellor or a placement cell appointment slot.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Move here for wider support when more than one college-stage decision needs to fit together into one direction.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'A broader ongoing-direction page spanning school, college, and early career, useful if your questions go beyond the current degree.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-tier-2-college-students/',
+    title: 'Career Counselling for Tier 2 College Students',
+    description: 'Go here when a thinner campus recruiter pool or college brand perception is the sharper pressure behind your decision.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-low-cgpa-students/',
+    title: 'Career Counselling for Low-CGPA Students',
+    description: 'Use this when placement eligibility cutoffs or a weaker CGPA are the specific constraint shaping your options.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-freshers/',
+    title: 'Career Counselling for Freshers',
+    description: 'Move here once you have graduated with an offer already in hand and the decision has shifted to evaluating it and starting the first job.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-after-graduation/',
+    title: 'Career Counselling After Graduation',
+    description: 'Move here once you have graduated with no offer yet, and the real fork is job search versus further study versus a competitive exam attempt.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'A free starting signal on strengths and work style before deciding where to put your remaining time in college.',
+  },
+  {
+    href: '/career-resources/creating-a-portfolio-without-work-experience/',
+    title: 'Creating a Portfolio Without Work Experience',
+    description: 'Practical ways to turn coursework, internships, and self-directed projects into proof a recruiter can check quickly.',
+  },
+  {
+    href: '/career-resources/t-shaped-skill-stack-builder/',
+    title: 'T-Shaped Skill Stack Builder',
+    description: 'Useful once a specialization direction is roughly set and the next question is which skills to build alongside it.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling for College Students',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for College Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for College Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for College Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        For students currently enrolled in an undergraduate degree, any stream or college
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for college students
+        <span class="gold-text"> who want the degree years to build proof, not just a certificate</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for college students is built for the decisions that come up while you are still enrolled — a specialization
+        or elective track that needs choosing, an internship that did not turn into an offer, or the job-versus-higher-studies question
+        everyone has an opinion on. The goal is a direction tied to <strong>a real, high-value skill portfolio you can point to before
+        graduation</strong>, so the years in college start unlocking stronger income opportunities and earlier financial freedom instead
+        of ending in a degree with nothing visible standing behind it.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can book a session from your hostel, home, or campus without depending
+        on a placement cell appointment or a counsellor your college may not have.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for College Students</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="The decisions this is built to resolve while you are still in college"
+    subtitle="Not a pre-college stream choice and not a post-graduation job search — the specific decisions that come up inside an undergraduate degree itself."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="The years left in your degree are still building your income ceiling, whether you use them or not"
+    body="A specialization tested against the real work, an internship turned into genuine proof, and one visible asset built before graduation move you toward stronger income opportunities and earlier financial freedom — a degree alone does not."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for College Students"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="What career counselling for college students should actually help you decide"
+    subtitle="Direction for the exact fork you are standing at inside your degree, not a repeat of the choice you already made when you picked this course."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can give you a signal on fit and work style before deciding where to put your remaining time — a specialization test, an internship push, or a portfolio project."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <section id="year-map">
+    <div class="container">
+      <div class="year-card">
+        <h2 class="year-title">The same degree looks different depending on which year you are actually in</h2>
+        <div class="year-grid">
+          <div class="year-item">
+            <strong>Early years</strong>
+            <span>The live question is fit — whether the specialization or elective track you are leaning toward matches the real day-to-day work, tested with one small project before a full semester is committed to it.</span>
+          </div>
+          <div class="year-item">
+            <strong>Middle years</strong>
+            <span>The live question is proof — turning an internship, a class project, or a campus role into something documented and checkable, instead of one more line that only you can vouch for.</span>
+          </div>
+          <div class="year-item">
+            <strong>Final year</strong>
+            <span>The live question is direction — job, master's, or MBA, decided against real cost and opportunity instead of whichever option feels least risky in the moment.</span>
+          </div>
+        </div>
+        <p class="year-footer">
+          Guidance that treats every year of college the same way misses the actual decision in front of you. The right question changes as you move through the degree — the fit question early on, the proof question through the middle years, and the direction question as graduation gets close.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BuyerChecks
+    sectionId="check-before-paying"
+    title="What to check before booking career counselling as a college student"
+    subtitle="The goal is a resolved specialization, internship, or higher-studies decision — not a longer list of things to think about on your own."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="Generic degree advice versus counselling built around your actual college-stage decision"
+    subtitle="The difference matters most once you are past choosing a course and into the decisions that happen inside it — specialization, internships, and what comes right after."
+    rows={comparisonRows}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Stop letting the specialization or internship question drift to next semester"
+    body="One structured session, focused on the exact fork you are at right now, ending with a direct recommendation and one proof asset to start building — not another round of generic degree advice."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for College Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling"
+    title="Career Counselling Plans for College Students"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, sibling pages for a sharper pressure, free assessments, and practical reading depending on exactly where you are in college."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions college students ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Leave college with proof behind the degree, not just the degree itself"
+    subtitle="The specialization, internship, and job-versus-study decisions in front of you right now are what actually shape your income ceiling and how soon financial freedom becomes realistic — resolve them with a direct recommendation instead of carrying them into final year unresolved."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for College Students"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+
+  #year-map { padding: 4.5rem 0; }
+  .year-card {
+    border-radius: 26px;
+    border: 1px solid rgba(45,212,191,.24);
+    background:
+      radial-gradient(560px 220px at 100% 0%, rgba(45,212,191,.09), transparent 70%),
+      rgba(255,255,255,.025);
+    padding: 2.4rem clamp(1.4rem, 4vw, 2.6rem) 2.2rem;
+  }
+  .year-title {
+    margin: 0 0 1.6rem !important;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.3;
+    letter-spacing: -.02em;
+    color: #fff;
+    max-width: 760px;
+  }
+  .year-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 1rem;
+    margin-bottom: 1.6rem;
+  }
+  .year-item {
+    display: grid;
+    gap: .4rem;
+    padding: 1.1rem 1.2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+  }
+  .year-item strong { color: #fff; font-size: 14.5px; }
+  .year-item span { color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.7; }
+  .year-footer {
+    margin: 0 !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.72);
+    max-width: 760px;
+  }
+  @media (max-width: 780px) {
+    .year-grid { grid-template-columns: 1fr; }
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.65rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.72rem, 9.4vw, 2.35rem);
+      line-height: 1.06;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

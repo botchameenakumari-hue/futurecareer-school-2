@@ -1,0 +1,560 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Chandigarh page drops only the "generic low-paying path advice" row (index 4) -
+// the city's real contrast is not a low-paying-path narrative, it is the
+// government-secretariat-default versus abroad-migration versus tri-city
+// skill-building fork, already carried by the other five rows and the page's
+// own local sections. This selection (rows 0,1,2,3,5) is distinct from Rajkot
+// (rows 0-4), Vizag (rows 1-5), Bangalore (full library), Pune (drops index 3),
+// Kolkata (drops index 1), Chennai (now drops indices 0, 1, and 5), and
+// Hyderabad (drops index 2).
+// AUDIT CORRECTION: the claim above of uniqueness was previously wrong - a
+// sitewide audit found Gurgaon, Mumbai, and Nagpur all also dropped only
+// index 4, an undetected 4-way duplicate. Chandigarh is kept as-is here as
+// the first-built page in that group; Gurgaon, Mumbai, and Nagpur have each
+// been moved to a distinct unused triple-index drop (indices 0,1,2 / 0,1,3 /
+// 0,1,4 respectively) so no page shares this single-index-4 selection anymore.
+const chandigarhComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 4);
+
+const title = 'Career Counselling in Chandigarh | Online Guidance Across India | Future Career School';
+const description =
+  "Career counselling in Chandigarh for students and professionals - clarity beyond the government-secretariat default and Punjab's strong pull toward studying or settling abroad.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-chandigarh/';
+
+const fitItems = [
+  {
+    title: 'You are inside, or expected to enter, the government-service default',
+    listItems: [
+      "As the joint capital of Punjab and Haryana, Chandigarh's own economy runs heavily on the Punjab Civil Secretariat, the Haryana Civil Secretariat, the UT Administration, and the Punjab and Haryana High Court, so a stable government or administrative role often feels like the assumed finish line rather than one option among several",
+      'That assumption can crowd out a genuine look at whether a private-sector or skill-based path could unlock high income opportunities and move you toward earlier financial freedom faster',
+      'Practical clarity matters more than defaulting to whichever path the city itself seems built around',
+    ],
+  },
+  {
+    title: 'Abroad already feels like a live option in your family, not a distant idea',
+    listItems: [
+      "Punjab carries one of India's strongest emigration cultures, and Chandigarh's IELTS-coaching and study-visa-consultancy belt around Sector 34 makes that pull feel close and constant",
+      'Family members already settled in Canada, Australia, or the UK can turn "should I stay or go" into background pressure long before a real decision is actually needed',
+      'The stronger question is which specific path - building a strong local or remote-first career, or genuinely pursuing study or work abroad - fits your actual goals, not which option feels safer to say out loud at home',
+    ],
+  },
+  {
+    title: 'You already know generic advice will not resolve this',
+    listItems: [
+      'Generic "just get a government job" or "just go abroad" advice skips the real trade-offs each path carries',
+      "You need someone who can weigh the tri-city's real institutions, the emigration pull, and your own risk tolerance honestly",
+      "You want one practical next step, not another relative's opinion",
+    ],
+  },
+];
+
+const chandigarhContextItems = [
+  {
+    title: 'Chandigarh was designed to be an administrative capital - and that still shapes the default career script',
+    body: "Chandigarh is India's first fully planned city, built after Partition to serve as the joint capital of Punjab and Haryana once the original Punjab capital, Lahore, was lost to the new border. That founding purpose still shows up in the job market today: the Punjab Civil Secretariat and the Haryana Civil Secretariat sit within a few kilometres of each other in Sector 1, alongside the UT Administration offices and the Punjab and Haryana High Court, one of the largest High Courts in the country by bench strength. For many Chandigarh families, a stable government, judiciary, or administrative posting is not just one respectable career - it can feel like the city's own reason for existing. Good counselling should take that seriously without treating it as the only outcome a Chandigarh household can be proud of.",
+  },
+  {
+    title: 'A visible defence-services tradition runs alongside the administrative one',
+    body: "Punjab's decades-long tradition of military recruitment shows up close to home here. The Indian Army's Western Command headquarters sits at Chandimandir, just outside Panchkula, and Chandigarh's own Air Force Station adds a second visible defence presence inside the tri-city itself. For a real share of local families, at least one generation has already served, which can turn a defence career into an inherited expectation rather than a considered choice - and can also leave someone who wants a different path unsure how to say so without it reading as a rejection of the family's own service. Counselling here should be able to hold both possibilities: genuine interest in defence service, and genuine interest in something else entirely, without treating either as the disappointing answer.",
+  },
+  {
+    title: 'Panjab University, PEC, and PGIMER anchor a real academic ecosystem - with real oversupply pressure of its own',
+    body: "Panjab University's main campus, spread across Sector 14 and Sector 25, pulls students from across Punjab, Haryana, and Himachal Pradesh into one of North India's oldest and most recognised university systems. Punjab Engineering College (PEC), a deemed university near Sector 12, adds a serious engineering track, while the Postgraduate Institute of Medical Education and Research (PGIMER) - one of India's premier medical and research institutes - makes Chandigarh a genuine destination for NEET and postgraduate medical aspirants from across the region, alongside the Government Medical College and Hospital at Sector 32. That density is a real strength, but it also means a Panjab University degree or a general engineering seat carries less automatic weight than it once did - the real differentiator has become the skill portfolio and proof of work built on top of the degree, not the university name alone.",
+  },
+  {
+    title: "Mohali and Panchkula are pulling the tri-city's economy toward IT, alongside government",
+    body: "The Rajiv Gandhi Chandigarh Technology Park, together with the IT hubs growing across Mohali - including Quark City and the IT Park along the Chandigarh-Kharar road - now host IT and ITES employers such as Infosys BPO, Dell, Tech Mahindra, and a growing base of homegrown startups, while Panchkula's Industrial Area and Cyber Park add a further services and manufacturing-adjacent layer. This is still a smaller, earlier-stage tech corridor than Bangalore's or Pune's, which means fewer roles but also less of the oversupply pressure those cities carry - a real opening for someone willing to build a high-value skill portfolio in a market that has not yet been fully claimed by everyone else's default script.",
+  },
+];
+
+const abroadVsLocalItems = [
+  {
+    title: 'The pull to go abroad is real - and so is the cost of leaving it unexamined',
+    listItems: [
+      'A Canada, Australia, or UK study-and-settle plan can look like the safer bet when half the neighbourhood already has someone abroad, but the real cost - study loans, years of separation, uncertain post-study work and permanent-residency timelines, and currency and visa-policy risk - rarely gets weighed as carefully as the decision deserves',
+      'Genuine reasons to go abroad exist: a program that is honestly stronger for your specific field, a real long-term settlement goal, or family already established there',
+      'The weaker reason is going simply because staying feels like admitting you could not leave',
+    ],
+  },
+  {
+    title: 'Staying and building from the tri-city is not the fallback option it can feel like',
+    listItems: [
+      "Chandigarh's own growing IT corridor in Mohali, its academic strength through Panjab University, PEC, and PGIMER, and its administrative and defence-related employers mean a strong local or remote-first skill path is a genuine option, not a consolation prize",
+      'A high-value skill portfolio built from right here can open high income opportunities without the debt, distance, and delayed timeline an abroad plan usually carries',
+      "The right call depends on your specific field, finances, and goals - not on which option your street already assumes is smarter",
+    ],
+  },
+];
+
+const chandigarhAreaItems = [
+  {
+    title: 'Sector 34 and the IELTS-coaching belt shape the abroad conversation before anyone even asks for it',
+    body: 'Walk through Sector 34, or nearby Sector 22 and Sector 17, and the density of IELTS-coaching centres, study-visa consultancies, and immigration-service offices tells its own story about how normal the abroad conversation is here. Students living near this belt, or attending a nearby college, can find the "which country, not whether" framing baked into daily conversation well before they have actually decided anything for themselves.',
+  },
+  {
+    title: 'Panjab University, PEC, and PGIMER cluster a different kind of pressure around Sector 12 to 25',
+    body: 'The stretch through Sector 12, Sector 14, and Sector 25 - home to PGIMER, PEC, and the Panjab University main campus - concentrates a dense, high-achieving student population inside a tight academic radius. Someone living in a university hostel or a PG near PEC is often weighing an already-narrow set of prestige tracks - a government exam, a PGIMER-adjacent medical path, or a core-engineering role - against newer options the immediate academic environment rarely surfaces.',
+  },
+  {
+    title: "Mohali, Panchkula, and Zirakpur carry the tri-city's newer, less scripted economy",
+    body: "Someone commuting into Mohali's IT Park, Quark City, or the Aerocity sector is usually inside a genuinely different conversation from someone rooted near Sector 17's commercial core or the Sector 1 secretariat belt - closer to Bangalore's or Pune's private-sector logic than to Chandigarh's administrative one. Panchkula's Sector 5 and MDC areas, and the fast-growing satellite town of Zirakpur along the Ambala highway, add a residential population increasingly commuting across all three towns rather than staying inside one city's assumptions - so good counselling here should not assume everyone searching from a Chandigarh address is living the same version of this decision.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'Every second family near me already has someone abroad - am I falling behind by staying in Chandigarh?',
+    body: "No. Punjab's emigration culture is real and visible, especially through Chandigarh's own IELTS-coaching belt, but visibility is not the same as it being the right call for you specifically. Chandigarh's own tri-city economy - administration, defence, academia, and a growing IT corridor in Mohali - offers genuine ground to build from. The honest question is which path actually fits your field, finances, and goals, not which one is loudest in your neighbourhood.",
+  },
+  {
+    title: 'My family expects a government job because that is what this city is built around - is that outdated?',
+    body: "Not outdated, but not automatic either. Chandigarh genuinely was designed around administrative work, and a government or judiciary role still offers real security here. The issue is when it gets treated as the only respectable option without a real comparison against a private-sector or skill-based path that could open high income opportunities faster. Both can be legitimate; the comparison deserves to happen honestly.",
+  },
+  {
+    title: 'My family has a defence-services background - do I have to follow it too?',
+    body: "No. A defence-services tradition, common across many Chandigarh and wider Punjab households given the Western Command presence at Chandimandir and the local Air Force Station, is a genuine source of pride - and it does not have to be the only acceptable path for the next generation. Wanting something different is not a rejection of that service; it is a separate decision that deserves its own honest evaluation.",
+  },
+  {
+    title: 'Is Mohali\'s IT growth even real, or should I just aim for Bangalore or abroad instead?',
+    body: "It is real, though smaller and earlier-stage than Bangalore's or Pune's. Mohali's IT Park, Quark City, and the Rajiv Gandhi Chandigarh Technology Park host genuine IT and ITES employers, with less of the saturation those bigger tech hubs carry. Whether staying, moving to a bigger tech city, or going abroad is the stronger move depends on your specific skills and goals, not a blanket assumption that bigger always means better.",
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether a government or administrative role is treated as one option, not the only respectable one',
+    body: "Good guidance for Chandigarh should be able to speak seriously about the Punjab and Haryana secretariats, the High Court, and the UT Administration, while still giving a private-sector or skill-based path a fair, honest comparison rather than treating it as the lesser choice.",
+  },
+  {
+    title: "Check whether the abroad pull is handled honestly, not romanticised or dismissed",
+    body: "Punjab's emigration culture deserves to be understood, not mocked and not treated as an automatic upgrade. Guidance worth paying for should help you weigh the real cost of an abroad plan against a genuine local or remote-first alternative, not push you toward whichever answer sounds more impressive.",
+  },
+  {
+    title: 'Check whether a defence-services family background is respected without being assumed as the only path',
+    body: 'Someone from a defence family deciding on a different direction deserves guidance that understands the weight of that tradition, not advice that treats the decision as a simple yes-or-no with no family context attached.',
+  },
+  {
+    title: "Check whether Mohali's growing IT and startup base is treated as a real, current option",
+    body: "A counsellor who only measures success by a Bangalore relocation or a foreign posting is applying a script that ignores Chandigarh's own smaller but genuine tech corridor. The guidance should evaluate a Mohali-based path on its actual merits, not treat it as an afterthought.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      "Whether a government or administrative role, a defence-services path, a Mohali-based IT career, or studying and settling abroad actually fits your strengths and goals",
+      'A realistic comparison of the cost, timeline, and risk of an abroad plan against a genuine local or remote-first alternative',
+      "What your Panjab University, PEC, or PGIMER-track choice should actually build toward alongside the degree",
+      'How to raise a hard family conversation about stepping away from an expected government or defence path without it turning into confrontation',
+    ],
+  },
+  {
+    title: 'A skill direction built for achieving earlier financial freedom either way',
+    listItems: [
+      'A high-value skill portfolio that holds up whether you stay in Chandigarh, move within the tri-city, or genuinely pursue an opportunity abroad',
+      'Proof-of-work positioning that carries weight beyond a degree, a secretariat exam attempt, or a visa application on its own',
+      "A realistic income comparison between the government track, a Mohali-based private-sector path, and a properly costed abroad plan",
+      'One practical next step instead of another round of family or neighbourhood validation',
+    ],
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'Online-first approach across India if your real concern is easier access rather than the city itself.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.nriStudents,
+    title: 'Career Counselling for NRI Students',
+    description: 'Useful if the abroad-versus-India decision is already the main question, wherever you are searching from.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Is career counselling in Chandigarh mostly about deciding whether to study abroad?',
+    answer:
+      "For some people, yes, that is a real part of it - Punjab's emigration culture and Chandigarh's own IELTS-coaching belt make the abroad question genuinely live for many families. But the service covers the full decision: a government or administrative role, a defence-services path, a Mohali-based IT career, a Panjab University or PEC or PGIMER-track choice, or a properly evaluated plan to study or work abroad. The right starting point depends on which of those is actually pressing for you.",
+  },
+  {
+    question: "Should I aim for a government job in Chandigarh's dual state secretariat, or build a private-sector career instead?",
+    answer:
+      "There is no single right answer - it depends on your interests, your risk tolerance, and the specific opportunity on each side. A role inside the Punjab or Haryana Secretariat, the UT Administration, or the High Court system offers real security and standing in this city. A private-sector or skill-based path built on a strong portfolio can offer a faster route to higher income. Honest counselling should compare both against your actual situation rather than assuming either is automatically wiser.",
+  },
+  {
+    question: 'My family has a defence-services background - how do I figure out if a different path is right for me?',
+    answer:
+      "Start by separating respect for the tradition from the decision itself - they are not the same thing. A defence career can be a genuine fit, or it can be an inherited expectation that does not match your actual strengths and interests. Good counselling should help you look at that honestly, and help you think through how to raise a different direction with your family without it reading as a rejection of their service.",
+  },
+  {
+    question: "Is Mohali's IT sector a real alternative to moving to Bangalore or going abroad?",
+    answer:
+      "It can be, for the right skills and goals. Mohali's IT Park, Quark City, and the Rajiv Gandhi Chandigarh Technology Park host genuine IT and ITES employers, and the corridor carries less saturation than Bangalore's or Pune's larger tech hubs. It will not fit every role or every ambition, but it is a real option worth evaluating on its own merits rather than dismissing by default in favour of a bigger city or an abroad move.",
+  },
+  {
+    question: 'Why choose online career counselling in Chandigarh instead of a nearby consultancy?',
+    answer:
+      "Because a nearby office - especially one clustered in the IELTS-coaching and visa-consultancy belt - often has a built-in interest in one particular answer. Online guidance brings in an outside, India-wide view without requiring a visit to Sector 34, and it should still be judged on whether it gives you an honest read on your specific situation across all the real options, not just the one the office next door happens to sell.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals across Chandigarh, Mohali, and Panchkula?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you live in Chandigarh proper, Mohali, Panchkula, or Zirakpur, or are weighing a move away from the tri-city entirely.',
+  },
+  {
+    question: "What if my bigger issue isn't Chandigarh or abroad migration at all?",
+    answer:
+      "That is common. If the real pressure is a stream choice, a specific skill decision, or a career change with no city or migration angle involved, the main counselling and guidance pages are the stronger next filter. This page is most useful when Chandigarh's government-service default, its defence-services tradition, or the abroad-versus-stay decision is genuinely part of what you are weighing.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Chandigarh', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Chandigarh | Future Career School',
+    description:
+      'Career counselling in Chandigarh for students, freshers, and working professionals. Online guidance for clearer decisions between the government-secretariat default, a defence-services path, Mohali-based IT careers, and studying or settling abroad.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Chandigarh' },
+      { '@type': 'City', name: 'Mohali' },
+      { '@type': 'City', name: 'Panchkula' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Chandigarh</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Chandigarh, Mohali, and Panchkula
+      </div>
+
+      <h1 class="hero-title">
+        Career Counselling in <span class="gold-text">Chandigarh</span>
+      </h1>
+      <p class="hero-sub">
+        Chandigarh was built as a planned capital for two states, and that shapes the career script most families here inherit by default: a stable government or administrative post in the joint Punjab-Haryana secretariat, or a plan to move abroad altogether. Between those two well-worn options sits a real question few people examine directly - whether a stronger, high-value skill portfolio built from right here in the tri-city could unlock high income opportunities and earlier financial freedom, without needing either the safety of a government seat or the sunk cost of settling abroad.
+      </p>
+      <p class="hero-sub hero-sub-secondary">
+        Guidance is delivered fully online across Chandigarh, Mohali, Panchkula, and Zirakpur, and across India - so you can start from a hostel near Panjab University, a PG near Mohali's IT Park, or a family home already mid-way through an abroad-visa conversation, without adding another commute to an already crowded set of decisions.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="intent-clarity"
+    title="Why this decision already feels heavier here"
+    subtitle="When people search for career counselling in Chandigarh, the city name usually points to something specific - the pull of a government secretariat role, a family already weighing an abroad move, or a defence-services expectation. The real pressure is rarely the city itself. It is seeing the actual trade-off clearly instead of through whichever script feels closest to home."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="chandigarh-career-landscape"
+    title="The Chandigarh career reality generic advice rarely names"
+    subtitle="Chandigarh's economy is built around administration, defence, and academia in a way few other Indian cities replicate, alongside a smaller but genuine IT corridor growing across the tri-city. Good counselling should engage with that reality directly instead of treating Chandigarh like any other metro."
+    items={chandigarhContextItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="abroad-vs-local"
+    title="Study and settle abroad, or build from the tri-city - the decision most pages skip"
+    subtitle="Few cities in India carry an emigration pull as strong or as visible as Punjab's, and Chandigarh sits at the centre of it through its own IELTS-coaching and study-visa-consultancy belt. That makes this comparison worth its own honest look rather than an assumed answer either way."
+    items={abroadVsLocalItems}
+    variant="decision"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Chandigarh search already reflects a real fork, look at it honestly before another year gets committed"
+    body="Use this when you want a genuine read on the government-versus-private question or the abroad-versus-stay decision, not another round of family or neighbourhood validation."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="chandigarh-areas"
+    title="Chandigarh's own geography shapes which version of this decision you are in"
+    subtitle="A useful local page should recognise that a PG near Sector 34's coaching belt, a hostel near Panjab University, and a flat in Mohali's IT corridor are not living through the same version of Chandigarh."
+    items={chandigarhAreaItems}
+    variant="decision"
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city built around a government-service default on one side and an abroad-migration pull on the other, the real risk is advice that either glorifies one path or dismisses the other outright. The comparison below shows what separates high-leverage guidance from both."
+    rows={chandigarhComparisonRows}
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="Not another opinion added to an already crowded set of family expectations. A clearer read on the government-versus-private question, an honest look at the abroad option, and a route toward earlier financial freedom regardless of which path you choose."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Chandigarh"
+    subtitle="Do not compare only how close a consultancy's office is to the IELTS-coaching belt. Compare whether the process improves decision quality on the actual fork you are facing."
+    items={buyerCheckItems}
+  />
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Chandigarh, Mohali, and Panchkula.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use - even inside a city with this much government, defence, and migration expectation attached to every choice.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Chandigarh page when locality matters, but choose based on decision quality, not the loudest family script"
+    body="The practical value is an honest read on the government, defence, IT, and abroad options in front of you, and a concrete next step before another year gets committed by default."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Chandigarh" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a government-secretariat default, a defence-services tradition, and an abroad-migration pull are all stacked on the same decision - and when the real goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom, whichever route you choose."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill { width: fit-content; margin-bottom: 1.6rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title { font-size: clamp(2.35rem, 5vw, 3.9rem); line-height: 1.04; letter-spacing: -.04em; color: #fff; max-width: 980px; margin-bottom: 1.25rem; overflow-wrap: anywhere; }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.72); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-sub-secondary { color: rgba(255,255,255,.6); font-size: 14px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 1.6rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #chandigarh-career-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

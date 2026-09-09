@@ -1,0 +1,518 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Guidance After B.Tech ECE | Core, VLSI, Software, or Telecom | Future Career School';
+const description =
+  'Career guidance after B.Tech ECE on core electronics vs VLSI vs embedded vs telecom vs software, plus higher studies — decide with real clarity.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-b-tech-ece/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Broad syllabus, narrow placements',
+    title: 'ECE covers electronics, communication, and signal processing — but most campus offers are software roles',
+    body: 'The degree spans analog and digital circuits, VLSI, embedded systems, and communication systems, yet the placement season often narrows down to coding roles that barely touch what was actually studied.',
+  },
+  {
+    eyebrow: 'The VLSI pull',
+    title: 'Chip-design and semiconductor buzz makes VLSI sound like the obvious next step, without a real fit check',
+    body: 'Semiconductor hiring headlines and a handful of well-paid design-engineer stories can make VLSI or embedded systems feel mandatory, even when the actual day-to-day work — RTL coding, verification, or board-level debugging — has not been tested against real interest.',
+  },
+  {
+    eyebrow: 'The core-vs-coding split',
+    title: 'Choosing between a core electronics role, embedded systems, telecom/networks, and a software job feels like four different careers, not one branch',
+    body: 'Each path expects a different skill stack and a different kind of higher-studies specialization, and picking without comparing them directly often means drifting into whichever one had an open campus drive.',
+  },
+  {
+    eyebrow: 'The MTech question',
+    title: 'M.Tech in VLSI, embedded systems, or communication — worth it, or a delay dressed up as a plan',
+    body: 'A specialization master\'s can genuinely open design and R&D roles that a B.Tech alone does not, but it is also an easy way to postpone a decision that needed to be made now.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Core electronics vs software',
+    title: 'A real comparison, not a default toward whichever pays the campus offer',
+    listItems: [
+      'What a core electronics, embedded, or RF role actually pays and grows into over the next several years, set against a software role from the same ECE background',
+      'Whether your actual coursework strengths point toward circuits and signal processing or toward the coding-heavy software track',
+      'How to keep a software option realistically open even while leaning core, or the reverse, without wasting a year testing both',
+    ],
+  },
+  {
+    eyebrow: 'VLSI and semiconductor design',
+    title: 'Testing genuine fit for chip design before committing a master\'s and years to it',
+    listItems: [
+      'What RTL design, verification, and physical design work actually involves day to day, beyond the headline salary numbers',
+      'Whether an M.Tech in VLSI is the entry route you actually need, or whether a certification plus tools proficiency (EDA tools, HDL) gets you in faster',
+      'How semiconductor hiring cycles actually behave in India versus the always-hiring impression social media gives',
+    ],
+  },
+  {
+    eyebrow: 'Embedded systems and telecom/networks',
+    title: 'Two ECE-specific tracks that rarely get compared against each other directly',
+    listItems: [
+      'What an embedded systems role (firmware, IoT, robotics-adjacent hardware) demands versus a telecom/networks role (5G, RF, network engineering)',
+      'Which one matches your actual project or lab experience instead of whichever sounds more current',
+      'What proof of work — a working embedded project, a signal-processing project, a networking certification — makes either path credible to a recruiter',
+    ],
+  },
+  {
+    eyebrow: 'Higher studies vs starting work',
+    title: 'M.Tech, MS abroad, or working first — priced against your specific ECE specialization',
+    listItems: [
+      'Whether a specialization master\'s (VLSI, embedded systems, communication systems, signal processing) genuinely changes your ceiling in that specific track',
+      'What working first and building proof of work in a core, software, or telecom role would look like instead',
+      'How to decide without treating higher studies as the automatic safe option just because it postpones the branch decision',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the guidance is actually ECE-specific, not generic engineering with the branch name swapped in',
+    body: 'A lot of "after engineering" advice barely changes when you swap in a different branch. Look for guidance that names the actual ECE forks — core electronics, VLSI, embedded systems, telecom — not a repeat of general branch-regret talk.',
+  },
+  {
+    title: 'Check whether VLSI and semiconductor advice is realistic, not hype-driven',
+    body: 'VLSI gets talked about as if every ECE graduate should chase it. Guidance should test genuine fit and realistic entry routes, not repeat the same excitement without pricing the actual path.',
+  },
+  {
+    title: 'Check whether the core-vs-software comparison is priced honestly',
+    body: 'Neither core electronics nor software is automatically the better choice. Look for guidance that compares them against your specific coursework strengths and interests, not a blanket push toward whichever hires more on campus.',
+  },
+  {
+    title: 'Check whether you leave with one direction and a proof-of-work step, not a longer list of ECE career options',
+    body: 'A useful session should end with a chosen track — core, VLSI, embedded, telecom, or software — and one concrete next step, not just more options to keep weighing.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Should I go into core electronics, VLSI, embedded systems, or software after B.Tech ECE?',
+    answer:
+      'There is no single right track for every ECE graduate — the honest comparison runs against your actual coursework strengths, project experience, and what each path realistically pays and grows into from here. Core electronics, VLSI, embedded systems, telecom, and software each demand a different skill stack, and picking the one that matches your genuine interest and strengths matters more than picking whichever one had the loudest placement drive.',
+  },
+  {
+    question: 'Is VLSI or semiconductor design a realistic path, or is it overhyped for ECE graduates?',
+    answer:
+      'VLSI and semiconductor roles are real and growing in India, but the entry route usually needs a genuine skill layer beyond the B.Tech — either an M.Tech in VLSI or strong tool proficiency (HDL, EDA tools) built independently. The honest question is whether the actual work (RTL design, verification, physical design) fits you, not whether the headlines around chip design sound exciting.',
+  },
+  {
+    question: 'Should I do an M.Tech in VLSI, embedded systems, or communication systems, or start working first?',
+    answer:
+      'A specialization M.Tech can genuinely change your ceiling in that specific track when it targets a role you have already tested real interest in. It becomes a weaker choice when it is mainly a way to delay deciding, or chosen because a coding-heavy software job feels unclear right now. The decision should be priced against your actual specialization goal, not treated as the automatic safe move.',
+  },
+  {
+    question: 'Is it a waste of an ECE degree to take a software job instead of a core electronics role?',
+    answer:
+      'No. A software role after ECE is a legitimate outcome, not a failure of the degree — many ECE graduates build strong software careers using the analytical and problem-solving foundation the degree builds. The ECE background still matters if you eventually move toward embedded software, signal processing, or hardware-adjacent software roles, even if the first job is broadly a coding role.',
+  },
+  {
+    question: 'How is this different from career counselling after engineering?',
+    answer:
+      'Career counselling after engineering covers the branch-agnostic direction question every engineering graduate faces — staying in core work versus pivoting, and higher studies versus starting work — without going into a specific branch\'s specialization tracks. This page goes one level deeper for ECE specifically: the real fork between core electronics, VLSI, embedded systems, telecom, and software, and the ECE-specific higher-studies specializations behind each one.',
+  },
+  {
+    question: 'How is this different from career counselling for engineering students?',
+    answer:
+      'Career counselling for engineering students is built for students still enrolled, weighing branch, offer, or higher-studies decisions before graduation, across any branch. For the post-B.Tech ECE stage, the actual choice may be between ECE-specific tracks like core electronics, VLSI, embedded systems, telecom, and software.',
+  },
+  {
+    question: 'Are the career and skill assessments free for ECE graduates too?',
+    answer:
+      'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered. They work well as a starting signal on fit and work style before deciding between core electronics, VLSI, embedded systems, telecom, or software.',
+  },
+  {
+    question: 'Is career guidance after B.Tech ECE available online across India?',
+    answer:
+      'Yes. Guidance is delivered fully online across India, so you can book a session from home, a hostel, or wherever you have landed after your B.Tech, without depending on a local counsellor or a campus placement cell.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Move here for wider support when more than one post-B.Tech question needs to fit together into one direction.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-after-engineering/',
+    title: 'Career Counselling After Engineering',
+    description: 'The broader, branch-agnostic direction question for any engineering graduate — core versus pivoting, and higher studies versus starting work.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-engineering-students/',
+    title: 'Career Counselling for Engineering Students',
+    description: 'Use this instead if you are still enrolled and the live decision is a branch, offer, or higher-studies choice before graduation.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-after-graduation/',
+    title: 'Career Counselling After Graduation',
+    description: 'A degree-agnostic version of this fork if the comparison you actually need is job versus master\'s versus an exam attempt, not ECE-specific tracks.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'A free starting signal on strengths and work style before the core-versus-software-versus-VLSI decision gets discussed in a paid session.',
+  },
+  {
+    href: '/blog/career-options/career-after-btech-other-than-software/',
+    title: 'Career After B.Tech Other Than Software',
+    description: 'Useful reading if a non-software track is genuinely on the table for you.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Guidance After B.Tech ECE',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Guidance After B.Tech ECE | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Guidance After B.Tech ECE',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Guidance After B.Tech ECE</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        For B.Tech ECE graduates choosing between core electronics, VLSI, embedded, telecom, and software
+      </div>
+
+      <h1 class="hero-title">
+        Career guidance after B.Tech ECE
+        <span class="gold-text"> for the core-vs-VLSI-vs-software fork</span>
+      </h1>
+      <p class="hero-sub">
+        Career guidance after B.Tech ECE is built for the specific fork Electronics and Communication graduates actually face: core electronics, VLSI and semiconductor design, embedded systems, telecom and networks, or a software role — plus the higher-studies specializations sitting behind each one. The point is to choose the track tied to <strong>a real, high-value skill portfolio</strong> instead of whichever branch trend is loudest this placement season, so this stage starts unlocking stronger income opportunities and earlier financial freedom instead of a year lost to a default.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from your hostel, home, or wherever you have landed after your B.Tech.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Guidance After B.Tech ECE</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="The specific pressure ECE graduates face after B.Tech"
+    subtitle="Not generic engineering branch regret — the exact fork between core electronics, VLSI, embedded systems, telecom, and software that ECE alone creates."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="The track you default into now sets your ECE skill direction for years"
+    body="A tested comparison between core, VLSI, embedded, telecom, and software moves you toward high income opportunities — a default picked from placement-season pressure does not."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After B.Tech ECE"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="What career guidance after B.Tech ECE should actually help you decide"
+    subtitle="Direction for the ECE-specific fork itself, not a repeat of general engineering branch talk."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can give you a signal on fit and work style before deciding between core electronics, VLSI, embedded systems, telecom, or software."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <section id="fork-map">
+    <div class="container">
+      <div class="fork-card">
+        <h2 class="fork-title">Four ECE-specific tracks, and what each one actually demands</h2>
+        <p class="fork-intro">Any of these can be the right move for a B.Tech ECE graduate. The problem is picking one without comparing it against the others first.</p>
+        <div class="fork-grid">
+          <div class="fork-item fork-teal">
+            <strong>Core electronics and embedded systems</strong>
+            <span>Circuit design, board-level work, and firmware — worth it when the coursework and lab work genuinely interested you, not because it sounds like "real engineering."</span>
+          </div>
+          <div class="fork-item fork-gold">
+            <strong>VLSI and semiconductor design</strong>
+            <span>RTL design, verification, and physical design, usually needing an M.Tech or strong independent tool proficiency — worth it when tested against the real day-to-day work, not just the salary headlines.</span>
+          </div>
+          <div class="fork-item fork-violet">
+            <strong>Telecom and networks</strong>
+            <span>RF, 5G, and network engineering roles — a genuine ECE-specific track that rarely gets compared fairly against VLSI or software.</span>
+          </div>
+          <div class="fork-item fork-blue">
+            <strong>Software roles</strong>
+            <span>Not a waste of the degree — a legitimate outcome for many ECE graduates, especially when it leads toward embedded software or signal-processing-adjacent work later.</span>
+          </div>
+        </div>
+        <p class="fork-footer">
+          None of these is automatically the safe or the prestigious choice. The comparison should run against your actual coursework strengths and project experience — not against whichever track had the loudest campus drive.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BuyerChecks
+    sectionId="check-before-paying"
+    title="What to check before booking career guidance after B.Tech ECE"
+    subtitle="The goal is a resolved core-versus-VLSI-versus-software decision — not a longer list of ECE career options."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="Generic post-engineering advice versus guidance built around the ECE fork"
+    subtitle="The difference matters most right after B.Tech ECE, when a track gets picked quietly if no one actually tests core, VLSI, embedded, telecom, and software against each other."
+    rows={comparisonRows}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Stop letting the loudest branch trend or the easiest campus offer decide for you"
+    body="One structured session, focused on your actual core-versus-VLSI-versus-software fork, ending with a direct recommendation and one proof-of-work step to start on."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After B.Tech ECE"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Guidance"
+    title="Career Guidance Plans After B.Tech ECE"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See sibling pages for broader engineering guidance, free assessments, and useful reading depending on exactly where you are right now."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions B.Tech ECE graduates ask before choosing career guidance"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Choose your ECE track on purpose, not by placement-season default"
+    subtitle="Core electronics, VLSI, embedded systems, telecom, or software — whichever fits, resolve it with a direct recommendation toward the right skill portfolio and earlier financial freedom, instead of drifting into whichever offer came first."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After B.Tech ECE"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+
+  #fork-map { padding: 4.5rem 0; }
+  .fork-card {
+    border-radius: 26px;
+    border: 1px solid rgba(45,212,191,.24);
+    background:
+      radial-gradient(560px 220px at 100% 0%, rgba(45,212,191,.09), transparent 70%),
+      rgba(255,255,255,.025);
+    padding: 2.4rem clamp(1.4rem, 4vw, 2.6rem) 2.2rem;
+  }
+  .fork-title {
+    margin: 0 0 .6rem !important;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.3;
+    letter-spacing: -.02em;
+    color: #fff;
+    max-width: 760px;
+  }
+  .fork-intro {
+    margin: 0 0 1.6rem !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.68);
+    max-width: 700px;
+  }
+  .fork-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 1rem;
+    margin-bottom: 1.6rem;
+  }
+  .fork-item {
+    display: grid;
+    gap: .4rem;
+    padding: 1.1rem 1.2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+    border-left: 3px solid rgba(255,255,255,.18);
+  }
+  .fork-item strong { color: #fff; font-size: 14.5px; }
+  .fork-item span { color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.7; }
+  .fork-teal { border-left-color: var(--teal); }
+  .fork-gold { border-left-color: #e5b84a; }
+  .fork-violet { border-left-color: #a78bfa; }
+  .fork-blue { border-left-color: #60a5fa; }
+  .fork-footer {
+    margin: 0 !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.72);
+    max-width: 760px;
+  }
+  @media (max-width: 780px) {
+    .fork-grid { grid-template-columns: 1fr; }
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.55rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.68rem, 9.2vw, 2.3rem);
+      line-height: 1.06;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

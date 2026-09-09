@@ -1,0 +1,573 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// AUDIT FIX (sitewide comparison-matrix dedupe): this page previously
+// dropped only index 5 (keeping rows 0-4), which is exactly what
+// `BOFU_COMPARISON_LIBRARY.slice(0, 5)` produces - byte-for-byte identical to
+// Rajkot, even though Rajkot uses `.slice(0, 5)` and this page used
+// `.filter((_, index) => index !== 5)`. The prior comment's uniqueness claim
+// was wrong because it compared the two by syntax instead of by the actual
+// resulting row set. Chennai now drops indices 0, 1, and 5 (keeping rows 2,
+// 3, and 4), which is a combination no other page uses. Rajkot keeps its
+// original `.slice(0, 5)` (rows 0-4) unchanged as the first-built page in
+// this pair. See also Vizag (rows 1-5, i.e. drops index 0), Bangalore (full
+// library, no drops), Pune (drops index 3), and Kolkata (drops index 1).
+const chennaiComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 0 && index !== 1 && index !== 5,
+);
+
+const title = 'Career Counselling in Chennai | Online Guidance Across India | Future Career School';
+const description =
+  'Career counselling in Chennai for students and professionals - practical online guidance for the auto, IT, and healthcare career forks unique to the city.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-chennai/';
+
+const chennaiContextItems = [
+  {
+    title: "Chennai runs on three real forks, not one - auto, IT, and healthcare",
+    body: "Chennai has been called the Detroit of India for good reason. Ford India, Hyundai Motor India, Renault-Nissan, and Ashok Leyland - headquartered here - anchor a vast auto-ancillary belt stretching from Guindy and Ambattur through Sriperumbudur and Oragadam, employing hundreds of thousands across component manufacturing, quality, and plant engineering roles. Running alongside that is the OMR IT corridor - TCS, Infosys, Cognizant, and HCL all operate large campuses along what is locally called the IT Expressway. Layered on top of both is Chennai's healthcare economy: Apollo Hospitals was founded and is headquartered here, and Madras Medical College - one of Asia's oldest medical institutions - sits alongside Sri Ramachandra and Stanley Medical College, feeding a hospital, nursing, and allied-health ecosystem that also draws medical tourism from across India and abroad. A student or professional in Chennai is rarely choosing between one path and none. They are choosing between three genuinely different economies operating inside the same city.",
+  },
+  {
+    title: "Zoho's homegrown model is a real alternative to the \"you must join a US MNC\" default",
+    body: "Most Indian tech cities push one script: get into a services giant, then aim for a foreign posting or a product company with a Silicon Valley pedigree. Chennai has a visible counter-example sitting inside its own IT corridor. Zoho was built and is headquartered here, has never taken outside venture funding, and built its own in-house training program to hire directly from ordinary district colleges rather than only elite ones - proof that a serious, well-paying tech career does not require a foreign brand name or a metro relocation bet. That does not mean Zoho is the right fit for everyone, but it changes the honest range of options worth evaluating before defaulting straight to the standard MNC-or-bust framing that dominates career advice everywhere else.",
+  },
+  {
+    title: "Anna University and Chennai's engineering-college density cut both ways",
+    body: "Tamil Nadu has one of the highest densities of engineering colleges in India, with IIT Madras and Anna University anchoring a system that also includes hundreds of affiliated colleges concentrated along the GST Road corridor through Tambaram and Chromepet. That density means genuine access to technical education, but it also means a B.Tech alone increasingly signals less than it used to - the real differentiation now comes from proof of work, specialization, and market positioning on top of the degree, not the degree by itself. Good counselling in Chennai should treat that oversupply honestly instead of pretending a general engineering degree is still a guaranteed ticket.",
+  },
+  {
+    title: "Public-sector and banking roots still matter here, quietly",
+    body: "Chennai is headquarters to Indian Bank and Indian Overseas Bank, and is home to the Integral Coach Factory - a major public-sector rail manufacturing unit at Perambur. For many Chennai families, a stable public-sector or banking role remains a genuine benchmark against which a private-sector auto, IT, or healthcare path gets measured, especially for government-exam aspirants balancing that path against a faster-moving private one. Counselling that only speaks the language of startups and product companies misses a large share of Chennai's real decision-making.",
+  },
+];
+
+const fitItems = [
+  {
+    title: 'You are weighing three genuinely different economies, not one path',
+    listItems: [
+      'Auto and manufacturing, the OMR IT corridor, and a large healthcare and hospital ecosystem all sit inside the same city',
+      'That is a wider set of real options than most Indian cities offer at this scale',
+      'More paths have not made the decision easier if you still cannot tell which one actually fits you',
+    ],
+  },
+  {
+    title: 'You want support that respects why the city search felt safer',
+    listItems: [
+      'You searched for career counselling in Chennai because the city name signals trust, proximity, and something that will not ignore your context',
+      'That instinct is reasonable, especially when family and cultural context are genuinely part of the decision here',
+      'The real filter should still be whether the guidance improves your next move, not just whether it mentions the city',
+    ],
+  },
+  {
+    title: 'You already know generic advice will not resolve this',
+    listItems: [
+      'Generic "get into IT" or "do an MBA" advice does not tell you whether auto, IT, healthcare, or a public-sector path fits your actual strengths',
+      'You need something specific to your branch, your family situation, and your risk tolerance',
+      'You want one practical next step, not another motivational talk',
+    ],
+  },
+];
+
+const chennaiAreaItems = [
+  {
+    title: "The OMR IT corridor is a real commute trade-off, not just an address",
+    body: "Sholinganallur and Siruseri sit inside the OMR - the IT Expressway - where TCS, Infosys, Cognizant, and HCL run large campuses. It is genuinely the strongest cluster of product and services IT work in the city, but it also carries some of Chennai's worst traffic despite the expressway name, with a real hour-plus commute for anyone not living close by. Someone weighing an OMR offer against a shorter commute elsewhere in the city is not making a trivial choice - it is a genuine trade-off between access to the strongest IT employers and daily time lost to travel.",
+  },
+  {
+    title: "Ambattur and Guindy anchor the manufacturing and industrial side of the decision",
+    body: "Ambattur Industrial Estate and the Guindy Industrial Estate hold a dense concentration of manufacturing, auto-ancillary, and engineering-goods units, feeding into the larger Ford, Hyundai, and Ashok Leyland supply chain further out toward Sriperumbudur and Oragadam. Someone rooted in this side of the city is often weighing plant-floor and engineering-management roles against the pull of an OMR IT job - a genuinely different career logic from someone starting in Sholinganallur.",
+  },
+  {
+    title: "T Nagar, Mylapore, and Adyar carry a different kind of pressure - staying close to family and tradition",
+    body: "T Nagar, Mylapore, and Adyar are some of Chennai's most culturally rooted neighbourhoods - dense with family businesses, traditional professions, and multi-generational households where a career decision is rarely made by one person alone. Someone from this side of the city is often weighing a stronger-paying but more distant OMR or Sriperumbudur role against staying close to ageing parents, an existing family trade, or a community that expects visible, steady progress. That is a genuinely different calculation from someone in Porur or Vadapalani, where the mix of newer residential growth and nearby engineering colleges creates a more first-generation, less tradition-bound decision.",
+  },
+];
+
+const familyRootednessItems = [
+  {
+    title: "Relocation carries a heavier cost in Chennai than the salary math alone suggests",
+    body: "In many Indian metros, moving cities for a better offer is treated as a default, low-friction move. In Chennai, a large share of families place real weight on Tamil language, culture, and staying physically close to parents and extended family - which means the honest cost of leaving is not just rent and logistics, it is genuinely fraying the support system a family relies on. That does not mean staying is always the right call, or that leaving is a betrayal. It means the trade-off deserves to be named honestly instead of being flattened into a simple salary comparison, so the decision reflects what the person and their family actually value, not just the biggest number on an offer letter.",
+  },
+  {
+    title: "A stronger local or remote-first path can lower the stakes of that decision",
+    body: "Because Chennai already holds genuine depth in IT, healthcare, and manufacturing, plus homegrown options like Zoho that do not require a metro-hopping career script, staying in Chennai does not have to mean settling for less. The more useful question is usually not stay-or-leave in the abstract - it is which specific skill direction lets someone build real income growth from where their family already is, and whether relocation is being considered for a genuinely better opportunity or simply because it is the default script everyone else seems to be following.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: "Everyone tells me to just get into TCS, Infosys, or aim for an onsite MNC role - is there another way?",
+    body: "That is the loudest default script in Chennai's IT corridor, but it is not the only real option. Zoho, built and headquartered in Chennai on no outside funding, is proof that a serious tech career does not require a foreign posting or a product-company pedigree. The stronger question is which specific path - services, product, or a homegrown company - actually fits your skills and goals, not which one is loudest on campus.",
+  },
+  {
+    title: "My family wants me to stay close to them in Chennai - am I limiting my career by not moving?",
+    body: "Not necessarily. Chennai has genuine depth across auto, IT, healthcare, and public-sector paths, so staying does not automatically mean a weaker career. The better question is whether your current skill direction is strong enough to grow from here, independent of whether you eventually move. Family closeness is a real value, not a career penalty, when the underlying skill path is sound.",
+  },
+  {
+    title: "There are so many engineering colleges around Chennai - does my degree still count for anything?",
+    body: "It counts, but it counts less on its own than it used to. Tamil Nadu's engineering-college density means a general B.Tech is now a starting point, not a differentiator. What actually separates candidates is proof of work, a clear skill direction, and market positioning built on top of the degree - not the degree by itself.",
+  },
+  {
+    title: "Should I aim for the auto sector or IT - which one actually pays better long-term?",
+    body: "It depends on the specific role and skill stack, not the industry label alone. Auto and manufacturing offer real, less crowded engineering-management and plant-leadership tracks; IT offers faster early salary growth but more competition. The honest answer requires knowing your branch, your strengths, and your risk tolerance - not a blanket industry ranking.",
+  },
+  {
+    title: "I am considering a healthcare-adjacent career because of Apollo and the hospitals here - is that still worth pursuing?",
+    body: "Chennai's hospital and medical-college ecosystem is genuinely strong, and healthcare-adjacent roles - not only doctors, but healthcare management, allied health, and hospital operations - are real, growing paths here. Whether it is worth pursuing depends on your specific interests and the entry route you are best positioned for, which is exactly the kind of decision counselling should help clarify rather than assume.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      'Whether auto and manufacturing, the OMR IT corridor, healthcare, or a public-sector path fits your actual strengths',
+      'Whether staying close to family in Chennai or relocating is the stronger move for your specific situation',
+      'Whether your current degree needs a skill layer on top of it to stand out in a crowded engineering market',
+      'What a realistic income trajectory looks like on your current path over the next few years',
+    ],
+  },
+  {
+    title: 'Skill direction built for Chennai\'s actual mix of industries',
+    listItems: [
+      'A high-value skill portfolio that holds up whether you stay in manufacturing, move into IT, or build a healthcare-adjacent path',
+      'Proof-of-work positioning that stands out against Chennai\'s dense pool of engineering graduates',
+      'Honest fit-checking between a homegrown company path, a services-IT ladder, and a product or GCC route',
+      'A clearer route toward earlier financial freedom that respects family and cultural context instead of ignoring it',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Chennai's real auto-IT-healthcare mix",
+    body: "Good guidance for Chennai should be able to speak honestly to manufacturing and auto-ancillary roles, the OMR IT corridor, and healthcare-adjacent paths - not default to generic IT-only advice that ignores two-thirds of the city's actual economy.",
+  },
+  {
+    title: "Check whether family and cultural context are treated as real, not dismissed",
+    body: "Staying close to family in Chennai is a genuine value for many people, not a limitation to be argued out of. Guidance worth paying for should help you build a strong path from where you are, whether that means staying or eventually relocating.",
+  },
+  {
+    title: "Check whether homegrown-company paths are treated as legitimate, not a lesser choice",
+    body: "A counsellor who only measures success by whether you land a foreign MNC posting is applying a script that does not fit Chennai's own successful homegrown examples. The guidance should evaluate a path on its actual merits, not its brand-name pedigree.",
+  },
+  {
+    title: "Check whether the advice accounts for engineering-degree oversupply honestly",
+    body: "With this many engineering colleges feeding the same job market, guidance that treats a degree alone as sufficient is out of date. It should help you build the specific proof of work and positioning that separates you from the rest of the pool.",
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'Online-first approach across India if your real concern is easier access rather than the city itself.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+  {
+    href: '/career-resources/how-to-ai-proof-your-career',
+    title: 'How to AI-Proof Your Career',
+    description: 'Relevant for Chennai\'s IT and services workforce weighing which skills hold up as AI tools spread.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Chennai instead of only looking for a nearby offline option?',
+    answer:
+      'Because proximity alone does not resolve a decision this specific. Chennai\'s real fork usually runs between auto and manufacturing, the OMR IT corridor, and healthcare-adjacent paths, often layered with genuine family and cultural context around staying close to home. Online guidance lets you start from home, college, or work without waiting on local availability, and it should still be judged on whether it gives you clearer trade-offs and a practical next step for your specific situation.',
+  },
+  {
+    question: 'Should I aim for a services-IT job, a homegrown company like Zoho, or a product/GCC role?',
+    answer:
+      'It depends on your skills, your risk tolerance, and what you actually want from the work - not which option sounds most prestigious. Chennai\'s IT corridor offers all three genuinely, and a homegrown, non-VC-funded company built and headquartered in the city is proof that a strong tech career does not require a foreign MNC pedigree. Good counselling should evaluate each option honestly against your actual situation.',
+  },
+  {
+    question: 'Is manufacturing and the auto sector still a good career path in Chennai?',
+    answer:
+      "Yes, for the right person. Chennai's status as a major auto and manufacturing hub - anchored by Ford, Hyundai, Renault-Nissan, and Ashok Leyland, plus the wider ancillary belt around Ambattur, Guindy, and Sriperumbudur - offers real engineering, quality, and plant-management careers that are less crowded than the IT corridor. Whether it fits you depends on your branch and interests, not a blanket ranking against IT.",
+  },
+  {
+    question: 'Does staying close to family in Chennai limit my career options?',
+    answer:
+      'Not inherently. Chennai has genuine depth across auto, IT, healthcare, and public-sector paths, so a strong career does not require relocating. The more useful question is whether your current skill direction is strong enough to grow from where you are, independent of the stay-or-move decision. Family closeness is a value to plan around, not automatically a career penalty.',
+  },
+  {
+    question: 'With so many engineering colleges around Chennai, does a general B.Tech still help?',
+    answer:
+      'It helps less on its own than it used to. Tamil Nadu\'s engineering-college density around Anna University and the GST Road corridor means a general degree is now a starting point rather than a differentiator. What separates candidates is proof of work, a clear skill direction, and positioning built on top of the degree.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Chennai?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you are staying in Chennai or weighing a move elsewhere.',
+  },
+  {
+    question: 'What if I searched for Chennai but the bigger issue is not the city at all?',
+    answer:
+      'That is common. The city search is often a trust shortcut. If the real pressure is stream selection, degree choice, skill direction, or a career change rather than location, the main counselling and guidance pages are the stronger next filter. This page is most useful when local context - the auto-IT-healthcare fork, family rootedness, or Chennai\'s engineering-college density - is genuinely part of your decision.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Chennai', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Chennai | Future Career School',
+    description:
+      'Career counselling in Chennai for students, freshers, and working professionals. Online guidance for clearer decisions between auto, IT, and healthcare career paths.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Chennai' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Chennai</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Chennai
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Chennai
+        <span class="gold-text"> for the auto, IT, and healthcare fork</span>
+      </h1>
+      <p class="hero-sub">
+        Chennai is the rare Indian city where a real automotive and manufacturing hub, a genuine IT corridor, and a strong healthcare and hospital economy all sit
+        side by side - alongside homegrown options like Zoho that prove a serious tech career does not need a foreign MNC pedigree. The goal is not to push you toward
+        whichever path is loudest. It is a high-value skill portfolio and one clear decision that moves you toward earlier financial freedom, built around your actual
+        strengths and your family's real context, not a generic script.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Chennai and across India. You can start from home, college, or work - no office visit required, and no pressure to
+        relocate before the underlying skill direction is even clear.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not whether the search started with Chennai. It is whether the guidance actually unlocks a higher-income path from the options
+        already sitting in front of you - auto, IT, healthcare, or something else entirely.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="chennai-career-landscape"
+    title="The Chennai career reality that generic advice misses"
+    subtitle="Chennai's economy is built around more genuinely distinct industries than most Indian cities offer at this scale. Good career counselling should help you build the high-value skill portfolio that unlocks high income opportunities from whichever of these paths actually fits you."
+    items={chennaiContextItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="intent-clarity"
+    title="Why this decision already feels important"
+    subtitle="When people search for career counselling in Chennai, the city name usually signals a desire for trust, proximity, and guidance that will not ignore family context. The real decision pressure is almost always about which of Chennai's genuinely different industries is worth building a high-value skill portfolio around, not finding more advice."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Chennai search already reflects a real fork, move before the wrong path gets more expensive"
+    body="Use this when you want a decision that moves you toward earlier financial freedom, not another round of comparing sectors while the pressure keeps building."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="chennai-areas"
+    title="Chennai's geography shapes the decision, not just the commute"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across the city, not treat every Chennai search as coming from the same neighbourhood."
+    items={chennaiAreaItems}
+    variant="decision"
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="The point is not another opinion added to an already crowded set of options. The point is a clearer decision, stronger skill direction, proof of work, and a real route toward earlier financial freedom."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city with three genuinely different industries pulling in different directions, the real risk is generic advice that only speaks the language of IT services. The comparison below shows what separates high-leverage guidance from that."
+    rows={chennaiComparisonRows}
+  />
+
+  <BofuFeatureSection
+    sectionId="family-rootedness"
+    title="Family and cultural context are part of the decision here, not a distraction from it"
+    subtitle="Chennai carries a stronger pull toward staying close to family and community than many faster-moving metros. Good counselling should treat that as a genuine input, not something to be talked out of."
+    items={familyRootednessItems}
+    variant="decision"
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Chennai"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process understands Chennai's actual mix of industries, respects family context, and improves your practical next step."
+    items={buyerCheckItems}
+  />
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use. Here is what that looks like across Chennai's mix of auto, IT, healthcare, and public-sector paths.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Chennai.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Chennai page when locality matters, but choose based on decision quality, not the loudest default script"
+    body="The practical value is clearer trade-offs between auto, IT, and healthcare paths, stronger skill direction, and a concrete next step before the wrong path hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Chennai" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when several genuinely different paths are pulling at once, not when there are none - and when the real goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #chennai-career-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

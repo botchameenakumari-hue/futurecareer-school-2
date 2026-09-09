@@ -143,12 +143,12 @@ export const careerRoles: CareerRole[] = [
     skills: { transferable: ['Active listening','Facilitation','Analytical writing','Stakeholder management'], roleSpecific: ['Requirements elicitation','Process modelling','Gap and root-cause analysis','Data interpretation','User stories and acceptance criteria','Solution validation'], aiDigital: ['Spreadsheet and BI fluency','AI-assisted documentation with review','Business systems and integration basics'] }
   },
   {
-    id: 'program-manager', title: 'Project / Program Manager', cluster: 'Product, strategy & operations',
+    id: 'program-manager', title: 'Project / Programme Manager', cluster: 'Product, strategy & operations',
     summary: 'Turns complex goals into coordinated, delivered outcomes.',
     does: 'Defines scope, sequences work, manages dependencies and risk, resolves blockers and keeps people aligned.',
     stages: ['college','fresher','early','mid','senior','switcher','returner'], interests: ['organise','influence','help'],
     values: ['leadership','stability','impact','mastery'], modes: ['people','structured','ambiguous','desk'],
-    entry: 'Project coordination can begin early; larger programs usually require domain and delivery experience.', growth: 'Project manager → program/portfolio lead, PMO head, operations leader or transformation director.',
+    entry: 'Project coordination can begin early; larger programmes usually require domain and delivery experience.', growth: 'Project manager → programme/portfolio lead, PMO head, operations leader or transformation director.',
     realityCheck: 'The role carries accountability without always having authority, and requires direct conversations when plans slip.',
     aiShift: 'AI automates status and scheduling; alignment, judgment, negotiation and exception handling remain central.',
     routes: ['Project coordinator route', 'Own cross-functional work in an existing role', 'Domain specialist plus delivery methods'],
@@ -164,7 +164,7 @@ export const careerRoles: CareerRole[] = [
     entry: 'Strong entry routes exist through frontline delivery, coordination, service, manufacturing and logistics roles.', growth: 'Operations manager → regional/head of operations, COO track, process excellence or consulting.',
     realityCheck: 'The work is interruption-heavy and often means owning problems that cross team boundaries.',
     aiShift: 'Automation improves planning and monitoring; resilient processes, people leadership and exception judgment matter more.',
-    routes: ['Frontline or coordinator progression', 'Graduate operations program', 'Transition from project, customer or domain role'],
+    routes: ['Frontline or coordinator progression', 'Graduate operations programme', 'Transition from project, customer or domain role'],
     proof: ['Improve a process and show cycle-time or quality change', 'Build a simple operating dashboard and weekly review ritual'],
     skills: { transferable: ['People leadership','Structured problem solving','Prioritisation','Vendor/stakeholder negotiation'], roleSpecific: ['Process design','Capacity and resource planning','Quality management','Standard operating procedures','Cost and service metrics','Risk and continuity planning'], aiDigital: ['Operations analytics','Workflow automation','AI forecasting with human exception review'] }
   },
@@ -330,7 +330,7 @@ export const careerRoles: CareerRole[] = [
     does: 'Explores a person’s context, strengths and constraints; shares labour-market information; and supports realistic experiments and decisions.',
     stages: ['college','early','mid','senior','switcher','returner','independent'], interests: ['help','analyse','organise'],
     values: ['impact','autonomy','mastery','flexibility'], modes: ['people','structured','desk','remote'],
-    entry: 'Professional standards vary by country; credible practice needs counselling skills, labour-market literacy and clear ethical boundaries.', growth: 'Practitioner → specialist counsellor, school/university lead, workforce program leader or independent practice.',
+    entry: 'Professional standards vary by country; credible practice needs counselling skills, labour-market literacy and clear ethical boundaries.', growth: 'Practitioner → specialist counsellor, school/university lead, workforce programme leader or independent practice.',
     realityCheck: 'The role is not choosing for people or promising jobs; it is helping them think, test and act with better evidence.',
     aiShift: 'AI can surface options; trust, context, emotional support, bias correction and accountable judgment remain central.',
     routes: ['Career development/counselling qualification', 'Education, HR, coaching or workforce-development transition', 'Supervised practice in school, college or employment service'],
@@ -404,15 +404,15 @@ export const careerRoles: CareerRole[] = [
   },
   {
     id: 'policy-analyst', title: 'Policy Analyst', cluster: 'Finance, risk & governance',
-    summary: 'Uses evidence to improve public or organisational rules and programs.',
+    summary: 'Uses evidence to improve public or organisational rules and programmes.',
     does: 'Researches problems, consults stakeholders, compares policy options, anticipates consequences and writes recommendations.',
     stages: ['college','fresher','early','mid','senior','switcher','returner'], interests: ['analyse','help','influence','create'],
     values: ['impact','mastery','stability','leadership'], modes: ['people','structured','desk','field'],
-    entry: 'Public policy, economics, law, social science, science and domain-expert routes are common.', growth: 'Analyst → senior adviser, program/evaluation lead, government leadership, think tank or public-affairs role.',
+    entry: 'Public policy, economics, law, social science, science and domain-expert routes are common.', growth: 'Analyst → senior adviser, programme/evaluation lead, government leadership, think tank or public-affairs role.',
     realityCheck: 'Evidence competes with politics, budgets and implementation limits; progress can be slow and indirect.',
     aiShift: 'AI speeds review and scenario work; source integrity, public judgment, consultation and accountability remain essential.',
-    routes: ['Policy/social-science postgraduate or graduate role', 'Research/advocacy/program transition', 'Domain expert moving into standards or government affairs'],
-    proof: ['Write a balanced policy brief with options and trade-offs', 'Evaluate a public program using transparent evidence and limitations'],
+    routes: ['Policy/social-science postgraduate or graduate role', 'Research/advocacy/programme transition', 'Domain expert moving into standards or government affairs'],
+    proof: ['Write a balanced policy brief with options and trade-offs', 'Evaluate a public programme using transparent evidence and limitations'],
     skills: { transferable: ['Critical thinking','Research synthesis','Plain-language writing','Stakeholder consultation'], roleSpecific: ['Policy research methods','Economic/social evidence literacy','Option and impact analysis','Regulatory/legislative awareness','Program evaluation','Briefing and consultation'], aiDigital: ['Data analysis/visualisation','AI-assisted review with citation verification','Open-data and privacy literacy'] }
   },
   {
@@ -429,16 +429,16 @@ export const careerRoles: CareerRole[] = [
     skills: { transferable: ['Attention to detail','Ethical judgment','Participant communication','Cross-site coordination'], roleSpecific: ['Research design basics','Good Clinical Practice','Protocol and consent procedures','Clinical data management','Safety and adverse-event processes','Regulatory documentation'], aiDigital: ['Clinical trial systems','Data-quality and statistical literacy','Health-data privacy and AI evidence appraisal'] }
   },
   {
-    id: 'public-health-manager', title: 'Public Health Program Manager', cluster: 'Health, science & care',
-    summary: 'Designs and delivers programs that improve health at population scale.',
+    id: 'public-health-manager', title: 'Public Health Programme Manager', cluster: 'Health, science & care',
+    summary: 'Designs and delivers programmes that improve health at population scale.',
     does: 'Assesses needs, coordinates services and partners, manages resources, tracks outcomes and adapts interventions to communities.',
     stages: ['college','fresher','early','mid','senior','switcher','returner'], interests: ['help','organise','analyse','influence'],
     values: ['impact','leadership','stability','mastery'], modes: ['people','field','structured','active'],
-    entry: 'Public health, medicine, nursing, social science, development and program-operations backgrounds are common.', growth: 'Coordinator → program manager/director, health policy, epidemiology, global health or nonprofit leadership.',
-    realityCheck: 'Community trust, logistics, funding and unequal access can matter as much as technical program design.',
+    entry: 'Public health, medicine, nursing, social science, development and program-operations backgrounds are common.', growth: 'Coordinator → programme manager/director, health policy, epidemiology, global health or nonprofit leadership.',
+    realityCheck: 'Community trust, logistics, funding and unequal access can matter as much as technical programme design.',
     aiShift: 'AI improves surveillance and planning, but local context, equity, trust, consent and resource decisions require human leadership.',
-    routes: ['Public-health or allied-health education', 'Community/NGO health program role', 'Healthcare professional moving into population programs'],
-    proof: ['Design a needs assessment and intervention logic model', 'Evaluate a real or simulated program with equity and implementation measures'],
+    routes: ['Public-health or allied-health education', 'Community/NGO health programme role', 'Healthcare professional moving into population programmes'],
+    proof: ['Design a needs assessment and intervention logic model', 'Evaluate a real or simulated programme with equity and implementation measures'],
     skills: { transferable: ['Community empathy','Program management','Partnership building','Evidence communication'], roleSpecific: ['Epidemiology basics','Needs assessment','Program design and evaluation','Health promotion','Budget and grant management','Equity and safeguarding'], aiDigital: ['Public-health data tools','Digital health literacy','Responsible use of health data and predictive systems'] }
   },
   {
@@ -489,14 +489,14 @@ export const careerRoles: CareerRole[] = [
     entry: 'Vocational training, apprenticeship and required electrical/safety credentials are primary routes.', growth: 'Technician → senior technician, site supervisor, commissioning specialist, trainer or service business owner.',
     realityCheck: 'Outdoor work, heights, travel, physical safety and regulation may be part of the job; training cannot be replaced by online tutorials.',
     aiShift: 'Remote monitoring improves diagnosis, while hands-on installation, safety judgment and field repair remain difficult to automate.',
-    routes: ['Accredited electrical/renewable-energy vocational program', 'Supervised apprenticeship', 'Licensed electrical technician adding renewable specialisation'],
+    routes: ['Accredited electrical/renewable-energy vocational programme', 'Supervised apprenticeship', 'Licensed electrical technician adding renewable specialisation'],
     proof: ['Complete supervised practical assessments', 'Document safe inspection, fault-finding and commissioning in approved training'],
     skills: { transferable: ['Safety discipline','Team communication','Problem solving','Customer/service orientation'], roleSpecific: ['Electrical fundamentals','System installation','Testing and commissioning','Fault diagnosis','Preventive maintenance','Codes, permits and worksite safety'], aiDigital: ['Digital meters and monitoring systems','Maintenance diagnostics','Technical documentation and mobile field tools'] }
   },
   {
     id: 'industrial-automation-technician', title: 'Industrial Automation Technician', cluster: 'Green, infrastructure & skilled work',
     summary: 'Keeps automated machinery and control systems working reliably.',
-    does: 'Installs sensors and controls, reads diagrams, diagnoses equipment failures, programs basic automation and performs safe maintenance.',
+    does: 'Installs sensors and controls, reads diagrams, diagnoses equipment failures, programmes basic automation and performs safe maintenance.',
     stages: ['school','college','fresher','early','mid','switcher','returner'], interests: ['build','analyse','organise'],
     values: ['stability','income','mastery','impact'], modes: ['active','field','structured','people'],
     entry: 'Diploma, ITI/vocational training or apprenticeship in electrical, instrumentation, mechatronics or automation is typical.', growth: 'Technician → controls engineer, maintenance lead, commissioning specialist, plant automation or service business.',
@@ -507,23 +507,23 @@ export const careerRoles: CareerRole[] = [
     skills: { transferable: ['Safety discipline','Logical troubleshooting','Team handovers','Continuous improvement'], roleSpecific: ['Electrical and instrumentation basics','PLC programming','Sensors and actuators','Control-panel and diagram reading','Industrial networking basics','Preventive and corrective maintenance'], aiDigital: ['HMI/SCADA systems','Condition monitoring and data logging','Cybersecurity awareness for operational technology'] }
   },
   {
-    id: 'social-impact-manager', title: 'Social Impact Program Manager', cluster: 'Community & public service',
-    summary: 'Turns a social mission into a program that delivers measurable benefit.',
+    id: 'social-impact-manager', title: 'Social Impact Programme Manager', cluster: 'Community & public service',
+    summary: 'Turns a social mission into a programme that delivers measurable benefit.',
     does: 'Co-designs interventions with communities, coordinates partners and budgets, tracks outcomes and learns what works.',
     stages: ['school','college','fresher','early','mid','senior','switcher','returner','independent'], interests: ['help','organise','influence','analyse'],
     values: ['impact','leadership','autonomy','mastery'], modes: ['people','field','ambiguous','active'],
-    entry: 'Routes include development studies, social science, education, public health and hands-on community/NGO experience.', growth: 'Coordinator → program manager/director, monitoring and evaluation, philanthropy, policy or nonprofit leadership.',
+    entry: 'Routes include development studies, social science, education, public health and hands-on community/NGO experience.', growth: 'Coordinator → programme manager/director, monitoring and evaluation, philanthropy, policy or nonprofit leadership.',
     realityCheck: 'Good intentions are insufficient; power, safeguarding, funding restrictions and unintended effects must be managed.',
     aiShift: 'Digital tools support outreach and measurement, but legitimacy, trust, inclusion and ethical field judgment are local and human.',
-    routes: ['Volunteer/intern with supervised responsibility', 'Development/social-science education', 'Domain professional moving into mission-led programs'],
-    proof: ['Create a participatory needs assessment and theory of change', 'Evaluate a small program with participant voice and outcome evidence'],
+    routes: ['Volunteer/intern with supervised responsibility', 'Development/social-science education', 'Domain professional moving into mission-led programmes'],
+    proof: ['Create a participatory needs assessment and theory of change', 'Evaluate a small programme with participant voice and outcome evidence'],
     skills: { transferable: ['Community listening','Partnership building','Facilitation','Resourceful problem solving'], roleSpecific: ['Participatory needs assessment','Program and theory-of-change design','Budget and grant management','Monitoring and evaluation','Safeguarding and inclusion','Field operations and reporting'], aiDigital: ['Data collection and visualisation','Digital inclusion and accessibility','Responsible beneficiary-data handling'] }
   },
   {
     id:'nursing-allied-health', title:'Nursing & Allied Health Professional', cluster:'Health, science & care', summary:'Delivers skilled, person-centred care across hospitals, clinics and communities.',
     does:'Assesses needs, performs authorised clinical care, monitors change, educates patients and coordinates safely with a multidisciplinary team.', stages:['school','college','fresher','early','mid','senior','returner'], interests:['help','analyse','organise'], values:['impact','stability','mastery','leadership'], modes:['people','active','structured','field'],
     entry:'Requires locally recognised education, clinical placements and registration for the chosen profession; scopes vary sharply by country.', growth:'Practitioner → specialist, educator, advanced practice, service leadership, research or public health.', realityCheck:'Shift work, emotional exposure, physical demands, documentation and patient-safety accountability are central.', aiShift:'AI supports documentation, monitoring and decision prompts; hands-on assessment, trust, escalation and accountable clinical judgment remain human.',
-    routes:['Accredited nursing or allied-health degree/diploma','Recognised bridge or return-to-practice program','Support-worker pathway into regulated study'], proof:['Complete supervised clinical competency assessments','Create a de-identified care-education resource and evaluate understanding'],
+    routes:['Accredited nursing or allied-health degree/diploma','Recognised bridge or return-to-practice programme','Support-worker pathway into regulated study'], proof:['Complete supervised clinical competency assessments','Create a de-identified care-education resource and evaluate understanding'],
     skills:{transferable:['Compassionate communication','Observation and escalation','Team coordination','Emotional self-regulation'],roleSpecific:['Clinical assessment within scope','Safe care procedures','Medication or treatment safety','Patient education','Care planning and documentation','Infection prevention'],aiDigital:['Electronic health-record fluency','Clinical decision-support verification','Privacy and digital health literacy']}
   },
   {
@@ -550,7 +550,7 @@ export const careerRoles: CareerRole[] = [
   {
     id:'hospitality-guest-operations', title:'Hospitality & Guest Operations Professional', cluster:'Service, hospitality & local business', summary:'Creates dependable guest experiences while coordinating fast-moving service operations.',
     does:'Handles arrivals and requests, resolves service failures, coordinates rooms or venues, manages handovers and protects safety and quality.', stages:['school','college','fresher','early','mid','returner','switcher','independent'], interests:['help','organise','influence'], values:['stability','leadership','income','mastery'], modes:['people','active','structured','ambiguous'],
-    entry:'Accessible through vocational hospitality programs, apprenticeships or frontline progression; language and service evidence matter.', growth:'Guest-service associate → supervisor, department manager, operations leader, revenue role or independent property operator.', realityCheck:'Peak periods, standing, nights, weekends, complaints and emotional composure are normal parts of the work.', aiShift:'Self-service and automated pricing grow; recovery, local knowledge, coordination and memorable human service differentiate.',
+    entry:'Accessible through vocational hospitality programmes, apprenticeships or frontline progression; language and service evidence matter.', growth:'Guest-service associate → supervisor, department manager, operations leader, revenue role or independent property operator.', realityCheck:'Peak periods, standing, nights, weekends, complaints and emotional composure are normal parts of the work.', aiShift:'Self-service and automated pricing grow; recovery, local knowledge, coordination and memorable human service differentiate.',
     routes:['Frontline hotel/venue role with progression','Hospitality vocational diploma or apprenticeship','Transfer from retail, travel or customer service'], proof:['Run a simulated shift handover and service-recovery scenario','Redesign one guest journey and test the instructions with users'],
     skills:{transferable:['Service communication','Composure under pressure','Cross-team coordination','Practical problem solving'],roleSpecific:['Guest journey operations','Reservations and front-office process','Service recovery','Housekeeping or venue coordination','Safety and incident procedure','Revenue and occupancy basics'],aiDigital:['Property-management systems','AI-assisted service with review','Digital reputation and guest-data privacy']}
   },
@@ -558,14 +558,14 @@ export const careerRoles: CareerRole[] = [
     id:'culinary-food-operations', title:'Culinary & Food Operations Professional', cluster:'Service, hospitality & local business', summary:'Produces safe, consistent food while coordinating time, quality, cost and people.',
     does:'Prepares food, controls hygiene and allergens, plans production, manages waste and works through intense service periods.', stages:['school','college','fresher','early','mid','returner','switcher','independent'], interests:['create','build','organise'], values:['creativity','mastery','autonomy','income'], modes:['active','people','structured'],
     entry:'Vocational culinary training, apprenticeship and supervised kitchen experience are common; food-safety certification is essential.', growth:'Commis/cook → station lead, chef, production manager, food entrepreneur or product-development specialist.', realityCheck:'Heat, repetition, cleaning, early or late shifts, physical strain and thin margins sit behind the creative highlights.', aiShift:'Forecasting, ordering and menu ideation automate; sensory judgment, safe execution, coordination and distinctive craft remain physical.',
-    routes:['Kitchen apprenticeship or vocational program','Entry kitchen role plus food-safety training','Home-food or adjacent service route formalised through compliant supervised practice'], proof:['Complete a timed supervised production with hygiene checks','Cost and produce a small menu while measuring waste and consistency'],
+    routes:['Kitchen apprenticeship or vocational programme','Entry kitchen role plus food-safety training','Home-food or adjacent service route formalised through compliant supervised practice'], proof:['Complete a timed supervised production with hygiene checks','Cost and produce a small menu while measuring waste and consistency'],
     skills:{transferable:['Time-critical coordination','Sensory attention','Team communication','Continuous improvement'],roleSpecific:['Food preparation techniques','Food safety and allergen control','Mise en place and production planning','Recipe consistency and scaling','Costing and waste control','Kitchen equipment safety'],aiDigital:['Digital ordering and inventory','Demand forecasting basics','Responsible AI-assisted menu planning']}
   },
   {
     id:'retail-merchandising-operations', title:'Retail & Merchandising Operations Specialist', cluster:'Service, hospitality & local business', summary:'Connects customer needs, product presentation and reliable store or omnichannel delivery.',
     does:'Supports customers, manages stock and displays, coordinates promotions, prevents loss and improves daily commercial operations.', stages:['school','college','fresher','early','mid','returner','switcher','independent'], interests:['help','organise','influence','analyse'], values:['stability','income','leadership','mastery'], modes:['people','active','structured'],
     entry:'Frontline entry is widely accessible; progression comes through service evidence, commercial judgment and operational reliability.', growth:'Associate → department lead, store manager, visual merchandiser, buyer, category or omnichannel operations.', realityCheck:'Standing, weekend schedules, targets, difficult interactions and repetitive recovery work are common.', aiShift:'Checkout, forecasting and routine recommendations automate; trust, recovery, local demand sensing and team leadership persist.',
-    routes:['Frontline store or fulfilment role','Retail/merchandising vocational program','Transfer from hospitality, sales or small business'], proof:['Audit and improve a small product display using customer observation','Build a stock, promotion and service-recovery simulation'],
+    routes:['Frontline store or fulfilment role','Retail/merchandising vocational programme','Transfer from hospitality, sales or small business'], proof:['Audit and improve a small product display using customer observation','Build a stock, promotion and service-recovery simulation'],
     skills:{transferable:['Customer communication','Commercial awareness','Reliability and teamwork','Conflict de-escalation'],roleSpecific:['Customer-needs discovery','Visual merchandising','Inventory and replenishment','Point-of-sale operations','Loss prevention and safety','Promotion and store performance'],aiDigital:['Omnichannel order systems','Demand and inventory dashboards','Responsible customer-data use']}
   },
   {
@@ -585,7 +585,7 @@ export const careerRoles: CareerRole[] = [
   {
     id:'precision-agriculture-technician', title:'Agriculture & Precision Farming Technician', cluster:'Food, land & environmental systems', summary:'Combines crop or livestock knowledge with practical machinery, sensing and resource management.',
     does:'Monitors field conditions, operates and maintains equipment, supports planting or husbandry, records inputs and responds to weather and biological risk.', stages:['school','college','fresher','early','mid','returner','switcher','independent'], interests:['build','analyse','organise'], values:['impact','autonomy','stability','mastery'], modes:['active','field','structured','ambiguous'],
-    entry:'Routes include agricultural vocational programs, farm apprenticeships, diplomas and experience; machinery and chemical rules vary locally.', growth:'Technician/operator → farm manager, crop adviser, equipment specialist, precision-ag consultant or producer.', realityCheck:'Weather, seasonality, early hours, physical risk and uncertain yields shape the work; technology does not remove biological complexity.', aiShift:'Remote sensing and prediction expand, while local observation, equipment care, responsible input decisions and biological judgment remain vital.',
+    entry:'Routes include agricultural vocational programmes, farm apprenticeships, diplomas and experience; machinery and chemical rules vary locally.', growth:'Technician/operator → farm manager, crop adviser, equipment specialist, precision-ag consultant or producer.', realityCheck:'Weather, seasonality, early hours, physical risk and uncertain yields shape the work; technology does not remove biological complexity.', aiShift:'Remote sensing and prediction expand, while local observation, equipment care, responsible input decisions and biological judgment remain vital.',
     routes:['Farm apprenticeship or supervised work','Agricultural diploma/vocational study','Machinery or environmental technician transition'], proof:['Create a supervised field-monitoring and action log','Calibrate a training sensor or equipment workflow and document safe decisions'],
     skills:{transferable:['Practical observation','Resource planning','Equipment care','Decision-making under uncertainty'],roleSpecific:['Crop or livestock fundamentals','Soil, water and input stewardship','Machinery operation and maintenance','Pest/disease observation','Seasonal production planning','Farm safety and biosecurity'],aiDigital:['GPS and sensor systems','Farm data interpretation','Remote-sensing verification']}
   },
@@ -600,7 +600,7 @@ export const careerRoles: CareerRole[] = [
     id:'fleet-service-technician', title:'Vehicle & Fleet Service Technician', cluster:'Transport, logistics & essential operations', summary:'Diagnoses, maintains and repairs vehicles so people and goods move safely.',
     does:'Inspects systems, finds faults, performs authorised repairs, uses diagnostic tools and documents safe return to service.', stages:['school','college','fresher','early','mid','switcher','returner','independent'], interests:['build','analyse','help'], values:['income','stability','mastery','autonomy'], modes:['active','structured','people'],
     entry:'Apprenticeship or vocational automotive training is typical; electric/high-voltage and inspection credentials vary locally.', growth:'Technician → diagnostic specialist, EV technician, workshop supervisor, fleet engineer or repair-business owner.', realityCheck:'Physical strain, dirty work, tool cost, time pressure and safety liability coexist with satisfying diagnosis and repair.', aiShift:'Diagnostics become software-rich and fleets electrify; physical verification, repair quality and safety sign-off remain human.',
-    routes:['Automotive apprenticeship','Vocational vehicle-service program','Mechanical technician transition into EV/high-voltage systems'], proof:['Complete supervised inspection, diagnosis and repair assessments','Document a training fault from symptom through verified fix'],
+    routes:['Automotive apprenticeship','Vocational vehicle-service programme','Mechanical technician transition into EV/high-voltage systems'], proof:['Complete supervised inspection, diagnosis and repair assessments','Document a training fault from symptom through verified fix'],
     skills:{transferable:['Logical troubleshooting','Customer explanation','Safety discipline','Documentation'],roleSpecific:['Mechanical systems fundamentals','Electrical and electronic diagnosis','Inspection and preventive maintenance','Repair procedures and torque discipline','Workshop tools and safety','EV/high-voltage awareness'],aiDigital:['Computerised diagnostic systems','Digital service information','Connected-vehicle data privacy']}
   },
   {

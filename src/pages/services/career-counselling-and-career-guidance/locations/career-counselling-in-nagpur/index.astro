@@ -1,0 +1,559 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// AUDIT FIX (sitewide comparison-matrix dedupe): this page previously dropped
+// only index 4, which was byte-for-byte identical to Chandigarh, Gurgaon, and
+// Mumbai (all of which also dropped only index 4) - the prior comment's claim
+// of uniqueness was wrong because it was never checked against those three
+// pages. Nagpur now drops indices 0, 1, and 4 (keeping rows 2, 3, and 5),
+// which is a combination no other page uses. Chandigarh keeps the original
+// single-index drop (index 4) as the first-built page in that group;
+// Gurgaon now drops indices 0, 1, and 2; Mumbai now drops indices 0, 1, and
+// 3. See also Rajkot (rows 0-4, i.e. drops index 5) and Vizag (rows 1-5, i.e.
+// drops index 0), which remain unchanged as the two original pages.
+const nagpurComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 0 && index !== 1 && index !== 4,
+);
+
+const title = 'Career Counselling in Nagpur | Stay or Move for Growth | Future Career School';
+const description =
+  "Career counselling in Nagpur for students, freshers, and working professionals weighing whether to build a career from the Zero Mile City's MIHAN and IT-SEZ growth or move to a bigger metro.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-nagpur/';
+
+const nagpurContextItems = [
+  {
+    title: 'Nagpur sits at the Zero Mile Center of India - and its economy is finally catching up to that geography',
+    body: "The Zero Mile Stone near Nagpur's Vidhan Bhavan marks the geographical center of India, a fact the city has known for over a century without it translating into much career weight. That is changing through MIHAN - the Multi-modal International Cargo Hub and Airport at Nagpur - built specifically to turn the city's central location into a national air-cargo and logistics advantage. Boeing runs a maintenance and defence-linked facility inside MIHAN, TAL Manufacturing Solutions (part of the Tata group) builds aerostructures there, and an IT-SEZ block inside the same zone now hosts campuses for Infosys, TCS, and Persistent Systems. It is real, but it is still a fraction of the scale a Pune or Hyderabad IT corridor offers, so the honest question for anyone in Nagpur is whether a specific skill direction already has an opening inside this growing zone, not whether the zone exists at all.",
+  },
+  {
+    title: 'VNIT and Nagpur\'s colleges produce strong graduates a thin local market has historically pushed out',
+    body: "Visvesvaraya National Institute of Technology (VNIT) is one of India's older and more respected NITs, sitting in South Ambazari Road alongside a wider base of engineering and medical colleges across the city. For years, the realistic path for a strong VNIT or Nagpur graduate meant leaving for Pune, Mumbai, Bangalore, or Hyderabad, because the local market simply did not have enough high-paying openings to absorb that talent. MIHAN and the IT-SEZ are the first real attempt to change that math, but the shift is gradual and concentrated in specific skill types - aerospace and aerostructure engineering, logistics and supply-chain operations, and applied IT services - not a blanket signal that every skill direction now has a strong local home.",
+  },
+  {
+    title: 'Orange trade, cotton, and Vidarbha\'s agri-industrial belt still anchor a real share of Nagpur\'s jobs',
+    body: "Nagpur is known across India as the Orange City, and the orange and cotton trade behind that name is not a nostalgic label - it still runs a genuine mandi and agro-processing economy that employs a meaningful share of the region. Alongside it sits an industrial base most outsiders underestimate: Butibori, one of the largest MIDC industrial estates in Asia, and the Hingna and Kalmeshwar industrial belts host manufacturing, auto-ancillary, and agro-processing units; Western Coalfields Limited and MahaGenco's thermal plants at Koradi and Khaparkheda anchor a large public-sector energy and coal workforce; and Nagpur's position as a major railway junction and a South East Central Railway node adds another steady stream of technical and operational roles. None of this looks like Bangalore's tech glamour, but dismissing it outright ignores where a real share of Nagpur's stable income actually comes from.",
+  },
+  {
+    title: 'Nagpur carries an administrative weight beyond its population - Maharashtra\'s winter capital',
+    body: "Under an arrangement dating back to the 1953 Nagpur Pact made when Vidarbha merged into Maharashtra, the state legislature holds its winter session in Nagpur every year at the city's Vidhan Bhavan, giving Nagpur a real, if seasonal, government and administrative economy alongside its industrial base. The city is also home to the national headquarters of the Rashtriya Swayamsevak Sangh in Reshimbagh, part of why Nagpur carries an outsized civic and institutional identity relative to a mid-sized city. For students weighing a government-exam or administrative-services path against MIHAN's newer private-sector openings, that dual identity is worth naming honestly rather than assuming Nagpur is purely an industrial or purely a government town.",
+  },
+];
+
+const stayOrMoveItems = [
+  {
+    title: 'Nagpur\'s job market has historically pushed its strongest graduates out',
+    listItems: [
+      "For most of the last two decades, a Nagpur engineering, commerce, or IT graduate aiming for a strong salary had one realistic playbook: move to Pune, Mumbai, Bangalore, or Hyderabad, because Nagpur simply did not have enough high-paying roles to absorb that ambition locally",
+      "That pattern is real and still true for a large share of career paths today, not something to pretend has already reversed",
+      "The honest starting point is naming which specific paths this still applies to, rather than assuming either 'Nagpur has no opportunity' or 'Nagpur has already arrived' as a blanket answer",
+    ],
+  },
+  {
+    title: 'MIHAN and the IT-SEZ are changing the math, but unevenly and slowly',
+    listItems: [
+      "Boeing's MIHAN facility, TAL Manufacturing Solutions, and IT-SEZ campuses for Infosys, TCS, and Persistent Systems are genuine, growing local employers - not a marketing story",
+      "But the volume of roles inside MIHAN is still a fraction of what Pune's Hinjewadi corridor or Hyderabad's HITEC City generates, so 'Nagpur is growing' should not be read as 'Nagpur already matches a metro'",
+      "The stronger next move is a deliberate high-value skill portfolio built for what MIHAN and Nagpur's IT-SEZ are actually hiring for now, so the decision to stay is based on a real opening rather than hope",
+    ],
+  },
+  {
+    title: 'The real question is not Nagpur vs. a metro in general - it is your specific skill fit right now',
+    listItems: [
+      "Some skill directions - aerostructure and logistics engineering, applied IT-services roles inside the SEZ, agro-processing and supply-chain work - already have a genuine local opening worth building toward",
+      "Others still need a metro's density of employers, mentors, and peer competition for a few years before a return to Nagpur (or staying permanently) makes sense",
+      "Getting this specific decision right, instead of guessing from general city reputation, is what actually moves someone toward unlocking high income opportunities and earlier financial freedom - whether that plays out from Nagpur or from a metro first",
+    ],
+  },
+];
+
+const nagpurAreaItems = [
+  {
+    title: "MIHAN, Wardha Road, and Ajni are where Nagpur's newest economy is actually built",
+    body: "MIHAN itself, along with the Wardha Road corridor and the Ajni area that feeds into it, is where Boeing, TAL Manufacturing, and the IT-SEZ campuses for Infosys, TCS, and Persistent Systems actually sit. This is genuinely the closest thing Nagpur has to a modern tech-and-aerospace corridor, and it is where most of the city's new private-sector hiring growth is concentrated - though still on a smaller scale than a metro IT corridor.",
+  },
+  {
+    title: "Butibori, Hingna, and Kalmeshwar carry the older industrial and agro-processing economy",
+    body: "Butibori's MIDC estate, one of the largest in Asia, along with the Hingna industrial area and the agro-processing belt around Kalmeshwar, form Nagpur's manufacturing and agri-industrial backbone. Someone rooted in this side of the city is often weighing a stable manufacturing, plant-operations, or agro-processing role against the newer, more competitive pull of MIHAN's IT-SEZ - a genuinely different calculation from someone starting near Ajni or Wardha Road.",
+  },
+  {
+    title: "Civil Lines, Dharampeth, Ramdaspeth, and Sadar carry Nagpur's administrative and professional identity",
+    body: "Civil Lines and Sadar hold much of Nagpur's government, defence-establishment, and administrative presence, including the seasonal weight of the state legislature's winter session at Vidhan Bhavan. Dharampeth and Ramdaspeth are dense with professional families, coaching institutes, and VNIT-adjacent student life, while Sitabuldi remains the old commercial core. Someone from this part of the city is often weighing a government-exam or stable-services path against MIHAN's newer, less certain private-sector openings.",
+  },
+  {
+    title: "Manish Nagar, Trimurti Nagar, Seminary Hills, and Congress Nagar show the newer residential spread",
+    body: "Manish Nagar, Trimurti Nagar, and Seminary Hills reflect Nagpur's newer, more first-generation residential growth, often closer to Wardha Road and the MIHAN commute, while Congress Nagar and Reshimbagh sit closer to the city's older civic core. The mix matters because it shapes whether a family's default expectation leans toward a stable government or established-business path, or is already more open to a newer private-sector or IT-SEZ direction.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: "Everyone tells me Nagpur has no real jobs besides government work and the orange trade - is that still true?",
+    body: "It is true for a large share of roles, but not the whole picture. Nagpur's stable income has long come from government and administrative work, the coal and power PSU sector, railways, and the orange and cotton trade. MIHAN's Boeing facility, TAL Manufacturing, and IT-SEZ campuses are a real, additional layer now - just a smaller one than a Pune or Hyderabad corridor. The honest answer depends on which specific skill direction you are building, not a blanket yes or no about the whole city.",
+  },
+  {
+    title: "Should I wait for MIHAN to fully develop, or move to Pune, Mumbai, or Hyderabad now?",
+    body: "Waiting on a timeline nobody can promise is a weak strategy either way. The better question is whether your specific skill direction already has a genuine opening inside MIHAN or Nagpur's IT-SEZ today. If it does, building toward that local opening can work. If it does not yet, a metro may offer more density of employers and faster skill compounding for a few years - a decision worth making deliberately, not by waiting passively.",
+  },
+  {
+    title: "Is a VNIT degree, or any Nagpur college degree, enough on its own in a market this thin?",
+    body: "A VNIT degree carries real weight, but a thin local job market makes proof of work and a clear skill direction matter even more than in a metro with a deeper hiring pool. The degree gets you considered; a visible skill portfolio and demonstrated work are what actually compete for MIHAN's aerospace, logistics, and IT-SEZ roles, or for a strong out-of-Nagpur opportunity if that is the better near-term move.",
+  },
+  {
+    title: "My family does not want me to leave Nagpur - does that mean fewer real options?",
+    body: "Not automatically. MIHAN, the IT-SEZ, Nagpur's agro-industrial base, the coal and power PSU sector, and the winter-capital administrative economy together offer more genuine variety than most people assume. The more useful question is whether your current skill direction is strong enough to grow from Nagpur specifically, independent of the stay-or-move debate in the abstract.",
+  },
+  {
+    title: "Nagpur is called Maharashtra's second capital - does that mean government jobs are the safer bet here?",
+    body: "The winter-session legislature and the wider administrative presence around Civil Lines do make government and public-sector paths a genuinely stronger local option here than in many other tier-2 cities. But 'safer' still depends on your own fit for exam-based, service-oriented work versus the private-sector direction MIHAN is opening up - not an automatic default because the city holds that status.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      'Whether your skill direction already has a real opening inside MIHAN, Nagpur\'s IT-SEZ, or the wider industrial and agro-processing belt',
+      'Whether staying close to family and building from Nagpur, or moving to Pune, Mumbai, or Hyderabad for a few years first, is the stronger move for your specific situation',
+      'Whether a government or administrative path genuinely fits you, given Nagpur\'s winter-capital status, or whether that is only a default expectation worth questioning',
+      'What a realistic income trajectory looks like on your current path over the next few years, given how thin or thick the local market actually is for it',
+    ],
+  },
+  {
+    title: 'Skill direction built for what Nagpur\'s actual economy is hiring for',
+    listItems: [
+      'A high-value skill portfolio aimed at MIHAN\'s aerospace, logistics, and IT-SEZ roles if that is genuinely your fit',
+      'Proof-of-work positioning strong enough to compete for a metro role, if the honest read is that Nagpur\'s market is not there yet for your specific direction',
+      'Honest fit-checking between a government-exam path, an MIHAN private-sector role, and a metro move, instead of defaulting to whichever option your family expects',
+      'A clearer route toward earlier financial freedom that treats Nagpur\'s real economy - not an assumed one - as the starting point',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Nagpur's actual mix - not just a generic tier-2-city script",
+    body: "Good guidance for Nagpur should be able to speak specifically to MIHAN's aerospace and logistics roles, the IT-SEZ's early-stage IT-services hiring, the coal and power PSU sector, the orange-trade and agro-industrial belt, and the winter-capital administrative economy - not treat Nagpur as an undifferentiated smaller city.",
+  },
+  {
+    title: "Check whether the advice is honest about scale, not just optimistic about MIHAN",
+    body: "MIHAN and the IT-SEZ are real, but they are still a fraction of what a Pune or Hyderabad corridor offers. Guidance worth paying for should tell you plainly when a metro move genuinely serves your specific skill direction better right now, instead of overselling Nagpur's growth story to keep you local.",
+  },
+  {
+    title: "Check whether staying close to family in Nagpur is treated as a real constraint to plan around, not argued out of",
+    body: "Wanting to stay near family, or being expected to, is a genuine factor for many Nagpur students and professionals. Guidance should help build the strongest possible path from Nagpur when that is the goal, not push relocation as the only serious option.",
+  },
+  {
+    title: "Check whether the guidance treats Nagpur's agri-industrial and PSU economy as a legitimate path, not a fallback",
+    body: "A counsellor who only measures success by an IT-SEZ or metro-tech offer is missing a real share of Nagpur's stable, well-paying work in coal and power, railways, and agro-processing. The guidance should evaluate a path on its actual merits for you, not its resemblance to a metro tech career.",
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.puneCounselling,
+    title: 'Career Counselling in Pune',
+    description: 'Useful if the metro you are weighing against Nagpur is specifically Pune, and its automotive-vs-IT fork is part of your decision.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.hyderabadCounselling,
+    title: 'Career Counselling in Hyderabad',
+    description: 'Useful if Hyderabad\'s tech, GCC, and pharma corridor is the metro option you are weighing against staying in Nagpur.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Nagpur instead of only looking for a nearby offline option?',
+    answer:
+      "Because proximity alone does not resolve Nagpur's real fork - whether to build a career on MIHAN's growing aerospace, logistics, and IT-SEZ base, or move to Pune, Mumbai, or Hyderabad for a stronger opening right now. Online guidance lets you start from home, a VNIT or other campus, or work near MIHAN or the old city without waiting on local availability, and it should still be judged on whether it gives you a clear, specific answer for your situation.",
+  },
+  {
+    question: 'Should I wait for Nagpur\'s MIHAN and IT-SEZ to grow, or move to Pune, Mumbai, or Hyderabad now?',
+    answer:
+      "That depends on whether your specific skill direction already has a genuine opening inside MIHAN or Nagpur's IT-SEZ today, not on how promising the growth story sounds in general. Boeing's facility, TAL Manufacturing, and the Infosys, TCS, and Persistent Systems campuses are real employers, but still a smaller pool than a metro corridor. Good counselling should map your actual fit against that real, current picture rather than a hopeful future one.",
+  },
+  {
+    question: 'Is a VNIT degree, or any Nagpur college degree, enough to compete for MIHAN or IT-SEZ roles?',
+    answer:
+      'It helps, but a thinner local job market makes proof of work matter more, not less. What actually competes for MIHAN\'s aerospace, logistics, and IT-SEZ roles - or for a stronger out-of-Nagpur opportunity - is a clear skill direction and visible work built on top of the degree, not the degree by itself.',
+  },
+  {
+    question: 'Does staying close to family in Nagpur limit my career options?',
+    answer:
+      "Not inherently. Nagpur has genuine depth across MIHAN's aerospace and logistics roles, the IT-SEZ, coal and power PSUs, railways, and the orange-trade and agro-industrial belt, plus a real winter-capital administrative economy. The more useful question is whether your current skill direction is strong enough to grow from where you are, independent of the stay-or-move decision.",
+  },
+  {
+    question: 'Is Nagpur\'s orange-trade and agri economy still a real career path, or only farming-adjacent work?',
+    answer:
+      "It is a genuine, still-active economy - the orange and cotton mandi trade and the agro-processing units around Kalmeshwar and the wider Butibori and Hingna industrial belt employ a real share of Nagpur's workforce, alongside supply-chain, quality, and plant-operations roles that go well beyond farming itself. Whether it fits you depends on your specific interests and skills, which is exactly what counselling should help clarify.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Nagpur?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you are staying in Nagpur or weighing a move to Pune, Mumbai, or Hyderabad.',
+  },
+  {
+    question: 'What if I searched for Nagpur but the bigger issue is not the city at all?',
+    answer:
+      "That is common. The city search is often a trust shortcut. If the real pressure is stream selection, degree choice, skill direction, or a career change rather than location, the main counselling and guidance pages are the stronger next filter. This page is most useful when local context - MIHAN, the IT-SEZ, the stay-or-move decision, or Nagpur's agri-industrial and administrative economy - is genuinely part of your decision.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Nagpur', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Nagpur | Future Career School',
+    description:
+      "Career counselling in Nagpur for students, freshers, and working professionals. Online guidance for the stay-in-Nagpur-or-move-to-a-metro decision, built around MIHAN's aerospace, logistics, and IT-SEZ growth.",
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Nagpur' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Nagpur</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Nagpur
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Nagpur
+        <span class="gold-text"> for the stay-or-move decision</span>
+      </h1>
+      <p class="hero-sub">
+        Nagpur sits at the Zero Mile Center of India - the country's literal geographic middle - and Maharashtra's own government treats it as a
+        second capital, moving the state legislature here every winter. That centrality is now turning into a real economy through MIHAN's cargo,
+        aviation, and IT-SEZ growth, and Visvesvaraya National Institute of Technology feeding a talent pool that has historically had to leave for
+        Pune, Mumbai, or Hyderabad to put itself to full use. Good counselling here is not about deciding for or against Nagpur in the abstract. It is
+        building the kind of high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom -
+        whether that portfolio ends up being used from Nagpur or from a metro.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Nagpur and across India. You can start from home, from VNIT or any other campus, or from work near
+        MIHAN or the old city - no travel required before the underlying skill direction is even clear.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not whether Nagpur's centrality sounds promising on paper. It is whether your specific skill direction already has a
+        real opening here, or needs a metro's density for a few years first.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="nagpur-career-landscape"
+    title="The Nagpur career reality generic tier-2-city advice misses"
+    subtitle="Nagpur is a genuine tier-2 city, not a metro in disguise - but its economy is more layered than the 'orange trade and government jobs' shorthand suggests. Good career counselling should help you build the high-value skill portfolio that unlocks high income opportunities from whichever of these paths actually fits you."
+    items={nagpurContextItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="stay-or-move"
+    title="Stay and build from Nagpur, or move to a bigger metro - the decision most Nagpur graduates actually face"
+    subtitle="This is the real fork behind most Nagpur searches, and it has no equivalent framing anywhere else on this site: whether MIHAN's growing aerospace, logistics, and IT-SEZ economy is enough reason to build locally, or whether a few years in Pune, Mumbai, or Hyderabad is still the stronger move for your specific skill direction."
+    items={stayOrMoveItems}
+    variant="contrast"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Nagpur stay-or-move question already feels urgent, resolve it before more time goes into the wrong bet"
+    body="Use this when you want a decision that moves you toward earlier financial freedom, not another year of waiting to see how MIHAN develops."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="The point is not another opinion about whether Nagpur is 'catching up'. The point is a clearer decision, stronger skill direction, proof of work, and a real route toward earlier financial freedom, whether that plays out locally or from a metro first."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city where MIHAN's real growth and Nagpur's older reputation as a talent-exporter both hold some truth, the risk is generic advice that only knows one script. The comparison below shows what separates high-leverage guidance from that."
+    rows={nagpurComparisonRows}
+  />
+
+  <BofuFeatureSection
+    sectionId="nagpur-areas"
+    title="Nagpur's geography shapes the decision, not just the commute"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Nagpur, not treat every search as coming from the same part of the city."
+    items={nagpurAreaItems}
+    variant="decision"
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Nagpur"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process understands Nagpur's actual mix of MIHAN, industry, agriculture, and administration, and whether it is honest about the stay-or-move trade-off."
+    items={buyerCheckItems}
+  />
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use. Here is what that looks like for Nagpur's stay-or-move fork.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Nagpur.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Nagpur page when locality matters, but decide based on your actual skill fit, not city reputation alone"
+    body="The practical value is a clear read on whether MIHAN and Nagpur's IT-SEZ already fit your direction, stronger skill positioning either way, and a concrete next step before the wrong bet gets more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Nagpur" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a real fork - stay and build on Nagpur's growing MIHAN economy, or move to a metro for a few years - is genuinely in front of you, and the goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #nagpur-career-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

@@ -1,0 +1,399 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title = 'Career Counselling for School Students | Any Grade, One Clear Next Step | Future Career School';
+const description =
+  'Career counselling for school students, class 8 to 12 — whatever the pressure is right now: stream anxiety, subject doubt, or a results-day admission crunch.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-school-students/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[4],
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Broader, ongoing direction across school, college, and early career — helpful once schooling itself is not the only decision in play.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-class-10-students/',
+    title: 'Career Counselling for Class 10 Students',
+    description: 'Sharper detail for the pre-11th Science, Commerce, or Arts decision once that is the specific question in front of you.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-11th-class-students/',
+    title: 'Career Counselling for 11th Class Students',
+    description: 'Sharper detail for subject, elective, and exam-track trade-offs once the stream itself is already chosen.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-12th-students/',
+    title: 'Career Counselling for 12th Students',
+    description: 'Sharper detail for the results-day window, once marks and rank are in hand and admission cutoffs are already moving.',
+  },
+  {
+    href: '/services/assessments/class-10-and-below/',
+    title: 'Class 10 and Below Assessment',
+    description: 'A free starting signal on strengths and stream fit for a class 8 or 9 student who is not at a decision point yet, just building early direction.',
+  },
+  {
+    href: '/services/assessments/',
+    title: 'Free Career Assessments',
+    description: 'Free assessments across school stages for stream, subject, and aptitude signal before a paid counselling session.',
+  },
+];
+
+const fitItems = [
+  {
+    title: 'The pressure has not been named yet',
+    body: 'Something in class 8, 9, 10, 11, or 12 already feels tense, but nobody has pinned down whether it is a stream question, a subject question, or just noise from marks and comparison. Counselling starts there.',
+  },
+  {
+    title: 'Two children, two grades, one household',
+    body: 'A parent booking for a class 9 child and a class 12 child in the same conversation needs one session that can speak to both stages honestly, not two separate generic scripts.',
+  },
+  {
+    title: 'The school counsellor is stretched across every grade',
+    body: 'One counsellor covering classes 8 through 12 for the whole school has limited time per student. This is built for the specific grade and situation in front of the family, not a shared slot.',
+  },
+  {
+    title: 'A first conversation before a specific decision hardens',
+    body: 'Useful before the stream choice, subject choice, or results-day pressure becomes urgent — while there is still room to think clearly instead of reacting.',
+  },
+];
+
+const improvementItems = [
+  {
+    title: 'The real decision named correctly',
+    body: 'The session starts by identifying which school-stage decision this actually is — early direction, stream choice, subject trade-off, or post-result admission pressure — instead of treating every grade the same way.',
+  },
+  {
+    title: 'A skill floor started early, not delayed',
+    body: 'Whatever the grade, the session should point toward the digital, communication, and thinking skills worth building now, so the eventual stream or course choice is not the only lever toward earlier financial freedom and unlocking high income opportunities later.',
+  },
+  {
+    title: 'Reasoning both the student and parent can hold onto',
+    body: 'A recommendation that survives the dinner-table conversation, grounded in fit and market reality rather than which option merely sounds safer.',
+  },
+  {
+    title: 'A clear next move, sized to the grade',
+    body: 'A class 8 student leaves with one small project or exploration step; a class 12 student leaves with a direct recommendation tied to an admission deadline. Neither gets the other one\'s homework.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'My child is in class 9 and nothing feels urgent yet. Is counselling still useful?',
+    answer:
+      'Yes. At this stage the goal is not a permanent decision — it is building a sense of fit, a digital and communication skill floor, and enough clarity that the class 10 stream conversation does not start from zero. Counselling for a class 8 or 9 student looks different from counselling for a class 12 student, and a good session should reflect that instead of rushing a young student toward premature certainty.',
+  },
+  {
+    question: 'I have two children in different grades. Can one session help with both?',
+    answer:
+      'The underlying decision-support approach is the same, but what each child needs is different — a class 9 student needs early direction and skill-building; a class 12 student needs a specific, deadline-aware recommendation. Counselling built around the actual grade and situation in front of you handles that difference directly rather than giving both children the same generic advice.',
+  },
+  {
+    question: 'How is this different from student career guidance?',
+    answer:
+      'Student career guidance is built for broader, ongoing direction across school, college, and early-career stages together. Career counselling for school students stays inside the school years specifically and is built to identify and resolve whichever school-stage pressure is live right now — stream anxiety, a subject trade-off, or a post-result admission crunch — rather than covering the full school-to-postgraduate arc.',
+  },
+  {
+    question: 'My child is stuck on something specific — Science versus Commerce, or a subject combination. Should I book this page or a grade-specific one?',
+    answer:
+      'If the exact decision and the exact grade are already clear, the grade-specific page for that class gives sharper, stage-matched detail. Grade-agnostic counselling is the better starting point when the pressure exists but has not been pinned to one grade or one exact choice yet, or when you are weighing school-age decisions across more than one child or more than one grade at once.',
+  },
+  {
+    question: 'How do I know which decision my child is actually facing?',
+    answer:
+      'A few honest signals help: has a stream already been chosen (subject trade-offs and elective regret point to the 11th-class stage), have board results already come out (that points to the post-10th or post-12th admission window), or is nothing decided yet and the discomfort is just pressure and comparison (that points to early, pre-stream direction). The session opens by confirming which of these is actually true before recommending anything.',
+  },
+  {
+    question: 'Are the career and skill assessments free for school students?',
+    answer:
+      'Yes. The career and skill assessments are fully free across every school stage, from class 8 through 12, and can be described as updated, practical, and AI-powered. They give a useful starting signal on strengths and stream fit before a paid counselling session, especially for a younger student who is not at a firm decision point yet.',
+  },
+  {
+    question: 'Is this available for school students outside big cities, or only where there is a local counsellor?',
+    answer:
+      'Counselling is delivered fully online across India, so a school student in any city or town can book a session from home or school without depending on whether a good counsellor happens to practise nearby.',
+  },
+  {
+    question: 'What if my child already went to the school counsellor and it did not help?',
+    answer:
+      'That is common — a school counsellor is usually managing every grade across the whole school on limited time per student. A focused session built around your child\'s specific grade, stream status, and situation can go deeper than a shared slot usually allows, without replacing the value of a good school counsellor.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it asks which grade and stage before giving advice',
+    body: 'A class 9 student who has not chosen a stream and a class 12 student with results in hand are not facing the same decision. Counselling that treats every school student identically has not actually engaged with the specific pressure in front of you.',
+  },
+  {
+    title: 'Check whether it names the real decision, not just "career planning" in general',
+    body: 'Look for a session that pins down whether the live issue is early direction, a stream choice, a subject trade-off, or a post-result admission crunch — and works from there instead of a generic school-years pep talk.',
+  },
+  {
+    title: 'Check whether skill-building starts now, not after the "big" decision',
+    body: 'Whatever the grade, a stronger session points toward digital, communication, and thinking skills worth building immediately rather than treating skill-building as something that only starts after 12th.',
+  },
+  {
+    title: 'Check whether the reasoning would survive a family conversation',
+    body: 'A recommendation only holds up if the student and parent can both repeat why it was made — grounded in fit and market reality, not just which option sounded safer in the room.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for School Students', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for School Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for School Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for School Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        For any student in class 8 to 12, whatever the pressure is right now
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for school students
+        <span class="gold-text"> that starts by naming the real decision, not the grade alone</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School offers career counselling for school students from class 8 through 12 — whether the pressure is early stream anxiety, a subject trade-off, or a results-day admission crunch that has not been sorted into a plan yet.
+        The session identifies which decision is actually live for this grade and situation, then works toward the higher-value skill direction that keeps paying off toward earlier financial freedom, not just a stream label picked under pressure.
+      </p>
+      <p class="hero-note">
+        Counselling is delivered fully online across India, so a school student in any city or town can book a session from home or school without waiting on a local counsellor's availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for School Students</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career counselling for school students is the right starting point"
+    subtitle="This fits best when the pressure is real but has not yet been sorted into one specific grade-level decision — early enough that the right direction can still grow into a high-value, high-income skill portfolio instead of a label picked under pressure."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Name the real school-stage decision before it turns into rushed choices or a family stand-off"
+    body="Book a session that starts by identifying whether this is early direction, a stream choice, a subject trade-off, or a post-result crunch — tied to the higher-value skills that move toward earlier financial freedom, not just a safer-sounding label."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for School Students"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-changes"
+    title="What career counselling for school students should actually give you"
+    items={improvementItems}
+    variant="decision"
+  >
+      <AssessmentSupportNote
+        body="If the exact grade or decision still feels unclear, the free career and skill assessments can give a starting signal on strengths and stream fit before the counselling session narrows it down further."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+  </BofuFeatureSection>
+
+  <BuyerChecks
+    sectionId="check-before-paying"
+    title="What to check before booking career counselling for a school student"
+    subtitle="The goal is a session matched to the exact grade and pressure in front of you, not a one-size-fits-all school-years talk."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why a grade-matched session beats a one-size-fits-all school-years talk"
+    subtitle="Once the pressure is real for any grade between class 8 and 12, the contrast points below start to matter."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Stop guessing which grade-level decision this actually is"
+    body="One session, matched to the exact class and situation, ending with a next step sized to that grade instead of generic advice for the whole school-years stretch."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for School Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling"
+    title="Career Counselling Plans for School Students"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="Move to a grade-specific page once the exact decision is clear, or explore free assessments first if it still feels too early to say."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Get the school-stage decision named and resolved, whatever grade it shows up in"
+    subtitle="If something already feels tense about stream, subjects, or the next admission step, move with a session matched to the real grade and situation — and the skill direction that moves toward earlier financial freedom — instead of letting it drift until results day forces the issue."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for School Students"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 3.9rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 790px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #what-changes,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.82rem, 9.6vw, 2.45rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

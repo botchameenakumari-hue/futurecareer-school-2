@@ -1,0 +1,627 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Jalandhar drops the "low-growth paths" row (index 2) and the "random
+// upskilling" row (index 5). Index 2 is the weakest fit here - a working
+// sports-goods export unit and an IELTS-versus-build-in-India decision are not
+// a "low-growth path" narrative, they are specific, concrete forks the page's
+// own local sections already carry. Index 5 is dropped for the same reason it
+// is dropped on Chennai: the page's forks are named and specific (IELTS/abroad,
+// family export business, LPU-corridor stay-or-return), not the vague "random
+// upskilling" the row describes. The resulting selection (rows 0, 1, 3, 4) is a
+// combination not used by any sibling: Rajkot (rows 0-4), Vizag (rows 1-5),
+// Bangalore (full library), Pune (drops index 3), Kolkata (drops index 1),
+// Chennai (drops index 5 only), Hyderabad (drops index 2 only), Mumbai/
+// Chandigarh/Gurgaon/Nagpur (drop index 4 only), Delhi (drops 0 and 5),
+// Ahmedabad (drops 3 and 5), Surat (drops 0 and 3), Ludhiana (drops 1 and 4),
+// Thane (drops 1 and 3), and Guwahati (drops 2 and 4).
+const jalandharComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 2 && index !== 5);
+
+const title = 'Career Counselling in Jalandhar | Online Guidance Across India | Future Career School';
+const description =
+  "Career counselling in Jalandhar for students and working professionals - clarity on the IELTS-versus-build-in-India decision, the family sports-goods export business, and the LPU-Phagwara corridor.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-jalandhar/';
+
+const fitItems = [
+  {
+    title: "The IELTS coaching centre and the 'which country' conversation started before you even searched this",
+    listItems: [
+      'Jalandhar and the wider Doaba belt around it are widely understood as the sharpest edge of Punjab\'s emigration culture, so for a real share of households here the question was never really "should I go abroad" - it was "when, and to which country"',
+      'That density can turn a genuine, well-reasoned choice into something that feels decided by the neighbourhood before you have weighed your own field, finances, and goals',
+      'The stronger question is whether building a high-value skill portfolio in India, pursuing study or work abroad, or some sequence of both actually fits your situation - not which option every second coaching-centre hoarding on your street assumes you will pick',
+    ],
+  },
+  {
+    title: 'Your family runs, or expects you to join, a sports-goods or hand-tools export business',
+    listItems: [
+      'Jalandhar manufactures and exports a genuinely outsized share of India\'s footballs, cricket gear, and other sporting equipment, alongside a real hand-tools and hardware manufacturing base, so "come work in the unit" is often already the assumed next step, not an open question',
+      'Stepping into it, modernising how it runs, or building an independent path instead all carry real income and family consequences - this is rarely a simple yes-or-no',
+      'Getting this right, rather than drifting in by default or walking away out of frustration, is what actually moves you toward earlier financial freedom',
+    ],
+  },
+  {
+    title: 'You already know generic advice will not resolve this',
+    listItems: [
+      'Generic "just go abroad" or "just join the business" advice skips the real trade-offs each specific path carries',
+      "You need someone who can weigh Jalandhar's actual export economy, the emigration pull, and your own risk tolerance honestly",
+      "You want one practical next step, not another relative's opinion",
+    ],
+  },
+];
+
+const jalandharContextItems = [
+  {
+    title: "Jalandhar manufactures and exports a major share of India's sporting goods",
+    body: "Jalandhar is India's leading sports-goods manufacturing and export hub, producing hand-stitched footballs, cricket bats and protective gear, and a wide range of sporting equipment that reaches both the domestic market and export buyers abroad. The trade is concentrated around Basti Sheikh and the city's dense sports-goods industrial cluster, where small and mid-sized manufacturing units - many family-run - sit close enough together that the whole neighbourhood effectively runs on the same trade. For a real share of Jalandhar households, this is not an abstract local industry statistic; it is the family income, the family reputation, and often the assumed next job for the next generation.",
+  },
+  {
+    title: 'A genuine leather-goods and hand-tools manufacturing base runs alongside the sports trade',
+    body: "Beyond sporting goods, Jalandhar carries a real leather-goods manufacturing tradition and a recognised hand-tools and hardware cluster - producing items like pliers, wrenches, and other hand tools that feed both domestic hardware markets and export orders. Together with the sports-goods trade, this gives Jalandhar a manufacturing identity built on precision small-batch production and export relationships rather than a single large-factory employer, which shapes a genuinely different kind of family-business conversation than a city built around one or two dominant industrial names.",
+  },
+  {
+    title: "Doaba's emigration culture runs deeper here than anywhere else in Punjab",
+    body: "Punjab's wider pull toward Canada, Australia, and the UK is real across the state, but Jalandhar and the surrounding Doaba region - including Nakodar and Phagwara - are widely regarded as its epicentre. The sheer density of IELTS-coaching centres and study-visa consultancies along Jalandhar's main roads is not a minor local feature; for many Doaba families, deciding whether to prepare for IELTS and study abroad, or build a career from within India, is a first-order decision most young people here face directly, not a secondary consideration weighed after other choices are settled.",
+  },
+  {
+    title: "Lovely Professional University pulls a different, reverse flow of students into the same region",
+    body: "Just outside the city, Phagwara is home to Lovely Professional University (LPU) - one of India's largest private universities, drawing students from across nearly every state and a genuine international student base as well. That creates a flow running the opposite direction from the emigration story: while many Doaba-origin students look outward toward Canada, Australia, or the UK, thousands of students move into the Jalandhar-Phagwara corridor every year for LPU itself, alongside established institutions like DAV College in the city. A useful local page should recognise both flows as real, not treat outward migration as the only story this region tells.",
+  },
+];
+
+const abroadVsLocalItems = [
+  {
+    title: 'The pull toward IELTS and an abroad plan is the loudest voice in the room here - and still deserves scrutiny',
+    listItems: [
+      'A Canada, Australia, or UK study-and-settle plan can look like the only sensible answer when the IELTS centre down the road has more foot traffic than the local college, but the real cost - loans, years of separation, uncertain post-study work and permanent-residency timelines, and currency and visa-policy risk - deserves the same scrutiny it would get anywhere else',
+      'Genuine reasons to go exist: a program that is honestly stronger for your specific field, a real long-term settlement goal, or close family already established there',
+      'The weaker reason is going because staying feels like the only option nobody around you is choosing',
+    ],
+  },
+  {
+    title: 'Building from Jalandhar is a real option, not the fallback for people who "could not" go abroad',
+    listItems: [
+      "Jalandhar's own sports-goods and hand-tools export economy, its position inside the LPU-Phagwara academic corridor, and a genuine base of professional and salaried households mean a strong local or remote-first skill path is a legitimate choice, not a consolation prize",
+      'A high-value skill portfolio built from right here can unlock high income opportunities without the debt, distance, and delayed timeline an abroad plan usually carries',
+      "The right call depends on your specific field, finances, and family situation - not on which option is loudest on your own street",
+    ],
+  },
+];
+
+const sportsGoodsFamilyItems = [
+  {
+    title: "A working export unit is a real asset - and joining it should be evaluated like one",
+    listItems: [
+      "A sports-goods, leather, or hand-tools unit that has run for a generation and already exports internationally is a genuine income-generating business, not a fallback plan - staying and strengthening it through better export compliance, product design, or newer sales channels can meaningfully raise what the family unit is worth",
+      "It can also be a smaller operation losing ground to larger, more organised manufacturers and shifting global buyer patterns, in which case joining without a real plan for what changes is the riskier bet, not the safer one",
+      "The honest question is whether the specific unit, and your specific role inside it, is actually strong enough to build a career on - not whether joining is simply the expected answer",
+    ],
+  },
+  {
+    title: "Stepping away does not have to mean walking away from the family business entirely",
+    listItems: [
+      "A high-value skill portfolio in export operations, quality compliance, product design, digital sales, or international buyer relationships can be built and then applied back into the family unit from a position of real capability rather than obligation",
+      "It can also stand on its own, opening high income opportunities in a different industry or city if that is genuinely the stronger fit for your interests",
+      "Either way, the decision deserves the same rigour as any other high-stakes career choice, not a default answer chosen to avoid a hard conversation at home",
+    ],
+  },
+];
+
+const lpuCorridorItems = [
+  {
+    title: "You moved to Phagwara for LPU - the decision does not end at graduation",
+    listItems: [
+      "Thousands of students arrive in the Jalandhar-Phagwara corridor every year specifically for Lovely Professional University, often from states with no other connection to Punjab, which means graduation raises a genuine stay-in-the-corridor-versus-return-home question that a purely local Jalandhar student never faces",
+      "The LPU campus itself has grown a surrounding student-services economy - hostels, coaching, part-time and campus-adjacent work - that can look like a real opportunity or a trap that delays a harder decision, depending on the specific role and how long it is meant to last",
+      "Weighing an LPU-linked opportunity honestly against returning to your home state, or building a fully remote-first career from either location, is a distinct decision worth its own evaluation",
+    ],
+  },
+  {
+    title: "If you grew up in Jalandhar, LPU's arrival changed your own local options too",
+    listItems: [
+      "A large private university on your doorstep genuinely widens local options - part-time work, internships, and a bigger peer network - without requiring the emigration route that so much of the surrounding conversation assumes is the only serious plan",
+      "It also raises its own comparison question: whether a locally accessible degree path, a skill-first route built around the region's export economy, or the IELTS-and-abroad plan actually fits your goals best",
+      "None of these should be assumed to be the default simply because it is the most visible option nearby",
+    ],
+  },
+];
+
+const jalandharAreaItems = [
+  {
+    title: 'Basti Sheikh and the sports-goods industrial cluster carry the city\'s export identity',
+    body: 'This dense manufacturing belt, along with the wider sports-goods and hand-tools units spread through the city, holds the bulk of Jalandhar\'s export-facing manufacturing. Someone from a family running or working inside one of these units is usually weighing modernisation, diversification, or a skill-first path against a business that already has real revenue, real buyers, and real relationships behind it.',
+  },
+  {
+    title: "The GT Road and Nakodar Road belt concentrates the city's IELTS and study-visa economy",
+    body: "Walk along the stretch of GT Road and Nakodar Road running through the city, and the density of IELTS-coaching centres, study-visa consultancies, and immigration-service offices tells its own story about how normal the abroad conversation is here. Students living near this belt, or commuting through it daily, often find the 'which country, not whether' framing baked into everyday life well before they have actually decided anything for themselves.",
+  },
+  {
+    title: 'Phagwara and the LPU campus corridor run on an entirely different rhythm',
+    body: "Phagwara's identity has shifted meaningfully since Lovely Professional University's growth, with a large transient student population from across India and abroad now shaping local housing, transport, and part-time work patterns. Someone living in this corridor - whether an out-of-state student or a Jalandhar local commuting in - is usually navigating a genuinely different set of questions than someone rooted in the city's older manufacturing or professional neighbourhoods.",
+  },
+  {
+    title: 'Model Town and Civil Lines hold a real professional and salaried population one step removed from the factory floor',
+    body: "Model Town and the older Civil Lines area house a meaningful population of salaried professionals, doctors, and second-generation business families who are not directly running an export unit day to day. Someone from this side of the city is often weighing a corporate, medical, or government-services path against inherited business wealth, or against the same abroad pull affecting every other part of Jalandhar, rather than the operational succession question a Basti Sheikh family faces directly.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: "Everyone around me is either preparing for IELTS or has already left - does staying mean I'm falling behind?",
+    body: "No. Doaba's emigration culture is genuinely the most concentrated in Punjab, and it is easy to mistake that visibility for proof that leaving is the only sound plan. Jalandhar's own sports-goods and hand-tools export economy, its position inside the LPU-Phagwara academic corridor, and a real professional job market give you genuine ground to build from here. The honest question is which path actually fits your field, finances, and goals - not which one is loudest on your street.",
+  },
+  {
+    title: "My family runs a sports-goods or hand-tools export unit - is walking away from it even realistic?",
+    body: "It is a real option, and so is staying and changing how the business runs. The honest first step is evaluating the specific unit - its real financial health, its buyer relationships, and whether your own strengths fit operating or modernising it - rather than treating this as loyalty versus ambition. Either path can move you toward earlier financial freedom if it is chosen deliberately rather than by default.",
+  },
+  {
+    title: "I moved to Phagwara for LPU - should I look for work in this corridor after graduating, or go back home?",
+    body: "That depends on what is actually available to you here versus at home, not on inertia in either direction. The LPU corridor has genuinely grown its own local economy, but that does not automatically make it the stronger long-term base for your specific field. A remote-first career built from either location is also a real option worth comparing honestly.",
+  },
+  {
+    title: "Is Jalandhar's manufacturing base strong enough to build a career on, or should I just aim for IT or abroad instead?",
+    body: "Jalandhar's sports-goods, leather, and hand-tools export economy remains genuinely significant and internationally connected, but it is not the same growth story as an IT corridor. The stronger question is not manufacturing-versus-IT-versus-abroad as a blanket choice, but which specific skill direction - inside the existing export economy, in a newer field, or genuinely abroad - fits your strengths and the real opportunity in front of you.",
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the abroad pull is handled honestly, not treated as automatically correct because of local density",
+    body: "Doaba's emigration culture deserves to be understood, not mocked and not treated as an automatic upgrade simply because so many neighbours have already gone. Guidance worth paying for should help you weigh the real cost of an IELTS-and-abroad plan against a genuine local or remote-first alternative, not push you toward whichever answer sounds more expected.",
+  },
+  {
+    title: 'Check whether a sports-goods, leather, or hand-tools family business is evaluated on its actual merits',
+    body: "Good guidance for Jalandhar should be able to evaluate a specific export unit honestly - its buyers, its financial health, its growth ceiling - and help you decide between joining, modernising, or building independently, without assuming either choice is automatically the right one.",
+  },
+  {
+    title: "Check whether the LPU-Phagwara corridor is treated as its own genuine decision, not folded into a generic student page",
+    body: "Someone who moved to Phagwara for LPU is facing a stay-in-the-corridor-versus-return-home question that a purely local Jalandhar resident does not face. A counsellor should recognise that distinction rather than applying one generic script to every student in the region.",
+  },
+  {
+    title: "Check whether the guidance understands Jalandhar's specific export economy, not manufacturing in general",
+    body: "Jalandhar's sports-goods trade and its hand-tools and leather-goods base are genuinely different from Ludhiana's hosiery-and-bicycle manufacturing or Rajkot's broader SME base. A counsellor who treats all Punjab manufacturing as one undifferentiated story is missing the real picture.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      'Whether preparing for IELTS and a study-abroad plan, or building a career from within India, actually fits your field, finances, and family situation',
+      'Whether joining, modernising, or stepping back from a family sports-goods, leather, or hand-tools export unit genuinely fits your strengths and goals',
+      "If you are connected to the LPU-Phagwara corridor, whether staying in that corridor or returning home after graduation is the stronger move for your specific field",
+      'How to raise a hard family conversation about the abroad plan or the export business without it reading as rejection',
+    ],
+  },
+  {
+    title: 'A skill direction built for achieving earlier financial freedom either way',
+    listItems: [
+      'A high-value skill portfolio that strengthens a family export business, stands independently of it, or holds up whether you stay in India or genuinely pursue an opportunity abroad',
+      "Proof-of-work positioning that carries weight beyond a family unit's name or a single visa application on its own",
+      'A realistic comparison between staying inside the family business, an independent skill-first path in India, and a properly costed abroad plan',
+      'One practical next step instead of another round of family or neighbourhood validation',
+    ],
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.chandigarhCounselling,
+    title: 'Career Counselling in Chandigarh',
+    description: "Useful if the government-service default or the wider Punjab abroad-migration pull matters more to you than Jalandhar's export economy.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.ludhianaCounselling,
+    title: 'Career Counselling in Ludhiana',
+    description: "Useful if a hosiery, knitwear, or bicycle-parts family business, or a PAU-linked agricultural path, fits your situation better than Jalandhar's sports-goods and export economy.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'Online-first approach across India if your real concern is easier access rather than the city itself.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.nriStudents,
+    title: 'Career Counselling for NRI Students',
+    description: 'Useful if the abroad-versus-India decision is already the main question, wherever you are searching from.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Is career counselling in Jalandhar mostly about deciding whether to go abroad?',
+    answer:
+      "For a large share of people searching from Jalandhar and the wider Doaba region, yes, that is genuinely the central question - the IELTS-coaching and study-visa-consultancy density here is the highest anywhere in Punjab. But the service covers the full decision: an IELTS-and-abroad plan, a family sports-goods, leather, or hand-tools export business, a stay-or-return decision tied to the LPU-Phagwara corridor, or a DAV College-track choice. The right starting point depends on which of those is actually pressing for you.",
+  },
+  {
+    question: 'Should I prepare for IELTS and study abroad, or build a career in India instead?',
+    answer:
+      "There is no single right answer - it depends on your field, your finances, and your actual goals, not on how many people around you have already left. A genuinely stronger program abroad, a real settlement goal, or close family already there are legitimate reasons to go. Honest counselling should compare that plan against a properly evaluated India-based or remote-first path, rather than assuming the abroad route is automatically correct because it is the most visible option in Jalandhar.",
+  },
+  {
+    question: "My family runs a sports-goods or hand-tools export business - how do I know if joining it is right for me?",
+    answer:
+      "Start by evaluating the specific unit, not the idea of 'joining the family business' in the abstract - its real buyers, financial health, and growth ceiling, alongside your own strengths and interests. A working export business is a genuine asset worth building on for some people, and a mismatch worth stepping away from for others. Good counselling should help you see that clearly instead of treating it as a loyalty test.",
+  },
+  {
+    question: 'I moved to Phagwara for LPU - does this page apply to me even though I am not originally from Jalandhar?',
+    answer:
+      "Yes. Thousands of students move into the Jalandhar-Phagwara corridor every year specifically for Lovely Professional University, and the stay-in-the-corridor-versus-return-home decision after graduation is a genuine, distinct question this page addresses directly, alongside the concerns of people who grew up locally.",
+  },
+  {
+    question: "Is Jalandhar's sports-goods and export economy still a strong career base, or should I look at IT or abroad instead?",
+    answer:
+      "Yes, on its own terms. Jalandhar remains India's leading sports-goods manufacturing and export hub, alongside a genuine leather-goods and hand-tools manufacturing base, and both stay internationally connected through export buyers. It is a different kind of opportunity than an IT corridor or a foreign posting, built more around ownership, exports, and precision manufacturing - worth evaluating on its own merits rather than measured only against a Bangalore-style tech career or a Canada study-visa plan.",
+  },
+  {
+    question: 'Why choose online career counselling in Jalandhar instead of a nearby consultancy?',
+    answer:
+      "Because a consultancy embedded in the IELTS-and-visa trade, or in one specific manufacturing sector, often carries a built-in bias toward the path it profits from. Online guidance brings in an outside, India-wide view without requiring a visit to a specific coaching belt or industrial cluster, and it should still be judged on whether it gives you an honest read on your specific situation, not a one-size answer.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals across Jalandhar, Phagwara, and Nakodar?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you live in central Jalandhar, near an export cluster like Basti Sheikh, in the LPU-Phagwara corridor, or in Nakodar and the surrounding Doaba countryside.',
+  },
+  {
+    question: "What if my bigger issue isn't the abroad decision, the family business, or Jalandhar at all?",
+    answer:
+      "That is common. If the real pressure is a stream choice, a specific skill decision, or a career change with no migration, family-business, or city angle involved, the main counselling and guidance pages are the stronger next filter. This page is most useful when Jalandhar's IELTS-and-abroad pull, its sports-goods or hand-tools export economy, or the LPU-Phagwara corridor is genuinely part of what you are weighing.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Jalandhar', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Jalandhar | Future Career School',
+    description:
+      'Career counselling in Jalandhar for students, freshers, and working professionals. Online guidance for clearer decisions between preparing for IELTS and studying abroad, joining or modernising a family sports-goods or hand-tools export business, and the LPU-Phagwara stay-or-return decision.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Jalandhar' },
+      { '@type': 'City', name: 'Phagwara' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Jalandhar</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Jalandhar and Phagwara
+      </div>
+
+      <h1 class="hero-title">
+        Career Counselling in <span class="gold-text">Jalandhar</span>
+      </h1>
+      <p class="hero-sub">
+        Jalandhar sits at the centre of two forces most Doaba families weigh directly: it is India's leading sports-goods manufacturing and export hub, with a genuine hand-tools and leather-goods trade alongside it, and it is the sharpest point of Punjab's pull toward studying and settling in Canada, Australia, or the UK. For many people here, "prepare for IELTS or build a career in India" is not a distant hypothetical - it is the first real fork most young people in this region face. The question few people examine directly is whether a genuine high-value skill portfolio, built here or applied toward an honestly evaluated abroad plan, could unlock high income opportunities and earlier financial freedom faster than whichever answer feels expected.
+      </p>
+      <p class="hero-sub hero-sub-secondary">
+        Guidance is delivered fully online across Jalandhar, Phagwara, and Nakodar, and across India - so you can start from a home near Basti Sheikh's export units, a hostel near the LPU campus, or a family already mid-way through a study-visa application, without adding another commute to an already crowded set of decisions.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="intent-clarity"
+    title="Why this decision already feels heavier here"
+    subtitle="When people search for career counselling in Jalandhar, the city name usually points to something specific - an IELTS-and-abroad plan already in motion, a family export unit waiting for an answer, or an LPU-linked move that changed where home even is. The real pressure is rarely the city itself. It is seeing the actual trade-off clearly instead of through whichever script feels closest to home."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Jalandhar search already reflects a real fork, look at it honestly before another year gets committed"
+    body="Use this when you want a genuine read on the IELTS-and-abroad decision or the family export-business question, not another round of family or neighbourhood validation."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="jalandhar-career-landscape"
+    title="The Jalandhar career reality generic advice rarely names"
+    subtitle="Jalandhar runs on an export-manufacturing economy and the most concentrated emigration culture in Punjab, alongside a genuine reverse pull of students moving into the region for one of India's largest private universities. Good career counselling should engage with all of that directly instead of treating Jalandhar like any other Punjab city."
+    items={jalandharContextItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="abroad-vs-local"
+    title="Prepare for IELTS and go abroad, or build from Jalandhar - the decision most pages treat as secondary"
+    subtitle="On most Punjab city pages, the abroad pull is one option among several. In Jalandhar and the wider Doaba region, it is usually the first fork most families actually face, which is why it deserves to be examined honestly rather than assumed."
+    items={abroadVsLocalItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="sports-goods-family"
+    title="Family sports-goods, leather, or hand-tools export business - a decision with no equivalent on other city pages"
+    subtitle="Jalandhar's export-manufacturing base is genuinely different from Ludhiana's hosiery-and-bicycle trade or Rajkot's broader SME economy. A family running a working export unit here faces its own specific version of the succession question."
+    items={sportsGoodsFamilyItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="lpu-corridor"
+    title="The LPU-Phagwara corridor runs a reverse flow through the same region"
+    subtitle="While much of Jalandhar's own population weighs leaving for Canada, Australia, or the UK, Lovely Professional University pulls thousands of students into Phagwara every year from across India and abroad - a genuinely distinct decision layer no other city sibling carries."
+    items={lpuCorridorItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="jalandhar-areas"
+    title="Jalandhar's own geography shapes which version of this decision you are in"
+    subtitle="A useful local page should recognise that a family running an export unit in Basti Sheikh, a student living near the LPU campus in Phagwara, and a household near the GT Road coaching belt are not living through the same version of Jalandhar."
+    items={jalandharAreaItems}
+    variant="decision"
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a region built around an abroad-migration default on one side and a family export-business default on the other, the real risk is advice that either glorifies one path or dismisses the other outright. The comparison below shows what separates high-leverage guidance from both."
+    rows={jalandharComparisonRows}
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="Not another opinion added to an already crowded set of family and neighbourhood expectations. A clearer read on the IELTS-versus-build-in-India question, an honest look at the family export business, and a route toward earlier financial freedom regardless of which path you choose."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Jalandhar"
+    subtitle="Do not compare only how close a consultancy's office is to the GT Road coaching belt. Compare whether the process improves decision quality on the actual fork you are facing."
+    items={buyerCheckItems}
+  />
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Jalandhar, Phagwara, and Nakodar.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use - even inside a region with this much abroad-migration and family-business expectation attached to every choice.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Jalandhar page when locality matters, but choose based on decision quality, not the loudest local script"
+    body="The practical value is an honest read on the abroad, family-business, and LPU-corridor options in front of you, and a concrete next step before another year gets committed by default."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Jalandhar" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when an IELTS-and-abroad plan, a family sports-goods or hand-tools export business, and an LPU-linked stay-or-return decision are all stacked on the same choice - and when the real goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom, whichever route you choose."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill { width: fit-content; margin-bottom: 1.6rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title { font-size: clamp(2.35rem, 5vw, 3.9rem); line-height: 1.04; letter-spacing: -.04em; color: #fff; max-width: 980px; margin-bottom: 1.25rem; overflow-wrap: anywhere; }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.72); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-sub-secondary { color: rgba(255,255,255,.6); font-size: 14px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 1.6rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #jalandhar-career-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

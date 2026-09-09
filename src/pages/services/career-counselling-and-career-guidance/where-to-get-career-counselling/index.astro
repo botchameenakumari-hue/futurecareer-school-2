@@ -1,0 +1,696 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../config/guidancePlans';
+
+const title = 'Where to Get Career Counselling | Every Real Channel, Compared | Future Career School';
+const description =
+  'Where to get career counselling: school cells, free helplines, employer programs, private counsellors, and online platforms - compared honestly.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/where-to-get-career-counselling/';
+
+const {
+  studentSessionPriceText,
+  studentContinuousPriceText,
+  professionalSessionPriceText,
+} = GUIDANCE_PLAN_PRICE_COPY;
+
+const channelRows = [
+  {
+    channel: 'School or college counselling cell',
+    whatYouGet: 'A single aptitude test or one group session, usually run by a teacher rather than a trained counsellor.',
+    cost: 'Free or already included in existing fees.',
+    bestFor: 'A first, narrow question while you are still enrolled - not a full decision process.',
+  },
+  {
+    channel: 'Government or NGO helpline',
+    whatYouGet: 'General-purpose guidance, often shared across a large number of callers with limited follow-up.',
+    cost: 'Free.',
+    bestFor: 'A basic starting point when no other option is reachable yet, or a quick informational question.',
+  },
+  {
+    channel: 'Employer-provided guidance or mentoring',
+    whatYouGet: 'Support scoped to your current role or employer, which can create a real conflict of interest around leaving.',
+    cost: 'Usually free if your employer offers it.',
+    bestFor: 'Questions about growth inside your current company - not a stay-or-leave decision.',
+  },
+  {
+    channel: 'Independent private counsellor',
+    whatYouGet: 'One-to-one attention that varies widely by the individual - credentials, availability, and follow-up structure differ from person to person.',
+    cost: 'Set by the individual counsellor, usually paid per session.',
+    bestFor: 'Someone who has already found and vetted a specific counsellor they trust.',
+  },
+  {
+    channel: 'Online career guidance platforms (including Future Career School)',
+    whatYouGet: 'Structured decision support around path, skill, and risk, reachable from anywhere with no local office needed.',
+    cost: 'Free assessments; a paid 1-on-1 or continuous-guidance plan for a full session.',
+    bestFor: 'A specific decision that needs real structure, without being limited to whoever happens to be nearby.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/compare-career-counselling-services/',
+    title: 'Compare Career Counselling Services',
+    description: 'Already narrowed to a private counsellor, a platform, or Future Career School? Compare them side by side on the same criteria.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-helpline/',
+    title: 'Career Counselling Helpline',
+    description: 'Want to talk to someone directly first, before booking anything? Message or call here.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-consultation/',
+    title: 'Career Counselling Consultation',
+    description: 'Prefer a single low-commitment first conversation over a full structured session? See what a consultation covers.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A free way to narrow your question before deciding which channel above is worth your time.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Where can I get career counselling for free?',
+    a: "A school or college counselling cell, a government or NGO-run helpline, or free career and skill assessments online are the usual free starting points. Each one is genuinely useful for a narrow, exploratory question, but they typically stop at one session or one generic report rather than a structured, ongoing process. If your decision is low-stakes or you are still exploring, start there before paying for anything.",
+  },
+  {
+    q: 'Is it better to get career counselling in person or online?',
+    a: "Neither format wins automatically. In-person options are limited to whoever is physically reachable near you, which narrows your real choice. Online guidance removes that limit - you can reach a specific counsellor or platform regardless of city - but it depends on the process actually being live and two-way rather than a scripted call. Judge the format by whether the session is genuinely structured and personal, not by whether it happens on a screen or in a room.",
+  },
+  {
+    q: 'How do I know if a private counsellor I found is actually worth paying for?',
+    a: "Check what they actually do before booking: how they are trained, whether the process is personalized to your situation or the same script for everyone, whether pricing is stated upfront, and whether support continues past a single session. Those are the same questions worth asking about any paid channel, not just an individual counsellor.",
+  },
+  {
+    q: 'Should I try a free channel before paying for career counselling?',
+    a: 'If your question is still exploratory or easily reversible, yes - a free assessment or a school/college session can genuinely resolve it. Paying starts to make sense once the decision is expensive, time-pressured, or you have already tried the free layer and are still stuck.',
+  },
+  {
+    q: 'What does Future Career School cost if I decide to book a session?',
+    a: `For students, a first 1-on-1 session is ${studentSessionPriceText}, with continuous guidance across the year at ${studentContinuousPriceText}, including up to 24 small-group sessions. For working professionals, a 1-on-1 session is ${professionalSessionPriceText}. Career and skill assessments stay free regardless of which plan you choose.`,
+  },
+  {
+    q: 'Can I just message someone before deciding where to get counselling?',
+    a: 'Yes - a direct message or call before booking anything is a reasonable way to ask a specific question and gauge whether a counsellor or platform is a real fit, without committing to a full session first.',
+  },
+  {
+    q: 'Is there a physical career counselling center I can visit?',
+    a: "Future Career School runs fully online, so there is no walk-in office or physical center to visit here. If an in-person setting genuinely matters to you, the school or college counselling cell and independent private counsellors in the channel table above are the ones with a physical location - check what each actually offers before picking one over an online session for that reason alone.",
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Where to Get Career Counselling', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Where to Get Career Counselling: Every Real Channel, Compared Honestly',
+    description,
+    datePublished: '2026-08-30',
+    dateModified: '2026-08-30',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="where-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Where to Get Career Counselling</span>
+        </nav>
+
+        <div class="pill hero-pill"><span class="pill-dot"></span>Five real channels, not one generic answer</div>
+
+        <h1>Where to get career counselling depends on what you're actually deciding</h1>
+        <p class="line strong">
+          Where to get career counselling comes down to five real places: a school or college counselling cell, a government or NGO helpline, an employer-run program, an independent private counsellor, or an online guidance platform. None of them is universally "the" place to get it - the right one depends on whether your question is free-to-answer or genuinely needs a structured, paid process.
+        </p>
+        <p class="line">
+          The list below is honest about what each channel actually gives you, not just where it exists, so you can pick based on what your decision needs rather than whichever option you heard about first.
+        </p>
+
+        <div class="cta-pair">
+          <a class="btn-gold" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how career guidance works here</a>
+          <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>Free channels - school/college cells, government or NGO helplines, and free assessments - are genuinely useful for a narrow, exploratory question, but usually stop at one session or one generic report.</li>
+          <li>Employer-provided guidance is scoped to your current job and carries a built-in conflict of interest if the honest answer is to leave.</li>
+          <li>An independent private counsellor can offer strong personal attention, but quality and follow-up structure vary a lot from one person to the next.</li>
+          <li>Online guidance platforms remove the "whoever happens to be nearby" limit entirely, since the session runs the same way regardless of your city.</li>
+          <li>The right channel is not the closest or cheapest one by default - it's the one whose depth matches how big the decision actually is.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="channels" class="container section">
+      <h2>The five real channels, compared</h2>
+      <p class="line">
+        These are broad patterns, not a claim that every provider in a category behaves identically. Use the table to see what each channel typically gives you, then check the specific option you are weighing against it.
+      </p>
+
+      <div class="card highlight-card matrix-card">
+        <div class="table-wrap">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>Channel</th>
+                <th>What you actually get</th>
+                <th>Cost</th>
+                <th>Best for</th>
+              </tr>
+            </thead>
+            <tbody>
+              {channelRows.map((row) => (
+                <tr>
+                  <td data-label="Channel" class="td-criterion">{row.channel}</td>
+                  <td data-label="What you actually get">{row.whatYouGet}</td>
+                  <td data-label="Cost">{row.cost}</td>
+                  <td data-label="Best for">{row.bestFor}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Already narrowed it down to comparing a private counsellor, a coaching platform, and Future Career School specifically? The <a href="/services/career-counselling-and-career-guidance/compare-career-counselling-services/">side-by-side comparison</a> goes deeper on that specific decision. This page is about finding the right door first.
+      </p>
+    </section>
+
+    <section id="how-to-reach" class="container section">
+      <h2>How to actually reach each one</h2>
+      <p class="line">
+        Knowing a channel exists is not the same as knowing how to use it. Here is what actually happens once you try each one.
+      </p>
+      <div class="protocol-stack">
+        <div class="protocol-row">
+          <div class="protocol-body">
+            <h3>School or college counselling cell</h3>
+            <p>Ask your class teacher, department office, or student services desk directly - most institutions do not advertise this well even when it exists. Expect one session or one test, not an ongoing relationship.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <div class="protocol-body">
+            <h3>Government or NGO helpline</h3>
+            <p>These are usually reachable by phone during fixed hours and staffed by a rotating team, so the person who answers may not be a trained career counsellor. Treat the call as a starting point, not a final answer.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <div class="protocol-body">
+            <h3>Employer-run guidance or mentoring</h3>
+            <p>Check with HR or your manager's manager whether this exists at all - many companies offer it quietly. Keep in mind the person guiding you may also report, directly or indirectly, into the company you are evaluating leaving.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <div class="protocol-body">
+            <h3>Independent private counsellor</h3>
+            <p>Ask around, check how long they have practiced, and confirm pricing before the first call - not after. A counsellor unwilling to state pricing upfront is worth a second look before you commit.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <div class="protocol-body">
+            <h3>Online guidance platform</h3>
+            <p>Start with whatever is free - here, that means <a href={BOFU_ASSESSMENT_LINKS.hub}>career and skill assessments</a> - before booking a paid session. If you want to ask a specific question directly first, the <a href="/services/career-counselling-and-career-guidance/career-counselling-helpline/">helpline</a> is built for exactly that.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="free-vs-paid" class="container section">
+      <h2>Before you pick a paid channel, check whether the free layer already answers you</h2>
+      <p class="line">
+        Every channel above is a real option, but they are not equally deep. A lot of people start comparing paid counsellors and platforms when a free, updated assessment would already resolve their current question.
+      </p>
+      <p class="line">
+        If your decision is still exploratory, low-stakes, or easily reversible, start free. If it is expensive, time-pressured, or you have already tried a free channel and are still stuck, that is the point where a paid, structured session earns its cost.
+      </p>
+      <AssessmentSupportNote
+        body="Career and skill assessments here are fully free, updated, practical, and AI-powered - a genuine way to narrow your question before deciding which paid channel, if any, is worth your time."
+      />
+    </section>
+
+    <section id="cost" class="container section">
+      <h2>What the paid end of the table actually costs</h2>
+      <p class="line">
+        The table above lists cost as one of the things to check before choosing a channel. Here is what that looks like in real numbers for the online-guidance row, so you have something concrete to hold any other paid channel against.
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Plan">Career and skill assessments</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student 1-on-1 session</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student continuous guidance (year, includes the 1-on-1 plus up to 24 small-group sessions)</td>
+                <td data-label="Price">{studentContinuousPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Working-professional 1-on-1 session</td>
+                <td data-label="Price">{professionalSessionPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        This runs fully online across India, so reaching it does not depend on which city you happen to live in.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-gold" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans at these prices</a>
+      </div>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What changes once you pick the right door instead of the nearest one"
+      subtitle="This is the difference the channel list above is pointing toward once you choose deliberately."
+      rows={[
+        { left: 'Generic advice that still leaves you unclear', right: 'High-leverage decision support around path, skill, and risk' },
+        { left: 'Paid outdated impractical assessments with weak practical value', right: 'Free updated practical AI-powered career and skill assessments' },
+        { left: 'Degree-first direction with weak skill edge', right: 'Skill-first direction with proof of work and stronger market value' },
+        { left: 'Random upskilling that compounds slowly', right: 'Clearer skill direction tied to growth and income upside' },
+      ]}
+    />
+
+    <section id="objections" class="container section">
+      <h2>What people usually worry about before choosing where to go</h2>
+      <div class="protocol-stack">
+        <div class="protocol-row">
+          <div class="protocol-body">
+            <h3>"Isn't the free option always the safer place to start?"</h3>
+            <p>For a narrow, exploratory question, yes. But a free channel that stops at one generic session will not resolve a decision that is genuinely complex or high-stakes - it will just delay the point where you need real structure.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <div class="protocol-body">
+            <h3>"Is asking my employer for guidance a bad idea?"</h3>
+            <p>Not automatically, but be clear-eyed about the conflict: the person guiding you may have an interest in you staying. It can work well for growth-inside-the-company questions and less well for a genuine stay-or-leave decision.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <div class="protocol-body">
+            <h3>"Can an online session really replace an in-person one?"</h3>
+            <p>If the session is genuinely live and two-way, format is not the deciding factor - structure and personalization are. Online removes the constraint of only being able to reach whoever happens to practice near you.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on where to get career counselling</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section id="closing" class="container section closing-section">
+      <h2>Once you know which door fits your decision, here is how to walk through it</h2>
+      <p class="line">
+        If a free channel already answered your question, that is a reasonable place to stop for now. If the decision is bigger than that, the next step is straightforward: try the free assessments first, or go straight to a structured 1-on-1 session or continuous guidance across the year if you already know the free layer will not be enough.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="Already narrowed it down, want to talk to someone directly, or want the free first step instead?"
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #where-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 62px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 920px; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-pill { width: fit-content; margin-bottom: 1.4rem; font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); display: inline-block; }
+
+  .hero h1 {
+    font-size: clamp(2rem, 4.6vw, 3.2rem);
+    line-height: 1.08;
+    letter-spacing: -.04em;
+    color: #fff;
+    margin-bottom: 1.1rem;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .section { padding: 56px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.05rem; margin-bottom: .5rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .highlight-card { margin-top: 1rem; }
+  .matrix-card { padding: .9rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; }
+  .matrix-table { min-width: 940px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13px;
+    line-height: 1.62;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; font-size: 12.5px; }
+  .td-criterion { color: #fff; font-weight: 650; white-space: nowrap; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.9rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+      white-space: normal !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .protocol-stack {
+    display: grid;
+    gap: .9rem;
+    margin-top: 1.1rem;
+  }
+  .protocol-row {
+    padding: 1.1rem 1.2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+  }
+  .protocol-body p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.66);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 50px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  .closing-section { padding-bottom: 40px; }
+
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 50px; }
+    .section { padding: 44px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

@@ -1,0 +1,484 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling After 12th | Future Career School';
+const description =
+  'Career counselling after 12th to turn your shortlist of streams, courses, or colleges into one clear recommendation in a single structured session.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-after-12th/';
+const class1112AssessmentUrl = BOFU_ASSESSMENT_LINKS.class11To12;
+const after12thGuideUrl = '/blog/career-guidance/how-to-choose-a-career-after-12th/';
+const confusedAfter12thUrl = '/blog/career-guidance/what-to-do-after-12th-confused/';
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.after12th,
+    title: 'Career Guidance After 12th',
+    description:
+      'For broader help while stream, course, and skill options are still wide open and nothing is narrowed down yet, this is the earlier-stage guidance to start with.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.counsellingFor12thStudents,
+    title: 'Career Counselling for 12th Students',
+    description:
+      'Right in the middle of results week, with real marks, admission forms, and a live cutoff clock already running? This results-week counselling is built for that exact moment.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12thOnline,
+    title: 'Career Guidance After 12th Online',
+    description: 'For students and parents who need after-12th guidance online without waiting on a local option.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Broader student guidance for school, college, and early skill-direction decisions.',
+  },
+  {
+    href: class1112AssessmentUrl,
+    title: 'Class 11 to 12 Assessment',
+    description: 'Free strengths, preference, and work-style signal if the shortlist itself is still too wide.',
+  },
+  {
+    href: after12thGuideUrl,
+    title: 'How to Choose a Career After 12th',
+    description: 'A fuller decision-framework read if you are still comparing trade-offs on your own.',
+  },
+  {
+    href: confusedAfter12thUrl,
+    title: 'What to Do After 12th When You Feel Confused',
+    description: 'A practical read for the moment nothing feels obvious and you have not shortlisted anything yet.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-pcm-students/',
+    title: 'Career Counselling for PCM Students',
+    description: 'If the shortlist is specifically engineering vs computer science vs pure sciences within the PCM stream, this stream-specific page goes deeper.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-pcb-students/',
+    title: 'Career Counselling for PCB Students',
+    description: 'If the shortlist is specifically NEET vs non-medical paths within the PCB stream, this stream-specific page goes deeper.',
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Degree-first direction with weak skill edge',
+    right: 'Skill-first direction with proof of work and stronger market value',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+];
+
+const whenHelpItems = [
+  {
+    title: 'You already have a shortlist, not a blank page',
+    body: 'Two, three, maybe four options are already on the table. What you are missing is not more information — it is one clear call on which one actually fits.',
+  },
+  {
+    title: 'You keep going in circles between the same options',
+    body: 'The same comparison keeps repeating in your head or with your parents, and nobody is landing on an answer, just re-arguing the same points.',
+  },
+  {
+    title: 'Every option "sounds fine" on paper',
+    body: 'Course brochures, YouTube opinions, and relatives all sound convincing. None of them are actually deciding for you, and the deadline is not moving.',
+  },
+  {
+    title: 'You want a recommendation, not another list',
+    body: 'What resolves this is one session that looks at your real fit, work style, and market reality, then tells you which option to commit to and why.',
+  },
+];
+
+const counsellingResolvesItems = [
+  {
+    title: 'Pick one option from your existing shortlist',
+    body: 'The session starts from what you have already narrowed down and works toward a direct recommendation, not a wider exploration of everything else out there.',
+  },
+  {
+    title: 'Settle the disagreement, not just restate it',
+    body: 'When you and your parents are stuck on two different options, a structured conversation can turn that standoff into one plan both sides can actually commit to.',
+  },
+  {
+    title: 'Pressure-test the "safe" choice',
+    body: 'The option that feels safest is not automatically the one with the strongest fit or the strongest long-term skill and income logic. That gets checked before you commit, not after.',
+  },
+  {
+    title: 'Attach the decision to a skill direction',
+    body: 'Whichever option you lock in, it should also open the door to stronger skill building from year one, not just fill a seat.',
+  },
+];
+
+const sessionFlowItems = [
+  {
+    title: 'Bring your real shortlist and your real reasons',
+    body: 'Come with the two to four options you are actually weighing, and why each one is still in the running — not a wish list of every course that exists.',
+  },
+  {
+    title: 'Strengths, work style, and market fit get checked against each option',
+    body: 'Every remaining option gets tested against how you actually work, not just how impressive it sounds on paper.',
+  },
+  {
+    title: 'One option gets recommended, with the reasoning behind it',
+    body: 'The session ends with a direct call on which option to commit to, and the specific trade-offs that made the others weaker fits.',
+  },
+  {
+    title: 'The choice gets connected to a skill direction',
+    body: 'Whichever option is recommended, the next step also includes where to start building proof-of-work and stronger skills early, not just the admission steps.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it actually ends in a recommendation',
+    body: 'Counselling after 12th should conclude with a direct answer on your shortlist, not a longer list of things to "consider further".',
+  },
+  {
+    title: 'Check whether it works from your real shortlist, not a generic template',
+    body: 'If the session does not start from the specific options you are actually weighing, it is closer to a generic talk than real counselling.',
+  },
+  {
+    title: 'Check whether skill direction is part of the answer',
+    body: 'A recommendation that only picks a course but ignores the skill-building that should start alongside it is an incomplete answer.',
+  },
+  {
+    title: 'Check whether the assessments behind it are free and current',
+    body: 'Many providers charge thousands for outdated or impractical assessments right when families are under pressure. Future Career School offers free, updated, practical, AI-powered career and skill assessments instead.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What does career counselling after 12th actually help with?',
+    answer:
+      'It helps you take a shortlist of two to four stream, course, or college options you are already weighing and turn it into one clear, reasoned recommendation instead of leaving you to keep comparing on your own.',
+  },
+  {
+    question: 'How is this different from career guidance after 12th?',
+    answer:
+      'Career guidance after 12th is built for the broader, earlier exploration — when the options are still wide open and you have not narrowed anything down yet. This page is built for the stage after that: you already have a shortlist and need one structured session to resolve it into a direct recommendation.',
+  },
+  {
+    question: 'Is this the same as career counselling for 12th students right after results?',
+    answer:
+      'No. Career counselling for 12th students is built specifically for the results-week window, when a real mark or rank has just come in and admission forms are already open. This page does not depend on that timing — it is for whenever your options are already narrowed and you need a resolving recommendation, whether that is before results, right after, or weeks later.',
+  },
+  {
+    question: 'I already have a shortlist. Why do I still need counselling instead of just choosing myself?',
+    answer:
+      'A shortlist tells you what is possible, not what fits you specifically. Counselling checks each option against your real strengths, work style, and market reality, then gives you one direct call instead of leaving the final decision to guesswork or the loudest opinion in the room.',
+  },
+  {
+    question: 'My parents and I want different options from the same shortlist. Can this help?',
+    answer:
+      'Yes. A structured session should surface the real concern behind each side — cost, safety, prestige, fit — and land on the option that holds up to scrutiny from both, rather than letting the disagreement drag on unresolved.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free. They can be described as updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. Counselling is delivered online across India, so students and families can join from home, college, or wherever they already are, without depending on a local counsellor’s availability.',
+  },
+  {
+    question: 'What if none of the options on my shortlist actually turn out to fit well?',
+    answer:
+      'That is still useful to know before you commit money and years to one of them. A direct recommendation includes saying when the stronger move is to widen the shortlist rather than force a fit that is not there.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling After 12th', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling After 12th | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling After 12th',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling After 12th</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling after 12th to resolve your shortlist into one decision
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling after 12th
+        <span class="gold-text"> when you already have a shortlist, not a blank page</span>
+      </h1>
+      <p class="hero-sub">
+        You do not need more course names after 12th — you already have two, three, maybe four in front of you. Career counselling after 12th takes that exact shortlist and works it down to one clear recommendation, built on your real strengths, work style, and a skill direction aimed at earlier financial freedom, instead of leaving you to keep re-arguing the same comparison.
+      </p>
+      <p class="hero-note">
+        The wrong pick from a good-looking shortlist can quietly cost you years of low-value skill building before it gets noticed. Counselling is delivered fully online across India — students and families can start from home, college, or wherever they already are, no travel, no waiting for a local option.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">
+          Get Career Counselling for Students After 12th
+        </a>
+      </div>
+      <p class="hero-support">
+        A strong counselling session should leave you with one option to commit to, the reasoning behind it, and a skill direction that moves you toward earlier financial freedom instead of just filling a seat.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="when-help"
+    title="When career counselling after 12th is the right move"
+    subtitle="This fits best once the field has already narrowed and the real problem is choosing, not exploring."
+    items={whenHelpItems}
+    variant="signal"
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why resolving a shortlist needs sharper input than generic advice"
+    subtitle="Once you already know the options, the value is in the recommendation and the reasoning behind it — not another list."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Turn your shortlist into one decision before the deadline forces a rushed one"
+    body="This matters most once the same two or three options keep coming back around without anyone actually committing to one."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Students After 12th"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-counselling-resolves"
+    title="What a career counselling session after 12th should actually resolve"
+    items={counsellingResolvesItems}
+    variant="decision"
+  >
+      <AssessmentSupportNote
+        body="If your shortlist itself is still too wide, the class 11 to 12 assessments can help narrow strengths, preferences, and work style before a counselling session."
+        href={class1112AssessmentUrl}
+        label="Free career and skill assessments"
+      />
+  </BofuFeatureSection>
+
+  <BofuStepFlowSection
+    sectionId="session-flow"
+    title="What a focused counselling session looks like"
+    subtitle="The point is not exploring every possible path again. It is putting your actual shortlist through a clear-headed check and walking out with a decision."
+    items={sessionFlowItems}
+  >
+      <div class="support-links card">
+        <a href={after12thGuideUrl}>Read the detailed after-12th decision guide &rsaquo;</a>
+      </div>
+  </BofuStepFlowSection>
+
+  <BuyerChecks
+    title="What to check before paying for career counselling after 12th"
+    subtitle="The point is one clear, reasoned recommendation — not a longer conversation that still leaves you undecided."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let a good shortlist turn into a wasted year over indecision"
+    body="If the options are already narrowed and the only thing missing is a clear call, a focused counselling session is built for exactly that."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Students After 12th"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling After 12th"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader after-12th guidance, results-week counselling, assessments, and useful reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Resolve the shortlist before it turns into another week of going in circles"
+    subtitle="Use career counselling after 12th once the real choice is between a small set of options and what you need is one clear, reasoned answer — one that also puts you on a stronger skill track toward earlier financial freedom, not just an admission decision."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Students After 12th"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-counselling-resolves,
+  #session-flow,
+  #faq { background: rgba(255,255,255,.01); }
+
+  .support-links {
+    padding: 1rem 1.05rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .9rem;
+    border: 1px solid rgba(255,255,255,.08);
+    background: linear-gradient(145deg, rgba(255,255,255,.03), rgba(255,255,255,.012));
+  }
+  .support-links a {
+    display: block;
+    padding: .95rem 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.025);
+    color: rgba(255,255,255,.8);
+    font-weight: 700;
+    line-height: 1.65;
+  }
+  .support-links a:hover {
+    color: #fff;
+    border-color: rgba(229,184,74,.24);
+  }
+
+  @media (max-width: 980px) {
+    .support-links { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.84rem, 9.6vw, 2.55rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

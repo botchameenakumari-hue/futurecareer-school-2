@@ -36,7 +36,7 @@ async function assertSingleColumnGrid(grid) {
   expect(layout.minimumChildWidth).toBeGreaterThan(250);
 }
 
-test('working professional result fixes the exact reported mobile sections', async ({ page }) => {
+test('working professional result fixes the exact reported mobile sections', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(
     'http://localhost:4321/services/assessments/working-professionals-and-career-changers/'
@@ -47,7 +47,7 @@ test('working professional result fixes the exact reported mobile sections', asy
   await expect(result).toBeVisible();
   const topToolbar = result.locator(':scope > .assessment-report-actions--top');
   await expect(topToolbar).toHaveCount(1);
-  await expect(topToolbar.locator('button')).toHaveText('Download PDF');
+  await expect(topToolbar.locator('[data-download-assessment-report]')).toHaveText('Download PDF');
 
   const ruleOfThreeGrid = page
     .getByText('Research Options', { exact: true })
@@ -75,11 +75,11 @@ test('working professional result fixes the exact reported mobile sections', asy
   });
   expect(multiColumnGrids).toEqual([]);
 
-  await ruleOfThreeGrid.screenshot({ path: 'test-results/working-professional-rule-of-three.png' });
+  await ruleOfThreeGrid.screenshot({ path: testInfo.outputPath('working-professional-rule-of-three.png') });
   await leadershipGrid.screenshot({
-    path: 'test-results/working-professional-leadership-trajectory.png',
+    path: testInfo.outputPath('working-professional-leadership-trajectory.png'),
   });
   await topToolbar.screenshot({
-    path: 'test-results/working-professional-top-pdf-toolbar.png',
+    path: testInfo.outputPath('working-professional-top-pdf-toolbar.png'),
   });
 });

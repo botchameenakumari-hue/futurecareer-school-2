@@ -1,0 +1,741 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS, BOFU_COMPARISON_LIBRARY } from '../../../../config/bofu';
+import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../config/guidancePlans';
+
+const title = 'Career Counselling for Government Jobs | Deciding Before You Commit to Exam Prep | Future Career School';
+const description =
+  'Career counselling for government jobs: an honest read on whether it fits you, before years go into exam prep you have not actually tested.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-government-jobs/';
+
+const {
+  studentSessionPriceText,
+  studentContinuousPriceText,
+  professionalSessionPriceText,
+} = GUIDANCE_PLAN_PRICE_COPY;
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[3],
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-government-exam-aspirants/',
+    title: 'Career Counselling for Government Exam Aspirants',
+    description: 'Once government exams are the actual plan: which exams to target, multi-exam strategy, and what to do after repeated attempts.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-upsc-aspirants/',
+    title: 'Career Counselling for UPSC Aspirants',
+    description: 'Focused decision support if civil services specifically, not SSC, banking, PSC, railway, or defense exams, is the exam actually on the table.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'For students and graduates still deciding between government preparation and other paths before committing years to either.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A free first step if you are still narrowing down whether a government career is even the right lane for you.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Is career counselling actually useful before deciding on a government job, or should I just start preparing?',
+    a: "Starting to prepare before testing whether the government path genuinely fits your strengths, risk tolerance, and financial timeline is exactly how multi-year exam cycles happen by default rather than by choice. Counselling at this stage is not exam coaching and will not teach you reasoning or general awareness. What it does is pressure-test the decision itself — pay structure and growth ceiling versus private-sector or skill-based paths, how much of the pull is genuine fit versus family expectation or peer pressure, and whether your honest risk tolerance matches years of preparation with no guaranteed outcome. That is a cheaper mistake to catch before the first attempt than after the third.",
+  },
+  {
+    q: 'What is the actual difference between this and getting counselling for government exam preparation?',
+    a: 'This is the decision that comes before that one. Career counselling for government exam aspirants assumes you have already chosen to prepare and helps with which exams to target, whether a multi-exam strategy makes sense, and what to do after repeated attempts. The earlier question is whether a government career is the right direction for you at all, compared honestly against private-sector, skill-based, or entrepreneurial paths, before any of those exam-specific decisions become relevant.',
+  },
+  {
+    q: 'Are government jobs still worth it compared to private-sector or skill-based careers?',
+    a: 'There is no single honest answer that fits everyone. Government roles generally offer more structured job security, defined pay bands, and pension-linked stability, along with slower income growth and less room for the pay ceiling to move once you are in a role. Private-sector, specialist, consulting, and skill-based or business paths generally offer a higher income ceiling and faster growth for people who build strong, current skills and proof of work, along with less built-in security and more dependence on market conditions and your own positioning. Saving and investing steadily can still build real wealth on a government salary — the honest point is that the role itself usually offers a lower income ceiling than paths built around scalable skills or ownership, not that a government career makes financial progress impossible.',
+  },
+  {
+    q: 'How do I know if wanting a government job is genuine fit or just family or peer pressure?',
+    a: 'A useful test is to separate what you are drawn to from what you are avoiding. If the honest pull is toward the specific nature of government work — public service, structured hierarchy, a defined selection process, income stability as a real priority for your situation — that is a genuine fit signal worth weighing seriously. If the pull is mainly about avoiding the uncertainty of the private-sector job search, avoiding a difficult conversation with family, or matching what peers in your circle are attempting, that is worth naming honestly before a year or more of preparation goes into a decision made mostly by default.',
+  },
+  {
+    q: 'Can a free assessment tell me whether a government job is right for me?',
+    a: "For an early, exploratory read on your strengths, work style, and risk tolerance, a free, updated, AI-powered assessment can genuinely help narrow the question before you spend money on anything. Where it falls short is the harder version of this decision — one that involves real family financial pressure, a specific exam's age limit closing in, or years already spent preparing that make the decision feel more loaded than it looks on paper. That is where a real conversation, not a generic assessment result, earns its cost.",
+  },
+  {
+    q: 'Does Future Career School help me prepare for government exams?',
+    a: 'No. This is decision support about whether and which direction to commit to, not subject-wise coaching, mock tests, or exam-specific preparation. If you have already decided government exams are the direction and the open questions are which exams to target or how to manage a multi-exam strategy, the government exam aspirants guidance covers that stage. If the government path is not yet a settled decision, this is the right starting point instead.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for Government Jobs', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Career Counselling for Government Jobs: Deciding Before You Commit to Exam Prep',
+    description,
+    datePublished: '2026-08-27',
+    dateModified: '2026-08-27',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="govt-jobs-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Career Counselling for Government Jobs</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>An honest look at the decision, not exam coaching</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>Career counselling for government jobs: deciding if this path fits, before you commit to exam prep</h1>
+            <p class="line strong">
+              Career counselling for government jobs is not the same question as career counselling for government exam preparation. Before choosing which exam to attempt, the real decision is whether a government career is genuinely the right direction for you at all — versus a private-sector, specialist, or skill-based path — measured against your actual risk tolerance, income goals, and financial timeline, not against what feels safest to say out loud to family.
+            </p>
+            <p class="line">
+              Here is the honest trade-off between government and other career paths, how to tell genuine fit from pressure or habit, and how to get real decision support before a year or more of preparation goes into an exam you have not actually tested against your own priorities.
+            </p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how guidance works here</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">In short</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Government jobs trade a higher income ceiling for structured security and pension-linked stability.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>The costly mistake is skipping straight to exam prep before testing whether the path actually fits.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Once government exams are the settled plan, a separate, more exam-specific guidance path takes over.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Here, this earlier decision gets real support before any exam-specific commitment is made.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>A government job generally trades income ceiling for security: structured pay bands, pension-linked stability, and slower growth versus a private-sector or skill-based path's higher ceiling and lower built-in security.</li>
+          <li>The expensive mistake is not choosing government over private — it is spending a year or more preparing for a specific exam before honestly testing whether the government path fits your risk tolerance, income goals, and family reality at all.</li>
+          <li>Genuine fit and pressure-driven fit look similar from the outside. The pull toward public service and structured stability is a real fit signal; the pull toward avoiding the private-sector job search or a hard family conversation is not.</li>
+          <li>A free assessment can help with an early, exploratory read on this. Once real money, an approaching age limit, or years already spent preparing are in the picture, that calls for a real conversation, not a generic result.</li>
+          <li>Once government exams become the settled plan, the next-stage decisions — which exams, whether to run several in parallel, what to do after a non-selection — are a separate, more exam-specific kind of guidance.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#the-real-trade-off">The real trade-off</a>
+          <a href="#fit-or-pressure">Genuine fit or pressure</a>
+          <a href="#what-changes">What actually changes the decision</a>
+          <a href="#our-approach">How this is handled here</a>
+          <a href="#cost">What it costs, concretely</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="the-real-trade-off" class="container section">
+      <h2>The real trade-off behind a government job decision</h2>
+      <p class="line">
+        Government roles are genuinely different from private-sector or skill-based paths in ways that matter more than the "safe versus risky" headline most people default to. Structured pay bands, defined promotion cycles, pension-linked retirement benefits, and a selection process that does not depend on office politics or a manager's mood are real, concrete advantages — not just a feeling of safety.
+      </p>
+      <p class="line">
+        The honest cost side is just as concrete. Pay bands mean a slower, more predictable income curve rather than a ceiling that moves with your skill, output, or market demand. Structured hierarchy and public accountability come with their own bureaucracy, transfer rules, and institutional pressure that vary a great deal by service, posting, and department — not a uniform experience across "government jobs" as one category. And every year spent preparing for a specific exam is a year of income, work experience, and skill-building that a private-sector or skill-based path would have used differently.
+      </p>
+      <p class="line">
+        Neither side of that trade-off is automatically the right answer. The honest work is weighing it against your own numbers and priorities, not against a general reputation either path has earned.
+      </p>
+    </section>
+
+    <section id="fit-or-pressure" class="container section">
+      <h2>Telling genuine fit from pressure or default thinking</h2>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>Signs the pull is genuine fit</h3>
+          <ul>
+            <li>You are drawn to the actual nature of the work — structure, public service, a defined process — not just its reputation.</li>
+            <li>Income stability is a real, considered priority for your situation, not an assumption you have never tested.</li>
+            <li>You have looked honestly at the pay-band and growth trajectory and are still comfortable with it.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>Signs the pull is pressure or avoidance</h3>
+          <ul>
+            <li>The private-sector job search feels uncertain, so government prep feels like the "safer" default rather than a tested choice.</li>
+            <li>Family or community expectation is doing more of the deciding than your own read on the work.</li>
+            <li>Most peers in your circle are attempting the same exams, and going along feels easier than a genuine comparison.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        Most people carry a mix of both. The point is not to arrive at a pure answer — it is to name which parts of the pull are genuine before a year or more of preparation goes into a decision that was mostly made by default.
+      </p>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What actually changes a government-job decision"
+      subtitle="Not government versus private in the abstract — the specific things worth weighing against your own situation."
+      rows={comparisonRows}
+    />
+
+    <section id="our-approach" class="container section">
+      <h2>How this decision is handled here, before any exam-specific commitment</h2>
+      <p class="line">
+        Guidance at this stage is not exam coaching, subject-wise preparation, or mock-test evaluation, and it does not pretend to be. A 1-on-1 session works through your actual situation — income needs, family financial reality, risk tolerance, and how much of the pull toward government work is genuine fit versus pressure — using free, updated, AI-powered assessments where they add a useful early signal.
+      </p>
+      <p class="line">
+        If that honest look points toward a government career, the next-stage decisions — which specific exams genuinely fit your eligibility and strengths, whether preparing for more than one at a time makes sense, and what to do after a non-selection — are covered by a separate, more exam-specific guidance path built for people who have already made this call. If it points toward a private-sector, specialist, or skill-based direction instead, that becomes the plan, without a year of exam preparation spent testing a decision that could have been pressure-tested first.
+      </p>
+      <p class="line">
+        Either way, career counselling, career guidance, and career coaching are treated as one practical service family here rather than separate products — the useful part was never the label, only getting the actual decision right before the more expensive commitment begins.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href="/services/career-counselling-and-career-guidance/career-counselling-for-government-exam-aspirants/">Already decided on government exams? See exam-specific guidance</a>
+      </div>
+    </section>
+
+    <section id="cost" class="container section">
+      <h2>What this decision support costs here</h2>
+      <p class="line">
+        Pricing is shown upfront rather than revealed after a sales call, whichever direction the decision points toward.
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Plan">Career and skill assessments</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student 1-on-1 session (government-vs-other-path decision support)</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student continuous guidance (includes the 1-on-1 plus up to 24 small-group sessions across the year)</td>
+                <td data-label="Price">{studentContinuousPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Working-professional 1-on-1 session</td>
+                <td data-label="Price">{professionalSessionPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Guidance is delivered fully online across India, so this decision can be worked through wherever you are preparing or working right now.
+      </p>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on career counselling for government jobs</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="cta-pair cta-pair-closing">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>Once you know your direction, start here</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Still deciding? Try the free assessments first</a>
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader guidance service, the exam-specific next step, or the free first step."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #govt-jobs-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+  .cta-pair-closing { margin-top: 1.6rem; }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.75rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+  .card {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

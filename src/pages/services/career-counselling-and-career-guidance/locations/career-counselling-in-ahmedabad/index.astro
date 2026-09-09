@@ -1,0 +1,693 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Ahmedabad page drops rows 3 (the assessment-comparison row, already carried
+// by the dedicated AssessmentSupportNote lower on this page) and 5 (random
+// upskilling - less resonant here, since the defining Ahmedabad tension is a
+// structured succession-vs-independent-path decision, not scattered
+// upskilling). This drops a distinct pair of indices, keeping rows 0, 1, 2, 4
+// - a combination not used by any sibling: Rajkot (rows 0-4), Vizag (rows
+// 1-5), Bangalore (full library), Pune (drops 3), Kolkata (drops 1), Chennai
+// (drops 5), Hyderabad (drops 2), Mumbai (drops 4), Chandigarh (drops 4),
+// Gurgaon (drops 4), Nagpur (drops 4), and Delhi (drops 0 and 5).
+const ahmedabadComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 3 && index !== 5);
+
+const title =
+  'Career Counselling in Ahmedabad | Practical Online Guidance | Future Career School';
+const description =
+  'Career counselling in Ahmedabad for students and working professionals weighing family-business succession, an IIM Ahmedabad-level b-school bar, or a GIFT City finance path - with a clearer route toward a high-value skill portfolio and earlier financial freedom.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-ahmedabad/';
+
+const successionItems = [
+  {
+    title: 'Joining the family business is often assumed, not actually decided',
+    body: "In many Ahmedabad households, especially inside the city's dense trading, textile, and manufacturing community, a child is raised with the expectation that they will eventually run or expand the family business - a shop, a mill-linked trading firm, a small manufacturing unit, or a distribution network built over two or three generations. That expectation carries real weight, and stepping away from it is rarely treated as a neutral career choice. The honest question is not whether the business needs you, but whether running it is the direction that actually builds a high-value skill portfolio and moves you toward earlier financial freedom - or whether it has simply never been questioned out loud.",
+  },
+  {
+    title: 'An MBA, especially one shaped by IIM Ahmedabad\'s presence in the city, adds a second layer to the same decision',
+    body: "Ahmedabad is unusual in that one of India's most selective business schools sits inside the same city as its business-family culture. That proximity changes the succession conversation: a management degree stops being a distant aspiration and becomes a locally visible, locally discussed bar that some children are pushed toward specifically to \"professionalise\" the family business, while others chase it as an independent credential to justify building something of their own outside it. Either way, the MBA decision and the succession decision usually need to be untangled from each other before either one gets clearer.",
+  },
+  {
+    title: 'Modernising the business is a real third option, not just a compromise',
+    body: "Stepping into a family business does not have to mean running it exactly as the previous generation did. Digital sales channels, direct-to-consumer models, financial and inventory systems, and newer manufacturing or export processes are already changing how Ahmedabad's traditional trading and textile firms operate. Bringing a genuinely useful skill set into the business - rather than either fully inheriting it unchanged or walking away from it entirely - is a path that deserves the same serious weighing as the other two.",
+  },
+  {
+    title: 'The cost of an unexamined default is a wrong route quietly compounding for years',
+    body: "The risk in Ahmedabad is rarely a dramatic family conflict. It is usually a slow, unexamined default - joining because it was never really questioned, or leaving because independence felt more prestigious without a clear plan for what to build instead. Either default can waste years before the real trade-offs, skill gaps, and income paths are actually laid out and compared honestly.",
+  },
+];
+
+const economyItems = [
+  {
+    title: "Ahmedabad's textile legacy has genuinely transitioned, not just added new sectors on top",
+    body: "Ahmedabad earned its old \"Manchester of India\" reputation from a dense cluster of textile mills, and while most of the original mills have closed or been repurposed, the denim, garment, and textile-processing industry around the city remains real and export-oriented. What has changed is the surrounding economy: a genuine pharmaceutical industry led by Zydus (Cadila) and Torrent Pharmaceuticals, both headquartered in Ahmedabad, alongside a diversified industrial base spanning chemicals, engineering goods, and infrastructure conglomerates including the Adani Group's corporate headquarters in the city. For someone from a textile-trading family, the honest question is whether the next generation's skill direction should extend the family's original industry, pivot into pharma, chemicals, or logistics, or build something unrelated to any of them.",
+  },
+  {
+    title: 'The GIDC industrial estates around Naroda, Odhav, and Vatva still anchor a large share of local employment',
+    body: "Gujarat Industrial Development Corporation estates at Naroda, Odhav, and Vatva host a dense cluster of small and mid-size manufacturing, chemical, and engineering units that continue to employ a meaningful share of Ahmedabad's workforce, often through the same family and community networks that run them. Sanand, on the city's western edge, added a genuine automobile and auto-component manufacturing identity once Tata Motors and its supplier ecosystem set up there. This gives Ahmedabad a real industrial floor most metro tech hubs don't have - and a real fork between staying inside that floor and building a more specialised, higher-ceiling skill direction on top of it.",
+  },
+  {
+    title: 'A visible corporate and educational layer sits alongside the industrial base',
+    body: "CEPT University's planning and design programs, Nirma University's engineering and management tracks, and Gujarat University's broad academic base feed a genuine professional and corporate layer into the city, concentrated through the SG Highway, Prahlad Nagar, and Satellite corridor where IT services firms, corporate offices, and a growing consulting and analytics presence now operate. That corridor increasingly competes with the family-business path for the same graduates, without either option being clearly the safer or better one by default.",
+  },
+];
+
+const giftCityItems = [
+  {
+    title: "GIFT City is a genuinely different kind of opportunity - not a rebrand of Ahmedabad's existing economy",
+    body: "Gujarat International Finance Tec-City, built in neighbouring Gandhinagar as India's first International Financial Services Centre, is a real, government-backed attempt to build a BFSI and fintech hub inside Gujarat rather than routing that work through Mumbai alone. Global and domestic banks, insurers, and financial-services firms have already established a presence there, and the ambition is specifically forward-looking: capital markets, asset management, fintech, and international banking operations, not a continuation of Ahmedabad's traditional trading or manufacturing economy.",
+  },
+  {
+    title: 'It creates a genuinely new fork for finance-minded students and professionals in the city',
+    body: "For someone in Ahmedabad weighing a finance, analytics, or BFSI-adjacent skill direction, GIFT City is a real local answer to the old assumption that a serious finance career requires relocating to Mumbai or Bangalore. It is still an early-stage hub compared to those established financial centres, so the honest picture includes both the genuine opportunity and the fact that its scale, hiring depth, and role variety are still building - which matters when deciding how much of a career bet to place on it right now versus treating it as one part of a broader skill direction.",
+  },
+  {
+    title: "GIFT City adds a third option to the succession conversation, not just a job market detail",
+    body: "For someone from a business family who is not drawn to running the family trade but also does not want to leave Gujarat entirely, a GIFT City-oriented finance or fintech skill path offers a genuine third route beyond \"join the family business\" or \"move to a metro.\" It is a real, local, forward-looking option worth naming explicitly in a decision that too often gets framed as only having two sides.",
+  },
+];
+
+const iimaItems = [
+  {
+    title: 'IIM Ahmedabad sets a locally visible bar that shapes ambition citywide',
+    body: "IIM Ahmedabad is consistently ranked among India's most selective and prestigious business schools, and its presence inside the city - not just as a distant national institution, but as a physically local one - has a real effect on how career success gets measured here. Students, and often their families, absorb an implicit standard: getting into IIM-A, or an institution close to it, becomes the benchmark against which other paths quietly get compared, even when the actual career goal has nothing to do with management.",
+  },
+  {
+    title: 'Not getting in, or not attempting it, can feel like falling short of a local standard rather than simply choosing a different path',
+    body: "Because the bar is so visible and so locally specific, a student who does not clear it - or who never seriously considers business school at all - can end up feeling like they have fallen short of Ahmedabad's own definition of success, rather than recognising that IIM-A's admission criteria measure one narrow set of things, not overall potential or fit. That pressure shows up as much in families who never attended business school themselves as in those with an MBA already in the family.",
+  },
+  {
+    title: 'A high-value skill portfolio, not a single admission outcome, is the more reliable route to strong career options',
+    body: "An IIM-A admission is a genuine achievement for the small number of people it works out for, but it is one route among several toward a strong career, not the only one. Building a deliberate, high-value skill portfolio - proof of work, market-relevant expertise, and a clear direction - unlocks high income opportunities and moves someone toward earlier financial freedom regardless of which business school did or did not admit them. Reframing the comparison away from one binary admission outcome, and toward the actual skill and positioning work that follows any path, is often the most useful thing counselling can do here.",
+  },
+];
+
+const areaItems = [
+  {
+    title: 'SG Highway, Prahlad Nagar, and Satellite: the newer corporate and IT corridor',
+    body: "This stretch has become Ahmedabad's newer commercial spine - IT services firms, consulting offices, and corporate headquarters increasingly cluster here, alongside upscale residential development. Someone deciding from this corridor is often weighing a corporate or tech-adjacent career against family expectations formed in an older part of the city.",
+  },
+  {
+    title: 'Navrangpura and CG Road: the academic and commercial core',
+    body: "Navrangpura hosts a dense concentration of colleges and coaching centres alongside Gujarat University, while CG Road remains one of the city's established commercial and retail streets. Many first career and stream decisions in Ahmedabad get shaped by conversations that start in this part of the city.",
+  },
+  {
+    title: 'The old city, Maninagar, and Kankaria: where the trading and textile legacy still runs deepest',
+    body: "Ahmedabad's walled old city, Maninagar, and the area around Kankaria carry the strongest concentration of long-running family trading and small-manufacturing businesses, often the exact households where the succession-versus-independent-path decision is most immediate and least openly discussed.",
+  },
+  {
+    title: 'Naroda, Odhav, Vatva, and Sanand: the industrial belt',
+    body: "These GIDC estates and the Sanand automobile cluster on the city's edges anchor a real share of Ahmedabad's manufacturing employment. Families connected to units here often face a direct choice between continuing in that industrial base and building a more specialised skill direction elsewhere.",
+  },
+  {
+    title: 'Gandhinagar and GIFT City: the emerging finance corridor next door',
+    body: "Just north of Ahmedabad, Gujarat's capital city now also hosts GIFT City's international finance ambitions. For BFSI-minded students and professionals across Ahmedabad, this is close enough to be a genuine local option rather than a distant metro move.",
+  },
+  {
+    title: 'Bopal, Vastrapur, and Thaltej: the newer residential and student belt',
+    body: "These fast-growing residential areas host a large share of Ahmedabad's students and young professionals commuting toward SG Highway, Navrangpura, or the older business districts, often weighing multiple competing career pulls from the same household.",
+  },
+];
+
+const fitItems = [
+  {
+    title: 'What you actually need right now',
+    listItems: [
+      'You want the family-business-versus-independent-path decision treated as real, not brushed aside or assumed away.',
+      'You want an honest read on where IIM Ahmedabad-level pressure fits your actual career goal, not just your family\'s expectation.',
+      'You want to know whether GIFT City, the pharma and industrial base, or a corporate/tech path genuinely suits your strengths.',
+      'You want a practical next step, not another round of vague reassurance.',
+    ],
+  },
+  {
+    title: 'What should matter more than the city label alone',
+    listItems: [
+      "Whether the guidance actually understands Ahmedabad's business-family culture and the pressure it creates",
+      'Whether the next step becomes clearer and easier to act on',
+      'Whether the process strengthens skill direction and proof of work rather than just describing your options',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Closer should still mean clearer',
+    body: 'Searching locally is useful only if it leads to better decision support, not just physical proximity.',
+  },
+  {
+    title: 'Name the real fork honestly',
+    body: 'Family business, an IIM-A-level bar, and GIFT City\'s finance path deserve an honest comparison, not a default answer.',
+  },
+  {
+    title: 'Act before the default hardens',
+    body: 'The practical goal is to get clear before an unexamined choice quietly becomes the only one left - and to start building the high-value skill portfolio that keeps unlocking high income opportunities and moves you toward earlier financial freedom.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the decision actually creating pressure right now',
+    listItems: [
+      'Whether joining, modernising, or stepping away from the family business fits your actual strengths and goals',
+      'Where an IIM Ahmedabad-level ambition genuinely fits your path, and where it is pressure without a clear reason',
+      'Whether a GIFT City finance direction, the pharma and industrial economy, or a corporate/tech role is worth building toward',
+      'What the honest income and growth ceiling looks like for the path you are currently on',
+    ],
+  },
+  {
+    title: "Skill direction that fits Ahmedabad's real economy",
+    listItems: [
+      'Proof-of-work thinking over degree-first or admission-outcome-first positioning alone',
+      'Finance and analytics skills relevant to a GIFT City-oriented BFSI or fintech direction',
+      'Modern business, digital, and operations skills that can genuinely upgrade a family trading or manufacturing business',
+      'A realistic route toward earlier financial freedom that accounts for your specific family and business context',
+    ],
+  },
+  {
+    title: 'A practical next step you can act on',
+    listItems: [
+      'Online guidance delivered across India with no dependence on local offline availability',
+      'A clear, honest comparison of your two or three real options instead of an assumed default',
+      'A concrete skill and income direction, not just a label for what you already suspected',
+      'One decision to move on now instead of more time spent circling the same unexamined choice',
+    ],
+  },
+];
+
+const objectionItems = [
+  {
+    title: "My family expects me to join the business - I've never actually been asked what I want",
+    body: "That is one of the most common and least openly discussed pressures in Ahmedabad. Joining, modernising, or building something separate are all genuine options, and working through the real trade-offs of each - rather than defaulting to whichever feels easiest to avoid conflict - is exactly what practical counselling should help with.",
+  },
+  {
+    title: 'I did not get into IIM Ahmedabad, or I never even tried - does that mean I missed my shot?',
+    body: "No single admission outcome decides a career. IIM-A measures a specific, narrow set of things extremely well for the small number of people it admits, but a strong career is built on a genuinely useful skill portfolio and real proof of work, both of which can be built with or without that one credential.",
+  },
+  {
+    title: 'Is a GIFT City finance career actually a realistic bet right now, or is it too early-stage?',
+    body: "It is a genuine, growing opportunity, but it is still an early-stage hub compared with Mumbai's established financial centre. The honest approach treats it as one real option worth building relevant skills toward, not as a guaranteed shortcut and not as something to dismiss either.",
+  },
+  {
+    title: 'I want to modernise the family business instead of running it unchanged or leaving it - is that even a real path?',
+    body: "Yes. Bringing genuinely useful digital, financial, or operational skills into an existing family business is a legitimate direction that deserves the same serious planning as either fully inheriting it or stepping away entirely.",
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Ahmedabad's business-family dynamics",
+    body: "Ahmedabad's succession pressure is specific and significant. Good guidance should be able to speak credibly to whether staying in the family business, modernising it, or building independently actually fits your situation, not treat family business as an afterthought.",
+  },
+  {
+    title: 'Check whether an IIM-A-level bar is examined honestly, not reinforced by default',
+    body: "Because IIM Ahmedabad sits inside the city, some guidance can unintentionally reinforce a narrow definition of success. Better guidance should name that pressure directly and show what a strong path looks like whether or not that specific admission outcome happens.",
+  },
+  {
+    title: 'Check whether GIFT City and the broader pharma/industrial economy are both taken seriously',
+    body: "Ahmedabad's real economy spans an emerging finance hub in GIFT City and a genuine pharma, chemicals, and industrial base. Guidance that only speaks to one of these, or defaults to generic metro-IT advice, is missing the actual local picture.",
+  },
+  {
+    title: 'Check whether the next move respects your specific family and business context',
+    body: 'Good guidance for Ahmedabad should be realistic about family expectation, business continuity, and the actual skill gaps involved in each option - not push a single "right" answer regardless of your situation.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See other city guidance options if you want to compare before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.rajkotCounselling,
+    title: 'Career Counselling in Rajkot',
+    description: 'See this if you are comparing Ahmedabad against Rajkot\'s smaller manufacturing and SME-focused business-family context.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'See the online page if easier access across India matters more than city-based search wording.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'See this if a stagnating role, a pivot, or a family-business transition is the bigger question, beyond the city itself.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Ahmedabad instead of only looking for a nearby offline office?',
+    answer:
+      "Because proximity alone does not improve the decision. Online guidance lets you start from home, campus, or work without waiting for local availability, and the stronger comparison is whether the support genuinely understands Ahmedabad's business-family pressure, the IIM Ahmedabad-level bar, and the GIFT City and industrial economy - not just whether an office happens to be nearby.",
+  },
+  {
+    question: 'How does career counselling help with the family-business-versus-independent-path decision?',
+    answer:
+      "It treats the decision as a genuine, multi-option career choice rather than an assumed default. That means honestly comparing joining the business as-is, modernising it with real skills, or building something independent, against your actual strengths, the family's real financial picture, and the skill direction most likely to unlock stronger income opportunities either way.",
+  },
+  {
+    question: 'I did not get into IIM Ahmedabad. Does that limit my career options in this city?',
+    answer:
+      "No. IIM-A is one route among several toward a strong career, and it measures a narrow set of things extremely well for a very small number of applicants. A deliberate, high-value skill portfolio with real proof of work is the more reliable route to strong income and career options, whether or not that one specific admission happens.",
+  },
+  {
+    question: 'Is a finance career through GIFT City a realistic option from Ahmedabad?',
+    answer:
+      "It is a genuine and growing option, built specifically as India's first International Financial Services Centre in neighbouring Gandhinagar. It is still an earlier-stage hub than Mumbai's established financial centre, so the honest approach is treating it as one real, local direction worth building relevant finance or fintech skills toward, not a guaranteed shortcut.",
+  },
+  {
+    question: 'What career paths actually make sense for someone in Ahmedabad?',
+    answer:
+      "It depends on the person, not only the city. Ahmedabad has genuine opportunity across its pharma industry (Zydus, Torrent), its industrial and manufacturing base across the GIDC estates and Sanand, its growing SG Highway corporate and IT corridor, and the emerging GIFT City finance hub - alongside the family-business path many households already have access to. The right direction is the one that fits your strengths and has real income-growth potential, not just the one that was always assumed.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Ahmedabad?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Ahmedabad users.',
+  },
+  {
+    question: 'What if I am from Ahmedabad but the bigger issue is not the city or the family business at all?',
+    answer:
+      "That is common. The city search is often a trust shortcut. If the real pressure is stream selection, degree choice, skill direction, or a career change unrelated to family business or business school, the main counselling and guidance pages are the stronger next filter. This page is most useful when Ahmedabad's specific succession, IIM-A, or GIFT City context is genuinely part of your decision.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Ahmedabad',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Ahmedabad | Future Career School',
+    description:
+      'Career counselling in Ahmedabad for students, freshers, and working professionals weighing family-business succession, an IIM Ahmedabad-level b-school bar, or a GIFT City finance path, with clearer skill direction and income-growth planning.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Ahmedabad' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Ahmedabad</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Ahmedabad
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Ahmedabad
+        <span class="gold-text"> for family-business, IIM-A, and GIFT City decisions</span>
+      </h1>
+      <p class="hero-sub">
+        Ahmedabad forces a career pressure few other cities do quite this directly: whether to join or modernise a family business,
+        how much weight an IIM Ahmedabad-level bar should really carry, and whether GIFT City's emerging finance economy is worth building toward.
+        Getting clear on the actual trade-offs, and building the kind of high-value skill portfolio that unlocks high income opportunities,
+        matters more than defaulting to whichever option was never really questioned.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Ahmedabad and across India. You can start from home, campus, or work, wherever you already are - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Ahmedabad. It is whether the guidance understands the specific fork
+        your decision actually sits inside - family business, business school, finance, or something else entirely.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="succession-decision"
+    title="The family-business decision Ahmedabad rarely names out loud"
+    subtitle="This is the single most defining career fork in the city, and it usually stays unspoken until it has already been decided by default - one way or the other."
+    items={successionItems}
+    variant="decision"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the succession question, an IIM-A ambition, or a GIFT City path already feels like a real decision, move before the default hardens"
+    body="Use this when you want stronger guidance now, not another round of delay while an unexamined choice quietly becomes the only one left."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="ahmedabad-economy"
+    title="Ahmedabad's economy has genuinely diversified beyond its textile legacy"
+    subtitle="A useful page for this city has to speak to more than one industry - the honest picture spans pharma, industrial manufacturing, a growing corporate corridor, and the family-business economy that still runs alongside all of it."
+    items={economyItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="gift-city"
+    title="GIFT City is building a genuinely new finance economy next door, in Gandhinagar"
+    subtitle="For finance-minded students and professionals, this changes what 'staying in Gujarat' can actually mean - without pretending the opportunity is more mature than it currently is."
+    items={giftCityItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="iim-a-pressure"
+    title="IIM Ahmedabad's presence shapes local ambition in a way few other cities experience"
+    subtitle="A prestigious b-school sitting inside your own city changes how success gets measured here - and that pressure deserves to be named honestly, not reinforced by default."
+    items={iimaItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="ahmedabad-areas"
+    title="Which part of Ahmedabad you're deciding from changes the real trade-off"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Ahmedabad rather than treating every resident as facing the same fork."
+    items={areaItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In Ahmedabad's business-family economy, the real risk is advice that only speaks to one metro-shaped script and ignores succession pressure, the IIM-A benchmark, or the GIFT City finance path. The comparison below shows what separates high-leverage guidance from that."
+    rows={ahmedabadComparisonRows}
+  />
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use. Here is what that looks like.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Honest answers to what people wonder"
+    subtitle="Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Ahmedabad."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Ahmedabad"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process understands your family and business context, and whether it improves decision quality and skill direction."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is a clearer view of the family-business, IIM-A, and GIFT City trade-offs, and a concrete next step before the default hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Ahmedabad"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="This decision is not only about family business, IIM Ahmedabad, or GIFT City in isolation. It is about building a high-value skill portfolio that keeps unlocking high income opportunities, whichever path you choose to build it on."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .section-block {
+    padding: 3.5rem 0;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 1.2rem;
+  }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.15rem, 5vw, 3.7rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  .btn-gold,
+  .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #e5b84a, #d4a83a);
+    color: #000;
+  }
+
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3);
+  }
+
+  .btn-outline {
+    border: 1px solid rgba(45, 212, 191, 0.5);
+    color: #2dd4bf;
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    background: rgba(45, 212, 191, 0.1);
+    border-color: #2dd4bf;
+  }
+
+  .pulse {
+    animation: pulse-ring 2s infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #deliverables,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #succession-decision,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+
+    .section-block {
+      padding: 2.5rem 0;
+    }
+  }
+</style>

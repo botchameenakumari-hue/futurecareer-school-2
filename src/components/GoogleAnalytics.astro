@@ -48,13 +48,15 @@
       if (analyticsLoaded) return;
       analyticsLoaded = true;
 
+      // Queue the standard Google commands before the network request starts.
+      // The dataLayer safely holds them until gtag.js finishes loading, and
+      // this keeps consented analytics deterministic on slow connections.
+      window.gtag('js', new Date());
+      window.gtag('config', MEASUREMENT_ID);
+
       const script = document.createElement('script');
       script.async = true;
       script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(MEASUREMENT_ID)}`;
-      script.onload = () => {
-        window.gtag('js', new Date());
-        window.gtag('config', MEASUREMENT_ID);
-      };
       document.head.appendChild(script);
     };
 

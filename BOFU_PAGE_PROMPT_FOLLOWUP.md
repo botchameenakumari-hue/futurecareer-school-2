@@ -159,6 +159,24 @@ Do not invent business facts, deliverables, promises, prices, guarantees, framew
 - external research may help with keyword nuance or trust context, but it must not be used to invent business claims about Future Career School
 - verify changing facts through primary or official sources when that information could have changed
 - keep ethical language intact: no job guarantees, no guaranteed income outcomes, no fake scarcity, no fake urgency
+- **flexible-timeframe check:** scan every heading, CTA/support line, meta field, comparison row, body
+  paragraph, and FAQ answer for a hardcoded day or week count attached to a test, sprint, proof block,
+  or "how soon will this help" claim (e.g. "30-day", "90-day", "4-week"). Rewrite to pace-neutral
+  language ("a short test", "a focused stretch of consistent work", "as long as it genuinely takes").
+  Real external dates and approved service facts (e.g. "up to 24 small-group sessions across the year")
+  may stay concrete.
+
+---
+
+## AI-Tell Sweep (Review This)
+
+- scan for throat-clearing openers/wrap-ups ("in today's world", "in conclusion", "ultimately", "it's important to note", "let's dive in") and cut them
+- scan for stacked connective filler ("moreover", "furthermore", "additionally", "that being said") and cut it
+- replace hedged claims ("may", "might", "can sometimes", "in many cases") with a plain, direct statement wherever the underlying fact supports one
+- check paragraph and sentence rhythm — if every paragraph is the same length and every sentence is mid-length, vary it
+- check for hollow symmetry (forced "not only... but also", rule-of-three lists that don't earn their place, both-sides paragraphs that commit to nothing) and cut or sharpen it
+- check that no H2/H3 section opens by simply restating its own heading as the first sentence
+- if a sentence could sit unchanged on a competitor's service page, rewrite it until it couldn't — while staying inside the approved messaging bank
 
 ---
 
@@ -190,6 +208,21 @@ Do not invent business facts, deliverables, promises, prices, guarantees, framew
 - keep the keyword natural in the title, meta description, H1, first sentence, and at least one H2 when natural
 - if new sections are added, keep heading order logical and keep the page coherent
 - if the page has a jump nav, table of contents, sticky section nav, or anchor links, update them so they exactly match the current section labels and IDs
+- **schema check:** `Service` + `BreadcrumbList` (+ `FAQPage` only when a real FAQ section exists). Do
+  not use `BlogPosting`. Do not add self-serving `Review` or `AggregateRating` markup for Future Career
+  School, its services, plans, or on-site testimonials, and do not invent a rating, reviewer, or dummy
+  review section to qualify for a rich result — even on an "is it worth it" or reviews-style page
+- **table check:** confirm every `<td>` in every table (including 2-column tables) has an accurate
+  `data-label`, and every table is wrapped in `.table-wrap`; verify by rendering at ~390px, not just by
+  reading the code — a table missing `data-label` cells will cut off content on a phone
+- **FAQ check:** confirm FAQs use a `<details>`/`<summary>` accordion (shared `BofuFaqSection.astro`)
+  with the first item open by default, not a long always-open Q&A stack
+- **framework-naming check:** if the page names a multi-part framework or checklist, confirm every later
+  reference uses the exact same name as the first introduction, and that the first use is where it is
+  defined
+- **wall-of-text check:** if prose runs the full page width, restore the constrained reading column; if
+  paragraphs or card text are dense, split them; collapse any long skimmable reference block into
+  `<details>` disclosure
 - strengthen internal links when useful:
   - parent service page
   - services hub

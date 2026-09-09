@@ -1,0 +1,431 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuSummaryStrip from '../../../../components/bofu/BofuSummaryStrip.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling for Seniors | Future Career School';
+const description =
+  'Career counselling for seniors and retirement-age adults who want to stay professionally active: turning decades of experience into paid consulting, advisory, or mentoring work at a pace that fits real energy and family life.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-seniors/';
+
+const whyDifferentItems = [
+  {
+    eyebrow: 'The real question',
+    title: 'Not "get a job again" — "use what I already know"',
+    body: 'A 25-year-old career search and a retirement-age decision are not the same problem. Most seniors are not chasing a full-time ladder role. They are deciding how to turn decades of judgment, network, and domain knowledge into paid consulting, advisory, teaching, or mentoring work.',
+  },
+  {
+    eyebrow: 'The wrong tool',
+    title: 'A resume built for a 30-year-old rarely fits',
+    body: 'A chronological resume optimized for an applicant-tracking system was never built to sell decades of experience. The stronger asset is usually a clear one-page summary of what you know and who it helps, not a longer version of a job-search document.',
+  },
+  {
+    eyebrow: 'Pace',
+    title: 'Energy at 62 is not energy at 32, and a real plan says so',
+    body: 'A workable plan for this stage respects health, stamina, and how much time someone genuinely wants to give — a few hours a week of meaningful work, not a full return to a five-day schedule copied from before retirement.',
+  },
+  {
+    eyebrow: 'Family',
+    title: 'A straight answer for "why are you still working"',
+    body: 'A spouse or adult children sometimes see continued work as unnecessary, or worry it means something is wrong financially. That reaction deserves a clear, honest answer, not an argument avoided until it becomes one.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the plan assumes a 25-year-old job search',
+    body: 'If the advice is "update your resume and apply on job portals," it was written for a different stage of life. Ask whether the process actually starts from packaging decades of experience into a specific paid offer.',
+  },
+  {
+    title: 'Check whether digital comfort is treated as a real, fixable gap',
+    body: 'Video calls, a simple online profile, or basic online tools are often the actual blocker, not the person\'s relevance or capability. A serious plan should account for this without being condescending about it.',
+  },
+  {
+    title: 'Check whether pace and health are part of the plan, not an afterthought',
+    body: 'A plan that assumes unlimited energy and a full working week is not built for this stage. Ask how the process fits a realistic, sustainable weekly time budget instead of a return to a pre-retirement schedule.',
+  },
+  {
+    title: 'Check whether it promises a job, or supports a real decision',
+    body: 'No ethical provider can guarantee a placement at any age. Be wary of anything that sounds like a guarantee, and prefer a process that helps you decide the right direction and package your experience honestly.',
+  },
+];
+
+const improvementItems = [
+  {
+    title: 'A clear, specific offer instead of a generic resume',
+    body: 'Decades of experience translated into one plain statement of what you know, who it helps, and how someone could pay for it — consulting, advisory, training, or mentoring — instead of a resume built for a different kind of hiring process.',
+  },
+  {
+    title: 'A realistic route back to relevant income and structure',
+    body: 'A route toward unlocking income opportunities from experience you already have, sized to how much time and energy you actually want to give, not a demand to relearn everything from scratch.',
+  },
+  {
+    title: 'A weekly rhythm that fits real pace, not pre-retirement hours',
+    body: 'A workable plan usually means a handful of focused hours a week, sequenced sensibly, instead of a plan copied from someone decades younger with a different schedule and different stamina.',
+  },
+  {
+    title: 'Language for the people around you, not just for you',
+    body: 'A way to explain the decision to a spouse or family in terms of purpose, structure, and income, so the conversation moves past "why are you still working" into a decision everyone understands.',
+  },
+];
+
+const startingPointItems = [
+  {
+    title: 'Staying professionally active after retiring',
+    body: 'The goal is income, structure, or purpose through part-time consulting, advisory, or mentoring work in a familiar field — not a return to a full five-day working week.',
+  },
+  {
+    title: 'A deliberate move before the hard stop',
+    body: 'A few years out from retirement, planning a controlled shift into consulting or advisory work instead of an abrupt full stop and a difficult decision made all at once later.',
+  },
+  {
+    title: 'Turning specialist experience into teaching or advisory work',
+    body: 'A retired teacher, engineer, banker, or administrator offering tutoring, mentoring, or advisory work in the same field — where the real barrier is usually packaging the offer, not the underlying knowledge.',
+  },
+];
+
+const realityCheckItems = [
+  { title: 'Real asset', body: 'Decades of judgment, network, and domain knowledge, not a resume line count.' },
+  { title: 'Real pace', body: 'A handful of focused hours a week usually fits better than a full working week.' },
+  { title: 'Real blocker', body: 'Often digital comfort and packaging, not relevance or ability.' },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Degree-first direction with weak skill edge',
+    right: 'Skill-first direction with proof of work and stronger market value',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Is career counselling for seniors about finding a full-time job again?',
+    answer:
+      'Usually not. Most people at this stage are not chasing a full-time ladder role. The more common goal is turning decades of experience into paid consulting, advisory, teaching, or mentoring work, on a schedule that fits real energy and other commitments.',
+  },
+  {
+    question: 'I have not written a resume in decades. Where do I even start?',
+    answer:
+      'A resume built for a 25-year-old applicant is often the wrong starting document. It usually helps more to start from a clear, one-page summary of what you know and who it could help, then build outward from that into whatever format the opportunity actually needs.',
+  },
+  {
+    question: 'Will anyone actually pay for my experience at this stage?',
+    answer:
+      'Decades of judgment, network, and domain knowledge are a real asset, but they rarely sell themselves as a plain chronological history. Packaged as a specific consulting, advisory, or mentoring offer, that same experience becomes something a former colleague, client, or organization can clearly say yes to.',
+  },
+  {
+    question: 'My family thinks I should just rest instead of working. How do I handle that?',
+    answer:
+      'That reaction is common and worth taking seriously rather than avoiding. It usually helps to be direct about the real reason — purpose, structure, income, or all three — instead of leaving the decision unexplained and letting the disagreement repeat.',
+  },
+  {
+    question: 'Is this the same as executive career coaching?',
+    answer:
+      'No. Executive career coaching is built for leadership and C-suite-track questions from people currently well inside their working career. Career counselling for seniors is built for a different stage and a different decision: staying professionally active at or near retirement age, usually outside a full-time corporate ladder.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered, and can be a useful starting signal before a paid counselling session.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: '/services/career-counselling-and-career-guidance/',
+    title: 'Broader Career Guidance',
+    description: 'Get broader help with path, skill, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-adults/',
+    title: 'Career Counselling for Adults',
+    description: 'For any adult past school or college age making a career decision, whatever your current employment status.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/executive-career-coaching/',
+    title: 'Executive Career Coaching',
+    description: 'For leadership and C-suite-track questions from people currently well inside their working career, not a retirement-stage decision.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-guidance-for-women-returning-to-work/',
+    title: 'Career Guidance for Women Returning to Work',
+    description: 'A dedicated path for re-entering the workforce after a break, with break-length-specific guidance.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coaching-for-mid-career-professionals/',
+    title: 'Career Coaching for Mid-Career Professionals',
+    description: 'For the specific plateau around 8 to 15 years in, when promotions slow and change starts to feel riskier.',
+  },
+  {
+    href: '/services/assessments/working-professionals-and-career-changers/',
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free input for pivots, role fit, and stronger direction at any adult career stage.',
+  },
+  {
+    href: '/services/assessments/',
+    title: 'Free Career Assessments',
+    description: 'Free assessments for skill fit, direction, and stronger next-step decisions.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for Seniors', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Seniors | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Seniors',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Seniors</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Built for retirement-age decisions, not a 25-year-old job search
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for seniors
+        <span class="gold-text"> built around decades of experience, not a resume rewrite</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School offers career counselling for seniors and retirement-age adults who want to
+        stay professionally active — through consulting, advisory, teaching, or mentoring work — instead
+        of starting a job search built for someone decades younger. The direction is unlocking income
+        opportunities from the high-value skill portfolio you already carry, at a pace your energy and
+        life actually allow.
+      </p>
+      <p class="hero-note">
+        Sessions run fully online across India, so joining does not depend on travel, a nearby office, or
+        comfort with anything more complicated than a simple video call.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for Seniors</a>
+      </div>
+      <BofuSummaryStrip items={realityCheckItems} variant="signal" sectionClass="hero-reality-strip" />
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="why-different"
+    title="Why career counselling for seniors needs a different starting point"
+    subtitle="Most career advice online is written for people early in their working life. This starts from a high-value skill portfolio built over decades, and a realistic route to unlocking income opportunities from it, instead of a job-search template that assumes a different stage of life entirely."
+    items={whyDifferentItems}
+    variant="signal"
+    columns={2}
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help clarify direction and fit before a paid session — useful signal, not a substitute for a plan built around decades of real experience."
+      href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+    />
+  </BofuListCardSection>
+
+  <BuyerChecks
+    title="Checks before choosing career counselling built for this stage"
+    subtitle="The goal is a process that starts from decades of real experience and a realistic pace, not a plan copied from someone decades younger with a different schedule and different stamina."
+    items={buyerCheckItems}
+  />
+
+  <BofuStepFlowSection
+    sectionId="starting-points"
+    title="Common starting points for this decision"
+    subtitle="Most people arrive here from one of a few real situations, not one generic story. A spouse or family member who is unsure why the work continues is often part of the picture too, and deserves a straight answer, not an unspoken one."
+    items={startingPointItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="A clear plan beats another year of an unclear 'maybe later'"
+    body="Decades of judgment and network do not become income on their own. A specific plan to package and offer that experience usually moves faster than waiting for the right moment to figure it out alone."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Seniors"
+  />
+
+  <ComparisonMatrix
+    title="What changes when counselling accounts for a retirement-age decision"
+    subtitle="Pace, family reaction, and decades of unpackaged experience are not side notes at this stage. They should shape the plan from the start, on the way to unlocking real income opportunities from what you already know."
+    rows={comparisonRows}
+  />
+
+  <BofuFeatureSection
+    sectionId="what-changes"
+    title="What career counselling for seniors should actually improve"
+    items={improvementItems}
+    variant="decision"
+    columns={2}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="A plan sized to your pace beats a plan built for someone else's schedule"
+    body="Structured guidance built around your real energy, time, and goals moves faster than generic job-search advice aimed at a different stage of life."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Seniors"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See other counselling and guidance pages, career-changer assessments, and free tools before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions seniors ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Decades of experience deserve a real plan, not another delay"
+    subtitle="A structured, fully online session built around your actual pace and goals can help turn what you already know into a realistic route toward unlocking income opportunities, purpose, and continued financial freedom at this stage."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Seniors"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%); opacity: .16; }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 3.9rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 790px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-reality-strip { max-width: 860px; margin-top: 2rem; }
+
+  #why-different,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.76rem, 9.3vw, 2.35rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

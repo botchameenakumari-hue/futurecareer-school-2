@@ -1,0 +1,595 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Coimbatore drops the "paid-outdated-vs-free-updated-assessments" row (index
+// 3, already carried directly by the page's own single AssessmentSupportNote)
+// and the "generic low-paying path advice" row (index 4, the weakest fit for
+// a precision-engineering manufacturing economy that is already high-value,
+// not low-paying). Index 1 (degree-first-vs-skill-first) is deliberately
+// KEPT, unlike Ludhiana - Coimbatore's pump, textile-machinery, and
+// auto-component manufacturing is precision-engineering work that genuinely
+// expects an engineering degree, so the degree-vs-skill framing fits here in
+// a way it does not fit Ludhiana's hosiery/bicycle karobar economy. The
+// resulting selection (rows 0, 1, 2, 5) is a combination not used by any
+// sibling: Rajkot (rows 0-4), Vizag (rows 1-5), Bangalore (full library),
+// Pune (drops index 3), Kolkata (drops index 1), Chennai (drops index 5),
+// Hyderabad (drops index 2), Mumbai/Chandigarh/Gurgaon/Nagpur (each drop
+// index 4), Delhi (drops 0 and 5), Ahmedabad (drops 3 and 5), Surat (drops 0
+// and 3), Thane/Vadodara (drop 1 and 3), Ludhiana (drops 1 and 4), Guwahati
+// (drops 2 and 4), Jalandhar (drops 2 and 5), Raipur (drops 2 and 3), Nashik
+// (drops 1 and 2), Aurangabad (drops 0 and 4), Kolhapur (drops 0 and 2), and
+// Noida (drops 1, 3, and 4 - a three-index combination, not the same pair
+// used here).
+const coimbatoreComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 3 && index !== 4,
+);
+
+const title = 'Career Counselling in Coimbatore | Online Guidance Across India | Future Career School';
+const description =
+  "Career counselling in Coimbatore for students and working professionals - clarity on the family pump, textile-machinery, or auto-component business succession decision, and building a high-value skill portfolio in India's Manchester of the South.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-coimbatore/';
+
+const fitItems = [
+  {
+    title: "Your family already runs a pump, foundry, or machine-tool unit, and the next step feels pre-decided",
+    listItems: [
+      "Coimbatore has been called the Pump City and the Manchester of South India for a reason - thousands of precision-engineering, foundry, and machine-tool SMEs sit behind the well-known names, most of them family-owned, so a Coimbatore engineering student often already knows which shop floor is waiting",
+      "Choosing to step into the unit exactly as it runs today, choosing to modernise it with newer automation and export capability, or choosing an independent engineering career instead are three genuinely different decisions with real income and relationship consequences - not one obvious answer",
+      "Getting this right, instead of drifting into the family unit out of habit or walking away without a plan, is what actually moves you toward earlier financial freedom",
+    ],
+  },
+  {
+    title: "You are inside PSG Tech, Amrita, or a similar Coimbatore engineering programme and the pressure is already building",
+    listItems: [
+      "PSG College of Technology and Amrita Vishwa Vidyapeetham anchor a genuinely strong engineering education base in Coimbatore, feeding directly into the city's own pump, textile-machinery, and auto-component manufacturers rather than only into distant metros",
+      "That proximity is an advantage, but it also narrows the default script early - core-manufacturing placement, a family unit, or a smaller TIDEL Park IT role rarely get compared honestly against each other before a decision gets made",
+      "A high-value skill portfolio built around design, quality, automation, or export operations can unlock high income opportunities across any of those three routes - but only if someone actually maps the comparison instead of taking whichever offer arrives first",
+    ],
+  },
+  {
+    title: "A generic career pep talk will not untangle a precision-manufacturing family decision",
+    listItems: [
+      "Generic \"just join the family business\" or \"just get into an MNC\" advice skips the real trade-offs a pump, textile-machinery, or auto-component unit actually carries",
+      "You need someone who can weigh Coimbatore's actual industrial base, your family's specific situation, and your own risk tolerance honestly, not a script written for a services-IT city",
+      "You want one practical next step for your unit, your branch, or your TIDEL Park option - not a motivational line that could apply to any tier-2 city",
+    ],
+  },
+];
+
+const coimbatoreContextItems = [
+  {
+    title: "CRI Pumps, Texmo Industries, and Kirloskar Brothers make Coimbatore a genuine, globally significant pump-manufacturing cluster",
+    body: "Coimbatore is widely known as India's Pump City, and the name is earned - CRI Pumps and Texmo Industries were both built and are still headquartered here, alongside a major Kirloskar Brothers manufacturing presence, feeding an export market that reaches well beyond India. Around those anchor names sits a dense layer of smaller foundries, casting units, and precision-component suppliers that most people outside the industry never hear named, but that together form one of the world's genuinely significant pump and pump-component manufacturing bases. For a large share of Coimbatore families, this is not an abstract industry - it is the family's own unit, a relative's workshop, or the employer three streets away.",
+  },
+  {
+    title: "Lakshmi Machine Works and the textile-machinery trade give Coimbatore a second, equally real manufacturing identity",
+    body: "Lakshmi Machine Works (LMW), headquartered in Coimbatore, is one of the largest textile-machinery manufacturers in the world, and it sits inside a wider ecosystem of textile-spinning-equipment and ancillary-component makers that grew alongside Tamil Nadu's own textile mills. This is a genuinely different manufacturing identity from pump-making - more spinning-and-weaving-equipment engineering than fluid-handling engineering - and a family or individual rooted in this trade faces its own version of the same succession and modernisation questions, distinct from a pump-manufacturing household's version.",
+  },
+  {
+    title: "Pricol and Roots Industries add a real auto-components layer to the same industrial base",
+    body: "Coimbatore's precision-engineering strength also extends into automotive components - Pricol and Roots Industries both have a major manufacturing presence here, supplying instrumentation, horns, and other components into India's wider auto industry. For engineering graduates and families whose work already touches machining, tooling, or quality control, this auto-component layer is often a closely related option to the pump or textile-machinery trade rather than a separate industry entirely, widening the real comparison a Coimbatore family actually needs to make.",
+  },
+  {
+    title: "PSG College of Technology and Amrita Vishwa Vidyapeetham feed this base directly, which cuts both ways",
+    body: "PSG College of Technology is one of Tamil Nadu's most respected engineering institutions, and Amrita Vishwa Vidyapeetham's Coimbatore campus adds a second strong anchor, together producing a steady pipeline of mechanical, production, and instrumentation engineers who often join Coimbatore's own manufacturing base rather than leaving for a metro. That local absorption is a genuine advantage most tier-2 engineering hubs do not have, but it also means the honest comparison against a metro product-company role, a TIDEL Park IT job, or higher studies rarely gets made carefully before a decision is locked in by proximity alone.",
+  },
+  {
+    title: "TIDEL Park is a real but genuinely smaller IT corridor here, not a competing claim on Chennai's scale",
+    body: "Coimbatore's own TIDEL Park and a smaller surrounding IT-and-ITES presence give the city a real technology-sector option alongside its manufacturing base. It is worth naming honestly rather than ignoring, but it remains a secondary, smaller-scale corridor compared with Chennai's OMR IT belt or Bangalore's technology economy - and treating it as an equal-sized alternative to Coimbatore's own globally significant pump and textile-machinery manufacturing base would misread the city's actual economic weight.",
+  },
+];
+
+const pumpSuccessionItems = [
+  {
+    title: "Joining the family pump, textile-machinery, or auto-component unit is not automatically the safe choice",
+    listItems: [
+      "A precision-engineering unit that has supplied the same buyers for two generations can be a genuine asset to build a stronger, more export-ready business on top of - automation, quality certification, and newer product lines can meaningfully raise its ceiling",
+      "It can also be a unit quietly losing ground to larger organised manufacturers or newer automated competitors, in which case staying without a real modernisation plan is the riskier bet, not the safer one",
+      "The honest question is whether the specific unit, and your specific role in it, is strong enough to build a career on - not whether staying simply feels like the expected answer because your father or grandfather built it",
+    ],
+  },
+  {
+    title: "Stepping away does not have to mean rejecting the family's engineering trade entirely",
+    listItems: [
+      "A high-value skill portfolio in areas like design engineering, automation, quality systems, or export operations can be built independently and still applied back into the family unit later, from a position of real capability rather than obligation",
+      "It can also stand entirely on its own - inside a larger manufacturer, a TIDEL Park role, or a different city - if that is genuinely the stronger fit for your specific strengths",
+      "Either way, the decision deserves the same rigour as any other high-stakes career choice, not a default answer picked to avoid a difficult conversation at home",
+    ],
+  },
+  {
+    title: "This is a precision-engineering succession question, not a trading-family or garment-trade one",
+    listItems: [
+      "Coimbatore's pump, textile-machinery, and auto-component units generally do expect a formal engineering qualification, unlike a trade that has historically absorbed the next generation straight from school",
+      "That means the real tension here is succession versus an independent engineering-first career, closer to a family manufacturing business built on machine-tool and metallurgical know-how than to a garment, hosiery, or gem-trading family's version of the same question",
+      "Good counselling should treat that distinction honestly instead of applying a script built for a different kind of family trade",
+    ],
+  },
+];
+
+const coimbatoreAreaItems = [
+  {
+    title: "Peelamedu, Singanallur, and the SIDCO industrial estates anchor the pump and foundry economy",
+    body: "Peelamedu and Singanallur sit close to a dense concentration of pump-manufacturing units, foundries, and precision-machining workshops, feeding directly into the CRI Pumps and Texmo Industries supply chain and the wider SIDCO industrial estates around the city. A student or professional rooted here is often weighing a role inside this exact ecosystem - as an owner, a plant engineer, or a quality specialist - against options that would take them out of it entirely.",
+  },
+  {
+    title: "Kovaipudur, Ganapathy, and the textile-machinery belt carry a genuinely different engineering identity",
+    body: "The neighbourhoods around Coimbatore's textile-machinery manufacturing base, feeding into Lakshmi Machine Works and its ancillary suppliers, represent spinning-and-weaving-equipment engineering rather than the fluid-handling engineering of the pump trade. Families rooted in this side of the city's manufacturing economy face their own version of the modernisation-and-succession question, shaped by a different set of buyers, export markets, and technical skills than a pump-unit family faces.",
+  },
+  {
+    title: "Saravanampatti and the TIDEL Park corridor hold Coimbatore's smaller, growing IT layer",
+    body: "Saravanampatti and the area around TIDEL Park host Coimbatore's own IT-and-ITES presence - real, but genuinely smaller than the manufacturing base that defines the rest of the city. Someone weighing a TIDEL Park offer against a role inside the family's pump, textile-machinery, or auto-component business is making a comparison between a newer, still-growing option and an older, already-proven one, not a clear step up in every case.",
+  },
+  {
+    title: "RS Puram, Race Course, and the PSG Tech and Amrita campus belt hold the professional and academic population",
+    body: "RS Puram, Race Course, and the areas around PSG College of Technology and Amrita's Coimbatore campus carry a meaningful population of salaried professionals, second-generation business families, and students weighing higher studies against direct entry into the family trade or a manufacturing employer. Someone from this side of the city is often one step removed from the shop floor itself, comparing a corporate, research, or higher-studies path against inherited business expectations rather than facing the operational succession question directly.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: "My family expects me to join our pump, foundry, or textile-machinery unit - is stepping away even a real option?",
+    body: "It is a real option, and so is staying while changing how the business runs. The honest first step is evaluating the specific unit - its real order book, its export readiness, and whether your own strengths fit running or modernising it - rather than treating the decision as loyalty versus ambition. Either path can move toward earlier financial freedom if it is chosen deliberately rather than by default.",
+  },
+  {
+    title: "Is Coimbatore's manufacturing base actually still growing, or should I aim for IT and TIDEL Park instead?",
+    body: "Coimbatore's pump, textile-machinery, and auto-component manufacturing base remains genuinely large, export-relevant, and in many units actively modernising with automation and newer product lines. TIDEL Park is a real but smaller option, not an automatic upgrade. The stronger question is which specific skill direction - inside the existing manufacturing base, or in the city's growing IT layer - actually fits your strengths, not a blanket ranking between the two.",
+  },
+  {
+    title: "I studied at PSG Tech or Amrita - does staying in Coimbatore mean I am settling for less than a metro career?",
+    body: "Not inherently. Coimbatore holds a genuinely significant global manufacturing base across pumps, textile machinery, and auto components, so a strong engineering career does not require relocating to a metro. The more useful question is whether your current skill direction - design, automation, quality, or export operations - is strong enough to grow from here, independent of the stay-or-move decision.",
+  },
+  {
+    title: "Everyone assumes I will follow my branch of the family into the pump trade or the textile-machinery trade - what if my interest lies elsewhere within engineering?",
+    body: "That is a common and rarely discussed tension inside Coimbatore's manufacturing families. Wanting a different specialisation, a different industry, or a research-and-higher-studies route within engineering is not the same as rejecting your family's trade. A skill-first plan can respect the family business while still being honest about where your actual strengths and interests point.",
+  },
+  {
+    title: "Should I compare a role in the family unit against Kirloskar Brothers, LMW, Pricol, or a larger organised manufacturer instead?",
+    body: "That comparison is worth making honestly rather than assuming a larger organised manufacturer is automatically the stronger move. A well-run family unit with real export orders can offer faster ownership and responsibility; a larger company can offer structured growth, training, and brand strength. The right answer depends on the specific unit and your own risk tolerance, not the size of the name on the gate.",
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Coimbatore's specific pump, textile-machinery, and auto-component mix",
+    body: "Good guidance for Coimbatore should be able to speak honestly to pump manufacturing, textile-machinery engineering, and auto-component work as three genuinely distinct trades, not treat all of Coimbatore's manufacturing as one undifferentiated 'factory work' story.",
+  },
+  {
+    title: "Check whether the family-business succession question is treated as a real decision, not a loyalty test",
+    body: "A counsellor should be able to evaluate a specific pump, foundry, or textile-machinery unit on its actual merits - order book, export readiness, and your own fit - and help you decide between joining, modernising, or building independently, without assuming either choice is automatically correct.",
+  },
+  {
+    title: "Check whether TIDEL Park and Coimbatore's IT layer are sized honestly, not oversold",
+    body: "Coimbatore's IT corridor is real but genuinely smaller than its manufacturing base. Guidance that presents a TIDEL Park role as an automatic step up from a strong family manufacturing business is misreading the city's actual economics.",
+  },
+  {
+    title: "Check whether engineering-degree oversupply from PSG Tech, Amrita, and the wider Tamil Nadu college network is addressed honestly",
+    body: "With this many strong engineering institutions feeding a similar set of employers, guidance that treats a degree alone as sufficient is out of date. It should help you build the specific proof of work, specialisation, and positioning that separates you from the rest of the pool.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      "Whether joining, modernising, or stepping back from a family pump, textile-machinery, or auto-component unit genuinely fits your strengths and goals",
+      "Whether a TIDEL Park or wider IT role is a real fit for you, or a default worth questioning against Coimbatore's own manufacturing depth",
+      "How to raise a hard family conversation about the unit's future without it reading as rejection",
+      "What a realistic income trajectory looks like inside Coimbatore's manufacturing economy versus a metro move",
+    ],
+  },
+  {
+    title: 'A skill direction built for achieving earlier financial freedom either way',
+    listItems: [
+      "A high-value skill portfolio in design engineering, automation, quality systems, or export operations that strengthens a family manufacturing business or stands independently of it",
+      "Proof-of-work positioning that carries weight beyond a family unit's name or a single engineering degree",
+      "A realistic comparison between staying inside Coimbatore's pump, textile-machinery, or auto-component economy and a metro-based engineering or IT path",
+      "One practical next step instead of another round of family or campus-peer validation",
+    ],
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.chennaiCounselling,
+    title: 'Career Counselling in Chennai',
+    description: "Useful if the auto, IT, and healthcare fork, or Tamil Nadu's broader engineering-college density, is more relevant to you than Coimbatore's manufacturing base.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.ludhianaCounselling,
+    title: 'Career Counselling in Ludhiana',
+    description: "Useful for comparison if a family manufacturing business is your core question, even though Ludhiana's hosiery and bicycle trades run on a different economic logic than Coimbatore's precision engineering.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'Online-first approach across India if your real concern is easier access rather than the city itself.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Is career counselling in Coimbatore mostly about the family manufacturing-business decision?',
+    answer:
+      "For a large share of people searching from Coimbatore, yes, that is a genuine part of it - the city's pump, textile-machinery, and auto-component manufacturing base means a family unit is often already in the picture. But the service covers the full decision: joining, modernising, or building independently of a family business, a PSG Tech or Amrita-linked engineering path, or a TIDEL Park and wider IT option. The right starting point depends on which of those is actually pressing for you.",
+  },
+  {
+    question: "Should I join my family's pump or textile-machinery business, or build an independent engineering career instead?",
+    answer:
+      "There is no single right answer - it depends on the specific unit, your own strengths, and your risk tolerance. A pump, foundry, or textile-machinery unit with real export orders and relationships is a genuine asset worth building on, but it is not automatically the right fit for everyone in the next generation. Honest counselling should evaluate the actual business and your actual fit, rather than assuming either loyalty or ambition is the correct default.",
+  },
+  {
+    question: "Is Coimbatore's manufacturing economy - pumps, textile machinery, and auto components - still a strong career base?",
+    answer:
+      "Yes, on its own terms. Coimbatore remains one of the world's genuinely significant pump-manufacturing clusters, home to Lakshmi Machine Works - one of the largest textile-machinery makers globally - and a real auto-component base through Pricol and Roots Industries. It is a different kind of opportunity than an IT or services corridor, built more around precision engineering, exports, and ownership, worth evaluating on its own merits rather than measured against a Bangalore or Chennai-style tech career.",
+  },
+  {
+    question: "Is Coimbatore's TIDEL Park IT corridor a strong alternative to the manufacturing economy?",
+    answer:
+      "It is a real, growing option, but a genuinely smaller one than Coimbatore's own manufacturing base, and much smaller than Chennai's OMR IT corridor or Bangalore's technology economy. Whether it is the stronger move for you depends on your specific skills and interests, not an assumption that IT automatically outranks a well-run family manufacturing business.",
+  },
+  {
+    question: "With PSG Tech, Amrita, and Tamil Nadu's dense engineering-college network, does a general engineering degree still stand out?",
+    answer:
+      "It stands out less on its own than it used to. A strong engineering education from PSG College of Technology or Amrita Vishwa Vidyapeetham is a genuine advantage, but with this many engineering graduates feeding a similar set of Coimbatore employers, the real differentiation now comes from specialisation, proof of work, and positioning built on top of the degree, not the degree alone.",
+  },
+  {
+    question: 'Why choose online career counselling in Coimbatore instead of a nearby consultancy?',
+    answer:
+      "Because a consultant embedded in one specific trade - pumps, textile machinery, or auto components - can carry a built-in bias toward the path they know best. Online guidance brings in an outside, India-wide view without requiring a visit to a specific industrial estate or campus, and it should still be judged on whether it gives you an honest read on your specific family, business, and skill situation, not a one-size answer.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals across Coimbatore?',
+    answer:
+      "Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you live near Peelamedu's pump-manufacturing belt, the textile-machinery cluster around Kovaipudur, the TIDEL Park corridor near Saravanampatti, or the PSG Tech and Amrita campus area.",
+  },
+  {
+    question: "What if my bigger issue isn't the family business, manufacturing, or Coimbatore at all?",
+    answer:
+      "That is common. If the real pressure is a stream choice, a specific skill decision, or a career change with no family-business or city angle involved, the main counselling and guidance pages are the stronger next filter. This page is most useful when Coimbatore's manufacturing-succession question, its PSG Tech or Amrita engineering pipeline, or the TIDEL Park comparison is genuinely part of what you are weighing.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Coimbatore', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Coimbatore | Future Career School',
+    description:
+      "Career counselling in Coimbatore for students, freshers, and working professionals. Online guidance for clearer decisions between the family pump, textile-machinery, or auto-component business path, an independent engineering-first career, and Coimbatore's smaller TIDEL Park IT option.",
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Coimbatore' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Coimbatore</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Coimbatore
+      </div>
+
+      <h1 class="hero-title">
+        Career Counselling in <span class="gold-text">Coimbatore</span>
+      </h1>
+      <p class="hero-sub">
+        Coimbatore has earned its names - the Pump City, the Manchester of South India - by building one of the world's genuinely significant precision-engineering
+        manufacturing bases, anchored by CRI Pumps, Texmo Industries, Kirloskar Brothers, Lakshmi Machine Works, Pricol, and Roots Industries. For a large share of
+        Coimbatore's engineering families, that means a career decision is rarely a blank slate. It is a choice between joining, modernising, or stepping outside a
+        family pump, textile-machinery, or auto-component business that has often run for a generation or more already. The question worth answering deliberately
+        is whether a genuine high-value skill portfolio - inside that business, alongside it, or entirely apart from it - can unlock high income opportunities and
+        earlier financial freedom that the inherited default never gets you to on its own.
+      </p>
+      <p class="hero-sub hero-sub-secondary">
+        Guidance is delivered fully online across Coimbatore - from a home near Peelamedu's pump-manufacturing belt to a hostel room near PSG Tech or Amrita's
+        campus - and across India, so you can start wherever you already are without adding another commute to an already crowded family decision.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="intent-clarity"
+    title="Why this decision already feels heavier here"
+    subtitle="When people search for career counselling in Coimbatore, the city name usually points to something specific - a family pump, foundry, or textile-machinery unit already waiting, an engineering degree from PSG Tech or Amrita that narrows the default script, or a TIDEL Park option nobody has actually compared honestly. The real pressure is rarely the city itself. It is seeing the actual trade-off clearly enough to build a high-value skill portfolio around it, instead of drifting toward whichever option feels closest to home."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Coimbatore search already reflects a real fork, look at it honestly before another year gets committed"
+    body="Use this when you want a genuine read on the family-manufacturing-business question or the TIDEL Park comparison, aimed at unlocking high income opportunities rather than another round of family or campus validation."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="coimbatore-career-landscape"
+    title="The Coimbatore career reality generic advice rarely names"
+    subtitle="Coimbatore's economy runs on genuinely global precision-engineering manufacturing in a way few other Indian cities replicate. Good career counselling should engage with that reality directly, and should help you build the high-value skill portfolio that unlocks high income opportunities from wherever you are starting - inside the family business or outside it."
+    items={coimbatoreContextItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="pump-succession"
+    title="The family precision-engineering business decision - with no equivalent on any other city page"
+    subtitle="Coimbatore's pump, textile-machinery, and auto-component units generally expect a real engineering qualification, which makes this a genuinely different succession question from a trading family's or a garment-trade family's version of the same tension."
+    items={pumpSuccessionItems}
+    variant="contrast"
+  />
+
+  <BofuFeatureSection
+    sectionId="coimbatore-areas"
+    title="Coimbatore's own geography shapes which version of this decision you are in"
+    subtitle="A useful local page should recognise that a family running a pump-manufacturing unit near Peelamedu, a household inside the textile-machinery trade near Kovaipudur, and a TIDEL Park-bound graduate from Saravanampatti are not living through the same version of Coimbatore."
+    items={coimbatoreAreaItems}
+    variant="decision"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="Not another opinion added to an already crowded set of family expectations. A clearer read on the family-manufacturing-business question, an honest comparison against Coimbatore's own TIDEL Park option, and a route toward earlier financial freedom regardless of which path you choose."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city built around an inherited manufacturing-business default, the real risk is advice that either glorifies the family unit without question or dismisses it outright in favour of a generic IT script. The comparison below shows what separates high-leverage guidance from both."
+    rows={coimbatoreComparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Coimbatore"
+    subtitle="Do not compare only how well a consultant knows the pump trade or the textile-machinery business. Compare whether the process improves decision quality on the actual fork you are facing."
+    items={buyerCheckItems}
+  />
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Coimbatore.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use - even inside a city with this much family-manufacturing expectation attached to every choice.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Coimbatore page when locality matters, but choose based on decision quality, not the loudest family script"
+    body="The practical value is an honest read on the family-business, TIDEL Park, and independent-engineering options in front of you, and a concrete next step before another year gets committed by default."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Coimbatore" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a family precision-engineering business, an engineering-degree pipeline from PSG Tech or Amrita, and a smaller TIDEL Park option are all stacked on the same decision - and when the real goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom, whichever route you choose."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(115px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -150px; right: -100px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: 20px; left: -110px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(circle at 65% 20%, rgba(0,0,0,.85), transparent 72%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill { width: fit-content; margin-bottom: 1.6rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title { font-size: clamp(2.35rem, 5vw, 3.9rem); line-height: 1.04; letter-spacing: -.04em; color: #fff; max-width: 980px; margin-bottom: 1.25rem; overflow-wrap: anywhere; }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.72); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-sub-secondary { color: rgba(255,255,255,.6); font-size: 14px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 1.6rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #coimbatore-career-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

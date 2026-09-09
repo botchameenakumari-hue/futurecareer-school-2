@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('numerical reasoning assessment completes and downloads its report', async ({ page }) => {
+test('numerical reasoning assessment completes and downloads its report', async ({ page }, testInfo) => {
   await page.goto('http://localhost:4321/services/assessments/numerical-reasoning-test/');
   await expect(page).toHaveTitle(/Numerical Reasoning Test/);
   await expect(page.locator('.audience-option')).toHaveCount(4);
@@ -32,7 +32,7 @@ test('numerical reasoning assessment completes and downloads its report', async 
   await page.locator('#download-button').click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe('future-career-school-numerical-reasoning-report.pdf');
-  await download.saveAs('test-results/numerical-reasoning-report.pdf');
+  await download.saveAs(testInfo.outputPath('numerical-reasoning-report.pdf'));
 });
 
 test('numerical reasoning page stays within a mobile viewport', async ({ page }) => {

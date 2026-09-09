@@ -1,0 +1,613 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Hyderabad page shows a distinct 5-row subset - excludes only the third row
+// (the low-growth-paths row) since Hyderabad's dual tech/pharma and old-city
+// commerce economy makes every other row directly relevant. This rotation is
+// unique among siblings: Vizag drops row 1, Pune drops row 4, Kolkata drops
+// row 2, and Bangalore shows the full library.
+const hyderabadComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 2);
+
+const title =
+  'Career Counselling in Hyderabad | Practical Online Guidance | Future Career School';
+const description =
+  'Career counselling in Hyderabad for students, freshers, and working professionals who want clearer decisions across tech, pharma, and family-business paths.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-hyderabad/';
+
+const dualEconomyItems = [
+  {
+    title: "HITEC City, Gachibowli, and the Financial District run a global tech and GCC economy",
+    body: "Microsoft, Google, Amazon, and Meta all run major campuses inside Hyderabad's western tech corridor, alongside a dense cluster of IT-services majors and global capability centres. That corridor alone produces a genuinely wide fork for a fresher or an early-career professional: an IT-services ladder, a product-company track, a GCC role, or a research-adjacent path through IIIT Hyderabad. The gap for most people here is not access to opportunity - it is deciding which of those tracks actually fits their strengths, and building the kind of high-value skill portfolio that keeps unlocking high income opportunities inside a market this crowded with options.",
+  },
+  {
+    title: "Genome Valley makes Hyderabad one of India's genuine pharma and biotech hubs",
+    body: "Hyderabad's pharmaceutical and biotech cluster around Genome Valley and the wider Shamshabad-Turkapally belt is one of the largest in the country, running in parallel to the tech corridor rather than competing with it. That means a science or pharmacy graduate here is not choosing between \"Hyderabad or nowhere\" - they are choosing between a genuinely deep pharma/biotech career track and a tech or GCC track, often within the same city and sometimes the same family.",
+  },
+  {
+    title: "The Old City's commerce and jewelry trade is not a relic - it is a live parallel economy",
+    body: "Charminar and the surrounding Old City still run one of India's most established pearl and jewelry trading economies, alongside wholesale trade and a Nizami-era commercial culture that predates the tech corridor by centuries. For a meaningful number of Hyderabad families, this - not HITEC City - is the actual family business and the actual income base, which creates a very different kind of career decision from the one a Gachibowli-facing household is having.",
+  },
+  {
+    title: "ISB and IIIT Hyderabad pull a specific kind of ambition into the city",
+    body: "The Indian School of Business is one of the country's most recognised MBA destinations and draws professionals from across India who are weighing a functional pivot, a consulting or product track, or a founder path after graduating. IIIT Hyderabad does the equivalent for deep technical and research-track talent. Both add a layer of high-ambition, credential-driven decision pressure that a purely IT-corridor city framing misses - achieving earlier financial freedom here often runs through a specific specialization choice made at exactly this stage.",
+  },
+];
+
+const areaItems = [
+  {
+    title: 'HITEC City, Gachibowli, and the Financial District: the newer, higher-growth corridor',
+    body: 'This is Hyderabad\'s tech and GCC belt - newer development, higher rent, and the fastest-moving job market in the city. Someone deciding from here is usually weighing IT-services versus product versus GCC roles, or a pivot into a higher-paying specialization within the same corridor.',
+  },
+  {
+    title: 'Old City and Charminar: the traditional trade and commerce base',
+    body: 'The pearl and jewelry trade, wholesale commerce, and generations-old family businesses are concentrated here. A young person from this part of Hyderabad is often facing a genuinely different decision than a HITEC City-facing peer - one about the family trade, not a company ladder.',
+  },
+  {
+    title: 'Secunderabad: the older twin city with defence and railway roots',
+    body: 'Secunderabad\'s identity is still shaped by its defence cantonment and railway-hub history. Families here often carry government or defence-service backgrounds, which creates its own transition questions into private-sector or tech-adjacent careers.',
+  },
+  {
+    title: 'Banjara Hills and Jubilee Hills: established, and now a genuine mix of old and new money',
+    body: 'These are Hyderabad\'s long-established affluent neighbourhoods, increasingly home to both old-city business families and senior tech and GCC professionals side by side. A resident here may be weighing a specific specialization or leadership-track question rather than a basic access-to-opportunity one.',
+  },
+];
+
+const fitItems = [
+  {
+    title: 'What you actually need right now',
+    listItems: [
+      'You want support that treats Hyderabad as the two-economy city it actually is, not a single-industry tech town.',
+      'You want clarity before making another expensive decision - a specialization, a company type, or a family-business call.',
+      'You want something more practical than broad internet advice written for a generic metro grad.',
+      'You want a real next step, not only motivational talk or a label.',
+    ],
+  },
+  {
+    title: 'What should matter more than city alone',
+    listItems: [
+      'Whether the guidance actually understands Hyderabad\'s tech-versus-pharma-versus-commerce split',
+      'Whether the next step becomes clearer and easier to act on',
+      'Whether the process helps with stronger skill direction and proof of work',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Closer should still mean clearer',
+    body: 'Searching locally is useful only if it leads to better decision support, not just physical proximity.',
+  },
+  {
+    title: 'Quality before convenience',
+    body: 'The better filter is whether the guidance improves your next move, not whether the office would have been nearby.',
+  },
+  {
+    title: 'Act before the wrong turn compounds',
+    body: 'The practical goal is to get clear before more time, money, and effort go into the wrong path - and to start building the high-value skill portfolio that keeps unlocking high income opportunities and moves you toward earlier financial freedom.',
+  },
+];
+
+const bangaloreForkItems = [
+  {
+    title: 'The real fork is not "leave Hyderabad" - it is "which Hyderabad role, or a Bangalore one"',
+    body: 'A meaningful number of Hyderabad tech professionals are not weighing a move away from the city in general - they are weighing one specific Bangalore offer or team against staying inside HITEC City, Gachibowli, or the Financial District. The honest comparison should be role-for-role and skill-for-skill, not city-for-city.',
+  },
+  {
+    title: 'Cost of living genuinely favours staying, at a comparable opportunity level',
+    body: 'Hyderabad\'s cost of living, especially housing, runs meaningfully lower than Bangalore\'s for a similar salary band, and the same GCCs, product companies, and IT-services majors operate large campuses in both cities. That changes the real question from "where is the opportunity" to "which specific role, team, or specialization actually moves my income and skill direction faster."',
+  },
+  {
+    title: 'Bangalore still holds depth advantages in specific tracks',
+    body: 'Bangalore\'s startup density, deep-tech, and venture-funded ecosystem are genuinely larger than Hyderabad\'s. For a founder-track or very startup-specific ambition, that gap is real and worth naming honestly rather than papering over out of city loyalty.',
+  },
+  {
+    title: 'The decision should rest on the specific track, not the city\'s reputation',
+    body: 'Good counselling should help you see whether your actual target role sits inside Hyderabad\'s strengths - GCC, product, pharma-tech, enterprise IT - or genuinely needs Bangalore\'s startup depth, rather than defaulting to either city because of general reputation.',
+  },
+];
+
+const familyBusinessItems = [
+  {
+    title: 'For old-city families, the fork is business succession versus a tech career',
+    body: 'A meaningful number of young people from Hyderabad\'s Old City, pearl-trade, and wholesale-commerce families face real pressure to join or take over the family business rather than pursue a HITEC City or Gachibowli-facing career. That is a genuinely different decision from a stream or company choice - it involves family income, family expectation, and often family pride, not just a job offer.',
+  },
+  {
+    title: 'A stable family business and a higher-growth tech role are not the same kind of bet',
+    body: 'A family jewelry, real-estate, or wholesale-trade business often has a lower income ceiling but far more stability and predictability than an early tech or GCC career, which can grow faster but carries real market and layoff risk. Neither choice is automatically correct - the honest comparison depends on the specific business, the specific skill fit, and how much risk the family can genuinely absorb.',
+  },
+  {
+    title: 'Hybrid paths exist and are worth naming honestly',
+    body: 'Not every young person from a business family has to choose one extreme. Modernising the family trade with digital and analytics skills, running the business alongside a part-time or early-stage tech pursuit, or building an independent tech career while staying involved in family decisions are all real options that generic counselling built for a single-track tech city usually never mentions.',
+  },
+  {
+    title: 'The pride and identity questions deserve real space, not a quick dismissal',
+    body: 'Choosing to leave a generations-old family trade, or choosing to stay in it instead of a well-paying tech role, both carry real identity and family-standing weight in Hyderabad specifically. Good counselling should treat that honestly instead of assuming a tech job is automatically the "better" choice.',
+  },
+];
+
+const prepItems = [
+  {
+    title: 'The real decision you need to solve first',
+    body: 'Bring the actual question that is creating pressure right now, whether that is a specialization choice, a company-type decision, a Hyderabad-versus-Bangalore fork, or a family-business call.',
+  },
+  {
+    title: 'The serious options you are already considering',
+    body: 'Write down the two to four routes you are actually comparing - including the family-business option if it is genuinely on the table. Stronger counselling happens when the real trade-offs are visible from the start.',
+  },
+  {
+    title: 'What feels risky, delayed, or expensive',
+    body: 'Be clear about what you do not want to repeat: a wrong specialization bet, weak skill choices, a slow-growth track, or more time spent undecided while options narrow.',
+  },
+  {
+    title: 'The constraints that cannot be ignored',
+    body: 'Include family expectation, budget, academic reality, work pressure, or timeline pressure early so the guidance stays practical instead of idealised.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the real decision creating pressure right now',
+    listItems: [
+      'Whether to stay on your current Hyderabad track, pivot within the city, or seriously weigh a Bangalore move',
+      'Which sector - tech/GCC, pharma/biotech, or family commerce - actually fits your strengths',
+      'What your income trajectory looks like on the current path over the next few years',
+      'Which expensive wrong turn is most urgent to stop repeating right now',
+    ],
+  },
+  {
+    title: 'Skill direction tied to Hyderabad\'s actual economy',
+    listItems: [
+      'Data, analytics, and product skills relevant to Hyderabad\'s GCC and IT-services employers',
+      'Proof-of-work positioning that carries weight in both Hyderabad and Bangalore\'s tech markets',
+      'Where an ISB-track MBA, a pharma-adjacent specialization, or a modernised family-business role genuinely fits',
+      'A clearer route toward earlier financial freedom from your actual starting point',
+    ],
+  },
+  {
+    title: 'A lower-friction way to start moving',
+    listItems: [
+      'Online guidance accessible across India with no local-access dependence',
+      'As context, free updated practical AI-powered assessments exist alongside this if you want a lower-pressure starting signal',
+      'A realistic career target and the clearest path to reach it from where you are now',
+      'One concrete next step instead of a theory discussion you still have to decode yourself',
+    ],
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'Should I take a Hyderabad tech offer, or hold out for a Bangalore one?',
+    body: 'This is a genuinely common decision for Hyderabad-based tech professionals, and it is not the same question as "should I move to Hyderabad" - most people asking this are already inside Hyderabad\'s tech corridor. The honest answer depends on the specific role, team, and specialization on each side, plus how much the cost-of-living gap actually matters to your situation, not a blanket preference for either city.',
+  },
+  {
+    title: 'My family runs a jewelry or real-estate business in the Old City - is a tech career worth the risk?',
+    body: 'This is a real and common decision in Hyderabad specifically, and it deserves an honest comparison rather than an automatic push toward tech. A stable family business and a higher-growth tech role carry genuinely different risk-and-ceiling profiles. Good counselling should help you weigh both seriously, including hybrid paths, instead of assuming one is automatically better.',
+  },
+  {
+    title: 'Is Hyderabad\'s IT and GCC scene actually as strong as Bangalore\'s, or still catching up?',
+    body: 'Hyderabad genuinely hosts major Microsoft, Google, Amazon, and Meta campuses and a dense GCC and IT-services base - this is not a smaller, catching-up market for most corporate tech and enterprise roles. Where Bangalore still holds a real edge is startup density and very early-stage venture-backed roles. Knowing which category your target role falls into matters before assuming either city is automatically ahead.',
+  },
+  {
+    title: 'I am weighing ISB or a similar MBA - does that change my direction?',
+    body: 'An ISB-track MBA or an equivalent postgraduate credential can genuinely reset your functional direction, but it works best when it is chosen to solve a specific specialization or leadership question, not as a default next step because it is available in the city. Real counselling should help you name that specific question before you commit.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the counsellor understands Hyderabad\'s dual economy',
+    body: 'Hyderabad runs a genuine tech/GCC economy and a genuine pharma/biotech and old-city commerce economy side by side. Good guidance should be able to speak credibly to whichever one your actual decision sits inside, not default to generic tech-city advice.',
+  },
+  {
+    title: 'Check whether the Bangalore comparison is realistic, not automatic',
+    body: 'Many Hyderabad tech professionals compare a Bangalore move without real analysis of cost of living, role fit, or specific team quality. Better guidance should help you judge the actual trade-off, not assume Bangalore is always the stronger choice.',
+  },
+  {
+    title: 'Check whether family-business context is taken seriously, not dismissed',
+    body: 'For old-city and business-family backgrounds, the guidance should treat the family trade as a genuine career option with real trade-offs - not something to talk you out of by default.',
+  },
+  {
+    title: 'Check whether the next move fits your actual Hyderabad situation',
+    body: 'Good guidance for Hyderabad should respect that relocation costs, family expectation, and sector-specific expertise all carry real value here - not treat them as obstacles to overcome on the way to a single "obvious" answer.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See other city guidance options if you want to compare before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.visakhapatnamCounselling,
+    title: 'Career Counselling in Visakhapatnam',
+    description: 'See this if you are moving to Hyderabad from Vizag and want the decision framed from the Vizag side first.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'See the online page if easier access across India matters more than city-based search wording.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCoachNearMe,
+    title: 'Career Coach Near Me',
+    description: 'See this if your original search was more about trust and proximity than the counselling label itself.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Hyderabad instead of only looking for a nearby offline office?',
+    answer:
+      'Because proximity alone does not improve the decision. Online guidance lets you start from home, campus, or work without waiting for local availability, and the stronger comparison is whether the support genuinely understands Hyderabad\'s tech, pharma, and old-city commerce economies - not just whether an office happens to be nearby.',
+  },
+  {
+    question: 'What career paths have the strongest growth potential from Hyderabad?',
+    answer:
+      'It depends on your starting point, but a few directions stand out. Tech, product, and GCC roles across the HITEC City, Gachibowli, and Financial District corridor have strong employer density from companies including Microsoft, Google, Amazon, and Meta. Pharma and biotech roles connect into the Genome Valley cluster. Business, consulting, and functional-management tracks connect into the ISB-adjacent professional ecosystem. And for families with an established Old City trade, modernising and growing that business can be a genuinely strong path in its own right.',
+  },
+  {
+    question: 'Should I choose Hyderabad or Bangalore for a tech career?',
+    answer:
+      'Both cities host large campuses for the same major GCCs, product companies, and IT-services firms, so the honest question is rarely "which city has opportunity" - it is which specific role, team, and specialization actually moves your skill direction and income faster, weighed against Hyderabad\'s meaningfully lower cost of living. Bangalore still holds a real edge for startup-density and very early-stage venture roles specifically.',
+  },
+  {
+    question: 'My family expects me to join the business in the Old City - how does counselling help with that?',
+    answer:
+      'Counselling should treat the family business as a genuine option with its own real trade-offs - stability and a lower ceiling versus a tech role\'s higher growth and higher risk - rather than assuming a corporate or tech path is automatically better. It should also help you see honest hybrid options, like modernising the family trade with digital skills, if a full either-or choice does not fit your situation.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free. They are updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Hyderabad?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Hyderabad users.',
+  },
+  {
+    question: 'What if I searched for Hyderabad but the bigger issue is not the city?',
+    answer:
+      'That is common. Many people use the city search as a trust shortcut, then realise the bigger need is better decision support itself - for specialization choice, skill direction, or a career change. In that case, the main counselling and guidance pages are the stronger next filter. This page is most useful when Hyderabad\'s specific tech, pharma, or old-city commerce context is part of the decision.',
+  },
+  {
+    question: 'Do you guarantee a job?',
+    answer:
+      'No ethical provider can guarantee a job. The practical goal is better decision quality, stronger skill direction, and a clearer path forward.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Hyderabad',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Hyderabad | Future Career School',
+    description:
+      'Career counselling in Hyderabad for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, and better income-growth direction.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'City', name: 'Hyderabad' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Hyderabad</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Hyderabad
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Hyderabad
+        <span class="gold-text"> for tech, pharma, and family-business career clarity</span>
+      </h1>
+      <p class="hero-sub">
+        Hyderabad runs two economies at once: a global tech and GCC corridor through HITEC City, Gachibowli, and the Financial District, and a genuinely deep pharma/biotech cluster around Genome Valley, alongside the Old City's centuries-old commerce and jewelry trade.
+        Most career advice available here is written for a single-industry tech city. If you are at a real decision point - which track fits, whether Hyderabad or a Bangalore role makes more sense, whether the family business is actually the stronger bet - the goal is getting clear before more time and money go the wrong way, and building the kind of high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Hyderabad and across India. You can start from home, campus, or work, or wherever you already are - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Hyderabad. It is whether the guidance understands which of Hyderabad's economies your decision actually sits inside.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="dual-economy"
+    title="Hyderabad runs on two different economies at once"
+    subtitle="A useful page for this city has to speak to more than the tech corridor - the honest picture includes pharma, old-city commerce, and a specific national MBA-track pull."
+    items={dualEconomyItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="hyderabad-areas"
+    title="Which part of Hyderabad you're deciding from changes the real trade-off"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Hyderabad rather than pretending every user is comparing the same options from the same part of the city."
+    items={areaItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Hyderabad search already reflects a serious decision, move before more time goes into the wrong direction"
+    body="Use this when you want stronger guidance now, not another round of delay while the decision keeps getting more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="hyderabad-vs-bangalore"
+    title="The real fork for Hyderabad's tech professionals: stay, or move to Bangalore"
+    subtitle="This is a genuinely different question from whether to move to Hyderabad in the first place - most people asking it are already inside Hyderabad's tech corridor."
+    items={bangaloreForkItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="old-city-family-business"
+    title="For old-city families, the tension is business succession versus a tech career"
+    subtitle="This decision has no real equivalent in a single-industry tech city, and it deserves the same seriousness as any company or specialization choice."
+    items={familyBusinessItems}
+    variant="signal"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In Hyderabad's dual economy, the risk is advice that only speaks to the tech corridor and ignores pharma, old-city commerce, or the ISB-adjacent professional track. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={hyderabadComparisonRows}
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="As context, we offer free assessments that can help surface strengths, preferences, and work style before a bigger counselling decision, if you are still early and not ready for guidance yet."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Hyderabad"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Career counselling here is not about one isolated decision. It is about building a high-value skill portfolio that keeps unlocking high income opportunities as your situation across Hyderabad's tech, pharma, or family-business economy changes."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #dual-economy,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

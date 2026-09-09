@@ -1,0 +1,454 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Counselling for MBA Students | Specialization, Summer Internship & Placement Track | Future Career School';
+const description =
+  'Career counselling for MBA students still enrolled: specialization choice, internship-to-PPO conversion, and elective decisions that shape placements.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-mba-students/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[5],
+  BOFU_COMPARISON_LIBRARY[4],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Specialization choice',
+    title: 'Choosing a specialization before you have seen the actual work',
+    body: 'When finance, marketing, operations, HR, or analytics all look reasonable on the brochure, and the deadline to lock a specialization arrives before you have any real sense of which one fits how you actually work.',
+  },
+  {
+    eyebrow: 'Summer internship',
+    title: 'Turning a summer internship into a pre-placement offer, not just finishing it',
+    body: 'When the internship is more than a resume line, it is the shortest route to a PPO, and how you choose the profile, the project, and the mid-internship conversation with your manager decides whether that offer actually comes.',
+  },
+  {
+    eyebrow: 'Electives',
+    title: 'Elective and specialization-track choices that quietly decide your placement day',
+    body: 'When the electives, certifications, and case-competition tracks you pick in term two and three are what recruiters actually screen against on placement day, not the specialization label on your degree.',
+  },
+  {
+    eyebrow: 'Mid-program regret',
+    title: 'Realizing the specialization you locked in no longer fits, with limited time to fix it',
+    body: 'When a specialization chosen early in the program starts to feel wrong by the second year, and the real question becomes whether to still switch tracks, double down, or reposition around a different functional story before final placements.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Specialization fit',
+    title: 'Picking a specialization you can actually commit to',
+    listItems: [
+      'How to read your own working style and strengths against what finance, marketing, operations, HR, and analytics actually demand day to day, not just their starting pay bands',
+      'Which specialization keeps more doors open if your first placement bet does not land, versus one that locks you into a narrow lane early',
+      'How to weigh a specialization against your batch, your institute\'s recruiter mix, and your own background instead of copying whichever track your closest friend group picked',
+    ],
+  },
+  {
+    eyebrow: 'Summer internship to PPO',
+    title: 'Making the summer internship count toward an actual offer',
+    listItems: [
+      'How to choose an internship profile and company that genuinely improves your PPO odds, not just the one with the best-known name',
+      'What to actually deliver during the internship, and how to have the mid-internship conversations that turn good work into a real conversion signal',
+      'How to read early internship signals honestly, so you know whether to push for a PPO, quietly build a backup plan, or do both at once',
+    ],
+  },
+  {
+    eyebrow: 'Electives and placement track',
+    title: 'Choosing electives, certifications, and case tracks with the placement day in mind',
+    listItems: [
+      'Which electives and certifications actually move the needle for the roles you want, versus ones that look good on a transcript but do nothing for a recruiter screen',
+      'How much weight to put on case competitions, club leadership, or a live project versus coursework alone when building your placement-day profile',
+      'How to sequence term two and three choices so your resume tells one coherent story instead of several unrelated ones',
+    ],
+  },
+  {
+    eyebrow: 'Mid-program switch',
+    title: 'Deciding whether to switch specialization, or reposition around the one you have',
+    listItems: [
+      'Whether the discomfort with your chosen specialization is a genuine mismatch or normal mid-program doubt that most students go through',
+      'What it actually takes, in courses, electives, and networking, to shift toward a different functional track this late without losing a full term',
+      'How to build a credible story for recruiters if you do switch, so it reads as a deliberate move rather than confusion',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it engages with your actual specialization choice, not generic MBA advice',
+    body: 'Generic postgraduate career talk does not help when the real question in front of you is finance versus marketing versus analytics, or whether your summer internship is converting into a PPO.',
+  },
+  {
+    title: 'Check whether the summer internship gets treated as a placement decision, not an afterthought',
+    body: 'The internship is often the shortest route to an offer. Stronger guidance should help you choose the profile, plan the internship itself, and read the signals honestly, instead of only reacting after it is already over.',
+  },
+  {
+    title: 'Check whether elective and case-track choices get real weight',
+    body: 'What you pick in term two and three is what recruiters actually screen against on placement day. Look for guidance that treats electives, certifications, and case-competition tracks as part of a placement strategy, not just academic filler.',
+  },
+  {
+    title: 'Check whether a mid-program specialization switch is judged on your specific situation',
+    body: 'Switching tracks this late is a real decision with a real cost in time and positioning. Guidance should help you separate ordinary mid-program doubt from a genuine mismatch, instead of pushing you toward either extreme by default.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How do I choose between finance, marketing, operations, HR, and analytics as my MBA specialization?',
+    answer:
+      'The right specialization depends on your working style and strengths against what each track actually demands day to day, not just the starting pay band recruiters advertise on campus. Guidance should help you weigh this against your own background and your institute\'s recruiter mix, and check which specialization keeps more doors open if your first placement bet does not land.',
+  },
+  {
+    question: 'My summer internship is not converting into a PPO. What should I do?',
+    answer:
+      'This depends on whether the gap is about the work you delivered, the mid-internship conversation you did or did not have, or a broader hiring slowdown at that specific company. Guidance should help you read the signal honestly, decide whether to push for a late conversion, and build a credible backup plan for the final placement season rather than waiting until it is too late.',
+  },
+  {
+    question: 'Which electives should I pick to actually improve my placement chances?',
+    answer:
+      'It depends on the specific roles and companies you are targeting, not a generic "pick the popular elective" answer. Guidance should help you sequence your term two and three choices, including electives, certifications, and case-competition tracks, so your resume tells one coherent story a recruiter can screen quickly.',
+  },
+  {
+    question: 'I regret the specialization I chose. Is it too late to switch mid-program?',
+    answer:
+      'It is rarely too late, but it does get more expensive the closer you are to final placements. Guidance should help you separate ordinary mid-program doubt from a genuine mismatch, and if a switch is the right call, map what it actually takes in courses, electives, and networking to make the new track credible to recruiters.',
+  },
+  {
+    question: 'My B-school is tier-2 or tier-3. Does that limit which specialization actually makes sense for me?',
+    answer:
+      'Institute tier affects which recruiters show up on campus, but it does not decide your specialization fit on its own. Guidance should help you pick a specialization and a proof-of-work plan, through internships, certifications, and case work, that competes on substance instead of depending on the campus brand alone.',
+  },
+  {
+    question: 'Should I do a case competition or club leadership role instead of focusing only on coursework?',
+    answer:
+      'This depends on how much weight recruiters in your target function actually put on case work, club leadership, or a live project versus coursework alone. Guidance should help you decide where your limited time is best spent for the specific roles you are aiming for, instead of doing everything at once.',
+  },
+  {
+    question: 'Is this for first-year or second-year MBA students?',
+    answer:
+      'Both. First-year students typically need help with the specialization choice itself and the summer internship search, while second-year students are usually further along, weighing electives, a possible specialization switch, or final placement positioning. Guidance adjusts to wherever you are in the two years.',
+  },
+  {
+    question: 'Is this available online, or do I need to be near a specific campus or city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can work with a counsellor from your hostel, home, or campus without depending on an in-person career-services office or a fixed schedule.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help with skill, role, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-mba-graduates/',
+    title: 'Career Counselling for MBA Graduates',
+    description:
+      'Useful once you have already finished your MBA and are weighing whether the degree delivered the ROI or role you expected.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'A wider student guidance page for school, college, fresher, and postgraduate decisions beyond MBA-specific choices.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description:
+      'Free clarity on strengths and work style before locking a specialization or choosing between functional tracks.',
+  },
+  {
+    href: '/blog/college-degrees/best-mba-specializations-india/',
+    title: 'Best MBA Specializations in India',
+    description:
+      'Compare finance, marketing, HR, operations, analytics, and more by real salary data if you are still weighing your specialization.',
+  },
+  {
+    href: '/blog/college-degrees/mba-finance-vs-marketing-india/',
+    title: 'MBA Finance vs Marketing India',
+    description:
+      'An honest head-to-head if your specialization decision has narrowed down to these two functional tracks.',
+  },
+  {
+    href: '/blog/college-degrees/mba-without-work-experience-india/',
+    title: 'MBA Without Work Experience India',
+    description:
+      'Useful context if you are a fresher-entry MBA student weighing how work-experience gaps affect placement expectations.',
+  },
+  {
+    href: '/career-skills-compass/',
+    title: 'Career & Skills Compass',
+    description: 'A free tool for narrowing skill direction while you are still deciding a specialization or placement track.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling for MBA Students',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for MBA Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for MBA Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for MBA Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for MBA students still inside the programme
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for MBA students
+        <span class="gold-text"> while the specialization, internship, and placement decisions are still open</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for MBA students should deal with the decisions you are actually facing right now, while
+        you are still in the programme: which specialization to lock in, whether your summer internship is on track
+        to convert into a PPO, which electives actually set up your placement track, and what to do if the
+        specialization you chose no longer feels right. The goal is a deliberate, high-value, high-income skill
+        portfolio you carry into placements, one that keeps compounding toward earlier financial freedom, not a
+        generic "an MBA opens doors" pep talk.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can work with a counsellor from your hostel, home, or
+        campus without depending on a fixed career-services office schedule.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for MBA Students</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career counselling for MBA students becomes useful"
+    subtitle="It becomes useful right as the specialization deadline, internship conversion, or elective choice starts to feel real, because the sooner your direction is right, the sooner a high-value, high-income skill portfolio starts compounding toward earlier financial freedom, instead of drifting through choices that quietly narrow your options."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Make the specialization, internship, or elective call clearer before the deadline passes"
+    body="The earlier your direction is right, the stronger a placement-ready profile you build — and the sooner it starts unlocking high income opportunities — over the rest of the programme instead of against it."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for MBA Students"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The in-program decisions this should help you make"
+    subtitle="Not generic postgraduate career advice. Direction for the exact choices MBA students face while the programme is still in progress."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help you see your actual strengths and work style before locking a specialization, choosing an internship profile, or deciding on a mid-program switch."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when MBA-student career counselling is done right"
+    subtitle="Career counselling for MBA students should feel different from a generic orientation-week talk or a placement-cell circular."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling for MBA students"
+    subtitle="The goal is a clearer specialization, internship, and elective decision, not a generic pitch recycled for every postgraduate programme."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let a specialization deadline or a quiet internship make the call for you"
+    body="A clearer specialization, internship, and elective decision now protects the placement-day profile you are building over the rest of the programme."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for MBA Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling"
+    title="Career Counselling Plans for MBA Students"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, MBA-specific reading, and free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions MBA students ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Take the specialization, internship, or elective decision seriously while it is still open"
+    subtitle="If a specialization deadline, a summer internship conversion, or a mid-program switch already feels important, move with stronger direction now toward a high-value, high-income skill portfolio and earlier financial freedom, instead of letting the calendar decide for you."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for MBA Students"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

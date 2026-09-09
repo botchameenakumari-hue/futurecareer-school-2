@@ -1,0 +1,571 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Nashik drops index 1 (degree-first-vs-skill-first) and index 2
+// (low-growth-paths-vs-earlier-financial-freedom). Index 1 is dropped because
+// Nashik's two anchor tracks - HAL/Ozar aerospace manufacturing and the
+// Satpur/Ambad auto-ancillary belt - both already expect a formal engineering
+// or diploma qualification, so a degree-vs-skill framing fits weakly here
+// (the same reasoning Vadodara and Ludhiana used for dropping this row).
+// Index 2 is dropped because the "earlier financial freedom" chain is already
+// carried directly in this page's own hero and positioning prose rather than
+// needing the comparison row to state it again (the same reasoning Raipur
+// used). This two-index combination (1 and 2) has not been used by any
+// sibling: Rajkot (rows 0-4), Vizag (rows 1-5), Bangalore (full library),
+// Pune (drops 3), Kolkata (drops 1), Chennai (drops 5), Hyderabad (drops 2),
+// Mumbai/Chandigarh/Gurgaon/Nagpur (each drop 4), Delhi (drops 0 and 5),
+// Ahmedabad (drops 3 and 5), Surat (drops 0 and 3), Thane (drops 1 and 3),
+// Ludhiana (drops 1 and 4), Guwahati (drops 2 and 4), Vadodara (drops 1 and 3),
+// Jalandhar (drops 2 and 5), and Raipur (drops 2 and 3).
+const nashikComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 1 && index !== 2);
+
+const title = 'Career Counselling in Nashik | Wine, Aerospace and Manufacturing Careers | Future Career School';
+const description =
+  'Career counselling in Nashik for students, freshers, and working professionals weighing viticulture and wine-tourism, HAL Ozar aerospace manufacturing, the Satpur-Ambad auto-ancillary belt, and Kumbh-season hospitality work.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-nashik/';
+
+const nashikContextItems = [
+  {
+    title: "Nashik is India's wine capital, and that title now anchors a genuine, year-round industry, not a tourist slogan",
+    body: "Sula Vineyards put Nashik on the map as India's wine capital, and the label has since become a real industry rather than a marketing phrase. The Nashik valley - Gangapur, Dindori, and the wider hill belt along the Godavari - now hosts dozens of wineries growing grapes for wine rather than the table, and the district accounts for the large majority of India's wine production. That has created genuine, specific career tracks no other Indian city offers at this scale: viticulture and vineyard-agronomy roles, wine-making and cellar-operations positions, hospitality and guest-experience work built around vineyard resorts and wine-tourism circuits, export and quality-compliance roles as Indian wine reaches more international shelves, and event and hospitality management tied to the wine-tourism season. Someone drawn to agriculture, food science, hospitality, or tourism has a real, credible local path here that does not exist in Pune, Nagpur, or any other Maharashtra city on this list.",
+  },
+  {
+    title: "HAL's Ozar aircraft-manufacturing division puts Nashik inside India's aerospace and defence-manufacturing map, not just its logistics network",
+    body: "Hindustan Aeronautics Limited (HAL) runs its Nashik (Ozar) division as one of its major aircraft-manufacturing and overhaul centres, producing and maintaining Sukhoi fighter aircraft components and other aerospace work for the Indian Air Force. The Indian Air Force's own Nashik Road station sits alongside it, reinforcing a genuine aerospace-and-defence-manufacturing identity around Ozar that is structurally different from Nagpur's MIHAN framing - MIHAN is built around air-cargo logistics, maintenance, and an IT-SEZ, while Ozar is built around precision aircraft manufacturing itself. For someone with a mechanical, aeronautical, production, or precision-engineering interest, HAL Ozar represents a genuine high-value skill direction most career conversations in India never get specific enough to name.",
+  },
+  {
+    title: 'Satpur and Ambad MIDC run a real auto-ancillary and component-manufacturing economy underneath the wine and aerospace headlines',
+    body: "Beneath Nashik's wine-capital and aerospace identity sits a substantial, less-discussed manufacturing base. Mahindra & Mahindra runs a major vehicle-manufacturing plant in Nashik, and the Satpur and Ambad MIDC industrial estates host Bosch and a wide layer of auto-component and precision-engineering suppliers feeding that plant and the wider automotive supply chain. This gives Nashik's engineering, diploma, and ITI-track students a genuine production-and-quality-engineering career path that runs in parallel with the HAL aerospace track, rather than depending on it - a real fork between component manufacturing for the auto industry and precision manufacturing for aerospace, both grounded in the same district.",
+  },
+  {
+    title: 'The Kumbh Mela makes Nashik one of only four cities in India with a genuine, once-in-twelve-years pilgrimage-tourism economy',
+    body: "Nashik and neighbouring Trimbakeshwar are one of the four Kumbh Mela sites in India, alongside Prayagraj, Haridwar, and Ujjain - a status that creates a real, if cyclical, hospitality, event-management, tourism, and civic-logistics economy around the Godavari ghats and Ramkund. Outside the Kumbh years themselves, Trimbakeshwar's status as a Jyotirlinga temple and the wider Godavari pilgrimage circuit still keep a smaller, steady religious-tourism and hospitality trade running through the city. For students and professionals drawn to hospitality, event management, tourism administration, or civic and public-event logistics, this is a genuine, named local industry - not a generic 'tourism is growing everywhere' claim.",
+  },
+];
+
+const forkItems = [
+  {
+    title: 'Viticulture, wine-tourism, and hospitality (Gangapur, Dindori, the vineyard belt)',
+    listItems: [
+      "Vineyard agronomy, wine-making, cellar operations, and export/quality-compliance roles as Nashik's wineries scale toward international markets",
+      "Hospitality, guest-experience, and event-management roles built around vineyard resorts, tasting rooms, and the wine-tourism circuit",
+      "A genuinely seasonal and hospitality-weighted income pattern that rewards a different skill stack - guest experience, food and beverage knowledge, tourism operations - than an engineering track",
+    ],
+  },
+  {
+    title: 'HAL Ozar aerospace manufacturing and the wider defence-linked economy',
+    listItems: [
+      "Precision manufacturing, aeronautical, and production-engineering roles tied to HAL's Ozar aircraft-manufacturing and overhaul work",
+      "A structured, degree-and-diploma-anchored track that rewards depth in mechanical or aeronautical engineering over generalist skills",
+      "A genuinely higher, more stable income ceiling than most of Nashik's other tracks, but one that expects real technical rigor to actually compete for it",
+    ],
+  },
+  {
+    title: 'Satpur-Ambad auto-ancillary manufacturing (Mahindra & Mahindra and the component-supplier belt)',
+    listItems: [
+      "Production, quality, and supply-chain-engineering roles across Mahindra's Nashik plant and the Bosch-anchored component-supplier layer around Satpur and Ambad MIDC",
+      "A parallel, less specialised engineering path to HAL's aerospace track - real, stable, and less competitive to enter, but with a comparatively lower ceiling",
+      "A genuine diploma-and-ITI-friendly entry route that does not always require a four-year engineering degree",
+    ],
+  },
+  {
+    title: 'Kumbh-season and pilgrimage-linked hospitality, event, and civic-logistics work',
+    listItems: [
+      "Event management, hospitality, tourism-administration, and civic-logistics roles concentrated around the Godavari ghats, Ramkund, and Trimbakeshwar",
+      "A cyclical, once-in-twelve-years demand spike around the Kumbh itself, alongside a smaller, steady year-round pilgrimage-tourism trade",
+      "A genuinely different risk profile from the other three tracks - real opportunity, but concentrated and seasonal rather than a steady year-round employer base",
+    ],
+  },
+];
+
+const nashikAreaItems = [
+  {
+    title: 'Satpur and Ambad MIDC carry Nashik\'s core manufacturing identity',
+    body: "Satpur and Ambad are Nashik's primary industrial estates, home to Mahindra & Mahindra's vehicle-manufacturing plant, Bosch, and a wide layer of auto-component and precision-engineering suppliers. Someone rooted in this part of the city is usually weighing a production, quality, or supply-chain-engineering role here against the more specialised, more competitive HAL Ozar aerospace track a short distance away - a genuinely different calculation than someone based near the vineyard belt or the old city.",
+  },
+  {
+    title: 'Ozar and the airport corridor anchor Nashik\'s aerospace and defence-manufacturing economy',
+    body: "Ozar, home to HAL's aircraft-manufacturing and overhaul division and the Nashik (Ozar) airport, alongside the Indian Air Force's Nashik Road station, forms the city's aerospace-and-defence corridor. A student or professional oriented toward mechanical, aeronautical, or precision engineering is often weighing whether to build directly toward HAL's own hiring pipeline or use it as a benchmark for a broader precision-manufacturing career elsewhere in India.",
+  },
+  {
+    title: 'Gangapur Road, Dindori, and the vineyard belt hold the wine and hospitality economy',
+    body: "Gangapur Road, the Gangapur dam backwaters, and the Dindori taluka to the north host most of Nashik's wineries, tasting rooms, and vineyard resorts, alongside the city's more upscale residential and commercial growth. Someone drawn to this side of Nashik's economy is typically weighing a hospitality, tourism, or agronomy-linked path against the steadier but less glamorous manufacturing tracks in Satpur or Ozar.",
+  },
+  {
+    title: 'Panchavati, the old city, and the Godavari ghats carry Nashik\'s pilgrimage and civic identity',
+    body: "Panchavati, Ramkund, and the ghats along the Godavari River hold Nashik's religious and civic identity, sharpened every twelve years by the Kumbh Mela and maintained year-round by Trimbakeshwar's status as a Jyotirlinga pilgrimage site. College Road and the central Nashik Road/Sharanpur Road belt carry much of the city's everyday student and professional life, sitting between the old city's pilgrimage economy and the newer industrial and vineyard growth on the city's edges.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: "Everyone assumes Nashik means grapes and wine now - is there actually a serious engineering or aerospace career here?",
+    body: "Yes, and it is easy to miss precisely because the wine-capital label is so loud. HAL's Ozar division is a genuine aircraft-manufacturing and overhaul centre for the Indian Air Force, and Satpur and Ambad MIDC run a real auto-ancillary manufacturing base anchored by Mahindra & Mahindra and Bosch. The honest answer depends on which specific skill direction and entry route - HAL's more specialised, more competitive aerospace track, or the broader, more accessible auto-component manufacturing track - actually fits your background and interests.",
+  },
+  {
+    title: 'Is the wine and vineyard-tourism industry a real career path, or only seasonal hospitality work?',
+    body: "It is genuinely more than seasonal service work, though hospitality roles are a real part of it. Nashik's wine industry includes agronomy and viticulture, wine-making and cellar operations, export and quality-compliance work as Indian wine reaches more international markets, and tourism and event-management roles across the vineyard-resort circuit. Whether it is a strong personal fit depends on your actual interests in agriculture, food science, or hospitality management, not on how well-known Sula Vineyards has made the city.",
+  },
+  {
+    title: 'Should I aim for HAL specifically, or is the wider Satpur-Ambad manufacturing belt the safer bet?',
+    body: "That depends on your background and risk tolerance more than on which employer sounds more prestigious. HAL Ozar offers a genuinely higher income ceiling and a specialised aerospace-manufacturing career, but it is also a smaller, more competitive entry point. The Satpur-Ambad auto-ancillary belt is broader, more diploma-and-ITI-accessible, and more forgiving to enter, with a comparatively lower ceiling. A clear-eyed read of your own technical depth and comfort with a longer, more competitive route is what should drive that choice, not the name recognition of either employer.",
+  },
+  {
+    title: 'Does the Kumbh Mela actually create real jobs, or is that only relevant once every twelve years?',
+    body: "The Kumbh itself is genuinely a once-in-twelve-years event, so it should not be treated as a standing career plan. But Nashik and Trimbakeshwar carry a smaller, steady pilgrimage-tourism and hospitality trade year-round because of Trimbakeshwar's status as a Jyotirlinga site, and the event-management, hospitality, and civic-logistics skills built around Kumbh-scale planning carry real value beyond the Kumbh years themselves, including in other Indian cities that host large public events.",
+  },
+  {
+    title: "My family expects me to either join the family's grape or wine business, or get into a stable manufacturing job - do I have to choose only between those two?",
+    body: "No. Nashik's genuine four-track economy - viticulture and wine-tourism, HAL's aerospace manufacturing, the broader auto-ancillary manufacturing belt, and pilgrimage-linked hospitality and event work - gives you more real options than most families weighing only 'the family vineyard or a stable factory job' realise. The more useful step is mapping your actual skills and interests against all four tracks honestly, rather than defaulting to whichever one your family already knows.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on which of Nashik\'s real tracks actually fits you',
+    listItems: [
+      "Whether viticulture, wine-making, or wine-tourism hospitality genuinely fits your interests, or whether it only looks appealing because of Nashik's wine-capital reputation",
+      "Whether HAL's Ozar aerospace-manufacturing track is a realistic, worthwhile target given your current technical background, or whether the broader Satpur-Ambad auto-ancillary belt is the stronger near-term entry point",
+      "Whether pilgrimage- and event-linked hospitality work is a genuine direction or only a seasonal supplement to a steadier plan",
+      "What a realistic income trajectory looks like on your chosen track, given how specialised, competitive, or seasonal it genuinely is",
+    ],
+  },
+  {
+    title: 'Skill direction built for what Nashik\'s actual economy is hiring for',
+    listItems: [
+      'A high-value skill portfolio aimed at HAL\'s aerospace-manufacturing pipeline or the Satpur-Ambad component-supplier belt, if precision or production engineering is genuinely your fit',
+      'A hospitality, agronomy, or tourism-operations skill direction built for Nashik\'s wine-tourism and pilgrimage economy, if that is the stronger match',
+      'Honest fit-checking across all four local tracks instead of defaulting to whichever one your family or neighbourhood already expects',
+      'A clearer route toward unlocking high income opportunities and earlier financial freedom that starts from Nashik\'s real economy rather than an assumed one',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor can speak to Nashik's actual four-track economy, not a generic tier-2-city script",
+    body: 'Good guidance for Nashik should be able to speak specifically to the wine and viticulture industry, HAL\'s Ozar aerospace-manufacturing work, the Satpur-Ambad auto-ancillary belt, and the Kumbh-linked pilgrimage-tourism economy - not treat Nashik as an undifferentiated smaller city near Mumbai and Pune.',
+  },
+  {
+    title: 'Check whether the advice is honest about which tracks are competitive versus accessible',
+    body: "HAL's aerospace-manufacturing track offers a genuinely higher ceiling but is more specialised and more competitive to enter than the broader Satpur-Ambad manufacturing belt. Guidance worth paying for should say this plainly instead of treating every local option as equally open.",
+  },
+  {
+    title: "Check whether wine-industry and hospitality career advice goes beyond the 'Nashik is famous for wine' headline",
+    body: "A counsellor should be able to name the real roles inside Nashik's wine economy - agronomy, wine-making, export and quality compliance, hospitality and guest experience - rather than treating the whole industry as a single vague opportunity because Sula Vineyards is well known.",
+  },
+  {
+    title: "Check whether family or vineyard-business succession pressure is treated as a real factor to plan around, not argued away",
+    body: 'Many Nashik families have a stake in grape farming, a vineyard, or a manufacturing supplier business. Guidance should help build the strongest possible path whether that means joining the family business, working alongside it, or choosing a genuinely different track - not push one option as automatically superior.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.puneCounselling,
+    title: 'Career Counselling in Pune',
+    description: "Useful if Pune's automotive-vs-IT fork, or its student-city pull, is part of what you are weighing against staying in or near Nashik.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.nagpurCounselling,
+    title: 'Career Counselling in Nagpur',
+    description: "Useful if you are comparing Nashik's manufacturing and aerospace economy against Nagpur's own MIHAN aviation-and-logistics growth.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.mumbaiCounselling,
+    title: 'Career Counselling in Mumbai',
+    description: 'Useful if a move to Mumbai for finance, media, or a wider corporate market is genuinely part of your decision.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Nashik instead of only looking for a nearby offline option?',
+    answer:
+      "Because proximity alone does not resolve Nashik's real fork - whether to build toward the wine and viticulture industry, HAL's Ozar aerospace-manufacturing track, the Satpur-Ambad auto-ancillary belt, or Kumbh-linked hospitality and event work. Online guidance lets you start from home, a college near College Road, or work near Satpur, Ambad, or Ozar, without waiting on local availability, and it should still be judged on whether it gives you a clear, specific answer for your situation.",
+  },
+  {
+    question: "Is Nashik's wine and vineyard industry a real career option, or just tourism?",
+    answer:
+      "It is a genuine, growing industry beyond tourism alone. Nashik's vineyard belt around Gangapur and Dindori supports agronomy and viticulture, wine-making and cellar operations, export and quality-compliance roles, and hospitality and event-management work tied to wine tourism. Whether it fits you depends on your actual interests, which is exactly what counselling should help clarify.",
+  },
+  {
+    question: 'How is HAL\'s Ozar division different from Nagpur\'s MIHAN aviation economy?',
+    answer:
+      "HAL's Ozar division is an aircraft-manufacturing and overhaul centre - it builds and maintains aerospace components and aircraft, primarily for the Indian Air Force. Nagpur's MIHAN is built around air-cargo logistics, aircraft maintenance, and an IT-SEZ rather than manufacturing aircraft itself. They sit in the same broad aerospace-and-aviation space, but represent genuinely different skill directions and entry routes.",
+  },
+  {
+    question: 'Is a manufacturing career in Nashik limited to HAL, or are there other real options?',
+    answer:
+      'HAL is one strong option, but not the only one. The Satpur and Ambad MIDC industrial estates host Mahindra & Mahindra\'s vehicle-manufacturing plant, Bosch, and a wide layer of auto-component suppliers, offering a broader, more diploma-and-ITI-accessible manufacturing path alongside HAL\'s more specialised aerospace track.',
+  },
+  {
+    question: 'Does the Kumbh Mela create lasting career opportunities, or only work during the event itself?',
+    answer:
+      "The Kumbh Mela itself happens roughly once every twelve years, so it is not a standing career plan on its own. But Nashik and Trimbakeshwar maintain a smaller, steady pilgrimage-tourism and hospitality trade year-round, and the event-management and civic-logistics skills built around Kumbh-scale planning carry value well beyond the event itself.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Nashik?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you are staying in Nashik or weighing a move elsewhere in Maharashtra.',
+  },
+  {
+    question: 'What if I searched for Nashik but the bigger issue is not the city at all?',
+    answer:
+      "That is common. The city search is often a trust shortcut. If the real pressure is stream selection, degree choice, skill direction, or a career change rather than location, the main counselling and guidance pages are the stronger next filter. This page is most useful when local context - the wine industry, HAL's aerospace work, the Satpur-Ambad manufacturing belt, or the Kumbh-linked tourism economy - is genuinely part of your decision.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Nashik', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Nashik | Future Career School',
+    description:
+      "Career counselling in Nashik for students, freshers, and working professionals. Online guidance across the wine and viticulture industry, HAL's Ozar aerospace-manufacturing track, the Satpur-Ambad auto-ancillary belt, and Kumbh-linked hospitality work.",
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Nashik' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Nashik</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Nashik
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Nashik
+        <span class="gold-text"> for a genuinely four-track economy</span>
+      </h1>
+      <p class="hero-sub">
+        Nashik is India's wine capital - Sula Vineyards and a real, growing viticulture and wine-tourism industry around Gangapur and Dindori - and,
+        at the same time, home to HAL's Ozar aircraft-manufacturing division, which puts the city inside India's aerospace and defence-manufacturing
+        map alongside a serious auto-ancillary manufacturing belt at Satpur and Ambad MIDC. Add the Kumbh Mela's once-in-twelve-years pilgrimage-tourism
+        economy on the Godavari ghats, and Nashik holds four genuinely distinct career tracks under one wine-capital headline. Good counselling here
+        means building the high-value skill portfolio that fits your actual track - not the one that sounds most familiar - so it can move you toward
+        unlocking high income opportunities and earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Nashik and across India. You can start from home, from a college near College Road, or from work near
+        Satpur, Ambad, or Ozar - no travel required before the underlying skill direction is even clear.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not which of Nashik's four tracks sounds most impressive. It is which one your actual skills, interests, and family
+        situation genuinely fit.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="nashik-career-landscape"
+    title="The Nashik career reality a single wine-capital headline misses"
+    subtitle="Nashik is genuinely known for wine - but underneath that headline sit three more real, distinct industries. Good career counselling should help you build the high-value skill portfolio that unlocks high income opportunities from whichever of these four tracks actually fits you."
+    items={nashikContextItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="four-track-fork"
+    title="Wine, aerospace, manufacturing, or pilgrimage tourism - Nashik's real fork has no equivalent framing anywhere else on this site"
+    subtitle="Most Maharashtra city pages on this site are built around one or two economic forks. Nashik genuinely has four, and naming all of them honestly - instead of assuming the wine-capital story is the whole picture - is the actual starting point for useful guidance here."
+    items={forkItems}
+    variant="contrast"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If Nashik's four-track decision already feels urgent, resolve it before more time goes into the wrong bet"
+    body="Use this when you want a decision that moves you toward earlier financial freedom, not another year spent guessing which of Nashik's industries actually fits you."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <BofuFeatureSection
+    sectionId="nashik-areas"
+    title="Nashik's geography shapes the decision, not just the commute"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Nashik, not treat every search as coming from the same part of the city."
+    items={nashikAreaItems}
+    variant="decision"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="The point is not another opinion about whether wine, aerospace, manufacturing, or pilgrimage tourism is Nashik's 'real' industry. The point is a clearer decision, stronger skill direction, proof of work, and a real route toward earlier financial freedom, built on the track that actually fits you."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city where four genuinely different industries all have a real claim on your attention, the risk is generic advice that only knows one script. The comparison below shows what separates high-leverage guidance from that."
+    rows={nashikComparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Nashik"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process understands Nashik's actual four-track mix, and whether it is honest about which paths are competitive versus accessible."
+    items={buyerCheckItems}
+  />
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use. Here is what that looks like for Nashik's four-track economy.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Nashik.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Nashik page when locality matters, but decide based on your actual skill fit, not the loudest local industry"
+    body="The practical value is a clear read on which of Nashik's four tracks already fits your direction, stronger skill positioning either way, and a concrete next step before the wrong bet gets more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Nashik" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a real fork - wine and viticulture, HAL's aerospace-manufacturing track, the Satpur-Ambad manufacturing belt, or Kumbh-linked hospitality work - is genuinely in front of you, and the goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #nashik-career-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

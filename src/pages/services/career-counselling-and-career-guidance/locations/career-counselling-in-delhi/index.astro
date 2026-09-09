@@ -1,0 +1,567 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../../config/guidancePlans';
+
+const { freeLayerText, studentSessionPrice, professionalSessionPrice } = GUIDANCE_PLAN_PRICE_COPY;
+const mixedSessionPriceLine = `${studentSessionPrice} for students and ${professionalSessionPrice} for working professionals`;
+
+// Delhi page drops two rows instead of one - the plain "generic advice" row
+// (index 0) and the "random upskilling" row (index 5) - because Delhi's real
+// contrast is not generic-advice-versus-decision-support in the abstract, it
+// is the sunk-cost exam-attempt trap and the degree/assessment economy around
+// it. Keeping rows 1-4 (degree-first vs skill-first, delayed earning during
+// attempt years, paid outdated assessments vs free ones, generic low-paying
+// path advice) and dropping two rather than one keeps this selection distinct
+// from Rajkot (rows 0-4), Vizag (rows 1-5), Pune (drops index 3), Kolkata
+// (drops index 1), and Bangalore (full library).
+const delhiComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 0 && index !== 5);
+
+const title = 'Career Counselling in Delhi | Online Guidance Across India | Future Career School';
+const description = "Career counselling in Delhi for students and professionals - clarity beyond the capital's UPSC-coaching belt and the government-job-versus-income question.";
+const canonical = 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-delhi/';
+
+const delhiContextItems = [
+  {
+    title: "Delhi runs on one exam culture like no other Indian city",
+    body: "Being the national capital has built something Delhi has more concentrated than anywhere else in India: a full economy built around one exam. Mukherjee Nagar and Old Rajinder Nagar house hundreds of coaching centres, PG rooms, and library-seat businesses that exist almost entirely because of UPSC preparation. Coaching names like Vajiram & Ravi, Vision IAS, and Drishti IAS are as much a part of the local landscape as any employer. For a student or a working professional who quit a job to prepare, that concentration changes the pressure completely - everyone around you is doing the same thing, which makes stepping back and asking whether another attempt still makes sense feel almost impossible from inside the belt. High-leverage decision support here means someone willing to look honestly at the actual attempt, age, and opportunity-cost math with you, not another voice cheering the next attempt on.",
+  },
+  {
+    title: "Delhi University pulls students from across the country into one ecosystem",
+    body: "North Campus and colleges across Delhi University draw some of India's strongest students on marks alone, which creates its own quiet pressure: getting into a well-known DU college can feel like the decision is already made, when the real fork - honours subject, a parallel skill, a law or civil-services track, or a private-sector direction - is still wide open. Add Jawaharlal Nehru University and Jamia Millia Islamia, and Delhi holds one of India's densest concentrations of research, policy, and humanities talent in one city, most of it still working out what a high-value skill portfolio should look like once the degree itself is no longer the differentiator.",
+  },
+  {
+    title: "Law, policy, media, and diplomacy sit here because the capital sits here",
+    body: "The Delhi High Court and a dense cluster of litigation and corporate law firms make law one of the most real, non-exam paths for a Delhi student weighing options against UPSC. Central ministries, parliamentary offices, and a large number of India's public-sector undertakings keep their head offices in the city, alongside embassies and diplomatic missions around Chanakyapuri that create real openings in policy research, international affairs, and think tanks. National newspapers and news channels headquartered in Delhi add a media and journalism track most other Indian cities cannot offer at the same scale. None of this shows up as one obvious job title - it shows up as a wider set of real, fundable options that a UPSC-only mindset often filters out before even looking.",
+  },
+  {
+    title: "The government-prestige-versus-private-income tension is sharper here than almost anywhere",
+    body: "In a city built around ministries, PSUs, and the exam that leads to them, a government role carries a social weight that a private-sector job with a stronger salary often does not get credited for at home. That makes the honest comparison harder, not easier, to have out loud - especially when years and coaching fees are already sunk into the government track. Building a high-value skill portfolio that keeps unlocking high income opportunities in the private sector is not a rejection of the government path; it is what makes the comparison an actual choice instead of a default, and it is what moves someone toward earlier financial freedom regardless of which side of that choice they land on.",
+  },
+];
+
+const fitItems = [
+  {
+    title: 'You are inside, or have been inside, the exam-attempt cycle',
+    listItems: [
+      'Another attempt means another year of coaching fees, another year of a fixed age or attempt count ticking down, and another year of income not being earned',
+      'You want an honest read on whether one more attempt is still the strongest move, not another motivational push',
+      'You need a real comparison against the paths you would otherwise be building',
+    ],
+  },
+  {
+    title: 'You searched Delhi because the city already feels like the centre of the decision',
+    listItems: [
+      'Between DU, the coaching belt, and the sheer density of government and policy work here, Delhi can feel like the only place this decision happens',
+      'That is understandable, but the real filter should still be whether the guidance improves your actual next move',
+      'Practical clarity matters more than being physically inside the belt',
+    ],
+  },
+  {
+    title: 'You already know generic advice will not resolve this',
+    listItems: [
+      'Generic "keep trying" or "just quit and get a job" advice both skip the real trade-offs',
+      'You need someone who will look at the specific math - attempts left, family runway, and market options - honestly',
+      'You want one clear next step, not another pep talk from someone who has not sat where you are sitting',
+    ],
+  },
+];
+
+const delhiAreaItems = [
+  {
+    title: "The coaching belt is its own world inside the city",
+    body: 'Mukherjee Nagar and Old Rajinder Nagar concentrate the UPSC-preparation economy into a few square kilometres - PG rooms, library-seat subscriptions, and a social life built almost entirely around the exam. Karol Bagh sits close enough to pull in the same coaching-adjacent crowd. People living inside this belt often lose the outside perspective that makes an honest attempt-versus-alternative comparison possible, simply because everyone nearby is running the same race.',
+  },
+  {
+    title: 'North Campus and Central Delhi carry a different kind of pressure',
+    body: 'Someone at a North Campus or Kamla Nagar address is usually inside the Delhi University ecosystem, weighing an honours subject or a parallel skill against family expectations that a DU seat should already be the hard part solved. Around Connaught Place, ITO, and the wider Central Delhi government belt, closeness to ministries, the Delhi High Court, and central PSU head offices puts the government-versus-private comparison in front of people almost daily, simply from the buildings they pass.',
+  },
+  {
+    title: "South Delhi and the business corridors run on a different set of assumptions",
+    body: 'Hauz Khas, Saket, and South Extension sit closer to a corporate and lifestyle-driven version of Delhi - law firms, consulting, media, and a private-sector-first social circle where the government exam is one option among several rather than the default. Nehru Place adds an IT and business-services corridor of its own. Chanakyapuri, home to most embassies and diplomatic missions, opens a genuine policy and international-affairs track most other Indian cities cannot offer at this scale. People commuting in from Dwarka, Rohini, and Lajpat Nagar often sit across more than one of these worlds at once, and good counselling should be able to speak to whichever one actually applies.',
+  },
+];
+
+const onlineAdvantageItems = [
+  {
+    title: "Being inside the belt is not the same as being clear about the decision",
+    body: "Living in a PG in Mukherjee Nagar or a hostel near North Campus puts you physically close to Delhi's exam and academic culture, but it does not automatically give you the outside view needed to judge whether another attempt, a course switch, or a private-sector move is the stronger call. Online guidance can bring that outside perspective in without asking you to first find time to leave the belt.",
+  },
+  {
+    title: 'Online support makes an honest family conversation easier to have',
+    body: "A lot of the pressure in Delhi's exam culture runs through family expectation and sunk cost, not just the exam itself. Getting guidance online means the actual decision-makers - parents who have already funded years of coaching, or a partner weighing the same runway - can be included in the conversation without turning a visit or a trip into the reason the harder conversation keeps getting delayed.",
+  },
+  {
+    title: 'The stronger comparison is not local versus online - it is sunk-cost versus a fresh look',
+    body: "A well-known local coaching institute or a study-group inside the belt can still leave the underlying question unresolved. The better filter is whether the guidance gives you an honest read on the attempt math, a real comparison against DU, law, policy, media, or private-sector paths, and a genuinely practical next step - not just another voice validating one more attempt.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: "Everyone around me here is preparing for the same exam - am I wasting time if I am not?",
+    body: "No. The coaching belt's density makes it feel like the only serious path in the city, but Delhi genuinely supports law, policy research, media, diplomacy-adjacent work, and private-sector roles at a scale most other cities do not. The exam is one route through this city, not the only one.",
+  },
+  {
+    title: 'My family has already paid for years of coaching - how do I even raise stopping?',
+    body: "That is one of the hardest and most common conversations in Delhi's exam culture, and it deserves a real answer, not silence. The sunk cost already spent does not change what the honest next-attempt math looks like going forward. Getting clear on that math first makes the family conversation easier to have, not harder.",
+  },
+  {
+    title: 'I got into a well-known Delhi University college - shouldn\'t the hard part already be done?',
+    body: 'A strong DU seat is a real result, but it answers where you study, not what you build alongside the degree. The honours subject, a parallel skill, and whether you are heading toward law, the exam, research, or a private-sector track are all still open questions a DU admission does not settle on its own.',
+  },
+  {
+    title: 'Is a government job actually the smarter move here, or just the more respected one?',
+    body: "Both things can be true at once, and they are not the same question. A government role in this city carries genuine security and social weight. A private-sector path built on a stronger skill portfolio can carry genuinely higher income. Neither is automatically right - the honest comparison is what most people in Delhi's exam culture never get to make out loud.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      'Whether another exam attempt is still the strongest use of your time, money, and age window, or whether a shift makes more sense now',
+      'How law, policy research, media, or a private-sector skill path compares honestly against the government route for your situation',
+      'What your Delhi University subject or college choice should actually build toward alongside the degree',
+      'How to raise a hard family conversation about sunk coaching costs without it turning into confrontation',
+    ],
+  },
+  {
+    title: 'A skill direction built for achieving earlier financial freedom either way',
+    listItems: [
+      'A high-value skill portfolio that holds up whether you continue toward the exam, pivot to law or policy, or move into the private sector',
+      'Proof-of-work positioning that carries weight beyond a degree or an exam attempt count on its own',
+      'A realistic income comparison between the government track and a stronger private-sector skill path',
+      'One practical next step instead of another round of belt-wide validation',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor takes the exam-attempt culture seriously without either glorifying or dismissing it",
+    body: "Delhi's exam culture deserves to be understood, not mocked and not romanticised. Guidance worth paying for should be able to sit with the real weight of another attempt and still help you look at the honest math.",
+  },
+  {
+    title: 'Check whether a government path is treated as one legitimate option, not the only respectable one',
+    body: "Good guidance in Delhi should be able to speak seriously to the government route and to law, policy, media, or private-sector paths without quietly ranking one as the real choice and the rest as consolation prizes.",
+  },
+  {
+    title: 'Check whether the guidance can speak to your specific track, not just generic "stream" advice',
+    body: 'DU-subject decisions, a law-track pivot, a policy-research direction, and a private-sector skill build are genuinely different conversations. Guidance that treats them all the same has not actually engaged with your situation.',
+  },
+  {
+    title: 'Check whether staying in Delhi afterward is treated as a real choice, not an assumed outcome',
+    body: 'Many people in Delhi for coaching or college are not originally from the city. Good guidance should treat staying, returning home, or building remote-first as three genuinely open options, not assume the belt is where the story ends.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.gurgaonCounselling,
+    title: 'Career Counselling in Gurgaon',
+    description:
+      "See this if your real questions run through Gurgaon's corporate and GCC ladder, consulting or BFSI culture, or a lateral move between Cyber City employers, rather than Delhi's exam and government-versus-private world.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'Online-first approach across India if your real concern is easier access rather than the city itself.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+  {
+    href: '/career-resources/career-change-without-starting-over',
+    title: 'Career Change Without Starting Over',
+    description: 'Useful for anyone in Delhi weighing a pivot away from another exam attempt without feeling like the years already spent were wasted.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What career paths actually make sense for someone in Delhi right now?',
+    answer:
+      "It depends far more on your own situation than on the city alone. Delhi genuinely supports a government and civil-services track through UPSC and other exams, a strong law path through the Delhi High Court and the firms around it, policy research and think-tank work near the diplomatic and ministry belt, media and journalism at national scale, and private-sector roles across South Delhi and Nehru Place's business corridor. The right path is the one that fits your actual strengths, runway, and risk tolerance, not the one that feels like the default because of where you live or study.",
+  },
+  {
+    question: 'Should I attempt the exam again, or is it time to move on?',
+    answer:
+      "That question deserves an honest answer, not encouragement in either direction by default. The useful approach is to look plainly at how many attempts and how much of the age window remain, what another attempt would cost in time and coaching fees, and what a private-sector or law-and-policy path could realistically offer instead. Good counselling should help you make that comparison honestly rather than pushing you toward whichever answer is easier to say out loud.",
+  },
+  {
+    question: 'I moved to Delhi for coaching or college - should I plan to stay here afterward?',
+    answer:
+      "Not automatically. Some paths genuinely benefit from staying close to Delhi's government, legal, and policy ecosystem. Others - especially private-sector and remote-first skill-based roles - can be built from almost anywhere once the skill direction is clear. The stronger question is what skill path you are actually building, not whether you keep living inside the belt that got you here.",
+  },
+  {
+    question: "Why choose online career counselling in Delhi instead of a counsellor near the coaching belt?",
+    answer:
+      "Because proximity to the belt is exactly what can make it hard to see the decision clearly - everyone nearby is running the same race. Online guidance brings in an outside view without requiring you to leave your PG, hostel, or workplace, and it should still be judged on whether it gives you an honest read on your specific situation, not on how close its office is to Mukherjee Nagar.",
+  },
+  {
+    question: 'Is a government job worth the wait compared to building private-sector skills now?',
+    answer:
+      "There is no single right answer - it depends on your runway, your family's financial reality, and how many attempts genuinely remain. A government role offers real security and standing in this city. A private-sector path built on a strong, high-value skill portfolio can offer a faster route toward earlier financial freedom. Honest counselling should help you compare both against your actual numbers, not assume one is automatically wiser.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Delhi?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages, including people who left a job to prepare for an exam and are now weighing what comes next. The guidance is online across India, so it works whether you grew up in Delhi or moved here for college or coaching.',
+  },
+  {
+    question: 'What if the bigger issue is not Delhi or the exam at all?',
+    answer:
+      "That is common. If the real pressure is a stream choice, a specific skill decision, or a career change with no exam or city angle involved, the main counselling and guidance pages are the stronger next filter. This page is most useful when Delhi's exam culture, the DU ecosystem, or the government-versus-private-income question is genuinely part of what you are deciding.",
+  },
+  {
+    question: 'Is career counselling in Delhi free, or is there always a cost?',
+    answer:
+      `${freeLayerText} That is the same in Delhi as anywhere else the guidance reaches. A 1-on-1 session focused on the exam-attempt math, the government-versus-private question, or a Delhi University-track decision is currently ${mixedSessionPriceLine}. If you want to test the fit before committing, the trial career counselling session is the lower-commitment way to start.`,
+  },
+  {
+    question: 'How is this different from career counselling in Gurgaon?',
+    answer:
+      "Delhi and Gurgaon sit in the same wider National Capital Region but run on genuinely different local economies. This page is built around the capital's UPSC-exam culture, Delhi University, and the government-versus-private-sector tension. The Gurgaon page is built around Cyber City and the DLF corridor's corporate and Global Capability Centre economy - band-and-level promotion structures, consulting and BFSI culture, and the relocated-professional identity of people who moved there for one job. Choose whichever page actually reflects the pressure you are dealing with.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Delhi', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Delhi | Future Career School',
+    description:
+      'Career counselling in Delhi for students, freshers, and working professionals. Online guidance for clearer decisions between the UPSC/exam track, law and policy, and private-sector skill paths.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Delhi' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Delhi</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Delhi
+      </div>
+
+      <h1 class="hero-title">
+        Career Counselling in <span class="gold-text">Delhi</span>
+      </h1>
+      <p class="hero-sub">
+        Delhi carries a career culture no other Indian city matches at this scale - the Mukherjee Nagar and Old Rajinder Nagar coaching belt, Delhi University's nationwide pull, and a government, law, and policy ecosystem built around the capital itself. That density can make one exam or one government track feel like the only serious answer. The stronger question is whether your next move actually builds a high-value skill portfolio and moves you toward earlier financial freedom, whatever path it turns out to be.
+      </p>
+      <p class="hero-sub hero-sub-secondary">
+        Guidance is delivered fully online in Delhi and across India. You can start from a PG in the coaching belt, a North Campus hostel, or your workplace - no requirement to step outside the belt or take a day off just to get an honest second opinion.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="delhi-career-landscape"
+    title="The Delhi career reality generic advice rarely names"
+    subtitle="Delhi's economy is built around the capital itself - exams, ministries, courts, and a nationwide student pull - in a way no other Indian city replicates. Good counselling should engage with that reality directly instead of treating Delhi like any other metro."
+    items={delhiContextItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Delhi search already reflects a real fork, look at it honestly before another year gets committed"
+    body="Use this when you want a genuine read on the exam-attempt math or the government-versus-private question, not another round of belt-wide validation."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuListCardSection
+    sectionId="intent-clarity"
+    title="Why this decision already feels heavier here"
+    subtitle="When people search for career counselling in Delhi, the city name usually points to something specific - the exam, the coaching belt, or a Delhi University decision already in motion. The real pressure is rarely about the city itself. It is about seeing the actual trade-off clearly instead of through the belt's own momentum."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="delhi-areas"
+    title="Delhi's own geography shapes which version of this decision you are in"
+    subtitle="A useful local page should recognise that a PG in the coaching belt, a North Campus hostel, and a South Delhi apartment are not living through the same version of Delhi."
+    items={delhiAreaItems}
+    variant="decision"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="Not another opinion added to an already crowded belt of them. A clearer read on the actual attempt math, a real comparison across government, law, policy, and private-sector paths, and a route toward earlier financial freedom regardless of which one you choose."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Delhi"
+    subtitle="If you are already living inside the belt or the DU ecosystem, the honest question is not whether help is nearby. It almost always is. It is whether that help can see past the same momentum everyone around you is caught in."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city built around one exam and one government track, the real risk is advice that either glorifies another attempt or dismisses it outright. The comparison below shows what separates high-leverage guidance from both."
+    rows={delhiComparisonRows}
+  />
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Delhi.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use - even inside a city with this much exam and institutional pressure attached to every choice.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Delhi"
+    subtitle="Do not compare only how close a counsellor's office is to the coaching belt. Compare whether the process improves decision quality on the actual fork you are facing."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Delhi page when locality matters, but choose based on decision quality, not proximity to the belt"
+    body="The practical value is an honest read on your attempt math, a real comparison across paths, and a concrete next step before another year gets committed by default."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Delhi" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when years, coaching fees, and family expectation are already stacked on one path - and when the real goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom, whichever route you choose."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill { width: fit-content; margin-bottom: 1.6rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title { font-size: clamp(2.35rem, 5vw, 3.9rem); line-height: 1.04; letter-spacing: -.04em; color: #fff; max-width: 980px; margin-bottom: 1.25rem; overflow-wrap: anywhere; }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.72); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-sub-secondary { color: rgba(255,255,255,.6); font-size: 14px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 1.6rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #delhi-career-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

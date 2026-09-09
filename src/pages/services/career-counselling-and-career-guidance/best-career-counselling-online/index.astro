@@ -1,0 +1,842 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY } from '../../../../config/bofu';
+import { STUDENT_GUIDANCE_PLAN, WORKING_PROFESSIONAL_GUIDANCE_PLAN } from '../../../../config/guidancePlans';
+
+const title = 'Best Career Counselling Online | What Makes One Online Session Trustworthy | Future Career School';
+const description =
+  'Best career counselling online: how to verify one live 1-on-1 counselling session — real counsellor credentials for your exact decision, a session that ends in a recommendation, and secure handling of what you share.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/best-career-counselling-online/';
+
+const formatPlanAmount = (amount: string) => amount.replace('₹', 'Rs ');
+const studentSessionPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.price);
+const studentSessionComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.comparePrice ?? '');
+const professionalSessionPrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.price);
+const professionalSessionComparePrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.comparePrice ?? '');
+const studentSessionPriceText = `${studentSessionPrice} (limited-time price, down from ${studentSessionComparePrice})`;
+const professionalSessionPriceText = `${professionalSessionPrice} (limited-time price, down from ${professionalSessionComparePrice})`;
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[4],
+];
+
+const sessionVsOthers = [
+  {
+    format: 'One live 1-on-1 counselling session, online',
+    check: 'Ends in a specific recommendation on the decision you brought — a stream, an offer, a pivot — not a general conversation.',
+  },
+  {
+    format: 'A "counselling" page that is really a guidance webinar or group call',
+    check: 'Worth asking directly whether you get individual time on your own situation, or a shared session that stays generic.',
+  },
+  {
+    format: 'A recorded module sold as a counselling session',
+    check: 'No real counsellor is reacting to your actual marks, offer letter, or family constraints in real time.',
+  },
+  {
+    format: 'The same counsellor across a follow-up, if you need one',
+    check: 'Worth confirming before booking whether a second conversation starts over with someone new.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counselling-platform/',
+    title: 'Best Career Counselling Platform',
+    description: 'The broader provider evaluation — credentials, personalization, pricing — regardless of delivery channel.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-online-career-guidance/',
+    title: 'Best Online Career Guidance',
+    description: 'The wider online-delivery checks for guidance in general, not scoped to one counselling session.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'The actual online counselling service once you know what to check.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingSession,
+    title: 'Career Counselling Session',
+    description: 'What a single structured session actually covers, start to finish.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A small free check if you are still comparing options and not ready to book a session yet.',
+  },
+];
+
+const faq = [
+  {
+    q: 'What actually makes career counselling online trustworthy, as opposed to online guidance in general?',
+    a: 'Counselling, on this site and in how the term is generally used, means a focused session aimed at resolving one specific decision — a stream, a course, an offer, a pivot — not an ongoing, broader guidance relationship. Online counselling earns trust when that specific session is genuinely live and 1-on-1, when you can verify the individual counsellor handling your exact situation, when it actually ends in a recommendation you can act on, and when the sensitive details you share for that one session are handled carefully. That is a narrower, sharper bar than asking whether "online guidance" in general is well run.',
+  },
+  {
+    q: "How do I verify a counsellor's credentials specifically for the decision I'm bringing, not just in general?",
+    a: 'Ask two separate questions: what their training and background is in general, and whether they have handled your specific kind of decision before — a stream choice at 12th, a mid-career pivot, an offer evaluation. A counsellor can be broadly qualified and still be a poor match for one narrow decision type. A trustworthy online counselling process should be able to speak to both, not just wave a general credential at you.',
+  },
+  {
+    q: 'Is a single online counselling session enough, or do I need ongoing guidance?',
+    a: "That depends on what you're actually deciding. A single session is the right tool for one bounded decision that has a clear resolution point — pick this stream, take this offer, make this pivot. If the real question is broader and keeps shifting as things change — overall skill direction, positioning over a year — that is a guidance question, not a one-session counselling question, and is worth treating differently rather than forcing it into one call.",
+  },
+  {
+    q: 'Does an online counselling session actually end with a decision, or just more discussion?',
+    a: 'Ask this directly before booking: does the session close with a specific recommendation on the decision you brought, or does it end open-ended with "food for thought"? A counselling session that never resolves into a recommendation has quietly turned into a guidance conversation, whatever it was called when you booked it.',
+  },
+  {
+    q: 'Is my information safe when a counselling session happens entirely over video?',
+    a: 'A single counselling session usually means sharing something specific and sensitive in one sitting — marks, an offer letter, a family financial constraint, a resignation you are weighing. It is fair to expect that information handled carefully for that one conversation: a secure call, no unnecessary sharing beyond what the decision actually needs, and no requirement to hand over more than the conversation calls for.',
+  },
+  {
+    q: 'What does one online counselling session cost here?',
+    a: `For students, a first 1-on-1 online counselling session is ${studentSessionPriceText}. For working professionals, it is ${professionalSessionPriceText}. Career and skill assessments stay free either way, and are worth trying first if the decision still feels exploratory rather than urgent.`,
+  },
+  {
+    q: 'Should I book a counselling session or read the broader online guidance or platform pages first?',
+    a: 'If you already have one specific decision you need resolved, book the session — that is what counselling is for. If you are still comparing providers in general, the platform evaluation is the better read. If your question is about the online format itself across a broader guidance relationship rather than one session, the online guidance page covers that instead.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Best Career Counselling Online', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Best Career Counselling Online: Verifying One Real Session, Not a Platform or a Guidance Relationship',
+    description,
+    datePublished: '2026-08-27',
+    dateModified: '2026-08-27',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="counselling-online-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Best Career Counselling Online</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>Judging one session, not a platform or a guidance relationship</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>The best career counselling online isn't about the platform or the guidance format — it's about whether one live session actually resolves your decision</h1>
+            <p class="line strong">
+              Career counselling online is not the same question as a career guidance platform or the online format in general — it's whether one focused, 1-on-1 session, done over video, can actually resolve the specific decision you brought to it: a stream, an offer, a pivot. Judging that means checking four things specific to the session itself, not a whole platform or an ongoing guidance relationship: is it genuinely live and 1-on-1, can you verify the counsellor's fit for your exact decision, does it end in a recommendation, and is what you share for that one conversation handled with care.
+            </p>
+            <p class="line">
+              This sits below the general "which platform" question and beside the broader "is the online format itself solid" question — it answers something narrower than both: does this one counselling session, done online, actually work.
+            </p>
+            <p class="line">A session that's vague on more than one of these is worth a second look before you book.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.careerCounsellingOnline}>See how online counselling works here</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">The four checks on the session</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Genuinely live, 1-on-1, and about your specific decision.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>The counsellor is a real fit for that exact decision type.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>The session actually ends in a recommendation.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>What you share for it is handled with care, not stored loosely.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>Counselling is narrower than guidance or a platform — it's one session aimed at resolving one specific decision, and it should be judged as that, not as a whole provider or an ongoing relationship.</li>
+          <li>The single biggest check is fit: a counsellor can be broadly qualified and still be the wrong match for your exact decision type.</li>
+          <li>A real counselling session ends in a recommendation. If it stays open-ended, it has quietly become a guidance conversation instead, whatever it was booked as.</li>
+          <li>Online delivery adds one more layer worth checking — the sensitive detail you share for one sitting deserves the same care online as it would across a table.</li>
+          <li>If your real question is broader than one decision, or is about the online format across many sessions, this page is the wrong scope — the platform and online-guidance pages cover those instead.</li>
+          <li>No honest counsellor, including here, can guarantee a specific outcome from a single session — only a clearer, better-informed decision.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#criteria">The four checks on the session</a>
+          <a href="#session-vs-others">A real session vs everything sold as one</a>
+          <a href="#scope">Counselling, guidance, or a platform — which question is this?</a>
+          <a href="#what-changes">What actually changes when the session holds up</a>
+          <a href="#cost">What it costs, concretely</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="criteria" class="container section">
+      <h2>Four checks that judge one online counselling session, not a whole provider</h2>
+      <p class="line">
+        These are narrower than a platform checklist and narrower than the general online-delivery questions, because a counselling session is a narrower thing than either — one bounded conversation meant to resolve one decision.
+      </p>
+
+      <div class="protocol-stack">
+        <div class="protocol-row">
+          <span class="protocol-num">1</span>
+          <div class="protocol-body">
+            <h3>Genuinely live, 1-on-1, and about your specific decision</h3>
+            <p>A counselling session is not a webinar, a group call, or a recorded walkthrough with your name pasted on top. It should be a live conversation where the counsellor is reacting to your actual marks, offer, or situation as you describe it — not delivering the same content regardless of who's on the call.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">2</span>
+          <div class="protocol-body">
+            <h3>The counsellor is a real fit for your exact decision type</h3>
+            <p>General credentials answer one question; fit for your specific decision answers another. Someone experienced with 12th-stream choices is not automatically the right person for a mid-career pivot conversation, and vice versa. Ask who is actually assigned to your session and whether their background matches the decision you're bringing, not just whether they hold a qualification.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">3</span>
+          <div class="protocol-body">
+            <h3>The session ends in a recommendation, not just a conversation</h3>
+            <p>A structured counselling session should close with a specific, stated recommendation on the decision you brought — supported by whatever assessment or profile information fed into the call. If a session ends with "lots to think about" and no actual recommendation, it has drifted into open-ended guidance territory, which is a different, broader product.</p>
+          </div>
+        </div>
+        <div class="protocol-row">
+          <span class="protocol-num">4</span>
+          <div class="protocol-body">
+            <h3>What you share for the session is handled with care</h3>
+            <p>A single counselling session usually means disclosing something specific and sensitive in one sitting — an offer letter, a low mark, a family financial limit, a resignation you're weighing. Confirm the call itself is secure and that what you share stays scoped to that conversation, rather than being pulled into wider marketing or sales follow-up you didn't agree to.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="session-vs-others" class="container section">
+      <h2>A real counselling session vs everything else sold under the same name</h2>
+      <p class="line">
+        "Counselling" gets stretched to cover a lot of different formats. These are the specific things worth telling apart before you book, and what to check for each.
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>What's actually on offer</th>
+                <th>What to check</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sessionVsOthers.map((row) => (
+                <tr>
+                  <td data-label="What's actually on offer">{row.format}</td>
+                  <td data-label="What to check">{row.check}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        None of this means every provider using the word loosely is acting in bad faith. It means "counselling" is specific enough a term that it's worth confirming what you're actually booking before you pay for it.
+      </p>
+    </section>
+
+    <section id="scope" class="container section">
+      <h2>Counselling, guidance, or a platform — which question are you actually asking?</h2>
+      <p class="line">
+        These three questions sound similar but aren't the same comparison, and mixing them up leads to reading the wrong page or booking the wrong product.
+      </p>
+
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>This page fits if</h3>
+          <ul>
+            <li>You have one specific decision you need resolved — a stream, an offer, a pivot.</li>
+            <li>You want to book a single session, not an ongoing relationship.</li>
+            <li>Your main question is whether that one online session will actually be trustworthy and useful.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>A different page fits better if</h3>
+          <ul>
+            <li>You're still comparing providers in general — the platform evaluation covers credentials, pricing, and process across any format.</li>
+            <li>Your question is about online delivery across a broader, ongoing guidance relationship rather than one session — the online guidance page covers that.</li>
+            <li>You need ongoing support as things change over the year, not one resolved decision — that's a guidance or continuous-support question, not a single counselling session.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What actually changes when the online counselling session holds up"
+      subtitle="Not every session that calls itself counselling adds the same thing. This is the difference a genuinely well-run one points toward."
+      rows={comparisonRows}
+    />
+
+    <section id="cost" class="container section">
+      <h2>What one online counselling session actually costs</h2>
+      <p class="line">
+        Pricing transparency is part of trusting a single session, so here are the real numbers rather than a vague "book a call to find out."
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Session</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Session">Career and skill assessments (before the session)</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Session">Student 1-on-1 counselling session, online</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Session">Working professional 1-on-1 counselling session, online</td>
+                <td data-label="Price">{professionalSessionPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Sessions are delivered fully online across India, so a single counselling conversation doesn't require travel or a local office either way.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-outline" href={BOFU_INTERNAL_LINKS.careerCounsellingSession}>See what one session covers</a>
+        <a class="btn-gold" href={`${BOFU_INTERNAL_LINKS.careerCounsellingOnline}#plans`}>Compare plans and pricing</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on the best career counselling online</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.careerCounsellingOnline}>Book an online counselling session</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader provider question, the wider online-delivery question, or the actual session."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #counselling-online-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.75rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .protocol-stack {
+    display: grid;
+    gap: .9rem;
+    margin-top: 1.2rem;
+  }
+  .protocol-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+  }
+  .protocol-num {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    line-height: 1;
+    color: rgba(229,184,74,.35);
+  }
+  .protocol-body h3 { margin-bottom: .4rem; }
+  .protocol-body p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.66);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+    .protocol-row { grid-template-columns: 44px 1fr; }
+    .protocol-num { font-size: 1.5rem; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

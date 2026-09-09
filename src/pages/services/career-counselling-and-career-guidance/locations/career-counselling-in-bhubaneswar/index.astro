@@ -1,0 +1,549 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Bhubaneswar drops the "generic advice vs high-leverage decision support"
+// row (index 0), the "stronger skill choices aimed at achieving earlier
+// financial freedom" row (index 2), and the "generic low-paying path advice"
+// row (index 4). Index 0 is already carried by this page's own
+// education-hub-identity section, which makes the generic-vs-high-leverage
+// case in city-specific terms (a city with an unusually dense, education-
+// first economy still gets flattened into "just a temple city" or "just a
+// government town" by generic advice). Index 2 is already carried directly
+// in the hero and positioning prose, the same reasoning Raipur and Nashik
+// used for the same row. Index 4 overlaps closely with index 0's own
+// generic-advice framing once both education-hub and industrial-town paths
+// are already named specifically in prose, so it is dropped rather than
+// repeated as a third near-duplicate row. Kolhapur already uses the
+// two-index {0, 2} combination, so this page uses the three-index {0, 2, 4}
+// combination instead to stay distinct. This combination is not used by any
+// other sibling as of this page's build: Rajkot (rows 0-4), Vizag (rows
+// 1-5), Bangalore (full library), Pune (drops 3), Kolkata (drops 1), Chennai
+// (drops 5), Hyderabad (drops 2), Mumbai/Chandigarh/Gurgaon/Nagpur (each
+// drop 4), Delhi (drops 0 and 5), Ahmedabad (drops 3 and 5), Surat (drops 0
+// and 3), Thane/Vadodara (drop 1 and 3), Ludhiana (drops 1 and 4), Guwahati
+// (drops 2 and 4), Jalandhar (drops 2 and 5), Raipur (drops 2 and 3), Nashik
+// (drops 1 and 2), Aurangabad (drops 0 and 4), Coimbatore (drops 3 and 4),
+// Noida (drops 3 and 4), Kolhapur (drops 0 and 2), Goa (drops 1, 3, and 5),
+// and Kanpur (drops 0, 3, and 5).
+const bhubaneswarComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 0 && index !== 2 && index !== 4,
+);
+
+const title = 'Career Counselling in Bhubaneswar | Odisha Career Guidance | Future Career School';
+const description =
+  "Career counselling in Bhubaneswar for students, freshers, and working professionals weighing the city's KIIT-and-KIT-anchored private-education economy, the Info Valley IT corridor, AIIMS Bhubaneswar, and Odisha's steel and aluminium towns.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-bhubaneswar/';
+
+const educationHubItems = [
+  {
+    title: "Bhubaneswar is genuinely built around education in a way none of its sibling cities are",
+    body: "The Kalinga Institute of Industrial Technology (KIIT) and its sister institution KISS, together with a wider Kalinga Institute of Industrial Technology (KIT) campus network, enrol a student population that is disproportionately large relative to Bhubaneswar's own city size. That is not a passing statistic - it shapes the city's rental market, its transport patterns, its retail and hospitality economy, and the sheer number of 18-to-24-year-olds making a career decision here at any given time. Very few Indian cities have an economic identity this openly organised around one sector: private higher education itself, rather than a factory, a port, or a government secretariat.",
+  },
+  {
+    title: "That scale creates a specific, honest pressure: standing out inside one of India's largest single-city student populations",
+    body: "When a huge share of the people around you are also students, weighing similar branches, similar placement seasons, and similar first-job decisions, the real risk is not a shortage of opportunity - it is sameness. A degree from a well-known Bhubaneswar institution puts you in a large, credible pool. It does not, by itself, put you ahead of that pool. Good career counselling here should treat the KIIT-and-KIT scale as a genuine advantage to build on, not assume the institution's name alone will do the differentiating work later.",
+  },
+  {
+    title: 'AIIMS Bhubaneswar adds a second serious institutional anchor, on top of an education identity that already exists',
+    body: "AIIMS Bhubaneswar, one of the first new All India Institute of Medical Sciences campuses built outside Delhi, gives the city a genuinely credible medical-education and hospital-career pathway. It matters here differently than it does in a state capital where AIIMS arrives as the first real institutional landmark - in Bhubaneswar, AIIMS layers onto a city that was already an education hub through KIIT and KIT, rather than introducing that identity for the first time. The honest framing is a private-education-and-research city that also happens to host a flagship public medical institution, not a medical-anchor city that also happens to have some colleges nearby.",
+  },
+];
+
+const economicLandscapeItems = [
+  {
+    title: "A real, growing IT corridor around Info Valley and Chandaka runs in parallel with the education economy",
+    listItems: [
+      "Info Valley and the Chandaka Industrial Estate host established campuses for Infosys, TCS, and Mindtree/LTIMindtree, giving Bhubaneswar a genuine white-collar technology economy that is smaller than Bangalore's or Hyderabad's but is not a token presence",
+      "A large share of this corridor's hiring pipeline is fed directly by the same KIIT-and-KIT graduate pool that defines the city's education identity, so the two economies are more tightly linked here than in most other tech-corridor cities",
+      "The honest read is a genuine but still-developing technology sector, not yet at the scale that lets every graduate assume a local IT offer is the default outcome",
+    ],
+  },
+  {
+    title: "Odisha's steel, aluminium, and power economy pulls in a different direction - and the choice is genuinely Bhubaneswar's to make, not the state's",
+    listItems: [
+      "NALCO (National Aluminium Company) at Angul, the Rourkela Steel Plant under SAIL, and a wider corridor of mining, mineral-processing, and thermal-power operations across Odisha represent real, large-scale industrial-engineering employment - just not employment based inside Bhubaneswar itself",
+      "That creates a genuine, specific fork many Odisha graduates and professionals face: stay in Bhubaneswar's white-collar education, healthcare, and IT economy, or move toward Rourkela, Angul, or another industrial town for a metallurgy, plant-operations, or mining-and-minerals career",
+      "This is a different shape of decision from Raipur's steel-power-mining fork, where the Bhilai Steel Plant sits roughly 30 kilometres from the state capital itself - Odisha's industrial towns sit meaningfully further from Bhubaneswar, so the choice reads less like a commute question and more like a genuine relocation decision",
+    ],
+  },
+  {
+    title: "Temple-city heritage gives Bhubaneswar a civic identity that runs alongside its economic one, not instead of it",
+    listItems: [
+      "Bhubaneswar is home to thousands of temples spanning more than a thousand years of continuous temple-building, anchored by the Lingaraj Temple, and is widely known as the Temple City of India",
+      "That heritage identity shapes real careers of its own - conservation, tourism, hospitality, and cultural-heritage work around the temple precincts and Odisha's classical dance and craft traditions - alongside, not competing against, the education and IT economy",
+      "The honest picture is a city carrying two real identities at once: a living heritage city and a fast-growing private-education-and-technology hub, and counselling here should speak to both instead of picking one and ignoring the other",
+    ],
+  },
+];
+
+const bhubaneswarAreaItems = [
+  {
+    title: "The KIIT and Patia belt anchors the city's student population and its newest professional growth",
+    body: "KIIT's campuses and the surrounding Patia and Chandrasekharpur neighbourhoods hold the densest concentration of students, PG accommodation, and campus-adjacent business in the city. Info Valley's IT offices sit close by, so a real share of the city's IT hiring draws directly from this belt without students needing to relocate far after graduation.",
+  },
+  {
+    title: 'AIIMS Bhubaneswar and Sum Hospital give the Sijua and Kalinga Nagar side of the city a genuine medical-education identity',
+    body: "The area around AIIMS Bhubaneswar, together with private medical institutions like Sum Hospital and IMS, forms a real medical-education and hospital-career corridor distinct from the KIIT-Patia belt's broader private-education base - useful for anyone genuinely weighing medicine, nursing, or allied health.",
+  },
+  {
+    title: "Old Town and the temple precincts hold Bhubaneswar's heritage economy and its older civic core",
+    body: "The Lingaraj Temple, Bindu Sagar Lake, and the wider Old Town area anchor Bhubaneswar's temple-city identity and its associated tourism, hospitality, and conservation work, alongside older government-office and residential neighbourhoods that predate the city's newer education and IT growth.",
+  },
+  {
+    title: "Chandaka Industrial Estate and Rasulgarh carry the city's IT-corridor and industrial-support economy",
+    body: "The Chandaka Industrial Estate hosts Infosys, TCS, and Mindtree/LTIMindtree campuses, while Rasulgarh and the Cuttack-Bhubaneswar corridor carry a mix of trade, logistics, and support-industry roles connecting Bhubaneswar to the twin city of Cuttack roughly 25 kilometres away.",
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Bhubaneswar's actual mix, not a generic \"temple city\" or \"government town\" script",
+    body: "Useful guidance for Bhubaneswar should speak specifically to the scale of the KIIT-and-KIT student economy, the Info Valley IT corridor, AIIMS Bhubaneswar's medical pathway, and Odisha's separate steel-and-aluminium towns - not treat Bhubaneswar as an interchangeable tier-2 state capital defined only by its temples.",
+  },
+  {
+    title: "Check whether the advice is honest about standing out inside a huge local student population",
+    body: "A city built this heavily around private higher education means a Bhubaneswar-area degree, on its own, puts you in a large, credible pool rather than automatically ahead of it. Guidance worth paying for should say this plainly and help you build genuine differentiation, instead of implying the KIIT or KIT name alone will carry your career.",
+  },
+  {
+    title: "Check whether staying in Bhubaneswar versus moving toward Rourkela, Angul, or another industrial town is treated as a real, specific decision",
+    body: "Odisha's steel, aluminium, and mining economy is genuinely large, but it sits in different towns than Bhubaneswar's own white-collar education, healthcare, and IT economy. Guidance should help you weigh that relocation decision honestly on your own fit, not assume everyone should default to staying in the capital.",
+  },
+  {
+    title: "Check whether the guidance treats the temple-city heritage economy as a legitimate direction, not an afterthought",
+    body: "Conservation, tourism, hospitality, and cultural-heritage work around Bhubaneswar's temples and Odisha's classical arts are real career paths for people genuinely suited to them, not a lesser option next to engineering, medicine, or IT.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: "Everyone tells me Bhubaneswar is just a temple city with a lot of colleges - is that the whole picture?",
+    body: "It captures two real pieces, but not the whole picture. Bhubaneswar's temple heritage is genuine, and so is its scale as a private-education hub through KIIT and KIT. What that summary usually leaves out is a real Info Valley IT corridor, AIIMS Bhubaneswar's medical pathway, and Odisha's separate steel-and-aluminium towns pulling from the same graduate pool. The honest answer depends on which of these genuinely fits you, not a single label for the whole city.",
+  },
+  {
+    title: "If I studied at KIIT or KIT, does that already put me ahead of most other candidates?",
+    body: "It puts you in a large, credible pool - it does not automatically put you ahead of everyone in it, because a meaningful share of the people you are competing with for the same roles studied at the same institutions. The degree is a real asset. What actually separates outcomes inside a student population this size is proof of work, skill direction, and positioning built on top of the degree, not the degree label by itself.",
+  },
+  {
+    title: "Should I stay in Bhubaneswar for IT, healthcare, or education-linked work, or move toward Rourkela, Angul, or another industrial town for steel or aluminium careers?",
+    body: "These are genuinely different bets, not a better-versus-worse choice. Bhubaneswar's IT, healthcare, and education economy suits a different skill and interest profile than Rourkela's or Angul's metallurgy, plant-operations, and mineral-processing economy. The useful next step is mapping your own aptitude and interests against both, instead of assuming the state capital is automatically the stronger option.",
+  },
+  {
+    title: "Is a degree from a Bhubaneswar institution taken seriously outside Odisha, given the city isn't a traditional metro?",
+    body: "Institutions like KIIT, AIIMS Bhubaneswar, and the Indian Institute of Technology Bhubaneswar are recognised nationally on their own institutional standing, independent of the city's metro status. What matters more once you're competing outside a graduating class this large is visible proof of work alongside the degree, since that is what separates you from thousands of peers carrying a similar credential.",
+  },
+  {
+    title: "My family sees the temple-city and heritage side of Bhubaneswar as safer or more respectable than a technology or industrial career - how do I navigate that?",
+    body: "That instinct usually comes from familiarity, not from a real assessment of fit or income potential. Heritage, conservation, and tourism careers are legitimate when they genuinely suit you, but they are one option among several real Bhubaneswar-area paths, not automatically the safest or most respectable one. Good counselling should help you make that case to family with a clear, honest comparison rather than defaulting to whichever option feels most traditional.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      "Whether an IT-corridor path through Info Valley, a medical or allied-health path through AIIMS Bhubaneswar, or a heritage-and-tourism path around the temple economy genuinely fits your aptitude and interests",
+      "Whether staying in Bhubaneswar's white-collar economy or moving toward Rourkela, Angul, or another Odisha industrial town for a steel, aluminium, or mining-and-minerals career is the stronger move for your specific direction",
+      "How to build real differentiation inside one of India's largest single-city student populations, instead of assuming a KIIT or KIT degree alone will carry the decision",
+      "What a realistic trajectory looks like on your current path given how competitive Bhubaneswar's own graduate market actually is for that specific skill, not just how large the city's overall student population is",
+    ],
+  },
+  {
+    title: "Skill direction built for what Bhubaneswar's actual economy is hiring for",
+    listItems: [
+      'A high-value skill portfolio that stands out inside a huge local graduate pool, built on proof of work rather than institution name alone',
+      'Honest fit-checking between an Info Valley IT-corridor role, a medical or allied-health route through AIIMS Bhubaneswar, and a heritage-and-tourism path, instead of guessing based on family or peer pressure',
+      "A clear-eyed comparison between staying in Bhubaneswar and moving toward Odisha's steel-and-aluminium towns, weighed on your own fit rather than on which option sounds more secure in the abstract",
+      "A clearer route toward unlocking high income opportunities and earlier financial freedom that treats Bhubaneswar's real, present-day mix as the starting point, not an outdated or overly simplified one",
+    ],
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.raipurCounselling,
+    title: 'Career Counselling in Raipur',
+    description: "Useful for comparing another AIIMS-anchored state capital, where the fork runs through steel, power, and mining rather than a private-education hub.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.guwahatiCounselling,
+    title: 'Career Counselling in Guwahati',
+    description: "Useful if you are also weighing another Eastern-India city's refinery, trade, and logistics economy against a Bhubaneswar-area decision.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Bhubaneswar instead of only looking for a nearby offline option?',
+    answer:
+      "Because proximity alone does not resolve Bhubaneswar's real fork - an Info Valley IT-corridor path, a medical or allied-health path through AIIMS Bhubaneswar, a heritage-and-tourism path around the temple economy, or a move toward Odisha's steel-and-aluminium towns. Online guidance lets you start from a KIIT or KIT hostel, from home near Old Town, or from work in Chandaka or Patia, and it should still be judged on whether it gives you a clear, specific answer for your situation.",
+  },
+  {
+    question: 'How is Bhubaneswar different from Raipur, since both are state capitals with an AIIMS campus?',
+    answer:
+      "The AIIMS presence looks similar on paper, but the surrounding economy is genuinely different. In Raipur, AIIMS sits alongside a steel-power-mining industrial economy and a state that is barely 25 years old and still forming its own professional identity. In Bhubaneswar, AIIMS sits inside a city that was already a major private-education hub through KIIT and KIT, in one of India's older and more settled state capitals - so the honest local fork here is education-and-IT versus Odisha's separate industrial towns, not a young-state identity question.",
+  },
+  {
+    question: 'Does studying at KIIT or KIT already guarantee a strong career outcome?',
+    answer:
+      "No single institution guarantees an outcome. KIIT and KIT are genuinely credible institutions that put you in a large, well-regarded graduate pool, but a meaningful share of your competition for the same roles comes from that same pool. What tends to separate outcomes is proof of work, clear skill direction, and positioning built on top of the degree, not the degree name by itself.",
+  },
+  {
+    question: "Should I stay in Bhubaneswar or move toward Rourkela, Angul, or another Odisha industrial town?",
+    answer:
+      "That depends on your own aptitude, interests, and family situation, not on which option is more commonly discussed. Bhubaneswar's IT, healthcare, and education economy suits a different profile than Rourkela's or Angul's metallurgy, plant-operations, and mineral-processing economy. Good counselling should map your actual fit against both rather than defaulting to whichever feels safer by reputation alone.",
+  },
+  {
+    question: 'Is a degree from Bhubaneswar taken less seriously because the city is not a traditional metro?',
+    answer:
+      "Not inherently - institutions like KIIT, AIIMS Bhubaneswar, and IIT Bhubaneswar stand on their own national reputation. What matters more once you're competing outside a graduating class this large is pairing the degree with visible proof of work, since that is what distinguishes you from thousands of peers carrying a similar credential from the same city.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Bhubaneswar?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you are based in Bhubaneswar, studying at KIIT or KIT, working in the Info Valley IT corridor, or weighing a move to another Odisha city.',
+  },
+  {
+    question: 'What if I searched for Bhubaneswar but the bigger issue is not the city at all?',
+    answer:
+      "That is common - a city search is often a trust shortcut. If the real pressure is stream selection, degree choice, skill direction, or a career change rather than location, the main counselling and guidance pages are the stronger next filter. This page is most useful when local context - the KIIT-and-KIT education economy, Info Valley, AIIMS Bhubaneswar, or Odisha's industrial towns - is genuinely part of your decision.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Bhubaneswar', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Bhubaneswar | Future Career School',
+    description:
+      "Career counselling in Bhubaneswar for students, freshers, and working professionals. Online guidance for the education-and-IT versus Odisha-industrial-town fork shaping careers in Odisha's temple-city capital.",
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Bhubaneswar' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Bhubaneswar</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Bhubaneswar
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Bhubaneswar
+        <span class="gold-text"> for India's temple city built around education</span>
+      </h1>
+      <p class="hero-sub">
+        Bhubaneswar carries a thousand years of temple heritage and a genuinely rare modern identity on top of it: KIIT and KIT alone enrol a
+        student population disproportionate to the city's size, making private higher education one of Bhubaneswar's defining economic engines,
+        not a side detail. A real Info Valley and Chandaka IT corridor - Infosys, TCS, and Mindtree/LTIMindtree - runs alongside AIIMS Bhubaneswar's
+        medical pathway, while Odisha's steel and aluminium towns at Rourkela and Angul pull graduates in a different direction entirely. Good
+        career counselling here should help you build the kind of high-value skill portfolio that keeps unlocking high income opportunities inside
+        that specific mix, not recite advice built for a generic "temple city" or a generic tier-2 capital.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Bhubaneswar and across India. You can start from a KIIT or KIT hostel, from home near Old Town, or
+        from work in the Info Valley IT corridor - no travel required before the underlying skill direction is even clear.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not whether Bhubaneswar's growth story sounds promising in general. It is whether your specific skill direction
+        already stands out inside one of India's largest single-city student populations, or is better built toward Odisha's industrial towns, and
+        moving you toward earlier financial freedom from wherever that answer actually points.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="education-hub-identity"
+    title="Bhubaneswar's real identity: a temple city that is also one of India's biggest private-education hubs"
+    subtitle="This is the one Bhubaneswar-specific angle with no equivalent on any other city page on this site. Good career counselling should help you build the high-value skill portfolio that keeps unlocking high income opportunities from inside this specific mix, not treat 'lots of colleges' as a footnote."
+    items={educationHubItems}
+    variant="signal"
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <BofuListCardSection
+    sectionId="economic-landscape"
+    title="The Bhubaneswar economy generic 'temple city' advice misses"
+    subtitle="Bhubaneswar runs on more than temples and colleges. A real IT corridor, a flagship medical institution, and Odisha's separate industrial towns all pull on the same graduate pool, and the honest fork is genuinely Bhubaneswar's own to name."
+    items={economicLandscapeItems}
+    variant="contrast"
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city defined by one of India's largest student populations, the risk is advice that treats every KIIT or KIT graduate as interchangeable. The comparison below shows what separates high-leverage guidance from that."
+    rows={bhubaneswarComparisonRows}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the stay-in-Bhubaneswar-versus-industrial-town question already feels urgent, resolve it before more time goes into the wrong bet"
+    body="Use this when you want a decision that moves you toward earlier financial freedom, not another year of assuming a KIIT or KIT degree alone will do the differentiating work."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Bhubaneswar"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process understands Bhubaneswar's actual mix of education, technology, medicine, heritage, and Odisha's separate industrial towns."
+    items={buyerCheckItems}
+  />
+
+  <BofuFeatureSection
+    sectionId="bhubaneswar-areas"
+    title="Bhubaneswar's geography shapes the decision, not just the commute"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Bhubaneswar, not treat every search as coming from the same part of the city."
+    items={bhubaneswarAreaItems}
+    variant="decision"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="The point is not another opinion about whether Bhubaneswar is 'catching up' to a bigger metro. The point is a clearer decision, stronger skill direction, proof of work, and a real route toward earlier financial freedom, whichever of Bhubaneswar's real paths it runs through."
+  />
+
+  <BofuListCardSection
+    sectionId="deliverables"
+    title="What should feel clearer after career counselling"
+    subtitle="Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step you can actually use. Here is what that looks like for Bhubaneswar's education, IT, medical, and industrial-town fork."
+    items={deliverableItems}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuListCardSection
+    sectionId="objections"
+    title="Honest answers to what people wonder"
+    subtitle="Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Bhubaneswar."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Bhubaneswar page when locality matters, but decide based on your actual skill fit, not the city's reputation alone"
+    body="The practical value is a clear read on whether Info Valley, AIIMS Bhubaneswar, the temple-city heritage economy, or Odisha's industrial towns already fits your direction, stronger skill positioning either way, and a concrete next step before the wrong bet gets more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Bhubaneswar" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a real fork - standing out inside Bhubaneswar's huge KIIT-and-KIT graduate pool, an Info Valley IT-corridor role, AIIMS Bhubaneswar's medical pathway, or a move toward Odisha's steel-and-aluminium towns - is genuinely in front of you, and the goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #education-hub-identity,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

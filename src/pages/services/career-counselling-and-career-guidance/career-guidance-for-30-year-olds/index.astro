@@ -1,0 +1,418 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuSummaryStrip from '../../../../components/bofu/BofuSummaryStrip.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Guidance for 30 Year Olds | Still Time to Pivot | Future Career School';
+const description =
+  'Career guidance for 30 year olds: still early enough for a real pivot, before dependents and a decade of momentum make it costlier to change course.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-for-30-year-olds/';
+
+const whyThirtyItems = [
+  {
+    eyebrow: 'The window, not the panic',
+    title: 'Thirty is not a deadline. It is the point where a pivot stops being free',
+    body: 'At 25, almost any direction is cheap to test. By 40, a full reset gets genuinely expensive. Thirty sits in the middle: still early enough that a real change is realistic, but late enough that the years already invested and the years still ahead both start to matter in the decision.',
+  },
+  {
+    eyebrow: 'Five to nine years in',
+    title: 'Enough experience to have real leverage, not enough to be locked in',
+    body: 'By 30, most people have built genuine skill, a track record, and some income momentum — but rarely the seniority or golden-handcuffs pull that shows up a decade later. That combination makes a deliberate pivot more realistic now than it will be at 40, and more informed than it was at 23.',
+  },
+  {
+    eyebrow: 'The comparison trap',
+    title: 'Peer comparison gets loud around this age, and it is a bad decision input',
+    body: 'Weddings, promotions, and a peer’s new job title all seem to land in the same few years. That noise is real, but it is not evidence about what is actually right for your situation, and treating it as a countdown usually produces a rushed, reactive choice instead of a considered one.',
+  },
+  {
+    eyebrow: 'The clock that is starting to matter',
+    title: 'Marriage, a first child, or a home loan can close the window fast',
+    body: 'None of this has to have happened yet for it to matter. The honest planning question at 30 is how much runway is left before a mortgage, a dependent, or a single-income household make the same pivot much harder to justify — and using that runway deliberately instead of letting it quietly run out.',
+  },
+];
+
+const decisionItems = [
+  {
+    title: 'Is this actually the wrong path, or just a hard year?',
+    body: 'Separating a genuine mismatch of field, role, or company from a rough patch, a bad manager, or a temporary dip in motivation, since the fix for each is completely different.',
+  },
+  {
+    title: 'Deepen the current direction, or use the window to switch',
+    body: 'Weighing the real leverage already built in your current field against what a pivot would cost in time, income, and a rebuilt track record — while that cost is still comparatively low.',
+  },
+  {
+    title: 'What changes once dependents or a home loan enter the picture',
+    body: 'Building a realistic runway and timeline for a pivot now, before fixed obligations make the same decision meaningfully riskier a few years from now.',
+  },
+  {
+    title: 'A skill portfolio for the next decade, not just the next job',
+    body: 'Choosing skill direction that compounds toward higher income and genuine financial freedom over the next ten to fifteen years, instead of a lateral move that only feels like progress.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the guidance treats 30 as a real inflection point, not just another "adult" case',
+    body: 'A 30 year old usually has meaningfully different leverage, obligations, and runway than someone at 22 or someone at 45. Guidance that does not engage with that specific window is not actually built for this decision.',
+  },
+  {
+    title: 'Check whether it separates a genuine mismatch from ordinary peer-comparison anxiety',
+    body: 'Turning-30 milestones create real pressure to "have it figured out." Strong guidance tests whether your situation actually needs a change, instead of reacting to a friend’s promotion or a wedding season.',
+  },
+  {
+    title: 'Check whether family and financial timing gets planned for honestly',
+    body: 'If a pivot is worth making, the plan should account for how much runway exists before dependents or a loan change the math — not ignore that reality until it becomes unavoidable.',
+  },
+  {
+    title: 'Check whether the existing five-plus years of experience is used, not discarded',
+    body: 'A real pivot at 30 builds on the skill and judgment already earned. If the process resets you to a fresh-graduate starting point, it is not actually accounting for where you are.',
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Reacting to a friend’s promotion or a "should be settled by now" feeling',
+    right: 'A tested read on whether this is a genuine mismatch or a hard patch',
+  },
+  {
+    left: 'A pivot planned with no regard for the runway that is actually left',
+    right: 'A timeline sized to how much room exists before bigger obligations arrive',
+  },
+  {
+    left: 'Starting the decision from scratch, as if the last five-plus years did not count',
+    right: 'A next move built on the skill and track record already earned',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+];
+
+const realityCheckItems = [
+  { title: 'Experience so far', body: 'Usually five to nine years in — enough leverage to pivot deliberately, not from zero.' },
+  { title: 'The runway question', body: 'How much room is left before dependents or a loan change the risk math.' },
+  { title: 'The real test', body: 'A genuine mismatch versus ordinary peer-comparison pressure at this age.' },
+];
+
+const faqItems = [
+  {
+    question: 'Is 30 actually too late to change direction?',
+    answer:
+      'No. Thirty is usually five to nine years into a career, which is enough time to have built real skill and track record, but rarely enough to be locked in the way someone can be a decade later. A deliberate pivot at this stage is genuinely realistic — it just benefits from planning rather than a reactive leap.',
+  },
+  {
+    question: 'How is this different from career counselling for adults?',
+    answer:
+      'Career counselling for adults covers what changes for any adult career decision regardless of age — limited free time, financial stakes, and an existing skill base. This page narrows specifically to the decision pressure that shows up around 30: a pivot is still comparatively cheap to make, peer-comparison noise is loud, and the runway before bigger obligations arrive is closing rather than open-ended. If your main question is timing a pivot specifically, this is the closer fit.',
+  },
+  {
+    question: 'Is this the same as career coaching for mid-career professionals?',
+    answer:
+      'No. That page is built for the plateau that shows up roughly eight to fifteen years in, once promotions have visibly slowed and a decade-old skill stack needs reassessing. Thirty usually comes earlier than that plateau, and the pressure is different: not a stalled climb, but a live question of whether to double down or use a still-open window to change direction before it costs more to do so.',
+  },
+  {
+    question: 'I do not have a specific problem, I just feel behind. Is that reason enough to get guidance?',
+    answer:
+      'Feeling behind at this age is common and is not, by itself, evidence that anything is wrong. It is worth treating as a signal to check, not a verdict to act on. A structured session can separate a genuine direction problem from ordinary comparison anxiety, so any change made is based on your actual situation rather than a feeling.',
+  },
+  {
+    question: 'Does this account for marriage, kids, or a home loan if those are coming up?',
+    answer:
+      'Yes, whether they have already happened or are only expected. The planning question is the same either way: how much runway realistically exists before those obligations change what a pivot can safely look like, and how to use that window deliberately instead of letting it close by default.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered, and can be used as a starting signal before a paid guidance session.',
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. Guidance is delivered fully online across India, so you can start from home or work around your existing job and schedule, without a commute or a local office to plan around.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Get broader help with path, skill, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-adults/',
+    title: 'Career Counselling for Adults',
+    description: 'The broader any-age adult framing — time, stakes, and an existing skill base — if age 30 specifically is not the deciding factor.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coaching-for-mid-career-professionals/',
+    title: 'Career Coaching for Mid-Career Professionals',
+    description: 'For the later plateau around eight to fifteen years in, once promotions have visibly slowed.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'Ongoing direction across skill choice, positioning, and income growth for anyone currently employed.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-coaching-for-career-change/',
+    title: 'Career Coaching for Career Change',
+    description: 'For a deliberate switch out of your current industry or function entirely, with transferable-skills mapping and runway planning.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers,
+    title: 'Working Professionals and Career Changers Assessment',
+    description: 'Free input on strengths, work style, and pivot readiness before a guidance session.',
+  },
+  {
+    href: '/blog/career-change/second-career-at-40-india/',
+    title: 'Second Career at 40 in India',
+    description: 'A later-stage read on rebuilding direction using existing expertise, for comparison against the earlier 30s window.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Guidance for 30 Year Olds', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Guidance for 30 Year Olds | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Guidance for 30 Year Olds',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Guidance for 30 Year Olds</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Still early enough for a real pivot, before the window starts closing
+      </div>
+
+      <h1 class="hero-title">
+        Career guidance for 30 year olds
+        <span class="gold-text"> while a pivot is still comparatively cheap</span>
+      </h1>
+      <p class="hero-sub">
+        Thirty is not a deadline, but it is a genuine inflection point: usually five to nine years into a career,
+        with real skill and track record already built, and still early enough that a deliberate change of
+        direction is realistic rather than a leap. This guidance is built around using that window deliberately —
+        toward a high-value skill portfolio and stronger income trajectory — before dependents, a home loan, or
+        another decade of momentum make the same decision harder to make.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can work through the decision around your current
+        job, without a commute or a fixed in-person slot.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Guidance for 30 Year Olds</a>
+      </div>
+      <BofuSummaryStrip items={realityCheckItems} variant="signal" sectionClass="hero-reality-strip" />
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="why-thirty"
+    title="Why 30 is a genuinely different decision point"
+    subtitle="Not a countdown, and not the same conversation as career counselling for any adult regardless of age. Thirty sits at a specific place: enough experience to pivot with real leverage, and still early enough that the pivot itself stays comparatively affordable."
+    items={whyThirtyItems}
+    variant="signal"
+    columns={2}
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can surface strengths, work style, and direction before a paid session — built on the experience already earned, not a from-scratch quiz."
+      href={BOFU_ASSESSMENT_LINKS.workingProfessionalsAndCareerChangers}
+    />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="professional"
+    title="The window narrows quietly, not all at once"
+    body="No single year closes it. But every year a real pivot is deferred, the obligations around it tend to grow, and the decision gets harder to make on a clean slate."
+    professionalHref="#plans"
+    professionalLabel="Get Career Guidance for 30 Year Olds"
+  />
+
+  <BuyerChecks
+    title="Checks before choosing career guidance for this specific decision"
+    subtitle="The goal is a tested read on your actual situation at this age, not a generic 'it's not too late' reassurance or a script built for a different life stage."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    title="What changes when the decision is treated as a 30s-specific window"
+    subtitle="Peer comparison, runway, and five-plus years of existing experience are not side notes at this age. They should shape the plan directly."
+    rows={comparisonRows}
+  />
+
+  <BofuFeatureSection
+    sectionId="decisions"
+    title="The decisions that actually matter at this stage"
+    items={decisionItems}
+    variant="decision"
+    columns={2}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="A deliberate decision now beats a reactive one later"
+    body="Structured guidance built around the runway you actually have moves faster than another year of comparing yourself to peers and waiting for clarity to arrive on its own."
+    professionalHref="#plans"
+    professionalLabel="Get Career Guidance for 30 Year Olds"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Guidance"
+    title="Career Guidance for 30 Year Olds Plans"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See the broader adult and working-professional pages, the later mid-career plateau page, and free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions people around 30 ask before choosing career guidance"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Use the window while it is still comparatively open"
+    subtitle="A structured, fully online session built around the runway, experience, and stakes specific to this age can move you toward stronger skill direction and a realistic route to earlier financial freedom."
+    professionalHref="#plans"
+    professionalLabel="Get Career Guidance for 30 Year Olds"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%); opacity: .16; }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 3.9rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 790px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-reality-strip { max-width: 860px; margin-top: 2rem; }
+
+  #why-thirty,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.76rem, 9.3vw, 2.35rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

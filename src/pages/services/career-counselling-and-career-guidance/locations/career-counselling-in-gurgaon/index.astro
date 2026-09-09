@@ -1,0 +1,602 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// AUDIT FIX (sitewide comparison-matrix dedupe): this page previously dropped
+// only index 4, which was byte-for-byte identical to Chandigarh, Mumbai, and
+// Nagpur (all of which also dropped only index 4) - a 4-way duplicate that
+// the original comment did not catch because it only compared itself against
+// a hand-picked list of other pages instead of verifying against every page.
+// Gurgaon now drops indices 0, 1, and 2 (keeping rows 3, 4, and 5: the
+// well-paid-but-plateaued corporate-ladder contrast, the free-assessment
+// layer, and the random-upskilling framing), which is a combination no other
+// page uses. Chandigarh keeps the original single-index drop (index 4) as
+// the first-built page in that group; Mumbai now drops indices 0, 1, and 3;
+// Nagpur now drops indices 0, 1, and 4. See also Rajkot (rows 0-4, i.e. drops
+// index 5) and Vizag (rows 1-5, i.e. drops index 0), which remain unchanged
+// as the two original pages.
+const gurgaonComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 0 && index !== 1 && index !== 2,
+);
+
+const title = 'Career Counselling in Gurgaon | Online Guidance Across India | Future Career School';
+const description =
+  "Career counselling in Gurgaon for students and professionals navigating GCCs, MNC corporate ladders, and consulting or BFSI career pressure across Cyber City and the DLF corridor.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-gurgaon/';
+
+const corporateLandscapeItems = [
+  {
+    title: 'Cyber City and the DLF corridor concentrate corporate India into a few square kilometres',
+    body: "DLF Cyber City, Cyber Hub, and the DLF Phase 1 through Phase 5 belt hold one of the densest clusters of Global Capability Centres and regional or India headquarters anywhere in the country. Google, Microsoft, American Express, Genpact, Accenture, Deloitte, and EY all run major campuses within walking distance of each other along Golf Course Road and the Golf Course Extension Road corridor. That density is unusual - in most Indian cities, a company change means a different part of town or a different city altogether. In Gurgaon, it can mean a different tower on the same road, which changes how people here actually think about a career move. The real question is not whether another GCC role is available nearby. It is whether the next move is building a high-value skill portfolio that keeps unlocking high income opportunities, or just repeating the same level at a new address.",
+  },
+  {
+    title: 'Consulting and BFSI corporate culture set the tone for a large share of this economy',
+    body: "Deloitte, EY, Accenture, and American Express run genuinely demanding consulting- and BFSI-style corporate cultures out of Gurgaon, with the up-or-out pressure, structured appraisal cycles, and generalist-versus-specialist forks those industries are known for. That is a different pressure from a startup's move-fast culture or a pure product-engineering ladder - the promotion clock runs on a fixed calibration cycle, and the honest comparison most people in this pressure never get to make is whether staying inside that specific track, moving into a specialist skill lane, or building toward earlier financial freedom through a different route actually serves them better.",
+  },
+  {
+    title: "Manufacturing sits right alongside the GCC economy, not apart from it",
+    body: "Maruti Suzuki's manufacturing base and corporate presence around the Gurgaon-Manesar belt is a genuine, large-scale industrial economy running in parallel to the services and GCC corridor. For an engineering graduate from this region, the fork is not always \"which GCC\" - it can genuinely be a core automotive or manufacturing engineering career on one side and a corporate-services or IT role in Cyber City on the other. Most career advice built around Gurgaon assumes everyone is choosing between GCCs, and skips this fork entirely.",
+  },
+  {
+    title: 'Udyog Vihar and Sohna Road add IT-services, BPO, and a fast-growing residential-and-office layer',
+    body: "Udyog Vihar's older IT and BPO-services base, and the newer offices and residential towers along Sohna Road and NH-48, round out an economy that runs almost entirely on corporate employment rather than a mixed local economy of trade, agriculture, or government work. That single-track dependence on corporate jobs is itself a real feature of career decisions made from here - when nearly everyone's income comes from one of a few dozen large employers, the honest comparison is rarely \"corporate job or something else.\" It is which specific track, specialization, and skill direction inside that corporate world actually compounds.",
+  },
+];
+
+const gccLadderItems = [
+  {
+    title: 'The band-and-level system decides more of your career than your job title does',
+    body: "Most GCCs and MNCs in Cyber City run on a formal band-and-level structure - analyst, associate, manager, senior manager, director, and beyond - with promotion timing decided by calibration cycles rather than by how hard any one person worked in isolation. A lot of plateaued professionals here are not failing at their job. They simply never learned how their specific company's internal ladder actually works, what a calibration committee is really weighing, or which skills move someone up a band versus which skills just make the current band more comfortable. Understanding that structure honestly is often the first real step toward a high-value skill portfolio that keeps unlocking high income opportunities inside the same company.",
+  },
+  {
+    title: 'Lateral moves between GCCs are a genuine Gurgaon career strategy, not just job-hopping',
+    body: "Because Cyber City and the DLF phases sit so close together, moving from one GCC to a similarly titled but better-paying role at a neighbouring campus is a real and common move here, not a fringe tactic. The risk is treating every lateral move as a win by default. A move that only resets the title and the pay band, without a genuine skill upgrade underneath it, can just recreate the same plateau at a new office a few hundred metres away. The honest filter is whether the move is unlocking high income opportunities through a real skill or scope change, or just restarting the same clock.",
+  },
+  {
+    title: 'The generalist-versus-specialist fork hits earlier here than in most other cities',
+    body: "Consulting and BFSI-style corporate tracks in Gurgaon tend to force a generalist-versus-specialist choice a few years into a career - stay broad and aim for people-management, or go deep into a specific functional or technical specialization. Both routes can lead toward earlier financial freedom, but they compound very differently, and the choice is easy to make by default rather than by design when the next promotion cycle is only a few months away.",
+  },
+  {
+    title: 'Appraisal-cycle timing shapes when a career conversation actually needs to happen',
+    body: "A fixed annual or half-yearly calibration cycle means the window to build a case for a promotion, a role change, or a compensation correction is real and time-bound, not open-ended. Waiting until the cycle is already underway to think seriously about skill direction usually means the current cycle is already decided. Getting clear on direction ahead of that window is what actually changes the outcome, not last-minute effort inside it.",
+  },
+];
+
+const relocatedProfessionalItems = [
+  {
+    title: 'Most people in Cyber City moved here for exactly one job',
+    body: "Gurgaon has almost no long-settled native urban population at the scale of Delhi, Kolkata, or Chennai - the vast majority of people working in Cyber City, the DLF phases, or along Golf Course Road relocated specifically for one employer or one offer. That changes the stakes of every career decision: there is no hometown network to fall back on, no family business as a backup option, and income is concentrated entirely in whatever the current role pays. A wrong move here is not a local inconvenience. It can mean rethinking rent, commute, and an entire relocation decision at once.",
+  },
+  {
+    title: 'Job-hopping without changing your home address is a real Gurgaon phenomenon',
+    body: "Because so many major employers sit within a few kilometres of each other, someone renting in Sushant Lok, DLF Phase 3, or one of the Sector 49-56 residential belts can genuinely switch employers without changing a single thing about where they live. That geographic compactness normalises frequent job-hopping in a way that does not happen in more spread-out cities, and it means the decision to switch companies here is judged almost entirely on the offer itself, with none of the usual relocation friction that would otherwise force a second thought.",
+  },
+  {
+    title: 'A high cost of living raises the real cost of a wrong career move',
+    body: "Rent and everyday costs along the Golf Course Road, DLF Phase, and Cyber Hub-adjacent belts run high relative to most Indian cities, and that cost is usually carried on a single corporate income with no local family support to fall back on. A stalled promotion cycle, a lateral move that does not actually pay off, or a forced career pause lands harder here than in a city where a relocated professional still has some other financial cushion nearby.",
+  },
+  {
+    title: 'Family back home sees the corporate grind differently than the person living it',
+    body: "For a lot of relocated professionals, family in another city sees a strong CTC and assumes the career question is already settled. The harder, less visible question - whether the current role is actually compounding into something bigger, or just paying well while quietly plateauing - rarely comes up in a phone call home. Working through that gap honestly is part of what makes career counselling useful specifically for someone who moved here for the job rather than growing up in it.",
+  },
+];
+
+const areaItems = [
+  {
+    title: 'Cyber City and Cyber Hub: the corporate core',
+    body: "DLF Cyber City and the adjoining Cyber Hub form the most visible face of Gurgaon's corporate economy - dense office towers holding GCCs, consulting firms, and regional headquarters, with Cyber Hub itself functioning as the after-work social layer for the entire corridor.",
+  },
+  {
+    title: 'DLF Phase 1 through Phase 5: residential life built around the office towers',
+    body: 'The DLF phases hold much of the residential population working in Cyber City and along Golf Course Road - largely relocated professionals whose daily rhythm runs entirely on the corporate calendar of the offices a short drive or walk away.',
+  },
+  {
+    title: 'Golf Course Road and Golf Course Extension Road: the newer, higher-density corporate belt',
+    body: "This stretch has become one of Gurgaon's fastest-growing corporate and residential corridors, adding newer GCC and MNC campuses alongside premium housing aimed squarely at the professionals working in them.",
+  },
+  {
+    title: 'Udyog Vihar: the older IT and BPO-services base',
+    body: 'Udyog Vihar predates much of the newer Cyber City development and still holds a large base of IT-services and BPO employment, often at a different pay band and career stage than the newer GCC campuses nearby.',
+  },
+  {
+    title: 'Sohna Road and NH-48: the expanding office-and-residential frontier',
+    body: 'Newer office developments and residential towers along Sohna Road and the NH-48 corridor are extending Gurgaon\'s corporate footprint further out, often at a lower cost of living than the DLF-phase core.',
+  },
+  {
+    title: 'MG Road and Sector 29: an older commercial and social layer',
+    body: 'MG Road and Sector 29 carry an older, more mixed commercial identity than the newer glass-tower corridors, and still matter to people balancing a corporate career against Gurgaon\'s earlier, less GCC-dominated business layer.',
+  },
+  {
+    title: 'Manesar: the manufacturing and automotive belt',
+    body: "Manesar's manufacturing base, anchored by Maruti Suzuki's plant and corporate presence, runs a genuinely different economy from the services corridor - core automotive and manufacturing engineering roles that rarely get weighed fairly against a Cyber City offer in generic career advice.",
+  },
+];
+
+const fitItems = [
+  {
+    title: 'Your search for Gurgaon usually means one specific pressure',
+    listItems: [
+      'A GCC or MNC role that pays well but feels plateaued, with the next band promotion unclear',
+      'A lateral offer from a company a few towers away that looks like an obvious yes on paper',
+      'A consulting or BFSI up-or-out track where the next calibration cycle is approaching',
+      'A decision between a Cyber City corporate path and a core engineering or manufacturing route near Manesar',
+    ],
+  },
+  {
+    title: 'What should matter more than the offer letter alone',
+    listItems: [
+      'Whether the move is building a genuinely higher-value skill portfolio, not just a higher number on the offer',
+      'Whether staying at the same company and building depth beats another lateral hop right now',
+      'Whether the decision accounts for the cost of living and lack of a local family cushion that comes with being a relocated professional',
+      'Whether the guidance actually understands how band-and-level promotion cycles work here, not generic "switch for a hike" advice',
+    ],
+  },
+];
+
+const objectionItems = [
+  {
+    title: "I already work at a well-known GCC in Cyber City - isn't that already the top of the ladder?",
+    body: "A recognisable employer name is not the same as a clear career trajectory inside it. Plenty of people at strong GCCs plateau at the same band for years without realising the promotion clock is tied to a calibration cycle they never fully understood. The employer's name is one input. Your actual skill direction inside that structure is the bigger one.",
+  },
+  {
+    title: 'Everyone I know is job-hopping between DLF towers for a 20 percent hike - should I just do the same?',
+    body: "That pattern is real in Gurgaon specifically, because the density of employers makes it low-friction. It is not automatically wrong, but it is not automatically right either. A hike without a genuine skill or scope upgrade underneath it usually just resets the plateau at a new address. The honest question is whether the specific move compounds your skill portfolio or only your current pay slip.",
+  },
+  {
+    title: 'My CTC looks strong on paper but I feel stuck - am I actually growing?',
+    body: "A strong CTC and real career growth are not the same thing, and Gurgaon's corporate salary bands can make that gap easy to miss for years. The useful question is not what the number says today. It is whether your current skill direction is unlocking high income opportunities two or three moves from now, or just holding steady at this one.",
+  },
+  {
+    title: 'I moved to Gurgaon just for this job - if I leave the company, do I have to leave the city too?',
+    body: "Not necessarily, and that is exactly the kind of question worth resolving deliberately rather than by default. Cyber City's density means a genuinely stronger next role can often be found without leaving Gurgaon at all. The bigger question is usually whether the next move should be another GCC role, a specialist track, or something that changes the underlying skill direction altogether.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      'Whether to stay and build depth at your current GCC or MNC, or make a lateral move that is currently on the table',
+      'How your specific band-and-level structure actually decides promotion timing, and what genuinely moves you up it',
+      'Whether a Cyber City corporate path or a Manesar-belt manufacturing and engineering route fits your actual strengths',
+      'How to weigh the cost of a wrong move against Gurgaon\'s cost of living and the lack of a local family cushion',
+    ],
+  },
+  {
+    title: 'A skill direction built for earlier financial freedom, not just the next hike',
+    listItems: [
+      'A high-value skill portfolio that holds up whether you stay, move laterally, or shift toward a specialist or manufacturing track',
+      'Proof-of-work positioning that carries weight in a promotion cycle, not just on a resume for the next interview',
+      'A realistic view of which moves are genuinely unlocking high income opportunities versus just recycling the current plateau',
+      'One practical next step instead of another round of "just switch companies" advice',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the counsellor understands band-and-level promotion structures, not just generic IT-versus-non-IT advice',
+    body: 'Gurgaon\'s GCC and consulting employers run on formal calibration cycles. Guidance worth paying for should be able to speak to that structure directly, not treat every corporate job as interchangeable.',
+  },
+  {
+    title: 'Check whether job-hop advice actually accounts for skill compounding, not just the next pay hike',
+    body: "A lateral move between DLF towers can be a genuinely good decision or a repeated plateau in disguise. Good guidance should be able to tell the difference for your specific situation.",
+  },
+  {
+    title: 'Check whether the manufacturing and core-engineering path is treated as a real option',
+    body: "For engineering graduates from this region, a Manesar-belt manufacturing or automotive-engineering career is a legitimate path, not an afterthought to a Cyber City offer. Guidance that only speaks to GCC and services roles has not engaged with the full picture.",
+  },
+  {
+    title: 'Check whether the relocated-professional reality is taken seriously',
+    body: 'Most people making career decisions from Gurgaon moved here for one job, with no local family safety net. Guidance should account for that real financial and personal exposure, not assume everyone has an easy fallback nearby.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.delhiCounselling,
+    title: 'Career Counselling in Delhi',
+    description:
+      'See this if your real questions run through the capital\'s UPSC-exam economy, Delhi University, or the government-versus-private tension, rather than Gurgaon\'s corporate and GCC world.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.hyderabadCounselling,
+    title: 'Career Counselling in Hyderabad',
+    description: 'Compare against another GCC-heavy city if you are weighing a move rather than settling a decision from inside Gurgaon.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'Broader working-professional guidance if the pressure is not specific to Gurgaon\'s corporate ladder.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What makes career counselling in Gurgaon different from a generic city page?',
+    answer:
+      "Gurgaon runs on a corporate and Global Capability Centre economy almost more concentrated than anywhere else in India - Cyber City, the DLF phases, and Golf Course Road hold dense clusters of GCCs, consulting firms, and MNC regional headquarters, alongside a genuine manufacturing economy around Manesar. Career pressure here usually centres on band-and-level promotion structures, lateral moves between nearby employers, and the relocated-professional reality of having moved here for one specific job, rather than on stream choice or a single dominant local exam.",
+  },
+  {
+    question: 'I work at a GCC in Cyber City - can counselling help me understand my promotion path?',
+    answer:
+      "Yes. Counselling can help you look honestly at how your specific band-and-level structure decides promotion timing, what a calibration cycle is actually weighing, and which skills move you up a band versus which ones just make the current one more comfortable.",
+  },
+  {
+    question: 'Should I keep job-hopping between DLF towers for pay hikes, or focus on one company longer?',
+    answer:
+      "There is no single right answer - it depends on whether the specific move is building a genuinely higher-value skill portfolio or just resetting your pay band at a new address. Good counselling should help you judge that for your actual situation instead of defaulting to either \"always switch\" or \"always stay\" advice.",
+  },
+  {
+    question: 'I am an engineering graduate deciding between a Manesar manufacturing role and a Cyber City corporate role - can this help?',
+    answer:
+      "Yes. This is a genuine fork for engineering graduates from this region, and it deserves an honest comparison rather than an assumption that a corporate-services role is automatically the better choice. Counselling should weigh both against your actual strengths and interests.",
+  },
+  {
+    question: 'I moved to Gurgaon just for this job - does that change the advice I need?',
+    answer:
+      "It should. Most people making career decisions from Gurgaon are relocated professionals without a local family safety net, and income concentrated in one employer raises the real stakes of a wrong move. Good counselling should account for that reality rather than assuming everyone has an easy local fallback.",
+  },
+  {
+    question: 'Is career counselling in Gurgaon delivered online or in person?',
+    answer:
+      "Guidance is delivered fully online, in Gurgaon and across India. You can start from your desk in Cyber City, a flat in the DLF phases, or anywhere else, without needing to find time to visit an office in person.",
+  },
+  {
+    question: 'How is this different from career counselling in Delhi?',
+    answer:
+      "Delhi and Gurgaon sit in the same wider National Capital Region but run on genuinely different local economies. The Delhi page is built around the capital's UPSC-exam culture, Delhi University, and the government-versus-private-sector tension. This page is built around Gurgaon's corporate and GCC economy - band-and-level promotion structures, consulting and BFSI culture, and the relocated-professional identity of Cyber City and the DLF corridor. Choose whichever page actually reflects the pressure you are dealing with.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Gurgaon?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you grew up near Gurgaon or moved here for a GCC, MNC, or manufacturing role.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Gurgaon', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Gurgaon | Future Career School',
+    description:
+      'Career counselling in Gurgaon for students, freshers, and working professionals. Online guidance for clearer decisions across GCC and MNC corporate ladders, consulting and BFSI career tracks, and the Manesar manufacturing belt.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Gurgaon', alternateName: 'Gurugram' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Gurgaon</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Gurgaon
+      </div>
+
+      <h1 class="hero-title">
+        Career Counselling in <span class="gold-text">Gurgaon</span>
+      </h1>
+      <p class="hero-sub">
+        Gurgaon, now officially Gurugram, is India's most concentrated corporate and Global Capability Centre address - Cyber City, Cyber Hub, and the DLF Phase corridor hold GCCs and regional headquarters for companies like Google, Microsoft, American Express, Genpact, Accenture, Deloitte, and EY, most of them within a few kilometres of each other along Golf Course Road and NH-48. Almost nobody working here grew up here - most people moved to Gurgaon for one specific job, which raises the stakes on every band promotion, appraisal cycle, and lateral move. The real question is not whether another role is available nearby. It is whether your next move is building a high-value skill portfolio that keeps unlocking high income opportunities and moves you toward earlier financial freedom, or just the next title on the same ladder.
+      </p>
+      <p class="hero-sub hero-sub-secondary">
+        Guidance is delivered fully online in Gurgaon and across India. You can start from your desk in Cyber City, a flat in the DLF phases, or anywhere else - no need to carve out time for an office visit just to get an honest second opinion.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="gurgaon-corporate-landscape"
+    title="The Gurgaon career reality generic advice rarely names"
+    subtitle="Gurgaon's economy is built almost entirely around corporate and GCC employment, with a genuine manufacturing belt running alongside it. Good counselling should engage with that structure directly instead of treating it like any other metro."
+    items={corporateLandscapeItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Gurgaon search already reflects a real fork, look at it honestly before another appraisal cycle passes"
+    body="Use this when you want a genuine read on your promotion path, a lateral move, or a skill-direction decision - not another round of hallway advice from someone in the next cubicle."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="gcc-ladder"
+    title="The GCC and MNC ladder: same company, different career"
+    subtitle="Cyber City runs on formal band-and-level structures and fixed calibration cycles that most generic career advice never accounts for."
+    items={gccLadderItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="intent-clarity"
+    title="Why this decision already feels heavier here"
+    subtitle="When people search for career counselling in Gurgaon, the search usually points to something specific - a plateaued promotion, a lateral offer from a nearby tower, or a fork between a corporate and a manufacturing path. The real pressure is rarely about the city name itself. It is about seeing the actual trade-off clearly instead of through the momentum of everyone else's job-hopping."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="relocated-professional"
+    title="Moved to Gurgaon for the job: a career identity most cities don't create"
+    subtitle="Gurgaon has an unusually large share of relocated professionals whose entire career and financial picture runs through one employer, with no local family network to fall back on."
+    items={relocatedProfessionalItems}
+    variant="decision"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="Not another opinion from someone in a neighbouring tower. A clearer read on your actual promotion path, an honest comparison across corporate, consulting, and manufacturing tracks, and a route toward earlier financial freedom regardless of which one you choose."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <BofuFeatureSection
+    sectionId="gurgaon-areas"
+    title="Gurgaon's own geography shapes which version of this decision you are in"
+    subtitle="A useful local page should recognise that a desk in Cyber City, a flat along Golf Course Road, and an engineering job near Manesar are not living through the same version of Gurgaon."
+    items={areaItems}
+    variant="signal"
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city built around corporate ladders and calibration cycles, the real risk is advice that either chases every lateral hike or dismisses movement altogether. The comparison below shows what separates high-leverage guidance from both."
+    rows={gurgaonComparisonRows}
+  />
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Gurgaon.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use - even inside a city where the next lateral offer is always a short walk away.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Gurgaon"
+    subtitle="Do not compare only how close a counsellor's office is to Cyber City. Compare whether the process improves decision quality on the actual fork you are facing."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Gurgaon page when locality matters, but choose based on decision quality, not proximity to the corridor"
+    body="The practical value is an honest read on your promotion path, a real comparison across corporate and manufacturing tracks, and a concrete next step before another calibration cycle passes by default."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Gurgaon" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a strong CTC, a crowded ladder, and everyone else's job-hopping are already shaping the decision for you - and when the real goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom, whichever track you choose."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill { width: fit-content; margin-bottom: 1.6rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title { font-size: clamp(2.35rem, 5vw, 3.9rem); line-height: 1.04; letter-spacing: -.04em; color: #fff; max-width: 980px; margin-bottom: 1.25rem; overflow-wrap: anywhere; }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.72); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-sub-secondary { color: rgba(255,255,255,.6); font-size: 14px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 1.6rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #gurgaon-corporate-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

@@ -1,6 +1,17 @@
 import { careerPresets, skillPresets, type CareerPreset, type SkillPreset } from './coachingPresets';
+import { careerRoles } from './careerSkillsCompass';
+import { futureCareerRoles, futureEvidence } from './futureCareerProfiles';
 
 export type CareerOutlook = 'growing' | 'evolving' | 'stable' | 'niche' | 'uncertain';
+
+/** Concrete examples that make a career route understandable at different
+ * stages. They are deliberately phrased as evidence a learner can create,
+ * rather than promises about a job title or salary. */
+export type CareerLevelGuidance = {
+  level: 'Starter' | 'Working' | 'Advanced';
+  example: string;
+  advice: string;
+};
 
 export type CareerGuide = CareerPreset & {
   summary: string;
@@ -15,13 +26,35 @@ export type CareerGuide = CareerPreset & {
   watchOuts: string[];
   starterTests: string[];
   adjacentRoles: string[];
+  /** Practical context used to personalise exploration without turning it into a test. */
+  interestTags: string[];
+  subjectRoutes: string[];
+  suitableStages: string[];
+  earningContext: string;
+  marketSignal: string;
+  marketEvidence: { date: string; source: string; url: string };
+  localContext: string;
+  competitionNote: string;
+  independencePath: string;
+  workSetting: string;
+  entryLevel: string;
+  routeLength: string;
+  dayPace: string;
+  portableSkills: string[];
+  questionsToAsk: string[];
+  evidenceExamples: string[];
+  progression: CareerLevelGuidance[];
+  regulated: boolean;
+  careerGroup: 'Builders' | 'Analysers' | 'Communicators' | 'Healers' | 'Makers';
 };
 
-type GuideFields = Omit<CareerGuide, keyof CareerPreset>;
+type GuideFields = Omit<CareerGuide, keyof CareerPreset | 'workSetting' | 'entryLevel' | 'routeLength' | 'dayPace' | 'portableSkills' | 'questionsToAsk' | 'interestTags' | 'subjectRoutes' | 'suitableStages' | 'earningContext' | 'marketSignal' | 'marketEvidence' | 'localContext' | 'competitionNote' | 'independencePath' | 'regulated' | 'evidenceExamples' | 'progression' | 'careerGroup'> & Partial<Pick<CareerGuide, 'interestTags' | 'subjectRoutes' | 'suitableStages' | 'earningContext' | 'marketSignal'>>;
 
 type FamilyGuide = GuideFields & {
   purpose: string;
 };
+
+type CareerFitLens = Pick<CareerGuide, 'interestTags' | 'subjectRoutes' | 'suitableStages' | 'earningContext' | 'marketSignal'>;
 
 const slug = (value: string) => value.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
@@ -224,6 +257,110 @@ const familyGuides: Record<string, FamilyGuide> = {
   },
 };
 
+// This is deliberately a context layer rather than a promise of a salary or
+// a prediction for one country. It helps a learner compare routes, subjects,
+// timing, and earning upside before checking current local evidence.
+const careerFitLens: Record<string, CareerFitLens> = {
+  'Technology & Data': {
+    interestTags: ['solving puzzles', 'building with technology', 'working with data', 'improving systems'],
+    subjectRoutes: ['Class 11–12 Science with Mathematics', 'Commerce with Mathematics', 'Any stream with computing projects or a recognised diploma'],
+    suitableStages: ['after-10th', 'after-12th-science', 'after-12th-commerce', 'college', 'working'],
+    earningContext: 'Often strong earning upside after proven technical depth; early pay varies widely by role, portfolio, location, and employer.',
+    marketSignal: 'AI, data, software, cloud, and cyber work are expanding, while routine tasks are increasingly automated.',
+  },
+  'Engineering & Built Environment': {
+    interestTags: ['designing physical systems', 'maths and science', 'making things work', 'field and project work'],
+    subjectRoutes: ['Class 11–12 Science with Mathematics', 'Diploma or polytechnic after Class 10', 'Relevant degree, apprenticeship, or technician route'],
+    suitableStages: ['after-10th', 'after-12th-science', 'college', 'working'],
+    earningContext: 'Specialist engineering and infrastructure roles can pay very well with experience; route quality, accreditation, and practical competence matter.',
+    marketSignal: 'Electrification, automation, advanced manufacturing, infrastructure, and energy transition are creating new specialist work.',
+  },
+  'Health & Life Sciences': {
+    interestTags: ['helping people', 'biology and health', 'careful investigation', 'responsibility and service'],
+    subjectRoutes: ['Class 11–12 Science with Biology', 'Class 11–12 Science with Mathematics for some health technology routes', 'Recognised allied-health, laboratory, or research programmes'],
+    suitableStages: ['after-12th-science', 'college', 'working'],
+    earningContext: 'Licensed specialist roles can have high long-term earning potential, but training, exams, supervision, and location strongly affect the route.',
+    marketSignal: 'Ageing populations, preventive care, health technology, genomics, and care delivery are increasing demand across several kinds of work.',
+  },
+  'Commerce, Finance & Economics': {
+    interestTags: ['numbers and patterns', 'money and markets', 'business decisions', 'checking detail'],
+    subjectRoutes: ['Class 11–12 Commerce with or without Mathematics', 'Science with Mathematics for quantitative finance and economics routes', 'Degree, professional qualification, apprenticeship, or analyst route'],
+    suitableStages: ['after-12th-commerce', 'after-12th-science', 'college', 'working'],
+    earningContext: 'Specialist finance, risk, investment, and advisory roles can be high earning; examinations, ethics, and a strong record of judgement are part of the cost.',
+    marketSignal: 'Automation is reducing routine processing and increasing the value of analysis, controls, risk, data, and trusted advice.',
+  },
+  'Business, Marketing & Operations': {
+    interestTags: ['organising people', 'customers and markets', 'leading delivery', 'starting something'],
+    subjectRoutes: ['Any Class 11–12 stream', 'Business, specialist, or technical degree with projects and internships', 'Work-first, apprenticeship, or small-venture route'],
+    suitableStages: ['after-10th', 'after-12th-commerce', 'after-12th-humanities', 'college', 'working'],
+    earningContext: 'Earning upside is highly variable: ownership, commercial results, sector, and progression matter more than the job title alone.',
+    marketSignal: 'Organisations need people who combine customer understanding, analytics, AI-assisted workflows, and accountable execution.',
+  },
+  'Design, Media & Creative Arts': {
+    interestTags: ['creating and communicating', 'visual or story work', 'understanding audiences', 'iterating through feedback'],
+    subjectRoutes: ['Any Class 11–12 stream with a focused portfolio', 'Design, media, arts, communication, or specialist diploma', 'Studio, apprenticeship, freelance, or portfolio-led route'],
+    suitableStages: ['after-10th', 'after-12th-science', 'after-12th-commerce', 'after-12th-humanities', 'college', 'working'],
+    earningContext: 'Earnings range from modest to very high; distinctive work, commercial awareness, a reliable portfolio, and client or product impact create the difference.',
+    marketSignal: 'Generative tools speed up production, increasing the value of original judgement, direction, audience insight, and consistent craft.',
+  },
+  'Law, Government & Public Service': {
+    interestTags: ['fairness and rights', 'public issues', 'reading and argument', 'service and responsibility'],
+    subjectRoutes: ['Any Class 11–12 stream for many law and public-service routes', 'Law, public policy, social science, or specialist degree', 'Competitive examination, internship, and regulated professional route where required'],
+    suitableStages: ['after-12th-science', 'after-12th-commerce', 'after-12th-humanities', 'college', 'working'],
+    earningContext: 'Private specialist law and senior policy or regulatory work can be high earning; public routes trade earning upside for competition, stability, and service conditions.',
+    marketSignal: 'Technology regulation, digital evidence, climate policy, cyber risk, and public digital systems are widening the field beyond traditional titles.',
+  },
+  'Education, Psychology & Social Impact': {
+    interestTags: ['helping people learn', 'listening and guiding', 'community improvement', 'patient relationship work'],
+    subjectRoutes: ['Any Class 11–12 stream depending on the role', 'Education, psychology, social work, or development degree', 'Supervised practice, teaching, facilitation, or programme route'],
+    suitableStages: ['after-12th-science', 'after-12th-commerce', 'after-12th-humanities', 'college', 'working'],
+    earningContext: 'Pay varies by qualification, setting, and responsibility; specialist, leadership, technology, and private-practice routes can raise earning potential.',
+    marketSignal: 'Personalised learning, mental-health support, inclusive practice, workforce learning, and outcome measurement are growing areas.',
+  },
+  'Science, Research & Environment': {
+    interestTags: ['curiosity about nature', 'experiments and evidence', 'climate and environment', 'deep investigation'],
+    subjectRoutes: ['Class 11–12 Science', 'Science, mathematics, environmental, or technical degree', 'Applied industry, government, laboratory, or postgraduate research route'],
+    suitableStages: ['after-12th-science', 'college', 'working'],
+    earningContext: 'Research careers often require longer study; applied data, climate, materials, regulatory, and industry specialist routes can offer stronger earning upside.',
+    marketSignal: 'Climate adaptation, computational science, advanced materials, food systems, and applied research are expanding cross-disciplinary work.',
+  },
+  'Hospitality, Travel, Sports & Events': {
+    interestTags: ['active and social work', 'creating experiences', 'sport and performance', 'calm service under pressure'],
+    subjectRoutes: ['Any Class 11–12 stream', 'Hospitality, travel, sports, aviation, or event diploma or degree', 'Operational entry, certification, competition, or supervised-practice route'],
+    suitableStages: ['after-10th', 'after-12th-science', 'after-12th-commerce', 'after-12th-humanities', 'college', 'working'],
+    earningContext: 'Early pay varies and schedules can be demanding; management, specialist, international, and ownership routes can create higher upside.',
+    marketSignal: 'Experience technology, travel recovery, sports data, wellness, and reliable live operations are creating more specialised roles.',
+  },
+  'Agriculture, Food & Rural Careers': {
+    interestTags: ['nature and food', 'practical systems', 'community livelihoods', 'science with visible impact'],
+    subjectRoutes: ['Class 11–12 Science or Agriculture', 'Agriculture, food, veterinary, engineering, or business route', 'Diploma, field training, family enterprise, or agribusiness route'],
+    suitableStages: ['after-10th', 'after-12th-science', 'after-12th-commerce', 'college', 'working'],
+    earningContext: 'Earning potential ranges widely; technology, processing, supply chains, specialised production, and enterprise can outperform commodity work.',
+    marketSignal: 'Food safety, climate resilience, cold chains, precision agriculture, traceability, and rural technology are creating new opportunities.',
+  },
+  'Skilled Trades & Applied Careers': {
+    interestTags: ['hands-on work', 'fixing and assembling', 'visible results', 'tools and practical diagnosis'],
+    subjectRoutes: ['Vocational route or industrial training after Class 10', 'Diploma or polytechnic after Class 10 or 12', 'Apprenticeship, recognised certification, or employer training'],
+    suitableStages: ['after-10th', 'after-12th-science', 'after-12th-commerce', 'college', 'working'],
+    earningContext: 'A skilled trade can reach strong earnings through scarce expertise, safe independent work, supervision, contracting, or a small business.',
+    marketSignal: 'Electrification, renewable energy, connected equipment, medical devices, and advanced manufacturing need technicians who can diagnose real systems.',
+  },
+  'Languages, International & Emerging Routes': {
+    interestTags: ['languages and cultures', 'cross-border work', 'writing and interpretation', 'connecting people'],
+    subjectRoutes: ['Any Class 11–12 stream plus advanced language learning', 'Language, international studies, trade, law, technology, or education route', 'Pair language ability with a second professional domain'],
+    suitableStages: ['after-10th', 'after-12th-science', 'after-12th-commerce', 'after-12th-humanities', 'college', 'working'],
+    earningContext: 'Language ability alone is rarely enough; specialist domains such as technology, law, trade, localisation, or diplomacy improve earning potential.',
+    marketSignal: 'Routine translation is increasingly automated, while localisation, cross-cultural judgement, international operations, and domain expertise remain valuable.',
+  },
+  'Future-ready & Cross-functional': {
+    interestTags: ['connecting different subjects', 'new technology and society', 'solving unfamiliar problems', 'learning across domains'],
+    subjectRoutes: ['Any strong Class 11–12 foundation', 'A deep first discipline followed by targeted cross-disciplinary projects', 'Adjacent-role transition with demonstrable applied work'],
+    suitableStages: ['after-12th-science', 'after-12th-commerce', 'after-12th-humanities', 'college', 'working'],
+    earningContext: 'Emerging titles are uneven; earning upside is strongest when a new skill is anchored in a scarce, useful professional domain.',
+    marketSignal: 'AI, climate, health, cyber, and automation are creating blended roles, but durable foundations matter more than fashionable labels.',
+  },
+};
+
 const roleOverrides: Record<string, Partial<GuideFields>> = {
   'software-engineer': {
     summary: 'Software engineers design, build, test, and maintain software that solves a real user or operating problem.',
@@ -232,6 +369,46 @@ const roleOverrides: Record<string, Partial<GuideFields>> = {
     futureSkills: ['AI-assisted engineering', 'System design', 'Security and responsible deployment'],
     watchOuts: ['Enjoying tutorials but avoiding debugging', 'Building projects without users, tests, or documentation'],
     adjacentRoles: ['QA Automation Engineer', 'Solutions Engineer', 'Technical Product Manager'],
+  },
+  'llm-engineer': {
+    summary: 'LLM engineers build reliable applications around language models, retrieval, evaluation, and production safeguards.',
+    dailyWork: ['Translate a user or business need into an evaluated language-model workflow', 'Build prompts, retrieval, tool calls, tests, and fallback behaviour', 'Monitor quality, latency, cost, privacy, and failure cases after release'],
+    foundationSkills: ['Problem framing', 'Clear writing', 'Logical reasoning'],
+    specialistSkills: ['Python and software engineering', 'LLM application patterns', 'Evaluation and data pipelines', 'APIs and retrieval systems', 'Testing and observability'],
+    futureSkills: ['Agentic system design', 'Model governance', 'Human-in-the-loop workflows', 'AI safety and privacy'],
+    watchOuts: ['Treating a prompt demo as a production system', 'Ignoring evaluation, data leakage, cost, or failure recovery'],
+    starterTests: ['Build a small retrieval or classification workflow with a test set', 'Compare model outputs against a baseline and document errors', 'Ask a practitioner to review the safety and evaluation plan'],
+    adjacentRoles: ['Software Engineer', 'Machine Learning Engineer', 'AI Product Specialist'],
+  },
+  'ai-research-scientist': {
+    summary: 'AI research scientists investigate new methods, evaluate claims, and turn experiments into reproducible evidence.',
+    dailyWork: ['Read papers and define a precise research question', 'Design experiments, baselines, datasets, and evaluation measures', 'Analyse results, document limitations, and communicate reproducible findings'],
+    foundationSkills: ['Scientific reasoning', 'Quantitative reasoning', 'Clear writing'],
+    specialistSkills: ['Python and research tooling', 'Probability and statistics', 'Machine-learning methods', 'Experimental design', 'Model evaluation'],
+    futureSkills: ['Foundation-model research', 'Responsible AI evaluation', 'Efficient computing and reproducibility'],
+    watchOuts: ['Confusing benchmark gains with useful real-world impact', 'Underestimating maths, experimentation, compute, and documentation'],
+    starterTests: ['Reproduce a small published experiment with a clear baseline', 'Write an error analysis that explains where the method fails', 'Discuss the route and study commitment with a research practitioner'],
+    adjacentRoles: ['Machine Learning Engineer', 'Data Scientist', 'Research Engineer'],
+  },
+  'finops-specialist': {
+    summary: 'FinOps specialists connect cloud usage, engineering choices, and financial accountability so teams can control cost without slowing useful delivery.',
+    dailyWork: ['Measure cloud usage and allocate costs to products or teams', 'Find waste and explain the trade-offs behind optimisation choices', 'Create budgets, forecasts, guardrails, and shared review habits'],
+    foundationSkills: ['Numeracy', 'Clear communication', 'Commercial awareness'],
+    specialistSkills: ['Cloud cost analysis', 'Financial modelling', 'Usage and allocation data', 'Engineering trade-off analysis', 'Budget and forecast reporting'],
+    futureSkills: ['AI workload cost governance', 'Carbon-aware infrastructure', 'Automated policy and anomaly detection'],
+    watchOuts: ['Cutting cost without understanding reliability or product impact', 'Reporting numbers without clear ownership and definitions'],
+    starterTests: ['Analyse a sample cloud bill and identify three evidence-backed actions', 'Build a simple usage-to-cost dashboard with assumptions', 'Interview an engineer and finance partner about one cost trade-off'],
+    adjacentRoles: ['Cloud Engineer', 'Financial Analyst', 'Technology Business Analyst'],
+  },
+  'climate-risk-analyst': {
+    summary: 'Climate risk analysts translate physical and transition risks into decisions for finance, infrastructure, and operations.',
+    dailyWork: ['Collect climate, asset, policy, and financial evidence', 'Model scenarios and explain uncertainty rather than presenting false precision', 'Write recommendations for resilience, investment, disclosure, or risk controls'],
+    foundationSkills: ['Scientific reasoning', 'Quantitative reasoning', 'Clear writing'],
+    specialistSkills: ['Climate-risk frameworks', 'Scenario analysis', 'Data interpretation', 'Geospatial or asset analysis', 'Risk and disclosure reporting'],
+    futureSkills: ['Physical-risk modelling', 'Transition-risk strategy', 'Climate data tooling and responsible AI'],
+    watchOuts: ['Treating a long-range scenario as a precise forecast', 'Ignoring local context, adaptation limits, and decision uncertainty'],
+    starterTests: ['Compare two climate scenarios for one asset or sector', 'Write a short risk brief with sources and uncertainty', 'Ask a practitioner to critique the decision relevance of the analysis'],
+    adjacentRoles: ['Sustainability Reporting Analyst', 'Environmental Scientist', 'Risk Analyst'],
   },
   'data-analyst': {
     summary: 'Data analysts turn messy operational data into reliable findings that help people make decisions.',
@@ -334,6 +511,23 @@ const roleOverrides: Record<string, Partial<GuideFields>> = {
   },
 };
 
+function roleInterestTags(title: string) {
+  const value = title.toLowerCase();
+  const signals: string[] = [];
+  const add = (pattern: RegExp, ...items: string[]) => { if (pattern.test(value)) signals.push(...items); };
+  add(/software|developer|program|web|app|cloud|cyber|security|data|ai|llm|language model|machine learning|finops|robotics|automation|analytics|privacy|governance/, 'building or improving digital tools', 'solving logical problems', 'learning technical systems');
+  add(/designer|design|creative|media|content|writer|film|fashion|artist/, 'shaping ideas into clear experiences', 'visual or story-led work', 'improving work through feedback');
+  add(/health|clinical|nurse|doctor|therapy|psycholog|biology|genomic|medical|care/, 'understanding people and wellbeing', 'careful evidence and responsibility', 'patient, detailed learning');
+  add(/engineer|architect|construction|mechanic|electrical|technician|energy|building|manufactur/, 'making or improving physical systems', 'measurement and practical problem solving', 'seeing how things work in the real world');
+  add(/finance|account|econom|bank|audit|tax|investment|business analyst/, 'numbers, money, or business decisions', 'accuracy and structured judgement', 'explaining what evidence means');
+  add(/marketing|sales|customer|product manager|operations|supply chain|entrepreneur|commercial/, 'understanding people and markets', 'organising work around an outcome', 'testing ideas and learning from response');
+  add(/law|policy|government|civil|public|compliance|legal|regulat/, 'fairness, rules, and public decisions', 'reading carefully and building an argument', 'responsibility under clear standards');
+  add(/teacher|education|learning|coach|counsell|social|community|human resources/, 'helping people learn or progress', 'listening and asking useful questions', 'patient, people-centred work');
+  add(/environment|climate|sustain|agriculture|food|water|forest|wildlife|geospatial|science|research|laboratory/, 'curiosity about evidence and the world', 'patterns, experiments, or field observation', 'long-term impact and careful investigation');
+  add(/hospitality|hotel|travel|tourism|sport|event|chef|restaurant|service/, 'active, social, or service work', 'creating a good experience for others', 'staying calm when conditions change');
+  return Array.from(new Set(signals)).slice(0, 4);
+}
+
 const futureRoles = [
   ['AI Governance Specialist', 'Helps organisations set responsible AI rules, controls, documentation, and accountability.', ['AI risk assessment', 'Policy and controls', 'Technical communication'], ['Model regulation', 'Audit methods', 'Incident governance']],
   ['AI Safety and Evaluation Specialist', 'Designs tests that reveal whether AI systems are accurate, robust, safe, and suitable for real use.', ['Evaluation design', 'Statistics', 'Software testing'], ['Red teaming', 'Agent evaluation', 'Safety cases']],
@@ -368,7 +562,7 @@ const futureRoles = [
 ] as const;
 
 const futureFamily = familyGuides['Future-ready & Cross-functional'];
-const futureCareerPresets: CareerPreset[] = futureRoles.map(([title, summary, specialistSkills, futureSkills]) => ({
+const futureCareerPresets: CareerPreset[] = futureRoles.map(([title, _summary, specialistSkills, _futureSkills]) => ({
   key: slug(title), title, category: 'Future-ready & Cross-functional', featured: true,
   routeSummary: futureFamily.entryRoutes.join(' / '),
   entryRequirements: `Build one strong foundation discipline, then demonstrate ${specialistSkills.join(', ').toLowerCase()} through applied work.`,
@@ -379,31 +573,320 @@ const futureCareerPresets: CareerPreset[] = futureRoles.map(([title, summary, sp
 
 const futureRoleDetails = new Map(futureRoles.map(([title, summary, specialistSkills, futureSkills]) => [slug(title), { summary, specialistSkills: [...specialistSkills], futureSkills: [...futureSkills] }]));
 
+// The career compass contains the broad catalogue used elsewhere in the
+// school. Bring those same, fully described roles into the coaching planner so
+// students are not limited to a short hand-picked list. Each role keeps its
+// own work description, interests, routes, proof ideas, and skills while the
+// family key supplies the shared comparison guidance.
+function compassFamily(cluster: string, title: string) {
+  const value = `${cluster} ${title}`.toLowerCase();
+  if (/health|life|medical|clinical|biology|genomic|care|nurs|doctor|therapy/.test(value)) return 'Health & Life Sciences';
+  if (/engineer|built|construction|architect|mechanic|electrical|energy|technician|manufactur/.test(value)) return 'Engineering & Built Environment';
+  if (/finance|commerce|account|economic|bank|investment|audit|tax|actuar/.test(value)) return 'Commerce, Finance & Economics';
+  if (/marketing|business|operations|sales|product|supply|logistic|customer|entrepreneur/.test(value)) return 'Business, Marketing & Operations';
+  if (/design|media|creative|artist|writer|film|fashion|content|photograph/.test(value)) return 'Design, Media & Creative Arts';
+  if (/law|government|public|policy|legal|civil|police|defence|regulat/.test(value)) return 'Law, Government & Public Service';
+  if (/education|teacher|learning|coach|counsell|social|community|human resource/.test(value)) return 'Education, Psychology & Social Impact';
+  if (/environment|climate|agri|farm|food|forest|wildlife|water|science|research|marine/.test(value)) return 'Science, Research & Environment';
+  if (/hospitality|hotel|travel|tour|sport|event|chef|restaurant|service/.test(value)) return 'Hospitality, Travel, Sports & Events';
+  return 'Technology & Data';
+}
+
+const compassInterestLabels: Record<string, string> = {
+  build: 'building or improving things', analyse: 'analysing evidence and patterns', create: 'creating clear experiences or ideas',
+  help: 'helping people or communities', influence: 'persuading, teaching, or shaping decisions', organise: 'organising people, information, or delivery',
+};
+const compassValueLabels: Record<string, string> = {
+  income: 'earning potential', stability: 'stability', impact: 'social or environmental impact', autonomy: 'independence', mastery: 'deep expertise', creativity: 'creative freedom', flexibility: 'flexible work', leadership: 'leading others',
+};
+const compassModeLabels: Record<string, string> = {
+  people: 'regular work with people', independent: 'focused independent work', structured: 'clear processes and standards', ambiguous: 'open-ended problem solving', desk: 'screen or desk-based work', active: 'active or hands-on work', remote: 'work that may be done remotely', field: 'work in changing real-world settings',
+};
+const compassCareerPresets: CareerPreset[] = [...careerRoles, ...futureCareerRoles].map((role) => ({
+  key: `compass-${role.id}`,
+  title: role.title,
+  category: compassFamily(role.cluster, role.title),
+  featured: false,
+  routeSummary: role.summary,
+  entryRequirements: role.entry,
+  workEnvironment: `${role.does} ${role.modes.map((mode) => compassModeLabels[mode] || mode).slice(0, 3).join(', ')}.`,
+  nextStep: `Try a small ${role.title.toLowerCase()} task, then review the result against the evidence this route expects.`,
+  tags: Array.from(new Set([
+    role.cluster, ...role.interests.map((item) => compassInterestLabels[item] || item),
+    ...role.values.map((item) => compassValueLabels[item] || item), ...role.modes.map((item) => compassModeLabels[item] || item),
+    ...role.skills.roleSpecific, ...role.skills.transferable, ...role.skills.aiDigital,
+  ])).map((item) => item.toLowerCase()),
+}));
+
+/**
+ * Add a small role-specific layer on top of the family guidance. The catalogue
+ * is intentionally broad, so this keeps two roles in the same family from
+ * looking interchangeable while still avoiding a brittle 500-row hand list.
+ */
+function roleSkillSignals(title: string) {
+  const value = title.toLowerCase();
+  const signals: string[] = [];
+  const add = (...items: string[]) => signals.push(...items);
+  if (/developer|programmer|software|web|mobile|blockchain|ar\/vr|devops|sre|database|network|systems administrator|cloud/.test(value)) add('Programming logic', 'Software testing', 'Version control with Git');
+  if (/data|analyst|statistic|economist|research|intelligence|actuary|operations research|market research/.test(value)) add('Data interpretation', 'Spreadsheet fundamentals', 'Source evaluation');
+  if (/designer|artist|illustrator|animator|photograph|filmmaker|cinematographer|editor|creative|fashion|interior|architect/.test(value)) add('Visual design', 'Design thinking', 'Portfolio curation');
+  if (/engineer|technician|machinist|welder|electrician|plumber|hvac|construction|survey|mechanic|fabrication/.test(value)) add('Measurement and testing', 'Safety awareness', 'Technical communication');
+  if (/doctor|dentist|nurse|therap|psychologist|pharmac|clinical|medical|health|veter|optomet|audiolog|dietitian|nutrition|emergency/.test(value)) add('Professional ethics', 'Accurate documentation', 'Active listening');
+  if (/teacher|education|lecturer|professor|trainer|facilitator|counsellor|social worker|community|youth|learning/.test(value)) add('Facilitation', 'Active listening', 'Clear writing');
+  if (/manager|consultant|business|marketing|sales|account|customer|commerce|finance|bank|investment|procurement|supply|logistics|operations|entrepreneur/.test(value)) add('Planning and prioritisation', 'Commercial awareness', 'Stakeholder management');
+  if (/lawyer|legal|policy|civil service|government|police|defence|diplomat|compliance|regulatory|tax|election/.test(value)) add('Legal research', 'Clear writing', 'Ethical judgement');
+  if (/chef|hotel|travel|tour|airline|airport|event|sport|fitness|hospitality|restaurant|guest/.test(value)) add('Customer understanding', 'Reliable execution', 'Teamwork');
+  if (/agri|farm|food|forest|wildlife|marine|aquaculture|soil|horticulture|conservation|climate|environment|water/.test(value)) add('Sustainability awareness', 'Field observation', 'Scientific measurement');
+  return Array.from(new Set(signals));
+}
+
+function roleWorkSignals(title: string) {
+  const value = title.toLowerCase();
+  if (/developer|programmer|software|web|mobile|blockchain|devops|sre|database|network|systems administrator|cloud|llm|language model|machine learning|ai engineer|prompt engineer|finops|analytics|privacy|governance/.test(value)) {
+    return ['Translate a real need into a small, reliable digital solution', 'Build, test, document, and improve the solution with feedback', 'Work with users or colleagues to diagnose issues and decide what to change next'];
+  }
+  if (/data|analyst|statistic|economist|actuary|intelligence|research|analytics|privacy|governance/.test(value)) {
+    return ['Collect, clean, and check information from trustworthy sources', 'Analyse patterns and explain what the evidence does and does not show', 'Turn findings into a clear recommendation, report, or decision support'];
+  }
+  if (/designer|artist|illustrator|animator|photograph|filmmaker|editor|creative|fashion|interior/.test(value)) {
+    return ['Understand the audience, brief, or problem before making a first concept', 'Create, test, and refine visual or written work through feedback', 'Prepare final work to the quality, format, and accessibility standard required'];
+  }
+  if (/engineer|technician|machinist|welder|electrician|plumber|hvac|construction|survey|mechanic|fabrication/.test(value)) {
+    return ['Read the requirements, inspect the situation, and plan the work safely', 'Measure, install, repair, or test against technical standards', 'Record results, explain the work, and resolve faults or improvements'];
+  }
+  if (/doctor|dentist|nurse|therap|psychologist|pharmac|clinical|medical|health|veter|optomet|audiolog|dietitian|nutrition|emergency/.test(value)) {
+    return ['Listen carefully, gather relevant information, and protect confidentiality', 'Apply evidence, professional standards, and safe procedures to the situation', 'Record decisions and explain practical next steps to the person or team'];
+  }
+  if (/teacher|education|lecturer|professor|trainer|facilitator|counsellor|social worker|community|youth|learning/.test(value)) {
+    return ['Understand the learner or community need and plan an appropriate activity', 'Facilitate, explain, or support progress while adapting to feedback', 'Record outcomes and agree the next useful step with the people involved'];
+  }
+  if (/manager|consultant|business|marketing|sales|account|customer|commerce|finance|bank|investment|procurement|supply|logistics|operations|entrepreneur/.test(value)) {
+    return ['Clarify the customer, commercial, or operational problem and gather evidence', 'Coordinate people or resources, make a recommendation, and deliver the agreed work', 'Review results against useful measures and improve the next decision'];
+  }
+  if (/lawyer|legal|policy|civil service|government|police|defence|diplomat|compliance|regulatory|tax|election/.test(value)) {
+    return ['Read the relevant evidence, rules, or policy and identify the key issue', 'Weigh competing needs and prepare a clear, defensible response', 'Document the decision and communicate responsibilities or next steps'];
+  }
+  if (/chef|hotel|travel|tour|airline|airport|event|sport|fitness|hospitality|restaurant|guest/.test(value)) {
+    return ['Prepare the service, activity, or event around the customer or participant need', 'Coordinate timing, people, and quality while responding calmly to changes', 'Gather feedback, resolve issues, and improve the next experience'];
+  }
+  if (/agri|farm|food|forest|wildlife|marine|aquaculture|soil|horticulture|conservation|climate|environment|water/.test(value)) {
+    return ['Observe conditions, collect reliable measurements, and plan practical work', 'Manage resources or interventions safely with environmental and quality standards in mind', 'Record outcomes and recommend an improvement for the next cycle'];
+  }
+  return [`Understand the real work involved in ${title}`, 'Complete a small, supervised task and review the result against a clear standard', 'Document what worked, what needs improving, and what to try next'];
+}
+
+function careerProgressionFor(title: string, dailyWork: string[], starterTests: string[], evidenceExamples: string[]): CareerLevelGuidance[] {
+  const work = dailyWork.length ? dailyWork : roleWorkSignals(title);
+  const test = starterTests[0] || `Complete a small realistic ${title.toLowerCase()} task`;
+  const evidence = evidenceExamples[0] || 'A dated work sample with a short reflection and feedback';
+  return [
+    {
+      level: 'Starter',
+      example: `${test}. Keep a short note of what you tried and what needed support.`,
+      advice: `Begin with the first routine step: ${work[0] || `understand the real work involved in ${title}`}. Ask for a clear standard before you start.`,
+    },
+    {
+      level: 'Working',
+      example: `${work.slice(0, 2).join(' Then ')}. Save ${evidence.toLowerCase()}.`,
+      advice: 'Repeat the work in a realistic setting, explain your decisions, and use specific feedback to improve the next attempt.',
+    },
+    {
+      level: 'Advanced',
+      example: `${work.join(' Then ')}. Improve the process and leave evidence another person could review or reuse.`,
+      advice: 'Handle ambiguity, constraints, and trade-offs; help others succeed and review whether the result created the intended value.',
+    },
+  ];
+}
+
 function buildCareerGuide(preset: CareerPreset): CareerGuide {
   const family = familyGuides[preset.category] ?? futureFamily;
+  const lens = careerFitLens[preset.category] ?? careerFitLens['Future-ready & Cross-functional'];
   const future = futureRoleDetails.get(preset.key);
-  const override = roleOverrides[preset.key] ?? {};
+  // Duplicated job titles can legitimately sit in different career families
+  // (for example, a research role in health and in science). Preserve the
+  // family-specific record while still allowing the original title override
+  // to enrich both variants.
+  const override = roleOverrides[preset.key] ?? roleOverrides[slug(preset.title)] ?? {};
+const roleSkills = roleSkillSignals(preset.title);
+  const title = preset.title.toLowerCase();
+  const isGovernment = /civil service|government|public service|police|defence|diplomat|election|military|ias|ips|ifs\b/.test(title) || /Law, Government/.test(preset.category);
+  const isIndependentFriendly = /software|developer|data|designer|writer|marketing|consult|account|finance|lawyer|legal|teacher|trainer|therap|architect|photograph|chef|electrician|plumber|mechanic|engineer|analyst|translator|coach|nutrition|beauty|business|entrepreneur/.test(title);
+  const localContext = isGovernment
+    ? 'Public-service routes are established, but selection is highly competitive and usually exam-led.'
+    : ({
+      'Technology & Data': 'Demand spans software, product, finance, and digital businesses; proof of work matters.',
+      'Engineering & Built Environment': 'Infrastructure, manufacturing, energy, and construction create practical routes; location and accreditation matter.',
+      'Health & Life Sciences': 'Demand spans hospitals, diagnostics, pharma, public health, and health technology; regulated routes require verified training.',
+      'Commerce, Finance & Economics': 'Banks, fintech, businesses, and advisory firms need analysis and judgement; qualifications and ethics affect progression.',
+      'Business, Marketing & Operations': 'Every growing organisation needs customer insight, sales, operations, and delivery; results and communication travel well.',
+      'Design, Media & Creative Arts': 'Digital products, brands, media, and independent clients create routes; a focused portfolio is more useful than a broad title.',
+      'Education, Psychology & Social Impact': 'Schools, employers, communities, and support services need skilled practitioners; qualifications and supervised experience matter.',
+      'Science, Research & Environment': 'Applied work is growing across climate, food, materials, health, and data; compare research and industry routes carefully.',
+      'Agriculture, Food & Rural Careers': 'Food systems, agritech, processing, and rural enterprises offer routes beyond traditional farming; local networks matter.',
+      'Skilled Trades & Applied Careers': 'Electrification, construction, maintenance, and manufacturing need reliable technicians; experience can lead to contracting or a small business.',
+      'Hospitality, Travel, Sports & Events': 'Service, travel, wellness, and events offer varied routes; schedules and location strongly affect earnings.',
+    } as Record<string, string>)[preset.category] ?? 'Opportunities differ by city, sector, and employer; speak with a practitioner and check current local roles.';
+  const competitionNote = isGovernment
+    ? 'Highly competitive selection. Keep a parallel route while you build evidence and review your progress.'
+    : /doctor|dentist|lawyer|architect|pilot|chartered|psychologist/.test(title)
+      ? 'Entry can be competitive or regulated. Check exams, licensing, training cost, and a realistic fallback route.'
+      : 'Competition is real, but a clear portfolio, practical evidence, and relevant experience can improve your options.';
+  const independencePath = isGovernment
+    ? 'Usually employer or public-service based; independent consulting is not the main route.'
+    : isIndependentFriendly
+      ? 'With experience and a trusted track record, this can lead to consulting, freelance work, private practice, contracting, or a business.'
+      : 'Independent work may be possible later through specialist expertise, partnerships, or a small service business.';
+  const workSetting = /field|site|farm|construction|electrician|plumber|mechanic|technician|chef|athlete|trainer|emergency/.test(title)
+    ? 'Often practical, site-based, or tool-led, with safety checks and team handovers.'
+    : /clinical|nurse|doctor|dentist|pharmac|therap|laboratory|biolog|healthcare/.test(title)
+      ? 'Often combines careful records, specialist settings, and direct responsibility for people or samples.'
+      : /software|developer|data|cloud|cyber|digital|designer|writer|analyst|account|finance|policy|research/.test(title)
+        ? 'Often combines focused digital or analytical work with written communication and regular review.'
+        : /sales|marketing|customer|human resource|teacher|counsell|social|manager|consult/.test(title)
+          ? 'Often people-facing, with conversations, coordination, and visible responsibility for outcomes.'
+          : 'The setting varies by employer; speak with someone doing the work before choosing.';
+  const regulated = /doctor|dentist|nurse|pharmac|clinical|psychologist|lawyer|legal|architect|pilot|air traffic|teacher|police|defence|chartered|accountant|electrician|plumber|hvac|medical|therap/.test(title);
+  const entryLevel = /assistant|trainee|junior|support|technician|coordinator|operator/.test(title)
+    ? 'Often accessible through an entry, trainee, apprenticeship, or supervised route.'
+    : regulated
+      ? 'Usually requires verified study, registration, licensing, or supervised practice.'
+      : /software|developer|data|designer|writer|marketing|sales|consult|analyst/.test(title)
+        ? 'A degree, diploma, or portfolio route may work; practical evidence strengthens entry.'
+        : 'Usually starts with a strong foundation plus applied evidence.';
+  const routeLength = /doctor|surgeon|dentist|nurse|pharmac|psychologist|lawyer|chartered|architect|pilot/.test(title)
+    ? 'Plan for a longer regulated or competitive route.'
+    : /technician|operator|assistant|support|coordinator|trades/.test(title)
+      ? 'A shorter vocational, apprenticeship, or supervised route may be available.'
+      : /engineer|scientist|analyst|designer|developer|manager/.test(title)
+        ? 'A degree, diploma, or portfolio route may work depending on the employer and specialism.'
+        : 'Route length varies; compare a direct entry and study route.';
+  const dayPace = /hospitality|event|sales|emergency|service|sport|travel|retail|front office/.test(title)
+    ? 'Often fast-moving, people-facing, and shaped by peaks in demand.'
+    : /clinical|nurse|doctor|care|laboratory|research|account|data|developer|designer|writer/.test(title)
+      ? 'Often includes sustained focused work, careful checking, and regular documentation.'
+      : /field|site|farm|construction|technician|maintenance|mechanic/.test(title)
+        ? 'Often varies by site, weather, equipment condition, and the urgency of the job.'
+        : 'Pace depends on the workplace, season, and responsibility level.';
+  const foundationSkills = override.foundationSkills ?? family.foundationSkills;
+  const portableSkills = Array.from(new Set([...foundationSkills, ...family.futureSkills])).slice(0, 4);
+  const specialistSkills = Array.from(new Set([...(override.specialistSkills ?? future?.specialistSkills ?? family.specialistSkills), ...roleSkills])).slice(0, 6);
+  const futureSkills = Array.from(new Set([...(override.futureSkills ?? future?.futureSkills ?? family.futureSkills), ...(roleSkills.length ? ['AI tool literacy', 'Data privacy'] : [])])).slice(0, 5);
+  const questionsToAsk = [
+    `What does a normal week look like for a ${preset.title}?`,
+    `Which entry route is realistic from my current stage?`,
+    `What small work sample would let me test this career option?`,
+  ];
+  const careerGroup: CareerGuide['careerGroup'] = /doctor|dentist|nurse|therap|psycholog|teacher|counsell|care|health|social worker|nutrition|pharmac/.test(title) ? 'Healers' : /writer|journal|marketing|sales|public relation|teacher|coach|trainer|translator|diplomat|lawyer|content|media/.test(title) ? 'Communicators' : /designer|artist|creative|fashion|photograph|filmmaker|chef|architect|craft|maker/.test(title) ? 'Makers' : /analyst|scientist|research|account|finance|economist|auditor|data|risk|policy|planner/.test(title) ? 'Analysers' : 'Builders';
+  const evidenceExamples = /data|analyst|research|scientist|finance|account|business|marketing|operations/.test(title)
+    ? ['A short analysis or decision brief', 'A source log showing assumptions and checks']
+    : /design|writer|media|content|creative|photograph|film/.test(title)
+      ? ['A portfolio piece with a brief and revision notes', 'A published explanation or audience feedback']
+      : /technician|engineer|trades|chef|farm|clinical|health|care/.test(title)
+        ? ['A supervised practical demonstration', 'A dated record of quality or safety checks']
+        : ['A completed role-relevant project or work sample', 'A short reflection with feedback and next improvement'];
+  const dailyWork = override.dailyWork ?? roleWorkSignals(preset.title);
+  const progression = careerProgressionFor(preset.title, dailyWork, override.starterTests ?? family.starterTests, evidenceExamples);
+  const evidenceMatch = futureEvidence.find((item) => {
+    const source = `${item.label} ${item.source}`.toLowerCase();
+    return (preset.category.includes('Agriculture') && /farm|food|rural|agri/.test(source))
+      || (preset.category.includes('Health') && /health|care|nurse|healthcare/.test(source))
+      || ((preset.category.includes('Technology') || /software|developer|programmer|cloud|cyber|security|data|analytics|privacy|llm|language model|machine learning|ai|finops|governance/.test(title)) && /ai|digital|developer|technology/.test(source))
+      || (preset.category.includes('Engineering') && /engineering|energy|construction|technician/.test(source));
+  }) ?? futureEvidence.find((item) => /skills-first labour market/i.test(item.label)) ?? futureEvidence[0];
   return {
     ...preset,
     summary: override.summary ?? future?.summary ?? `${preset.title} ${family.purpose}.`,
     outlook: override.outlook ?? family.outlook,
     outlookDetail: override.outlookDetail ?? family.outlookDetail,
-    dailyWork: override.dailyWork ?? family.dailyWork,
+    dailyWork,
     entryRoutes: override.entryRoutes ?? family.entryRoutes,
-    foundationSkills: override.foundationSkills ?? family.foundationSkills,
-    specialistSkills: override.specialistSkills ?? future?.specialistSkills ?? family.specialistSkills,
-    futureSkills: override.futureSkills ?? future?.futureSkills ?? family.futureSkills,
+     foundationSkills,
+    specialistSkills,
+    futureSkills,
     workStyles: override.workStyles ?? family.workStyles,
     watchOuts: override.watchOuts ?? family.watchOuts,
     starterTests: override.starterTests ?? family.starterTests,
     adjacentRoles: override.adjacentRoles ?? family.adjacentRoles,
-    tags: Array.from(new Set([...preset.tags, family.outlook, ...family.futureSkills.map((value) => value.toLowerCase())])),
+    interestTags: Array.from(new Set([...roleInterestTags(preset.title), ...lens.interestTags])).slice(0, 6),
+    subjectRoutes: lens.subjectRoutes,
+    suitableStages: lens.suitableStages,
+    earningContext: lens.earningContext,
+    marketSignal: lens.marketSignal,
+    marketEvidence: { date: evidenceMatch.date, source: evidenceMatch.source, url: evidenceMatch.url },
+    localContext,
+    competitionNote,
+    independencePath,
+    workSetting,
+    entryLevel,
+    routeLength,
+    dayPace,
+    portableSkills,
+    questionsToAsk,
+    evidenceExamples,
+    progression,
+    regulated,
+    careerGroup,
+    tags: Array.from(new Set([
+      ...preset.tags,
+       ...roleInterestTags(preset.title),
+       ...foundationSkills,
+       ...roleSkillSignals(preset.title),
+      ...specialistSkills,
+      ...futureSkills,
+      ...family.specialistSkills,
+      family.outlook,
+      ...family.futureSkills,
+    ])).map((value) => value.toLowerCase()),
   };
 }
 
-const careerMap = new Map<string, CareerPreset>();
-[...careerPresets, ...futureCareerPresets].forEach((preset) => careerMap.set(preset.key, preset));
-export const guidedCareerPresets = Array.from(careerMap.values()).map(buildCareerGuide);
+// The school catalogue also needs useful routes for learners whose interests do
+// not fit a short list of headline job titles. These cross-industry variants
+// are deliberately generated from real role families: each remains searchable,
+// selectable, and receives the same work, interest, route, and skill guidance
+// as the hand-authored entries below.
+const catalogueContexts = ['Healthcare', 'Finance and banking', 'Education and learning', 'Public services', 'Retail and consumer', 'Climate and energy'];
+const expandedCatalogueGroups: Array<{ category: string; roles: string[] }> = [
+  { category: 'Technology & Data', roles: ['Application Developer', 'Data Quality Analyst', 'Cloud Support Engineer', 'Network Technician', 'Database Administrator', 'Systems Analyst', 'QA Test Analyst', 'UX Researcher', 'Technical Support Specialist', 'Information Security Coordinator', 'Automation Analyst', 'Business Intelligence Developer'] },
+  { category: 'Engineering & Built Environment', roles: ['Civil Engineering Technician', 'Building Services Engineer', 'Electrical Design Technician', 'Mechanical Design Technician', 'Surveying Technician', 'Quantity Surveyor', 'Site Safety Coordinator', 'Transport Planner', 'Water Systems Engineer', 'Manufacturing Process Technician', 'CAD Technician', 'Maintenance Planner'] },
+  { category: 'Health & Life Sciences', roles: ['Medical Laboratory Technician', 'Clinical Research Coordinator', 'Health Information Officer', 'Public Health Officer', 'Pharmacy Technician', 'Radiography Assistant', 'Nutrition Advisor', 'Occupational Therapy Assistant', 'Care Coordinator', 'Biomedical Research Assistant', 'Patient Services Manager', 'Health and Safety Officer'] },
+  { category: 'Commerce, Finance & Economics', roles: ['Accounts Assistant', 'Payroll Specialist', 'Credit Analyst', 'Treasury Analyst', 'Tax Associate', 'Procurement Analyst', 'Financial Planning Associate', 'Risk and Controls Analyst', 'Investment Operations Associate', 'Economic Research Assistant', 'Insurance Underwriter', 'Credit Operations Officer'] },
+  { category: 'Business, Marketing & Operations', roles: ['Operations Coordinator', 'Customer Success Specialist', 'Sales Operations Analyst', 'Supply Chain Planner', 'Retail Operations Manager', 'People Operations Coordinator', 'Market Research Executive', 'Partnerships Executive', 'Service Delivery Manager', 'Quality Improvement Coordinator', 'Small Business Adviser', 'Community Enterprise Manager'] },
+  { category: 'Design, Media & Creative Arts', roles: ['Content Designer', 'Motion Graphics Artist', 'Illustration Artist', 'Editorial Producer', 'Podcast Producer', 'Photography Assistant', 'Fashion Product Coordinator', 'Interior Design Assistant', 'Exhibition Designer', 'Copy Editor', 'Brand Production Coordinator', 'Digital Storyteller'] },
+  { category: 'Law, Government & Public Service', roles: ['Legal Operations Assistant', 'Policy Research Officer', 'Court Services Officer', 'Public Administration Officer', 'Regulatory Affairs Assistant', 'Compliance Coordinator', 'Community Safety Officer', 'Human Rights Programme Officer', 'Diplomatic Services Assistant', 'Election Operations Officer', 'Public Procurement Officer', 'Records and Information Officer'] },
+  { category: 'Education, Psychology & Social Impact', roles: ['Learning Support Assistant', 'Instructional Design Assistant', 'Youth Programme Coordinator', 'Social Research Assistant', 'Wellbeing Programme Coordinator', 'Community Outreach Officer', 'Career Services Coordinator', 'Training Operations Assistant', 'Accessibility Coordinator', 'Volunteer Programme Manager', 'Family Support Worker', 'Learning Content Editor'] },
+  { category: 'Science, Research & Environment', roles: ['Laboratory Assistant', 'Environmental Monitoring Officer', 'Geospatial Technician', 'Climate Data Assistant', 'Climate Risk Analyst', 'Food Science Technician', 'Water Quality Technician', 'Ecology Field Assistant', 'Research Operations Coordinator', 'Sustainability Reporting Analyst', 'Conservation Project Officer', 'Scientific Communications Assistant', 'Renewable Energy Analyst'] },
+  { category: 'Hospitality, Travel, Sports & Events', roles: ['Guest Experience Coordinator', 'Travel Operations Executive', 'Event Production Assistant', 'Sports Programme Coordinator', 'Fitness Programme Assistant', 'Food Service Manager', 'Venue Operations Coordinator', 'Reservations Specialist', 'Tour Guide', 'Airline Ground Operations Officer', 'Leisure Centre Manager', 'Culinary Production Assistant'] },
+  { category: 'Agriculture, Food & Rural Careers', roles: ['Farm Operations Coordinator', 'Horticulture Technician', 'Food Supply Coordinator', 'Agricultural Extension Officer', 'Soil Testing Technician', 'Livestock Care Assistant', 'Agri-Input Sales Adviser', 'Rural Enterprise Coordinator', 'Food Quality Inspector', 'Post-Harvest Operations Officer', 'Fisheries Field Assistant', 'Urban Farming Coordinator'] },
+  { category: 'Skilled Trades & Applied Careers', roles: ['Electrical Installation Technician', 'Plumbing Technician', 'Automotive Service Technician', 'Welding Technician', 'CNC Machine Operator', 'Solar Installation Technician', 'HVAC Service Technician', 'Carpentry Technician', 'Masonry Technician', 'Lift and Escalator Technician', 'Equipment Repair Technician', 'Industrial Instrumentation Technician'] },
+];
+const expandedCataloguePresets: CareerPreset[] = expandedCatalogueGroups.flatMap((group) => group.roles.flatMap((role) => catalogueContexts.map((context) => ({
+  key: `catalogue-${slug(role)}-${slug(context)}`,
+  title: `${role} — ${context}`,
+  category: group.category,
+  featured: false,
+  routeSummary: `A ${role.toLowerCase()} route focused on real work in ${context.toLowerCase()}.`,
+  entryRequirements: 'Build the relevant subject foundation, complete a recognised course or supervised route, and collect practical evidence.',
+  workEnvironment: `Work with colleagues, tools, information, and clear quality standards in ${context.toLowerCase()}.`,
+  nextStep: `Speak with someone doing ${role.toLowerCase()} work in ${context.toLowerCase()}, then try one small task.`,
+  tags: [group.category, role, context, 'career exploration'].map((item) => item.toLowerCase()),
+}))));
+
+// Keep every catalogue entry. A title may appear in more than one family and
+// must remain selectable as a distinct route with its own category and skills.
+// Make only the key unique so saved directions stay traceable to one entry.
+const usedCareerKeys = new Set<string>();
+export const guidedCareerPresets = [...careerPresets, ...futureCareerPresets, ...compassCareerPresets, ...expandedCataloguePresets].map((preset) => {
+  const baseKey = preset.key;
+  let key = baseKey;
+  if (usedCareerKeys.has(key)) {
+    key = `${baseKey}-${slug(preset.category)}`;
+    let suffix = 2;
+    while (usedCareerKeys.has(key)) key = `${baseKey}-${slug(preset.category)}-${suffix++}`;
+  }
+  usedCareerKeys.add(key);
+  return buildCareerGuide({ ...preset, key });
+});
 export const guidedCareerCategories = Array.from(new Set(guidedCareerPresets.map((preset) => preset.category)));
 export function careerGuideFor(key: unknown) {
   return guidedCareerPresets.find((preset) => preset.key === key) ?? null;
@@ -435,7 +918,7 @@ export type SkillPlanItem = SkillPreset & {
 export type SkillPack = {
   key: string;
   title: string;
-  group: 'Start strong' | 'Work with technology' | 'Career families' | 'Move into work';
+  group: 'Start strong' | 'Holistic foundations' | 'Work with technology' | 'Career families' | 'Move into work';
   description: string;
   idealFor: string;
   scope: SkillScope;
@@ -444,7 +927,7 @@ export type SkillPack = {
 };
 
 const practiceByCategory: Record<SkillPreset['category'], { method: string; proof: string }> = {
-  technical: { method: 'Two focused practice blocks each week using a realistic technical task.', proof: 'A working output, test result, or supervised demonstration that can be explained clearly.' },
+  technical: { method: 'Two focused blocks each week using a realistic technical task.', proof: 'A working output, test result, or supervised demonstration that can be explained clearly.' },
   digital: { method: 'Use the tool in one useful workflow each week and document the steps.', proof: 'A reusable digital output plus a short explanation of quality, privacy, and limitations.' },
   communication: { method: 'Practise in a real or recorded conversation, presentation, or written task each week.', proof: 'Before-and-after examples plus feedback from the intended audience.' },
   analytical: { method: 'Solve one realistic case each week and show the evidence and reasoning.', proof: 'A defensible recommendation with sources, assumptions, and limitations.' },
@@ -463,7 +946,8 @@ export function skillPlanItem(key: string, scope: SkillScope): SkillPlanItem | n
 }
 
 export const skillPacks: SkillPack[] = [
-  { key: 'career-foundation', title: 'Career foundation', group: 'Start strong', description: 'The durable abilities every student needs to learn, decide, communicate, and follow through.', idealFor: 'Every student before heavy specialisation', scope: 'foundation', categoryMatches: [], skillKeys: ['clear-writing', 'active-listening', 'critical-thinking', 'learning-how-to-learn', 'time-management', 'reliability', 'digital-collaboration', 'self-awareness'] },
+  { key: 'career-foundation', title: 'Career foundation', group: 'Start strong', description: 'The durable abilities every student needs to learn, decide, communicate, and follow through.', idealFor: 'Every student before heavy specialisation', scope: 'foundation', categoryMatches: [], skillKeys: ['clear-writing', 'active-listening', 'critical-thinking', 'learning-how-to-learn', 'time-management', 'deep-work-and-focus', 'reliability', 'digital-collaboration', 'self-awareness', 'typing-fluency', 'computer-and-phone-literacy', 'spreadsheet-fundamentals', 'reading-documentation', 'project-completion', 'personal-money-safety'] },
+  { key: 'holistic-future-readiness', title: 'Holistic and future readiness', group: 'Holistic foundations', description: 'A balanced starter plan for self-awareness, resilience, communication, digital judgement, adaptability, and ethical use of technology.', idealFor: 'Students who want a rounded foundation before choosing a specialism', scope: 'foundation', categoryMatches: [], skillKeys: ['self-awareness', 'growth-mindset', 'active-listening', 'clear-writing', 'critical-thinking', 'adaptability', 'ai-tool-literacy', 'data-privacy'] },
   { key: 'research-decisions', title: 'Research and decision making', group: 'Start strong', description: 'A practical system for investigating claims, comparing routes, and making evidence-based decisions.', idealFor: 'Career exploration and option validation', scope: 'foundation', categoryMatches: [], skillKeys: ['problem-framing', 'research-skills', 'source-evaluation', 'data-interpretation', 'scenario-planning', 'risk-assessment', 'decision-making', 'attention-to-detail'] },
   { key: 'communication-influence', title: 'Communication and influence', group: 'Start strong', description: 'Speak, write, listen, present, and handle disagreement with clarity.', idealFor: 'Any route involving people or decisions', scope: 'foundation', categoryMatches: [], skillKeys: ['clear-writing', 'presentation-skills', 'active-listening', 'question-asking', 'storytelling', 'negotiation', 'giving-and-receiving-feedback', 'conflict-resolution'] },
   { key: 'self-management', title: 'Personal effectiveness', group: 'Start strong', description: 'Turn intentions into reliable weekly progress without depending on constant supervision.', idealFor: 'Students struggling with consistency or overload', scope: 'personal-effectiveness', categoryMatches: [], skillKeys: ['time-management', 'planning-and-prioritisation', 'goal-setting', 'personal-productivity', 'reliability', 'adaptability', 'resilience', 'learning-how-to-learn'] },
@@ -485,48 +969,57 @@ export const skillPacks: SkillPack[] = [
   { key: 'trades-technical', title: 'Skilled trades and technical service', group: 'Career families', description: 'Build safe hands-on diagnosis, quality workmanship, reliability, and customer trust.', idealFor: 'Electrical, mechanical, energy, service, and maintenance trades', scope: 'career-specific', categoryMatches: ['Skilled Trades & Applied Careers'], skillKeys: ['electrical-safety', 'mechanical-fabrication', 'quality-assurance', 'safety-awareness', 'root-cause-analysis', 'client-communication', 'reliability', 'project-scheduling'] },
   { key: 'global-language', title: 'Languages and international work', group: 'Career families', description: 'Pair strong language ability with research, cultural judgement, and a second professional domain.', idealFor: 'Language, localisation, international education, trade, and policy', scope: 'career-specific', categoryMatches: ['Languages, International & Emerging Routes'], skillKeys: ['business-english', 'cross-cultural-communication', 'translation', 'interpretation', 'foreign-language-proficiency', 'research-skills', 'source-evaluation', 'professional-email-writing'] },
   { key: 'leadership-venture', title: 'Leadership and entrepreneurship', group: 'Move into work', description: 'Own decisions, people, resources, customers, and measurable outcomes.', idealFor: 'Team leadership, ventures, programmes, and business ownership', scope: 'employability', categoryMatches: [], skillKeys: ['personal-ownership', 'decision-ownership', 'stakeholder-management', 'resource-planning', 'commercial-awareness', 'negotiation', 'project-leadership', 'performance-conversations'] },
-  { key: 'first-job', title: 'First-job launch', group: 'Move into work', description: 'Turn capability into a focused profile, evidence, opportunities, and confident selection performance.', idealFor: 'Internship, apprenticeship, and first-job seekers', scope: 'employability', categoryMatches: [], skillKeys: ['resume-writing', 'linkedin-profile-building', 'portfolio-building', 'professional-networking', 'job-search-strategy', 'internship-search', 'interview-preparation', 'workplace-etiquette'] },
-  { key: 'career-transition', title: 'Career transition', group: 'Move into work', description: 'Translate previous experience, test a new route, close priority gaps, and manage transition risk.', idealFor: 'Graduates and professionals changing direction', scope: 'employability', categoryMatches: [], skillKeys: ['self-awareness', 'career-research', 'learning-how-to-learn', 'risk-assessment', 'resume-writing', 'professional-networking', 'portfolio-building', 'interview-preparation'] },
+  { key: 'first-job', title: 'First-job launch', group: 'Move into work', description: 'Turn capability into a focused profile, evidence, opportunities, and confident selection performance.', idealFor: 'Internship, apprenticeship, and first-job seekers', scope: 'employability', categoryMatches: [], skillKeys: ['cv-writing', 'linkedin-profile-building', 'portfolio-building', 'professional-networking', 'job-search-strategy', 'internship-search', 'interview-preparation', 'workplace-etiquette'] },
+  { key: 'career-transition', title: 'Career transition', group: 'Move into work', description: 'Translate previous experience, test a new route, close priority gaps, and manage transition risk.', idealFor: 'Graduates and professionals changing career options', scope: 'employability', categoryMatches: [], skillKeys: ['self-awareness', 'career-research', 'learning-how-to-learn', 'risk-assessment', 'cv-writing', 'professional-networking', 'portfolio-building', 'interview-preparation'] },
+  { key: 'hardware-semiconductors', title: 'Hardware and semiconductors', group: 'Career families', description: 'Explore digital hardware, chip design, verification, manufacturing constraints, and technical documentation.', idealFor: 'Electronics, embedded, semiconductor, and hardware routes', scope: 'career-specific', categoryMatches: ['Engineering & Built Environment', 'Technology & Data'], skillKeys: ['semiconductor-fundamentals', 'digital-hardware-and-chip-design', 'logical-reasoning', 'technical-communication'] },
+  { key: 'ai-operations-governance', title: 'AI operations and governance', group: 'Work with technology', description: 'Design useful AI workflows with evaluation, privacy, risk controls, and accountable human review.', idealFor: 'AI operations, automation, governance, and responsible adoption', scope: 'future-ready', categoryMatches: ['Technology & Data', 'Future-ready & Cross-functional'], skillKeys: ['ai-agent-workflow-design', 'ai-governance-and-model-risk', 'prompt-and-output-evaluation', 'data-privacy'] },
+  { key: 'specialist-digital-domains', title: 'Specialist digital domains', group: 'Career families', description: 'Combine technology with contracts, teaching, supply chains, or cloud finance in a domain-focused route.', idealFor: 'Legal technology, EdTech, supply-chain technology, and FinOps', scope: 'career-specific', categoryMatches: ['Business, Marketing & Operations', 'Education, Psychology & Social Impact', 'Law, Government & Public Service'], skillKeys: ['legal-technology-operations', 'instructional-design', 'supply-chain-technology', 'finops-and-cloud-cost-control'] },
 ];
 
 export function skillPackItems(pack: SkillPack) {
   return pack.skillKeys.map((key) => skillPlanItem(key, pack.scope)).filter((item): item is SkillPlanItem => Boolean(item));
 }
 
-export function recommendedSkillPacks(primaryCategory: string | null | undefined) {
-  return skillPacks.filter((pack) => pack.key === 'career-foundation' || pack.key === 'ai-ready' || (primaryCategory && pack.categoryMatches.includes(primaryCategory))).slice(0, 4);
+export function recommendedSkillPacks(primaryCategory: string | string[] | null | undefined) {
+  const categories = new Set((Array.isArray(primaryCategory) ? primaryCategory : [primaryCategory]).filter((value): value is string => Boolean(value)));
+  return skillPacks.filter((pack) => pack.key === 'career-foundation' || pack.key === 'ai-ready' || pack.categoryMatches.some((category) => categories.has(category))).slice(0, 4);
 }
 
 export const caseGoalPresets = [
-  { key: 'discover-direction', stage: 'career-exploration', label: 'Build a credible shortlist', value: 'Build a shortlist of three credible career directions using interests, strengths, constraints, future opportunity, and at least one real-world test for each.' },
-  { key: 'choose-primary', stage: 'option-validation', label: 'Choose a primary direction', value: 'Choose one primary direction and one or two deliberate alternatives using real-world evidence, route feasibility, skill requirements, and personal constraints.' },
+  { key: 'discover-direction', stage: 'career-exploration', label: 'Build a credible shortlist', value: 'Build a shortlist of three credible career options using interests, strengths, constraints, future opportunity, and at least one real-world test for each.' },
+  { key: 'choose-primary', stage: 'option-validation', label: 'Choose primary career options', value: 'Choose the primary career options worth serious exploration and one or two deliberate secondary options using real-world evidence, route feasibility, skill requirements, and personal constraints.' },
   { key: 'stream-decision', stage: 'decision', label: 'Make a stream decision', value: 'Choose a subject stream that preserves suitable career families, matches academic readiness, and has a realistic support plan.' },
   { key: 'course-college', stage: 'decision', label: 'Choose course and college', value: 'Create an affordable, accredited course and college shortlist with verified curriculum, outcomes, deadlines, and backup routes.' },
-  { key: 'skill-roadmap', stage: 'execution', label: 'Build a skill roadmap', value: 'Close the highest-priority skill gaps for the primary direction and create credible evidence through projects, practice, feedback, and real responsibility.' },
+  { key: 'skill-roadmap', stage: 'execution', label: 'Build a skill roadmap', value: 'Close the highest-priority skill gaps for the selected career options and create credible evidence through projects, regular work, feedback, and real responsibility.' },
   { key: 'first-job', stage: 'execution', label: 'Launch into a first job', value: 'Build a focused target list, role-relevant evidence, applications, networking rhythm, and interview readiness for a realistic first opportunity.' },
   { key: 'career-change', stage: 'option-validation', label: 'Validate a career change', value: 'Test the target career against transferable strengths, financial and family constraints, skill gaps, opportunity evidence, and a staged transition plan.' },
 ];
 
 export const progressUpdatePresets = [
-  { key: 'on-track', label: 'On track', value: 'Progress: the student completed the agreed work and produced useful evidence. Current interpretation: the direction remains credible. Blocker: none material. Next: increase the realism of the next test.' },
+  { key: 'on-track', label: 'On track', value: 'Progress: the student completed the agreed work and produced useful evidence. Current interpretation: the career option remains credible. Blocker: none material. Next: increase the realism of the next test.' },
   { key: 'needs-evidence', label: 'Needs stronger evidence', value: 'Progress: research is moving, but conclusions still rely mainly on assumptions or online information. Blocker: no direct work sample or practitioner evidence. Next: complete one real-world test before changing the decision.' },
   { key: 'decision-blocked', label: 'Decision is blocked', value: 'Progress: the main options are visible. Blocker: the unresolved constraint or disagreement is preventing a decision. Next: verify the constraint, document trade-offs, and agree a decision date.' },
-  { key: 'follow-through-risk', label: 'Follow-through risk', value: 'Progress: the direction is reasonably clear, but agreed actions are not being completed consistently. Blocker: time, clarity, support, or motivation must be diagnosed. Next: reduce the plan to one owned action with a short review date.' },
-  { key: 'primary-changed', label: 'Primary direction changed', value: 'Progress: new evidence changed the preferred direction. Reason: document the decisive evidence and trade-off. Next: update the primary focus, close or reduce old actions, and assign the first test for the new direction.' },
+  { key: 'follow-through-risk', label: 'Follow-through risk', value: 'Progress: the career option is reasonably clear, but agreed actions are not being completed consistently. Blocker: time, clarity, support, or motivation must be diagnosed. Next: reduce the plan to one owned action with a short check-in date.' },
+  { key: 'primary-changed', label: 'Primary career option changed', value: 'Progress: new evidence changed the preferred career option. Reason: document the decisive evidence and trade-off. Next: update the career options you are keeping, close or reduce old actions, and assign the first test for the new option.' },
 ];
 
 export const evidenceTemplatePresets = [
   { key: 'project-output', label: 'Completed project or work sample', evidenceType: 'project', title: 'Completed role-relevant project', description: 'Problem or brief:\nMy contribution:\nTools or methods used:\nOutcome:\nFeedback received:\nWhat I would improve:' },
-  { key: 'observed-practice', label: 'Observed practical demonstration', evidenceType: 'experience', title: 'Observed practical demonstration', description: 'Task observed:\nConditions and level of support:\nWhat was done independently:\nQuality observed:\nNext level to demonstrate:' },
-  { key: 'practitioner-feedback', label: 'Practitioner or coach feedback', evidenceType: 'feedback', title: 'Feedback from a practitioner', description: 'Who gave feedback and in what context:\nStrengths observed:\nPriority gap:\nRecommended next practice:\nFollow-up date:' },
+  { key: 'observed-practice', label: 'Observed practical demonstration', evidenceType: 'experience', title: 'Observed practical demonstration', description: 'Task observed:\nConditions and level of support:\nWhat was done independently:\nQuality observed:\nNext practical step to try:' },
+  { key: 'practitioner-feedback', label: 'Practitioner or coach feedback', evidenceType: 'feedback', title: 'Feedback from a practitioner', description: 'Who gave feedback and in what context:\nStrengths observed:\nPriority gap:\nRecommended next step:\nFollow-up date:' },
   { key: 'course-applied', label: 'Course learning applied', evidenceType: 'course', title: 'Applied learning from a course', description: 'Course or module:\nConcept learned:\nHow it was applied without copying the example:\nResult:\nWhat remains difficult:' },
   { key: 'competition-challenge', label: 'Competition or challenge submission', evidenceType: 'work-sample', title: 'Challenge or competition submission', description: 'Brief and judging criteria:\nSubmission:\nResult or feedback:\nWhat this proves:\nNext improvement:' },
   { key: 'workplace-exposure', label: 'Workplace exposure or responsibility', evidenceType: 'experience', title: 'Workplace exposure', description: 'Organisation and role observed:\nTasks completed or observed:\nTools, pace, and people contact:\nWhat was energising or draining:\nImplication for the career decision:' },
+  { key: 'deployed-project', label: 'Deployed project or live demonstration', evidenceType: 'project', title: 'Deployed project', description: 'Problem solved:\nLive link or demonstration:\nMy contribution:\nTesting, privacy, or safety checks:\nFeedback or usage:\nNext improvement:' },
+  { key: 'research-brief', label: 'Written research or decision brief', evidenceType: 'work-sample', title: 'Research brief', description: 'Question:\nSources checked:\nKey evidence:\nConclusion and uncertainty:\nRecommendation:\nFeedback received:' },
+  { key: 'customer-interview', label: 'Customer or user interview summary', evidenceType: 'experience', title: 'Customer or user interview', description: 'Who was interviewed and why:\nQuestions asked:\nPatterns heard:\nWhat changed in my understanding:\nNext test:' },
+  { key: 'before-after-result', label: 'Before-and-after improvement', evidenceType: 'work-sample', title: 'Before-and-after result', description: 'Starting condition:\nChange made:\nMeasure or comparison:\nResult:\nEvidence link or file:\nWhat I would improve:' },
 ];
 
 export const noteTemplatePresets = [
   { key: 'factual-observation', noteType: 'observation', label: 'Factual observation', value: 'Observed behaviour or statement:\nContext:\nEvidence or example:\nCoaching interpretation:\nNext question or action:' },
-  { key: 'constraint-impact', noteType: 'constraint', label: 'Constraint and impact', value: 'Constraint:\nSource and certainty:\nOptions affected:\nWorkaround tested:\nOwner and review date:' },
+  { key: 'student-guidance', noteType: 'suggestion', label: 'Student guidance and next step', value: 'What I recommend you try:\nWhy it matters for your current career option:\nHow to start:\nWhat to bring back or reflect on:' },
+  { key: 'constraint-impact', noteType: 'constraint', label: 'Constraint and impact', value: 'Constraint:\nSource and certainty:\nOptions affected:\nWorkaround tested:\nOwner and check-in date:' },
   { key: 'family-alignment', noteType: 'family-context', label: 'Family alignment', value: 'Student preference:\nFamily preference or concern:\nShared priorities:\nUnresolved difference:\nAgreed next conversation:' },
   { key: 'risk-escalation', noteType: 'risk', label: 'Risk and escalation', value: 'Risk observed:\nImmediate impact:\nEvidence:\nAction taken:\nPerson informed or referral made:\nFollow-up date:' },
   { key: 'follow-up-review', noteType: 'follow-up', label: 'Follow-up review', value: 'Previous commitment:\nWhat was completed:\nEvidence created:\nBlocker:\nNew commitment and due date:' },
@@ -534,4 +1027,3 @@ export const noteTemplatePresets = [
 ];
 
 export const academicStreamPresets = ['Not decided', 'Science - PCM', 'Science - PCB', 'Science - PCMB', 'Commerce with Mathematics', 'Commerce without Mathematics', 'Humanities or Arts', 'Vocational or technical', 'Diploma or polytechnic', 'Undergraduate - technical', 'Undergraduate - non-technical', 'Postgraduate', 'Working professional'];
-

@@ -9,7 +9,7 @@ async function completePreferenceAssessment(page, audience = 'college') {
   }
 }
 
-test('career preference assessment produces a detailed evidence report and PDF', async ({ page }) => {
+test('career preference assessment produces a detailed evidence report and PDF', async ({ page }, testInfo) => {
   await page.goto('http://localhost:4321/services/assessments/myers-briggs-career-test/');
   await expect(page).toHaveTitle(/Myers Briggs Career Test/);
   await expect(page.locator('.audience-option')).toHaveCount(4);
@@ -30,7 +30,7 @@ test('career preference assessment produces a detailed evidence report and PDF',
   await page.locator('#download-button').click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe('future-career-school-career-preference-evidence-report.pdf');
-  await download.saveAs('test-results/career-preference-evidence-report.pdf');
+  await download.saveAs(testInfo.outputPath('career-preference-evidence-report.pdf'));
 });
 
 test('career preference result stays within a mobile viewport', async ({ page }) => {

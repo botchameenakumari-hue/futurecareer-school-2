@@ -1,0 +1,689 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY } from '../../../../config/bofu';
+
+const title =
+  'Career Counselling Questions for Students: What Gets Asked in a Session | Future Career School';
+const description =
+  'The real questions a career counsellor asks a student, grouped by theme, with what each one is actually trying to find out before you book a session.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-questions-for-students/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[3],
+];
+
+const questionGroups = [
+  {
+    id: 'interests',
+    label: 'Interests and subjects',
+    heading: 'Questions about what you actually enjoy, not just what you score well in',
+    why: "Marks tell a counsellor what you can produce under exam conditions. They don't say much about what pulls your attention when nobody is grading it, which is a better signal for a path you'll spend years in.",
+    questions: [
+      'Which subjects do you actually enjoy studying, separate from how well you score in them?',
+      "If no exam existed for a month, what would you end up reading or watching about on your own?",
+      'Is there a subject you’re doing fine in but privately dread every time it comes up?',
+      'When you help a friend with homework, which subject do you end up explaining the most?',
+    ],
+  },
+  {
+    id: 'strengths',
+    label: 'Strengths',
+    heading: 'Questions about strengths, not just aptitude scores',
+    why: 'An assessment can flag a pattern. A counsellor still asks around it, because the way you actually behave in a real situation often tells a more specific story than a score does.',
+    questions: [
+      'What do teachers, friends, or family say you’re naturally good at, even if you’ve never thought of it as a "career skill"?',
+      'Think of something you finished without anyone pushing you — what was it, and what kept you going?',
+      'Are you the one who explains ideas to others, builds things, organises a group, or works out problems quietly on your own?',
+      'When a group project goes wrong, what part do you instinctively step in to fix?',
+    ],
+  },
+  {
+    id: 'family',
+    label: 'Family vs personal preference',
+    heading: 'Questions about family expectations versus what you actually want',
+    why: "This is often the hardest thing to say out loud, so a counsellor asks it directly rather than waiting for it to come up on its own. Naming the gap — if there is one — is usually the first real progress in the conversation.",
+    questions: [
+      'What does your family expect you to become, and how close is that to what you’re actually leaning toward?',
+      'Have you told your parents what you’re considering, or are you still working out how to bring it up?',
+      'If money and family opinion weren’t part of the decision at all, what would you pick?',
+      'Is there a relative or family story behind the option your family is pushing, or is it more of a general safety instinct?',
+    ],
+  },
+  {
+    id: 'confusion',
+    label: 'Stream or course confusion',
+    heading: 'Questions that pin down exactly where the confusion sits',
+    why: '"I don’t know what to do" is rarely a blank slate — it’s usually two or three specific options, each with something pulling toward it and something holding you back. A counsellor tries to name that precisely instead of starting from zero.',
+    questions: [
+      'Which two options are you actually stuck choosing between right now?',
+      'What makes the first one hard to rule out, and what makes the second one hard to fully commit to?',
+      'Has anyone walked you through what the day-to-day work actually looks like in either option, or is your picture mostly built from what you’ve heard?',
+      'If you had to decide today with no more information, which way would you lean, even slightly?',
+    ],
+  },
+  {
+    id: 'concerns',
+    label: 'Specific concerns',
+    heading: 'Questions that get at the one worry you haven’t said out loud',
+    why: 'A general "I’m worried about my future" is hard to act on. A counsellor tries to narrow it to the actual concern underneath — because the fix for "I’m weak in the entrance exam" is completely different from the fix for "I don’t know anyone who’s done this before."',
+    questions: [
+      'What’s the one thing about this path that genuinely worries you — cost, difficulty, competition, or something else?',
+      'Do you personally know someone in this field, or is most of what you know about it secondhand?',
+      'Is there a specific subject or skill in this path you’re worried you won’t manage?',
+      'What would need to be true for this worry to stop mattering?',
+    ],
+  },
+  {
+    id: 'goals',
+    label: 'Future goals',
+    heading: 'Questions about where this is actually supposed to lead',
+    why: "It's fine if the picture is hazy — most students' answers here are. The point of asking isn't to demand a five-year plan, it's to find out how much clarity actually exists so the recommendation doesn't assume more certainty than you have.",
+    questions: [
+      'In five years, is there a specific role or achievement you’re picturing, or is it still fairly hazy?',
+      'Do you want stability first and bigger ambition later, or would you rather take the bigger swing now?',
+      'Is there a lifestyle — a city, certain work hours, a particular kind of team — that matters to you as much as the job title does?',
+      'What would make you look back at this decision in ten years and call it the right one?',
+    ],
+  },
+  {
+    id: 'constraints',
+    label: 'Practical constraints',
+    heading: 'Questions about budget, location, and timing',
+    why: 'The best-fit option on paper is only useful if it actually fits the real constraints around it. A counsellor asks about this early rather than building an entire recommendation that quietly assumes an unlimited budget or total freedom to relocate.',
+    questions: [
+      'What’s the realistic budget set aside for this, and does it actually match what the path costs?',
+      'Are you open to relocating for this, or does the plan need to work from where you already are?',
+      'How much time do you have before a decision is actually due — weeks, or months?',
+      'Is there a language, board, or exam-format constraint that rules certain options out before we even get to preference?',
+    ],
+  },
+];
+
+const faq = [
+  {
+    q: 'Is there a right or wrong answer to these questions?',
+    a: 'No. A counsellor is trying to build an accurate picture of your situation, not grade your answers. "I don’t know" is a completely valid response to several of these questions, especially the ones about future goals — it just tells the counsellor to spend more time there instead of moving past it quickly.',
+  },
+  {
+    q: 'Do I need to prepare answers before the session?',
+    a: 'Not really. Thinking about the interests, strengths, and constraints questions beforehand can make the conversation faster, but a genuine session is built to work through vague or half-formed answers in real time — that back-and-forth is most of the value of talking to a person instead of filling out a form alone.',
+  },
+  {
+    q: 'What if my answers to the family-expectations question would upset my parents?',
+    a: 'That conversation stays between you and the counsellor unless you choose to bring your family into it. The point of asking is to understand the real gap, if one exists, not to report it back to anyone — what you do with that clarity afterward is still your call.',
+  },
+  {
+    q: 'Will a free assessment ask the same kind of questions?',
+    a: "A free assessment covers some of the same ground — interests, strengths, and work-style — through structured questions rather than a live conversation. It's a genuinely useful starting point if you're not ready to talk to someone yet, but it can't ask a follow-up question the way a real counsellor can when an answer is vague or contradicts something you said earlier.",
+  },
+  {
+    q: 'What happens after these questions are answered?',
+    a: 'The counsellor weighs your interests and strengths against the constraints and concerns you’ve named, and the session moves toward a specific recommendation — a stream, a shortlist narrowed to one or two options, or a concrete next step — rather than stopping at a list of possibilities.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'The service itself, once you know roughly what a session covers.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-guidance-counselor/',
+    title: 'Career Guidance Counselor',
+    description: 'What the role does end to end, and how to judge whether a specific counsellor is worth your time.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingForStudents,
+    title: 'Career Counselling for Students',
+    description: 'A closer look at the student-specific version of this service.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'The decision-focused, assessment-led conversation these questions feed into.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career and Skill Assessments',
+    description: 'A lower-pressure starting point if you’d rather answer structured questions before a live conversation.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling Questions for Students',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Career Counselling Questions for Students: What Actually Gets Asked in a Session',
+    description,
+    datePublished: '2026-09-07',
+    dateModified: '2026-09-07',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="ccq-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Career Counselling Questions for Students</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>What actually gets asked, before you book</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>Career counselling questions for students: what a counsellor actually asks, and why</h1>
+            <p class="line strong">
+              Most of the hesitation before a first session isn’t about the counsellor — it’s not knowing what you’ll be asked, or worrying you won’t have good enough answers. Here is the real question set, grouped by theme, with a plain explanation of what each one is actually trying to find out.
+            </p>
+            <p class="line">
+              None of these have a correct answer. Several of them are supposed to be hard to answer on the spot — that’s the part a conversation is for.
+            </p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.students}>See how a student session works</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">Seven things a session tries to map</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>What you actually enjoy, separate from your marks.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Your real strengths, not just an aptitude label.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Where family expectation and personal preference agree or clash.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>The exact options you’re stuck between, and why.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>A career counsellor asks about interests, strengths, family expectations, the specific options you’re stuck between, your concerns, your goals, and practical constraints like budget and location — in that rough order.</li>
+          <li>"I don’t know" is a normal, usable answer to most of these, especially the future-goals questions — it tells the counsellor where to spend more time, not that you’ve failed the session.</li>
+          <li>Assessments cover some of the same ground through structured questions, but only a live conversation can follow up on a vague or contradictory answer.</li>
+          <li>The point of all these questions is one specific recommendation at the end, not a longer list of possibilities.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#interests">Interests and subjects</a>
+          <a href="#strengths">Strengths</a>
+          <a href="#family">Family vs preference</a>
+          <a href="#confusion">Stream/course confusion</a>
+          <a href="#concerns">Specific concerns</a>
+          <a href="#goals">Future goals</a>
+          <a href="#constraints">Practical constraints</a>
+          <a href="#recommendation">How this becomes a recommendation</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section class="container section">
+      <h2>Why a session asks about all of this instead of just testing you</h2>
+      <p class="line">
+        A single aptitude score can rank subjects against each other, but it can’t tell a counsellor whether your family is quietly pushing toward a different option, whether budget rules out half the shortlist before preference even matters, or whether the confusion is really about the choice itself or about one specific fear underneath it. The questions below exist to surface exactly that — the parts a test alone misses.
+      </p>
+    </section>
+
+    {questionGroups.map((group, index) => (
+      <section id={group.id} class="container section">
+        <h2>{group.heading}</h2>
+        <p class="line">{group.why}</p>
+        <div class="card question-card">
+          <span class="question-card__label">{group.label}</span>
+          <ul class="question-list">
+            {group.questions.map((q) => (
+              <li>{q}</li>
+            ))}
+          </ul>
+        </div>
+        {index === 1 && (
+          <div class="cta-pair cta-pair--mid">
+            <a class="btn-outline" href={BOFU_INTERNAL_LINKS.students}>See what a full student session covers</a>
+          </div>
+        )}
+      </section>
+    ))}
+
+    <ComparisonMatrix
+      sectionId="recommendation"
+      title="How these answers turn into an actual recommendation"
+      subtitle="Naming the interests, strengths, expectations, and constraints is only useful once someone weighs them against each other and commits to a direction."
+      rows={comparisonRows}
+    />
+
+    <section class="container section">
+      <h2>If you don’t have clear answers to most of these yet</h2>
+      <p class="line">
+        That’s the normal starting point for most students, not a problem to fix before booking. A free, updated, AI-powered career and skill assessment can surface some early signal on interests and strengths before a live conversation, if you’d rather have something concrete to bring into the session than walk in with a blank page.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Try a free assessment first</a>
+        <a class="btn-gold" href={BOFU_INTERNAL_LINKS.students}>Or go straight to a student session</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on what gets asked in a student session</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.students}>Book a student session</a>
+        <a class="btn-outline" href={BOFU_INTERNAL_LINKS.parentGuidance}>See guidance plans and pricing</a>
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="The service itself, the role behind it, and a free way to start if you’re not ready to talk yet."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #ccq-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.4vw, 3.15rem);
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    margin-bottom: 1rem;
+    max-width: 960px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+  .cta-pair--mid { margin-top: 1.4rem; }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 56px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+    line-height: 1.14;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .question-card {
+    margin-top: 1rem;
+    border-color: rgba(229,184,74,.22);
+    background: linear-gradient(135deg, rgba(229,184,74,.06), rgba(255,255,255,.03));
+  }
+  .question-card__label {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.95);
+    margin-bottom: .6rem;
+  }
+  .question-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .65rem;
+  }
+  .question-list li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.72;
+    font-size: 15px;
+    font-weight: 560;
+  }
+
+  .faq-block { padding-top: 50px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .jump-nav__grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 42px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

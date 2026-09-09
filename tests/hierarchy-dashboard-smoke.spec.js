@@ -10,7 +10,9 @@ const viewports = [
 for (const viewport of viewports) {
   test(`hierarchy dashboard settles cleanly on ${viewport.name}`, async ({ page }) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
-    await page.route('**/auth/v1/recover', async (route) => {
+    // Supabase appends redirect_to as a query string; include it in the glob
+    // so the deterministic recovery response is intercepted in every browser.
+    await page.route('**/auth/v1/recover**', async (route) => {
       await route.fulfill({
         status: 200,
         headers: {
@@ -29,6 +31,14 @@ for (const viewport of viewports) {
     await expect(page.getByRole('tab', { name: 'Set or reset password' })).toBeVisible();
     await expect(page.locator('.hierarchy-preview')).toHaveCount(0);
     await expect(page.locator('.auth-entry')).not.toContainText('hierarchy');
+
+    const unlabeledDialogs = await page.locator('dialog').evaluateAll((dialogs) => dialogs
+      .filter((dialog) => {
+        const labelledBy = dialog.getAttribute('aria-labelledby');
+        return !labelledBy || !dialog.ownerDocument.getElementById(labelledBy);
+      })
+      .map((dialog) => dialog.id));
+    expect(unlabeledDialogs).toEqual([]);
 
     await page.getByRole('tab', { name: 'Set or reset password' }).click();
     await expect(page.locator('#recovery-request-panel')).toBeVisible();

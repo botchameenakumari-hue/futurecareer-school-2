@@ -112,6 +112,17 @@ cosmetic edit below.
 - external research may help with comparison nuance or trust context, but it must not be used to invent business claims about Future Career School or about competitors
 - do not make unsupported claims about other providers (e.g. "all other career coaches are outdated") — compare honestly on the approved differentiation angles instead
 - keep ethical language intact: no job guarantees, no guaranteed income outcomes, no fake scarcity, no fake urgency
+- **research-depth check:** if the comparison, the objections it resolves, or the value-for-cost reasoning
+  still feels based on assumptions rather than the real market, do more research on how the options
+  genuinely differ and what someone at this keyword actually asks — before calling the pass complete
+- **flexible-timeframe check:** scan every heading, CTA/support line, meta field, comparison row, body
+  paragraph, and FAQ answer for a hardcoded day or week count attached to a test, proof block, or
+  "how soon will this help" claim. Rewrite to pace-neutral language. Real external dates and approved
+  service facts (e.g. "up to 24 small-group sessions across the year") may stay concrete.
+- **Review-schema check:** confirm the page uses no self-serving `Review` or `AggregateRating` markup for
+  Future Career School, its services, plans, or on-site testimonials, and that no rating, reviewer, or
+  dummy review section was invented to qualify for a rich result — this applies even on "reviews" or
+  "is it worth it" comparison keywords
 
 ---
 

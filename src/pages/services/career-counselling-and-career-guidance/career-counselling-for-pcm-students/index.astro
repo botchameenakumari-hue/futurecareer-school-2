@@ -1,0 +1,510 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling for PCM Students | Future Career School';
+const description =
+  'Career counselling for PCM students weighing engineering, computer science, pure sciences, or a JEE repeat attempt — clearer direction before it gets costly.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-pcm-students/';
+const class1112AssessmentUrl = BOFU_ASSESSMENT_LINKS.class11To12;
+const pcmCareerOptionsUrl = '/blog/career-options/pcm-career-options/';
+const scienceCareerOptionsUrl = '/blog/career-options/career-options-after-12th-science/';
+const isEngineeringGoodUrl = '/blog/career-options/is-engineering-still-a-good-career-in-india/';
+const isCsGoodUrl = '/blog/career-options/is-cs-a-good-career/';
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Degree-first direction with weak skill edge',
+    right: 'Skill-first direction with proof of work and stronger market value',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+];
+
+const pressurePointItems = [
+  {
+    title: '"Engineering" gets decided before the branch does',
+    body: 'Most PCM students are told to "do engineering" long before anyone asks which branch, which specific computer-science or core-technical direction, or whether engineering itself is still the right call for them.',
+  },
+  {
+    title: 'Every conversation defaults to computer science',
+    body: 'Computer science and IT branches dominate the conversation so completely that mechanical, civil, electrical, pure sciences, and research paths barely get a fair comparison, even for students who might be a stronger fit there.',
+  },
+  {
+    title: 'JEE, state entrance exams, or a repeat attempt are already on the table',
+    body: 'Whether to push harder for a top branch or college, accept a decent seat now, or consider a repeat attempt is a real decision with real cost either way, not something to guess at under exam-season pressure.',
+  },
+  {
+    title: 'Non-engineering PCM paths barely get mentioned',
+    body: 'Physics, Chemistry, and Maths also support pure sciences, research, data-focused degrees, defence entrance routes, and architecture — options that rarely come up when "engineering" is treated as the only serious outcome.',
+  },
+];
+
+const pcmDirectionItems = [
+  {
+    title: 'Computer science and IT, chosen deliberately',
+    body: 'BTech CS/IT, BCA, integrated programs, or a pure BSc in Computer Science are all real routes — the goal is picking the specific one that fits your actual interest and work style, not defaulting to it because everyone else is.',
+  },
+  {
+    title: 'Core engineering branches beyond CS',
+    body: 'Mechanical, electrical, civil, and other core branches still lead to solid, skill-buildable careers, especially once paired with the right specialization and proof-of-work choices from year one.',
+  },
+  {
+    title: 'Pure sciences and research',
+    body: 'BSc Physics, Chemistry, Maths, or an integrated MSc route suit PCM students whose real strength is the subject itself rather than an engineering application of it — a legitimate direction, not a fallback.',
+  },
+  {
+    title: 'Defence, design, and other PCM-linked routes',
+    body: 'NDA and other defence entrances, architecture (NATA/JEE Paper 2), and applied-maths-heavy fields like data science and analytics are realistic PCM-linked paths that rarely get mentioned inside engineering-focused coaching.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the branch and college get weighed together, not separately',
+    body: 'A modest branch at a strong college and a strong branch at a modest college can both work — useful guidance compares them against your actual goals instead of defaulting to whichever name sounds bigger.',
+  },
+  {
+    title: 'Check whether non-CS and non-engineering PCM paths get real depth',
+    body: 'Core branches, pure sciences, and research routes deserve the same seriousness as a computer-science recommendation, not a one-line "or you could also try..." afterthought.',
+  },
+  {
+    title: 'Check whether skill-building starts now, not after admissions settle',
+    body: 'Waiting for a JEE or entrance result before thinking about skills wastes months either way. Stronger guidance builds direction and proof of work in parallel with the exam process.',
+  },
+  {
+    title: 'Check whether the assessments are practical or just expensive theatre',
+    body: 'Many providers charge thousands for outdated or impractical assessments. Future Career School can be described truthfully as offering free, updated, practical, AI-powered career and skill assessments.',
+  },
+];
+
+const decisionFlowItems = [
+  {
+    title: 'If engineering entrance results go well',
+    body: 'A good rank still leaves a real decision — which branch, which college, and whether that specific combination actually fits your interest and skill-building plan, not just its ranking on a list.',
+  },
+  {
+    title: 'If the result was not what you needed',
+    body: 'A modest rank does not erase a PCM background. It changes which branch or college is realistic, not the value of the direction — the next decision still deserves clear reasoning instead of settling by default.',
+  },
+  {
+    title: 'If engineering was never really your choice',
+    body: 'Some PCM students realise partway through 12th that they were following family or peer pressure into engineering. Pure sciences, research, defence routes, or a deliberate pivot elsewhere deserve a serious look too.',
+  },
+];
+
+const commonForkItems = [
+  {
+    title: 'Engineering in general vs computer science specifically',
+    body: 'Treating "engineering" and "computer science" as the same question compresses two separate decisions into one — the branch itself, and whether coding-heavy work is genuinely the right fit, into a single default answer.',
+  },
+  {
+    title: 'A stronger branch at a modest college vs a weaker branch at a known name',
+    body: 'College reputation and branch fit pull in different directions often enough that this needs an actual comparison against your goals, not an automatic pick of whichever name sounds bigger.',
+  },
+  {
+    title: 'Engineering vs pure sciences or research',
+    body: 'A genuine interest in the subject itself, not just its applied/engineering form, is a real signal worth weighing before committing to four years of an engineering-specific curriculum.',
+  },
+  {
+    title: 'Pushing for a repeat attempt vs accepting the current seat',
+    body: 'Another year of preparation has a real cost in time and money. That trade-off deserves the same seriousness as the original branch or college decision, not a decision made on emotion alone.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What should career counselling for PCM students actually help with?',
+    answer:
+      'It should help you compare engineering branches, computer science specifically, pure sciences, and other PCM-linked routes honestly, plan around entrance-exam pressure, and decide on a backup or pivot with clear reasoning instead of defaulting to whatever is most talked about.',
+  },
+  {
+    question: 'Is this the same as career guidance after 12th science?',
+    answer:
+      'It covers the same underlying decision. "Career guidance after 12th science" and "career guidance after 12th PCM" both point to the same Physics-Chemistry-Maths stream question — this page is built specifically for that stream, rather than repeating the broader, stream-agnostic after-12th guidance covered on the general after-12th pages.',
+  },
+  {
+    question: 'I keep hearing "just do computer science." Is that always the right call?',
+    answer:
+      'Not automatically. Computer science and IT are strong options for many PCM students, but not the only ones. Guidance should weigh CS against core engineering branches, pure sciences, and research based on your actual interest and work style, not just its popularity.',
+  },
+  {
+    question: 'Should I push for a better branch or college, or accept what I have?',
+    answer:
+      'That depends on the real gap between options, the cost of another attempt, and whether the current option still supports a strong skill-building direction. Guidance should help you weigh those factors instead of deciding on rank prestige alone.',
+  },
+  {
+    question: 'What if I do not want engineering at all after choosing PCM?',
+    answer:
+      'That is a valid decision. Physics, Chemistry, and Maths also support pure sciences, research, data-focused degrees, defence entrance routes, and architecture. The goal is a decision that fits you, not one that only satisfies the original stream choice.',
+  },
+  {
+    question: 'My parents only want engineering, ideally computer science. How do I handle that conversation?',
+    answer:
+      'That expectation is common and usually comes from wanting a safe, well-paying outcome, not just pressure for its own sake. A clearer conversation should be based on real branch and career options, real trade-offs, and honest reasoning about fit — not just pushing back or going along with it.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free. They can be described as updated, practical, and AI-powered — useful for narrowing branch or direction while entrance results are still pending.',
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. Guidance is delivered online across India, so PCM students and parents can join from home, coaching city, or wherever they already are instead of depending on local availability.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling for PCM Students', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for PCM Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for PCM Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.after12th,
+    title: 'Career Guidance After 12th',
+    description: 'Broader after-12th guidance once the engineering, computer science, or pure-science decision needs to connect to course, degree, and skill direction.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.pcbStudents,
+    title: 'Career Counselling for PCB Students',
+    description: 'For the Biology-Chemistry-Physics side of the Science stream — NEET, medical-seat pressure, and non-medical PCB paths.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Wider student guidance for school, college, and early skill-direction decisions beyond the PCM-specific pressure points.',
+  },
+  {
+    href: class1112AssessmentUrl,
+    title: 'Class 11 to 12 Assessment',
+    description: 'Free strength and work-style signal while an entrance result or branch decision is still pending.',
+  },
+  {
+    href: pcmCareerOptionsUrl,
+    title: 'PCM Career Options',
+    description: 'A practical look at what a Physics, Chemistry, and Maths background actually supports beyond a default engineering seat.',
+  },
+  {
+    href: scienceCareerOptionsUrl,
+    title: 'Career Options After 12th Science',
+    description: 'A broader science-stream read across both PCM and PCB routes.',
+  },
+  {
+    href: isEngineeringGoodUrl,
+    title: 'Is Engineering Still a Good Career in India?',
+    description: 'A direct look at whether engineering still holds up before committing years to it.',
+  },
+  {
+    href: isCsGoodUrl,
+    title: 'Is Computer Science a Good Career?',
+    description: 'A focused read on the computer-science route specifically, for when that is the branch actually in question.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for PCM Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        For PCM students weighing engineering, computer science, or pure sciences
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for PCM students
+        <span class="gold-text"> when "just do engineering" is not a real decision</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for PCM students should do more than repeat "engineering" or "computer science" as the default answer. It should help you weigh branch, college, and stream trade-offs honestly, take pure sciences and research seriously as real options, and choose the high-value skill path that gets you to earlier financial freedom — not just the most talked-about one.
+      </p>
+      <p class="hero-note">
+        This page is built for the Physics-Chemistry-Maths side of the Science stream — engineering, computer science, and pure-science routes. If Biology is part of your combination instead, PCB-specific counselling covers the NEET and medical-track decisions separately. Guidance is delivered fully online across India, so you can start from home, coaching city, or wherever you already are without waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for PCM Students</a>
+      </div>
+      <p class="hero-support">
+        Whether entrance results go well, need a repeat attempt, or point toward a different branch than expected, PCM still opens more directions than most students are shown — the goal is a plan that works either way.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="pressure-points"
+    title="The specific pressure PCM students carry that other students do not"
+    subtitle="Choosing Physics, Chemistry, and Maths usually means engineering — and often computer science specifically — gets assumed before it is actually decided. That deserves a real strategy toward a high-value, high-income skill portfolio, not just a default."
+    items={pressurePointItems}
+    variant="signal"
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why PCM decisions need sharper support than generic exam advice"
+    subtitle="Once branch, college, computer science, or a repeat-attempt decision is genuinely on the table, the contrast points below start to matter."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Build a plan that works whether entrance results go well or not"
+    body="The strongest position is not defaulting to whatever branch is most talked about — it is having a real direction ready either way."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for PCM Students"
+  />
+
+  <BofuFeatureSection
+    sectionId="pcm-directions"
+    title="What a PCM background actually supports beyond a default engineering seat"
+    subtitle="Physics, Chemistry, and Maths build real, marketable strength — engineering is one route through that strength, not the only one, and each route below can still work toward unlocking high income opportunities."
+    items={pcmDirectionItems}
+    variant="decision"
+  >
+      <AssessmentSupportNote
+        body="If an entrance result or branch decision is still pending, the class 11 to 12 assessments can help you narrow strengths, preferences, and work style before you commit to the next direction."
+        href={class1112AssessmentUrl}
+        label="Free career and skill assessments"
+      />
+  </BofuFeatureSection>
+
+  <BofuStepFlowSection
+    sectionId="decision-branches"
+    title="Whichever branch you are in, the decision still deserves real reasoning"
+    subtitle="Most PCM guidance only prepares for one outcome. A stronger plan works through all three."
+    items={decisionFlowItems}
+  >
+      <div class="support-links card">
+        <a href={pcmCareerOptionsUrl}>Read PCM career options &rsaquo;</a>
+        <a href="/services/career-counselling-and-career-guidance/career-counselling-for-pcb-students/">On the PCB side instead? Get PCB-specific counselling &rsaquo;</a>
+      </div>
+  </BofuStepFlowSection>
+
+  <BuyerChecks
+    title="What to check before paying for PCM career counselling"
+    subtitle="The point is a plan that survives an entrance result either way, not a default push toward whichever branch is loudest."
+    items={buyerCheckItems}
+  />
+
+  <BofuListCardSection
+    sectionId="common-forks"
+    title="The decisions that usually get compressed into one default answer"
+    subtitle="PCM rarely comes down to one clean choice. These are the forks that deserve their own comparison instead of an automatic pick."
+    items={commonForkItems}
+    columns={2}
+    variant="contrast"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let 'engineering' stand in for an actual decision"
+    body="Whether the plan is engineering, computer science specifically, pure sciences, or another PCM-linked route, skill-first direction should start now instead of after admissions settle."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for PCM Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling"
+    title="Career Counselling Plans for PCM Students"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, assessments, and PCM-specific reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Get a PCM plan that goes beyond 'just do engineering'"
+    subtitle="If branch confusion, entrance-exam pressure, or a computer-science-by-default push already feels heavy, move with a clearer plan now — one built around the skill choices that lead toward earlier financial freedom, not just one exam outcome."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for PCM Students"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 46rem);
+    margin-bottom: 1.75rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.85rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #pcm-directions,
+  #decision-branches,
+  #faq { background: rgba(255,255,255,.01); }
+
+  .support-links {
+    padding: 1rem 1.05rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .9rem;
+    border: 1px solid rgba(255,255,255,.08);
+    background: linear-gradient(145deg, rgba(255,255,255,.03), rgba(255,255,255,.012));
+  }
+  .support-links a {
+    display: block;
+    padding: .95rem 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.025);
+    color: rgba(255,255,255,.8);
+    font-weight: 700;
+    line-height: 1.65;
+  }
+  .support-links a:hover {
+    color: #fff;
+    border-color: rgba(229,184,74,.24);
+  }
+
+  @media (max-width: 980px) {
+    .support-links { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.82rem, 9.6vw, 2.5rem);
+      line-height: 1.05;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

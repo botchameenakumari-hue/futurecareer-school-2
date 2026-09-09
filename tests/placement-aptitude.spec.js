@@ -10,7 +10,7 @@ async function completePlacementAssessment(page) {
   }
 }
 
-test('placement aptitude assessment provides diagnostic behaviour and a PDF', async ({ page }) => {
+test('placement aptitude assessment provides diagnostic behaviour and a PDF', async ({ page }, testInfo) => {
   await page.goto('http://localhost:4321/services/assessments/placement-aptitude-test/');
   await expect(page).toHaveTitle(/Placement Aptitude Test/);
 
@@ -34,7 +34,7 @@ test('placement aptitude assessment provides diagnostic behaviour and a PDF', as
   await page.locator('#download-button').click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe('future-career-school-placement-aptitude-report.pdf');
-  await download.saveAs('test-results/placement-aptitude-report.pdf');
+  await download.saveAs(testInfo.outputPath('placement-aptitude-report.pdf'));
 });
 
 test('placement aptitude result stays usable on mobile', async ({ page }) => {
@@ -45,7 +45,8 @@ test('placement aptitude result stays usable on mobile', async ({ page }) => {
   await expect(page.locator('#result-shell')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false);
   await expect(page.locator('#result-shell > .assessment-report-actions--top')).toHaveCount(1);
-  await expect(page.locator('.assessment-report-actions--top button')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Save to workspace' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Download PDF' })).toBeVisible();
   await expect(page.locator('.result-actions > *')).toHaveCount(3);
   const narrowAction = await page
     .locator('.result-actions > *')

@@ -1,0 +1,544 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Ranchi drops the "degree-first vs skill-first" row (index 1) - CCL, HEC,
+// and BIT Mesra all already assume a formal engineering or technical
+// qualification, so the degree-vs-skill framing does not cut as sharply here
+// as it does on a pure skill-economy sibling, the same reasoning Vadodara
+// used for its own PSU-heavy economy - and the "random upskilling" row
+// (index 5), the weakest fit against Ranchi's two named, specific forks
+// (PSU-vs-private and sports-vs-conventional) rather than a vague upskilling
+// direction. This combination (drops 1 and 5) is not used by any sibling:
+// Rajkot (rows 0-4), Vizag (rows 1-5), Bangalore (full library), Pune (drops
+// 3), Kolkata (drops 1), Chennai (drops 5), Hyderabad (drops 2), Mumbai/
+// Chandigarh/Gurgaon/Nagpur (each drop 4), Delhi (drops 0 and 5), Ahmedabad
+// (drops 3 and 5), Surat (drops 0 and 3), Thane/Vadodara (drop 1 and 3),
+// Ludhiana (drops 1 and 4), Guwahati (drops 2 and 4), Vadodara (drops 1 and
+// 3), Jalandhar (drops 2 and 5), Raipur (drops 2 and 3), Nashik (drops 1 and
+// 2), Aurangabad (drops 0 and 4), Coimbatore (drops 3 and 4), and Noida
+// (drops 3 and 4).
+const ranchiComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 1 && index !== 5);
+
+const title = 'Career Counselling in Ranchi | Jharkhand Career Guidance | Future Career School';
+const description =
+  "Career counselling in Ranchi for students, freshers, and working professionals weighing a CCL or HEC public-sector career against private-sector roles, BIT Mesra's engineering track, and the real sports-career pathway through cricket and hockey that many Ranchi families genuinely consider.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-ranchi/';
+
+const ranchiContextItems = [
+  {
+    title: 'CCL and HEC anchor a genuine public-sector career track most cities this size do not have',
+    body: "Central Coalfields Limited (CCL), a Coal India subsidiary, is headquartered in Ranchi and runs mining, engineering, and operations hiring across Jharkhand's coal belt. Heavy Engineering Corporation (HEC), a major public-sector heavy-engineering manufacturer, adds a second large, stable employer built around mechanical and industrial engineering roles rather than services or IT. Together, CCL and HEC give Ranchi a real public-sector-employment identity that shapes how a large share of local families think about a 'good career' - and it creates a genuine, present-tense choice between a PSU's stability and a private-sector role's faster pay growth, not a hypothetical one.",
+  },
+  {
+    title: 'BIT Mesra gives Ranchi a nationally reputed engineering anchor, not just a local college',
+    body: "Birla Institute of Technology, Mesra sits inside Ranchi and carries a genuine national reputation in engineering education, drawing students from well beyond Jharkhand and feeding graduates into both the PSU corridor (CCL, HEC, Coal India's wider network) and private-sector technology and core-engineering roles across India. For a Ranchi student or family, BIT Mesra changes the calculation: a serious engineering credential is available from the city itself, not only after leaving it.",
+  },
+  {
+    title: "Ranchi's sports-career pathway is real, documented, and unlike anything on any other city page here",
+    body: "Ranchi is MS Dhoni's hometown, and that fact alone shapes how seriously local families take a genuine cricket pathway for a child who shows real ability. Jharkhand also has a strong, well-documented hockey tradition, having produced a meaningful number of national-level hockey players over the years. The Jharkhand State Cricket Association (JSCA) runs real stadium and academy infrastructure in the city, not an informal or aspirational claim - which means a sports career versus a conventional academic or professional path is an actual, structured decision many Ranchi families face, not a long-shot fantasy.",
+  },
+  {
+    title: 'A large tribal and Adivasi population gives Jharkhand its own civic and economic identity',
+    body: "Jharkhand carries one of India's largest tribal and Adivasi populations, and that shapes the state's institutions, reservation and admission frameworks, and civic identity in ways no other live city page on this site addresses. This is a real demographic and institutional fact of Ranchi's context, not a stereotype to lean on - and career counselling here should treat it as one honest part of the local picture, tied to real economic and educational access questions, rather than ignore it or reduce it to a generalisation.",
+  },
+];
+
+const dualTrackItems = [
+  {
+    title: 'CCL and HEC offer real stability, but they hire hardest for specific technical and operational roles',
+    listItems: [
+      "Central Coalfields Limited (mining, engineering, and operations) and Heavy Engineering Corporation (mechanical and industrial-engineering manufacturing) are genuine, large, stable public-sector employers in Ranchi, not a fading or symbolic presence",
+      'They hire hardest for mining engineering, mechanical and industrial engineering, plant operations, and related technical and supply-chain roles specifically - not for every generalist skill direction a graduate might bring',
+      "The honest question is not 'is a PSU job good' in the abstract, but whether a PSU track actually fits your aptitude, interests, and appetite for slower but steadier income growth against a private-sector role's faster but less certain trajectory",
+    ],
+  },
+  {
+    title: "A genuine cricket or hockey pathway deserves a real evaluation, not an automatic yes or automatic no",
+    listItems: [
+      "MS Dhoni's own story makes a serious sports pathway feel closer and more credible to Ranchi families than it does almost anywhere else in India, and JSCA's stadium and academy infrastructure, along with Jharkhand's genuine hockey talent pipeline, back that up with real structure",
+      "But a sports career is also a high-variance path with a narrow window and no fallback built in by default, which is exactly why it needs the same honest evaluation as any other high-value skill decision - realistic timeline, a genuine talent-and-commitment read, and a parallel education or skill track kept alive alongside it",
+      "Treating the sports-versus-conventional-path decision honestly, instead of dismissing it or romanticising it, is what actually protects a family from losing years to the wrong bet either way",
+    ],
+  },
+  {
+    title: 'BIT Mesra, the PSU corridor, and a genuine sports pathway are three different bets, and guessing blind wastes real time',
+    listItems: [
+      'An engineering path through BIT Mesra feeding into CCL, HEC, or a private-sector technology or core-engineering role, a direct PSU-hiring track, and a genuine sports pathway through cricket or hockey call for almost entirely different preparation, timelines, and skill-building',
+      "Choosing between them on family expectation or which option is loudest in local conversation, instead of on your own aptitude and fit, is exactly the kind of decision that quietly delays unlocking high income opportunities",
+      'Getting this specific fork right is what actually moves someone toward earlier financial freedom and a genuinely high-value skill portfolio, whichever of these three real Ranchi-area paths it runs through',
+    ],
+  },
+];
+
+const ranchiAreaItems = [
+  {
+    title: 'Dhurwa and the state-secretariat belt carry Jharkhand\'s administrative and government-service identity',
+    body: 'Dhurwa hosts the Jharkhand state secretariat and a cluster of government offices, anchoring a genuine administrative and public-sector-exam track alongside the CCL and HEC employment corridor, for families weighing a government-service path in a state that is itself still relatively young, having been carved out of Bihar in November 2000.',
+  },
+  {
+    title: "HEC Colony and the CCL corridor anchor Ranchi's core public-sector-engineering economy",
+    body: 'The HEC township and the wider CCL-linked offices and residential belt around Ranchi hold much of the city\'s established public-sector-engineering workforce and its own settled professional culture, distinct from the newer private-sector and services growth happening elsewhere in the city.',
+  },
+  {
+    title: 'Lalpur, Kanke Road, and the BIT Mesra corridor anchor the academic and professional core',
+    body: "Lalpur and the Kanke Road belt carry a dense concentration of coaching institutes, professional families, and Ranchi's more urban commercial life, while the BIT Mesra campus itself, a short distance from the city centre, anchors the engineering-education and student population feeding both the PSU corridor and private-sector roles across India.",
+  },
+  {
+    title: 'The JSCA Stadium and Ranchi\'s sports infrastructure give the sports-pathway decision a real, physical anchor',
+    body: "The JSCA International Stadium Complex and the academy infrastructure built around it are genuine, functioning facilities, not aspirational branding, giving families across Ranchi and its surrounding districts an actual place to test and pursue a cricket or hockey pathway seriously, alongside whichever academic or PSU-track option they are weighing in parallel.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'Everyone tells me Ranchi is just a government-job and coal-belt town - is that the whole picture?',
+    body: "It captures a real and genuinely large share of the economy, but not all of it. CCL, HEC, and the wider public-sector and government-administration track anchor a large slice of Ranchi's stable income, but BIT Mesra's engineering pipeline into private-sector roles, and a real, structured sports pathway through cricket and hockey, add distinct layers most outside summaries skip entirely.",
+  },
+  {
+    title: 'Should my child actually pursue a cricket or hockey pathway, or is that just wishful thinking because we are from Ranchi?',
+    body: "That depends entirely on a genuine, honest read of talent, commitment, and the real structure available through JSCA and Jharkhand's hockey pipeline - not on the fact that MS Dhoni is from here. A serious sports pathway is a real option in Ranchi in a way it genuinely is not in most Indian cities, but it still needs the same honest evaluation as any other high-stakes decision, including a parallel plan if it does not work out.",
+  },
+  {
+    title: 'Is a CCL or HEC public-sector job still worth choosing over a private-sector role after a BIT Mesra or engineering degree?',
+    body: "There is no single right answer independent of your own priorities. A PSU role at CCL or HEC generally offers steadier, more predictable income growth and job security; a private-sector role, often outside Jharkhand, tends to offer faster but less certain pay growth. The useful next step is mapping your own risk appetite, family situation, and long-term goals against both paths honestly, rather than defaulting to whichever one your family assumes is safer.",
+  },
+  {
+    title: "Does Jharkhand's large tribal and Adivasi population change what kind of career guidance actually helps here?",
+    body: "It can matter for genuine reasons - reservation and admission frameworks, and real access questions tied to where someone grew up and studied, are part of an honest picture of career decisions in Jharkhand. Good guidance should treat this as one real factor to work with directly, on its actual economic and institutional terms, not something to gloss over or something to make assumptions about.",
+  },
+  {
+    title: 'Is a degree or job from Jharkhand taken less seriously outside the state?',
+    body: "A degree's or role's value comes from the institution and the work built on top of it, not from the state's relative age or profile. BIT Mesra is recognised nationally on its own merit, and CCL and HEC are recognised, established public-sector organisations. What matters most is pairing whichever credential or role you hold with visible proof of work and a clear direction, especially given Jharkhand's still-developing professional network density outside the PSU corridor.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      'Whether a public-sector engineering or operations track through CCL or HEC, a private-sector path after BIT Mesra or another engineering route, or a genuine sports pathway through cricket or hockey actually fits your aptitude, interests, and risk appetite',
+      'Whether a government-administration path fits you specifically, given Jharkhand\'s own still-forming state institutions, or is only a default family expectation worth questioning honestly',
+      'If a sports pathway is genuinely on the table, what a realistic, honest read of talent and commitment looks like, and what a parallel education or skill track should look like alongside it',
+      'What a realistic trajectory looks like on your current path given how Ranchi\'s specific PSU, private-sector, and sports economies are actually hiring or scouting right now, not a generic city reputation',
+    ],
+  },
+  {
+    title: "Skill direction built for what Ranchi's actual economy is hiring for",
+    listItems: [
+      'A high-value skill portfolio aimed at mining and mechanical engineering, industrial operations, or a chosen private-sector technical direction, if that is genuinely your fit',
+      'Honest fit-checking between a PSU-track role at CCL or HEC and a private-sector role after BIT Mesra or another engineering path, instead of guessing based on which one your family talks about more',
+      'A clear-eyed evaluation of a sports pathway if that is genuinely part of your decision, alongside a real fallback plan rather than an all-or-nothing bet',
+      'A clearer route toward unlocking high income opportunities and earlier financial freedom that treats Ranchi\'s real, present-day mix of PSU, private-sector, and sports-career economies as the starting point',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Ranchi's actual mix, not a generic state-capital script",
+    body: 'Useful guidance for Ranchi should speak specifically to CCL and HEC\'s public-sector employment corridor, BIT Mesra\'s engineering pipeline into both PSU and private-sector roles, and the real, structured sports pathway through JSCA and Jharkhand\'s hockey tradition - not treat Ranchi as an interchangeable tier-2 capital.',
+  },
+  {
+    title: 'Check whether a sports-career conversation is treated seriously and honestly, not dismissed or oversold',
+    body: 'Given how real the cricket and hockey pathway is in Ranchi, guidance worth paying for should be able to have a genuine, evidence-based conversation about it - honest about the odds, the timeline, and the value of a parallel plan - rather than either waving it away as unrealistic or hyping it without an honest talent-and-commitment read.',
+  },
+  {
+    title: 'Check whether the PSU-versus-private-sector question gets a real, personalised answer',
+    body: 'CCL and HEC are genuine, stable options, not a fallback to be talked out of. Guidance should weigh a public-sector track against a private-sector one on your own risk appetite and goals, not push you toward whichever option sounds more modern or more traditional in the abstract.',
+  },
+  {
+    title: "Check whether Jharkhand's tribal and Adivasi demographic context is handled with real knowledge, not silence or assumption",
+    body: 'If reservation, admission, or access questions genuinely apply to your situation, guidance should be able to speak to them accurately and respectfully as part of an honest overall picture, rather than avoiding the subject or making assumptions about your background.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.raipurCounselling,
+    title: 'Career Counselling in Raipur',
+    description: "Useful if you are also weighing a steel-power-mining PSU track in another young state capital's economy.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.vadodaraCounselling,
+    title: 'Career Counselling in Vadodara',
+    description: 'Useful for comparing a different PSU-and-heavy-engineering track against a private-sector alternative.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Ranchi instead of only looking for a nearby offline option?',
+    answer:
+      "Because proximity alone does not resolve Ranchi's real fork - a public-sector engineering or operations track through CCL or HEC, a private-sector path after BIT Mesra or another engineering route, or a genuine sports pathway through cricket or hockey backed by real JSCA infrastructure. Online guidance lets you start from home, from BIT Mesra, or from work near the HEC or CCL corridor, and it should still be judged on whether it gives you a clear, specific answer for your situation.",
+  },
+  {
+    question: 'Is a career in cricket or hockey a realistic option to plan around seriously, or just a long shot?',
+    answer:
+      "It genuinely can be a serious option in Ranchi in a way it is not in most Indian cities, given JSCA's stadium and academy infrastructure and Jharkhand's documented hockey talent pipeline. Whether it fits your specific situation depends on an honest read of talent, commitment, and timeline, alongside a real parallel plan - which is exactly the kind of decision good counselling should help you make clearly rather than romanticise or dismiss.",
+  },
+  {
+    question: 'Should I aim for a CCL or HEC public-sector role, or a private-sector career after an engineering degree?',
+    answer:
+      "That depends on your own risk appetite, interests, and family situation, not on which option your family or neighbourhood assumes is safer. A public-sector role at CCL or HEC generally offers steadier income and job security; a private-sector role tends to offer faster but less certain pay growth. Good counselling should map your actual fit against both real paths rather than defaulting to either one.",
+  },
+  {
+    question: 'Is a degree from BIT Mesra, or a job at CCL or HEC, taken less seriously outside Jharkhand?',
+    answer:
+      'Not inherently - BIT Mesra carries a genuine national reputation, and CCL and HEC are established, recognised public-sector organisations. What matters more is pairing the degree or role with visible proof of work and a clear next direction, since that carries real weight regardless of where the credential was earned.',
+  },
+  {
+    question: "Does Jharkhand's tribal and Adivasi population affect the career guidance I should look for?",
+    answer:
+      'It can be a genuinely relevant factor for reservation, admission, and access questions specific to your situation. Guidance worth paying for should be able to speak to that honestly and respectfully as part of the overall picture, not avoid it or make assumptions about your background.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Ranchi?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you are based in Ranchi, near the HEC or CCL corridor, or weighing a move elsewhere.',
+  },
+  {
+    question: 'What if I searched for Ranchi but the bigger issue is not the city at all?',
+    answer:
+      "That is common - a city search is often a trust shortcut. If the real pressure is stream selection, degree choice, skill direction, or a career change rather than location, the main counselling and guidance pages are the stronger next filter. This page is most useful when local context - CCL, HEC, BIT Mesra, or Ranchi's genuine sports-career pathway - is actually part of your decision.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Ranchi', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Ranchi | Future Career School',
+    description:
+      "Career counselling in Ranchi for students, freshers, and working professionals. Online guidance for the PSU-versus-private-sector fork through CCL, HEC, and BIT Mesra, and Jharkhand's genuine sports-career pathway.",
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Ranchi' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Ranchi</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Ranchi
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Ranchi
+        <span class="gold-text"> for a public-sector, private-sector, and sports-career fork</span>
+      </h1>
+      <p class="hero-sub">
+        Ranchi's real economy runs through a genuine public-sector corridor - Central Coalfields Limited (CCL) and Heavy Engineering Corporation
+        (HEC) both anchor large, stable engineering and operations employment here - running alongside a private-sector track fed by BIT Mesra's
+        nationally reputed engineering pipeline. Layered on top is a decision most Indian cities never force: a real, structured sports-career
+        pathway through cricket and hockey, backed by JSCA's stadium and academy infrastructure, in the city that is MS Dhoni's own hometown. Good
+        career counselling here should help you build the kind of high-value skill portfolio that keeps unlocking high income opportunities in
+        that specific mix, not recite generic advice that ignores what actually makes Ranchi's economy different.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Ranchi and across India. You can start from home, from BIT Mesra, or from work near the HEC or CCL
+        corridor - no travel required before the underlying skill direction is even clear.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not whether Ranchi's public-sector reputation sounds stable in general, or whether a sports pathway sounds
+        exciting in general. It is whether your specific aptitude and interests point toward the CCL-or-HEC track, a private-sector role built on
+        a BIT Mesra-style engineering credential, or a genuinely evaluated sports career - and moving you toward earlier financial freedom from
+        wherever that honest answer actually points.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="ranchi-career-landscape"
+    title="The Ranchi career reality generic advice misses"
+    subtitle="Ranchi is often reduced to a 'coal and government jobs' shorthand, but its actual economy is more layered than that - and it carries a genuine sports-career dimension no other city on this site has. Good career counselling should help you build the high-value skill portfolio that unlocks high income opportunities from whichever of these real paths actually fits you."
+    items={ranchiContextItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="ranchi-dual-track"
+    title="PSU stability, private-sector growth, or a genuine sports pathway - the real fork behind most Ranchi searches"
+    subtitle="This is the real question behind most Ranchi searches, and it has no equivalent framing anywhere else on this site: whether to build toward the CCL-and-HEC public-sector corridor, a private-sector path fed by BIT Mesra's engineering pipeline, or a genuinely evaluated cricket or hockey pathway."
+    items={dualTrackItems}
+    variant="contrast"
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city where the coal-and-government reputation and a genuine sports-career story both hold real truth, the risk is generic advice that only knows one script. The comparison below shows what separates high-leverage guidance from that."
+    rows={ranchiComparisonRows}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the PSU-versus-private-sector-versus-sports question already feels urgent, resolve it before more time goes into the wrong bet"
+    body="Use this when you want a decision that moves you toward earlier financial freedom, not another year of guessing which of Ranchi's three real paths actually fits you."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="ranchi-areas"
+    title="Ranchi's geography shapes the decision, not just the commute"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Ranchi, not treat every search as coming from the same part of the city."
+    items={ranchiAreaItems}
+    variant="decision"
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Ranchi"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process understands Ranchi's actual mix of PSU employment, private-sector engineering, and a genuine sports-career pathway, and whether it is honest about the trade-offs between them."
+    items={buyerCheckItems}
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="The point is not another opinion about whether a PSU job, a private-sector role, or a sports career is 'better' in the abstract. The point is a clearer decision, stronger skill direction, proof of work, and a real route toward earlier financial freedom, whichever of Ranchi's real paths it runs through."
+  />
+
+  <BofuListCardSection
+    sectionId="deliverables"
+    title="What should feel clearer after career counselling"
+    subtitle="Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step you can actually use. Here is what that looks like for Ranchi's PSU, private-sector, and sports-career fork."
+    items={deliverableItems}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuListCardSection
+    sectionId="objections"
+    title="Honest answers to what people wonder"
+    subtitle="Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Ranchi."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Ranchi page when locality matters, but decide based on your actual fit, not family assumption or city reputation alone"
+    body="The practical value is a clear read on whether CCL or HEC, a private-sector engineering role, or a genuinely evaluated sports pathway already fits your direction, stronger skill positioning either way, and a concrete next step before the wrong bet gets more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Ranchi" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a real fork - CCL or HEC's public-sector corridor, a private-sector role built on BIT Mesra's engineering pipeline, or a genuinely evaluated sports-career pathway - is actually in front of you, and the goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #ranchi-career-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

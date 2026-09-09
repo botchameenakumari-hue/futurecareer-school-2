@@ -1,0 +1,518 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Guidance After B.Sc | M.Sc, Research, Govt Exams, Teaching, or a Job | Future Career School';
+const description =
+  'Career guidance after B.Sc on M.Sc/research vs industry jobs vs competitive exams vs teaching — decide with clarity on your actual next move.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-bsc/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'The "no clear career path" doubt',
+    title: 'Unlike engineering or commerce, a pure science B.Sc rarely points to one obvious next job',
+    body: 'Physics, Chemistry, Botany, Zoology, and Mathematics all build real analytical depth, but the degree alone does not signal a specific role the way a professional or technical degree does.',
+  },
+  {
+    eyebrow: 'The M.Sc default',
+    title: 'M.Sc can look like the only serious next step, without weighing what it actually leads to',
+    body: 'Continuing into a master\'s in the same subject can feel safe, but a genuine research or academic direction eventually needs a PhD, and that is a much longer commitment than an M.Sc alone.',
+  },
+  {
+    eyebrow: 'Comparison pressure',
+    title: 'Watching engineering or commerce peers move into visible jobs while your own next step feels less defined',
+    body: 'The comparison rarely accounts for the fact that a science background supports genuinely different paths — research, teaching, government exams, or a pivot into data and analytics — not a worse one.',
+  },
+  {
+    eyebrow: 'Real industry roles, poorly understood',
+    title: 'Lab, quality control, testing, and research-support roles exist for B.Sc graduates but rarely get explained clearly',
+    body: 'Without someone mapping what these roles actually pay and lead to, they can seem like a lesser option compared to office-based jobs other graduates take, when the reality depends heavily on the specific subject and skill layer.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'M.Sc and research vs a job',
+    title: 'Testing genuine fit before committing two more years',
+    listItems: [
+      'Whether your interest in the subject is strong enough to support a multi-year research or academic path, including an eventual PhD if that is the real goal',
+      'What a direct industry job in your subject area — lab work, quality control, testing, or research support — realistically pays and grows into',
+      'How to tell a genuine pull toward the subject apart from choosing M.Sc mainly because it is the most familiar option',
+    ],
+  },
+  {
+    eyebrow: 'Competitive and government exams',
+    title: 'A common B.Sc route that deserves a real fit check, not an automatic yes',
+    listItems: [
+      'Whether SSC, banking, railways, defence, or another government exam track genuinely fits your goals and strengths, not just your subject background',
+      'What the real cost in time and opportunity looks like if an attempt does not succeed on the first or second try',
+      'How to prepare for an exam track while keeping a parallel option — a job or a skill-building stretch — genuinely open',
+    ],
+  },
+  {
+    eyebrow: 'Teaching as a real path',
+    title: 'A genuine option for many science graduates, not a fallback',
+    listItems: [
+      'What a B.Ed route into school or coaching-institute teaching would actually involve and lead to from your specific subject',
+      'How teaching compares honestly against research, industry work, or an exam-track attempt for your goals',
+      'What makes a teaching path stronger — subject depth, communication skills, and a specific grade or exam level to target',
+    ],
+  },
+  {
+    eyebrow: 'Pivoting into data, analytics, or tech',
+    title: 'A realistic route for many B.Sc graduates when a deliberate skill layer is added',
+    listItems: [
+      'Whether your subject background — statistics-heavy, computational, or lab-based — genuinely supports a pivot into data analytics, research-adjacent tech, or a related field',
+      'What specific skills and proof of work would make that pivot credible, rather than staying a vague intention',
+      'How to build that skill layer alongside M.Sc, exam prep, or a job search instead of waiting for one thing to finish first',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether M.Sc gets a real fit test, not automatic encouragement',
+    body: 'Guidance should test whether your interest in the subject genuinely supports a research or academic path, including where it leads beyond the M.Sc itself, not just assume continuing is the safe choice.',
+  },
+  {
+    title: 'Check whether real industry roles for your specific subject get explained clearly',
+    body: 'Lab, quality control, testing, and research-support roles vary a lot by subject and region. Look for guidance that maps what is actually available and what it pays, not vague reassurance that "science has options."',
+  },
+  {
+    title: 'Check whether the competitive-exam route gets tested for genuine fit',
+    body: 'This path is common enough among B.Sc graduates that it can get chosen by default. Guidance should test whether it suits your specific strengths and goals, not just your subject background.',
+  },
+  {
+    title: 'Check whether you leave with one direction and a next step, not a longer list of B.Sc career options',
+    body: 'A useful session should end with a chosen path — M.Sc, a job, an exam attempt, teaching, or a skill pivot — and one concrete next step, not more open-ended comparison.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Should I do M.Sc, or does B.Sc alone lead to a real job?',
+    answer:
+      'It depends on your subject, your genuine interest in continuing academically, and the specific skill layer you build. M.Sc is worth it when the subject interest genuinely supports going further, including toward an eventual PhD if that is the goal. A direct job in lab work, quality control, testing, or a subject-relevant industry role is also a real option, especially with a deliberate skill layer added on top of the degree.',
+  },
+  {
+    question: 'What jobs can I actually get with just a B.Sc?',
+    answer:
+      'Real options exist in lab work, quality control, testing, research support, and increasingly in data-adjacent or analytics roles when a relevant skill layer is added. What is actually available depends heavily on your specific subject — Physics, Chemistry, Botany, Zoology, or Mathematics all open somewhat different doors — so the direction should be mapped against your specific background, not a generic "science jobs" list.',
+  },
+  {
+    question: 'Is it worth preparing for a government or banking exam after B.Sc?',
+    answer:
+      'It can be, when the fit is genuine and tested honestly — the exam track itself, the work it leads to, and your actual strengths, not just because a B.Sc background is common among people preparing for it. The real cost is the time and opportunity spent if an attempt does not succeed, so testing that fit before committing matters.',
+  },
+  {
+    question: 'Is teaching a good career after B.Sc?',
+    answer:
+      'Yes, for many science graduates it is a genuine, well-suited path, not a fallback. A B.Ed route into school or coaching-institute teaching can work especially well when subject depth and communication skills line up, and it deserves an honest comparison against research, industry work, or exam prep rather than being dismissed by default.',
+  },
+  {
+    question: 'Can I move into data analytics or tech after a B.Sc in a pure science subject?',
+    answer:
+      'Yes, this is a realistic pivot for many B.Sc graduates, particularly from statistics-heavy or computational subjects, but it usually needs a deliberate skill layer — specific tools, a certification, or a project — rather than a vague intention to "get into data." Guidance should map what that pivot concretely requires for your specific subject background.',
+  },
+  {
+    question: 'How is this different from career counselling after graduation?',
+    answer:
+      'Career counselling after graduation covers the degree-agnostic fork every graduate faces — job versus further study versus a competitive exam versus a skill-building stretch. This page goes further into the B.Sc-specific version of that fork: the M.Sc-and-research question, real industry roles by subject, teaching as a genuine path, and pivoting into data or analytics, none of which map the same way onto every degree.',
+  },
+  {
+    question: 'Are the career and skill assessments free after B.Sc too?',
+    answer:
+      'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered. They work well as a starting signal on fit and work style before the M.Sc, job, exam-attempt, or teaching decision gets discussed in a paid session.',
+  },
+  {
+    question: 'Is career guidance after B.Sc available online across India?',
+    answer:
+      'Yes. Guidance is delivered fully online across India, so you can book a session from home or wherever you have landed after B.Sc, without depending on a local counsellor.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Move here for wider support when more than one post-B.Sc question needs to fit together into one direction.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-after-graduation/',
+    title: 'Career Counselling After Graduation',
+    description: 'A degree-agnostic version of this fork if the comparison you actually need is job versus master\'s versus an exam attempt.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-pcb-students/',
+    title: 'Career Counselling for PCB Students',
+    description: 'Useful if the real question is still whether medicine or a non-medical science path makes sense, before committing to a B.Sc direction.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-government-exam-aspirants/',
+    title: 'Career Counselling for Government Exam Aspirants',
+    description: 'Helpful if a banking, SSC, or another government exam is a serious option and you want help choosing which one is actually worth preparing for.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'A free starting signal on strengths and work style before the M.Sc, job, or exam-attempt decision gets discussed in a paid session.',
+  },
+  {
+    href: '/blog/career-options/career-options-after-bsc/',
+    title: 'Career Options After B.Sc',
+    description: 'A broader read on the real paths open to science graduates across research, industry, government exams, and teaching.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Guidance After B.Sc',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Guidance After B.Sc | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Guidance After B.Sc',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Guidance After B.Sc</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        For B.Sc graduates weighing M.Sc/research, a job, government exams, or teaching
+      </div>
+
+      <h1 class="hero-title">
+        Career guidance after B.Sc
+        <span class="gold-text"> for the M.Sc-vs-job-vs-exam-vs-teaching fork</span>
+      </h1>
+      <p class="hero-sub">
+        Career guidance after B.Sc is built for the specific fork science graduates actually face: M.Sc and research versus a direct industry job, a competitive or government exam attempt, teaching, or a pivot into data and analytics. The point is to choose the path tied to <strong>a real, high-value skill portfolio</strong> instead of the most familiar option, so this stage starts unlocking stronger income opportunities and earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        This works across Physics, Chemistry, Botany, Zoology, Mathematics, and other B.Sc subjects. Guidance is delivered fully online across India, so you can start from home or wherever you have landed after B.Sc.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Guidance After B.Sc</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="The specific pressure B.Sc graduates face after the degree"
+    subtitle="Not a generic post-graduation question — the exact fork between M.Sc and research, a job, government exams, and teaching that a pure science B.Sc specifically raises."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="The path you default into now shapes your science direction for years"
+    body="A tested comparison between M.Sc, a job, an exam attempt, and teaching moves you toward high income opportunities — a default picked from comparison pressure does not."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After B.Sc"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="What career guidance after B.Sc should actually help you decide"
+    subtitle="Direction for the B.Sc-specific fork itself, not a repeat of generic post-graduation advice."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can give you a signal on fit and work style before deciding between M.Sc, a job, an exam attempt, or teaching."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <section id="fork-map">
+    <div class="container">
+      <div class="fork-card">
+        <h2 class="fork-title">Four common paths after B.Sc, and what each one actually costs</h2>
+        <p class="fork-intro">Any of these can be the right move. The problem is picking one without pricing it against the others first.</p>
+        <div class="fork-grid">
+          <div class="fork-item fork-teal">
+            <strong>M.Sc and research</strong>
+            <span>Worth it when genuine subject interest supports going further, including toward an eventual PhD if that is the real goal — not automatically the safe next step.</span>
+          </div>
+          <div class="fork-item fork-gold">
+            <strong>A direct industry job</strong>
+            <span>Lab work, quality control, testing, or a subject-relevant role — real options that vary a lot by subject and pay off faster with a deliberate skill layer.</span>
+          </div>
+          <div class="fork-item fork-violet">
+            <strong>A competitive or government exam attempt</strong>
+            <span>A common B.Sc route, worth it when genuinely tested for fit — not chosen only because it is the visible default among peers.</span>
+          </div>
+          <div class="fork-item fork-blue">
+            <strong>Teaching, or a pivot into data/analytics</strong>
+            <span>Teaching is a real path when subject depth and communication line up; a data or analytics pivot works when a deliberate skill layer backs up the subject background.</span>
+          </div>
+        </div>
+        <p class="fork-footer">
+          None of these is automatically the safe or the prestigious choice. The comparison should run against your specific subject, interest, and goals — not against what engineering or commerce peers happen to be doing.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BuyerChecks
+    sectionId="check-before-paying"
+    title="What to check before booking career guidance after B.Sc"
+    subtitle="The goal is a resolved M.Sc-versus-job-versus-exam-versus-teaching decision — not a longer list of B.Sc career options."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="Generic post-B.Sc advice versus guidance built around your actual fork"
+    subtitle="The difference matters most in the months right after B.Sc, when a default gets picked quietly if no one actually tests it against the alternatives."
+    rows={comparisonRows}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Stop letting comparison with other streams decide for you"
+    body="One structured session, focused on your actual M.Sc-versus-job-versus-exam-versus-teaching fork, ending with a direct recommendation and one skill-building step to start on."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After B.Sc"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Guidance"
+    title="Career Guidance Plans After B.Sc"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See sibling pages for a sharper pressure, broader guidance, free assessments, and useful reading depending on exactly where you are right now."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions B.Sc graduates ask before choosing career guidance"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Choose your next move on purpose, not by comparison with other streams"
+    subtitle="M.Sc and research, a job, a government exam attempt, or teaching — whichever fits, resolve it with a direct recommendation toward the right skill portfolio and earlier financial freedom, instead of drifting into the most familiar option."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After B.Sc"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+
+  #fork-map { padding: 4.5rem 0; }
+  .fork-card {
+    border-radius: 26px;
+    border: 1px solid rgba(45,212,191,.24);
+    background:
+      radial-gradient(560px 220px at 100% 0%, rgba(45,212,191,.09), transparent 70%),
+      rgba(255,255,255,.025);
+    padding: 2.4rem clamp(1.4rem, 4vw, 2.6rem) 2.2rem;
+  }
+  .fork-title {
+    margin: 0 0 .6rem !important;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.3;
+    letter-spacing: -.02em;
+    color: #fff;
+    max-width: 760px;
+  }
+  .fork-intro {
+    margin: 0 0 1.6rem !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.68);
+    max-width: 700px;
+  }
+  .fork-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 1rem;
+    margin-bottom: 1.6rem;
+  }
+  .fork-item {
+    display: grid;
+    gap: .4rem;
+    padding: 1.1rem 1.2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+    border-left: 3px solid rgba(255,255,255,.18);
+  }
+  .fork-item strong { color: #fff; font-size: 14.5px; }
+  .fork-item span { color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.7; }
+  .fork-teal { border-left-color: var(--teal); }
+  .fork-gold { border-left-color: #e5b84a; }
+  .fork-violet { border-left-color: #a78bfa; }
+  .fork-blue { border-left-color: #60a5fa; }
+  .fork-footer {
+    margin: 0 !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.72);
+    max-width: 760px;
+  }
+  @media (max-width: 780px) {
+    .fork-grid { grid-template-columns: 1fr; }
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.65rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.72rem, 9.4vw, 2.35rem);
+      line-height: 1.06;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

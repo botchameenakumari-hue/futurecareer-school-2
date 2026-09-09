@@ -1,0 +1,404 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY } from '../../../../config/bofu';
+
+const title =
+  'Professional Career Counselling | A Credentialed, Decision-Ready Process | Future Career School';
+const description =
+  'Professional career counselling from Future Career School: assessment-driven sessions matched to your exact decision, ending in one clear recommendation.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/professional-career-counselling/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[3],
+  BOFU_COMPARISON_LIBRARY[1],
+];
+
+const processQualityItems = [
+  {
+    eyebrow: 'Matched to the decision, not just "a counsellor"',
+    title: 'A counsellor matched to your specific decision type',
+    body: 'Being called professional has to mean more than a job title. The counsellor working your session is matched to the actual decision on the table — a stream choice, a stay-vs-pivot fork, an offer evaluation — instead of a single generalist handling every kind of question the same way.',
+  },
+  {
+    eyebrow: 'Assessment first, opinion second',
+    title: 'Real assessment data behind the recommendation, not a five-minute read',
+    body: 'A structured profile, interest, and aptitude picture comes before any recommendation, so the answer is anchored to your actual signals — not a confident guess formed in the first few minutes of a call.',
+  },
+  {
+    eyebrow: 'Ends in an answer, not an open thread',
+    title: 'A session built to close with a stated recommendation',
+    body: 'A single counselling engagement is built to reach a specific, defensible recommendation on the decision you came in with, tied to a real skill direction rather than left as an open-ended chat you have to interpret yourself afterward.',
+  },
+  {
+    eyebrow: 'Consistent by design, not by luck',
+    title: 'The same intake and recommendation format for every session',
+    body: 'Whether this is your first session or someone else’s fifth, the same structured intake, assessment step, and recommendation format applies, delivered through Future Career School as an organized service online across India.',
+  },
+];
+
+const objectionItems = [
+  {
+    title: '“Professional” gets used by everyone. What does it actually mean on this page?',
+    body: 'It describes the process behind the session, not a label: a counsellor matched to your decision type, real assessment data ahead of any recommendation, and a session built to close with a specific answer rather than staying open-ended.',
+  },
+  {
+    title: 'Is this the same as career counselling for working professionals?',
+    body: 'No. That page is about who the counselling is for — someone already employed and facing a stay, pivot, or offer decision. This page is about the quality and structure of the counselling process itself, and it applies to students, freshers, and working professionals alike.',
+  },
+  {
+    title: 'How is this different from professional career guidance?',
+    body: 'Career guidance here is the broader, often ongoing process behind a skill portfolio and multiple decisions over time. Professional career counselling is scoped tighter: one structured session, one assessment-informed recommendation, on one specific decision you bring to it.',
+  },
+  {
+    title: 'What actually happens if my decision is unusual or does not fit a template?',
+    body: 'The intake and assessment step exists to surface exactly that. Matching you to a counsellor by decision type, rather than by whoever is free, is what keeps an unusual situation from getting a templated, one-size-fits-all answer.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check who is actually assigned to your session',
+    body: 'Ask whether the counsellor is matched to your kind of decision, or simply whoever has an open slot. A genuinely professional process explains the match instead of leaving it to chance.',
+  },
+  {
+    title: 'Check whether assessment data comes before the recommendation',
+    body: 'A recommendation formed in the first five minutes, before any structured profile or aptitude signal exists, is an opinion with confidence attached — not a professional-grade process.',
+  },
+  {
+    title: 'Check whether the session is built to end in an answer',
+    body: 'A structured process closes with a specific, stated recommendation on the decision you brought in. If the takeaway is a recap of the conversation instead of a decision, the structure was not doing the work.',
+  },
+  {
+    title: 'Check whether the same process holds up on someone else’s session, not just yours',
+    body: 'Ask what would happen differently for a different person with the same decision. A repeatable process gives a consistent answer to “what would you check for me,” not a different story depending on who happens to be on the call.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What does "professional" mean in professional career counselling?',
+    answer:
+      'It describes how the session is run, not a marketing label: a counsellor matched to your specific decision type, real assessment data gathered before any recommendation, and a session structured to close with a stated recommendation rather than staying open-ended.',
+  },
+  {
+    question: 'Is this different from career counselling for working professionals?',
+    answer:
+      'Yes. That page is scoped to the working-professional audience and situations like stay-vs-pivot or offer decisions. This page is about the quality and structure of the counselling process itself, and applies whether you are a student, a fresher, or already working.',
+  },
+  {
+    question: 'How is this different from professional career guidance?',
+    answer:
+      'Career guidance is the broader, often ongoing process built around ongoing skill direction and a skill portfolio across time. Professional career counselling is one structured, assessment-informed session scoped to a single decision, ending in a specific recommendation.',
+  },
+  {
+    question: 'Do I need to bring test results or documents before the session?',
+    answer:
+      'No. The relevant assessment step happens as part of the process itself, using Future Career School’s free, updated career and skill assessments where useful, so you do not need to arrive with anything prepared.',
+  },
+  {
+    question: 'What do I actually walk away with?',
+    answer:
+      'A specific recommendation on the decision you came in with, tied to your assessment signals — not a personality label, a generic list of options, or a recap of the conversation. If continuous guidance is the right next step, later sessions build on that same recommendation.',
+  },
+  {
+    question: 'Is this available online across India, and is a job guaranteed?',
+    answer:
+      'Yes, delivered fully online across India. No ethical provider can guarantee a job or income outcome, and this is not positioned as a placement service — the goal is a professionally structured, decision-specific recommendation.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const relatedDirectoryItems = [
+  {
+    href: '/services/career-counselling-and-career-guidance/',
+    title: 'Broader Career Guidance',
+    description: 'Get broader help with stream, course, skill, and next-step career decisions when several choices need to make sense together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling/',
+    title: 'Career Counselling',
+    description: 'Practical clarity and next steps through a structured 1-on-1 counselling session.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/professional-career-guidance/',
+    title: 'Professional Career Guidance',
+    description: 'The broader, ongoing guidance process built around a skill portfolio, not one bounded counselling session.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-working-professionals/',
+    title: 'Career Counselling for Working Professionals',
+    description: 'For employed professionals resolving a stay-vs-pivot, specialise-vs-generalise, or offer decision.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counsellor/',
+    title: 'What Makes a Career Counsellor Worth Trusting',
+    description: 'A closer look at training, breadth of experience, and honesty about limits before you choose any counsellor.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/best-career-counselling-platform/',
+    title: 'Evaluating a Career Counselling Platform',
+    description: 'How to judge personalisation, assessment quality, and pricing transparency across providers before you commit.',
+  },
+  {
+    href: '/services/assessments/',
+    title: 'Free Career Assessments',
+    description: 'Free, updated, practical, AI-powered assessments for stream decisions, aptitude signals, skill fit, and career direction.',
+  },
+  {
+    href: '/career-resources',
+    title: 'Career Resources',
+    description: 'Free guides, roadmaps, and checklists for acting on your next move.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://futurecareerschool.com/services/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Professional Career Counselling',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Professional Career Counselling | Future Career School',
+    description:
+      'Assessment-driven, credentialed career counselling for students, freshers, and working professionals, matched to the specific decision at hand and ending in a stated recommendation.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Professional Career Counselling</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        A counsellor matched to your decision, not whoever is free
+      </div>
+
+      <h1 class="hero-title">
+        Professional career counselling
+        <span class="gold-text"> built to end in a real recommendation</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School delivers professional career counselling for students, freshers, and working professionals who want a session that is genuinely structured &mdash; a counsellor matched to their exact decision, real assessment data ahead of any recommendation, and a session that closes with a specific answer instead of an open-ended chat.
+        That matters because the recommendation you walk away with should point toward a real high-value skill portfolio, not just a single choice &mdash; the kind that unlocks high income opportunities and moves you toward earlier financial freedom, not a decision worth leaving to a generalist's guess.
+      </p>
+      <p class="hero-note">
+        &ldquo;Professional&rdquo; here describes the process, not who it is for. Whether you are choosing a stream, weighing a job offer, or deciding whether to pivot, the same structured intake and assessment-informed process applies, delivered fully online across India.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        You can check the process here, not just trust the tone. The next sections show exactly what makes this counselling professional-grade.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="what-makes-it-professional"
+    title="What actually makes career counselling professional-grade"
+    subtitle="Not a tagline. This is the process behind every session, from counsellor matching to the recommendation you leave with."
+    items={processQualityItems}
+    columns={2}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="As part of that structured process, the free career and skill assessments are updated, practical, and AI-powered, instead of the outdated, paid assessments many providers charge thousands for."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuFeatureSection>
+
+  <BuyerChecks
+    title="What to check before trusting any career counselling as genuinely professional"
+    subtitle="Anyone can call a session professional. These are the checks that actually separate a structured process from a confident opinion, and they connect to the same goal &mdash; the right skill portfolio, then high income opportunities, then earlier financial freedom."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why the word professional has to mean something here"
+    subtitle="A professional-grade session holds up to scrutiny. Here is the honest contrast between counselling that stays generic and counselling built on a real process."
+    rows={comparisonRows}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="A decision this specific deserves a matched counsellor, not a generalist"
+    body="If a counselling provider cannot explain who is assigned to your session or why, that is worth noticing before you commit time or money to it."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <AudienceRelevance title="How professional-grade career counselling fits wherever you are right now" />
+
+  <GuidanceModelSection
+    title="What a professional-grade counselling session actually includes"
+    subtitle="This is the same structured process behind every serious counselling session here &mdash; not a one-off conversation that ends when the call does."
+  />
+
+  <BofuFeatureSection
+    sectionId="objections"
+    title="Doubts worth resolving before trusting any counselling as professional"
+    subtitle="These are the questions worth asking before you decide whether a session is genuinely structured, or just confidently generic, and how it compares to the working-professionals and career-guidance siblings."
+    items={objectionItems}
+    variant="prep"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Do not let a specific decision rest on an opinion instead of a process"
+    body="A structured, assessment-informed session leaves you with a clear recommendation, not a recap of what was discussed."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+    title="Professional Career Counselling Plans"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore related help"
+    subtitle="See how to judge counselling quality, related counselling and guidance pages, assessments, and free tools before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection title="Questions people ask before trusting professional career counselling" items={faqItems} />
+
+  <FinalCta
+    audience="mixed"
+    title="Choose counselling you can actually verify as professional-grade"
+    subtitle="A matched counsellor, real assessment data, and a session built to end in a recommendation &mdash; not one person's opinion dressed up as advice."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  section[id] { scroll-margin-top: 108px; }
+  #hero { padding: 138px 0 82px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -160px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill { width: fit-content; max-width: min(100%, 44rem); margin-bottom: 1.5rem; white-space: normal; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title { font-size: clamp(2.15rem, 5vw, 3.7rem); line-height: 1.06; letter-spacing: -.04em; color: #fff; max-width: 980px; margin-bottom: 1rem; overflow-wrap: anywhere; }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.8; max-width: 780px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.75; max-width: 760px; margin-bottom: 1.8rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-makes-it-professional,
+  #different,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #objections,
+  #check-before-paying { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline { justify-content: center; }
+  }
+</style>

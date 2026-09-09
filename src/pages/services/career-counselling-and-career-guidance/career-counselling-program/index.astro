@@ -1,0 +1,749 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling Program | The Stage-by-Stage Structure | Future Career School';
+const description =
+  'What a career counselling program actually walks through, stage by stage: discovery, aptitude and interest mapping, options exploration, decision-narrowing, action-planning, and follow-up.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-program/';
+
+const packageHref = '/services/career-counselling-and-career-guidance/career-counselling-package/';
+const feesHref = '/services/career-counselling-and-career-guidance/career-counselling-fees/';
+const mentoringHref = '/services/career-counselling-and-career-guidance/career-mentoring-program/';
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: packageHref,
+    title: 'Career Counselling Package',
+    description: 'What is actually bundled into each structure and group-size caps, if the composition question matters more than the sequence right now.',
+  },
+  {
+    href: feesHref,
+    title: 'Career Counselling Fees',
+    description: 'The real prices behind every stage of the program, if cost is the deciding factor.',
+  },
+  {
+    href: mentoringHref,
+    title: 'Career Mentoring Program',
+    description: 'A closer look at how the follow-up stage extends into an ongoing relationship across the year.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A free first step if you are still deciding whether the full program is worth starting yet.',
+  },
+];
+
+const stages = [
+  {
+    label: 'Stage 1',
+    title: 'Discovery and assessment',
+    body: 'The program opens with a 1-on-1 session that maps your background, the pressure you are actually under, and the decision sitting in front of you right now. Free career and skill assessment results, if you have taken one, feed directly into this conversation instead of sitting unused.',
+  },
+  {
+    label: 'Stage 2',
+    title: 'Aptitude and interest mapping',
+    body: 'Before any option gets discussed, the program looks at what you are genuinely good at, what holds your attention past the first week, and how you actually prefer to work, not just what a test score or a relative’s opinion says you should want.',
+  },
+  {
+    label: 'Stage 3',
+    title: 'Options exploration',
+    body: 'Streams, courses, skills, or career paths that fit the profile from stages one and two get surfaced and looked at honestly, including their real trade-offs, instead of handing over a generic list anyone could have found online.',
+  },
+  {
+    label: 'Stage 4',
+    title: 'Decision-narrowing',
+    body: 'A long list of plausible options is not a decision. This stage compares the shortlist against your constraints, family or financial reality, and appetite for risk, until what is left is genuinely comparable, not just shorter.',
+  },
+  {
+    label: 'Stage 5',
+    title: 'Action-planning',
+    body: 'The narrowed decision turns into a concrete next move: which skills to build first, what proof of work to start on, and how that sequence is meant to build the skill portfolio that opens higher-income opportunities and moves earlier financial freedom from an idea into a plan.',
+  },
+  {
+    label: 'Stage 6',
+    title: 'Follow-up and continuation',
+    body: 'A plan written once and never revisited tends to drift. For students, the follow-up stage can continue through the small-group sessions inside the continuous-guidance structure, up to 24 across the year; working professionals return through further 1-on-1 sessions as the pivot evolves.',
+  },
+];
+
+const compositionRows = [
+  { left: 'Generic advice that still leaves you unclear', right: 'High-leverage decision support around path, skill, and risk' },
+  { left: 'Degree-first direction with weak skill edge', right: 'Skill-first direction with proof of work and stronger market value' },
+  { left: 'Paid outdated impractical assessments with weak practical value', right: 'Free updated practical AI-powered career and skill assessments' },
+];
+
+const faq = [
+  {
+    q: 'What is a career counselling program?',
+    a: 'Here, it is the same guidance service organized as a sequence rather than a single verdict: discovery and assessment, aptitude and interest mapping, options exploration, decision-narrowing, action-planning, and a follow-up stage. It is not a separate paid product from the sessions described on the package and fees pages, it is the shape those sessions actually take once you look past the price tag.',
+  },
+  {
+    q: 'What are the stages of a career counselling program?',
+    a: 'Six, in order: discovery and assessment first, then aptitude and interest mapping, options exploration, decision-narrowing, action-planning, and finally follow-up. Each stage builds on what the last one settled, so the action-planning stage is not guessing at a skill direction from a cold start.',
+  },
+  {
+    q: 'Is a career counselling program the same as a career counselling package?',
+    a: 'They describe two different things about the same service. “Package” describes what is bundled in, a single session versus the continuous-guidance structure with its small-group sessions and pricing. “Program” describes how the work inside those sessions actually flows, stage by stage, from discovery through to action-planning and follow-up.',
+  },
+  {
+    q: 'How long does the career counselling program take?',
+    a: 'There is no fixed weekly timetable attached to the six stages, they move at the pace your actual decision needs rather than a set calendar. For students who want the follow-up stage kept current across the year, the continuous-guidance structure includes up to 24 small-group sessions to draw on; a single 1-on-1 can also move through the earlier stages in one focused conversation when the decision is narrow enough.',
+  },
+  {
+    q: 'Is the program the same for every student, or is it customized?',
+    a: 'The six-stage sequence is the same shape for everyone, discovery, mapping, exploration, narrowing, planning, follow-up, but what happens inside each stage is built around your own profile, pressure, and decision. It is not a scripted curriculum delivered the same way to every participant.',
+  },
+  {
+    q: 'Does completing the program guarantee a job or a specific outcome?',
+    a: 'No ethical provider can guarantee a job or a specific income outcome, and the program is not sold that way. What the stages buy is a structured way of reaching and revisiting a decision, the outcome still depends on the direction chosen and the effort put in between sessions.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling Program', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Career Counselling Program: The Stage-by-Stage Structure, Not the Price Tag',
+    description,
+    datePublished: '2026-09-07',
+    dateModified: '2026-09-07',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="program-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Career Counselling Program</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>How the stages actually flow</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>Career counselling program: the stage-by-stage structure, not the price tag</h1>
+            <p class="line strong">
+              A career counselling program here is the same guidance service walked through as a sequence: discovery and assessment, aptitude and interest mapping, options exploration, decision-narrowing, action-planning, and a follow-up stage, rather than one verdict handed over in a single sitting.
+            </p>
+            <p class="line">
+              "Program" gets used loosely across the market to mean anything from a fixed multi-week curriculum to a single call rebranded with a bigger name. Here it describes the flow of the work itself, not a bundle of sessions or a price point, those questions are answered on the package and fees pages instead.
+            </p>
+            <p class="line">The point of walking through every stage is the same either way: a decision that holds up, and a skill direction built to open higher-income opportunities on the way to earlier financial freedom, not a shortcut that skips the mapping and exploration that make a decision worth trusting.</p>
+            <p class="line">Here is what each stage actually does, how they connect, and how to tell whether you need the full sequence or just part of it.</p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+              <a class="btn-outline" href={packageHref}>Compare structures and pricing</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">The sequence, in short</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Discovery and assessment: map the profile and the decision in front of you.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Aptitude, interest, options, and narrowing: turn a long list into a real shortlist.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>Action-planning: turn the decision into a concrete next skill move.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Follow-up: revisit the plan as marks, results, or the market change.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>A career counselling program here means six connected stages: discovery, aptitude and interest mapping, options exploration, decision-narrowing, action-planning, and follow-up, not a separate paid product from the sessions on the package and fees pages.</li>
+          <li>Every stage shares the same starting point as a single session, the 1-on-1. What is different is what happens after that first conversation, not what happens inside it.</li>
+          <li>There is no fixed weekly timetable attached to the sequence, the stages move at the pace your actual decision needs, though students who want the follow-up stage kept current can draw on up to 24 small-group sessions across the year.</li>
+          <li>If the composition, group size, or exact price of each structure matters more right now than how the work flows, the package and fees pages answer that directly instead.</li>
+          <li>Skipping straight to action-planning without the earlier mapping and exploration stages is the more common mistake here than picking the wrong stage to start at.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#stages">The six stages</a>
+          <a href="#not-a-bundle">Program vs package, fees, and subscription</a>
+          <a href="#who-fits">Who needs the full sequence</a>
+          <a href="#objections">Common doubts about the structure</a>
+          <a href="#free-layer">When the free layer is enough</a>
+          <a href="#choosing">How to decide</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="stages" class="container section">
+      <h2>What each stage of the program actually does</h2>
+      <p class="line">
+        A sequence is only useful if each stage genuinely depends on the one before it. Here is what each one covers, and why the order matters.
+      </p>
+
+      <div class="stage-grid">
+        {stages.map((stage) => (
+          <div class="stage-card">
+            <span class="stage-badge">{stage.label}</span>
+            <h3>{stage.title}</h3>
+            <p>{stage.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <p class="line">
+        The first four stages are usually covered inside the opening 1-on-1 when the decision is narrow enough. A broader question, more than one stream or skill path still genuinely open, tends to need the action-planning and follow-up stages spread across more than one sitting instead of being rushed into a single call.
+      </p>
+    </section>
+
+    <section id="not-a-bundle" class="container section">
+      <h2>Program, package, fees, and subscription are not the same question</h2>
+      <p class="line">
+        These four searches sound close but answer different things. "Package" describes what is bundled in, a single session or the continuous-guidance structure with its small-group sessions and pricing. "Fees" and "cost" answer what each structure actually costs. "Subscription" answers whether anything here auto-renews, it does not. "Program" is the one answered on this page: how the work inside any of those structures actually flows, stage by stage, from discovery through to follow-up. None of the four is a shortcut for the others.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-outline" href={packageHref}>See what is bundled into each structure</a>
+        <a class="btn-gold" href={feesHref}>See the exact prices</a>
+      </div>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What a real sequence changes versus a rushed verdict"
+      subtitle="Not every provider walks through every stage before handing over an answer. This is the difference that matters once a decision has to hold up past the first conversation."
+      rows={compositionRows}
+    />
+
+    <section id="who-fits" class="container section">
+      <h2>Who actually needs the full six-stage sequence</h2>
+      <div class="grid-two">
+        <div class="card warn-card">
+          <h3>The full sequence tends to fit if</h3>
+          <ul>
+            <li>More than one option is still genuinely open, a stream, a course, or a skill path, and none of them has been ruled out with real reasoning yet.</li>
+            <li>Family, financial, or timing pressure makes the decision expensive to get wrong.</li>
+            <li>You want the plan revisited later through the follow-up stage, not settled once and left alone.</li>
+          </ul>
+        </div>
+        <div class="card win-card">
+          <h3>A shorter path through the stages tends to fit if</h3>
+          <ul>
+            <li>The mapping and exploration work is already largely done, and one specific choice needs resolving now.</li>
+            <li>A single focused 1-on-1 session can move through discovery, mapping, and narrowing in one sitting.</li>
+            <li>You are still early enough that the free layer, assessments and resources, may answer what you need before any paid stage starts.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        Either way, the stages do not change, only how much time each one needs.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={mentoringHref}>See how the follow-up stage extends into mentoring</a>
+      </div>
+    </section>
+
+    <section id="objections" class="container section">
+      <h2>Common doubts about the program structure</h2>
+      <p class="line">
+        Structure-shaped questions tend to be about flow, not price. A few honest answers:
+      </p>
+      <div class="grid-two">
+        <div class="card">
+          <h3>Is this a fixed curriculum, like a course with lessons?</h3>
+          <p class="line" style="margin:0;">
+            No. There is no lesson plan delivered the same way to every participant. The six stages describe a consistent sequence of work, discovery, mapping, exploration, narrowing, planning, follow-up, but what happens inside each one is built around your own profile and decision, not a script.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Do I have to sit through every stage even if I already know what I want?</h3>
+          <p class="line" style="margin:0;">
+            No. If the earlier mapping and exploration work is already settled in your own head, a single 1-on-1 can move through discovery, narrowing, and action-planning quickly instead of stretching a decision across stages it does not need.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="free-layer" class="container section">
+      <h2>When the free layer is genuinely enough, before the full program</h2>
+      <p class="line">
+        A fair page about program structure also has to say when not to start the full sequence yet. If you have not tried a structured assessment, the free career and skill assessments can often stand in for the discovery and early mapping stages on their own, at no cost. What the free layer cannot do is carry the exploration, narrowing, and action-planning stages through to a concrete next skill move, which is the specific work a paid session is built to do.
+      </p>
+    </section>
+
+    <section id="choosing" class="container section">
+      <h2>How to decide, without guessing</h2>
+      <p class="line">
+        Once the stages are clear, the honest question is whether you want the reasoning walked through step by step, or the fastest possible answer to one narrow question. Either way, the sequence exists to build a skill portfolio worth acting on and a clearer route toward earlier financial freedom, not to stretch a decision across more stages than it actually needs.
+      </p>
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>See guidance plans and pricing</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+      </div>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on the career counselling program structure</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <GuidancePlansSection
+      sectionId="plans"
+      audience="mixed"
+      serviceLabel="Career Guidance"
+      title="Career Guidance Plans"
+    />
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="Compare the exact structures and prices, see how the follow-up stage extends into mentoring, or check the free first step."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #program-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .stage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+  .stage-card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.2rem 1.25rem 1.3rem;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .stage-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+    border-color: rgba(229,184,74,.28);
+  }
+  .stage-badge {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #f6db95;
+    background: rgba(229,184,74,.12);
+    border: 1px solid rgba(229,184,74,.28);
+    border-radius: 999px;
+    padding: .28rem .7rem;
+    margin-bottom: .7rem;
+  }
+  .stage-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: .5rem;
+  }
+  .stage-card p {
+    font-size: 13.8px;
+    line-height: 1.72;
+    color: rgba(255,255,255,.68);
+    margin: 0;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+    .stage-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+    .stage-grid { grid-template-columns: 1fr; }
+  }
+</style>

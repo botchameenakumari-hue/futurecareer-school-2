@@ -13,12 +13,12 @@ import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
 import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import FinalCta from '../../../../components/bofu/FinalCta.astro';
 import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
-import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS } from '../../../../config/bofu';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY } from '../../../../config/bofu';
 import { GUIDANCE_PLAN_PRICE_COPY } from '../../../../config/guidancePlans';
 
 const title = 'Career Counselling for Parents | Future Career School';
 const description =
-  'Career counselling for parents who want a trusted, structured way to help their child choose a stream, course, or skill direction - without guessing whether the counsellor is credible or whether your child will actually engage.';
+  'Career counselling for parents: a structured way to help your child choose a stream, course, or skill direction, without guessing on credibility or engagement.';
 const canonical =
   'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-parents/';
 
@@ -147,24 +147,10 @@ const objectionItems = [
   },
 ];
 
-const comparisonRows = [
-  {
-    left: 'Generic advice that still leaves you unclear',
-    right: 'High-leverage decision support around path, skill, and risk',
-  },
-  {
-    left: 'Degree-first direction with weak skill edge',
-    right: 'Skill-first direction with proof of work and stronger market value',
-  },
-  {
-    left: 'Low-growth paths that delay real earning progress',
-    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
-  },
-  {
-    left: 'Paid outdated impractical assessments with weak practical value',
-    right: 'Free updated practical AI-powered career and skill assessments',
-  },
-];
+// Pulled live from the shared comparison library instead of a page-local copy, so this
+// stays in sync if the library changes. This page keeps the first four rows, which are
+// the ones that genuinely fit a parent evaluating whether to trust and pay for the service.
+const comparisonRows = BOFU_COMPARISON_LIBRARY.slice(0, 4);
 
 const faqItems = [
   {
@@ -304,7 +290,7 @@ const jsonLd = [
   <BofuFeatureSection
     sectionId="fit"
     title="When career counselling for parents becomes the right move"
-    subtitle="This usually matters most when you are the one carrying the decision - researching, comparing, and deciding when to act - while your child is still working through the confusion itself. The goal is not just picking a safe-sounding option, but a direction that supports achieving earlier financial freedom through the right skill choices, made early instead of after years of drift."
+    subtitle="This usually matters most when you are the one carrying the decision - researching, comparing, and deciding when to act - while your child is still working through the confusion itself. The goal is not just picking a safe-sounding option, but a direction built around a high-value skill portfolio that supports achieving earlier financial freedom, made early instead of after years of drift."
     items={fitItems}
     variant="signal"
   />
@@ -316,20 +302,6 @@ const jsonLd = [
     studentHref="#plans"
     studentLabel="Book Student Career Counselling for Your Child"
   />
-
-  <BofuListCardSection
-    sectionId="trust"
-    title="What parents actually want to know before booking"
-    subtitle="These are the real questions behind the search - not the ones a sales page usually answers, but the ones that decide whether you trust the process enough to pay for it."
-    items={trustItems}
-    columns={3}
-    variant="audience"
-  >
-    <AssessmentSupportNote
-      body="If you want your child to try something free first, the stage-specific career and skill assessments give a neutral starting signal before any paid session."
-      href={BOFU_ASSESSMENT_LINKS.hub}
-    />
-  </BofuListCardSection>
 
   <BofuStepFlowSection
     sectionId="how-it-works"
@@ -360,6 +332,20 @@ const jsonLd = [
     studentLabel="Book Student Career Counselling for Your Child"
   />
 
+  <BofuListCardSection
+    sectionId="trust"
+    title="What parents actually want to know before booking"
+    subtitle="These are the real questions behind the search - not the ones a sales page usually answers, but the ones that decide whether you trust the process enough to pay for it."
+    items={trustItems}
+    columns={3}
+    variant="audience"
+  >
+    <AssessmentSupportNote
+      body="If you want your child to try something free first, the stage-specific career and skill assessments give a neutral starting signal before any paid session."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
   <GuidancePlansSection
     audience="student"
     serviceLabel="Career Counselling"
@@ -377,7 +363,7 @@ const jsonLd = [
   <FinalCta
     audience="student"
     title="Give your child a clearer direction instead of another year of drift"
-    subtitle="You have already done the research. The next step is one session that turns your child's strengths into a skill direction aimed at earlier financial freedom - a decision you can both explain with confidence."
+    subtitle="You have already done the research. The next step is one session that turns your child's strengths into a skill direction aimed at unlocking high income opportunities and earlier financial freedom - a decision you can both explain with confidence."
     studentHref="#plans"
     studentLabel="Book Student Career Counselling for Your Child"
   />

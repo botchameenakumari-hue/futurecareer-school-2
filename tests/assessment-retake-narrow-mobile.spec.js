@@ -131,6 +131,14 @@ async function startAssessment(page, assessment) {
   await page.locator('#start-button').click();
 }
 
+async function dismissConsentIfPresent(page) {
+  const banner = page.locator('#analytics-consent-banner');
+  if (await banner.isVisible().catch(() => false)) {
+    await banner.locator('[data-consent-choice="denied"]').click();
+    await expect(banner).toBeHidden();
+  }
+}
+
 async function completeAssessment(page, assessment) {
   const result = page.locator(assessment.resultSelector);
 
@@ -208,6 +216,7 @@ test.describe('assessment narrow-mobile retake coverage', () => {
 
       await page.setViewportSize({ width: 360, height: 800 });
       await page.goto(`http://localhost:4321${assessment.route}`);
+      await dismissConsentIfPresent(page);
       await startAssessment(page, assessment);
       await completeAssessment(page, assessment);
       await expectNarrowResult(page, assessment);

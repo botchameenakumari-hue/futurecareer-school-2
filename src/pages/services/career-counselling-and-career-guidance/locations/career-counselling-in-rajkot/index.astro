@@ -8,6 +8,8 @@ import BofuListCardSection from '../../../../../components/bofu/BofuListCardSect
 import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
 import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
 import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
 import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
 import FinalCta from '../../../../../components/bofu/FinalCta.astro';
 import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
@@ -15,12 +17,18 @@ import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS, BOFU_COMPARISON_LIBRARY } f
 
 // Rajkot page shows 5 of 6 comparison rows - the random-upskilling row is
 // less resonant for an industrial city where skill-path clarity is the
-// primary issue, not scattered upskilling. This varied selection signals
-// deliberate page differentiation, not template duplication.
+// primary issue, not scattered upskilling.
+// AUDIT CORRECTION: the claim above of deliberate page differentiation was
+// previously wrong - a sitewide audit found Chennai used
+// `.filter((_, index) => index !== 5)`, which produces the exact same rows
+// 0-4 as this page's `.slice(0, 5)`, just via different syntax. Rajkot is
+// kept as-is here as the first-built page of the two; Chennai has been moved
+// to a distinct triple-index drop (indices 0, 1, and 5) so no other page
+// shares this rows-0-4 selection anymore.
 const rajkotComparisonRows = BOFU_COMPARISON_LIBRARY.slice(0, 5);
 
 const title = 'Career Counselling in Rajkot | Online Guidance Across India | Future Career School';
-const description = 'Career counselling in Rajkot for students and working professionals. Get practical online guidance for clearer decisions, stronger skill direction, and a better next move.';
+const description = 'Career counselling in Rajkot for students and working professionals - practical online guidance for clearer decisions and stronger skill direction.';
 const canonical = 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-rajkot/';
 
 const fitItems = [
@@ -310,7 +318,7 @@ const jsonLd = [
         the decision needs clarity before more time and money get committed.
       </p>
       <p class="hero-sub hero-sub-secondary">
-        Future Career School delivers career counselling online in Rajkot and across India. You can start from home, college, work, or wherever you already are. The career and skill assessments are fully free, updated, practical, and AI-powered.
+        Future Career School delivers career counselling online in Rajkot and across India. You can start from home, college, work, or wherever you already are - guidance built around a high-value skill portfolio that moves you toward earlier financial freedom, not just a single reassuring conversation.
       </p>
       <div class="hero-actions">
         <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
@@ -326,14 +334,24 @@ const jsonLd = [
         When people search for career counselling in Rajkot, the city name usually signals a desire for trust and proximity.
         But the real decision pressure is almost always about clarity, skill direction, and avoiding expensive wrong turns.
       </p>
-      <BofuListCardSection items={fitItems} variant="default" />
+      <BofuListCardSection items={fitItems} variant="signal" />
     </div>
   </section>
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Rajkot search already reflects a real decision, move before the wrong turn gets more expensive"
+    body="Use this when you want stronger guidance now, not another round of delay while confusion keeps costing time and money."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
 
   <BofuFeatureSection
     sectionId="rajkot-career-landscape"
     title="The Rajkot career reality that generic advice misses"
-    subtitle="Rajkot's economy is built differently from metro cities. Good career counselling should address your actual situation, not the situation of a Bangalore IT graduate."
+    subtitle="Rajkot's economy is built differently from metro cities. Good career counselling should address your actual situation - helping you build the high-value skill portfolio that unlocks high income opportunities from a manufacturing or SME background, not the situation of a Bangalore IT graduate."
     items={rajkotContextItems}
     variant="signal"
   />
@@ -374,7 +392,7 @@ const jsonLd = [
         Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
         you can actually use. Here is what that looks like.
       </p>
-      <BofuListCardSection items={deliverableItems} variant="default" />
+      <BofuListCardSection items={deliverableItems} variant="signal" />
       <AssessmentSupportNote
         body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
       />
@@ -385,9 +403,25 @@ const jsonLd = [
     <div class="container">
       <h2>Honest answers to what people wonder</h2>
       <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often.</p>
-      <BofuListCardSection items={objectionItems} variant="default" />
+      <BofuListCardSection items={objectionItems} variant="signal" />
     </div>
   </section>
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Rajkot"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step toward a high-value skill portfolio."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Rajkot page when locality matters, but choose based on decision quality, not the city name alone"
+    body="The practical value is clearer trade-offs, stronger skill direction, and a concrete next step before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
 
   <GuidancePlansSection
     audience="mixed"
@@ -406,7 +440,7 @@ const jsonLd = [
   <FinalCta
     sectionId="final-cta"
     title="Ready to get clarity on your next move"
-    subtitle="Career counselling is most useful when the decision feels expensive, delayed, or hard to reverse. That is exactly when it matters most."
+    subtitle="Career counselling is most useful when the decision feels expensive, delayed, or hard to reverse - and when the real goal is a high-value skill portfolio that leads toward earlier financial freedom, not just short-term relief."
     audience="mixed"
     studentHref="#plans"
     studentLabel="Get Student Career Counselling"
@@ -625,7 +659,6 @@ const jsonLd = [
     }
   }
 </style>
-
 
 
 

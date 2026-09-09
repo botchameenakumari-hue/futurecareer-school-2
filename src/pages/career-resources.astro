@@ -1061,22 +1061,22 @@ const jsonLd = [
   function renderActiveFilters(): void {
     if (!activeFiltersEl) return;
     const pills: string[] = [];
-    const mk = (group: string, value: string, label: string) =>
+    const mk = (group: string, label: string) =>
       `<span class="af-pill">${label}<button type="button" data-af-group="${group}" aria-label="Clear ${label}"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></span>`;
     if (state.audience !== 'all') {
       const btn = document.querySelector<HTMLButtonElement>(`.fc-btn[data-group="audience"][data-value="${state.audience}"]`);
-      if (btn) pills.push(mk('audience', state.audience, btn.textContent?.trim() ?? state.audience));
+      if (btn) pills.push(mk('audience', btn.textContent?.trim() ?? state.audience));
     }
     if (state.topic !== 'all') {
       const btn = document.querySelector<HTMLButtonElement>(`.fc-btn[data-group="topic"][data-value="${state.topic}"]`);
-      if (btn) pills.push(mk('topic', state.topic, btn.textContent?.trim() ?? state.topic));
+      if (btn) pills.push(mk('topic', btn.textContent?.trim() ?? state.topic));
     }
     if (state.type !== 'all') {
       const btn = document.querySelector<HTMLButtonElement>(`.fc-btn[data-group="type"][data-value="${state.type}"]`);
-      if (btn) pills.push(mk('type', state.type, btn.textContent?.trim() ?? state.type));
+      if (btn) pills.push(mk('type', btn.textContent?.trim() ?? state.type));
     }
     if (state.query) {
-      pills.push(mk('query', state.query, `“${state.query}”`));
+      pills.push(mk('query', `“${state.query}”`));
     }
     activeFiltersEl.innerHTML = pills.join('');
     activeFiltersEl.querySelectorAll<HTMLButtonElement>('button[data-af-group]').forEach(btn => {

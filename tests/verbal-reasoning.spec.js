@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('verbal reasoning assessment completes and downloads its report', async ({ page }) => {
+test('verbal reasoning assessment completes and downloads its report', async ({ page }, testInfo) => {
   await page.goto('http://localhost:4321/services/assessments/verbal-reasoning-test/');
   await expect(page).toHaveTitle(/Verbal Reasoning Test/);
   await expect(page.locator('.audience-option')).toHaveCount(4);
@@ -37,7 +37,7 @@ test('verbal reasoning assessment completes and downloads its report', async ({ 
   await page.locator('#download-button').click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe('future-career-school-verbal-reasoning-report.pdf');
-  await download.saveAs('test-results/verbal-reasoning-report.pdf');
+  await download.saveAs(testInfo.outputPath('verbal-reasoning-report.pdf'));
 });
 
 test('verbal reasoning page stays within a mobile viewport', async ({ page }) => {

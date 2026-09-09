@@ -24,6 +24,7 @@ const {
 } = Astro.props;
 
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+const isDashboardRoute = Astro.url.pathname === '/dashboard' || Astro.url.pathname.startsWith('/dashboard/');
 ---
 
 <!doctype html>
@@ -59,7 +60,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 
   <!-- Structured Data -->
   {jsonLd && (
-    <script type="application/ld+json" set:html={JSON.stringify(Array.isArray(jsonLd) ? { '@context': 'https://schema.org', '@graph': jsonLd } : jsonLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(Array.isArray(jsonLd) ? { '@context': 'https://schema.org', '@graph': jsonLd } : jsonLd)} />
   )}
 
   <!-- Sitemap -->
@@ -70,35 +71,6 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-  <!-- Fonts -->
-  <script is:inline>
-    (() => {
-      if (!matchMedia('(min-width: 761px)').matches) return;
-      const head = document.head;
-      const fontStylesheet = 'https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap';
-      [
-        ['https://fonts.googleapis.com', ''],
-        ['https://fonts.gstatic.com', 'anonymous']
-      ].forEach(([href, crossOrigin]) => {
-        const connection = document.createElement('link');
-        connection.rel = 'preconnect';
-        connection.href = href;
-        if (crossOrigin) connection.crossOrigin = crossOrigin;
-        head.append(connection);
-      });
-      const styles = document.createElement('link');
-      styles.rel = 'stylesheet';
-      styles.href = fontStylesheet;
-      head.append(styles);
-    })();
-  </script>
-  <noscript>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
-      rel="stylesheet"
-    />
-  </noscript>
 
   <!-- Global Styles -->
   <style is:global>
@@ -265,6 +237,6 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 </head>
 <body>
   <slot />
-  <ConsentBanner />
+  {isDashboardRoute ? null : <ConsentBanner />}
 </body>
 </html>

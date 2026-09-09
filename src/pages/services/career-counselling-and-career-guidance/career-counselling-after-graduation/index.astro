@@ -1,0 +1,524 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Counselling After Graduation | Choose the Right Next Move | Future Career School';
+const description =
+  'Career counselling after graduation on job vs master\'s vs MBA vs a competitive exam vs a skill-building stretch — decide with clarity, not a family default.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-after-graduation/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'The degree is done',
+    title: 'Every relative has an opinion, and none of them agree',
+    body: 'A government exam, an MBA, "just get any job," a family business — the advice is loud and contradictory, and it rarely accounts for what you actually want or what you have already built.',
+  },
+  {
+    eyebrow: 'No offer yet',
+    title: 'Job, further study, or an exam attempt — and the choice is being made by comparison, not fit',
+    body: 'You are weighing options against what a cousin did, what looks safest on paper, or what is easiest to explain at a family function, rather than against what would actually move your specific situation forward.',
+  },
+  {
+    eyebrow: 'The scroll',
+    title: 'Peers are already posting offers and admits, and the pace feels set by them',
+    body: 'Every acceptance post or joining announcement adds pressure to decide fast, which usually means deciding on the loudest option rather than the right one for you.',
+  },
+  {
+    eyebrow: 'The quiet default',
+    title: 'A "safe" choice is getting picked for you by inertia, not by a real decision',
+    body: 'Coaching for one more exam because you already started once, or applying to a master\'s because the paperwork is familiar, can look like a plan while actually being the path of least resistance.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Job vs more study vs an exam',
+    title: 'A real comparison across your actual options, not a default toward the safest-sounding one',
+    listItems: [
+      'What a job, a master\'s or MBA, and a competitive or government exam attempt would each realistically cost you in time, money, and opportunity from here',
+      'Which of those options actually changes your eligibility, ceiling, or direction in a specific field, versus which one mostly postpones the decision',
+      'How to test a direction quickly before committing a year or more of income and time to it',
+    ],
+  },
+  {
+    eyebrow: 'Family pressure',
+    title: 'Turning vague "get a good job" or "do an MBA" pressure into your own decision',
+    listItems: [
+      'How to separate a genuinely useful family concern from prestige-driven pressure that has little to do with your actual field or goals',
+      'A way to bring your family into the plan without letting them make the call for you',
+      'What to say when the pressure is coming from comparison with a relative\'s or neighbour\'s child, not from your own situation',
+    ],
+  },
+  {
+    eyebrow: 'Nothing to show yet',
+    title: 'Building one visible piece of proof if the degree alone is standing behind you',
+    listItems: [
+      'What counts as real, checkable proof of work for your field right now — a project, a documented result, a portfolio piece — versus something that only looks like effort',
+      'How to build that first piece while a job search, an application cycle, or exam prep is already underway, instead of waiting for one thing to finish before starting the next',
+      'How coursework, a final-year project, or a small freelance task can become that first proof asset without starting from zero',
+    ],
+  },
+  {
+    eyebrow: 'One checkpoint',
+    title: 'Replacing an open-ended "figuring it out" phase with one real checkpoint',
+    listItems: [
+      'Setting one honest point to review progress, sized to how much runway you actually have, instead of drifting for months with no marker',
+      'What "still on track" versus "time to change direction" should actually look like for the path you picked',
+      'How to change course without it reading as a failure to your family or to yourself',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the job-vs-study-vs-exam comparison is real, not a script toward "more study"',
+    body: 'A lot of generic advice defaults to "do a master\'s" or "attempt one more exam" because it sounds safe. Look for guidance that actually prices each option against your specific field and goals.',
+  },
+  {
+    title: 'Check whether it works for your actual degree, not just engineering or an MBA',
+    body: 'Right after graduation is a decision every degree runs into, not only technical or business graduates. Guidance built for one narrow field will not translate cleanly to yours.',
+  },
+  {
+    title: 'Check whether family pressure gets addressed directly, not talked around',
+    body: 'If the loudest voice in the decision is a parent or relative, the session should help you engage that pressure head-on, not pretend it is not part of the real decision.',
+  },
+  {
+    title: 'Check whether you leave with one thing to build, not just a longer pros-and-cons list',
+    body: 'A useful session ends with one concrete next step and, where relevant, one proof asset to start on — not more open-ended reflection to do alone.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'I just graduated with no offer yet. Should I look for a job, apply for a master\'s or MBA, or prepare for a competitive exam?',
+    answer:
+      'There is no single right answer across every case — the honest comparison depends on what each path would cost you in time and money from here, and what it would actually change about your eligibility or direction in your specific field. A job that starts building income and proof of work right away is not automatically better than further study, and further study is not automatically the safer choice either. The comparison should be run against your situation, not a generic ranking of options.',
+  },
+  {
+    question: 'My family already has a strong opinion on what I should do next. How do I handle that without a fight?',
+    answer:
+      'Start by separating genuine concern from comparison-driven pressure — a relative pushing a path because it worked for someone else\'s child is different from a real point about your specific situation. Bringing your family into a structured plan, with a clear next step and a checkpoint, usually works better than trying to win the argument outright or avoiding the conversation.',
+  },
+  {
+    question: 'Is it too late to build something to show if I finished my degree with nothing public to point to?',
+    answer:
+      'No. The starting material is often already there — a final-year project, coursework, or a small piece of freelance or volunteer work — and it can become a real, checkable proof asset without starting over. The more useful question is what to build first and how to present it, not whether it is too late.',
+  },
+  {
+    question: 'How is this different from career counselling for freshers?',
+    answer:
+      'Career counselling for freshers is built for the stage after this one, once one or more job offers are already on the table and the decision is which offer to accept, service company or product company, and what to build in year one. Career counselling after graduation sits earlier, at the fork itself: job search, further study, a competitive or government exam attempt, or a skill-building stretch, before that offer necessarily exists.',
+  },
+  {
+    question: 'How is this different from career counselling for college students?',
+    answer:
+      'Career counselling for college students is built for decisions that come up while you are still enrolled — a specialization choice, an internship, or the higher-studies question weighed from inside the degree. Career counselling after graduation is for the moment right after the degree is finished, when the decision has shifted from choices inside the degree to what actually comes next.',
+  },
+  {
+    question: 'Are the career and skill assessments free after graduation too?',
+    answer:
+      'Yes. The career and skill assessments are fully free, and they are built to be updated, practical, and AI-powered rather than generic. They work well as a starting signal on fit and work style before the job-versus-study-versus-exam decision gets discussed in a paid session.',
+  },
+  {
+    question: 'Is career counselling after graduation available online across India?',
+    answer:
+      'Yes. Guidance is delivered fully online across India, so you can book a session from home, a hostel you have not vacated yet, or wherever you have landed after graduation, without depending on a local counsellor.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Move here for wider support when more than one post-graduation question needs to fit together into one direction.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-freshers/',
+    title: 'Career Counselling for Freshers',
+    description: 'Move here once an offer is already on the table and the decision has shifted to evaluating it, company type, and year-one skills.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-college-students/',
+    title: 'Career Counselling for College Students',
+    description: 'Use this instead if you are still enrolled and the live decision is a specialization, internship, or elective choice inside the degree.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-mba-graduates/',
+    title: 'Career Counselling for MBA Graduates',
+    description: 'Go here specifically once an MBA is already completed and the question is whether it delivered the expected role or salary jump.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-first-generation-graduates/',
+    title: 'Career Counselling for First-Generation Graduates',
+    description: 'A dedicated page if the sharper pressure is having no family precedent for how any of these paths actually work, regardless of which one you pick.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'A free starting signal on strengths and work style before the job, further-study, or exam decision gets discussed in a paid session.',
+  },
+  {
+    href: '/blog/career-options/is-service-company-job-worth-it-for-freshers/',
+    title: 'Is a Service Company Job Worth It for Freshers?',
+    description: 'Useful reading if a job offer is one of the paths you are actually weighing right now.',
+  },
+  {
+    href: '/career-resources/creating-a-portfolio-without-work-experience/',
+    title: 'Creating a Portfolio Without Work Experience',
+    description: 'Practical ways to turn coursework, a final-year project, or small freelance work into proof a recruiter or admissions committee can check.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling After Graduation',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling After Graduation | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling After Graduation',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling After Graduation</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        For any degree, right after it ends, before a job, further study, or exam attempt is decided
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling after graduation
+        <span class="gold-text"> for the fork every degree ends at</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling after graduation is built for the moment the degree is finished and nothing is decided yet — job search, a master's or MBA, a competitive or government exam attempt, or a focused skill-building stretch. The point is to choose a direction tied to <strong>a real, high-value skill portfolio</strong> instead of whichever option is easiest to explain at a family function, so this stage starts unlocking stronger income opportunities and earlier financial freedom instead of a year lost to a default.
+      </p>
+      <p class="hero-note">
+        This works the same way regardless of your stream or degree — engineering, commerce, arts, science, or any other background. Guidance is delivered fully online across India, so you can start from home or wherever you have landed after graduation.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling After Graduation</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="The specific pressure right after a degree ends"
+    subtitle="Not a pre-college stream choice, not an offer already in hand — the exact moment between finishing a degree and picking what comes next."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="The path you default into now sets the skill direction for the next several years"
+    body="A tested comparison between job, further study, and an exam attempt moves you toward stronger income opportunities and earlier financial freedom — a default picked under family pressure does not."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling After Graduation"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="What career counselling after graduation should actually help you decide"
+    subtitle="Direction for the fork itself, not a repeat of the degree or stream decision you already made years ago."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can give you a signal on fit and work style before deciding between a job search, further study, or an exam attempt."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <section id="fork-map">
+    <div class="container">
+      <div class="fork-card">
+        <h2 class="fork-title">Four common defaults after graduation, and what each one actually costs</h2>
+        <p class="fork-intro">Any of these can be the right move. The problem is picking one without pricing it against the others first.</p>
+        <div class="fork-grid">
+          <div class="fork-item fork-teal">
+            <strong>A job now</strong>
+            <span>Starts income and proof of work immediately, but can lock in a direction before you have tested whether it fits — worth it when a genuinely usable role exists, not just any offer.</span>
+          </div>
+          <div class="fork-item fork-gold">
+            <strong>A master's or MBA</strong>
+            <span>Real cost in years, fees, and lost income while it runs — worth it when it changes your eligibility or ceiling in a specific field, not when it mainly feels like a safer way to delay deciding.</span>
+          </div>
+          <div class="fork-item fork-violet">
+            <strong>A competitive or government exam attempt</strong>
+            <span>Months to years without income while peers compound income and skills elsewhere — worth it when you have honestly tested fit for that specific exam track, not when it is mainly about family prestige.</span>
+          </div>
+          <div class="fork-item fork-blue">
+            <strong>A structured skill-building stretch</strong>
+            <span>Still needs a checkpoint and a visible output, or it quietly becomes drift — worth it when the degree alone does not yet support the direction you want and a focused stretch can close that specific gap.</span>
+          </div>
+        </div>
+        <p class="fork-footer">
+          None of these is automatically the safe or the risky choice. The comparison should run against your specific field, runway, and goals — not against what a relative did or what looks least questionable to explain right now.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BuyerChecks
+    sectionId="check-before-paying"
+    title="What to check before booking career counselling after graduation"
+    subtitle="The goal is a resolved job-versus-study-versus-exam decision — not a longer pros-and-cons list to sit with alone."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="Generic post-graduation advice versus counselling built around your actual fork"
+    subtitle="The difference matters most in the months right after a degree ends, when a default gets picked quietly if no one actually tests it against the alternatives."
+    rows={comparisonRows}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Stop letting the loudest family opinion or the fastest-looking option decide for you"
+    body="One structured session, focused on your actual job-versus-study-versus-exam fork, ending with a direct recommendation and one proof asset to start on — not another round of comparison with a cousin's path."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling After Graduation"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling"
+    title="Career Counselling Plans After Graduation"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See sibling pages for a sharper pressure, broader guidance, free assessments, and useful reading depending on exactly where you are right now."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions recent graduates ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Choose the next few years on purpose, not by default"
+    subtitle="Job, further study, an exam attempt, or a skill-building stretch — whichever fits, resolve it with a direct recommendation toward the right skill portfolio and earlier financial freedom, instead of carrying an open-ended 'figuring it out' phase far longer than it needs to run."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling After Graduation"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+
+  #fork-map { padding: 4.5rem 0; }
+  .fork-card {
+    border-radius: 26px;
+    border: 1px solid rgba(45,212,191,.24);
+    background:
+      radial-gradient(560px 220px at 100% 0%, rgba(45,212,191,.09), transparent 70%),
+      rgba(255,255,255,.025);
+    padding: 2.4rem clamp(1.4rem, 4vw, 2.6rem) 2.2rem;
+  }
+  .fork-title {
+    margin: 0 0 .6rem !important;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.3;
+    letter-spacing: -.02em;
+    color: #fff;
+    max-width: 760px;
+  }
+  .fork-intro {
+    margin: 0 0 1.6rem !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.68);
+    max-width: 700px;
+  }
+  .fork-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 1rem;
+    margin-bottom: 1.6rem;
+  }
+  .fork-item {
+    display: grid;
+    gap: .4rem;
+    padding: 1.1rem 1.2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+    border-left: 3px solid rgba(255,255,255,.18);
+  }
+  .fork-item strong { color: #fff; font-size: 14.5px; }
+  .fork-item span { color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.7; }
+  .fork-teal { border-left-color: var(--teal); }
+  .fork-gold { border-left-color: #e5b84a; }
+  .fork-violet { border-left-color: #a78bfa; }
+  .fork-blue { border-left-color: #60a5fa; }
+  .fork-footer {
+    margin: 0 !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.72);
+    max-width: 760px;
+  }
+  @media (max-width: 780px) {
+    .fork-grid { grid-template-columns: 1fr; }
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.65rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.72rem, 9.4vw, 2.35rem);
+      line-height: 1.06;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

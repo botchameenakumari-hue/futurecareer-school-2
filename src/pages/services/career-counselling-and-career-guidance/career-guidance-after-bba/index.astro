@@ -1,0 +1,518 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Guidance After BBA | MBA, a Job, or the Family Business | Future Career School';
+const description =
+  'Career guidance after BBA on MBA vs a management job vs the family business vs a specialization skill stack — decide with clarity, not by default.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-bba/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'The "BBA is incomplete" belief',
+    title: 'A degree that gets treated as a stepping stone before it is even tested on its own',
+    body: 'Family and even placement cells often talk about BBA as only a preparation step for an MBA, without seriously weighing whether direct entry into a management or business role right now could work just as well.',
+  },
+  {
+    eyebrow: 'Thin placement signal',
+    title: 'Many BBA colleges do not have the same recruiter depth as an engineering or commerce-professional pipeline',
+    body: 'A generalist management degree without a strong placement cell behind it can leave graduates with a credential but no clear entry point into a specific function.',
+  },
+  {
+    eyebrow: 'The family business option',
+    title: 'Joining the family business is often on the table, and it rarely gets a fair side-by-side comparison against an MBA or a corporate job',
+    body: 'It can look like the safe default or the obvious "waste" depending on who is talking, when it is actually a real path that deserves its own honest evaluation.',
+  },
+  {
+    eyebrow: 'Generalist skills, no clear specialization',
+    title: 'BBA covers finance, marketing, HR, and operations broadly, but rarely deep enough in any one of them to compete for a specialized entry role',
+    body: 'Without a deliberate specialization or skill stack layered on top, the degree alone often does not signal enough to recruiters looking for a specific functional fit.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'MBA vs direct job',
+    title: 'Whether an MBA genuinely strengthens your specific direction, or mostly delays a decision',
+    listItems: [
+      'What tier and specialization of MBA would actually change your ceiling in the function you want — consulting, marketing, finance, or operations — versus one chosen mainly for the prestige of "doing an MBA next"',
+      'Whether two to three years of work experience first would make an eventual MBA more useful and more affordable to justify',
+      'What a direct management-trainee or functional entry role realistically pays and grows into from a BBA alone',
+    ],
+  },
+  {
+    eyebrow: 'The family business question',
+    title: 'An honest comparison, not a decision made by guilt or default',
+    listItems: [
+      'What skills the family business genuinely needs from you, and whether your BBA specialization interest matches that need',
+      'How joining now versus gaining outside corporate experience first changes what you would actually bring to the business later',
+      'How to raise the option of a corporate job first without it reading as rejecting the family or the business itself',
+    ],
+  },
+  {
+    eyebrow: 'Choosing a specialization',
+    title: 'Turning a generalist BBA into a specific, marketable direction',
+    listItems: [
+      'Which functional direction — marketing, finance, HR, operations, or business analytics — actually fits your genuine interest and strengths, tested against real coursework and project experience',
+      'What a deliberate skill stack in that function looks like: a certification, a tool proficiency, or a project that gives a recruiter something concrete to check',
+      'How to avoid staying a generalist by default simply because BBA itself stayed broad',
+    ],
+  },
+  {
+    eyebrow: 'Building proof of work',
+    title: 'What a BBA graduate needs to show, beyond the degree itself',
+    listItems: [
+      'What counts as real, checkable proof of work in a business or management context — an internship, a live project, a documented result — versus something that only looks like effort',
+      'How to build that first piece while an MBA application, a job search, or the family-business decision is already underway',
+      'How a college project, internship, or a small consulting-style assignment can become that first proof asset',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the guidance treats BBA as a real starting point, not only an MBA waiting room',
+    body: 'A lot of generic advice assumes an MBA is the automatic next step after BBA. Look for guidance that seriously evaluates a direct job, a specialization skill stack, or the family business as genuine alternatives.',
+  },
+  {
+    title: 'Check whether the MBA-timing question gets a real answer, not a blanket "yes, immediately"',
+    body: 'Whether an MBA should come right after BBA or after a few years of work experience changes the cost, the tier you can realistically target, and the outcome. Guidance should price that trade-off specifically.',
+  },
+  {
+    title: 'Check whether the family business option gets taken seriously, not treated as a fallback',
+    body: 'If a family business is genuinely on the table, guidance should compare it honestly against corporate or MBA paths, not assume one is automatically better than the other.',
+  },
+  {
+    title: 'Check whether you leave with a chosen function and a proof-of-work step, not a longer list of BBA career options',
+    body: 'A useful session should end with a functional direction — marketing, finance, HR, operations, or analytics — and one concrete next step, not more open-ended reflection.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Is BBA useless without doing an MBA afterward?',
+    answer:
+      'No. A BBA paired with a deliberate specialization and a real skill stack — a certification, a tool proficiency, proof of work in a functional area — can open management-trainee and functional-entry roles without an MBA being mandatory. An MBA is one strong path, not the only one that makes the degree worthwhile.',
+  },
+  {
+    question: 'Should I do an MBA right after BBA or work first?',
+    answer:
+      'It depends on what the MBA is meant to change. If a specific tier or specialization would clearly raise your ceiling and you can justify the cost and time now, doing it directly can work. If the goal is mainly to delay deciding, a few years of work experience first often makes both the MBA application and the eventual outcome stronger.',
+  },
+  {
+    question: 'Should I join the family business or take a corporate job first?',
+    answer:
+      'This is a genuine decision, not a loyalty test. The comparison should weigh what skills the business actually needs from you, whether outside corporate experience would make you more useful to it later, and what you genuinely want to build — not guilt or default expectation alone.',
+  },
+  {
+    question: 'What career options exist after BBA other than an MBA?',
+    answer:
+      'Management-trainee programs, functional entry roles in marketing, finance, HR, or operations, business analytics roles with the right skill layer, entrepreneurship, and the family business are all real paths. The right one depends on your specific interest and the skill stack you build alongside the degree.',
+  },
+  {
+    question: 'How is this different from career counselling after graduation?',
+    answer:
+      'Career counselling after graduation covers the degree-agnostic fork every graduate faces — job versus master\'s versus a competitive exam versus a skill-building stretch. This page goes further into the BBA-specific version of that fork: the MBA-timing question, the family-business option, and choosing a functional specialization, none of which apply the same way to every degree.',
+  },
+  {
+    question: 'How is this different from career counselling for commerce students?',
+    answer:
+      'Career counselling for commerce students is built for the earlier, pre-commitment stage right after 12th commerce, comparing CA, CS, CMA, B.Com, and BBA as different professional bets. After BBA, the decision may move towards MBA timing, a functional specialisation, a direct job, or the family business.',
+  },
+  {
+    question: 'Are the career and skill assessments free after BBA too?',
+    answer:
+      'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered. They work well as a starting signal on functional fit and work style before the MBA-versus-job-versus-family-business decision gets discussed in a paid session.',
+  },
+  {
+    question: 'Is career guidance after BBA available online across India?',
+    answer:
+      'Yes. Guidance is delivered fully online across India, so you can book a session from home or wherever you have landed after your BBA, without depending on a local counsellor.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Move here for wider support when more than one post-BBA question needs to fit together into one direction.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-after-graduation/',
+    title: 'Career Counselling After Graduation',
+    description: 'A degree-agnostic version of this fork if the comparison you actually need is job versus master\'s versus an exam attempt.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-commerce-students/',
+    title: 'Career Counselling for Commerce Students',
+    description: 'Use this instead if you are still choosing between CA, CS, CMA, B.Com, and BBA before committing to any of them.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-mba-students/',
+    title: 'Career Counselling for MBA Students',
+    description: 'Move here once an MBA is already underway and the live decision is specialization, internships, or placement positioning.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'A free starting signal on functional fit and work style before the MBA, job, or family-business decision gets discussed in a paid session.',
+  },
+  {
+    href: '/blog/career-options/career-options-in-commerce/',
+    title: 'Career Options in Commerce',
+    description: 'Real paths across finance, banking, analytics, sales, marketing, and ownership routes relevant to a BBA background.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Guidance After BBA',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Guidance After BBA | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Guidance After BBA',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Guidance After BBA</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        For BBA graduates weighing MBA timing, a job, a specialization, or the family business
+      </div>
+
+      <h1 class="hero-title">
+        Career guidance after BBA
+        <span class="gold-text"> for the MBA-vs-job-vs-family-business fork</span>
+      </h1>
+      <p class="hero-sub">
+        Career guidance after BBA is built for the specific fork management graduates actually face: whether an MBA now genuinely strengthens your direction, a direct management or functional role, a deliberate specialization skill stack, or joining the family business. The point is to choose the path tied to <strong>a real, high-value skill portfolio</strong> instead of treating BBA as only a stepping stone, so this stage starts unlocking stronger income opportunities and earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from home or wherever you have landed after your BBA.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Guidance After BBA</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="The specific pressure BBA graduates face after the degree"
+    subtitle="Not a generic post-graduation question — the exact fork between an MBA, a direct job, a specialization, and the family business that a BBA specifically raises."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="The path you default into now shapes your functional direction for years"
+    body="A tested comparison between MBA timing, a direct job, a specialization, and the family business moves you toward high income opportunities — a default picked from family pressure does not."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After BBA"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="What career guidance after BBA should actually help you decide"
+    subtitle="Direction for the BBA-specific fork itself, not a repeat of generic post-graduation advice."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can give you a signal on functional fit and work style before deciding between an MBA, a job, or the family business."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <section id="fork-map">
+    <div class="container">
+      <div class="fork-card">
+        <h2 class="fork-title">Four common paths after BBA, and what each one actually costs</h2>
+        <p class="fork-intro">Any of these can be the right move. The problem is picking one without pricing it against the others first.</p>
+        <div class="fork-grid">
+          <div class="fork-item fork-teal">
+            <strong>An MBA now</strong>
+            <span>Worth it when a specific tier and specialization would genuinely raise your ceiling — not automatically the correct next step just because it sounds like the standard combo.</span>
+          </div>
+          <div class="fork-item fork-gold">
+            <strong>A direct management or functional role</strong>
+            <span>Starts income and real-world proof of work immediately, and can make a later MBA more targeted and affordable to justify.</span>
+          </div>
+          <div class="fork-item fork-violet">
+            <strong>A deliberate specialization skill stack</strong>
+            <span>Turns a generalist BBA into a marketable direction — marketing, finance, HR, operations, or analytics — with a certification, tool, or project as real proof.</span>
+          </div>
+          <div class="fork-item fork-blue">
+            <strong>The family business</strong>
+            <span>A genuine path when it matches your actual interest and skill direction — worth evaluating honestly, not by guilt or by default.</span>
+          </div>
+        </div>
+        <p class="fork-footer">
+          None of these is automatically the safe or the "real" choice. The comparison should run against your specific interest, family situation, and goals — not against what looks like the standard next step after BBA.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BuyerChecks
+    sectionId="check-before-paying"
+    title="What to check before booking career guidance after BBA"
+    subtitle="The goal is a resolved MBA-versus-job-versus-family-business decision — not a longer list of BBA career options."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="Generic post-BBA advice versus guidance built around your actual fork"
+    subtitle="The difference matters most in the months right after BBA, when MBA-or-not gets decided quietly if no one actually tests it against the alternatives."
+    rows={comparisonRows}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Stop letting 'do an MBA next' decide for you by default"
+    body="One structured session, focused on your actual MBA-versus-job-versus-family-business fork, ending with a direct recommendation and one proof-of-work step to start on."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After BBA"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Guidance"
+    title="Career Guidance Plans After BBA"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See sibling pages for a sharper pressure, broader guidance, free assessments, and useful reading depending on exactly where you are right now."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions BBA graduates ask before choosing career guidance"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Choose your next move on purpose, not by MBA default"
+    subtitle="MBA timing, a direct job, a specialization, or the family business — whichever fits, resolve it with a direct recommendation toward the right skill portfolio and earlier financial freedom, instead of drifting into the standard next step."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After BBA"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+
+  #fork-map { padding: 4.5rem 0; }
+  .fork-card {
+    border-radius: 26px;
+    border: 1px solid rgba(45,212,191,.24);
+    background:
+      radial-gradient(560px 220px at 100% 0%, rgba(45,212,191,.09), transparent 70%),
+      rgba(255,255,255,.025);
+    padding: 2.4rem clamp(1.4rem, 4vw, 2.6rem) 2.2rem;
+  }
+  .fork-title {
+    margin: 0 0 .6rem !important;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.3;
+    letter-spacing: -.02em;
+    color: #fff;
+    max-width: 760px;
+  }
+  .fork-intro {
+    margin: 0 0 1.6rem !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.68);
+    max-width: 700px;
+  }
+  .fork-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 1rem;
+    margin-bottom: 1.6rem;
+  }
+  .fork-item {
+    display: grid;
+    gap: .4rem;
+    padding: 1.1rem 1.2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+    border-left: 3px solid rgba(255,255,255,.18);
+  }
+  .fork-item strong { color: #fff; font-size: 14.5px; }
+  .fork-item span { color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.7; }
+  .fork-teal { border-left-color: var(--teal); }
+  .fork-gold { border-left-color: #e5b84a; }
+  .fork-violet { border-left-color: #a78bfa; }
+  .fork-blue { border-left-color: #60a5fa; }
+  .fork-footer {
+    margin: 0 !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.72);
+    max-width: 760px;
+  }
+  @media (max-width: 780px) {
+    .fork-grid { grid-template-columns: 1fr; }
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.65rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.72rem, 9.4vw, 2.35rem);
+      line-height: 1.06;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

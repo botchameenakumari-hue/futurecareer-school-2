@@ -345,12 +345,14 @@ function createStudentCareerPage({
   title,
   aliases,
   target = 'class1112',
+  relatedTargets = STUDENT_RELATED_TARGETS,
   bestFitBody,
 }: {
   slug: string;
   title: string;
   aliases: string[];
   target?: AssessmentTargetId;
+  relatedTargets?: AssessmentTargetId[];
   bestFitBody?: string;
 }): AssessmentPage {
   const phrase = lowerLead(title);
@@ -368,7 +370,7 @@ function createStudentCareerPage({
     heroSub:
       `${title} should help before stream, course, and degree decisions become expensive wrong turns. Start with the free student test that matches your stage and what you are actually stuck on.`,
     target,
-    relatedTargets: STUDENT_RELATED_TARGETS,
+    relatedTargets,
     relatedPhrases: aliases,
     fitTitle: `When ${phrase} becomes useful`,
     fitSubtitle:
@@ -5840,7 +5842,6 @@ export const ASSESSMENT_PAGE_ROUTE_CONFIG = ASSESSMENT_PAGES.map((page) => ({
   changefreq: 'monthly' as const,
   priority: '0.82',
 }));
-
 
 
 

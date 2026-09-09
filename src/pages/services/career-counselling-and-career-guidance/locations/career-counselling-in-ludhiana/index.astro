@@ -1,0 +1,562 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Ludhiana drops the "degree-first vs skill-first" row (index 1) and the
+// "generic low-paying path advice" row (index 4). Index 1 adds the least here
+// because Ludhiana's core tension is not a degree-prestige problem the way it
+// is in Chandigarh (Panjab University/PEC/PGIMER) or Delhi (DU/UPSC) - most
+// Ludhiana households already run a manufacturing trade where the honest
+// question is karobar-versus-independent-skill-path, not degree-versus-skill.
+// Index 4 is dropped for the same reason it is dropped on Chandigarh and
+// Nagpur: it is the weakest-fit generic framing once the page's own local
+// forks (family-business succession, PAU/agriculture, and the shared Punjab
+// emigration context) already carry that ground. The resulting selection
+// (rows 0, 2, 3, 5) is a combination not used by any sibling: Rajkot (rows
+// 0-4), Vizag (rows 1-5), Bangalore (full library), Pune (drops index 3),
+// Kolkata (drops index 1 only), Chennai (drops index 5), Hyderabad (drops
+// index 2), and Chandigarh/Nagpur/Mumbai (drop index 4 only).
+const ludhianaComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 1 && index !== 4);
+
+const title = 'Career Counselling in Ludhiana | Online Guidance Across India | Future Career School';
+const description =
+  "Career counselling in Ludhiana for students and working professionals - clarity on the family-karobar-versus-independent-path decision, the PAU agriculture route, and building a high-value skill portfolio from Punjab's largest industrial city.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-ludhiana/';
+
+const fitItems = [
+  {
+    title: 'Your family already runs a karobar, and stepping away feels like betrayal, not ambition',
+    listItems: [
+      "Ludhiana runs on tens of thousands of hosiery, knitwear, bicycle-parts, and machine-tool units, most of them family-owned, so 'what will you do' usually already has an answer waiting inside the family unit before you have said a word",
+      "Choosing a different path - or choosing to modernise the karobar instead of running it exactly as your father or grandfather did - is a real decision with income and relationship consequences, not a simple yes-or-no",
+      'Getting this right, instead of drifting into the family unit by default or walking away out of impulse, is what actually moves you toward earlier financial freedom',
+    ],
+  },
+  {
+    title: "You come from a farming family, and PAU is the only path anyone has named for you",
+    listItems: [
+      "Punjab remains one of India's most agriculture-dependent states, and for a real share of Ludhiana district's rural and semi-rural households, Punjab Agricultural University is the only serious institution anyone in the family has ever discussed",
+      'That can mean two different problems: genuine interest in agri-science getting no real direction beyond "clear the PAU entrance", or a student who wants something else entirely with no idea how to say so at home',
+      'A high-value skill portfolio built around agri-business, food processing, or agri-tech can unlock high income opportunities well beyond a traditional farming or extension-service role - but only if someone actually maps that path instead of assuming PAU means one fixed outcome',
+    ],
+  },
+  {
+    title: 'A general-purpose career pep talk will not untangle a karobar or a PAU decision',
+    listItems: [
+      "Generic \"just join the family business\" or \"just clear a PAU exam\" advice skips the real trade-offs each specific path carries",
+      "You need someone who can weigh Ludhiana's actual industrial and agrarian economy, your family's specific situation, and your own risk tolerance honestly",
+      "You want a specific plan for your unit, your farm background, or your abroad option - not a motivational line that could apply to any city",
+    ],
+  },
+];
+
+const ludhianaContextItems = [
+  {
+    title: "Ludhiana is India's hosiery and knitwear capital - and that shapes the career script most families here inherit",
+    body: "Ludhiana produces a genuinely outsized share of India's woollen hosiery, knitwear, and readymade-garment output, with thousands of manufacturing and export units clustered in the Industrial Area A and B belts, Focal Point, and along the Tajpur Road corridor. For a large share of Ludhiana households, the family's own hosiery or knitwear unit is not a hypothetical career option - it is the default, already running, already employing relatives, and already assumed to be the next generation's job. Good counselling should take that seriously as a genuine, income-generating asset worth building on, without treating it as the only respectable outcome a Ludhiana family can be proud of.",
+  },
+  {
+    title: 'Hero Cycles and the bicycle-and-auto-parts ecosystem add a second, distinct manufacturing identity',
+    body: "Ludhiana is also the heart of India's bicycle manufacturing industry, home to Hero Cycles - among the largest bicycle makers in the world - alongside Avon Cycles, Hamilton, and hundreds of smaller ancillary units producing forgings, castings, chains, and components. That ecosystem, concentrated around Industrial Area B and Dhandari Kalan, has grown into a wider auto-parts and machine-tool manufacturing base that supplies well beyond Punjab. This is a different economic identity from the hosiery trade - more precision-engineering and export-supply-chain driven - and a family or individual weighing a path here faces a genuinely different set of skill and ownership questions than someone inside the knitwear trade.",
+  },
+  {
+    title: "Punjab Agricultural University anchors a real agricultural-career pathway few other Indian cities can claim",
+    body: "Punjab Agricultural University (PAU), on Ferozepur Road, is one of India's most globally recognised agricultural universities and a genuine hub for agri-science, plant breeding, and farm-extension research - not a fallback option for students who could not get into engineering or medicine. Given how deeply Punjab's own economy still runs on agriculture, PAU represents a real, respected pathway into agri-business, food technology, agri-tech, and applied agricultural science - one that no other city in Future Career School's location coverage carries in the same way. Alongside it, Guru Nanak Dev Engineering College (GNDEC) and Dayanand Medical College (DMC) give Ludhiana its own smaller but genuine engineering and medical talent pipeline.",
+  },
+  {
+    title: "MSME succession pressure is real here in a way that goes beyond a generic 'family business' conversation",
+    body: "Because so much of Ludhiana's industrial base is built on small and mid-sized family-run units rather than large corporate employers, the succession question shows up earlier and more concretely than in most Indian cities - often by the end of college, sometimes sooner. It is rarely a simple in-or-out choice: it can mean staying but modernising a hosiery unit's export compliance and design capability, staying but shifting a bicycle-ancillary unit toward newer component lines, or building an independent, skill-first career and supporting the family business from outside it rather than running it day to day. Treating this as one flat \"join or leave\" question misses most of the real decision.",
+  },
+];
+
+const karobarVsPathItems = [
+  {
+    title: "Joining the family karobar is not automatically the safe choice, and leaving it is not automatically the ambitious one",
+    listItems: [
+      "A hosiery, knitwear, or bicycle-ancillary unit that has run profitably for two generations can be a genuine asset to build a stronger, more modern business on top of - export compliance, design and branding, and newer digital-sales channels can meaningfully raise its ceiling",
+      "It can also be a business quietly losing ground to larger organised players and shifting trade patterns, in which case staying without a real plan is the riskier bet, not the safer one",
+      "The honest question is whether the specific unit, and your specific role in it, is actually strong enough to build a career on - not whether staying simply feels like the expected answer",
+    ],
+  },
+  {
+    title: "Building an independent, skill-first path does not have to mean rejecting the family business",
+    listItems: [
+      "A high-value skill portfolio in areas like export operations, quality and compliance, supply-chain management, design, or digital marketing can be built and then applied back into the family unit - strengthening it from a position of real capability rather than obligation",
+      "It can also stand entirely on its own, opening high income opportunities in a different industry or city if that is genuinely the stronger fit",
+      "Either way, the decision deserves the same rigour as any other high-stakes career choice, not a default answer picked to avoid a hard conversation at home",
+    ],
+  },
+];
+
+const paworkAreaItems = [
+  {
+    title: "Industrial Area A and B, Focal Point, and Tajpur Road carry Ludhiana's hosiery and export economy",
+    body: 'These belts hold the bulk of Ludhiana\'s knitwear and hosiery manufacturing and export units, alongside a dense cluster of ancillary dyeing, packaging, and logistics businesses. Someone from a family running or working inside one of these units is usually weighing modernisation, diversification, or a skill-first exit against a business that already has real revenue and real relationships behind it.',
+  },
+  {
+    title: 'Dhandari Kalan and the surrounding belt anchor the bicycle and auto-parts manufacturing base',
+    body: "Dhandari Kalan's industrial belt, alongside the wider stretch feeding Hero Cycles, Avon Cycles, and their ancillary supply chain, represents a more precision-engineering and export-oriented manufacturing identity than the hosiery trade. Families rooted here are often weighing a very different kind of succession question - component specialisation, capital-equipment upgrades, and supplying newer product lines - rather than the design-and-compliance questions that dominate the hosiery side.",
+  },
+  {
+    title: "PAU's Ferozepur Road campus and Ludhiana's rural hinterland carry a genuinely different economic reality",
+    body: "Students and families from the villages and semi-rural belt around Ludhiana district, and those living near the PAU campus itself, are often navigating an agricultural-career decision that looks nothing like the industrial-succession question dominating the city's manufacturing belts. Good counselling for Ludhiana should recognise that a PAU aspirant from a farming family and a hosiery-unit heir from Focal Point are living through two entirely different versions of this city's career pressure.",
+  },
+  {
+    title: 'Sarabha Nagar, BRS Nagar, Model Town, and Civil Lines hold Ludhiana\'s professional and salaried population',
+    body: "Sarabha Nagar, BRS Nagar, Model Town, and the older Civil Lines area house a meaningful population of salaried professionals, doctors, and second-generation business families who are one step removed from the factory floor itself. Someone from this side of the city is often weighing a corporate, medical, or government-services path against inherited business wealth and expectations, rather than the day-to-day operational succession question a Focal Point or Dhandari Kalan family faces directly.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: "My family expects me to join our hosiery/knitwear or bicycle-parts unit - is walking away even a real option?",
+    body: "It is a real option, and so is staying and changing how the business runs. The honest first step is evaluating the specific unit - its real financial health, its growth ceiling, and whether your own strengths fit operating or modernising it - rather than treating the decision as loyalty versus ambition. Either path can lead toward earlier financial freedom if it is chosen deliberately.",
+  },
+  {
+    title: "I come from a farming family and everyone assumes PAU - what if agriculture is not actually what I want?",
+    body: "That is a common and rarely discussed tension. PAU is a genuinely strong institution for agri-science, food technology, and agri-business, and it can also open a high-value skill portfolio well beyond farm operations. But if your actual interests lie elsewhere, that deserves an honest conversation and a real alternative plan, not silence until an entrance exam forces the issue.",
+  },
+  {
+    title: "Is Ludhiana's manufacturing base actually still growing, or should I look at IT and services instead?",
+    body: "Ludhiana's hosiery, knitwear, and bicycle-and-auto-parts manufacturing base remains genuinely large and export-relevant, but it is not the same growth story as an IT or services corridor. The stronger question is not manufacturing-versus-IT as a blanket choice, but which specific skill direction - inside the existing industrial base, or in a newer field entirely - actually fits your strengths and the real opportunity in front of you.",
+  },
+  {
+    title: "Everyone I know is trying to move abroad - does staying in Ludhiana mean I am settling?",
+    body: "No. Punjab's emigration culture toward Canada, Australia, and the UK is real and visible here too, but it is one option among several, not proof that staying is the weaker choice. Ludhiana's own industrial base, PAU's agricultural pathway, and a genuine skill-first career built locally or remotely are all legitimate alternatives worth comparing honestly against an abroad plan - not dismissed in its favour by default.",
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the family-business question is treated as a real decision, not a loyalty test",
+    body: "Good guidance for Ludhiana should be able to evaluate a specific hosiery, knitwear, or bicycle-ancillary unit on its actual merits - and help you decide between joining, modernising, or building independently - without assuming either choice is automatically the right one.",
+  },
+  {
+    title: "Check whether a PAU or agricultural path is taken seriously as a genuine career, not a fallback",
+    body: "Agri-science, food technology, and agri-business are real, respected fields with real income potential. Guidance worth paying for should engage with PAU and the agricultural route honestly, whether the goal is building on it or choosing a different direction from a farming family.",
+  },
+  {
+    title: "Check whether the guidance understands Ludhiana's specific industrial base, not manufacturing in general",
+    body: "Ludhiana's hosiery and knitwear trade and its bicycle-and-auto-parts ecosystem are genuinely different economies with different skill and succession questions. A counsellor who treats all of Ludhiana's manufacturing as one undifferentiated 'family business' story is missing the real picture.",
+  },
+  {
+    title: "Check whether the emigration pull is addressed honestly, not used to make staying feel like the weaker option",
+    body: "Punjab's emigration culture deserves an honest hearing, not a dismissal and not an assumption that it is automatically the smarter move. The guidance should weigh it against Ludhiana's real industrial and agricultural opportunities on their actual merits.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      'Whether joining, modernising, or stepping back from a family hosiery, knitwear, or bicycle-ancillary unit genuinely fits your strengths and goals',
+      'Whether a PAU or agri-business path is a real fit for you, or whether it is a family default worth questioning honestly',
+      'A realistic comparison between building a local or remote-first skill-first career and a properly evaluated plan to study or settle abroad',
+      'How to raise a hard family conversation about the karobar or the farm without it reading as rejection',
+    ],
+  },
+  {
+    title: 'A skill direction built for achieving earlier financial freedom either way',
+    listItems: [
+      'A high-value skill portfolio that strengthens a family manufacturing or agricultural business, or stands independently of it',
+      'Proof-of-work positioning that carries weight beyond a family unit\'s name or a single entrance exam attempt',
+      'A realistic income comparison between staying inside the family business, an independent skill-first path, and a properly costed abroad plan',
+      'One practical next step instead of another round of family or neighbourhood validation',
+    ],
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.chandigarhCounselling,
+    title: 'Career Counselling in Chandigarh',
+    description: "Useful if the government-service default or Punjab's abroad-migration pull is more relevant to you than Ludhiana's manufacturing economy.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'Online-first approach across India if your real concern is easier access rather than the city itself.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.nriStudents,
+    title: 'Career Counselling for NRI Students',
+    description: 'Useful if the abroad-versus-India decision is already the main question, wherever you are searching from.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Is career counselling in Ludhiana mostly about the family business decision?',
+    answer:
+      "For a large share of people searching from Ludhiana, yes, that is a genuine part of it - the city's hosiery, knitwear, and bicycle-and-auto-parts manufacturing base means a family karobar is often already in the picture. But the service covers the full decision: joining, modernising, or building independently of a family business, a PAU-linked agricultural path, a GNDEC or DMC-track choice, or a properly evaluated plan to study or work abroad. The right starting point depends on which of those is actually pressing for you.",
+  },
+  {
+    question: 'Should I join my family\'s hosiery or knitwear business, or build an independent career instead?',
+    answer:
+      "There is no single right answer - it depends on the specific business, your own strengths, and your risk tolerance. A family hosiery, knitwear, or bicycle-ancillary unit with real revenue and relationships is a genuine asset worth building on, but it is not automatically the right fit for everyone in the next generation. Honest counselling should evaluate the actual business and your actual fit, rather than assuming either loyalty or ambition is the correct default.",
+  },
+  {
+    question: 'My family is from a farming background and expects me to pursue PAU - how do I know if that is right for me?',
+    answer:
+      "Start by separating genuine interest in agri-science from family expectation - they are not always the same thing. PAU is a real, well-regarded institution that can open into agri-business, food technology, and agri-tech careers with real income potential, not just traditional farm work. Good counselling should help you evaluate that path honestly, and help you think through how to raise a different direction with your family if agriculture genuinely is not your fit.",
+  },
+  {
+    question: "Is Ludhiana's manufacturing economy - hosiery, knitwear, and bicycle parts - still a strong career base?",
+    answer:
+      "Yes, on its own terms. Ludhiana remains one of India's largest hosiery and knitwear manufacturing and export hubs, and its bicycle-and-auto-parts ecosystem, anchored by Hero Cycles and its ancillary supply chain, is genuinely significant nationally. It is a different kind of opportunity than an IT or services corridor, built more around ownership, exports, and precision manufacturing - worth evaluating on its own merits rather than measured against a Bangalore or Gurgaon-style tech career.",
+  },
+  {
+    question: 'Why choose online career counselling in Ludhiana instead of a nearby consultancy?',
+    answer:
+      "Because a consultant embedded in one specific trade - hosiery, bicycle parts, or agriculture - can carry a built-in bias toward the path they know best. Online guidance brings in an outside, India-wide view without requiring a visit to a specific industrial belt or campus, and it should still be judged on whether it gives you an honest read on your specific family, business, and skill situation, not a one-size answer.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals across Ludhiana and its surrounding villages?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you live in central Ludhiana, near an industrial belt like Focal Point or Dhandari Kalan, or in the rural and semi-rural areas around Ludhiana district closer to PAU\'s catchment.',
+  },
+  {
+    question: "What if my bigger issue isn't the family business, agriculture, or Ludhiana at all?",
+    answer:
+      "That is common. If the real pressure is a stream choice, a specific skill decision, or a career change with no family-business, agricultural, or city angle involved, the main counselling and guidance pages are the stronger next filter. This page is most useful when Ludhiana's manufacturing-succession question, its PAU-linked agricultural pathway, or the shared Punjab emigration pull is genuinely part of what you are weighing.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Ludhiana', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Ludhiana | Future Career School',
+    description:
+      'Career counselling in Ludhiana for students, freshers, and working professionals. Online guidance for clearer decisions between the family manufacturing-business path, the PAU-linked agricultural pathway, an independent skill-first career, and studying or settling abroad.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Ludhiana' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Ludhiana</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Ludhiana
+      </div>
+
+      <h1 class="hero-title">
+        Career Counselling in <span class="gold-text">Ludhiana</span>
+      </h1>
+      <p class="hero-sub">
+        Ludhiana is Punjab's largest industrial city, built on a genuinely rare mix of businesses - a hosiery and knitwear manufacturing base that supplies a huge share of India's woollen garments, a bicycle-and-auto-parts ecosystem anchored by Hero Cycles, and a wider agrarian economy feeding into Punjab Agricultural University. That mix shapes a career script most families here already have an answer for before the conversation even starts: join the family unit, or head toward PAU because the family has always farmed. The question few people examine directly is whether building a genuine high-value skill portfolio - inside the family business, alongside it, or entirely apart from it - could unlock high income opportunities and earlier financial freedom that the assumed default never gets you to.
+      </p>
+      <p class="hero-sub hero-sub-secondary">
+        Guidance is delivered fully online across Ludhiana - from a home near Focal Point's export units to a hostel near PAU's Ferozepur Road campus - and across India, so you can start wherever you already are without adding another commute to an already crowded family decision.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="ludhiana-career-landscape"
+    title="The Ludhiana career reality generic advice rarely names"
+    subtitle="Ludhiana's economy runs on family-owned manufacturing and a genuine agrarian base in a way few other Indian cities replicate. Good career counselling should engage with that reality directly instead of treating Ludhiana like a generic tier-2 city, and should help you build the high-value skill portfolio that unlocks high income opportunities from wherever you are starting."
+    items={ludhianaContextItems}
+    variant="signal"
+  />
+
+  <BofuListCardSection
+    sectionId="intent-clarity"
+    title="Why this decision already feels heavier here"
+    subtitle="When people search for career counselling in Ludhiana, the city name usually points to something specific - a family manufacturing unit already waiting, an agricultural expectation tied to PAU, or a relative's abroad move casting a long shadow. The real pressure is rarely the city itself. It is seeing the actual trade-off clearly instead of through whichever script feels closest to home."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Ludhiana search already reflects a real fork, look at it honestly before another year gets committed"
+    body="Use this when you want a genuine read on the family-business question or the PAU-versus-something-else decision, not another round of family or neighbourhood validation."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuListCardSection
+    sectionId="karobar-vs-path"
+    title="Family karobar, or an independent skill-first path - the decision with no equivalent on other city pages"
+    subtitle="Few Indian cities put the family-business succession question this close to the surface this early. Ludhiana's dense base of small and mid-sized manufacturing units means this fork is worth its own honest look rather than an assumed answer either way."
+    items={karobarVsPathItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="ludhiana-areas"
+    title="Ludhiana's own geography shapes which version of this decision you are in"
+    subtitle="A useful local page should recognise that a family running an export unit in Focal Point, a household near PAU's rural catchment, and a salaried family in Sarabha Nagar are not living through the same version of Ludhiana."
+    items={paworkAreaItems}
+    variant="decision"
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a city built around a family-manufacturing default on one side and an agricultural-family default on the other, the real risk is advice that either glorifies the inherited path or dismisses it outright. The comparison below shows what separates high-leverage guidance from both."
+    rows={ludhianaComparisonRows}
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="Not another opinion added to an already crowded set of family expectations. A clearer read on the karobar-versus-independent-path question, an honest look at a PAU or agricultural route, and a route toward earlier financial freedom regardless of which path you choose."
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Ludhiana"
+    subtitle="Do not compare only how well a consultant knows the hosiery trade or the bicycle-ancillary business. Compare whether the process improves decision quality on the actual fork you are facing."
+    items={buyerCheckItems}
+  />
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Ludhiana.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use - even inside a city with this much family-business and agricultural expectation attached to every choice.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Ludhiana page when locality matters, but choose based on decision quality, not the loudest family script"
+    body="The practical value is an honest read on the family-business, agricultural, and independent-path options in front of you, and a concrete next step before another year gets committed by default."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Ludhiana" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a family manufacturing business, an agricultural-family expectation, and the shared Punjab pull toward studying or settling abroad are all stacked on the same decision - and when the real goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom, whichever route you choose."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill { width: fit-content; margin-bottom: 1.6rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title { font-size: clamp(2.35rem, 5vw, 3.9rem); line-height: 1.04; letter-spacing: -.04em; color: #fff; max-width: 980px; margin-bottom: 1.25rem; overflow-wrap: anywhere; }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.72); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-sub-secondary { color: rgba(255,255,255,.6); font-size: 14px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 1.6rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #ludhiana-career-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

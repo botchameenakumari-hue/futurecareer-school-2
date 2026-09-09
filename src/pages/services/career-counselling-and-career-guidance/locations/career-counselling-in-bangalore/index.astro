@@ -1,0 +1,563 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Bangalore page shows the full comparison library - unlike Rajkot (first 5 rows)
+// and Vizag (last 5 rows), all six rows genuinely fit Bangalore's skill-first,
+// meritocratic tech and startup hiring market, including the random-upskilling
+// row that the other two cities' industrial/PSU-heavy economies fit less well.
+const bangaloreComparisonRows = BOFU_COMPARISON_LIBRARY;
+
+const title =
+  'Career Counselling in Bangalore | Online Guidance Across India | Future Career School';
+const description =
+  "Career counselling in Bangalore for students and working professionals - practical online guidance in India's fastest-moving tech and startup job market.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-bangalore/';
+
+const fitItems = [
+  {
+    title: 'You are choosing between too many paths, not too few',
+    listItems: [
+      'Bangalore rarely has a shortage of options - it has an overload of them',
+      'IT services, product companies, GCCs, startups, deep-tech, and biotech all compete for the same graduating class',
+      'More choice has not made the decision easier - if anything it has made it noisier',
+    ],
+  },
+  {
+    title: 'You want support that cuts through the noise, not adds to it',
+    listItems: [
+      'You searched for career counselling in Bangalore because the city name signals something closer and easier to trust',
+      'That is reasonable - but Bangalore is also headquarters to dozens of edtech and coaching platforms competing for the same search',
+      'The real filter should be whether the guidance improves your next move, not which name has the biggest marketing budget',
+    ],
+  },
+  {
+    title: 'You already know generic advice is not enough',
+    listItems: [
+      'Generic "just get into tech" advice still leaves the actual decision unresolved',
+      'You need something specific to your branch, your role, and your risk tolerance',
+      'You want a clear next step, not another motivational LinkedIn post',
+    ],
+  },
+];
+
+const bangaloreContextItems = [
+  {
+    title: "Bangalore concentrates more career forks per person than almost any Indian city",
+    body: "Bangalore is home to India's largest cluster of IT services majors, global capability centres for companies like Google, Microsoft, Amazon, Goldman Sachs, and Target, plus thousands of funded startups including Flipkart, Swiggy, and Ola. That same skyline also holds Hindustan Aeronautics Limited (HAL), ISRO's headquarters and satellite centre, the National Aerospace Laboratories, and Biocon - which makes Bangalore India's biotech hub as much as its IT one. A fresher here is not choosing between \"a job and no job.\" They are choosing between an IT-services ladder, a product-company track, a GCC role, a startup with real equity risk, or a deep-tech, aerospace, or biotech path that most other cities never offer at this scale. Institutions like IISc, IIM Bangalore, RV College of Engineering, BMS College of Engineering, and PES University produce graduates capable of any of these routes - the gap is usually deciding which one actually fits, not raw ability.",
+  },
+  {
+    title: 'Most of the workforce moved here for the job - which changes the pressure',
+    body: "A large share of Bangalore's tech and startup workforce relocated from another state specifically for this opportunity. That means career decisions here rarely happen in isolation - they come bundled with a fresh-city adjustment, a rent budget, and often a family watching from another city to see whether the move was worth it. Getting the skill direction wrong in Bangalore does not just cost time; it compounds against a higher cost of living and the pressure of having already uprooted for it. A high-value skill portfolio that keeps unlocking better roles matters more here precisely because the starting bet was already a bigger one.",
+  },
+  {
+    title: 'The corporate-ladder versus startup-culture fork shows up earlier than elsewhere',
+    body: "Nowhere else in India does a 24-year-old face this choice as often: stay on a structured, slower-but-safer IT-services or GCC promotion track, or join a startup where growth can be faster but equity, stability, and role clarity are all genuine risks. Neither is automatically correct. The stronger question is which path fits your actual risk tolerance, financial runway, and the specific skill portfolio you want to build - not which one sounds more exciting at a weekend meetup.",
+  },
+  {
+    title: 'AI-driven disruption anxiety is sharper here because IT work is concentrated here',
+    body: "Bangalore holds an outsized share of India's IT and IT-enabled workforce, which also means it absorbs an outsized share of the anxiety around AI automating entry-level coding, testing, and support-desk work. That anxiety is often real but poorly targeted - the honest response is not panic, it is figuring out which specific skills in your stack are genuinely at risk and which ones compound in value as AI tools spread, so the next move is a deliberate skill decision rather than a reaction to headlines.",
+  },
+];
+
+const bangaloreAreaItems = [
+  {
+    title: "Bangalore's tech geography changes the actual trade-off, not just the commute",
+    body: "Someone weighing options from Whitefield or Electronic City is usually inside the older IT-park corridors built around Infosys, Wipro, and large services campuses, with a real hour-plus commute now baked into daily life. Someone in Koramangala or HSR Layout is closer to the startup and venture-funded world - shorter commutes to smaller, higher-risk employers. Manyata Tech Park near Hebbal, the outer ring road belt through Marathahalli, and the newer Sarjapur Road corridor each pull toward a different mix of GCCs, product companies, and startups. Indiranagar sits socially close to the startup scene without being inside a tech park at all.",
+  },
+  {
+    title: "Traffic is not a side detail in Bangalore - it is a career input",
+    body: "Bangalore's commute times are a genuine factor in where people are willing to work, not just where they live. A stronger offer on the far side of the outer ring road can mean two to three extra hours lost to traffic every day - time that could otherwise go into building the skill portfolio that actually moves the next offer. Good guidance for Bangalore should treat commute cost as a real variable in the decision, not an afterthought, alongside people comparing options from Jayanagar, Malleswaram, and the older parts of the city who are often weighing a shorter commute against a narrower set of nearby employers.",
+  },
+];
+
+const onlineAdvantageItems = [
+  {
+    title: "Bangalore's problem is too many local options, not too few",
+    body: 'Bangalore is headquarters to a large share of India\'s edtech and career-coaching platforms, alongside independent counsellors, college placement cells, and corporate mentoring programs. That means the honest question here is not "is there anything available nearby" - it almost always is - but whether what is nearby is actually built around your decision or built around converting you into a lead.',
+  },
+  {
+    title: 'Online guidance can mean fewer sales meetings, not less support',
+    body: "A lot of Bangalore-based counselling and coaching platforms are structured around in-person sales conversations before any real guidance happens. Getting guidance online, on your own schedule, removes that layer - you can start from your desk, your PG, or your college hostel without sitting through a pitch first.",
+  },
+  {
+    title: 'The stronger comparison is not local versus online - it is sales-driven versus decision-driven',
+    body: 'A local-sounding, well-marketed option in Bangalore can still leave you with a templated report, degree-first pressure, or an outdated paid assessment. The better filter is whether the guidance gives you stronger skill direction, honest fit-checking between IT-services, product, startup, or deep-tech paths, and a genuinely practical next step for your specific situation in this city.',
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'There are already dozens of career counselling and edtech options in Bangalore - why add another opinion?',
+    body: 'Because more options have not made the decision clearer for most people - if anything, competing sales pitches and conflicting advice have made it noisier. The value is not being one more voice; it is cutting through what is already being said to reach one specific, practical next step for your actual situation.',
+  },
+  {
+    title: 'Should I take the startup offer or stay on the safer IT-services or GCC track?',
+    body: 'Neither answer is automatically right. It depends on your financial runway, how much risk you can genuinely absorb right now, and which skill portfolio each path actually builds for you over the next few years. Good counselling should help you answer that honestly instead of romanticising either option.',
+  },
+  {
+    title: 'Everyone around me in Bangalore already seems ahead - promotions, funding rounds, switches to bigger roles',
+    body: "Bangalore's tech and startup circles create a uniquely visible comparison culture - LinkedIn updates, funding announcements, and peer promotions all surface constantly. That visibility distorts the picture; it shows outcomes, not the decisions or trade-offs behind them. The more useful question is what the strongest next move looks like from where you actually are, not from someone else's highlight reel.",
+  },
+  {
+    title: 'Is my job actually at risk from AI, or is that just noise?',
+    body: 'It depends on the specific work, not the job title. Some entry-level coding, testing, and support tasks are genuinely more exposed. Other skills in the same role compound in value as AI tools spread. The honest response is figuring out which category your actual work falls into and adjusting the skill direction deliberately, rather than either panicking or ignoring it.',
+  },
+  {
+    title: 'I moved to Bangalore for this - should I stay, or was the move a mistake?',
+    body: "That is a real and common question, not a sign of failure. Some paths genuinely need Bangalore's specific ecosystem to work. Others - especially remote-first digital and skill-based roles - can now be built from almost anywhere. The stronger question is whether your current path needs this city specifically, or whether the real issue is the skill direction itself, independent of where you are sitting.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      'Whether to stay on an IT-services or GCC ladder, move to a product company, or take a startup risk',
+      'Which skill direction actually compounds given the specific work you do today',
+      'Whether AI-driven change touches your current role enough to justify a deliberate pivot',
+      'What a realistic income trajectory looks like on your current path over the next few years',
+    ],
+  },
+  {
+    title: "Skill direction built for Bangalore's actual market",
+    listItems: [
+      'A high-value skill portfolio that holds up whether you stay in IT services, move to product, or join a startup',
+      'Proof-of-work positioning that carries weight with GCC and product-company hiring managers',
+      'Honest fit-checking against deep-tech, aerospace, and biotech routes when your background supports them',
+      'A clearer route toward earlier financial freedom that accounts for Bangalore\'s real cost of living',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counselling actually cuts through Bangalore's marketing noise",
+    body: "Bangalore is headquarters to a large share of India's edtech and coaching platforms, and oversupply here often means aggressive sales funnels rather than better guidance. The honest test of what makes a career counselling option genuinely one of the better ones in Bangalore is whether the process improves your decision quality - not how large its advertising budget is.",
+  },
+  {
+    title: 'Check whether the guidance is genuinely one-on-one, not a templated funnel dressed up as counselling',
+    body: 'A common pattern among mass-market platforms based in this city is a scripted call that leads straight to a sales pitch. Better guidance should feel specific to your actual branch, role, and risk tolerance from the first conversation, not a generic script with your name inserted.',
+  },
+  {
+    title: 'Check whether the counsellor understands the real Bangalore fork you are facing',
+    body: 'IT-services stability, product-company growth, startup upside, and deep-tech, aerospace, or biotech routes are all genuinely different bets. Guidance worth paying for in Bangalore should be able to speak honestly to whichever of these forks actually applies to you.',
+  },
+  {
+    title: 'Check whether staying, moving cities, or leaving Bangalore is treated as a real option',
+    body: "Good guidance should not assume everyone wants to build a career in Bangalore forever. Whether the honest answer is to stay, build remote-first, or return to a home city at some point, the guidance should respect that as a genuine decision, not a default failure case.",
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'Online-first approach across India if your real concern is easier access rather than the city itself.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+  {
+    href: '/career-resources/how-to-ai-proof-your-career',
+    title: 'How to AI-Proof Your Career',
+    description: "Relevant for Bangalore's IT and services workforce weighing which skills hold up as AI tools spread.",
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Bangalore instead of one of the many local options already here?',
+    answer:
+      "Because Bangalore rarely has a shortage of local career counselling, coaching, or edtech options - it has an oversupply of them, and a lot of that supply is built around sales funnels rather than decision quality. Online guidance removes the in-person pitch layer and lets you start from your desk, PG, or hostel. It should still be judged on the same standard: does it give you clearer trade-offs between IT-services, product, startup, and deep-tech or biotech paths, and a genuinely practical next step.",
+  },
+  {
+    question: 'What actually makes career counselling one of the better options in Bangalore, not just the most visible one?',
+    answer:
+      'Visibility and marketing spend are not the same as quality here, given how many edtech and coaching platforms are headquartered in this city. The better test is whether the guidance is genuinely one-on-one and specific to your branch and risk tolerance, whether it understands the real Bangalore fork you are facing - IT-services versus product versus startup versus deep-tech or biotech - and whether it leads to one practical next step instead of a sales conversation. Those checks matter more than star ratings or ad reach.',
+  },
+  {
+    question: 'What career paths actually make sense for someone in Bangalore right now?',
+    answer:
+      'It depends on your background and risk tolerance far more than the city alone. Bangalore offers genuine depth in IT services, product-company roles, GCC positions with global majors, startup roles with equity risk, and less commonly discussed routes through aerospace, defence, and biotech given HAL, ISRO, and Biocon\'s presence here. The right path is the one that fits your strengths and actual risk appetite, not the one that is loudest on campus or social media right now.',
+  },
+  {
+    question: 'Should I take a startup offer or stay on a safer IT-services or GCC track?',
+    answer:
+      'Neither is automatically the right call. It depends on your financial runway, how much risk you can genuinely absorb right now, and which skill portfolio each path builds for you over the next few years. Good counselling should help you weigh that honestly instead of assuming either path is inherently better.',
+  },
+  {
+    question: "Is Bangalore's IT workforce actually at risk from AI, or is that overstated?",
+    answer:
+      "It depends on the specific work, not the job title or the city. Bangalore holds a large share of India's IT and IT-enabled employment, so it also absorbs a large share of the anxiety around AI automating entry-level coding, testing, and support work. Some of that risk is real. Other skills in the same roles are compounding in value as AI tools spread. The useful response is figuring out which category your specific work falls into, not reacting to the city-wide headline.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Bangalore?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you were born in Bangalore or moved here for the job.',
+  },
+  {
+    question: 'What if I searched for Bangalore but the bigger issue is not the city at all?',
+    answer:
+      'That is common, especially in a city with this much noise. If the real pressure is stream selection, a specific skill decision, or a career change rather than location or provider comparison, the main counselling and guidance pages are the stronger next filter. This page is most useful when local context - the IT-versus-startup fork, the AI-disruption question, or the sheer number of competing local options - is genuinely part of your decision.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Bangalore', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Bangalore | Future Career School',
+    description:
+      'Career counselling in Bangalore for students, freshers, and working professionals. Online guidance for clearer decisions between IT-services, product, startup, and deep-tech paths.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Bangalore' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Bangalore</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Bangalore
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Bangalore
+        <span class="gold-text"> for clarity in India's busiest tech market</span>
+      </h1>
+      <p class="hero-sub">
+        Bangalore is not short of career options - it is overloaded with them. IT services, global capability centres, startups, deep-tech, aerospace, and biotech all compete for the same graduating class,
+        while dozens of edtech and coaching platforms headquartered in the city compete for your attention. The goal is not one more opinion in that noise. It is a high-value skill portfolio and one clear decision that moves you toward earlier financial freedom, not just another conversation.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Bangalore and across India. You can start from your desk, PG, hostel, or wherever you already are - no office visit, no sales meeting first.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not whether the search started with Bangalore. It is whether the guidance actually unlocks a higher-income path from the options already sitting in front of you.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="intent-clarity"
+    title="Why this decision already feels important"
+    subtitle="When people search for career counselling in Bangalore, the city name usually signals a desire for trust and proximity. In a city this crowded with options, the real decision pressure is almost always about cutting through the noise to find the one skill direction that actually unlocks high income opportunities, not finding more advice."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Bangalore search already reflects a real fork, move before the wrong path gets more expensive"
+    body="Use this when you want a decision that moves you toward earlier financial freedom, not another round of comparing platforms while the pressure keeps building."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="bangalore-career-landscape"
+    title="The Bangalore career reality that generic advice misses"
+    subtitle="Bangalore's economy is built around more overlapping industries than most Indian cities put together. Good career counselling should help you build the high-value skill portfolio that unlocks high income opportunities from whichever of these paths actually fits you, not push you toward whichever one is loudest right now."
+    items={bangaloreContextItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="bangalore-areas"
+    title="Bangalore's tech geography shapes the decision, not just the commute"
+    subtitle="A useful local page should feel grounded in how people actually work and commute across the city, not treat every Bangalore search as coming from the same office park."
+    items={bangaloreAreaItems}
+    variant="decision"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="The point is not another opinion added to an already crowded market. The point is a clearer decision, stronger skill direction, proof of work, and a real route toward earlier financial freedom."
+  />
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Bangalore"
+    subtitle="Bangalore rarely lacks local options. The honest question is whether what is already nearby is built around your decision or built around converting you into a lead."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a market this crowded, the real risk is not too little advice - it is generic, sales-driven advice that ignores the specific fork you are facing between IT services, product, startup, deep-tech, and biotech paths. The comparison below shows what separates high-leverage guidance from that."
+    rows={bangaloreComparisonRows}
+  />
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Bangalore.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical next step
+        you can actually use. Here is what that looks like in a market with this many competing paths.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <BuyerChecks
+    title="What actually makes a career counselling option one of the better ones in Bangalore"
+    subtitle="In a city headquartered by so many edtech and coaching platforms, do not compare only marketing reach or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Bangalore page when locality matters, but choose based on decision quality, not marketing reach"
+    body="The practical value is clearer trade-offs, stronger skill direction, and a concrete next step before the wrong path hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Bangalore" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when there are too many paths pulling at once, not too few - and when the real goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #bangalore-career-landscape,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

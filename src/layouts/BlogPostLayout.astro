@@ -57,6 +57,7 @@ const siblingPosts = categoryMeta
     ).slice(0, 3)
   : [];
 
+type DirectoryItem = { href: string; title: string; description: string; note: string };
 const rawDirectoryItems = [
   categoryMeta
     ? {
@@ -94,7 +95,7 @@ const rawDirectoryItems = [
     description: post.description,
     note: 'Related read',
   })),
-].filter(Boolean);
+].filter((item): item is DirectoryItem => Boolean(item));
 
 const seenDirectoryHrefs = new Set<string>();
 const relatedDirectoryItems = rawDirectoryItems.filter((item) => {

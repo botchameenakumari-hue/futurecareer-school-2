@@ -552,6 +552,15 @@ export type BlogPublishedPost = {
 
 export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
   {
+    categorySlug: 'career-guidance',
+    slug: 'cbse-career-counselling',
+    title: 'CBSE Career Counselling: What Schools Actually Cover, and Its Real Limits',
+    description:
+      'What CBSE-affiliated schools actually offer as career counselling, why it exists, and the real limits of one counsellor and hundreds of students.',
+    publishedAtISO: '2026-09-07',
+    readTimeMinutes: 11,
+  },
+  {
     categorySlug: 'college-degrees',
     slug: 'bba-vs-bcom-india-which-to-choose-after-12th',
     title: 'BBA vs BCom India: Which to Choose After 12th, Decided by Career Direction',
@@ -2502,6 +2511,42 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
       'How to get promoted faster in India: the sponsor gap, calibration timing, scope expansion, and how to tell if your promotion is delayed on purpose or genuinely not ready.',
     publishedAtISO: '2026-07-16',
     readTimeMinutes: 19,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'purpose-of-career-counseling',
+    title: 'The Purpose of Career Counseling: What It Actually Exists to Solve',
+    description:
+      'The purpose of career counseling is to close the gap between what you know about yourself and what the job market actually rewards - not to hand you a single right answer.',
+    publishedAtISO: '2026-08-27',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'why-career-counseling-is-important',
+    title: 'Why Career Counseling Is Important — What Skipping It Actually Costs You',
+    description:
+      'Why career counseling is important: the real cost of skipping it - wasted years, career mismatch, lower wellbeing - backed by India-specific data on who actually gets guidance.',
+    publishedAtISO: '2026-08-27',
+    readTimeMinutes: 15,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'career-counseling-advice',
+    title: 'Career Counseling Advice: The 6-Point Filter Before You Trust It',
+    description:
+      'Career counseling advice is only useful if it passes 6 checks. The filter, the red flags to skip, and what to actually do with advice once you have it.',
+    publishedAtISO: '2026-08-30',
+    readTimeMinutes: 12,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'what-is-career-counselling',
+    title: 'What Is Career Counselling? A Plain-Language Definition and How It Works',
+    description:
+      'What is career counselling? A clear definition, what actually happens in a session, who it is for, and how it differs from career guidance and coaching.',
+    publishedAtISO: '2026-09-05',
+    readTimeMinutes: 13,
   },
   {
     categorySlug: 'career-change',

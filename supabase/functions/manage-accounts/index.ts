@@ -18,22 +18,23 @@ type Profile = {
 type AccountInput = {
   email: string;
   fullName: string;
-  role: Exclude<Role, "admin">;
-  branchId: string;
-  supervisorId: string;
+  role: Role;
+  branchId: string | null;
+  supervisorId: string | null;
 };
 
 const TEST_DOMAIN = "@fcs.test";
 const allowedRoles: Role[] = ["admin", "branch_head", "head_coach", "coach", "student"];
-const creatableRoles = allowedRoles.filter((role) => role !== "admin") as AccountInput["role"][];
+const creatableRoles = allowedRoles as AccountInput["role"][];
 const creationMatrix: Record<Role, AccountInput["role"][]> = {
-  admin: ["branch_head", "head_coach", "coach", "student"],
+  admin: ["admin", "branch_head", "head_coach", "coach", "student"],
   branch_head: ["head_coach", "coach", "student"],
   head_coach: ["coach", "student"],
   coach: ["student"],
   student: [],
 };
-const supervisorMatrix: Record<AccountInput["role"], Role[]> = {
+const supervisorMatrix: Record<Role, Role[]> = {
+  admin: [],
   branch_head: ["admin"],
   head_coach: ["branch_head"],
   coach: ["head_coach"],
@@ -186,12 +187,29 @@ function isLocalRequest(req: Request) {
   }
 }
 
-async function loadActor(service: SupabaseClient, userId: string) {
-  const { data, error } = await service
+async function loadActor(service: SupabaseClient, userId: string, userEmail?: string) {
+  let { data, error } = await service
     .from("profiles")
     .select("id,email,full_name,role,account_status,branch_id,supervisor_id,must_change_password")
     .eq("id", userId)
     .single();
+
+  // A small number of early accounts were provisioned before the Auth id was
+  // copied into profiles. Auth has already verified the email, so use that
+  // value as a guarded compatibility lookup for account operations (including
+  // completing first-password setup). This keeps those accounts usable while
+  // preserving the normal id match for every current account.
+  if ((error || !data) && userEmail) {
+    const byEmail = await service
+      .from("profiles")
+      .select("id,email,full_name,role,account_status,branch_id,supervisor_id,must_change_password")
+      .ilike("email", userEmail.trim())
+      .limit(1);
+    if (byEmail.data?.[0]) {
+      data = byEmail.data[0];
+      error = null;
+    }
+  }
 
   if (error || !data) throw new HttpError(403, "This login does not have an approved profile.");
   if (data.account_status !== "active") {
@@ -230,8 +248,8 @@ async function validateAccountInput(
     email: normalizeEmail(body.email),
     fullName: requiredString(body.fullName, "Full name", 100),
     role: asRole(body.role),
-    branchId: requiredString(body.branchId, "Branch", 64),
-    supervisorId: requiredString(body.supervisorId, "Supervisor", 64),
+    branchId: body.role === "admin" ? null : requiredString(body.branchId, "Branch", 64),
+    supervisorId: body.role === "admin" ? null : requiredString(body.supervisorId, "Supervisor", 64),
   };
 
   if (!creationMatrix[actor.role].includes(input.role)) {
@@ -239,6 +257,18 @@ async function validateAccountInput(
   }
   if (actor.role !== "admin" && actor.branch_id !== input.branchId) {
     throw new HttpError(403, "You can only create accounts inside your own branch.");
+  }
+
+  if (input.role === "admin") {
+    const [{ data: existingProfile }, { data: existingRequest }] = await Promise.all([
+      service.from("profiles").select("id").eq("email", input.email).maybeSingle(),
+      service.from("account_requests").select("id").eq("email", input.email).eq("status", "pending").maybeSingle(),
+    ]);
+    if (existingProfile) throw new HttpError(409, "An account already exists for this email.");
+    if (existingRequest) throw new HttpError(409, "This email already has a pending request.");
+    const isTest = isTestEmail(input.email);
+    if (isTest && !allowTestAccounts) throw new HttpError(403, "Test emails can only be created from the local Role Lab.");
+    return { ...input, isTest };
   }
 
   const [{ data: branch, error: branchError }, { data: supervisor, error: supervisorError }] = await Promise.all([
@@ -287,13 +317,13 @@ async function createAuthUser(
   service: SupabaseClient,
   account: AccountInput,
   isTest: boolean,
-  testPassword?: string,
+  password?: string,
 ) {
   if (isTest) {
-    if (!testPassword) throw new HttpError(500, "A secure test password was not generated.");
+    if (!password) throw new HttpError(500, "A secure test password was not generated.");
     const { data, error } = await service.auth.admin.createUser({
       email: account.email,
-      password: testPassword,
+      password,
       email_confirm: true,
       user_metadata: { full_name: account.fullName, role: account.role, role_lab: true },
     });
@@ -303,6 +333,7 @@ async function createAuthUser(
 
   const { data, error } = await service.auth.admin.createUser({
     email: account.email,
+    password,
     email_confirm: true,
     user_metadata: { full_name: account.fullName, role: account.role },
   });
@@ -322,6 +353,7 @@ async function insertActiveProfile(
   actorId: string,
   isTest: boolean,
   setupEmailSent: boolean,
+  temporaryPasswordIssued = false,
 ) {
   const now = new Date().toISOString();
   const { error } = await service.from("profiles").insert({
@@ -337,6 +369,7 @@ async function insertActiveProfile(
     approved_at: now,
     must_change_password: !isTest,
     setup_email_sent_at: !isTest && setupEmailSent ? now : null,
+    temporary_password_issued_at: !isTest && temporaryPasswordIssued ? now : null,
     password_set_at: isTest ? now : null,
     avatar_seed: account.email,
   });
@@ -351,18 +384,19 @@ async function provisionAccount(
   isTest: boolean,
   redirectTo: string,
 ) {
+  const temporaryPassword = isTest ? undefined : generateTemporaryPassword();
   const testPassword = isTest ? generateTestPassword() : undefined;
-  const user = await createAuthUser(service, account, isTest, testPassword);
+  const user = await createAuthUser(service, account, isTest, isTest ? testPassword : temporaryPassword);
   const setupEmailError = isTest
     ? null
     : await sendPasswordSetupEmail(mailClient, account.email, redirectTo);
   try {
-    await insertActiveProfile(service, account, user.id, actor.id, isTest, !setupEmailError);
+    await insertActiveProfile(service, account, user.id, actor.id, isTest, !setupEmailError, Boolean(temporaryPassword));
   } catch (error) {
     await service.auth.admin.deleteUser(user.id);
     throw error;
   }
-  return { user, testPassword, setupEmailSent: isTest ? false : !setupEmailError };
+  return { user, testPassword, temporaryPassword, setupEmailSent: isTest ? false : !setupEmailError };
 }
 
 async function createRequest(
@@ -406,12 +440,12 @@ async function requestAccount(
       entityType: "account_request",
       entityId: request.id,
     });
-    return response({ request, message: "Request sent to the Admin for approval." }, 201);
+    return response({ request, message: "Request sent to the Admin for approval. The new account can sign in only after approval and password setup." }, 201);
   }
 
   let provisionedUserId: string | null = null;
   try {
-    const { user, testPassword, setupEmailSent } = await provisionAccount(service, mailClient, actor, account, isTest, redirectTo);
+    const { user, testPassword, temporaryPassword, setupEmailSent } = await provisionAccount(service, mailClient, actor, account, isTest, redirectTo);
     provisionedUserId = user.id;
     const { error } = await service
       .from("account_requests")
@@ -436,6 +470,7 @@ async function requestAccount(
       requestId: request.id,
       userId: user.id,
       testPassword,
+      temporaryPassword,
       setupEmailSent,
       message: isTest
         ? "Test account created and approved."
@@ -454,6 +489,7 @@ async function requestAccount(
 }
 
 async function validatePendingAssignment(service: SupabaseClient, account: AccountInput) {
+  if (account.role === "admin") return;
   const [{ data: branch, error: branchError }, { data: supervisor, error: supervisorError }, { data: existingProfile }] = await Promise.all([
     service.from("branches").select("id,status").eq("id", account.branchId).single(),
     service.from("profiles").select("id,role,account_status,branch_id,must_change_password").eq("id", account.supervisorId).single(),
@@ -499,7 +535,7 @@ async function approveRequest(
     supervisorId: request.supervisor_id,
   };
   await validatePendingAssignment(service, account);
-  const { user, testPassword, setupEmailSent } = await provisionAccount(
+  const { user, testPassword, temporaryPassword, setupEmailSent } = await provisionAccount(
     service,
     mailClient,
     actor,
@@ -536,6 +572,7 @@ async function approveRequest(
   return response({
     userId: user.id,
     testPassword,
+    temporaryPassword,
     setupEmailSent,
     message: request.is_test_account
       ? "Test account approved."
@@ -995,7 +1032,7 @@ Deno.serve(async (req: Request) => {
     const mailClient = createClient(supabaseUrl, anonKey, {
       auth: { persistSession: false, autoRefreshToken: false },
     });
-    const actor = await loadActor(service, userData.user.id);
+    const actor = await loadActor(service, userData.user.id, userData.user.email ?? undefined);
     const body = await req.json() as Record<string, unknown>;
     const localRequest = isLocalRequest(req);
     const allowTestAccounts = localRequest && actor.role === "admin";

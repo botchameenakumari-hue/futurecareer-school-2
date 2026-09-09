@@ -1,8 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import path from 'node:path';
-
-const outputDirectory = path.resolve('test-results', 'pdf-batch-three');
+import { readFile, writeFile } from 'node:fs/promises';
 
 const assessments = [
   {
@@ -56,12 +53,8 @@ async function completeAssessment(page, config) {
   throw new Error('Detailed assessment did not finish within the guard limit.');
 }
 
-test.beforeAll(async () => {
-  await mkdir(outputDirectory, { recursive: true });
-});
-
 for (const assessment of assessments) {
-  test(`${assessment.snapshotName} result and PDF audit`, async ({ page }) => {
+  test(`${assessment.snapshotName} result and PDF audit`, async ({ page }, testInfo) => {
     const pageErrors = [];
     page.on('pageerror', (error) => pageErrors.push(error.message));
 
@@ -80,7 +73,7 @@ for (const assessment of assessments) {
     }));
 
     await writeFile(
-      path.join(outputDirectory, `${assessment.snapshotName}-structure.json`),
+      testInfo.outputPath(`${assessment.snapshotName}-structure.json`),
       JSON.stringify(resultStructure, null, 2)
     );
 
@@ -89,7 +82,7 @@ for (const assessment of assessments) {
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toBe(assessment.fileName);
 
-    const pdfPath = path.join(outputDirectory, assessment.fileName);
+    const pdfPath = testInfo.outputPath(assessment.fileName);
     await download.saveAs(pdfPath);
     const pdfBytes = await readFile(pdfPath);
     expect(pdfBytes.subarray(0, 5).toString()).toBe('%PDF-');

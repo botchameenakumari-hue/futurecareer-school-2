@@ -1,0 +1,787 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_PLAN_LINKS } from '../../../../config/bofu';
+import { STUDENT_GUIDANCE_PLAN, WORKING_PROFESSIONAL_GUIDANCE_PLAN } from '../../../../config/guidancePlans';
+
+const title =
+  'Counselling for Career Planning | Where Counselling Ends and a Real Plan Begins | Future Career School';
+const description =
+  'Counselling for career planning, honestly explained: what one counselling conversation can actually give you, where it stops short of a real multi-year plan, and how to tell which one you need.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/counselling-for-career-planning/';
+
+const formatPlanAmount = (amount: string) => amount.replace('₹', 'Rs ');
+const studentSessionPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.price);
+const studentSessionComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.comparePrice ?? '');
+const studentContinuousPrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationPrice ?? '');
+const studentContinuousComparePrice = formatPlanAmount(STUDENT_GUIDANCE_PLAN.continuationComparePrice ?? '');
+const professionalSessionPrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.price);
+const professionalSessionComparePrice = formatPlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.comparePrice ?? '');
+const studentSessionPriceText = `${studentSessionPrice} (limited-time price, down from ${studentSessionComparePrice})`;
+const studentContinuousPriceText = `${studentContinuousPrice} (limited-time price, down from ${studentContinuousComparePrice})`;
+const professionalSessionPriceText = `${professionalSessionPrice} (limited-time price, down from ${professionalSessionComparePrice})`;
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Career Counselling and Career Guidance',
+    description: 'The full service overview: audiences, plans, and what practical guidance covers.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See this if the immediate need is clarity on one decision, not a multi-year plan.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-planning-session-online/',
+    title: 'Career Planning Session Online',
+    description: 'See this once you already know you want a structured multi-year plan, not just one conversation.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerGuidance,
+    title: 'Career Guidance',
+    description: 'See this if the need is broader than one decision — path, skills, and execution together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-vs-career-coaching/',
+    title: 'Career Counselling vs Career Coaching',
+    description: 'A related terminology breakdown if the counselling-vs-coaching distinction is the real question.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'A small free first step if you are still deciding and not ready to book a session yet.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Can counselling actually help with career planning, or is it only for one decision?',
+    a: 'It can, but a single counselling conversation and a full career plan are not automatically the same thing. Counselling in its traditional sense is assessment-driven and decision-focused — it is built to help you choose a stream, course, or direction, often in one sitting. That decision is a genuine ingredient of a career plan, but a plan is more than one decision: it is a sequence of milestones and skill choices laid out across years, revisited as things change. Good counselling should feed into that plan rather than pretend to replace it.',
+  },
+  {
+    q: 'What is the actual difference between counselling for career planning and a career planning session?',
+    a: "Counselling for career planning is the broader question — how does a counselling conversation fit into building a plan at all, and is one session enough. A career planning session is the specific, structured product built to answer that question with a yes: a session designed from the start to map milestones and a skill sequence across multiple years, not just resolve today's decision. If you already know you want the structured multi-year version, book the planning session directly rather than a single counselling conversation.",
+  },
+  {
+    q: 'Is one counselling session ever enough to plan a career?',
+    a: 'For a narrow, well-defined decision — one stream choice, one course shortlist, one immediate fork — a single counselling session can genuinely be enough, and there is no reason to pay for more than that. It stops being enough the moment the real question spans years: which skills to build first, which milestones to check yourself against, how the plan should change as the market shifts. That is a planning problem, not a single-decision problem, and it usually needs more structure than one conversation was ever designed to give.',
+  },
+  {
+    q: 'Does Future Career School treat counselling and career planning as the same thing?',
+    a: 'No, and that distinction is intentional. The 1-on-1 session here does genuine counselling-style work — assessing your actual situation and helping you land on a direction. Career planning is treated as its own, more structured outcome: a multi-year plan with milestones and a sequenced skill portfolio, built for people who need more than one resolved decision. Both draw on the same underlying guidance relationship; the difference is what the conversation is actually built to produce.',
+  },
+  {
+    q: 'Should I start with counselling or go straight to a planning session?',
+    a: "If your honest current question is narrow and immediate — a specific stream, course, or offer decision — a counselling-style conversation is the right starting point, and adding planning language to it will not make the decision easier. If you are already thinking in years rather than in one choice, a career planning session is the more direct fit, since it is built from the outset to produce milestones and a skill sequence rather than a single verdict. Many people genuinely aren't sure which side they're on yet, and that uncertainty is common enough that either starting point tends to clarify the other fairly quickly.",
+  },
+  {
+    q: 'Can a free assessment answer this before I pay for either?',
+    a: 'For an early, exploratory question about strengths, interests, or work style, a free, updated, AI-powered career or skill assessment can genuinely be enough on its own, and there is no reason to book paid counselling or a planning session before you need to. Where a free assessment falls short is a decision or a plan that is expensive, time-pressured, or has to hold up across several years of your actual life — that is where a real conversation starts earning its cost, whichever label sits on it.',
+  },
+  {
+    q: 'Does counselling for career planning guarantee a specific outcome?',
+    a: 'No ethical provider can guarantee a job, a salary figure, or a specific income outcome from either a counselling session or a career plan — execution still depends on you, the market, and circumstances no session can control for. Treat a guarantee attached to either as a reason to slow down, not a reason to book faster. The realistic value on both sides is clearer decision quality and a plan structured enough to act on, not a promised result.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Counselling for Career Planning', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Counselling for Career Planning: What It Can and Cannot Do on Its Own',
+    description,
+    datePublished: '2026-08-27',
+    dateModified: '2026-08-27',
+    mainEntityOfPage: canonical,
+    inLanguage: 'en-IN',
+    author: {
+      '@type': 'Person',
+      name: 'Shivanshi Sehgal',
+      url: 'https://futurecareerschool.com/about/shivanshi-sehgal/',
+      jobTitle: 'Career researcher and writer',
+    },
+    publisher: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://futurecareerschool.com/favicon.svg',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article" jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <article id="counselling-planning-article">
+    <header class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-gold"></div>
+        <div class="orb orb-teal"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={BOFU_INTERNAL_LINKS.parentGuidance}>Career Counselling and Guidance</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Counselling for Career Planning</span>
+        </nav>
+
+        <div class="hero-meta">
+          <span class="pill hero-pill"><span class="pill-dot"></span>An honest look at where counselling helps a plan, and where it stops</span>
+        </div>
+
+        <div class="hero-grid-main">
+          <div class="hero-copy">
+            <h1>Counselling for career planning: what it can actually give you, and where it stops</h1>
+            <p class="line strong">
+              Counselling for career planning usually means one thing to most people and something narrower in practice: a single, assessment-driven conversation aimed at resolving one decision, used as a first step toward a longer plan. That conversation is a genuinely useful ingredient of a career plan. It is not automatically the same thing as a plan — a plan is a sequence of milestones and skill choices laid out across years, not one verdict from one sitting.
+            </p>
+            <p class="line">
+              Here's how counselling actually fits into planning a career, where the gap between the two shows up in practice, and how to tell whether one conversation is enough or you need something built for the longer horizon.
+            </p>
+
+            <div class="cta-pair">
+              <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.parentGuidance}>See how guidance works here</a>
+              <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Free career and skill assessments</a>
+            </div>
+          </div>
+
+          <aside class="hero-board card">
+            <div class="board-kicker">In short</div>
+            <div class="board-row">
+              <span>1</span>
+              <p>Counselling: assessment-driven, decision-focused, often one session.</p>
+            </div>
+            <div class="board-row">
+              <span>2</span>
+              <p>Planning: milestones and a skill sequence laid out across years.</p>
+            </div>
+            <div class="board-row">
+              <span>3</span>
+              <p>One decision resolved well is a start, not the whole plan.</p>
+            </div>
+            <div class="board-row">
+              <span>4</span>
+              <p>Here, a counselling-style session and a dedicated planning session are two distinct, clearly named options.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="container section">
+      <div class="key-takeaways">
+        <p class="key-takeaways__label">The honest short version</p>
+        <ul>
+          <li>Counselling for career planning, in practice, is usually a single decision-focused conversation — a stream, course, or pivot choice — not a multi-year plan by itself.</li>
+          <li>A real career plan needs more than one resolved decision: milestones you can check yourself against, and a skill portfolio sequenced across time, not just a direction to feel good about today.</li>
+          <li>If your actual question is narrow and immediate, a counselling-style session is the right, sufficient tool — don't pay for planning-level structure you don't need yet.</li>
+          <li>If your actual question spans years — which skills come first, how to measure progress, how the plan holds up as the market shifts — that is a planning problem, and it usually needs a session built for that from the start.</li>
+          <li>A free assessment can be enough if the question is still exploratory. Paid support, whichever label it carries, earns its cost once the decision or the plan gets expensive, time-pressured, or hard to reverse alone.</li>
+          <li>No ethical provider can guarantee a specific outcome from either a counselling session or a career plan — treat a guarantee as a warning sign, not a selling point.</li>
+        </ul>
+      </div>
+
+      <nav class="jump-nav" aria-label="Jump to section">
+        <span class="jump-nav__label">Jump to section</span>
+        <div class="jump-nav__grid">
+          <a href="#what-counselling-gives">What a counselling conversation actually gives you</a>
+          <a href="#the-gap">Where counselling stops short of a plan</a>
+          <a href="#which-one">Which one your question actually needs</a>
+          <a href="#our-approach">How this is handled here</a>
+          <a href="#cost">What it costs, concretely</a>
+          <a href="#faqs">FAQs</a>
+        </div>
+      </nav>
+    </section>
+
+    <section id="what-counselling-gives" class="container section">
+      <h2>What a counselling conversation actually gives you toward career planning</h2>
+      <p class="line">
+        Counselling, in the sense most people search for it, centres on assessment and one decision: aptitude, interest, and work-style signals read together, then applied to a specific fork — which stream, which course, whether to take a specific offer or pivot. Used well, that is a real and useful input into a career plan, not a wasted step.
+      </p>
+
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>What a good counselling session covers</h3>
+          <ul>
+            <li>An honest read of your actual profile, not a generic template answer.</li>
+            <li>A structured recommendation on the one decision in front of you right now.</li>
+            <li>Assessment-backed reasoning you can explain to yourself or your family.</li>
+            <li>A natural starting point that a longer plan can be built on top of afterward.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>What it usually does not cover on its own</h3>
+          <ul>
+            <li>Milestones across the next several years, sequenced and checkable.</li>
+            <li>A deliberate skill portfolio built to compound rather than one skill pick.</li>
+            <li>A built-in way to revisit and adjust the plan as things change.</li>
+            <li>Coverage of more than the one decision the session was booked around.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="line">
+        Put simply: counselling tends to answer "what should I choose right now," while planning tends to answer "what should the next several years actually look like." The first question can genuinely be answered well in one sitting. The second usually can't.
+      </p>
+    </section>
+
+    <section id="the-gap" class="container section">
+      <h2>Where counselling stops short of a real career plan</h2>
+      <p class="line">
+        The gap shows up in a specific way: a counselling session closes with a decision, and a decision on its own does not tell you what happens in year two or year three. Someone counselled into the "right" stream or the "right" first skill can still drift for years afterward with no milestones to check progress against and no sequence for what comes after that first choice.
+      </p>
+      <p class="line">
+        That is not a failure of counselling as a format — it is simply a different job than planning is built to do. A plan needs to name which skills come first, which proof-of-work markers matter along the way, and roughly which income or role milestones would tell you the plan is working. A single conversation, however good, was rarely designed to hold all of that at once.
+      </p>
+      <p class="line">
+        The practical takeaway: treat a counselling conversation as a strong first input into a plan, not as the plan itself. If the actual question in front of you already spans multiple years and multiple decisions, look for a session explicitly built to produce a plan, not one built to close on a single recommendation.
+      </p>
+    </section>
+
+    <ComparisonMatrix
+      sectionId="what-changes"
+      title="What matters more than which label the session uses"
+      subtitle="Whether it's called counselling or planning, these are the things worth checking before you book."
+      rows={[
+        { left: 'Generic advice that still leaves you unclear', right: 'High-leverage decision support around path, skill, and risk' },
+        { left: 'Random upskilling that compounds slowly', right: 'Clearer skill direction tied to growth and income upside' },
+        { left: 'Paid outdated impractical assessments with weak practical value', right: 'Free updated practical AI-powered career and skill assessments' },
+      ]}
+    />
+
+    <section id="which-one" class="container section">
+      <h2>Whether your question actually needs counselling or a career plan</h2>
+      <div class="grid-two">
+        <div class="card win-card">
+          <h3>A counselling-style session probably fits if</h3>
+          <ul>
+            <li>You have one specific stream, course, or offer decision in front of you.</li>
+            <li>You want an assessment-backed read on fit before committing time or money.</li>
+            <li>Resolving this one decision is genuinely the whole problem right now.</li>
+          </ul>
+        </div>
+        <div class="card warn-card">
+          <h3>A career planning session probably fits if</h3>
+          <ul>
+            <li>You are already thinking in years, not in one choice.</li>
+            <li>You want milestones and a skill sequence you can check yourself against later.</li>
+            <li>You expect to revisit and adjust the plan as results and the market shift.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="line">
+        If you genuinely can't tell which side you're on, that is common, and it usually resolves itself quickly once the conversation starts: a counselling-style session that keeps surfacing follow-on decisions is a sign the real need was planning all along.
+      </p>
+    </section>
+
+    <section id="our-approach" class="container section">
+      <h2>How counselling and career planning are handled here, named separately on purpose</h2>
+      <p class="line">
+        Rather than selling "counselling" and quietly stretching it to cover a multi-year plan, the two are kept as distinct, clearly named options. The 1-on-1 session does the counselling-style work: it works through your actual situation, uses free, updated, AI-powered assessments where useful, and helps you land on a clear recommendation for the decision in front of you.
+      </p>
+      <p class="line">
+        When the real need is broader than one decision, a dedicated career planning session builds a structured, multi-year plan instead — milestones, a sequenced skill portfolio, and a route toward stronger income over time, with a way to check back in as things change. Students can continue that into ongoing small-group check-ins across the year so the plan stays current rather than going stale after one conversation.
+      </p>
+      <p class="line">
+        Either way, the same underlying guidance relationship and pricing sits behind both — the difference is which one your actual question calls for, decided honestly rather than assumed.
+      </p>
+
+      <div class="cta-pair">
+        <a class="btn-gold pulse" href={BOFU_INTERNAL_LINKS.careerCounselling}>See what a counselling-style session covers</a>
+        <a class="btn-outline" href="/services/career-counselling-and-career-guidance/career-planning-session-online/">See the career planning session instead</a>
+      </div>
+    </section>
+
+    <section id="cost" class="container section">
+      <h2>What counselling-style and planning-style sessions cost here</h2>
+      <p class="line">
+        Pricing for either path is shown upfront rather than revealed after a call.
+      </p>
+
+      <div class="card highlight-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Plan">Career and skill assessments</td>
+                <td data-label="Price">Fully free, always</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student 1-on-1 session (counselling-style or planning-style)</td>
+                <td data-label="Price">{studentSessionPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Student continuous guidance (keeps a plan current across the year, includes the 1-on-1 plus up to 24 small-group sessions)</td>
+                <td data-label="Price">{studentContinuousPriceText}</td>
+              </tr>
+              <tr>
+                <td data-label="Plan">Working-professional 1-on-1 session (counselling-style or planning-style)</td>
+                <td data-label="Price">{professionalSessionPriceText}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="line">
+        Guidance is delivered fully online across India either way, so whichever your question actually calls for — one resolved decision or a plan spanning years — location isn't a limiting factor.
+      </p>
+    </section>
+
+    <section id="faqs" class="container section faq-block">
+      <h2>FAQs on counselling for career planning</h2>
+      <div class="faq-accordion">
+        {faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="cta-pair cta-pair-closing">
+        <a class="btn-gold pulse" href={BOFU_PLAN_LINKS.parentGuidance}>Once you know what you need, start here</a>
+        <a class="btn-outline" href={BOFU_ASSESSMENT_LINKS.hub}>Still deciding? Try the free assessments first</a>
+      </div>
+    </section>
+
+    <LinkDirectorySection
+      sectionId="related-pages"
+      title="Related pages"
+      subtitle="See the broader guidance service, the dedicated planning session, or the free first step."
+      items={relatedDirectoryItems}
+      altBackground={true}
+    />
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  #counselling-planning-article {
+    padding-top: 72px;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(229,184,74,.08), transparent 38%),
+      radial-gradient(circle at 90% 2%, rgba(45,212,191,.09), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 88px 0 70px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 540px; height: 540px; left: -140px; top: -200px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 450px; height: 450px; right: -120px; top: -80px; background: radial-gradient(circle, rgba(45,212,191,.14), transparent 70%); }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 46% 20%, rgba(0,0,0,.95), transparent 70%);
+    opacity: .15;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 1.6rem;
+  }
+  .breadcrumb a { color: rgba(255,255,255,.56); }
+  .breadcrumb a:hover { color: rgba(255,255,255,.9); }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .hero-pill { font-size: 12px; color: rgba(255,255,255,.62); }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+
+  .hero-grid-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    margin-bottom: 1rem;
+    max-width: 920px;
+  }
+  .line {
+    font-size: 16px;
+    line-height: 1.84;
+    color: rgba(255,255,255,.64);
+    margin: .22rem 0;
+    max-width: 980px;
+  }
+  .line.strong,
+  .strong { color: rgba(255,255,255,.87); font-weight: 620; }
+  .cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+  .cta-pair-closing { margin-top: 1.6rem; }
+
+  .hero-board {
+    padding: 1.2rem;
+    background:
+      linear-gradient(135deg, rgba(229,184,74,.07), rgba(45,212,191,.05), rgba(255,255,255,.03));
+    border-color: rgba(255,255,255,.12);
+  }
+  .board-kicker {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+    margin-bottom: .75rem;
+    font-weight: 700;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: .8rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .board-row:first-of-type { border-top: none; padding-top: .2rem; }
+  .board-row span {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--gold);
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+  }
+  .board-row p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+  }
+
+  .section { padding: 62px 0 8px; }
+  .section h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+    margin-bottom: .85rem;
+    scroll-margin-top: 92px;
+  }
+  .section h3 { font-size: 1.12rem; margin-bottom: .55rem; }
+
+  .key-takeaways {
+    margin: 0 0 1.6rem;
+    padding: 1.2rem 1.35rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(45,212,191,.22);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(45,212,191,.1), transparent 60%),
+      rgba(255,255,255,.03);
+  }
+  .key-takeaways__label {
+    margin: 0 0 0.7rem;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(45,212,191,.95);
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .key-takeaways li {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+
+  .jump-nav {
+    padding: 1.1rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+  }
+  .jump-nav__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(229,184,74,.9);
+    margin-bottom: .7rem;
+  }
+  .jump-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem .9rem;
+  }
+  .jump-nav__grid a {
+    font-size: 14px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,.16);
+    padding-bottom: 2px;
+    line-height: 1.6;
+  }
+  .jump-nav__grid a:hover { color: #fff; border-color: rgba(229,184,74,.5); }
+
+  .card {
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 1.3rem;
+  }
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight-card { margin-top: 1rem; }
+
+  .table-wrap {
+    margin: .8rem 0 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 11px 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.74);
+    vertical-align: top;
+  }
+  th { font-family: "Sora", sans-serif; color: #fff; font-weight: 700; }
+
+  @media (max-width: 560px) {
+    table:has(td[data-label]) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+    }
+    table:has(td[data-label]) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    table:has(td[data-label]) tbody,
+    table:has(td[data-label]) tr,
+    table:has(td[data-label]) td {
+      display: block;
+      width: 100%;
+    }
+    table:has(td[data-label]) tr {
+      margin: 0 0 0.75rem;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+    }
+    table:has(td[data-label]) td {
+      padding: 0.55rem 0.85rem 0.65rem !important;
+      border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    }
+    table:has(td[data-label]) tr td:last-child {
+      border-bottom: none !important;
+    }
+    table:has(td[data-label]) td:first-child {
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.92);
+      font-weight: 600;
+    }
+    table:has(td[data-label]) td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(45,212,191,.9);
+    }
+  }
+
+  .warn-card {
+    border-color: rgba(255,133,94,.25);
+    background: linear-gradient(135deg, rgba(255,133,94,.08), rgba(255,255,255,.03));
+  }
+  .win-card {
+    border-color: rgba(45,212,191,.24);
+    background: linear-gradient(135deg, rgba(45,212,191,.08), rgba(255,255,255,.03));
+  }
+  .card {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .card ul {
+    margin: .45rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: .5rem;
+  }
+  .card li {
+    color: rgba(255,255,255,.66);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .faq-block { padding-top: 56px; }
+  .faq-accordion {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: .95rem;
+  }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    overflow: hidden;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(45,212,191,.32);
+    background: rgba(45,212,191,.045);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: rgba(255,255,255,.92);
+    line-height: 1.4;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #fff; }
+  .faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-right: 2px solid rgba(45,212,191,.85);
+    border-bottom: 2px solid rgba(45,212,191,.85);
+    transform: rotate(45deg);
+    transition: transform .22s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); }
+  .faq-a {
+    padding: 0 1.2rem 1.15rem;
+    margin: 0 !important;
+    color: rgba(255,255,255,.68);
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero-grid-main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .grid-two { grid-template-columns: 1fr; }
+    .jump-nav__grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding: 76px 0 56px; }
+    .section { padding: 46px 0 8px; }
+    .section h2 { scroll-margin-top: 78px; }
+    .line { font-size: 15px; }
+    .cta-pair { flex-direction: column; align-items: stretch; }
+    .cta-pair .btn-gold,
+    .cta-pair .btn-outline { justify-content: center; }
+  }
+</style>

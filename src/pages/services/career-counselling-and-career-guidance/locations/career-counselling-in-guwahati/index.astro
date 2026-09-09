@@ -1,0 +1,557 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import AudienceRelevance from '../../../../../components/bofu/AudienceRelevance.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Guwahati page drops "low-growth paths that delay real earning progress" (index 2)
+// and "generic low-paying path advice that limits growth" (index 4) - Guwahati's real
+// fork is not a shortage of growth paths in the abstract, it is whether a genuine
+// regional-hub opening (IIT Guwahati, the refinery and tea-trading corporate economy,
+// the Northeast logistics gateway) already fits a specific skill direction, or whether
+// a further move to a bigger metro is still the stronger call - both rows already
+// covered more specifically by the page's own local sections. This selection (rows
+// 0, 1, 3, 5) differs from every sibling: Rajkot (rows 0-4), Vizag (rows 1-5),
+// Bangalore (full library), Pune (drops 3), Kolkata (drops 1), Chennai (drops 5),
+// Hyderabad (drops 2 alone), Mumbai/Chandigarh/Gurgaon/Nagpur (each drop 4 alone),
+// Delhi (drops 0 and 5), Ahmedabad (drops 3 and 5), Surat (drops 0 and 3), and
+// Ludhiana (drops 1 and 4).
+const guwahatiComparisonRows = BOFU_COMPARISON_LIBRARY.filter((_, index) => index !== 2 && index !== 4);
+
+const title = 'Career Counselling in Guwahati | Gateway to the Northeast | Future Career School';
+const description =
+  "Career counselling in Guwahati for students, freshers, and working professionals from Assam and the wider Northeast, weighing the region's own IIT-Guwahati, refinery, tea-trading, and logistics economy against the further move to a bigger metro.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-guwahati/';
+
+const firstStopItems = [
+  {
+    title: "For most of the Northeast, the first career decision is not \"which metro\" - it is \"come to Guwahati first\"",
+    listItems: [
+      "Students and professionals from Meghalaya, Nagaland, Manipur, Mizoram, Tripura, Arunachal Pradesh, and Sikkim, along with Assam's own smaller towns, typically move to Guwahati first for college, a first job, or a specialist hospital visit - long before Delhi, Bangalore, Hyderabad, or Kolkata even enters the conversation",
+      "This two-stage migration pattern - home town to Guwahati, then possibly Guwahati to a bigger metro - has no real equivalent in any other city this site covers, since no other city sits at the center of an entire multi-state region the way Guwahati does for the Northeast",
+      "Treating Guwahati as just another tier-2 stopover misses the decision most people here are actually facing: whether Guwahati itself is the destination, or only the first leg of a longer move",
+    ],
+  },
+  {
+    title: "Guwahati is a genuine destination in its own right, not only a waypoint",
+    listItems: [
+      "IIT Guwahati, Gauhati University, Gauhati Medical College, and a real refinery, tea-trading, and logistics economy give Guwahati a depth that most first-stop cities elsewhere in India do not have",
+      "For a meaningful share of people, the honest answer is that a strong skill direction already has a genuine opening inside Guwahati's own economy, and the further move to a metro adds relocation cost and distance from family without adding much real advantage",
+      "For others, Guwahati is genuinely a transit stage - the place to finish a degree or gain early experience before a metro's density of employers and mentors becomes the stronger next step",
+    ],
+  },
+  {
+    title: "Getting this fork right matters more here because the distances and the decision are both bigger",
+    listItems: [
+      "A wrong call in Guwahati is not a same-state relocation the way Rajkot-to-Ahmedabad or Nagpur-to-Pune might be - it can mean a genuine multi-day journey home across state lines, which raises the real cost of guessing",
+      "The stronger move is naming, specifically, whether your skill direction already fits Guwahati's actual hiring - the refinery and energy sector, tea-trade corporate roles, logistics and freight operations, or the NF Railway and administrative economy - rather than deciding on general reputation alone",
+      "Getting that specific read right is what actually moves someone toward a high-value skill portfolio, unlocking high income opportunities, and earlier financial freedom, whether that plays out from Guwahati or from a metro after it",
+    ],
+  },
+];
+
+const teaOilContextItems = [
+  {
+    title: "Assam's tea industry runs its trading and corporate side from Guwahati, not from the gardens themselves",
+    body: "Assam grows roughly half of India's tea, but the commercial engine behind that crop - trading houses, garden-management companies, and the Guwahati Tea Auction Centre, one of the largest CTC tea auction centres anywhere in the world - is headquartered and run out of Guwahati, not out of the tea gardens in Upper Assam. That creates a real, ongoing set of corporate, trading, logistics, and finance roles inside the tea economy that has nothing to do with plantation work, and that most people outside Assam never associate with a career decision at all.",
+  },
+  {
+    title: "Guwahati is Assam's genuine oil-and-gas corporate base, alongside its own refinery",
+    body: "The Guwahati Refinery at Noonmati, run by Indian Oil, has been part of the city's industrial identity since the 1960s. Numaligarh Refinery Limited, whose plant sits further east at Golaghat, runs its registered corporate office from Guwahati, and ONGC and Oil India Limited both maintain a genuine regional and asset-management presence in the city even though Oil India's own headquarters sits at Duliajan. Together, this gives Guwahati a real corporate energy-sector economy - engineering, operations, finance, and administrative roles - layered on top of, and distinct from, the tea-trade economy above it.",
+  },
+  {
+    title: "Neither economy gets a fair hearing against the pull of \"just do IT or engineering and move to a metro\"",
+    body: "Because tea trading and oil-and-gas corporate work do not carry the same visibility as an IT job offer, a genuinely strong local opening in either sector often gets dismissed by students and families before it is even evaluated. The honest counselling question is not whether tea or energy work is glamorous - it is whether it is a real, well-paying, skill-building path for a specific person, weighed on the same terms as an IT-services or metro move rather than assumed inferior by default.",
+  },
+];
+
+const areaItems = [
+  {
+    title: "Dispur, Paltan Bazaar, and Fancy Bazaar carry Guwahati's government and commercial core",
+    body: "Dispur houses the Assam Secretariat and the state's administrative machinery, even though Guwahati (not Dispur) is popularly treated as Assam's commercial capital. Paltan Bazaar and Fancy Bazaar remain the city's dense wholesale and retail trading core, where much of the tea-trade paperwork, general commerce, and small-business economy actually moves. Someone rooted here is often weighing a government-exam or administrative-services path against the city's private commercial economy.",
+  },
+  {
+    title: "Noonmati, Maligaon, and Amingaon anchor Guwahati's industrial and institutional weight",
+    body: "Noonmati is home to the Guwahati Refinery. Maligaon houses the headquarters of Northeast Frontier Railway - the zonal railway responsible for the entire Northeast's rail network - alongside a large railway-colony workforce. Amingaon and North Guwahati, across the Brahmaputra, are where IIT Guwahati sits, giving the northern bank of the river a genuinely different character - academic and technical - from the trading density on the southern bank.",
+  },
+  {
+    title: "Six Mile, Khanapara, and Beltola sit at Guwahati's actual gateway to Meghalaya and the hill states",
+    body: "Six Mile and Khanapara mark the point where NH-6 and NH-37 head out toward Shillong and Meghalaya, and this corridor carries a steady flow of freight, students, and professionals moving between Guwahati and the hill states. For many people from Meghalaya specifically, this stretch of the city is literally where their own Guwahati story starts and, for some, where it later continues toward a bigger metro.",
+  },
+  {
+    title: "Zoo Road, Ganeshguri, Christian Basti, and Ulubari carry Guwahati's professional and student residential life",
+    body: "Zoo Road, Ganeshguri, Christian Basti, and Ulubari hold much of Guwahati's professional and student population, coaching institutes, and the city's expanding mall and office-space economy, while Uzan Bazaar and Bharalumukh reflect the older riverside city. The mix shapes whether a household's default expectation leans toward Guwahati's own government, trade, or energy-sector economy, or is already open to sending a son or daughter further to a metro.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: "Everyone from my town says the real jobs are only in Delhi, Bangalore, or Hyderabad - is that true for someone from the Northeast?",
+    body: "It depends heavily on the specific skill direction. Guwahati's own economy - IIT Guwahati and Gauhati University's academic and research base, the refinery and oil-and-gas corporate sector, the tea-trading economy, NF Railway, and the city's role as the Northeast's logistics gateway - genuinely supports a range of skilled, well-paying careers that a metro-only view misses entirely. For some skill directions, a metro is still the stronger move. The honest answer is specific to your direction, not a blanket yes or no for every Northeast student.",
+  },
+  {
+    title: "Should I settle in Guwahati permanently, or treat it as a stepping stone before moving further?",
+    body: "That is exactly the fork this page is built around, and there is no single right answer for every person. If your skill direction already has a genuine opening inside Guwahati's refinery, tea-trade, logistics, or administrative economy, building here can be the stronger, lower-cost, closer-to-family choice. If it needs a metro's density of employers and peer competition to grow, treating Guwahati as a deliberate first stage - not a permanent decision made by default - is the more honest plan.",
+  },
+  {
+    title: "Is an IIT Guwahati or Gauhati University degree enough on its own from here, or do I still need to prove more?",
+    body: "The degree carries real weight, including nationally through IIT Guwahati specifically. But a market that spans a whole region rather than one dense metro corridor makes a visible skill portfolio and proof of work matter just as much as the degree itself, whether you are competing for a refinery or corporate energy role in Guwahati, a tea-trade position, or a seat in a metro's job market.",
+  },
+  {
+    title: "My family does not want me to leave the Northeast - does that limit my real options?",
+    body: "Not automatically. Guwahati's own economy is genuinely broader than most people outside the region realise - energy-sector corporate roles, tea-trade commerce and logistics, NF Railway and administrative work, and a growing base of professional and institutional employers around IIT Guwahati. The more useful question is whether your specific skill direction is strong enough to build from Guwahati itself, independent of the stay-or-move debate.",
+  },
+  {
+    title: "I am not from Assam - I am from Meghalaya, Nagaland, Manipur, Mizoram, Tripura, Arunachal Pradesh, or Sikkim. Does this still apply to me?",
+    body: "Yes - this page is written specifically for that first-stop pattern. Guwahati is where a large share of students and professionals from every one of those states land first, for college, a first job, or specialist healthcare, before any decision about a bigger metro even comes up. The guidance question is the same regardless of home state: does your skill direction already fit what Guwahati's own economy is hiring for, or is a further move the stronger next step.",
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the specific fork pressing you right now',
+    listItems: [
+      "Whether your skill direction already has a real opening inside Guwahati's refinery and energy-sector corporate economy, the tea-trade and logistics economy, NF Railway, or the administrative sector around Dispur",
+      "Whether Guwahati is genuinely your destination, or a deliberate first stage before a bigger metro makes more sense for your specific direction",
+      'Whether staying closer to family and the wider Northeast, or moving further for a metro\'s density of employers, is the stronger move for your situation',
+      'What a realistic income trajectory looks like on your current path, given how Guwahati\'s regional-hub market actually works compared with a single-metro market',
+    ],
+  },
+  {
+    title: "Skill direction built for what Guwahati's actual economy is hiring for",
+    listItems: [
+      'A high-value skill portfolio aimed at energy-sector corporate roles, tea-trade commerce and logistics, or administrative and institutional work if that is genuinely your fit',
+      'Proof-of-work positioning strong enough to compete for a metro role, if the honest read is that a further move fits your specific direction better',
+      'Honest fit-checking between a government or PSU-linked path, a private corporate role inside Guwahati, and a metro move, instead of defaulting to whichever option your family or hometown assumes is safest',
+      "A clearer route toward earlier financial freedom that treats Guwahati's real, regional-hub economy - not a metro-only lens - as the honest starting point",
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Guwahati's actual mix, not a generic Northeast stereotype",
+    body: "Good guidance for Guwahati should speak specifically to the refinery and oil-and-gas corporate sector, the tea-trading economy and the Guwahati Tea Auction Centre, NF Railway and logistics, IIT Guwahati and Gauhati University's academic base, and the administrative economy around Dispur - not treat the whole Northeast as one undifferentiated, opportunity-scarce region.",
+  },
+  {
+    title: "Check whether the advice is honest about Guwahati's role as a regional hub, not just optimistic about it",
+    body: "Guwahati genuinely anchors the Northeast's economy, but it is still a smaller, more specialised market than a metro corridor for many skill directions. Guidance worth paying for should say plainly when a further move genuinely serves your specific direction better, instead of overselling Guwahati as a full substitute for a metro's scale in every field.",
+  },
+  {
+    title: "Check whether staying close to family and the wider Northeast is treated as a real constraint to plan around",
+    body: "For many people from Assam and the neighbouring states, staying within reach of home is a genuine priority, not a lack of ambition. Guidance should help build the strongest possible path from Guwahati when that is the goal, rather than treating relocation to a distant metro as the only serious outcome.",
+  },
+  {
+    title: "Check whether the guidance treats the tea-trade and energy-sector economy as a legitimate path, not a fallback",
+    body: "A counsellor who only measures success by an IT-services or metro-tech offer will miss a real share of Guwahati's genuinely well-paying, skill-building work in energy, tea-trade commerce, logistics, and railways. The guidance should evaluate a path on its own merits for you, not its resemblance to a metro tech career.",
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Explore other city-specific guidance pages if you want to compare before committing.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.nagpurCounselling,
+    title: 'Career Counselling in Nagpur',
+    description: 'Useful if you are weighing Guwahati against another tier-2, regional-hub-style city rather than a full metro.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.kolkataCounselling,
+    title: 'Career Counselling in Kolkata',
+    description: 'Useful if Kolkata is the nearer eastern metro you are weighing as the next step beyond Guwahati.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'Use the main counselling page if the city matters less than the overall need for clarity.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Use the main guidance page when the core issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Guwahati instead of only looking for a nearby offline option?',
+    answer:
+      "Because proximity alone does not resolve Guwahati's real fork - whether to build a career inside the city's own refinery, tea-trade, logistics, and administrative economy, or treat Guwahati as a first stage before a bigger metro. Online guidance lets you start from home, from IIT Guwahati or another campus, or from work near Noonmati or the old city, without waiting on local availability, and it should still be judged on whether it gives you a clear, specific answer for your situation.",
+  },
+  {
+    question: 'Is Guwahati only a stopover before a bigger metro, or a genuine career destination on its own?',
+    answer:
+      "Both are true, depending on the person and the skill direction. Guwahati has a genuine regional economy - IIT Guwahati and Gauhati University, the refinery and broader oil-and-gas corporate sector, the tea-trading economy anchored by the Guwahati Tea Auction Centre, NF Railway, and the administrative base around Dispur. For some skill directions, that is a real destination. For others, Guwahati is honestly a strong first stage before a metro's greater density of employers becomes the better move.",
+  },
+  {
+    question: 'I am from Meghalaya, Nagaland, Manipur, Mizoram, Tripura, Arunachal Pradesh, or Sikkim - does Guwahati guidance still apply to me?',
+    answer:
+      "Yes. Guwahati is where a large share of students and professionals from every state in the Northeast land first, for education, a first job, or specialist healthcare, before any decision about Delhi, Bangalore, Hyderabad, or another metro even comes up. This page is built specifically around that first-stop pattern, not around Assam alone.",
+  },
+  {
+    question: 'Is a career in the tea trade or the oil-and-gas sector actually a realistic path from Guwahati?',
+    answer:
+      "Yes, genuinely. Guwahati runs Assam's tea-trading and auction economy through the Guwahati Tea Auction Centre, and hosts the Guwahati Refinery along with a real corporate and regional presence for Numaligarh Refinery, ONGC, and Oil India Limited. Both sectors support real, skill-building, well-paying corporate, trading, engineering, and logistics roles that a metro-only, IT-and-engineering view of career options tends to overlook entirely.",
+  },
+  {
+    question: 'Is an IIT Guwahati or Gauhati University degree enough on its own to compete in this market?',
+    answer:
+      "It carries real weight, but in a market that spans an entire region rather than one dense metro corridor, a visible skill portfolio and proof of work matter just as much as the degree itself - whether you are aiming for a refinery or energy-corporate role, a tea-trade position, or a seat in a metro's job market later.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer: 'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Guwahati?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so it works whether you are building from Guwahati or weighing a further move to a bigger metro.',
+  },
+  {
+    question: 'What if I searched for Guwahati but the bigger issue is not the city at all?',
+    answer:
+      "That is common. The city search is often a trust shortcut. If the real pressure is stream selection, degree choice, skill direction, or a career change rather than location, the main counselling and guidance pages are the stronger next filter. This page is most useful when local context - Guwahati's regional-hub role, the tea and energy-sector economy, or the stay-or-move-further decision - is genuinely part of your decision.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      { '@type': 'ListItem', position: 5, name: 'Career Counselling in Guwahati', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Guwahati | Future Career School',
+    description:
+      "Career counselling in Guwahati for students, freshers, and working professionals from Assam and the wider Northeast. Online guidance for the stay-and-build-in-Guwahati-or-move-further decision, built around the city's role as the Northeast's regional hub.",
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: [
+      { '@type': 'City', name: 'Guwahati' },
+      { '@type': 'Country', name: 'India' },
+    ],
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Guwahati</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Guwahati and across the Northeast
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Guwahati
+        <span class="gold-text"> for the Northeast's own gateway city</span>
+      </h1>
+      <p class="hero-sub">
+        Guwahati is the Gateway to the Northeast - the first real stop for students and professionals from Assam, Meghalaya,
+        Nagaland, Manipur, Mizoram, Tripura, Arunachal Pradesh, and Sikkim, long before any decision about Delhi, Bangalore,
+        or another metro comes up. IIT Guwahati, Gauhati University, and Gauhati Medical College sit alongside a genuine
+        refinery, tea-trading, and logistics economy that most people outside the region never see. Good counselling here
+        is not about deciding for or against the whole Northeast in the abstract. It is building the kind of high-value
+        skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom - whether
+        that portfolio ends up being used from Guwahati or from a metro further on.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Guwahati and across India. You can start from home, from IIT Guwahati,
+        Gauhati University, or any other campus, or from work near Noonmati or Dispur - no travel required before the
+        underlying skill direction is even clear.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not whether Guwahati's role as a regional hub sounds promising in general. It is whether
+        your specific skill direction already has a real opening here, or genuinely needs a further move first.
+      </p>
+    </div>
+  </section>
+
+  <AudienceRelevance title="How the right support can fit where you are right now" />
+
+  <BofuListCardSection
+    sectionId="first-stop-hub"
+    title="The decision most people searching from Guwahati are actually facing"
+    subtitle="This two-stage migration pattern - home state to Guwahati, then possibly Guwahati to a bigger metro - has no equivalent framing on any other city page this site covers, because no other city sits at the center of an entire multi-state region the way Guwahati does for the Northeast."
+    items={firstStopItems}
+    variant="contrast"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Guwahati stay-or-move-further question already feels urgent, resolve it before more time goes into the wrong bet"
+    body="Use this when you want a decision that moves you toward earlier financial freedom, not another year of assuming a metro is automatically the answer."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="How this approach differs from typical career counselling"
+    subtitle="In a region where the pull toward Delhi, Bangalore, or Hyderabad is constant, the risk is generic advice that assumes a metro is always the answer without checking your specific skill fit. The comparison below shows what separates high-leverage guidance from that."
+    rows={guwahatiComparisonRows}
+  />
+
+  <BofuFeatureSection
+    sectionId="tea-oil-economy"
+    title="Guwahati's tea-trading and oil-and-gas corporate economy - a real fork most outside advice never mentions"
+    subtitle="Neither sector shows up in a generic 'do IT or engineering' script, but both run genuine, skill-building corporate careers out of Guwahati every day."
+    items={teaOilContextItems}
+    variant="signal"
+  />
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical career counselling should move you forward"
+    subtitle="The point is not another opinion about whether the Northeast has 'enough opportunity'. The point is a clearer decision, stronger skill direction, proof of work, and a real route toward earlier financial freedom, whether that plays out from Guwahati or from a metro after it."
+  />
+
+  <BofuFeatureSection
+    sectionId="guwahati-areas"
+    title="Guwahati's geography shapes the decision, not just the commute"
+    subtitle="A useful local page should feel grounded in how people actually live, study, and work across Guwahati, not treat every search as coming from the same part of the city."
+    items={areaItems}
+    variant="decision"
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling in Guwahati"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process understands Guwahati's actual mix of energy, tea-trade, logistics, and administration, and whether it is honest about the stay-or-move-further trade-off."
+    items={buyerCheckItems}
+  />
+
+  <section id="deliverables" class="section-block">
+    <div class="container">
+      <h2>What should feel clearer after career counselling</h2>
+      <p>
+        Good career counselling should leave you with one clear decision, a smaller shortlist of options, and one practical
+        next step you can actually use. Here is what that looks like for Guwahati's regional-hub fork.
+      </p>
+      <BofuListCardSection items={deliverableItems} variant="signal" />
+      <AssessmentSupportNote
+        body="If you are still early and not ready for guidance yet, the free career and skill assessments can surface strengths, preferences, and work style before you commit to a bigger counselling decision."
+        href={BOFU_ASSESSMENT_LINKS.hub}
+      />
+    </div>
+  </section>
+
+  <section id="objections" class="section-block">
+    <div class="container">
+      <h2>Honest answers to what people wonder</h2>
+      <p>Before committing to career counselling, you probably have some doubts or questions. Here are the ones we hear most often from Guwahati and the wider Northeast.</p>
+      <BofuListCardSection items={objectionItems} variant="signal" />
+    </div>
+  </section>
+
+  <ContextualCta
+    audience="mixed"
+    title="Use the Guwahati page when locality matters, but decide based on your actual skill fit, not city reputation alone"
+    body="The practical value is a clear read on whether Guwahati's own economy already fits your direction, stronger skill positioning either way, and a concrete next step before the wrong bet gets more expensive - and more distant."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-pages"
+    title="Other guidance options to consider"
+    subtitle="If the city search matters less than the actual need, explore these related pages."
+    items={relatedItems}
+  />
+
+  <BofuFaqSection sectionId="faq" title="Questions about career counselling in Guwahati" items={faqItems} />
+
+  <FinalCta
+    sectionId="final-cta"
+    title="Ready to get clarity on your next move"
+    subtitle="Career counselling matters most when a real fork - build from Guwahati's own refinery, tea-trade, and logistics economy, or treat it as a first stage before a bigger metro - is genuinely in front of you, and the goal is a high-value skill portfolio that keeps unlocking high income opportunities on the way to earlier financial freedom."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  .section-block { padding: 3.5rem 0; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.2rem; }
+
+  h2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 1.8rem;
+  }
+
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .gold-text { color: #e5b84a; }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  .btn-gold, .btn-outline {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-gold { background: linear-gradient(135deg, #e5b84a, #d4a83a); color: #000; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 184, 74, 0.3); }
+  .btn-outline { border: 1px solid rgba(45, 212, 191, 0.5); color: #2dd4bf; background: transparent; }
+  .btn-outline:hover { background: rgba(45, 212, 191, 0.1); border-color: #2dd4bf; }
+  .pulse { animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 184, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 184, 74, 0); }
+  }
+
+  #comparison,
+  #related-pages { background: rgba(255,255,255,.012); }
+  #tea-oil-economy,
+  #objections,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold, .hero-actions .btn-outline, .hero-actions .btn-soft { justify-content: center; }
+    .section-block { padding: 2.5rem 0; }
+  }
+</style>

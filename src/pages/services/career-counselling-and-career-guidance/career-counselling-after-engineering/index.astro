@@ -1,0 +1,436 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Counselling After Engineering | Direction After B.Tech, Placed or Not | Future Career School';
+const description =
+  'Career counselling after engineering: core engineering vs pivot, higher studies vs work, and direction after B.Tech, placed or not yet.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-after-engineering/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[3],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    title: 'The degree is done, and "what next" has no obvious answer',
+    body: 'Classes are over, exams are behind you, and there is no single next step handed to you anymore, whether an offer is already in hand or not.',
+  },
+  {
+    title: 'Placed, but still unsure if core engineering is really the plan',
+    body: 'An offer letter answers the immediate question, not the bigger one: whether the actual day-to-day of that role, or the branch behind it, is a direction worth building the next several years on.',
+  },
+  {
+    title: 'Higher studies feels tempting now that the pressure is briefly gone',
+    body: 'M.Tech, an MS abroad, or an MBA can look like the safer or more prestigious move right after finishing a degree, without it being clear whether it strengthens your direction or mainly postpones a decision.',
+  },
+  {
+    title: 'Family and peers already expect the obvious next move',
+    body: 'Join the company that made an offer, or start preparing for the next exam or program, because that is what usually happens after engineering, even when it is not clear that default is actually right for you.',
+  },
+];
+
+const decisionItems = [
+  {
+    title: 'Direction after the degree, independent of placement status',
+    listItems: [
+      'What "after engineering" should actually mean for you specifically, instead of copying whatever the placement cycle or family expects by default',
+      'How to separate the placement outcome from the deeper direction question, since an offer answers one and not the other',
+      'What a realistic first-year plan looks like whether you are starting a job, still searching, or choosing to study further',
+    ],
+  },
+  {
+    title: 'Staying in core engineering or pivoting once the degree is behind you',
+    listItems: [
+      'Whether the branch you studied should still define the role you take, now that the classroom part is over',
+      'What a genuine pivot into product, business, consulting, or another technical adjacency actually requires from here',
+      'How to weigh an offer already in hand against a direction that may fit you better long term',
+    ],
+  },
+  {
+    title: 'Higher studies vs working now',
+    listItems: [
+      'Whether M.Tech, an MS abroad, or an MBA adds a real skill or credential you specifically need, or mainly delays a decision',
+      'How working first and building proof of work compares to studying first for your actual goals',
+      'What the realistic cost in time, money, and opportunity looks like for each path, not just which one sounds more impressive',
+    ],
+  },
+  {
+    title: 'Making peace with, or correcting, the branch and college choice',
+    listItems: [
+      'Whether the branch or college you graduated from still limits your options, or whether skills and proof of work now matter more',
+      'How to build on the degree you already have instead of treating four years as wasted if the fit was never quite right',
+      'What a specific, honest next step looks like instead of generic reassurance that "it will work out"',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it works whether or not you already have an offer',
+    body: 'Some guidance only makes sense for the no-offer job search. Stronger guidance should start from wherever you actually are, offer in hand or still searching, and work from there.',
+  },
+  {
+    title: 'Check whether it separates the placement question from the direction question',
+    body: 'Having an offer and having the right long-term direction are two different questions. Look for guidance that addresses both instead of assuming one answers the other.',
+  },
+  {
+    title: 'Check whether the higher-studies-vs-work decision gets a real answer',
+    body: 'This is one of the most expensive calls right after an engineering degree. Stronger guidance should walk through your specific goals and constraints, not default to whichever option sounds safer to a placement WhatsApp group.',
+  },
+  {
+    title: 'Check whether it ends in a specific next step, not just reassurance',
+    body: 'Generic encouragement that things will fall into place is not a plan. Stronger guidance should close with a specific direction, whether that means the job you already have, a pivot, or a study path, and what to do about it this month.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'I already have a placement offer. Does career counselling after engineering still apply to me?',
+    answer:
+      'Yes. This is built for the direction question that comes after an engineering degree regardless of the placement outcome, not only for graduates still searching for an offer. Having an offer answers whether you have a job; it does not automatically answer whether that role, branch, or company is the right long-term direction for you.',
+  },
+  {
+    question: 'Should I take my current core engineering offer or try to pivot into another field first?',
+    answer:
+      'This depends on what the specific offer actually teaches you, how strong your pivot plan realistically is right now, and what your timeline and financial situation allow, not a blanket rule either way. Guidance should help you weigh a real offer against a genuine but still-forming pivot plan instead of choosing based on which one feels less risky in the moment.',
+  },
+  {
+    question: 'Is doing an M.Tech, MS abroad, or MBA right after B.Tech a good idea, or should I work first?',
+    answer:
+      'Higher studies can genuinely strengthen a specific direction, but it is not automatically the safer choice just because it feels like the natural next step after a degree. Guidance should help you check whether the program adds a credential or skill you actually need, or whether it mainly postpones a decision you could make now with a clearer plan.',
+  },
+  {
+    question: 'I am still in my final year, not graduated yet. Is this the right page for me?',
+    answer:
+      'If you are still studying and the open questions are about branch fit, an offer already on the table, or higher studies while still enrolled, career counselling for engineering students is built for exactly that stage. Once the degree is complete, the right guidance depends on the direction you are weighing next.',
+  },
+  {
+    question: 'What if I do not have an offer yet and the pressure of an empty inbox is the real issue right now?',
+    answer:
+      'If the immediate pressure is the job search itself, off-campus strategy, and the resume gap since graduation, career guidance after engineering without placement is built specifically for that situation. This page covers the broader direction question once you are past that immediate search, or if an offer is already in hand and the real question has moved beyond it.',
+  },
+  {
+    question: 'Is it too late to fix a branch or college choice I now regret?',
+    answer:
+      'It is rarely too late to build a stronger direction, even when the branch or college itself cannot be changed. Guidance can help you separate the degree already earned from the skill direction you build next. Many engineering graduates move toward a stronger path by adding the right skills and proof of work on top of the degree they have, rather than treating the branch or college name as the final word.',
+  },
+  {
+    question: 'Are the career and skill assessments free for engineering graduates?',
+    answer:
+      'Yes. The career and skill assessments are fully free and can be described as updated, practical, and AI-powered. Many providers charge thousands for outdated assessments; this is meant to be a stronger free starting layer before deciding between an offer, a pivot, or a higher-studies path.',
+  },
+  {
+    question: 'Is this available online, or do I need to be near a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can start from home, your hostel, or your new workplace, without depending on a local office or a campus counsellor who is no longer available to you after graduation.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help when several connected decisions, not just the direction after engineering, need to make sense together.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-guidance-after-engineering-without-placement/',
+    title: 'Career Guidance After Engineering Without Placement',
+    description:
+      'The right starting point if there is still no offer in hand and the immediate pressure is the off-campus job search itself, not the broader direction question.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-engineering-students/',
+    title: 'Career Counselling for Engineering Students',
+    description:
+      'Useful if you are still enrolled and the open questions are branch fit, an offer already on the table, or higher studies while still studying.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-freshers/',
+    title: 'Career Counselling for Freshers',
+    description:
+      'Useful once an offer is in hand and the immediate questions are evaluating it, choosing between companies, or planning year one, regardless of branch.',
+  },
+  {
+    href: '/blog/career-options/is-engineering-still-a-good-career-in-india/',
+    title: 'Is Engineering Still a Good Career?',
+    description:
+      'An honest look at whether an engineering degree is still worth it if that doubt is part of what is holding your decision back.',
+  },
+  {
+    href: '/blog/career-change/how-to-switch-from-service-company-to-product-company/',
+    title: 'Service Company to Product Company',
+    description:
+      'A practical look at what moving from a service-company role to a product-company role usually takes if that is the pivot in question.',
+  },
+  {
+    href: '/blog/career-options/career-after-btech-other-than-software/',
+    title: 'Career After B.Tech Other Than Software',
+    description:
+      'Explore paths beyond a coding-first role if a non-technical or non-software pivot is part of the direction you are weighing.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling After Engineering',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling After Engineering | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling After Engineering',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling After Engineering</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        For engineering graduates deciding direction after B.Tech, placed or not yet
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling after engineering
+        <span class="gold-text"> for the direction that comes after the degree itself</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling after engineering should deal with the question that comes after the degree is done, whether an offer is already in hand or not: stay in core engineering or pivot, take the offer or hold out for a better fit, study further or start working now.
+        Getting this direction right early is what lets a high-value skill portfolio start unlocking high income opportunities and compounding toward earlier financial freedom, instead of the first available option deciding it for you.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from home, your hostel, or your new workplace, without waiting for a campus counsellor who is no longer available to you.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling After Engineering</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When this becomes the decision that matters most"
+    subtitle="These are the real pressure points once an engineering degree is behind you. The direction chosen here decides how soon a high-value skill portfolio starts compounding toward earlier financial freedom, instead of drifting into whichever option arrived first."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Get direction for after engineering before the default option decides for you"
+    body="The sooner the direction is right, whether or not an offer is already in hand, the sooner a high-value, high-income skill portfolio starts compounding toward earlier financial freedom."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling After Engineering for Students"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The decisions this should help you make right now"
+    subtitle="Not generic placement advice, and not built only around whether an offer exists. Direction for the exact calls engineering graduates actually face after the degree."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free graduate and early-professional assessment can help you see your actual strengths and work style before deciding between an offer, a pivot, or a higher-studies path."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when direction after engineering is done right"
+    subtitle="This should feel different from following whatever the placement cycle, a relative, or a WhatsApp group already decided for you."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for guidance at this stage"
+    subtitle="The goal is a clear answer on core-vs-pivot and study-vs-work, whichever your placement status is, not generic encouragement to figure it out."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let the first available option or family pressure make this call for you"
+    body="A clearer direction now, whether you are placed, still searching, or weighing further study, protects the years right after engineering, when skill compounding matters most."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling After Engineering for Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling"
+    title="Career Counselling After Engineering Plans"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="Find the page that matches exactly where you are, whether that is still studying, still job-searching, or already past both."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions engineering graduates ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Get clarity on the direction after engineering before it gets decided by default"
+    subtitle="Whether an offer is already in hand, still pending, or the question has moved on to core engineering versus a pivot or higher studies versus work, move with a clear direction now, toward unlocking high income opportunities and earlier financial freedom, instead of letting the first available option decide for you."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling After Engineering for Students"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.1rem, 4.6vw, 3.5rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.7rem, 9vw, 2.3rem);
+      line-height: 1.06;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

@@ -147,37 +147,6 @@ if (root) {
     'career-change': 'Changing career',
   };
 
-  const stageAssessmentRoutes: Record<string, { href: string; title: string }> = {
-    'class-10-below': {
-      href: '/services/assessments/class-10-and-below/',
-      title: 'Class 10 and Below Assessment',
-    },
-    'class-11-12': {
-      href: '/services/assessments/class-11-to-12/',
-      title: 'Class 11 and 12 Assessment',
-    },
-    college: {
-      href: '/services/assessments/graduates-and-early-professionals/',
-      title: 'Graduate and Early Career Assessment',
-    },
-    graduate: {
-      href: '/services/assessments/graduates-and-early-professionals/',
-      title: 'Graduate and Early Career Assessment',
-    },
-    professional: {
-      href: '/services/assessments/working-professionals-and-career-changers/',
-      title: 'Working Professional Assessment',
-    },
-    'career-change': {
-      href: '/services/assessments/working-professionals-and-career-changers/',
-      title: 'Career Change Assessment',
-    },
-    exploring: {
-      href: '/services/assessments/',
-      title: 'Career Assessment',
-    },
-  };
-
   function initials(name: string, email = '') {
     const parts = name.trim().split(/\s+/).filter(Boolean);
     if (parts.length > 1) return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
@@ -280,15 +249,23 @@ if (root) {
     const [profileResponse, assessmentResponse, careerResponse, actionResponse, savedResponse] =
       await Promise.all([
         supabase.from('profiles').select('*').eq('id', user.id).single(),
-        supabase.from('assessment_results').select('*').order('completed_at', { ascending: false }).limit(30),
+        // Keep the dashboard history scoped to the signed-in account even
+        // when the database policy is present. Assessments remain optional;
+        // this is only a defence-in-depth privacy boundary for saved results.
+        supabase.from('assessment_results').select('*').eq('user_id', user.id).order('completed_at', { ascending: false }).limit(30),
         supabase.from('career_paths').select('*').order('sort_order', { ascending: true }).order('created_at', { ascending: true }),
         supabase.from('action_items').select('*').order('sort_order', { ascending: true }).order('created_at', { ascending: true }),
         supabase.from('saved_resources').select('*').order('created_at', { ascending: false }),
       ]);
 
+    // Assessment history is optional. A missing table, denied read, or
+    // transient assessment request must never prevent the rest of the
+    // workspace from loading for students who have not taken an assessment.
+    if (assessmentResponse.error) {
+      console.warn('Assessment history is unavailable; continuing without it.', assessmentResponse.error);
+    }
     const firstError = [
       profileResponse.error,
-      assessmentResponse.error,
       careerResponse.error,
       actionResponse.error,
       savedResponse.error,
@@ -411,10 +388,6 @@ if (root) {
     });
   }
 
-  function recommendedAssessment() {
-    return stageAssessmentRoutes[state.profile?.stage || 'exploring'] || stageAssessmentRoutes.exploring;
-  }
-
   function renderRecommendation() {
     const stage = state.profile?.stage || 'exploring';
     qsa<HTMLElement>('[data-assessment-stage]').forEach((card) => {
@@ -431,7 +404,10 @@ if (root) {
     const completedTasks = state.actions.filter((item) => item.status === 'done').length;
     const profileDone = Boolean(state.profile?.onboarding_completed);
     let progress = profileDone ? 25 : 0;
-    if (state.assessments.length) progress += 25;
+    // Assessments are optional evidence, not a prerequisite for progress.
+    // Keep a saved result useful without making an empty history look like a
+    // blocked or incomplete workspace.
+    if (state.assessments.length) progress += 10;
     if (state.careers.length >= 2) progress += 25;
     else if (state.careers.length === 1) progress += 12;
     if (state.actions.length) progress += 10;
@@ -460,11 +436,9 @@ if (root) {
 
     const doing = state.actions.find((item) => item.status === 'doing');
     const nextTodo = state.actions.find((item) => item.status === 'todo');
-    const recommended = recommendedAssessment();
-
     if (!profileDone) {
       title.textContent = 'Set your starting point';
-      description.textContent = 'Your stage and 90-day goal determine which assessment and actions are most useful.';
+      description.textContent = 'Your stage and 90-day goal help personalise suggestions. Assessments are optional.';
       action.replaceChildren('Set up profile ', icon('chevron'));
       action.onclick = () => openDialog(qs<HTMLDialogElement>('#onboarding-dialog'));
     } else if (doing) {
@@ -472,11 +446,6 @@ if (root) {
       description.textContent = 'This is already in progress. Finish it or break it into a smaller action.';
       action.replaceChildren('Open weekly plan ', icon('chevron'));
       action.onclick = () => showView('plan');
-    } else if (!state.assessments.length) {
-      title.textContent = `Take the ${recommended.title}`;
-      description.textContent = 'Use the result as evidence for your shortlist, then test the strongest signal.';
-      action.replaceChildren('Start assessment ', icon('chevron'));
-      action.onclick = () => window.location.assign(recommended.href);
     } else if (nextTodo) {
       title.textContent = nextTodo.title;
       description.textContent = nextTodo.priority === 'important'
@@ -490,7 +459,7 @@ if (root) {
       action.replaceChildren('Add a path ', icon('chevron'));
       action.onclick = () => openCareerDialog();
     } else {
-      title.textContent = 'Choose the next real-world test';
+      title.textContent = 'Choose a practical way to try it';
       description.textContent = 'Look at your two strongest paths and define one small action that creates new evidence.';
       action.replaceChildren('Compare paths ', icon('chevron'));
       action.onclick = () => showView('careers');
@@ -646,7 +615,7 @@ if (root) {
       evidence.append(reasonBox, tradeoffBox);
 
       const next = element('div', 'path-next');
-      next.append(element('h4', '', 'Next real-world test'), element('p', '', path.next_step || 'Define one small test before committing.'));
+      next.append(element('h4', '', 'Try it before deciding'), element('p', '', path.next_step || 'Define one small test before committing.'));
       body.append(evidence, next);
       card.append(top, body);
       return card;
@@ -899,14 +868,8 @@ if (root) {
   function openProfileDialog() {
     const profile = state.profile;
     const name = qs<HTMLInputElement>('#settings-name');
-    const stage = qs<HTMLSelectElement>('#settings-stage');
-    const outcome = qs<HTMLTextAreaElement>('#settings-outcome');
-    const city = qs<HTMLInputElement>('#settings-city');
     const email = qs<HTMLElement>('#settings-email');
     if (name) name.value = profile?.full_name || '';
-    if (stage) stage.value = profile?.stage || 'exploring';
-    if (outcome) outcome.value = profile?.target_outcome || '';
-    if (city) city.value = profile?.city || '';
     if (email) email.textContent = `Signed in as ${state.user?.email || ''}`;
     setFormStatus(qs<HTMLElement>('#profile-form-status'));
     openDialog(qs<HTMLDialogElement>('#profile-dialog'));
@@ -964,6 +927,17 @@ if (root) {
         button.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
         button.title = showing ? 'Show password' : 'Hide password';
       });
+    });
+    qs<HTMLSelectElement>('#task-weekly-hours')?.addEventListener('change', (event) => {
+      const select = event.currentTarget as HTMLSelectElement;
+      const custom = qs<HTMLElement>('#task-weekly-custom-wrap');
+      const input = qs<HTMLInputElement>('#task-weekly-custom');
+      const isCustom = select.value === 'custom';
+      if (custom) custom.hidden = !isCustom;
+      if (input) {
+        input.required = isCustom;
+        if (!isCustom) input.value = '';
+      }
     });
     qsa<HTMLElement>('[data-resource-card]').forEach((card) => {
       qs<HTMLButtonElement>('.save-resource-button', card)?.addEventListener('click', () => void toggleRecommendedResource(card));
@@ -1046,21 +1020,15 @@ if (root) {
       const form = event.currentTarget as HTMLFormElement;
       const data = new FormData(form);
       const name = String(data.get('name') || '').trim();
-      const stage = String(data.get('stage') || '');
-      const outcome = String(data.get('outcome') || '').trim();
-      const city = String(data.get('city') || '').trim();
       const status = qs<HTMLElement>('#onboarding-status');
       const submit = qs<HTMLButtonElement>('button[type="submit"]', form);
-      if (!name || !stage || !outcome) {
-        setFormStatus(status, 'Add your name, stage, and current goal.', 'error');
+      if (!name) {
+        setFormStatus(status, 'Add your name to continue.', 'error');
         return;
       }
       setBusy(submit, true, 'Building your plan...');
       const { error } = await supabase.from('profiles').update({
         full_name: name,
-        stage,
-        city,
-        target_outcome: outcome,
         avatar_seed: initials(name, state.user.email),
         onboarding_completed: true,
         updated_at: new Date().toISOString(),
@@ -1072,9 +1040,8 @@ if (root) {
       }
 
       if (!state.actions.length) {
-        const assessment = stageAssessmentRoutes[stage] || stageAssessmentRoutes.exploring;
         const { error: taskError } = await supabase.from('action_items').insert([
-          { user_id: state.user.id, title: `Complete the ${assessment.title}`, category: 'decide', status: 'todo', priority: 'important', due_date: isoDateIn(3), sort_order: 0 },
+          { user_id: state.user.id, title: 'Choose one career option to explore', category: 'decide', status: 'todo', priority: 'important', due_date: isoDateIn(3), sort_order: 0 },
           { user_id: state.user.id, title: 'Add two realistic career paths to compare', category: 'explore', status: 'todo', priority: 'normal', due_date: isoDateIn(6), sort_order: 1 },
           { user_id: state.user.id, title: 'Run one 60-minute skill sample', category: 'build', status: 'todo', priority: 'normal', due_date: isoDateIn(9), sort_order: 2 },
         ]);
@@ -1120,6 +1087,14 @@ if (root) {
       const data = new FormData(form);
       const status = qs<HTMLElement>('#task-form-status');
       const submit = qs<HTMLButtonElement>('button[type="submit"]', form);
+      const weeklyPreset = String(data.get('weeklyHours') || '5');
+      const weeklyCustom = String(data.get('weeklyHoursCustom') || '').trim();
+      const weeklyHours = weeklyPreset === 'custom' ? weeklyCustom : weeklyPreset;
+      if (weeklyPreset === 'custom' && (!weeklyCustom || Number(weeklyCustom) <= 0)) {
+        setFormStatus(status, 'Enter the weekly hours you can realistically maintain, or choose one of the five-hour options.', 'error');
+        qs<HTMLInputElement>('#task-weekly-custom')?.focus();
+        return;
+      }
       setBusy(submit, true, 'Adding next step...');
       const { error } = await supabase.from('action_items').insert({
         user_id: state.user.id,
@@ -1127,6 +1102,7 @@ if (root) {
         category: String(data.get('category') || 'explore'),
         due_date: String(data.get('dueDate') || '') || null,
         priority: data.get('important') ? 'important' : 'normal',
+        details: (weeklyHours ? `Weekly time available: ${String(weeklyHours)} hours` : '') as never,
         sort_order: state.actions.length,
       });
       setBusy(submit, false, 'Add to weekly plan');
@@ -1150,9 +1126,6 @@ if (root) {
       setBusy(submit, true, 'Saving...');
       const { error } = await supabase.from('profiles').update({
         full_name: name,
-        stage: String(data.get('stage') || 'exploring'),
-        target_outcome: String(data.get('outcome') || '').trim(),
-        city: String(data.get('city') || '').trim(),
         avatar_seed: initials(name, state.user.email),
         onboarding_completed: true,
         updated_at: new Date().toISOString(),

@@ -1,0 +1,523 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+  BOFU_INTERNAL_LINKS,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Guidance After B.Com | CA, M.Com, MBA, Govt Exams, or a Job | Future Career School';
+const description =
+  'Career guidance after B.Com on continuing CA/CS/CMA vs M.Com vs MBA vs banking/govt exams vs a job — decide with clarity on your actual next move.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-bcom/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'The CA continuation question',
+    title: 'CA, CS, or CMA already underway alongside B.Com, and the multi-attempt reality is now visible',
+    body: 'Many B.Com students start a professional course alongside the degree. Once B.Com is done, the real question becomes whether to keep going, pause, or exit into a job — a decision the original plan rarely accounted for.',
+  },
+  {
+    eyebrow: 'The exam-hall default',
+    title: 'Banking and government exam preparation feels like the safe B.Com move, whether or not it is genuinely the right fit',
+    body: 'SSC, IBPS, and other banking exams are a common next step for B.Com graduates, partly because coaching culture around them is so visible — not always because the fit has actually been tested.',
+  },
+  {
+    eyebrow: 'M.Com without a clear reason',
+    title: 'M.Com often gets chosen because it is familiar, not because it changes anything specific',
+    body: 'Continuing in the same subject can feel like the least risky option, but without a clear reason — teaching, a specific postgraduate eligibility, or genuine subject interest — it can just delay the real decision by two years.',
+  },
+  {
+    eyebrow: 'Unclear job market for a plain B.Com',
+    title: 'A B.Com degree alone often does not signal enough for stronger accounting, finance, or analytics roles',
+    body: 'Without a skill layer — Excel, GST and accounting software, data analytics, or a specific certification — many B.Com graduates find the degree alone opens fewer doors than expected.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Continue CA/CS/CMA or exit',
+    title: 'An honest read on whether another attempt is still worth it',
+    listItems: [
+      'How much time, coaching fees, and attempts have already gone in, weighed against a forward-looking view of what continuing would actually take from here',
+      'What exiting into a finance, accounting, or analytics role would look like using the partial credential and coursework already completed',
+      'How to separate genuine fit for the professional-course workload from sunk-cost thinking or family pressure to keep going',
+    ],
+  },
+  {
+    eyebrow: 'M.Com vs MBA vs a job',
+    title: 'Comparing three real options instead of defaulting to the most familiar one',
+    listItems: [
+      'What M.Com specifically changes for your goals — genuine subject interest, teaching eligibility, or a defined postgraduate requirement — versus a job or MBA',
+      'Whether an MBA now would strengthen your direction, and in which specialization, versus gaining work experience before an MBA',
+      'What a direct job in accounting, finance, banking, or analytics realistically pays and grows into straight out of B.Com',
+    ],
+  },
+  {
+    eyebrow: 'Banking and government exam prep',
+    title: 'Testing genuine fit before committing months or years to one exam track',
+    listItems: [
+      'Whether banking, SSC, or another government exam track genuinely fits your goals, or is mainly the default because everyone around you is preparing for one',
+      'What the real opportunity cost looks like if the attempt does not succeed the first or second time',
+      'How to run exam prep alongside a parallel skill-building or job-search track instead of treating it as the only plan',
+    ],
+  },
+  {
+    eyebrow: 'Building a real skill layer',
+    title: 'What actually strengthens a B.Com degree in the job market',
+    listItems: [
+      'Which specific skills — financial modelling, GST and accounting software, data analytics, or business communication — matter most for your target direction',
+      'How to build real, checkable proof of work such as a small accounting project, an analytics case study, or a relevant certification',
+      'How to layer this skill-building alongside CA/CS/CMA prep, M.Com, or a job search rather than waiting for one thing to finish first',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the CA/CS/CMA continuation question gets a real answer, not blanket encouragement to keep going',
+    body: 'If you are reconsidering a professional course already underway, guidance should weigh the actual time and cost invested against continuing, honestly, rather than assuming quitting is always wrong.',
+  },
+  {
+    title: 'Check whether M.Com, MBA, and a direct job get compared fairly',
+    body: 'Generic advice can default to "M.Com is safe" or "just do an MBA." Look for guidance that prices each option against your specific goals rather than repeating the most familiar answer.',
+  },
+  {
+    title: 'Check whether the banking/government exam route gets tested for genuine fit',
+    body: 'This path is common enough that it often gets picked without a real fit check. Guidance should test whether it suits you specifically, not just because it is a visible default for B.Com students.',
+  },
+  {
+    title: 'Check whether you leave with one direction and a skill-building step, not a longer list of B.Com career options',
+    body: 'A useful session should end with a chosen direction and one concrete next step, not more open-ended comparison to sit with alone.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'I am doing CA/CS/CMA alongside B.Com and now I am not sure I want to continue. What should I do?',
+    answer:
+      'This is a genuine decision point, not a failure. The honest approach weighs the time, coaching fees, and attempts already invested against a forward-looking view of what continuing would take, and compares that against exiting into a finance, accounting, or analytics role using the coursework and partial credential you already have.',
+  },
+  {
+    question: 'Should I do M.Com, an MBA, or start working right after B.Com?',
+    answer:
+      'It depends on what each option would specifically change for you. M.Com makes sense when there is a clear reason — genuine subject interest, teaching eligibility, or a defined postgraduate requirement. An MBA can strengthen a specific direction, especially with some work experience behind it. A direct job starts building income and proof of work immediately. None of these is automatically the safest choice.',
+  },
+  {
+    question: 'Is preparing for banking or government exams a good option after B.Com?',
+    answer:
+      'It can be, when the fit is genuine — steady income, structured work, and the exam track itself suit you — rather than chosen only because it is the visible default in your peer group or coaching hub. The real cost is the time and opportunity spent if an attempt does not succeed, so it is worth testing that fit honestly before committing.',
+  },
+  {
+    question: 'Is a plain B.Com enough to get a good job, or do I need more skills?',
+    answer:
+      'A B.Com degree alone often does not signal enough on its own for stronger accounting, finance, or analytics roles. Pairing it with a deliberate skill layer — financial modelling, GST and accounting software, data analytics, or business communication — along with real proof of work usually makes a bigger difference than the degree by itself.',
+  },
+  {
+    question: 'How is this different from career counselling for commerce students?',
+    answer:
+      'Career counselling for commerce students is built for the earlier, pre-commitment stage right after 12th, comparing CA, CS, CMA, B.Com, and BBA as different professional bets before choosing one. After B.Com, the decision may be continuing or exiting CA/CS/CMA, choosing M.Com versus MBA versus a job, or preparing for a banking or government examination.',
+  },
+  {
+    question: 'How is this different from career counselling after graduation?',
+    answer:
+      'Career counselling after graduation covers the degree-agnostic fork every graduate faces — job versus further study versus a competitive exam versus a skill-building stretch. This page goes further into the B.Com-specific version of that fork: continuing or exiting a professional course, M.Com versus MBA, and the banking/government exam route that is especially common for commerce graduates.',
+  },
+  {
+    question: 'Are the career and skill assessments free after B.Com too?',
+    answer:
+      'Yes. The career and skill assessments are fully free, updated, practical, and AI-powered. They work well as a starting signal on fit and work style before the CA-continuation, M.Com-versus-job, or exam-attempt decision gets discussed in a paid session.',
+  },
+  {
+    question: 'Is career guidance after B.Com available online across India?',
+    answer:
+      'Yes. Guidance is delivered fully online across India, so you can book a session from home or wherever you have landed after B.Com, without depending on a local counsellor or coaching institute.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Move here for wider support when more than one post-B.Com question needs to fit together into one direction.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-after-graduation/',
+    title: 'Career Counselling After Graduation',
+    description: 'A degree-agnostic version of this fork if the comparison you actually need is job versus master\'s versus an exam attempt.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-commerce-students/',
+    title: 'Career Counselling for Commerce Students',
+    description: 'Use this instead if you are still choosing between CA, CS, CMA, B.Com, and BBA before committing to any of them.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-ca-aspirants/',
+    title: 'Career Counselling for CA Aspirants',
+    description: 'A dedicated page if you are actively attempting CA Foundation, Intermediate, or Final and weighing whether another attempt is worth it.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-government-exam-aspirants/',
+    title: 'Career Counselling for Government Exam Aspirants',
+    description: 'Useful if banking, SSC, or another government exam is a serious option and you want help choosing which one is actually worth preparing for.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'A free starting signal on strengths and work style before the CA-continuation, M.Com, or exam-attempt decision gets discussed in a paid session.',
+  },
+  {
+    href: '/blog/career-options/is-ca-a-good-career-in-india/',
+    title: 'Is CA a Good Career in India?',
+    description: 'An honest look at the CA path, its real workload, and what it actually leads to.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Guidance After B.Com',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Guidance After B.Com | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Guidance After B.Com',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Guidance After B.Com</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        For B.Com graduates weighing CA/CS/CMA continuation, M.Com, MBA, govt exams, or a job
+      </div>
+
+      <h1 class="hero-title">
+        Career guidance after B.Com
+        <span class="gold-text"> for the CA-vs-M.Com-vs-exam-vs-job fork</span>
+      </h1>
+      <p class="hero-sub">
+        Career guidance after B.Com is built for the specific fork commerce graduates actually face: continuing or exiting a CA, CS, or CMA attempt already underway, M.Com versus an MBA versus a direct job, or a banking or government exam attempt. The point is to choose the path tied to <strong>a real, high-value skill portfolio</strong> instead of the most familiar option, so this stage starts unlocking stronger income opportunities and earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so you can start from home or wherever you have landed after B.Com.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Guidance After B.Com</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="The specific pressure B.Com graduates face after the degree"
+    subtitle="Not a generic post-graduation question — the exact fork between CA/CS/CMA continuation, M.Com, MBA, government exams, and a job that a B.Com specifically raises."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="The path you default into now shapes your commerce direction for years"
+    body="A tested comparison between CA continuation, M.Com, MBA, exam prep, and a job moves you toward high income opportunities — a default picked from coaching-hub pressure does not."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After B.Com"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="What career guidance after B.Com should actually help you decide"
+    subtitle="Direction for the B.Com-specific fork itself, not a repeat of generic post-graduation advice."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can give you a signal on fit and work style before deciding between CA continuation, M.Com, an exam attempt, or a job."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <section id="fork-map">
+    <div class="container">
+      <div class="fork-card">
+        <h2 class="fork-title">Four common paths after B.Com, and what each one actually costs</h2>
+        <p class="fork-intro">Any of these can be the right move. The problem is picking one without pricing it against the others first.</p>
+        <div class="fork-grid">
+          <div class="fork-item fork-teal">
+            <strong>Continue CA, CS, or CMA</strong>
+            <span>Worth it when fit and progress genuinely support another attempt — not automatically the right call just because time is already invested.</span>
+          </div>
+          <div class="fork-item fork-gold">
+            <strong>M.Com or an MBA</strong>
+            <span>M.Com helps when there is a specific reason behind it; an MBA can raise your ceiling in a target function, especially with some work experience first.</span>
+          </div>
+          <div class="fork-item fork-violet">
+            <strong>A banking or government exam attempt</strong>
+            <span>A real path when the fit is genuine, but months to years without income if an attempt does not succeed — worth testing before committing.</span>
+          </div>
+          <div class="fork-item fork-blue">
+            <strong>A direct job plus a skill layer</strong>
+            <span>Starts income and proof of work immediately, and a deliberate skill stack — accounting software, analytics, financial modelling — makes the plain degree signal more.</span>
+          </div>
+        </div>
+        <p class="fork-footer">
+          None of these is automatically the safe or the prestigious choice. The comparison should run against your specific situation and goals — not against whichever path is most visible in your coaching class or peer group.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BuyerChecks
+    sectionId="check-before-paying"
+    title="What to check before booking career guidance after B.Com"
+    subtitle="The goal is a resolved CA-versus-M.Com-versus-exam-versus-job decision — not a longer list of B.Com career options."
+    items={buyerCheckItems}
+  />
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="Generic post-B.Com advice versus guidance built around your actual fork"
+    subtitle="The difference matters most in the months right after B.Com, when a default gets picked quietly if no one actually tests it against the alternatives."
+    rows={comparisonRows}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Stop letting sunk cost or coaching-hub pressure decide for you"
+    body="One structured session, focused on your actual CA-versus-M.Com-versus-exam-versus-job fork, ending with a direct recommendation and one skill-building step to start on."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After B.Com"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Guidance"
+    title="Career Guidance Plans After B.Com"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See sibling pages for a sharper pressure, broader guidance, free assessments, and useful reading depending on exactly where you are right now."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions B.Com graduates ask before choosing career guidance"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Choose your next move on purpose, not by sunk-cost default"
+    subtitle="CA/CS/CMA continuation, M.Com, an MBA, a government exam attempt, or a job — whichever fits, resolve it with a direct recommendation toward the right skill portfolio and earlier financial freedom, instead of drifting into the most familiar option."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance After B.Com"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+
+  #fork-map { padding: 4.5rem 0; }
+  .fork-card {
+    border-radius: 26px;
+    border: 1px solid rgba(45,212,191,.24);
+    background:
+      radial-gradient(560px 220px at 100% 0%, rgba(45,212,191,.09), transparent 70%),
+      rgba(255,255,255,.025);
+    padding: 2.4rem clamp(1.4rem, 4vw, 2.6rem) 2.2rem;
+  }
+  .fork-title {
+    margin: 0 0 .6rem !important;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.3;
+    letter-spacing: -.02em;
+    color: #fff;
+    max-width: 760px;
+  }
+  .fork-intro {
+    margin: 0 0 1.6rem !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.68);
+    max-width: 700px;
+  }
+  .fork-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 1rem;
+    margin-bottom: 1.6rem;
+  }
+  .fork-item {
+    display: grid;
+    gap: .4rem;
+    padding: 1.1rem 1.2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+    border-left: 3px solid rgba(255,255,255,.18);
+  }
+  .fork-item strong { color: #fff; font-size: 14.5px; }
+  .fork-item span { color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.7; }
+  .fork-teal { border-left-color: var(--teal); }
+  .fork-gold { border-left-color: #e5b84a; }
+  .fork-violet { border-left-color: #a78bfa; }
+  .fork-blue { border-left-color: #60a5fa; }
+  .fork-footer {
+    margin: 0 !important;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,.72);
+    max-width: 760px;
+  }
+  @media (max-width: 780px) {
+    .fork-grid { grid-template-columns: 1fr; }
+  }
+
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.65rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(1000px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 810px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.72rem, 9.4vw, 2.35rem);
+      line-height: 1.06;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

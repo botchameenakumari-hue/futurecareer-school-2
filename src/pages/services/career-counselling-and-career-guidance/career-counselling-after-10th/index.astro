@@ -1,0 +1,478 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title = 'Career Counselling After 10th | Stream, Diploma, or Vocational Path | Future Career School';
+const description =
+  'Career counselling after 10th for students and parents deciding between 11th (Science, Commerce, Arts), a diploma or polytechnic, or a vocational/ITI route once the 10th result is out. Get clarity before the admission window closes.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-after-10th/';
+
+const class10AssessmentUrl = BOFU_ASSESSMENT_LINKS.class10AndBelow;
+const streamSelectorUrl = BOFU_ASSESSMENT_LINKS.streamSelectorAfter10th;
+const aptitudeAfter10thUrl = BOFU_ASSESSMENT_LINKS.careerAptitudeAfter10th;
+
+const relatedDirectoryItems = [
+  {
+    href: streamSelectorUrl,
+    title: 'Stream Selector Test After 10th',
+    description: 'A free starting signal on Science, Commerce, or Arts fit before the 11th admission form goes in.',
+  },
+  {
+    href: aptitudeAfter10thUrl,
+    title: 'Career Aptitude Test After 10th',
+    description: 'Free aptitude signal for strengths and work style before deciding between 11th, diploma, or a vocational route.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-class-10-students/',
+    title: 'Career Counselling for Class 10 Students',
+    description: 'The earlier version of this decision, for families reasoning through the Science, Commerce, or Arts stream choice before the 10th result is even out.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12th,
+    title: 'Career Guidance After 12th',
+    description: 'For when the next decision moves from stream or diploma to a specific course, college, or entrance exam.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Broader student guidance for school, college, and early skill-direction decisions beyond this one result-week choice.',
+  },
+  {
+    href: '/blog/stream-selection/career-options-after-10th/',
+    title: 'Career Options After 10th',
+    description: 'A practical breakdown of what Science, Commerce, Arts, diploma, and vocational routes actually lead to.',
+  },
+  {
+    href: '/blog/stream-selection/which-stream-to-choose-in-11th/',
+    title: 'Which Stream to Choose in 11th',
+    description: 'The fuller stream-selection framework if 11th is the direction you are leaning toward.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'Searching for this near you specifically? Find your city among the location-specific guidance pages.',
+  },
+];
+
+const comparisonRows = [
+  {
+    left: 'Generic advice that still leaves you unclear',
+    right: 'High-leverage decision support around path, skill, and risk',
+  },
+  {
+    left: 'Low-growth paths that delay real earning progress',
+    right: 'Stronger skill choices aimed at achieving earlier financial freedom',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+  {
+    left: 'Generic low-paying path advice that limits growth',
+    right: 'Higher-value skill direction with clearer income-growth logic',
+  },
+];
+
+const whatIsDecidedItems = [
+  {
+    title: '11th in Science, Commerce, or Arts',
+    body: 'The default path for most families: two more years of school-style study, board exams, and entrance-exam prep before a degree decision. It keeps the widest range of formal options open, but it is not automatically the right fit for every result and every student.',
+  },
+  {
+    title: 'A diploma or polytechnic route',
+    body: 'A 3-year diploma after 10th moves straight into a technical field — engineering-adjacent trades, paramedical, or applied science — without doing 11th and 12th first. It can shorten the runway to a working, income-earning skill, but it also narrows some later degree routes and needs to be weighed against genuine interest, not just speed.',
+  },
+  {
+    title: 'ITI or a shorter vocational course',
+    body: 'Industrial Training Institutes and shorter vocational programs build a specific trade skill fast. This suits a student with a clear hands-on inclination or a family that needs an earlier path to earning, but it is a narrower bet than 11th or a diploma and deserves the same fit-based reasoning, not a default-by-elimination choice.',
+  },
+  {
+    title: 'A choice made in a compressed admission window',
+    body: 'Unlike the after-12th decision, this one usually has to be made within weeks of the result, often before the family has properly discussed anything beyond "which stream." That time pressure is exactly why rushed, marks-only reasoning does the most damage here.',
+  },
+];
+
+const stageDifferenceItems = [
+  {
+    title: 'This is not only the stream question',
+    body: 'Career counselling for Class 10 students, taken before the result, is mostly a Science-Commerce-Arts fit conversation. Once the 10th result is actually out, diploma, polytechnic, and ITI admissions open on the same short timeline as 11th admissions — so the real decision now includes paths that were not on the table a few months earlier.',
+  },
+  {
+    title: 'The result itself changes the options and the pressure',
+    body: 'A strong result can make relatives push harder for Science regardless of fit. A weaker or unexpected result can make a family panic toward a diploma or ITI purely to avoid another two years of board exams. Both reactions skip the actual fit question.',
+  },
+  {
+    title: 'Some doors are still open, others start narrowing today',
+    body: 'Switching from 11th to a diploma later, or from a diploma back into the 11th-12th-degree track, is possible but harder and slower once a term has started. The admission-window pressure right after the result is when the cost of a wrong default is highest.',
+  },
+  {
+    title: 'Parents and students are both deciding under time pressure',
+    body: 'This decision usually has to be made faster than the after-12th course decision, with less lived context for the student and less time for the parent to research. That combination is what makes rushed, marks-only, or panic-driven choices so common right after 10th.',
+  },
+];
+
+const clarifyItems = [
+  {
+    title: 'Separate the result reaction from the actual fit question',
+    body: 'A surprising result — good or bad — should not be the deciding factor on its own. Guidance should test working style, interest, and tolerance for each path\'s next few years, not just react to a mark sheet.',
+  },
+  {
+    title: 'Give diploma and ITI a fair, honest look, not a default-by-panic slot',
+    body: 'A diploma or ITI route is a legitimate choice for the right student, not a consolation prize for a weak result. The stronger question is whether the hands-on, faster-to-skill nature of that path actually fits how this student works.',
+  },
+  {
+    title: 'Pressure-test "11th keeps every door open"',
+    body: 'It keeps more formal degree routes open on paper. It does not automatically build a stronger skill portfolio if the next two years are spent disengaged in a stream chosen for the wrong reasons.',
+  },
+  {
+    title: 'Connect whichever path is chosen to a skill-building answer',
+    body: 'Stream, diploma, or vocational — the stronger question on top of any of them is which high-value skills get built alongside it, because the path alone does not create earlier financial freedom; the skill direction built on top of it does.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether diploma and vocational routes get discussed as real options',
+    body: 'If every conversation defaults straight to "Science, obviously" without genuinely weighing a diploma or ITI route for a hands-on-inclined student, that is a narrow process, not full guidance.',
+  },
+  {
+    title: 'Check whether the result itself is being over-weighted',
+    body: 'A single 10th-board result should inform the conversation, not dictate it. Guidance that treats one exam as the whole verdict on fit is not doing the actual diagnostic work.',
+  },
+  {
+    title: 'Check whether the timeline pressure is handled honestly',
+    body: 'Admission windows for 11th, diploma, and ITI can close within weeks of the result. A useful process moves fast enough to respect that deadline without skipping the reasoning that prevents a wrong-turn choice.',
+  },
+  {
+    title: 'Check whether the assessments behind it are practical or just expensive theatre',
+    body: 'Many providers charge thousands for outdated or impractical assessments and present them like a required first step. Future Career School can be described truthfully as offering free, updated, practical, AI-powered career and skill assessments instead.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'What is the real difference between this and career counselling for Class 10 students?',
+    answer:
+      'Career counselling for Class 10 students usually happens before the 10th result, focused on the Science, Commerce, or Arts stream decision. Career counselling after 10th happens once the result is actually out, when diploma, polytechnic, and ITI admissions open on the same short timeline as 11th admissions — so the real decision now covers more paths, not just which stream.',
+  },
+  {
+    question: 'Should the 10th result decide whether we go for 11th, diploma, or ITI?',
+    answer:
+      'The result is one input, not the whole answer. A strong result does not automatically mean 11th is the right fit, and a weaker result does not automatically mean diploma or ITI is a fallback. Working style, genuine interest, and long-term skill direction matter more than the mark sheet alone.',
+  },
+  {
+    question: 'Is a diploma or polytechnic after 10th a weaker choice than 11th and 12th?',
+    answer:
+      'No. A diploma is a legitimate route into technical and applied fields, often reaching a working skill faster than the 11th-12th-degree path. It is a different trade-off, not an inferior one — the right choice depends on fit, not on which path sounds more prestigious.',
+  },
+  {
+    question: 'Can a student move from a diploma back into 11th, 12th, or a degree later?',
+    answer:
+      'Some bridge routes exist depending on the diploma and the target degree, but they are slower and more limited than deciding well the first time. That is exactly why the after-10th decision deserves real reasoning instead of a rushed pick made purely on panic or prestige.',
+  },
+  {
+    question: 'How is career counselling after 10th different from career guidance after 12th?',
+    answer:
+      'After 12th, the decision is usually a specific course, college, or entrance exam, built on two more years of subject exposure. Right after 10th, the decision is broader and faster — 11th stream, diploma, polytechnic, or a vocational route — made with far less runway and far less time to research.',
+  },
+  {
+    question: 'Are the after-10th career and skill assessments free?',
+    answer:
+      'Yes. The after-10th career and skill assessments, including the stream selector, are fully free. They can be described as updated, practical, and AI-powered, and they work as a starting signal before a deeper counselling conversation on stream, diploma, or vocational fit.',
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. Guidance is delivered online across India, so students and parents can start the conversation from home within the admission window instead of depending on a local counsellor\'s limited availability.',
+  },
+  {
+    question: 'Is there career counselling after 10th near me, in my own city?',
+    answer:
+      "This page covers the after-10th stream, diploma, and vocational decision itself, and it works the same way regardless of which city you search from since guidance is delivered fully online. If local context — nearby colleges, a specific city's job market, or comparing local options — genuinely matters to your decision, the city-specific guidance pages cover that angle for the cities where one exists.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      { '@type': 'ListItem', position: 4, name: 'Career Counselling After 10th', item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling After 10th | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling After 10th',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling After 10th</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling after 10th: 11th stream, diploma, or a vocational route
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling after 10th
+        <span class="gold-text"> before the admission window forces a guess</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School offers career counselling after 10th for students and parents who now have the result in hand and have to decide fast between 11th (Science, Commerce, or Arts), a diploma or polytechnic, or an ITI or vocational route. The right choice, built on genuine fit instead of the mark sheet or a rushed default, starts a skill portfolio aimed at earlier financial freedom instead of a guess made under deadline pressure.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India. Students and parents can start the conversation from home, inside the same short window the admission forms are already open in.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">
+          Get Career Counselling After 10th for Students
+        </a>
+      </div>
+      <p class="hero-support">
+        The goal is not to predict a final career three weeks after the 10th result. It is to choose the next 2-3 years — 11th, diploma, or a vocational path — for genuine fit and working style, so it builds toward a high-value skill portfolio and earlier financial freedom instead of a decision made purely on panic or prestige.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="what-is-decided"
+    title="What the after-10th decision actually involves"
+    subtitle="Once the result is out, this stops being a single stream question. It becomes a choice between several genuinely different 2-3 year paths, and the one that builds the strongest skill portfolio is what moves you toward earlier financial freedom — not the one picked fastest inside the admission window."
+    items={whatIsDecidedItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Get clarity before the 11th, diploma, or ITI admission window closes"
+    body="Most of these admissions open within weeks of the 10th result. Stronger reasoning now avoids a harder, slower switch later."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling After 10th for Students"
+  />
+
+  <BofuStepFlowSection
+    sectionId="how-this-differs"
+    title="How this differs from career counselling for Class 10 students"
+    subtitle="Both sit around the same life stage, but they are not the same conversation."
+    items={stageDifferenceItems}
+  >
+    <div class="support-links card">
+      <a href="/services/career-counselling-and-career-guidance/career-counselling-for-class-10-students/">See the pre-result stream-fit conversation &rsaquo;</a>
+      <a href={BOFU_INTERNAL_LINKS.after12th}>See what changes once the decision becomes course and college &rsaquo;</a>
+    </div>
+  </BofuStepFlowSection>
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why this decision needs sharper reasoning than a result-based guess"
+    subtitle="These are the contrast points that matter most once 11th, diploma, and ITI are all genuinely on the table."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BofuFeatureSection
+    sectionId="what-clarify"
+    title="What career counselling after 10th should actually clarify"
+    items={clarifyItems}
+    variant="decision"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free after-10th assessments and stream selector can surface early signals on working style and path fit before a deeper counselling conversation."
+      href={class10AssessmentUrl}
+      label="Free career and skill assessments"
+    />
+  </BofuFeatureSection>
+
+  <BuyerChecks
+    title="What to check before paying for career counselling after 10th"
+    subtitle="The goal is a path decision the whole family can defend within the admission window, not a rushed session that just repeats the result back to you."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Choose 11th, diploma, or a vocational route on fit, not on panic or prestige"
+    body="If the result made everyone react instead of think, stronger reasoning now is cheaper than a switch after a term has already started."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling After 10th for Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Counselling After 10th"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See free path-fit assessments, the pre-result stream conversation, broader student guidance, and practical reading before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Decide 11th, diploma, or ITI with real reasoning before the window closes"
+    subtitle="Use career counselling after 10th if the result is in and 11th, diploma, and ITI all feel like open questions right now. The right path, chosen for fit, is what starts the skill portfolio that leads toward earlier financial freedom — instead of letting panic, marks, or prestige bias make the call."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling After 10th for Students"
+  />
+
+  <BofuFaqSection items={faqItems} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; max-width: min(100%, 44rem); margin-bottom: 1.75rem; white-space: normal; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.85rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-clarify,
+  #faq { background: rgba(255,255,255,.01); }
+
+  .support-links {
+    padding: 1rem 1.05rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .9rem;
+    border: 1px solid rgba(255,255,255,.08);
+    background: linear-gradient(145deg, rgba(255,255,255,.03), rgba(255,255,255,.012));
+  }
+  .support-links a {
+    display: block;
+    padding: .95rem 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.025);
+    color: rgba(255,255,255,.8);
+    font-weight: 700;
+    line-height: 1.65;
+  }
+  .support-links a:hover {
+    color: #fff;
+    border-color: rgba(229,184,74,.24);
+  }
+
+  @media (max-width: 980px) {
+    .support-links { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 9.6vw, 2.5rem);
+      line-height: 1.05;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

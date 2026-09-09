@@ -1,7 +1,5 @@
 import { expect, test } from '@playwright/test';
 
-test.use({ channel: 'chrome' });
-
 const projectUrl = 'https://txlbmbslaayxuwxcksxo.supabase.co';
 const storageKey = 'fcs-txlbmbslaayxuwxcksxo-auth-v1';
 const branchId = '22222222-2222-4222-8222-222222222222';
@@ -18,7 +16,7 @@ const roleLabels = {
 const roleRules = {
   admin: {
     views: ['overview', 'caseload', 'cohorts', 'people', 'accounts', 'branches', 'activity', 'role-lab'],
-    creatable: ['Branch Head', 'Head Coach', 'Coach', 'Student'],
+    creatable: ['Admin', 'Branch Head', 'Head Coach', 'Coach', 'Student'],
   },
   branch_head: {
     views: ['overview', 'caseload', 'cohorts', 'people', 'accounts', 'activity'],
@@ -33,7 +31,7 @@ const roleRules = {
     creatable: ['Student'],
   },
   student: {
-    views: ['overview', 'career', 'constraints'],
+    views: ['overview', 'career', 'profile'],
     creatable: [],
   },
 };
@@ -134,6 +132,21 @@ async function mockRole(page, role, accountActions = [], includeSetupPending = f
       await route.fulfill({ status: 200, headers, body: JSON.stringify(user) });
       return;
     }
+    if (url.pathname === '/auth/v1/token') {
+      await route.fulfill({
+        status: 200,
+        headers,
+        body: JSON.stringify({
+          access_token: fakeAccessToken(user, now + 3600),
+          refresh_token: 'test-refresh-token',
+          expires_in: 3600,
+          expires_at: now + 3600,
+          token_type: 'bearer',
+          user,
+        }),
+      });
+      return;
+    }
 
     if (url.pathname === '/rest/v1/profiles') {
       const wantsObject = (request.headers().accept ?? '').includes('application/vnd.pgrst.object+json');
@@ -195,7 +208,7 @@ async function mockRole(page, role, accountActions = [], includeSetupPending = f
   });
 }
 
-const allViews = ['overview', 'caseload', 'cohorts', 'people', 'accounts', 'branches', 'activity', 'career', 'constraints', 'role-lab'];
+const allViews = ['overview', 'caseload', 'cohorts', 'people', 'accounts', 'branches', 'activity', 'career', 'profile', 'role-lab'];
 
 for (const [role, rules] of Object.entries(roleRules)) {
   test(`${roleLabels[role]} sees only the allowed workspace and account choices`, async ({ page }) => {
@@ -204,6 +217,10 @@ for (const [role, rules] of Object.entries(roleRules)) {
     await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });
 
     await expect(page.locator('#workspace-shell')).toBeVisible({ timeout: 10_000 });
+    // A fresh sign-in or page load always starts at the role's overview.
+    // This guards against stale view state sending people back into a random panel.
+    await expect(page.locator('[data-workspace-view="overview"]')).toBeVisible();
+    await expect(page.locator('.workspace-nav > [data-view-target="overview"]')).toHaveClass(/is-active/);
     await expect(page.locator('#sidebar-role')).toHaveText(roleLabels[role]);
     if (role === 'admin') {
       await expect(page.locator('#sidebar-branch-name')).toHaveText('All branches');
@@ -229,6 +246,10 @@ for (const [role, rules] of Object.entries(roleRules)) {
         await expect(page.locator('#account-dialog-title')).toHaveText('Create account');
         await expect(page.locator('#account-submit-label')).toHaveText('Create account');
         await expect(page.locator('#approve-now-row')).toBeVisible();
+        await expect(page.locator('#account-role')).toHaveValue('admin');
+        await expect(page.locator('#account-branch')).toBeDisabled();
+        await expect(page.locator('#account-supervisor')).toBeDisabled();
+        await expect(page.locator('#account-branch')).toContainText('Organisation-wide');
       } else {
         await expect(page.locator('#new-account-label')).toHaveText('Request account');
         await expect(page.locator('#account-dialog-title')).toHaveText('Request account');
@@ -244,6 +265,128 @@ for (const [role, rules] of Object.entries(roleRules)) {
     else await expect(page.locator('#new-branch-button')).toBeHidden();
   });
 }
+
+for (const [role, rules] of Object.entries(roleRules)) {
+  test(`${roleLabels[role]} remains usable on a narrow mobile screen`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await mockRole(page, role);
+    await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#workspace-shell')).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator('[data-workspace-view="overview"]')).toBeVisible();
+    const layout = await page.evaluate(() => ({
+      clientWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+      menuButton: Boolean(document.querySelector('#mobile-menu-button')),
+    }));
+    expect(layout.scrollWidth).toBeLessThanOrEqual(layout.clientWidth);
+    expect(layout.menuButton).toBe(true);
+    const mobileViews = role === 'student'
+      ? ['overview', 'career', 'profile']
+      : ['overview', 'caseload', 'cohorts', 'people'];
+    for (const view of mobileViews) {
+      // On narrow screens the desktop rail is hidden; the fixed mobile bar
+      // is the user-facing navigation surface and is rebuilt from the same
+      // role-filtered destinations.
+      const nav = page.locator(`#mobile-nav > [data-view-target="${view}"]`);
+      await expect(nav).toBeVisible();
+    }
+    const menuButton = page.locator('#mobile-menu-button');
+    await menuButton.click();
+    await expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+    await page.keyboard.press('Escape');
+    await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+  });
+}
+
+// Every role should be able to move through its permitted workspace, not only
+// land on the overview. This catches regressions where a panel or its actions
+// overflow after a responsive style change.
+for (const [role, rules] of Object.entries(roleRules)) {
+  test(`${roleLabels[role]} views remain usable across desktop, tablet, and mobile`, async ({ page }) => {
+    for (const viewport of [{ width: 1440, height: 900 }, { width: 820, height: 1024 }, { width: 390, height: 844 }]) {
+      await page.setViewportSize(viewport);
+      await mockRole(page, role);
+      await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });
+      await expect(page.locator('#workspace-shell')).toBeVisible({ timeout: 10_000 });
+
+      for (const view of rules.views) {
+        const desktopButton = page.locator(`.workspace-nav > [data-view-target="${view}"]`);
+        if (viewport.width <= 820) {
+          const mobileButton = page.locator(`#mobile-nav [data-view-target="${view}"]`);
+          if (await mobileButton.count()) await mobileButton.evaluate((element) => (element instanceof HTMLElement) && element.click());
+          else {
+            await page.locator('#mobile-menu-button').click();
+            await desktopButton.evaluate((element) => (element instanceof HTMLElement) && element.click());
+          }
+        } else {
+          await desktopButton.click();
+        }
+        await expect(page.locator(`[data-workspace-view="${view}"]`)).toBeVisible();
+        const checks = await page.evaluate(() => {
+          const visible = [...document.querySelectorAll('button, input, select, textarea')].filter((element) => {
+            if (!(element instanceof HTMLElement)) return false;
+            const style = getComputedStyle(element);
+            const rect = element.getBoundingClientRect();
+            return style.display !== 'none' && style.visibility !== 'hidden' && !element.hidden && rect.width > 0 && rect.height > 0;
+          });
+          return {
+            overflow: document.documentElement.scrollWidth - window.innerWidth,
+            clipped: visible.filter((element) => element.scrollWidth > element.clientWidth + 2).map((element) => element.id || element.getAttribute('aria-label') || element.textContent?.trim().slice(0, 40) || element.tagName),
+            undersized: visible.filter((element) => element.tagName === 'BUTTON' && element.getBoundingClientRect().height < 32).map((element) => element.id || element.textContent?.trim().slice(0, 40) || 'button'),
+            unnamed: visible.filter((element) => {
+              if (!['BUTTON', 'INPUT', 'SELECT', 'TEXTAREA'].includes(element.tagName)) return false;
+              const text = element.textContent?.trim() || '';
+              return !text && !element.getAttribute('aria-label') && !element.getAttribute('title') && !(element instanceof HTMLInputElement && element.labels?.length);
+            }).map((element) => `${element.tagName}#${element.id || 'unnamed'}`),
+          };
+        });
+        expect(checks, `${role}/${view}/${viewport.width}`).toEqual({ overflow: 0, clipped: [], undersized: [], unnamed: [] });
+      }
+    }
+  });
+}
+
+test('a fresh sign-in lands on the role overview instead of a stale deep panel', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await mockRole(page, 'student');
+  await page.addInitScript(({ key }) => window.localStorage.removeItem(key), { key: storageKey });
+  await page.goto('http://127.0.0.1:4321/dashboard?view=career', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#sign-in-form')).toBeVisible();
+  await page.locator('#sign-in-email').fill('student@example.test');
+  await page.locator('#sign-in-password').fill('test-password');
+  await page.locator('#sign-in-form').getByRole('button', { name: 'Sign in' }).click();
+  await expect(page.locator('#workspace-shell')).toBeVisible({ timeout: 10_000 });
+  await expect(page.locator('[data-workspace-view="overview"]')).toBeVisible();
+  await expect(page.locator('.workspace-nav [data-view-target="overview"]')).toHaveClass(/is-active/);
+});
+
+test('dashboard view history returns to the previous workspace after Back', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await mockRole(page, 'coach');
+  await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('[data-workspace-view="overview"]')).toBeVisible();
+  await page.locator('.workspace-nav [data-view-target="caseload"]').click();
+  await page.locator('.workspace-nav [data-view-target="cohorts"]').click();
+  await page.goBack();
+  await expect(page.locator('[data-workspace-view="caseload"]')).toBeVisible();
+  await expect(page.locator('.workspace-nav [data-view-target="caseload"]')).toHaveClass(/is-active/);
+});
+
+test('staff refresh preserves the selected student record instead of reopening an empty shell', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await mockRole(page, 'coach');
+  await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#workspace-shell')).toBeVisible({ timeout: 10_000 });
+  await page.locator('.workspace-nav [data-view-target="caseload"]').click();
+  await page.locator('#caseload-table-body [data-student-id]').first().click();
+  await expect(page.locator('[data-workspace-view="student-record"]')).toBeVisible();
+  await expect(page.locator('#student-record-heading')).toHaveText('Arjun Student');
+
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#workspace-shell')).toBeVisible({ timeout: 10_000 });
+  await expect(page.locator('[data-workspace-view="student-record"]')).toBeVisible();
+  await expect(page.locator('#student-record-heading')).toHaveText('Arjun Student');
+});
 
 test('Admin can send a setup link and issue a one-time password', async ({ page }) => {
   const actions = [];

@@ -5,7 +5,7 @@ const reverseScoredStatements = new Set([
   22, 24, 25, 28, 31, 32, 33, 35, 37, 39,
 ]);
 
-test('Big Five career assessment completes with five traits, facets, and PDF', async ({ page }) => {
+test('Big Five career assessment completes with five traits, facets, and PDF', async ({ page }, testInfo) => {
   await page.goto('http://localhost:4321/services/assessments/big-5-personality-test-careers/');
   await expect(page).toHaveTitle(/Big 5 Personality Test for Careers/);
   await expect(page.locator('.audience-option')).toHaveCount(4);
@@ -50,7 +50,7 @@ test('Big Five career assessment completes with five traits, facets, and PDF', a
   await page.locator('#download-button').click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe('future-career-school-big-5-career-personality-report.pdf');
-  await download.saveAs('test-results/big-five-career-personality-report.pdf');
+  await download.saveAs(testInfo.outputPath('big-five-career-personality-report.pdf'));
 });
 
 test('Big Five assessment preserves a fully balanced profile honestly', async ({ page }) => {

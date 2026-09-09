@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('career preference assessment completes and downloads its report', async ({ page }) => {
+test('career preference assessment completes and downloads its report', async ({ page }, testInfo) => {
   await page.goto('http://localhost:4321/services/assessments/myers-briggs-career-test/');
   await expect(page).toHaveTitle(/Myers Briggs Career Test Alternative/);
   await expect(page.locator('.audience-option')).toHaveCount(4);
@@ -34,7 +34,7 @@ test('career preference assessment completes and downloads its report', async ({
   await page.locator('#download-button').click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe('future-career-school-career-preference-evidence-report.pdf');
-  await download.saveAs('test-results/career-preference-report.pdf');
+  await download.saveAs(testInfo.outputPath('career-preference-report.pdf'));
 });
 
 test('career preference assessment reports a fully balanced response pattern honestly', async ({ page }) => {
@@ -43,7 +43,8 @@ test('career preference assessment reports a fully balanced response pattern hon
   await page.locator('#start-button').click();
 
   for (let index = 0; index < 32; index += 1) {
-    await page.locator('#scale-options button').nth(2).click({ force: true });
+    await page.locator('#scale-options button').nth(2).click();
+    await expect(page.locator('#next-button')).toBeEnabled();
     await page.locator('#next-button').click();
   }
 

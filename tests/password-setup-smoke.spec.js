@@ -116,7 +116,7 @@ async function mockApprovedInvite(page) {
     if (url.pathname === '/functions/v1/manage-accounts') {
       const payload = request.postDataJSON();
       expect(payload.action).toBe('complete-password-setup');
-      expect(payload.newPassword).toBe('open');
+      expect(payload.newPassword).toBe('open-safe');
       await route.fulfill({
         status: 200,
         headers,
@@ -147,15 +147,15 @@ for (const viewport of viewports) {
     await page.locator('#new-password').fill('123');
     await page.locator('#confirm-password').fill('123');
     await page.locator('#password-setup-submit').click();
-    await expect(page.locator('#password-setup-status')).toHaveText('Use at least 4 characters. Any characters are fine.');
+    await expect(page.locator('#password-setup-status')).toHaveText('Use at least 8 characters. Any characters are fine.');
 
-    await page.locator('#new-password').fill('open');
+    await page.locator('#new-password').fill('open-safe');
     await expect(page.locator('[data-password-check].is-met')).toHaveCount(1);
     await page.locator('#confirm-password').fill('nope');
     await page.locator('#password-setup-submit').click();
     await expect(page.locator('#password-setup-status')).toHaveText('The two passwords do not match.');
 
-    await page.locator('#confirm-password').fill('open');
+    await page.locator('#confirm-password').fill('open-safe');
     await page.locator('#password-setup-submit').click();
     await expect(page.locator('#workspace-shell')).toBeVisible();
     await expect(page.locator('#workspace-status')).toContainText('Password saved.');
@@ -178,10 +178,10 @@ test('a temporary password cannot open the workspace until it is replaced', asyn
   await page.locator('#new-password').fill('abc');
   await page.locator('#confirm-password').fill('abc');
   await page.locator('#password-setup-submit').click();
-  await expect(page.locator('#password-setup-status')).toHaveText('Use at least 4 characters. Any characters are fine.');
+  await expect(page.locator('#password-setup-status')).toHaveText('Use at least 8 characters. Any characters are fine.');
 
-  await page.locator('#new-password').fill('open');
-  await page.locator('#confirm-password').fill('open');
+  await page.locator('#new-password').fill('open-safe');
+  await page.locator('#confirm-password').fill('open-safe');
   await page.locator('#password-setup-submit').click();
   await expect(page.locator('#workspace-shell')).toBeVisible();
   await expect(page.locator('#workspace-status')).toContainText('Password saved. Your account is ready.');
