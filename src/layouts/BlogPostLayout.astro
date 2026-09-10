@@ -17,6 +17,9 @@ export interface Props {
   authorName?: string;
   authorUrl?: string;
   authorRole?: string;
+  ogImage?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   jsonLdExtras?: unknown[];
 }
 
@@ -31,6 +34,9 @@ const {
   authorName,
   authorUrl,
   authorRole,
+  ogImage,
+  ogImageWidth,
+  ogImageHeight,
   jsonLdExtras = [],
 } = Astro.props;
 const categoryMeta = getBlogCategory(category);
@@ -145,6 +151,16 @@ const jsonLd = [
     inLanguage: 'en-IN',
     ...(publishedAt ? { datePublished: publishedAt } : {}),
     ...(publishedAt ? { dateModified: publishedAt } : {}),
+    ...(ogImage
+      ? {
+          image: {
+            '@type': 'ImageObject',
+            url: ogImage,
+            ...(ogImageWidth ? { width: ogImageWidth } : {}),
+            ...(ogImageHeight ? { height: ogImageHeight } : {}),
+          },
+        }
+      : {}),
     ...(authorName
       ? {
           author: {
@@ -169,6 +185,9 @@ const jsonLd = [
   description={description}
   canonical={canonical}
   ogType="article"
+  ogImage={ogImage}
+  ogImageWidth={ogImageWidth}
+  ogImageHeight={ogImageHeight}
   jsonLd={jsonLd}
   noindex={noindex}
 >
