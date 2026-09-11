@@ -7,6 +7,10 @@
  * predictable source of truth instead of another chain of local overrides.
  */
 
+html:has(#hierarchy-workspace) {
+  scroll-behavior: auto;
+}
+
 body:has(#hierarchy-workspace) {
   --dash-ink: #14263a;
   --dash-text: #31445a;
@@ -48,6 +52,11 @@ body:has(#hierarchy-workspace) {
   display: grid;
   grid-template-columns: 17rem minmax(0, 1fr);
   background: var(--dash-canvas);
+}
+
+#hierarchy-workspace[data-career-decision-page="true"] .workspace-shell:not([hidden]) {
+  display: block;
+  width: 100%;
 }
 
 #hierarchy-workspace .workspace-shell[hidden],
@@ -611,18 +620,19 @@ body:has(#hierarchy-workspace) {
 
 /* Professional skill card: the title and meaning lead; controls recede. */
 #hierarchy-workspace .skill-scope-group > .skill-roadmap-row {
+  --skill-card-pad: clamp(1.05rem, 1.55vw, 1.35rem);
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: .75rem;
   min-width: 0;
-  padding: clamp(1rem, 1.5vw, 1.3rem);
+  padding: var(--skill-card-pad);
   overflow: hidden;
   border: 1px solid var(--dash-line);
   border-left: 5px solid var(--skill-accent, var(--dash-blue));
-  border-radius: .88rem;
+  border-radius: 1rem;
   background: var(--dash-surface);
-  box-shadow: var(--dash-shadow-sm);
+  box-shadow: 0 10px 26px rgba(35, 64, 84, .08);
   transform: none;
 }
 
@@ -646,11 +656,11 @@ body:has(#hierarchy-workspace) {
   justify-content: space-between;
   gap: 1rem;
   min-width: 0;
-  margin: 0;
-  padding: 0 0 .85rem;
+  margin: calc(0rem - var(--skill-card-pad)) calc(0rem - var(--skill-card-pad)) 0;
+  padding: 1.05rem clamp(1.05rem, 1.55vw, 1.35rem) .95rem;
   border-bottom: 1px solid var(--dash-line);
-  border-radius: 0;
-  background: transparent;
+  border-radius: .82rem .82rem 0 0;
+  background: linear-gradient(110deg, color-mix(in srgb, var(--skill-accent, var(--dash-blue)) 9%, white), #fff 72%);
 }
 
 #hierarchy-workspace .skill-card-heading {
@@ -661,7 +671,7 @@ body:has(#hierarchy-workspace) {
 
 #hierarchy-workspace .skill-card-heading strong {
   color: var(--dash-ink);
-  font-size: clamp(1.28rem, 1.12rem + .45vw, 1.58rem) !important;
+  font-size: clamp(1.42rem, 1.2rem + .62vw, 1.78rem) !important;
   font-weight: 810;
   line-height: 1.16;
   letter-spacing: -.025em;
@@ -702,11 +712,12 @@ body:has(#hierarchy-workspace) {
   gap: .85rem;
   min-width: 0;
   margin: 0;
-  padding: .82rem .9rem;
-  border: 1px solid #cddfe9;
-  border-radius: .68rem;
+  padding: .82rem .9rem .82rem 1rem;
+  border: 0;
+  border-left: 3px solid var(--skill-accent, var(--dash-blue));
+  border-radius: 0 .6rem .6rem 0;
   color: #365268;
-  background: linear-gradient(100deg, var(--dash-blue-soft), #f8fbfd);
+  background: linear-gradient(100deg, color-mix(in srgb, var(--skill-accent, var(--dash-blue)) 7%, white), #fbfdfe);
 }
 
 #hierarchy-workspace .skill-roadmap-row .skill-meaning > strong {
@@ -738,7 +749,7 @@ body:has(#hierarchy-workspace) {
   display: grid;
   align-content: start;
   gap: .65rem;
-  padding: .8rem;
+  padding: .85rem;
 }
 
 #hierarchy-workspace .skill-ability-copy {
@@ -751,11 +762,14 @@ body:has(#hierarchy-workspace) {
   display: grid;
   gap: .2rem;
   min-width: 0;
-  padding: .55rem .62rem;
-  border: 1px solid #dbe5eb;
-  border-radius: .55rem;
-  background: #fff;
+  padding: .22rem .65rem;
+  border: 0;
+  border-right: 1px solid #d7e2e8;
+  border-radius: 0;
+  background: transparent;
 }
+
+#hierarchy-workspace .skill-ability-copy > span:last-child { border-right: 0; }
 
 #hierarchy-workspace .skill-ability-copy small,
 #hierarchy-workspace .skill-action-preview small {
@@ -792,9 +806,9 @@ body:has(#hierarchy-workspace) {
 #hierarchy-workspace .skill-action-preview {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: .55rem;
-  padding: .55rem;
-  background: #fbfaf6;
+  gap: 0;
+  padding: .68rem;
+  background: #fcfbf7;
 }
 
 #hierarchy-workspace .skill-action-preview > div {
@@ -802,11 +816,14 @@ body:has(#hierarchy-workspace) {
   align-content: start;
   gap: .3rem;
   min-width: 0;
-  padding: .62rem .68rem;
-  border: 1px solid #e8dfc9;
-  border-radius: .55rem;
-  background: #fff;
+  padding: .2rem .72rem;
+  border: 0;
+  border-right: 1px solid #e4dcc9;
+  border-radius: 0;
+  background: transparent;
 }
+
+#hierarchy-workspace .skill-action-preview > div:last-child { border-right: 0; }
 
 #hierarchy-workspace .skill-action-preview p {
   margin: 0;
@@ -1071,6 +1088,99 @@ body:has(#hierarchy-workspace) {
   border-color: var(--dash-line);
 }
 
+/* Shared bounded lists for every staff operations view. */
+#hierarchy-workspace .workspace-pagination-host {
+  margin-top: .8rem;
+}
+
+#hierarchy-workspace .workspace-pagination-host[hidden] {
+  display: none;
+}
+
+#hierarchy-workspace .workspace-pagination {
+  display: grid;
+  gap: .65rem;
+  padding: .78rem .85rem;
+  border: 1px solid var(--dash-line);
+  border-radius: .78rem;
+  background: var(--dash-surface);
+  box-shadow: var(--dash-shadow-sm);
+}
+
+#hierarchy-workspace .workspace-page-summary {
+  color: #52677c;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+#hierarchy-workspace .workspace-page-controls {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .65rem;
+}
+
+#hierarchy-workspace :is(.workspace-page-size, .workspace-page-jump label) {
+  display: inline-flex;
+  align-items: center;
+  gap: .38rem;
+  color: #53697d;
+  font-size: .78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#hierarchy-workspace .workspace-page-size select,
+#hierarchy-workspace .workspace-page-jump input {
+  width: auto;
+  min-height: 2.35rem;
+  padding: .36rem 1.8rem .36rem .55rem;
+}
+
+#hierarchy-workspace .workspace-page-jump input {
+  width: 4.5rem;
+  padding-right: .5rem;
+  text-align: center;
+}
+
+#hierarchy-workspace .workspace-page-actions,
+#hierarchy-workspace .workspace-page-numbers,
+#hierarchy-workspace .workspace-page-jump {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+}
+
+#hierarchy-workspace .workspace-page-actions {
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#hierarchy-workspace .workspace-page-jump {
+  margin: 0;
+}
+
+#hierarchy-workspace .workspace-pagination .table-action {
+  width: auto;
+  min-width: 2.35rem;
+  min-height: 2.35rem;
+  padding: .42rem .62rem;
+}
+
+#hierarchy-workspace .workspace-pagination .table-action[aria-current="page"] {
+  border-color: var(--dash-blue);
+  background: var(--dash-blue-soft);
+  color: var(--dash-blue-strong);
+  box-shadow: inset 0 0 0 1px var(--dash-blue);
+}
+
+#hierarchy-workspace .workspace-page-ellipsis {
+  padding-inline: .1rem;
+  color: var(--dash-muted);
+  font-weight: 800;
+}
 @media (max-width: 1180px) {
   #hierarchy-workspace .overview-shortcut-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #hierarchy-workspace .student-plan-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1159,12 +1269,10 @@ body:has(#hierarchy-workspace) {
     width: auto !important;
     min-width: 2.3rem;
   }
-  #hierarchy-workspace .skill-scope-group > .skill-roadmap-row { padding: .9rem; }
+  #hierarchy-workspace .skill-scope-group > .skill-roadmap-row { --skill-card-pad: 1rem; }
   #hierarchy-workspace .skill-roadmap-row > .skill-card-header { display: grid; grid-template-columns: 1fr; gap: .55rem; }
-  #hierarchy-workspace .skill-card-heading strong { font-size: 1.3rem !important; }
+  #hierarchy-workspace .skill-card-heading strong { font-size: 1.48rem !important; }
   #hierarchy-workspace .skill-roadmap-row .skill-proof-state { justify-self: start; max-width: 100%; }
-  #hierarchy-workspace .skill-ability-copy,
-  #hierarchy-workspace .skill-action-preview,
   #hierarchy-workspace .skill-satisfaction { grid-template-columns: 1fr; }
   #hierarchy-workspace .skill-quick-rating,
   #hierarchy-workspace .skill-feedback-composer form { grid-template-columns: 1fr; }
@@ -1186,10 +1294,24 @@ body:has(#hierarchy-workspace) {
   #hierarchy-workspace .skill-page-actions .table-action { flex: 0 0 auto; width: auto !important; }
   #hierarchy-workspace .skill-quick-rating .rating-slider { grid-template-columns: 1fr; gap: .25rem; }
   #hierarchy-workspace .skill-quick-rating output { text-align: left; }
+  #hierarchy-workspace .skill-ability-copy,
+  #hierarchy-workspace .skill-action-preview { grid-template-columns: 1fr; }
+  #hierarchy-workspace .skill-ability-copy > span,
+  #hierarchy-workspace .skill-action-preview > div { padding: .45rem .2rem; border-right: 0; border-bottom: 1px solid #d7e2e8; }
+  #hierarchy-workspace .skill-ability-copy > span:last-child,
+  #hierarchy-workspace .skill-action-preview > div:last-child { border-bottom: 0; }
   #hierarchy-workspace .skill-card-actions { grid-template-columns: 1fr; }
   #hierarchy-workspace .skill-feedback-composer textarea { min-height: 10rem; }
 }
 
+@media (max-width: 680px) {
+  #hierarchy-workspace .workspace-pagination { padding: .7rem; }
+  #hierarchy-workspace .workspace-page-controls { grid-template-columns: 1fr; align-items: stretch; }
+  #hierarchy-workspace .workspace-page-size { justify-self: start; }
+  #hierarchy-workspace .workspace-page-actions { justify-content: flex-start; }
+  #hierarchy-workspace .workspace-page-jump { justify-content: flex-start; }
+  #hierarchy-workspace .workspace-pagination .table-action { flex: 0 0 auto; }
+}
 @media (prefers-reduced-motion: reduce) {
   #hierarchy-workspace *,
   #hierarchy-workspace *::before,

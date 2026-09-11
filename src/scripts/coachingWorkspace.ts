@@ -41,6 +41,12 @@ import {
   refreshCohortWorkspace,
   renderCohortWorkspace,
 } from './cohortWorkspace';
+import {
+  createWorkspacePaginationState,
+  paginateWorkspaceRows,
+  renderWorkspacePagination,
+  resetWorkspacePagination,
+} from './workspacePagination';
 
 type Row = Record<string, any>;
 
@@ -97,6 +103,7 @@ let comparedCareerGuideKeys: string[] = [];
 let pendingCareerSaveMessage = '';
 let coachingLoadGeneration = 0;
 let detailLoadGeneration = 0;
+const caseloadPagination = createWorkspacePaginationState('fcs-workspace-caseload-page');
 // The catalogue is complete, but the screen should only render one bounded
 // page at a time. This keeps the decision workspace usable on phones and
 // avoids making a learner scan hundreds of cards before they can act.
@@ -567,6 +574,7 @@ function renderCaseload() {
     return true;
   });
 
+  const page = paginateWorkspaceRows(students, caseloadPagination);
   const allStudents = activeStudents();
   if (allStudents.length === 0) {
     empty.innerHTML = '<strong>No active students yet.</strong><span>Approved students will appear here after they are assigned within your coaching scope.</span>';
@@ -584,7 +592,7 @@ function renderCaseload() {
     ['Decisions made', selected, 'Selected career options'],
   ].map(([label, value, note]) => `<span><small>${ctx!.escapeHtml(label)}</small><strong>${value}</strong><em>${ctx!.escapeHtml(note)}</em></span>`).join('');
 
-  body.innerHTML = students.map((student) => {
+  body.innerHTML = page.rows.map((student) => {
     const caseRow = currentCase(student.id) ?? {};
     const careers = rowsFor(coaching.careers, 'user_id', student.id);
     const options = careers.filter((row) => !['ruled-out', 'paused'].includes(row.status));
@@ -610,6 +618,7 @@ function renderCaseload() {
   empty.hidden = students.length > 0;
   const count = qs<HTMLElement>('#caseload-nav-count');
   if (count) count.textContent = String(allStudents.length);
+  renderWorkspacePagination(qs<HTMLElement>('#caseload-pagination'), page, caseloadPagination, 'student', renderCaseload);
 }
 
 function decisionUiContext() {
@@ -3677,10 +3686,11 @@ function bindEvents() {
   qs<HTMLSelectElement>('#evidence-preset')?.addEventListener('change', (event) => applyEvidencePreset(event.currentTarget as HTMLSelectElement));
   qs<HTMLSelectElement>('#note-template-preset')?.addEventListener('change', (event) => applyNotePreset(event.currentTarget as HTMLSelectElement));
   qs<HTMLSelectElement>('#academic-stream-preset')?.addEventListener('change', (event) => applyAcademicStreamPreset(event.currentTarget as HTMLSelectElement));
-  qs<HTMLInputElement>('#caseload-search')?.addEventListener('input', renderCaseload);
-  qs<HTMLSelectElement>('#caseload-stage-filter')?.addEventListener('change', renderCaseload);
-  qs<HTMLSelectElement>('#caseload-cohort-filter')?.addEventListener('change', renderCaseload);
-  qs<HTMLSelectElement>('#caseload-attention-filter')?.addEventListener('change', renderCaseload);
+  const resetCaseloadPageAndRender = () => { resetWorkspacePagination(caseloadPagination); renderCaseload(); };
+  qs<HTMLInputElement>('#caseload-search')?.addEventListener('input', resetCaseloadPageAndRender);
+  qs<HTMLSelectElement>('#caseload-stage-filter')?.addEventListener('change', resetCaseloadPageAndRender);
+  qs<HTMLSelectElement>('#caseload-cohort-filter')?.addEventListener('change', resetCaseloadPageAndRender);
+  qs<HTMLSelectElement>('#caseload-attention-filter')?.addEventListener('change', resetCaseloadPageAndRender);
   const resetCareerPageAndRender = () => { careerLibraryPage = 1; renderCareerPresetResults(); };
   qs<HTMLInputElement>('#career-preset-search')?.addEventListener('input', resetCareerPageAndRender);
   qsa<HTMLButtonElement>('[data-career-interest]').forEach((button) => button.addEventListener('click', (event) => { event.preventDefault(); event.stopPropagation(); const selected = button.getAttribute('aria-pressed') === 'true'; const next = !selected; button.setAttribute('aria-pressed', String(next)); button.classList.toggle('is-selected', next); resetCareerPageAndRender(); }));

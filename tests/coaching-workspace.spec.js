@@ -971,6 +971,34 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await page.locator('#student-skill-list [data-skill-scope-tab="career-specific"]').click();
   const staffSkill = page.locator('#student-skill-list .skill-roadmap-row').filter({ hasText: 'Data analysis' });
   const ownSkill = page.locator('#student-skill-list .skill-roadmap-row').filter({ hasText: 'Visual storytelling' });
+  const skillCardLayout = async () => ownSkill.evaluate((card) => {
+    const bounds = card.getBoundingClientRect();
+    const title = card.querySelector('.skill-card-heading strong');
+    const meaning = card.querySelector('.skill-meaning');
+    const abilityItems = Array.from(card.querySelectorAll('.skill-ability-copy > span')).map((item) => item.getBoundingClientRect());
+    const actionItems = Array.from(card.querySelectorAll('.skill-action-preview > div')).map((item) => item.getBoundingClientRect());
+    return {
+      overflow: card.scrollWidth - card.clientWidth,
+      titleSize: title ? Number.parseFloat(getComputedStyle(title).fontSize) : 0,
+      meaningInset: meaning ? meaning.getBoundingClientRect().left - bounds.left : 0,
+      abilitySideBySide: abilityItems.length > 1 && Math.abs(abilityItems[0].top - abilityItems[1].top) < 2,
+      actionSideBySide: actionItems.length > 1 && Math.abs(actionItems[0].top - actionItems[1].top) < 2,
+    };
+  });
+  const mobileSkillLayout = await skillCardLayout();
+  expect(mobileSkillLayout.overflow).toBeLessThanOrEqual(1);
+  expect(mobileSkillLayout.titleSize).toBeGreaterThanOrEqual(22);
+  expect(mobileSkillLayout.meaningInset).toBeGreaterThanOrEqual(12);
+  expect(mobileSkillLayout.abilitySideBySide).toBe(false);
+  expect(mobileSkillLayout.actionSideBySide).toBe(false);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const desktopSkillLayout = await skillCardLayout();
+  expect(desktopSkillLayout.overflow).toBeLessThanOrEqual(1);
+  expect(desktopSkillLayout.titleSize).toBeGreaterThanOrEqual(25);
+  expect(desktopSkillLayout.meaningInset).toBeGreaterThanOrEqual(12);
+  expect(desktopSkillLayout.abilitySideBySide).toBe(true);
+  expect(desktopSkillLayout.actionSideBySide).toBe(true);
+  await page.setViewportSize({ width: 390, height: 844 });
   await expect(ownSkill.locator('.skill-meaning')).toContainText('What this means');
   await expect(ownSkill.locator('.skill-ability-summary')).toContainText('Current ability');
   await expect(ownSkill.locator('.skill-action-preview')).toContainText('Start here');

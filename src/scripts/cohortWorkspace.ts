@@ -1,4 +1,10 @@
 import { cohortPresets, sessionPresets } from '../data/coachingPresets';
+import {
+  createWorkspacePaginationState,
+  paginateWorkspaceRows,
+  renderWorkspacePagination,
+  resetWorkspacePagination,
+} from './workspacePagination';
 
 type Row = Record<string, any>;
 
@@ -41,6 +47,7 @@ let realtimeRefreshTimer: number | null = null;
 let cohortPollingTimer: number | null = null;
 let bound = false;
 let cohortLoadGeneration = 0;
+const cohortIndexPagination = createWorkspacePaginationState('fcs-workspace-cohorts-page');
 
 function qs<T extends Element>(selector: string) {
   return document.querySelector(selector) as T | null;
@@ -602,6 +609,7 @@ function renderCohortIndex() {
     const branch = ctx!.branchById(cohort.branch_id);
     return !search || `${cohort.name} ${cohort.code} ${branch?.name ?? ''} ${cohort.program_track}`.toLowerCase().includes(search);
   });
+  const page = paginateWorkspaceRows(rows, cohortIndexPagination);
   const active = state.cohorts.filter((cohort) => cohort.status === 'active').length;
   const placed = new Set(state.memberships.filter((row) => row.membership_status === 'active').map((row) => row.student_id)).size;
   summary.innerHTML = [
@@ -609,7 +617,7 @@ function renderCohortIndex() {
     ['Community posts', state.posts.filter((post) => state.cohorts.some((cohort) => cohort.id === post.cohort_id)).length, 'Shared updates'],
     ['Open commitments', openCommunityTaskCount(), 'Group follow-through'],
   ].map(([label, value, note]) => `<span><small>${ctx!.escapeHtml(label)}</small><strong>${value}</strong><em>${ctx!.escapeHtml(note)}</em></span>`).join('');
-  body.innerHTML = rows.map((cohort) => {
+  body.innerHTML = page.rows.map((cohort) => {
     const branch = ctx!.branchById(cohort.branch_id);
     const lead = ctx!.profileById(cohort.lead_id);
     const members = cohortMemberships(cohort.id).length;
@@ -619,6 +627,7 @@ function renderCohortIndex() {
   empty.hidden = rows.length > 0;
   const count = qs<HTMLElement>('#cohort-nav-count');
   if (count) count.textContent = String(state.cohorts.filter((cohort) => cohort.status === 'active').length);
+  renderWorkspacePagination(qs<HTMLElement>('#cohort-pagination'), page, cohortIndexPagination, 'cohort', renderCohortIndex);
 }
 
 function renderCohortDetail() {
@@ -1406,8 +1415,9 @@ function bindEvents() {
   });
   qs<HTMLFormElement>('#cohort-membership-form')?.addEventListener('submit', handleMembershipSubmit);
   qs<HTMLFormElement>('#attendance-form')?.addEventListener('submit', handleAttendanceSubmit);
-  qs<HTMLInputElement>('#cohort-search')?.addEventListener('input', renderCohortIndex);
-  qs<HTMLSelectElement>('#cohort-status-filter')?.addEventListener('change', renderCohortIndex);
+  const resetCohortPageAndRender = () => { resetWorkspacePagination(cohortIndexPagination); renderCohortIndex(); };
+  qs<HTMLInputElement>('#cohort-search')?.addEventListener('input', resetCohortPageAndRender);
+  qs<HTMLSelectElement>('#cohort-status-filter')?.addEventListener('change', resetCohortPageAndRender);
   qs<HTMLSelectElement>('#cohort-session-filter')?.addEventListener('change', renderCohortWorkspace);
   qs<HTMLSelectElement>('#student-session-filter')?.addEventListener('change', renderCohortWorkspace);
   qs<HTMLSelectElement>('#record-session-filter')?.addEventListener('change', renderCohortWorkspace);

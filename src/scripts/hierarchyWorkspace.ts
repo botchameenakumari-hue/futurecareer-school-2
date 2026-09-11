@@ -15,6 +15,12 @@ import {
 } from './coachingWorkspace';
 import { clearCohortWorkspace } from './cohortWorkspace';
 import { examTargetPresets } from '../data/coachingPresets';
+import {
+  createWorkspacePaginationState,
+  paginateWorkspaceRows,
+  renderWorkspacePagination,
+  resetWorkspacePagination,
+} from './workspacePagination';
 
 type Role = 'admin' | 'branch_head' | 'head_coach' | 'coach' | 'student';
 type RecordRow = Record<string, any>;
@@ -105,6 +111,10 @@ const state: WorkspaceState = {
 };
 
 let mobileNavMediaQuery: MediaQueryList | null = null;
+const peoplePagination = createWorkspacePaginationState('fcs-workspace-people-page');
+const requestPagination = createWorkspacePaginationState('fcs-workspace-requests-page');
+const branchPagination = createWorkspacePaginationState('fcs-workspace-branches-page');
+const activityPagination = createWorkspacePaginationState('fcs-workspace-activity-page');
 
 function defaultViewForRole(role: unknown) {
   // Every account should arrive on its overview after sign-in.  Students can
@@ -1034,7 +1044,8 @@ function renderPeople() {
     const haystack = `${profile.full_name} ${profile.email}`.toLowerCase();
     return !search || haystack.includes(search);
   });
-  body.innerHTML = rows.map((profile) => {
+  const page = paginateWorkspaceRows(rows, peoplePagination);
+  body.innerHTML = page.rows.map((profile) => {
     const branch = branchById(profile.branch_id);
     const supervisor = profileById(profile.supervisor_id);
     const isAdmin = state.profile?.role === 'admin';
@@ -1063,7 +1074,8 @@ function renderPeople() {
     </tr>`;
   }).join('');
   empty.hidden = rows.length > 0;
-  setText('#people-nav-count', rows.length);
+  setText('#people-nav-count', state.profiles.filter((profile) => profile.id !== state.profile?.id).length);
+  renderWorkspacePagination(qs<HTMLElement>('#people-pagination'), page, peoplePagination, 'person', renderPeople);
 }
 
 function renderRequests() {
@@ -1083,7 +1095,8 @@ function renderRequests() {
   summary.textContent = pending.length ? `${pending.length} account request${pending.length === 1 ? '' : 's'} require Admin review.` : '';
   setText('#account-scope-note', isAdmin ? 'Only the Admin can activate an account.' : 'Your submissions remain pending until Admin review.');
   setText('#request-nav-count', isAdmin ? pending.length : requests.length);
-  container.innerHTML = requests.map((request) => {
+  const page = paginateWorkspaceRows(requests, requestPagination);
+  container.innerHTML = page.rows.map((request) => {
     const branch = branchById(request.branch_id);
     const requester = profileById(request.requested_by);
     const supervisor = profileById(request.supervisor_id);
@@ -1102,12 +1115,14 @@ function renderRequests() {
     ? '<strong>No account requests to review.</strong><span>When a team member requests access, it will appear here for approval or rejection.</span>'
     : '<strong>No account requests yet.</strong><span>Use Request account when you need to add someone within your allowed hierarchy. An Admin must approve it.</span>';
   empty.hidden = requests.length > 0;
+  renderWorkspacePagination(qs<HTMLElement>('#request-pagination'), page, requestPagination, 'request', renderRequests);
 }
 
 function renderBranches() {
   const container = qs<HTMLElement>('#branch-list');
   if (!container) return;
-  container.innerHTML = state.branches.map((branch) => {
+  const page = paginateWorkspaceRows(state.branches, branchPagination);
+  container.innerHTML = page.rows.map((branch) => {
     const people = state.profiles.filter((profile) => profile.branch_id === branch.id && profile.account_status === 'active');
     const head = people.find((profile) => profile.role === 'branch_head');
     const students = people.filter((profile) => profile.role === 'student').length;
@@ -1118,6 +1133,7 @@ function renderBranches() {
       <footer class="branch-card-footer"><span>${people.length} active accounts</span><button class="table-action" type="button" data-edit-branch="${escapeHtml(branch.id)}">Edit branch</button></footer>
     </article>`;
   }).join('') || '<div class="empty-state"><strong>No branches yet.</strong><span>An Admin can create the first branch from the New branch button above.</span></div>';
+  renderWorkspacePagination(qs<HTMLElement>('#branch-pagination'), page, branchPagination, 'branch', renderBranches);
 }
 
 const activityLabels: Record<string, string> = {
@@ -1139,7 +1155,8 @@ function renderActivity() {
   const container = qs<HTMLElement>('#activity-list');
   const empty = qs<HTMLElement>('#activity-empty');
   if (!container || !empty) return;
-  container.innerHTML = state.activity.map((event) => {
+  const page = paginateWorkspaceRows(state.activity, activityPagination);
+  container.innerHTML = page.rows.map((event) => {
     const actor = profileById(event.actor_id);
     const target = profileById(event.target_user_id);
     const branch = branchById(event.branch_id);
@@ -1154,6 +1171,7 @@ function renderActivity() {
     </article>`;
   }).join('');
   empty.hidden = state.activity.length > 0;
+  renderWorkspacePagination(qs<HTMLElement>('#activity-pagination'), page, activityPagination, 'entry', renderActivity);
 }
 
 function fillStudentProfileForm() {
@@ -2411,8 +2429,9 @@ function bindEvents() {
   });
   qs<HTMLSelectElement>('#account-role')?.addEventListener('change', populateSupervisors);
   qs<HTMLSelectElement>('#account-branch')?.addEventListener('change', populateSupervisors);
-  qs<HTMLInputElement>('#people-search')?.addEventListener('input', renderPeople);
-  qs<HTMLSelectElement>('#people-role-filter')?.addEventListener('change', renderPeople);
+  const resetPeoplePageAndRender = () => { resetWorkspacePagination(peoplePagination); renderPeople(); };
+  qs<HTMLInputElement>('#people-search')?.addEventListener('input', resetPeoplePageAndRender);
+  qs<HTMLSelectElement>('#people-role-filter')?.addEventListener('change', resetPeoplePageAndRender);
   qs<HTMLSelectElement>('#exam-target-preset')?.addEventListener('change', (event) => appendGuidedListPreset(event.currentTarget as HTMLSelectElement, '#academic-form input[name="exam_targets"]'));
   qs<HTMLFormElement>('#account-form')?.addEventListener('submit', handleAccountSubmit);
   qs<HTMLFormElement>('#branch-form')?.addEventListener('submit', handleBranchSubmit);

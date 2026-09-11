@@ -12,6 +12,13 @@ const profiles = [
   { id: '00000000-0000-4000-8000-000000000003', email: 'head.coach@example.test', full_name: 'Harini Head Coach', role: 'head_coach', account_status: 'active', branch_id: branchId, supervisor_id: '00000000-0000-4000-8000-000000000002' },
   { id: '00000000-0000-4000-8000-000000000004', email: 'coach@example.test', full_name: 'Nisha Coach', role: 'coach', account_status: 'active', branch_id: branchId, supervisor_id: '00000000-0000-4000-8000-000000000003' },
   { id: '00000000-0000-4000-8000-000000000005', email: 'student@example.test', full_name: 'Arjun Student', role: 'student', account_status: 'active', branch_id: branchId, supervisor_id: '00000000-0000-4000-8000-000000000004' },
+  ...Array.from({ length: 18 }, (_, index) => ({
+    id: `10000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`,
+    email: `student.${index + 1}@example.test`,
+    full_name: `Student ${String(index + 1).padStart(2, '0')}`,
+    role: 'student', account_status: 'active', branch_id: branchId,
+    supervisor_id: '00000000-0000-4000-8000-000000000004',
+  })),
 ].map((profile) => ({
   ...profile,
   stage: profile.role === 'student' ? 'class-11-12' : null,
@@ -25,6 +32,16 @@ const profiles = [
   created_at: timestamp,
   updated_at: timestamp,
 }));
+
+const branches = [{ id: branchId, name: 'Visakhapatnam', code: 'VSKP', city: 'Visakhapatnam', status: 'active' },
+  ...Array.from({ length: 14 }, (_, index) => ({
+    id: `20000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`,
+    name: `Branch ${String(index + 1).padStart(2, '0')}`, code: `B${String(index + 1).padStart(2, '0')}`, city: 'India', status: 'active',
+  })),
+];
+const accountRequests = Array.from({ length: 18 }, (_, index) => ({ id: `request-${index + 1}`, requested_by: profiles[0].id, full_name: `Applicant ${String(index + 1).padStart(2, '0')}`, email: `applicant.${index + 1}@example.test`, requested_role: 'student', branch_id: branchId, supervisor_id: profiles[3].id, status: index < 12 ? 'pending' : 'approved', created_at: timestamp }));
+const cohorts = Array.from({ length: 18 }, (_, index) => ({ id: `30000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`, branch_id: branchId, lead_id: profiles[3].id, name: `Cohort ${String(index + 1).padStart(2, '0')}`, code: `C${String(index + 1).padStart(2, '0')}`, program_track: 'career-foundations', coaching_stage: 'option-validation', delivery_mode: 'online', capacity: 25, status: 'active', starts_on: '2026-08-01', ends_on: '2026-12-31', created_at: timestamp, updated_at: timestamp }));
+const activity = Array.from({ length: 18 }, (_, index) => ({ id: index + 1, actor_id: profiles[0].id, action: index % 2 ? 'account_assignment_updated' : 'account_approved', target_user_id: profiles[(index % (profiles.length - 1)) + 1].id, branch_id: branchId, details: {}, created_at: timestamp }));
 
 function fakeAccessToken(user, expiresAt) {
   const encode = (value) => Buffer.from(JSON.stringify(value)).toString('base64url');
@@ -55,8 +72,10 @@ async function mockAdmin(page) {
       const object = (request.headers().accept ?? '').includes('application/vnd.pgrst.object+json');
       return route.fulfill({ status: 200, headers, body: JSON.stringify(object ? current : profiles) });
     }
-    if (url.pathname === '/rest/v1/branches') return route.fulfill({ status: 200, headers, body: JSON.stringify([{ id: branchId, name: 'Visakhapatnam', code: 'VSKP', city: 'Visakhapatnam', status: 'active' }]) });
-    if (url.pathname === '/rest/v1/audit_events') return route.fulfill({ status: 200, headers, body: JSON.stringify([{ id: 1, actor_id: current.id, action: 'account_approved', target_user_id: profiles[1].id, branch_id: branchId, details: {}, created_at: timestamp }]) });
+    if (url.pathname === '/rest/v1/branches') return route.fulfill({ status: 200, headers, body: JSON.stringify(branches) });
+    if (url.pathname === '/rest/v1/account_requests') return route.fulfill({ status: 200, headers, body: JSON.stringify(accountRequests) });
+    if (url.pathname === '/rest/v1/audit_events') return route.fulfill({ status: 200, headers, body: JSON.stringify(activity) });
+    if (url.pathname === '/rest/v1/cohorts') return route.fulfill({ status: 200, headers, body: JSON.stringify(cohorts) });
     if (url.pathname.startsWith('/rest/v1/')) return route.fulfill({ status: 200, headers, body: '[]' });
     return route.fulfill({ status: 200, headers, body: '{}' });
   });
@@ -135,6 +154,25 @@ for (const viewport of [
         await navigation.click();
       }
       await expect(page.locator(`[data-workspace-view="${view}"]`)).toBeVisible();
+      const paginationIds = { caseload: 'caseload', cohorts: 'cohort', people: 'people', accounts: 'request', branches: 'branch', activity: 'activity' };
+      const paginationId = paginationIds[view];
+      if (paginationId) {
+        const paginator = page.locator(`#${paginationId}-pagination .workspace-pagination`);
+        await expect(paginator).toBeVisible();
+        await expect(paginator.locator('.workspace-page-summary')).toContainText(/page 1 of [2-9]\d*/);
+        await paginator.getByRole('button', { name: 'Next' }).click();
+        await expect(paginator.locator('.workspace-page-summary')).toContainText(/page 2 of [2-9]\d*/);
+        await paginator.getByRole('button', { name: 'First' }).click();
+        if (viewport.name === 'desktop' && view === 'people') {
+          await paginator.getByRole('spinbutton', { name: 'Go to page' }).fill('3');
+          await paginator.getByRole('button', { name: 'Go', exact: true }).click();
+          await expect(paginator.locator('.workspace-page-summary')).toContainText('page 3 of 3');
+          await paginator.getByRole('button', { name: 'First' }).click();
+          await paginator.getByRole('combobox', { name: 'person per page' }).selectOption('25');
+          await expect(paginator.locator('.workspace-page-summary')).toContainText('Showing 1–22 of 22 people · page 1 of 1');
+          await expect(paginator.getByRole('button', { name: 'Next' })).toBeDisabled();
+        }
+      }
       if (viewport.width <= 820) {
         await expect(page.locator(`#mobile-nav [data-view-target="${view}"]`)).toHaveAttribute('aria-current', 'page');
       }
