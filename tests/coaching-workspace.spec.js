@@ -1261,6 +1261,29 @@ test('dedicated career decision route behaves as a full dashboard page', async (
   await expect(page.locator('#career-guide-preview')).toContainText('Subjects and routes');
 });
 
+test('catalogue career choices save directly without asking the learner to retype them', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await mockWorkspace(page, 'student');
+  await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
+  await page.locator('#career-preset-search').fill('Marine Engineer');
+  const careerCard = page.locator('#career-preset-results .career-library-result > button').filter({ hasText: 'Marine Engineer' }).first();
+  await expect(careerCard).toBeVisible();
+  await careerCard.click();
+  const preview = page.locator('#career-guide-preview');
+  await expect(preview).toContainText('Marine Engineer');
+  await expect(preview).toContainText('no typing is required');
+  const careerRequest = page.waitForRequest((request) => request.method() === 'POST' && request.url().includes('/rest/v1/career_paths'));
+  await preview.getByRole('button', { name: 'Choose as primary career option' }).click();
+  const request = await careerRequest;
+  const payload = request.postDataJSON();
+  const saved = Array.isArray(payload) ? payload[0] : payload;
+  expect(saved.title).toBe('Marine Engineer');
+  expect(saved.option_type).toBe('primary');
+  expect(saved.preset_key).toBeTruthy();
+  await expect(page).toHaveURL(/\/dashboard\?view=overview/, { timeout: 10_000 });
+});
+
 test('dedicated career decision route stays usable on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await mockWorkspace(page, 'student');

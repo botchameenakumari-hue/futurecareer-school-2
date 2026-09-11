@@ -593,7 +593,7 @@ export function careerGuidePreviewHtml(guide: CareerGuide, escapeHtml: DecisionU
       <section><small>Evidence you could create</small>${listHtml(guide.evidenceExamples ?? [], escapeHtml)}</section>
       <section><small>Questions to ask before you commit</small>${listHtml(guide.questionsToAsk ?? [], escapeHtml)}</section>
     </div>
-    <div class="career-guide-actions"><button class="primary-button" type="button" aria-label="Choose as primary career option" data-choose-career="primary" data-guide-key="${escapeHtml(guide.key)}">Add to primary career options</button><button class="secondary-button" type="button" aria-label="Keep as secondary career option" data-choose-career="alternative" data-guide-key="${escapeHtml(guide.key)}">Add to secondary career options</button></div>`;
+    <div class="career-guide-save"><p class="career-guide-save-note">Choose where this belongs. It will be saved to your plan immediately; no typing is required.</p><div class="career-guide-actions"><button class="primary-button" type="button" aria-label="Choose as primary career option" data-choose-career="primary" data-guide-key="${escapeHtml(guide.key)}">Save as a primary option</button><button class="secondary-button" type="button" aria-label="Keep as secondary career option" data-choose-career="alternative" data-guide-key="${escapeHtml(guide.key)}">Save as a secondary option</button></div></div>`;
 }
 
 export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: DecisionUiContext) {

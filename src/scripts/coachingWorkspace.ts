@@ -1788,7 +1788,7 @@ function wireCareerGuideActions(preview: HTMLElement) {
     button.addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
-      applyCareerPreset(button.dataset.guideKey || '', (button.dataset.chooseCareer || 'primary') as 'primary' | 'alternative');
+      chooseAndSaveCareerPreset(button.dataset.guideKey || '', (button.dataset.chooseCareer || 'primary') as 'primary' | 'alternative');
     });
   });
 }
@@ -1835,8 +1835,19 @@ function applyCareerPreset(key: string, choice: 'primary' | 'alternative' = 'pri
   });
   form.querySelectorAll<HTMLInputElement>('input[name="option_type"]').forEach((input) => { input.checked = input.value === optionType; });
   updateCareerFocusControl();
-  document.getElementById('career-save-choice')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  form.querySelector<HTMLInputElement>('input[name="title"]')?.focus();
+}
+
+function chooseAndSaveCareerPreset(key: string, choice: 'primary' | 'alternative' = 'primary') {
+  // Catalogue choices already contain the title, route, work pattern,
+  // outlook, watch-outs, and a useful first test. Saving directly here
+  // removes the confusing second trip to the manual form. The separate
+  // “Add your own career option” flow still collects a typed name and is
+  // submitted through the footer after the learner reviews it.
+  applyCareerPreset(key, choice);
+  const form = qs<HTMLFormElement>('#career-option-form');
+  if (!form || !textValue(new FormData(form).get('title'))) return;
+  setModalStatus('#career-option-status', `Saving ${choice === 'alternative' ? 'secondary' : 'primary'} career option…`);
+  form.requestSubmit();
 }
 
 function inferSkillScope(key: string, category: string) {
@@ -3720,6 +3731,7 @@ function bindEvents() {
     if (preset) preset.value = '';
     qs<HTMLElement>('#career-custom-entry')?.setAttribute('hidden', 'true');
     qs<HTMLButtonElement>('#career-open-custom')?.setAttribute('aria-expanded', 'false');
+    document.getElementById('career-save-choice')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     qs<HTMLButtonElement>('#career-save-submit')?.focus();
   });
   qs<HTMLInputElement>('#skill-preset-search')?.addEventListener('input', renderSkillPresetResults);
@@ -3799,7 +3811,7 @@ function bindEvents() {
     if (removeCompared) { toggleCareerCompare(removeCompared.dataset.removeCareerCompare || '', false); return; }
     if (target.closest('[data-clear-career-compare]')) { comparedCareerGuideKeys = []; renderCareerPresetResults(); return; }
     const chooseCareer = target.closest<HTMLElement>('[data-choose-career]');
-    if (chooseCareer) { applyCareerPreset(chooseCareer.dataset.guideKey || '', (chooseCareer.dataset.chooseCareer || 'primary') as 'primary' | 'alternative'); return; }
+    if (chooseCareer) { chooseAndSaveCareerPreset(chooseCareer.dataset.guideKey || '', (chooseCareer.dataset.chooseCareer || 'primary') as 'primary' | 'alternative'); return; }
     const addCareerSkills = target.closest<HTMLElement>('[data-add-career-skills]');
     if (addCareerSkills) {
       const career = coaching.careers.find((row) => row.id === addCareerSkills.dataset.addCareerSkills);
