@@ -1,0 +1,656 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// The shared BOFU_COMPARISON_LIBRARY is fully exhausted across siblings (see
+// the tracking note left on career-counselling-in-pitampura/index.astro), so
+// this page uses its own page-specific comparisonRows array instead, matching
+// the pattern set by career-counselling-in-kandivali and
+// career-counselling-in-paschim-vihar.
+const lucknowComparisonRows = [
+  {
+    left: 'Assuming a UPPSC or state-government-exam coaching batch guarantees a government job',
+    right: 'Building an honest, realistic exam-attempt timeline with a genuine backup plan',
+  },
+  {
+    left: "Treating a family Chikankari or handicraft-export business as a fallback rather than a real career choice",
+    right: 'Weighing the handicraft-export economy honestly against your actual skills, interest, and growth ceiling',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+  {
+    left: 'Generic low-paying path advice that limits growth',
+    right: 'Higher-value skill direction with clearer income-growth logic',
+  },
+];
+
+const title =
+  'Career Counselling in Lucknow | Practical Online Guidance | Future Career School';
+const description =
+  "Career counselling in Lucknow for students, freshers, and working professionals weighing Lucknow's large UPPSC and state-government-exam coaching pipeline against the city's genuine Chikankari embroidery and handicraft-export economy, or a state-secretariat administrative career.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-lucknow/';
+
+const fitItems = [
+  {
+    title: 'What you actually need right now',
+    listItems: [
+      'You want support that feels easier to trust and easier to start.',
+      'You want clarity before committing years to a UPPSC or state-exam coaching cycle, a Chikankari or handicraft-export path, or a state-secretariat administrative role.',
+      "You want something more practical than a relative's opinion or a coaching-centre pitch about which exam to attempt.",
+      'You want a real next step toward a high-value skill portfolio, not only motivational talk.',
+    ],
+  },
+  {
+    title: 'What should matter more than city alone',
+    listItems: [
+      'Whether the guidance improves decision quality',
+      'Whether the next step becomes clearer and easier to act on',
+      'Whether the process helps you move toward earlier financial freedom instead of a default path',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Closer should still mean clearer',
+    body: 'Searching locally is useful only if it leads to better decision support, not just physical proximity.',
+  },
+  {
+    title: 'Quality before convenience',
+    body: 'The better filter is whether the guidance improves your next move, not whether an office happens to be nearby.',
+  },
+  {
+    title: 'Act before the wrong turn compounds',
+    body: 'The practical goal is to get clear before more time and effort go into the wrong path, and to start building the high-value skill portfolio that keeps unlocking high income opportunities and moves you toward earlier financial freedom.',
+  },
+];
+
+const examEconomyItems = [
+  {
+    title: "Lucknow runs one of India's largest UP-specific state-government-exam coaching economies",
+    body: "As the capital of Uttar Pradesh, Lucknow has built a genuinely large coaching industry around UPPSC, UP Police, UP judicial services, and teaching-eligibility exams like UPTET, with entire neighbourhoods built around this coaching cycle. That creates a specific fork a generic guidance page never addresses: whether to commit multiple attempt-years to a state-exam pipeline, aim at a different competitive-exam track, or build a different skill path while family expectations around a 'sarkari naukri' stay in the background.",
+  },
+  {
+    title: 'A realistic attempt-and-backup plan beats an open-ended coaching cycle',
+    body: "A state-exam attempt built around Lucknow's coaching economy still needs an honest, structured timeline - how many attempts, by when, and what happens if the exam does not work out. Treating the coaching cycle as the only plan, without a genuine backup direction, is a weaker bet than it looks and is exactly where structured guidance adds the most value.",
+  },
+];
+
+const examEconomySummaryItems = [
+  {
+    title: 'This scale is specific to a state capital',
+    body: "Very few cities carry Lucknow's density of UP-specific state-exam coaching institutes in one place - it deserves a direct, specific answer, not a generic exam-prep mention.",
+  },
+];
+
+const craftEconomyItems = [
+  {
+    title: 'A second, genuinely distinct economy: Chikankari embroidery and the handicraft-export trade',
+    listItems: [
+      "Lucknow is globally known for Chikankari, a fine hand-embroidery craft with a real, sizeable export and domestic-retail economy built around it",
+      'Many local families run or work inside Chikankari workshops, export houses, and the wider handicraft-retail trade centred around the old city and Chowk area',
+      'This can mean design, production-supervision, quality-control, or export-business roles, not only hand-embroidery work itself',
+      "Growing this into a real career or business needs genuine skill-building in design, e-commerce, and export-business practice, not only inherited trade familiarity",
+    ],
+  },
+  {
+    title: 'What deliberate planning can add to a craft-economy decision',
+    listItems: [
+      'Clarity on design, production, quality-control, or export-business roles early prevents drifting inside the trade without a real skill plan',
+      'Digital retail and export-marketplace skills increasingly matter even inside a traditional handicraft business',
+      'An honest look at growth ceiling and income potential protects against treating the family trade as a default rather than a considered choice',
+      'For those choosing the state-exam-coaching track instead, the same high-value skill portfolio logic applies: proof of work, market positioning, and a deliberate skill choice rather than a default',
+    ],
+  },
+];
+
+const craftEconomySummaryItems = [
+  {
+    title: 'Two real, unrelated local economies, one decision',
+    body: "The UP state-exam coaching economy and the Chikankari handicraft-export economy coexist in Lucknow without overlapping - the useful question is which one, if either, actually fits your situation.",
+  },
+];
+
+const areaItems = [
+  {
+    title: 'Coaching-institute clusters carry the state-exam-preparation economy',
+    body: 'Neighbourhoods with dense coaching-institute clusters carry the UPPSC, UP Police, judicial-services, and teaching-exam preparation economy described above.',
+  },
+  {
+    title: 'Chowk and the old city carry the Chikankari and handicraft-export economy',
+    body: 'The Chowk area and the wider old-city markets carry the Chikankari embroidery, handicraft-retail, and export-business economy.',
+  },
+  {
+    title: 'The state-secretariat belt carries a distinct government-administration career track',
+    body: "As the seat of the Uttar Pradesh government, Lucknow also carries a genuine state-secretariat and government-administration job market, separate from competitive-exam coaching, for those aiming at administrative or clerical government roles reached through direct recruitment rather than UPPSC-level exams.",
+  },
+];
+
+const cityDecisionItems = [
+  {
+    title: 'Choose local-first support when trust is the real blocker',
+    listItems: [
+      'You are more likely to act if the search feels closer and easier to trust',
+      'You want to weigh a state-exam coaching cycle, a Chikankari or handicraft-export path, or a government-administration role before deciding',
+      'You need one practical next step, not a full career-theory discussion first',
+      'You are using the city search to reduce hesitation, not because the city itself resolves the decision',
+    ],
+  },
+  {
+    title: 'Choose broader guidance when the decision itself is the bigger problem',
+    listItems: [
+      'You are stuck between multiple paths or skill directions',
+      'A multi-attempt exam timeline or a family trade tie matters more than local wording',
+      'You already know the help can happen online and want the strongest decision support',
+      'You need deeper clarity on risk, growth, proof of work, and long-term direction',
+    ],
+  },
+];
+
+const cityDecisionSummaryItems = [
+  {
+    title: 'Use the city label as a trust shortcut',
+    body: 'That search can be useful if it helps you start. It is not the final filter.',
+  },
+  {
+    title: 'Let decision quality decide the next step',
+    body: 'The stronger route is the one that makes the next move clearer, smaller, and easier to act on.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the real decision creating pressure right now',
+    listItems: [
+      'Whether committing further attempt-years to a UPPSC or state-exam pipeline fits your actual strengths and timeline',
+      'Whether a Chikankari or handicraft-export path is genuinely the stronger route for your situation',
+      'What your income trajectory looks like on the current path over the next few years',
+      'Which expensive wrong turn is most urgent to stop repeating right now',
+    ],
+  },
+  {
+    title: "Skill direction tied to Lucknow's actual economy",
+    listItems: [
+      'A structured, realistic state-exam preparation and backup plan if that path fits your situation',
+      'Design, production, quality-control, or export-business skills if the handicraft economy fits your situation better',
+      'Government-administration career planning if a secretariat or direct-recruitment role is part of the picture',
+      'A clearer route toward earlier financial freedom from your actual starting point',
+    ],
+  },
+  {
+    title: 'A lower-friction way to start moving',
+    listItems: [
+      'Online guidance accessible across India with no local-access dependence',
+      'A realistic career target and the clearest path to reach it from where you are now',
+      'One concrete next step instead of a theory discussion you still have to decode yourself',
+    ],
+  },
+];
+
+const onlineAdvantageItems = [
+  {
+    title: 'You can start from home, hostel, coaching PG, or workshop',
+    body: 'Career counselling is available online in Lucknow and across India. That means the decision does not have to wait for a nearby office or one local slot opening up. The useful filter is whether the guidance improves the next move enough to matter.',
+  },
+  {
+    title: 'Online guidance can sit alongside family and mentor conversations, not compete with them',
+    body: 'When a multi-attempt exam plan or a Chikankari family-business tie is part of the picture, the harder conversations often need to include family or mentors. Online sessions make it easier to include that context and join from wherever you already are.',
+  },
+  {
+    title: 'The stronger comparison is not nearby versus far away - it is generic versus genuinely useful',
+    body: "A nearby or well-known coaching institute can still leave you with generic advice that ignores Lucknow's specific state-exam or handicraft-export context. The better filter is whether the guidance gives you stronger skill direction, proof-of-work thinking, and a more practical next step.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'Should I keep attempting UPPSC or a state-government exam, or move to a different path?',
+    body: "That depends on your realistic timeline, attempt history, and backup options - a structured attempt-and-backup plan is a genuinely strong approach. An open-ended coaching cycle with no exit plan is a weaker bet than it looks.",
+  },
+  {
+    title: 'My family runs a Chikankari or handicraft-export business - is that still a good reason to choose this path?',
+    body: 'A family business can be a genuine advantage for entry and trust, but the career choice itself should still rest on your own aptitude, interest, and an honest look at the growth ceiling, not on the business already existing.',
+  },
+  {
+    title: 'I am worried about wasting more time before choosing a direction',
+    body: 'That is usually the best reason to act now. In a city where a state-exam coaching cycle and a handicraft-export path can each look equally serious, getting clear before another attempt-year passes is exactly when counselling has the highest return.',
+  },
+];
+
+const prepItems = [
+  {
+    title: 'The real decision you need to solve first',
+    body: 'Bring the actual question creating pressure right now, whether that is an exam-attempt decision, a handicraft-business direction, or income growth.',
+  },
+  {
+    title: 'The serious options you are already considering',
+    body: 'Write down the two to four routes you are actually comparing. Stronger counselling happens when the real trade-offs are visible from the start.',
+  },
+  {
+    title: 'What feels risky, delayed, or expensive',
+    body: 'Be clear about what you do not want to repeat: another unplanned attempt year, a family-pressure default, or more time wasted in confusion.',
+  },
+  {
+    title: 'The constraints that cannot be ignored',
+    body: 'Include budget, family expectations, exam-attempt limits, and location ties early so the guidance stays practical instead of idealised.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Lucknow's dual exam-and-craft economy",
+    body: 'The UP state-exam coaching pipeline and the Chikankari handicraft-export economy are two real, distinct local paths with their own preparation needs. Good guidance should engage with whichever applies to you seriously, not offer a generic mention.',
+  },
+  {
+    title: 'Check whether a multi-attempt exam plan gets an honest, structured answer',
+    body: 'Good guidance should help you plan a state-exam attempt with realistic timelines and a genuine backup plan, not treat repeated attempts as a guaranteed outcome.',
+  },
+  {
+    title: 'Check whether the next move fits your Lucknow reality realistically',
+    body: 'Good guidance for Lucknow should be realistic about exam-attempt timelines, handicraft-business growth ceilings, and family expectations, and what skill-building genuinely works given your specific situation.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See other city guidance options if you want to compare before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.kanpurCounselling,
+    title: 'Career Counselling in Kanpur',
+    description: "See Kanpur's page if a different Uttar Pradesh manufacturing or trade economy is closer to your situation than Lucknow's exam-and-craft fork.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'See the online page if easier access across India matters more than city-based search wording.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'See the main guidance page if the bigger issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Lucknow instead of only looking for a nearby offline office?',
+    answer:
+      "Because proximity alone does not improve the decision. Online guidance lets you start from home, hostel, or coaching PG without waiting for local availability, and the stronger comparison is whether the support gives you clearer trade-offs, stronger skill direction, and a more practical next step.",
+  },
+  {
+    question: 'Can career counselling help me decide whether to keep attempting UPPSC or a state-government exam?',
+    answer:
+      "Yes. That decision benefits from the same structured thinking as any other career fork - a realistic attempt-and-timeline plan, an honest backup direction, and clarity on whether the exam path still fits your strengths.",
+  },
+  {
+    question: 'My family is in the Chikankari or handicraft-export business. Should counselling assume that is the right path for me?',
+    answer:
+      "No. Good counselling should treat the handicraft-export path as a real, serious option worth structured planning - including design, production, quality-control, or export-business roles - rather than assuming it is right simply because the family business exists.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. As context, Future Career School also offers free, updated, practical, AI-powered career and skill assessments if you want a lower-pressure starting signal before a bigger counselling decision.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Lucknow?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Lucknow users.',
+  },
+  {
+    question: 'Do you guarantee a government job, an exam result, or a set income from a handicraft business?',
+    answer:
+      'No ethical provider can guarantee any of these outcomes. The practical goal is better decision quality, stronger skill direction, and a clearer path forward.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Lucknow',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Lucknow | Future Career School',
+    description:
+      'Career counselling in Lucknow for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, and better income-growth direction.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'City', name: 'Lucknow' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Lucknow</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Lucknow
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Lucknow
+        <span class="gold-text"> for practical clarity and stronger next steps</span>
+      </h1>
+      <p class="hero-sub">
+        Lucknow hands many people a genuinely different fork than most Indian cities: one of the country's largest UP-specific UPPSC and state-government-exam coaching economies, running alongside a real, globally known Chikankari embroidery and handicraft-export trade, and a distinct state-secretariat administration job market. Most career advice available online is written for a single generic city and misses all three. If you are at a real decision point, the goal is getting clear before more time goes the wrong way, and building the kind of high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Lucknow and across India. You can start from home, hostel, coaching PG, or workshop - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Lucknow. It is whether the guidance improves the next move enough to matter.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Lucknow search already reflects a serious decision, move before more time goes into the wrong direction"
+    body="Use this when you want stronger guidance now, not another round of delay while the decision keeps getting more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="exam-economy"
+    title="The UPPSC and state-exam coaching economy is Lucknow's first real fork"
+    subtitle="No other city sibling carries this density of UP-specific state-exam coaching institutes in one place - it deserves a specific answer, not a generic exam-prep mention."
+    items={examEconomyItems}
+    variant="decision"
+  >
+    <BofuSummaryStrip items={examEconomySummaryItems} variant="neutral" />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="craft-economy"
+    title="Chikankari and the handicraft-export trade: a second, genuinely different economy"
+    subtitle="A real professional economy under its own pressures, and a genuine choice between it and the state-exam coaching pipeline."
+    items={craftEconomyItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={craftEconomySummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="lucknow-areas"
+    title="Lucknow's areas point to different real decisions"
+    subtitle="A useful local page should feel grounded in how people actually live and work across Lucknow, not treat it as one flat generic location."
+    items={areaItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="city-page-vs-broader-guidance"
+    title="Choose the stronger starting point for your situation"
+    subtitle="For some people, local, Lucknow-specific support is the easiest way to start. For others, broader guidance across paths and skills is the better fit because the decision itself is already the bigger issue."
+    items={cityDecisionItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={cityDecisionSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In a city where a state-exam coaching cycle and a handicraft-export path can each look like the obvious default, the risk is advice that ignores where you actually are. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={lucknowComparisonRows}
+    centered={true}
+  />
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="As context, if you are still early and not ready for guidance yet, the free assessments can help surface strengths, preferences, and work style before a bigger counselling decision."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Lucknow"
+    subtitle="If the city search began as a trust shortcut, the next question is whether online guidance gives you a clearer, more practical next move than defaulting to whoever simply happens to be nearby."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Lucknow"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Career counselling here is not about one isolated decision. It is about building a high-value skill portfolio that keeps unlocking high income opportunities whether your path runs through state-exam preparation, the handicraft-export trade, or somewhere else entirely."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #exam-economy,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

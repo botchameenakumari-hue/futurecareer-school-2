@@ -1,0 +1,431 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title =
+  'Career Counselling for Study Abroad | Country, Course & ROI Fit | Future Career School';
+const description =
+  "Career counselling for study-abroad and MBA-abroad aspirants weighing country and course fit, real cost and ROI, GRE/GMAT/IELTS timelines, and the return-versus-stay decision after graduating abroad.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-study-abroad/';
+
+const comparisonRows = [
+  {
+    left: 'Choosing a study-abroad country or course by brand-name pull alone',
+    right: 'Comparing country, course, and career-outcome fit honestly against your actual goals',
+  },
+  {
+    left: 'Committing to an abroad program before the real cost, loan, and ROI math is done',
+    right: 'A realistic cost, funding, and income-recovery timeline built before you apply',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+  {
+    left: 'Generic low-paying path advice that limits growth',
+    right: 'Higher-value skill direction with clearer income-growth logic',
+  },
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Country and course fit',
+    title: 'Choosing between countries and specific programs, not just the "go abroad" idea',
+    body: 'When the US, UK, Canada, Australia, Germany, or another destination all look plausible on paper, and the real decision is which country, course, and university tier actually fits your goals and budget.',
+  },
+  {
+    eyebrow: 'Cost and ROI',
+    title: 'Weighing the real cost and loan burden against realistic post-study income',
+    body: 'When an education loan, living costs, and years away from earning in India need to be weighed honestly against the actual salary and visa-work realities of your target country and course.',
+  },
+  {
+    eyebrow: 'Exam and timeline planning',
+    title: 'Planning GRE, GMAT, IELTS, or TOEFL preparation around real application deadlines',
+    body: 'When test prep, application essays, recommendation letters, and funding decisions all need to happen on a realistic timeline instead of a rushed, last-minute scramble.',
+  },
+  {
+    eyebrow: 'Return-versus-stay decision',
+    title: 'Deciding whether to return to India or build a career abroad after graduating',
+    body: 'When the plan for after the degree, returning to India, working abroad on a post-study visa, or pursuing permanent residency, is still unclear and shapes which country and course actually make sense now.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'Country and course selection',
+    title: 'Matching country and course to your actual career goals, not just prestige',
+    listItems: [
+      'How specific countries and universities actually compare on placement outcomes, work-visa rules, and cost for your target field',
+      'Whether an MBA abroad, a specialized master’s, or a different qualification actually fits your career goals better',
+      'How to avoid choosing a country or course mainly because a peer group or agent is pushing it',
+    ],
+  },
+  {
+    eyebrow: 'Cost and ROI reality check',
+    title: 'Building a realistic cost, funding, and income-recovery plan',
+    listItems: [
+      'What the full cost actually looks like once tuition, living expenses, and loan interest are included',
+      'A realistic timeline for recovering that cost given actual starting salaries in your target field and country',
+      'Whether scholarships, assistantships, or a lower-cost country and course combination change the ROI picture meaningfully',
+    ],
+  },
+  {
+    eyebrow: 'Exam and application timeline',
+    title: 'Sequencing GRE, GMAT, IELTS, or TOEFL prep against real deadlines',
+    listItems: [
+      'A realistic prep timeline that does not compress test scores, essays, and recommendation letters into a last-minute rush',
+      'How your current profile, academics, work experience, and extracurriculars actually stack up for your target universities',
+      'What to prioritize when time or budget is limited, and what can reasonably wait for a later application cycle',
+    ],
+  },
+  {
+    eyebrow: 'Return-versus-stay planning',
+    title: 'Deciding your post-study direction before you commit to a country',
+    listItems: [
+      'How post-study work-visa rules and realistic job-market conditions differ across your shortlisted countries',
+      'What returning to India would actually look like for your target role and industry, and how it compares to staying abroad',
+      'How to choose a country and course that keeps your genuine options open, rather than locking into one assumption too early',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether country and course fit gets real scrutiny, not just brand-name enthusiasm',
+    body: 'Good guidance should compare countries and courses honestly against your actual goals and budget, not default to whichever destination is trending or being pushed by an agent.',
+  },
+  {
+    title: 'Check whether the cost and ROI math is done honestly',
+    body: 'A study-abroad decision without a realistic loan, cost, and income-recovery timeline is not real guidance. Look for a process that runs this math for your specific situation, not a generic "it will be worth it" reassurance.',
+  },
+  {
+    title: 'Check whether the exam and application timeline is realistic, not rushed',
+    body: 'GRE, GMAT, IELTS, or TOEFL preparation, essays, and recommendation letters all need real time. Good guidance should help you plan backward from actual deadlines instead of compressing everything into a last-minute push.',
+  },
+  {
+    title: 'Check whether the return-versus-stay question gets addressed directly',
+    body: 'If your post-study plan is genuinely undecided, guidance should help you choose a country and course that keeps real options open, rather than assuming you will simply figure it out after you arrive.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How do I choose between an MBA abroad and an MBA in India?',
+    answer:
+      'It depends on your target industry, the specific schools you can realistically get into, the real cost difference, and your post-study plans. Guidance should help you compare these honestly instead of assuming abroad is automatically the stronger choice.',
+  },
+  {
+    question: 'Is a study-abroad education loan actually worth it?',
+    answer:
+      'That depends on your target country, course, and realistic starting salary once you graduate. Guidance should help you build an honest cost and income-recovery timeline for your specific situation rather than a generic yes or no.',
+  },
+  {
+    question: 'When should I start GRE, GMAT, IELTS, or TOEFL preparation?',
+    answer:
+      'Ideally with enough runway to avoid compressing test prep, essays, and recommendation letters into the weeks before a deadline. Guidance should help you build a realistic timeline backward from your actual target application cycle.',
+  },
+  {
+    question: 'Should I plan to return to India after studying abroad, or try to stay?',
+    answer:
+      "This is a genuine, personal decision that depends on post-study work-visa rules, your target industry's job market in each country, and your own priorities. Guidance should help you choose a country and course that keeps this decision open rather than locking you into one assumption too early.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. As context, Future Career School also offers free, updated, practical, AI-powered career and skill assessments if you want a lower-pressure starting signal before a bigger counselling decision.',
+  },
+  {
+    question: 'Is this available online, or do I need to be based in a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can work with a counsellor from home or your current office without depending on a local consultancy’s limited availability.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Get broader help with skill, role, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'A wider working-professional guidance page covering stagnation, pivots, and salary-growth decisions across any industry.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-mba-graduates/',
+    title: 'Career Counselling for MBA Graduates',
+    description: 'Useful if you have already finished an MBA (in India or abroad) and are now weighing specialization, ROI, or a functional-track decision.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free input on strengths, work style, and role fit before committing to a specific country, course, or application cycle.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling for Study Abroad',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for Study Abroad | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for Study Abroad',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for Study Abroad</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for study-abroad and MBA-abroad aspirants weighing country, cost, and ROI
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for study abroad
+        <span class="gold-text"> when country, cost, and the return-versus-stay decision all feel unresolved</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for study-abroad and MBA-abroad aspirants should deal with the decisions that actually determine the outcome: which country and course genuinely fit your goals, what the real cost and loan-recovery timeline looks like, how to sequence GRE, GMAT, IELTS, or TOEFL preparation against real deadlines, and whether you plan to return to India or build a career abroad afterward. The goal is a high-value skill portfolio and a clear-eyed plan aimed at unlocking high income opportunities and earlier financial freedom, not a generic "study abroad is always worth it" answer.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online, so you can work with a counsellor from home or your current office at any stage of the application timeline.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for Study Abroad</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career counselling for study abroad becomes useful"
+    subtitle="It becomes useful right as the country, cost, exam-timeline, or return-versus-stay decision starts to feel real, because the sooner your direction is right, the sooner a high-value skill portfolio starts compounding toward unlocking high income opportunities and earlier financial freedom, instead of a costly decision made on brand-name pull or agent pressure alone."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Make the country, cost, or exam-timeline call clearer before an application deadline passes"
+    body="The earlier your direction is right, the sooner your abroad plan starts working for you instead of against your finances."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Study Abroad"
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Study Abroad"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The study-abroad-specific decisions this should help you make"
+    subtitle="Not generic study-abroad-consultancy sales talk. Direction for the exact choices aspirants actually face before, during, and after applying."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help you see your actual strengths and priorities before committing to a specific country, course, or application cycle."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when study-abroad career counselling is done right"
+    subtitle="Career counselling for study abroad should feel different from a generic study-abroad-consultancy pitch built around commission-linked university placements."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling for study abroad"
+    subtitle="The goal is a clearer country, cost, and post-study plan, not a generic pitch built around wherever a consultancy earns the highest placement commission."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Do not let brand-name pull or a rushed deadline make the country and course call for you"
+    body="A clearer country, cost, and post-study plan now protects the years and money an abroad decision puts at stake."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Study Abroad"
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Study Abroad"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+    title="Career Counselling for Study Abroad Plans"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance, MBA-graduate guidance, and free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions aspirants ask before choosing career counselling for study abroad"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="mixed"
+    title="Take the country, cost, and post-study decision seriously before an application deadline makes it for you"
+    subtitle="If a country or course choice, a cost-and-ROI doubt, or an unresolved return-versus-stay question already feels important, move with stronger direction now toward a high-value skill portfolio built for unlocking high income opportunities and earlier financial freedom, instead of letting a rushed application cycle decide for you."
+    studentHref="#plans"
+    studentLabel="Get Career Counselling for Study Abroad"
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for Study Abroad"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

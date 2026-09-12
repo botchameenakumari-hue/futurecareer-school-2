@@ -1,0 +1,654 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Page-specific comparisonRows, following the pattern set once the shared
+// BOFU_COMPARISON_LIBRARY was fully exhausted (see the tracking note on
+// career-counselling-in-pitampura/index.astro).
+const bhopalComparisonRows = [
+  {
+    left: 'Assuming a BHEL or state-secretariat family connection is the same as a planned engineering or administrative career',
+    right: 'Building a genuine engineering, ITI, or administrative-services skill layer on top of that connection',
+  },
+  {
+    left: 'Treating an open-ended MPPSC coaching cycle as the only plan',
+    right: 'Building an honest, realistic state-exam attempt timeline with a genuine backup plan',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+  {
+    left: 'Generic low-paying path advice that limits growth',
+    right: 'Higher-value skill direction with clearer income-growth logic',
+  },
+];
+
+const title =
+  'Career Counselling in Bhopal | Practical Online Guidance | Future Career School';
+const description =
+  "Career counselling in Bhopal for students, freshers, and working professionals weighing the city's BHEL heavy-engineering and state-secretariat administration economy against Madhya Pradesh's MPPSC state-exam coaching pipeline.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-bhopal/';
+
+const fitItems = [
+  {
+    title: 'What you actually need right now',
+    listItems: [
+      'You want support that feels easier to trust and easier to start.',
+      'You want clarity before committing to a BHEL or heavy-engineering trade role, a state-secretariat administrative career, or an MPPSC state-exam coaching cycle.',
+      "You want something more practical than a relative's opinion or a coaching-centre pitch about which exam to attempt.",
+      'You want a real next step toward a high-value skill portfolio, not only motivational talk.',
+    ],
+  },
+  {
+    title: 'What should matter more than city alone',
+    listItems: [
+      'Whether the guidance improves decision quality',
+      'Whether the next step becomes clearer and easier to act on',
+      'Whether the process helps you move toward earlier financial freedom instead of a default path',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Closer should still mean clearer',
+    body: 'Searching locally is useful only if it leads to better decision support, not just physical proximity.',
+  },
+  {
+    title: 'Quality before convenience',
+    body: 'The better filter is whether the guidance improves your next move, not whether an office happens to be nearby.',
+  },
+  {
+    title: 'Act before the wrong turn compounds',
+    body: 'The practical goal is to get clear before more time and effort go into the wrong path, and to start building the high-value skill portfolio that keeps unlocking high income opportunities and moves you toward earlier financial freedom.',
+  },
+];
+
+const engineeringEconomyItems = [
+  {
+    title: "Bhopal runs a genuinely large heavy-engineering and state-administration economy",
+    body: "Bhopal hosts one of Bharat Heavy Electricals Limited's largest manufacturing units, a major public-sector heavy-engineering employer, alongside its role as the seat of the Madhya Pradesh state government and its secretariat. That creates a specific fork a generic guidance page never addresses: whether to pursue formal ITI, diploma, or engineering routes into apprenticeship, technical, or supervisory roles at BHEL and its ancillary industry, a state-secretariat administrative career, or a different skill path while family or local ties to either economy stay in the background.",
+  },
+  {
+    title: 'Formal trade and engineering certification beats informal exposure alone',
+    body: "A career built around Bhopal's BHEL or heavy-engineering economy still benefits from real ITI, diploma, or engineering qualification - not just growing up near the plant. Building a genuine skill and certification layer, rather than assuming local familiarity is enough on its own, is what actually moves someone toward a stronger role and earlier financial freedom from here.",
+  },
+];
+
+const engineeringEconomySummaryItems = [
+  {
+    title: 'This concentration is specific to Bhopal',
+    body: "Very few Indian cities combine a plant of BHEL's scale with a full state-secretariat administration in one place - it deserves a direct, specific answer, not a generic manufacturing or government mention.",
+  },
+];
+
+const examEconomyItems = [
+  {
+    title: 'A second, genuinely distinct economy: the MPPSC and Madhya Pradesh state-exam coaching pipeline',
+    listItems: [
+      'As the state capital, Bhopal has built a real coaching economy around MPPSC, state police, and other Madhya Pradesh government-exam preparation',
+      'Many local families weigh a multi-attempt MPPSC or state-exam cycle against a BHEL engineering role or a direct-recruitment secretariat career as a serious, credible option',
+      'State-exam preparation is a genuine multi-year commitment that deserves the same structured planning as any competitive exam path',
+      'A state-government career in Bhopal can mean an MPPSC-cleared administrative role, a direct-recruitment clerical or secretariat post, or a technical government role, each with different preparation needs',
+    ],
+  },
+  {
+    title: 'What deliberate planning can add to a state-exam-career decision',
+    listItems: [
+      'Clarity on MPPSC versus direct-recruitment versus BHEL-engineering paths early prevents years of unfocused preparation',
+      'An honest look at exam competition levels and realistic timelines protects against over-committing to one attempt cycle',
+      'Digital and administrative-process skills increasingly matter even inside traditional government roles',
+      'For those choosing the BHEL-engineering track instead, the same high-value skill portfolio logic applies: proof of work, market positioning, and a deliberate skill choice rather than a default',
+    ],
+  },
+];
+
+const examEconomySummaryItems = [
+  {
+    title: 'Two real, distinct local economies, one decision',
+    body: "The BHEL heavy-engineering and state-secretariat economy and the MPPSC state-exam coaching pipeline coexist in Bhopal without fully overlapping - the useful question is which one, if either, actually fits your situation.",
+  },
+];
+
+const areaItems = [
+  {
+    title: 'The BHEL township and Govindpura industrial belt carry the heavy-engineering economy',
+    body: 'The areas around the BHEL plant and the Govindpura industrial area carry the ITI, technical, and supervisory-role economy described above.',
+  },
+  {
+    title: 'The Arera Hills and secretariat belt carry the state-administration economy',
+    body: 'The neighbourhoods around the state secretariat and government offices carry the administrative, clerical, and policy-support economy.',
+  },
+  {
+    title: 'Coaching-institute clusters carry the MPPSC and state-exam preparation economy',
+    body: 'Neighbourhoods with dense coaching-institute clusters carry the MPPSC, state police, and other Madhya Pradesh government-exam preparation economy, separate from Bhopal’s own genuine lakes and tourism economy around the Upper and Lower Lakes.',
+  },
+];
+
+const cityDecisionItems = [
+  {
+    title: 'Choose local-first support when trust is the real blocker',
+    listItems: [
+      'You are more likely to act if the search feels closer and easier to trust',
+      'You want to weigh a BHEL-engineering trade role, a state-secretariat career, or an MPPSC coaching cycle before deciding',
+      'You need one practical next step, not a full career-theory discussion first',
+      'You are using the city search to reduce hesitation, not because the city itself resolves the decision',
+    ],
+  },
+  {
+    title: 'Choose broader guidance when the decision itself is the bigger problem',
+    listItems: [
+      'You are stuck between multiple paths or skill directions',
+      'A multi-attempt MPPSC timeline or a family trade tie matters more than local wording',
+      'You already know the help can happen online and want the strongest decision support',
+      'You need deeper clarity on risk, growth, proof of work, and long-term direction',
+    ],
+  },
+];
+
+const cityDecisionSummaryItems = [
+  {
+    title: 'Use the city label as a trust shortcut',
+    body: 'That search can be useful if it helps you start. It is not the final filter.',
+  },
+  {
+    title: 'Let decision quality decide the next step',
+    body: 'The stronger route is the one that makes the next move clearer, smaller, and easier to act on.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the real decision creating pressure right now',
+    listItems: [
+      'Whether an ITI, diploma, or engineering path into BHEL and its ancillary industry fits your actual strengths',
+      'Whether an MPPSC or direct-recruitment state-administration career is genuinely the stronger route for your situation',
+      'What your income trajectory looks like on the current path over the next few years',
+      'Which expensive wrong turn is most urgent to stop repeating right now',
+    ],
+  },
+  {
+    title: "Skill direction tied to Bhopal's actual economy",
+    listItems: [
+      'ITI, diploma, or engineering-trade skills if the BHEL heavy-engineering economy fits your situation',
+      'A structured, realistic MPPSC or state-exam preparation plan if that path fits your situation better',
+      'Administrative and policy-support skills if a direct-recruitment secretariat role is part of the picture',
+      'A clearer route toward earlier financial freedom from your actual starting point',
+    ],
+  },
+  {
+    title: 'A lower-friction way to start moving',
+    listItems: [
+      'Online guidance accessible across India with no local-access dependence',
+      'A realistic career target and the clearest path to reach it from where you are now',
+      'One concrete next step instead of a theory discussion you still have to decode yourself',
+    ],
+  },
+];
+
+const onlineAdvantageItems = [
+  {
+    title: 'You can start from home, hostel, workshop, or coaching PG',
+    body: 'Career counselling is available online in Bhopal and across India. That means the decision does not have to wait for a nearby office or one local slot opening up. The useful filter is whether the guidance improves the next move enough to matter.',
+  },
+  {
+    title: 'Online guidance can sit alongside family and mentor conversations, not compete with them',
+    body: 'When a BHEL family tie or an MPPSC preparation timeline is part of the picture, the harder conversations often need to include family or mentors. Online sessions make it easier to include that context and join from wherever you already are.',
+  },
+  {
+    title: 'The stronger comparison is not nearby versus far away - it is generic versus genuinely useful',
+    body: "A nearby or well-known option can still leave you with generic advice that ignores Bhopal's specific BHEL or MPPSC context. The better filter is whether the guidance gives you stronger skill direction, proof-of-work thinking, and a more practical next step.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'Should I pursue an ITI or engineering trade toward BHEL, or aim for a different technical career?',
+    body: "That depends on the specific role and skill behind it - a formal ITI, diploma, or engineering qualification built with BHEL and its ancillary industry in mind can be a genuinely strong path. Relying on informal local familiarity, without a certification plan, is a weaker bet than it looks.",
+  },
+  {
+    title: 'I am preparing for MPPSC because Bhopal is the state capital - is that still a good reason to choose this path?',
+    body: 'Being in the state capital can be a genuine advantage for exposure and access to coaching, but the career choice itself should still rest on your own aptitude and honest exam-competition timelines, not on proximity alone.',
+  },
+  {
+    title: 'I am worried about wasting more time before choosing a direction',
+    body: 'That is usually the best reason to act now. In a city where a BHEL-engineering trade and an MPPSC state-exam path can each look equally serious, getting clear before another attempt-year passes is exactly when counselling has the highest return.',
+  },
+];
+
+const prepItems = [
+  {
+    title: 'The real decision you need to solve first',
+    body: 'Bring the actual question creating pressure right now, whether that is a trade-certification decision, an MPPSC preparation plan, or income growth.',
+  },
+  {
+    title: 'The serious options you are already considering',
+    body: 'Write down the two to four routes you are actually comparing. Stronger counselling happens when the real trade-offs are visible from the start.',
+  },
+  {
+    title: 'What feels risky, delayed, or expensive',
+    body: 'Be clear about what you do not want to repeat: a wrong stream, a family-pressure default, or more time wasted in confusion.',
+  },
+  {
+    title: 'The constraints that cannot be ignored',
+    body: 'Include budget, family expectations, exam-attempt limits, and location ties early so the guidance stays practical instead of idealised.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Bhopal's dual engineering-and-administration economy",
+    body: 'BHEL heavy-engineering trades and the state-secretariat administration economy are two real, distinct local paths with their own preparation needs. Good guidance should engage with whichever applies to you seriously, not offer a generic mention.',
+  },
+  {
+    title: 'Check whether an MPPSC attempt gets an honest, structured answer',
+    body: 'Good guidance should help you plan an MPPSC or state-exam path with realistic timelines and a backup plan, not treat it as a guaranteed outcome simply because Bhopal is the state capital.',
+  },
+  {
+    title: 'Check whether the next move fits your Bhopal reality realistically',
+    body: 'Good guidance for Bhopal should be realistic about trade-certification timelines, exam competition, and family expectations, and what skill-building genuinely works given your specific situation.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See other city guidance options if you want to compare before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.jabalpurCounselling,
+    title: 'Career Counselling in Jabalpur',
+    description: "See Jabalpur's page if a defence-manufacturing-and-judiciary fork elsewhere in Madhya Pradesh is closer to your situation than Bhopal's engineering-and-administration fork.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'See the online page if easier access across India matters more than city-based search wording.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'See the main guidance page if the bigger issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Bhopal instead of only looking for a nearby offline office?',
+    answer:
+      "Because proximity alone does not improve the decision. Online guidance lets you start from home, hostel, or workshop without waiting for local availability, and the stronger comparison is whether the support gives you clearer trade-offs, stronger skill direction, and a more practical next step.",
+  },
+  {
+    question: 'Can career counselling help me plan a trade or engineering path into BHEL?',
+    answer:
+      "Yes. That decision benefits from the same structured thinking as any other career fork - which ITI, diploma, or engineering route actually fits the roles available, what the realistic growth path looks like, and whether it fits your strengths.",
+  },
+  {
+    question: 'I am preparing for MPPSC because Bhopal is the state capital. Should counselling assume that is the right path?',
+    answer:
+      "No. Good counselling should treat an MPPSC or state-exam path as a real, serious option worth structured planning, including honest timelines and a backup plan, rather than assuming it is right simply because the state secretariat is local.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. As context, Future Career School also offers free, updated, practical, AI-powered career and skill assessments if you want a lower-pressure starting signal before a bigger counselling decision.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Bhopal?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Bhopal users.',
+  },
+  {
+    question: 'Do you guarantee a government job, a BHEL posting, or an MPPSC result?',
+    answer:
+      'No ethical provider can guarantee any of these outcomes. The practical goal is better decision quality, stronger skill direction, and a clearer path forward.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Bhopal',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Bhopal | Future Career School',
+    description:
+      'Career counselling in Bhopal for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, and better income-growth direction.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'City', name: 'Bhopal' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Bhopal</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Bhopal
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Bhopal
+        <span class="gold-text"> for practical clarity and stronger next steps</span>
+      </h1>
+      <p class="hero-sub">
+        Bhopal hands many people a genuinely different fork than most Indian cities: one of BHEL's largest heavy-engineering manufacturing units running alongside the full weight of being Madhya Pradesh's state capital, with its own state-secretariat administration economy and a genuine MPPSC state-exam coaching pipeline. Most career advice available online is written for a single generic city and misses all three. If you are at a real decision point, the goal is getting clear before more time goes the wrong way, and building the kind of high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Bhopal and across India. You can start from home, hostel, workshop, or coaching PG - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Bhopal. It is whether the guidance improves the next move enough to matter.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Bhopal search already reflects a serious decision, move before more time goes into the wrong direction"
+    body="Use this when you want stronger guidance now, not another round of delay while the decision keeps getting more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="engineering-economy"
+    title="The BHEL and state-administration economy is Bhopal's first real fork"
+    subtitle="No other city sibling combines a BHEL plant of this scale with a full state secretariat - it deserves a specific answer, not a generic manufacturing or government mention."
+    items={engineeringEconomyItems}
+    variant="decision"
+  >
+    <BofuSummaryStrip items={engineeringEconomySummaryItems} variant="neutral" />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="exam-economy"
+    title="MPPSC and the state-exam pipeline: a second, genuinely different economy"
+    subtitle="A real professional economy under its own pressures, and a genuine choice between it and the BHEL-and-administration economy."
+    items={examEconomyItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={examEconomySummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="bhopal-areas"
+    title="Bhopal's areas point to different real decisions"
+    subtitle="A useful local page should feel grounded in how people actually live and work across Bhopal, not treat it as one flat generic location."
+    items={areaItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="city-page-vs-broader-guidance"
+    title="Choose the stronger starting point for your situation"
+    subtitle="For some people, local, Bhopal-specific support is the easiest way to start. For others, broader guidance across paths and skills is the better fit because the decision itself is already the bigger issue."
+    items={cityDecisionItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={cityDecisionSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In a city where a BHEL-engineering trade and an MPPSC state-exam path can each look like the obvious default, the risk is advice that ignores where you actually are. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={bhopalComparisonRows}
+    centered={true}
+  />
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="As context, if you are still early and not ready for guidance yet, the free assessments can help surface strengths, preferences, and work style before a bigger counselling decision."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Bhopal"
+    subtitle="If the city search began as a trust shortcut, the next question is whether online guidance gives you a clearer, more practical next move than defaulting to whoever simply happens to be nearby."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Bhopal"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Career counselling here is not about one isolated decision. It is about building a high-value skill portfolio that keeps unlocking high income opportunities whether your path runs through heavy engineering, state administration, or somewhere else entirely."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #engineering-economy,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

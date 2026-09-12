@@ -98,6 +98,18 @@ export const BOFU_INTERNAL_LINKS = {
     '/services/career-counselling-and-career-guidance/locations/career-counselling-in-pitampura/',
   psychometricTestCounselling:
     '/services/career-counselling-and-career-guidance/career-counselling-psychometric-test/',
+  lucknowCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-lucknow/',
+  jaipurCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-jaipur/',
+  bhopalCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-bhopal/',
+  mumbaiAfter10thCounselling:
+    '/services/career-counselling-and-career-guidance/career-counselling-in-mumbai-after-10th/',
+  bdsGraduatesCounselling:
+    '/services/career-counselling-and-career-guidance/career-counselling-for-bds-graduates/',
+  studyAbroadCounselling:
+    '/services/career-counselling-and-career-guidance/career-counselling-for-study-abroad/',
   assessments: '/services/assessments/',
   careerGuidance: '/services/career-counselling-and-career-guidance/career-guidance/',
   careerCounselling:
@@ -242,6 +254,18 @@ export const BOFU_PUBLIC_LINKS = {
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-pitampura/',
   psychometricTestCounselling:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-psychometric-test/',
+  lucknowCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-lucknow/',
+  jaipurCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-jaipur/',
+  bhopalCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-bhopal/',
+  mumbaiAfter10thCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-in-mumbai-after-10th/',
+  bdsGraduatesCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-bds-graduates/',
+  studyAbroadCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-study-abroad/',
   assessments: 'https://futurecareerschool.com/services/assessments/',
   careerGuidance:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance/',

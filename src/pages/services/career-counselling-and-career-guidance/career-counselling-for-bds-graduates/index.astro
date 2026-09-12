@@ -1,0 +1,430 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../components/bofu/BofuListCardSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_INTERNAL_LINKS } from '../../../../config/bofu';
+
+const title =
+  'Career Counselling for BDS Graduates | NEET-MDS, Practice & Abroad | Future Career School';
+const description =
+  'Career counselling for BDS graduates weighing a NEET-MDS specialization attempt, setting up or joining a private clinical practice, an abroad dental-licensing route, or a non-clinical healthcare pivot.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-bds-graduates/';
+
+const comparisonRows = [
+  {
+    left: 'Assuming a BDS degree alone guarantees a stable clinical income',
+    right: 'Building a realistic specialization, practice, or pivot plan on top of the degree',
+  },
+  {
+    left: 'Repeated, unplanned NEET-MDS attempts with no backup direction',
+    right: 'A structured NEET-MDS attempt-and-backup plan with a genuine income runway',
+  },
+  {
+    left: 'Paid outdated impractical assessments with weak practical value',
+    right: 'Free updated practical AI-powered career and skill assessments',
+  },
+  {
+    left: 'Generic low-paying path advice that limits growth',
+    right: 'Higher-value skill direction with clearer income-growth logic',
+  },
+];
+
+const fitItems = [
+  {
+    eyebrow: 'NEET-MDS specialization',
+    title: 'Deciding whether to keep attempting NEET-MDS or move on from it',
+    body: 'When limited government MDS seats and heavy competition make a specialization attempt feel like an open-ended, multi-year commitment with no clear stopping point.',
+  },
+  {
+    eyebrow: 'Practice setup',
+    title: 'Private practice, clinic ownership, or joining an existing clinic first',
+    body: "When the real question is whether to invest in setting up your own clinical practice now, build experience and referrals inside someone else's clinic first, or join a corporate dental chain.",
+  },
+  {
+    eyebrow: 'Abroad licensing route',
+    title: 'Weighing a US, UK, Australia, or Canada dental-licensing exam route',
+    body: "When an abroad licensing exam route (such as the US, UK, Australian, or Canadian dental-registration pathways) looks attractive on paper, but the cost, timeline, and re-qualification requirements have not been mapped honestly.",
+  },
+  {
+    eyebrow: 'Non-clinical pivot',
+    title: 'Considering a non-clinical healthcare, dental-industry, or healthtech role',
+    body: 'When clinical practice does not feel like the right long-term fit, and roles in dental-product companies, insurance, healthtech, or dental education and training start to look like genuine alternatives.',
+  },
+];
+
+const decisionItems = [
+  {
+    eyebrow: 'NEET-MDS reality check',
+    title: 'Whether to keep attempting NEET-MDS, and for how long',
+    listItems: [
+      'An honest look at your realistic chances given attempt history, preparation time, and the specific specialization you are targeting',
+      'What a genuine backup plan looks like if a government MDS seat does not come through in a reasonable number of attempts',
+      'Whether a private MDS seat, given its cost, is worth it for your specific specialization and career goals',
+    ],
+  },
+  {
+    eyebrow: 'Practice-path choice',
+    title: 'Building a genuine income plan around clinical practice',
+    listItems: [
+      'What it actually takes to set up or buy into a clinical practice, including realistic patient-building timelines in your specific location',
+      'Whether joining an established clinic or a corporate dental chain first builds more transferable experience and referral base than starting solo too early',
+      'How to compare the income and growth trajectory of solo practice, partnership, and corporate-chain employment honestly',
+    ],
+  },
+  {
+    eyebrow: 'Abroad-route reality check',
+    title: 'Mapping the real cost, timeline, and requirements of an abroad licensing route',
+    listItems: [
+      'What the specific exam, re-qualification, and visa requirements actually are for your target country, not a generic "go abroad" assumption',
+      'A realistic multi-year timeline and cost estimate, including exam attempts and any required bridging coursework',
+      'Whether the same effort and cost could build a stronger outcome through an Indian specialization or practice path instead',
+    ],
+  },
+  {
+    eyebrow: 'Non-clinical pivot',
+    title: 'Evaluating a genuine non-clinical or dental-industry pivot',
+    listItems: [
+      'Which non-clinical roles (dental-product companies, insurance, healthtech, education and training) actually use a BDS background well',
+      'What additional certification or business-side skill-building a credible pivot requires',
+      'How to weigh the income and growth trajectory of a pivot honestly against staying in clinical practice',
+    ],
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether NEET-MDS gets an honest, structured answer',
+    body: 'Good guidance should help you plan a realistic NEET-MDS attempt-and-backup timeline based on your actual preparation and attempt history, not treat repeated attempts as a guaranteed outcome.',
+  },
+  {
+    title: 'Check whether the practice-setup decision gets real financial grounding',
+    body: 'Setting up a clinic is a genuine business decision, not just a clinical one. Guidance should engage with realistic patient-building timelines, costs, and the solo-versus-corporate-chain comparison, not a generic "start your own clinic" push.',
+  },
+  {
+    title: 'Check whether an abroad-licensing route gets mapped honestly, not oversold',
+    body: 'An abroad dental-licensing route involves real exam, re-qualification, and visa requirements specific to each country. Guidance should map this honestly, including realistic cost and timeline, rather than presenting it as a simple or guaranteed path.',
+  },
+  {
+    title: 'Check whether a non-clinical pivot is treated as a real, evaluable option',
+    body: 'If every conversation defaults straight back to clinical practice, that is not full guidance for someone genuinely weighing a dental-industry, healthtech, or education-and-training pivot.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Should I keep attempting NEET-MDS or move on to practice?',
+    answer:
+      'That depends on your realistic chances given attempt history and preparation time, and on whether a genuine backup income plan exists if a government seat does not come through. Guidance should help you set a realistic attempt limit and backup plan rather than an open-ended commitment.',
+  },
+  {
+    question: 'Is a private MDS seat worth the cost compared to attempting NEET-MDS again?',
+    answer:
+      'It depends on the specific specialization, the private seat cost, and your realistic income trajectory with and without it. Guidance should help you run this comparison honestly for your specific situation rather than giving a blanket yes or no.',
+  },
+  {
+    question: 'Should I start my own clinic right after BDS, or gain experience first?',
+    answer:
+      'Starting solo too early, before building patient trust, referrals, and business know-how, is a common and costly mistake. Guidance should help you weigh joining an established clinic or a corporate dental chain first against starting your own practice immediately, based on your specific financial runway and risk tolerance.',
+  },
+  {
+    question: 'Is an abroad dental-licensing route (US, UK, Australia, Canada) realistic for me?',
+    answer:
+      'That depends on the specific country’s exam, re-qualification, and visa requirements, your finances, and your realistic timeline, often several years. Guidance should map this honestly for your target country rather than treating "go abroad" as a simple, guaranteed upgrade.',
+  },
+  {
+    question: 'Can a BDS graduate move into a non-clinical role like healthtech, dental products, or insurance?',
+    answer:
+      'Yes, and it can be a genuinely strong option for the right person, but it usually needs some additional business, product, or certification-based skill-building on top of the BDS degree. Guidance should help you evaluate specific non-clinical roles honestly against staying in clinical practice.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. As context, Future Career School also offers free, updated, practical, AI-powered career and skill assessments if you want a lower-pressure starting signal before a bigger counselling decision.',
+  },
+  {
+    question: 'Is this available online, or do I need to be based in a specific city?',
+    answer:
+      'Guidance is delivered fully online across India, so you can work with a counsellor from home, your current clinic, or wherever you are, without depending on a local office or taking time off during clinic hours.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'Get broader help with skill, role, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.workingProfessionals,
+    title: 'Working Professional Career Guidance',
+    description: 'A wider working-professional guidance page covering stagnation, pivots, and salary-growth decisions across any industry.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-for-freshers/',
+    title: 'Career Counselling for Freshers',
+    description: 'Useful if your bigger question is closer to the first-role stage in general, beyond the dentistry-specific decisions here.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description: 'Free input on strengths, work style, and role fit before committing to a specialization attempt, a practice path, or a pivot.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Counselling for BDS Graduates',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling for BDS Graduates | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Counselling for BDS Graduates',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling for BDS Graduates</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career counselling for BDS graduates weighing NEET-MDS, practice, abroad routes, and pivots
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling for BDS graduates
+        <span class="gold-text"> when NEET-MDS, practice setup, or an abroad route feels like the real decision</span>
+      </h1>
+      <p class="hero-sub">
+        Career counselling for BDS graduates should deal with the decisions your degree actually left you with: whether to keep attempting NEET-MDS or move toward practice, how to set up or join a clinical practice with a realistic income timeline, whether an abroad dental-licensing route genuinely makes sense given its real cost and requirements, or whether a non-clinical dental-industry, healthtech, or education pivot fits better. The goal is a high-value skill portfolio built on an honest read of your situation, aimed at unlocking high income opportunities and earlier financial freedom, not a generic "get an MDS" or "go abroad" answer.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online, so you can work with a counsellor from home or your current clinic without taking time away from clinical hours.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Counselling for BDS Graduates</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career counselling for BDS graduates becomes useful"
+    subtitle="It becomes useful right as the NEET-MDS, practice-setup, abroad-route, or pivot decision starts to feel real, because the sooner your direction is right, the sooner a high-value skill portfolio starts compounding toward unlocking high income opportunities and earlier financial freedom, instead of drifting through repeated exam attempts or an underplanned practice launch."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Make the NEET-MDS, practice, or abroad-route call clearer before another attempt cycle passes"
+    body="The earlier your direction is right, the sooner a high-value skill portfolio starts working for you, whether that is specialization, practice, or a genuine pivot."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for BDS Graduates"
+  />
+
+  <BofuListCardSection
+    sectionId="decisions"
+    title="The BDS-specific decisions this should help you make"
+    subtitle="Not generic postgraduate career advice. Direction for the exact choices BDS graduates actually face after the degree is done."
+    items={decisionItems}
+    variant="contrast"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free career and skill assessments can help you see your actual strengths and work style before deciding between a NEET-MDS attempt, a practice launch, an abroad route, or a non-clinical pivot."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuListCardSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when BDS-graduate career counselling is done right"
+    subtitle="Career counselling for BDS graduates should feel different from a generic postgraduate pep talk or a coaching-centre script pushing NEET-MDS."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career counselling for BDS graduates"
+    subtitle="The goal is a clearer NEET-MDS, practice, abroad-route, or pivot decision, not a generic pitch recycled for every postgraduate."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="professional"
+    title="Do not let an open-ended NEET-MDS attempt or an underplanned practice launch make the next call for you"
+    body="A clearer specialization, practice, abroad-route, or pivot decision now protects the years where skill compounding and income growth matter most after BDS."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for BDS Graduates"
+  />
+
+  <GuidancePlansSection
+    audience="professional"
+    serviceLabel="Career Counselling"
+    title="Career Counselling for BDS Graduates Plans"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See broader guidance and free assessments before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions BDS graduates ask before choosing career counselling"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="professional"
+    title="Take the NEET-MDS, practice, abroad-route, or pivot decision seriously before it gets more expensive"
+    subtitle="If an open-ended NEET-MDS attempt, an underplanned practice launch, or an unclear abroad route already feels important, move with stronger direction now toward a high-value skill portfolio built for unlocking high income opportunities and earlier financial freedom, instead of letting another attempt cycle decide for you."
+    professionalHref="#plans"
+    professionalLabel="Get Career Counselling for BDS Graduates"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #decisions,
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #check-before-paying,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>
