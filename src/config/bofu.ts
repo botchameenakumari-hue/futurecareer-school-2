@@ -68,6 +68,36 @@ export const BOFU_INTERNAL_LINKS = {
     '/services/career-counselling-and-career-guidance/locations/career-counselling-in-kanpur/',
   goaCounselling:
     '/services/career-counselling-and-career-guidance/locations/career-counselling-in-goa/',
+  agraCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-agra/',
+  greaterNoidaCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-greater-noida/',
+  jalgaonCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-jalgaon/',
+  kalyanCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-kalyan/',
+  kotaCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-kota/',
+  panchkulaCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-panchkula/',
+  trivandrumCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-trivandrum/',
+  jabalpurCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-jabalpur/',
+  delhiAfter10thCounselling:
+    '/services/career-counselling-and-career-guidance/career-counselling-in-delhi-after-10th/',
+  chemburCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-chembur/',
+  dadarCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-dadar/',
+  kandivaliCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-kandivali/',
+  paschimViharCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-paschim-vihar/',
+  pitampuraCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-pitampura/',
+  psychometricTestCounselling:
+    '/services/career-counselling-and-career-guidance/career-counselling-psychometric-test/',
   assessments: '/services/assessments/',
   careerGuidance: '/services/career-counselling-and-career-guidance/career-guidance/',
   careerCounselling:
@@ -182,6 +212,36 @@ export const BOFU_PUBLIC_LINKS = {
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kanpur/',
   goaCounselling:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-goa/',
+  agraCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-agra/',
+  greaterNoidaCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-greater-noida/',
+  jalgaonCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-jalgaon/',
+  kalyanCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kalyan/',
+  kotaCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kota/',
+  panchkulaCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-panchkula/',
+  trivandrumCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-trivandrum/',
+  jabalpurCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-jabalpur/',
+  delhiAfter10thCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-in-delhi-after-10th/',
+  chemburCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-chembur/',
+  dadarCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-dadar/',
+  kandivaliCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kandivali/',
+  paschimViharCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-paschim-vihar/',
+  pitampuraCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-pitampura/',
+  psychometricTestCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-psychometric-test/',
   assessments: 'https://futurecareerschool.com/services/assessments/',
   careerGuidance:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance/',

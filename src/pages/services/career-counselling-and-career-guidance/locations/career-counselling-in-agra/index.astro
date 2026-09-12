@@ -1,0 +1,641 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Follow-up pass correction: the {1,4} two-row drop originally used here is
+// already Ludhiana's exact combination. Every one of the 15 possible two-row
+// drop combinations from this 6-row library is already claimed by an
+// existing sibling page, so this page instead uses an unused three-row drop
+// (0, 2, 5), keeping rows 1, 3, and 4 - the ones most relevant to the
+// tourism-vs-leather-manufacturing fork this page argues.
+const agraComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 0 && index !== 2 && index !== 5,
+);
+
+const title =
+  'Career Counselling in Agra | Practical Online Guidance | Future Career School';
+const description =
+  'Career counselling in Agra for students, freshers, and working professionals weighing the tourism and hospitality economy, the leather and footwear export trade, or a formal skill-based career.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-agra/';
+
+const fitItems = [
+  {
+    title: 'What you actually need right now',
+    listItems: [
+      'You want support that feels easier to trust and easier to start.',
+      'You want clarity before committing to a tourism-linked job, a family leather-trade business, or a formal degree path.',
+      "You want something more practical than a relative's opinion or a WhatsApp forward about which government exam to attempt.",
+      'You want a real next step toward a high-value skill portfolio, not only motivational talk.',
+    ],
+  },
+  {
+    title: 'What should matter more than city alone',
+    listItems: [
+      'Whether the guidance improves decision quality',
+      'Whether the next step becomes clearer and easier to act on',
+      'Whether the process helps you move toward earlier financial freedom instead of a default path',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Closer should still mean clearer',
+    body: 'Searching locally is useful only if it leads to better decision support, not just physical proximity.',
+  },
+  {
+    title: 'Quality before convenience',
+    body: 'The better filter is whether the guidance improves your next move, not whether an office happens to be nearby.',
+  },
+  {
+    title: 'Act before the wrong turn compounds',
+    body: 'The practical goal is to get clear before more time and effort go into the wrong path, and to start building the high-value skill portfolio that keeps unlocking high income opportunities and moves you toward earlier financial freedom.',
+  },
+];
+
+const tourismEconomyItems = [
+  {
+    title: "Few Indian cities run this directly on one monument economy",
+    body: "The Taj Mahal, Agra Fort, and Fatehpur Sikri together draw one of the highest tourist footfalls of any Indian city, and a large share of Agra's formal and informal employment sits inside that single tourism engine - licensed and unlicensed guiding, hotel and hospitality operations, travel and tour operating, transport, and monument-adjacent retail. That creates a career fork a generic guidance page never addresses: whether to build formally toward tourism and hospitality management, travel operations, or heritage-conservation work, or to treat the tourism economy as background and build a different skill path entirely.",
+  },
+  {
+    title: 'Licensed guiding and hospitality still need real qualification, not just local knowledge',
+    body: "Government-approved tourist guide licensing (through the Ministry of Tourism or state tourism boards), hotel management diplomas, and formal travel-and-tourism degrees carry real weight over informal guiding, which faces growing competition and pricing pressure from unregulated operators. Building a genuine qualification and skill layer on top of local monument knowledge, rather than assuming familiarity with the Taj Mahal area is enough on its own, is what actually moves someone toward earlier financial freedom from here.",
+  },
+];
+
+const tourismSummaryItems = [
+  {
+    title: 'This is not the same fork as Jaipur or Varanasi',
+    body: "Agra's tourism economy is narrower and more concentrated around three monuments than Jaipur's broader heritage-and-retail tourism or Varanasi's pilgrimage economy - it deserves its own specific answer.",
+  },
+];
+
+const leatherTradeItems = [
+  {
+    title: 'The leather and footwear trade: a real export economy under real pressure',
+    listItems: [
+      "Agra is one of India's largest footwear and leather-goods manufacturing and export clusters, with thousands of small and medium units alongside larger exporters",
+      'Family-run tanneries, footwear units, and leather-goods workshops pass skill down informally rather than through formal training',
+      'Environmental regulation, automation, and international buyer compliance standards are reshaping which units survive and which shrink',
+      'Many young people from trade families are weighing whether to continue in manufacturing, move into design and export-facing roles, or leave the trade for a different skill path',
+    ],
+  },
+  {
+    title: 'What a skill-first path can add to the same trade',
+    listItems: [
+      'Footwear design, product development, and merchandising skills can move a family unit from pure contract manufacturing toward higher-margin branded or export-direct work',
+      'Export documentation, international compliance, and quality-certification knowledge open buyers a purely manufacturing-focused unit cannot reach',
+      'Digital marketing and direct-to-consumer selling skills matter here as much as in any craft-based economy',
+      'For those leaving the trade, the same high-value skill portfolio logic applies as anywhere else: proof of work, market positioning, and a deliberate skill choice rather than a default',
+    ],
+  },
+];
+
+const leatherSummaryItems = [
+  {
+    title: 'Tradition versus modern career is a real tension here, not a talking point',
+    body: 'The honest answer is rarely "leave the trade" or "only the trade." It is usually a specific choice between modernising the same manufacturing base with new skills, or building a different high-value skill path while the family business continues in the background.',
+  },
+];
+
+const areaItems = [
+  {
+    title: 'The Taj Ganj and monument belt carries the tourism and hospitality economy',
+    body: 'The area around Taj Ganj, Fatehabad Road, and the monument circuit carries the hotel, guiding, and tour-operating economy described above, alongside a dense cluster of tourist-facing retail and handicraft sales.',
+  },
+  {
+    title: 'Agra Cantonment and the leather clusters carry the manufacturing and export economy',
+    body: "Areas such as Hing Ki Mandi, Nunhai, and the industrial pockets around the Agra-Delhi corridor host much of the leather-goods and footwear manufacturing base, alongside a growing number of formal export-oriented units near the Kanpur road and the Agra-Lucknow expressway corridor.",
+  },
+  {
+    title: 'Sadar Bazar and Sanjay Place carry the trading, retail, and services core',
+    body: "The commercial belt around Sadar Bazar and Sanjay Place holds much of the city's trading, retail, and professional-services activity, alongside Dr. Bhimrao Ambedkar University's academic base - the civic and educational core a purely tourism-or-manufacturing reading of Agra misses.",
+  },
+];
+
+const cityDecisionItems = [
+  {
+    title: 'Choose local-first support when trust is the real blocker',
+    listItems: [
+      'You are more likely to act if the search feels closer and easier to trust',
+      'You want to weigh a tourism-linked, leather-trade, or formal-skill option before deciding',
+      'You need one practical next step, not a full career-theory discussion first',
+      'You are using the city search to reduce hesitation, not because the city itself resolves the decision',
+    ],
+  },
+  {
+    title: 'Choose broader guidance when the decision itself is the bigger problem',
+    listItems: [
+      'You are stuck between multiple paths or skill directions',
+      'Family pressure or trade ties matter more than local wording',
+      'You already know the help can happen online and want the strongest decision support',
+      'You need deeper clarity on risk, growth, proof of work, and long-term direction',
+    ],
+  },
+];
+
+const cityDecisionSummaryItems = [
+  {
+    title: 'Use the city label as a trust shortcut',
+    body: 'That search can be useful if it helps you start. It is not the final filter.',
+  },
+  {
+    title: 'Let decision quality decide the next step',
+    body: 'The stronger route is the one that makes the next move clearer, smaller, and easier to act on.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the real decision creating pressure right now',
+    listItems: [
+      'Whether a tourism, hospitality, or heritage-linked path fits your actual strengths',
+      'Whether continuing or modernising a family leather-trade business beats a formal salaried path',
+      'What your income trajectory looks like on the current path over the next few years',
+      'Which expensive wrong turn is most urgent to stop repeating right now',
+    ],
+  },
+  {
+    title: "Skill direction tied to Agra's actual economy",
+    listItems: [
+      'Tourism, hospitality, or heritage-management skills if that base fits your situation',
+      'Design, export, and digital-selling skills if a family leather or footwear business is part of the picture',
+      'A different high-value skill path if neither local economy fits your strengths',
+      'A clearer route toward earlier financial freedom from your actual starting point',
+    ],
+  },
+  {
+    title: 'A lower-friction way to start moving',
+    listItems: [
+      'Online guidance accessible across India with no local-access dependence',
+      'A realistic career target and the clearest path to reach it from where you are now',
+      'One concrete next step instead of a theory discussion you still have to decode yourself',
+    ],
+  },
+];
+
+const onlineAdvantageItems = [
+  {
+    title: 'You can start from home, college, workshop, or workplace',
+    body: 'Career counselling is available online in Agra and across India. That means the decision does not have to wait for a nearby office or one local slot opening up. The useful filter is whether the guidance improves the next move enough to matter.',
+  },
+  {
+    title: 'Online guidance can sit alongside family and trade conversations, not compete with them',
+    body: 'When a family leather-trade business or a tourism-linked family income is part of the picture, the harder conversations often need to include family. Online sessions make it easier to include that context and join from wherever you already are.',
+  },
+  {
+    title: 'The stronger comparison is not nearby versus far away - it is generic versus genuinely useful',
+    body: 'A nearby or local-sounding option can still leave you with generic advice that ignores the tourism or trade context you are actually weighing. The better filter is whether the guidance gives you stronger skill direction, proof-of-work thinking, and a more practical next step.',
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'Should I build a career in tourism and hospitality, or is that too dependent on tourist footfall?',
+    body: 'That depends on which role, what qualification backs it, and how the role is positioned - licensed guiding, hotel management, and travel operations carry different risk and growth profiles than informal, footfall-dependent work. Formal qualification and a clear skill plan matter more than the sector label alone.',
+  },
+  {
+    title: 'My family runs a leather or footwear unit - should I continue it, modernise it, or leave it for a salaried job?',
+    body: 'This is rarely all-or-nothing. Many trade families are better served by adding design, export, or digital-selling skill on top of the existing business than by abandoning it outright, and for some a separate salaried skill path is genuinely the stronger route. The honest answer depends on the unit\'s real margins and your own fit.',
+  },
+  {
+    title: 'I am worried about wasting more time before choosing a direction',
+    body: 'That is usually the best reason to act now. In a city where tourism work, a family trade business, and a conventional skill path can all look equally "safe" from the outside, getting clear before another year passes is exactly when counselling has the highest return.',
+  },
+];
+
+const prepItems = [
+  {
+    title: 'The real decision you need to solve first',
+    body: 'Bring the actual question creating pressure right now, whether that is a tourism-linked role, a family trade decision, stream confusion, or income growth.',
+  },
+  {
+    title: 'The serious options you are already considering',
+    body: 'Write down the two to four routes you are actually comparing. Stronger counselling happens when the real trade-offs are visible from the start.',
+  },
+  {
+    title: 'What feels risky, delayed, or expensive',
+    body: 'Be clear about what you do not want to repeat: a wrong stream, a family-pressure default, a shrinking trade with no skill upgrade, or more time wasted in confusion.',
+  },
+  {
+    title: 'The constraints that cannot be ignored',
+    body: 'Include budget, family expectations, trade or business ties, and location limits early so the guidance stays practical instead of idealised.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Agra's tourism and trade economy",
+    body: 'Licensed guiding, hospitality qualification, and the leather-export trade are real local employers with their own skill requirements. Good guidance should engage with that base seriously instead of a generic mention.',
+  },
+  {
+    title: 'Check whether a family trade is treated as an asset, not dismissed',
+    body: 'A leather or footwear workshop, or a tourism-linked family income, is a real starting asset, not a problem to escape by default. Better guidance should show what modernising or building on it can look like, alongside the option to build a different skill path.',
+  },
+  {
+    title: 'Check whether the next move fits your Agra reality realistically',
+    body: 'Good guidance for Agra should be realistic about family and trade ties, and what skill-building genuinely works whether you stay close to the family base or build something new.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See other city guidance options if you want to compare before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.kanpurCounselling,
+    title: 'Career Counselling in Kanpur',
+    description: "See Kanpur's page if a leather-and-manufacturing fork is closer to your actual situation.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'See the online page if easier access across India matters more than city-based search wording.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'See the main guidance page if the bigger issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Agra instead of only looking for a nearby offline office?',
+    answer:
+      "Because proximity alone does not improve the decision. Online guidance lets you start from home, college, a workshop, or work without waiting for local availability, and the stronger comparison is whether the support gives you clearer trade-offs, stronger skill direction, and a more practical next step.",
+  },
+  {
+    question: 'Can career counselling actually help with a decision about tourism and hospitality work?',
+    answer:
+      'Yes. That decision benefits from the same structured thinking as any other career fork - what qualification the specific role actually needs, what the real growth path looks like, and whether it fits your strengths, not only whether tourism is the obvious local option.',
+  },
+  {
+    question: 'My family has a leather or footwear business. Should counselling assume I have to leave it?',
+    answer:
+      'No. Good counselling should treat an existing family trade business as a real asset and explore modernising it with design, export, or digital-selling skills, alongside the honest option of building a separate skill path if that genuinely fits better.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. As context, Future Career School also offers free, updated, practical, AI-powered career and skill assessments if you want a lower-pressure starting signal before a bigger counselling decision.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Agra?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Agra users.',
+  },
+  {
+    question: 'Do you guarantee a job?',
+    answer:
+      'No ethical provider can guarantee a job. The practical goal is better decision quality, stronger skill direction, and a clearer path forward.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Agra',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Agra | Future Career School',
+    description:
+      'Career counselling in Agra for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, and better income-growth direction.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'City', name: 'Agra' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Agra</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Agra
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Agra
+        <span class="gold-text"> for practical clarity and stronger next steps</span>
+      </h1>
+      <p class="hero-sub">
+        Agra hands many people a genuinely different fork than most Indian cities: a tourism and hospitality economy built almost entirely around the Taj Mahal, Agra Fort, and Fatehpur Sikri, alongside one of India's largest leather and footwear manufacturing and export clusters. Most career advice available online is written for a single generic city and misses both. If you are at a real decision point, the goal is getting clear before more time goes the wrong way, and building the kind of high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Agra and across India. You can start from home, college, a family workshop, or work - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Agra. It is whether the guidance improves the next move enough to matter.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Agra search already reflects a serious decision, move before more time goes into the wrong direction"
+    body="Use this when you want stronger guidance now, not another round of delay while the decision keeps getting more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="tourism-economy"
+    title="The Taj Mahal tourism economy is Agra's real, genuinely unique fork"
+    subtitle="No other Indian city sibling runs on this concentrated a monument economy - it deserves a specific answer, not a generic tourism mention."
+    items={tourismEconomyItems}
+    variant="decision"
+  >
+    <BofuSummaryStrip items={tourismSummaryItems} variant="neutral" />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="leather-trade"
+    title="The leather and footwear trade: a real manufacturing-versus-modern-career tension"
+    subtitle="A large export manufacturing economy under real pressure, and a genuine choice between modernising the trade and building a different skill path."
+    items={leatherTradeItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={leatherSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="agra-areas"
+    title="Agra's areas point to different real decisions"
+    subtitle="A useful local page should feel grounded in how people actually live and work across Agra, not treat it as one flat generic location."
+    items={areaItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="city-page-vs-broader-guidance"
+    title="Choose the stronger starting point for your situation"
+    subtitle="For some people, local, Agra-specific support is the easiest way to start. For others, broader guidance across paths and skills is the better fit because the decision itself is already the bigger issue."
+    items={cityDecisionItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={cityDecisionSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In a city where tourism work, a family trade business, and a conventional skill path can each look like the obvious default, the risk is advice that ignores where you actually are. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={agraComparisonRows}
+  />
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="As context, if you are still early and not ready for guidance yet, the free assessments can help surface strengths, preferences, and work style before a bigger counselling decision."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Agra"
+    subtitle="If the city search began as a trust shortcut, the next question is whether online guidance gives you a clearer, more practical next move than defaulting to whoever simply happens to be nearby."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Agra"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Career counselling here is not about one isolated decision. It is about building a high-value skill portfolio that keeps unlocking high income opportunities whether your path runs through tourism, the leather trade, or somewhere else entirely."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #tourism-economy,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

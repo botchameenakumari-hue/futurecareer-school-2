@@ -1,0 +1,640 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Follow-up-checked: all 15 two-row drops are already claimed by existing
+// siblings (see the tracking note in career-counselling-in-agra/index.astro).
+// This page uses the unused three-row drop (1, 2, 5), keeping rows 0, 3, and
+// 4 - the rows most relevant to the sports-pathway-vs-Tricity-office fork
+// below. Verified against every sibling file before publishing.
+const panchkulaComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 1 && index !== 2 && index !== 5,
+);
+
+const title =
+  'Career Counselling in Panchkula | Practical Online Guidance | Future Career School';
+const description =
+  'Career counselling in Panchkula for students, freshers, and working professionals weighing a sports-career pathway built on the city’s national-games sporting infrastructure against a Tricity office career or the Mansa Devi-Kalka pilgrimage and hill-tourism economy.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-panchkula/';
+
+const fitItems = [
+  {
+    title: 'What you actually need right now',
+    listItems: [
+      'You want support that feels easier to trust and easier to start.',
+      'You want clarity before committing years to a sports-academy pathway, a Tricity office career, or a tourism-and-pilgrimage-linked business.',
+      "You want something more practical than a relative's opinion or a generic Chandigarh-Tricity career article that ignores Panchkula's own base.",
+      'You want a real next step toward a high-value skill portfolio, not only motivational talk.',
+    ],
+  },
+  {
+    title: 'What should matter more than city alone',
+    listItems: [
+      'Whether the guidance improves decision quality',
+      'Whether the next step becomes clearer and easier to act on',
+      'Whether the process helps you move toward earlier financial freedom instead of a default path',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Closer should still mean clearer',
+    body: 'Searching locally is useful only if it leads to better decision support, not just physical proximity.',
+  },
+  {
+    title: 'Quality before convenience',
+    body: 'The better filter is whether the guidance improves your next move, not whether an office happens to be nearby.',
+  },
+  {
+    title: 'Act before the wrong turn compounds',
+    body: 'The practical goal is to get clear before more time and effort go into the wrong path, and to start building the high-value skill portfolio that keeps unlocking high income opportunities and moves you toward earlier financial freedom.',
+  },
+];
+
+const sportsPathwayItems = [
+  {
+    title: "Panchkula runs a genuinely unique economy: a national-games-grade sports infrastructure base",
+    body: "Panchkula built out serious sporting infrastructure, including the Tau Devi Lal Stadium complex, around hosting the National Games, and it has continued running sports nurseries and academy-style training in athletics, hockey, and other disciplines since. That creates a specific career fork a generic guidance page never addresses: whether to pursue a genuine sports-career pathway through this infrastructure, or treat sport as a strong extracurricular base while building a different primary skill path.",
+  },
+  {
+    title: 'A real sports career needs a real plan, not just access to facilities',
+    body: "Access to good stadiums and coaching does not by itself make a sports career viable - it needs an honest look at competitive level, age-appropriate windows, and a genuine backup skill plan alongside the sporting one. Building both a sporting pathway and a parallel academic or skill plan, rather than betting everything on one, is what actually protects long-term income potential.",
+  },
+];
+
+const sportsPathwaySummaryItems = [
+  {
+    title: 'This is not the same fork as Chandigarh',
+    body: "Chandigarh's page covers the government-secretariat default, a defence-services tradition, and the pull to study or settle abroad. Panchkula's sports-infrastructure base and pilgrimage-tourism economy are a different local story, even within the same Tricity.",
+  },
+];
+
+const tricityTourismItems = [
+  {
+    title: 'A second, genuinely distinct economy: Tricity office work alongside pilgrimage and hill-tourism',
+    listItems: [
+      'Panchkula functions as a sector-planned satellite of the Chandigarh Tricity, with a growing IT-and-services office economy alongside government-office spillover from Chandigarh',
+      'The Mata Mansa Devi temple complex draws a genuine, steady pilgrimage-tourism footfall, supporting hospitality, transport, and small-business activity around it',
+      'Panchkula also sits on the route toward Pinjore and Kalka, the gateway town for the Kalka-Shimla hill route, adding a further hill-tourism and travel-services layer',
+      'Many local families weigh a stable Tricity office job against a family business built around pilgrimage or tourism footfall, or against continuing a sports-linked path',
+    ],
+  },
+  {
+    title: 'What a skill-first path can add to either economy',
+    listItems: [
+      'IT, ITES, or general office-skill certifications matter for the Tricity job market as much as anywhere else in Chandigarh, Mohali, or Panchkula itself',
+      'Hospitality, event-management, and small-business skills can strengthen a pilgrimage- or tourism-linked family business considerably',
+      'Sports-science, coaching, or sports-management qualifications can extend a sporting interest into a stable career even without reaching elite competitive level',
+      'For those choosing an unrelated path, the same high-value skill portfolio logic applies as anywhere else: proof of work, market positioning, and a deliberate skill choice rather than a default',
+    ],
+  },
+];
+
+const tricityTourismSummaryItems = [
+  {
+    title: 'Three real local threads, one decision',
+    body: 'A sports-career pathway, Tricity office work, and the pilgrimage-and-hill-tourism economy coexist in Panchkula without overlapping much - the useful question is which one, if any, actually fits your situation.',
+  },
+];
+
+const areaItems = [
+  {
+    title: 'The stadium sector carries the sports-training and academy economy',
+    body: 'The Tau Devi Lal Stadium complex and its surrounding sectors carry the sports-nursery and academy-training economy described above.',
+  },
+  {
+    title: 'The planned office sectors carry the Tricity job-market economy',
+    body: "Panchkula's own developing sectors, alongside easy access to Chandigarh and Mohali, carry the IT, ITES, and government-office job market many residents rely on.",
+  },
+  {
+    title: 'Mansa Devi Complex and the Kalka route carry the pilgrimage and hill-tourism economy',
+    body: 'The Mata Mansa Devi temple complex and the road toward Pinjore and Kalka carry the pilgrimage-footfall and hill-tourism-gateway economy.',
+  },
+];
+
+const cityDecisionItems = [
+  {
+    title: 'Choose local-first support when trust is the real blocker',
+    listItems: [
+      'You are more likely to act if the search feels closer and easier to trust',
+      'You want to weigh a sports pathway, a Tricity office career, or a tourism-linked business before deciding',
+      'You need one practical next step, not a full career-theory discussion first',
+      'You are using the city search to reduce hesitation, not because the city itself resolves the decision',
+    ],
+  },
+  {
+    title: 'Choose broader guidance when the decision itself is the bigger problem',
+    listItems: [
+      'You are stuck between multiple paths or skill directions',
+      'A sports-career timeline or family tourism business matters more than local wording',
+      'You already know the help can happen online and want the strongest decision support',
+      'You need deeper clarity on risk, growth, proof of work, and long-term direction',
+    ],
+  },
+];
+
+const cityDecisionSummaryItems = [
+  {
+    title: 'Use the city label as a trust shortcut',
+    body: 'That search can be useful if it helps you start. It is not the final filter.',
+  },
+  {
+    title: 'Let decision quality decide the next step',
+    body: 'The stronger route is the one that makes the next move clearer, smaller, and easier to act on.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the real decision creating pressure right now',
+    listItems: [
+      'Whether a sports-career pathway is genuinely viable at your current level and age window',
+      'Whether a stable Tricity office career fits your strengths better than a sporting or tourism-linked path',
+      'What your income trajectory looks like on the current path over the next few years',
+      'Which expensive wrong turn is most urgent to stop repeating right now',
+    ],
+  },
+  {
+    title: "Skill direction tied to Panchkula's actual economy",
+    listItems: [
+      'Sports-science, coaching, or sports-management skills if a sporting pathway fits your situation',
+      'IT, ITES, or office-ready certifications if the Tricity job market fits your situation better',
+      'Hospitality or small-business skills if a family tourism or pilgrimage-linked business is part of the picture',
+      'A clearer route toward earlier financial freedom from your actual starting point',
+    ],
+  },
+  {
+    title: 'A lower-friction way to start moving',
+    listItems: [
+      'Online guidance accessible across India with no local-access dependence',
+      'A realistic career target and the clearest path to reach it from where you are now',
+      'One concrete next step instead of a theory discussion you still have to decode yourself',
+    ],
+  },
+];
+
+const onlineAdvantageItems = [
+  {
+    title: 'You can start from home, hostel, stadium, or family shop',
+    body: 'Career counselling is available online in Panchkula and across India. That means the decision does not have to wait for a nearby office or one local slot opening up. The useful filter is whether the guidance improves the next move enough to matter.',
+  },
+  {
+    title: 'Online guidance can sit alongside family and coaching-camp conversations, not compete with them',
+    body: 'When a sports-training schedule or a family tourism business is part of the picture, the harder conversations often need to include family or coaches. Online sessions make it easier to include that context and join from wherever you already are.',
+  },
+  {
+    title: 'The stronger comparison is not nearby versus far away - it is generic versus genuinely useful',
+    body: "A nearby or Tricity-wide option can still leave you with generic advice that ignores Panchkula's own sports-infrastructure or pilgrimage-tourism context. The better filter is whether the guidance gives you stronger skill direction, proof-of-work thinking, and a more practical next step.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'I train seriously in a sport through the local academies - should I go all-in or keep a backup plan?',
+    body: 'A genuine sports pathway deserves serious commitment, but an honest look at competitive level and timelines alongside a parallel academic or skill plan protects you either way - it does not need to be all-or-nothing.',
+  },
+  {
+    title: 'My family runs a small business linked to Mansa Devi pilgrimage traffic or the Kalka-Shimla tourist route - is that worth building on?',
+    body: 'Often, yes. Hospitality, event-management, or small-business and digital-marketing skill can meaningfully strengthen a tourism- or pilgrimage-linked business rather than treating it as a fallback.',
+  },
+  {
+    title: 'I am worried about wasting more time before choosing a direction',
+    body: 'That is usually the best reason to act now. In a Tricity town where a sports pathway, an office career, and a tourism-linked business can each look equally reasonable, getting clear before another year passes is exactly when counselling has the highest return.',
+  },
+];
+
+const prepItems = [
+  {
+    title: 'The real decision you need to solve first',
+    body: 'Bring the actual question creating pressure right now, whether that is a sports-career timeline, a Tricity job search, a family tourism business, or income growth.',
+  },
+  {
+    title: 'The serious options you are already considering',
+    body: 'Write down the two to four routes you are actually comparing. Stronger counselling happens when the real trade-offs are visible from the start.',
+  },
+  {
+    title: 'What feels risky, delayed, or expensive',
+    body: 'Be clear about what you do not want to repeat: an over-committed sporting bet with no backup, a family-pressure default, or more time wasted in confusion.',
+  },
+  {
+    title: 'The constraints that cannot be ignored',
+    body: 'Include budget, training schedules, family expectations, and location limits early so the guidance stays practical instead of idealised.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Panchkula's sports-infrastructure base",
+    body: "A genuine sports-training pathway built around Panchkula's stadium facilities is a real, specific local factor. Good guidance should engage with it seriously, including honest timelines and backup planning, not offer a generic mention.",
+  },
+  {
+    title: 'Check whether a family tourism or pilgrimage-linked business is treated as an asset, not dismissed',
+    body: 'A family business built around Mansa Devi pilgrimage traffic or the Kalka-Shimla tourist route is a real starting asset, not a problem to escape by default. Better guidance should show what strengthening it can look like, alongside the option to build a different skill path.',
+  },
+  {
+    title: 'Check whether the next move fits your Panchkula reality realistically',
+    body: 'Good guidance for Panchkula should be realistic about sports-training timelines, Tricity job-market competition, and family tourism-business ties, and what skill-building genuinely works given your specific situation.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See other city guidance options if you want to compare before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.chandigarhCounselling,
+    title: 'Career Counselling in Chandigarh',
+    description: "See Chandigarh's page if the government-secretariat, defence-services, or study-abroad fork is closer to your situation than Panchkula's sports-and-tourism economy.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'See the online page if easier access across India matters more than city-based search wording.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'See the main guidance page if the bigger issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Panchkula instead of only looking for a nearby offline office?',
+    answer:
+      "Because proximity alone does not improve the decision. Online guidance lets you start from home, hostel, or stadium without waiting for local availability, and the stronger comparison is whether the support gives you clearer trade-offs, stronger skill direction, and a more practical next step.",
+  },
+  {
+    question: 'I train at one of the sports academies in Panchkula. Can counselling help me plan around that?',
+    answer:
+      "Yes. Good counselling should treat serious sports training as a real career pathway worth planning around, including an honest look at competitive level and a parallel academic or skill plan, rather than either ignoring it or assuming it is the only option.",
+  },
+  {
+    question: 'My family runs a business linked to Mansa Devi pilgrimage traffic. Should counselling assume I have to leave it?',
+    answer:
+      "No. Good counselling should treat an existing pilgrimage- or tourism-linked family business as a real asset and explore strengthening it with hospitality, event, or digital-marketing skills, alongside the honest option of building a separate skill path if that genuinely fits better.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. As context, Future Career School also offers free, updated, practical, AI-powered career and skill assessments if you want a lower-pressure starting signal before a bigger counselling decision.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Panchkula?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Panchkula users.',
+  },
+  {
+    question: 'Do you guarantee a job or a sports career?',
+    answer:
+      'No ethical provider can guarantee a job or a sporting career. The practical goal is better decision quality, stronger skill direction, and a clearer path forward.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Panchkula',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Panchkula | Future Career School',
+    description:
+      'Career counselling in Panchkula for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, and better income-growth direction.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'City', name: 'Panchkula' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Panchkula</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Panchkula
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Panchkula
+        <span class="gold-text"> for practical clarity and stronger next steps</span>
+      </h1>
+      <p class="hero-sub">
+        Panchkula hands many people a genuinely different fork than most Indian cities: a national-games-grade sports-training infrastructure and academy economy, running alongside a growing Chandigarh-Tricity office job market and a real Mansa Devi pilgrimage and Kalka-Shimla hill-tourism gateway economy. Most career advice available online treats it as a generic Tricity suburb and misses all three. If you are at a real decision point, the goal is getting clear before more time goes the wrong way, and building the kind of high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Panchkula and across India. You can start from home, hostel, stadium, or family shop - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Panchkula. It is whether the guidance improves the next move enough to matter.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Panchkula search already reflects a serious decision, move before more time goes into the wrong direction"
+    body="Use this when you want stronger guidance now, not another round of delay while the decision keeps getting more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="sports-pathway"
+    title="The sports-training infrastructure economy is Panchkula's first real fork"
+    subtitle="No other Indian city sibling runs on this exact national-games sporting base - it deserves a specific answer, not a generic extracurricular mention."
+    items={sportsPathwayItems}
+    variant="decision"
+  >
+    <BofuSummaryStrip items={sportsPathwaySummaryItems} variant="neutral" />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="tricity-tourism"
+    title="Tricity office work and pilgrimage-tourism: two more genuinely different economies"
+    subtitle="Real, distinct local bases under their own pressures, and a genuine choice between them and a sporting pathway."
+    items={tricityTourismItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={tricityTourismSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="panchkula-areas"
+    title="Panchkula's areas point to different real decisions"
+    subtitle="A useful local page should feel grounded in how people actually live and work across Panchkula, not treat it as one flat generic location."
+    items={areaItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="city-page-vs-broader-guidance"
+    title="Choose the stronger starting point for your situation"
+    subtitle="For some people, local, Panchkula-specific support is the easiest way to start. For others, broader guidance across paths and skills is the better fit because the decision itself is already the bigger issue."
+    items={cityDecisionItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={cityDecisionSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In a town where a sports pathway, a Tricity office job, and a tourism-linked business can each look like the obvious default, the risk is advice that ignores where you actually are. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={panchkulaComparisonRows}
+  />
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="As context, if you are still early and not ready for guidance yet, the free assessments can help surface strengths, preferences, and work style before a bigger counselling decision."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Panchkula"
+    subtitle="If the city search began as a trust shortcut, the next question is whether online guidance gives you a clearer, more practical next move than defaulting to whoever simply happens to be nearby."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Panchkula"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Career counselling here is not about one isolated decision. It is about building a high-value skill portfolio that keeps unlocking high income opportunities whether your path runs through sport, a Tricity office career, tourism, or somewhere else entirely."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #sports-pathway,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

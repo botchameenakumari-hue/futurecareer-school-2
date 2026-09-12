@@ -1,0 +1,641 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Follow-up-checked: all single-row, two-row, and most three-row drops from
+// this 6-row library are already claimed by existing siblings (see the
+// tracking note in career-counselling-in-agra/index.astro). This page uses
+// one of the three remaining unused three-row drops - (2, 3, 5), keeping
+// rows 0, 1, and 4 - the rows most relevant to the refinery-trade-vs-BKC-
+// commute fork below. Verified against every sibling file before publishing.
+const chemburComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 2 && index !== 3 && index !== 5,
+);
+
+const title =
+  'Career Counselling in Chembur | Practical Online Guidance | Future Career School';
+const description =
+  "Career counselling in Chembur for students, freshers, and working professionals weighing the Chembur-Trombay petrochemical and refinery trade against a BKC-commute white-collar career, or a redevelopment-linked real estate path.";
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-chembur/';
+
+const fitItems = [
+  {
+    title: 'What you actually need right now',
+    listItems: [
+      'You want support that feels easier to trust and easier to start.',
+      'You want clarity before committing to a technical or trade role tied to the Chembur-Trombay refinery belt, a BKC-commute corporate career, or a different path.',
+      "You want something more practical than a relative's opinion or a generic Mumbai career article that ignores Chembur's own base.",
+      'You want a real next step toward a high-value skill portfolio, not only motivational talk.',
+    ],
+  },
+  {
+    title: 'What should matter more than city alone',
+    listItems: [
+      'Whether the guidance improves decision quality',
+      'Whether the next step becomes clearer and easier to act on',
+      'Whether the process helps you move toward earlier financial freedom instead of a default path',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Closer should still mean clearer',
+    body: 'Searching locally is useful only if it leads to better decision support, not just physical proximity.',
+  },
+  {
+    title: 'Quality before convenience',
+    body: 'The better filter is whether the guidance improves your next move, not whether an office happens to be nearby.',
+  },
+  {
+    title: 'Act before the wrong turn compounds',
+    body: 'The practical goal is to get clear before more time and effort go into the wrong path, and to start building the high-value skill portfolio that keeps unlocking high income opportunities and moves you toward earlier financial freedom.',
+  },
+];
+
+const refineryEconomyItems = [
+  {
+    title: 'Chembur runs on a genuinely unique economy: the Chembur-Trombay petrochemical and refinery belt',
+    body: "Chembur sits at the edge of one of Mumbai's oldest heavy-industrial zones, built around Rashtriya Chemicals and Fertilizers (RCF) and the BPCL and HPCL refineries in neighbouring Trombay. Generations of local families have technical or trade ties to this belt. That creates a specific career fork a generic Mumbai guidance page never addresses: whether to build formally toward chemical-process, refinery-operations, or industrial-safety skill on top of this base, or move toward a different skill path while the area's older industrial identity fades into the background.",
+  },
+  {
+    title: 'Formal process and safety certification beats informal exposure alone',
+    body: "A career built around Chembur's refinery-and-fertiliser economy still benefits from real chemical-process, instrumentation, or industrial-safety qualification - not just growing up near the plants. Building a genuine skill and certification layer, rather than assuming local familiarity is enough on its own, is what actually moves someone toward a stronger role and earlier financial freedom from here.",
+  },
+];
+
+const refineryEconomySummaryItems = [
+  {
+    title: 'This industrial identity is specific to Chembur-Trombay',
+    body: 'Very few Mumbai suburbs carry this concentration of refinery and fertiliser-plant history in one place - it deserves a direct answer, not a generic suburb mention.',
+  },
+];
+
+const redevelopmentEconomyItems = [
+  {
+    title: 'A second, genuinely distinct shift: redevelopment and the BKC-commute economy',
+    listItems: [
+      "Chembur's older chawls and industrial-worker housing colonies are undergoing large-scale redevelopment into high-rise residential towers, creating real construction, real-estate, and project-management activity",
+      "The Eastern Freeway gives Chembur an unusually direct, fast commute into the Bandra Kurla Complex (BKC), Mumbai's dense banking, finance, and corporate-office district",
+      'Many younger residents now work in BKC-based banking, finance, consulting, or corporate roles rather than the area’s older industrial trades',
+      'Families weighing whether to build on a legacy refinery-trade connection or pivot toward a BKC-facing corporate or finance career face a genuinely different decision than in most Mumbai suburbs',
+    ],
+  },
+  {
+    title: 'What a skill-first path can add to either direction',
+    listItems: [
+      'Real-estate, project-management, or construction-management skills can turn redevelopment-linked opportunity into a genuine career, not just a property transaction',
+      'Finance, banking, or corporate-skill certifications matter for a BKC-facing career as much as they do for someone starting directly in South Mumbai',
+      'Chemical-process or industrial-safety skill still has real value for those staying connected to the refinery-and-fertiliser trade',
+      'For those choosing an unrelated path, the same high-value skill portfolio logic applies as anywhere else: proof of work, market positioning, and a deliberate skill choice rather than a default',
+    ],
+  },
+];
+
+const redevelopmentEconomySummaryItems = [
+  {
+    title: 'Two real, different Chembur economies, one decision',
+    body: "The refinery-and-fertiliser trade base and the newer BKC-commute corporate economy coexist in Chembur without overlapping much - the useful question is which one, if either, actually fits your situation.",
+  },
+];
+
+const areaItems = [
+  {
+    title: 'The Trombay-facing belt carries the refinery and fertiliser-plant economy',
+    body: 'The areas closest to Trombay carry the chemical, refinery, and fertiliser-plant technical and trade economy described above.',
+  },
+  {
+    title: 'Diamond Garden and the redeveloping chawl belt carry the real-estate and construction economy',
+    body: 'The neighbourhoods undergoing active redevelopment carry the construction, real-estate, and project-management activity building around Chembur’s changing housing stock.',
+  },
+  {
+    title: 'The Eastern Freeway corridor carries the BKC-commute white-collar economy',
+    body: 'Easy Eastern Freeway access has made parts of Chembur a genuine base for people commuting daily into BKC for banking, finance, and corporate roles.',
+  },
+];
+
+const cityDecisionItems = [
+  {
+    title: 'Choose local-first support when trust is the real blocker',
+    listItems: [
+      'You are more likely to act if the search feels closer and easier to trust',
+      'You want to weigh a refinery-trade role, a BKC-facing corporate career, or a redevelopment-linked path before deciding',
+      'You need one practical next step, not a full career-theory discussion first',
+      'You are using the area search to reduce hesitation, not because the area itself resolves the decision',
+    ],
+  },
+  {
+    title: 'Choose broader guidance when the decision itself is the bigger problem',
+    listItems: [
+      'You are stuck between multiple paths or skill directions',
+      'A family trade tie or a corporate-career pivot matters more than local wording',
+      'You already know the help can happen online and want the strongest decision support',
+      'You need deeper clarity on risk, growth, proof of work, and long-term direction',
+    ],
+  },
+];
+
+const cityDecisionSummaryItems = [
+  {
+    title: 'Use the area label as a trust shortcut',
+    body: 'That search can be useful if it helps you start. It is not the final filter.',
+  },
+  {
+    title: 'Let decision quality decide the next step',
+    body: 'The stronger route is the one that makes the next move clearer, smaller, and easier to act on.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the real decision creating pressure right now',
+    listItems: [
+      'Whether a chemical-process, refinery-operations, or industrial-safety path fits your actual strengths',
+      'Whether a BKC-facing banking, finance, or corporate career is genuinely the stronger route for your situation',
+      'What your income trajectory looks like on the current path over the next few years',
+      'Which expensive wrong turn is most urgent to stop repeating right now',
+    ],
+  },
+  {
+    title: "Skill direction tied to Chembur's actual economy",
+    listItems: [
+      'Chemical-process, instrumentation, or safety-compliance skills if the refinery-and-fertiliser trade fits your situation',
+      'Finance, banking, or corporate-skill certifications if a BKC-facing career fits your situation better',
+      'Real-estate or project-management skills if redevelopment-linked opportunity is part of the picture',
+      'A clearer route toward earlier financial freedom from your actual starting point',
+    ],
+  },
+  {
+    title: 'A lower-friction way to start moving',
+    listItems: [
+      'Online guidance accessible across India with no local-access dependence',
+      'A realistic career target and the clearest path to reach it from where you are now',
+      'One concrete next step instead of a theory discussion you still have to decode yourself',
+    ],
+  },
+];
+
+const onlineAdvantageItems = [
+  {
+    title: 'You can start from home, plant floor, or before the Eastern Freeway commute',
+    body: 'Career counselling is available online in Chembur and across India. That means the decision does not have to wait for a nearby office or one local slot opening up. The useful filter is whether the guidance improves the next move enough to matter.',
+  },
+  {
+    title: 'Online guidance can sit alongside family conversations about a trade tie or a career pivot, not compete with them',
+    body: 'When a refinery-trade family connection or a decision to pivot toward BKC-facing work is part of the picture, the harder conversations often need to include family. Online sessions make it easier to include that context and join from wherever you already are.',
+  },
+  {
+    title: 'The stronger comparison is not nearby versus far away - it is generic versus genuinely useful',
+    body: "A nearby or well-known option can still leave you with generic advice that ignores Chembur's specific refinery-trade or BKC-commute context. The better filter is whether the guidance gives you stronger skill direction, proof-of-work thinking, and a more practical next step.",
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'My family has ties to the RCF or refinery belt - should I continue that path or move toward a BKC-facing career?',
+    body: 'This is rarely all-or-nothing. A formal chemical-process, instrumentation, or safety qualification can meaningfully strengthen a refinery-trade path, and for some a separate finance or corporate-skill path toward BKC is genuinely the stronger route - the honest answer depends on your own strengths, not on which feels more prestigious.',
+  },
+  {
+    title: 'Does living near BKC via the Eastern Freeway actually make a banking or finance career easier to build?',
+    body: "Easier commute access helps, but it does not replace the skill and certification work a banking, finance, or corporate role actually needs. The commute advantage is a genuine plus, not a shortcut around building the right skills.",
+  },
+  {
+    title: 'I am worried about wasting more time before choosing a direction',
+    body: 'That is usually the best reason to act now. In an area where a legacy industrial trade and a newer corporate-commute economy can both look reasonable, getting clear before another year passes is exactly when counselling has the highest return.',
+  },
+];
+
+const prepItems = [
+  {
+    title: 'The real decision you need to solve first',
+    body: 'Bring the actual question creating pressure right now, whether that is a refinery-trade decision, a BKC-facing career pivot, a redevelopment-linked opportunity, or income growth.',
+  },
+  {
+    title: 'The serious options you are already considering',
+    body: 'Write down the two to four routes you are actually comparing. Stronger counselling happens when the real trade-offs are visible from the start.',
+  },
+  {
+    title: 'What feels risky, delayed, or expensive',
+    body: 'Be clear about what you do not want to repeat: a wrong stream, a family-pressure default, or more time wasted in confusion.',
+  },
+  {
+    title: 'The constraints that cannot be ignored',
+    body: 'Include budget, family expectations, trade ties, and commute limits early so the guidance stays practical instead of idealised.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Chembur's dual economy",
+    body: 'The refinery-and-fertiliser trade base and the BKC-commute corporate economy are two real, distinct local paths with their own skill requirements. Good guidance should engage with whichever applies to you seriously, not offer a generic mention.',
+  },
+  {
+    title: 'Check whether a family refinery-trade tie is treated as an asset, not dismissed',
+    body: 'A family connection to the RCF or refinery belt is a real starting asset, not a problem to escape by default. Better guidance should show what formalising it with process or safety skill can look like, alongside the option to build a different skill path.',
+  },
+  {
+    title: 'Check whether the BKC-commute career question gets a real, honest answer',
+    body: 'Good guidance for Chembur should treat a BKC-facing corporate or finance career as a genuine option worth real skill-building, not an automatic win simply because the commute is easier.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See other city guidance options if you want to compare before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.mumbaiCounselling,
+    title: 'Career Counselling in Mumbai',
+    description: "See Mumbai's page if a citywide BFSI-versus-media or cost-of-living decision is closer to your situation than Chembur's specific refinery-and-BKC fork.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.naviMumbaiCounselling,
+    title: 'Career Counselling in Navi Mumbai',
+    description: "See Navi Mumbai's page if a JNPT port, logistics, or airport-led growth angle is closer to your situation.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounsellingOnline,
+    title: 'Career Counselling Online',
+    description: 'See the online page if easier access across India matters more than area-based search wording.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Chembur instead of only looking for a nearby offline office?',
+    answer:
+      "Because proximity alone does not improve the decision. Online guidance lets you start from home without waiting for local availability, and the stronger comparison is whether the support gives you clearer trade-offs, stronger skill direction, and a more practical next step.",
+  },
+  {
+    question: 'My family has ties to the RCF plant or the refinery belt. Should counselling assume I have to leave that path?',
+    answer:
+      "No. Good counselling should treat an existing refinery-trade connection as a real asset and explore formalising it with chemical-process, instrumentation, or safety-compliance skills, alongside the honest option of building a separate skill path if that genuinely fits better.",
+  },
+  {
+    question: 'Does Chembur’s Eastern Freeway access to BKC actually make a finance or banking career easier?',
+    answer:
+      "It removes a real commute barrier, but the career itself still depends on building the right finance, banking, or corporate skills. Counselling should treat the commute advantage as a genuine plus, not a substitute for skill-building.",
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. As context, Future Career School also offers free, updated, practical, AI-powered career and skill assessments if you want a lower-pressure starting signal before a bigger counselling decision.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Chembur?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Chembur users.',
+  },
+  {
+    question: 'Do you guarantee a job?',
+    answer:
+      'No ethical provider can guarantee a job. The practical goal is better decision quality, stronger skill direction, and a clearer path forward.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Chembur',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Chembur | Future Career School',
+    description:
+      'Career counselling in Chembur for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, and better income-growth direction.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'Place', name: 'Chembur, Mumbai' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Chembur</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Chembur
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Chembur
+        <span class="gold-text"> for practical clarity and stronger next steps</span>
+      </h1>
+      <p class="hero-sub">
+        Chembur hands many people a genuinely different fork than most Mumbai suburbs: a legacy petrochemical and refinery-plant economy built around RCF and the Trombay refineries, running alongside a newer real-estate and redevelopment wave and an unusually direct Eastern Freeway commute into the BKC financial district. Most career advice available online treats it as one generic Mumbai suburb and misses all three. If you are at a real decision point, the goal is getting clear before more time goes the wrong way, and building the kind of high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Chembur and across India. You can start from home or before the Eastern Freeway commute - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Chembur. It is whether the guidance improves the next move enough to matter.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Chembur search already reflects a serious decision, move before more time goes into the wrong direction"
+    body="Use this when you want stronger guidance now, not another round of delay while the decision keeps getting more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="refinery-economy"
+    title="The Chembur-Trombay refinery economy is Chembur's first real fork"
+    subtitle="No other Mumbai suburb sibling carries this exact industrial base - it deserves a specific answer, not a generic suburb mention."
+    items={refineryEconomyItems}
+    variant="decision"
+  >
+    <BofuSummaryStrip items={refineryEconomySummaryItems} variant="neutral" />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="redevelopment-economy"
+    title="Redevelopment and the BKC commute: a second, genuinely different shift"
+    subtitle="A real, changing local economy, and a genuine choice between a legacy trade tie and a newer corporate-commute path."
+    items={redevelopmentEconomyItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={redevelopmentEconomySummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="chembur-areas"
+    title="Chembur's areas point to different real decisions"
+    subtitle="A useful local page should feel grounded in how people actually live and work across Chembur, not treat it as one flat generic location."
+    items={areaItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="city-page-vs-broader-guidance"
+    title="Choose the stronger starting point for your situation"
+    subtitle="For some people, local, Chembur-specific support is the easiest way to start. For others, broader guidance across paths and skills is the better fit because the decision itself is already the bigger issue."
+    items={cityDecisionItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={cityDecisionSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In an area where a legacy industrial trade and a newer corporate-commute economy can each look like the obvious default, the risk is advice that ignores where you actually are. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={chemburComparisonRows}
+  />
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="As context, if you are still early and not ready for guidance yet, the free assessments can help surface strengths, preferences, and work style before a bigger counselling decision."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Chembur"
+    subtitle="If the area search began as a trust shortcut, the next question is whether online guidance gives you a clearer, more practical next move than defaulting to whoever simply happens to be nearby."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the area label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Chembur"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Career counselling here is not about one isolated decision. It is about building a high-value skill portfolio that keeps unlocking high income opportunities whether your path runs through the refinery trade, a BKC-facing corporate career, or somewhere else entirely."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #refinery-economy,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

@@ -1,0 +1,639 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Follow-up pass correction: the {2,5} two-row drop originally used here is
+// already Jalandhar's exact combination. Every one of the 15 possible
+// two-row drop combinations from this 6-row library is already claimed by
+// an existing sibling page, so this page instead uses an unused three-row
+// drop (0, 3, 4), keeping rows 1, 2, and 5 - the ones most relevant to the
+// university-town-vs-manufacturing fork this page argues.
+const greaterNoidaComparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 0 && index !== 3 && index !== 4,
+);
+
+const title =
+  'Career Counselling in Greater Noida | Practical Online Guidance | Future Career School';
+const description =
+  'Career counselling in Greater Noida for students, freshers, and working professionals weighing the university-town education economy, the automotive and electronics manufacturing base, or a formal skill-first path.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-greater-noida/';
+
+const fitItems = [
+  {
+    title: 'What you actually need right now',
+    listItems: [
+      'You want support that feels easier to trust and easier to start.',
+      'You want clarity before committing to a manufacturing-linked job, a private-university path, or a formal government exam route.',
+      "You want something more practical than a relative's opinion or a WhatsApp forward about which exam to attempt.",
+      'You want a real next step toward a high-value skill portfolio, not only motivational talk.',
+    ],
+  },
+  {
+    title: 'What should matter more than city alone',
+    listItems: [
+      'Whether the guidance improves decision quality',
+      'Whether the next step becomes clearer and easier to act on',
+      'Whether the process helps you move toward earlier financial freedom instead of a default path',
+      'Whether the advice is genuinely useful instead of generic counselling language',
+    ],
+  },
+];
+
+const fitSummaryItems = [
+  {
+    title: 'Closer should still mean clearer',
+    body: 'Searching locally is useful only if it leads to better decision support, not just physical proximity.',
+  },
+  {
+    title: 'Quality before convenience',
+    body: 'The better filter is whether the guidance improves your next move, not whether an office happens to be nearby.',
+  },
+  {
+    title: 'Act before the wrong turn compounds',
+    body: 'The practical goal is to get clear before more time and effort go into the wrong path, and to start building the high-value skill portfolio that keeps unlocking high income opportunities and moves you toward earlier financial freedom.',
+  },
+];
+
+const educationEconomyItems = [
+  {
+    title: 'A planned university town changes the decision students actually face',
+    body: "Greater Noida was purpose-built around institutions such as Amity University, Sharda University, Galgotias University, GL Bajaj, and Gautam Buddha University, alongside a large migrant student population living in the city while studying. That creates a specific fork a generic guidance page never addresses: whether the degree program itself, or the skill and internship layer built on top of it in a genuinely industry-adjacent city, is what actually determines the outcome.",
+  },
+  {
+    title: 'Formula 1, expo, and event-economy exposure adds a smaller, real services layer',
+    body: 'The Buddh International Circuit and the India Expo Mart in Greater Noida support a smaller but real event-management, hospitality, and logistics-services economy around major exhibitions and motorsport events - a niche career angle this city offers that neighbouring Noida does not carry in the same way.',
+  },
+];
+
+const educationSummaryItems = [
+  {
+    title: 'This is not the same fork as Noida',
+    body: "Noida's IT-services and BPO-led job market and Greater Noida's university-town-plus-manufacturing mix are genuinely different economies under the same regional umbrella - each deserves its own specific answer.",
+  },
+];
+
+const manufacturingItems = [
+  {
+    title: 'A real automotive, electronics, and industrial manufacturing base',
+    listItems: [
+      'Greater Noida and the neighbouring Greater Noida West and Yamuna Expressway industrial belt host automotive-component, electronics, and general manufacturing units, alongside logistics and warehousing tied to the Yamuna Expressway corridor',
+      'Diploma and ITI-trained technical staff, quality and production engineers, and supply-chain roles are real, ongoing local employment, distinct from the software/BPO track most guidance content assumes for the wider NCR',
+      'Families connected to a manufacturing or logistics unit often default straight to a factory-floor role without weighing a formal engineering, quality-management, or supply-chain skill path that pays meaningfully more over time',
+    ],
+  },
+  {
+    title: 'The IT and services layer runs alongside, not instead of, manufacturing',
+    listItems: [
+      'Software, ITES, and services roles are available across the broader Noida-Greater Noida corridor, so the manufacturing base is not the only track',
+      'The real decision is usually which skill direction fits the person, not which sector is theoretically bigger',
+      'A deliberate choice between an engineering/technical skill path and a software/services skill path, backed by real proof of work, beats defaulting to whichever a family member already works in',
+    ],
+  },
+];
+
+const manufacturingSummaryItems = [
+  {
+    title: 'Two real economies, one decision',
+    body: 'A university-town education layer and an industrial-manufacturing layer coexist here - the useful question is which one actually fits your strengths, not which one is more visible.',
+  },
+];
+
+const areaItems = [
+  {
+    title: 'Knowledge Park and Alpha-Beta-Gamma sectors carry the education economy',
+    body: 'Knowledge Park I-V and the Alpha, Beta, and Gamma sectors host most of the university campuses and student-housing economy described above.',
+  },
+  {
+    title: 'Greater Noida West (Noida Extension) carries a large residential and commuter population',
+    body: 'Greater Noida West functions largely as a residential extension with a significant population commuting into Noida or Delhi for work, which shapes a real stay-local-versus-commute decision for many families here.',
+  },
+  {
+    title: 'The Yamuna Expressway industrial belt carries the manufacturing and logistics economy',
+    body: "The industrial sectors along the Yamuna Expressway, including areas developed under the Yamuna Expressway Industrial Development Authority (YEIDA), host the automotive, electronics, and warehousing base described above.",
+  },
+];
+
+const cityDecisionItems = [
+  {
+    title: 'Choose local-first support when trust is the real blocker',
+    listItems: [
+      'You are more likely to act if the search feels closer and easier to trust',
+      'You want to weigh a university-degree path, a manufacturing-linked job, or a formal skill path before deciding',
+      'You need one practical next step, not a full career-theory discussion first',
+      'You are using the city search to reduce hesitation, not because the city itself resolves the decision',
+    ],
+  },
+  {
+    title: 'Choose broader guidance when the decision itself is the bigger problem',
+    listItems: [
+      'You are stuck between multiple paths or skill directions',
+      'Family pressure or a specific institution matters more than local wording',
+      'You already know the help can happen online and want the strongest decision support',
+      'You need deeper clarity on risk, growth, proof of work, and long-term direction',
+    ],
+  },
+];
+
+const cityDecisionSummaryItems = [
+  {
+    title: 'Use the city label as a trust shortcut',
+    body: 'That search can be useful if it helps you start. It is not the final filter.',
+  },
+  {
+    title: 'Let decision quality decide the next step',
+    body: 'The stronger route is the one that makes the next move clearer, smaller, and easier to act on.',
+  },
+];
+
+const deliverableItems = [
+  {
+    title: 'Clarity on the real decision creating pressure right now',
+    listItems: [
+      'Whether your degree program alone is enough, or whether a specific skill and internship plan needs to sit on top of it',
+      'Whether a manufacturing, logistics, or technical-services path fits your actual strengths better than a default IT track',
+      'What your income trajectory looks like on the current path over the next few years',
+      'Which expensive wrong turn is most urgent to stop repeating right now',
+    ],
+  },
+  {
+    title: "Skill direction tied to Greater Noida's actual economy",
+    listItems: [
+      'A real internship and proof-of-work plan alongside your university program, if you are a student here',
+      'Engineering, quality-management, or supply-chain skills if the manufacturing and logistics base fits your situation',
+      'A different high-value skill path if neither local economy fits your strengths',
+      'A clearer route toward earlier financial freedom from your actual starting point',
+    ],
+  },
+  {
+    title: 'A lower-friction way to start moving',
+    listItems: [
+      'Online guidance accessible across India with no local-access dependence',
+      'A realistic career target and the clearest path to reach it from where you are now',
+      'One concrete next step instead of a theory discussion you still have to decode yourself',
+    ],
+  },
+];
+
+const onlineAdvantageItems = [
+  {
+    title: 'You can start from a hostel room, home, or workplace',
+    body: 'Career counselling is available online in Greater Noida and across India. That means the decision does not have to wait for a nearby office or one local slot opening up. The useful filter is whether the guidance improves the next move enough to matter.',
+  },
+  {
+    title: 'Useful for migrant students living away from home just as much as local residents',
+    body: 'A large share of Greater Noida\'s student population lives away from family. Online sessions make it easy to loop family into a decision conversation from a different city, without adding travel on top of an already busy academic schedule.',
+  },
+  {
+    title: 'The stronger comparison is not nearby versus far away - it is generic versus genuinely useful',
+    body: 'A nearby or local-sounding option can still leave you with generic advice that ignores the specific university-plus-manufacturing context you are actually weighing. The better filter is whether the guidance gives you stronger skill direction, proof-of-work thinking, and a more practical next step.',
+  },
+];
+
+const objectionItems = [
+  {
+    title: 'I am already enrolled in a university here - do I still need career counselling?',
+    body: 'Often, yes. A degree program alone does not guarantee outcome; what usually separates strong outcomes from weak ones is a deliberate internship, skill-building, and proof-of-work plan built on top of the degree, not the degree label itself.',
+  },
+  {
+    title: 'Should I aim for a manufacturing/technical role or an IT/services role from here?',
+    body: 'That depends on your actual strengths and interests, not which sector looks bigger from outside. Both genuinely exist in this corridor; a clear skill plan matters more than the sector choice alone.',
+  },
+  {
+    title: 'I am worried about wasting more time before choosing a direction',
+    body: 'That is usually the best reason to act now. In a city with multiple visible paths - university programs, manufacturing jobs, and IT-services work - getting clear before another semester or year passes is exactly when counselling has the highest return.',
+  },
+];
+
+const prepItems = [
+  {
+    title: 'The real decision you need to solve first',
+    body: 'Bring the actual question creating pressure right now, whether that is a degree-vs-skill question, a manufacturing-vs-services choice, stream confusion, or income growth.',
+  },
+  {
+    title: 'The serious options you are already considering',
+    body: 'Write down the two to four routes you are actually comparing. Stronger counselling happens when the real trade-offs are visible from the start.',
+  },
+  {
+    title: 'What feels risky, delayed, or expensive',
+    body: 'Be clear about what you do not want to repeat: a wrong stream, a family-pressure default, or more time wasted in confusion.',
+  },
+  {
+    title: 'The constraints that cannot be ignored',
+    body: 'Include budget, family expectations, hostel or accommodation timelines, and institution-specific deadlines early so the guidance stays practical instead of idealised.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: "Check whether the counsellor understands Greater Noida's dual economy",
+    body: 'The university-town education base and the manufacturing/logistics base are both real, distinct local employers. Good guidance should engage with both seriously instead of assuming this is a generic NCR-IT city.',
+  },
+  {
+    title: 'Check whether a degree program is treated as a starting point, not the whole plan',
+    body: 'An enrolled university program is a real asset, not a finished outcome. Better guidance should show what an internship and skill plan on top of it should look like.',
+  },
+  {
+    title: 'Check whether the next move fits your Greater Noida reality realistically',
+    body: 'Good guidance for Greater Noida should be realistic about hostel and family logistics, and what skill-building genuinely works whether you are a student here or already working in the manufacturing corridor.',
+  },
+];
+
+const relatedItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.guidanceLocations,
+    title: 'Career Guidance by Location',
+    description: 'See other city guidance options if you want to compare before deciding further.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.noidaCounselling,
+    title: 'Career Counselling in Noida',
+    description: "See Noida's page if an IT-services and BPO-led job market is closer to your actual situation than Greater Noida's university-and-manufacturing mix.",
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.gurgaonCounselling,
+    title: 'Career Counselling in Gurgaon',
+    description: 'See Gurgaon\'s page for a comparison against another major NCR corporate hub.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.careerCounselling,
+    title: 'Career Counselling',
+    description: 'See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description: 'See the main guidance page if the bigger issue is stream, course, skill, or career direction beyond the city search.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.hub,
+    title: 'Free Career Assessments',
+    description: 'Free career and skill assessments can be a lower-pressure check if you are not ready for stronger guidance yet.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Why choose online career counselling in Greater Noida instead of only looking for a nearby offline office?',
+    answer:
+      'Because proximity alone does not improve the decision. Online guidance lets you start from a hostel, home, or workplace without waiting for local availability, and the stronger comparison is whether the support gives you clearer trade-offs, stronger skill direction, and a more practical next step.',
+  },
+  {
+    question: 'Is Greater Noida the same job market as Noida?',
+    answer:
+      "No. Noida runs more on IT services and BPO employment, while Greater Noida combines a large university-town student population with a genuine automotive, electronics, and logistics manufacturing base along the Yamuna Expressway corridor. The right guidance should reflect which of these actually applies to your situation.",
+  },
+  {
+    question: 'I am a university student here - what can counselling actually add?',
+    answer:
+      'Structured clarity on the internship, skill-building, and proof-of-work plan that should sit on top of your degree program, so the degree itself is not the only thing determining your outcome.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. As context, Future Career School also offers free, updated, practical, AI-powered career and skill assessments if you want a lower-pressure starting signal before a bigger counselling decision.',
+  },
+  {
+    question: 'Can this help students, freshers, and working professionals in Greater Noida?',
+    answer:
+      'Yes. Future Career School serves students, freshers, and working professionals across school, college, recent-graduate, postgraduate, and career-growth stages. The guidance is online across India, so there are no local-access limits for Greater Noida users.',
+  },
+  {
+    question: 'Do you guarantee a job?',
+    answer:
+      'No ethical provider can guarantee a job. The practical goal is better decision quality, stronger skill direction, and a clearer path forward.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Locations',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Career Counselling in Greater Noida',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Counselling in Greater Noida | Future Career School',
+    description:
+      'Career counselling in Greater Noida for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, and better income-growth direction.',
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'City', name: 'Greater Noida' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Greater Noida</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Greater Noida
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Greater Noida
+        <span class="gold-text"> for practical clarity and stronger next steps</span>
+      </h1>
+      <p class="hero-sub">
+        Greater Noida hands many people a genuinely different fork than neighbouring Noida: a purpose-built university-town economy carrying a large migrant student population, running alongside a real automotive, electronics, and logistics manufacturing base along the Yamuna Expressway corridor. Most career advice available online treats the wider NCR as one generic IT job market and misses both. If you are at a real decision point, the goal is getting clear before more time goes the wrong way, and building the kind of high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Greater Noida and across India. You can start from a hostel, home, or workplace - no travel, no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Greater Noida. It is whether the guidance improves the next move enough to matter.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Greater Noida search already reflects a serious decision, move before more time goes into the wrong direction"
+    body="Use this when you want stronger guidance now, not another round of delay while the decision keeps getting more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="education-economy"
+    title="The university-town economy is Greater Noida's first real fork"
+    subtitle="A large, purpose-built student population creates a specific decision generic guidance never addresses."
+    items={educationEconomyItems}
+    variant="decision"
+  >
+    <BofuSummaryStrip items={educationSummaryItems} variant="neutral" />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="manufacturing-base"
+    title="The manufacturing and logistics base: a second, genuinely different economy"
+    subtitle="A real industrial employer running alongside the education economy, distinct from the software/BPO track most NCR guidance assumes."
+    items={manufacturingItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={manufacturingSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="greater-noida-areas"
+    title="Greater Noida's areas point to different real decisions"
+    subtitle="A useful local page should feel grounded in how people actually live and work across Greater Noida, not treat it as one flat generic location."
+    items={areaItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="city-page-vs-broader-guidance"
+    title="Choose the stronger starting point for your situation"
+    subtitle="For some people, local, Greater Noida-specific support is the easiest way to start. For others, broader guidance across paths and skills is the better fit because the decision itself is already the bigger issue."
+    items={cityDecisionItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={cityDecisionSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In a city where a degree program, a manufacturing job, and a services career can each look like the obvious default, the risk is advice that ignores where you actually are. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={greaterNoidaComparisonRows}
+  />
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+    <AssessmentSupportNote
+      body="As context, if you are still early and not ready for guidance yet, the free assessments can help surface strengths, preferences, and work style before a bigger counselling decision."
+      href={BOFU_ASSESSMENT_LINKS.hub}
+    />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Greater Noida"
+    subtitle="If the city search began as a trust shortcut, the next question is whether online guidance gives you a clearer, more practical next move than defaulting to whoever simply happens to be nearby."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages, free assessments, and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Greater Noida"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Career counselling here is not about one isolated decision. It is about building a high-value skill portfolio that keeps unlocking high income opportunities whether your path runs through a university program, the manufacturing corridor, or somewhere else entirely."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #education-economy,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>
