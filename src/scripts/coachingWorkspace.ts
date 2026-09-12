@@ -792,7 +792,12 @@ function actionProgressHtml(rows: Row[]) {
   const stages = ['Decide', 'Start', 'Build', 'Publish or apply', 'Connect', 'Evaluate'];
   const done = new Set(rows.filter((row) => row.status === 'done').map((row) => String(row.milestone || actionMilestone(String(row.category || '')))));
   const active = new Set(rows.filter((row) => !['done', 'archived'].includes(String(row.status))).map((row) => String(row.milestone || actionMilestone(String(row.category || '')))));
-  return `<section class="action-progression" aria-label="Action progression"><div class="action-progression-heading"><strong>Your progress pathway</strong><span>${done.size} of ${stages.length} stages evidenced</span></div><div class="action-progression-steps">${stages.map((stage, index) => `<span class="action-progression-step ${done.has(stage) ? 'is-complete' : active.has(stage) ? 'is-current' : ''}"><b>${index + 1}</b><small>${stage}</small></span>`).join('')}</div><p class="field-help">Move at a pace that fits your time: decide what to test, start small, build proof, share or apply it, connect with people, then evaluate.</p></section>`;
+  const progress = Math.min(stages.length, done.size);
+  return `<section class="action-progression" aria-labelledby="action-progression-title"><div class="action-progression-heading"><div><strong id="action-progression-title">Your progress pathway</strong><span>Six useful stages—not a rigid sequence</span></div><em>${progress} of ${stages.length} evidenced</em></div><progress max="${stages.length}" value="${progress}" aria-label="${progress} of ${stages.length} action stages evidenced"></progress><ol class="action-progression-steps">${stages.map((stage, index) => {
+    const state = done.has(stage) ? 'complete' : active.has(stage) ? 'current' : 'upcoming';
+    const stateLabel = state === 'complete' ? 'Evidence added' : state === 'current' ? 'In progress' : 'When useful';
+    return `<li class="action-progression-step is-${state}"${state === 'current' ? ' aria-current="step"' : ''}><b aria-hidden="true">${String(index + 1).padStart(2, '0')}</b><span><strong>${ctx!.escapeHtml(stage)}</strong><small>${stateLabel}</small></span></li>`;
+  }).join('')}</ol><p class="field-help">Move at a pace that fits your time. You can work on more than one stage and return to an earlier one when new evidence changes the plan.</p></section>`;
 }
 
 function renderCareerLists(studentId: string) {
@@ -3945,5 +3950,3 @@ function bindEvents() {
     applyCareerPageJump(jump);
   });
 }
-
-

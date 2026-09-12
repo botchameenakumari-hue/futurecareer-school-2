@@ -1086,6 +1086,16 @@ test('student plan is useful on mobile and preserves coach-owned records', async
 
   await page.locator('[data-plan-tab="actions"]').click();
   await assertPlanTabFits();
+  const actionProgression = page.locator('#student-action-list .action-progression');
+  await expect(actionProgression).toContainText('Six useful stages—not a rigid sequence');
+  await expect(actionProgression.locator('.action-progression-step')).toHaveCount(6);
+  await expect(actionProgression.locator('[aria-current="step"]')).not.toHaveCount(0);
+  const mobileStageRows = await actionProgression.locator('.action-progression-step').evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().top)));
+  expect(new Set(mobileStageRows).size).toBe(6);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const desktopStageRows = await actionProgression.locator('.action-progression-step').evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().top)));
+  expect(new Set(desktopStageRows).size).toBe(1);
+  await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator('#workspace-status')).toHaveText('');
   await page.locator('.student-plan-start').getByRole('button', { name: 'Add next action' }).click();
   const weeklyHours = page.locator('#student-action-form select[name="weekly_hours_preset"]');

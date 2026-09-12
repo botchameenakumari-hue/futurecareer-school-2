@@ -1040,6 +1040,150 @@ body:has(#hierarchy-workspace) {
   background: #fff;
 }
 
+/* Action pathway: make each stage a readable status card, not a number glued
+   to a word. The progress element gives the same state to visual and assistive
+   technology users. */
+#hierarchy-workspace .action-progression {
+  display: grid;
+  gap: .85rem;
+  min-width: 0;
+  padding: clamp(.9rem, 1.6vw, 1.2rem);
+  border: 1px solid var(--dash-line);
+  border-radius: .85rem;
+  background: linear-gradient(135deg, #f8fbfd, #fff);
+}
+
+#hierarchy-workspace .action-progression-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+#hierarchy-workspace .action-progression-heading > div {
+  display: grid;
+  gap: .2rem;
+  min-width: 0;
+}
+
+#hierarchy-workspace .action-progression-heading strong {
+  color: var(--dash-ink);
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+#hierarchy-workspace .action-progression-heading span {
+  color: var(--dash-muted);
+  font-size: .77rem;
+  line-height: 1.4;
+}
+
+#hierarchy-workspace .action-progression-heading em {
+  flex: 0 0 auto;
+  padding: .32rem .55rem;
+  border: 1px solid #c9dce7;
+  border-radius: 999px;
+  color: var(--dash-blue-strong);
+  background: #fff;
+  font-size: .74rem;
+  font-style: normal;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#hierarchy-workspace .action-progression > progress {
+  width: 100%;
+  height: .5rem;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  color: var(--dash-blue);
+  background: #dfe8ed;
+}
+
+#hierarchy-workspace .action-progression > progress::-webkit-progress-bar { background: #dfe8ed; }
+#hierarchy-workspace .action-progression > progress::-webkit-progress-value { background: linear-gradient(90deg, var(--dash-blue), var(--dash-teal)); }
+#hierarchy-workspace .action-progression > progress::-moz-progress-bar { background: linear-gradient(90deg, var(--dash-blue), var(--dash-teal)); }
+
+#hierarchy-workspace .action-progression-steps {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: .55rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#hierarchy-workspace .action-progression-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: .55rem;
+  min-width: 0;
+  padding: .62rem;
+  border: 1px solid #d9e4ea;
+  border-radius: .65rem;
+  background: #fff;
+}
+
+#hierarchy-workspace .action-progression-step > b {
+  display: inline-grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  color: #486176;
+  background: #edf2f5;
+  font-size: .7rem;
+}
+
+#hierarchy-workspace .action-progression-step > span {
+  display: grid;
+  gap: .1rem;
+  min-width: 0;
+}
+
+#hierarchy-workspace .action-progression-step strong {
+  color: var(--dash-ink);
+  font-size: .79rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+#hierarchy-workspace .action-progression-step small {
+  color: var(--dash-muted);
+  font-size: .68rem;
+  line-height: 1.25;
+}
+
+#hierarchy-workspace .action-progression-step.is-current {
+  border-color: #9bc5dd;
+  background: var(--dash-blue-soft);
+  box-shadow: inset 0 0 0 1px #cae1ed;
+}
+
+#hierarchy-workspace .action-progression-step.is-current > b {
+  color: #fff;
+  background: var(--dash-blue);
+}
+
+#hierarchy-workspace .action-progression-step.is-complete {
+  border-color: #afd7ca;
+  background: #f1faf6;
+}
+
+#hierarchy-workspace .action-progression-step.is-complete > b {
+  color: #fff;
+  background: var(--dash-teal);
+}
+
+#hierarchy-workspace .action-progression > .field-help {
+  margin: 0;
+  color: var(--dash-muted);
+  line-height: 1.5;
+}
+
 /* A catalogue career is complete enough to save without re-entering data. */
 #hierarchy-workspace .career-guide-save {
   display: grid;
@@ -1184,6 +1328,7 @@ body:has(#hierarchy-workspace) {
 @media (max-width: 1180px) {
   #hierarchy-workspace .overview-shortcut-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #hierarchy-workspace .student-plan-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #hierarchy-workspace .action-progression-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   #hierarchy-workspace .skill-pagination { grid-template-columns: 1fr auto; }
   #hierarchy-workspace .skill-pagination > [data-skill-page-indicator],
   #hierarchy-workspace .skill-pagination > [data-all-skill-page-indicator] { grid-column: 1 / -1; }
@@ -1283,6 +1428,9 @@ body:has(#hierarchy-workspace) {
   #hierarchy-workspace .skill-roadmap-row > footer { align-items: stretch; flex-direction: column; }
   #hierarchy-workspace .skill-card-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #hierarchy-workspace .career-guide-save .career-guide-actions { grid-template-columns: 1fr; }
+  #hierarchy-workspace .action-progression-heading { align-items: stretch; flex-direction: column; }
+  #hierarchy-workspace .action-progression-heading em { align-self: flex-start; }
+  #hierarchy-workspace .action-progression-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 440px) {
@@ -1302,6 +1450,7 @@ body:has(#hierarchy-workspace) {
   #hierarchy-workspace .skill-action-preview > div:last-child { border-bottom: 0; }
   #hierarchy-workspace .skill-card-actions { grid-template-columns: 1fr; }
   #hierarchy-workspace .skill-feedback-composer textarea { min-height: 10rem; }
+  #hierarchy-workspace .action-progression-steps { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 680px) {
