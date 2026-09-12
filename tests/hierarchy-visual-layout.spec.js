@@ -185,6 +185,12 @@ for (const viewport of [
         });
         return {
           pageOverflow: document.documentElement.scrollWidth - window.innerWidth,
+          refreshLabelStacks: (() => {
+            const label = document.querySelector('#refresh-button .topbar-refresh-label');
+            if (!(label instanceof HTMLElement) || getComputedStyle(label).display === 'none') return false;
+            const style = getComputedStyle(label);
+            return label.getBoundingClientRect().height > Number.parseFloat(style.lineHeight || '0') * 1.5;
+          })(),
           undersizedButtons: visibleButtons
             .filter((button) => button.getBoundingClientRect().height < 32)
             .map((button) => `${button.id || button.textContent?.trim().slice(0, 30) || 'button'}:${Math.round(button.getBoundingClientRect().height)}`),
@@ -194,6 +200,7 @@ for (const viewport of [
         };
       });
       expect(layoutChecks.pageOverflow, `${view} overflows on ${viewport.name}`).toBeLessThanOrEqual(1);
+      expect(layoutChecks.refreshLabelStacks, `Refresh label stacks vertically on ${viewport.name}`).toBe(false);
       expect(layoutChecks.undersizedButtons, `${view} has undersized controls on ${viewport.name}`).toEqual([]);
       expect(layoutChecks.mobileNavTruncated, `${view} truncates a mobile navigation label on ${viewport.name}`).toEqual([]);
     }
