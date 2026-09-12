@@ -897,6 +897,12 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   expect(studentPlanOverflow).toBeLessThanOrEqual(1);
   const studentPlanTabsOverflow = await page.locator('.student-plan-tabs').evaluate((element) => element.scrollWidth - element.clientWidth);
   expect(studentPlanTabsOverflow).toBeLessThanOrEqual(1);
+  const planTabLayout = await page.locator('.student-plan-tabs button').evaluateAll((tabs) => tabs.map((tab) => {
+    const bounds = tab.getBoundingClientRect();
+    return { top: Math.round(bounds.top), width: Math.round(bounds.width) };
+  }));
+  expect(new Set(planTabLayout.map((tab) => tab.top)).size).toBe(3);
+  expect(Math.abs(planTabLayout[0].width - planTabLayout.at(-1).width)).toBeLessThanOrEqual(1);
   await page.locator('.student-plan-start').getByRole('button', { name: 'Choose a career option' }).click();
   await expect(page).toHaveURL(/\/dashboard\/career-decision/);
   expect(await page.locator('#career-option-dialog').evaluate((element) => element.matches(':modal'))).toBe(false);
