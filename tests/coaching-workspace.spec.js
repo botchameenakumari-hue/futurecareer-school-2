@@ -1375,6 +1375,28 @@ test('dedicated career decision route stays usable on mobile', async ({ page }) 
   expect(plannerChrome.headingOverflow).toBeLessThanOrEqual(1);
   expect(plannerChrome.paginationOverflow).toBeLessThanOrEqual(1);
   expect(plannerChrome.visibleInterestInputs).toBe(0);
+  const firstCareer = page.locator('#career-preset-results .career-library-result').first();
+  const actionLayout = await firstCareer.evaluate((card) => {
+    const open = card.querySelector('.career-result-action');
+    const compare = card.querySelector('.career-compare-toggle');
+    const cardRect = card.getBoundingClientRect();
+    const openRect = open?.getBoundingClientRect();
+    const compareRect = compare?.getBoundingClientRect();
+    return {
+      openText: open?.textContent?.replace(/\s+/g, ' ').trim(),
+      openHeight: openRect?.height || 0,
+      compareHeight: compareRect?.height || 0,
+      compareWidthDifference: Math.abs(cardRect.width - (compareRect?.width || 0)),
+    };
+  });
+  expect(actionLayout.openText).toContain('View full details and choose');
+  expect(actionLayout.openHeight).toBeGreaterThanOrEqual(40);
+  expect(actionLayout.compareHeight).toBeGreaterThanOrEqual(38);
+  expect(actionLayout.compareWidthDifference).toBeLessThanOrEqual(2);
+  const compareToggle = firstCareer.locator('.career-compare-toggle');
+  await expect(compareToggle).toContainText('Add to comparison');
+  await compareToggle.click();
+  await expect(page.locator('#career-preset-results .career-compare-toggle').first()).toContainText('Added to comparison');
 });
 
 test('career pagination control stays available on desktop', async ({ page }) => {

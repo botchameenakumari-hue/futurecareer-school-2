@@ -1724,7 +1724,14 @@ function renderCareerPresetResults() {
     ? careerLibraryResultsHtml(pageMatches, selectedCareerGuideKey, ctx.escapeHtml, pageSize, 0)
     : `<div class="empty-state career-library-empty" role="status"><strong>No career guides match these choices.</strong><span>Try a broader search or remove one of the filters. Your saved career options are unchanged.</span><button class="secondary-button" type="button" data-career-clear-filters>Clear filters</button></div>`;
   container.innerHTML = pagination + resultContent;
-  qsa<HTMLInputElement>('[data-compare-career]').forEach((input) => { input.checked = comparedCareerGuideKeys.includes(input.dataset.compareCareer || ''); });
+  qsa<HTMLInputElement>('[data-compare-career]').forEach((input) => {
+    const selected = comparedCareerGuideKeys.includes(input.dataset.compareCareer || '');
+    input.checked = selected;
+    const label = input.closest('.career-compare-toggle')?.querySelector('span');
+    if (label) label.textContent = selected ? 'Added to comparison' : 'Add to comparison';
+    const title = input.closest('.career-library-result')?.querySelector('.career-result-title strong')?.textContent?.trim() || 'career';
+    input.setAttribute('aria-label', `${selected ? 'Remove' : 'Add'} ${title} ${selected ? 'from' : 'to'} comparison`);
+  });
   if (count) count.textContent = `${matches.length} useful match${matches.length === 1 ? '' : 'es'}${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
   const interestGuidance = qs<HTMLElement>('#career-interest-guidance');
   if (interestGuidance) {
