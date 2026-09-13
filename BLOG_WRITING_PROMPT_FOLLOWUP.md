@@ -58,6 +58,9 @@ Additional follow-up checks:
   - verify AI/market disruption risk is addressed honestly, naming the specific pressure (automation of a sub-task, market saturation, technology substitution) rather than a vague hedge, or stating plainly that the risk is currently low
   - verify a staged AI-leverage path is given where relevant: what to do now versus what becomes possible later as tools and adoption mature
   - verify genuinely better or significantly better adjacent career alternatives are named where they exist, with the concrete reason they beat this option; confirm no alternative is named just to pad the section when none is actually meaningfully better
+  - if the article presents multiple career/path options side by side, verify the strongest-scalability options are ordered or led with, with a brief stated reason, rather than defaulting to prestige, alphabetical, or exam-difficulty order
+  - verify multi-stage competition is checked and flagged as its own distinct caution wherever it genuinely applies (a hard entry/selection stage plus a separate hard advancement or top-tier-success stage later) — not only for medicine, dentistry, and government-exam paths, but for any career where this pattern is real (e.g., performing arts, elite sport, academia)
+  - verify a genuine scalable-ownership path (own practice, scalable service business, other scalable independent work) is surfaced plainly via the Honest-take or Highlight box component rather than left buried in body prose, with the one-line reason it scales
 - study-abroad perspective audit:
   - treat large education loans as high risk when repayment depends on uncertain visas, foreign jobs, exchange rates, or exceptional starting pay
   - if a top-five or top-tier threshold is used, label it as a deliberately strict screening heuristic and still verify the chosen program's course-specific outcomes, total cost, visa pathway, and downside

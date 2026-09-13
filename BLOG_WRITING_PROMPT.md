@@ -926,6 +926,28 @@ articles.
   concrete reason they beat this option (higher ceiling, better scalability, stronger AI leverage, less
   disruption risk). Do not name an alternative just to pad the section; skip this if no compared option
   is actually meaningfully better for a realistic segment of readers.
+- When an article presents multiple career or path options side by side (a listicle, "career options
+  in X," "careers after X," or similar multi-option piece using the Track cards / feature cards
+  component), order or lead with the options that have the strongest real scalability and growth
+  headroom, rather than defaulting to conventional prestige order, alphabetical order, or exam-difficulty
+  order. Say briefly why the lead options earn that position so the ordering reads as a reasoned
+  judgment, not an arbitrary list.
+- Check specifically for competition that exists at more than one sequential stage — a hard entry or
+  selection stage followed by a separate hard advancement, promotion, or top-tier-success stage later
+  (for example: a competitive entrance exam followed by competitive postgraduate seats; a crowded
+  audition or selection process followed by a separate, harder climb to visible success; a licensed
+  profession with capped seats at both the training stage and the practice-scale-up stage). Flag this
+  multi-stage competition explicitly and separately from a single-stage competitiveness note, because a
+  path can clear one competitive filter and still face another, and the honest growth picture needs to
+  account for both — not just the medicine, dentistry, and government-exam paths already covered above,
+  but any career where this pattern genuinely applies (e.g., performing arts, elite sport, academia's
+  path from doctorate to tenure-track).
+- When a genuine scalable-ownership path exists for this career — an own practice, a scalable service
+  business, or another form of scalable independent work — do not leave it sitting inside body prose
+  where a skimming reader can miss it. Surface it plainly using the Honest-take box or Highlight box
+  component, naming the option and the one-line reason it scales (ownership of pricing, ability to hire
+  or systemise, recurring or repeat revenue, geographic or digital reach beyond one person's hours), so
+  the reader can spot it without reading the full section.
 
 **Additional medicine, dentistry, and allied-health lens**
 - Show the full training and earning runway from the reader's current stage, not only the length or
