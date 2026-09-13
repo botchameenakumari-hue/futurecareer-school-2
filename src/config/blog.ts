@@ -3385,4 +3385,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-08-17',
     readTimeMinutes: 19,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'life-sciences-and-biological-sciences-career-options',
+    title: 'Biological Sciences Career Options in India: The Real Life Sciences Careers Map',
+    description:
+      'Biological sciences career options and life sciences careers in India: real CSIR/DBT/ICMR pay, the PhD-to-faculty odds, biotech R&D routes, and where AI is actually changing lab work.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 24,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'computer-science-career-options',
+    title: 'Computer Science Career Options: 9 Tracks, Ranked by Real Growth',
+    description:
+      'Computer science career options across software, AI/ML, cybersecurity, product, quant, government tech, research, and running your own SaaS — ordered by real 2026 growth.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 24,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'political-science-career-options',
+    title: 'Political Science Career Options in India — 9 Real Tracks Ranked by Growth',
+    description:
+      'Political science career options in India: UPSC, corporate government affairs, law, policy research, journalism, diplomacy, NGOs, academia, and political consulting — ranked by real growth.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 22,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'actuarial-science-careers',
+    title: 'Actuarial Science Careers in India: The Real Exam Grind, Pay, and Verdict',
+    description:
+      'Actuarial science careers in India: real multi-stage exam pass rates, the honest 7-10 year Fellowship timeline, sector pay, and whether AI is changing entry-level work.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 25,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-in-home-science',
+    title: 'Career in Home Science: What It Actually Leads To in India',
+    description:
+      'A career in home science covers dietetics, food technology, textile design, child development, and real government and business routes. See the real pay and ownership paths.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 27,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'data-science-career-path-and-opportunities',
+    title: 'Data Science Career Path: The Real Role Ladder and Opportunity Map',
+    description:
+      "The real data science career path in India: analyst to senior to four specialisation tracks, who's actually hiring, and where independent opportunities exist.",
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 21,
+  },
 ];

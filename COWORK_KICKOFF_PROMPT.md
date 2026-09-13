@@ -86,7 +86,13 @@ exists.
 3. If (a): STOP. Do not build a new page. Report clearly: "This keyword
    already has a live page at <path> — exact match." Wait for a decision
    unless the human has already pre-authorized proceeding for the whole
-   batch.
+   batch. Then check whether this keyword's specific wording already appears
+   somewhere in that existing page's visible copy (body text, a heading, or
+   the FAQ) — not just a synonym or the general topic. If it does not, add a
+   natural mention of it somewhere it fits (an intro line, a heading, or an
+   FAQ question/answer) so the page honestly covers the phrase the person
+   searched. One natural mention is enough — do not keyword-stuff or repeat
+   it across multiple sections just to increase density.
 4. If (b): this keyword gets its own page. Before building, name the
    specific word/concept missing from the nearest existing page's title/H1/
    URL, and write content that actually reflects that difference — distinct

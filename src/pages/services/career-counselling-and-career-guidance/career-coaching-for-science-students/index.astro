@@ -1,0 +1,430 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import {
+  BOFU_ASSESSMENT_LINKS,
+  BOFU_INTERNAL_LINKS,
+  BOFU_COMPARISON_LIBRARY,
+} from '../../../../config/bofu';
+
+const title =
+  'Career Coaching for Science Students | Skill Plan, Accountability & Exam Prep | Future Career School';
+const description =
+  'Science career coaching for BSc, MSc, and science-stream students who already have a rough direction — research, data, biotech, or a competitive exam — but need a sequenced plan and real accountability.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coaching-for-science-students/';
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[4],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const fitItems = [
+  {
+    eyebrow: 'Direction without follow-through',
+    title: 'You already know roughly where a science degree should take you, but keep drifting',
+    body: 'A CSIR-NET/GATE attempt, a data-analytics pivot, a biotech-industry target, or a teaching route — the direction is picked. What is missing is a weekly plan and someone actually checking whether the work happened.',
+  },
+  {
+    eyebrow: 'Certificates that do not add up',
+    title: 'Online certificates and short courses keep piling up without forming a real portfolio',
+    body: 'A Python certificate here, a biotech workshop there, a data-analytics course half-finished — each one felt useful alone, but none of them connect into a coherent skill story a recruiter or a research panel can actually read.',
+  },
+  {
+    eyebrow: 'Exam and placement countdown',
+    title: 'CSIR-NET, GATE, ICAR/DBT-JRF, or campus placements are approaching with no structured sequence',
+    body: 'Science-stream exits are unusually split — research fellowships, PSU and government-lab recruitment, campus placements, and further postgraduate seats all compete for the same limited prep time, and most students never sequence them before the deadline forces a choice.',
+  },
+  {
+    eyebrow: 'No one checking',
+    title: 'Nobody is actually tracking whether the plan is being executed',
+    body: 'Science departments rarely run the kind of structured placement-cell cadence that engineering colleges do, so a self-made plan is easy to write down and easy to quietly abandon without anyone noticing.',
+  },
+];
+
+const stepItems = [
+  {
+    title: 'Lock the specific science-career goal',
+    body: 'Start from where you already are — a research seat, a data or analytics pivot, a biotech-industry target, a teaching path, or a government-exam route — and turn it into one concrete, sequenced goal instead of "something in science."',
+  },
+  {
+    title: 'Build the action plan',
+    body: 'Break that goal into a sequenced plan: which skills, which proof-of-work (a project, a paper, a certification that actually anchors to the goal), and in what order, so effort compounds instead of scattering across unrelated certificates.',
+  },
+  {
+    title: 'Stay accountable across the year',
+    body: 'Small-group continuous guidance sessions check progress on a set cadence, adjust the plan as exam results, internship offers, or research openings shift, and keep the skill direction current instead of going stale.',
+  },
+  {
+    title: 'Carry it through exam or placement prep',
+    body: 'As CSIR-NET, GATE, campus placements, or postgraduate applications approach, the same plan folds in application timing, interview or viva readiness, and portfolio positioning, so prep is sequenced instead of scrambled in the final months.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether it builds a plan, not just a pep talk',
+    body: 'Coaching should turn a science-career goal you already have into a concrete, sequenced plan — not a motivational session that leaves you exactly where you started once it ends.',
+  },
+  {
+    title: 'Check whether it understands the split science exit paths, not just one track',
+    body: 'Research fellowships, PSU and government-lab roles, industry placements, and further postgraduate study all pull on the same limited time and often compete with each other. Look for coaching that actually sequences between these instead of assuming only one path exists.',
+  },
+  {
+    title: 'Check whether the plan folds into exam or placement prep, not just skills in isolation',
+    body: 'Skill-building or research work that never connects to CSIR-NET/GATE timing, application deadlines, or interview readiness leaves a gap right when it matters most. The plan should carry through to that moment, not stop short of it.',
+  },
+  {
+    title: 'Check whether the coach adjusts the plan or just repeats the same roadmap',
+    body: 'Exam results, internship offers, and research openings shift across a year. A plan that never gets revisited quietly goes stale. Look for a cadence that actually adjusts the sequence as your situation changes, not a fixed script handed over once.',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'How is career coaching for science students different from career counselling for science students?',
+    answer:
+      'Counselling is built for a decision you have not made yet — which specialisation, whether to aim for research or industry, whether to attempt CSIR-NET/GATE at all. Coaching is built for after that decision, when the direction is roughly set and the real gap is turning it into a sequenced plan with accountability. If you are still weighing which science exit path even fits you, career counselling is the closer starting point; if you already have a direction and keep losing momentum on it, this is built for that instead.',
+  },
+  {
+    question: 'I have a BSc or MSc but no clear plan yet. Is this still useful, or should I look elsewhere first?',
+    answer:
+      'If the direction itself is still genuinely open — research versus industry versus a government-exam route versus further study — that uncertainty is worth resolving first, and career counselling for science students is built for exactly that question. Coaching assumes a rough direction already exists and focuses on executing it, though the first session can also help confirm the direction is sound before a plan gets built around it.',
+  },
+  {
+    question: 'Does this cover CSIR-NET, GATE, or ICAR/DBT-JRF exam preparation itself?',
+    answer:
+      'This is not subject-matter exam coaching for a specific test. It sequences your overall plan so that exam timing, application deadlines, and skill-building fit together instead of competing for the same weeks — for the actual subject preparation, a dedicated coaching institute for that exam still matters alongside this.',
+  },
+  {
+    question: 'Why does the plan matter if I already cleared a screening exam? Isn\'t the hard part over?',
+    answer:
+      'Several science paths have a second, separate competitive stage after the first one — clearing CSIR-NET or GATE gets you eligible, but a funded PhD seat, a permanent research position, or a postdoc-to-faculty move is its own later filter with much smaller numbers. A sequenced plan accounts for both stages up front instead of treating the first exam as the finish line.',
+  },
+  {
+    question: 'What does the accountability actually look like across the year?',
+    answer:
+      'After the first 1-on-1 session builds the plan, continuous guidance moves into small groups, usually 10 or fewer members, with sessions across the year that check progress, adjust the plan as exam results or opportunities shift, and keep direction from going stale. This is the coaching-style, ongoing part of the support, not a one-time verdict.',
+  },
+  {
+    question: 'Is this available online across India, or does it depend on my college or department?',
+    answer:
+      'Guidance is delivered fully online across India, so this does not depend on what your specific science department or college placement cell offers, which matters given how unevenly structured placement and mentoring support is across science programs compared with engineering colleges.',
+  },
+  {
+    question: 'Does coaching guarantee a research seat, a job offer, or a specific exam result?',
+    answer:
+      'No ethical provider can guarantee a research seat, a placement, or an exam result, and this is not a guarantee service. What coaching realistically offers is a sequenced plan, accountability to stick with it, and stronger direction and proof of work heading into whichever exit path you are aiming at — not a promised outcome.',
+  },
+  {
+    question: 'What happens if my direction changes partway through the year, like switching from research to industry?',
+    answer:
+      'The plan is meant to move with you, not lock you in. When a new result, internship offer, or shifted interest genuinely changes the picture, the next check-in adjusts the sequence instead of forcing you to finish a plan that no longer fits where you are heading.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.parentGuidance,
+    title: 'Broader Career Guidance',
+    description:
+      'Get broader help with subject, specialisation, and next-step decisions when several connected choices need to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description:
+      'A wider student guidance page for school, college, and postgraduate decisions beyond science-specific coaching.',
+  },
+  {
+    href: '/services/career-counselling-and-career-guidance/career-counselling-vs-career-coaching/',
+    title: 'Career Counselling vs Career Coaching',
+    description:
+      'An honest breakdown of the difference between decision-focused counselling and ongoing, accountability-focused coaching.',
+  },
+  {
+    href: BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals,
+    title: 'Graduates and Early Professionals Assessment',
+    description:
+      'Free clarity on fit, skill direction, and employability before you build a plan around a specific science exit path.',
+  },
+  {
+    href: '/blog/career-options/life-sciences-and-biological-sciences-career-options/',
+    title: 'Biological Sciences and Life Sciences Career Options',
+    description:
+      'See the real tracks, pay, and the two-gate research reality before you lock in a research-focused plan.',
+  },
+  {
+    href: '/blog/career-options/data-science-career-path-and-opportunities/',
+    title: 'Data Science Career Path and Opportunities',
+    description:
+      'Useful if part of the plan is pivoting a science background toward analytics or data-focused roles.',
+  },
+  {
+    href: '/blog/career-options/career-options-after-12th-science/',
+    title: 'Career Options After 12th Science',
+    description:
+      'Wider context on where a science stream can lead if the specific exit path is still being weighed.',
+  },
+  {
+    href: '/career-resources/how-to-ai-proof-your-career/',
+    title: 'How to AI-Proof Your Career',
+    description:
+      'Practical reading on building skills that hold up as AI changes research, lab, and analytical work, useful context for the plan.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Coaching for Science Students',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Coaching for Science Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Coaching for Science Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Coaching for Science Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Science career coaching for BSc, MSc, and science-stream students
+      </div>
+
+      <h1 class="hero-title">
+        Career coaching for science students
+        <span class="gold-text"> who already have a direction but keep losing momentum on it</span>
+      </h1>
+      <p class="hero-sub">
+        Science career coaching is built for a different moment than a specialisation or exam-attempt decision: you already have a rough
+        direction — a research seat, a data or analytics pivot, a biotech-industry role, or a government-exam route — and the real gap is a
+        sequenced plan with real accountability, not another one-time verdict. The goal is a coherent skill portfolio that actually compounds,
+        instead of a pile of disconnected certificates, so you reach a stronger, higher-income outcome sooner.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India, so weekly accountability keeps going from your hostel, home, or department without
+        depending on how structured your college's own mentoring or placement support happens to be.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Career Coaching for Science Students</a>
+      </div>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="fit"
+    title="When career coaching for science students becomes the right fit"
+    subtitle="It fits the moment right after a direction is roughly picked, when a coherent skill portfolio and a clear next filter — an exam, an application, or an interview — depend on execution, not on choosing again."
+    items={fitItems}
+    variant="signal"
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Turn scattered certificates into a plan someone actually checks"
+    body="The earlier a science-career plan gets real accountability, the sooner effort stops scattering across disconnected courses and starts compounding into one coherent direction."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Science Students"
+  />
+
+  <BofuStepFlowSection
+    sectionId="process"
+    title="How the coaching plan is built and kept on track"
+    subtitle="Not a single verdict handed down once. A plan that starts from where you already are and stays accountable through exam or placement season."
+    items={stepItems}
+  >
+    <AssessmentSupportNote
+      body="As a starting signal, the free career and skill assessments can help confirm your current science-career direction is sound before the action plan is built around it."
+      href={BOFU_ASSESSMENT_LINKS.graduatesAndEarlyProfessionals}
+    />
+  </BofuStepFlowSection>
+
+  <ComparisonMatrix
+    sectionId="compare"
+    title="What changes when the follow-through is actually coached"
+    subtitle="Career coaching for science students should feel different from a saved roadmap, a random certificate, or a one-time pep talk you are left to execute alone."
+    rows={comparisonRows}
+  />
+
+  <BuyerChecks
+    title="What to check before paying for career coaching for science students"
+    subtitle="The goal is a sequenced plan with real accountability across a genuinely split set of science exit paths, not a motivational session that fades by the following month."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let another exam cycle pass on a plan nobody is checking"
+    body="Research seats, government-lab roles, and analytics placements all reward a plan that has been executed consistently, not one that was only ever written down once."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Science Students"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Coaching"
+    title="Career Coaching Plans for Science Students"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See the decision-focused counselling page, broader student guidance, real science career-track data, and free assessments before you commit to a plan."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    title="Questions science students ask before choosing career coaching"
+    items={faqItems}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Stop restarting the plan. Start executing it with accountability."
+    subtitle="If the direction is roughly set and what is missing is a sequenced plan and someone checking your progress, move now toward a coherent skill portfolio and a clearer exit path, instead of letting another exam or placement cycle pass on good intentions alone."
+    studentHref="#plans"
+    studentLabel="Get Career Coaching for Science Students"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; top: -170px; left: -110px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); }
+  .orb-teal { width: 420px; height: 420px; top: -40px; right: -120px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,.8), transparent 60%);
+    opacity: .16;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.5); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.85); }
+  .hero-pill {
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-bottom: 1.6rem;
+    white-space: normal;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.9vw, 18px); color: rgba(255,255,255,.68); line-height: 1.85; max-width: 800px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.54); line-height: 1.8; max-width: 760px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  #related-links { background: rgba(255,255,255,.012); }
+
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.78rem, 9.4vw, 2.4rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>
