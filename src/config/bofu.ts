@@ -345,6 +345,7 @@ export const BOFU_ASSESSMENT_LINKS = {
   streamSelectorAfter10th: '/services/assessments/stream-selector-test-after-10th/',
   careerAptitudeAfter12th: '/services/assessments/career-aptitude-test-after-12th/',
   streamSelectorAfter12th: '/services/assessments/stream-selector-test-after-12th/',
+  aptitudeTestAndCareerCounselling: '/services/assessments/aptitude-test-and-career-counselling/',
 } as const;
 
 export type BofuAudience = 'student' | 'professional' | 'mixed';

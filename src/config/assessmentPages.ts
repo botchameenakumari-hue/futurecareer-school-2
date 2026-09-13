@@ -829,6 +829,21 @@ function createSkillAssessmentPage({
   };
 }
 
+// Broadened to a mixed student-plus-professional hub: "aptitude test and
+// career counselling" is searched with city modifiers (Mumbai, Pune,
+// Bangalore) that carry no student-only signal, and those three cities have
+// large working-professional populations alongside students. Per
+// ASSESSMENT_PAGE_PROMPT.md's page-consolidation rule, the city variants are
+// added here as covered phrases rather than built as separate pages, since a
+// city does not change the assessment itself or its result interpretation.
+const aptitudeAndCounsellingPage = createAptitudeAssessmentPage({
+  slug: 'aptitude-test-and-career-counselling',
+  title: 'Aptitude Test and Career Counselling',
+  aliases: ['aptitude test and career counselling'],
+  target: 'class1112',
+  relatedTargets: ['class1112', 'aptitude12', 'aptitude10', 'class10', 'graduates', 'professionals'],
+});
+
 const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
   createPsychometricAssessmentPage({
     slug: 'career-personality-test',
@@ -1153,13 +1168,46 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     title: 'Career Selection Test Free',
     aliases: ['career selection test free'],
   }),
-  createAptitudeAssessmentPage({
-    slug: 'aptitude-test-and-career-counselling',
-    title: 'Aptitude Test and Career Counselling',
-    aliases: ['aptitude test and career counselling'],
-    target: 'class1112',
-    relatedTargets: ['class1112', 'aptitude12', 'aptitude10', 'class10'],
-  }),
+  {
+    ...aptitudeAndCounsellingPage,
+    bestFitBody:
+      'This works differently depending on your stage, so there is no single right assessment for everyone here. Students in Class 11 or 12 usually get the most from the Class 11 and 12 Assessment; after-10th and after-12th aptitude questions have their own dedicated tests below; and graduates or working professionals - including people asking this from Mumbai, Pune, or Bangalore - usually get more from the Graduates and Early Professionals Assessment or the Working Professionals and Career Changers Assessment instead.',
+    coveredPhrases: [
+      'aptitude test and career counselling in mumbai',
+      'aptitude test and career counselling in pune',
+      'career counselling in bangalore with aptitude test',
+      'career guidance aptitude test in pune',
+    ],
+    fitItems: aptitudeAndCounsellingPage.fitItems.map((item, index) =>
+      index === 1
+        ? {
+            title: 'You want the right aptitude page for your stage',
+            body: 'The stronger route should help separate after-10th, after-12th, and full student-fit needs from graduate and working-professional starting points, instead of pushing everyone into one path.',
+          }
+        : item,
+    ),
+    decideItems: aptitudeAndCounsellingPage.decideItems.map((item, index) =>
+      index === 1
+        ? {
+            title: 'Which stage-specific aptitude page fits better',
+            body: 'A stronger path should make it easier to choose between after-10th, after-12th, full-student-direction, and graduate-or-working-professional routes.',
+          }
+        : item,
+    ),
+    faqItems: [
+      ...aptitudeAndCounsellingPage.faqItems,
+      {
+        question: 'I searched for this from Mumbai, Pune, or Bangalore - does it still apply?',
+        answer:
+          'Yes. Guidance is delivered fully online across India, so the same free assessment options and the same paid counselling, guidance, and coaching service apply whether you are in Mumbai, Pune, Bangalore, or anywhere else - there is no separate local version to look for.',
+      },
+      {
+        question: 'Is this only for students, or does it work for working professionals too?',
+        answer:
+          'Both. Students and after-12th aspirants can start with the school- or stage-specific aptitude options, while graduates and working professionals - including people asking from IT, BPO, and finance-heavy cities like Mumbai, Pune, and Bangalore - can start with the graduate or working-professional assessment instead.',
+      },
+    ],
+  },
   createBroadCareerDirectionPage({
     slug: 'career-test-for-adults-free',
     title: 'Career Test for Adults Free',
