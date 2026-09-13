@@ -3439,4 +3439,94 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-09-13',
     readTimeMinutes: 21,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'forensic-science-career-options',
+    title: 'Forensic Science Career Options in India: The Real Track Map, Not Just the Lab',
+    description:
+      'Forensic science career options in India go past the FSL lab bench: DNA/biology, digital forensics, toxicology, documents, ballistics, forensic accounting, and profiling, each with its own entry route, ladder, and pay.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'biomedical-science-career-options',
+    title: 'Biomedical Science Career Options in India: Not the Same Degree as Biomedical Engineering',
+    description:
+      'Biomedical science career options in India, and why it is a different degree from biomedical engineering and biotechnology: medical lab science, hospital diagnostics, biomedical research, and real salary by track.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'environmental-science-career-options',
+    title: 'Environmental Science Career Options in India: 6 Real Tracks Beyond "NGO Work"',
+    description:
+      'Environmental science career options in India: EIA consulting, pollution-board regulatory roles, corporate ESG and sustainability, conservation, renewable-energy compliance, and research, with real pay by track.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 15,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'health-science-career-opportunities',
+    title: 'Health Science Career Opportunities in India: What the Umbrella Degree Actually Covers',
+    description:
+      '"Health science" career opportunities in India are really 6 separate allied-health specialisations under one umbrella degree name, plus health administration and health informatics. See what each one actually pays and leads to.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'information-science-career-opportunities',
+    title: 'Information Science Career Opportunities: The Two Different Degrees Hiding Behind One Name',
+    description:
+      '"Information science" career opportunities split into two unrelated fields in India: Information Science Engineering (a CS-adjacent branch) and Library and Information Science (LIS). See which one your degree actually is, and what each leads to.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 12,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'math-and-science-careers',
+    title: 'Math and Science Careers in India: A Map, Not Just a PCM Repeat',
+    description:
+      'Careers that involve math and science in India, organised by how much of each you actually want day to day: pure research, applied engineering, data/quant work, teaching, and bridge routes from non-PCM backgrounds.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'polymer-science-careers',
+    title: 'Polymer Science Careers in India: CIPET, the Real Industries, and What Each Pays',
+    description:
+      'Polymer science careers in India: plastics/rubber processing, polymer R&D, tyre technology, paints and coatings, and testing/QC, with CIPET entry routes and real pay by track.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-after-bsc-computer-science',
+    title: 'Career After BSc Computer Science: Job, MCA, or MSc, Decided Honestly',
+    description:
+      'Career after BSc Computer Science in India: the real fork between a direct job, an MCA, an MSc, or a government exam, and how a BSc CS graduate actually competes against BTech CSE for the same roles.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'computer-science-engineering-career-options',
+    title: 'Computer Science Engineering Career Options: What the "Engineering" Label Actually Unlocks',
+    description:
+      'Computer Science Engineering (CSE/B.Tech) career options in India: GATE and PSU eligibility, campus placement reality by college tier, and where a CSE degree specifically outperforms a plain BSc or BCA.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-objective-for-computer-science-fresher',
+    title: 'Career Objective for Computer Science Fresher: Real Resume Examples',
+    description:
+      'Real career objective examples for a computer science fresher resume: software developer, web developer, data/ML, and QA/testing, built with the Role-Proof-Direction formula, not generic filler lines.',
+    publishedAtISO: '2026-09-13',
+    readTimeMinutes: 11,
+  },
 ];
