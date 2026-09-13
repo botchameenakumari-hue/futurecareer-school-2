@@ -191,6 +191,28 @@ follow-up file, and do not skip any of the 2-3 required follow-up passes. Read
 every file in full each time — do not use any cached/bundled skill shorthand
 instead.
 
+Mandatory pass log (produces the proof, so a pass cannot be silently skipped
+or merged into another one): for every page, keep a running log with one
+dated entry per pass —
+`Pass 1: <what was checked> -> <findings/fixes, or "none">`,
+`Pass 2: <...>`, `Pass 3: <...>`. Before reporting a page or batch as done,
+show this log. A log with only one entry, or entries that just restate "ran
+build and public-copy check," does not satisfy the requirement — running the
+automated build/check:public-copy/banned-phrase scripts is necessary but is
+not itself a follow-up pass; each logged pass must be a fresh, independent
+re-read of the follow-up file's actual checklist items against the page's
+current content, done separately from the others, not folded into one
+combined audit sweep.
+
+If any part of the writing is delegated to a subagent, the subagent's brief
+must explicitly instruct it to run each follow-up pass as its own separately
+labeled step and to return its own pass log (Pass 1/2/3 findings) in its
+report — never a single instruction like "read the follow-up file and write
+a compliant page," which in practice produces at most one pass. Do not accept
+or trust a subagent's summary claim of compliance ("applied rule X") at face
+value — spot-verify at least the pass log's specific claims directly against
+the file before counting the work as done.
+
 Keywords:
 1. <keyword>
 2. <keyword>
