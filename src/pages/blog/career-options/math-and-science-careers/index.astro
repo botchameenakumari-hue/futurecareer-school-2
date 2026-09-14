@@ -12,6 +12,33 @@ const authorName = 'Allu Vagdevi';
 const authorUrl = 'https://futurecareerschool.com/about/allu-vagdevi/';
 const authorRole = 'Career researcher and writer';
 
+const payRows = [
+  {
+    track: 'Heavy-math quadrant: data science, entry to senior',
+    pay: 'Roughly Rs 6-13 LPA entry, climbing toward Rs 17-55 LPA with 10+ years and platform ownership',
+  },
+  {
+    track: 'Heavy-math quadrant: actuarial trainee to Fellow Actuary',
+    pay: 'Roughly Rs 3.5-6 LPA trainee, rising to Rs 35-80 LPA once qualified as a Fellow Actuary (FIAI)',
+  },
+  {
+    track: 'Heavy-science quadrant: life-sciences research (JRF to Senior Scientist)',
+    pay: 'Roughly Rs 4.4 LPA as a JRF stipend, rising to Rs 15-22 LPA at Senior/Principal Scientist over 10-15+ years',
+  },
+  {
+    track: 'Both-heavy quadrant: core engineering (CSE degree route)',
+    pay: 'Roughly Rs 4-8 LPA entry at a mid-tier college, Rs 8-25+ LPA at a top-tier college or product company',
+  },
+  {
+    track: 'Both-heavy quadrant: physics/core-science research (post-PhD)',
+    pay: 'Roughly Rs 6-9 LPA at entry-level faculty or scientist posts, rising slowly on a government pay-scale ladder',
+  },
+  {
+    track: 'Teaching / science communication / ed-tech content',
+    pay: 'Roughly Rs 3-6 LPA at a school or content team, Rs 8-15+ LPA for a senior curriculum or ed-tech content lead',
+  },
+];
+
 const jumpLinks = [
   { id: 'short-answer', label: 'The short answer' },
   { id: 'wrong-question', label: 'Why "math and science careers" is the wrong first filter' },
@@ -21,6 +48,7 @@ const jumpLinks = [
   { id: 'both-heavy-track', label: 'Both heavy: engineering, physics research, and core quant science' },
   { id: 'teaching-track', label: 'The track that uses both without a research or industry job' },
   { id: 'bridge-routes', label: 'Bridge routes if you are not from a PCM background' },
+  { id: 'pay-by-quadrant', label: 'Real pay, quadrant by quadrant' },
   { id: 'ai-effect', label: 'What AI is actually changing here' },
   { id: 'who-fits', label: 'Which quadrant actually fits you' },
   { id: 'mistakes', label: 'Mistakes that waste the strength' },
@@ -164,7 +192,9 @@ const faqJsonLd = {
     wearing one sentence. Someone who loves solving equations but finds wet-lab biology tedious wants a
     completely different career than someone who loves fieldwork biology but finds statistics
     tolerable at best. The useful next step is not a list of careers, it is figuring out which quadrant
-    below actually describes your day-to-day preference.
+    below actually describes your day-to-day preference. If you are choosing this ahead of picking a
+    stream, <a href="/blog/career-options/pcm-career-options/">PCM career options</a> covers the
+    stream-level version of this same decision in more depth.
   </p>
 
   <h2 id="wrong-question">Why "math and science careers" is the wrong first filter</h2>
@@ -249,6 +279,37 @@ const faqJsonLd = {
     ))}
   </div>
 
+  <h2 id="pay-by-quadrant">Real pay, quadrant by quadrant</h2>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Quadrant and stage</th>
+          <th>Typical pay</th>
+        </tr>
+      </thead>
+      <tbody>
+        {payRows.map((item) => (
+          <tr>
+            <td data-label="Quadrant and stage"><strong>{item.track}</strong></td>
+            <td data-label="Typical pay">{item.pay}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Ranges are directional, synthesised from current salary-tracking sources and the deep-dive sibling
+    articles linked above, at the time of writing. Verify current figures against live job postings and
+    your specific employer before making a decision. The upper figure in each row is a strong-to-exceptional
+    outcome reached after years of specific experience, not what a typical entrant sees on day one — this
+    is also the actual evidence behind the claim that the heavy-math quadrant currently carries the
+    strongest pay ceiling of the four: its senior-stage figures run higher than the other three quadrants'
+    equivalent-stage figures above.
+  </p>
+
   <h2 id="ai-effect">What AI is actually changing here</h2>
 
   <p>
@@ -329,11 +390,11 @@ const faqJsonLd = {
   <h2 id="faq">FAQs</h2>
 
   <div class="faq-list">
-    {faqItems.map((item) => (
-      <div class="faq-item">
-        <p class="faq-item__q">{item.q}</p>
-        <p class="faq-item__a">{item.a}</p>
-      </div>
+    {faqItems.map((item, index) => (
+      <details class="faq-item" open={index === 0}>
+        <summary class="faq-item__q">{item.q}</summary>
+        <div class="faq-item__a">{item.a}</div>
+      </details>
     ))}
   </div>
 </BlogPostLayout>
