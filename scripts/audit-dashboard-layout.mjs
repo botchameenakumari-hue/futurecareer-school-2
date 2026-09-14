@@ -58,6 +58,12 @@ for (const route of routes) {
           .filter((element) => visible(element) && !element.labels?.length && !element.getAttribute('aria-label') && !element.getAttribute('title')).length;
         const unnamedButtons = [...document.querySelectorAll('button')]
           .filter((element) => visible(element) && !(element.textContent ?? '').trim() && !element.getAttribute('aria-label') && !element.getAttribute('title')).length;
+        const undersizedButtons = [...document.querySelectorAll('button')]
+          .filter((element) => visible(element) && element.getBoundingClientRect().height < 32)
+          .map((element) => `${element.id || element.textContent?.trim().slice(0, 36) || 'button'}:${Math.round(element.getBoundingClientRect().height)}`);
+        const clippedButtons = [...document.querySelectorAll('button')]
+          .filter((element) => visible(element) && element.scrollWidth > element.clientWidth + 2)
+          .map((element) => element.id || element.getAttribute('aria-label') || element.textContent?.trim().slice(0, 36) || 'button');
         const visibleInterestCheckboxes = [...document.querySelectorAll('.career-interest-chips input[type="checkbox"], .career-interest-options input[type="checkbox"]')]
           .filter((element) => visible(element)).length;
         const emptyLinks = [...document.querySelectorAll('a')]
@@ -80,6 +86,8 @@ for (const route of routes) {
           duplicateIds,
           unlabeledInputs,
           unnamedButtons,
+          undersizedButtons,
+          clippedButtons,
           visibleInterestCheckboxes,
           emptyLinks,
           invalidViewTargets,
@@ -87,7 +95,7 @@ for (const route of routes) {
         };
       });
       if (result.scrollWidth > result.clientWidth) failures.push({ route, width, ...result });
-      if (result.duplicateIds.length || result.unlabeledInputs || result.unnamedButtons || result.visibleInterestCheckboxes || result.emptyLinks || result.invalidViewTargets.length || result.invalidCareerAnchors.length) {
+      if (result.duplicateIds.length || result.unlabeledInputs || result.unnamedButtons || result.undersizedButtons.length || result.clippedButtons.length || result.visibleInterestCheckboxes || result.emptyLinks || result.invalidViewTargets.length || result.invalidCareerAnchors.length) {
         failures.push({ route, width, ...result, reason: 'accessibility contract failed' });
       }
       if (route === '/dashboard/career-decision' && (result.careerCards > 24 || result.hasShowAll)) {

@@ -1911,7 +1911,7 @@ function applySkillPreset(key: string) {
     linked_career_path_id: scope === 'career-specific' ? primary?.id || '' : '',
     practice_method: plan?.practiceMethod || '',
     success_criteria: plan?.successCriteria || '',
-    review_date: review.toISOString().slice(0, 10),
+    review_date: localDateValue(review),
   });
   qsa<HTMLElement>('[data-skill-preset]').forEach((button) => button.classList.toggle('is-selected', button.dataset.skillPreset === key));
 }
@@ -2053,7 +2053,7 @@ async function addHardSkillsForCareer(path: Row) {
       development_goal: `Build a practical working foundation in ${item.name} for ${careerTitle}.`,
       practice_method: `Complete one small ${item.name} task related to ${careerTitle}, then review the result with your coach.`,
       success_criteria: `A dated work sample or explanation showing how you used ${item.name} in a realistic task.`,
-      review_date: review.toISOString().slice(0, 10),
+      review_date: localDateValue(review),
       created_by: workspaceCtx.user.id,
       updated_by: workspaceCtx.user.id,
     }));
@@ -2112,7 +2112,7 @@ async function addHardSkillsForCareer(path: Row) {
         development_goal: `Build a practical working foundation in ${name} for ${careerTitle}.`,
         practice_method: `Complete one small ${name} task related to ${careerTitle}, then review the result with your coach.`,
         success_criteria: `A dated work sample showing how you used ${name} in a realistic task.`,
-        review_date: review.toISOString().slice(0, 10),
+        review_date: localDateValue(review),
         created_by: workspaceCtx.user.id,
         updated_by: workspaceCtx.user.id,
       });
@@ -2211,7 +2211,7 @@ function applyActionPreset(select: HTMLSelectElement) {
   if (!preset || !form) return;
   const due = new Date();
   due.setDate(due.getDate() + preset.dueDays);
-  setFormValues(form, { title: preset.title, category: preset.category, details: preset.details, due_date: due.toISOString().slice(0, 10) });
+  setFormValues(form, { title: preset.title, category: preset.category, details: preset.details, due_date: localDateValue(due) });
   updateActionTimeGuidance(form);
 }
 
@@ -2400,6 +2400,13 @@ function openCareerDialog(id = '') {
   });
   const idField = form.elements.namedItem('id') as HTMLInputElement;
   idField.value = row?.id ?? '';
+  const decisionDeadline = form.elements.namedItem('decision_deadline') as HTMLInputElement | null;
+  if (decisionDeadline) {
+    const today = localDateValue();
+    decisionDeadline.min = row?.decision_deadline && String(row.decision_deadline) < today
+      ? String(row.decision_deadline)
+      : today;
+  }
   const type = row?.option_type || 'primary';
   form.querySelectorAll<HTMLInputElement>('input[name="option_type"]').forEach((input) => { input.checked = input.value === type; });
   const picker = qs<HTMLElement>('#career-preset-picker');
@@ -2524,7 +2531,7 @@ function openSkillDialog(id = '') {
   else {
     const review = new Date();
     review.setDate(review.getDate() + 30);
-    setFormValues(form, { review_date: review.toISOString().slice(0, 10), skill_scope: 'foundation' });
+    setFormValues(form, { review_date: localDateValue(review), skill_scope: 'foundation' });
   }
   (form.elements.namedItem('id') as HTMLInputElement).value = row?.id ?? '';
   (form.elements.namedItem('preset_key') as HTMLInputElement).value = row?.preset_key ?? '';
@@ -2799,6 +2806,11 @@ async function handleCareerSubmit(event: SubmitEvent) {
     form.querySelector<HTMLInputElement>('[name="title"]')?.focus();
     return;
   }
+  if (!id && reviewDate && reviewDate < localDateValue()) {
+    setModalStatus('#career-option-status', 'Choose today or a future date for this career check-in.', true);
+    form.querySelector<HTMLInputElement>('[name="decision_deadline"]')?.focus();
+    return;
+  }
   baseRow.option_type = desiredType;
   const button = form.querySelector<HTMLButtonElement>('[type="submit"]');
   setBusy(button, true);
@@ -2955,7 +2967,7 @@ async function handleSkillPlanSubmit(event: SubmitEvent) {
     development_goal: item.developmentGoal,
     practice_method: item.practiceMethod,
     success_criteria: item.successCriteria,
-    review_date: review.toISOString().slice(0, 10),
+    review_date: localDateValue(review),
     created_by: actorId,
     updated_by: actorId,
   }));
@@ -3841,7 +3853,7 @@ function bindEvents() {
         const date = new Date();
         date.setHours(12, 0, 0, 0);
         date.setDate(date.getDate() + days);
-        dateField.value = date.toISOString().slice(0, 10);
+        dateField.value = localDateValue(date);
         dateField.dispatchEvent(new Event('change', { bubbles: true }));
       }
       return;

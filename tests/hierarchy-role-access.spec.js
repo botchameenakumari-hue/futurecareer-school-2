@@ -303,7 +303,15 @@ for (const [role, rules] of Object.entries(roleRules)) {
 // overflow after a responsive style change.
 for (const [role, rules] of Object.entries(roleRules)) {
   test(`${roleLabels[role]} views remain usable across desktop, tablet, and mobile`, async ({ page }) => {
-    for (const viewport of [{ width: 1440, height: 900 }, { width: 820, height: 1024 }, { width: 390, height: 844 }]) {
+    for (const viewport of [
+      { width: 1440, height: 900 },
+      { width: 1024, height: 900 },
+      { width: 820, height: 1024 },
+      { width: 768, height: 1024 },
+      { width: 600, height: 900 },
+      { width: 390, height: 844 },
+      { width: 320, height: 720 },
+    ]) {
       await page.setViewportSize(viewport);
       await mockRole(page, role);
       await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });

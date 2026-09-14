@@ -1265,6 +1265,45 @@ test('coach dashboard stays readable on a narrow mobile screen', async ({ page }
   expect(audit.clippedFields).toEqual([]);
 });
 
+test('every student plan pane stays operable at compact breakpoints', async ({ page }) => {
+  for (const viewport of [
+    { width: 768, height: 1024 },
+    { width: 600, height: 900 },
+    { width: 320, height: 720 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await mockWorkspace(page, 'student');
+    await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#workspace-shell')).toBeVisible({ timeout: 10_000 });
+    await page.locator('#mobile-nav [data-view-target="career"]').evaluate((element) => (element instanceof HTMLElement) && element.click());
+
+    for (const tab of ['options', 'skills', 'growth', 'actions', 'sessions', 'guidance']) {
+      await page.locator(`[data-plan-tab="${tab}"]`).click();
+      const pane = page.locator(`[data-plan-pane="${tab}"]`);
+      await expect(pane).toBeVisible();
+      const layout = await pane.evaluate((element) => {
+        const visibleControls = [...element.querySelectorAll('button, input, select, textarea')].filter((control) => {
+          if (!(control instanceof HTMLElement)) return false;
+          const style = getComputedStyle(control);
+          const rect = control.getBoundingClientRect();
+          return style.display !== 'none' && style.visibility !== 'hidden' && !control.hidden && rect.width > 0 && rect.height > 0;
+        });
+        return {
+          documentOverflow: document.documentElement.scrollWidth - window.innerWidth,
+          paneOverflow: element.scrollWidth - element.clientWidth,
+          outOfBounds: visibleControls.filter((control) => {
+            const rect = control.getBoundingClientRect();
+            return rect.left < -1 || rect.right > window.innerWidth + 1;
+          }).map((control) => control.getAttribute('aria-label') || control.textContent?.trim().slice(0, 40) || control.tagName),
+          undersizedButtons: visibleControls.filter((control) => control.tagName === 'BUTTON' && control.getBoundingClientRect().height < 32)
+            .map((control) => `${control.className || 'button'}:${control.textContent?.trim().slice(0, 40) || control.getAttribute('aria-label') || 'button'}:${Math.round(control.getBoundingClientRect().height)}`),
+        };
+      });
+      expect(layout, `${tab}/${viewport.width}`).toEqual({ documentOverflow: 0, paneOverflow: 0, outOfBounds: [], undersizedButtons: [] });
+    }
+  }
+});
+
 test('dedicated career decision route behaves as a full dashboard page', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await mockWorkspace(page, 'student');
@@ -1298,6 +1337,11 @@ test('dedicated career decision route behaves as a full dashboard page', async (
   expect(layout.documentOverflow).toBeLessThanOrEqual(1);
   const catalogueCount = await page.locator('#career-preset-count').textContent();
   expect(catalogueCount || '').toMatch(/\d{3,} useful matches/);
+  const localToday = await page.evaluate(() => {
+    const now = new Date();
+    return new Date(now.getTime() - now.getTimezoneOffset() * 60_000).toISOString().slice(0, 10);
+  });
+  await expect(page.locator('#career-option-form input[name="decision_deadline"]')).toHaveAttribute('min', localToday);
   // The saved-direction Review action must open the editor immediately; this
   // guards the common regression where the visible button has no delegated
   // handler after the planner is rendered as a full page.

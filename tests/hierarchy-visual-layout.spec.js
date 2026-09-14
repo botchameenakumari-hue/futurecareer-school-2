@@ -177,6 +177,17 @@ for (const viewport of [
         await expect(page.locator(`#mobile-nav [data-view-target="${view}"]`)).toHaveAttribute('aria-current', 'page');
       }
       const layoutChecks = await page.evaluate(() => {
+        const title = document.querySelector('#view-title');
+        const splitTitleWords = [];
+        if (title?.firstChild?.nodeType === Node.TEXT_NODE) {
+          const text = title.firstChild.textContent || '';
+          for (const match of text.matchAll(/\S+/g)) {
+            const range = document.createRange();
+            range.setStart(title.firstChild, match.index || 0);
+            range.setEnd(title.firstChild, (match.index || 0) + match[0].length);
+            if (range.getClientRects().length > 1) splitTitleWords.push(match[0]);
+          }
+        }
         const visibleButtons = [...document.querySelectorAll('button')].filter((button) => {
           if (!(button instanceof HTMLElement)) return false;
           const style = getComputedStyle(button);
@@ -197,12 +208,14 @@ for (const viewport of [
           mobileNavTruncated: [...document.querySelectorAll('#mobile-nav button span')]
             .filter((span) => /\.\.\.|…/.test(span.textContent || ''))
             .map((span) => span.textContent?.trim()),
+          splitTitleWords,
         };
       });
       expect(layoutChecks.pageOverflow, `${view} overflows on ${viewport.name}`).toBeLessThanOrEqual(1);
       expect(layoutChecks.refreshLabelStacks, `Refresh label stacks vertically on ${viewport.name}`).toBe(false);
       expect(layoutChecks.undersizedButtons, `${view} has undersized controls on ${viewport.name}`).toEqual([]);
       expect(layoutChecks.mobileNavTruncated, `${view} truncates a mobile navigation label on ${viewport.name}`).toEqual([]);
+      expect(layoutChecks.splitTitleWords, `${view} splits a page-title word on ${viewport.name}`).toEqual([]);
     }
     await page.screenshot({ path: testInfo.outputPath(`admin-${viewport.name}.png`), fullPage: true });
   });
