@@ -61,6 +61,11 @@ function textValue(value: FormDataEntryValue | null) {
   return String(value ?? '').trim();
 }
 
+function localDateValue(date = new Date()) {
+  const offset = date.getTimezoneOffset() * 60_000;
+  return new Date(date.getTime() - offset).toISOString().slice(0, 10);
+}
+
 function numberValue(value: FormDataEntryValue | null, fallback: number) {
   const parsed = Number(textValue(value));
   return Number.isFinite(parsed) ? parsed : fallback;
@@ -687,7 +692,7 @@ function renderCohortDetail() {
   if (taskList) taskList.innerHTML = cohortTasks.map((task) => cohortTaskHtml(task, true)).join('') || '<div class="empty-state coaching-empty"><strong>No shared tasks yet.</strong><span>Add the first practical task for this cohort.</span></div>';
   const taskForm = qs<HTMLFormElement>('#cohort-task-form');
   const taskIdField = taskForm?.elements.namedItem('id') as HTMLInputElement | null;
-  if (taskForm && !taskIdField?.value) (taskForm.elements.namedItem('added_on') as HTMLInputElement).value ||= new Date().toISOString().slice(0, 10);
+  if (taskForm && !taskIdField?.value) (taskForm.elements.namedItem('added_on') as HTMLInputElement).value ||= localDateValue();
 }
 
 function renderStudentDelivery(studentId: string) {
@@ -1115,7 +1120,7 @@ async function handleCohortTaskSubmit(event: SubmitEvent) {
   const form = event.currentTarget as HTMLFormElement;
   const data = new FormData(form);
   const id = textValue(data.get('id'));
-  const addedOn = textValue(data.get('added_on')) || new Date().toISOString().slice(0, 10);
+  const addedOn = textValue(data.get('added_on')) || localDateValue();
   const dueDate = textValue(data.get('due_date'));
   const status = qs<HTMLElement>('#cohort-task-status');
   if (dueDate && dueDate < addedOn) { if (status) status.textContent = 'The due date must be on or after the task date.'; return; }
@@ -1132,7 +1137,7 @@ async function handleCohortTaskSubmit(event: SubmitEvent) {
     const response = await query.select('*').single();
     if (response.error) throw response.error;
     form.reset();
-    (form.elements.namedItem('added_on') as HTMLInputElement).value = new Date().toISOString().slice(0, 10);
+    (form.elements.namedItem('added_on') as HTMLInputElement).value = localDateValue();
     await reloadAndRender(id ? 'Cohort task updated.' : 'Cohort task added.');
   } catch (error) { const message = friendlyWorkspaceError(error, 'Could not save the cohort task.'); setFormStatus('#cohort-task-status', message, true); ctx.setWorkspaceStatus(message, true); }
   finally { setBusy(button, false); }
@@ -1225,7 +1230,7 @@ async function handleCohortPostSubmit(event: SubmitEvent) {
         task_type: 'other',
         priority: 'normal',
         status: 'open',
-        added_on: new Date().toISOString().slice(0, 10),
+        added_on: localDateValue(),
         due_date: dueDate,
         created_by: ctx.user.id,
         updated_by: ctx.user.id,
@@ -1484,7 +1489,7 @@ function bindEvents() {
     if (target.closest('[data-reset-cohort-task]')) {
       const form = qs<HTMLFormElement>('#cohort-task-form');
       form?.reset();
-      if (form) (form.elements.namedItem('added_on') as HTMLInputElement).value = new Date().toISOString().slice(0, 10);
+      if (form) (form.elements.namedItem('added_on') as HTMLInputElement).value = localDateValue();
     }
   });
 }

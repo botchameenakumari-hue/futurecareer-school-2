@@ -693,6 +693,13 @@ test('staff can run a complete coaching case from caseload to private notes', as
   await skillDialog.getByRole('button', { name: 'Save skill' }).click();
   await expect(skillDialog).not.toBeVisible();
   await expect(page.locator('#workspace-status')).toHaveText('Skill added to the roadmap.');
+  await page.locator('[data-record-pane="skills"]').getByRole('button', { name: 'Add one skill' }).click();
+  await skillDialog.getByLabel('Skill', { exact: true }).fill('  Interview   synthesis  ');
+  await skillDialog.getByRole('button', { name: 'Save skill' }).click();
+  await expect(skillDialog).toBeVisible();
+  await expect(skillDialog.locator('#skill-status')).toContainText('already in this skill group');
+  page.once('dialog', (dialog) => dialog.accept());
+  await skillDialog.getByRole('button', { name: 'Cancel' }).click();
   // The roadmap defaults to five cards per page. Move the active group to its
   // final page for this record-level assertion so the newly added skill is
   // intentionally brought into view instead of relying on an implementation-
@@ -799,6 +806,17 @@ test('staff can run a complete coaching case from caseload to private notes', as
   await expect(page.locator('#record-action-list')).toContainText('Interview a product designer');
   await expect(page.locator('#record-actions-pane .action-form-help')).toContainText('make the action specific');
   const actionForm = page.locator('#record-action-form');
+  const actionDueDate = actionForm.getByLabel('Due date');
+  const localToday = await page.evaluate(() => {
+    const now = new Date();
+    return new Date(now.getTime() - now.getTimezoneOffset() * 60_000).toISOString().slice(0, 10);
+  });
+  await expect(actionDueDate).toHaveAttribute('min', localToday);
+  await actionForm.getByPlaceholder('For example: Compare two entry routes').fill('Do not save this overdue action');
+  await actionDueDate.fill('2020-01-01');
+  await actionForm.evaluate((form) => form.dispatchEvent(new SubmitEvent('submit', { bubbles: true, cancelable: true })));
+  await expect(page.locator('#record-action-status')).toContainText('does not start overdue');
+  await actionDueDate.fill('');
   expect(await actionForm.getByLabel('Choose from suggested actions').locator('option').count()).toBeGreaterThan(20);
   await actionForm.getByLabel('Choose from suggested actions').selectOption('compare-entry-routes');
   await expect(actionForm.getByPlaceholder('For example: Compare two entry routes')).toHaveValue('Compare three entry routes');
@@ -925,6 +943,14 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await expect(page.locator('#career-interest-guidance')).toContainText('study stage');
   expect(await page.locator('#career-preset-results .career-library-result').count()).toBeLessThanOrEqual(24);
   await expect(page.locator('[data-career-page="next"]')).toBeVisible();
+  // If a stage has no exact matches inside a selected career group, the
+  // catalogue may widen the stage but must never discard the learner's group.
+  await page.locator('#career-preset-group').selectOption('Healers');
+  await page.locator('#career-study-stage').selectOption('after-12th-maths');
+  const fallbackGroups = await page.locator('#career-preset-results .career-library-result').evaluateAll((cards) => cards.map((card) => card.textContent || ''));
+  expect(fallbackGroups.length).toBeGreaterThan(0);
+  expect(fallbackGroups.every((text) => /Healers/i.test(text))).toBe(true);
+  await page.locator('#career-preset-group').selectOption('all');
   await page.locator('#career-study-stage').selectOption('after-12th-science');
   await page.locator('.career-interest-chips button[data-career-interest="creative"]').click();
   await expect(page.locator('#career-interest-guidance')).toContainText('guide');

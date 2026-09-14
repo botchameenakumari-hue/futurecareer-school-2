@@ -198,6 +198,11 @@ function textValue(value: FormDataEntryValue | null) {
   return String(value ?? '').trim();
 }
 
+function localDateValue(date = new Date()) {
+  const offset = date.getTimezoneOffset() * 60_000;
+  return new Date(date.getTime() - offset).toISOString().slice(0, 10);
+}
+
 function numberValue(value: FormDataEntryValue | null) {
   const text = textValue(value);
   if (!text) return null;
@@ -1672,7 +1677,7 @@ function renderCareerPresetResults() {
   // learner's search and interest filters, then widen only the stage filter.
   const matches = sortCareerGuides(stageMatches.length || !catalogueMatches.length || stage === 'all'
     ? stageMatches
-    : careerLibraryMatches(query, category, interest, 'all'), sort);
+    : catalogueMatches, sort);
   // Keep the guide tied to an actual student action. If a search or filter
   // removes the previously selected route, select the first visible match;
   // on a fresh unfiltered page, show the orientation copy instead of implying
@@ -2596,7 +2601,7 @@ function openEvidenceDialog(skillId: string, evidenceId = '') {
   (form.elements.namedItem('id') as HTMLInputElement).value = evidence?.id ?? '';
   (form.elements.namedItem('skill_id') as HTMLInputElement).value = skillId;
   if (evidence) setFormValues(form, evidence);
-  else (form.elements.namedItem('evidence_date') as HTMLInputElement).value = new Date().toISOString().slice(0, 10);
+  else (form.elements.namedItem('evidence_date') as HTMLInputElement).value = localDateValue();
   const preset = qs<HTMLSelectElement>('#evidence-preset');
   if (preset) preset.value = '';
   const context = qs<HTMLElement>('#evidence-skill-name');
@@ -2630,7 +2635,7 @@ function openSkillReviewDialog(skillId: string, reviewId = '') {
   }
   (form.elements.namedItem('id') as HTMLInputElement).value = review?.id ?? '';
   (form.elements.namedItem('skill_id') as HTMLInputElement).value = skill.id;
-  (form.elements.namedItem('coach_reviewed_on') as HTMLInputElement).value = review?.coach_reviewed_on ?? new Date().toISOString().slice(0, 10);
+  (form.elements.namedItem('coach_reviewed_on') as HTMLInputElement).value = review?.coach_reviewed_on ?? localDateValue();
   (form.elements.namedItem('coach_feedback') as HTMLTextAreaElement).value = review?.coach_feedback ?? '';
   (form.elements.namedItem('coach_satisfaction') as HTMLInputElement).value = review?.coach_satisfaction !== null && review?.coach_satisfaction !== undefined ? String(review.coach_satisfaction) : '0';
   (form.elements.namedItem('next_focus') as HTMLInputElement).value = review?.next_focus ?? '';
@@ -2686,7 +2691,7 @@ function openAdviceDialog(id = '') {
   }).join('')}`;
   if (row) setFormValues(form, row);
   else {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = localDateValue();
     (form.elements.namedItem('advice_date') as HTMLInputElement).value = today;
     cohort.value = currentCohort?.id ?? '';
   }
@@ -2789,6 +2794,11 @@ async function handleCareerSubmit(event: SubmitEvent) {
     updated_by: ctx.user.id,
     ...(id ? {} : { created_by: ctx.user.id }),
   };
+  if (!baseRow.title) {
+    setModalStatus('#career-option-status', 'Enter a career, course, or route name before saving.', true);
+    form.querySelector<HTMLInputElement>('[name="title"]')?.focus();
+    return;
+  }
   baseRow.option_type = desiredType;
   const button = form.querySelector<HTMLButtonElement>('[type="submit"]');
   setBusy(button, true);
@@ -2876,6 +2886,21 @@ async function handleSkillSubmit(event: SubmitEvent) {
     updated_by: ctx.user.id,
     ...(id ? {} : { created_by: ctx.user.id }),
   };
+  if (!row.skill_name) {
+    setModalStatus('#skill-status', 'Enter a skill name before saving.', true);
+    form.querySelector<HTMLInputElement>('[name="skill_name"]')?.focus();
+    return;
+  }
+  if (!id) {
+    const normalise = (value: unknown) => String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+    const duplicate = coaching.skills.find((skill) => skill.student_id === activeStudentId()
+      && normalise(skill.skill_name) === normalise(row.skill_name)
+      && String(skill.linked_career_path_id || '') === String(row.linked_career_path_id || ''));
+    if (duplicate) {
+      setModalStatus('#skill-status', `“${duplicate.skill_name}” is already in this skill group. Update the existing card instead of adding it twice.`, true);
+      return;
+    }
+  }
   const button = form.querySelector<HTMLButtonElement>('[type="submit"]');
   setBusy(button, true);
   try {
@@ -2971,7 +2996,7 @@ async function handleEvidenceSubmit(event: SubmitEvent) {
     const row = {
       skill_id: data.get('skill_id'), title: textValue(data.get('title')) || 'Skill evidence', evidence_type: data.get('evidence_type') || 'work-sample',
       description: textValue(data.get('description')), source_url: Array.from(new Set(links)).join('\n'),
-      observed_level: numberValue(data.get('observed_level')), evidence_date: data.get('evidence_date') || new Date().toISOString().slice(0, 10), added_by: ctx.user.id,
+      observed_level: numberValue(data.get('observed_level')), evidence_date: data.get('evidence_date') || localDateValue(), added_by: ctx.user.id,
     };
     const query = id ? ctx.client.from('skill_evidence').update(row).eq('id', id) : ctx.client.from('skill_evidence').insert(row);
     const response = await query.select('*').single();
@@ -3012,7 +3037,7 @@ async function handleSkillReviewSubmit(event: SubmitEvent) {
     // without emitting the delegated input event.
     || (Number.isFinite(scoreValue) && scoreValue !== 0);
   const row: Row = isStudent
-    ? { skill_id: data.get('skill_id'), student_id: studentId, student_feedback: textValue(data.get('student_feedback')), student_satisfaction: hasSelectedRating ? scoreValue : null, student_feedback_on: new Date().toISOString().slice(0, 10), updated_at: new Date().toISOString() }
+    ? { skill_id: data.get('skill_id'), student_id: studentId, student_feedback: textValue(data.get('student_feedback')), student_satisfaction: hasSelectedRating ? scoreValue : null, student_feedback_on: localDateValue(), updated_at: new Date().toISOString() }
     : { skill_id: data.get('skill_id'), student_id: studentId, coach_id: ctx.user.id, coach_reviewed_on: data.get('coach_reviewed_on'), coach_feedback: textValue(data.get('coach_feedback')), coach_satisfaction: hasSelectedRating ? scoreValue : null, next_focus: textValue(data.get('next_focus')), updated_at: new Date().toISOString() };
   if (isStudent && !row.student_feedback && (row.student_satisfaction === null || row.student_satisfaction === undefined)) {
     setModalStatus('#skill-review-status', 'Add a rating or a reflection before saving.', true);
@@ -3128,8 +3153,8 @@ async function handleInlineSkillReviewSubmit(event: SubmitEvent) {
     || form.dataset.ratingDirty === 'true'
     || (Number.isFinite(scoreValue) && scoreValue !== 0);
   const row: Row = isStudent
-    ? { skill_id: skillId, student_id: studentId, student_feedback: textValue(data.get('student_feedback')), student_satisfaction: hasSelectedRating ? scoreValue : null, student_feedback_on: new Date().toISOString().slice(0, 10), updated_at: new Date().toISOString() }
-    : { skill_id: skillId, student_id: studentId, coach_id: ctx.user.id, coach_reviewed_on: textValue(data.get('coach_reviewed_on')) || new Date().toISOString().slice(0, 10), coach_feedback: textValue(data.get('coach_feedback')), coach_satisfaction: hasSelectedRating ? scoreValue : null, next_focus: textValue(data.get('next_focus')), updated_at: new Date().toISOString() };
+    ? { skill_id: skillId, student_id: studentId, student_feedback: textValue(data.get('student_feedback')), student_satisfaction: hasSelectedRating ? scoreValue : null, student_feedback_on: localDateValue(), updated_at: new Date().toISOString() }
+    : { skill_id: skillId, student_id: studentId, coach_id: ctx.user.id, coach_reviewed_on: textValue(data.get('coach_reviewed_on')) || localDateValue(), coach_feedback: textValue(data.get('coach_feedback')), coach_satisfaction: hasSelectedRating ? scoreValue : null, next_focus: textValue(data.get('next_focus')), updated_at: new Date().toISOString() };
   if (isStudent && !row.student_feedback && (row.student_satisfaction === null || row.student_satisfaction === undefined)) {
     const status = form.querySelector<HTMLElement>('[data-inline-review-status]');
     if (status) status.textContent = 'Add a rating or a reflection before saving.';
@@ -3289,6 +3314,18 @@ async function handleActionSubmit(event: SubmitEvent) {
   const selectedPresetKey = form.querySelector<HTMLSelectElement>('[data-action-preset]')?.value ?? '';
   const selectedPreset = actionPresets.find((preset) => preset.key === selectedPresetKey);
   const linkedCareerPathId = currentPrimaryCareer()?.id ?? null;
+  const actionTitle = textValue(data.get('title'));
+  const dueDate = textValue(data.get('due_date'));
+  if (!actionTitle) {
+    setModalStatus(localStatus, 'Describe the action you want to complete.', true);
+    form.querySelector<HTMLInputElement>('[name="title"]')?.focus();
+    return;
+  }
+  if (dueDate && dueDate < localDateValue()) {
+    setModalStatus(localStatus, 'Choose today or a future date so the new action does not start overdue.', true);
+    form.querySelector<HTMLInputElement>('[name="due_date"]')?.focus();
+    return;
+  }
   if (weeklyPreset === 'custom' && (!weeklyCustom || Number(weeklyCustom) <= 0)) {
     setModalStatus(localStatus, 'Enter the weekly hours you can realistically maintain, or choose one of the five-hour options.', true);
     form.querySelector<HTMLInputElement>('input[name="weekly_hours_custom"]')?.focus();
@@ -3301,8 +3338,8 @@ async function handleActionSubmit(event: SubmitEvent) {
     const baseDetails = textValue(data.get('details'));
     const details = weeklyHours ? `${baseDetails}${baseDetails ? '\n\n' : ''}Weekly time available: ${weeklyHours} hours` : baseDetails;
     const response = await ctx.client.from('action_items').insert({
-      user_id: activeStudentId(), title: textValue(data.get('title')), category: data.get('category') || 'learn',
-      priority: data.get('priority') || 'normal', due_date: textValue(data.get('due_date')) || null,
+      user_id: activeStudentId(), title: actionTitle, category: data.get('category') || 'learn',
+      priority: data.get('priority') || 'normal', due_date: dueDate || null,
       details, assigned_by: ctx.user.id,
       preset_key: selectedPreset?.key ?? null,
       milestone: selectedPreset?.milestone ?? null,
@@ -3645,6 +3682,9 @@ function bindEvents() {
   qs<HTMLFormElement>('#advice-form')?.addEventListener('submit', handleAdviceSubmit);
   qs<HTMLFormElement>('#session-form')?.addEventListener('submit', handleSessionSubmit);
   qsa<HTMLFormElement>('[data-coaching-action-form]').forEach((form) => form.addEventListener('submit', handleActionSubmit));
+  qsa<HTMLInputElement>('[data-coaching-action-form] input[name="due_date"]').forEach((input) => {
+    input.min = localDateValue();
+  });
   document.addEventListener('click', (event) => {
     const featured = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-action-featured]');
     if (!featured) return;
