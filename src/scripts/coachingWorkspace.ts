@@ -1328,6 +1328,15 @@ function showPlanTab(tab: string, updateHistory = false) {
     pane.hidden = !active;
     pane.classList.toggle('is-active', active);
   });
+  // The orientation, summary and cohort context explain the plan landing page.
+  // Repeating them above every focused section pushes the actual work far down
+  // the screen, particularly on phones.
+  const planStart = qs<HTMLElement>('.student-plan-start');
+  if (planStart) planStart.hidden = !['options', 'actions'].includes(selectedTab);
+  ['#student-plan-summary', '#student-cohort-context'].forEach((selector) => {
+    const element = qs<HTMLElement>(selector);
+    if (element) element.hidden = selectedTab !== 'options';
+  });
 }
 
 function requireSchema() {
@@ -1793,12 +1802,11 @@ function selectCareerGuide(key: string) {
   renderCareerPresetResults();
   preview.innerHTML = careerGuidePreviewHtml(guide, ctx.escapeHtml);
   wireCareerGuideActions(preview);
-  // The full guide is rendered in the preview pane, which can be below the
-  // catalogue on narrow screens and beside it on desktop. Always bring that
-  // pane into view after a card/action click so “View details and choose”
-  // has a clear, predictable destination at every viewport width.
+  // The full guide is rendered below the catalogue on narrow screens and
+  // beside it on desktop. CSS supplies scroll-margin for the sticky page
+  // controls, so scrollIntoView consistently lands on the guide heading.
   window.setTimeout(() => {
-    preview.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    preview.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
     preview.classList.add('is-recently-selected');
     window.setTimeout(() => preview.classList.remove('is-recently-selected'), 900);
   }, 0);

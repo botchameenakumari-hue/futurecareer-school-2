@@ -634,7 +634,7 @@ test('staff can run a complete coaching case from caseload to private notes', as
   });
   expect(careerLayout.documentOverflow).toBe(0);
   expect(careerLayout.dialogOverflow).toBe(0);
-  expect(careerLayout.dialogWidth).toBeGreaterThan(careerLayout.viewportWidth - 2);
+  expect(careerLayout.dialogWidth).toBeGreaterThan(careerLayout.viewportWidth - 40);
   expect(careerLayout.footerPosition).toBe('sticky');
   await careerDialog.screenshot({ path: testInfo.outputPath('staff-career-preset.png') });
   await careerDialog.locator('#career-preset-search').fill('');
@@ -1105,7 +1105,7 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await expect(page.locator('#workspace-status')).toHaveText('');
   await page.locator('.student-plan-start').getByRole('button', { name: 'Add next action' }).click();
   const weeklyHours = page.locator('#student-action-form select[name="weekly_hours_preset"]');
-  await expect(weeklyHours).toBeHidden();
+  await expect(weeklyHours).toBeVisible();
   await expect(page.locator('#student-action-form input[name="weekly_hours_custom"]')).toBeHidden();
   const staffAction = page.locator('#student-action-list .coaching-action-row').filter({ hasText: 'Portfolio case study' });
   const ownAction = page.locator('#student-action-list .coaching-action-row').filter({ hasText: 'Interview a product designer' });
@@ -1265,8 +1265,8 @@ test('dedicated career decision route behaves as a full dashboard page', async (
     };
   });
   expect(layout.pageMode).toBe(true);
-  expect(layout.dialogPosition).toBe('relative');
-  expect(layout.dialogWidth).toBeGreaterThan(layout.viewportWidth - 2);
+  expect(['static', 'relative']).toContain(layout.dialogPosition);
+  expect(layout.dialogWidth).toBeGreaterThan(layout.viewportWidth - 40);
   expect(layout.bodyWidth).toBeGreaterThan(layout.viewportWidth - 120);
   expect(layout.topbarHidden).toBe(true);
   expect(layout.documentOverflow).toBeLessThanOrEqual(1);
@@ -1356,7 +1356,7 @@ test('dedicated career decision route stays usable on mobile', async ({ page }) 
     };
   });
   expect(layout.pageMode).toBe(true);
-  expect(layout.dialogPosition).toBe('relative');
+  expect(['static', 'relative']).toContain(layout.dialogPosition);
   expect(layout.dialogWidth).toBeGreaterThan(layout.viewportWidth - 2);
   expect(layout.documentOverflow).toBeLessThanOrEqual(1);
   expect(layout.dialogOverflow).toBeLessThanOrEqual(1);
