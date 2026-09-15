@@ -24,4 +24,5 @@ test('career decision starts with a clear manual option and functional catalogue
   expect(order.customInsideLibrary).toBe(true);
   await expect(page.locator('.career-quick-nav [data-career-anchor]')).toHaveCount(3);
   await expect(page.locator('#career-custom-name')).toHaveAttribute('placeholder', /For example/i);
+  await expect.poll(() => page.locator('#career-preset-picker').evaluate((el) => getComputedStyle(el, '::before').content)).toContain('How to use this list');
 });

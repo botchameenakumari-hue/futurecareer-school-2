@@ -1633,6 +1633,24 @@ function careerStageMatchesGuide(guide: ReturnType<typeof careerGuideFor>, stage
 
 function preparePresetControls() {
   if (!ctx) return;
+  const copy: Record<string, [string, string, string]> = {
+    'career-study-stage': ['Your current stage', 'This helps us show routes that fit your studies or experience.', 'Choose the closest match; it guides results but does not block other paths.'],
+    'career-preset-category': ['Area of work', 'Browse a broad field before comparing individual roles.', 'Start with all areas if you are still exploring.'],
+    'career-preset-group': ['Kind of work', 'Groups describe the usual style of work in a role.', 'Optional: leave this broad while you explore.'],
+    'career-preset-sort': ['Show first', 'This changes the order of results, not the number of careers.', 'Practical starting points is a good default for a first look.'],
+  };
+  Object.entries(copy).forEach(([id, [label, help, title]]) => {
+    const select = qs<HTMLSelectElement>(`#${id}`);
+    const field = select?.closest('label');
+    if (!select || !field) return;
+    const heading = field.querySelector('span');
+    if (heading) heading.textContent = label;
+    select.title = title;
+    const note = field.querySelector('small');
+    if (note) note.textContent = help;
+  });
+  const search = qs<HTMLInputElement>('#career-preset-search');
+  if (search) search.placeholder = 'Search by role, field, skill, or interest';
   const visibleCareerFamilies = Array.from(new Map(guidedCareerCategories.map((category) => [learnerFacingCareerFamily(category), category])).entries());
   // The career page already ships its canonical family options in the HTML.
   // Only populate this select for legacy markup that contains the three
