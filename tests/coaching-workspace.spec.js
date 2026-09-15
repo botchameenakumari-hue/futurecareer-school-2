@@ -873,6 +873,32 @@ test('student dashboard opens when assessment results are unavailable', async ({
   await expect(page.locator('#plan-skills-pane')).toContainText('0–10 rating');
 });
 
+test('workspace loading screen stays legible before scripts initialise', async ({ page }, testInfo) => {
+  await page.route('**/*', (route) => route.request().resourceType() === 'script' ? route.abort() : route.continue());
+  for (const width of [320, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#workspace-boot')).toBeVisible();
+    const layout = await page.locator('#workspace-boot').evaluate((boot) => {
+      const style = getComputedStyle(boot);
+      const title = boot.querySelector('.boot-copy strong');
+      return {
+        direction: style.flexDirection,
+        centered: style.textAlign,
+        background: style.backgroundImage,
+        titleColor: getComputedStyle(title).color,
+        overflow: document.documentElement.scrollWidth - window.innerWidth,
+      };
+    });
+    expect(layout.direction, String(width)).toBe('column');
+    expect(layout.centered, String(width)).toBe('center');
+    expect(layout.background, String(width)).toContain('gradient');
+    expect(layout.titleColor, String(width)).toBe('rgb(255, 255, 255)');
+    expect(layout.overflow, String(width)).toBeLessThanOrEqual(1);
+    await page.screenshot({ path: testInfo.outputPath(`loading-${width}.png`) });
+  }
+});
+
 test('student plan is useful on mobile and preserves coach-owned records', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await mockWorkspace(page, 'student');
@@ -1510,8 +1536,116 @@ test('career catalogue keeps a recoverable empty state when filters have no matc
   const search = page.locator('#career-preset-search');
   await search.fill('zzzz-no-career-match-9f7c');
   await expect(page.locator('#career-preset-count')).toContainText('0 useful matches');
-  await expect(page.locator('#career-preset-results .career-library-empty')).toContainText('No career guides match these choices.');
+  const emptyState = page.locator('#career-preset-results .career-library-empty');
+  await expect(emptyState).toContainText('No career guides match these choices.');
+  const emptyLayout = await emptyState.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { radius: parseFloat(style.borderRadius), padding: parseFloat(style.paddingTop), background: style.backgroundColor };
+  });
+  expect(emptyLayout.radius).toBeGreaterThanOrEqual(12);
+  expect(emptyLayout.padding).toBeGreaterThanOrEqual(16);
+  expect(emptyLayout.background).not.toBe('rgba(0, 0, 0, 0)');
   await page.locator('#career-preset-results [data-career-clear-filters]').click();
   await expect(search).toHaveValue('');
   await expect(page.locator('#career-preset-results .career-library-result').first()).toBeVisible();
+});
+
+test('career filters stay intersected and never show a stale guide', async ({ page }) => {
+  await page.setViewportSize({ width: 664, height: 912 });
+  await mockWorkspace(page, 'student');
+  await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
+  const search = page.locator('#career-preset-search');
+  await page.locator('#career-preset-category').selectOption('featured');
+  await search.fill('Marine Engineer');
+  await expect(page.locator('#career-preset-count')).toContainText('0 useful matches');
+  await expect(page.locator('#career-preset-results .career-library-empty')).toBeVisible();
+
+  await page.locator('#career-preset-category').selectOption('all');
+  await expect(page.locator('#career-preset-count')).toContainText('1 useful match');
+  await page.locator('#career-preset-results [data-career-preset]').first().click();
+  await expect(page.locator('#career-guide-preview')).toContainText('Marine Engineer');
+  await page.locator('#career-study-stage').selectOption('after-12th-humanities');
+  await expect(page.locator('#career-preset-count')).toContainText('0 useful matches');
+  await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
+  await page.locator('#career-preset-results [data-career-clear-filters]').click();
+  await expect(search).toHaveValue('');
+  await expect(page.locator('#career-preset-count')).toContainText('1446 useful matches');
+  await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
+  await search.fill('Software Engineer');
+  await expect(page.locator('#career-preset-results .career-library-result').first().locator('.career-result-title strong')).toHaveText('Software Engineer');
+});
+
+test('career interest and detail labels are readable at phone and tablet widths', async ({ page }) => {
+  for (const width of [320, 390, 664, 768, 1440]) {
+    await page.setViewportSize({ width, height: 912 });
+    await mockWorkspace(page, 'student');
+    await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
+    const navigationLayout = await page.evaluate(() => {
+      const header = document.querySelector('#career-option-dialog > .dialog-form > header');
+      const quickNav = document.querySelector('.career-quick-nav');
+      const instruction = document.querySelector('.career-guide-start-list li > div b');
+      const explanation = document.querySelector('.career-guide-start-list li > div span');
+      return {
+        headerPosition: getComputedStyle(header).position,
+        quickNavPosition: getComputedStyle(quickNav).position,
+        stepOverlap: instruction.getBoundingClientRect().bottom - explanation.getBoundingClientRect().top,
+      };
+    });
+    expect(navigationLayout.headerPosition, String(width)).toBe('relative');
+    if (width <= 820) expect(navigationLayout.quickNavPosition, String(width)).toBe('relative');
+    expect(navigationLayout.stepOverlap, String(width)).toBeLessThanOrEqual(0);
+    const interest = page.locator('.career-interest-chip').first();
+    const interestLayout = await interest.evaluate((button) => {
+      const style = getComputedStyle(button);
+      return {
+        height: button.getBoundingClientRect().height,
+        radius: parseFloat(style.borderRadius),
+        parentDisplay: getComputedStyle(button.closest('.career-interest-chips')).display,
+        overflow: document.documentElement.scrollWidth - window.innerWidth,
+      };
+    });
+    expect(interestLayout.height, String(width)).toBeGreaterThanOrEqual(40);
+    expect(interestLayout.radius, String(width)).toBeGreaterThanOrEqual(18);
+    expect(interestLayout.parentDisplay, String(width)).toBe('flex');
+    expect(interestLayout.overflow, String(width)).toBeLessThanOrEqual(1);
+    await interest.click();
+    await expect(interest).toHaveAttribute('aria-pressed', 'true');
+    await page.locator('#career-preset-results [data-career-preset]').first().click();
+    const chipLayout = await page.locator('#career-guide-preview .guide-chips span').first().evaluate((chip) => {
+      const foreground = getComputedStyle(chip).color.match(/\d+/g).slice(0, 3).map(Number);
+      const panel = getComputedStyle(chip.closest('.career-guide-preview')).backgroundColor.match(/\d+/g).slice(0, 3).map(Number);
+      const luminance = (rgb) => rgb.map((value) => {
+        const channel = value / 255;
+        return channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4;
+      }).reduce((sum, channel, index) => sum + channel * [.2126, .7152, .0722][index], 0);
+      const light = luminance(foreground);
+      const dark = luminance(panel);
+      return {
+        contrast: (Math.max(light, dark) + .05) / (Math.min(light, dark) + .05),
+        radius: parseFloat(getComputedStyle(chip).borderRadius),
+        overflow: document.documentElement.scrollWidth - window.innerWidth,
+      };
+    });
+    expect(chipLayout.contrast, String(width)).toBeGreaterThanOrEqual(4.5);
+    expect(chipLayout.radius, String(width)).toBeGreaterThanOrEqual(16);
+    expect(chipLayout.overflow, String(width)).toBeLessThanOrEqual(1);
+  }
+});
+
+test('independent-work ordering does not promote employer-only routes', async ({ page }) => {
+  await page.setViewportSize({ width: 1365, height: 900 });
+  await mockWorkspace(page, 'student');
+  await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
+  await page.locator('#career-preset-sort').selectOption('independent');
+  const firstPageTags = await page.locator('#career-preset-results .career-library-result .career-result-meta').allTextContents();
+  expect(firstPageTags.length).toBeGreaterThan(0);
+  expect(firstPageTags.every((text) => text.includes('Can grow into independent work'))).toBe(true);
+  await page.locator('#career-preset-search').fill('Public Administration Officer');
+  const publicRoute = page.locator('#career-preset-results .career-library-result')
+    .filter({ has: page.locator('.career-result-title strong', { hasText: 'Public Administration Officer' }) }).first();
+  await expect(publicRoute).toBeVisible();
+  await expect(publicRoute.locator('.career-result-meta')).toContainText('Usually organisation-based');
 });

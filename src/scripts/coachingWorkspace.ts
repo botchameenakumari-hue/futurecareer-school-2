@@ -18,6 +18,8 @@ import {
   careerLibraryMatches,
   careerLibraryResultsHtml,
   interestSignalsFor,
+  interestRelevanceScore,
+  independencePotentialFor,
   decisionSignalFor,
   decisionSignalLabel,
   evidenceStrengthFor,
@@ -1583,16 +1585,24 @@ function selectedCareerInterests() {
   return qsa<HTMLElement>('[data-career-interest][aria-pressed="true"]').map((input) => input.dataset.careerInterest ?? '').filter(Boolean);
 }
 
-function sortCareerGuides(guides: ReturnType<typeof careerLibraryMatches>, sort: string) {
+function sortCareerGuides(guides: ReturnType<typeof careerLibraryMatches>, sort: string, interests: string[] = [], query = '') {
   const copy = guides.slice();
   if (sort === 'alphabetical') return copy.sort((a, b) => a.title.localeCompare(b.title));
-  if (sort === 'quick-test') return copy.sort((a, b) => (a.starterTests?.[0]?.length ?? 999) - (b.starterTests?.[0]?.length ?? 999) || a.title.localeCompare(b.title));
-  if (sort === 'future-ready') return copy.sort((a, b) => (b.futureSkills?.length ?? 0) - (a.futureSkills?.length ?? 0) || a.title.localeCompare(b.title));
-  if (sort === 'independent') return copy.sort((a, b) => Number(/consulting|freelance|practice|business/i.test(b.independencePath)) - Number(/consulting|freelance|practice|business/i.test(a.independencePath)) || a.title.localeCompare(b.title));
+  const testEffort = (guide: typeof copy[number]) => {
+    const task = guide.starterTests?.[0]?.toLowerCase() || '';
+    if (!task) return 3;
+    if (/ask|interview|observe|shadow|visit|watch|review|compare|speak/.test(task)) return 0;
+    if (/two.hour|small|simple|brief|one task|sample/.test(task)) return 1;
+    return 2;
+  };
+  if (sort === 'quick-test') return copy.sort((a, b) => testEffort(a) - testEffort(b) || a.title.localeCompare(b.title));
+  if (sort === 'future-ready') return copy.sort((a, b) => (b.outlook === 'growing' ? 2 : b.outlook === 'evolving' ? 1 : 0) - (a.outlook === 'growing' ? 2 : a.outlook === 'evolving' ? 1 : 0) || (b.futureSkills?.length ?? 0) - (a.futureSkills?.length ?? 0) || a.title.localeCompare(b.title));
+  if (sort === 'independent') return copy.sort((a, b) => independencePotentialFor(b) - independencePotentialFor(a) || a.title.localeCompare(b.title));
   // Recommended starting points favour durable, growing work with a clear
   // entry route and a practical first test. This keeps the catalogue broad
   // while avoiding an arbitrary source-file order.
-  return copy.map((guide, index) => ({ guide, index, score: (guide.outlook === 'growing' ? 4 : guide.outlook === 'evolving' ? 3 : guide.outlook === 'stable' ? 1 : 0) + Math.min(3, guide.futureSkills?.length ?? 0) + (guide.marketEvidence?.url ? 1 : 0) + (guide.starterTests?.length ? 1 : 0) }))
+  const search = query.trim().toLowerCase();
+  return copy.map((guide, index) => ({ guide, index, score: (search && guide.title.toLowerCase() === search ? 30 : search && guide.title.toLowerCase().includes(search) ? 12 : 0) + interests.reduce((total, interest) => total + interestRelevanceScore(guide, interest) * 3, 0) + (guide.outlook === 'growing' ? 4 : guide.outlook === 'evolving' ? 3 : guide.outlook === 'stable' ? 1 : 0) + Math.min(3, guide.futureSkills?.length ?? 0) + (guide.marketEvidence?.url ? 1 : 0) + (guide.starterTests?.length ? 1 : 0) }))
     .sort((a, b) => b.score - a.score || a.index - b.index)
     .map(({ guide }) => guide);
 }
@@ -1672,12 +1682,9 @@ function renderCareerPresetResults() {
   // older record lacks an explicit suitableStages tag.
   const catalogueMatches = careerLibraryMatches(query, category, interest, 'all').filter((guide) => careerGroup === 'all' || guide.careerGroup === careerGroup);
   const stageMatches = catalogueMatches.filter((guide) => careerStageMatchesGuide(guide, stage));
-  // A broad or newly added catalogue may not carry a stage tag yet. Never
-  // show an empty career page because of that metadata gap: retain the
-  // learner's search and interest filters, then widen only the stage filter.
-  const matches = sortCareerGuides(stageMatches.length || !catalogueMatches.length || stage === 'all'
-    ? stageMatches
-    : catalogueMatches, sort);
+  // Keep every selected filter authoritative. If the intersection is empty,
+  // show a recoverable empty state rather than silently dropping the stage.
+  const matches = sortCareerGuides(stageMatches, sort, selectedInterests, query);
   // Keep the guide tied to an actual student action. If a search or filter
   // removes the previously selected route, select the first visible match;
   // on a fresh unfiltered page, show the orientation copy instead of implying
@@ -1686,7 +1693,9 @@ function renderCareerPresetResults() {
   // Do not auto-select a career until the learner searches, chooses an
   // interest, changes the area, or selects a study stage.
   const hasDecisionSignal = Boolean(query.trim()) || interest !== 'all' || careerGroup !== 'all' || !['all', 'featured'].includes(category) || !['all', 'after-12th-science'].includes(stage);
-  if (matches.length && !selectedCareerGuideKey && hasDecisionSignal) {
+  if (!matches.length || (!hasDecisionSignal && !matches.some((match) => match.key === selectedCareerGuideKey))) {
+    selectedCareerGuideKey = '';
+  } else if (matches.length && !selectedCareerGuideKey && hasDecisionSignal) {
     // Do not silently choose a career on a fresh page. Once the learner has
     // searched or filtered, show the first matching guide as a helpful
     // starting point; otherwise keep the guide panel instructional.
@@ -1756,7 +1765,9 @@ function renderCareerPresetResults() {
         : 'Choose one or two interests or a study stage to narrow the catalogue. These are starting signals, not test results.';
   }
   const preview = qs<HTMLElement>('#career-guide-preview');
-  const selectedGuide = selectedCareerGuideKey ? careerGuideFor(selectedCareerGuideKey) : null;
+  const selectedGuide = matches.some((guide) => guide.key === selectedCareerGuideKey)
+    ? careerGuideFor(selectedCareerGuideKey)
+    : null;
   if (preview) {
     preview.innerHTML = selectedGuide ? careerGuidePreviewHtml(selectedGuide, ctx.escapeHtml) : emptyCareerPreview();
     if (selectedGuide) wireCareerGuideActions(preview);

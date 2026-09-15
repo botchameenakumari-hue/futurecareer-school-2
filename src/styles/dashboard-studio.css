@@ -67,6 +67,76 @@ body:has(#hierarchy-workspace) {
   display: none !important;
 }
 
+/* Loading and sparse-data states use the same visual language as the plan. */
+#hierarchy-workspace .workspace-boot:not([hidden]) {
+  flex-direction: column;
+  gap: .85rem;
+  padding: 2rem;
+  color: #f7f4ff;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(91, 76, 225, .34), transparent 28rem),
+    linear-gradient(145deg, #171624, #242035);
+}
+
+#hierarchy-workspace .workspace-boot .brand-mark {
+  display: grid;
+  width: 4rem;
+  height: 4rem;
+  place-items: center;
+  border: 1px solid rgba(201, 245, 107, .38);
+  border-radius: 1.25rem;
+  color: var(--dash-lime);
+  background: rgba(201, 245, 107, .1);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, .2);
+}
+
+#hierarchy-workspace .workspace-boot .boot-copy {
+  gap: .35rem;
+  text-align: center;
+}
+
+#hierarchy-workspace .workspace-boot .boot-copy strong {
+  color: #fff;
+  font-size: clamp(1.3rem, 4vw, 1.7rem);
+  letter-spacing: -.025em;
+}
+
+#hierarchy-workspace .workspace-boot .boot-copy small {
+  color: #d7d1e6;
+  font-size: .9rem;
+}
+
+#hierarchy-workspace .workspace-boot .boot-loader {
+  margin-top: .35rem;
+  border-color: rgba(255, 255, 255, .28);
+  border-top-color: var(--dash-lime);
+}
+
+#hierarchy-workspace .empty-state {
+  display: grid;
+  justify-items: center;
+  gap: .55rem;
+  min-width: 0;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  border: 1px dashed var(--dash-line-strong);
+  border-radius: 1rem;
+  color: var(--dash-text);
+  background: var(--dash-surface-soft);
+  text-align: center;
+}
+
+#hierarchy-workspace .empty-state strong {
+  color: var(--dash-ink);
+  font-size: 1rem;
+}
+
+#hierarchy-workspace .empty-state :is(span, p) {
+  max-width: 46rem;
+  color: var(--dash-muted);
+  line-height: 1.55;
+}
+
 /* Shared navigation and page frame */
 #hierarchy-workspace .workspace-sidebar {
   width: auto;
@@ -2194,6 +2264,9 @@ body:has(#hierarchy-workspace) {
 }
 
 #hierarchy-workspace[data-career-decision-page="true"] #career-option-dialog > .dialog-form > header {
+  position: relative;
+  top: auto;
+  z-index: auto;
   padding: clamp(1.2rem, 3vw, 2.2rem);
   border: 0;
   border-radius: 1.75rem 1.75rem 0 0;
@@ -2279,11 +2352,34 @@ body:has(#hierarchy-workspace) {
 }
 
 #hierarchy-workspace[data-career-decision-page="true"] .career-interest-chip {
-  min-height: 2.4rem;
-  padding-block: .55rem;
-  border-color: transparent;
+  display: inline-flex;
+  min-height: 2.7rem;
+  align-items: center;
+  justify-content: center;
+  padding: .6rem .9rem;
+  border: 1px solid #c7c2d5;
+  border-radius: 999px;
+  color: #28243e;
   background: #fffdf9;
-  box-shadow: 0 2px 8px rgba(32, 26, 53, .045);
+  font-size: .85rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(32, 26, 53, .06);
+  cursor: pointer;
+  transition: border-color .16s, background-color .16s, color .16s, transform .16s;
+}
+
+#hierarchy-workspace[data-career-decision-page="true"] .career-interest-chip:hover {
+  border-color: var(--dash-blue);
+  color: var(--dash-blue-strong);
+  background: var(--dash-blue-soft);
+  transform: translateY(-1px);
+}
+
+#hierarchy-workspace[data-career-decision-page="true"] .career-interest-chip:focus-visible {
+  outline: 3px solid var(--dash-lime);
+  outline-offset: 2px;
 }
 
 #hierarchy-workspace[data-career-decision-page="true"] .career-interest-chip[aria-pressed="true"] {
@@ -2438,11 +2534,24 @@ body:has(#hierarchy-workspace) {
   border-radius: 1.25rem;
   background: #242035;
   box-shadow: var(--dash-shadow-md);
-  scroll-margin-top: 15rem;
+  scroll-margin-top: 7rem;
 }
 
 #hierarchy-workspace[data-career-decision-page="true"] .career-guide-preview :is(h3, h4, strong, b) { color: #fff; }
 #hierarchy-workspace[data-career-decision-page="true"] .career-guide-preview :is(p, span, small, li) { color: #d1cde0; }
+#hierarchy-workspace[data-career-decision-page="true"] .career-guide-preview .guide-chips span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: .35rem .65rem;
+  border: 1px solid rgba(201, 245, 107, .3);
+  border-radius: 999px;
+  color: #f5f2ff;
+  background: rgba(201, 245, 107, .12);
+  font-size: .78rem;
+  font-weight: 750;
+  line-height: 1.3;
+}
 #hierarchy-workspace[data-career-decision-page="true"] .career-guide-preview section { border-color: rgba(255,255,255,.12); background: rgba(255,255,255,.06); }
 #hierarchy-workspace[data-career-decision-page="true"] .career-guide-save { border: 0; background: rgba(201,245,107,.13); }
 #hierarchy-workspace[data-career-decision-page="true"] .career-guide-save-note { color: #ece8fa; }
@@ -2489,12 +2598,39 @@ body:has(#hierarchy-workspace) {
 
 #hierarchy-workspace .career-guide-start-list li > .career-step-number {
   grid-column: 1;
-  width: 1.5rem;
+  display: grid;
+  width: 1.7rem;
+  height: 1.7rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #171624;
+  background: var(--dash-lime);
+  font-size: .8rem;
+  font-weight: 850;
 }
 
 #hierarchy-workspace .career-guide-start-list li > div {
+  display: grid;
   grid-column: 2;
+  gap: .18rem;
   min-width: 0;
+}
+
+#hierarchy-workspace[data-career-decision-page="true"] .career-guide-start-list li {
+  grid-template-columns: 1.7rem minmax(0, 1fr);
+  gap: .65rem;
+  padding-block: .7rem;
+}
+
+#hierarchy-workspace[data-career-decision-page="true"] .career-guide-start-list li > div b {
+  color: #fff;
+  font-size: .86rem;
+}
+
+#hierarchy-workspace[data-career-decision-page="true"] .career-guide-start-list li > div span {
+  color: #d7d1e6;
+  font-size: .82rem;
+  line-height: 1.4;
 }
 
 /* Refresh has text as well as an icon. It must keep content width at every
@@ -2538,13 +2674,17 @@ body:has(#hierarchy-workspace) {
   }
   #hierarchy-workspace[data-career-decision-page="true"] #career-option-dialog > .dialog-form > header { border-radius: 0 0 1.25rem 1.25rem; }
   #hierarchy-workspace[data-career-decision-page="true"] .career-quick-nav {
-    top: .35rem;
+    position: relative;
+    top: auto;
     width: calc(100% - 1.3rem);
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   #hierarchy-workspace[data-career-decision-page="true"] .career-quick-nav > span { grid-column: 1 / -1; }
   #hierarchy-workspace[data-career-decision-page="true"] .career-quick-nav button { width: 100%; min-width: 0; }
+  #hierarchy-workspace[data-career-decision-page="true"] :is(#career-preset-picker, #career-compare-panel, #career-save-choice, .career-guide-preview) {
+    scroll-margin-top: 1rem;
+  }
 
   /* The icon-button base rule intentionally makes square toolbar controls.
      Refresh also carries a visible label, so it needs content width on compact

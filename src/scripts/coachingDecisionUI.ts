@@ -410,11 +410,19 @@ const interestRoleCues: Record<string, string[]> = {
   organised: ['operations', 'coordinator', 'planner', 'manager', 'project', 'logistics', 'records'],
 };
 
-function interestRelevanceScore(guide: CareerGuide, interest: string) {
+export function interestRelevanceScore(guide: CareerGuide, interest: string) {
   const cues = interestRoleCues[interest] ?? [];
   if (!cues.length) return 0;
   const haystack = [guide.title, guide.summary, ...guide.specialistSkills, ...guide.tags].join(' ').toLowerCase();
   return cues.reduce((score, cue) => score + (haystack.includes(cue) ? 1 : 0), 0);
+}
+
+export function independencePotentialFor(guide: CareerGuide) {
+  const path = guide.independencePath.toLowerCase();
+  if (/not the main route|usually employer|public.service based/.test(path)) return 0;
+  if (/can lead to consulting|can lead to.*freelance|can lead to.*private practice|can lead to.*business/.test(path)) return 2;
+  if (/may be possible later/.test(path)) return 1;
+  return 0;
 }
 
 export function decisionSignalFor(path: Row) {
@@ -511,7 +519,7 @@ export function careerLibraryMatches(query: string, category: string, interest =
     if (normalized && !haystack.includes(normalized)) return false;
     if (!careerMatchesInterest(guide, interest)) return false;
     if (stage !== 'all' && !(guide.suitableStages ?? []).includes(stage)) return false;
-    if (category === 'featured') return normalized ? true : guide.featured;
+    if (category === 'featured') return guide.featured;
     if (category === 'future') return guide.category === 'Future-ready & Cross-functional' || guide.futureSkills.some((skill) => /ai|automation|climate|digital|data|privacy|robot|sustain/i.test(skill));
     // Several catalogue imports use the older family names while newer
     // entries use the learner-facing names. Treat them as one filter so the
@@ -560,7 +568,11 @@ export function careerLibraryResultsHtml(matches: CareerGuide[], selectedKey: st
   return matches.slice(offset, offset + limit).map((guide) => {
     const fallback = categorySignals[careerFamilyLabel(guide.category)] || categorySignals[guide.category] || { interests: 'Curiosity, steady learning, and willingness to test the work', work: 'Work through practical problems, communicate clearly, and improve the result with feedback.', route: 'A relevant course or apprenticeship supported by practical evidence' };
     const competition = /highly competitive|exam-led/i.test(guide.competitionNote) ? 'Highly competitive' : /competitive|regulated/i.test(guide.competitionNote) ? 'Competitive or regulated' : 'Evidence-led entry';
-    const independence = /consulting|freelance|practice|business/i.test(guide.independencePath) ? 'Can grow into independent work' : 'Usually organisation-based';
+    const independence = independencePotentialFor(guide) === 2
+      ? 'Can grow into independent work'
+      : independencePotentialFor(guide) === 1
+        ? 'Independent work may be possible later'
+        : 'Usually organisation-based';
     const outlook = guide.outlook === 'growing' ? 'Growing opportunity' : guide.outlook === 'evolving' ? 'Changing opportunity' : guide.outlook === 'stable' ? 'Established opportunity' : 'Check local demand';
     const interests = guide.interestTags?.slice(0, 3).join(' · ') || fallback.interests;
     const ordinaryWork = guide.dailyWork?.slice(0, 2).join(' · ') || fallback.work;
@@ -569,7 +581,7 @@ export function careerLibraryResultsHtml(matches: CareerGuide[], selectedKey: st
     const firstTest = guide.starterTests?.[0] || 'Speak with someone doing this work or complete a small realistic task.';
     const starterSkills = Array.from(new Set([...(guide.foundationSkills ?? []), ...(guide.specialistSkills ?? []), ...(guide.futureSkills ?? [])])).slice(0, 4).join(' · ') || 'Build evidence in the core skills first';
     const evidence = (guide.evidenceExamples ?? []).slice(0, 1).join(' · ');
-    return `<div class="career-library-result"><button type="button" data-career-preset="${escapeHtml(guide.key)}" class="${guide.key === selectedKey ? 'is-selected' : ''}"><span class="career-result-title"><strong>${escapeHtml(guide.title)}</strong>${competition === 'Highly competitive' ? '<em class="career-competition-flag">Highly competitive</em>' : ''}</span><small>${escapeHtml(guide.careerGroup)} · ${escapeHtml(careerFamilyLabel(guide.category))}</small><p>${escapeHtml(guide.summary)}</p><div class="career-result-facts"><span><b>Interests</b>${escapeHtml(interests)}</span><span><b>Ordinary work</b>${escapeHtml(ordinaryWork)}</span><span><b>Entry route</b>${escapeHtml(entryRoute)}</span><span><b>Skills to begin</b>${escapeHtml(starterSkills)}</span><span><b>May suit you if</b>${escapeHtml(fitSignals)}</span><span><b>Try first</b>${escapeHtml(firstTest)}</span>${evidence ? `<span><b>Evidence to create</b>${escapeHtml(evidence)}</span>` : ''}</div><span class="career-result-meta"><em>${escapeHtml(outlook)}</em><em>${escapeHtml(competition)}</em><em>${guide.regulated ? 'Check registration or licence' : 'No universal licence'}</em><em>Skills: ${escapeHtml((guide.specialistSkills ?? []).slice(0, 2).join(' · ') || 'Build evidence in the core skills first')}</em></span><span class="career-result-action" data-career-preset="${escapeHtml(guide.key)}">View full details and choose <b aria-hidden="true">→</b></span></button><label class="career-compare-toggle"><input type="checkbox" data-compare-career="${escapeHtml(guide.key)}" aria-label="Add ${escapeHtml(guide.title)} to comparison" /><span>Add to comparison</span></label></div>`;
+    return `<div class="career-library-result"><button type="button" data-career-preset="${escapeHtml(guide.key)}" class="${guide.key === selectedKey ? 'is-selected' : ''}"><span class="career-result-title"><strong>${escapeHtml(guide.title)}</strong>${competition === 'Highly competitive' ? '<em class="career-competition-flag">Highly competitive</em>' : ''}</span><small>${escapeHtml(guide.careerGroup)} · ${escapeHtml(careerFamilyLabel(guide.category))}</small><p>${escapeHtml(guide.summary)}</p><div class="career-result-facts"><span><b>Interests</b>${escapeHtml(interests)}</span><span><b>Ordinary work</b>${escapeHtml(ordinaryWork)}</span><span><b>Entry route</b>${escapeHtml(entryRoute)}</span><span><b>Skills to begin</b>${escapeHtml(starterSkills)}</span><span><b>May suit you if</b>${escapeHtml(fitSignals)}</span><span><b>Try first</b>${escapeHtml(firstTest)}</span>${evidence ? `<span><b>Evidence to create</b>${escapeHtml(evidence)}</span>` : ''}</div><span class="career-result-meta"><em>${escapeHtml(outlook)}</em><em>${escapeHtml(competition)}</em><em>${escapeHtml(independence)}</em><em>${guide.regulated ? 'Check registration or licence' : 'No universal licence'}</em><em>Skills: ${escapeHtml((guide.specialistSkills ?? []).slice(0, 2).join(' · ') || 'Build evidence in the core skills first')}</em></span><span class="career-result-action" data-career-preset="${escapeHtml(guide.key)}">View full details and choose <b aria-hidden="true">→</b></span></button><label class="career-compare-toggle"><input type="checkbox" data-compare-career="${escapeHtml(guide.key)}" aria-label="Add ${escapeHtml(guide.title)} to comparison" /><span>Add to comparison</span></label></div>`;
   }).join('');
 }
 
