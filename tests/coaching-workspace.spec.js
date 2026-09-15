@@ -1576,6 +1576,30 @@ test('career filters stay intersected and never show a stale guide', async ({ pa
   await expect(page.locator('#career-preset-results .career-library-result').first().locator('.career-result-title strong')).toHaveText('Software Engineer');
 });
 
+test('dedicated career page starts at the top without unused toolbar clearance', async ({ page }) => {
+  for (const width of [320, 390, 664, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 912 });
+    await mockWorkspace(page, 'student');
+    await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
+    const layout = await page.evaluate(() => {
+      const main = document.querySelector('#hierarchy-workspace .workspace-main');
+      const shell = document.querySelector('#hierarchy-workspace .workspace-shell');
+      const header = document.querySelector('#career-option-dialog > .dialog-form > header');
+      return {
+        mainPaddingTop: Number.parseFloat(getComputedStyle(main).paddingTop),
+        scrimHidden: getComputedStyle(shell.querySelector('.mobile-menu-scrim')).display === 'none',
+        headerTop: header.getBoundingClientRect().top,
+        overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+      };
+    });
+    expect(layout.mainPaddingTop, `unused clearance at ${width}px`).toBe(0);
+    expect(layout.scrimHidden, `mobile scrim reserves space at ${width}px`).toBe(true);
+    expect(layout.headerTop, `header starts too low at ${width}px`).toBeLessThanOrEqual(2);
+    expect(layout.overflow, `horizontal overflow at ${width}px`).toBe(false);
+  }
+});
+
 test('career interest and detail labels are readable at phone and tablet widths', async ({ page }) => {
   for (const width of [320, 390, 664, 768, 1440]) {
     await page.setViewportSize({ width, height: 912 });
