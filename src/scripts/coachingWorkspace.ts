@@ -1637,7 +1637,7 @@ function preparePresetControls() {
     'career-study-stage': ['Your current stage', 'This helps us show routes that fit your studies or experience.', 'Choose the closest match; it guides results but does not block other paths.'],
     'career-preset-category': ['Area of work', 'Browse a broad field before comparing individual roles.', 'Start with all areas if you are still exploring.'],
     'career-preset-group': ['Kind of work', 'Groups describe the usual style of work in a role.', 'Optional: leave this broad while you explore.'],
-    'career-preset-sort': ['Show first', 'This changes the order of results, not the number of careers.', 'Practical starting points is a good default for a first look.'],
+    'career-preset-sort': ['Sort results', 'This reorders the full catalogue; it does not filter careers out.', 'Practical starting points is a good default for a first look.'],
   };
   Object.entries(copy).forEach(([id, [label, help, title]]) => {
     const select = qs<HTMLSelectElement>(`#${id}`);
@@ -1651,6 +1651,19 @@ function preparePresetControls() {
   });
   const search = qs<HTMLInputElement>('#career-preset-search');
   if (search) search.placeholder = 'Search by role, field, skill, or interest';
+  const sortSelect = qs<HTMLSelectElement>('#career-preset-sort');
+  if (sortSelect) {
+    const sortLabels: Record<string, string> = {
+      recommended: 'Practical starting points',
+      alphabetical: 'A to Z',
+      'quick-test': 'Easiest first tests (conversation, observation, or a small task)',
+      'future-ready': 'Growing or changing work',
+      independent: 'Paths that may become independent work',
+    };
+    Array.from(sortSelect.options).forEach((option) => {
+      if (sortLabels[option.value]) option.textContent = sortLabels[option.value];
+    });
+  }
   const visibleCareerFamilies = Array.from(new Map(guidedCareerCategories.map((category) => [learnerFacingCareerFamily(category), category])).entries());
   // The career page already ships its canonical family options in the HTML.
   // Only populate this select for legacy markup that contains the three
@@ -1773,7 +1786,8 @@ function renderCareerPresetResults() {
     const title = input.closest('.career-library-result')?.querySelector('.career-result-title strong')?.textContent?.trim() || 'career';
     input.setAttribute('aria-label', `${selected ? 'Remove' : 'Add'} ${title} ${selected ? 'from' : 'to'} comparison`);
   });
-  if (count) count.textContent = `${matches.length} useful match${matches.length === 1 ? '' : 'es'}${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
+  const sortLabel = ({ recommended: 'practical starting points', alphabetical: 'A to Z', 'quick-test': 'easiest first tests', 'future-ready': 'growing or changing work', independent: 'independent-work potential' } as Record<string, string>)[sort] ?? 'selected order';
+  if (count) count.textContent = `${matches.length} useful match${matches.length === 1 ? '' : 'es'} · sorted by ${sortLabel}${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
   const interestGuidance = qs<HTMLElement>('#career-interest-guidance');
   if (interestGuidance) {
     interestGuidance.textContent = selectedInterests.length

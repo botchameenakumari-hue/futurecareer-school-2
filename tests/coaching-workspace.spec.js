@@ -1576,6 +1576,21 @@ test('career filters stay intersected and never show a stale guide', async ({ pa
   await expect(page.locator('#career-preset-results .career-library-result').first().locator('.career-result-title strong')).toHaveText('Software Engineer');
 });
 
+test('career sort changes ordering while keeping the full matching catalogue', async ({ page }) => {
+  await mockWorkspace(page, 'student');
+  await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
+  const firstTitles = async () => page.locator('#career-preset-results .career-library-result .career-result-title strong').allTextContents();
+  await page.locator('#career-preset-sort').selectOption('recommended');
+  const recommended = await firstTitles();
+  await expect(page.locator('#career-preset-count')).toContainText('sorted by practical starting points');
+  await page.locator('#career-preset-sort').selectOption('quick-test');
+  const quickTest = await firstTitles();
+  await expect(page.locator('#career-preset-count')).toContainText('sorted by easiest first tests');
+  expect(quickTest).not.toEqual(recommended);
+  await expect(page.locator('#career-preset-count')).toContainText('1446 useful matches');
+});
+
 test('dedicated career page starts at the top without unused toolbar clearance', async ({ page }) => {
   for (const width of [320, 390, 664, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 912 });
