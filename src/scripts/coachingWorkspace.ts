@@ -2348,20 +2348,20 @@ function emptyCareerPreview() {
 
 function careerStageGuidance(stage: unknown) {
   const value = String(stage ?? '').toLowerCase();
-  if (value.includes('10') || value.includes('school')) return 'For a school student, compare the kind of work and the subjects or routes it opens. A short observation or guided project is enough to learn more; nothing needs to be recorded here.';
-  if (value.includes('11') || value.includes('12')) return 'For Class 11–12, compare course routes, entrance requirements, and the day-to-day work. A small project or practitioner conversation can help you decide, but it is optional.';
-  if (value.includes('college') || value.includes('graduate')) return 'For college or early career, compare entry routes and the first role you could realistically reach. A small task or real conversation can show what the work is like; keep notes in the skills area only if useful.';
-  if (value.includes('professional') || value.includes('career-change') || value.includes('working')) return 'For a career change, compare transferable skills, income timing, and the smallest credible bridge into the new work. Test the bridge only if it helps you decide.';
-  return 'Start with what interests you. Read the practical work, and try a small check only if it helps. Keep options open while you learn.';
+  if (value.includes('10') || value.includes('school')) return 'For a school student, compare the kind of work and the subjects or routes it opens. Read, ask, or observe if you want to learn more; nothing needs to be recorded here.';
+  if (value.includes('11') || value.includes('12')) return 'For Class 11–12, compare course routes, entrance requirements, and the day-to-day work. A small project or practitioner conversation can help you decide, but it is optional and does not need a record.';
+  if (value.includes('college') || value.includes('graduate')) return 'For college or early career, compare entry routes and the first role you could realistically reach. Learn about the work through reading or a real conversation only if useful; notes belong in Skills only when you want them.';
+  if (value.includes('professional') || value.includes('career-change') || value.includes('working')) return 'For a career change, compare transferable skills, income timing, and the smallest credible bridge into the new work. Test the bridge only if it helps you decide; recording it is optional.';
+  return 'Start with what interests you. Read the practical work and learn a little more only if it helps. Keep options open while you decide.';
 }
 
 function careerStageStart(stage: unknown) {
   const value = String(stage ?? '').toLowerCase();
-  if (value.includes('10') || value.includes('school')) return { title: 'Start with the kind of work, not a final job title', copy: 'Compare the subjects and routes each option opens. A short observation or guided project is available if you want a first check.' };
-  if (value.includes('11') || value.includes('12')) return { title: 'Compare courses, entrance paths, and daily work', copy: 'Choose two or three realistic routes. A small project or practitioner conversation can help, but you do not have to do one here.' };
-  if (value.includes('college') || value.includes('graduate')) return { title: 'Learn about the first realistic role you could reach', copy: 'Compare entry requirements, then try a small task or conversation only if it would make the choice clearer.' };
+  if (value.includes('10') || value.includes('school')) return { title: 'Start with the kind of work, not a final job title', copy: 'Compare the subjects and routes each option opens. Read, ask, or observe if you want to learn more.' };
+  if (value.includes('11') || value.includes('12')) return { title: 'Compare courses, entrance paths, and daily work', copy: 'Choose two or three realistic routes. A small project or practitioner conversation can help, but it is optional and not something you must record here.' };
+  if (value.includes('college') || value.includes('graduate')) return { title: 'Learn about the first realistic role you could reach', copy: 'Compare entry requirements, then read or talk to someone only if it would make the choice clearer.' };
   if (value.includes('professional') || value.includes('career-change') || value.includes('working')) return { title: 'Find the smallest credible bridge to the new work', copy: 'Compare transferable skills and income timing. A low-risk test is optional before making a large career move.' };
-  return { title: 'Start with a small practical check', copy: 'Choose one or more career options to investigate. Try a small practical check only if it helps you learn what fits.' };
+  return { title: 'Learn a little more only if useful', copy: 'Choose one or more career options to investigate. You can simply read and compare them; no practical check or record is required.' };
 }
 
 function careerStudyStageKey(stage: unknown) {
@@ -2447,7 +2447,7 @@ function openCareerDialog(id = '') {
   setText('#career-stage-start-copy', stageStart.copy);
   const journey = qs<HTMLElement>('#career-decision-student-guide');
   if (journey) {
-    setText('#career-decision-student-guide-title', 'Choose, try, revisit');
+    setText('#career-decision-student-guide-title', 'Choose, learn, revisit');
     const lastStep = journey.querySelector('.career-decision-journey article:nth-child(3)');
     if (lastStep) {
       const title = lastStep.querySelector('strong');
@@ -2463,8 +2463,8 @@ function openCareerDialog(id = '') {
     if (testQuestion) {
       const title = testQuestion.querySelector('strong');
       const detail = testQuestion.querySelector('span');
-      if (title) title.textContent = 'What can I try or ask about?';
-      if (detail) detail.textContent = 'Choose one small task, conversation, or observation to see how the work feels.';
+      if (title) title.textContent = 'What could I learn next?';
+      if (detail) detail.textContent = 'Read, ask, or watch one small thing if it would make the choice clearer. No record is required.';
     }
     if (mindChange) {
       const title = mindChange.querySelector('strong');

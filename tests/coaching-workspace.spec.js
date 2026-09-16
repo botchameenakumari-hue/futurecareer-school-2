@@ -1363,9 +1363,9 @@ test('dedicated career decision route behaves as a full dashboard page', async (
   expect(layout.documentOverflow).toBeLessThanOrEqual(1);
   const catalogueCount = await page.locator('#career-preset-count').textContent();
   expect(catalogueCount || '').toMatch(/\d{3,} careers available/);
-  await expect(page.locator('#career-decision-student-guide-title')).toHaveText('Choose, try, revisit');
+  await expect(page.locator('#career-decision-student-guide-title')).toHaveText('Choose, learn, revisit');
   await expect(page.locator('.career-decision-journey article').nth(2)).toContainText('Revisit after a little time');
-  await expect(page.locator('#career-decision-checklist ol li').nth(2)).toContainText('What can I try or ask about?');
+  await expect(page.locator('#career-decision-checklist ol li').nth(2)).toContainText('What could I learn next?');
   const localToday = await page.evaluate(() => {
     const now = new Date();
     return new Date(now.getTime() - now.getTimezoneOffset() * 60_000).toISOString().slice(0, 10);
