@@ -1637,7 +1637,7 @@ function preparePresetControls() {
     'career-study-stage': ['Your current stage', 'Choose the stage closest to you. This moves more realistic routes upward.', 'It guides results but does not block a different path.'],
     'career-preset-category': ['Area of work', 'Pick a broad field only when you want fewer cards to browse.', 'Leave it on all areas while you are still exploring.'],
     'career-preset-group': ['Kind of work', 'Choose the type of day-to-day work that sounds most like you.', 'This is a broad description, not a test result.'],
-    'career-preset-sort': ['What should appear near the top?', 'These choices only change the order. They never hide careers.', 'Start with clear routes puts realistic entry paths near the top.'],
+    'career-preset-sort': ['How should we order the careers?', 'All careers stay available. This only changes which cards appear first.', 'Clear entry routes first puts realistic entry paths near the top.'],
   };
   Object.entries(copy).forEach(([id, [label, help, title]]) => {
     const select = qs<HTMLSelectElement>(`#${id}`);
@@ -1654,11 +1654,11 @@ function preparePresetControls() {
   const sortSelect = qs<HTMLSelectElement>('#career-preset-sort');
   if (sortSelect) {
     const sortLabels: Record<string, string> = {
-      recommended: 'Start with clear routes',
-      alphabetical: 'Find a role by name',
-      'quick-test': 'Try it before deciding',
-      'future-ready': 'Look at changing work',
-      independent: 'Look at independent work',
+      recommended: 'Clear entry routes first',
+      alphabetical: 'Role name (A–Z)',
+      'quick-test': 'Easy ways to learn first',
+      'future-ready': 'Changing work first',
+      independent: 'Independent work first',
     };
     Array.from(sortSelect.options).forEach((option) => {
       if (sortLabels[option.value]) option.textContent = sortLabels[option.value];
@@ -1787,9 +1787,9 @@ function renderCareerPresetResults() {
     const title = input.closest('.career-library-result')?.querySelector('.career-result-title strong')?.textContent?.trim() || 'career';
     input.setAttribute('aria-label', `${selected ? 'Remove' : 'Add'} ${title} ${selected ? 'from' : 'to'} comparison`);
   });
-  const sortLabel = ({ recommended: 'clear routes first', alphabetical: 'role name', 'quick-test': 'easy checks first', 'future-ready': 'changing work first', independent: 'independent work first' } as Record<string, string>)[sort] ?? 'selected order';
+  const sortLabel = ({ recommended: 'clear routes first', alphabetical: 'role name A–Z', 'quick-test': 'easy ways to learn first', 'future-ready': 'changing work first', independent: 'independent work first' } as Record<string, string>)[sort] ?? 'selected order';
   updateCareerSortHelp();
-  if (count) count.textContent = `${matches.length.toLocaleString()} careers available · ${sortLabel}${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
+  if (count) count.textContent = `${matches.length.toLocaleString()} careers available · ordered by ${sortLabel} · all remain available${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
   const interestGuidance = qs<HTMLElement>('#career-interest-guidance');
   if (interestGuidance) {
     interestGuidance.textContent = selectedInterests.length
@@ -2242,11 +2242,11 @@ function updateCareerSortHelp() {
   const note = select?.closest('label')?.querySelector<HTMLElement>('small');
   if (!select || !note) return;
   const help: Record<string, string> = {
-    recommended: 'Start with clear routes puts careers with understandable entry steps near the top. You still choose for yourself.',
-    alphabetical: 'Find a role by name sorts the same careers from A to Z.',
-    'quick-test': 'Try it before deciding puts careers near the top when you can learn about them through a conversation, observation, or small task.',
-    'future-ready': 'Look at changing work puts careers near the top when their tools or demand are changing.',
-    independent: 'Look at independent work puts careers near the top when freelance, consulting, or self-directed work is a realistic later route.',
+    recommended: 'All careers stay available. Clear entry routes first puts careers with understandable entry steps near the top. You still choose for yourself.',
+    alphabetical: 'All careers stay available. Role name (A–Z) sorts the same careers alphabetically.',
+    'quick-test': 'All careers stay available. Easy ways to learn first puts careers near the top when you can learn through a short conversation, a brief observation, or a small try-out. Nothing needs to be recorded.',
+    'future-ready': 'All careers stay available. Changing work first puts careers near the top when their tools or demand are changing.',
+    independent: 'All careers stay available. Independent work first puts careers near the top when freelance, consulting, or self-directed work is a realistic later route.',
   };
   note.textContent = help[select.value] || help.recommended;
 }

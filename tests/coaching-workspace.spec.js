@@ -1488,7 +1488,7 @@ test('dedicated career decision route stays usable on mobile', async ({ page }) 
       compareWidthDifference: Math.abs(cardRect.width - (compareRect?.width || 0)),
     };
   });
-  expect(actionLayout.openText).toContain('Read the details, then choose');
+  expect(actionLayout.openText).toContain('Read the details');
   expect(actionLayout.openHeight).toBeGreaterThanOrEqual(40);
   expect(actionLayout.compareHeight).toBeGreaterThanOrEqual(38);
   expect(actionLayout.compareWidthDifference).toBeLessThanOrEqual(2);
@@ -1587,16 +1587,19 @@ test('career sort changes ordering while keeping the full matching catalogue', a
   await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
   const firstTitles = async () => page.locator('#career-preset-results .career-library-result .career-result-title strong').allTextContents();
-  await expect(page.locator('#career-preset-sort').locator('option[value="quick-test"]')).toContainText('Try it before deciding');
-  await expect(page.locator('#career-preset-sort').locator('xpath=ancestor::label')).toContainText('Start with clear routes puts careers with understandable entry steps near the top');
+  await expect(page.locator('#career-preset-sort').locator('option[value="quick-test"]')).toContainText('Easy ways to learn first');
+  await expect(page.locator('#career-preset-sort').locator('xpath=ancestor::label')).toContainText('All careers stay available.');
   await page.locator('#career-preset-sort').selectOption('recommended');
   const recommended = await firstTitles();
-  await expect(page.locator('#career-preset-count')).toContainText('clear routes first');
+  await expect(page.locator('#career-preset-count')).toContainText('ordered by clear routes first');
   await page.locator('#career-preset-sort').selectOption('quick-test');
   const quickTest = await firstTitles();
-  await expect(page.locator('#career-preset-count')).toContainText('easy checks first');
+  await expect(page.locator('#career-preset-count')).toContainText('ordered by easy ways to learn first');
   expect(quickTest).not.toEqual(recommended);
   await expect(page.locator('#career-preset-count')).toContainText('1,446 careers available');
+  await expect(page.locator('.career-result-save-actions').first()).toContainText('Keep this option:');
+  await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="primary"]')).toHaveText('Primary');
+  await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="alternative"]')).toHaveText('Secondary');
 });
 
 test('dedicated career page starts at the top without unused toolbar clearance', async ({ page }) => {
