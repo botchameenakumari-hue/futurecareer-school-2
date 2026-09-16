@@ -867,7 +867,7 @@ function renderSkillLists(studentId: string) {
   const ui = decisionUiContext();
   if (!ui) return;
   const html = skillRoadmapHtml(rows, coaching.evidence, careers, ui);
-  const summary = skillSummaryHtml(rows, coaching.evidence, ctx.escapeHtml);
+  const summary = skillSummaryHtml(rows, coaching.evidence, ctx.escapeHtml, ctx.profile.role);
   const recommendations = skillRecommendationsHtml(primaryCategories, ctx.escapeHtml);
   const record = qs<HTMLElement>('#record-skill-list');
   const student = qs<HTMLElement>('#student-skill-list');
@@ -983,7 +983,7 @@ function renderStudentGrowthPlan(studentId: string) {
   const hasIncomeAction = actions.some((row) => ['money-safety-check', 'salary-demand-check', 'network-map'].includes(String(row.preset_key)));
   const card = (step: string, title: string, copy: string, status: 'ready' | 'next' | 'open', actionKey: string, actionLabel: string) => `<article class="growth-path-card growth-path-card-${status}"><div class="growth-path-card-top"><span class="growth-path-step">${step}</span><span class="growth-path-status">${status === 'ready' ? 'In progress' : status === 'next' ? 'Next useful step' : 'Keep open'}</span></div><h4>${escape(title)}</h4><p>${escape(copy)}</p><button class="secondary-button" type="button" data-growth-action="${escape(actionKey)}">${escape(actionLabel)}</button></article>`;
   const careerCopy = careers.length
-    ? `${careers.length} saved career option${careers.length === 1 ? '' : 's'} to test with evidence.`
+    ? `${careers.length} saved career option${careers.length === 1 ? '' : 's'} to revisit when you are ready.`
     : 'Start with one or two career options and compare the ordinary work before committing.';
   const skillCopy = careerSkill
     ? `Current career skill: ${String(careerSkill.skill_name)}. Add one multiplier after you can show this skill in practice.`
@@ -991,12 +991,12 @@ function renderStudentGrowthPlan(studentId: string) {
       ? `Start from ${String(foundationSkill.skill_name)} and choose one role-relevant skill to practise next.`
       : 'Choose one useful skill to practise before collecting more course certificates.';
   const proofCopy = hasProof
-    ? `${evidence.length} evidence item${evidence.length === 1 ? '' : 's'} connected to your skills.`
-    : 'No evidence is connected yet. A small finished project or real task is enough to begin.';
+    ? `${evidence.length} optional work note${evidence.length === 1 ? '' : 's'} saved with your skills.`
+    : 'If you want, make a small finished project or try a real task. You do not need to upload anything here.';
   const incomeCopy = hasIncomeAction
     ? 'You have a practical money or opportunity check open. Review the result with your coach.'
     : 'Treat a first job, internship, client task, or apprenticeship as a bridge. Check cost, timing, and reversibility.';
-  container.innerHTML = `<section class="growth-path-intro"><div><p class="eyebrow">A practical progression</p><h4>From career option to greater financial choice</h4><p>Build one capability deeply, show proof, learn what the market values, and only then add a multiplier or independent earning experiment. There is no promise of a particular salary; the dashboard helps you make the next decision with better evidence.</p></div><span class="growth-path-note">Assessments are optional</span></section><div class="growth-path-grid">${card('01', 'Choose career options you can test', careerCopy, careers.length ? 'ready' : 'next', 'career-reality-check', careers.length ? 'Review the evidence' : 'Check the work first')}${card('02', 'Build one high-value skill', skillCopy, skills.length ? 'ready' : 'next', 'two-hour-role-task', 'Test the skill')}${card('03', 'Create visible proof', proofCopy, hasProof ? 'ready' : 'next', 'portfolio-piece', hasProof ? 'Build another proof item' : 'Create first proof')}${card('04', 'Connect skill to income safely', incomeCopy, hasIncomeAction ? 'ready' : 'open', 'money-safety-check', hasIncomeAction ? 'Review money safety' : 'Make a money plan')}</div><section class="growth-stack-card"><div><p class="eyebrow">The skill stack</p><h4>Capability → multiplier → earning or ownership</h4><p>Use the first skill to become useful, the multiplier to increase your value, and a later earning skill such as client communication, teaching, consulting, or product thinking to create more options. Add each layer only after the previous layer has evidence.</p></div><div class="growth-stack-steps"><span><b>1</b><strong>Main skill</strong><small>Become useful at a real task.</small></span><span><b>2</b><strong>Multiplier</strong><small>Add technology, data, domain, or communication depth.</small></span><span><b>3</b><strong>Value delivery</strong><small>Show an outcome for a person, team, or customer.</small></span></div></section><section class="growth-checkpoint-card"><div><p class="eyebrow">Next review checkpoint</p><h4>Ask these four questions before making a large commitment</h4></div><ol><li>What ordinary work did I actually test?</li><li>What can I show someone else today?</li><li>What skill would make this work more valuable?</li><li>What is the safest next step for my time, money, and circumstances?</li></ol></section>`;
+  container.innerHTML = `<section class="growth-path-intro"><div><p class="eyebrow">A practical progression</p><h4>From career option to greater financial choice</h4><p>Learn what the work involves, practise one useful capability, and add a new layer only when it helps. There is no promise of a particular salary; the dashboard helps you make the next decision with better information.</p></div><span class="growth-path-note">Assessments and notes are optional</span></section><div class="growth-path-grid">${card('01', 'Choose career options to explore', careerCopy, careers.length ? 'ready' : 'next', 'career-reality-check', careers.length ? 'Review options' : 'Explore careers')}${card('02', 'Build one useful skill', skillCopy, skills.length ? 'ready' : 'next', 'two-hour-role-task', 'Choose a practice')}${card('03', 'Make something useful (optional)', proofCopy, hasProof ? 'ready' : 'next', 'portfolio-piece', hasProof ? 'Review optional notes' : 'Try it if useful')}${card('04', 'Connect skill to income safely', incomeCopy, hasIncomeAction ? 'ready' : 'open', 'money-safety-check', hasIncomeAction ? 'Review money plan' : 'Make a money plan')}</div><section class="growth-stack-card"><div><p class="eyebrow">The skill stack</p><h4>Capability → multiplier → earning or ownership</h4><p>Use the first skill to become useful, then add technology, data, domain, or communication depth when it creates more options. Add each layer when it is useful for your direction.</p></div><div class="growth-stack-steps"><span><b>1</b><strong>Main skill</strong><small>Become useful at a real task.</small></span><span><b>2</b><strong>Multiplier</strong><small>Add technology, data, domain, or communication depth.</small></span><span><b>3</b><strong>Value delivery</strong><small>Create a useful outcome for a person, team, or customer.</small></span></div></section><section class="growth-checkpoint-card"><div><p class="eyebrow">Next review checkpoint</p><h4>Ask these four questions before making a large commitment</h4></div><ol><li>What ordinary work would I like to understand better?</li><li>What could I try or learn next?</li><li>What skill would make this work more valuable?</li><li>What is the safest next step for my time, money, and circumstances?</li></ol></section>`;
 }
 
 function renderStudentPlan() {
@@ -1637,7 +1637,7 @@ function preparePresetControls() {
     'career-study-stage': ['Your current stage', 'Choose the stage closest to you. This moves more realistic routes upward.', 'It guides results but does not block a different path.'],
     'career-preset-category': ['Area of work', 'Pick a broad field only when you want fewer cards to browse.', 'Leave it on all areas while you are still exploring.'],
     'career-preset-group': ['Kind of work', 'Choose the type of day-to-day work that sounds most like you.', 'This is a broad description, not a test result.'],
-    'career-preset-sort': ['Which careers should appear first?', 'Ordering only: all matching careers stay available. This changes which cards appear first, not how many careers exist.', 'Clear entry routes first puts realistic entry paths near the top.'],
+    'career-preset-sort': ['Which careers should appear first?', 'Ordering only: all matching careers stay available. This changes which cards appear first, not how many careers exist.', 'Easier routes to enter first puts realistic entry paths near the top.'],
   };
   Object.entries(copy).forEach(([id, [label, help, title]]) => {
     const select = qs<HTMLSelectElement>(`#${id}`);
@@ -1654,11 +1654,11 @@ function preparePresetControls() {
   const sortSelect = qs<HTMLSelectElement>('#career-preset-sort');
   if (sortSelect) {
     const sortLabels: Record<string, string> = {
-      recommended: 'Clear entry routes first',
+      recommended: 'Easier routes to enter first',
       alphabetical: 'Role name (A–Z)',
-      'quick-test': 'Talk, watch, or try a little first',
-      'future-ready': 'Changing work first',
-      independent: 'Independent work first',
+      'quick-test': 'Learn about the work first',
+      'future-ready': 'Work changing fastest',
+      independent: 'Independent-work routes first',
     };
     Array.from(sortSelect.options).forEach((option) => {
       if (sortLabels[option.value]) option.textContent = sortLabels[option.value];
@@ -1787,16 +1787,16 @@ function renderCareerPresetResults() {
     const title = input.closest('.career-library-result')?.querySelector('.career-result-title strong')?.textContent?.trim() || 'career';
     input.setAttribute('aria-label', `${selected ? 'Remove' : 'Add'} ${title} ${selected ? 'from' : 'to'} comparison`);
   });
-  const sortLabel = ({ recommended: 'clear routes first', alphabetical: 'role name A–Z', 'quick-test': 'talk, watch, or try a little first', 'future-ready': 'changing work first', independent: 'independent work first' } as Record<string, string>)[sort] ?? 'selected order';
+  const sortLabel = ({ recommended: 'easier routes to enter first', alphabetical: 'role name A–Z', 'quick-test': 'learn about the work first', 'future-ready': 'work changing fastest', independent: 'independent-work routes first' } as Record<string, string>)[sort] ?? 'selected order';
   updateCareerSortHelp();
   if (count) count.textContent = `${matches.length.toLocaleString()} careers available · ordered by ${sortLabel} · all remain available${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
   const interestGuidance = qs<HTMLElement>('#career-interest-guidance');
   if (interestGuidance) {
     interestGuidance.textContent = selectedInterests.length
-      ? `${matches.length} guide${matches.length === 1 ? '' : 's'} match your interests${stage !== 'all' ? ' and study stage' : ''}. The closest matches appear first; read the practical work and use a small test to check the fit.`
+      ? `${matches.length} guide${matches.length === 1 ? '' : 's'} match your interests${stage !== 'all' ? ' and study stage' : ''}. The closest matches appear first; read the practical work and learn more only if useful.`
       : stage !== 'all'
         ? `${matches.length} guide${matches.length === 1 ? '' : 's'} suit this study stage. Choose one or two interests to make the shortlist more personal.`
-        : 'Choose one or two interests or a study stage to narrow the catalogue. These are starting signals, not test results.';
+        : 'Choose one or two interests to move related careers toward the top. Study stage, area, and kind-of-work filters can narrow the catalogue. These are starting signals, not test results.';
   }
   const preview = qs<HTMLElement>('#career-guide-preview');
   const selectedGuide = matches.some((guide) => guide.key === selectedCareerGuideKey)
@@ -1825,7 +1825,7 @@ function renderCareerComparePanel() {
   const guides = comparedCareerGuideKeys.map((key) => careerGuideFor(key)).filter((guide): guide is NonNullable<ReturnType<typeof careerGuideFor>> => Boolean(guide));
   if (guides.length < 2) { panel.hidden = true; panel.innerHTML = ''; return; }
   panel.hidden = false;
-  panel.innerHTML = `<div class="career-compare-heading"><div><p class="eyebrow">Compare before choosing</p><h3 id="career-compare-heading">A short list of ${guides.length} career options</h3><p>Compare the ordinary work, entry route, local work context, and first test side by side. Keep the option that still looks useful after a small practical check.</p></div><button class="text-button" type="button" data-clear-career-compare>Clear comparison</button></div><div class="career-compare-grid">${guides.map((guide) => `<article><header><span><small>${ctx!.escapeHtml(learnerFacingCareerFamily(guide.category))}</small><h4>${ctx!.escapeHtml(guide.title)}</h4></span><button class="icon-button" type="button" data-remove-career-compare="${ctx!.escapeHtml(guide.key)}" aria-label="Remove ${ctx!.escapeHtml(guide.title)} from comparison">×</button></header><section><small>Interests this may suit</small><p>${ctx!.escapeHtml(interestSignalsFor(guide).slice(0, 2).join(' · '))}</p></section><section><small>Local work context</small><p>${ctx!.escapeHtml(guide.localContext)}</p></section><section><small>Competition</small><p>${ctx!.escapeHtml(guide.competitionNote)}</p></section><section><small>Independent path</small><p>${ctx!.escapeHtml(guide.independencePath)}</p></section><section><small>Practical work</small><p>${ctx!.escapeHtml(guide.dailyWork[0] || 'Read the practical work in the guide above.')}</p></section><section><small>First test</small><p>${ctx!.escapeHtml(guide.starterTests[0] || 'Choose a small task that creates evidence.')}</p></section><button class="secondary-button" type="button" data-career-preset="${ctx!.escapeHtml(guide.key)}">Read this guide</button></article>`).join('')}</div>`;
+  panel.innerHTML = `<div class="career-compare-heading"><div><p class="eyebrow">Compare before choosing</p><h3 id="career-compare-heading">A short list of ${guides.length} career options</h3><p>Compare the ordinary work, entry route, local work context, and an optional way to learn more. You can simply keep the option that still feels worth revisiting.</p></div><button class="text-button" type="button" data-clear-career-compare>Clear comparison</button></div><div class="career-compare-grid">${guides.map((guide) => `<article><header><span><small>${ctx!.escapeHtml(learnerFacingCareerFamily(guide.category))}</small><h4>${ctx!.escapeHtml(guide.title)}</h4></span><button class="icon-button" type="button" data-remove-career-compare="${ctx!.escapeHtml(guide.key)}" aria-label="Remove ${ctx!.escapeHtml(guide.title)} from comparison">×</button></header><section><small>Interests this may suit</small><p>${ctx!.escapeHtml(interestSignalsFor(guide).slice(0, 2).join(' · '))}</p></section><section><small>Local work context</small><p>${ctx!.escapeHtml(guide.localContext)}</p></section><section><small>Competition</small><p>${ctx!.escapeHtml(guide.competitionNote)}</p></section><section><small>Independent path</small><p>${ctx!.escapeHtml(guide.independencePath)}</p></section><section><small>Practical work</small><p>${ctx!.escapeHtml(guide.dailyWork[0] || 'Read the practical work in the guide above.')}</p></section><section><small>Optional way to learn more</small><p>${ctx!.escapeHtml(guide.starterTests[0] || 'Read about the work or talk to someone who knows it.')}</p></section><button class="secondary-button" type="button" data-career-preset="${ctx!.escapeHtml(guide.key)}">Read this guide</button></article>`).join('')}</div>`;
 }
 
 function toggleCareerCompare(key: string, checked: boolean) {
@@ -2242,11 +2242,11 @@ function updateCareerSortHelp() {
   const note = select?.closest('label')?.querySelector<HTMLElement>('small');
   if (!select || !note) return;
   const help: Record<string, string> = {
-    recommended: 'All careers stay available. Clear entry routes first puts careers with understandable entry steps near the top. You still choose for yourself.',
+    recommended: 'All matching careers stay available. Easier routes to enter first puts careers with understandable entry steps near the top. You still choose for yourself.',
     alphabetical: 'All careers stay available. Role name (A–Z) sorts the same careers alphabetically.',
-    'quick-test': 'All matching careers stay available. This puts careers near the top when you can learn through a short conversation, watching a real example, or one small try-out. Nothing needs to be recorded.',
-    'future-ready': 'All careers stay available. Changing work first puts careers near the top when their tools or demand are changing.',
-    independent: 'All careers stay available. Independent work first puts careers near the top when freelance, consulting, or self-directed work is a realistic later route.',
+    'quick-test': 'All matching careers stay available. This puts careers near the top when you can learn about the work by talking to someone, watching a real example, or reading. Nothing needs to be recorded.',
+    'future-ready': 'All matching careers stay available. Work changing fastest puts careers near the top when their tools or demand are changing.',
+    independent: 'All matching careers stay available. Independent-work routes first puts careers near the top when freelance, consulting, or self-directed work is a realistic later route.',
   };
   note.textContent = help[select.value] || help.recommended;
 }
@@ -2541,9 +2541,10 @@ function openCareerDialog(id = '') {
   if (studentGuide) studentGuide.hidden = !isStudent;
   const careerFilters = qs<HTMLDetailsElement>('.career-filter-details');
   if (careerFilters) {
-    // Keep the first mobile view calm: search and quick-start lenses remain
-    // visible, while the larger filter set is available on demand.
-    careerFilters.open = !(isStudent && window.matchMedia('(max-width: 760px)').matches);
+    // Students should reach the cards and plain-language guidance first.
+    // Search and quick-start lenses remain visible; the richer filters stay
+    // available on demand instead of turning the first decision into a form.
+    careerFilters.open = !isStudent;
   }
   const manualFamilyField = qs<HTMLElement>('#career-manual-family-field');
   if (manualFamilyField) manualFamilyField.hidden = isStudent;

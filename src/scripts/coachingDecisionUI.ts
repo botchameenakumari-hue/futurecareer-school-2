@@ -779,7 +779,7 @@ export function skillRoadmapHtml(skills: Row[], allEvidence: Row[], careers: Row
   return `${tabs}${scaleLegend}<div class="skill-scope-panels" data-active-skill-scope="${initialTab}">${allPagination}${panels}${allPagination}</div>`;
 }
 
-export function skillSummaryHtml(skills: Row[], allEvidence: Row[], escapeHtml: DecisionUiContext['escapeHtml']) {
+export function skillSummaryHtml(skills: Row[], allEvidence: Row[], escapeHtml: DecisionUiContext['escapeHtml'], viewerRole: DecisionUiContext['viewerRole'] = 'coach') {
   // The roadmap groups are the learner-facing source of truth. Priority is a
   // coaching flag and can differ from the group (for example, an important
   // foundation skill is still a core skill), so do not use it for the count.
@@ -787,7 +787,12 @@ export function skillSummaryHtml(skills: Row[], allEvidence: Row[], escapeHtml: 
   const withEvidence = skills.filter((skill) => allEvidence.some((evidence) => evidence.skill_id === skill.id));
   const careerSpecific = skills.filter((skill) => skillScopeFor(skill) === 'career-specific');
   const futureReady = skills.filter((skill) => skillScopeFor(skill) === 'future-ready');
-  return `<span><small>Skills in your plan</small><strong>${skills.length}</strong><em>${coreSkills.length} core skills</em></span><span><small>Career-linked</small><strong>${careerSpecific.length}</strong><em>${careerSpecific.length ? 'Linked to a career option' : 'Not needed yet'}</em></span><span><small>Skills for change</small><strong>${futureReady.length}</strong><em>${futureReady.length ? 'Included' : 'Not needed yet'}</em></span><span><small>Evidence added</small><strong>${skills.length ? Math.round((withEvidence.length / skills.length) * 100) : 0}%</strong><em>${escapeHtml(`${withEvidence.length} of ${skills.length} skills`)}</em></span>`;
+  const progressLabel = viewerRole === 'student' ? 'Optional notes' : 'Evidence added';
+  const progressValue = viewerRole === 'student' ? withEvidence.length : `${skills.length ? Math.round((withEvidence.length / skills.length) * 100) : 0}%`;
+  const progressDetail = viewerRole === 'student'
+    ? (withEvidence.length ? `${withEvidence.length} saved; none required` : 'Nothing saved yet; optional')
+    : `${withEvidence.length} of ${skills.length} skills`;
+  return `<span><small>Skills in your plan</small><strong>${skills.length}</strong><em>${coreSkills.length} core skills</em></span><span><small>Career-linked</small><strong>${careerSpecific.length}</strong><em>${careerSpecific.length ? 'Linked to a career option' : 'Not needed yet'}</em></span><span><small>Skills for change</small><strong>${futureReady.length}</strong><em>${futureReady.length ? 'Included' : 'Not needed yet'}</em></span><span><small>${progressLabel}</small><strong>${progressValue}</strong><em>${escapeHtml(progressDetail)}</em></span>`;
 }
 
 export function skillRecommendationsHtml(primaryCategory: string | string[] | null | undefined, escapeHtml: DecisionUiContext['escapeHtml']) {
