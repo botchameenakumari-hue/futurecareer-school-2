@@ -1362,7 +1362,7 @@ test('dedicated career decision route behaves as a full dashboard page', async (
   expect(layout.topbarHidden).toBe(true);
   expect(layout.documentOverflow).toBeLessThanOrEqual(1);
   const catalogueCount = await page.locator('#career-preset-count').textContent();
-  expect(catalogueCount || '').toMatch(/\d{3,} useful matches/);
+  expect(catalogueCount || '').toMatch(/\d{3,} careers available/);
   await expect(page.locator('#career-decision-student-guide-title')).toHaveText('Choose, try, revisit');
   await expect(page.locator('.career-decision-journey article').nth(2)).toContainText('Revisit after a little time');
   await expect(page.locator('#career-decision-checklist ol li').nth(2)).toContainText('What can I try or ask about?');
@@ -1541,7 +1541,7 @@ test('career catalogue keeps a recoverable empty state when filters have no matc
   await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
   const search = page.locator('#career-preset-search');
   await search.fill('zzzz-no-career-match-9f7c');
-  await expect(page.locator('#career-preset-count')).toContainText('0 useful matches');
+  await expect(page.locator('#career-preset-count')).toContainText('0 careers available');
   const emptyState = page.locator('#career-preset-results .career-library-empty');
   await expect(emptyState).toContainText('No career guides match these choices.');
   const emptyLayout = await emptyState.evaluate((element) => {
@@ -1564,7 +1564,7 @@ test('career filters stay intersected and never show a stale guide', async ({ pa
   const search = page.locator('#career-preset-search');
   await page.locator('#career-preset-category').selectOption('featured');
   await search.fill('Marine Engineer');
-  await expect(page.locator('#career-preset-count')).toContainText('0 useful matches');
+  await expect(page.locator('#career-preset-count')).toContainText('0 careers available');
   await expect(page.locator('#career-preset-results .career-library-empty')).toBeVisible();
 
   await page.locator('#career-preset-category').selectOption('all');
@@ -1572,11 +1572,11 @@ test('career filters stay intersected and never show a stale guide', async ({ pa
   await page.locator('#career-preset-results [data-career-preset]').first().click();
   await expect(page.locator('#career-guide-preview')).toContainText('Marine Engineer');
   await page.locator('#career-study-stage').selectOption('after-12th-humanities');
-  await expect(page.locator('#career-preset-count')).toContainText('0 useful matches');
+  await expect(page.locator('#career-preset-count')).toContainText('0 careers available');
   await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
   await page.locator('#career-preset-results [data-career-clear-filters]').click();
   await expect(search).toHaveValue('');
-  await expect(page.locator('#career-preset-count')).toContainText('1446 useful matches');
+  await expect(page.locator('#career-preset-count')).toContainText('1,446 careers available');
   await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
   await search.fill('Software Engineer');
   await expect(page.locator('#career-preset-results .career-library-result').first().locator('.career-result-title strong')).toHaveText('Software Engineer');
@@ -1587,16 +1587,16 @@ test('career sort changes ordering while keeping the full matching catalogue', a
   await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
   const firstTitles = async () => page.locator('#career-preset-results .career-library-result .career-result-title strong').allTextContents();
-  await expect(page.locator('#career-preset-sort').locator('option[value="quick-test"]')).toContainText('Easy ways to try it');
-  await expect(page.locator('#career-preset-sort').locator('xpath=ancestor::label')).toContainText('Good starting points puts clear, realistic routes near the top');
+  await expect(page.locator('#career-preset-sort').locator('option[value="quick-test"]')).toContainText('Try it before deciding');
+  await expect(page.locator('#career-preset-sort').locator('xpath=ancestor::label')).toContainText('Start with clear routes puts careers with understandable entry steps near the top');
   await page.locator('#career-preset-sort').selectOption('recommended');
   const recommended = await firstTitles();
-  await expect(page.locator('#career-preset-count')).toContainText('sorted by good starting points');
+  await expect(page.locator('#career-preset-count')).toContainText('clear routes first');
   await page.locator('#career-preset-sort').selectOption('quick-test');
   const quickTest = await firstTitles();
-  await expect(page.locator('#career-preset-count')).toContainText('sorted by easy ways to try it');
+  await expect(page.locator('#career-preset-count')).toContainText('easy checks first');
   expect(quickTest).not.toEqual(recommended);
-  await expect(page.locator('#career-preset-count')).toContainText('1446 useful matches');
+  await expect(page.locator('#career-preset-count')).toContainText('1,446 careers available');
 });
 
 test('dedicated career page starts at the top without unused toolbar clearance', async ({ page }) => {

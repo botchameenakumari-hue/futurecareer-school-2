@@ -1634,10 +1634,10 @@ function careerStageMatchesGuide(guide: ReturnType<typeof careerGuideFor>, stage
 function preparePresetControls() {
   if (!ctx) return;
   const copy: Record<string, [string, string, string]> = {
-    'career-study-stage': ['Your current stage', 'This helps us show routes that fit your studies or experience.', 'Choose the closest match; it guides results but does not block other paths.'],
-    'career-preset-category': ['Area of work', 'Browse a broad field before comparing individual roles.', 'Start with all areas if you are still exploring.'],
-    'career-preset-group': ['Kind of work', 'Groups describe the usual style of work in a role.', 'Optional: leave this broad while you explore.'],
-    'career-preset-sort': ['How should we order results?', 'Choose an order, not a limit: every matching career stays available.', 'Good starting points puts clear, realistic routes near the top.'],
+    'career-study-stage': ['Your current stage', 'Choose the stage closest to you. This moves more realistic routes upward.', 'It guides results but does not block a different path.'],
+    'career-preset-category': ['Area of work', 'Pick a broad field only when you want fewer cards to browse.', 'Leave it on all areas while you are still exploring.'],
+    'career-preset-group': ['Kind of work', 'Choose the type of day-to-day work that sounds most like you.', 'This is a broad description, not a test result.'],
+    'career-preset-sort': ['What should appear near the top?', 'These choices only change the order. They never hide careers.', 'Start with clear routes puts realistic entry paths near the top.'],
   };
   Object.entries(copy).forEach(([id, [label, help, title]]) => {
     const select = qs<HTMLSelectElement>(`#${id}`);
@@ -1654,11 +1654,11 @@ function preparePresetControls() {
   const sortSelect = qs<HTMLSelectElement>('#career-preset-sort');
   if (sortSelect) {
     const sortLabels: Record<string, string> = {
-      recommended: 'Good starting points',
-      alphabetical: 'A to Z',
-      'quick-test': 'Easy ways to try it (conversation, observation, or a small task)',
-      'future-ready': 'Work likely to grow or change',
-      independent: 'Work that could become self-employed',
+      recommended: 'Start with clear routes',
+      alphabetical: 'Find a role by name',
+      'quick-test': 'Try it before deciding',
+      'future-ready': 'Look at changing work',
+      independent: 'Look at independent work',
     };
     Array.from(sortSelect.options).forEach((option) => {
       if (sortLabels[option.value]) option.textContent = sortLabels[option.value];
@@ -1787,9 +1787,9 @@ function renderCareerPresetResults() {
     const title = input.closest('.career-library-result')?.querySelector('.career-result-title strong')?.textContent?.trim() || 'career';
     input.setAttribute('aria-label', `${selected ? 'Remove' : 'Add'} ${title} ${selected ? 'from' : 'to'} comparison`);
   });
-  const sortLabel = ({ recommended: 'good starting points', alphabetical: 'A to Z', 'quick-test': 'easy ways to try it', 'future-ready': 'work likely to grow or change', independent: 'possible self-employment' } as Record<string, string>)[sort] ?? 'selected order';
+  const sortLabel = ({ recommended: 'clear routes first', alphabetical: 'role name', 'quick-test': 'easy checks first', 'future-ready': 'changing work first', independent: 'independent work first' } as Record<string, string>)[sort] ?? 'selected order';
   updateCareerSortHelp();
-  if (count) count.textContent = `${matches.length} useful match${matches.length === 1 ? '' : 'es'} · sorted by ${sortLabel}${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
+  if (count) count.textContent = `${matches.length.toLocaleString()} careers available · ${sortLabel}${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
   const interestGuidance = qs<HTMLElement>('#career-interest-guidance');
   if (interestGuidance) {
     interestGuidance.textContent = selectedInterests.length
@@ -2242,11 +2242,11 @@ function updateCareerSortHelp() {
   const note = select?.closest('label')?.querySelector<HTMLElement>('small');
   if (!select || !note) return;
   const help: Record<string, string> = {
-    recommended: 'Good starting points puts clear, realistic routes near the top. It does not decide for you.',
-    alphabetical: 'A to Z helps you find a role by name. It does not change which careers are available.',
-    'quick-test': 'Easy ways to try it puts careers with a simple conversation, observation, or small task near the top.',
-    'future-ready': 'Work likely to grow or change puts roles with changing tools or demand near the top.',
-    independent: 'Work that could become self-employed puts routes with clearer freelance, consulting, or independent paths near the top.',
+    recommended: 'Start with clear routes puts careers with understandable entry steps near the top. You still choose for yourself.',
+    alphabetical: 'Find a role by name sorts the same careers from A to Z.',
+    'quick-test': 'Try it before deciding puts careers near the top when you can learn about them through a conversation, observation, or small task.',
+    'future-ready': 'Look at changing work puts careers near the top when their tools or demand are changing.',
+    independent: 'Look at independent work puts careers near the top when freelance, consulting, or self-directed work is a realistic later route.',
   };
   note.textContent = help[select.value] || help.recommended;
 }
@@ -2343,25 +2343,25 @@ function updateCareerFocusControl() {
 }
 
 function emptyCareerPreview() {
-  return '<div class="career-guide-empty"><strong>Start with any career option that interests you</strong><span>Choose a career card to see the ordinary work, entry routes, skills, watch-outs, and useful first steps.</span><ol class="career-guide-start-list"><li><span class="career-step-number" aria-hidden="true">1</span><div><b>Read the ordinary work</b><span>Look beyond the job title.</span></div></li><li><span class="career-step-number" aria-hidden="true">2</span><div><b>Notice what fits you</b><span>Compare the interests, subjects, and working patterns.</span></div></li><li><span class="career-step-number" aria-hidden="true">3</span><div><b>Save what you want to explore</b><span>Choose a primary or secondary career option.</span></div></li></ol></div>';
+  return '<div class="career-guide-empty"><strong>Start with any career option that interests you</strong><span>Choose a career card to see the typical day, how people start, useful first skills, and a simple way to learn more.</span><ol class="career-guide-start-list"><li><span class="career-step-number" aria-hidden="true">1</span><div><b>Read the typical day</b><span>Look beyond the job title.</span></div></li><li><span class="career-step-number" aria-hidden="true">2</span><div><b>Notice what fits you</b><span>Compare the work, route, and working style.</span></div></li><li><span class="career-step-number" aria-hidden="true">3</span><div><b>Keep it open if you want</b><span>Save a primary or secondary option; you can change it later.</span></div></li></ol></div>';
 }
 
 function careerStageGuidance(stage: unknown) {
   const value = String(stage ?? '').toLowerCase();
-  if (value.includes('10') || value.includes('school')) return 'For a school student, compare the kind of work and the subjects or routes it opens. A short observation or guided project is enough to start.';
-  if (value.includes('11') || value.includes('12')) return 'For Class 11–12, compare course routes, entrance requirements, and the day-to-day work. Use a small project or practitioner conversation before committing.';
-  if (value.includes('college') || value.includes('graduate')) return 'For college or early career, compare entry routes and the first role you could realistically reach. Use a small portfolio task or real conversation to learn what the work is like.';
-  if (value.includes('professional') || value.includes('career-change') || value.includes('working')) return 'For a career change, compare transferable skills, income timing, and the smallest credible bridge into the new work. Test the bridge before making a large commitment.';
-  return 'Start with what interests you. Read the practical work, then try one small task before saving a career option.';
+  if (value.includes('10') || value.includes('school')) return 'For a school student, compare the kind of work and the subjects or routes it opens. A short observation or guided project is enough to learn more; nothing needs to be recorded here.';
+  if (value.includes('11') || value.includes('12')) return 'For Class 11–12, compare course routes, entrance requirements, and the day-to-day work. A small project or practitioner conversation can help you decide, but it is optional.';
+  if (value.includes('college') || value.includes('graduate')) return 'For college or early career, compare entry routes and the first role you could realistically reach. A small task or real conversation can show what the work is like; keep notes in the skills area only if useful.';
+  if (value.includes('professional') || value.includes('career-change') || value.includes('working')) return 'For a career change, compare transferable skills, income timing, and the smallest credible bridge into the new work. Test the bridge only if it helps you decide.';
+  return 'Start with what interests you. Read the practical work, and try a small check only if it helps. Keep options open while you learn.';
 }
 
 function careerStageStart(stage: unknown) {
   const value = String(stage ?? '').toLowerCase();
-  if (value.includes('10') || value.includes('school')) return { title: 'Start with the kind of work, not a final job title', copy: 'Compare the subjects and routes each option opens. A short observation or guided project is enough for your first check.' };
-  if (value.includes('11') || value.includes('12')) return { title: 'Compare courses, entrance paths, and daily work', copy: 'Choose two or three realistic routes, then use a small project or practitioner conversation before committing.' };
-  if (value.includes('college') || value.includes('graduate')) return { title: 'Learn about the first realistic role you could reach', copy: 'Compare entry requirements, then try one small task or conversation to understand what the work is like.' };
-  if (value.includes('professional') || value.includes('career-change') || value.includes('working')) return { title: 'Find the smallest credible bridge to the new work', copy: 'Compare transferable skills, income timing, and one low-risk test before making a large career move.' };
-  return { title: 'Start with a small practical check', copy: 'Choose one or more career options to investigate, then learn from a small practical task before making a long commitment.' };
+  if (value.includes('10') || value.includes('school')) return { title: 'Start with the kind of work, not a final job title', copy: 'Compare the subjects and routes each option opens. A short observation or guided project is available if you want a first check.' };
+  if (value.includes('11') || value.includes('12')) return { title: 'Compare courses, entrance paths, and daily work', copy: 'Choose two or three realistic routes. A small project or practitioner conversation can help, but you do not have to do one here.' };
+  if (value.includes('college') || value.includes('graduate')) return { title: 'Learn about the first realistic role you could reach', copy: 'Compare entry requirements, then try a small task or conversation only if it would make the choice clearer.' };
+  if (value.includes('professional') || value.includes('career-change') || value.includes('working')) return { title: 'Find the smallest credible bridge to the new work', copy: 'Compare transferable skills and income timing. A low-risk test is optional before making a large career move.' };
+  return { title: 'Start with a small practical check', copy: 'Choose one or more career options to investigate. Try a small practical check only if it helps you learn what fits.' };
 }
 
 function careerStudyStageKey(stage: unknown) {
