@@ -1488,7 +1488,7 @@ test('dedicated career decision route stays usable on mobile', async ({ page }) 
       compareWidthDifference: Math.abs(cardRect.width - (compareRect?.width || 0)),
     };
   });
-  expect(actionLayout.openText).toContain('View full details and choose');
+  expect(actionLayout.openText).toContain('Read the details, then choose');
   expect(actionLayout.openHeight).toBeGreaterThanOrEqual(40);
   expect(actionLayout.compareHeight).toBeGreaterThanOrEqual(38);
   expect(actionLayout.compareWidthDifference).toBeLessThanOrEqual(2);
@@ -1496,6 +1496,9 @@ test('dedicated career decision route stays usable on mobile', async ({ page }) 
   await expect(compareToggle).toContainText('Add to comparison');
   await compareToggle.click();
   await expect(page.locator('#career-preset-results .career-compare-toggle').first()).toContainText('Added to comparison');
+  await firstCareer.locator('button[data-career-preset]').click();
+  await expect(page.locator('#career-guide-preview .career-guide-save-quick')).toBeVisible();
+  await expect(page.locator('#career-guide-preview .career-guide-save-quick')).toContainText('Choose as a primary option');
 });
 
 test('career pagination control stays available on desktop', async ({ page }) => {
@@ -1584,14 +1587,14 @@ test('career sort changes ordering while keeping the full matching catalogue', a
   await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
   const firstTitles = async () => page.locator('#career-preset-results .career-library-result .career-result-title strong').allTextContents();
-  await expect(page.locator('#career-preset-sort').locator('option[value="quick-test"]')).toContainText('Easiest first checks');
-  await expect(page.locator('#career-preset-sort').locator('xpath=ancestor::label')).toContainText('Choose an order, not a limit');
+  await expect(page.locator('#career-preset-sort').locator('option[value="quick-test"]')).toContainText('Easy ways to try it');
+  await expect(page.locator('#career-preset-sort').locator('xpath=ancestor::label')).toContainText('Good starting points puts clear, realistic routes near the top');
   await page.locator('#career-preset-sort').selectOption('recommended');
   const recommended = await firstTitles();
-  await expect(page.locator('#career-preset-count')).toContainText('sorted by practical starting points');
+  await expect(page.locator('#career-preset-count')).toContainText('sorted by good starting points');
   await page.locator('#career-preset-sort').selectOption('quick-test');
   const quickTest = await firstTitles();
-  await expect(page.locator('#career-preset-count')).toContainText('sorted by easiest first tests');
+  await expect(page.locator('#career-preset-count')).toContainText('sorted by easy ways to try it');
   expect(quickTest).not.toEqual(recommended);
   await expect(page.locator('#career-preset-count')).toContainText('1446 useful matches');
 });
