@@ -668,7 +668,7 @@ test('staff can run a complete coaching case from caseload to private notes', as
   await expect(page.locator('#record-skill-list')).toContainText('The examples made the next practice clear.');
   await expect(page.locator('#record-skill-list')).toContainText('4/10 · Developing');
   await expect(page.locator('#record-skill-list')).toContainText('5/10 · On track');
-  await expect(page.locator('#record-skill-list').getByRole('button', { name: 'Add evidence' }).first()).toBeVisible();
+  await expect(page.locator('#record-skill-list').getByRole('button', { name: 'Add optional note' }).first()).toBeVisible();
   await page.locator('[data-record-pane="skills"]').getByRole('button', { name: 'Add skill plan' }).click();
   const skillPlanDialog = page.locator('#skill-plan-dialog');
   await expect(skillPlanDialog).toBeVisible();
@@ -708,7 +708,7 @@ test('staff can run a complete coaching case from caseload to private notes', as
   await page.locator('#record-skill-list [data-skill-page-action="last"]:visible').first().click();
   const newSkill = page.locator('#record-skill-list .skill-roadmap-row').filter({ hasText: 'Interview synthesis' });
   await expect(newSkill).toBeVisible();
-  await newSkill.getByRole('button', { name: 'Add evidence' }).click();
+  await newSkill.getByRole('button', { name: 'Add optional note' }).click();
   const evidenceDialog = page.locator('#evidence-dialog');
   await evidenceDialog.getByLabel('Description').fill('Grouped repeated observations into three useful themes.');
   await evidenceDialog.getByLabel('Links to proof (optional)').fill('https://example.test/interview-notes\nhttps://example.test/interview-summary');
@@ -1060,13 +1060,13 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await expect(ownSkill.locator('.skill-meaning')).toContainText('What this means');
   await expect(ownSkill.locator('.skill-ability-summary')).toContainText('Current ability');
   await expect(ownSkill.locator('.skill-action-preview')).toContainText('Start here');
-  await expect(ownSkill.locator('.skill-action-preview')).toContainText('Proof to collect');
+  await expect(ownSkill.locator('.skill-action-preview')).toContainText('Optional progress note');
   await expect(ownSkill.locator('.skill-progression-details')).toHaveCount(1);
   // Evidence stays collapsed initially so a learner can scan several skills
   // without losing access to the underlying descriptions and links.
   await expect(staffSkill.locator('details.skill-evidence-details')).toHaveCount(1);
   await expect(staffSkill.locator('details.skill-evidence-details')).not.toHaveAttribute('open', '');
-  await expect(staffSkill.getByRole('button', { name: 'Add evidence' })).toBeVisible();
+  await expect(staffSkill.getByRole('button', { name: 'Add optional note' })).toBeVisible();
   await expect(staffSkill.getByRole('button', { name: 'Edit skill', exact: true })).toHaveCount(0);
   // Students can remove any skill from their own plan, including a recommended
   // or coach-added starting skill, when it is no longer useful to practise.

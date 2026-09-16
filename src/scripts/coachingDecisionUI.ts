@@ -621,7 +621,7 @@ export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: D
   const canRemove = true;
   const scope = skillScopeFor(skill);
   const linkedCareer = careers.find((career) => career.id === skill.linked_career_path_id);
-  const proofState = evidence.length ? `${evidence.length} proof item${evidence.length === 1 ? '' : 's'}` : 'Proof still needed';
+  const proofState = evidence.length ? `${evidence.length} progress note${evidence.length === 1 ? '' : 's'}` : 'No progress note yet';
   const levelGuidance = skillLevelsFor(skill);
   const reviews = (ui.skillReviews ?? []).filter((row) => row.skill_id === skill.id);
   // Supabase projects created before the review migration may not have an
@@ -668,7 +668,7 @@ export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: D
   const abilityLabels = ['Not started', 'Aware or beginner', 'Can do with support', 'Can do independently', 'Can adapt or teach'];
   const abilityValue = Math.max(0, Math.min(4, Number.isFinite(Number(skill.current_level)) ? Number(skill.current_level) : 0));
   const targetValue = Math.max(1, Math.min(4, Number.isFinite(Number(skill.target_level)) ? Number(skill.target_level) : 2));
-  const abilitySummary = `<div class="skill-ability-summary"><div class="skill-ability-copy"><span><small>Current ability</small><strong>${ui.escapeHtml(abilityLabels[abilityValue])}</strong></span><span><small>Next target</small><strong>${ui.escapeHtml(abilityLabels[targetValue])}</strong></span></div><div class="skill-ability-meter" role="progressbar" aria-label="Current ability: ${ui.escapeHtml(abilityLabels[abilityValue])}" aria-valuemin="0" aria-valuemax="4" aria-valuenow="${abilityValue}" aria-valuetext="${ui.escapeHtml(abilityLabels[abilityValue])}"><span style="width:${(abilityValue / 4) * 100}%"></span></div><small class="skill-ability-help">Move this forward with a real task and the proof described below.</small></div>`;
+  const abilitySummary = `<div class="skill-ability-summary"><div class="skill-ability-copy"><span><small>Current ability</small><strong>${ui.escapeHtml(abilityLabels[abilityValue])}</strong></span><span><small>Next target</small><strong>${ui.escapeHtml(abilityLabels[targetValue])}</strong></span></div><div class="skill-ability-meter" role="progressbar" aria-label="Current ability: ${ui.escapeHtml(abilityLabels[abilityValue])}" aria-valuemin="0" aria-valuemax="4" aria-valuenow="${abilityValue}" aria-valuetext="${ui.escapeHtml(abilityLabels[abilityValue])}"><span style="width:${(abilityValue / 4) * 100}%"></span></div><small class="skill-ability-help">Move this forward with a small real task; saving a note is optional.</small></div>`;
   const ratingScaleMarkers = '<div class="rating-scale-markers" aria-hidden="true"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span></div>';
   const ratingScaleHint = '<small class="rating-scale-guide">0 = not started · 5 = building with support · 10 = confident in a new situation</small>';
   // The score is a first-class control on the card. The expandable area is
@@ -691,7 +691,7 @@ export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: D
   const skillMeaning = skillMeaningFor(skill);
   const practicePreview = String(skill.practice_method || '').trim() || 'Choose one small, repeated real task.';
   const proofPreview = String(skill.success_criteria || '').trim() || 'A dated work sample, result, link, or feedback.';
-  const actionPreview = `<div class="skill-action-preview"><div><small>Start here</small><p>${ui.escapeHtml(practicePreview)}</p></div><div><small>Proof to collect</small><p>${ui.escapeHtml(proofPreview)}</p></div></div>`;
+  const actionPreview = `<div class="skill-action-preview"><div><small>Start here</small><p>${ui.escapeHtml(practicePreview)}</p></div><div><small>Optional progress note</small><p>${ui.escapeHtml(proofPreview)}</p></div></div>`;
   const quickScoreField = ui.viewerRole === 'student' ? 'student_satisfaction' : 'coach_satisfaction';
   const quickScoreSetField = `${quickScoreField}_set`;
   const quickScoreLabel = ui.viewerRole === 'student' ? 'Your satisfaction' : 'Coach satisfaction';
@@ -704,12 +704,12 @@ export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: D
     return `<article class="skill-evidence-item"><i aria-hidden="true">EV</i><div class="skill-evidence-copy"><strong>${ui.escapeHtml(row.title)}</strong><small>${ui.escapeHtml(ui.formatStatus(row.evidence_type))} · ${ui.escapeHtml(ui.formatDate(row.evidence_date))}</small>${row.description ? `<p>${ui.escapeHtml(row.description)}</p>` : ''}${proofUrls.map((proofUrl) => `<a class="evidence-link" href="${ui.escapeHtml(proofUrl)}" target="_blank" rel="noopener noreferrer">Open proof link</a>`).join('')}</div>${canEditEvidence ? `<span class="evidence-actions"><button class="table-action" type="button" data-edit-evidence="${ui.escapeHtml(row.id)}">Edit</button><button class="table-action" type="button" data-delete-evidence="${ui.escapeHtml(row.id)}">Remove</button></span>` : ''}</article>`;
   }).join('') || '<small>No evidence added yet.</small>';
   const workGrid = ui.viewerRole === 'student'
-    ? `<details class="skill-work-details"><summary><span>Practise and proof</span><small>Open details</small></summary><div class="skill-work-grid"><span><small>Practise</small><p>${ui.escapeHtml(skill.practice_method || 'Choose one repeated real task.')}</p></span><span><small>Proof</small><p>${ui.escapeHtml(skill.success_criteria || 'Add a work sample or feedback when you have one.')}</p></span></div></details>`
+    ? `<details class="skill-work-details"><summary><span>Practise this skill</span><small>Open details</small></summary><div class="skill-work-grid"><span><small>Practise</small><p>${ui.escapeHtml(skill.practice_method || 'Choose one repeated real task.')}</p></span><span><small>Optional progress note</small><p>${ui.escapeHtml(skill.success_criteria || 'Save a work sample or feedback later if it helps you.')}</p></span></div></details>`
     : `<details class="skill-work-details"><summary><span>Development plan</span><small>Open details</small></summary><div class="skill-work-grid"><span><small>Development outcome</small><p>${ui.escapeHtml(skill.development_goal || 'Define the capability this work should improve.')}</p></span><span><small>How to practise</small><p>${ui.escapeHtml(skill.practice_method || 'Choose a repeated real task, not only a course.')}</p></span><span><small>Proof of competence</small><p>${ui.escapeHtml(skill.success_criteria || 'Define the output, standard, and feedback that will count as proof.')}</p></span></div></details>`;
   const levelGuidanceBlock = `<details class="skill-progression-details"><summary><span>Examples by level</span><small>Starter · Working · Advanced</small></summary><div class="skill-progression-grid">${levelGuidance.map((item) => `<section data-level="${ui.escapeHtml(item.level.toLowerCase())}"><strong>${ui.escapeHtml(item.level)}</strong><p><b>Example:</b> ${ui.escapeHtml(item.example)}</p><p><b>Next advice:</b> ${ui.escapeHtml(item.advice)}</p></section>`).join('')}</div></details>`;
   const evidenceBlock = evidence.length
     ? `<details class="skill-evidence-details"><summary><span>Evidence</span><small>${evidence.length} item${evidence.length === 1 ? '' : 's'} · open to read descriptions and links</small></summary><div class="skill-evidence-list">${evidenceItems}</div></details>`
-    : `<div class="skill-evidence-list skill-evidence-empty"><small>No evidence added yet. Add a work sample, link, result, or feedback when you have one.</small></div>`;
+    : `<div class="skill-evidence-list skill-evidence-empty"><small>No progress note saved. You can add a work sample, link, result, or feedback later if useful.</small></div>`;
   return `<article class="skill-roadmap-row" data-priority="${ui.escapeHtml(skill.priority)}" data-scope="${ui.escapeHtml(scope)}">
     <header class="skill-card-header"><span class="skill-card-heading"><strong>${ui.escapeHtml(skill.skill_name)}</strong><small>${ui.escapeHtml(ui.viewerRole === 'student' ? studentScopeLabels[scope] : scopeLabels[scope])}${linkedCareer ? ` · for ${ui.escapeHtml(linkedCareer.title)}` : ''}</small></span><span class="skill-proof-state" data-has-proof="${evidence.length ? 'true' : 'false'}">${ui.escapeHtml(proofState)}</span></header>
     <p class="skill-meaning"><strong>What this means</strong><span>${ui.escapeHtml(skillMeaning)}</span></p>
@@ -723,12 +723,12 @@ export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: D
     <div class="skill-satisfaction"><span><small>Coach satisfaction</small><strong>${ui.escapeHtml(coachScore)}</strong></span><span><small>Student satisfaction</small><strong>${ui.escapeHtml(studentScore)}</strong></span><small class="rating-scale-inline">Scale: 0 not started · 1–2 starting · 3–4 building · 5–6 useful with support · 7–8 working well · 9–10 confident in a new situation</small></div>
     ${quickRating}
     ${feedbackEditor}
-    <footer><span>${ui.escapeHtml(ui.formatStatus(skill.priority))}</span><span class="row-actions skill-card-actions"><button class="table-action" type="button" data-add-evidence="${ui.escapeHtml(skill.id)}">Add evidence</button>${canEdit ? `<button class="table-action" type="button" data-edit-skill="${ui.escapeHtml(skill.id)}">Edit skill</button>` : ''}${canRemove ? `<button class="table-action danger-action" type="button" data-delete-skill="${ui.escapeHtml(skill.id)}">Remove skill</button>` : ''}</span></footer>
+    <footer><span>${ui.escapeHtml(ui.formatStatus(skill.priority))}</span><span class="row-actions skill-card-actions"><button class="table-action" type="button" data-add-evidence="${ui.escapeHtml(skill.id)}">Add optional note</button>${canEdit ? `<button class="table-action" type="button" data-edit-skill="${ui.escapeHtml(skill.id)}">Edit skill</button>` : ''}${canRemove ? `<button class="table-action danger-action" type="button" data-delete-skill="${ui.escapeHtml(skill.id)}">Remove skill</button>` : ''}</span></footer>
   </article>`;
 }
 
 export function skillRoadmapHtml(skills: Row[], allEvidence: Row[], careers: Row[], ui: DecisionUiContext) {
-  if (!skills.length) return `<div class="empty-state coaching-empty"><strong>No skills have been added yet.</strong><span>Add one ability you want to build, then record evidence and a 0–10 rating when you are ready. Skills can be removed later if they no longer belong in the plan.</span><button class="secondary-button" type="button" data-open-skill-dialog>Add a skill</button></div>`;
+  if (!skills.length) return `<div class="empty-state coaching-empty"><strong>No skills have been added yet.</strong><span>Add one ability you want to build, then rate or reflect on it when you are ready. Saving a progress note is optional.</span><button class="secondary-button" type="button" data-open-skill-dialog>Add a skill</button></div>`;
   const order: SkillScope[] = ['foundation', 'career-specific', 'future-ready', 'employability', 'personal-effectiveness'];
   const initialTab = skills.some((skill) => skillScopeFor(skill) === 'foundation') ? 'foundation' : 'career-specific';
   const renderGroup = (scope: SkillScope, showEmpty = true) => {
