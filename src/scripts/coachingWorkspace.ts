@@ -2539,6 +2539,12 @@ function openCareerDialog(id = '') {
   if (checklist) checklist.hidden = isStudent;
   const studentGuide = qs<HTMLElement>('#career-decision-student-guide');
   if (studentGuide) studentGuide.hidden = !isStudent;
+  const careerFilters = qs<HTMLDetailsElement>('.career-filter-details');
+  if (careerFilters) {
+    // Keep the first mobile view calm: search and quick-start lenses remain
+    // visible, while the larger filter set is available on demand.
+    careerFilters.open = !(isStudent && window.matchMedia('(max-width: 760px)').matches);
+  }
   const manualFamilyField = qs<HTMLElement>('#career-manual-family-field');
   if (manualFamilyField) manualFamilyField.hidden = isStudent;
   const careerSubmitLabel = qs<HTMLElement>('#career-save-label');

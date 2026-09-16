@@ -1605,6 +1605,9 @@ test('dedicated career page starts at the top without unused toolbar clearance',
     await mockWorkspace(page, 'student');
     await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
+    const filterDetails = page.locator('.career-filter-details');
+    if (width <= 760) await expect(filterDetails).not.toHaveAttribute('open');
+    else await expect(filterDetails).toHaveAttribute('open');
     const layout = await page.evaluate(() => {
       const main = document.querySelector('#hierarchy-workspace .workspace-main');
       const shell = document.querySelector('#hierarchy-workspace .workspace-shell');
