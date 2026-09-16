@@ -1637,7 +1637,7 @@ function preparePresetControls() {
     'career-study-stage': ['Your current stage', 'This helps us show routes that fit your studies or experience.', 'Choose the closest match; it guides results but does not block other paths.'],
     'career-preset-category': ['Area of work', 'Browse a broad field before comparing individual roles.', 'Start with all areas if you are still exploring.'],
     'career-preset-group': ['Kind of work', 'Groups describe the usual style of work in a role.', 'Optional: leave this broad while you explore.'],
-    'career-preset-sort': ['Sort results', 'This reorders the full catalogue; it does not filter careers out.', 'Practical starting points is a good default for a first look.'],
+    'career-preset-sort': ['How should we order results?', 'Choose an order, not a limit: every matching career stays available.', 'Practical starting points is a good default for a first look.'],
   };
   Object.entries(copy).forEach(([id, [label, help, title]]) => {
     const select = qs<HTMLSelectElement>(`#${id}`);
@@ -1656,7 +1656,7 @@ function preparePresetControls() {
     const sortLabels: Record<string, string> = {
       recommended: 'Practical starting points',
       alphabetical: 'A to Z',
-      'quick-test': 'Easiest first tests (conversation, observation, or a small task)',
+      'quick-test': 'Easiest first checks (conversation, observation, or a small task)',
       'future-ready': 'Growing or changing work',
       independent: 'Paths that may become independent work',
     };
