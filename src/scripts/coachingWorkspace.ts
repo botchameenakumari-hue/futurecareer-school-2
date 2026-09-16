@@ -2429,6 +2429,34 @@ function openCareerDialog(id = '') {
   const stageStart = careerStageStart(effectiveDecisionStage);
   setText('#career-stage-start-title', stageStart.title);
   setText('#career-stage-start-copy', stageStart.copy);
+  const journey = qs<HTMLElement>('#career-decision-student-guide');
+  if (journey) {
+    setText('#career-decision-student-guide-title', 'Choose, try, revisit');
+    const lastStep = journey.querySelector('.career-decision-journey article:nth-child(3)');
+    if (lastStep) {
+      const title = lastStep.querySelector('strong');
+      const detail = lastStep.querySelector('span');
+      if (title) title.textContent = 'Revisit after a little time';
+      if (detail) detail.textContent = 'Give yourself a week or two, then keep, change, or pause the option based on what you noticed.';
+    }
+  }
+  const choiceChecklist = qs<HTMLElement>('#career-decision-checklist');
+  if (choiceChecklist) {
+    const testQuestion = choiceChecklist.querySelector('ol li:nth-child(3)');
+    const mindChange = choiceChecklist.querySelector('ol li:nth-child(4)');
+    if (testQuestion) {
+      const title = testQuestion.querySelector('strong');
+      const detail = testQuestion.querySelector('span');
+      if (title) title.textContent = 'What can I try or ask about?';
+      if (detail) detail.textContent = 'Choose one small task, conversation, or observation to see how the work feels.';
+    }
+    if (mindChange) {
+      const title = mindChange.querySelector('strong');
+      const detail = mindChange.querySelector('span');
+      if (title) title.textContent = 'What might change my mind?';
+      if (detail) detail.textContent = 'Notice what feels interesting, difficult, or different from what you expected.';
+    }
+  }
   preparePresetControls();
   form.reset();
   const row = coaching.careers.find((item) => item.id === id);
