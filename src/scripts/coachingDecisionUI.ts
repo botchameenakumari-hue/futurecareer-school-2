@@ -470,6 +470,7 @@ function safeEvidenceUrls(value: unknown) {
 
 export function careerCardHtml(path: Row, ui: DecisionUiContext, editable = true, skills: Row[] = []) {
   const guide = careerGuideFor(path.preset_key);
+  const isStudent = ui.viewerRole === 'student';
   const canManage = editable && (ui.viewerRole !== 'student' || !path.created_by || path.created_by === ui.userId);
   const optionType = path.option_type || 'alternative';
   const decisionSignal = decisionSignalFor(path);
@@ -487,18 +488,19 @@ export function careerCardHtml(path: Row, ui: DecisionUiContext, editable = true
     ? linkedSkills.slice(0, 7)
     : guide
       ? [...guide.foundationSkills.slice(0, 2), ...guide.specialistSkills.slice(0, 3), ...guide.futureSkills.slice(0, 2)]
-      : [`${path.title} tools and methods`, `Practical experience in ${path.title}`, 'Clear communication and evidence'];
+      : [`${path.title} tools and methods`, `Practical experience in ${path.title}`, 'Clear communication and follow-through'];
   const summary = guide?.summary || path.work_environment || 'Add a clear description of the work this option actually involves.';
   const optionLabel = optionType === 'primary' ? 'Main option' : 'Other option';
   const linkedSkillCount = skills.filter((skill) => skill.linked_career_path_id === path.id).length;
   const skillMapping = linkedSkillCount
-    ? `<span class="career-skill-map" data-career-skill-count="${linkedSkillCount}">${linkedSkillCount} skill${linkedSkillCount === 1 ? '' : 's'} mapped to this career option</span>`
-    : '<span class="career-skill-map is-pending">Career option skills will appear here after saving</span>';
+    ? `<span class="career-skill-map" data-career-skill-count="${linkedSkillCount}">${linkedSkillCount} related skill${linkedSkillCount === 1 ? '' : 's'} in your Skills page</span>`
+    : '<span class="career-skill-map is-pending">Related skills will appear in Skills when available</span>';
   // Older duplicate-save protection wrote an internal merge message into the
   // learner's review question. It is implementation history, not useful
   // career guidance, so keep it out of the visible plan.
   const reviewQuestion = String(path.review_question || '').trim();
   const visibleReviewQuestion = reviewQuestion && !/^duplicate entry merged/i.test(reviewQuestion) ? reviewQuestion : '';
+  const learnerNextStep = isStudent ? 'Read, watch, talk to someone, or revisit this option later.' : (path.next_step || (guide?.starterTests[0] ? `Optional: ${guide.starterTests[0]}` : 'Read about the day-to-day work and revisit this option later'));
   return `<article class="career-decision-row" data-status="${ui.escapeHtml(path.status)}" data-option-type="${ui.escapeHtml(optionType)}">
     <header>
       <span class="career-decision-title"><span class="option-type-badge" data-option-type="${ui.escapeHtml(optionType)}">${ui.escapeHtml(optionLabel)}</span><span><h4>${ui.escapeHtml(path.title)}</h4><small>${ui.escapeHtml(careerFamilyLabel(path.career_category || 'Other'))}</small></span></span>
@@ -511,7 +513,7 @@ export function careerCardHtml(path: Row, ui: DecisionUiContext, editable = true
       <section><small>Entry route</small><p>${ui.escapeHtml(path.route_summary || guide?.entryRoutes.join(' / ') || 'Not mapped yet')}</p></section>
       ${watchOuts.length ? `<section><small>Things to check before choosing</small>${listHtml(watchOuts.slice(0, 3), ui.escapeHtml)}</section>` : ''}
     </div>
-    ${skillPreview.length ? `<div class="career-skill-preview"><small>Skills this route needs</small><div>${chipsHtml(skillPreview, ui.escapeHtml)}</div>${skillMapping}</div>` : ''}</div></details>\n    <footer><span><small>Optional next step</small><strong>${ui.escapeHtml(path.next_step || (guide?.starterTests[0] ? `Optional: ${guide.starterTests[0]}` : 'Read about the day-to-day work and revisit this option later'))}</strong>${path.decision_deadline ? `<em>Revisit by ${ui.escapeHtml(ui.formatDate(path.decision_deadline))} if useful</em>` : ''}${visibleReviewQuestion ? `<em>Open question: ${ui.escapeHtml(visibleReviewQuestion)}</em>` : ''}</span><span class="row-actions"><button class="table-action" type="button" data-add-career-skills="${ui.escapeHtml(path.id)}">Add suggested skills</button>${canManage ? `<button class="table-action" type="button" data-edit-career="${ui.escapeHtml(path.id)}">Edit</button><button class="table-action" type="button" data-delete-career="${ui.escapeHtml(path.id)}">Remove</button>` : ''}</span></footer>
+    ${skillPreview.length ? `<div class="career-skill-preview"><small>Skills this route needs</small><div>${chipsHtml(skillPreview, ui.escapeHtml)}</div>${skillMapping}</div>` : ''}</div></details>\n    <footer><span><small>Optional next step</small><strong>${ui.escapeHtml(learnerNextStep)}</strong>${path.decision_deadline ? `<em>Revisit by ${ui.escapeHtml(ui.formatDate(path.decision_deadline))} if useful</em>` : ''}${visibleReviewQuestion ? `<em>Open question: ${ui.escapeHtml(visibleReviewQuestion)}</em>` : ''}</span><span class="row-actions">${ui.viewerRole === 'student' ? '' : `<button class="table-action" type="button" data-add-career-skills="${ui.escapeHtml(path.id)}">Add suggested skills</button>`}${canManage ? `<button class="table-action" type="button" data-edit-career="${ui.escapeHtml(path.id)}">Edit</button><button class="table-action" type="button" data-delete-career="${ui.escapeHtml(path.id)}">Remove</button>` : ''}</span></footer>
   </article>`;
 }
 
@@ -569,7 +571,7 @@ export function careerLibraryResultsHtml(matches: CareerGuide[], selectedKey: st
     'Future-ready & Cross-functional': { interests: 'Learning quickly, connecting ideas, adapting to change, and solving unfamiliar problems', work: 'Combine knowledge from different areas, test a new approach, and help people act on what you learn.', route: 'A strong foundation plus projects that show learning, judgement, and adaptability' },
   };
   return matches.slice(offset, offset + limit).map((guide) => {
-    const fallback = categorySignals[careerFamilyLabel(guide.category)] || categorySignals[guide.category] || { interests: 'Curiosity, steady learning, and willingness to test the work', work: 'Work through practical problems, communicate clearly, and improve the result with feedback.', route: 'A relevant course or apprenticeship supported by practical evidence' };
+    const fallback = categorySignals[careerFamilyLabel(guide.category)] || categorySignals[guide.category] || { interests: 'Curiosity, steady learning, and willingness to learn about the work', work: 'Work through practical problems, communicate clearly, and improve the result with feedback.', route: 'A relevant course or apprenticeship supported by relevant learning and practice' };
     const competition = /highly competitive|exam-led/i.test(guide.competitionNote) ? 'Highly competitive' : /competitive|regulated/i.test(guide.competitionNote) ? 'Competitive or regulated' : 'Skills or portfolio can help';
     const independence = independencePotentialFor(guide) === 2
       ? 'Can grow into independent work'
