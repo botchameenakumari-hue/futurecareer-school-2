@@ -1670,6 +1670,35 @@ function preparePresetControls() {
     Array.from(sortSelect.options).forEach((option) => {
       if (sortLabels[option.value]) option.textContent = sortLabels[option.value];
     });
+    const sortField = sortSelect.closest('label');
+    if (sortField && !sortField.querySelector('[data-career-sort-choice]')) {
+      const choices = [
+        ['recommended', 'Good starting routes', 'Clearer entry steps appear first.'],
+        ['quick-test', 'Learn about the work', 'Reading, watching, or talking is easier to find first.'],
+        ['alphabetical', 'Role name A–Z', 'Browse every role in name order.'],
+        ['future-ready', 'Changing fastest', 'Roles with changing tools or demand appear first.'],
+        ['independent', 'More independent routes', 'Self-directed or freelance routes appear first.'],
+      ];
+      const choiceGroup = document.createElement('div');
+      choiceGroup.className = 'career-sort-choices';
+      choiceGroup.setAttribute('role', 'group');
+      choiceGroup.setAttribute('aria-label', 'Choose how to order careers');
+      choiceGroup.innerHTML = choices.map(([value, title, description]) => `<button type="button" data-career-sort-choice="${value}" aria-pressed="false"><strong>${title}</strong><small>${description}</small></button>`).join('');
+      sortField.appendChild(choiceGroup);
+      const syncChoices = () => choiceGroup.querySelectorAll<HTMLButtonElement>('[data-career-sort-choice]').forEach((button) => {
+        const active = button.dataset.careerSortChoice === sortSelect.value;
+        button.setAttribute('aria-pressed', String(active));
+        button.classList.toggle('is-selected', active);
+      });
+      choiceGroup.querySelectorAll<HTMLButtonElement>('[data-career-sort-choice]').forEach((button) => button.addEventListener('click', () => {
+        sortSelect.value = button.dataset.careerSortChoice || 'recommended';
+        sortSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        syncChoices();
+      }));
+      sortSelect.addEventListener('change', syncChoices);
+      syncChoices();
+      sortSelect.classList.add('career-sort-select-fallback');
+    }
     updateCareerSortHelp();
   }
   const visibleCareerFamilies = Array.from(new Map(guidedCareerCategories.map((category) => [learnerFacingCareerFamily(category), category])).entries());
