@@ -1670,7 +1670,7 @@ function preparePresetControls() {
     const sortLabels: Record<string, string> = {
       recommended: 'Good places to start',
       alphabetical: 'Names A–Z',
-      'quick-test': 'Easy ways to learn about the work',
+      'quick-test': 'Read, watch, talk, or observe first',
       'future-ready': 'Work changing quickly',
       independent: 'More independent work',
     };
@@ -1681,7 +1681,7 @@ function preparePresetControls() {
     if (sortField && !sortField.querySelector('[data-career-sort-choice]')) {
       const choices = [
         ['recommended', 'Good places to start', 'Routes with clearer first steps appear at the top.'],
-        ['quick-test', 'Easy ways to learn about the work', 'Read, watch, talk, or observe the work; no notes are needed.'],
+        ['quick-test', 'Read, watch, talk, or observe first', 'Put options near the top when you can learn about the work without committing to it.'],
         ['alphabetical', 'Names A–Z', 'See all names in A–Z order.'],
         ['future-ready', 'Work changing quickly', 'Put work with changing tools or demand near the top.'],
         ['independent', 'More independent work', 'Put more self-directed work near the top.'],
@@ -1830,7 +1830,7 @@ function renderCareerPresetResults() {
     const title = input.closest('.career-library-result')?.querySelector('.career-result-title strong')?.textContent?.trim() || 'career';
     input.setAttribute('aria-label', `${selected ? 'Remove' : 'Add'} ${title} ${selected ? 'from' : 'to'} comparison`);
   });
-  const sortLabel = ({ recommended: 'clear routes first', alphabetical: 'role name A–Z', 'quick-test': 'easy ways to learn first', 'future-ready': 'roles changing quickly first', independent: 'routes with independent work first' } as Record<string, string>)[sort] ?? 'selected order';
+  const sortLabel = ({ recommended: 'clear routes first', alphabetical: 'role name A–Z', 'quick-test': 'read, watch, talk, or observe first', 'future-ready': 'roles changing quickly first', independent: 'routes with independent work first' } as Record<string, string>)[sort] ?? 'selected order';
   updateCareerSortHelp();
   if (count) count.textContent = `${matches.length.toLocaleString()} careers available · ordered by ${sortLabel} · all remain available${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
   const interestGuidance = qs<HTMLElement>('#career-interest-guidance');
@@ -2394,7 +2394,7 @@ function careerStageGuidance(stage: unknown) {
   if (value.includes('10') || value.includes('school')) return 'For a school student, compare the kind of work and the subjects or routes it opens. Read, ask, or observe if you want to learn more; nothing needs to be recorded here.';
   if (value.includes('11') || value.includes('12')) return 'For Class 11–12, compare course routes, entrance requirements, and the day-to-day work. A small project or practitioner conversation can help you decide, but it is optional and does not need a record.';
   if (value.includes('college') || value.includes('graduate')) return 'For college or early career, compare entry routes and the first role you could realistically reach. Learn about the work through reading or a real conversation only if useful; notes belong in Skills only when you want them.';
-  if (value.includes('professional') || value.includes('career-change') || value.includes('working')) return 'For a career change, compare transferable skills, income timing, and the smallest credible bridge into the new work. Test the bridge only if it helps you decide; recording it is optional.';
+  if (value.includes('professional') || value.includes('career-change') || value.includes('working')) return 'For a career change, compare transferable skills, income timing, and the smallest credible bridge into the new work. Learn about the bridge only if it helps you decide; recording it is optional.';
   return 'Start with what interests you. Read the practical work and learn a little more only if it helps. Keep options open while you decide.';
 }
 
