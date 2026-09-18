@@ -600,7 +600,7 @@ export function careerGuidePreviewHtml(guide: CareerGuide, escapeHtml: DecisionU
   return `<div class="career-guide-header"><span><small>${escapeHtml(careerFamilyLabel(guide.category))}</small><h4>${escapeHtml(guide.title)}</h4></span></div>
     <p>${escapeHtml(guide.summary)}</p>
     <div class="career-guide-at-a-glance"><div><small>What a normal week may feel like</small><strong>${escapeHtml(guide.dayPace)}</strong></div><div><small>Where the work happens</small><strong>${escapeHtml(guide.workSetting)}</strong></div><div><small>Getting started</small><strong>${escapeHtml(guide.entryLevel)}</strong></div><div><small>Time and route</small><strong>${escapeHtml(guide.routeLength)}</strong></div></div>${quickChoice}
-    <details class="career-guide-more"><summary><strong>See routes, skills, outlook, and questions</strong><span>Open details</span></summary><div class="career-guide-sections">
+    <details class="career-guide-more"><summary><strong>More about this career</strong><span>Open details</span></summary><div class="career-guide-sections">
       <section><small>Local work context</small><p>${escapeHtml(guide.localContext)}</p></section>
       <section><small>Competition to expect</small><p>${escapeHtml(guide.competitionNote)}</p></section>
       <section><small>Long-term independence</small><p>${escapeHtml(guide.independencePath)}</p></section>
