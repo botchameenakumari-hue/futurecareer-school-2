@@ -1498,7 +1498,7 @@ test('dedicated career decision route stays usable on mobile', async ({ page }) 
   await expect(page.locator('#career-preset-results .career-compare-toggle').first()).toContainText('Added to comparison');
   await firstCareer.locator('button[data-career-preset]').click();
   await expect(page.locator('#career-guide-preview .career-guide-save-quick')).toBeVisible();
-  await expect(page.locator('#career-guide-preview .career-guide-save-quick')).toContainText('Choose as a primary option');
+  await expect(page.locator('#career-guide-preview .career-guide-save-quick')).toContainText('Explore seriously');
 });
 
 test('career pagination control stays available on desktop', async ({ page }) => {
