@@ -1651,7 +1651,7 @@ function preparePresetControls() {
     'career-study-stage': ['Your current stage', 'Choose the stage closest to you. This moves more realistic routes upward.', 'It guides results but does not block a different path.'],
     'career-preset-category': ['Area of work', 'Pick a broad field only when you want fewer cards to browse.', 'Leave it on all areas while you are still exploring.'],
     'career-preset-group': ['Kind of work', 'Choose the type of day-to-day work that sounds most like you.', 'This is a broad description, not a test result.'],
-    'career-preset-sort': ['Order the career catalogue', 'This only changes the order of the cards. It never removes a career from the catalogue. Use the filters above when you want a smaller list.', 'Choose the explanation that helps you browse; there is no correct answer.'],
+    'career-preset-sort': ['Which roles should show first?', 'This only changes the order. Use search or the filters above when you want fewer cards.', 'There is no correct answer; choose the view that feels most useful.'],
   };
   Object.entries(copy).forEach(([id, [label, help, title]]) => {
     const select = qs<HTMLSelectElement>(`#${id}`);
@@ -1668,11 +1668,11 @@ function preparePresetControls() {
   const sortSelect = qs<HTMLSelectElement>('#career-preset-sort');
   if (sortSelect) {
     const sortLabels: Record<string, string> = {
-      recommended: 'Good routes to start with (clear entry)',
+      recommended: 'Show easier-to-enter roles first',
       alphabetical: 'Role name (A–Z)',
-      'quick-test': 'Easy ways to learn about a role',
-      'future-ready': 'Roles changing quickly',
-      independent: 'Routes with independent work',
+      'quick-test': 'Show roles I can learn about easily',
+      'future-ready': 'Show roles changing quickly',
+      independent: 'Show roles with independent work',
     };
     Array.from(sortSelect.options).forEach((option) => {
       if (sortLabels[option.value]) option.textContent = sortLabels[option.value];
@@ -1680,11 +1680,11 @@ function preparePresetControls() {
     const sortField = sortSelect.closest('label');
     if (sortField && !sortField.querySelector('[data-career-sort-choice]')) {
       const choices = [
-        ['recommended', 'Good routes to start with', 'Clearer entry steps appear first.'],
-        ['quick-test', 'Easy ways to learn about a role', 'Read, watch, talk, or observe if useful; nothing has to be recorded.'],
-        ['alphabetical', 'Browse by role name', 'See every role from A to Z.'],
-        ['future-ready', 'Roles changing quickly', 'Roles with changing tools or demand appear first.'],
-        ['independent', 'Routes with independent work', 'Self-directed or freelance routes appear first.'],
+        ['recommended', 'Show easier-to-enter roles first', 'Roles with clearer first steps appear at the top.'],
+        ['quick-test', 'Show roles I can learn about easily', 'Read, watch, talk, or observe; nothing has to be recorded.'],
+        ['alphabetical', 'Show roles A–Z', 'See every role in name order.'],
+        ['future-ready', 'Show roles changing quickly', 'Roles with changing tools or demand appear at the top.'],
+        ['independent', 'Show roles with independent work', 'Freelance or self-directed routes appear at the top.'],
       ];
       const choiceGroup = document.createElement('div');
       choiceGroup.className = 'career-sort-choices';
@@ -2386,7 +2386,7 @@ function updateCareerFocusControl() {
 }
 
 function emptyCareerPreview() {
-  return '<div class="career-guide-empty"><strong>Start with any career option that interests you</strong><span>Choose a career card to see the typical day, how people start, useful first skills, and a simple way to learn more.</span><ol class="career-guide-start-list"><li><span class="career-step-number" aria-hidden="true">1</span><div><b>Read the typical day</b><span>Look beyond the job title.</span></div></li><li><span class="career-step-number" aria-hidden="true">2</span><div><b>Notice what fits you</b><span>Compare the work, route, and working style.</span></div></li><li><span class="career-step-number" aria-hidden="true">3</span><div><b>Keep it open if you want</b><span>Save a primary or secondary option; you can change it later.</span></div></li></ol></div>';
+  return '<div class="career-guide-empty"><strong>Start with any career option that interests you</strong><span>Choose a card to see the typical day, how people start, useful first skills, and an optional way to learn more.</span><ol class="career-guide-start-list"><li><span class="career-step-number" aria-hidden="true">1</span><div><b>Read the typical day</b><span>Look beyond the job title.</span></div></li><li><span class="career-step-number" aria-hidden="true">2</span><div><b>Notice what fits you</b><span>Compare the work, route, and working style.</span></div></li><li><span class="career-step-number" aria-hidden="true">3</span><div><b>Save it if useful</b><span>Keep it as a main option or another option; you can change it later.</span></div></li></ol></div>';
 }
 
 function careerStageGuidance(stage: unknown) {
@@ -2432,7 +2432,7 @@ function renderCareerDecisionCurrentPlan() {
   const alternatives = rows.filter((row) => row.option_type !== 'primary');
   if (!rows.length) { container.hidden = true; container.innerHTML = ''; return; }
   container.hidden = false;
-  const directionChip = (row: Row) => `<span class="career-plan-chip"><span><small>${row.option_type === 'primary' ? 'Primary career option' : 'Secondary career option'}</small><strong>${ctx!.escapeHtml(row.title)}</strong><em>${ctx!.escapeHtml(decisionSignalLabel(decisionSignalFor(row)))}</em></span><button type="button" class="text-button" data-edit-career="${ctx!.escapeHtml(row.id)}">Review</button></span>`;
+  const directionChip = (row: Row) => `<span class="career-plan-chip"><span><small>${row.option_type === 'primary' ? 'Main option' : 'Another option'}</small><strong>${ctx!.escapeHtml(row.title)}</strong><em>${ctx!.escapeHtml(decisionSignalFor(row) === 'needs-evidence' ? 'Still exploring' : decisionSignalLabel(decisionSignalFor(row)))}</em></span><button type="button" class="text-button" data-edit-career="${ctx!.escapeHtml(row.id)}">Review</button></span>`;
   container.innerHTML = `<div class="career-plan-summary-head"><div><small>Saved career options</small><strong>${rows.length} career option${rows.length === 1 ? '' : 's'} in this plan</strong></div><span class="scope-note">Keep more than one option open while you learn what fits.</span></div><div class="career-plan-chip-grid">${rows.map(directionChip).join('')}</div>`;
 }
 
