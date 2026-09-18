@@ -1651,7 +1651,7 @@ function preparePresetControls() {
     'career-study-stage': ['Your current stage', 'Choose the stage closest to you. This moves more realistic routes upward.', 'It guides results but does not block a different path.'],
     'career-preset-category': ['Area of work', 'Pick a broad field only when you want fewer cards to browse.', 'Leave it on all areas while you are still exploring.'],
     'career-preset-group': ['Kind of work', 'Choose the type of day-to-day work that sounds most like you.', 'This is a broad description, not a test result.'],
-    'career-preset-sort': ['What should appear at the top?', 'This only changes the order. Use search or the filters above when you want fewer cards.', 'There is no correct answer; choose the view that feels most useful.'],
+    'career-preset-sort': ['Order the cards', 'This only changes which cards appear first. Use search or filters when you want fewer cards.', 'Nothing is removed; choose the order that feels most useful.'],
   };
   Object.entries(copy).forEach(([id, [label, help, title]]) => {
     const select = qs<HTMLSelectElement>(`#${id}`);
@@ -1668,9 +1668,9 @@ function preparePresetControls() {
   const sortSelect = qs<HTMLSelectElement>('#career-preset-sort');
   if (sortSelect) {
     const sortLabels: Record<string, string> = {
-      recommended: 'Beginner-friendly starting points',
+      recommended: 'Recommended first',
       alphabetical: 'Names A–Z',
-      'quick-test': 'Read, watch, talk, or observe first',
+      'quick-test': 'Easy to learn about first',
       'future-ready': 'Work changing quickly',
       independent: 'More independent work',
     };
@@ -1680,8 +1680,8 @@ function preparePresetControls() {
     const sortField = sortSelect.closest('label');
     if (sortField && !sortField.querySelector('[data-career-sort-choice]')) {
       const choices = [
-        ['recommended', 'Beginner-friendly starting points', 'Put clearer routes and gentler first steps at the top.'],
-        ['quick-test', 'Read, watch, talk, or observe first', 'Put options near the top when you can learn about the work without committing to it.'],
+        ['recommended', 'Recommended first', 'Good general starting points appear at the top.'],
+        ['quick-test', 'Easy to learn about first', 'Roles you can learn about by reading, watching, talking, or observing appear at the top.'],
         ['alphabetical', 'Names A–Z', 'See all names in A–Z order.'],
         ['future-ready', 'Work changing quickly', 'Put work with changing tools or demand near the top.'],
         ['independent', 'More independent work', 'Put more self-directed work near the top.'],
@@ -1764,7 +1764,7 @@ function renderCareerPresetResults() {
   // removes the previously selected route, select the first visible match;
   // on a fresh unfiltered page, show the orientation copy instead of implying
   // that the first catalogue entry is a recommendation.
-  // “Beginner-friendly starting points” is the neutral default, not a learner choice.
+  // “Recommended first” is the neutral default, not a learner choice.
   // Do not auto-select a career until the learner searches, chooses an
   // interest, changes the area, or selects a study stage.
   const hasDecisionSignal = Boolean(query.trim()) || interest !== 'all' || careerGroup !== 'all' || !['all', 'featured'].includes(category) || !['all', 'after-12th-science'].includes(stage);
@@ -1830,7 +1830,7 @@ function renderCareerPresetResults() {
     const title = input.closest('.career-library-result')?.querySelector('.career-result-title strong')?.textContent?.trim() || 'career';
     input.setAttribute('aria-label', `${selected ? 'Remove' : 'Add'} ${title} ${selected ? 'from' : 'to'} comparison`);
   });
-  const sortLabel = ({ recommended: 'beginner-friendly starting points first', alphabetical: 'role name A–Z', 'quick-test': 'read, watch, talk, or observe first', 'future-ready': 'roles changing quickly first', independent: 'routes with independent work first' } as Record<string, string>)[sort] ?? 'selected order';
+  const sortLabel = ({ recommended: 'recommended first', alphabetical: 'role name A–Z', 'quick-test': 'easy to learn about first', 'future-ready': 'roles changing quickly first', independent: 'routes with independent work first' } as Record<string, string>)[sort] ?? 'selected order';
   updateCareerSortHelp();
   if (count) count.textContent = `${matches.length.toLocaleString()} careers available · ordered by ${sortLabel} · all remain available${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
   const interestGuidance = qs<HTMLElement>('#career-interest-guidance');
@@ -2286,9 +2286,9 @@ function updateCareerSortHelp() {
   const note = select?.closest('label')?.querySelector<HTMLElement>('small');
   if (!select || !note) return;
   const help: Record<string, string> = {
-    recommended: 'All matching options stay available. This puts clearer routes and gentler first steps near the top.',
+    recommended: 'All matching options stay available. This puts recommended starting points near the top.',
     alphabetical: 'All matching options stay available. Names are sorted A–Z.',
-    'quick-test': 'All matching options stay available. This puts options near the top when you can learn about the work by reading, watching, talking, or observing. Nothing needs to be arranged or recorded.',
+    'quick-test': 'All matching options stay available. This puts roles you can learn about by reading, watching, talking, or observing near the top. Nothing needs to be arranged or recorded.',
     'future-ready': 'All matching options stay available. This puts work with changing tools or demand near the top.',
     independent: 'All matching options stay available. This puts more self-directed work near the top.',
   };
