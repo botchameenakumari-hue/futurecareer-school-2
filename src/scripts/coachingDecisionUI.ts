@@ -634,7 +634,7 @@ export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: D
   const linkedCareer = careers.find((career) => career.id === skill.linked_career_path_id);
   const proofState = evidence.length
     ? `${evidence.length} optional note${evidence.length === 1 ? '' : 's'}`
-    : ui.viewerRole === 'student' ? 'No note added (optional)' : 'No progress note yet';
+    : ui.viewerRole === 'student' ? 'No note needed' : 'No progress note yet';
   const levelGuidance = skillLevelsFor(skill);
   const reviews = (ui.skillReviews ?? []).filter((row) => row.skill_id === skill.id);
   // Supabase projects created before the review migration may not have an
@@ -723,7 +723,7 @@ export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: D
   const levelGuidanceBlock = `<details class="skill-progression-details"><summary><span>Examples by level</span><small>Starter · Working · Advanced</small></summary><div class="skill-progression-grid">${levelGuidance.map((item) => `<section data-level="${ui.escapeHtml(item.level.toLowerCase())}"><strong>${ui.escapeHtml(item.level)}</strong><p><b>Example:</b> ${ui.escapeHtml(item.example)}</p><p><b>Next advice:</b> ${ui.escapeHtml(item.advice)}</p></section>`).join('')}</div></details>`;
   const evidenceBlock = evidence.length
     ? `<details class="skill-evidence-details"><summary><span>${ui.viewerRole === 'student' ? 'Optional notes' : 'Evidence'}</span><small>${evidence.length} item${evidence.length === 1 ? '' : 's'} · open to read descriptions and links</small></summary><div class="skill-evidence-list">${evidenceItems}</div></details>`
-    : `<div class="skill-evidence-list skill-evidence-empty"><small>${ui.viewerRole === 'student' ? 'No note saved. Add one only if it helps you remember what you noticed.' : 'No evidence added yet.'}</small></div>`;
+    : `<div class="skill-evidence-list skill-evidence-empty"><small>${ui.viewerRole === 'student' ? 'No note needed. Add one only if it helps you remember something.' : 'No evidence added yet.'}</small></div>`;
   const coachFeedbackHtml = feedbackBlock(coachReviews, 'coach') || (ui.viewerRole === 'student' ? '' : '<div class="skill-feedback skill-feedback-empty"><strong>Coach guidance:</strong><span>Not posted yet.</span></div>');
   const studentFeedbackHtml = feedbackBlock(studentReviews, 'student');
   const satisfactionHtml = ui.viewerRole === 'student'
@@ -742,7 +742,7 @@ export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: D
     ${satisfactionHtml}
     ${quickRating}
     ${feedbackEditor}
-    <footer><span>${ui.escapeHtml(ui.formatStatus(skill.priority))}</span><span class="row-actions skill-card-actions"><button class="table-action" type="button" data-add-evidence="${ui.escapeHtml(skill.id)}">Add optional note</button>${canEdit ? `<button class="table-action" type="button" data-edit-skill="${ui.escapeHtml(skill.id)}">Edit skill</button>` : ''}${canRemove ? `<button class="table-action danger-action" type="button" data-delete-skill="${ui.escapeHtml(skill.id)}">Remove skill</button>` : ''}</span></footer>
+    <footer><span>${ui.escapeHtml(ui.formatStatus(skill.priority))}</span><span class="row-actions skill-card-actions"><button class="table-action" type="button" data-add-evidence="${ui.escapeHtml(skill.id)}">Add a note (optional)</button>${canEdit ? `<button class="table-action" type="button" data-edit-skill="${ui.escapeHtml(skill.id)}">Edit skill</button>` : ''}${canRemove ? `<button class="table-action danger-action" type="button" data-delete-skill="${ui.escapeHtml(skill.id)}">Remove skill</button>` : ''}</span></footer>
   </article>`;
 }
 
