@@ -1644,7 +1644,7 @@ function preparePresetControls() {
     'career-study-stage': ['Your current stage', 'Choose the stage closest to you. This moves more realistic routes upward.', 'It guides results but does not block a different path.'],
     'career-preset-category': ['Area of work', 'Pick a broad field only when you want fewer cards to browse.', 'Leave it on all areas while you are still exploring.'],
     'career-preset-group': ['Kind of work', 'Choose the type of day-to-day work that sounds most like you.', 'This is a broad description, not a test result.'],
-    'career-preset-sort': ['Which careers should appear first?', 'This only changes the order of the cards. It never removes a career from the catalogue.', 'Choose the explanation that helps you browse; there is no correct answer.'],
+    'career-preset-sort': ['Order the career catalogue', 'This only changes the order of the cards. It never removes a career from the catalogue. Use the filters above when you want a smaller list.', 'Choose the explanation that helps you browse; there is no correct answer.'],
   };
   Object.entries(copy).forEach(([id, [label, help, title]]) => {
     const select = qs<HTMLSelectElement>(`#${id}`);
@@ -1674,7 +1674,7 @@ function preparePresetControls() {
     if (sortField && !sortField.querySelector('[data-career-sort-choice]')) {
       const choices = [
         ['recommended', 'Good starting routes', 'Clearer entry steps appear first.'],
-        ['quick-test', 'Learn about the work', 'Reading, watching, or talking is easier to find first.'],
+        ['quick-test', 'Learn about the work', 'Read, watch, talk, or observe if useful; nothing has to be recorded.'],
         ['alphabetical', 'Role name A–Z', 'Browse every role in name order.'],
         ['future-ready', 'Changing fastest', 'Roles with changing tools or demand appear first.'],
         ['independent', 'More independent routes', 'Self-directed or freelance routes appear first.'],
@@ -2280,7 +2280,7 @@ function updateCareerSortHelp() {
   const help: Record<string, string> = {
     recommended: 'All matching careers stay available. This puts routes with clearer entry steps near the top to give you a calm place to begin.',
     alphabetical: 'All careers stay available. Role name (A–Z) sorts the same careers alphabetically.',
-    'quick-test': 'All matching careers stay available. This puts careers near the top when you can learn about the work by reading, watching, or talking to someone. Nothing needs to be recorded.',
+    'quick-test': 'All matching careers stay available. This puts careers near the top when you can learn about the work by reading, watching, talking to someone, or simply observing a normal day. Nothing needs to be arranged or recorded.',
     'future-ready': 'All matching careers stay available. Work changing fastest puts careers near the top when their tools or demand are changing.',
     independent: 'All matching careers stay available. This puts careers near the top when freelance, consulting, or self-directed work may be possible later.',
   };
