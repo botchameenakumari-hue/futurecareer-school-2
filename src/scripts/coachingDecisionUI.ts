@@ -680,13 +680,12 @@ export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: D
   // Keep the card scan-friendly while leaving the full editor available in
   // place for the selected skill.
   const editorLabel = ui.viewerRole === 'student' ? (studentReview ? 'Update your reflection' : 'Add your reflection') : (coachReview ? 'Update coach feedback' : 'Add coach feedback');
-  // Student reflection is part of the rating workflow, so keep it visible on
-  // every skill card. Hiding it behind a second disclosure made the textarea
-  // easy to miss and encouraged one-word updates on small screens. Coaches
-  // still get the compact disclosure because their longer guidance is less
-  // frequent and can include a dated next step.
+  // Keep student reflection optional and collapsed so a learner can scan the
+  // whole skill plan without being pushed into writing on every card. The
+  // score remains available directly; opening the optional editor reveals the
+  // same full reflection workflow when the learner wants it.
   const feedbackEditor = ui.viewerRole === 'student'
-    ? `<div class="skill-feedback-editor skill-feedback-editor-open" data-student-reflection-editor>${inlineFeedback}</div>`
+    ? `<div class="skill-feedback-editor" data-student-reflection-editor><button class="skill-feedback-toggle" type="button" data-toggle-skill-feedback aria-expanded="false">${studentReview ? 'Update optional reflection' : 'Add optional reflection'}</button><div data-skill-feedback-panel hidden>${inlineFeedback}</div></div>`
     : `<div class="skill-feedback-editor"><button class="skill-feedback-toggle" type="button" data-toggle-skill-feedback aria-expanded="false">${editorLabel}</button><div data-skill-feedback-panel hidden>${inlineFeedback}</div></div>`;
   const skillMeaning = skillMeaningFor(skill);
   const practicePreview = String(skill.practice_method || '').trim() || 'Choose one small, repeated real task.';
