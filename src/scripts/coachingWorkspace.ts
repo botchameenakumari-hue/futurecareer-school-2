@@ -2689,7 +2689,7 @@ function openSkillDialog(id = '') {
   const intro = qs<HTMLElement>('#skill-dialog-intro');
   const isStudentNewSkill = ctx.profile.role === 'student' && !row;
   if (intro) intro.textContent = isStudentNewSkill
-    ? 'Choose one skill you want to practise. The ability scale is ready for you; choose your current level only if you want to record it. You can add proof after saving.'
+    ? 'Choose one skill you want to practise. The ability scale is ready for you; choose your current level only if useful. You can add an optional note later.'
     : 'Start with the closest honest level: what the student can show today without guessing. Add a way to practise and a piece of proof so this becomes a useful plan, not just a label.';
   setText('#skill-name-label span', isStudentNewSkill ? 'Skill you want to practise' : 'Skill');
   setText('#skill-category-label span', isStudentNewSkill ? 'What kind of skill is it?' : 'Category');
@@ -2719,7 +2719,7 @@ function openSkillPlanDialog(initialKey = '') {
   const primaryLabel = primaryDirections.length
     ? `${primaryDirections.slice(0, 2).map((row) => row.title).join(', ')}${primaryDirections.length > 2 ? ` + ${primaryDirections.length - 2} more` : ''}`
     : 'Not chosen yet';
-  if (context) context.innerHTML = `<span><small>Primary career options</small><strong>${ctx.escapeHtml(primaryLabel)}</strong></span><span><small>Skills already planned</small><strong>${uniqueSkillRowsForStudent(activeStudentId()).length}</strong></span><span><small>How to build</small><strong>Start with foundations, then add what the selected career option needs</strong></span>`;
+  if (context) context.innerHTML = `<span><small>Main career options</small><strong>${ctx.escapeHtml(primaryLabel)}</strong></span><span><small>Skills already planned</small><strong>${uniqueSkillRowsForStudent(activeStudentId()).length}</strong></span><span><small>How to build</small><strong>Start with foundations, then add what the selected career option needs</strong></span>`;
   const defaultPack = getSkillPack(initialKey) || skillPackMatches('', 'recommended', currentPrimaryCategories())[0] || null;
   selectedSkillPackKey = defaultPack?.key ?? '';
   renderSkillPackResults();
@@ -2991,11 +2991,11 @@ async function handleCareerSubmit(event: SubmitEvent) {
       try {
         const rawReturn = sessionStorage.getItem('fcs-career-return');
         const returnState = rawReturn ? JSON.parse(rawReturn) as Record<string, unknown> : {};
-        const message = id ? 'Career option updated.' : desiredType === 'primary' ? 'Primary career option saved.' : 'Secondary career option saved.';
+        const message = id ? 'Career option updated.' : desiredType === 'primary' ? 'Main career option saved.' : 'Another career option saved.';
         sessionStorage.setItem('fcs-career-return', JSON.stringify({ ...returnState, studentId: activeStudentId(), tab: 'careers', message }));
       } catch { /* ignore unavailable session storage */ }
     }
-    const careerSaveMessage = `${desiredType === 'primary' ? 'Primary career option saved.' : id ? 'Career decision updated.' : 'Secondary career option added.'}${linkedSkillCount ? ` ${linkedSkillCount} linked starter skills are ready in Skills to practise.` : ''}`;
+    const careerSaveMessage = `${desiredType === 'primary' ? 'Main career option saved.' : id ? 'Career decision updated.' : 'Another career option added.'}${linkedSkillCount ? ` ${linkedSkillCount} related starter skills are ready in Skills to practise.` : ''}`;
     pendingCareerSaveMessage = careerSaveMessage;
     closeCareerDecisionDialog();
     renderCoachingWorkspace();
