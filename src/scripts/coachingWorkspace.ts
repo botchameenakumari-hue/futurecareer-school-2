@@ -1938,6 +1938,7 @@ function applyCareerPreset(key: string, choice: 'primary' | 'alternative' = 'pri
   const guide = careerGuideFor(key);
   const form = qs<HTMLFormElement>('#career-option-form');
   if (!guide || !form) return;
+  const isStudent = ctx?.profile.role === 'student';
   const decisionSignal = choice === 'primary' ? 'ready-to-pursue' : 'deliberate-alternative';
   const optionType = choice === 'primary' ? 'primary' : 'alternative';
   setFormValues(form, {
@@ -1947,12 +1948,12 @@ function applyCareerPreset(key: string, choice: 'primary' | 'alternative' = 'pri
     route_summary: guide.entryRoutes.join('\n'),
     entry_requirements: guide.entryRequirements,
     work_environment: guide.workStyles.join(' / '),
-    next_step: `Optional: ${guide.starterTests[0]}`,
+    next_step: isStudent ? 'Read, watch, talk to someone, or revisit this option later.' : `Optional: ${guide.starterTests[0]}`,
     tradeoffs: guide.watchOuts,
     decision_signal: decisionSignal,
     evidence_strength: 'none',
     future_outlook: guide.outlook,
-    review_question: `What did you notice that supports or challenges ${guide.title} as a possible career option?`,
+    review_question: isStudent ? '' : `What did you notice that supports or challenges ${guide.title} as a possible career option?`,
     status: decisionSignalOptions.find((option) => option.value === decisionSignal)?.status || 'exploring',
   });
   form.querySelectorAll<HTMLInputElement>('input[name="option_type"]').forEach((input) => { input.checked = input.value === optionType; });
