@@ -1624,10 +1624,17 @@ function careerStageMatchesGuide(guide: ReturnType<typeof careerGuideFor>, stage
   if (!guide || stage === 'all') return true;
   if (guide.suitableStages?.includes(stage)) return true;
   const category = guide.category;
+  // Imported catalogue rows do not all carry a complete suitableStages list.
+  // Use a broad, transparent subject-route fallback instead of making a
+  // valid route disappear when a learner chooses one of the later-stage
+  // options in the filter.
+  if (stage === 'after-10th' || stage === 'college' || stage === 'working') return true;
   if (stage === 'after-12th-maths' || stage === 'after-12th-pcm') return ['Technology & Data', 'Engineering & Built Environment', 'Commerce, Finance & Economics', 'Science, Research & Environment', 'Business, Marketing & Operations'].includes(category);
   if (stage === 'after-12th-biology' || stage === 'after-12th-pcb') return ['Health & Life Sciences', 'Science, Research & Environment', 'Agriculture, Food & Rural Careers', 'Education, Psychology & Social Impact'].includes(category);
   if (stage === 'after-12th-pcmb') return ['Technology & Data', 'Engineering & Built Environment', 'Health & Life Sciences', 'Science, Research & Environment', 'Agriculture, Food & Rural Careers'].includes(category);
   if (stage === 'after-12th-science') return ['Technology & Data', 'Engineering & Built Environment', 'Health & Life Sciences', 'Science, Research & Environment', 'Agriculture, Food & Rural Careers', 'Business, Marketing & Operations', 'Design, Media & Creative Arts', 'Education, Psychology & Social Impact'].includes(category);
+  if (stage === 'after-12th-commerce') return ['Commerce, Finance & Economics', 'Business, Marketing & Operations', 'Law, Government & Public Service', 'Design, Media & Creative Arts', 'Hospitality, Travel, Sports & Events'].includes(category);
+  if (stage === 'after-12th-humanities') return ['Law, Government & Public Service', 'Education, Psychology & Social Impact', 'Design, Media & Creative Arts', 'Languages, International & Emerging Routes', 'Business, Marketing & Operations', 'Hospitality, Travel, Sports & Events'].includes(category);
   return false;
 }
 
@@ -1656,7 +1663,7 @@ function preparePresetControls() {
     const sortLabels: Record<string, string> = {
       recommended: 'Easier routes to enter first',
       alphabetical: 'Role name (A–Z)',
-      'quick-test': 'Learn about the work first',
+      'quick-test': 'Read, watch, or talk about the work first',
       'future-ready': 'Work changing fastest',
       independent: 'Independent-work routes first',
     };
@@ -1787,7 +1794,7 @@ function renderCareerPresetResults() {
     const title = input.closest('.career-library-result')?.querySelector('.career-result-title strong')?.textContent?.trim() || 'career';
     input.setAttribute('aria-label', `${selected ? 'Remove' : 'Add'} ${title} ${selected ? 'from' : 'to'} comparison`);
   });
-  const sortLabel = ({ recommended: 'easier routes to enter first', alphabetical: 'role name A–Z', 'quick-test': 'learn about the work first', 'future-ready': 'work changing fastest', independent: 'independent-work routes first' } as Record<string, string>)[sort] ?? 'selected order';
+  const sortLabel = ({ recommended: 'easier routes to enter first', alphabetical: 'role name A–Z', 'quick-test': 'read, watch, or talk about the work first', 'future-ready': 'work changing fastest', independent: 'independent-work routes first' } as Record<string, string>)[sort] ?? 'selected order';
   updateCareerSortHelp();
   if (count) count.textContent = `${matches.length.toLocaleString()} careers available · ordered by ${sortLabel} · all remain available${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
   const interestGuidance = qs<HTMLElement>('#career-interest-guidance');
