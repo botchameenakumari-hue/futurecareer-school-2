@@ -1968,7 +1968,7 @@ function chooseAndSaveCareerPreset(key: string, choice: 'primary' | 'alternative
   applyCareerPreset(key, choice);
   const form = qs<HTMLFormElement>('#career-option-form');
   if (!form || !textValue(new FormData(form).get('title'))) return;
-  setModalStatus('#career-option-status', `Saving ${choice === 'alternative' ? 'secondary' : 'primary'} career option…`);
+  setModalStatus('#career-option-status', `Saving ${choice === 'alternative' ? 'another' : 'main'} career option…`);
   form.requestSubmit();
 }
 
