@@ -2433,7 +2433,7 @@ function renderCareerDecisionCurrentPlan() {
   const alternatives = rows.filter((row) => row.option_type !== 'primary');
   if (!rows.length) { container.hidden = true; container.innerHTML = ''; return; }
   container.hidden = false;
-  const directionChip = (row: Row) => `<span class="career-plan-chip"><span><small>${row.option_type === 'primary' ? 'Main option' : 'Another option'}</small><strong>${ctx!.escapeHtml(row.title)}</strong><em>${ctx!.escapeHtml(decisionSignalFor(row) === 'needs-evidence' ? 'Still exploring' : decisionSignalLabel(decisionSignalFor(row)))}</em></span><button type="button" class="text-button" data-edit-career="${ctx!.escapeHtml(row.id)}">Review</button></span>`;
+  const directionChip = (row: Row) => `<span class="career-plan-chip"><span><small>${ctx!.profile.role === 'student' ? (row.option_type === 'primary' ? 'Main choice' : 'Saved for later') : (row.option_type === 'primary' ? 'Main option' : 'Another option')}</small><strong>${ctx!.escapeHtml(row.title)}</strong><em>${ctx!.escapeHtml(decisionSignalFor(row) === 'needs-evidence' ? 'Still exploring' : decisionSignalLabel(decisionSignalFor(row)))}</em></span><button type="button" class="text-button" data-edit-career="${ctx!.escapeHtml(row.id)}">Review</button></span>`;
   container.innerHTML = `<div class="career-plan-summary-head"><div><small>Saved career options</small><strong>${rows.length} career option${rows.length === 1 ? '' : 's'} in this plan</strong></div><span class="scope-note">Keep more than one option open while you learn what fits.</span></div><div class="career-plan-chip-grid">${rows.map(directionChip).join('')}</div>`;
 }
 
