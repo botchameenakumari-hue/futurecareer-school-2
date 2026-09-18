@@ -1587,7 +1587,7 @@ test('career sort changes ordering while keeping the full matching catalogue', a
   await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
   const firstTitles = async () => page.locator('#career-preset-results .career-library-result .career-result-title strong').allTextContents();
-  await expect(page.locator('#career-preset-sort').locator('option[value="quick-test"]')).toContainText('Learn about the work first');
+  await expect(page.locator('#career-preset-sort').locator('option[value="quick-test"]')).toContainText('Easy ways to learn about the work');
   await expect(page.locator('#career-preset-sort').locator('xpath=ancestor::label')).toContainText('All careers stay available.');
   await page.locator('#career-preset-sort').selectOption('recommended');
   const recommended = await firstTitles();
