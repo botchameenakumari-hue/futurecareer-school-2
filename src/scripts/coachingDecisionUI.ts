@@ -590,8 +590,13 @@ export function careerLibraryResultsHtml(matches: CareerGuide[], selectedKey: st
   }).join('');
 }
 
-export function careerGuidePreviewHtml(guide: CareerGuide, escapeHtml: DecisionUiContext['escapeHtml']) {
+export function careerGuidePreviewHtml(guide: CareerGuide, escapeHtml: DecisionUiContext['escapeHtml'], viewerRole = 'staff') {
+  const isStudent = viewerRole === 'student';
   const quickChoice = `<div class="career-guide-save career-guide-save-quick"><p class="career-guide-save-note"><strong>Want to keep this option?</strong> Choose how you want to return to it. You can change or remove it later.</p><div class="career-guide-actions"><button class="primary-button" type="button" aria-label="Save this career as your main choice" data-choose-career="primary" data-guide-key="${escapeHtml(guide.key)}">Save as my main choice</button><button class="secondary-button" type="button" aria-label="Keep this career for later" data-choose-career="alternative" data-guide-key="${escapeHtml(guide.key)}">Keep for later</button></div></div>`;
+  const explorationSection = isStudent
+    ? '<section><small>If you want to explore further (optional)</small><p>Read about the work, watch an example, talk to someone who does it, or observe the setting. Stop there if you have learned enough; nothing needs to be recorded on this page.</p></section>'
+    : `<section><small>If you want to explore further (optional)</small>${listHtml(guide.starterTests, escapeHtml)}</section>`;
+  const reflectionSection = isStudent ? '' : `<section><small>Questions to consider</small>${listHtml(guide.evidenceExamples ?? [], escapeHtml)}</section>`;
   return `<div class="career-guide-header"><span><small>${escapeHtml(careerFamilyLabel(guide.category))}</small><h4>${escapeHtml(guide.title)}</h4></span></div>
     <p>${escapeHtml(guide.summary)}</p>
     <div class="career-guide-at-a-glance"><div><small>What a normal week may feel like</small><strong>${escapeHtml(guide.dayPace)}</strong></div><div><small>Where the work happens</small><strong>${escapeHtml(guide.workSetting)}</strong></div><div><small>Getting started</small><strong>${escapeHtml(guide.entryLevel)}</strong></div><div><small>Time and route</small><strong>${escapeHtml(guide.routeLength)}</strong></div></div>${quickChoice}
@@ -612,8 +617,8 @@ export function careerGuidePreviewHtml(guide: CareerGuide, escapeHtml: DecisionU
       <section><small>Source used for this guide</small><p class="career-guide-source"><a href="${escapeHtml(guide.marketEvidence.url)}" target="_blank" rel="noreferrer">${escapeHtml(guide.marketEvidence.source)}</a> <span>(${escapeHtml(guide.marketEvidence.date)})</span></p></section>
       <section class="career-progression-section"><small>Examples and advice by level</small><div class="career-progression-grid">${(guide.progression ?? []).map((item) => `<article data-level="${escapeHtml(item.level.toLowerCase())}"><strong>${escapeHtml(item.level)}</strong><p><b>Example:</b> ${escapeHtml(item.example)}</p><p><b>Advice:</b> ${escapeHtml(item.advice)}</p></article>`).join('')}</div></section>
       <section><small>Check before committing</small>${listHtml(guide.watchOuts, escapeHtml)}</section>
-      <section><small>If you want to explore further (optional)</small>${listHtml(guide.starterTests, escapeHtml)}</section>
-      <section><small>Questions to consider</small>${listHtml(guide.evidenceExamples ?? [], escapeHtml)}</section>
+      ${explorationSection}
+      ${reflectionSection}
       <section><small>Questions to ask before you commit</small>${listHtml(guide.questionsToAsk ?? [], escapeHtml)}</section>
     </div></details>
     `;

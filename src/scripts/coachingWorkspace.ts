@@ -1846,7 +1846,7 @@ function renderCareerPresetResults() {
     ? careerGuideFor(selectedCareerGuideKey)
     : null;
   if (preview) {
-    preview.innerHTML = selectedGuide ? careerGuidePreviewHtml(selectedGuide, ctx.escapeHtml) : emptyCareerPreview();
+    preview.innerHTML = selectedGuide ? careerGuidePreviewHtml(selectedGuide, ctx.escapeHtml, ctx.profile.role) : emptyCareerPreview();
     if (selectedGuide) wireCareerGuideActions(preview);
   }
   renderCareerComparePanel();
@@ -1893,7 +1893,7 @@ function selectCareerGuide(key: string) {
   if (!guide || !preview) return;
   selectedCareerGuideKey = key;
   renderCareerPresetResults();
-  preview.innerHTML = careerGuidePreviewHtml(guide, ctx.escapeHtml);
+  preview.innerHTML = careerGuidePreviewHtml(guide, ctx.escapeHtml, ctx.profile.role);
   wireCareerGuideActions(preview);
   // The full guide is rendered below the catalogue on narrow screens and
   // beside it on desktop. CSS supplies scroll-margin for the sticky page
@@ -2566,7 +2566,7 @@ function openCareerDialog(id = '') {
   const preview = qs<HTMLElement>('#career-guide-preview');
   const initialGuide = guide ?? (selectedCareerGuideKey ? careerGuideFor(selectedCareerGuideKey) : null);
   if (preview) {
-    preview.innerHTML = initialGuide ? careerGuidePreviewHtml(initialGuide, ctx.escapeHtml) : emptyCareerPreview();
+    preview.innerHTML = initialGuide ? careerGuidePreviewHtml(initialGuide, ctx.escapeHtml, ctx.profile.role) : emptyCareerPreview();
     if (initialGuide) wireCareerGuideActions(preview);
   }
   updateCareerFocusControl();
