@@ -714,6 +714,11 @@ export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: D
   const evidenceBlock = evidence.length
     ? `<details class="skill-evidence-details"><summary><span>${ui.viewerRole === 'student' ? 'Optional notes' : 'Evidence'}</span><small>${evidence.length} item${evidence.length === 1 ? '' : 's'} · open to read descriptions and links</small></summary><div class="skill-evidence-list">${evidenceItems}</div></details>`
     : `<div class="skill-evidence-list skill-evidence-empty"><small>${ui.viewerRole === 'student' ? 'No note saved. Add one only if it helps you remember what you noticed.' : 'No evidence added yet.'}</small></div>`;
+  const coachFeedbackHtml = feedbackBlock(coachReviews, 'coach') || (ui.viewerRole === 'student' ? '' : '<div class="skill-feedback skill-feedback-empty"><strong>Coach guidance:</strong><span>Not posted yet.</span></div>');
+  const studentFeedbackHtml = feedbackBlock(studentReviews, 'student');
+  const satisfactionHtml = ui.viewerRole === 'student'
+    ? `<div class="skill-satisfaction"><span><small>Your rating</small><strong>${ui.escapeHtml(studentScore)}</strong></span><small class="rating-scale-inline">0 = not started · 5 = building with support · 10 = confident in a new situation</small></div>`
+    : `<div class="skill-satisfaction"><span><small>Coach satisfaction</small><strong>${ui.escapeHtml(coachScore)}</strong></span><span><small>Student satisfaction</small><strong>${ui.escapeHtml(studentScore)}</strong></span><small class="rating-scale-inline">Scale: 0 not started · 1–2 starting · 3–4 building · 5–6 useful with support · 7–8 working well · 9–10 confident in a new situation</small></div>`;
   return `<article class="skill-roadmap-row" data-priority="${ui.escapeHtml(skill.priority)}" data-scope="${ui.escapeHtml(scope)}">
     <header class="skill-card-header"><span class="skill-card-heading"><strong>${ui.escapeHtml(skill.skill_name)}</strong><small>${ui.escapeHtml(ui.viewerRole === 'student' ? studentScopeLabels[scope] : scopeLabels[scope])}${linkedCareer ? ` · for ${ui.escapeHtml(linkedCareer.title)}` : ''}</small></span><span class="skill-proof-state" data-has-proof="${evidence.length ? 'true' : 'false'}">${ui.escapeHtml(proofState)}</span></header>
     <p class="skill-meaning"><strong>What this means</strong><span>${ui.escapeHtml(skillMeaning)}</span></p>
@@ -722,9 +727,9 @@ export function skillCardHtml(skill: Row, evidence: Row[], careers: Row[], ui: D
     ${levelGuidanceBlock}
     ${workGrid}
     ${evidenceBlock}
-    ${feedbackBlock(coachReviews, 'coach') || '<div class="skill-feedback skill-feedback-empty"><strong>Coach guidance:</strong><span>Not posted yet.</span></div>'}
-    ${feedbackBlock(studentReviews, 'student')}
-    <div class="skill-satisfaction"><span><small>Coach satisfaction</small><strong>${ui.escapeHtml(coachScore)}</strong></span><span><small>Student satisfaction</small><strong>${ui.escapeHtml(studentScore)}</strong></span><small class="rating-scale-inline">Scale: 0 not started · 1–2 starting · 3–4 building · 5–6 useful with support · 7–8 working well · 9–10 confident in a new situation</small></div>
+    ${coachFeedbackHtml}
+    ${studentFeedbackHtml}
+    ${satisfactionHtml}
     ${quickRating}
     ${feedbackEditor}
     <footer><span>${ui.escapeHtml(ui.formatStatus(skill.priority))}</span><span class="row-actions skill-card-actions"><button class="table-action" type="button" data-add-evidence="${ui.escapeHtml(skill.id)}">Add optional note</button>${canEdit ? `<button class="table-action" type="button" data-edit-skill="${ui.escapeHtml(skill.id)}">Edit skill</button>` : ''}${canRemove ? `<button class="table-action danger-action" type="button" data-delete-skill="${ui.escapeHtml(skill.id)}">Remove skill</button>` : ''}</span></footer>
