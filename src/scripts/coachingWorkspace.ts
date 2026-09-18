@@ -797,7 +797,7 @@ function careerFocusSummaryHtml(rows: Row[]) {
   const active = rows.filter((row) => !['ruled-out', 'paused'].includes(row.status));
   const primary = active.filter((row) => row.option_type === 'primary');
   const secondary = active.filter((row) => row.option_type !== 'primary');
-  return `<div class="focus-summary-copy"><span><small>Primary career options</small><strong>${primary.length ? `${primary.length} in your plan` : 'None chosen yet'}</strong><em>${primary.length ? 'Explore seriously' : 'Add any that fit'}</em></span><span><small>Secondary career options</small><strong>${secondary.length ? `${secondary.length} kept open` : 'None yet'}</strong><em>${secondary.length ? 'Revisit when useful' : 'Add when relevant'}</em></span><span data-allocation-state="ready"><small>Your plan</small><strong>${active.length} career option${active.length === 1 ? '' : 's'} saved</strong><em>Choose your own level of focus</em></span></div><p>Keep any number of primary and secondary career options. Update them as your interests, observations, and circumstances become clearer.</p>`;
+  return `<div class="focus-summary-copy"><span><small>Main options</small><strong>${primary.length ? `${primary.length} in your plan` : 'None chosen yet'}</strong><em>${primary.length ? 'Explore seriously' : 'Add any that fit'}</em></span><span><small>Other options</small><strong>${secondary.length ? `${secondary.length} kept open` : 'None yet'}</strong><em>${secondary.length ? 'Revisit when useful' : 'Add when relevant'}</em></span><span data-allocation-state="ready"><small>Your plan</small><strong>${active.length} career option${active.length === 1 ? '' : 's'} saved</strong><em>Choose your own level of focus</em></span></div><p>Keep as many main or other options as useful. Update them as your interests, observations, and circumstances become clearer.</p>`;
 }
 
 function actionProgressHtml(rows: Row[]) {
@@ -832,8 +832,8 @@ function renderCareerLists(studentId: string) {
   const skills = activeSkillsForStudent(studentId);
   const primary = rows.filter((row) => row.option_type === 'primary');
   const alternatives = rows.filter((row) => row.option_type !== 'primary');
-  const directionActions = (optionType: 'primary' | 'alternative') => optionType === 'primary' ? '<span class="career-direction-actions" aria-label="Add a primary career option"><button class="secondary-button" type="button" data-open-career-dialog data-career-option-type="primary">Add primary option</button></span>' : '<span class="career-direction-actions" aria-label="Add a secondary career option"><button class="secondary-button" type="button" data-open-career-dialog data-career-option-type="alternative">Add secondary option</button></span>';
-  const html = rows.length ? `<section class="career-option-group primary-group"><header><div><p class="eyebrow">Career options to explore seriously</p><h3>Primary career options</h3></div><div class="career-group-heading-actions"><span>Choose as many as fit</span>${directionActions('primary')}</div></header>${primary.map((row) => careerHtml(row, true, skills)).join('') || '<div class="career-group-empty"><strong>No primary career options yet</strong><span>Save every career option you want to explore seriously right now.</span></div>'}</section><section class="career-option-group alternative-group"><header><div><p class="eyebrow">Career options to keep open</p><h3>Secondary career options</h3></div><div class="career-group-heading-actions"><span>Explore when useful</span>${directionActions('alternative')}</div></header>${alternatives.map((row) => careerHtml(row, true, skills)).join('') || '<div class="career-group-empty"><strong>No secondary career options yet</strong><span>Add routes you may want to test or return to later.</span></div>'}</section>` : `<div class="empty-state coaching-empty"><strong>No career options yet.</strong><span>Start with any career option you want to explore. You can keep more than one primary or secondary option in your plan.</span><div class="career-group-actions"><button class="primary-button" type="button" data-open-career-dialog data-career-option-type="primary">Add primary option</button><button class="secondary-button" type="button" data-open-career-dialog data-career-option-type="alternative">Add secondary option</button></div></div>`;
+  const directionActions = (optionType: 'primary' | 'alternative') => optionType === 'primary' ? '<span class="career-direction-actions" aria-label="Add a main option"><button class="secondary-button" type="button" data-open-career-dialog data-career-option-type="primary">Add main option</button></span>' : '<span class="career-direction-actions" aria-label="Add another option"><button class="secondary-button" type="button" data-open-career-dialog data-career-option-type="alternative">Add another option</button></span>';
+  const html = rows.length ? `<section class="career-option-group primary-group"><header><div><p class="eyebrow">Main options to explore</p><h3>Main options</h3></div><div class="career-group-heading-actions"><span>Choose any that fit</span>${directionActions('primary')}</div></header>${primary.map((row) => careerHtml(row, true, skills)).join('') || '<div class="career-group-empty"><strong>No main options yet</strong><span>Save any option you want to explore right now.</span></div>'}</section><section class="career-option-group alternative-group"><header><div><p class="eyebrow">Other options to keep open</p><h3>Other options</h3></div><div class="career-group-heading-actions"><span>Revisit when useful</span>${directionActions('alternative')}</div></header>${alternatives.map((row) => careerHtml(row, true, skills)).join('') || '<div class="career-group-empty"><strong>No other options yet</strong><span>Keep another route open to revisit later.</span></div>'}</section>` : `<div class="empty-state coaching-empty"><strong>No career options yet.</strong><span>Start with any career option you want to explore. You can keep more than one main or another option in your plan.</span><div class="career-group-actions"><button class="primary-button" type="button" data-open-career-dialog data-career-option-type="primary">Add main option</button><button class="secondary-button" type="button" data-open-career-dialog data-career-option-type="alternative">Add another option</button></div></div>`;
   const record = qs<HTMLElement>('#record-career-list');
   const student = qs<HTMLElement>('#student-career-list');
   const recordSummary = qs<HTMLElement>('#record-career-focus-summary');
@@ -1055,7 +1055,7 @@ function renderDecisionSummary(studentId: string) {
   const open = actions.filter((row) => row.status !== 'done');
   const directionLabel = primaryDirections.length
     ? `${primaryDirections.slice(0, 2).map((row) => row.title).join(', ')}${primaryDirections.length > 2 ? ` + ${primaryDirections.length - 2} more` : ''}`
-    : 'Choose a primary career option';
+    : 'Choose a main option';
   const promptItems = [
     primaryDirections.length ? 'What evidence has the student actually produced for the current career option?' : 'Which career option should the student test first, and what would count as useful evidence?',
     priorityGap ? `Is “${String(priorityGap.skill_name)}” a skill gap, a follow-through problem, or a poor-fit signal?` : 'What is the smallest useful capability to practise next?',
@@ -1651,7 +1651,7 @@ function preparePresetControls() {
     'career-study-stage': ['Your current stage', 'Choose the stage closest to you. This moves more realistic routes upward.', 'It guides results but does not block a different path.'],
     'career-preset-category': ['Area of work', 'Pick a broad field only when you want fewer cards to browse.', 'Leave it on all areas while you are still exploring.'],
     'career-preset-group': ['Kind of work', 'Choose the type of day-to-day work that sounds most like you.', 'This is a broad description, not a test result.'],
-    'career-preset-sort': ['Which roles should show first?', 'This only changes the order. Use search or the filters above when you want fewer cards.', 'There is no correct answer; choose the view that feels most useful.'],
+    'career-preset-sort': ['What should appear at the top?', 'This only changes the order. Use search or the filters above when you want fewer cards.', 'There is no correct answer; choose the view that feels most useful.'],
   };
   Object.entries(copy).forEach(([id, [label, help, title]]) => {
     const select = qs<HTMLSelectElement>(`#${id}`);
@@ -1668,11 +1668,11 @@ function preparePresetControls() {
   const sortSelect = qs<HTMLSelectElement>('#career-preset-sort');
   if (sortSelect) {
     const sortLabels: Record<string, string> = {
-      recommended: 'Show easier-to-enter roles first',
-      alphabetical: 'Role name (A–Z)',
-      'quick-test': 'Show roles I can learn about easily',
-      'future-ready': 'Show roles changing quickly',
-      independent: 'Show roles with independent work',
+      recommended: 'Good places to start',
+      alphabetical: 'Names A–Z',
+      'quick-test': 'Easy ways to learn about the work',
+      'future-ready': 'Work changing quickly',
+      independent: 'More independent work',
     };
     Array.from(sortSelect.options).forEach((option) => {
       if (sortLabels[option.value]) option.textContent = sortLabels[option.value];
@@ -1680,11 +1680,11 @@ function preparePresetControls() {
     const sortField = sortSelect.closest('label');
     if (sortField && !sortField.querySelector('[data-career-sort-choice]')) {
       const choices = [
-        ['recommended', 'Show easier-to-enter roles first', 'Roles with clearer first steps appear at the top.'],
-        ['quick-test', 'Show roles I can learn about easily', 'Read, watch, talk, or observe; nothing has to be recorded.'],
-        ['alphabetical', 'Show roles A–Z', 'See every role in name order.'],
-        ['future-ready', 'Show roles changing quickly', 'Roles with changing tools or demand appear at the top.'],
-        ['independent', 'Show roles with independent work', 'Freelance or self-directed routes appear at the top.'],
+        ['recommended', 'Good places to start', 'Routes with clearer first steps appear at the top.'],
+        ['quick-test', 'Easy ways to learn about the work', 'Read, watch, talk, or observe the work; no notes are needed.'],
+        ['alphabetical', 'Names A–Z', 'See all names in A–Z order.'],
+        ['future-ready', 'Work changing quickly', 'Put work with changing tools or demand near the top.'],
+        ['independent', 'More independent work', 'Put more self-directed work near the top.'],
       ];
       const choiceGroup = document.createElement('div');
       choiceGroup.className = 'career-sort-choices';
@@ -2285,11 +2285,11 @@ function updateCareerSortHelp() {
   const note = select?.closest('label')?.querySelector<HTMLElement>('small');
   if (!select || !note) return;
   const help: Record<string, string> = {
-    recommended: 'All matching careers stay available. This puts routes with clearer entry steps near the top to give you a calm place to begin.',
-    alphabetical: 'All careers stay available. Role name (A–Z) sorts the same careers alphabetically.',
-    'quick-test': 'All matching careers stay available. This puts careers near the top when you can learn about the work by reading, watching, talking to someone, or simply observing a normal day. Nothing needs to be arranged or recorded.',
-    'future-ready': 'All matching careers stay available. Work changing fastest puts careers near the top when their tools or demand are changing.',
-    independent: 'All matching careers stay available. This puts careers near the top when freelance, consulting, or self-directed work may be possible later.',
+    recommended: 'All matching options stay available. This puts clearer starting routes near the top.',
+    alphabetical: 'All matching options stay available. Names are sorted A–Z.',
+    'quick-test': 'All matching options stay available. This puts options near the top when you can learn about the work by reading, watching, talking, or observing. Nothing needs to be arranged or recorded.',
+    'future-ready': 'All matching options stay available. This puts work with changing tools or demand near the top.',
+    independent: 'All matching options stay available. This puts more self-directed work near the top.',
   };
   note.textContent = help[select.value] || help.recommended;
 }
