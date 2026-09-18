@@ -779,10 +779,15 @@ function actionHtml(item: Row) {
   const milestone = item.milestone || preset?.milestone || actionMilestone(String(item.category || ''));
   const effort = item.estimated_minutes || preset?.estimatedMinutes;
   const evidenceHint = item.evidence_hint || preset?.evidenceHint;
+  const learnerNote = ctx.profile.role === 'student' && evidenceHint
+    ? `<small class="action-evidence-hint"><b>Optional note:</b> ${ctx.escapeHtml(String(evidenceHint))}</small>`
+    : evidenceHint
+      ? `<small class="action-evidence-hint"><b>Evidence:</b> ${ctx.escapeHtml(String(evidenceHint))}</small>`
+      : '';
   const linkedSkill = coaching.skills.find((skill) => String(skill.id) === String(item.skill_id));
   return `<article class="coaching-action-row${item.status === 'done' ? ' is-done' : ''}" data-due-state="${due}">
     ${canToggle ? `<button class="task-check" type="button" data-state="${item.status === 'done' ? 'done' : 'open'}" data-toggle-coaching-action="${ctx.escapeHtml(item.id)}" aria-label="${item.status === 'done' ? 'Mark incomplete' : 'Mark complete'}" title="${item.status === 'done' ? 'Mark incomplete' : 'Mark complete'}"><span class="task-check-mark" aria-hidden="true">${item.status === 'done' ? '✓' : ''}</span></button>` : ''}
-    <div class="action-copy"><header><strong>${ctx.escapeHtml(item.title)}</strong><span class="priority-label" data-priority="${ctx.escapeHtml(item.priority)}">${ctx.escapeHtml(ctx.formatStatus(item.priority))}</span></header><div class="action-meta"><span>${ctx.escapeHtml(ctx.formatStatus(item.category))}</span><span class="action-milestone">Stage: ${ctx.escapeHtml(String(milestone))}</span>${linkedSkill ? `<span>Skill: ${ctx.escapeHtml(linkedSkill.skill_name)}</span>` : ''}${effort ? `<span>About ${ctx.escapeHtml(String(effort))} minutes</span>` : ''}${item.due_date ? `<span>Due ${ctx.escapeHtml(ctx.formatDate(item.due_date))}</span>` : ''}${weeklyHours ? `<span>${ctx.escapeHtml(weeklyHours)} hours/week</span>` : ''}${assigned ? `<span>Assigned by ${ctx.escapeHtml(assigned.full_name)}</span>` : ''}${completion ? `<span>${ctx.escapeHtml(completion.replace(/^ · /, ''))}</span>` : ''}</div>${visibleDetails ? `<p>${ctx.escapeHtml(visibleDetails)}</p>` : ''}${evidenceHint ? `<small class="action-evidence-hint"><b>Evidence:</b> ${ctx.escapeHtml(String(evidenceHint))}</small>` : ''}</div>
+    <div class="action-copy"><header><strong>${ctx.escapeHtml(item.title)}</strong><span class="priority-label" data-priority="${ctx.escapeHtml(item.priority)}">${ctx.escapeHtml(ctx.formatStatus(item.priority))}</span></header><div class="action-meta"><span>${ctx.escapeHtml(ctx.formatStatus(item.category))}</span><span class="action-milestone">Stage: ${ctx.escapeHtml(String(milestone))}</span>${linkedSkill ? `<span>Skill: ${ctx.escapeHtml(linkedSkill.skill_name)}</span>` : ''}${effort ? `<span>About ${ctx.escapeHtml(String(effort))} minutes</span>` : ''}${item.due_date ? `<span>Due ${ctx.escapeHtml(ctx.formatDate(item.due_date))}</span>` : ''}${weeklyHours ? `<span>${ctx.escapeHtml(weeklyHours)} hours/week</span>` : ''}${assigned ? `<span>Assigned by ${ctx.escapeHtml(assigned.full_name)}</span>` : ''}${completion ? `<span>${ctx.escapeHtml(completion.replace(/^ · /, ''))}</span>` : ''}</div>${visibleDetails ? `<p>${ctx.escapeHtml(visibleDetails)}</p>` : ''}${learnerNote}</div>
     ${canRemove ? `<div class="action-controls"><button class="table-action" type="button" data-delete-coaching-action="${ctx.escapeHtml(item.id)}">Remove</button></div>` : ''}
   </article>`;
 }
@@ -792,7 +797,7 @@ function careerFocusSummaryHtml(rows: Row[]) {
   const active = rows.filter((row) => !['ruled-out', 'paused'].includes(row.status));
   const primary = active.filter((row) => row.option_type === 'primary');
   const secondary = active.filter((row) => row.option_type !== 'primary');
-  return `<div class="focus-summary-copy"><span><small>Primary career options</small><strong>${primary.length ? `${primary.length} in your plan` : 'None chosen yet'}</strong><em>${primary.length ? 'Explore seriously' : 'Add any that fit'}</em></span><span><small>Secondary career options</small><strong>${secondary.length ? `${secondary.length} kept open` : 'None yet'}</strong><em>${secondary.length ? 'Revisit when useful' : 'Add when relevant'}</em></span><span data-allocation-state="ready"><small>Your plan</small><strong>${active.length} career option${active.length === 1 ? '' : 's'} saved</strong><em>Choose your own level of focus</em></span></div><p>Keep any number of primary and secondary career options. Update them as your interests, evidence, and circumstances become clearer.</p>`;
+  return `<div class="focus-summary-copy"><span><small>Primary career options</small><strong>${primary.length ? `${primary.length} in your plan` : 'None chosen yet'}</strong><em>${primary.length ? 'Explore seriously' : 'Add any that fit'}</em></span><span><small>Secondary career options</small><strong>${secondary.length ? `${secondary.length} kept open` : 'None yet'}</strong><em>${secondary.length ? 'Revisit when useful' : 'Add when relevant'}</em></span><span data-allocation-state="ready"><small>Your plan</small><strong>${active.length} career option${active.length === 1 ? '' : 's'} saved</strong><em>Choose your own level of focus</em></span></div><p>Keep any number of primary and secondary career options. Update them as your interests, observations, and circumstances become clearer.</p>`;
 }
 
 function actionProgressHtml(rows: Row[]) {
@@ -800,11 +805,13 @@ function actionProgressHtml(rows: Row[]) {
   const done = new Set(rows.filter((row) => row.status === 'done').map((row) => String(row.milestone || actionMilestone(String(row.category || '')))));
   const active = new Set(rows.filter((row) => !['done', 'archived'].includes(String(row.status))).map((row) => String(row.milestone || actionMilestone(String(row.category || '')))));
   const progress = Math.min(stages.length, done.size);
-  return `<section class="action-progression" aria-labelledby="action-progression-title"><div class="action-progression-heading"><div><strong id="action-progression-title">Your progress pathway</strong><span>Six useful stages—not a rigid sequence</span></div><em>${progress} of ${stages.length} evidenced</em></div><progress max="${stages.length}" value="${progress}" aria-label="${progress} of ${stages.length} action stages evidenced"></progress><ol class="action-progression-steps">${stages.map((stage, index) => {
+  const learner = ctx?.profile.role === 'student';
+  const progressWord = learner ? 'completed' : 'evidenced';
+  return `<section class="action-progression" aria-labelledby="action-progression-title"><div class="action-progression-heading"><div><strong id="action-progression-title">Your progress pathway</strong><span>Six useful stages—not a rigid sequence</span></div><em>${progress} of ${stages.length} ${progressWord}</em></div><progress max="${stages.length}" value="${progress}" aria-label="${progress} of ${stages.length} action stages ${progressWord}"></progress><ol class="action-progression-steps">${stages.map((stage, index) => {
     const state = done.has(stage) ? 'complete' : active.has(stage) ? 'current' : 'upcoming';
-    const stateLabel = state === 'complete' ? 'Evidence added' : state === 'current' ? 'In progress' : 'When useful';
+    const stateLabel = state === 'complete' ? (learner ? 'Complete' : 'Evidence added') : state === 'current' ? 'In progress' : 'When useful';
     return `<li class="action-progression-step is-${state}"${state === 'current' ? ' aria-current="step"' : ''}><b aria-hidden="true">${String(index + 1).padStart(2, '0')}</b><span><strong>${ctx!.escapeHtml(stage)}</strong><small>${stateLabel}</small></span></li>`;
-  }).join('')}</ol><p class="field-help">Move at a pace that fits your time. You can work on more than one stage and return to an earlier one when new evidence changes the plan.</p></section>`;
+  }).join('')}</ol><p class="field-help">Move at a pace that fits your time. You can work on more than one stage and return to an earlier one when what you learn changes the plan.</p></section>`;
 }
 
 function renderCareerLists(studentId: string) {
@@ -1661,11 +1668,11 @@ function preparePresetControls() {
   const sortSelect = qs<HTMLSelectElement>('#career-preset-sort');
   if (sortSelect) {
     const sortLabels: Record<string, string> = {
-      recommended: 'Good starting routes (clear entry)',
+      recommended: 'Good routes to start with (clear entry)',
       alphabetical: 'Role name (A–Z)',
-      'quick-test': 'Easy ways to learn about the work',
-      'future-ready': 'Work changing fastest',
-      independent: 'More independent routes',
+      'quick-test': 'Easy ways to learn about a role',
+      'future-ready': 'Roles changing quickly',
+      independent: 'Routes with independent work',
     };
     Array.from(sortSelect.options).forEach((option) => {
       if (sortLabels[option.value]) option.textContent = sortLabels[option.value];
@@ -1673,11 +1680,11 @@ function preparePresetControls() {
     const sortField = sortSelect.closest('label');
     if (sortField && !sortField.querySelector('[data-career-sort-choice]')) {
       const choices = [
-        ['recommended', 'Good starting routes', 'Clearer entry steps appear first.'],
-        ['quick-test', 'Learn about the work', 'Read, watch, talk, or observe if useful; nothing has to be recorded.'],
-        ['alphabetical', 'Role name A–Z', 'Browse every role in name order.'],
-        ['future-ready', 'Changing fastest', 'Roles with changing tools or demand appear first.'],
-        ['independent', 'More independent routes', 'Self-directed or freelance routes appear first.'],
+        ['recommended', 'Good routes to start with', 'Clearer entry steps appear first.'],
+        ['quick-test', 'Easy ways to learn about a role', 'Read, watch, talk, or observe if useful; nothing has to be recorded.'],
+        ['alphabetical', 'Browse by role name', 'See every role from A to Z.'],
+        ['future-ready', 'Roles changing quickly', 'Roles with changing tools or demand appear first.'],
+        ['independent', 'Routes with independent work', 'Self-directed or freelance routes appear first.'],
       ];
       const choiceGroup = document.createElement('div');
       choiceGroup.className = 'career-sort-choices';
@@ -1823,7 +1830,7 @@ function renderCareerPresetResults() {
     const title = input.closest('.career-library-result')?.querySelector('.career-result-title strong')?.textContent?.trim() || 'career';
     input.setAttribute('aria-label', `${selected ? 'Remove' : 'Add'} ${title} ${selected ? 'from' : 'to'} comparison`);
   });
-  const sortLabel = ({ recommended: 'easier routes to enter first', alphabetical: 'role name A–Z', 'quick-test': 'read, watch, or talk about the work first', 'future-ready': 'work changing fastest', independent: 'independent-work routes first' } as Record<string, string>)[sort] ?? 'selected order';
+  const sortLabel = ({ recommended: 'clear routes first', alphabetical: 'role name A–Z', 'quick-test': 'easy ways to learn first', 'future-ready': 'roles changing quickly first', independent: 'routes with independent work first' } as Record<string, string>)[sort] ?? 'selected order';
   updateCareerSortHelp();
   if (count) count.textContent = `${matches.length.toLocaleString()} careers available · ordered by ${sortLabel} · all remain available${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
   const interestGuidance = qs<HTMLElement>('#career-interest-guidance');

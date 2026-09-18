@@ -473,6 +473,9 @@ export function careerCardHtml(path: Row, ui: DecisionUiContext, editable = true
   const canManage = editable && (ui.viewerRole !== 'student' || !path.created_by || path.created_by === ui.userId);
   const optionType = path.option_type || 'alternative';
   const decisionSignal = decisionSignalFor(path);
+  const learnerDecisionLabel = ui.viewerRole === 'student' && decisionSignal === 'needs-evidence'
+    ? 'Still exploring'
+    : decisionSignalLabel(decisionSignal);
   const tradeoffs = Array.isArray(path.tradeoffs) ? path.tradeoffs : [];
   const watchOuts = tradeoffs.length ? tradeoffs : guide?.watchOuts ?? [];
   const workReality = guide?.dailyWork ?? [path.work_environment || 'The real work has not been investigated yet.'];
@@ -499,7 +502,7 @@ export function careerCardHtml(path: Row, ui: DecisionUiContext, editable = true
   return `<article class="career-decision-row" data-status="${ui.escapeHtml(path.status)}" data-option-type="${ui.escapeHtml(optionType)}">
     <header>
       <span class="career-decision-title"><span class="option-type-badge" data-option-type="${ui.escapeHtml(optionType)}">${ui.escapeHtml(optionLabel)}</span><span><h4>${ui.escapeHtml(path.title)}</h4><small>${ui.escapeHtml(careerFamilyLabel(path.career_category || 'Other'))}</small></span></span>
-      <span class="career-decision-state"><span data-decision-signal="${ui.escapeHtml(decisionSignal)}">${ui.escapeHtml(decisionSignalLabel(decisionSignal))}</span></span>
+      <span class="career-decision-state"><span data-decision-signal="${ui.escapeHtml(decisionSignal)}">${ui.escapeHtml(learnerDecisionLabel)}</span></span>
     </header>
     <p class="career-decision-summary">${ui.escapeHtml(summary)}</p>
     <details class="career-card-details"><summary><span>See fit, entry route, and skills</span><small>Open details</small></summary><div class="career-card-details-body"><div class="career-reality-grid">
@@ -601,7 +604,7 @@ export function careerGuidePreviewHtml(guide: CareerGuide, escapeHtml: DecisionU
       <section><small>Skills you can carry into other work</small><div class="guide-chips">${chipsHtml(guide.portableSkills ?? [], escapeHtml)}</div></section>
       <section><small>Earning context</small><p>${escapeHtml(guide.earningContext || 'Earning varies by role, experience, evidence, location, and employer. Check current local sources before deciding.')}</p></section>
       <section><small>What is changing</small><p>${escapeHtml(guide.marketSignal || guide.outlookDetail)}</p></section>
-      <section><small>Evidence base</small><p class="career-guide-source"><a href="${escapeHtml(guide.marketEvidence.url)}" target="_blank" rel="noreferrer">${escapeHtml(guide.marketEvidence.source)}</a> <span>(${escapeHtml(guide.marketEvidence.date)})</span></p></section>
+      <section><small>Source used for this guide</small><p class="career-guide-source"><a href="${escapeHtml(guide.marketEvidence.url)}" target="_blank" rel="noreferrer">${escapeHtml(guide.marketEvidence.source)}</a> <span>(${escapeHtml(guide.marketEvidence.date)})</span></p></section>
       <section class="career-progression-section"><small>Examples and advice by level</small><div class="career-progression-grid">${(guide.progression ?? []).map((item) => `<article data-level="${escapeHtml(item.level.toLowerCase())}"><strong>${escapeHtml(item.level)}</strong><p><b>Example:</b> ${escapeHtml(item.example)}</p><p><b>Advice:</b> ${escapeHtml(item.advice)}</p></article>`).join('')}</div></section>
       <section><small>Check before committing</small>${listHtml(guide.watchOuts, escapeHtml)}</section>
       <section><small>Optional ways to learn more</small>${listHtml(guide.starterTests, escapeHtml)}</section>
