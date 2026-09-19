@@ -1237,7 +1237,7 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await cohortComposer.getByRole('button', { name: 'Share an update' }).click();
   await expect(cohortComposer.locator('input[name="task_due_on"]')).toBeHidden();
   await expect(page.locator('[data-workspace-view="career"]')).toContainText('Your assessment history');
-  await expect(page.locator('[data-workspace-view="career"]')).not.toContainText(/time budget|location and access|personal context|comfort with uncertainty|study abroad interest/i);
+  await expect(page.locator('[data-workspace-view="career"]')).not.toContainText(/location and access|personal context|comfort with uncertainty|study abroad interest/i);
   // Switching coaching-plan sections creates real browser destinations, so
   // Back/Forward returns to the section the learner was viewing.
   await page.goBack();
@@ -1629,7 +1629,7 @@ test('career filters stay intersected and never show a stale guide', async ({ pa
   await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
   await page.locator('#career-clear-filters').click();
   await expect(search).toHaveValue('');
-  await expect(page.locator('#career-preset-count')).toContainText('573 career options shown');
+  await expect(page.locator('#career-preset-count')).toContainText('584 career options shown');
   await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
   await search.fill('Software Engineer');
   await expect(page.locator('#career-preset-results .career-library-result').first().locator('.career-result-title strong')).toHaveText('Software Engineer');
@@ -1650,7 +1650,7 @@ test('career sort changes ordering while keeping the full matching catalogue', a
   const quickTest = await firstTitles();
   await expect(page.locator('#career-preset-count')).toContainText('ordered by easiest routes to learn about first');
   expect(quickTest).not.toEqual(recommended);
-  await expect(page.locator('#career-preset-count')).toContainText('573 career options shown');
+  await expect(page.locator('#career-preset-count')).toContainText('584 career options shown');
   await expect(page.locator('.career-result-save-actions').first()).toContainText('Keep this option:');
   await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="primary"]')).toHaveText('Make current focus');
   await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="alternative"]')).toHaveText('Save for later');
@@ -1752,10 +1752,59 @@ test('independent-work ordering does not promote employer-only routes', async ({
   const firstPageTags = await page.locator('#career-preset-results .career-library-result .career-result-meta').allTextContents();
   expect(firstPageTags.length).toBeGreaterThan(0);
   expect(firstPageTags[0]).toContain('Can grow into independent work');
-  await expect(page.locator('#career-preset-count')).toContainText('573 career options shown');
+  await expect(page.locator('#career-preset-count')).toContainText('584 career options shown');
   await page.locator('#career-preset-search').fill('Civil Services Officer');
   const publicRoute = page.locator('#career-preset-results .career-library-result')
     .filter({ has: page.locator('.career-result-title strong', { hasText: 'Civil Services Officer' }) }).first();
   await expect(publicRoute).toBeVisible();
   await expect(publicRoute.locator('.career-result-meta')).toContainText('Usually organisation-based');
+});
+
+test('student plan explains PDF contents and shows the shared readiness checklist', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await mockWorkspace(page, 'student');
+  await page.goto('http://127.0.0.1:4321/dashboard?view=career', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('[data-workspace-view="career"]')).toBeVisible({ timeout: 10_000 });
+  const exportPanel = page.locator('.plan-export-panel');
+  await expect(exportPanel).toContainText('Download your full coaching plan as a PDF');
+  await expect(exportPanel).toContainText('private staff notes');
+  await expect(exportPanel.getByRole('button', { name: 'Create my plan PDF' })).toBeVisible();
+  const checklist = page.locator('#student-readiness-checklist');
+  await expect(checklist.locator('.macro-checklist-item')).toHaveCount(10);
+  await expect(checklist).toContainText('Verify the route, cost, and eligibility');
+  await expect(checklist).toContainText('Create a money-safety plan');
+  await expect(page.locator('#student-readiness-progress')).toContainText('of 10 evidenced');
+  const layout = await page.locator('#student-readiness-checklist').locator('..').evaluate((panel) => ({
+    overflow: panel.scrollWidth - panel.clientWidth,
+    cardsOutside: Array.from(panel.querySelectorAll('.macro-checklist-item')).filter((card) => card.getBoundingClientRect().right > panel.getBoundingClientRect().right + 1).length,
+  }));
+  expect(layout).toEqual({ overflow: 0, cardsOutside: 0 });
+});
+
+test('preference matches stay relevant and higher earning potential breaks equal-fit ties', async ({ page }) => {
+  await page.setViewportSize({ width: 1365, height: 900 });
+  await mockWorkspace(page, 'student');
+  await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
+  await page.locator('.career-filter-details').evaluate((details) => { details.open = true; });
+  await page.locator('.career-interest-group-details:has([data-career-interest="numbers"])').evaluate((details) => { details.open = true; });
+  await page.locator('[data-career-interest="numbers"]').click();
+  const filteredCount = Number((await page.locator('#career-preset-count').textContent())?.match(/[\d,]+/)?.[0].replace(/,/g, ''));
+  expect(filteredCount).toBeGreaterThan(0);
+  expect(filteredCount).toBeLessThan(584);
+  const rows = await page.locator('#career-preset-results .career-library-result').evaluateAll((items) => items.map((item) => ({
+    match: Number(item.getAttribute('data-match-percent')),
+    earning: Number(item.getAttribute('data-earning-potential')),
+  })));
+  for (let index = 1; index < rows.length; index += 1) {
+    expect(rows[index - 1].match).toBeGreaterThanOrEqual(rows[index].match);
+    if (rows[index - 1].match === rows[index].match) expect(rows[index - 1].earning).toBeGreaterThanOrEqual(rows[index].earning);
+  }
+  await page.locator('.career-sort-details').evaluate((details) => { details.open = true; });
+  await page.locator('[data-career-sort-choice="earning-upside"]').click();
+  const earningOrder = await page.locator('#career-preset-results .career-library-result').evaluateAll((items) => items.map((item) => Number(item.getAttribute('data-earning-potential'))));
+  for (let index = 1; index < earningOrder.length; index += 1) expect(earningOrder[index - 1]).toBeGreaterThanOrEqual(earningOrder[index]);
+  await page.locator('#career-preset-search').fill('Quantitative Analyst');
+  await expect(page.locator('#career-preset-results')).toContainText('Quantitative Analyst');
+  await expect(page.locator('#career-preset-results')).toContainText('Higher earning potential to investigate');
 });

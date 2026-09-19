@@ -1064,6 +1064,73 @@ function renderStudentGrowthPlan(studentId: string) {
   container.innerHTML = `<section class="growth-path-intro"><div><p class="eyebrow">A practical progression</p><h4>From career option to greater financial choice</h4><p>Learn what the work involves, practise one useful capability, and add a new layer only when it helps. There is no promise of a particular salary; the dashboard helps you make the next decision with better information.</p></div><span class="growth-path-note">Assessments and notes are optional</span></section><div class="growth-path-grid">${card('01', 'Choose career options to explore', careerCopy, careers.length ? 'ready' : 'next', 'career-reality-check', careers.length ? 'Review options' : 'Explore careers')}${card('02', 'Build one useful skill', skillCopy, skills.length ? 'ready' : 'next', 'two-hour-role-task', 'Choose a practice')}${card('03', 'Make something useful (optional)', proofCopy, hasProof ? 'ready' : 'next', 'portfolio-piece', hasProof ? 'Review optional notes' : 'Try it if useful')}${card('04', 'Connect skill to income safely', incomeCopy, hasIncomeAction ? 'ready' : 'open', 'money-safety-check', hasIncomeAction ? 'Review money plan' : 'Make a money plan')}</div><section class="growth-stack-card"><div><p class="eyebrow">The skill stack</p><h4>Capability → multiplier → earning or ownership</h4><p>Use the first skill to become useful, then add technology, data, domain, or communication depth when it creates more options. Add each layer when it is useful for your direction.</p></div><div class="growth-stack-steps"><span><b>1</b><strong>Main skill</strong><small>Become useful at a real task.</small></span><span><b>2</b><strong>Multiplier</strong><small>Add technology, data, domain, or communication depth.</small></span><span><b>3</b><strong>Value delivery</strong><small>Create a useful outcome for a person, team, or customer.</small></span></div></section><section class="growth-checkpoint-card"><div><p class="eyebrow">Next review checkpoint</p><h4>Ask these four questions before making a large commitment</h4></div><ol><li>What ordinary work would I like to understand better?</li><li>What could I try or learn next?</li><li>What skill would make this work more valuable?</li><li>What is the safest next step for my time, money, and circumstances?</li></ol></section>`;
 }
 
+type ReadinessMilestone = {
+  number: string;
+  title: string;
+  complete: boolean;
+  inProgress?: boolean;
+  evidence: string;
+  next: string;
+  studentTarget: string;
+  coachTarget: string;
+  actionPreset?: string;
+};
+
+function readinessMilestones(studentId: string): ReadinessMilestone[] {
+  const caseRow = currentCase(studentId) ?? {};
+  const careers = rowsFor(coaching.careers, 'user_id', studentId).filter((row) => !['ruled-out', 'paused'].includes(String(row.status)));
+  const activeCareer = careers.find((row) => row.option_type === 'primary') ?? careers[0];
+  const skills = uniqueSkillRowsForStudent(studentId);
+  const foundation = skills.filter((row) => skillScopeFor(row) === 'foundation');
+  const roleSkills = skills.filter((row) => skillScopeFor(row) === 'career-specific');
+  const evidence = coaching.evidence.filter((item) => skills.some((skill) => String(skill.id) === String(item.skill_id)));
+  const actions = rowsFor(coaching.actions, 'user_id', studentId);
+  const openActions = actions.filter((row) => !['done', 'archived'].includes(String(row.status)));
+  const doneActions = actions.filter((row) => row.status === 'done');
+  const hasAction = (keys: string[], categories: string[] = []) => actions.some((row) => keys.includes(String(row.preset_key)) || categories.includes(String(row.category)));
+  const hasDoneAction = (keys: string[], categories: string[] = []) => doneActions.some((row) => keys.includes(String(row.preset_key)) || categories.includes(String(row.category)));
+  const reviews = coaching.skillReviews.filter((row) => row.student_id === studentId);
+  const guidance = rowsFor(coaching.advice, 'student_id', studentId);
+  const contextRecorded = Boolean(caseRow.goal_summary || coaching.constraints?.available_hours_per_week || coaching.constraints?.family_expectations || coaching.academic);
+  const routeVerified = Boolean(activeCareer && (activeCareer.preset_key || activeCareer.route_summary || activeCareer.entry_requirements));
+  const learningKeys = ['deep-work-routine', 'two-hour-role-task', 'build-break-explain-lab'];
+  const proofKeys = ['portfolio-piece', 'two-hour-role-task', 'build-break-explain-lab'];
+  const publishKeys = ['portfolio-piece', 'public-proof', 'application-sprint'];
+  const connectKeys = ['network-map', 'professional-conversation', 'mentor-conversation'];
+  const moneyKeys = ['money-safety-check', 'salary-demand-check', 'personal-money-plan'];
+  return [
+    { number: '01', title: 'Know your situation and constraints', complete: contextRecorded, evidence: contextRecorded ? 'A goal, study context, time budget, or practical constraint is recorded.' : 'No planning context is recorded yet.', next: 'Record the learner’s current stage, weekly time, responsibilities, and goal.', studentTarget: 'actions', coachTarget: 'context' },
+    { number: '02', title: 'Choose a direction to investigate', complete: Boolean(activeCareer), inProgress: careers.length > 0, evidence: activeCareer ? `${activeCareer.title} is saved as ${activeCareer.option_type === 'primary' ? 'the current focus' : 'an option to investigate'}.` : 'No active career option is saved.', next: 'Compare ordinary work and save one current focus, with a second option only when useful.', studentTarget: 'options', coachTarget: 'careers' },
+    { number: '03', title: 'Verify the route, cost, and eligibility', complete: routeVerified && hasAction(['career-reality-check'], ['explore', 'decide']), inProgress: routeVerified, evidence: routeVerified ? 'A route is available; a reality-check action shows it has been investigated.' : 'Route requirements have not yet been connected to a saved option.', next: 'Check recognition, entry requirements, total cost, time, licensing, and a fallback route.', studentTarget: 'actions', coachTarget: 'careers', actionPreset: 'career-reality-check' },
+    { number: '04', title: 'Build foundations and role skills', complete: foundation.length >= 3 && roleSkills.length >= 1, inProgress: skills.length > 0, evidence: `${foundation.length} foundation skill${foundation.length === 1 ? '' : 's'} and ${roleSkills.length} career-linked skill${roleSkills.length === 1 ? '' : 's'} are in the plan.`, next: 'Keep a small foundation set and add the few role skills that the current direction needs.', studentTarget: 'skills', coachTarget: 'skills' },
+    { number: '05', title: 'Learn actively on a sustainable schedule', complete: hasDoneAction(learningKeys, ['learn']), inProgress: hasAction(learningKeys, ['learn']), evidence: hasDoneAction(learningKeys, ['learn']) ? 'An active-learning milestone has been completed.' : hasAction(learningKeys, ['learn']) ? 'An active-learning action is in progress.' : 'No active-learning routine is recorded.', next: 'Use focused practice, retrieval, feedback, and a realistic weekly time budget.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'deep-work-routine' },
+    { number: '06', title: 'Produce proof of useful work', complete: evidence.length > 0 || hasDoneAction(proofKeys, ['build']), inProgress: hasAction(proofKeys, ['build']), evidence: evidence.length ? `${evidence.length} evidence item${evidence.length === 1 ? ' is' : 's are'} linked to skills.` : 'No skill evidence or completed work sample is recorded.', next: 'Finish one realistic task and save what was made, checked, learned, and improved.', studentTarget: 'skills', coachTarget: 'skills', actionPreset: 'portfolio-piece' },
+    { number: '07', title: 'Publish, apply, or seek market feedback', complete: hasDoneAction(publishKeys, ['apply']), inProgress: hasAction(publishKeys, ['apply']), evidence: hasDoneAction(publishKeys, ['apply']) ? 'A publish or application step has been completed.' : hasAction(publishKeys, ['apply']) ? 'A publish or application step is in progress.' : 'No publish, application, client, or opportunity step is recorded.', next: 'Share suitable proof safely or use it in one internship, job, client, or opportunity action.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'portfolio-piece' },
+    { number: '08', title: 'Connect with practitioners and support', complete: hasDoneAction(connectKeys, ['connect']), inProgress: hasAction(connectKeys, ['connect']) || Boolean(getStudentCohort(studentId)), evidence: hasDoneAction(connectKeys, ['connect']) ? 'A practitioner or network step has been completed.' : getStudentCohort(studentId) ? 'Cohort support is available; a practitioner conversation is still useful.' : 'No connection step is recorded.', next: 'Ask a practitioner about ordinary work, entry, mistakes, and the evidence employers trust.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'network-map' },
+    { number: '09', title: 'Create a money-safety plan', complete: hasDoneAction(moneyKeys), inProgress: hasAction(moneyKeys), evidence: hasDoneAction(moneyKeys) ? 'A money-safety action has been completed.' : hasAction(moneyKeys) ? 'A money-safety action is in progress.' : 'No route-cost or personal money-safety action is recorded.', next: 'Estimate learning cost, debt risk, essential expenses, emergency buffer, and a safe income bridge.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'money-safety-check' },
+    { number: '10', title: 'Review evidence, wellbeing, and the next decision', complete: reviews.length > 0 && (guidance.length > 0 || doneActions.length > 0), inProgress: reviews.length > 0 || guidance.length > 0, evidence: `${reviews.length} skill review${reviews.length === 1 ? '' : 's'}, ${guidance.length} guidance item${guidance.length === 1 ? '' : 's'}, and ${doneActions.length} completed action${doneActions.length === 1 ? '' : 's'} are recorded.`, next: 'Review what changed, protect a sustainable pace, and decide what to continue, change, pause, or rule out.', studentTarget: 'guidance', coachTarget: 'summary' },
+  ];
+}
+
+function renderReadinessChecklist(studentId: string, audience: 'student' | 'coach') {
+  if (!ctx) return;
+  const milestones = readinessMilestones(studentId);
+  const container = qs<HTMLElement>(audience === 'student' ? '#student-readiness-checklist' : '#record-readiness-checklist');
+  const progress = qs<HTMLElement>(audience === 'student' ? '#student-readiness-progress' : '#record-readiness-progress');
+  if (!container) return;
+  const complete = milestones.filter((item) => item.complete).length;
+  if (progress) progress.textContent = `${complete} of ${milestones.length} evidenced`;
+  container.innerHTML = milestones.map((item) => {
+    const status = item.complete ? 'complete' : item.inProgress ? 'progress' : 'next';
+    const statusLabel = item.complete ? 'Evidenced' : item.inProgress ? 'In progress' : 'Next';
+    const target = audience === 'student' ? item.studentTarget : item.coachTarget;
+    const button = item.actionPreset && audience === 'student'
+      ? `<button class="table-action" type="button" data-growth-action="${ctx!.escapeHtml(item.actionPreset)}">Start this step</button>`
+      : `<button class="table-action" type="button" data-readiness-target="${ctx!.escapeHtml(target)}" data-readiness-audience="${audience}">Open ${audience === 'student' ? 'this part' : 'record section'}</button>`;
+    return `<article class="macro-checklist-item" data-readiness-status="${status}"><header><span class="macro-checklist-number">${item.number}</span><span><strong>${ctx!.escapeHtml(item.title)}</strong><small>${statusLabel}</small></span></header><p class="macro-checklist-evidence"><b>Dashboard evidence</b>${ctx!.escapeHtml(item.evidence)}</p><p><b>Next useful move</b>${ctx!.escapeHtml(item.next)}</p>${button}</article>`;
+  }).join('');
+}
+
 function renderStudentPlan() {
   if (!ctx || ctx.profile.role !== 'student') return;
   const studentId = ctx.profile.id;
@@ -1093,6 +1160,7 @@ function renderStudentPlan() {
   renderCareerLists(studentId);
   renderSkillLists(studentId);
   renderStudentGrowthPlan(studentId);
+  renderReadinessChecklist(studentId, 'student');
   renderSessionLists(studentId);
   renderActionLists(studentId);
   renderStudentGuidance(studentId);
@@ -1201,6 +1269,7 @@ function renderStudentRecord() {
   if (status) { status.textContent = ctx.formatStatus(caseRow.case_status || 'active'); status.dataset.status = caseRow.case_status || 'active'; }
   fillCaseForm(studentId);
   renderDecisionSummary(studentId);
+  renderReadinessChecklist(studentId, 'coach');
   renderAssessmentOverview(studentId);
   renderTimeline(studentId);
   renderAssessmentHistory(studentId);
@@ -1669,15 +1738,16 @@ function sortCareerGuides(guides: ReturnType<typeof careerLibraryMatches>, sort:
   const copy = guides.slice();
   if (sort === 'alphabetical') return copy.sort((a, b) => a.title.localeCompare(b.title));
   const fitScore = (guide: typeof copy[number]) => interests.reduce((total, interest) => total + careerInterestMatchScore(guide, interest), 0);
+  const fitPercent = (guide: typeof copy[number]) => careerInterestMatchPercent(guide, interests) ?? 0;
   const contextScore = (guide: typeof copy[number], pattern: RegExp) => pattern.test(`${guide.summary} ${guide.entryLevel} ${guide.entryRoutes.join(' ')} ${guide.earningContext} ${guide.localContext}`.toLowerCase()) ? 1 : 0;
-  if (sort === 'best-fit') return copy.sort((a, b) => fitScore(b) - fitScore(a) || a.title.localeCompare(b.title));
+  if (sort === 'best-fit') return copy.sort((a, b) => fitPercent(b) - fitPercent(a) || b.earningPotential - a.earningPotential || a.title.localeCompare(b.title));
   if (sort === 'practical-first') return copy.sort((a, b) => contextScore(b, /hands-on|practical|field|tools|equipment|site|install|repair|build/) - contextScore(a, /hands-on|practical|field|tools|equipment|site|install|repair|build/) || a.title.localeCompare(b.title));
   const firstStepAccess = (guide: typeof copy[number]) => {
     const route = `${guide.entryLevel} ${guide.entryRoutes.join(' ')} ${guide.routeLength}`.toLowerCase();
     return (guide.regulated ? -3 : 0) + (/degree|licence|license|exam/.test(route) ? -1 : 0) + (/training|apprentice|certificate|portfolio|short course|learn on the job/.test(route) ? 2 : 0);
   };
   if (sort === 'lower-barrier') return copy.sort((a, b) => firstStepAccess(b) - firstStepAccess(a) || a.title.localeCompare(b.title));
-  if (sort === 'earning-upside') return copy.sort((a, b) => contextScore(b, /high|strong|premium|commercial|independent|specialist/) - contextScore(a, /high|strong|premium|commercial|independent|specialist/) || a.title.localeCompare(b.title));
+  if (sort === 'earning-upside') return copy.sort((a, b) => b.earningPotential - a.earningPotential || fitScore(b) - fitScore(a) || a.title.localeCompare(b.title));
   if (sort === 'stable') return copy.sort((a, b) => (b.outlook === 'stable' ? 2 : b.outlook === 'growing' ? 1 : 0) - (a.outlook === 'stable' ? 2 : a.outlook === 'growing' ? 1 : 0) || a.title.localeCompare(b.title));
   const testEffort = (guide: typeof copy[number]) => {
     const task = guide.starterTests?.[0]?.toLowerCase() || '';
@@ -1693,8 +1763,13 @@ function sortCareerGuides(guides: ReturnType<typeof careerLibraryMatches>, sort:
   // entry route and a practical first test. This keeps the catalogue broad
   // while avoiding an arbitrary source-file order.
   const search = query.trim().toLowerCase();
-  return copy.map((guide, index) => ({ guide, index, score: (interests.length ? fitScore(guide) * 20 : 0) + (search && guide.title.toLowerCase() === search ? 30 : search && guide.title.toLowerCase().includes(search) ? 12 : 0) + interests.reduce((total, interest) => total + interestRelevanceScore(guide, interest) * 3, 0) + (guide.outlook === 'growing' ? 4 : guide.outlook === 'evolving' ? 3 : guide.outlook === 'stable' ? 1 : 0) + Math.min(3, guide.futureSkills?.length ?? 0) + (guide.marketEvidence?.url ? 1 : 0) + (guide.starterTests?.length ? 1 : 0) }))
-    .sort((a, b) => b.score - a.score || a.index - b.index)
+  return copy.map((guide, index) => ({ guide, index, fit: fitPercent(guide), score: (search && guide.title.toLowerCase() === search ? 30 : search && guide.title.toLowerCase().includes(search) ? 12 : 0) + interests.reduce((total, interest) => total + interestRelevanceScore(guide, interest) * 3, 0) + (guide.outlook === 'growing' ? 4 : guide.outlook === 'evolving' ? 3 : guide.outlook === 'stable' ? 1 : 0) + Math.min(3, guide.futureSkills?.length ?? 0) + (guide.marketEvidence?.url ? 1 : 0) + (guide.starterTests?.length ? 1 : 0) }))
+    // Once a learner supplies preferences, relevance remains the gate and the
+    // primary order. Earning upside then breaks equal-fit ties so lucrative but
+    // irrelevant routes never displace a substantially better personal match.
+    .sort((a, b) => interests.length
+      ? b.fit - a.fit || b.guide.earningPotential - a.guide.earningPotential || b.score - a.score || a.index - b.index
+      : b.score - a.score || a.index - b.index)
     .map(({ guide }) => guide);
 }
 
@@ -3757,11 +3832,48 @@ async function downloadStudentBrief(options: {
   const button = qs<HTMLButtonElement>(options.buttonSelector || '#download-student-brief');
   setBusy(button, true, 'Preparing...');
   try {
-    const rawLines = (record.innerText || '')
-      .split(/\r?\n/)
-      .map((line) => line.replace(/\s+/g, ' ').trim())
-      .filter((line) => line && !['Caseload', 'Print coaching brief', 'Download coaching brief', 'Download my plan'].includes(line));
-    const lines = Array.from(new Set(rawLines)).slice(0, 240);
+    const studentId = activeStudentId()!;
+    const isStudentPlan = options.filePrefix === 'coaching-plan';
+    const caseRow = currentCase(studentId) ?? {};
+    const careers = rowsFor(coaching.careers, 'user_id', studentId).filter((row) => !['ruled-out', 'paused'].includes(String(row.status)));
+    const skills = uniqueSkillRowsForStudent(studentId);
+    const skillIds = new Set(skills.map((row) => String(row.id)));
+    const evidence = coaching.evidence.filter((row) => skillIds.has(String(row.skill_id)));
+    const actions = rowsFor(coaching.actions, 'user_id', studentId);
+    const assessments = rowsFor(coaching.assessments, 'user_id', studentId);
+    const guidance = rowsFor(coaching.advice, 'student_id', studentId).filter((row) => row.visibility !== 'staff');
+    const milestones = readinessMilestones(studentId);
+    const value = (input: unknown, fallback = 'Not recorded') => String(input ?? '').trim() || fallback;
+    const lines: string[] = [
+      'PLAN SUMMARY',
+      `Stage: ${ctx.formatStatus(caseRow.coaching_stage || 'intake')}`,
+      `Goal: ${value(caseRow.goal_summary, 'Set with your coach')}`,
+      `Progress note: ${value(caseRow.progress_note)}`,
+      '',
+      'SAVED CAREER OPTIONS',
+      ...(careers.length ? careers.map((row) => `${value(row.title, 'Career option')} · ${ctx.formatStatus(row.option_type || row.status || 'exploring')} · ${value(row.decision_rationale || row.notes, 'No decision note yet')}`) : ['No active career options saved.']),
+      '',
+      'SAVED ASSESSMENT HISTORY (OPTIONAL)',
+      ...(assessments.length ? assessments.map((row) => `${value(row.assessment_title || row.title || row.assessment_name, 'Assessment result')} · ${ctx.formatDate(row.completed_at || row.created_at || row.saved_at)} · ${value(row.result_summary || row.summary || row.result_label, 'Saved result')}`) : ['No assessment results saved to this account. Assessments are optional.']),
+      '',
+      'SKILLS, RATINGS, AND PROOF',
+      ...(skills.length ? skills.map((row) => `${value(row.skill_name, 'Skill')} · ${ctx.formatStatus(skillScopeFor(row))} · current ${value(row.current_level, 'not rated')}/10 · target ${value(row.target_level, 'not set')}/10 · ${evidence.filter((item) => String(item.skill_id) === String(row.id)).length} evidence item(s)`) : ['No skills recorded.']),
+      '',
+      'ACTIONS AND DUE DATES',
+      ...(actions.length ? actions.map((row) => `${value(row.title, 'Action')} · ${ctx.formatStatus(row.status || 'open')} · due ${row.due_date ? ctx.formatDate(row.due_date) : 'not set'} · ${value(row.details, 'No completion note')}`) : ['No actions recorded.']),
+      '',
+      'COACH GUIDANCE SHARED WITH THE STUDENT',
+      ...(guidance.length ? guidance.map((row) => `${value(row.title, 'Guidance')} · ${value(row.advice || row.content)}${row.due_date ? ` · due ${ctx.formatDate(row.due_date)}` : ''}`) : ['No shared guidance recorded.']),
+      '',
+      'CAREER AND FINANCIAL READINESS CHECKLIST',
+      ...milestones.map((item) => `${item.number}. ${item.title} · ${item.complete ? 'Evidenced' : item.inProgress ? 'In progress' : 'Next'} · ${item.evidence}`),
+      '',
+      'HOW TO USE THIS PLAN',
+      'This plan organises current evidence and next steps. It does not guarantee admission, employment, salary, or financial freedom. Verify current local course recognition, licensing, costs, and labour-market information before making a major commitment.',
+    ];
+    if (!isStudentPlan) {
+      lines.push('', 'COACH-ONLY PLANNING CONTEXT', `Priority: ${ctx.formatStatus(caseRow.priority || 'standard')}`, `Decision deadline: ${caseRow.decision_deadline ? ctx.formatDate(caseRow.decision_deadline) : 'Not set'}`, 'Private staff notes are intentionally excluded from downloaded documents.');
+    }
     if (!lines.length) throw new Error('No coaching record content is available.');
     const { jsPDF } = await import('jspdf');
     const pdf = new jsPDF({ unit: 'mm', format: 'a4' });
@@ -3780,8 +3892,8 @@ async function downloadStudentBrief(options: {
     addText(`Future Career School · ${options.filePrefix === 'coaching-plan' ? 'Coaching plan' : 'Coaching brief'}`, 9, 'bold', 7);
     addText(String(student.full_name || student.email || 'Student'), 19, 'bold', 5);
     addText(`${ctx.formatRole(student.role)} · ${student.email || ''}`, 9, 'normal', 9);
-    const heading = /^(Student coaching record|Coaching plan|Recent coaching activity|Career decisions|Skills and evidence|Cohort community|Follow-through|Student profile|Planning context|Verified by staff|Coaching record)/i;
-    lines.forEach((line) => addText(line, heading.test(line) ? 11 : 8.5, heading.test(line) ? 'bold' : 'normal', 3.2));
+    const heading = /^[A-Z][A-Z, ()-]{4,}$/;
+    lines.forEach((line) => addText(line || ' ', heading.test(line) ? 11 : 8.5, heading.test(line) ? 'bold' : 'normal', heading.test(line) ? 4.5 : 3.2));
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(7);
     pdf.text(`Generated ${new Date().toLocaleDateString('en-IN')}`, margin, pageHeight - 10);
@@ -3988,6 +4100,14 @@ function bindEvents() {
     applyActionPreset(select);
     select.dispatchEvent(new Event('change', { bubbles: true }));
     form?.querySelector<HTMLInputElement>('[name="title"]')?.focus();
+  });
+  document.addEventListener('click', (event) => {
+    const button = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-readiness-target]');
+    if (!button) return;
+    const target = button.dataset.readinessTarget || '';
+    if (!target) return;
+    if (button.dataset.readinessAudience === 'student') showPlanTab(target, true);
+    else showRecordTab(target);
   });
   // Give the plan tablist the expected keyboard behaviour as well as click
   // support. Arrow keys move between tabs; Home/End jump to the first/last.

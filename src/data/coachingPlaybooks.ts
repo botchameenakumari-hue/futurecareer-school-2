@@ -31,6 +31,10 @@ export type CareerGuide = CareerPreset & {
   subjectRoutes: string[];
   suitableStages: string[];
   earningContext: string;
+  /** Relative earning upside for ordering and comparison only. This is not a
+   * salary forecast: 1 is limited upside and 5 is stronger specialist,
+   * commercial, leadership, or ownership upside to investigate. */
+  earningPotential: 1 | 2 | 3 | 4 | 5;
   marketSignal: string;
   marketEvidence: { date: string; source: string; url: string };
   localContext: string;
@@ -49,7 +53,7 @@ export type CareerGuide = CareerPreset & {
   dataConfidence: 'role-specific' | 'family-guided' | 'exploratory';
 };
 
-type GuideFields = Omit<CareerGuide, keyof CareerPreset | 'workSetting' | 'entryLevel' | 'routeLength' | 'dayPace' | 'portableSkills' | 'questionsToAsk' | 'interestTags' | 'subjectRoutes' | 'suitableStages' | 'earningContext' | 'marketSignal' | 'marketEvidence' | 'localContext' | 'competitionNote' | 'independencePath' | 'regulated' | 'evidenceExamples' | 'progression' | 'careerGroup' | 'dataConfidence'> & Partial<Pick<CareerGuide, 'interestTags' | 'subjectRoutes' | 'suitableStages' | 'earningContext' | 'marketSignal'>>;
+type GuideFields = Omit<CareerGuide, keyof CareerPreset | 'workSetting' | 'entryLevel' | 'routeLength' | 'dayPace' | 'portableSkills' | 'questionsToAsk' | 'interestTags' | 'subjectRoutes' | 'suitableStages' | 'earningContext' | 'earningPotential' | 'marketSignal' | 'marketEvidence' | 'localContext' | 'competitionNote' | 'independencePath' | 'regulated' | 'evidenceExamples' | 'progression' | 'careerGroup' | 'dataConfidence'> & Partial<Pick<CareerGuide, 'interestTags' | 'subjectRoutes' | 'suitableStages' | 'earningContext' | 'marketSignal'>>;
 
 type FamilyGuide = GuideFields & {
   purpose: string;
@@ -572,6 +576,33 @@ const futureCareerPresets: CareerPreset[] = futureRoles.map(([title, _summary, s
   tags: `${title} future emerging ai climate health data green technology`.toLowerCase().split(/\s+/),
 }));
 
+// Distinct, high-upside routes that were missing from the imported catalogues.
+// They remain subject to the same preference, stage, family, and text filters
+// as every other career. The list deliberately avoids salary figures because
+// location, seniority, employer, and demonstrated ability change outcomes.
+const highUpsideCareerPresets: CareerPreset[] = [
+  ['Quantitative Analyst', 'Commerce, Finance & Economics', 'Use mathematics, statistics, and code to analyse financial decisions and risk.', 'Build a reproducible market or risk model from public data.', ['mathematics', 'statistics', 'coding', 'finance', 'numbers', 'independent focus']],
+  ['AI Product Manager', 'Business, Marketing & Operations', 'Guide useful AI products from a real user problem through evidence, delivery, safety, and adoption.', 'Write a product brief and evaluate a small AI workflow against user needs.', ['ai', 'product', 'technology', 'communication', 'leadership', 'people']],
+  ['Enterprise Solutions Architect', 'Technology & Data', 'Design secure, reliable technology systems that connect business needs, software, data, and cloud services.', 'Diagram a small organisation system and explain its trade-offs.', ['cloud', 'systems', 'technology', 'architecture', 'communication', 'problem solving']],
+  ['Enterprise Sales Engineer', 'Business, Marketing & Operations', 'Combine technical understanding and customer discovery to design and explain complex solutions.', 'Run a fictional customer discovery and solution demonstration.', ['technology', 'sales', 'communication', 'people', 'commercial', 'problem solving']],
+  ['Chip Design Engineer', 'Engineering & Built Environment', 'Design and verify digital or analogue circuits used in semiconductor products.', 'Complete a small digital-logic design and verification exercise.', ['electronics', 'semiconductor', 'mathematics', 'coding', 'systems', 'independent focus']],
+  ['Patent and Intellectual Property Attorney', 'Law, Government & Public Service', 'Help people and organisations protect, examine, license, and challenge inventions and intellectual property.', 'Compare one patent claim with prior art and explain the issue in plain language.', ['law', 'science', 'technology', 'writing', 'research', 'communication']],
+  ['Energy Storage Engineer', 'Engineering & Built Environment', 'Design, test, integrate, and improve battery and energy-storage systems.', 'Compare two storage designs for safety, cost, lifespan, and use case.', ['energy', 'electronics', 'climate', 'systems', 'mathematics', 'practical']],
+  ['Private Equity Analyst', 'Commerce, Finance & Economics', 'Research businesses, build financial models, and support investment and value-creation decisions.', 'Prepare a simple company analysis with assumptions, risks, and a recommendation.', ['finance', 'business', 'numbers', 'research', 'commercial', 'independent focus']],
+  ['Venture Capital Analyst', 'Commerce, Finance & Economics', 'Research markets and founders, evaluate young companies, and support investment decisions.', 'Evaluate a fictional startup using a market map, risks, and evidence.', ['finance', 'entrepreneurship', 'technology', 'research', 'people', 'commercial']],
+  ['Anesthesiologist', 'Health & Life Sciences', 'Plan and deliver safe anaesthesia and perioperative care as a regulated medical specialist.', 'Interview a practitioner and map the full regulated education and training route.', ['medicine', 'science', 'care', 'responsibility', 'people', 'detailed learning']],
+  ['Interventional Radiologist', 'Health & Life Sciences', 'Use medical imaging to diagnose and treat conditions through minimally invasive procedures.', 'Compare the ordinary work and training route with diagnostic radiology and surgery.', ['medicine', 'imaging', 'technology', 'science', 'care', 'visual details']],
+] .map(([title, category, routeSummary, nextStep, tags]) => ({
+  key: slug(String(title)), title: String(title), category: String(category), featured: true,
+  routeSummary: String(routeSummary),
+  entryRequirements: /Anesthesiologist|Interventional Radiologist/.test(String(title))
+    ? 'Requires recognised medical education, competitive specialist training, registration, and supervised clinical practice.'
+    : 'Build the relevant academic foundation, then add role-specific applied evidence and supervised experience.',
+  workEnvironment: 'Specialist teams where decisions, evidence, communication, and professional responsibility matter.',
+  nextStep: String(nextStep),
+  tags: tags as string[],
+}));
+
 const futureRoleDetails = new Map(futureRoles.map(([title, summary, specialistSkills, futureSkills]) => [slug(title), { summary, specialistSkills: [...specialistSkills], futureSkills: [...futureSkills] }]));
 
 // The career compass contains the broad catalogue used elsewhere in the
@@ -771,7 +802,7 @@ const roleSkills = roleSkillSignals(preset.title);
         : /sales|marketing|customer|human resource|teacher|counsell|social|manager|consult/.test(title)
           ? 'Often people-facing, with conversations, coordination, and visible responsibility for outcomes.'
           : 'The setting varies by employer; speak with someone doing the work before choosing.';
-  const regulated = /doctor|dentist|nurse|pharmac|clinical|psychologist|lawyer|legal|architect|pilot|air traffic|teacher|police|defence|chartered|accountant|electrician|plumber|hvac|medical|therap/.test(title);
+  const regulated = /doctor|dentist|nurse|pharmac|clinical|psychologist|lawyer|legal|attorney|architect|pilot|air traffic|teacher|police|defence|chartered|accountant|electrician|plumber|hvac|medical|therap|anesthes|radiolog/.test(title);
   const entryLevel = /assistant|trainee|junior|support|technician|coordinator|operator/.test(title)
     ? 'Often accessible through an entry, trainee, apprenticeship, or supervised route.'
     : regulated
@@ -779,7 +810,7 @@ const roleSkills = roleSkillSignals(preset.title);
       : /software|developer|data|designer|writer|marketing|sales|consult|analyst/.test(title)
         ? 'A degree, diploma, or portfolio route may work; practical evidence strengthens entry.'
         : 'Usually starts with a strong foundation plus applied evidence.';
-  const routeLength = /doctor|surgeon|dentist|nurse|pharmac|psychologist|lawyer|chartered|architect|pilot/.test(title)
+  const routeLength = /doctor|surgeon|dentist|nurse|pharmac|psychologist|lawyer|attorney|chartered|architect|pilot|anesthes|radiolog/.test(title)
     ? 'Plan for a longer regulated or competitive route.'
     : /technician|operator|assistant|support|coordinator|trades/.test(title)
       ? 'A shorter vocational, apprenticeship, or supervised route may be available.'
@@ -793,6 +824,7 @@ const roleSkills = roleSkillSignals(preset.title);
       : /field|site|farm|construction|technician|maintenance|mechanic/.test(title)
         ? 'Often varies by site, weather, equipment condition, and the urgency of the job.'
         : 'Pace depends on the workplace, season, and responsibility level.';
+  const earningPotential = careerEarningPotentialScore(preset.title, preset.category);
   const foundationSkills = override.foundationSkills ?? family.foundationSkills;
   const portableSkills = Array.from(new Set([...foundationSkills, ...family.futureSkills])).slice(0, 4);
   const specialistSkills = Array.from(new Set([...(override.specialistSkills ?? future?.specialistSkills ?? family.specialistSkills), ...roleSkills])).slice(0, 6);
@@ -802,7 +834,7 @@ const roleSkills = roleSkillSignals(preset.title);
     `Which entry route is realistic from my current stage?`,
     `What small work sample would let me test this career option?`,
   ];
-  const careerGroup: CareerGuide['careerGroup'] = /doctor|dentist|nurse|therap|psycholog|teacher|counsell|care|health|social worker|nutrition|pharmac/.test(title) ? 'Healers' : /writer|journal|marketing|sales|public relation|teacher|coach|trainer|translator|diplomat|lawyer|content|media/.test(title) ? 'Communicators' : /designer|artist|creative|fashion|photograph|filmmaker|chef|architect|craft|maker/.test(title) ? 'Makers' : /analyst|scientist|research|account|finance|economist|auditor|data|risk|policy|planner/.test(title) ? 'Analysers' : 'Builders';
+  const careerGroup: CareerGuide['careerGroup'] = /doctor|dentist|nurse|therap|psycholog|teacher|counsell|care|health|social worker|nutrition|pharmac|anesthes|radiolog/.test(title) ? 'Healers' : /writer|journal|marketing|sales|public relation|teacher|coach|trainer|translator|diplomat|lawyer|attorney|content|media/.test(title) ? 'Communicators' : /designer|artist|creative|fashion|photograph|filmmaker|chef|architect|craft|maker/.test(title) ? 'Makers' : /analyst|scientist|research|account|finance|economist|auditor|data|risk|policy|planner/.test(title) ? 'Analysers' : 'Builders';
   const evidenceExamples = /data|analyst|research|scientist|finance|account|business|marketing|operations/.test(title)
     ? ['A short analysis or decision brief', 'A source log showing assumptions and checks']
     : /design|writer|media|content|creative|photograph|film/.test(title)
@@ -831,6 +863,7 @@ const roleSkills = roleSkillSignals(preset.title);
     subjectRoutes: lens.subjectRoutes,
     suitableStages: lens.suitableStages,
     earningContext: lens.earningContext,
+    earningPotential,
     marketSignal: lens.marketSignal,
     marketEvidence: { date: evidenceMatch.date, source: evidenceMatch.source, url: evidenceMatch.url },
     localContext,
@@ -871,7 +904,7 @@ const roleSkills = roleSkillSignals(preset.title);
 // practised are details the learner can compare after opening it.
 const usedCareerKeys = new Set<string>();
 const usedCareerTitles = new Set<string>();
-export const guidedCareerPresets = [...careerPresets, ...futureCareerPresets, ...compassCareerPresets]
+export const guidedCareerPresets = [...careerPresets, ...futureCareerPresets, ...highUpsideCareerPresets, ...compassCareerPresets]
   .filter((preset) => {
     const identity = `${slug(preset.title)}::${slug(preset.category)}`;
     if (usedCareerTitles.has(identity)) return false;
@@ -892,6 +925,18 @@ export const guidedCareerPresets = [...careerPresets, ...futureCareerPresets, ..
 export const guidedCareerCategories = Array.from(new Set(guidedCareerPresets.map((preset) => preset.category)));
 export function careerGuideFor(key: unknown) {
   return guidedCareerPresets.find((preset) => preset.key === key) ?? null;
+}
+
+/** A cautious relative signal used to order comparable, preference-matched
+ * careers. It intentionally avoids salary claims and never overrides the
+ * learner's filters. */
+export function careerEarningPotentialScore(title: string, category = ''): 1 | 2 | 3 | 4 | 5 {
+  const value = `${title} ${category}`.toLowerCase();
+  if (/anesthesiologist|interventional radiologist|specialist surgeon|quantitative|private equity|investment banker|patent.*attorney|enterprise solutions architect/.test(value)) return 5;
+  if (/ai product manager|machine learning|artificial intelligence|cybersecurity|cloud|chip design|semiconductor|actuary|venture capital|sales engineer|petroleum|corporate lawyer|management consultant|product manager|energy storage/.test(value)) return 4;
+  if (/software|data scientist|data engineer|finance|engineer|doctor|dentist|pharmac|architect|commercial|consult|manager|analyst|renewable|robotics|automation/.test(value)) return 3;
+  if (/assistant|support|coordinator|operator|entry|junior|trainee/.test(value)) return 1;
+  return 2;
 }
 
 export const decisionSignalOptions = [

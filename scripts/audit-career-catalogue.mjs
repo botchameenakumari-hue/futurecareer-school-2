@@ -28,6 +28,12 @@ const identities = new Set();
 const duplicateKeys = [];
 const duplicateIdentities = [];
 const gaps = [];
+const requiredHighUpsideTitles = [
+  'Quantitative Analyst', 'AI Product Manager', 'Enterprise Solutions Architect',
+  'Enterprise Sales Engineer', 'Chip Design Engineer', 'Patent and Intellectual Property Attorney',
+  'Energy Storage Engineer', 'Private Equity Analyst', 'Venture Capital Analyst',
+  'Anesthesiologist', 'Interventional Radiologist',
+];
 
 for (const preset of presets) {
   if (keys.has(preset.key)) duplicateKeys.push(preset.key);
@@ -36,7 +42,7 @@ for (const preset of presets) {
   if (identities.has(identity)) duplicateIdentities.push(identity);
   identities.add(identity);
   const guide = module.exports.careerGuideFor(preset.key);
-  if (!guide || requiredArrays.some(([field, minimum]) => !Array.isArray(guide[field]) || guide[field].length < minimum) || !Array.isArray(guide.progression) || guide.progression.length < 3 || guide.progression.some((level) => !level.level || !level.example || !level.advice) || !['Builders', 'Analysers', 'Communicators', 'Healers', 'Makers'].includes(guide.careerGroup) || typeof guide.regulated !== 'boolean') {
+  if (!guide || requiredArrays.some(([field, minimum]) => !Array.isArray(guide[field]) || guide[field].length < minimum) || !Array.isArray(guide.progression) || guide.progression.length < 3 || guide.progression.some((level) => !level.level || !level.example || !level.advice) || !['Builders', 'Analysers', 'Communicators', 'Healers', 'Makers'].includes(guide.careerGroup) || typeof guide.regulated !== 'boolean' || !Number.isInteger(guide.earningPotential) || guide.earningPotential < 1 || guide.earningPotential > 5) {
     gaps.push(preset.key);
   } else {
     const tags = new Set((guide.tags ?? []).map((tag) => String(tag).toLowerCase()));
@@ -56,8 +62,13 @@ const suspiciousSources = presets.flatMap((preset) => {
 });
 
 const catalogueSizeIsCredible = presets.length > 400 && presets.length < 700;
+const missingHighUpsideTitles = requiredHighUpsideTitles.filter((title) => !presets.some((preset) => preset.title === title));
+const medicalClassificationGaps = ['Anesthesiologist', 'Interventional Radiologist'].flatMap((title) => {
+  const guide = presets.find((preset) => preset.title === title);
+  return guide && guide.regulated && guide.careerGroup === 'Healers' ? [] : [title];
+});
 
-if (duplicateKeys.length || duplicateIdentities.length || gaps.length || suspiciousSources.length || !catalogueSizeIsCredible) {
+if (duplicateKeys.length || duplicateIdentities.length || gaps.length || suspiciousSources.length || missingHighUpsideTitles.length || medicalClassificationGaps.length || !catalogueSizeIsCredible) {
   console.error(JSON.stringify({
     routeCount: presets.length,
     credibleRouteCount: catalogueSizeIsCredible,
@@ -65,6 +76,8 @@ if (duplicateKeys.length || duplicateIdentities.length || gaps.length || suspici
     duplicateIdentities,
     unrelatedSources: suspiciousSources,
     enrichmentGaps: gaps,
+    missingHighUpsideTitles,
+    medicalClassificationGaps,
   }, null, 2));
   process.exit(1);
 }
@@ -74,5 +87,6 @@ console.log(JSON.stringify({
   uniqueKeys: keys.size,
   families: Object.fromEntries([...presets.reduce((counts, preset) => counts.set(preset.category, (counts.get(preset.category) ?? 0) + 1), new Map())].sort()),
   careerProgressionLevels: 3,
+  highUpsideRoutesVerified: requiredHighUpsideTitles.length,
   enrichmentGaps: 0,
 }));
