@@ -1074,6 +1074,8 @@ type ReadinessMilestone = {
   studentTarget: string;
   coachTarget: string;
   actionPreset?: string;
+  example: string;
+  prompts: string[];
 };
 
 function readinessMilestones(studentId: string): ReadinessMilestone[] {
@@ -1095,20 +1097,20 @@ function readinessMilestones(studentId: string): ReadinessMilestone[] {
   const routeVerified = Boolean(activeCareer && (activeCareer.preset_key || activeCareer.route_summary || activeCareer.entry_requirements));
   const learningKeys = ['deep-work-routine', 'two-hour-role-task', 'build-break-explain-lab'];
   const proofKeys = ['portfolio-piece', 'two-hour-role-task', 'build-break-explain-lab'];
-  const publishKeys = ['portfolio-piece', 'public-proof', 'application-sprint'];
-  const connectKeys = ['network-map', 'professional-conversation', 'mentor-conversation'];
-  const moneyKeys = ['money-safety-check', 'salary-demand-check', 'personal-money-plan'];
+  const publishKeys = ['portfolio-publish', 'publish-work-explanation', 'application-submit', 'internship-shortlist'];
+  const connectKeys = ['network-map', 'professional-interviews', 'alumni-conversation', 'workplace-visit', 'mentor-feedback', 'contact-five-organisations'];
+  const moneyKeys = ['money-safety-check', 'salary-demand-check', 'personal-finance-model'];
   return [
-    { number: '01', title: 'Know your situation and constraints', complete: contextRecorded, evidence: contextRecorded ? 'A goal, study context, time budget, or practical constraint is recorded.' : 'No planning context is recorded yet.', next: 'Record the learner’s current stage, weekly time, responsibilities, and goal.', studentTarget: 'actions', coachTarget: 'context' },
-    { number: '02', title: 'Choose a direction to investigate', complete: Boolean(activeCareer), inProgress: careers.length > 0, evidence: activeCareer ? `${activeCareer.title} is saved as ${activeCareer.option_type === 'primary' ? 'the current focus' : 'an option to investigate'}.` : 'No active career option is saved.', next: 'Compare ordinary work and save one current focus, with a second option only when useful.', studentTarget: 'options', coachTarget: 'careers' },
-    { number: '03', title: 'Verify the route, cost, and eligibility', complete: routeVerified && hasAction(['career-reality-check'], ['explore', 'decide']), inProgress: routeVerified, evidence: routeVerified ? 'A route is available; a reality-check action shows it has been investigated.' : 'Route requirements have not yet been connected to a saved option.', next: 'Check recognition, entry requirements, total cost, time, licensing, and a fallback route.', studentTarget: 'actions', coachTarget: 'careers', actionPreset: 'career-reality-check' },
-    { number: '04', title: 'Build foundations and role skills', complete: foundation.length >= 3 && roleSkills.length >= 1, inProgress: skills.length > 0, evidence: `${foundation.length} foundation skill${foundation.length === 1 ? '' : 's'} and ${roleSkills.length} career-linked skill${roleSkills.length === 1 ? '' : 's'} are in the plan.`, next: 'Keep a small foundation set and add the few role skills that the current direction needs.', studentTarget: 'skills', coachTarget: 'skills' },
-    { number: '05', title: 'Learn actively on a sustainable schedule', complete: hasDoneAction(learningKeys, ['learn']), inProgress: hasAction(learningKeys, ['learn']), evidence: hasDoneAction(learningKeys, ['learn']) ? 'An active-learning milestone has been completed.' : hasAction(learningKeys, ['learn']) ? 'An active-learning action is in progress.' : 'No active-learning routine is recorded.', next: 'Use focused practice, retrieval, feedback, and a realistic weekly time budget.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'deep-work-routine' },
-    { number: '06', title: 'Produce proof of useful work', complete: evidence.length > 0 || hasDoneAction(proofKeys, ['build']), inProgress: hasAction(proofKeys, ['build']), evidence: evidence.length ? `${evidence.length} evidence item${evidence.length === 1 ? ' is' : 's are'} linked to skills.` : 'No skill evidence or completed work sample is recorded.', next: 'Finish one realistic task and save what was made, checked, learned, and improved.', studentTarget: 'skills', coachTarget: 'skills', actionPreset: 'portfolio-piece' },
-    { number: '07', title: 'Publish, apply, or seek market feedback', complete: hasDoneAction(publishKeys, ['apply']), inProgress: hasAction(publishKeys, ['apply']), evidence: hasDoneAction(publishKeys, ['apply']) ? 'A publish or application step has been completed.' : hasAction(publishKeys, ['apply']) ? 'A publish or application step is in progress.' : 'No publish, application, client, or opportunity step is recorded.', next: 'Share suitable proof safely or use it in one internship, job, client, or opportunity action.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'portfolio-piece' },
-    { number: '08', title: 'Connect with practitioners and support', complete: hasDoneAction(connectKeys, ['connect']), inProgress: hasAction(connectKeys, ['connect']) || Boolean(getStudentCohort(studentId)), evidence: hasDoneAction(connectKeys, ['connect']) ? 'A practitioner or network step has been completed.' : getStudentCohort(studentId) ? 'Cohort support is available; a practitioner conversation is still useful.' : 'No connection step is recorded.', next: 'Ask a practitioner about ordinary work, entry, mistakes, and the evidence employers trust.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'network-map' },
-    { number: '09', title: 'Create a money-safety plan', complete: hasDoneAction(moneyKeys), inProgress: hasAction(moneyKeys), evidence: hasDoneAction(moneyKeys) ? 'A money-safety action has been completed.' : hasAction(moneyKeys) ? 'A money-safety action is in progress.' : 'No route-cost or personal money-safety action is recorded.', next: 'Estimate learning cost, debt risk, essential expenses, emergency buffer, and a safe income bridge.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'money-safety-check' },
-    { number: '10', title: 'Review evidence, wellbeing, and the next decision', complete: reviews.length > 0 && (guidance.length > 0 || doneActions.length > 0), inProgress: reviews.length > 0 || guidance.length > 0, evidence: `${reviews.length} skill review${reviews.length === 1 ? '' : 's'}, ${guidance.length} guidance item${guidance.length === 1 ? '' : 's'}, and ${doneActions.length} completed action${doneActions.length === 1 ? '' : 's'} are recorded.`, next: 'Review what changed, protect a sustainable pace, and decide what to continue, change, pause, or rule out.', studentTarget: 'guidance', coachTarget: 'summary' },
+    { number: '01', title: 'Know your situation and constraints', complete: contextRecorded, evidence: contextRecorded ? 'A goal, study context, time budget, or practical constraint is recorded.' : 'No planning context is recorded yet.', next: 'Record your current stage, weekly time, responsibilities, and goal.', studentTarget: 'actions', coachTarget: 'context', actionPreset: 'constraint-fit-check', example: 'Example: “I can sustain 8 hours a week, need a route available locally, and want paid work experience within 18 months.”', prompts: ['What time and money can I realistically sustain?', 'Which responsibilities or access needs cannot be ignored?', 'What support would make the next step possible?'] },
+    { number: '02', title: 'Choose a direction to investigate', complete: Boolean(activeCareer), inProgress: careers.length > 0, evidence: activeCareer ? `${activeCareer.title} is saved as ${activeCareer.option_type === 'primary' ? 'the current focus' : 'an option to investigate'}.` : 'No active career option is saved.', next: 'Compare ordinary work and save one current focus, with a second option only when useful.', studentTarget: 'options', coachTarget: 'careers', actionPreset: 'primary-focus-decision', example: 'Example: keep Data Analyst as the current focus and UX Researcher as an alternative until both have been tested with a real task.', prompts: ['Would I accept the ordinary weekly work, not only the title?', 'Which two options deserve a practical test?', 'What evidence would make me rule one out?'] },
+    { number: '03', title: 'Verify the route, cost, and eligibility', complete: routeVerified && hasAction(['career-reality-check'], ['explore', 'decide']), inProgress: routeVerified, evidence: routeVerified ? 'A route is available; a reality-check action shows it has been investigated.' : 'Route requirements have not yet been connected to a saved option.', next: 'Check recognition, entry requirements, total cost, time, licensing, and a fallback route.', studentTarget: 'actions', coachTarget: 'careers', actionPreset: 'career-reality-check', example: 'Example: compare a degree, diploma, and work-first route by eligibility, total cost, duration, recognition, outcomes, and fallback value.', prompts: ['Which requirement is compulsory and which is only preferred?', 'What is the full cost including time and travel?', 'What route remains useful if the first plan changes?'] },
+    { number: '04', title: 'Build foundations and role skills', complete: foundation.length >= 3 && roleSkills.length >= 1, inProgress: skills.length > 0, evidence: `${foundation.length} foundation skill${foundation.length === 1 ? '' : 's'} and ${roleSkills.length} career-linked skill${roleSkills.length === 1 ? '' : 's'} are in the plan.`, next: 'Keep a small foundation set and add the few role skills that the current direction needs.', studentTarget: 'skills', coachTarget: 'skills', actionPreset: 'skill-practice-plan', example: 'Example: practise clear writing, internet research, and project habits alongside one role skill such as spreadsheet analysis.', prompts: ['Which skill appears repeatedly in real course or job descriptions?', 'What task would demonstrate the skill?', 'Who can give useful feedback?'] },
+    { number: '05', title: 'Learn actively on a sustainable schedule', complete: hasDoneAction(learningKeys, ['learn']), inProgress: hasAction(learningKeys, ['learn']), evidence: hasDoneAction(learningKeys, ['learn']) ? 'An active-learning milestone has been completed.' : hasAction(learningKeys, ['learn']) ? 'An active-learning action is in progress.' : 'No active-learning routine is recorded.', next: 'Use focused practice, retrieval, feedback, and a realistic weekly time budget.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'deep-work-routine', example: 'Example: three phone-free 50-minute sessions each week: learn, practise without notes, then review errors.', prompts: ['When can I protect an uninterrupted session?', 'What output will each session produce?', 'How will I test recall instead of only watching or reading?'] },
+    { number: '06', title: 'Produce proof of useful work', complete: evidence.length > 0 || hasDoneAction(proofKeys, ['build']), inProgress: hasAction(proofKeys, ['build']), evidence: evidence.length ? `${evidence.length} evidence item${evidence.length === 1 ? ' is' : 's are'} linked to skills.` : 'No skill evidence or completed work sample is recorded.', next: 'Finish one realistic task and save what was made, checked, learned, and improved.', studentTarget: 'skills', coachTarget: 'skills', actionPreset: 'portfolio-piece', example: 'Example: a small work sample that states the problem, your process, result, feedback received, and what you would improve.', prompts: ['What would a beginner actually be asked to produce?', 'How can another person verify my contribution?', 'What limitation should I explain honestly?'] },
+    { number: '07', title: 'Publish, apply, or seek market feedback', complete: hasDoneAction(publishKeys, ['apply']), inProgress: hasAction(publishKeys, ['apply']), evidence: hasDoneAction(publishKeys, ['apply']) ? 'A publish or application step has been completed.' : hasAction(publishKeys, ['apply']) ? 'A publish or application step is in progress.' : 'No publish, application, client, or opportunity step is recorded.', next: 'Share suitable proof safely or use it in one internship, job, client, or opportunity action.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'portfolio-publish', example: 'Example: publish one clearly explained work sample and use it in one carefully tailored internship or project application.', prompts: ['Who is the safest useful audience for this work?', 'Which opportunity matches the evidence I already have?', 'What feedback or response will count as a learning result?'] },
+    { number: '08', title: 'Connect with practitioners and support', complete: hasDoneAction(connectKeys, ['connect']), inProgress: hasAction(connectKeys, ['connect']) || Boolean(getStudentCohort(studentId)), evidence: hasDoneAction(connectKeys, ['connect']) ? 'A practitioner or network step has been completed.' : getStudentCohort(studentId) ? 'Cohort support is available; a practitioner conversation is still useful.' : 'No connection step is recorded.', next: 'Ask a practitioner about ordinary work, entry, mistakes, and the evidence employers trust.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'professional-interviews', example: 'Example: ask for a 20-minute conversation with five prepared questions; request insight, not a job.', prompts: ['What does an ordinary week actually contain?', 'What do beginners commonly misunderstand?', 'What evidence makes a new entrant credible?'] },
+    { number: '09', title: 'Create a money-safety plan', complete: hasDoneAction(moneyKeys), inProgress: hasAction(moneyKeys), evidence: hasDoneAction(moneyKeys) ? 'A money-safety action has been completed.' : hasAction(moneyKeys) ? 'A money-safety action is in progress.' : 'No route-cost or personal money-safety action is recorded.', next: 'Estimate learning cost, debt risk, essential expenses, emergency buffer, and a safe income bridge.', studentTarget: 'actions', coachTarget: 'actions', actionPreset: 'money-safety-check', example: 'Example: list course and travel costs, monthly essentials, a small buffer, expected starting income, and a lower-cost backup route.', prompts: ['What is the total cost before the first reliable income?', 'What assumption would make this plan unsafe?', 'What reversible bridge can reduce the risk?'] },
+    { number: '10', title: 'Review evidence, wellbeing, and the next decision', complete: reviews.length > 0 && (guidance.length > 0 || doneActions.length > 0), inProgress: reviews.length > 0 || guidance.length > 0, evidence: `${reviews.length} skill review${reviews.length === 1 ? '' : 's'}, ${guidance.length} guidance item${guidance.length === 1 ? '' : 's'}, and ${doneActions.length} completed action${doneActions.length === 1 ? '' : 's'} are recorded.`, next: 'Review what changed, protect a sustainable pace, and decide what to continue, change, pause, or rule out.', studentTarget: 'guidance', coachTarget: 'summary', actionPreset: 'season-review', example: 'Example: “Continue this option for 30 days, change the learning schedule, pause a weak alternative, and ask my coach about one unresolved risk.”', prompts: ['What did the evidence change about my view?', 'Is the pace sustainable for my health and responsibilities?', 'What will I continue, change, pause, or rule out?'] },
   ];
 }
 
@@ -1124,10 +1126,13 @@ function renderReadinessChecklist(studentId: string, audience: 'student' | 'coac
     const status = item.complete ? 'complete' : item.inProgress ? 'progress' : 'next';
     const statusLabel = item.complete ? 'Evidenced' : item.inProgress ? 'In progress' : 'Next';
     const target = audience === 'student' ? item.studentTarget : item.coachTarget;
-    const button = item.actionPreset && audience === 'student'
-      ? `<button class="table-action" type="button" data-growth-action="${ctx!.escapeHtml(item.actionPreset)}">Start this step</button>`
-      : `<button class="table-action" type="button" data-readiness-target="${ctx!.escapeHtml(target)}" data-readiness-audience="${audience}">Open ${audience === 'student' ? 'this part' : 'record section'}</button>`;
-    return `<article class="macro-checklist-item" data-readiness-status="${status}"><header><span class="macro-checklist-number">${item.number}</span><span><strong>${ctx!.escapeHtml(item.title)}</strong><small>${statusLabel}</small></span></header><p class="macro-checklist-evidence"><b>Dashboard evidence</b>${ctx!.escapeHtml(item.evidence)}</p><p><b>Next useful move</b>${ctx!.escapeHtml(item.next)}</p>${button}</article>`;
+    const targetLabels: Record<string, string> = { options: 'career options', skills: 'skills plan', actions: 'action planner', guidance: 'coach guidance', summary: 'student summary', context: 'student context', careers: 'career record' };
+    const navigationButton = `<button class="table-action" type="button" data-readiness-target="${ctx!.escapeHtml(target)}" data-readiness-audience="${audience}">Open ${ctx!.escapeHtml(targetLabels[target] ?? 'relevant section')}</button>`;
+    const presetButton = item.actionPreset && audience === 'student'
+      ? `<button class="secondary-button" type="button" data-growth-action="${ctx!.escapeHtml(item.actionPreset)}">Use suggested action</button>`
+      : '';
+    const help = `<details class="macro-checklist-help"><summary>See an example and prompts</summary><p class="macro-checklist-example">${ctx!.escapeHtml(item.example)}</p><div><b>Questions to answer</b><ul>${item.prompts.map((prompt) => `<li>${ctx!.escapeHtml(prompt)}</li>`).join('')}</ul></div></details>`;
+    return `<article class="macro-checklist-item" data-readiness-status="${status}"><header><span class="macro-checklist-number">${item.number}</span><span><strong>${ctx!.escapeHtml(item.title)}</strong><small>${statusLabel}</small></span></header><p class="macro-checklist-evidence"><b>Dashboard evidence</b>${ctx!.escapeHtml(item.evidence)}</p><p><b>Next useful move</b>${ctx!.escapeHtml(item.next)}</p>${help}<div class="macro-checklist-actions">${navigationButton}${presetButton}</div></article>`;
   }).join('');
 }
 
@@ -1430,6 +1435,18 @@ function showRecordTab(tab: string) {
     const active = pane.dataset.recordPane === tab;
     pane.hidden = !active;
     pane.classList.toggle('is-active', active);
+  });
+}
+
+function revealWorkspacePane(selector: string, focusSelector = 'h2, h3, h4, input, select, textarea') {
+  window.requestAnimationFrame(() => {
+    const pane = qs<HTMLElement>(selector);
+    if (!pane || pane.hidden) return;
+    pane.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    const focusTarget = pane.querySelector<HTMLElement>(focusSelector);
+    if (!focusTarget) return;
+    if (!focusTarget.matches('input, select, textarea, button, a[href]')) focusTarget.setAttribute('tabindex', '-1');
+    focusTarget.focus({ preventScroll: true });
   });
 }
 
@@ -2015,7 +2032,7 @@ function renderCareerPresetResults() {
         independent: 'routes with independent work first',
       } as Record<string, string>)[sort] ?? 'selected order';
   updateCareerSortHelp();
-  if (count) count.textContent = `${matches.length.toLocaleString()} ${matches.length === 1 ? 'career option' : 'career options'} shown${selectedInterests.length ? ' for your selected preferences' : ''} · ordered by ${sortLabel}${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
+  if (count) count.textContent = `${matches.length.toLocaleString()} ${matches.length === 1 ? 'career option' : 'career options'} shown${selectedInterests.length ? ' for your selected preferences' : ''} · distinct roles (sectors are explained inside each option) · ordered by ${sortLabel}${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
   const interestGuidance = qs<HTMLElement>('#career-interest-guidance');
   if (interestGuidance) {
     interestGuidance.textContent = selectedInterests.length
@@ -4099,15 +4116,20 @@ function bindEvents() {
     select.value = presetKey;
     applyActionPreset(select);
     select.dispatchEvent(new Event('change', { bubbles: true }));
-    form?.querySelector<HTMLInputElement>('[name="title"]')?.focus();
+    revealWorkspacePane('[data-plan-pane="actions"]', '[name="title"]');
   });
   document.addEventListener('click', (event) => {
     const button = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-readiness-target]');
     if (!button) return;
     const target = button.dataset.readinessTarget || '';
     if (!target) return;
-    if (button.dataset.readinessAudience === 'student') showPlanTab(target, true);
-    else showRecordTab(target);
+    if (button.dataset.readinessAudience === 'student') {
+      showPlanTab(target, true);
+      revealWorkspacePane(`[data-plan-pane="${target}"]`);
+    } else {
+      showRecordTab(target);
+      revealWorkspacePane(`[data-record-pane="${target}"]`);
+    }
   });
   // Give the plan tablist the expected keyboard behaviour as well as click
   // support. Arrow keys move between tabs; Home/End jump to the first/last.

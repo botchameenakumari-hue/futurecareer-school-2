@@ -1773,12 +1773,31 @@ test('student plan explains PDF contents and shows the shared readiness checklis
   await expect(checklist.locator('.macro-checklist-item')).toHaveCount(10);
   await expect(checklist).toContainText('Verify the route, cost, and eligibility');
   await expect(checklist).toContainText('Create a money-safety plan');
+  await expect(checklist.getByText('Open this part')).toHaveCount(0);
+  const firstHelp = checklist.locator('.macro-checklist-help').first();
+  await firstHelp.locator('summary').click();
+  await expect(firstHelp).toContainText('What time and money can I realistically sustain?');
+  const presetKeys = await checklist.locator('[data-growth-action]').evaluateAll((buttons) => buttons.map((button) => button.getAttribute('data-growth-action')));
+  const availablePresetKeys = await page.locator('#student-action-form [data-action-preset] option').evaluateAll((options) => options.map((option) => option.value));
+  expect(presetKeys.length).toBe(10);
+  for (const key of presetKeys) expect(availablePresetKeys).toContain(key);
   await expect(page.locator('#student-readiness-progress')).toContainText('of 10 evidenced');
   const layout = await page.locator('#student-readiness-checklist').locator('..').evaluate((panel) => ({
     overflow: panel.scrollWidth - panel.clientWidth,
     cardsOutside: Array.from(panel.querySelectorAll('.macro-checklist-item')).filter((card) => card.getBoundingClientRect().right > panel.getBoundingClientRect().right + 1).length,
   }));
   expect(layout).toEqual({ overflow: 0, cardsOutside: 0 });
+
+  await checklist.locator('[data-readiness-target="skills"]').first().click();
+  await expect(page.locator('#plan-skills-tab')).toHaveAttribute('aria-selected', 'true');
+  await expect(page.locator('[data-plan-pane="skills"]')).toBeVisible();
+  await expect.poll(async () => page.locator('[data-plan-pane="skills"]').evaluate((pane) => Math.abs(pane.getBoundingClientRect().top))).toBeLessThan(180);
+
+  await checklist.locator('[data-growth-action="money-safety-check"]').click();
+  await expect(page.locator('#plan-actions-tab')).toHaveAttribute('aria-selected', 'true');
+  await expect(page.locator('[data-plan-pane="actions"]')).toBeVisible();
+  await expect(page.locator('#student-action-form [data-action-preset]')).toHaveValue('money-safety-check');
+  await expect(page.locator('#student-action-form [name="title"]')).toHaveValue('Make a simple personal money plan');
 });
 
 test('preference matches stay relevant and higher earning potential breaks equal-fit ties', async ({ page }) => {
