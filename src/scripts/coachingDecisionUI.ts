@@ -58,6 +58,7 @@ const skillMeaningByName: Record<string, string> = {
   'problem framing': 'Turning a vague situation into a clear question, goal, and set of constraints.',
   'systems thinking': 'Seeing how parts, people, and decisions affect one another over time.',
   'commercial awareness': 'Understanding how an organisation creates value, serves customers, and manages costs.',
+  'selling and persuasion': 'Understanding another person’s needs, explaining value honestly, and helping them make an informed choice without pressure.',
   'data literacy': 'Reading, questioning, and explaining data without treating every number as a fact.',
   'source evaluation': 'Checking who made a claim, what evidence supports it, and what remains uncertain.',
   'source checking': 'Verifying the author, date, evidence, and reliability of information before using it.',
@@ -347,10 +348,20 @@ const careerInterestFamilies: Record<string, string[]> = {
   collaborative: ['Health & Life Sciences', 'Business, Marketing & Operations', 'Education, Psychology & Social Impact', 'Technology & Data', 'Engineering & Built Environment'],
   structured: ['Commerce, Finance & Economics', 'Law, Government & Public Service', 'Engineering & Built Environment', 'Health & Life Sciences', 'Skilled Trades & Applied Careers'],
   flexible: ['Business, Marketing & Operations', 'Design, Media & Creative Arts', 'Technology & Data', 'Languages, International & Emerging Routes', 'Hospitality, Travel, Sports & Events'],
+  'people-facing': ['Health & Life Sciences', 'Education, Psychology & Social Impact', 'Business, Marketing & Operations', 'Hospitality, Travel, Sports & Events', 'Law, Government & Public Service'],
+  'hands-on-setting': ['Engineering & Built Environment', 'Skilled Trades & Applied Careers', 'Agriculture, Food & Rural Careers', 'Health & Life Sciences', 'Hospitality, Travel, Sports & Events'],
+  'predictable-routine': ['Commerce, Finance & Economics', 'Law, Government & Public Service', 'Health & Life Sciences', 'Education, Psychology & Social Impact', 'Engineering & Built Environment'],
+  'remote-friendly': ['Technology & Data', 'Design, Media & Creative Arts', 'Business, Marketing & Operations', 'Languages, International & Emerging Routes', 'Commerce, Finance & Economics'],
+  'outdoor-field': ['Engineering & Built Environment', 'Agriculture, Food & Rural Careers', 'Skilled Trades & Applied Careers', 'Science, Research & Environment', 'Hospitality, Travel, Sports & Events'],
+  'project-based': ['Technology & Data', 'Engineering & Built Environment', 'Design, Media & Creative Arts', 'Business, Marketing & Operations', 'Future-ready & Cross-functional'],
   earning: ['Technology & Data', 'Engineering & Built Environment', 'Health & Life Sciences', 'Commerce, Finance & Economics', 'Law, Government & Public Service', 'Future-ready & Cross-functional'],
   stability: ['Health & Life Sciences', 'Law, Government & Public Service', 'Education, Psychology & Social Impact', 'Engineering & Built Environment', 'Commerce, Finance & Economics'],
   impact: ['Health & Life Sciences', 'Education, Psychology & Social Impact', 'Law, Government & Public Service', 'Science, Research & Environment', 'Agriculture, Food & Rural Careers'],
   mobility: ['Technology & Data', 'Languages, International & Emerging Routes', 'Commerce, Finance & Economics', 'Business, Marketing & Operations', 'Engineering & Built Environment'],
+  'quick-income': ['Skilled Trades & Applied Careers', 'Business, Marketing & Operations', 'Hospitality, Travel, Sports & Events', 'Education, Psychology & Social Impact', 'Health & Life Sciences'],
+  'lower-cost': ['Skilled Trades & Applied Careers', 'Agriculture, Food & Rural Careers', 'Business, Marketing & Operations', 'Languages, International & Emerging Routes', 'Design, Media & Creative Arts'],
+  'flexible-time': ['Technology & Data', 'Design, Media & Creative Arts', 'Business, Marketing & Operations', 'Languages, International & Emerging Routes', 'Commerce, Finance & Economics'],
+  'local-access': ['Skilled Trades & Applied Careers', 'Health & Life Sciences', 'Education, Psychology & Social Impact', 'Agriculture, Food & Rural Careers', 'Business, Marketing & Operations'],
   analytical: ['Technology & Data', 'Commerce, Finance & Economics', 'Science, Research & Environment', 'Engineering & Built Environment'],
   verbal: ['Law, Government & Public Service', 'Education, Psychology & Social Impact', 'Business, Marketing & Operations', 'Languages, International & Emerging Routes'],
   'hands-on': ['Engineering & Built Environment', 'Skilled Trades & Applied Careers', 'Agriculture, Food & Rural Careers', 'Hospitality, Travel, Sports & Events'],
@@ -366,28 +377,18 @@ export function interestSignalsFor(guide: CareerGuide) {
 }
 export function careerMatchesInterest(guide: CareerGuide, interest: string) {
   if (interest === 'all') return true;
-  if (interest.includes(',')) return interest.split(',').some((value) => careerMatchesInterest(guide, value));
-  if (interest.startsWith('saved:')) {
-    return interest.slice(6).split(',').some((key) => (careerInterestFamilies[key] ?? []).includes(guide.category));
-  }
-  if ((careerInterestFamilies[interest] ?? []).includes(guide.category)) return true;
-  // Family matching gives a useful broad shortlist. Role cues keep the
-  // shortlist from excluding a genuinely relevant route that was imported
-  // under a neighbouring family (for example, a health-data or public-policy
-  // role). Cues broaden discovery; they never remove family matches.
-  const cues = interestRoleCues[interest] ?? [];
-  if (!cues.length) return false;
-  const haystack = [guide.title, guide.summary, ...guide.interestTags, ...guide.specialistSkills, ...guide.futureSkills, ...guide.tags].join(' ').toLowerCase();
-  return cues.some((cue) => haystack.includes(cue));
+  if (interest.includes(',')) return interest.split(',').filter(Boolean).every((value) => careerMatchesInterest(guide, value));
+  if (interest.startsWith('saved:')) return interest.slice(6).split(',').some((key) => careerMatchesInterest(guide, key));
+  return careerInterestMatchScore(guide, interest) >= 0.55;
 }
 
 // Family matching keeps the catalogue broad; these role cues make the first
 // page feel personal instead of putting every role in a family in an
 // arbitrary order. A cue only changes ordering, never removes a route.
 const interestRoleCues: Record<string, string[]> = {
-  people: ['teacher', 'coach', 'counsell', 'care', 'support', 'customer', 'people', 'health', 'social', 'community'],
+  people: ['teacher', 'coach', 'counsell', 'patient', 'student', 'customer service', 'social worker', 'community outreach', 'care coordinator'],
   systems: ['engineer', 'developer', 'technician', 'systems', 'automation', 'process', 'network', 'database', 'operations'],
-  numbers: ['analyst', 'account', 'finance', 'econom', 'data', 'audit', 'payroll', 'credit', 'research'],
+  numbers: ['account', 'finance', 'econom', 'data', 'audit', 'payroll', 'credit', 'statistic', 'quantitative'],
   creative: ['design', 'writer', 'content', 'media', 'visual', 'story', 'brand', 'fashion', 'video', 'illustrat'],
   practical: ['technician', 'mechanic', 'construction', 'survey', 'maintenance', 'installation', 'manufactur', 'field'],
   nature: ['environment', 'climate', 'agri', 'food', 'water', 'ecology', 'conservation', 'laboratory', 'health'],
@@ -396,25 +397,125 @@ const interestRoleCues: Record<string, string[]> = {
   language: ['language', 'translation', 'editor', 'writer', 'communication', 'international', 'diplomatic'],
   independent: ['consult', 'freelance', 'business', 'entrepreneur', 'practice', 'creative', 'advisor'],
   collaborative: ['coordinator', 'manager', 'team', 'partnership', 'customer', 'community', 'project'],
-  structured: ['account', 'compliance', 'quality', 'safety', 'regulatory', 'records', 'planning'],
+  structured: ['account', 'compliance', 'quality standard', 'safety check', 'regulatory', 'records', 'planning'],
   flexible: ['consult', 'design', 'marketing', 'creative', 'project', 'freelance', 'content'],
+  'people-facing': ['customer', 'client', 'patient', 'student', 'community', 'public', 'care', 'support', 'sales', 'service'],
+  'hands-on-setting': ['technician', 'mechanic', 'install', 'repair', 'equipment', 'site', 'field', 'laboratory', 'workshop', 'construction'],
+  'predictable-routine': ['records', 'administration', 'account', 'compliance', 'quality checks', 'routine', 'scheduled'],
+  'remote-friendly': ['remote', 'digital', 'software', 'cloud', 'online', 'content', 'freelance', 'consult', 'distributed'],
+  'outdoor-field': ['field', 'outdoor', 'site', 'survey', 'agri', 'farm', 'construction', 'environment', 'travel', 'installation'],
+  'project-based': ['project', 'build', 'develop', 'design', 'launch', 'implementation', 'consult', 'campaign', 'prototype'],
   earning: ['software', 'developer', 'engineer', 'finance', 'sales', 'marketing', 'consult', 'business'],
   stability: ['health', 'public', 'education', 'account', 'engineering', 'laboratory'],
   impact: ['health', 'education', 'social', 'environment', 'community', 'public', 'sustain'],
   mobility: ['software', 'data', 'cloud', 'international', 'travel', 'sales', 'consult'],
-  analytical: ['analyst', 'data', 'research', 'engineer', 'account', 'systems', 'quality'],
+  analytical: ['data', 'research', 'diagnos', 'investigat', 'account', 'systems analysis', 'quality analysis', 'scientific'],
   verbal: ['law', 'policy', 'teacher', 'writer', 'sales', 'communication', 'content'],
   'hands-on': ['technician', 'mechanic', 'installation', 'maintenance', 'field', 'craft', 'construction'],
-  empathetic: ['care', 'counsell', 'psycholog', 'teacher', 'support', 'health', 'community'],
+  empathetic: ['patient care', 'counsell', 'psycholog', 'teacher', 'family support', 'community care', 'social work'],
   visual: ['design', 'visual', 'media', 'creative', 'ux', 'fashion', 'architect'],
   organised: ['operations', 'coordinator', 'planner', 'manager', 'project', 'logistics', 'records'],
+  'quick-income': ['entry-level', 'apprentice', 'apprenticeship', 'certificate', 'technician', 'assistant', 'operator', 'learn on the job'],
+  // Use route language that is present across imported catalogue records, not
+  // only the newer summaries. This keeps the lower-cost route useful for old
+  // and new career options alike.
+  'lower-cost': ['apprentice', 'apprenticeship', 'certificate', 'portfolio', 'short course', 'learn on the job', 'entry-level'],
+  'flexible-time': ['freelance', 'remote', 'flexible schedule', 'part-time', 'project-based schedule'],
+  'local-access': ['local', 'community', 'remote', 'field', 'technician', 'distributed'],
+};
+
+const careerPreferenceLabels: Record<string, string> = {
+  people: 'helping people',
+  systems: 'technology and software',
+  numbers: 'numbers and patterns',
+  creative: 'creating and communicating',
+  practical: 'making and fixing things',
+  nature: 'nature and science',
+  service: 'public issues and fairness',
+  active: 'active and varied work',
+  language: 'languages and cultures',
+  independent: 'independent focus',
+  collaborative: 'team problem solving',
+  structured: 'clear structure',
+  flexible: 'varied and flexible work',
+  'people-facing': 'regular contact with people',
+  'hands-on-setting': 'a hands-on setting',
+  'predictable-routine': 'a predictable routine',
+  'remote-friendly': 'remote-friendly work',
+  'outdoor-field': 'outdoor or field work',
+  'project-based': 'project-based variety',
+  analytical: 'analysing and spotting patterns',
+  verbal: 'explaining ideas clearly',
+  'hands-on': 'working with tools or materials',
+  empathetic: 'understanding people',
+  visual: 'seeing visual details',
+  organised: 'organising people or work',
+  earning: 'stronger earning upside',
+  stability: 'stability and continuity',
+  impact: 'social or environmental impact',
+  mobility: 'international mobility',
+  'quick-income': 'a quicker route to earning',
+  'lower-cost': 'a lower-cost starting route',
+  'flexible-time': 'flexibility around responsibilities',
+  'local-access': 'local or remote access',
 };
 
 export function interestRelevanceScore(guide: CareerGuide, interest: string) {
   const cues = interestRoleCues[interest] ?? [];
   if (!cues.length) return 0;
-  const haystack = [guide.title, guide.summary, ...guide.specialistSkills, ...guide.tags].join(' ').toLowerCase();
+  const routeText = `${guide.entryLevel} ${guide.routeLength} ${guide.entryRoutes.join(' ')}`.toLowerCase();
+  if (interest === 'lower-cost') {
+    if (guide.regulated || /longer regulated|licensing/.test(routeText)) return 0;
+    return /apprentice|certificate|portfolio|short course|learn on the job|entry-level/.test(routeText) ? 2 : 0;
+  }
+  if (interest === 'quick-income') {
+    if (/longer regulated|licensing/.test(routeText)) return 0;
+    return /entry-level|apprentice|certificate|technician|assistant|operator|learn on the job/.test(routeText) ? 2 : 0;
+  }
+  // Match only against decision-relevant, role-level fields. Generic family
+  // summaries, market copy, foundation skills, and imported tags are omitted
+  // because they made a single broad word match hundreds of unrelated roles.
+  const workSignals = new Set(['independent', 'collaborative', 'structured', 'flexible', 'people-facing', 'hands-on-setting', 'predictable-routine', 'remote-friendly', 'outdoor-field', 'project-based']);
+  const strengthSignals = new Set(['analytical', 'verbal', 'hands-on', 'empathetic', 'visual', 'organised']);
+  const situationSignals = new Set(['quick-income', 'lower-cost', 'flexible-time', 'local-access']);
+  const fields = situationSignals.has(interest)
+    ? [guide.title, guide.entryLevel, guide.routeLength, guide.entryRoutes.join(' '), guide.independencePath]
+    : workSignals.has(interest)
+      ? [guide.title, guide.workSetting, guide.dayPace, guide.dailyWork.join(' '), guide.workStyles.join(' ')]
+      : strengthSignals.has(interest)
+        ? [guide.title, guide.dailyWork.join(' '), guide.specialistSkills.join(' '), guide.workStyles.join(' ')]
+        : [guide.title, guide.dailyWork.join(' '), guide.specialistSkills.join(' '), guide.interestTags.join(' ')];
+  const haystack = fields.join(' ').toLowerCase();
   return cues.reduce((score, cue) => score + (haystack.includes(cue) ? 1 : 0), 0);
+}
+
+/**
+ * Score one preference against one career option. Family membership is only
+ * a weak signal; a role, summary, skill, or tag cue supplies the stronger
+ * evidence. This prevents broad families from making nearly the whole
+ * catalogue look equally relevant.
+ */
+export function careerInterestMatchScore(guide: CareerGuide, interest: string) {
+  if (!interest || interest === 'all') return 1;
+  // Catalogue imports use both canonical family names and the shorter
+  // learner-facing labels. Compare through the same label normalizer so an
+  // older/imported record is not treated as unrelated merely because its
+  // category spelling differs.
+  const familyMatch = (careerInterestFamilies[interest] ?? []).some((family) =>
+    family === guide.category || careerFamilyLabel(family) === careerFamilyLabel(guide.category));
+  const cueScore = interestRelevanceScore(guide, interest);
+  const cueQuality = cueScore ? Math.min(0.7, 0.55 + Math.max(0, cueScore - 1) * 0.15) : 0;
+  return Math.min(1, (familyMatch ? 0.3 : 0) + cueQuality);
+}
+
+export function careerMatchedPreferenceCount(guide: CareerGuide, interests: string[]) {
+  return interests.filter((interest) => careerInterestMatchScore(guide, interest) >= 0.55).length;
+}
+
+export function careerInterestMatchPercent(guide: CareerGuide, interests: string[]) {
+  if (!interests.length) return null;
+  const score = interests.reduce((total, interest) => total + careerInterestMatchScore(guide, interest), 0) / interests.length;
+  return Math.max(0, Math.min(100, Math.round(score * 100)));
 }
 
 export function independencePotentialFor(guide: CareerGuide) {
@@ -491,7 +592,7 @@ export function careerCardHtml(path: Row, ui: DecisionUiContext, editable = true
       : [`${path.title} tools and methods`, `Practical experience in ${path.title}`, 'Clear communication and follow-through'];
   const summary = guide?.summary || path.work_environment || 'Add a clear description of the work this option actually involves.';
   const optionLabel = isStudent
-    ? (optionType === 'primary' ? 'Main choice' : 'Saved for later')
+    ? (optionType === 'primary' ? 'Current focus' : 'Saved for later')
     : (optionType === 'primary' ? 'Main option' : 'Other option');
   const linkedSkillCount = skills.filter((skill) => skill.linked_career_path_id === path.id).length;
   const skillMapping = linkedSkillCount
@@ -522,13 +623,49 @@ export function careerCardHtml(path: Row, ui: DecisionUiContext, editable = true
 
 export function careerLibraryMatches(query: string, category: string, interest = 'all', stage = 'all') {
   const normalized = query.trim().toLowerCase();
+  const selectedInterests = interest.split(',').filter(Boolean);
   const matches = guidedCareerPresets.filter((guide) => {
-    const haystack = [guide.title, guide.category, guide.summary, guide.outlookDetail, ...interestSignalsFor(guide), ...guide.foundationSkills, ...guide.specialistSkills, ...guide.futureSkills, ...guide.tags].join(' ').toLowerCase();
+    const haystack = [guide.title, guide.category, guide.summary, guide.outlookDetail, guide.entryLevel, guide.routeLength, guide.entryRoutes.join(' '), guide.localContext, ...interestSignalsFor(guide), ...guide.foundationSkills, ...guide.specialistSkills, ...guide.futureSkills, ...guide.tags].join(' ').toLowerCase();
     if (normalized && !haystack.includes(normalized)) return false;
-    if (!careerMatchesInterest(guide, interest)) return false;
-    if (stage !== 'all' && !(guide.suitableStages ?? []).includes(stage)) return false;
+    if (selectedInterests.length) {
+      const matchedPreferences = careerMatchedPreferenceCount(guide, selectedInterests);
+      // A longer preference list should not become an impossible all-or-none
+      // query. Require every choice when there are one or two; for larger
+      // selections require a clear majority and explain the exact coverage on
+      // the result. Hard constraints remain separate filters.
+      const minimumMatches = selectedInterests.length <= 2
+        ? selectedInterests.length
+        : Math.ceil(selectedInterests.length * 0.6);
+      if (matchedPreferences < minimumMatches) return false;
+    } else if (!careerMatchesInterest(guide, interest)) return false;
+    if (stage !== 'all') {
+      const suitableStages = guide.suitableStages ?? [];
+      const family = careerFamilyLabel(guide.category);
+      const routeText = `${guide.entryLevel} ${guide.routeLength} ${guide.entryRoutes.join(' ')}`.toLowerCase();
+      const practicalStageMatch = stage === 'after-10th'
+        ? /apprentice|certificate|vocational|iti|technician|operator|assistant|trade|diploma/.test(routeText) && !guide.regulated
+        : stage === 'college'
+          ? /graduate|portfolio|intern|associate|trainee|degree/.test(routeText) && !/shorter vocational|apprenticeship-only/.test(routeText)
+          : stage === 'working'
+            ? !guide.regulated && (/portfolio|certificate|experience|training|transition|consult|freelance|contract|business/.test(`${routeText} ${guide.independencePath}`.toLowerCase()) || guide.dataConfidence === 'role-specific')
+            : false;
+      const broadStageMatch = practicalStageMatch
+        || (stage === 'after-12th-maths' && ['Technology & software', 'Engineering & the built world', 'Finance, business & economics', 'Science, research & environment', 'Business, marketing & operations'].includes(family))
+        || (stage === 'after-12th-biology' && ['Health & life sciences', 'Science, research & environment', 'Agriculture, food & rural work', 'Education, psychology & social impact'].includes(family))
+        || (stage === 'after-12th-pcmb' && ['Technology & software', 'Engineering & the built world', 'Health & life sciences', 'Science, research & environment', 'Agriculture, food & rural work'].includes(family))
+        || (stage === 'after-12th-science' && ['Technology & software', 'Engineering & the built world', 'Health & life sciences', 'Science, research & environment', 'Agriculture, food & rural work', 'Business, marketing & operations', 'Design, media & creative work', 'Education, psychology & social impact'].includes(family))
+        || (stage === 'after-12th-commerce' && ['Finance, business & economics', 'Business, marketing & operations', 'Law, government & public service', 'Design, media & creative work', 'Hospitality, travel, sport & events'].includes(family))
+        || (stage === 'after-12th-humanities' && ['Law, government & public service', 'Education, psychology & social impact', 'Design, media & creative work', 'Languages, international & emerging work', 'Business, marketing & operations', 'Hospitality, travel, sport & events'].includes(family));
+      // Prefer the explicit catalogue metadata, but keep a transparent family
+      // fallback for imported rows whose stage list is incomplete. A stage
+      // choice should narrow the list without silently making valid routes
+      // disappear because one legacy row lacks metadata.
+      const metadataStageMatch = !['college', 'working'].includes(stage) && suitableStages.includes(stage);
+      if (!metadataStageMatch && !broadStageMatch) return false;
+    }
     if (category === 'featured') return guide.featured;
-    if (category === 'future') return guide.category === 'Future-ready & Cross-functional' || guide.futureSkills.some((skill) => /ai|automation|climate|digital|data|privacy|robot|sustain/i.test(skill));
+    if (category === 'future') return guide.category === 'Future-ready & Cross-functional'
+      || /artificial intelligence|machine learning|robot|automation|cyber|cloud|climate|renewable|genomic|bioinformatic|health informatic|data privacy|sustainab/i.test(`${guide.title} ${guide.summary}`);
     // Several catalogue imports use the older family names while newer
     // entries use the learner-facing names. Treat them as one filter so the
     // family list never shows duplicate labels or hides valid routes.
@@ -541,18 +678,20 @@ export function careerLibraryMatches(query: string, category: string, interest =
     const practicalScore = (guide: CareerGuide) => {
       const title = guide.title.toLowerCase();
       const priorityRole = /software engineer|data analyst|cybersecurity analyst|cloud engineer|full-stack developer|frontend developer|backend developer|business analyst|financial analyst|digital marketing specialist|product designer|health informatics|solar technician|management consultant/.test(title) ? 3 : /engineer|developer|analyst|designer|accountant|technician|consultant|manager/.test(title) ? 1 : 0;
-      return Number(guide.featured) * 3 + priorityRole + (guide.outlook === 'growing' ? 2 : guide.outlook === 'evolving' ? 1 : 0) + (/consult|freelance|practice|business/i.test(guide.independencePath) ? 1 : 0) - (/highly competitive|exam-led/i.test(guide.competitionNote) ? 2 : 0);
+      const informationConfidence = guide.dataConfidence === 'role-specific' ? 4 : guide.dataConfidence === 'family-guided' ? 1 : -3;
+      return informationConfidence + Number(guide.featured) * 3 + priorityRole + (guide.outlook === 'growing' ? 2 : guide.outlook === 'stable' ? 1 : 0) + (/consult|freelance|practice|business/i.test(guide.independencePath) ? 1 : 0) - (/highly competitive|exam-led/i.test(guide.competitionNote) ? 2 : 0);
     };
     return matches.sort((a, b) => practicalScore(b) - practicalScore(a) || a.title.localeCompare(b.title));
   }
   const selected = interest.split(',').filter(Boolean);
-  const score = (guide: CareerGuide) => selected.reduce((total, signal) => total
-    + (careerMatchesInterest(guide, signal) ? 10 : 0)
-    + interestRelevanceScore(guide, signal), 0);
+  // Keep ordering aligned with the percentage shown on each result. A role
+  // that matches several selected preferences should consistently rise above
+  // one that only matches a single broad family.
+  const score = (guide: CareerGuide) => selected.reduce((total, signal) => total + careerInterestMatchScore(guide, signal), 0);
   return matches.sort((a, b) => score(b) - score(a) || a.title.localeCompare(b.title));
 }
 
-export function careerLibraryResultsHtml(matches: CareerGuide[], selectedKey: string, escapeHtml: DecisionUiContext['escapeHtml'], limit: number, offset = 0) {
+export function careerLibraryResultsHtml(matches: CareerGuide[], selectedKey: string, escapeHtml: DecisionUiContext['escapeHtml'], limit: number, offset = 0, selectedInterests: string[] = []) {
   if (!matches.length) return '<div class="preset-empty"><strong>No career guides match these filters yet.</strong><p>Try removing one filter, changing the study stage, or search for a role, course, or route.</p></div>';
   const categorySignals: Record<string, { interests: string; work: string; route: string }> = {
     'Technology & Data': { interests: 'Building systems, logical problem-solving, improving how things work', work: 'Break down a problem, build or analyse a solution, test it, and explain what changed.', route: 'A relevant degree, diploma, apprenticeship, or a small portfolio of working projects' },
@@ -584,23 +723,41 @@ export function careerLibraryResultsHtml(matches: CareerGuide[], selectedKey: st
     const outlook = guide.outlook === 'growing' ? 'Growing opportunity' : guide.outlook === 'evolving' ? 'Changing opportunity' : guide.outlook === 'stable' ? 'Established opportunity' : 'Check local demand';
     const ordinaryWork = guide.dailyWork?.slice(0, 2).join(' · ') || fallback.work;
     const entryRoute = guide.entryRoutes?.[0] || guide.entryLevel || fallback.route;
-    const firstTest = 'Read, watch, talk to someone, or observe the work if you are curious (optional).';
     const starterSkills = Array.from(new Set([...(guide.foundationSkills ?? []), ...(guide.specialistSkills ?? []), ...(guide.futureSkills ?? [])])).slice(0, 4).join(' · ') || 'Start with the core skills';
-    return `<div class="career-library-result"><button type="button" data-career-preset="${escapeHtml(guide.key)}" class="${guide.key === selectedKey ? 'is-selected' : ''}"><span class="career-result-title"><strong>${escapeHtml(guide.title)}</strong>${competition === 'Highly competitive' ? '<em class="career-competition-flag">Highly competitive</em>' : ''}</span><small>${escapeHtml(guide.careerGroup)} · ${escapeHtml(careerFamilyLabel(guide.category))}</small><p>${escapeHtml(guide.summary)}</p><div class="career-result-facts"><span><b>Typical day</b>${escapeHtml(ordinaryWork)}</span><span><b>How people start</b>${escapeHtml(entryRoute)}</span><span><b>Useful first skills</b>${escapeHtml(starterSkills)}</span><span><b>Optional way to explore</b>${escapeHtml(firstTest)}</span></div><span class="career-result-meta"><em>${escapeHtml(outlook)}</em><em>${escapeHtml(competition)}</em><em>${escapeHtml(independence)}</em><em>${guide.regulated ? 'Check registration or licence' : 'No universal licence'}</em></span><span class="career-result-action" data-career-preset="${escapeHtml(guide.key)}">See full career details <b aria-hidden="true">→</b></span></button><div class="career-result-save-actions" aria-label="Choose what to do with ${escapeHtml(guide.title)}"><span>Save it as:</span><button class="table-action" type="button" data-choose-career="primary" data-guide-key="${escapeHtml(guide.key)}" aria-label="Save ${escapeHtml(guide.title)} as your main choice">Save as my main choice</button><button class="table-action" type="button" data-choose-career="alternative" data-guide-key="${escapeHtml(guide.key)}" aria-label="Keep ${escapeHtml(guide.title)} for later">Keep for later</button></div><label class="career-compare-toggle"><input type="checkbox" data-compare-career="${escapeHtml(guide.key)}" aria-label="Add ${escapeHtml(guide.title)} to comparison" /><span>Add to comparison</span></label></div>`;
+    const matchPercent = careerInterestMatchPercent(guide, selectedInterests);
+    const matchedPreferences = careerMatchedPreferenceCount(guide, selectedInterests);
+    const matchedPreferenceLabels = selectedInterests
+      .filter((preference) => careerInterestMatchScore(guide, preference) >= 0.55)
+      .map((preference) => careerPreferenceLabels[preference] || preference.replace(/-/g, ' '));
+    const matchBadge = matchPercent === null
+      ? ''
+      : `<em class="career-match-score" aria-label="${matchPercent} percent preference alignment; ${matchedPreferences} of ${selectedInterests.length} selected preferences supported">${matchPercent}% preference alignment · ${matchedPreferences}/${selectedInterests.length} signals</em>`;
+    const resultTier = selectedInterests.length
+      ? (matchPercent !== null && matchPercent >= 80 && matchedPreferences === selectedInterests.length ? 'Strong preference match' : 'Worth investigating')
+      : (guide.dataConfidence === 'role-specific' && competition !== 'Highly competitive' ? 'Strong starting point' : guide.dataConfidence === 'exploratory' ? 'Emerging option to verify' : 'Worth investigating');
+    const matchReason = matchedPreferenceLabels.length
+      ? `<span class="career-match-reasons"><b>Why this appeared</b>${escapeHtml(matchedPreferenceLabels.slice(0, 4).join(' · '))}</span>`
+      : '';
+    return `<div class="career-library-result"><button type="button" data-career-preset="${escapeHtml(guide.key)}" class="${guide.key === selectedKey ? 'is-selected' : ''}"><span class="career-result-tier" data-tier="${escapeHtml(guide.dataConfidence)}">${escapeHtml(resultTier)}</span><span class="career-result-title"><strong>${escapeHtml(guide.title)}</strong>${competition === 'Highly competitive' ? '<em class="career-competition-flag">Highly competitive</em>' : ''}</span><small>${escapeHtml(guide.careerGroup)} · ${escapeHtml(careerFamilyLabel(guide.category))}</small><p>${escapeHtml(guide.summary)}</p>${matchReason}<div class="career-result-facts"><span><b>Ordinary work</b>${escapeHtml(ordinaryWork)}</span><span><b>Typical route in</b>${escapeHtml(entryRoute)}</span><span><b>Useful first skills</b>${escapeHtml(starterSkills)}</span><span><b>What to verify</b>${escapeHtml(guide.watchOuts?.[0] || competition)}</span></div><span class="career-result-meta">${matchBadge}<em>${escapeHtml(outlook)}</em><em>${escapeHtml(competition)}</em><em>${escapeHtml(independence)}</em><em>${guide.regulated ? 'Check registration or licence' : 'No universal licence'}</em></span><span class="career-result-action" data-career-preset="${escapeHtml(guide.key)}">Explore this career <b aria-hidden="true">→</b></span></button><div class="career-result-save-actions" aria-label="Choose what to do with ${escapeHtml(guide.title)}"><span>Keep this option:</span><button class="table-action" type="button" data-choose-career="primary" data-guide-key="${escapeHtml(guide.key)}" aria-label="Make ${escapeHtml(guide.title)} your current focus">Make current focus</button><button class="table-action" type="button" data-choose-career="alternative" data-guide-key="${escapeHtml(guide.key)}" aria-label="Save ${escapeHtml(guide.title)} for later">Save for later</button></div><label class="career-compare-toggle"><input type="checkbox" data-compare-career="${escapeHtml(guide.key)}" aria-label="Add ${escapeHtml(guide.title)} to comparison" /><span>Add to comparison</span></label></div>`;
   }).join('');
 }
 
 export function careerGuidePreviewHtml(guide: CareerGuide, escapeHtml: DecisionUiContext['escapeHtml'], viewerRole = 'staff') {
   const isStudent = viewerRole === 'student';
-  const quickChoice = `<div class="career-guide-save career-guide-save-quick"><p class="career-guide-save-note"><strong>Want to keep this option?</strong> Choose how you want to return to it. You can change or remove it later.</p><div class="career-guide-actions"><button class="primary-button" type="button" aria-label="Save this career as your main choice" data-choose-career="primary" data-guide-key="${escapeHtml(guide.key)}">Save as my main choice</button><button class="secondary-button" type="button" aria-label="Keep this career for later" data-choose-career="alternative" data-guide-key="${escapeHtml(guide.key)}">Keep for later</button></div></div>`;
+  const confidenceLabel = guide.dataConfidence === 'role-specific'
+    ? 'Role-specific guide'
+    : guide.dataConfidence === 'exploratory'
+      ? 'Exploratory emerging route'
+      : 'Family-guided starting information';
+  const quickChoice = `<div class="career-guide-save career-guide-save-quick"><p class="career-guide-save-note"><strong>Want to keep investigating this option?</strong> Choose its place in your plan. You can change or remove it later.</p><div class="career-guide-actions"><button class="primary-button" type="button" aria-label="Make this career your current focus" data-choose-career="primary" data-guide-key="${escapeHtml(guide.key)}">Make current focus</button><button class="secondary-button" type="button" aria-label="Save this career for later" data-choose-career="alternative" data-guide-key="${escapeHtml(guide.key)}">Save for later</button></div></div>`;
   const explorationSection = isStudent
-    ? '<section><small>If you want to explore further (optional)</small><p>Read about the work, watch an example, talk to someone who does it, or observe the setting. Stop there if you have learned enough; nothing needs to be recorded on this page.</p></section>'
+    ? `<section class="career-guide-test"><small>Smallest useful test</small><p>${escapeHtml(guide.starterTests[0] || 'Talk to someone doing the work and compare what you learn with the guide.')}</p><button class="secondary-button" type="button" data-start-career-action="${escapeHtml(guide.key)}">Plan this as my next action</button></section>`
     : `<section><small>If you want to explore further (optional)</small>${listHtml(guide.starterTests, escapeHtml)}</section>`;
   const reflectionSection = isStudent ? '' : `<section><small>Questions to consider</small>${listHtml(guide.evidenceExamples ?? [], escapeHtml)}</section>`;
-  return `<div class="career-guide-header"><span><small>${escapeHtml(careerFamilyLabel(guide.category))}</small><h4>${escapeHtml(guide.title)}</h4></span></div>
+  return `<div class="career-guide-header"><span><small>${escapeHtml(careerFamilyLabel(guide.category))}</small><h4>${escapeHtml(guide.title)}</h4><em class="career-data-confidence" data-confidence="${escapeHtml(guide.dataConfidence)}">${escapeHtml(confidenceLabel)}</em></span></div>
     <p>${escapeHtml(guide.summary)}</p>
     <div class="career-guide-at-a-glance"><div><small>What a normal week may feel like</small><strong>${escapeHtml(guide.dayPace)}</strong></div><div><small>Where the work happens</small><strong>${escapeHtml(guide.workSetting)}</strong></div><div><small>Getting started</small><strong>${escapeHtml(guide.entryLevel)}</strong></div><div><small>Time and route</small><strong>${escapeHtml(guide.routeLength)}</strong></div></div>${quickChoice}
-    <details class="career-guide-more"><summary><strong>More about this career</strong><span>Open details</span></summary><div class="career-guide-sections">
+    <details class="career-guide-more"><summary><strong>More about this career</strong><span data-career-guide-toggle>Open details</span></summary><div class="career-guide-sections">
       <section><small>Local work context</small><p>${escapeHtml(guide.localContext)}</p></section>
       <section><small>Competition to expect</small><p>${escapeHtml(guide.competitionNote)}</p></section>
       <section><small>Long-term independence</small><p>${escapeHtml(guide.independencePath)}</p></section>
@@ -614,7 +771,7 @@ export function careerGuidePreviewHtml(guide: CareerGuide, escapeHtml: DecisionU
       <section><small>Skills you can carry into other work</small><div class="guide-chips">${chipsHtml(guide.portableSkills ?? [], escapeHtml)}</div></section>
       <section><small>Earning context</small><p>${escapeHtml(guide.earningContext || 'Earning varies by role, experience, evidence, location, and employer. Check current local sources before deciding.')}</p></section>
       <section><small>What is changing</small><p>${escapeHtml(guide.marketSignal || guide.outlookDetail)}</p></section>
-      <section><small>Source used for this guide</small><p class="career-guide-source"><a href="${escapeHtml(guide.marketEvidence.url)}" target="_blank" rel="noreferrer">${escapeHtml(guide.marketEvidence.source)}</a> <span>(${escapeHtml(guide.marketEvidence.date)})</span></p></section>
+      <section><small>Broader context source</small><p class="career-guide-source"><a href="${escapeHtml(guide.marketEvidence.url)}" target="_blank" rel="noreferrer">${escapeHtml(guide.marketEvidence.source)}</a> <span>(${escapeHtml(guide.marketEvidence.date)})</span></p><p class="career-guide-source-note">Use this as background, then check current local vacancies, entry rules, fees, and working conditions before deciding.</p></section>
       <section class="career-progression-section"><small>Examples and advice by level</small><div class="career-progression-grid">${(guide.progression ?? []).map((item) => `<article data-level="${escapeHtml(item.level.toLowerCase())}"><strong>${escapeHtml(item.level)}</strong><p><b>Example:</b> ${escapeHtml(item.example)}</p><p><b>Advice:</b> ${escapeHtml(item.advice)}</p></article>`).join('')}</div></section>
       <section><small>Check before committing</small>${listHtml(guide.watchOuts, escapeHtml)}</section>
       ${explorationSection}

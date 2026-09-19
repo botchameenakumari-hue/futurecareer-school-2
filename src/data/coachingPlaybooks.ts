@@ -46,9 +46,10 @@ export type CareerGuide = CareerPreset & {
   progression: CareerLevelGuidance[];
   regulated: boolean;
   careerGroup: 'Builders' | 'Analysers' | 'Communicators' | 'Healers' | 'Makers';
+  dataConfidence: 'role-specific' | 'family-guided' | 'exploratory';
 };
 
-type GuideFields = Omit<CareerGuide, keyof CareerPreset | 'workSetting' | 'entryLevel' | 'routeLength' | 'dayPace' | 'portableSkills' | 'questionsToAsk' | 'interestTags' | 'subjectRoutes' | 'suitableStages' | 'earningContext' | 'marketSignal' | 'marketEvidence' | 'localContext' | 'competitionNote' | 'independencePath' | 'regulated' | 'evidenceExamples' | 'progression' | 'careerGroup'> & Partial<Pick<CareerGuide, 'interestTags' | 'subjectRoutes' | 'suitableStages' | 'earningContext' | 'marketSignal'>>;
+type GuideFields = Omit<CareerGuide, keyof CareerPreset | 'workSetting' | 'entryLevel' | 'routeLength' | 'dayPace' | 'portableSkills' | 'questionsToAsk' | 'interestTags' | 'subjectRoutes' | 'suitableStages' | 'earningContext' | 'marketSignal' | 'marketEvidence' | 'localContext' | 'competitionNote' | 'independencePath' | 'regulated' | 'evidenceExamples' | 'progression' | 'careerGroup' | 'dataConfidence'> & Partial<Pick<CareerGuide, 'interestTags' | 'subjectRoutes' | 'suitableStages' | 'earningContext' | 'marketSignal'>>;
 
 type FamilyGuide = GuideFields & {
   purpose: string;
@@ -698,6 +699,31 @@ function careerProgressionFor(title: string, dailyWork: string[], starterTests: 
   ];
 }
 
+function evidenceForCareer(preset: CareerPreset): (typeof futureEvidence)[number] {
+  const title = preset.title.toLowerCase();
+  const findEvidence = (pattern: RegExp) => futureEvidence.find((item) => pattern.test(`${item.label} ${item.source}`));
+  const fallback = findEvidence(/Skills-first labour markets require role-specific/i) ?? futureEvidence[0]!;
+
+  // These sources provide context for a family or a clearly related role. They
+  // are not presented as forecasts for an individual job. Keep the matching
+  // deliberately narrow so an unrelated report cannot appear on a guide.
+  if (/social worker|case coordinator/.test(title)) return findEvidence(/Social-work quality/i) ?? fallback;
+  if (/renewable|solar|wind|clean energy|energy transition/.test(title)) return findEvidence(/Renewable-energy employment/i) ?? fallback;
+  if (/nurs|clinical|health|medical|doctor|dent|pharmac|therap|care/.test(title) || preset.category === 'Health & Life Sciences') {
+    return findEvidence(/Healthcare entry/i) ?? fallback;
+  }
+  if (/content provenance|media integrity/.test(title)) return findEvidence(/Provenance and attribution/i) ?? fallback;
+  if (/digital health|clinical ai/.test(title)) return findEvidence(/Digital health competency/i) ?? fallback;
+  if (/ai work architect|ai steward/.test(title)) return findEvidence(/AI work architect/i) ?? fallback;
+  if (preset.category === 'Agriculture, Food & Rural Careers' || preset.category === 'Engineering & Built Environment') {
+    return findEvidence(/Green and digital transitions/i) ?? fallback;
+  }
+  if (preset.category === 'Hospitality, Travel, Sports & Events' || preset.category === 'Education, Psychology & Social Impact') {
+    return findEvidence(/Frontline, care, education, farm and construction pathways/i) ?? fallback;
+  }
+  return fallback;
+}
+
 function buildCareerGuide(preset: CareerPreset): CareerGuide {
   const family = familyGuides[preset.category] ?? futureFamily;
   const lens = careerFitLens[preset.category] ?? careerFitLens['Future-ready & Cross-functional'];
@@ -786,13 +812,7 @@ const roleSkills = roleSkillSignals(preset.title);
         : ['A completed role-relevant project or work sample', 'A short reflection with feedback and next improvement'];
   const dailyWork = override.dailyWork ?? roleWorkSignals(preset.title);
   const progression = careerProgressionFor(preset.title, dailyWork, override.starterTests ?? family.starterTests, evidenceExamples);
-  const evidenceMatch = futureEvidence.find((item) => {
-    const source = `${item.label} ${item.source}`.toLowerCase();
-    return (preset.category.includes('Agriculture') && /farm|food|rural|agri/.test(source))
-      || (preset.category.includes('Health') && /health|care|nurse|healthcare/.test(source))
-      || ((preset.category.includes('Technology') || /software|developer|programmer|cloud|cyber|security|data|analytics|privacy|llm|language model|machine learning|ai|finops|governance/.test(title)) && /ai|digital|developer|technology/.test(source))
-      || (preset.category.includes('Engineering') && /engineering|energy|construction|technician/.test(source));
-  }) ?? futureEvidence.find((item) => /skills-first labour market/i.test(item.label)) ?? futureEvidence[0];
+  const evidenceMatch = evidenceForCareer(preset);
   return {
     ...preset,
     summary: override.summary ?? future?.summary ?? `${preset.title} ${family.purpose}.`,
@@ -826,6 +846,11 @@ const roleSkills = roleSkillSignals(preset.title);
     progression,
     regulated,
     careerGroup,
+    dataConfidence: future
+      ? 'exploratory'
+      : Object.keys(override).length
+        ? 'role-specific'
+        : 'family-guided',
     tags: Array.from(new Set([
       ...preset.tags,
        ...roleInterestTags(preset.title),
@@ -840,43 +865,20 @@ const roleSkills = roleSkillSignals(preset.title);
   };
 }
 
-// The school catalogue also needs useful routes for learners whose interests do
-// not fit a short list of headline job titles. These cross-industry variants
-// are deliberately generated from real role families: each remains searchable,
-// selectable, and receives the same work, interest, route, and skill guidance
-// as the hand-authored entries below.
-const catalogueContexts = ['Healthcare', 'Finance and banking', 'Education and learning', 'Public services', 'Retail and consumer', 'Climate and energy'];
-const expandedCatalogueGroups: Array<{ category: string; roles: string[] }> = [
-  { category: 'Technology & Data', roles: ['Application Developer', 'Data Quality Analyst', 'Cloud Support Engineer', 'Network Technician', 'Database Administrator', 'Systems Analyst', 'QA Test Analyst', 'UX Researcher', 'Technical Support Specialist', 'Information Security Coordinator', 'Automation Analyst', 'Business Intelligence Developer'] },
-  { category: 'Engineering & Built Environment', roles: ['Civil Engineering Technician', 'Building Services Engineer', 'Electrical Design Technician', 'Mechanical Design Technician', 'Surveying Technician', 'Quantity Surveyor', 'Site Safety Coordinator', 'Transport Planner', 'Water Systems Engineer', 'Manufacturing Process Technician', 'CAD Technician', 'Maintenance Planner'] },
-  { category: 'Health & Life Sciences', roles: ['Medical Laboratory Technician', 'Clinical Research Coordinator', 'Health Information Officer', 'Public Health Officer', 'Pharmacy Technician', 'Radiography Assistant', 'Nutrition Advisor', 'Occupational Therapy Assistant', 'Care Coordinator', 'Biomedical Research Assistant', 'Patient Services Manager', 'Health and Safety Officer'] },
-  { category: 'Commerce, Finance & Economics', roles: ['Accounts Assistant', 'Payroll Specialist', 'Credit Analyst', 'Treasury Analyst', 'Tax Associate', 'Procurement Analyst', 'Financial Planning Associate', 'Risk and Controls Analyst', 'Investment Operations Associate', 'Economic Research Assistant', 'Insurance Underwriter', 'Credit Operations Officer'] },
-  { category: 'Business, Marketing & Operations', roles: ['Operations Coordinator', 'Customer Success Specialist', 'Sales Operations Analyst', 'Supply Chain Planner', 'Retail Operations Manager', 'People Operations Coordinator', 'Market Research Executive', 'Partnerships Executive', 'Service Delivery Manager', 'Quality Improvement Coordinator', 'Small Business Adviser', 'Community Enterprise Manager'] },
-  { category: 'Design, Media & Creative Arts', roles: ['Content Designer', 'Motion Graphics Artist', 'Illustration Artist', 'Editorial Producer', 'Podcast Producer', 'Photography Assistant', 'Fashion Product Coordinator', 'Interior Design Assistant', 'Exhibition Designer', 'Copy Editor', 'Brand Production Coordinator', 'Digital Storyteller'] },
-  { category: 'Law, Government & Public Service', roles: ['Legal Operations Assistant', 'Policy Research Officer', 'Court Services Officer', 'Public Administration Officer', 'Regulatory Affairs Assistant', 'Compliance Coordinator', 'Community Safety Officer', 'Human Rights Programme Officer', 'Diplomatic Services Assistant', 'Election Operations Officer', 'Public Procurement Officer', 'Records and Information Officer'] },
-  { category: 'Education, Psychology & Social Impact', roles: ['Learning Support Assistant', 'Instructional Design Assistant', 'Youth Programme Coordinator', 'Social Research Assistant', 'Wellbeing Programme Coordinator', 'Community Outreach Officer', 'Career Services Coordinator', 'Training Operations Assistant', 'Accessibility Coordinator', 'Volunteer Programme Manager', 'Family Support Worker', 'Learning Content Editor'] },
-  { category: 'Science, Research & Environment', roles: ['Laboratory Assistant', 'Environmental Monitoring Officer', 'Geospatial Technician', 'Climate Data Assistant', 'Climate Risk Analyst', 'Food Science Technician', 'Water Quality Technician', 'Ecology Field Assistant', 'Research Operations Coordinator', 'Sustainability Reporting Analyst', 'Conservation Project Officer', 'Scientific Communications Assistant', 'Renewable Energy Analyst'] },
-  { category: 'Hospitality, Travel, Sports & Events', roles: ['Guest Experience Coordinator', 'Travel Operations Executive', 'Event Production Assistant', 'Sports Programme Coordinator', 'Fitness Programme Assistant', 'Food Service Manager', 'Venue Operations Coordinator', 'Reservations Specialist', 'Tour Guide', 'Airline Ground Operations Officer', 'Leisure Centre Manager', 'Culinary Production Assistant'] },
-  { category: 'Agriculture, Food & Rural Careers', roles: ['Farm Operations Coordinator', 'Horticulture Technician', 'Food Supply Coordinator', 'Agricultural Extension Officer', 'Soil Testing Technician', 'Livestock Care Assistant', 'Agri-Input Sales Adviser', 'Rural Enterprise Coordinator', 'Food Quality Inspector', 'Post-Harvest Operations Officer', 'Fisheries Field Assistant', 'Urban Farming Coordinator'] },
-  { category: 'Skilled Trades & Applied Careers', roles: ['Electrical Installation Technician', 'Plumbing Technician', 'Automotive Service Technician', 'Welding Technician', 'CNC Machine Operator', 'Solar Installation Technician', 'HVAC Service Technician', 'Carpentry Technician', 'Masonry Technician', 'Lift and Escalator Technician', 'Equipment Repair Technician', 'Industrial Instrumentation Technician'] },
-];
-const expandedCataloguePresets: CareerPreset[] = expandedCatalogueGroups.flatMap((group) => group.roles.flatMap((role) => catalogueContexts.map((context) => ({
-  key: `catalogue-${slug(role)}-${slug(context)}`,
-  title: `${role} — ${context}`,
-  category: group.category,
-  featured: false,
-  routeSummary: `A ${role.toLowerCase()} route focused on real work in ${context.toLowerCase()}.`,
-  entryRequirements: 'Build the relevant subject foundation, complete a recognised course or supervised route, and collect practical evidence.',
-  workEnvironment: `Work with colleagues, tools, information, and clear quality standards in ${context.toLowerCase()}.`,
-  nextStep: `Speak with someone doing ${role.toLowerCase()} work in ${context.toLowerCase()}, then try one small task.`,
-  tags: [group.category, role, context, 'career exploration'].map((item) => item.toLowerCase()),
-}))));
-
-// Keep every catalogue entry. A title may appear in more than one family and
-// must remain selectable as a distinct route with its own category and skills.
-// Make only the key unique so saved directions stay traceable to one entry.
+// Keep sector context inside each career guide instead of manufacturing a
+// separate career option for every role × industry combination. This keeps the
+// catalogue honest: a role is one choice, while the sectors where it can be
+// practised are details the learner can compare after opening it.
 const usedCareerKeys = new Set<string>();
-export const guidedCareerPresets = [...careerPresets, ...futureCareerPresets, ...compassCareerPresets, ...expandedCataloguePresets].map((preset) => {
+const usedCareerTitles = new Set<string>();
+export const guidedCareerPresets = [...careerPresets, ...futureCareerPresets, ...compassCareerPresets]
+  .filter((preset) => {
+    const identity = `${slug(preset.title)}::${slug(preset.category)}`;
+    if (usedCareerTitles.has(identity)) return false;
+    usedCareerTitles.add(identity);
+    return true;
+  })
+  .map((preset) => {
   const baseKey = preset.key;
   let key = baseKey;
   if (usedCareerKeys.has(key)) {

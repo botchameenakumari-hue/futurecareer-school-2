@@ -19,6 +19,8 @@ import {
   careerLibraryResultsHtml,
   interestSignalsFor,
   interestRelevanceScore,
+  careerInterestMatchPercent,
+  careerInterestMatchScore,
   independencePotentialFor,
   decisionSignalFor,
   decisionSignalLabel,
@@ -117,6 +119,7 @@ function initialCareerLibraryPage() {
 
 let careerLibraryPage = initialCareerLibraryPage();
 const CAREER_PAGE_SIZE_KEY = 'fcs-career-library-page-size';
+let careerExplorerStateRestored = false;
 let selectedSkillPackKey = '';
 
 function qs<T extends Element>(selector: string) {
@@ -125,6 +128,61 @@ function qs<T extends Element>(selector: string) {
 
 function qsa<T extends Element>(selector: string) {
   return Array.from(document.querySelectorAll(selector)) as T[];
+}
+
+function isDedicatedCareerDecisionPage() {
+  return qs<HTMLElement>('#hierarchy-workspace')?.dataset.careerDecisionPage === 'true';
+}
+
+function restoreCareerExplorerState() {
+  if (careerExplorerStateRestored || typeof window === 'undefined' || !isDedicatedCareerDecisionPage()) return;
+  careerExplorerStateRestored = true;
+  const params = new URLSearchParams(window.location.search);
+  const setValue = (selector: string, key: string) => {
+    const field = qs<HTMLInputElement | HTMLSelectElement>(selector);
+    const value = params.get(key);
+    if (!field || !value) return;
+    if (field instanceof HTMLInputElement) {
+      field.value = value;
+      return;
+    }
+    if (Array.from(field.options).some((option) => option.value === value)) field.value = value;
+  };
+  setValue('#career-preset-search', 'careerQuery');
+  setValue('#career-preset-category', 'careerArea');
+  setValue('#career-preset-group', 'careerKind');
+  setValue('#career-study-stage', 'careerStage');
+  setValue('#career-preset-sort', 'careerSort');
+  const preferences = new Set((params.get('careerPrefs') || '').split(',').filter(Boolean));
+  qsa<HTMLElement>('[data-career-interest]').forEach((button) => {
+    const active = preferences.has(button.dataset.careerInterest || '');
+    button.setAttribute('aria-pressed', String(active));
+    button.classList.toggle('is-selected', active);
+  });
+  selectedCareerGuideKey = params.get('careerGuide') || selectedCareerGuideKey;
+}
+
+function syncCareerExplorerUrl(pageSize: number) {
+  if (typeof window === 'undefined' || !isDedicatedCareerDecisionPage() || !window.history?.replaceState) return;
+  const url = new URL(window.location.href);
+  const values: Array<[string, string]> = [
+    ['careerQuery', qs<HTMLInputElement>('#career-preset-search')?.value.trim() || ''],
+    ['careerArea', qs<HTMLSelectElement>('#career-preset-category')?.value || 'all'],
+    ['careerKind', qs<HTMLSelectElement>('#career-preset-group')?.value || 'all'],
+    ['careerStage', qs<HTMLSelectElement>('#career-study-stage')?.value || 'all'],
+    ['careerSort', qs<HTMLSelectElement>('#career-preset-sort')?.value || 'recommended'],
+    ['careerPrefs', selectedCareerInterests().join(',')],
+    ['careerGuide', selectedCareerGuideKey],
+    ['careerPage', careerLibraryPage > 1 ? String(careerLibraryPage) : ''],
+    ['careerPageSize', String(pageSize)],
+  ];
+  values.forEach(([key, value]) => {
+    const isDefault = (key === 'careerArea' || key === 'careerKind' || key === 'careerStage') && value === 'all'
+      || key === 'careerSort' && value === 'recommended';
+    if (!value || isDefault) url.searchParams.delete(key);
+    else url.searchParams.set(key, value);
+  });
+  window.history.replaceState(window.history.state, '', url);
 }
 
 function setText(selector: string, value: unknown) {
@@ -1368,6 +1426,21 @@ export function restoreStudentPlanTab(preferredTab = '') {
     try { remembered = sessionStorage.getItem('fcs-dashboard-plan-tab') ?? ''; } catch { /* storage may be unavailable */ }
   }
   if (remembered) showPlanTab(remembered);
+  if (remembered === 'actions') {
+    try {
+      const raw = sessionStorage.getItem('fcs-career-action-prefill');
+      if (raw) {
+        const prefill = JSON.parse(raw) as { title?: string; details?: string };
+        const form = qs<HTMLFormElement>('#student-action-form');
+        const title = form?.elements.namedItem('title') as HTMLInputElement | null;
+        const details = form?.elements.namedItem('details') as HTMLTextAreaElement | null;
+        if (title && prefill.title) title.value = prefill.title;
+        if (details && prefill.details) details.value = prefill.details;
+        sessionStorage.removeItem('fcs-career-action-prefill');
+        window.requestAnimationFrame(() => title?.focus());
+      }
+    } catch { /* session storage may be unavailable */ }
+  }
 }
 
 const recommendedSkillKeys = new Set([
@@ -1595,6 +1668,17 @@ function selectedCareerInterests() {
 function sortCareerGuides(guides: ReturnType<typeof careerLibraryMatches>, sort: string, interests: string[] = [], query = '') {
   const copy = guides.slice();
   if (sort === 'alphabetical') return copy.sort((a, b) => a.title.localeCompare(b.title));
+  const fitScore = (guide: typeof copy[number]) => interests.reduce((total, interest) => total + careerInterestMatchScore(guide, interest), 0);
+  const contextScore = (guide: typeof copy[number], pattern: RegExp) => pattern.test(`${guide.summary} ${guide.entryLevel} ${guide.entryRoutes.join(' ')} ${guide.earningContext} ${guide.localContext}`.toLowerCase()) ? 1 : 0;
+  if (sort === 'best-fit') return copy.sort((a, b) => fitScore(b) - fitScore(a) || a.title.localeCompare(b.title));
+  if (sort === 'practical-first') return copy.sort((a, b) => contextScore(b, /hands-on|practical|field|tools|equipment|site|install|repair|build/) - contextScore(a, /hands-on|practical|field|tools|equipment|site|install|repair|build/) || a.title.localeCompare(b.title));
+  const firstStepAccess = (guide: typeof copy[number]) => {
+    const route = `${guide.entryLevel} ${guide.entryRoutes.join(' ')} ${guide.routeLength}`.toLowerCase();
+    return (guide.regulated ? -3 : 0) + (/degree|licence|license|exam/.test(route) ? -1 : 0) + (/training|apprentice|certificate|portfolio|short course|learn on the job/.test(route) ? 2 : 0);
+  };
+  if (sort === 'lower-barrier') return copy.sort((a, b) => firstStepAccess(b) - firstStepAccess(a) || a.title.localeCompare(b.title));
+  if (sort === 'earning-upside') return copy.sort((a, b) => contextScore(b, /high|strong|premium|commercial|independent|specialist/) - contextScore(a, /high|strong|premium|commercial|independent|specialist/) || a.title.localeCompare(b.title));
+  if (sort === 'stable') return copy.sort((a, b) => (b.outlook === 'stable' ? 2 : b.outlook === 'growing' ? 1 : 0) - (a.outlook === 'stable' ? 2 : a.outlook === 'growing' ? 1 : 0) || a.title.localeCompare(b.title));
   const testEffort = (guide: typeof copy[number]) => {
     const task = guide.starterTests?.[0]?.toLowerCase() || '';
     if (!task) return 3;
@@ -1609,33 +1693,37 @@ function sortCareerGuides(guides: ReturnType<typeof careerLibraryMatches>, sort:
   // entry route and a practical first test. This keeps the catalogue broad
   // while avoiding an arbitrary source-file order.
   const search = query.trim().toLowerCase();
-  return copy.map((guide, index) => ({ guide, index, score: (search && guide.title.toLowerCase() === search ? 30 : search && guide.title.toLowerCase().includes(search) ? 12 : 0) + interests.reduce((total, interest) => total + interestRelevanceScore(guide, interest) * 3, 0) + (guide.outlook === 'growing' ? 4 : guide.outlook === 'evolving' ? 3 : guide.outlook === 'stable' ? 1 : 0) + Math.min(3, guide.futureSkills?.length ?? 0) + (guide.marketEvidence?.url ? 1 : 0) + (guide.starterTests?.length ? 1 : 0) }))
+  return copy.map((guide, index) => ({ guide, index, score: (interests.length ? fitScore(guide) * 20 : 0) + (search && guide.title.toLowerCase() === search ? 30 : search && guide.title.toLowerCase().includes(search) ? 12 : 0) + interests.reduce((total, interest) => total + interestRelevanceScore(guide, interest) * 3, 0) + (guide.outlook === 'growing' ? 4 : guide.outlook === 'evolving' ? 3 : guide.outlook === 'stable' ? 1 : 0) + Math.min(3, guide.futureSkills?.length ?? 0) + (guide.marketEvidence?.url ? 1 : 0) + (guide.starterTests?.length ? 1 : 0) }))
     .sort((a, b) => b.score - a.score || a.index - b.index)
     .map(({ guide }) => guide);
 }
 
 function careerLibraryPageSize() {
-  const phoneDefault = typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches ? 12 : 24;
+  const phoneDefault = typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches ? 5 : 10;
   if (typeof window === 'undefined') return phoneDefault;
+  const queryValue = Number(new URLSearchParams(window.location.search).get('careerPageSize'));
   let saved = 0;
   try { saved = Number(window.localStorage.getItem(CAREER_PAGE_SIZE_KEY)); } catch { /* storage may be unavailable */ }
   const allowed = careerPageSizeOptions();
+  if (allowed.includes(queryValue)) return queryValue;
   return allowed.includes(saved) ? saved : phoneDefault;
 }
 
 function careerPageSizeOptions() {
-  return typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches ? [12, 24] : [12, 24, 48, 96];
+  return typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches ? [5, 7, 10, 12, 15, 24] : [5, 7, 10, 12, 15, 24, 48, 96];
 }
 
 function careerStageMatchesGuide(guide: ReturnType<typeof careerGuideFor>, stage: string) {
   if (!guide || stage === 'all') return true;
   if (guide.suitableStages?.includes(stage)) return true;
   const category = guide.category;
-  // Imported catalogue rows do not all carry a complete suitableStages list.
-  // Use a broad, transparent subject-route fallback instead of making a
-  // valid route disappear when a learner chooses one of the later-stage
-  // options in the filter.
-  if (stage === 'after-10th' || stage === 'college' || stage === 'working') return true;
+  const route = `${guide.title} ${guide.entryLevel} ${guide.routeLength} ${guide.entryRoutes.join(' ')}`.toLowerCase();
+  // Current stage is a practical route filter. Where an imported record lacks
+  // explicit stage metadata, use only route-specific evidence rather than
+  // treating every career as equally accessible from every stage.
+  if (stage === 'after-10th') return /apprentice|certificate|vocational|iti|technician|operator|assistant|trade|diploma/.test(route) && !guide.regulated;
+  if (stage === 'college') return /degree|graduate|portfolio|intern|entry|assistant|associate|trainee|diploma/.test(route);
+  if (stage === 'working') return !guide.regulated || /adjacent|transition|portfolio|certificate|diploma|experience|training/.test(route);
   if (stage === 'after-12th-maths' || stage === 'after-12th-pcm') return ['Technology & Data', 'Engineering & Built Environment', 'Commerce, Finance & Economics', 'Science, Research & Environment', 'Business, Marketing & Operations'].includes(category);
   if (stage === 'after-12th-biology' || stage === 'after-12th-pcb') return ['Health & Life Sciences', 'Science, Research & Environment', 'Agriculture, Food & Rural Careers', 'Education, Psychology & Social Impact'].includes(category);
   if (stage === 'after-12th-pcmb') return ['Technology & Data', 'Engineering & Built Environment', 'Health & Life Sciences', 'Science, Research & Environment', 'Agriculture, Food & Rural Careers'].includes(category);
@@ -1647,11 +1735,15 @@ function careerStageMatchesGuide(guide: ReturnType<typeof careerGuideFor>, stage
 
 function preparePresetControls() {
   if (!ctx) return;
+  const interestGuidance = qs<HTMLElement>('#career-interest-guidance');
+  if (interestGuidance && !qs('#career-situation-group')) {
+    interestGuidance.insertAdjacentHTML('beforebegin', '<details id="career-situation-group" class="career-interest-group-details"><summary>What is realistic right now?</summary><div class="career-interest-options"><div class="career-interest-control"><button type="button" class="career-interest-chip" data-career-interest="quick-income" aria-pressed="false">Need a quicker route to earning</button></div><div class="career-interest-control"><button type="button" class="career-interest-chip" data-career-interest="lower-cost" aria-pressed="false">Need a lower-cost route to start</button></div><div class="career-interest-control"><button type="button" class="career-interest-chip" data-career-interest="flexible-time" aria-pressed="false">Need flexibility around responsibilities</button></div><div class="career-interest-control"><button type="button" class="career-interest-chip" data-career-interest="local-access" aria-pressed="false">Prefer local or remote access</button></div></div></details>');
+  }
   const copy: Record<string, [string, string, string]> = {
-    'career-study-stage': ['Your current stage', 'Choose the stage closest to you. This moves more realistic routes upward.', 'It guides results but does not block a different path.'],
-    'career-preset-category': ['Area of work', 'Pick a broad field only when you want fewer cards to browse.', 'Leave it on all areas while you are still exploring.'],
+    'career-study-stage': ['Your current stage', 'Shows routes with a realistic starting point from this stage. Clear it to consider longer-term alternatives.', 'Use this as a practical route filter, not a judgement of ability.'],
+    'career-preset-category': ['Area of work', 'Pick a broad field only when you want fewer career options to browse.', 'Leave it on all areas while you are still exploring.'],
     'career-preset-group': ['Kind of work', 'Choose the type of day-to-day work that sounds most like you.', 'This is a broad description, not a test result.'],
-    'career-preset-sort': ['Put these cards first', 'This only changes which cards appear first. Use search or filters when you want fewer cards.', 'Nothing is removed; choose the order that feels most useful.'],
+    'career-preset-sort': ['Put these career options first', 'This changes which career options appear first. Use search or filters when you want a smaller shortlist.', 'Nothing is removed by sorting; choose the order that feels most useful.'],
   };
   Object.entries(copy).forEach(([id, [label, help, title]]) => {
     const select = qs<HTMLSelectElement>(`#${id}`);
@@ -1668,7 +1760,12 @@ function preparePresetControls() {
   const sortSelect = qs<HTMLSelectElement>('#career-preset-sort');
   if (sortSelect) {
     const sortLabels: Record<string, string> = {
-      recommended: 'Show suggested starting routes first',
+      recommended: 'Suggested starting routes',
+      'best-fit': 'Closest to my interests and strengths',
+      'practical-first': 'Practical and hands-on work',
+      'lower-barrier': 'Easier routes to begin exploring',
+      'earning-upside': 'Stronger earning upside',
+      stable: 'More established and steady work',
       alphabetical: 'Names A–Z',
       'quick-test': 'Show easiest routes to learn about first',
       'future-ready': 'Work changing quickly',
@@ -1680,7 +1777,12 @@ function preparePresetControls() {
     const sortField = sortSelect.closest('label');
     if (sortField && !sortField.querySelector('[data-career-sort-choice]')) {
       const choices = [
-        ['recommended', 'Show suggested starting routes first', 'Put suggested starting routes at the top; every matching route stays available.'],
+        ['recommended', 'Suggested starting routes', 'Put clear starting routes at the top; every matching route stays available.'],
+        ['best-fit', 'Closest to my interests and strengths', 'Use the preference buttons above as starting signals; this brings closer matches forward.'],
+        ['practical-first', 'Practical and hands-on work', 'Bring routes involving tools, equipment, sites, making, or real-world problem solving forward.'],
+        ['lower-barrier', 'Easier routes to begin exploring', 'Bring routes with clearer first steps forward without calling them easy careers.'],
+        ['earning-upside', 'Stronger earning upside', 'Bring routes with stronger specialist, commercial, or independent potential forward; this is not a salary promise.'],
+        ['stable', 'More established and steady work', 'Bring established routes forward while keeping growing and changing routes available.'],
         ['quick-test', 'Show easiest routes to learn about first', 'Put routes you can learn about by reading, watching, talking, or observing at the top.'],
         ['alphabetical', 'Names A–Z', 'See all names in A–Z order.'],
         ['future-ready', 'Work changing quickly', 'Put work with changing tools or demand near the top.'],
@@ -1751,6 +1853,12 @@ function renderCareerPresetResults() {
   const sort = qs<HTMLSelectElement>('#career-preset-sort')?.value ?? 'recommended';
   const selectedInterests = selectedCareerInterests();
   const interest = selectedInterests.length ? selectedInterests.join(',') : 'all';
+  const interestSummary = qs<HTMLElement>('#career-interest-summary');
+  if (interestSummary) {
+    interestSummary.textContent = selectedInterests.length
+      ? `${selectedInterests.length} preference${selectedInterests.length === 1 ? '' : 's'} selected · change them`
+      : 'Optional: tell us what suits you';
+  }
   if (!container) return;
   // Apply stage matching here rather than inside the catalogue helper so a
   // newly added stage such as broad science does not hide every route whose
@@ -1767,28 +1875,14 @@ function renderCareerPresetResults() {
   // The suggested starting order is the neutral default, not a learner choice.
   // Do not auto-select a career until the learner searches, chooses an
   // interest, changes the area, or selects a study stage.
-  const hasDecisionSignal = Boolean(query.trim()) || interest !== 'all' || careerGroup !== 'all' || !['all', 'featured'].includes(category) || !['all', 'after-12th-science'].includes(stage);
-  if (!matches.length || (!hasDecisionSignal && !matches.some((match) => match.key === selectedCareerGuideKey))) {
+  if (!matches.length || !matches.some((match) => match.key === selectedCareerGuideKey)) {
     selectedCareerGuideKey = '';
-  } else if (matches.length && !selectedCareerGuideKey && hasDecisionSignal) {
-    // Do not silently choose a career on a fresh page. Once the learner has
-    // searched or filtered, show the first matching guide as a helpful
-    // starting point; otherwise keep the guide panel instructional.
-    selectedCareerGuideKey = matches[0].key;
-  } else if (matches.length && !matches.some((match) => match.key === selectedCareerGuideKey) && hasDecisionSignal) {
-    selectedCareerGuideKey = matches[0].key;
   }
   // The library is complete and remains searchable. Pagination only controls
   // how many cards are rendered at once; it does not remove any route.
   const pageSize = careerLibraryPageSize();
   const totalPages = Math.max(1, Math.ceil(matches.length / pageSize));
   careerLibraryPage = Math.min(Math.max(careerLibraryPage, 1), totalPages);
-  if (typeof window !== 'undefined' && window.history?.replaceState) {
-    const url = new URL(window.location.href);
-    if (careerLibraryPage > 1) url.searchParams.set('careerPage', String(careerLibraryPage));
-    else url.searchParams.delete('careerPage');
-    window.history.replaceState(window.history.state, '', url);
-  }
   const offset = (careerLibraryPage - 1) * pageSize;
   const pageMatches = matches.slice(offset, offset + pageSize);
   // Keep the catalogue compact while showing enough nearby pages to orient
@@ -1815,11 +1909,12 @@ function renderCareerPresetResults() {
     ? `<span class="career-page-ellipsis" aria-hidden="true">…</span>`
     : `<button class="secondary-button career-page-number${page === careerLibraryPage ? ' is-current' : ''}" type="button" data-career-page-number="${page}" aria-label="Go to catalogue page ${page}"${page === careerLibraryPage ? ' aria-current="page"' : ''}>${page}</button>`).join('');
   const pageSizeOptions = careerPageSizeOptions();
+  syncCareerExplorerUrl(pageSize);
   const pagination = totalPages > 1
     ? `<nav class="career-library-pagination" data-career-total-pages="${totalPages}" aria-label="Career catalogue pages"><span class="career-page-indicator" aria-live="polite">Showing ${offset + 1}–${Math.min(offset + pageSize, matches.length)} of ${matches.length} · page ${careerLibraryPage} of ${totalPages}</span><span class="career-page-actions"><button class="secondary-button" type="button" data-career-page="first" aria-label="First catalogue page" ${careerLibraryPage === 1 ? 'disabled' : ''}>First</button><button class="secondary-button" type="button" data-career-page="previous" aria-label="Previous catalogue page" ${careerLibraryPage === 1 ? 'disabled' : ''}>Previous</button><span class="career-page-numbers" aria-label="Choose a catalogue page">${pageNumberHtml}</span><label class="career-page-jump"><span>Go to</span><input type="number" min="1" max="${totalPages}" value="${careerLibraryPage}" inputmode="numeric" data-career-page-jump aria-label="Go to catalogue page" /><button class="secondary-button" type="button" data-career-page-go aria-label="Go to entered catalogue page">Go</button></label><label class="career-page-size"><span>Show</span><select data-career-page-size aria-label="Careers per page">${pageSizeOptions.map((size) => `<option value="${size}"${size === pageSize ? ' selected' : ''}>${size}</option>`).join('')}</select><span>per page</span></label><button class="secondary-button" type="button" data-career-page="next" aria-label="Next catalogue page" ${careerLibraryPage === totalPages ? 'disabled' : ''}>Next</button><button class="secondary-button" type="button" data-career-page="last" aria-label="Last catalogue page" ${careerLibraryPage === totalPages ? 'disabled' : ''}>Last</button></span></nav>`
     : '';
   const resultContent = matches.length
-    ? careerLibraryResultsHtml(pageMatches, selectedCareerGuideKey, ctx.escapeHtml, pageSize, 0)
+    ? careerLibraryResultsHtml(pageMatches, selectedCareerGuideKey, ctx.escapeHtml, pageSize, 0, selectedInterests)
     : `<div class="empty-state career-library-empty" role="status"><strong>No career guides match these choices.</strong><span>Try a broader search or remove one of the filters. Your saved career options are unchanged.</span><button class="secondary-button" type="button" data-career-clear-filters>Clear filters</button></div>`;
   container.innerHTML = pagination + resultContent;
   qsa<HTMLInputElement>('[data-compare-career]').forEach((input) => {
@@ -1830,16 +1925,29 @@ function renderCareerPresetResults() {
     const title = input.closest('.career-library-result')?.querySelector('.career-result-title strong')?.textContent?.trim() || 'career';
     input.setAttribute('aria-label', `${selected ? 'Remove' : 'Add'} ${title} ${selected ? 'from' : 'to'} comparison`);
   });
-  const sortLabel = ({ recommended: 'suggested starting routes first', alphabetical: 'role name A–Z', 'quick-test': 'easiest routes to learn about first', 'future-ready': 'roles changing quickly first', independent: 'routes with independent work first' } as Record<string, string>)[sort] ?? 'selected order';
+  const sortLabel = selectedInterests.length && sort === 'recommended'
+    ? 'highest preference matches first'
+    : ({
+        recommended: 'suggested starting routes first',
+        'best-fit': 'highest preference matches first',
+        'practical-first': 'practical and hands-on work first',
+        'lower-barrier': 'clearer starting routes first',
+        'earning-upside': 'stronger earning upside first',
+        stable: 'more established work first',
+        alphabetical: 'role name A–Z',
+        'quick-test': 'easiest routes to learn about first',
+        'future-ready': 'roles changing quickly first',
+        independent: 'routes with independent work first',
+      } as Record<string, string>)[sort] ?? 'selected order';
   updateCareerSortHelp();
-  if (count) count.textContent = `${matches.length.toLocaleString()} careers available · ordered by ${sortLabel} · all remain available${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
+  if (count) count.textContent = `${matches.length.toLocaleString()} ${matches.length === 1 ? 'career option' : 'career options'} shown${selectedInterests.length ? ' for your selected preferences' : ''} · ordered by ${sortLabel}${totalPages > 1 ? ` · page ${careerLibraryPage} of ${totalPages}` : ''}`;
   const interestGuidance = qs<HTMLElement>('#career-interest-guidance');
   if (interestGuidance) {
     interestGuidance.textContent = selectedInterests.length
-      ? `${matches.length} guide${matches.length === 1 ? '' : 's'} match your interests${stage !== 'all' ? ' and study stage' : ''}. The closest matches appear first; read the practical work and learn more only if useful.`
+      ? `${matches.length} career option${matches.length === 1 ? '' : 's'} match your selected preferences${stage !== 'all' ? ' and study stage' : ''}. The highest percentage matches appear first; read the practical work and learn more only if useful.`
       : stage !== 'all'
         ? `${matches.length} guide${matches.length === 1 ? '' : 's'} suit this study stage. Choose one or two interests to make the shortlist more personal.`
-        : 'Choose one or two interests to move related careers toward the top. Study stage, area, and kind-of-work filters can narrow the catalogue. These are starting signals, not test results.';
+        : 'Choose one or two interests to narrow the career-option shortlist. Study stage, area, and kind-of-work filters can narrow it further. These are starting signals, not test results.';
   }
   const preview = qs<HTMLElement>('#career-guide-preview');
   const selectedGuide = matches.some((guide) => guide.key === selectedCareerGuideKey)
@@ -1868,7 +1976,7 @@ function renderCareerComparePanel() {
   const guides = comparedCareerGuideKeys.map((key) => careerGuideFor(key)).filter((guide): guide is NonNullable<ReturnType<typeof careerGuideFor>> => Boolean(guide));
   if (guides.length < 2) { panel.hidden = true; panel.innerHTML = ''; return; }
   panel.hidden = false;
-  panel.innerHTML = `<div class="career-compare-heading"><div><p class="eyebrow">Compare before choosing</p><h3 id="career-compare-heading">A short list of ${guides.length} career options</h3><p>Compare the ordinary work, entry route, local work context, and an optional way to learn more. You can simply keep the option that still feels worth revisiting.</p></div><button class="text-button" type="button" data-clear-career-compare>Clear comparison</button></div><div class="career-compare-grid">${guides.map((guide) => `<article><header><span><small>${ctx!.escapeHtml(learnerFacingCareerFamily(guide.category))}</small><h4>${ctx!.escapeHtml(guide.title)}</h4></span><button class="icon-button" type="button" data-remove-career-compare="${ctx!.escapeHtml(guide.key)}" aria-label="Remove ${ctx!.escapeHtml(guide.title)} from comparison">×</button></header><section><small>Interests this may suit</small><p>${ctx!.escapeHtml(interestSignalsFor(guide).slice(0, 2).join(' · '))}</p></section><section><small>Local work context</small><p>${ctx!.escapeHtml(guide.localContext)}</p></section><section><small>Competition</small><p>${ctx!.escapeHtml(guide.competitionNote)}</p></section><section><small>Independent path</small><p>${ctx!.escapeHtml(guide.independencePath)}</p></section><section><small>Practical work</small><p>${ctx!.escapeHtml(guide.dailyWork[0] || 'Read the practical work in the guide above.')}</p></section><section><small>Optional way to learn more</small><p>${ctx!.escapeHtml(guide.starterTests[0] || 'Read about the work or talk to someone who knows it.')}</p></section><button class="secondary-button" type="button" data-career-preset="${ctx!.escapeHtml(guide.key)}">Read this guide</button></article>`).join('')}</div>`;
+  panel.innerHTML = `<div class="career-compare-heading"><div><p class="eyebrow">Compare before choosing</p><h3 id="career-compare-heading">Compare ${guides.length} career options</h3><p>Use the same questions for every option. Look for important differences, not a single perfect score.</p></div><button class="text-button" type="button" data-clear-career-compare>Clear comparison</button></div><div class="career-compare-grid">${guides.map((guide) => `<article><header><span><small>${ctx!.escapeHtml(learnerFacingCareerFamily(guide.category))}</small><h4>${ctx!.escapeHtml(guide.title)}</h4></span><button class="icon-button" type="button" data-remove-career-compare="${ctx!.escapeHtml(guide.key)}" aria-label="Remove ${ctx!.escapeHtml(guide.title)} from comparison">×</button></header><section><small>Ordinary work</small><p>${ctx!.escapeHtml(guide.dailyWork.slice(0, 2).join(' · '))}</p></section><section><small>Where and how work happens</small><p>${ctx!.escapeHtml(`${guide.workSetting} ${guide.dayPace}`)}</p></section><section><small>Typical route and time</small><p>${ctx!.escapeHtml(`${guide.entryRoutes[0] || guide.entryLevel} ${guide.routeLength}`)}</p></section><section><small>Cost or eligibility to verify</small><p>${ctx!.escapeHtml(guide.regulated ? 'Verify course recognition, licensing, total cost, and supervised-practice requirements.' : guide.watchOuts[0] || 'Compare course cost and entry evidence before committing.')}</p></section><section><small>Competition and demand</small><p>${ctx!.escapeHtml(`${guide.competitionNote} ${guide.marketSignal}`)}</p></section><section><small>Earning context</small><p>${ctx!.escapeHtml(guide.earningContext)}</p></section><section><small>Skills that travel</small><p>${ctx!.escapeHtml(guide.portableSkills.join(' · '))}</p></section><section><small>Smallest useful test</small><p>${ctx!.escapeHtml(guide.starterTests[0] || 'Read about the work or talk to someone who knows it.')}</p></section><button class="secondary-button" type="button" data-career-preset="${ctx!.escapeHtml(guide.key)}">Explore full details</button></article>`).join('')}</div>`;
 }
 
 function toggleCareerCompare(key: string, checked: boolean) {
@@ -1906,6 +2014,12 @@ function selectCareerGuide(key: string) {
 }
 
 function wireCareerGuideActions(preview: HTMLElement) {
+  preview.querySelectorAll<HTMLDetailsElement>('.career-guide-more').forEach((details) => {
+    const label = details.querySelector<HTMLElement>('[data-career-guide-toggle]');
+    const sync = () => { if (label) label.textContent = details.open ? 'Close details' : 'Open details'; };
+    details.addEventListener('toggle', sync);
+    sync();
+  });
   Array.from(preview.querySelectorAll<HTMLButtonElement>('[data-choose-career]')).forEach((button) => {
     button.addEventListener('click', (event) => {
       event.preventDefault();
@@ -2286,7 +2400,12 @@ function updateCareerSortHelp() {
   const note = select?.closest('label')?.querySelector<HTMLElement>('small');
   if (!select || !note) return;
   const help: Record<string, string> = {
-    recommended: 'All matching options stay available. This puts suggested starting routes near the top.',
+    recommended: 'All matching options stay available. With preferences selected, the highest matches come first; otherwise suggested starting routes come first.',
+    'best-fit': 'All matching options stay available. This uses selected interests and strengths as starting signals.',
+    'practical-first': 'All matching options stay available. This puts practical and hands-on work near the top.',
+    'lower-barrier': 'All matching options stay available. This puts clearer first routes near the top; no career is labelled easy.',
+    'earning-upside': 'All matching options stay available. This uses cautious earning-potential signals, not salary promises.',
+    stable: 'All matching options stay available. This puts established routes near the top.',
     alphabetical: 'All matching options stay available. Names are sorted A–Z.',
     'quick-test': 'All matching options stay available. This puts the easiest routes to learn about near the top. Read, watch, talk, or observe if useful.',
     'future-ready': 'All matching options stay available. This puts work with changing tools or demand near the top.',
@@ -2387,16 +2506,16 @@ function updateCareerFocusControl() {
 }
 
 function emptyCareerPreview() {
-  return '<div class="career-guide-empty"><strong>Start with any career option that interests you</strong><span>Choose a card to see the typical day, how people start, useful first skills, and an optional way to learn more.</span><ol class="career-guide-start-list"><li><span class="career-step-number" aria-hidden="true">1</span><div><b>Read the typical day</b><span>Look beyond the job title.</span></div></li><li><span class="career-step-number" aria-hidden="true">2</span><div><b>Notice what fits you</b><span>Compare the work, route, and working style.</span></div></li><li><span class="career-step-number" aria-hidden="true">3</span><div><b>Save it if useful</b><span>Keep it as a main option or another option; you can change it later.</span></div></li></ol></div>';
+  return '<div class="career-guide-empty"><strong>Start with any career option that interests you</strong><span>Choose a career option to see the typical day, how people start, useful first skills, and an optional way to learn more.</span><ol class="career-guide-start-list"><li><span class="career-step-number" aria-hidden="true">1</span><div><b>Read the typical day</b><span>Look beyond the job title.</span></div></li><li><span class="career-step-number" aria-hidden="true">2</span><div><b>Notice what fits you</b><span>Compare the work, route, and working style.</span></div></li><li><span class="career-step-number" aria-hidden="true">3</span><div><b>Save it if useful</b><span>Keep it as a main option or another option; you can change it later.</span></div></li></ol></div>';
 }
 
 function careerStageGuidance(stage: unknown) {
   const value = String(stage ?? '').toLowerCase();
-  if (value.includes('10') || value.includes('school')) return 'For a school student, compare the kind of work and the subjects or routes it opens. Read, ask, or observe if you want to learn more; nothing needs to be recorded here.';
-  if (value.includes('11') || value.includes('12')) return 'For Class 11–12, compare course routes, entrance requirements, and the day-to-day work. A small project or practitioner conversation can help you decide, but it is optional and does not need a record.';
-  if (value.includes('college') || value.includes('graduate')) return 'For college or early career, compare entry routes and the first role you could realistically reach. Learn about the work through reading or a real conversation only if useful; notes belong in Skills only when you want them.';
-  if (value.includes('professional') || value.includes('career-change') || value.includes('working')) return 'For a career change, compare transferable skills, income timing, and the smallest credible bridge into the new work. Learn about the bridge only if it helps you decide; recording it is optional.';
-  return 'Start with what interests you. Read the practical work and learn a little more only if it helps. Keep options open while you decide.';
+  if (value.includes('10') || value.includes('school')) return 'Prioritises routes that can begin after school through a certificate, diploma, apprenticeship, ITI, or supervised entry role.';
+  if (value.includes('11') || value.includes('12')) return 'Prioritises routes that fit your subject direction. Always check current entrance, course, and eligibility rules before deciding.';
+  if (value.includes('college') || value.includes('graduate')) return 'Prioritises graduate-entry, internship, portfolio, trainee, and early-career routes.';
+  if (value.includes('professional') || value.includes('career-change') || value.includes('working')) return 'Prioritises routes with a credible transition path. Compare transferable skills, retraining time, and income timing.';
+  return 'Use pathway, situation, and preference filters to create a shortlist. Open a career option only when you want to investigate it.';
 }
 
 function careerStageStart(stage: unknown) {
@@ -2433,7 +2552,7 @@ function renderCareerDecisionCurrentPlan() {
   const alternatives = rows.filter((row) => row.option_type !== 'primary');
   if (!rows.length) { container.hidden = true; container.innerHTML = ''; return; }
   container.hidden = false;
-  const directionChip = (row: Row) => `<span class="career-plan-chip"><span><small>${ctx!.profile.role === 'student' ? (row.option_type === 'primary' ? 'Main choice' : 'Saved for later') : (row.option_type === 'primary' ? 'Main option' : 'Another option')}</small><strong>${ctx!.escapeHtml(row.title)}</strong><em>${ctx!.escapeHtml(decisionSignalFor(row) === 'needs-evidence' ? 'Still exploring' : decisionSignalLabel(decisionSignalFor(row)))}</em></span><button type="button" class="text-button" data-edit-career="${ctx!.escapeHtml(row.id)}">Review</button></span>`;
+  const directionChip = (row: Row) => `<span class="career-plan-chip"><span><small>${ctx!.profile.role === 'student' ? (row.option_type === 'primary' ? 'Current focus' : 'Saved for later') : (row.option_type === 'primary' ? 'Current focus' : 'Another option')}</small><strong>${ctx!.escapeHtml(row.title)}</strong><em>${ctx!.escapeHtml(decisionSignalFor(row) === 'needs-evidence' ? 'Still exploring' : decisionSignalLabel(decisionSignalFor(row)))}</em></span><button type="button" class="text-button" data-edit-career="${ctx!.escapeHtml(row.id)}">Review</button></span>`;
   container.innerHTML = `<div class="career-plan-summary-head"><div><small>Saved career options</small><strong>${rows.length} career option${rows.length === 1 ? '' : 's'} in this plan</strong></div><span class="scope-note">Keep more than one option open while you learn what fits.</span></div><div class="career-plan-chip-grid">${rows.map(directionChip).join('')}</div>`;
 }
 
@@ -2562,6 +2681,7 @@ function openCareerDialog(id = '') {
   if (sort) sort.value = 'recommended';
   if (stage) stage.value = initialCatalogueStage;
   selectedCareerGuideKey = row?.preset_key ?? '';
+  if (!row) restoreCareerExplorerState();
   renderCareerPresetResults();
   const preview = qs<HTMLElement>('#career-guide-preview');
   const initialGuide = guide ?? (selectedCareerGuideKey ? careerGuideFor(selectedCareerGuideKey) : null);
@@ -2585,15 +2705,25 @@ function openCareerDialog(id = '') {
   if (studentGuide) studentGuide.hidden = !isStudent;
   const careerFilters = qs<HTMLDetailsElement>('.career-filter-details');
   if (careerFilters) {
-    // Students should reach the cards and plain-language guidance first.
-    // Search and quick-start lenses remain visible; the richer filters stay
-    // available on demand instead of turning the first decision into a form.
+    // Put the three route filters above the fold. Keep the larger preference
+    // set available without making students scroll through every chip before
+    // they can reach the catalogue.
     careerFilters.open = !isStudent;
   }
+  const careerSortDetails = qs<HTMLDetailsElement>('.career-sort-details');
+  if (careerSortDetails) careerSortDetails.open = false;
   const manualFamilyField = qs<HTMLElement>('#career-manual-family-field');
   if (manualFamilyField) manualFamilyField.hidden = isStudent;
   const careerSubmitLabel = qs<HTMLElement>('#career-save-label');
   if (careerSubmitLabel) careerSubmitLabel.textContent = row ? 'Save changes' : 'Save career option';
+  const formFooter = form.querySelector<HTMLElement>(':scope > footer');
+  if (formFooter) formFooter.hidden = isStudent && isDedicatedCareerDecisionPage() && !row;
+  const hideLegacyStudentFields = isStudent && isDedicatedCareerDecisionPage() && !row;
+  const legacyDetailSelectors = ['#career-save-choice', '#career-save-choice + .form-help', '.decision-role-grid', '.career-check-in-field'];
+  legacyDetailSelectors.forEach((selector) => {
+    const element = form.querySelector<HTMLElement>(selector);
+    if (element) element.hidden = hideLegacyStudentFields;
+  });
   qs<HTMLElement>('#career-route-fallback')?.setAttribute('hidden', 'true');
   // The dedicated route is a normal page in the dashboard shell, so the
   // chooser never traps a learner inside a modal from the dashboard.
@@ -3910,6 +4040,14 @@ function bindEvents() {
     qsa<HTMLElement>('[data-career-interest]').forEach((button) => { const value = button.dataset.careerInterest ?? ''; const active = selected.has(value); button.setAttribute('aria-pressed', String(active)); button.classList.toggle('is-selected', active); });
     resetCareerPageAndRender();
   }));
+  qsa<HTMLButtonElement>('[data-career-pathway]').forEach((button) => button.addEventListener('click', () => {
+    const category = qs<HTMLSelectElement>('#career-preset-category');
+    if (!category) return;
+    category.value = button.dataset.careerPathway || 'all';
+    qsa<HTMLButtonElement>('[data-career-pathway]').forEach((item) => item.classList.toggle('is-selected', item === button));
+    resetCareerPageAndRender();
+    qs<HTMLElement>('#career-preset-count')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }));
   qs<HTMLSelectElement>('#career-study-stage')?.addEventListener('change', resetCareerPageAndRender);
   qs<HTMLSelectElement>('#career-preset-category')?.addEventListener('change', resetCareerPageAndRender);
   qs<HTMLSelectElement>('#career-preset-group')?.addEventListener('change', resetCareerPageAndRender);
@@ -3917,10 +4055,12 @@ function bindEvents() {
   const clearCareerFilters = () => {
     const search = qs<HTMLInputElement>('#career-preset-search');
     const category = qs<HTMLSelectElement>('#career-preset-category');
+    const careerGroup = qs<HTMLSelectElement>('#career-preset-group');
     const stage = qs<HTMLSelectElement>('#career-study-stage');
     const sort = qs<HTMLSelectElement>('#career-preset-sort');
     if (search) search.value = '';
     if (category) category.value = 'all';
+    if (careerGroup) careerGroup.value = 'all';
     if (stage) stage.value = 'all';
     if (sort) sort.value = 'recommended';
     qsa<HTMLElement>('[data-career-interest]').forEach((button) => { button.setAttribute('aria-pressed', 'false'); button.classList.remove('is-selected'); });
@@ -3939,7 +4079,7 @@ function bindEvents() {
     trigger.setAttribute('aria-expanded', String(opening));
     if (opening) qs<HTMLInputElement>('#career-custom-name')?.focus();
   });
-  qs<HTMLButtonElement>('#career-use-custom')?.addEventListener('click', () => {
+  qsa<HTMLButtonElement>('[data-custom-option-type]').forEach((customButton) => customButton.addEventListener('click', () => {
     const name = qs<HTMLInputElement>('#career-custom-name');
     const category = qs<HTMLInputElement>('#career-custom-category');
     const title = qs<HTMLInputElement>('#career-option-form input[name="title"]');
@@ -3949,11 +4089,13 @@ function bindEvents() {
     family.value = category?.value.trim() || 'Other';
     const preset = qs<HTMLInputElement>('#career-option-form input[name="preset_key"]');
     if (preset) preset.value = '';
+    qsa<HTMLInputElement>('#career-option-form input[name="option_type"]').forEach((input) => { input.checked = input.value === customButton.dataset.customOptionType; });
     qs<HTMLElement>('#career-custom-entry')?.setAttribute('hidden', 'true');
     qs<HTMLButtonElement>('#career-open-custom')?.setAttribute('aria-expanded', 'false');
-    document.getElementById('career-save-choice')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    qs<HTMLButtonElement>('#career-save-submit')?.focus();
-  });
+    const form = qs<HTMLFormElement>('#career-option-form');
+    if (form?.requestSubmit) form.requestSubmit();
+    else qs<HTMLButtonElement>('#career-save-submit')?.click();
+  }));
   qs<HTMLInputElement>('#skill-preset-search')?.addEventListener('input', renderSkillPresetResults);
   qs<HTMLSelectElement>('#skill-preset-category')?.addEventListener('change', renderSkillPresetResults);
   qs<HTMLInputElement>('#skill-pack-search')?.addEventListener('input', renderSkillPackResults);
@@ -4021,6 +4163,20 @@ function bindEvents() {
     }
     const careerPreset = target.closest<HTMLElement>('[data-career-preset]');
     if (careerPreset) { selectCareerGuide(careerPreset.dataset.careerPreset || ''); return; }
+    const careerAction = target.closest<HTMLElement>('[data-start-career-action]');
+    if (careerAction) {
+      const guide = careerGuideFor(careerAction.dataset.startCareerAction || '');
+      if (!guide) return;
+      try {
+        sessionStorage.setItem('fcs-dashboard-plan-tab', 'actions');
+        sessionStorage.setItem('fcs-career-action-prefill', JSON.stringify({
+          title: `Test ${guide.title}: ${guide.starterTests[0] || 'complete one realistic role task'}`,
+          details: `Record what felt interesting, difficult, and different from what you expected. Then decide whether to keep, change, pause, or rule out ${guide.title}.`,
+        }));
+      } catch { /* session storage may be unavailable */ }
+      window.location.assign('/dashboard?view=career');
+      return;
+    }
     if (target.closest('[data-career-clear-filters]')) {
       qs<HTMLButtonElement>('#career-clear-filters')?.click();
       return;
@@ -4136,6 +4292,11 @@ function bindEvents() {
       const size = Number(pageSizeSelect.value);
       if (careerPageSizeOptions().includes(size)) {
         try { window.localStorage.setItem(CAREER_PAGE_SIZE_KEY, String(size)); } catch { /* storage may be unavailable */ }
+        if (isDedicatedCareerDecisionPage()) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('careerPageSize', String(size));
+          window.history.replaceState(window.history.state, '', url);
+        }
         careerLibraryPage = 1;
         renderCareerPresetResults();
       }

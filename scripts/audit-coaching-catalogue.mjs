@@ -1,4 +1,5 @@
 import { build } from 'esbuild';
+import fs from 'node:fs';
 
 const result = await build({ entryPoints: ['src/data/coachingPlaybooks.ts'], bundle: true, platform: 'node', format: 'cjs', write: false });
 const module = { exports: {} };
@@ -15,8 +16,17 @@ const actionGaps = actions.filter((action) => !validStages.has(action.milestone)
 const packGaps = packs.filter((pack) => !pack.skillKeys.length || !module.exports.skillPackItems(pack).length).map((pack) => pack.key);
 const requiredTimeVariants = ['starter-career-test', 'one-week-practical-test', 'four-week-portfolio-project', 'deep-portfolio-project'];
 const missingTimeVariants = requiredTimeVariants.filter((key) => !actions.some((action) => action.key === key));
-if (skillGaps.length || actionGaps.length || packGaps.length || missingTimeVariants.length) {
-  console.error(JSON.stringify({ skillGaps, actionGaps, packGaps, missingTimeVariants }, null, 2));
+const requiredFoundationSkills = ['internet-search', 'security-and-privacy-basics', 'web-literacy', 'project-habits-and-finishing-things', 'high-agency', 'project-management', 'selling-and-persuasion'];
+const requiredActionKeys = ['two-hour-role-task', 'build-break-explain-lab', 'deep-work-routine', 'source-and-ai-check', 'money-safety-check'];
+const missingFoundationSkills = requiredFoundationSkills.filter((key) => !skills.some((skill) => skill.key === key));
+const missingActionPresets = requiredActionKeys.filter((key) => !actions.some((action) => action.key === key));
+const decisionUiSource = fs.readFileSync('src/scripts/coachingDecisionUI.ts', 'utf8').toLowerCase();
+const missingPlainLanguageMeanings = requiredFoundationSkills.filter((key) => {
+  const skill = skills.find((item) => item.key === key);
+  return !skill || !decisionUiSource.includes(`'${skill.title.toLowerCase()}'`);
+});
+if (skillGaps.length || actionGaps.length || packGaps.length || missingTimeVariants.length || missingFoundationSkills.length || missingActionPresets.length || missingPlainLanguageMeanings.length) {
+  console.error(JSON.stringify({ skillGaps, actionGaps, packGaps, missingTimeVariants, missingFoundationSkills, missingActionPresets, missingPlainLanguageMeanings }, null, 2));
   process.exit(1);
 }
-console.log(JSON.stringify({ skills: skills.length, actions: actions.length, skillPacks: packs.length, skillProgressionLevels: 3, gaps: 0 }));
+console.log(JSON.stringify({ skills: skills.length, actions: actions.length, skillPacks: packs.length, skillProgressionLevels: 3, requiredFoundationSkills, requiredActionKeys, gaps: 0 }));

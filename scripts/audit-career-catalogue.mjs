@@ -24,12 +24,17 @@ const requiredArrays = [
   ['evidenceExamples', 1],
 ];
 const keys = new Set();
+const identities = new Set();
 const duplicateKeys = [];
+const duplicateIdentities = [];
 const gaps = [];
 
 for (const preset of presets) {
   if (keys.has(preset.key)) duplicateKeys.push(preset.key);
   keys.add(preset.key);
+  const identity = `${String(preset.title).trim().toLowerCase()}::${String(preset.category).trim().toLowerCase()}`;
+  if (identities.has(identity)) duplicateIdentities.push(identity);
+  identities.add(identity);
   const guide = module.exports.careerGuideFor(preset.key);
   if (!guide || requiredArrays.some(([field, minimum]) => !Array.isArray(guide[field]) || guide[field].length < minimum) || !Array.isArray(guide.progression) || guide.progression.length < 3 || guide.progression.some((level) => !level.level || !level.example || !level.advice) || !['Builders', 'Analysers', 'Communicators', 'Healers', 'Makers'].includes(guide.careerGroup) || typeof guide.regulated !== 'boolean') {
     gaps.push(preset.key);
@@ -40,8 +45,27 @@ for (const preset of presets) {
   }
 }
 
-if (duplicateKeys.length || gaps.length) {
-  console.error(JSON.stringify({ duplicateKeys, enrichmentGaps: gaps }, null, 2));
+const suspiciousSources = presets.flatMap((preset) => {
+  const guide = module.exports.careerGuideFor(preset.key);
+  const source = String(guide?.marketEvidence?.source ?? '').toLowerCase();
+  const title = String(guide?.title ?? '').toLowerCase();
+  const renewableRole = /renewable|solar|wind|clean energy|energy transition/.test(title);
+  return source.includes('renewable energy and jobs') && !renewableRole
+    ? [`${preset.key}: unrelated renewable-energy source`]
+    : [];
+});
+
+const catalogueSizeIsCredible = presets.length > 400 && presets.length < 700;
+
+if (duplicateKeys.length || duplicateIdentities.length || gaps.length || suspiciousSources.length || !catalogueSizeIsCredible) {
+  console.error(JSON.stringify({
+    routeCount: presets.length,
+    credibleRouteCount: catalogueSizeIsCredible,
+    duplicateKeys,
+    duplicateIdentities,
+    unrelatedSources: suspiciousSources,
+    enrichmentGaps: gaps,
+  }, null, 2));
   process.exit(1);
 }
 

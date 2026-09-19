@@ -610,15 +610,19 @@ test('staff can run a complete coaching case from caseload to private notes', as
   await expect(careerDialog).toHaveAttribute('open', '');
   expect(await careerDialog.evaluate((element) => element.matches(':modal'))).toBe(false);
   await expect(careerDialog.locator('#career-preset-count')).not.toHaveText('');
+  const interestGroup = careerDialog.locator('details.career-interest-group-details:has(button[data-career-interest="systems"])');
+  if (!(await interestGroup.evaluate((element) => element.open))) {
+    await interestGroup.locator(':scope > summary').click();
+  }
   await careerDialog.locator('button[data-career-interest="systems"]').click();
   await expect(careerDialog.locator('#career-preset-results button')).not.toHaveCount(0);
   await careerDialog.locator('button[data-career-interest="systems"]').click();
   await careerDialog.locator('#career-preset-search').fill('Marine Engineer');
-  const marineGuide = careerDialog.getByRole('button', { name: /Marine Engineer/ });
+  const marineGuide = careerDialog.locator('.career-library-result > button[data-career-preset="marine-engineer"]');
   await expect(marineGuide).toBeVisible();
   await marineGuide.click();
-  await expect(careerDialog.locator('#career-guide-preview')).toContainText('Useful first tests');
-  await expect(careerDialog.getByRole('button', { name: 'Choose as primary' })).toBeVisible();
+  await expect(careerDialog.locator('#career-guide-preview')).toContainText('If you want to explore further');
+  await expect(careerDialog.getByRole('button', { name: /Make Marine Engineer your current focus|Choose as primary/ })).toBeVisible();
   const careerLayout = await page.evaluate(() => {
     const dialog = document.querySelector('#career-option-dialog');
     const rect = dialog?.getBoundingClientRect();
@@ -646,20 +650,15 @@ test('staff can run a complete coaching case from caseload to private notes', as
   await careerDialog.locator('#career-open-custom').click();
   await expect(careerDialog.locator('#career-custom-entry')).toBeVisible();
   await careerDialog.locator('#career-custom-name').fill('Digital Product Research');
-  await careerDialog.locator('#career-use-custom').click();
-  await expect(careerDialog.locator('#career-option-form input[name="title"]')).toHaveValue('Digital Product Research');
-  await careerDialog.getByLabel('Decision now').selectOption('promising-to-test');
-  await careerDialog.getByLabel('Education or entry routes').fill('Build a research portfolio through practical projects.');
-  await careerDialog.getByLabel('Useful next step').fill('Interview two product researchers');
-  await careerDialog.locator('#career-save-submit').click();
+  await careerDialog.locator('[data-custom-option-type="primary"]').click();
   await expect(careerDialog).not.toBeVisible();
-  await expect(page.locator('#workspace-status')).toContainText('Primary career option saved.');
-  await expect(page.locator('#workspace-status')).toContainText('8 linked starter skills are ready');
+  await expect(page.locator('#workspace-status')).toContainText('Main career option saved.');
+  await expect(page.locator('#workspace-status')).toContainText('8 related starter skills are ready');
   await expect(page.locator('#record-career-list')).toContainText('Digital Product Research');
   expect(careerSkillInserts.length).toBeGreaterThanOrEqual(5);
   expect(careerSkillInserts.every((row) => row.linked_career_path_id === generatedIds.career_paths)).toBe(true);
   expect(careerSkillInserts.every((row) => ['technical', 'digital', 'communication', 'analytical', 'creative', 'leadership', 'domain', 'language', 'employability'].includes(row.category))).toBe(true);
-  await expect(page.locator('#record-career-list .career-decision-row').filter({ hasText: 'Digital Product Research' })).toContainText(/skills mapped to this career option/i);
+  await expect(page.locator('#record-career-list .career-decision-row').filter({ hasText: 'Digital Product Research' })).toContainText(/related skills in your Skills page/i);
 
   await page.locator('[data-record-tab="skills"]').click();
   await expect(page.locator('#record-skill-list')).toContainText('Data analysis');
@@ -668,7 +667,7 @@ test('staff can run a complete coaching case from caseload to private notes', as
   await expect(page.locator('#record-skill-list')).toContainText('The examples made the next practice clear.');
   await expect(page.locator('#record-skill-list')).toContainText('4/10 · Developing');
   await expect(page.locator('#record-skill-list')).toContainText('5/10 · On track');
-  await expect(page.locator('#record-skill-list').getByRole('button', { name: 'Add optional note' }).first()).toBeVisible();
+  await expect(page.locator('#record-skill-list').getByRole('button', { name: 'Add a note (optional)' }).first()).toBeVisible();
   await page.locator('[data-record-pane="skills"]').getByRole('button', { name: 'Add skill plan' }).click();
   const skillPlanDialog = page.locator('#skill-plan-dialog');
   await expect(skillPlanDialog).toBeVisible();
@@ -708,7 +707,7 @@ test('staff can run a complete coaching case from caseload to private notes', as
   await page.locator('#record-skill-list [data-skill-page-action="last"]:visible').first().click();
   const newSkill = page.locator('#record-skill-list .skill-roadmap-row').filter({ hasText: 'Interview synthesis' });
   await expect(newSkill).toBeVisible();
-  await newSkill.getByRole('button', { name: 'Add optional note' }).click();
+  await newSkill.getByRole('button', { name: 'Add a note (optional)' }).click();
   const evidenceDialog = page.locator('#evidence-dialog');
   await evidenceDialog.getByLabel('Description').fill('Grouped repeated observations into three useful themes.');
   await evidenceDialog.getByLabel('Links to proof (optional)').fill('https://example.test/interview-notes\nhttps://example.test/interview-summary');
@@ -821,7 +820,7 @@ test('staff can run a complete coaching case from caseload to private notes', as
   await actionForm.getByLabel('Choose from suggested actions').selectOption('compare-entry-routes');
   await expect(actionForm.getByPlaceholder('For example: Compare two entry routes')).toHaveValue('Compare three entry routes');
   await actionForm.getByPlaceholder('For example: Compare two entry routes').fill('Map three undergraduate research routes');
-  await actionForm.getByPlaceholder('Describe the result, proof, or next decision that will show progress.').fill('Compare entry requirements, cost, and practical exposure.');
+  await actionForm.getByPlaceholder('Describe the result or next decision that would show progress.').fill('Compare entry requirements, cost, and practical exposure.');
   await actionForm.getByRole('button', { name: 'Assign' }).click();
   await expect(page.locator('#workspace-status')).toHaveText('Action added.');
   await expect(page.locator('#record-action-list')).toContainText('Map three undergraduate research routes');
@@ -859,18 +858,39 @@ test('staff can run a complete coaching case from caseload to private notes', as
 });
 
 test('student dashboard opens when assessment results are unavailable', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+  await page.setViewportSize({ width: 319, height: 844 });
   await mockWorkspace(page, 'student', { assessmentUnavailable: true });
   await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('#workspace-shell')).toBeVisible({ timeout: 10_000 });
   await expect(page.locator('[data-workspace-view="overview"]')).toBeVisible();
+  const narrowOverview = await page.evaluate(() => {
+    const browse = document.querySelector('.student-assessment-summary .secondary-button');
+    const browseRect = browse?.getBoundingClientRect();
+    const navButtons = [...document.querySelectorAll('#mobile-nav button')];
+    return {
+      overflow: document.documentElement.scrollWidth - window.innerWidth,
+      browseOverflow: browse instanceof HTMLElement ? Math.max(0, browse.scrollWidth - browse.clientWidth) : -1,
+      browseOutOfBounds: !browseRect || browseRect.left < -1 || browseRect.right > window.innerWidth + 1,
+      navIconOffset: navButtons.map((button) => {
+        const icon = button.querySelector('svg');
+        if (!icon) return 0;
+        const buttonRect = button.getBoundingClientRect();
+        const iconRect = icon.getBoundingClientRect();
+        return Math.abs((buttonRect.left + buttonRect.width / 2) - (iconRect.left + iconRect.width / 2));
+      }),
+    };
+  });
+  expect(narrowOverview.overflow).toBeLessThanOrEqual(1);
+  expect(narrowOverview.browseOverflow).toBeLessThanOrEqual(1);
+  expect(narrowOverview.browseOutOfBounds).toBe(false);
+  expect(narrowOverview.navIconOffset.every((offset) => offset <= 1)).toBe(true);
   await page.locator('#mobile-nav [data-view-target="career"]').click();
   await expect(page.locator('[data-workspace-view="career"]')).toBeVisible();
   await expect(page.locator('#student-assessment-list')).toContainText('Assessments are optional');
   await expect(page.locator('#plan-skills-pane')).toBeHidden();
   await page.locator('[data-plan-tab="skills"]').click();
   await expect(page.locator('#plan-skills-pane')).toBeVisible();
-  await expect(page.locator('#plan-skills-pane')).toContainText('0–10 rating');
+  await expect(page.locator('#plan-skills-pane')).toContainText('0 means “not started yet”');
 });
 
 test('workspace loading screen stays legible before scripts initialise', async ({ page }, testInfo) => {
@@ -899,6 +919,34 @@ test('workspace loading screen stays legible before scripts initialise', async (
   }
 });
 
+test('removing a career removes only its linked skills and keeps foundation skills', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await mockWorkspace(page, 'student');
+  const deleteRequests = [];
+  page.on('request', (request) => {
+    if (request.method() === 'DELETE' && request.url().includes('/rest/v1/')) deleteRequests.push(request.url());
+  });
+  await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#workspace-shell')).toBeVisible({ timeout: 10_000 });
+  await page.locator('#mobile-nav [data-view-target="career"]').click();
+  await expect(page.locator('[data-workspace-view="career"]')).toBeVisible();
+  await page.locator('[data-plan-tab="options"]').click();
+  const engineering = page.locator('[data-plan-pane="options"] .career-decision-row').filter({ hasText: 'Engineering Design' }).first();
+  await expect(engineering).toBeVisible();
+  page.once('dialog', (dialog) => dialog.accept());
+  await engineering.locator('[data-delete-career]').click();
+  await expect(page.locator('#workspace-status')).toHaveText('Career option and its linked skills were removed.');
+  await expect(page.locator('[data-plan-pane="options"] .career-decision-row').filter({ hasText: 'Engineering Design' })).toHaveCount(0);
+  await page.locator('[data-plan-tab="skills"]').click();
+  await expect(page.locator('#plan-skills-pane')).toContainText('High agency');
+  await expect(page.locator('#plan-skills-pane')).toContainText('Product Design:');
+  await expect(page.locator('#plan-skills-pane')).not.toContainText('Engineering Design:');
+  expect(deleteRequests.length).toBe(2);
+  expect(deleteRequests[0]).toContain('/rest/v1/student_skills');
+  expect(deleteRequests[0]).toContain('linked_career_path_id=eq.');
+  expect(deleteRequests[1]).toContain('/rest/v1/career_paths');
+});
+
 test('student plan is useful on mobile and preserves coach-owned records', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await mockWorkspace(page, 'student');
@@ -915,7 +963,7 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await page.locator('#attention-list [data-open-view="career"][data-plan-shortcut-tab="skills"]').click();
   await expect(page.locator('[data-workspace-view="career"]')).toBeVisible();
   await expect(page.locator('#plan-skills-pane')).toBeVisible();
-  await expect(page.locator('#plan-skills-pane')).toContainText('0–10 rating');
+  await expect(page.locator('#plan-skills-pane')).toContainText('0 means “not started yet”');
   await expect(page.locator('#plan-skills-pane')).not.toContainText('0–10 view');
   await page.locator('#mobile-nav [data-view-target="overview"]').click();
   await expect(page.locator('[data-workspace-view="overview"]')).toBeVisible();
@@ -932,7 +980,7 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await expect(page.locator('#student-cohort-context')).toContainText('Class 11-12 Career Direction');
   await expect(page.locator('#student-cohort-context')).toContainText('VSKP-C12-01');
   await expect(page.locator('#student-cohort-context')).toContainText('20 Aug 2027');
-  await expect(page.locator('#student-career-focus-summary')).toContainText('Primary career options');
+  await expect(page.locator('#student-career-focus-summary')).toContainText('Main options');
   await expect(page.locator('#student-career-focus-summary')).toContainText('Choose your own level of focus');
   await expect(page.locator('.student-plan-start')).toContainText('Move your plan forward');
   await expect(page.locator('.student-plan-start')).toContainText('Choose a career option');
@@ -950,7 +998,7 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await page.locator('.student-plan-start').getByRole('button', { name: 'Choose a career option' }).click();
   await expect(page).toHaveURL(/\/dashboard\/career-decision/);
   expect(await page.locator('#career-option-dialog').evaluate((element) => element.matches(':modal'))).toBe(false);
-  await expect(page.locator('#career-stage-guidance')).toContainText('Class 11–12');
+  await expect(page.locator('#career-stage-guidance')).toContainText('fit your subject direction');
   await expect(page.locator('#career-stage-start-title')).toContainText('Compare courses');
   await expect(page.locator('#career-preset-category')).toHaveValue('all');
   await expect(page.locator('#career-study-stage')).toHaveValue('after-12th-science');
@@ -960,7 +1008,7 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await expect(page.locator('.career-interest-chips')).toContainText('Helping people');
   await expect(page.locator('#career-decision-checklist')).toContainText('Answer four practical questions');
   await expect(page.locator('#career-interest-guidance')).toContainText('Choose one or two interests');
-  await expect(page.locator('#career-guide-preview')).toContainText('Choose a career card');
+  await expect(page.locator('#career-guide-preview')).toContainText('Choose a career option');
   await page.locator('#career-preset-results .career-library-result > button').first().click();
   await expect(page.locator('#career-guide-preview')).toContainText('Subjects and routes to consider');
   await expect(page.locator('#career-guide-preview')).toContainText('Earning context');
@@ -978,14 +1026,16 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   expect(fallbackGroups.every((text) => /Healers/i.test(text))).toBe(true);
   await page.locator('#career-preset-group').selectOption('all');
   await page.locator('#career-study-stage').selectOption('after-12th-science');
+  await page.locator('.career-filter-details').evaluate((details) => { details.open = true; });
+  await page.locator('.career-interest-group-details').first().evaluate((details) => { details.open = true; });
   await page.locator('.career-interest-chips button[data-career-interest="creative"]').click();
-  await expect(page.locator('#career-interest-guidance')).toContainText('guide');
+  await expect(page.locator('#career-interest-guidance')).toContainText(/selected|matching|preference/i);
   await expect(page.locator('#career-detail-fields')).toBeHidden();
   await expect(page.locator('#career-manual-family-field')).toBeHidden();
-  await page.locator('#career-option-form .segmented-control label').filter({ hasText: 'Secondary career option' }).click();
   await expect(page.locator('#career-focus-range')).toHaveCount(0);
-  await page.locator('#career-option-form .segmented-control label').filter({ hasText: 'Primary career option' }).click();
   await expect(page.locator('#career-focus-number')).toHaveCount(0);
+  await expect(page.locator('.career-result-save-actions').first()).toContainText('Make current focus');
+  await expect(page.locator('.career-result-save-actions').first()).toContainText('Save for later');
   const compareOptions = page.locator('#career-preset-results input[data-compare-career]');
   await expect(compareOptions).not.toHaveCount(0);
   await compareOptions.nth(0).check();
@@ -1059,14 +1109,14 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(ownSkill.locator('.skill-meaning')).toContainText('What this means');
   await expect(ownSkill.locator('.skill-ability-summary')).toContainText('Current ability');
-  await expect(ownSkill.locator('.skill-action-preview')).toContainText('Start here');
-  await expect(ownSkill.locator('.skill-action-preview')).toContainText('Optional progress note');
+  await expect(ownSkill.locator('.skill-action-preview')).toContainText('What you could try');
+  await expect(ownSkill.locator('.skill-action-preview')).toContainText('What you may notice');
   await expect(ownSkill.locator('.skill-progression-details')).toHaveCount(1);
   // Evidence stays collapsed initially so a learner can scan several skills
   // without losing access to the underlying descriptions and links.
   await expect(staffSkill.locator('details.skill-evidence-details')).toHaveCount(1);
   await expect(staffSkill.locator('details.skill-evidence-details')).not.toHaveAttribute('open', '');
-  await expect(staffSkill.getByRole('button', { name: 'Add optional note' })).toBeVisible();
+  await expect(staffSkill.getByRole('button', { name: 'Add a note (optional)' })).toBeVisible();
   await expect(staffSkill.getByRole('button', { name: 'Edit skill', exact: true })).toHaveCount(0);
   // Students can remove any skill from their own plan, including a recommended
   // or coach-added starting skill, when it is no longer useful to practise.
@@ -1362,7 +1412,10 @@ test('dedicated career decision route behaves as a full dashboard page', async (
   expect(layout.topbarHidden).toBe(true);
   expect(layout.documentOverflow).toBeLessThanOrEqual(1);
   const catalogueCount = await page.locator('#career-preset-count').textContent();
-  expect(catalogueCount || '').toMatch(/\d{3,} careers available/);
+  const routeCount = Number((catalogueCount || '').match(/[\d,]+/)?.[0].replace(/,/g, ''));
+  expect(routeCount).toBeGreaterThan(400);
+  expect(routeCount).toBeLessThan(700);
+  expect(catalogueCount || '').toContain('career options shown');
   await expect(page.locator('#career-decision-student-guide-title')).toHaveText('Choose, learn, revisit');
   await expect(page.locator('.career-decision-journey article').nth(2)).toContainText('Revisit after a little time');
   await expect(page.locator('#career-decision-checklist ol li').nth(2)).toContainText('What could I learn next?');
@@ -1396,8 +1449,8 @@ test('dedicated career decision route behaves as a full dashboard page', async (
   const incompleteCareerCards = await page.locator('#career-preset-results .career-library-result > button').evaluateAll((cards) => cards.filter((card) => {
     const summary = card.querySelector('p')?.textContent?.trim() || '';
     const metadata = card.querySelectorAll('.career-result-meta em').length;
-    const skillsCue = Array.from(card.querySelectorAll('.career-result-meta em')).some((item) => item.textContent?.trim().startsWith('Skills:'));
-    return summary.length < 20 || metadata < 4 || !skillsCue;
+    const facts = card.querySelectorAll('.career-result-facts > span').length;
+    return summary.length < 20 || metadata < 4 || facts < 4;
   }).length);
   expect(incompleteCareerCards).toBe(0);
   await page.locator('#career-preset-results .career-library-result > button').first().click();
@@ -1415,9 +1468,9 @@ test('catalogue career choices save directly without asking the learner to retyp
   await careerCard.click();
   const preview = page.locator('#career-guide-preview');
   await expect(preview).toContainText('Marine Engineer');
-  await expect(preview).toContainText('no typing is required');
+  await expect(preview).toContainText('Choose its place in your plan');
   const careerRequest = page.waitForRequest((request) => request.method() === 'POST' && request.url().includes('/rest/v1/career_paths'));
-  await preview.getByRole('button', { name: 'Choose as primary career option' }).click();
+  await preview.locator('[data-choose-career="primary"]').click();
   const request = await careerRequest;
   const payload = request.postDataJSON();
   const saved = Array.isArray(payload) ? payload[0] : payload;
@@ -1488,7 +1541,7 @@ test('dedicated career decision route stays usable on mobile', async ({ page }) 
       compareWidthDifference: Math.abs(cardRect.width - (compareRect?.width || 0)),
     };
   });
-  expect(actionLayout.openText).toContain('Read the details');
+  expect(actionLayout.openText).toContain('Explore this career');
   expect(actionLayout.openHeight).toBeGreaterThanOrEqual(40);
   expect(actionLayout.compareHeight).toBeGreaterThanOrEqual(38);
   expect(actionLayout.compareWidthDifference).toBeLessThanOrEqual(2);
@@ -1498,7 +1551,7 @@ test('dedicated career decision route stays usable on mobile', async ({ page }) 
   await expect(page.locator('#career-preset-results .career-compare-toggle').first()).toContainText('Added to comparison');
   await firstCareer.locator('button[data-career-preset]').click();
   await expect(page.locator('#career-guide-preview .career-guide-save-quick')).toBeVisible();
-  await expect(page.locator('#career-guide-preview .career-guide-save-quick')).toContainText('Explore seriously');
+  await expect(page.locator('#career-guide-preview .career-guide-save-quick')).toContainText('Want to keep investigating');
 });
 
 test('career pagination control stays available on desktop', async ({ page }) => {
@@ -1511,7 +1564,7 @@ test('career pagination control stays available on desktop', async ({ page }) =>
   await expect(page.locator('[data-career-page-jump]')).toHaveAttribute('type', 'number');
   await expect(page.locator('[data-career-page-jump]')).toHaveValue('1');
   await expect(page.locator('select[data-career-page-jump]')).toHaveCount(0);
-  await expect(page.locator('[data-career-page-size]')).toHaveValue('24');
+  await expect(page.locator('[data-career-page-size]')).toHaveValue('10');
   await expect(page.locator('.career-page-indicator')).toHaveAttribute('aria-live', 'polite');
   await page.locator('[data-career-page-size]').selectOption('48');
   await expect(page.locator('[data-career-page-size]')).toHaveValue('48');
@@ -1541,7 +1594,7 @@ test('career catalogue keeps a recoverable empty state when filters have no matc
   await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
   const search = page.locator('#career-preset-search');
   await search.fill('zzzz-no-career-match-9f7c');
-  await expect(page.locator('#career-preset-count')).toContainText('0 careers available');
+  await expect(page.locator('#career-preset-count')).toContainText('0 career options shown');
   const emptyState = page.locator('#career-preset-results .career-library-empty');
   await expect(emptyState).toContainText('No career guides match these choices.');
   const emptyLayout = await emptyState.evaluate((element) => {
@@ -1551,7 +1604,7 @@ test('career catalogue keeps a recoverable empty state when filters have no matc
   expect(emptyLayout.radius).toBeGreaterThanOrEqual(12);
   expect(emptyLayout.padding).toBeGreaterThanOrEqual(16);
   expect(emptyLayout.background).not.toBe('rgba(0, 0, 0, 0)');
-  await page.locator('#career-preset-results [data-career-clear-filters]').click();
+  await page.locator('#career-clear-filters').click();
   await expect(search).toHaveValue('');
   await expect(page.locator('#career-preset-results .career-library-result').first()).toBeVisible();
 });
@@ -1564,19 +1617,19 @@ test('career filters stay intersected and never show a stale guide', async ({ pa
   const search = page.locator('#career-preset-search');
   await page.locator('#career-preset-category').selectOption('featured');
   await search.fill('Marine Engineer');
-  await expect(page.locator('#career-preset-count')).toContainText('0 careers available');
+  await expect(page.locator('#career-preset-count')).toContainText('0 career options shown');
   await expect(page.locator('#career-preset-results .career-library-empty')).toBeVisible();
 
   await page.locator('#career-preset-category').selectOption('all');
-  await expect(page.locator('#career-preset-count')).toContainText('1 useful match');
+  await expect(page.locator('#career-preset-count')).toContainText('1 career option shown');
   await page.locator('#career-preset-results [data-career-preset]').first().click();
   await expect(page.locator('#career-guide-preview')).toContainText('Marine Engineer');
   await page.locator('#career-study-stage').selectOption('after-12th-humanities');
-  await expect(page.locator('#career-preset-count')).toContainText('0 careers available');
+  await expect(page.locator('#career-preset-count')).toContainText('0 career options shown');
   await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
-  await page.locator('#career-preset-results [data-career-clear-filters]').click();
+  await page.locator('#career-clear-filters').click();
   await expect(search).toHaveValue('');
-  await expect(page.locator('#career-preset-count')).toContainText('1,446 careers available');
+  await expect(page.locator('#career-preset-count')).toContainText('573 career options shown');
   await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
   await search.fill('Software Engineer');
   await expect(page.locator('#career-preset-results .career-library-result').first().locator('.career-result-title strong')).toHaveText('Software Engineer');
@@ -1587,19 +1640,20 @@ test('career sort changes ordering while keeping the full matching catalogue', a
   await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
   const firstTitles = async () => page.locator('#career-preset-results .career-library-result .career-result-title strong').allTextContents();
-  await expect(page.locator('#career-preset-sort').locator('option[value="quick-test"]')).toContainText('Easy ways to learn about the work');
-  await expect(page.locator('#career-preset-sort').locator('xpath=ancestor::label')).toContainText('All careers stay available.');
-  await page.locator('#career-preset-sort').selectOption('recommended');
+  await page.locator('.career-sort-details').evaluate((details) => { details.open = true; });
+  await expect(page.locator('[data-career-sort-choice="quick-test"]')).toContainText('Show easiest routes to learn about first');
+  await expect(page.locator('[data-career-sort-choice="recommended"]')).toContainText('every matching route stays available');
+  await page.locator('[data-career-sort-choice="recommended"]').click();
   const recommended = await firstTitles();
-  await expect(page.locator('#career-preset-count')).toContainText('ordered by clear routes first');
-  await page.locator('#career-preset-sort').selectOption('quick-test');
+  await expect(page.locator('#career-preset-count')).toContainText('ordered by suggested starting routes first');
+  await page.locator('[data-career-sort-choice="quick-test"]').click();
   const quickTest = await firstTitles();
-  await expect(page.locator('#career-preset-count')).toContainText('ordered by easy ways to learn first');
+  await expect(page.locator('#career-preset-count')).toContainText('ordered by easiest routes to learn about first');
   expect(quickTest).not.toEqual(recommended);
-  await expect(page.locator('#career-preset-count')).toContainText('1,446 careers available');
+  await expect(page.locator('#career-preset-count')).toContainText('573 career options shown');
   await expect(page.locator('.career-result-save-actions').first()).toContainText('Keep this option:');
-  await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="primary"]')).toHaveText('Primary');
-  await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="alternative"]')).toHaveText('Secondary');
+  await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="primary"]')).toHaveText('Make current focus');
+  await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="alternative"]')).toHaveText('Save for later');
 });
 
 test('dedicated career page starts at the top without unused toolbar clearance', async ({ page }) => {
@@ -1609,8 +1663,7 @@ test('dedicated career page starts at the top without unused toolbar clearance',
     await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
     const filterDetails = page.locator('.career-filter-details');
-    if (width <= 760) await expect(filterDetails).not.toHaveAttribute('open');
-    else await expect(filterDetails).toHaveAttribute('open');
+    await expect(filterDetails).not.toHaveAttribute('open');
     const layout = await page.evaluate(() => {
       const main = document.querySelector('#hierarchy-workspace .workspace-main');
       const shell = document.querySelector('#hierarchy-workspace .workspace-shell');
@@ -1635,6 +1688,8 @@ test('career interest and detail labels are readable at phone and tablet widths'
     await mockWorkspace(page, 'student');
     await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
+    await page.locator('.career-filter-details').evaluate((details) => { details.open = true; });
+    await page.locator('.career-interest-group-details').first().evaluate((details) => { details.open = true; });
     const navigationLayout = await page.evaluate(() => {
       const header = document.querySelector('#career-option-dialog > .dialog-form > header');
       const quickNav = document.querySelector('.career-quick-nav');
@@ -1692,13 +1747,15 @@ test('independent-work ordering does not promote employer-only routes', async ({
   await mockWorkspace(page, 'student');
   await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('#career-option-dialog')).toBeVisible({ timeout: 10_000 });
-  await page.locator('#career-preset-sort').selectOption('independent');
+  await page.locator('.career-sort-details').evaluate((details) => { details.open = true; });
+  await page.locator('[data-career-sort-choice="independent"]').click();
   const firstPageTags = await page.locator('#career-preset-results .career-library-result .career-result-meta').allTextContents();
   expect(firstPageTags.length).toBeGreaterThan(0);
-  expect(firstPageTags.every((text) => text.includes('Can grow into independent work'))).toBe(true);
-  await page.locator('#career-preset-search').fill('Public Administration Officer');
+  expect(firstPageTags[0]).toContain('Can grow into independent work');
+  await expect(page.locator('#career-preset-count')).toContainText('573 career options shown');
+  await page.locator('#career-preset-search').fill('Civil Services Officer');
   const publicRoute = page.locator('#career-preset-results .career-library-result')
-    .filter({ has: page.locator('.career-result-title strong', { hasText: 'Public Administration Officer' }) }).first();
+    .filter({ has: page.locator('.career-result-title strong', { hasText: 'Civil Services Officer' }) }).first();
   await expect(publicRoute).toBeVisible();
   await expect(publicRoute.locator('.career-result-meta')).toContainText('Usually organisation-based');
 });
