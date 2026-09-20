@@ -580,7 +580,7 @@ function renderCohortPosts(cohortId: string | null, listSelector: string, formSe
       .toLowerCase()
       .includes(searchTerm);
   }) : posts;
-  list.innerHTML = filtered.map((post) => cohortPostHtml(post, editable)).join('') || `<div class="empty-state coaching-empty"><strong>${searchTerm ? 'No matching contributions.' : 'No contributions yet.'}</strong><span>${searchTerm ? 'Try a different word or clear the search.' : 'Share a useful update, reflection, question, or resource for the cohort.'}</span></div>`;
+  list.innerHTML = filtered.map((post) => cohortPostHtml(post, editable)).join('') || `<div class="empty-state coaching-empty"><strong>${searchTerm ? 'No matching contributions.' : 'No contributions yet.'}</strong><span>${searchTerm ? 'Try a different word or clear the search.' : 'Share a useful update, learning note, question, or resource for the cohort.'}</span></div>`;
   const form = formSelector ? qs<HTMLFormElement>(formSelector) : null;
   const cohortField = form?.elements.namedItem('cohort_id') as HTMLInputElement | null;
   if (cohortField) cohortField.value = cohortId || '';

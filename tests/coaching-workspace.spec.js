@@ -741,20 +741,20 @@ test('staff can run a complete coaching case from caseload to private notes', as
     if (!['POST', 'PATCH'].includes(request.method()) || new URL(request.url()).pathname !== '/rest/v1/skill_reviews') return false;
     return request.postDataJSON().coach_satisfaction === 7;
   });
-  await coachQuickRating.getByLabel(/Coach satisfaction/).fill('7');
+  await coachQuickRating.getByLabel(/Coach score/).fill('7');
   await expect(coachQuickRating.locator('output')).toHaveText('7/10');
   await coachSkillFeedback.getByLabel('Feedback (optional)').fill('The synthesis is clear and ready to test with a coach.');
   await coachSkillFeedback.getByLabel('Next step (optional)').fill('Explain one theme aloud without reading notes.');
   await coachSkillFeedback.getByRole('button', { name: 'Save coach guidance' }).click();
   await coachRatingRequest;
-  await expect(page.locator('#workspace-status')).toHaveText('Coach feedback was saved. Satisfaction score saved: 7/10.');
+  await expect(page.locator('#workspace-status')).toHaveText('Coach feedback was saved. Score saved: 7/10.');
   await expect(newSkill).toContainText('Suggested next step: Explain one theme aloud without reading notes.');
   await newSkill.getByRole('button', { name: /Add coach feedback|Update coach feedback/ }).click();
   const zeroCoachFeedback = newSkill.locator('[data-quick-skill-rating]');
   await expect(zeroCoachFeedback.locator('output')).toHaveText('7/10');
   await expect(zeroCoachFeedback.locator('[data-rating-slider]')).toHaveValue('7');
   await expect(zeroCoachFeedback.locator('[data-rating-slider-shell]')).toHaveAttribute('style', /--rating-progress:\s*70%/);
-  const zeroCoachSlider = zeroCoachFeedback.getByLabel(/Coach satisfaction/);
+  const zeroCoachSlider = zeroCoachFeedback.getByLabel(/Coach score/);
   // Selecting the left edge is an intentional score of zero, not an empty
   // rating. Use a real click because a range already at zero does not emit an
   // input event when the user chooses that same value again.
@@ -768,8 +768,8 @@ test('staff can run a complete coaching case from caseload to private notes', as
   });
   await zeroCoachFeedback.getByRole('button', { name: 'Save score' }).click();
   await zeroCoachRatingRequest;
-  await expect(page.locator('#workspace-status')).toHaveText('Coach feedback was saved. Satisfaction score saved: 0/10.');
-  await expect(newSkill).toContainText('0/10 · Not rated');
+  await expect(page.locator('#workspace-status')).toHaveText('Coach feedback was saved. Score saved: 0/10.');
+  await expect(newSkill).toContainText('0/10 · Not started');
 
   await page.locator('[data-record-tab="sessions"]').click();
   await expect(page.locator('#record-cohort-context')).toContainText('Class 11-12 Career Direction');
@@ -1184,7 +1184,7 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   expect(sliderAppearance.webkitAppearance).toBe('none');
   expect(sliderAppearance.outputBorder).toBe('none');
   await expect(studentSkillFeedback.locator('output')).toHaveText('Not rated');
-  await studentSkillFeedback.getByLabel(/Your satisfaction/).fill('4');
+  await studentSkillFeedback.getByLabel(/Your score/).fill('4');
   await expect(studentSkillFeedback.locator('output')).toHaveText('4/10');
   const studentRatingRequest = page.waitForRequest((request) => {
     if (!['POST', 'PATCH'].includes(request.method()) || new URL(request.url()).pathname !== '/rest/v1/skill_reviews') return false;
@@ -1192,7 +1192,7 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   });
   await studentSkillFeedback.getByRole('button', { name: 'Save score' }).click();
   await studentRatingRequest;
-  await expect(page.locator('#workspace-status')).toHaveText('Your skill reflection was saved. Satisfaction score saved: 4/10.');
+  await expect(page.locator('#workspace-status')).toHaveText('Your skill score was saved. Score saved: 4/10.');
   await expect(ownSkill).toContainText('4/10 · Developing');
   await expect(ownSkill.locator('[data-quick-skill-rating] [data-rating-slider]')).toHaveValue('4');
   await expect(ownSkill.locator('[data-quick-skill-rating] [data-rating-slider-shell]')).toHaveAttribute('style', /--rating-progress:\s*40%/);
@@ -1214,7 +1214,7 @@ test('student plan is useful on mobile and preserves coach-owned records', async
     return request.postDataJSON().student_satisfaction === 0;
   });
   const reloadedQuickRating = reloadedSkill.locator('[data-quick-skill-rating]');
-  await reloadedQuickRating.getByLabel(/Your satisfaction/).fill('0');
+  await reloadedQuickRating.getByLabel(/Your score/).fill('0');
   await reloadedQuickRating.getByRole('button', { name: 'Save score' }).click();
   await zeroRatingRequest;
   await expect(reloadedSkill.locator('[data-quick-skill-rating] [data-rating-output]')).toHaveText('0/10');

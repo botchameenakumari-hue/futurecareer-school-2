@@ -785,7 +785,7 @@ function roleWorkSignals(title: string) {
 function careerProgressionFor(title: string, dailyWork: string[], starterTests: string[], evidenceExamples: string[]): CareerLevelGuidance[] {
   const work = dailyWork.length ? dailyWork : roleWorkSignals(title);
   const test = starterTests[0] || `Complete a small realistic ${title.toLowerCase()} task`;
-  const evidence = evidenceExamples[0] || 'A dated work sample with a short reflection and feedback';
+  const evidence = evidenceExamples[0] || 'A dated work sample with a short learning note and feedback';
   return [
     {
       level: 'Starter',
@@ -916,7 +916,7 @@ const roleSkills = roleSkillSignals(preset.title);
       ? ['A portfolio piece with a brief and revision notes', 'A published explanation or audience feedback']
       : /technician|engineer|trades|chef|farm|clinical|health|care/.test(title)
         ? ['A supervised practical demonstration', 'A dated record of quality or safety checks']
-        : ['A completed role-relevant project or work sample', 'A short reflection with feedback and next improvement'];
+        : ['A completed role-relevant project or work sample', 'A short learning note with feedback and next improvement'];
   const dailyWork = override.dailyWork ?? roleWorkSignals(preset.title);
   const progression = careerProgressionFor(preset.title, dailyWork, override.starterTests ?? family.starterTests, evidenceExamples);
   const evidenceMatch = evidenceForCareer(preset);

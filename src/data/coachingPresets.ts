@@ -457,7 +457,7 @@ export const actionPresets: ActionPreset[] = [
   { key: 'foundation-topic', category: 'learn', title: 'Learn one foundation topic', details: 'Choose a topic that appears repeatedly in course curricula or job descriptions and explain it in your own words.', dueDays: 7 },
   { key: 'tool-tutorial', category: 'learn', title: 'Finish one role-relevant tool tutorial', details: 'Recreate the example independently and save the result as evidence.', dueDays: 7 },
   { key: 'weekly-reading', category: 'learn', title: 'Start a weekly industry reading habit', details: 'Read two credible pieces each week and keep a short note on trends, terminology, and open questions.', dueDays: 14 },
-  { key: 'mini-project', category: 'build', title: 'Complete a small role simulation', details: 'Use a realistic brief, deadline, and definition of done. Keep the final output and a short reflection.', dueDays: 10 },
+  { key: 'mini-project', category: 'build', title: 'Complete a small role simulation', details: 'Use a realistic brief, deadline, and definition of done. Keep the final output and a short learning note.', dueDays: 10 },
   { key: 'portfolio-piece', category: 'build', title: 'Create one portfolio work sample', details: 'Show the problem, process, decisions, final output, feedback, and what you would improve.', dueDays: 14 },
   { key: 'case-analysis', category: 'build', title: 'Write a one-page case analysis', details: 'Define the problem, evidence, options, recommendation, trade-offs, and next test.', dueDays: 7 },
   { key: 'volunteer-project', category: 'build', title: 'Take a small volunteer responsibility', details: 'Choose work that uses a target skill and ask the organiser to confirm the outcome or provide feedback.', dueDays: 21 },

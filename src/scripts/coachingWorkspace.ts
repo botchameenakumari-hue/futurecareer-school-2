@@ -3466,7 +3466,7 @@ async function handleSkillReviewSubmit(event: SubmitEvent) {
     ? { skill_id: data.get('skill_id'), student_id: studentId, student_feedback: textValue(data.get('student_feedback')), student_satisfaction: hasSelectedRating ? scoreValue : null, student_feedback_on: localDateValue(), updated_at: new Date().toISOString() }
     : { skill_id: data.get('skill_id'), student_id: studentId, coach_id: ctx.user.id, coach_reviewed_on: data.get('coach_reviewed_on'), coach_feedback: textValue(data.get('coach_feedback')), coach_satisfaction: hasSelectedRating ? scoreValue : null, next_focus: textValue(data.get('next_focus')), updated_at: new Date().toISOString() };
   if (isStudent && !row.student_feedback && (row.student_satisfaction === null || row.student_satisfaction === undefined)) {
-    setModalStatus('#skill-review-status', 'Add a rating or a reflection before saving.', true);
+    setModalStatus('#skill-review-status', 'Add a score or a practice note before saving.', true);
     return;
   }
   if (!isStudent && !row.coach_feedback && !row.next_focus && (row.coach_satisfaction === null || row.coach_satisfaction === undefined)) {
@@ -3536,14 +3536,17 @@ async function handleSkillReviewSubmit(event: SubmitEvent) {
     const expectedScore = row[scoreField];
     const savedScore = savedReview[scoreField];
     if (expectedScore !== null && expectedScore !== undefined && Number(savedScore) !== Number(expectedScore)) {
-      throw new Error('The satisfaction score was not confirmed. Please try saving it again.');
+      throw new Error('The score was not confirmed. Please try saving it again.');
     }
     keepSavedSkillReview(studentId, savedReview as Row);
     try { await refreshSkillReviewsForStudent(studentId, savedReview as Row); }
     catch (refreshError) { console.warn('Saved skill review could not be reloaded immediately.', refreshError); }
     dialogClose('skill-review-dialog');
-    const scoreConfirmation = expectedScore !== null && expectedScore !== undefined ? ` Satisfaction score saved: ${savedScore}/10.` : '';
-    ctx.setWorkspaceStatus(`${isStudent ? 'Skill feedback saved.' : 'Coach feedback saved.'}${scoreConfirmation}`);
+    const scoreConfirmation = expectedScore !== null && expectedScore !== undefined ? ` Score saved: ${savedScore}/10.` : '';
+    const savedMessage = isStudent
+      ? row.student_feedback ? 'Skill practice note saved.' : 'Student skill score saved.'
+      : row.coach_feedback || row.next_focus ? 'Coach feedback saved.' : 'Coach skill score saved.';
+    ctx.setWorkspaceStatus(`${savedMessage}${scoreConfirmation}`);
     renderCoachingWorkspace();
   } catch (error) { const message = friendlyWorkspaceError(error, 'Could not save the skill review.'); setModalStatus('#skill-review-status', message, true); ctx.setWorkspaceStatus(message, true); }
   finally { setBusy(button, false); }
@@ -3583,7 +3586,7 @@ async function handleInlineSkillReviewSubmit(event: SubmitEvent) {
     : { skill_id: skillId, student_id: studentId, coach_id: ctx.user.id, coach_reviewed_on: textValue(data.get('coach_reviewed_on')) || localDateValue(), coach_feedback: textValue(data.get('coach_feedback')), coach_satisfaction: hasSelectedRating ? scoreValue : null, next_focus: textValue(data.get('next_focus')), updated_at: new Date().toISOString() };
   if (isStudent && !row.student_feedback && (row.student_satisfaction === null || row.student_satisfaction === undefined)) {
     const status = form.querySelector<HTMLElement>('[data-inline-review-status]');
-    if (status) status.textContent = 'Add a rating or a reflection before saving.';
+    if (status) status.textContent = 'Add a score or a practice note before saving.';
     return;
   }
   if (!isStudent && !row.coach_feedback && !row.next_focus && (row.coach_satisfaction === null || row.coach_satisfaction === undefined)) {
@@ -3634,14 +3637,17 @@ async function handleInlineSkillReviewSubmit(event: SubmitEvent) {
     const expectedScore = row[scoreField];
     const savedScore = savedReview[scoreField];
     if (expectedScore !== null && expectedScore !== undefined && Number(savedScore) !== Number(expectedScore)) {
-      throw new Error('The satisfaction score was not confirmed. Please try saving it again.');
+      throw new Error('The score was not confirmed. Please try saving it again.');
     }
     keepSavedSkillReview(studentId, savedReview as Row);
     try { await refreshSkillReviewsForStudent(studentId, savedReview as Row); }
     catch (refreshError) { console.warn('Saved skill review could not be reloaded immediately.', refreshError); }
-    const scoreConfirmation = expectedScore !== null && expectedScore !== undefined ? ` Satisfaction score saved: ${savedScore}/10.` : '';
+    const scoreConfirmation = expectedScore !== null && expectedScore !== undefined ? ` Score saved: ${savedScore}/10.` : '';
     if (coaching.planTab === submittedPlanTab) {
-      ctx.setWorkspaceStatus(`${isStudent ? 'Your skill reflection was saved.' : 'Coach feedback was saved.'}${scoreConfirmation}`);
+      const savedMessage = isStudent
+        ? row.student_feedback ? 'Your skill practice note was saved.' : 'Your skill score was saved.'
+        : row.coach_feedback || row.next_focus ? 'Coach feedback was saved.' : 'Coach skill score was saved.';
+      ctx.setWorkspaceStatus(`${savedMessage}${scoreConfirmation}`);
     }
     // Let the submit click finish before replacing the card that originated
     // it. This avoids a detached-button race on slower mobile browsers and
