@@ -468,7 +468,10 @@ const careerPreferenceLabels: Record<string, string> = {
 
 export function interestRelevanceScore(guide: CareerGuide, interest: string) {
   if (interest === 'earning') return guide.earningPotential >= 4 ? 2 : guide.earningPotential === 3 ? 1 : 0;
-  if (interest === 'growth') return guide.outlook === 'growing' ? 2 : 0;
+  if (interest === 'growth') {
+    const growth = careerGrowthPotentialFor(guide);
+    return growth >= 4 ? 2 : growth === 3 ? 1 : 0;
+  }
   if (interest === 'ownership') {
     const path = guide.independencePath.toLowerCase();
     if (/can lead to consulting|can lead to.*freelance|can lead to.*private practice|can lead to.*business/.test(path)) return 2;
@@ -539,12 +542,21 @@ export function independencePotentialFor(guide: CareerGuide) {
   return 0;
 }
 
+/** Role-level growth signal. Family outlook remains the fallback, while
+ * identifiable expanding specialisms avoid being flattened to a broad family
+ * label such as "engineering" or "finance". */
+export function careerGrowthPotentialFor(guide: CareerGuide) {
+  const title = guide.title.toLowerCase();
+  if (/ai |artificial intelligence|machine learning|mlops|cyber|semiconductor|chip design|ai hardware|accelerator|power electronics|battery|energy storage|green hydrogen|renewable energy|grid intelligence|energy market|climate finance|carbon market|space systems|drone|robot|automation|computational drug|biomanufactur|digital health|medical device|data centre/.test(title)) return 5;
+  if (/technology transfer|e-commerce|export market|industrial ai|supply chain technology|revenue operations|private credit|structured finance|quantitative|venture capital|enterprise solutions|enterprise sales/.test(title)) return 4;
+  return guide.outlook === 'growing' ? 5 : guide.outlook === 'uncertain' ? 1 : 2;
+}
+
 /** Relative upside for comparing already-relevant careers. Earnings alone can
  * hide routes with durable growth or a credible ownership path, so all three
  * signals contribute. This remains an exploration aid, not a salary promise. */
 export function careerUpsideScore(guide: CareerGuide) {
-  const growth = guide.outlook === 'growing' ? 5 : guide.outlook === 'evolving' ? 4 : guide.outlook === 'stable' ? 3 : guide.outlook === 'niche' ? 2 : 1;
-  return guide.earningPotential * 4 + growth * 3 + independencePotentialFor(guide) * 3;
+  return guide.earningPotential * 4 + careerGrowthPotentialFor(guide) * 3 + independencePotentialFor(guide) * 3;
 }
 
 export function decisionSignalFor(path: Row) {
@@ -650,11 +662,11 @@ export function careerLibraryMatches(query: string, category: string, interest =
     if (normalized && !haystack.includes(normalized)) return false;
     if (selectedInterests.length) {
       const matchedPreferences = careerMatchedPreferenceCount(guide, selectedInterests);
-      // A longer preference list should not become an impossible all-or-none
-      // query. Require every choice when there are one or two; for larger
-      // selections require a clear majority and explain the exact coverage on
-      // the result. Hard constraints remain separate filters.
-      const minimumMatches = selectedInterests.length <= 2
+      // A short preference list should become more precise as choices are
+      // added. Require every choice for one to three signals; only longer lists
+      // use a clear-majority fallback so exploration does not become an
+      // impossible all-or-none query. Hard constraints remain separate.
+      const minimumMatches = selectedInterests.length <= 3
         ? selectedInterests.length
         : Math.ceil(selectedInterests.length * 0.6);
       if (matchedPreferences < minimumMatches) return false;

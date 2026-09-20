@@ -608,6 +608,14 @@ const highUpsideCareerPresets: CareerPreset[] = [
   ['Export Market Development Consultant', 'Languages, International & Emerging Routes', 'Help businesses choose markets, adapt offers, find partners, manage trade requirements, and win export customers.', 'Build a market-entry brief for one product, country, buyer type, and compliant first test.', ['export', 'international business', 'sales', 'languages', 'research', 'consulting']],
   ['Industrial AI Transformation Consultant', 'Business, Marketing & Operations', 'Identify valuable industrial AI uses, redesign workflows, evaluate risk, and lead adoption with measurable outcomes.', 'Map one factory workflow, select an AI use case, and define value, safety, data, and adoption tests.', ['ai', 'manufacturing', 'consulting', 'operations', 'change', 'commercial']],
   ['Data Centre Infrastructure Architect', 'Technology & Data', 'Design resilient compute, network, power, cooling, capacity, security, and operations for data-centre infrastructure.', 'Design a small resilient data-centre architecture and explain capacity, energy, failure, and recovery trade-offs.', ['cloud', 'data centre', 'network', 'power', 'cooling', 'systems']],
+  ['AI Hardware and Accelerator Engineer', 'Engineering & Built Environment', 'Design and optimise processors, memory, interconnects, and systems that run demanding AI workloads efficiently.', 'Profile a small model workload and explain the compute, memory, power, and cost trade-offs.', ['ai hardware', 'semiconductor', 'computer architecture', 'electronics', 'performance', 'systems']],
+  ['Grid Intelligence and Energy Markets Specialist', 'Engineering & Built Environment', 'Use power-system models, market rules, forecasting, and storage data to improve grid reliability and investment decisions.', 'Model a small grid with variable renewable generation, storage, demand, and one disruption scenario.', ['power systems', 'energy markets', 'forecasting', 'renewable energy', 'storage', 'risk']],
+  ['Computational Drug Discovery Scientist', 'Health & Life Sciences', 'Combine biology, chemistry, data, and modelling to identify and evaluate promising drug candidates.', 'Reproduce a small public-data analysis and document biological assumptions, uncertainty, and validation needs.', ['drug discovery', 'bioinformatics', 'chemistry', 'machine learning', 'research', 'data']],
+  ['Medical Device Product and Regulatory Strategist', 'Health & Life Sciences', 'Connect clinical needs, product evidence, quality systems, regulation, reimbursement, and market adoption for medical devices.', 'Map one device from user need through evidence, risk classification, approval, and adoption.', ['medical devices', 'regulation', 'product strategy', 'clinical evidence', 'quality', 'commercialisation']],
+  ['Private Credit and Structured Finance Analyst', 'Commerce, Finance & Economics', 'Assess borrowers, cash flows, collateral, covenants, downside cases, and deal structures for private lending decisions.', 'Build a credit memo with a cash-flow model, covenant tests, downside scenario, and recommendation.', ['private credit', 'structured finance', 'financial modelling', 'risk', 'commercial', 'numbers']],
+  ['Mergers and Acquisitions Advisor', 'Commerce, Finance & Economics', 'Analyse businesses, value transactions, coordinate diligence, and support negotiation and deal execution.', 'Value a fictional business and prepare a short buyer or seller decision brief with key risks.', ['mergers and acquisitions', 'valuation', 'financial modelling', 'negotiation', 'strategy', 'commercial']],
+  ['Supply Chain Technology Consultant', 'Business, Marketing & Operations', 'Redesign planning, procurement, logistics, and inventory workflows using data, automation, and enterprise technology.', 'Map one supply-chain bottleneck and propose a measurable technology-enabled improvement.', ['supply chain', 'consulting', 'automation', 'enterprise systems', 'operations', 'data']],
+  ['B2B SaaS Revenue Operations Consultant', 'Business, Marketing & Operations', 'Build the data, process, pricing, automation, and decision systems that align marketing, sales, and customer success.', 'Audit a fictional subscription funnel and propose one measurable revenue-system improvement.', ['saas', 'revenue operations', 'sales', 'marketing', 'analytics', 'consulting']],
 ] .map(([title, category, routeSummary, nextStep, tags]) => ({
   key: slug(String(title)), title: String(title), category: String(category), featured: true,
   routeSummary: String(routeSummary),
@@ -620,6 +628,47 @@ const highUpsideCareerPresets: CareerPreset[] = [
 }));
 
 const highUpsideSummaries = new Map(highUpsideCareerPresets.map((preset) => [preset.key, preset.routeSummary]));
+
+// High-upside routes need more than a label. These explicit skills prevent a
+// specialised option from inheriting only broad family guidance when it is
+// saved to a learner's plan.
+const highUpsideSpecificSkills = new Map<string, string[]>([
+  ['quantitative-analyst', ['Financial modelling', 'Probability and statistics', 'Python or R']],
+  ['ai-product-manager', ['AI product discovery', 'Evaluation design', 'Responsible AI decisions']],
+  ['enterprise-solutions-architect', ['Solution architecture', 'Cloud integration', 'Security design']],
+  ['enterprise-sales-engineer', ['Technical discovery', 'Solution demonstration', 'Commercial negotiation']],
+  ['chip-design-engineer', ['Digital or analogue circuit design', 'Hardware description languages', 'Design verification']],
+  ['patent-and-intellectual-property-attorney', ['Patent analysis', 'Technology licensing', 'Legal drafting']],
+  ['energy-storage-engineer', ['Battery systems', 'Thermal and safety analysis', 'Lifecycle testing']],
+  ['private-equity-analyst', ['Company valuation', 'Deal modelling', 'Commercial due diligence']],
+  ['venture-capital-analyst', ['Market mapping', 'Startup evaluation', 'Investment memo writing']],
+  ['anesthesiologist', ['Perioperative medicine', 'Airway and physiology management', 'Clinical risk response']],
+  ['interventional-radiologist', ['Image-guided procedures', 'Clinical imaging interpretation', 'Radiation safety']],
+  ['mlops-and-ai-platform-engineer', ['Model deployment', 'ML observability', 'Cloud platform engineering']],
+  ['cybersecurity-architect', ['Threat modelling', 'Security architecture', 'Identity and access design']],
+  ['semiconductor-process-engineer', ['Semiconductor fabrication', 'Statistical process control', 'Yield improvement']],
+  ['power-electronics-engineer', ['Power converter design', 'Motor drives and control', 'Electrical safety testing']],
+  ['green-hydrogen-project-engineer', ['Electrolyser systems', 'Process safety', 'Energy project integration']],
+  ['renewable-energy-project-finance-analyst', ['Project finance modelling', 'Energy contracts', 'Scenario and risk analysis']],
+  ['climate-finance-and-carbon-markets-specialist', ['Climate investment analysis', 'Carbon-market integrity', 'Sustainability disclosure']],
+  ['space-systems-engineer', ['Spacecraft systems engineering', 'Mission assurance', 'Requirements verification']],
+  ['drone-systems-and-autonomy-engineer', ['Flight-control systems', 'Autonomy and sensing', 'Operational safety']],
+  ['biomanufacturing-process-engineer', ['Bioprocess scale-up', 'Process validation', 'Good manufacturing practice']],
+  ['technology-transfer-and-licensing-specialist', ['Invention assessment', 'Licensing strategy', 'Commercialisation negotiation']],
+  ['fractional-cfo-and-business-finance-advisor', ['Cash-flow planning', 'Management reporting', 'Fundraising readiness']],
+  ['e-commerce-brand-operator', ['Unit economics', 'Customer acquisition and retention', 'Sourcing and inventory planning']],
+  ['export-market-development-consultant', ['Export market research', 'Trade compliance', 'International sales development']],
+  ['industrial-ai-transformation-consultant', ['Industrial process analysis', 'AI use-case economics', 'Change adoption']],
+  ['data-centre-infrastructure-architect', ['Data-centre power and cooling', 'Capacity and resilience planning', 'Infrastructure security']],
+  ['ai-hardware-and-accelerator-engineer', ['Computer architecture', 'Hardware performance optimisation', 'Power-aware system design']],
+  ['grid-intelligence-and-energy-markets-specialist', ['Power-system modelling', 'Energy-market analysis', 'Demand and generation forecasting']],
+  ['computational-drug-discovery-scientist', ['Computational chemistry', 'Bioinformatics', 'Reproducible scientific modelling']],
+  ['medical-device-product-and-regulatory-strategist', ['Medical-device regulation', 'Clinical evidence strategy', 'Quality and risk management']],
+  ['private-credit-and-structured-finance-analyst', ['Credit underwriting', 'Structured-finance modelling', 'Covenant and downside analysis']],
+  ['mergers-and-acquisitions-advisor', ['Business valuation', 'Transaction due diligence', 'Deal negotiation']],
+  ['supply-chain-technology-consultant', ['Supply-chain process design', 'Enterprise systems', 'Operations analytics']],
+  ['b2b-saas-revenue-operations-consultant', ['Revenue analytics', 'CRM and workflow automation', 'Subscription economics']],
+]);
 
 const futureRoleDetails = new Map(futureRoles.map(([title, summary, specialistSkills, futureSkills]) => [slug(title), { summary, specialistSkills: [...specialistSkills], futureSkills: [...futureSkills] }]));
 
@@ -675,7 +724,7 @@ const compassCareerPresets: CareerPreset[] = [...careerRoles, ...futureCareerRol
  */
 function roleSkillSignals(title: string) {
   const value = title.toLowerCase();
-  const signals: string[] = [];
+  const signals: string[] = [...(highUpsideSpecificSkills.get(slug(title)) ?? [])];
   const add = (...items: string[]) => signals.push(...items);
   if (/developer|programmer|software|web|mobile|blockchain|ar\/vr|devops|sre|database|network|systems administrator|cloud|mlops|ai platform|cybersecurity|data centre/.test(value)) add('Programming logic', 'Software testing', 'Version control with Git');
   if (/data|analyst|statistic|economist|research|intelligence|actuary|operations research|market research/.test(value)) add('Data interpretation', 'Spreadsheet fundamentals', 'Source evaluation');
@@ -845,7 +894,7 @@ const roleSkills = roleSkillSignals(preset.title);
   const earningPotential = careerEarningPotentialScore(preset.title, preset.category);
   const foundationSkills = override.foundationSkills ?? family.foundationSkills;
   const portableSkills = Array.from(new Set([...foundationSkills, ...family.futureSkills])).slice(0, 4);
-  const specialistSkills = Array.from(new Set([...(override.specialistSkills ?? future?.specialistSkills ?? family.specialistSkills), ...roleSkills])).slice(0, 6);
+  const specialistSkills = Array.from(new Set([...roleSkills, ...(override.specialistSkills ?? future?.specialistSkills ?? family.specialistSkills)])).slice(0, 6);
   const futureSkills = Array.from(new Set([...(override.futureSkills ?? future?.futureSkills ?? family.futureSkills), ...(roleSkills.length ? ['AI tool literacy', 'Data privacy'] : [])])).slice(0, 5);
   const questionsToAsk = [
     `What does a normal week look like for a ${preset.title}?`,
@@ -897,7 +946,9 @@ const roleSkills = roleSkillSignals(preset.title);
     progression,
     regulated,
     careerGroup,
-    dataConfidence: future
+    dataConfidence: highUpsideSpecificSkills.has(preset.key)
+      ? 'role-specific'
+      : future
       ? 'exploratory'
       : Object.keys(override).length
         ? 'role-specific'
@@ -950,8 +1001,8 @@ export function careerGuideFor(key: unknown) {
  * learner's filters. */
 export function careerEarningPotentialScore(title: string, category = ''): 1 | 2 | 3 | 4 | 5 {
   const value = `${title} ${category}`.toLowerCase();
-  if (/anesthesiologist|interventional radiologist|specialist surgeon|quantitative|private equity|investment banker|patent.*attorney|enterprise solutions architect|fractional cfo/.test(value)) return 5;
-  if (/ai product manager|machine learning|mlops|artificial intelligence|industrial ai|cybersecurity|cloud|data centre|chip design|semiconductor|power electronics|green hydrogen|project finance|climate finance|carbon market|space systems|drone systems|biomanufacturing|technology transfer|e-commerce brand|export market|actuary|venture capital|sales engineer|petroleum|corporate lawyer|management consultant|product manager|energy storage/.test(value)) return 4;
+  if (/anesthesiologist|interventional radiologist|specialist surgeon|quantitative|private equity|investment banker|mergers and acquisitions|patent.*attorney|enterprise solutions architect|fractional cfo/.test(value)) return 5;
+  if (/ai product manager|ai hardware|accelerator engineer|machine learning|mlops|artificial intelligence|industrial ai|cybersecurity|cloud|data centre|chip design|semiconductor|power electronics|green hydrogen|grid intelligence|energy market|project finance|private credit|structured finance|climate finance|carbon market|space systems|drone systems|biomanufacturing|computational drug|medical device product|technology transfer|e-commerce brand|export market|supply chain technology|revenue operations|actuary|venture capital|sales engineer|petroleum|corporate lawyer|management consultant|product manager|energy storage/.test(value)) return 4;
   if (/software|data scientist|data engineer|finance|engineer|doctor|dentist|pharmac|architect|commercial|consult|manager|analyst|renewable|robotics|automation/.test(value)) return 3;
   if (/assistant|support|coordinator|operator|entry|junior|trainee/.test(value)) return 1;
   return 2;

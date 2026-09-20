@@ -1777,17 +1777,12 @@ function sortCareerGuides(guides: ReturnType<typeof careerLibraryMatches>, sort:
   if (sort === 'quick-test') return copy.sort((a, b) => testEffort(a) - testEffort(b) || a.title.localeCompare(b.title));
   if (sort === 'future-ready') return copy.sort((a, b) => (b.outlook === 'growing' ? 2 : b.outlook === 'evolving' ? 1 : 0) - (a.outlook === 'growing' ? 2 : a.outlook === 'evolving' ? 1 : 0) || (b.futureSkills?.length ?? 0) - (a.futureSkills?.length ?? 0) || a.title.localeCompare(b.title));
   if (sort === 'independent') return copy.sort((a, b) => independencePotentialFor(b) - independencePotentialFor(a) || a.title.localeCompare(b.title));
-  // Recommended starting points favour durable, growing work with a clear
-  // entry route and a practical first test. This keeps the catalogue broad
-  // while avoiding an arbitrary source-file order.
+  // Preferences and hard filters decide which routes are eligible before this
+  // function runs. Within that matching shortlist, keep the user's requested
+  // income + growth + ownership priority at the front on every default view.
   const search = query.trim().toLowerCase();
   return copy.map((guide, index) => ({ guide, index, fit: fitPercent(guide), upside: careerUpsideScore(guide), search: search && guide.title.toLowerCase() === search ? 2 : search && guide.title.toLowerCase().includes(search) ? 1 : 0, score: interests.reduce((total, interest) => total + interestRelevanceScore(guide, interest) * 3, 0) + (guide.outlook === 'growing' ? 4 : guide.outlook === 'evolving' ? 3 : guide.outlook === 'stable' ? 1 : 0) + Math.min(3, guide.futureSkills?.length ?? 0) + (guide.marketEvidence?.url ? 1 : 0) + (guide.starterTests?.length ? 1 : 0) }))
-    // Once a learner supplies preferences, relevance remains the gate and the
-    // primary order. Earning upside then breaks equal-fit ties so lucrative but
-    // irrelevant routes never displace a substantially better personal match.
-    .sort((a, b) => b.search - a.search || (interests.length
-      ? b.fit - a.fit || b.upside - a.upside || b.score - a.score || a.index - b.index
-      : b.upside - a.upside || b.score - a.score || a.index - b.index))
+    .sort((a, b) => b.search - a.search || b.upside - a.upside || b.fit - a.fit || b.score - a.score || a.index - b.index)
     .map(({ guide }) => guide);
 }
 
@@ -1870,7 +1865,7 @@ function preparePresetControls() {
     const sortField = sortSelect.closest('label');
     if (sortField && !sortField.querySelector('[data-career-sort-choice]')) {
       const choices = [
-        ['recommended', 'High-upside starting points', 'With preferences selected, fit comes first. Within equally strong matches, earning, growth, and ownership potential decide the order. Without preferences, those three signals lead.'],
+        ['recommended', 'High-upside starting points', 'Your preferences decide the matching shortlist. Within it, earning, growth, and ownership potential lead the order.'],
         ['best-fit', 'Closest to my interests and strengths', 'Use the preference buttons above as starting signals; this brings closer matches forward.'],
         ['practical-first', 'Practical and hands-on work', 'Bring routes involving tools, equipment, sites, making, or real-world problem solving forward.'],
         ['lower-barrier', 'Easier routes to begin exploring', 'Bring routes with clearer first steps forward without calling them easy careers.'],
@@ -2019,7 +2014,7 @@ function renderCareerPresetResults() {
     input.setAttribute('aria-label', `${selected ? 'Remove' : 'Add'} ${title} ${selected ? 'from' : 'to'} comparison`);
   });
   const sortLabel = selectedInterests.length && sort === 'recommended'
-    ? 'highest preference matches first'
+    ? 'high-upside options within your preference matches first'
     : ({
         recommended: 'high-upside starting points first',
         'best-fit': 'highest preference matches first',
@@ -2493,7 +2488,7 @@ function updateCareerSortHelp() {
   const note = select?.closest('label')?.querySelector<HTMLElement>('small');
   if (!select || !note) return;
   const help: Record<string, string> = {
-    recommended: 'All matching options stay available. With preferences selected, fit comes first and upside breaks close ties; without preferences, income, growth, and ownership potential lead.',
+    recommended: 'Your selected preferences and hard filters decide which options qualify. Within that matching shortlist, income, growth, and ownership potential lead.',
     'best-fit': 'All matching options stay available. This uses selected interests and strengths as starting signals.',
     'practical-first': 'All matching options stay available. This puts practical and hands-on work near the top.',
     'lower-barrier': 'All matching options stay available. This puts clearer first routes near the top; no career is labelled easy.',

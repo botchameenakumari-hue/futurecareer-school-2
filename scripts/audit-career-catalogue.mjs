@@ -39,6 +39,10 @@ const requiredHighUpsideTitles = [
   'Biomanufacturing Process Engineer', 'Technology Transfer and Licensing Specialist',
   'Fractional CFO and Business Finance Advisor', 'E-commerce Brand Operator',
   'Export Market Development Consultant', 'Industrial AI Transformation Consultant', 'Data Centre Infrastructure Architect',
+  'AI Hardware and Accelerator Engineer', 'Grid Intelligence and Energy Markets Specialist',
+  'Computational Drug Discovery Scientist', 'Medical Device Product and Regulatory Strategist',
+  'Private Credit and Structured Finance Analyst', 'Mergers and Acquisitions Advisor',
+  'Supply Chain Technology Consultant', 'B2B SaaS Revenue Operations Consultant',
 ];
 
 for (const preset of presets) {
@@ -69,12 +73,19 @@ const suspiciousSources = presets.flatMap((preset) => {
 
 const catalogueSizeIsCredible = presets.length > 400 && presets.length < 700;
 const missingHighUpsideTitles = requiredHighUpsideTitles.filter((title) => !presets.some((preset) => preset.title === title));
+const highUpsideEnrichmentGaps = requiredHighUpsideTitles.flatMap((title) => {
+  const preset = presets.find((item) => item.title === title);
+  const guide = preset ? module.exports.careerGuideFor(preset.key) : null;
+  return guide && guide.dataConfidence === 'role-specific' && guide.specialistSkills.length >= 3
+    ? []
+    : [title];
+});
 const medicalClassificationGaps = ['Anesthesiologist', 'Interventional Radiologist'].flatMap((title) => {
   const guide = presets.find((preset) => preset.title === title);
   return guide && guide.regulated && guide.careerGroup === 'Healers' ? [] : [title];
 });
 
-if (duplicateKeys.length || duplicateIdentities.length || gaps.length || suspiciousSources.length || missingHighUpsideTitles.length || medicalClassificationGaps.length || !catalogueSizeIsCredible) {
+if (duplicateKeys.length || duplicateIdentities.length || gaps.length || suspiciousSources.length || missingHighUpsideTitles.length || highUpsideEnrichmentGaps.length || medicalClassificationGaps.length || !catalogueSizeIsCredible) {
   console.error(JSON.stringify({
     routeCount: presets.length,
     credibleRouteCount: catalogueSizeIsCredible,
@@ -83,6 +94,7 @@ if (duplicateKeys.length || duplicateIdentities.length || gaps.length || suspici
     unrelatedSources: suspiciousSources,
     enrichmentGaps: gaps,
     missingHighUpsideTitles,
+    highUpsideEnrichmentGaps,
     medicalClassificationGaps,
   }, null, 2));
   process.exit(1);
