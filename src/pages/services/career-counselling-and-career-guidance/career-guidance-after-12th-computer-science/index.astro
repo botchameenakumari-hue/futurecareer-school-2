@@ -1,0 +1,495 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import AssessmentSupportNote from '../../../../components/bofu/AssessmentSupportNote.astro';
+import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.astro';
+import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
+import BofuStepFlowSection from '../../../../components/bofu/BofuStepFlowSection.astro';
+import ComparisonMatrix from '../../../../components/bofu/ComparisonMatrix.astro';
+import BuyerChecks from '../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
+import { BOFU_INTERNAL_LINKS, BOFU_ASSESSMENT_LINKS, BOFU_COMPARISON_LIBRARY } from '../../../../config/bofu';
+
+const title =
+  'Career Guidance After 12th for Computer Science Students | Fit & Course Clarity | Future Career School';
+const description =
+  'Career guidance after 12th for Computer Science students comparing BTech CS, BCA, and allied branches before an expensive commitment. Delivered online across India.';
+const canonical =
+  'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-12th-computer-science/';
+
+const class1112AssessmentUrl = BOFU_ASSESSMENT_LINKS.class11To12;
+
+const comparisonRows = [
+  BOFU_COMPARISON_LIBRARY[0],
+  BOFU_COMPARISON_LIBRARY[1],
+  BOFU_COMPARISON_LIBRARY[2],
+  BOFU_COMPARISON_LIBRARY[5],
+];
+
+const whenHelpItems = [
+  {
+    title: 'You have a CS seat, but no idea if you actually like coding',
+    body: 'Plenty of students choose Computer Science off a placement brochure and family pressure without ever writing real code. The first coding-heavy semester is often the first honest test of fit — better to check that earlier than after the fee is paid.',
+  },
+  {
+    title: 'The CS cutoff pushed you into IT, AI & Data Science, or ECE instead',
+    body: 'Allied branches sit right next to Computer Science on the admission form, but they carry a different skill story and a different placement pattern. That deserves its own comparison, not silent disappointment.',
+  },
+  {
+    title: 'You are stuck choosing between BTech CS, BCA, and a plain BSc CS',
+    body: 'Three different formats, three different costs, three different timelines, and three different ways the market reads them. Most comparisons online only repeat the surface-level differences.',
+  },
+  {
+    title: 'Everyone around you picked CS, and you followed',
+    body: 'Peer pressure and family pressure toward Computer Science are unusually strong this admission cycle. A real fit check before a four-year commitment locks in is worth more than following the crowd.',
+  },
+];
+
+const guidanceSolveItems = [
+  {
+    title: 'Check one — real coding fit, not resume fit',
+    body: 'Fit is usually a real, checkable problem, not just self-doubt. Guidance can walk through what a coding-heavy first year actually feels like day to day, instead of assuming interest in tech automatically means interest in coding.',
+  },
+  {
+    title: 'Check two — the right course format for your actual goal',
+    body: 'BTech CS, a plain BSc CS, and a BCA differ in cost, timeline, government-exam and postgraduate eligibility, and how recruiters read them. The right shortlist depends on where you want to end up, not on which name sounds more prestigious.',
+  },
+  {
+    title: 'Check three — market positioning beyond the branch label',
+    body: 'Computer Science is one of the most oversubscribed engineering choices in the country right now, which makes the degree label alone a weaker signal than it used to be. What separates graduates is a visible skill portfolio and real proof of work built from year one, not a scramble in final year.',
+  },
+  {
+    title: 'The allied-branch question, if the CS cutoff did not go your way',
+    body: 'AI & Data Science, IT, and ECE are close cousins of CS on paper. Whether one is a genuinely smart alternative or a quiet compromise depends on your actual goal and that specific college’s placement pattern for that branch, not on the branch name by itself.',
+  },
+];
+
+const seatRerouteItems = [
+  {
+    title: 'Do not treat the allied branch as a consolation prize',
+    body: 'IT, AI & Data Science, and ECE at the same college can still lead to strong outcomes. The real question is whether that branch and college combination supports the work you actually want, not whether it shares three letters with CS.',
+  },
+  {
+    title: 'Compare the real placement pattern, branch by branch',
+    body: 'Placement brochures usually publish one blended number for the whole college. Ask for the branch-wise breakup before assuming CS and its neighbouring branches perform the same.',
+  },
+  {
+    title: 'Decide honestly whether a drop year is worth it',
+    body: 'Repeating the admission cycle for a CS seat at a different, possibly weaker college is not automatically the safer move. Weigh it seriously against building strong proof of work in the branch you already have.',
+  },
+];
+
+const buyerCheckItems = [
+  {
+    title: 'Check whether the guidance tests real coding fit, not just repeats placement numbers',
+    body: 'Anyone can restate that CS pays well. Useful guidance should help you check whether the actual coding-heavy daily work fits you, before four years and a serious fee commitment.',
+  },
+  {
+    title: 'Check whether BTech CS, BCA, and a plain BSc CS get compared for your situation',
+    body: 'If the answer to "which one should I pick" is a generic "CS is best," the comparison has not actually happened yet.',
+  },
+  {
+    title: 'Check whether the allied-branch question gets a real answer, not a shrug',
+    body: 'If a CS cutoff miss pushed you toward IT, AI & Data Science, or ECE, the guidance should help you judge that specific branch and college, not just repeat that "CS is the gold standard."',
+  },
+  {
+    title: 'Check whether skill-portfolio building starts from year one, not after final placements',
+    body: 'Degree-only thinking has a real ceiling in a market this crowded with CS graduates. Look for guidance that connects the course choice to proof-of-work and skill direction from the very first year.',
+  },
+];
+
+const faqItems = [
+  {
+    question:
+      'I got a CS seat through cutoff luck, family pressure, or just following the crowd — how do I actually know if it is right for me?',
+    answer:
+      'Run it through the three CS-fit checks: real coding fit (not just interest in tech), the right course format for your actual goal, and market positioning beyond the branch label. If you cannot answer those three honestly yet, that is exactly what career guidance after 12th for computer science should help settle before the commitment gets heavier.',
+  },
+  {
+    question: 'Should I choose BTech CS, a plain BSc CS, or a BCA?',
+    answer:
+      'They are not interchangeable labels for the same thing. BTech CS is a longer, engineering-eligible route with GATE and PSU access; a plain BSc CS is usually shorter and more theory-first, often leading toward an MCA or MSc; BCA is application- and industry-skill focused and commonly the fastest, lowest-cost route into a software role. The right pick depends on your budget, timeline, and whether postgraduate or government-exam eligibility matters to you — not on which name sounds more impressive.',
+  },
+  {
+    question: 'Is career guidance still useful if I have already picked CS and paid the admission fee?',
+    answer:
+      'Yes. Picking CS does not close the decision — it opens a new set of them: which skills to build first, how to avoid drifting through four years on coursework alone, and how to position yourself against thousands of other CS graduates competing for the same roles. That is exactly the kind of decision guidance after admission should help with.',
+  },
+  {
+    question:
+      'The CS cutoff pushed me into IT, AI & Data Science, or ECE instead. Is that a real alternative or a downgrade?',
+    answer:
+      'It depends on the specific college and branch, not on the label. Ask for that branch’s own placement pattern rather than the college’s blended number, and weigh it against the cost and uncertainty of trying for a CS seat again next year. Many allied-branch graduates end up in the same roles as CS graduates once proof of work is in place.',
+  },
+  {
+    question: 'Will AI make a computer science degree pointless?',
+    answer:
+      'The more useful question is not whether the degree matters, but which parts of the coding work are changing. Routine, boilerplate coding is genuinely getting faster with AI tools; system design, debugging judgment, and the ability to direct and verify AI-assisted work are becoming more valuable, not less. A CS path built around that skill layer holds up better than one built purely on the degree label.',
+  },
+  {
+    question: 'I have never really coded before college — is that a red flag for choosing CS?',
+    answer:
+      'Not by itself. Very few 12th-pass students have written serious code before college; the real signal is how you respond to your first few weeks of actual coding work, not whether you have prior experience. What matters is building a way to test that fit early instead of assuming it and finding out three semesters in.',
+  },
+  {
+    question: 'Are the career and skill assessments free?',
+    answer:
+      'Yes. The career and skill assessments are fully free, and can be described as updated, practical, and AI-powered.',
+  },
+  {
+    question: 'Is this available online across India?',
+    answer:
+      'Yes. Guidance is delivered online across India, so you can join from home, a hostel, or college without depending on a local office.',
+  },
+  {
+    question:
+      'My parents already spent money assuming I would get a well-paid CS job — how do I raise doubts about fit without a fight?',
+    answer:
+      'Bring the conversation back to cost, risk, and skill direction instead of feelings alone: what the specific course format actually costs, what a realistic first-job timeline looks like, and what skill-building plan protects the investment even if the exact path shifts. A clearer, fact-based comparison usually lands better with parents than a vague "I am not sure this is for me."',
+  },
+  {
+    question: 'Should I drop a year to try for a better CS seat?',
+    answer:
+      'Not automatically. Compare it honestly against building strong proof of work in the branch or college you already have. A weaker-sounding branch with a real skill portfolio often beats a repeated admission attempt with no guaranteed better outcome.',
+  },
+];
+
+const relatedDirectoryItems = [
+  {
+    href: BOFU_INTERNAL_LINKS.pcmStudents,
+    title: 'Career Counselling for PCM Students',
+    description:
+      'For the broader engineering-vs-computer-science-vs-pure-science decision, useful if the CS choice is still connected to other PCM-stream options.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.after12th,
+    title: 'Career Guidance After 12th',
+    description: 'Broader after-12th course, degree, and skill decision support when several connected choices need to make sense together.',
+  },
+  {
+    href: BOFU_INTERNAL_LINKS.students,
+    title: 'Student Career Guidance',
+    description: 'Wider student guidance for school, college, and early skill-direction decisions beyond the CS-specific comparison.',
+  },
+  {
+    href: class1112AssessmentUrl,
+    title: 'Class 11 to 12 Assessment',
+    description: 'A free starting check on course fit, aptitude signals, and work style before a bigger after-12th commitment.',
+  },
+  {
+    href: '/blog/career-options/computer-science-engineering-career-options/',
+    title: 'Computer Science Engineering Career Options',
+    description: 'What the BTech CSE label actually unlocks over a plain BSc or BCA, including GATE, PSU eligibility, and placement reality by college tier.',
+  },
+  {
+    href: '/blog/career-options/bca-career-options/',
+    title: 'BCA Career Options',
+    description: 'Real paths after a BCA degree, useful if BCA is genuinely on your shortlist against BTech CS.',
+  },
+  {
+    href: '/blog/career-options/career-after-bsc-computer-science/',
+    title: 'Career After BSc Computer Science',
+    description: 'How a BSc CS graduate actually competes against BTech CSE for the same roles, and the job-vs-MCA-vs-MSc fork.',
+  },
+  {
+    href: '/blog/career-options/data-science-vs-software-engineering-career-india/',
+    title: 'Data Science vs Software Engineering Career India',
+    description: 'Useful if AI & Data Science is one of the allied-branch options you are weighing against core CS.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Career Counselling and Career Guidance',
+        item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Career Guidance After 12th for Computer Science Students',
+        item: canonical,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Career Guidance After 12th for Computer Science Students | Future Career School',
+    description,
+    url: canonical,
+    serviceType: 'Career Guidance After 12th for Computer Science Students',
+    areaServed: { '@type': 'Country', name: 'India' },
+    inLanguage: 'en-IN',
+    provider: {
+      '@type': ['Organization', 'ProfessionalService'],
+      name: 'Future Career School',
+      url: 'https://futurecareerschool.com',
+    },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Guidance After 12th for Computer Science Students</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Career guidance after 12th for computer science, BCA, and allied-branch decisions
+      </div>
+
+      <h1 class="hero-title">
+        Career guidance after 12th for computer science students
+        <span class="gold-text"> before a hard-won seat becomes an expensive assumption</span>
+      </h1>
+      <p class="hero-sub">
+        Future Career School offers career guidance after 12th for computer science students choosing between a
+        CS seat, an allied branch, and BTech CS versus BCA versus a plain BSc CS — before an admission decision
+        this competitive turns into an expensive assumption. Computer Science cutoffs are brutal this admission
+        cycle, so most 12th-pass students land in one of three spots: they have the CS seat but are not sure it
+        is actually right for them, the cutoff pushed them into IT, AI & Data Science, or ECE instead, or they
+        are stuck choosing between the three course formats with no real sense of the difference. The goal is
+        building a high-value skill portfolio that moves you toward earlier financial freedom, not chasing the
+        most oversubscribed label on the admission form.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online across India. Students and families can start from home, hostel, or
+        college — no travel, no waiting for a local option.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">
+          Get Career Guidance for Computer Science Students After 12th
+        </a>
+      </div>
+      <p class="hero-support">
+        The seat is the easy part now. Whether it is the right seat, and the right course format, is the actual
+        decision.
+      </p>
+    </div>
+  </section>
+
+  <BofuFeatureSection
+    sectionId="when-help"
+    title="When career guidance after 12th for computer science becomes worth it"
+    subtitle="This usually matters right at the point where the CS admission decision — or the allied-branch decision it forced — is about to turn into four years and a serious fee commitment."
+    items={whenHelpItems}
+    variant="signal"
+  />
+
+  <ComparisonMatrix
+    sectionId="different"
+    title="Why a computer science decision needs sharper guidance than 'CS is a safe bet'"
+    subtitle="These are the contrast points that matter most once thousands of other students are choosing the exact same branch for the exact same reasons."
+    rows={comparisonRows}
+    centered={true}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Settle the CS fit question before four years and a serious fee commitment lock in"
+    body="This matters most when the seat is already booked, the fee or loan is being arranged, or the BTech CS vs BCA vs allied-branch question is still unresolved."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance for Computer Science Students After 12th"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-guidance-should-solve"
+    title="The three checks a computer science decision should pass"
+    subtitle="Call these the three CS-fit checks: real coding fit, the right course format, and market positioning beyond the branch label. A computer science decision that has not passed all three is still an open decision, even if the seat is already confirmed."
+    items={guidanceSolveItems}
+    variant="decision"
+  >
+    <AssessmentSupportNote
+      body="As a starting point, the free class 11 to 12 assessments can help confirm whether a coding-heavy computer science path genuinely fits your strengths and work style before you commit further."
+      href={class1112AssessmentUrl}
+      label="Free career and skill assessments"
+    />
+  </BofuFeatureSection>
+
+  <BofuStepFlowSection
+    sectionId="seat-reroute"
+    title="If the CS cutoff pushed you into an allied branch instead"
+    subtitle="A missed CS cutoff is common this cycle, not a personal failure. The next decision — IT, AI & Data Science, ECE, or trying again next year — still deserves its own real comparison."
+    items={seatRerouteItems}
+  >
+    <div class="support-links card">
+      <a href="/blog/career-options/computer-science-engineering-career-options/">Read what the CSE label actually unlocks &rsaquo;</a>
+      <a href="/blog/career-options/data-science-vs-software-engineering-career-india/">Compare data science vs software engineering &rsaquo;</a>
+    </div>
+  </BofuStepFlowSection>
+
+  <BuyerChecks
+    title="What to check before paying for career guidance after 12th for computer science"
+    subtitle="The point is a real coding-fit check and an honest course-format comparison, not a repeat of 'CS is a safe choice.'"
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="student"
+    title="Do not let placement-brochure numbers make this decision for you"
+    body="A blended college placement number does not tell you whether CS, or the branch you actually got, fits your work style and goals."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance for Computer Science Students After 12th"
+  />
+
+  <GuidancePlansSection
+    audience="student"
+    serviceLabel="Career Guidance"
+    title="Career Guidance After 12th for Computer Science Plans"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-links"
+    title="Explore Related Help"
+    subtitle="See the broader PCM and after-12th guidance pages, free assessments, and real computer-science career-track data before you decide."
+    items={relatedDirectoryItems}
+    altBackground={true}
+  />
+
+  <FinalCta
+    audience="student"
+    title="Decide on fit and skill direction, not on cutoff pressure alone"
+    subtitle="Move now if the CS, BCA, or allied-branch decision is still unresolved, so the next four years build a high-value skill portfolio and real proof of work aimed at higher income opportunities and earlier financial freedom, instead of a degree label alone."
+    studentHref="#plans"
+    studentLabel="Get Career Guidance for Computer Science Students After 12th"
+  />
+
+  <BofuFaqSection
+    title="Questions computer science students ask before choosing career guidance"
+    items={faqItems}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; max-width: min(100%, 44rem); margin-bottom: 1.75rem; white-space: normal; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.2rem, 4.6vw, 3.7rem);
+    line-height: 1.06;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 840px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-guidance-should-solve,
+  #seat-reroute,
+  #faq { background: rgba(255,255,255,.01); }
+
+  .support-links {
+    padding: 1rem 1.05rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .9rem;
+    border: 1px solid rgba(255,255,255,.08);
+    background: linear-gradient(145deg, rgba(255,255,255,.03), rgba(255,255,255,.012));
+  }
+  .support-links a {
+    display: block;
+    padding: .95rem 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.025);
+    color: rgba(255,255,255,.8);
+    font-weight: 700;
+    line-height: 1.65;
+  }
+  .support-links a:hover {
+    color: #fff;
+    border-color: rgba(229,184,74,.24);
+  }
+
+  @media (max-width: 980px) {
+    .support-links { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    #hero { padding: 126px 0 72px; }
+    .hero-pill {
+      width: 100%;
+      padding-inline: 1rem;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 9.2vw, 2.5rem);
+      line-height: 1.04;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-soft {
+      justify-content: center;
+    }
+  }
+</style>

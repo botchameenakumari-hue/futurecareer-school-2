@@ -3529,4 +3529,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-09-13',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'pcm-with-computer-science-career-options',
+    title: 'Career options in PCM with Computer Science: what the fourth subject actually unlocks',
+    description:
+      'Career options in PCM with Computer Science: what the fourth subject really changes versus plain PCM, and how to use the coding head start it gives you.',
+    publishedAtISO: '2026-09-20',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'pcmb-career-options',
+    title: 'PCMB career options: what taking all four subjects after 12th actually buys you',
+    description:
+      'PCMB career options keep engineering and medicine both open via JEE and NEET. See the real workload cost, the paths only PCMB unlocks, and if it fits you.',
+    publishedAtISO: '2026-09-20',
+    readTimeMinutes: 15,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-12th-science-except-engineering-and-medical',
+    title: 'Career options after 12th science except engineering and medical: the real list',
+    description:
+      'Career options after 12th science except engineering and medical, ranked by real scalability: tech and data, design, CA and finance, law, non-clinical science, and more.',
+    publishedAtISO: '2026-09-20',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'library-and-information-science-career-options',
+    title: 'Library and Information Science Career Options in India: The Real Path Map',
+    description:
+      'Library and information science career options in India go past a librarian desk: UGC-NET routes, government pay scales, corporate knowledge management, and digital archiving.',
+    publishedAtISO: '2026-09-20',
+    readTimeMinutes: 15,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-in-navy-after-12th-science',
+    title: 'Career in Navy After 12th Science: NDA, 10+2 Cadet Entry, and the Real Path Map',
+    description:
+      'Career in Navy after 12th science: compare NDA and the 10+2 (B.Tech) Cadet Entry Scheme, the real multi-stage SSB process, branches, pay, and honest ceiling.',
+    publishedAtISO: '2026-09-20',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-after-phd-political-science',
+    title: 'Career After PhD in Political Science: Academia, Research, and Policy Paths in India',
+    description:
+      'Career after PhD in political science: academia and UGC-NET/JRF hiring reality, senior think-tank research, UPSC with a research edge, international bodies, and independent consulting, ranked by growth.',
+    publishedAtISO: '2026-09-20',
+    readTimeMinutes: 18,
+  },
 ];
