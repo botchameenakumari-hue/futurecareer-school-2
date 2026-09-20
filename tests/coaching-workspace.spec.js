@@ -1212,7 +1212,10 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   const studentActionForm = page.locator('#student-action-form');
   await expect(studentActionForm.locator('[data-action-category]')).toHaveCount(6);
   await expect(studentActionForm.locator('[data-action-custom]')).toBeVisible();
-  await expect(studentActionForm.locator('[data-action-skill-group]')).toContainText(/Current focus|Saved option|Useful in any career/);
+  const actionSkillGroup = studentActionForm.locator('[data-action-skill-group]');
+  await expect(actionSkillGroup).toContainText(/Current focus|Saved option|Useful in any career/);
+  await expect(actionSkillGroup).toHaveValue(/^career:/);
+  await expect(studentActionForm.getByLabel('Suggested actions in selected category')).toContainText('Choose an Explore action');
   await studentActionForm.locator('[data-action-custom]').click();
   await expect(studentActionForm.locator('.action-preset-field')).toBeHidden();
   await expect(studentActionForm.getByLabel('Your action')).toBeFocused();
@@ -1294,8 +1297,26 @@ test('student dashboard stays readable on desktop without undersized controls', 
   await page.goto('http://127.0.0.1:4321/dashboard', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('#workspace-shell')).toBeVisible({ timeout: 10_000 });
   await expect(page.locator('[data-workspace-view="overview"]')).toBeVisible();
-  await page.locator('[data-view-target="career"]').last().click();
+  await page.locator('.overview-shortcut[data-open-view="career"][data-plan-shortcut-tab="actions"]').click();
   await expect(page.locator('[data-workspace-view="career"]')).toBeVisible();
+  await page.waitForTimeout(150);
+  const actionPane = page.locator('[data-plan-pane="actions"]');
+  await expect(actionPane).toBeVisible();
+  const actionPaneTop = await actionPane.evaluate((pane) => pane.getBoundingClientRect().top);
+  expect(actionPaneTop).toBeGreaterThanOrEqual(0);
+  expect(actionPaneTop).toBeLessThan(180);
+  const planStartLayout = await page.locator('.student-plan-start').evaluate((panel) => {
+    const copy = panel.firstElementChild;
+    const actions = panel.querySelector('.student-plan-start-actions');
+    return {
+      height: panel.getBoundingClientRect().height,
+      copyWidth: copy?.getBoundingClientRect().width ?? 0,
+      actionsWidth: actions?.getBoundingClientRect().width ?? 0,
+    };
+  });
+  expect(planStartLayout.height).toBeLessThan(360);
+  expect(planStartLayout.copyWidth).toBeGreaterThan(240);
+  expect(planStartLayout.actionsWidth).toBeGreaterThan(240);
   const audit = await page.evaluate(() => {
     const root = document.querySelector('#hierarchy-workspace');
     const buttons = Array.from(document.querySelectorAll('#hierarchy-workspace button')).filter((button) => {
@@ -1324,6 +1345,18 @@ test('student dashboard stays readable on desktop without undersized controls', 
   expect(audit.oversized).toEqual([]);
   expect(audit.undersized).toEqual([]);
   expect(audit.clippedFields).toEqual([]);
+  await page.setViewportSize({ width: 1268, height: 900 });
+  const planTabLayout = await page.locator('.student-plan-tabs').evaluate((tablist) => {
+    const buttons = Array.from(tablist.querySelectorAll('button'));
+    return {
+      rows: new Set(buttons.map((button) => Math.round(button.getBoundingClientRect().top))).size,
+      narrowest: Math.min(...buttons.map((button) => button.getBoundingClientRect().width)),
+      clipped: buttons.filter((button) => button.scrollWidth > button.clientWidth + 1 || button.scrollHeight > button.clientHeight + 1).length,
+    };
+  });
+  expect(planTabLayout.rows).toBe(2);
+  expect(planTabLayout.narrowest).toBeGreaterThan(140);
+  expect(planTabLayout.clipped).toBe(0);
 });
 
 test('coach dashboard stays readable on a narrow mobile screen', async ({ page }) => {

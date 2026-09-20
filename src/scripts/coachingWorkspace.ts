@@ -823,7 +823,8 @@ function populateActionPresetSelect(select: HTMLSelectElement, category: string,
   if (!ctx) return;
   const copy = actionCategoryCopy[category] ?? actionCategoryCopy.explore;
   const matches = actionPresets.filter((preset) => preset.category === category);
-  select.innerHTML = `<option value="">Choose a ${ctx.escapeHtml(copy.label)} action</option>${matches.map((preset) => `<option value="${preset.key}">${ctx!.escapeHtml(preset.title)} · about ${preset.estimatedMinutes ?? 60} minutes · ${preset.dueDays} days</option>`).join('')}`;
+  const article = /^[aeiou]/i.test(copy.label) ? 'an' : 'a';
+  select.innerHTML = `<option value="">Choose ${article} ${ctx.escapeHtml(copy.label)} action</option>${matches.map((preset) => `<option value="${preset.key}">${ctx!.escapeHtml(preset.title)} · about ${preset.estimatedMinutes ?? 60} minutes · ${preset.dueDays} days</option>`).join('')}`;
   if (preferred && matches.some((preset) => preset.key === preferred)) select.value = preferred;
 }
 
@@ -869,7 +870,7 @@ function prepareActionSkillOptions() {
     const form = groupSelect.closest<HTMLFormElement>('form');
     const skillSelect = form?.querySelector<HTMLSelectElement>('[data-action-skill]');
     if (!form || !skillSelect) return;
-    const previousGroup = groupSelect.value;
+    const previousGroup = groupSelect.dataset.prepared === 'true' ? groupSelect.value : '';
     const previousSkill = skillSelect.value;
     const careerGroups = careers.flatMap((career) => {
       const count = skills.filter((skill) => String(skill.linked_career_path_id || '') === String(career.id)).length;
@@ -888,6 +889,7 @@ function prepareActionSkillOptions() {
       : careerGroups.find((group) => careerById.get(group.value.slice(7))?.option_type === 'primary')?.value
         ?? careerGroups[0]?.value
         ?? (availableGroups.includes('foundation') ? 'foundation' : availableGroups[0] ?? 'all');
+    groupSelect.dataset.prepared = 'true';
     const selectedGroup = groupSelect.value;
     const filtered = skills.filter((skill) => selectedGroup === 'all'
       || (selectedGroup.startsWith('career:') && String(skill.linked_career_path_id || '') === selectedGroup.slice(7))
@@ -1519,7 +1521,8 @@ function revealWorkspacePane(selector: string, focusSelector = 'h2, h3, h4, inpu
   window.requestAnimationFrame(() => {
     const pane = qs<HTMLElement>(selector);
     if (!pane || pane.hidden) return;
-    pane.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    const top = Math.max(0, pane.getBoundingClientRect().top + window.scrollY - 96);
+    window.scrollTo({ top, behavior: 'auto' });
     const focusTarget = pane.querySelector<HTMLElement>(focusSelector);
     if (!focusTarget) return;
     if (!focusTarget.matches('input, select, textarea, button, a[href]')) focusTarget.setAttribute('tabindex', '-1');
@@ -4463,7 +4466,12 @@ function bindEvents() {
       return;
     }
     const planStart = target.closest<HTMLElement>('[data-plan-start]');
-    if (planStart) { showPlanTab(planStart.dataset.planStart ?? 'options'); return; }
+    if (planStart) {
+      const tab = planStart.dataset.planStart ?? 'options';
+      showPlanTab(tab, true);
+      revealWorkspacePane(`[data-plan-pane="${tab}"]`);
+      return;
+    }
     const planTab = target.closest<HTMLElement>('[data-plan-tab]');
     if (planTab) { showPlanTab(planTab.dataset.planTab ?? 'options', true); return; }
     if (target.closest('[data-focus-action-form]')) {

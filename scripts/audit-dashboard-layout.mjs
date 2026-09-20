@@ -21,7 +21,7 @@ const routes = [
 // portrait, the navigation breakpoint, a larger tablet, and desktop. This
 // avoids declaring the layout sound after checking only one phone and one
 // desktop width.
-const widths = [320, 390, 600, 768, 820, 1024, 1440];
+const widths = [320, 390, 600, 768, 820, 1024, 1280, 1440];
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 390, height: 900 } });
 const failures = [];

@@ -2242,7 +2242,20 @@ async function handleDelegatedClick(event: MouseEvent) {
         return;
       }
       openView(view);
-      if (view === 'career' && planTab) openStudentPlanTab(planTab);
+      if (view === 'career' && planTab) {
+        openStudentPlanTab(planTab);
+        window.setTimeout(() => {
+          const pane = qs<HTMLElement>(`[data-plan-pane="${planTab}"]`);
+          if (!pane || pane.hidden) return;
+          const top = Math.max(0, pane.getBoundingClientRect().top + window.scrollY - 96);
+          window.scrollTo({ top, behavior: 'auto' });
+          const heading = pane.querySelector<HTMLElement>('h2, h3');
+          if (heading) {
+            heading.setAttribute('tabindex', '-1');
+            heading.focus({ preventScroll: true });
+          }
+        }, 60);
+      }
     }
     return;
   }
