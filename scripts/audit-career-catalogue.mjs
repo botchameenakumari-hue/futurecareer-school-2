@@ -43,6 +43,8 @@ const requiredHighUpsideTitles = [
   'Computational Drug Discovery Scientist', 'Medical Device Product and Regulatory Strategist',
   'Private Credit and Structured Finance Analyst', 'Mergers and Acquisitions Advisor',
   'Supply Chain Technology Consultant', 'B2B SaaS Revenue Operations Consultant',
+  'Cyber Insurance and Digital Risk Advisor', 'Healthcare Operations Transformation Consultant',
+  'Advanced Battery Materials Scientist', 'Family Office Investment and Wealth Advisor',
 ];
 
 for (const preset of presets) {

@@ -3778,12 +3778,13 @@ body:has(#hierarchy-workspace) #analytics-consent-banner {
 
 #hierarchy-workspace .action-composer {
   display: grid;
-  gap: 14px;
+  gap: 18px;
   margin-bottom: 14px;
-  padding: 16px;
+  padding: clamp(16px, 2.4vw, 24px);
   border: 1px solid var(--hw-line);
-  border-radius: 7px;
-  background: var(--hw-paper-muted);
+  border-radius: 14px;
+  background: var(--hw-paper);
+  box-shadow: 0 10px 28px rgba(25, 42, 54, .06);
 }
 
 #hierarchy-workspace .action-field {
@@ -3817,7 +3818,7 @@ body:has(#hierarchy-workspace) #analytics-consent-banner {
 }
 
 #hierarchy-workspace .action-composer-main {
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 #hierarchy-workspace .action-composer-options {
@@ -3832,6 +3833,86 @@ body:has(#hierarchy-workspace) #analytics-consent-banner {
 
 #hierarchy-workspace .action-details textarea { min-height: 72px; resize: vertical; }
 #hierarchy-workspace .action-composer-footer .primary-button { min-height: 40px; }
+
+#hierarchy-workspace .action-pathway-picker,
+#hierarchy-workspace .action-skill-picker {
+  display: grid;
+  gap: 14px;
+  padding: clamp(14px, 2vw, 20px);
+  border: 1px solid #cbded7;
+  border-radius: 12px;
+  background: #f7fbf9;
+}
+
+#hierarchy-workspace .action-pathway-picker > header,
+#hierarchy-workspace .action-skill-picker > header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+#hierarchy-workspace .action-pathway-picker > header > div,
+#hierarchy-workspace .action-skill-picker > header > div { display: grid; gap: 3px; }
+#hierarchy-workspace .action-pathway-picker > header strong,
+#hierarchy-workspace .action-skill-picker > header strong { color: var(--hw-ink); font-size: 14px; }
+#hierarchy-workspace .action-pathway-picker > header small,
+#hierarchy-workspace .action-skill-picker > header small { color: var(--hw-muted); font-size: 12px; line-height: 1.5; }
+
+#hierarchy-workspace .action-step-number {
+  display: grid;
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--hw-blue);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+#hierarchy-workspace .action-category-choices {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+#hierarchy-workspace .action-category-choice {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  min-width: 0;
+  min-height: 78px;
+  padding: 11px 12px;
+  border: 1px solid #c6d8d2;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--hw-ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+#hierarchy-workspace .action-category-choice strong { font-size: 12px; }
+#hierarchy-workspace .action-category-choice small { color: var(--hw-muted); font-size: 10.5px; line-height: 1.35; }
+#hierarchy-workspace .action-category-choice:hover,
+#hierarchy-workspace .action-category-choice:focus-visible { border-color: var(--hw-blue); outline: 2px solid color-mix(in srgb, var(--hw-blue) 20%, transparent); outline-offset: 1px; }
+#hierarchy-workspace .action-category-choice.is-selected { border-color: var(--hw-blue); background: #eaf5ff; box-shadow: inset 0 0 0 1px var(--hw-blue); }
+#hierarchy-workspace .action-custom-choice { border-style: dashed; background: #fffaf0; }
+
+#hierarchy-workspace .action-preset-field { max-width: none; }
+#hierarchy-workspace .action-title-field {
+  padding: 16px;
+  border: 1px solid #d9e3df;
+  border-radius: 11px;
+  background: #fff;
+}
+#hierarchy-workspace .action-title-field input { min-height: 46px; font-size: 14px; }
+
+#hierarchy-workspace .action-skill-picker > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
 
 #hierarchy-workspace .coaching-action-row {
   display: grid;
@@ -4697,6 +4778,7 @@ body:has(#hierarchy-workspace) #analytics-consent-banner {
   #hierarchy-workspace .cohort-context-strip > span:nth-child(3) { border-left: 0; border-top: 1px solid var(--hw-line); }
   #hierarchy-workspace .cohort-context-strip > span:nth-child(4) { border-top: 1px solid var(--hw-line); }
   #hierarchy-workspace .action-composer-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #hierarchy-workspace .action-category-choices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (max-width: 720px) {
@@ -4738,6 +4820,8 @@ body:has(#hierarchy-workspace) #analytics-consent-banner {
   #hierarchy-workspace .action-composer-options,
   #hierarchy-workspace .action-composer-footer { grid-template-columns: 1fr; }
   #hierarchy-workspace .action-composer-footer .primary-button { width: 100%; }
+  #hierarchy-workspace .action-category-choices,
+  #hierarchy-workspace .action-skill-picker > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #hierarchy-workspace .action-capacity-summary { grid-template-columns: 1fr; gap: 4px; }
   #hierarchy-workspace .action-capacity-summary span { padding-left: 0; border-left: 0; }
   #hierarchy-workspace .action-controls { justify-self: start; }
@@ -4754,6 +4838,10 @@ body:has(#hierarchy-workspace) #analytics-consent-banner {
   #hierarchy-workspace .cohort-context-strip { grid-template-columns: 1fr; }
   #hierarchy-workspace .cohort-context-strip > span { border-top: 1px solid var(--hw-line); border-left: 0; }
   #hierarchy-workspace .cohort-context-strip > span:first-child { border-top: 0; }
+  #hierarchy-workspace .action-category-choices,
+  #hierarchy-workspace .action-skill-picker > div { grid-template-columns: 1fr; }
+  #hierarchy-workspace .action-category-choice { min-height: 0; }
+  #hierarchy-workspace .action-composer { padding: 13px; border-radius: 10px; }
 }
 
 #hierarchy-workspace .preset-input-stack {

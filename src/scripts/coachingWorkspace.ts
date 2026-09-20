@@ -810,16 +810,91 @@ function actionMilestone(category: string) {
   } as Record<string, string>)[category] ?? 'Next step';
 }
 
+const actionCategoryCopy: Record<string, { label: string; help: string }> = {
+  explore: { label: 'Explore', help: 'Research careers, courses, routes, and real work.' },
+  learn: { label: 'Learn', help: 'Build knowledge, tools, and study habits.' },
+  build: { label: 'Build proof', help: 'Complete practical work and portfolio evidence.' },
+  connect: { label: 'Connect', help: 'Speak with practitioners, alumni, or mentors.' },
+  apply: { label: 'Apply', help: 'Publish work or pursue a real opportunity.' },
+  decide: { label: 'Decide', help: 'Compare evidence, choose, review, or change direction.' },
+};
+
+function populateActionPresetSelect(select: HTMLSelectElement, category: string, preferred = '') {
+  if (!ctx) return;
+  const copy = actionCategoryCopy[category] ?? actionCategoryCopy.explore;
+  const matches = actionPresets.filter((preset) => preset.category === category);
+  select.innerHTML = `<option value="">Choose a ${ctx.escapeHtml(copy.label)} action</option>${matches.map((preset) => `<option value="${preset.key}">${ctx!.escapeHtml(preset.title)} · about ${preset.estimatedMinutes ?? 60} minutes · ${preset.dueDays} days</option>`).join('')}`;
+  if (preferred && matches.some((preset) => preset.key === preferred)) select.value = preferred;
+}
+
+function selectActionCategory(form: HTMLFormElement, category: string, preferredPreset = '') {
+  const safeCategory = actionCategoryCopy[category] ? category : 'explore';
+  const categoryInput = form.elements.namedItem('category') as HTMLInputElement | HTMLSelectElement | null;
+  if (categoryInput) categoryInput.value = safeCategory;
+  form.querySelectorAll<HTMLButtonElement>('[data-action-category]').forEach((button) => {
+    const selected = button.dataset.actionCategory === safeCategory;
+    button.classList.toggle('is-selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+  const custom = form.querySelector<HTMLButtonElement>('[data-action-custom]');
+  custom?.classList.remove('is-selected');
+  custom?.setAttribute('aria-pressed', 'false');
+  const presetField = form.querySelector<HTMLElement>('.action-preset-field');
+  if (presetField) presetField.hidden = false;
+  const select = form.querySelector<HTMLSelectElement>('[data-action-preset]');
+  if (select) populateActionPresetSelect(select, safeCategory, preferredPreset);
+  const help = form.querySelector<HTMLElement>('[data-action-preset-help]');
+  if (help) help.textContent = `${actionCategoryCopy[safeCategory].help} Pick a starting point or choose “My own action.”`;
+}
+
+function chooseActionPreset(form: HTMLFormElement, presetKey: string) {
+  const preset = actionPresets.find((item) => item.key === presetKey);
+  const select = form.querySelector<HTMLSelectElement>('[data-action-preset]');
+  if (!preset || !select) return;
+  selectActionCategory(form, preset.category, preset.key);
+  applyActionPreset(select);
+}
+
 function prepareActionSkillOptions() {
   if (!ctx) return;
   const studentId = activeStudentId();
   const skills = studentId
     ? activeSkillsForStudent(studentId).slice().sort((a, b) => String(a.skill_name || '').localeCompare(String(b.skill_name || '')))
     : [];
-  qsa<HTMLSelectElement>('[data-action-skill]').forEach((select) => {
-    const selected = select.value;
-    select.innerHTML = `<option value="">No specific skill</option>${skills.map((skill) => `<option value="${ctx!.escapeHtml(skill.id)}">${ctx!.escapeHtml(skill.skill_name || 'Unnamed skill')}</option>`).join('')}`;
-    if (selected && skills.some((skill) => String(skill.id) === selected)) select.value = selected;
+  const careers = studentId
+    ? rowsFor(coaching.careers, 'user_id', studentId).filter((career) => !['paused', 'ruled-out'].includes(String(career.status || '')))
+    : [];
+  const careerById = new Map(careers.map((career) => [String(career.id), career]));
+  qsa<HTMLSelectElement>('[data-action-skill-group]').forEach((groupSelect) => {
+    const form = groupSelect.closest<HTMLFormElement>('form');
+    const skillSelect = form?.querySelector<HTMLSelectElement>('[data-action-skill]');
+    if (!form || !skillSelect) return;
+    const previousGroup = groupSelect.value;
+    const previousSkill = skillSelect.value;
+    const careerGroups = careers.flatMap((career) => {
+      const count = skills.filter((skill) => String(skill.linked_career_path_id || '') === String(career.id)).length;
+      return count ? [{ value: `career:${career.id}`, label: `${career.option_type === 'primary' ? 'Current focus' : 'Saved option'}: ${career.title} (${count})` }] : [];
+    });
+    const scopeGroups = [
+      { value: 'foundation', label: `Useful in any career (${skills.filter((skill) => skillScopeFor(skill) === 'foundation').length})` },
+      { value: 'future-ready', label: `For changing work (${skills.filter((skill) => skillScopeFor(skill) === 'future-ready').length})` },
+      { value: 'other', label: `Other skills (${skills.filter((skill) => !['foundation', 'career-specific', 'future-ready'].includes(skillScopeFor(skill))).length})` },
+      { value: 'all', label: `All skills (${skills.length})` },
+    ].filter((group) => !group.label.endsWith('(0)'));
+    groupSelect.innerHTML = `${careerGroups.length ? `<optgroup label="For your saved career options">${careerGroups.map((group) => `<option value="${ctx!.escapeHtml(group.value)}">${ctx!.escapeHtml(group.label)}</option>`).join('')}</optgroup>` : ''}<optgroup label="Transferable and other skills">${scopeGroups.map((group) => `<option value="${group.value}">${ctx!.escapeHtml(group.label)}</option>`).join('')}</optgroup>`;
+    const availableGroups = Array.from(groupSelect.options).map((option) => option.value);
+    groupSelect.value = availableGroups.includes(previousGroup)
+      ? previousGroup
+      : careerGroups.find((group) => careerById.get(group.value.slice(7))?.option_type === 'primary')?.value
+        ?? careerGroups[0]?.value
+        ?? (availableGroups.includes('foundation') ? 'foundation' : availableGroups[0] ?? 'all');
+    const selectedGroup = groupSelect.value;
+    const filtered = skills.filter((skill) => selectedGroup === 'all'
+      || (selectedGroup.startsWith('career:') && String(skill.linked_career_path_id || '') === selectedGroup.slice(7))
+      || (selectedGroup === 'other' && !['foundation', 'career-specific', 'future-ready'].includes(skillScopeFor(skill)))
+      || skillScopeFor(skill) === selectedGroup);
+    skillSelect.innerHTML = `<option value="">No specific skill</option>${filtered.map((skill) => `<option value="${ctx!.escapeHtml(skill.id)}">${ctx!.escapeHtml(skill.skill_name || 'Unnamed skill')}</option>`).join('')}`;
+    if (previousSkill && filtered.some((skill) => String(skill.id) === previousSkill)) skillSelect.value = previousSkill;
   });
 }
 
@@ -1294,6 +1369,7 @@ export function renderCoachingWorkspace() {
   renderStudentPlan();
   renderStudentRecord();
   renderCohortWorkspace();
+  prepareActionSkillOptions();
   const warning = qs<HTMLElement>('#coaching-schema-warning');
   if (warning) {
     warning.hidden = coaching.schemaReady;
@@ -1916,16 +1992,8 @@ function preparePresetControls() {
   addPresetOptions(qs<HTMLSelectElement>('#academic-stream-preset'), academicStreamPresets.map((stream) => `<option value="${ctx!.escapeHtml(stream)}">${ctx!.escapeHtml(stream)}</option>`).join(''));
   qsa<HTMLSelectElement>('[data-action-preset]').forEach((select) => {
     if (select.dataset.prepared === 'true') return;
-    const groups = ['explore', 'learn', 'build', 'connect', 'apply', 'decide'];
-    const milestoneFor = (category: string) => ({
-      explore: 'Decide',
-      decide: 'Decide',
-      learn: 'Start',
-      build: 'Build',
-      apply: 'Publish or apply',
-      connect: 'Connect',
-    } as Record<string, string>)[category] ?? 'Next step';
-    select.insertAdjacentHTML('beforeend', groups.map((group) => `<optgroup label="${ctx!.escapeHtml(ctx!.formatStatus(group))}">${actionPresets.filter((preset) => preset.category === group).map((preset) => `<option value="${preset.key}">${ctx!.escapeHtml(preset.title)} · ${ctx!.escapeHtml(preset.milestone || milestoneFor(group))} · about ${preset.estimatedMinutes ?? 60} minutes (${preset.dueDays} days)</option>`).join('')}</optgroup>`).join(''));
+    const form = select.closest<HTMLFormElement>('form');
+    if (form) selectActionCategory(form, String((form.elements.namedItem('category') as HTMLInputElement | null)?.value || 'explore'));
     select.dataset.prepared = 'true';
   });
 }
@@ -2519,6 +2587,8 @@ function applyActionPreset(select: HTMLSelectElement) {
   const preset = actionPresets.find((item) => item.key === select.value);
   const form = select.closest<HTMLFormElement>('form');
   if (!preset || !form) return;
+  const categoryInput = form.elements.namedItem('category') as HTMLInputElement | HTMLSelectElement | null;
+  if (categoryInput?.value !== preset.category) selectActionCategory(form, preset.category, preset.key);
   const due = new Date();
   due.setDate(due.getDate() + preset.dueDays);
   setFormValues(form, { title: preset.title, category: preset.category, details: preset.details, due_date: localDateValue(due) });
@@ -4091,14 +4161,39 @@ function bindEvents() {
     input.min = localDateValue();
   });
   document.addEventListener('click', (event) => {
+    const categoryButton = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-action-category]');
+    if (!categoryButton) return;
+    const form = categoryButton.closest<HTMLFormElement>('[data-coaching-action-form]');
+    if (!form) return;
+    selectActionCategory(form, categoryButton.dataset.actionCategory || 'explore');
+  });
+  document.addEventListener('click', (event) => {
+    const customButton = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-action-custom]');
+    if (!customButton) return;
+    const form = customButton.closest<HTMLFormElement>('[data-coaching-action-form]');
+    if (!form) return;
+    form.querySelectorAll<HTMLButtonElement>('[data-action-category]').forEach((button) => {
+      button.classList.remove('is-selected');
+      button.setAttribute('aria-pressed', 'false');
+    });
+    customButton.classList.add('is-selected');
+    customButton.setAttribute('aria-pressed', 'true');
+    const select = form.querySelector<HTMLSelectElement>('[data-action-preset]');
+    if (select) select.value = '';
+    const presetField = form.querySelector<HTMLElement>('.action-preset-field');
+    if (presetField) presetField.hidden = true;
+    const title = form.elements.namedItem('title') as HTMLInputElement | null;
+    const details = form.elements.namedItem('details') as HTMLTextAreaElement | null;
+    if (title) title.value = '';
+    if (details) details.value = '';
+    title?.focus();
+  });
+  document.addEventListener('click', (event) => {
     const featured = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-action-featured]');
     if (!featured) return;
     const form = featured.closest<HTMLFormElement>('[data-coaching-action-form]');
-    const select = form?.querySelector<HTMLSelectElement>('[data-action-preset]');
-    if (!select) return;
-    select.value = featured.dataset.actionFeatured || '';
-    applyActionPreset(select);
-    select.dispatchEvent(new Event('change', { bubbles: true }));
+    if (!form) return;
+    chooseActionPreset(form, featured.dataset.actionFeatured || '');
     form?.querySelector<HTMLInputElement>('[name="title"]')?.focus();
   });
   document.addEventListener('click', (event) => {
@@ -4107,11 +4202,8 @@ function bindEvents() {
     const presetKey = growthAction.dataset.growthAction || '';
     showPlanTab('actions', true);
     const form = qs<HTMLFormElement>('#student-action-form');
-    const select = form?.querySelector<HTMLSelectElement>('[data-action-preset]');
-    if (!select || !presetKey) return;
-    select.value = presetKey;
-    applyActionPreset(select);
-    select.dispatchEvent(new Event('change', { bubbles: true }));
+    if (!form || !presetKey) return;
+    chooseActionPreset(form, presetKey);
     revealWorkspacePane('[data-plan-pane="actions"]', '[name="title"]');
   });
   document.addEventListener('click', (event) => {
@@ -4155,6 +4247,7 @@ function bindEvents() {
     }
   }));
   qsa<HTMLSelectElement>('[data-action-preset]').forEach((select) => select.addEventListener('change', () => applyActionPreset(select)));
+  qsa<HTMLSelectElement>('[data-action-skill-group]').forEach((select) => select.addEventListener('change', () => prepareActionSkillOptions()));
   qsa<HTMLSelectElement>('[name="weekly_hours_preset"]').forEach((select) => select.addEventListener('change', () => {
     const form = select.closest<HTMLFormElement>('form');
     if (form) updateActionTimeGuidance(form);

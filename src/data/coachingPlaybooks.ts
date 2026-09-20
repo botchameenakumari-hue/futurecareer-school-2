@@ -616,6 +616,10 @@ const highUpsideCareerPresets: CareerPreset[] = [
   ['Mergers and Acquisitions Advisor', 'Commerce, Finance & Economics', 'Analyse businesses, value transactions, coordinate diligence, and support negotiation and deal execution.', 'Value a fictional business and prepare a short buyer or seller decision brief with key risks.', ['mergers and acquisitions', 'valuation', 'financial modelling', 'negotiation', 'strategy', 'commercial']],
   ['Supply Chain Technology Consultant', 'Business, Marketing & Operations', 'Redesign planning, procurement, logistics, and inventory workflows using data, automation, and enterprise technology.', 'Map one supply-chain bottleneck and propose a measurable technology-enabled improvement.', ['supply chain', 'consulting', 'automation', 'enterprise systems', 'operations', 'data']],
   ['B2B SaaS Revenue Operations Consultant', 'Business, Marketing & Operations', 'Build the data, process, pricing, automation, and decision systems that align marketing, sales, and customer success.', 'Audit a fictional subscription funnel and propose one measurable revenue-system improvement.', ['saas', 'revenue operations', 'sales', 'marketing', 'analytics', 'consulting']],
+  ['Cyber Insurance and Digital Risk Advisor', 'Commerce, Finance & Economics', 'Assess cyber exposure, controls, loss scenarios, coverage, and risk-transfer decisions for organisations and insurers.', 'Create a digital-risk brief that connects one threat scenario to controls, financial exposure, and coverage questions.', ['cyber insurance', 'digital risk', 'insurance', 'cybersecurity', 'advisory', 'commercial']],
+  ['Healthcare Operations Transformation Consultant', 'Business, Marketing & Operations', 'Improve patient, clinical, administrative, and financial workflows using evidence, technology, and change management.', 'Map one healthcare workflow and propose a measurable improvement with safety and adoption checks.', ['healthcare', 'consulting', 'operations', 'digital health', 'change', 'quality']],
+  ['Advanced Battery Materials Scientist', 'Science, Research & Environment', 'Develop and evaluate materials that improve battery performance, safety, cost, durability, and manufacturability.', 'Compare two battery-material approaches using public evidence and document performance, safety, cost, and scale-up trade-offs.', ['battery materials', 'materials science', 'chemistry', 'energy storage', 'research', 'manufacturing']],
+  ['Family Office Investment and Wealth Advisor', 'Commerce, Finance & Economics', 'Help families integrate investments, risk, tax coordination, governance, liquidity, and long-term wealth decisions.', 'Prepare a fictional family investment-policy brief covering goals, liquidity, risk, governance, and conflicts.', ['family office', 'wealth advisory', 'investment', 'risk', 'governance', 'client trust']],
 ] .map(([title, category, routeSummary, nextStep, tags]) => ({
   key: slug(String(title)), title: String(title), category: String(category), featured: true,
   routeSummary: String(routeSummary),
@@ -668,6 +672,10 @@ const highUpsideSpecificSkills = new Map<string, string[]>([
   ['mergers-and-acquisitions-advisor', ['Business valuation', 'Transaction due diligence', 'Deal negotiation']],
   ['supply-chain-technology-consultant', ['Supply-chain process design', 'Enterprise systems', 'Operations analytics']],
   ['b2b-saas-revenue-operations-consultant', ['Revenue analytics', 'CRM and workflow automation', 'Subscription economics']],
+  ['cyber-insurance-and-digital-risk-advisor', ['Cyber-risk quantification', 'Insurance coverage analysis', 'Control and loss-scenario assessment']],
+  ['healthcare-operations-transformation-consultant', ['Healthcare workflow analysis', 'Quality and safety improvement', 'Change implementation']],
+  ['advanced-battery-materials-scientist', ['Electrochemistry', 'Materials characterisation', 'Battery safety and scale-up']],
+  ['family-office-investment-and-wealth-advisor', ['Portfolio and liquidity planning', 'Investment governance', 'Client risk communication']],
 ]);
 
 const futureRoleDetails = new Map(futureRoles.map(([title, summary, specialistSkills, futureSkills]) => [slug(title), { summary, specialistSkills: [...specialistSkills], futureSkills: [...futureSkills] }]));
@@ -834,7 +842,7 @@ function buildCareerGuide(preset: CareerPreset): CareerGuide {
 const roleSkills = roleSkillSignals(preset.title);
   const title = preset.title.toLowerCase();
   const isGovernment = /civil service|government|public service|police|defence|diplomat|election|military|ias|ips|ifs\b/.test(title) || /Law, Government/.test(preset.category);
-  const isIndependentFriendly = /software|developer|data|designer|writer|marketing|consult|account|finance|lawyer|legal|teacher|trainer|therap|architect|photograph|chef|electrician|plumber|mechanic|engineer|analyst|translator|coach|nutrition|beauty|business|entrepreneur|brand|e-commerce/.test(title);
+  const isIndependentFriendly = /software|developer|data|designer|writer|marketing|consult|advisor|account|finance|lawyer|legal|teacher|trainer|therap|architect|photograph|chef|electrician|plumber|mechanic|engineer|analyst|translator|coach|nutrition|beauty|business|entrepreneur|brand|e-commerce/.test(title);
   const localContext = isGovernment
     ? 'Public-service routes are established, but selection is highly competitive and usually exam-led.'
     : ({
@@ -1002,7 +1010,7 @@ export function careerGuideFor(key: unknown) {
 export function careerEarningPotentialScore(title: string, category = ''): 1 | 2 | 3 | 4 | 5 {
   const value = `${title} ${category}`.toLowerCase();
   if (/anesthesiologist|interventional radiologist|specialist surgeon|quantitative|private equity|investment banker|mergers and acquisitions|patent.*attorney|enterprise solutions architect|fractional cfo/.test(value)) return 5;
-  if (/ai product manager|ai hardware|accelerator engineer|machine learning|mlops|artificial intelligence|industrial ai|cybersecurity|cloud|data centre|chip design|semiconductor|power electronics|green hydrogen|grid intelligence|energy market|project finance|private credit|structured finance|climate finance|carbon market|space systems|drone systems|biomanufacturing|computational drug|medical device product|technology transfer|e-commerce brand|export market|supply chain technology|revenue operations|actuary|venture capital|sales engineer|petroleum|corporate lawyer|management consultant|product manager|energy storage/.test(value)) return 4;
+  if (/ai product manager|ai hardware|accelerator engineer|machine learning|mlops|artificial intelligence|industrial ai|cybersecurity|cyber insurance|cloud|data centre|chip design|semiconductor|power electronics|green hydrogen|grid intelligence|energy market|project finance|private credit|structured finance|family office|wealth advisor|climate finance|carbon market|space systems|drone systems|biomanufacturing|computational drug|medical device product|healthcare operations transformation|technology transfer|e-commerce brand|export market|supply chain technology|revenue operations|advanced battery materials|actuary|venture capital|sales engineer|petroleum|corporate lawyer|management consultant|product manager|energy storage/.test(value)) return 4;
   if (/software|data scientist|data engineer|finance|engineer|doctor|dentist|pharmac|architect|commercial|consult|manager|analyst|renewable|robotics|automation/.test(value)) return 3;
   if (/assistant|support|coordinator|operator|entry|junior|trainee/.test(value)) return 1;
   return 2;

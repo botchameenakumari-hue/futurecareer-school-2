@@ -816,8 +816,11 @@ test('staff can run a complete coaching case from caseload to private notes', as
   await actionForm.evaluate((form) => form.dispatchEvent(new SubmitEvent('submit', { bubbles: true, cancelable: true })));
   await expect(page.locator('#record-action-status')).toContainText('does not start overdue');
   await actionDueDate.fill('');
-  expect(await actionForm.getByLabel('Choose from suggested actions').locator('option').count()).toBeGreaterThan(20);
-  await actionForm.getByLabel('Choose from suggested actions').selectOption('compare-entry-routes');
+  const suggestedActions = actionForm.getByLabel('Suggested actions in selected category');
+  expect(await suggestedActions.locator('option').count()).toBeGreaterThan(5);
+  expect(await suggestedActions.locator('option').count()).toBeLessThan(20);
+  await expect(actionForm.locator('[data-action-category="explore"]')).toHaveAttribute('aria-pressed', 'true');
+  await suggestedActions.selectOption('compare-entry-routes');
   await expect(actionForm.getByPlaceholder('For example: Compare two entry routes')).toHaveValue('Compare three entry routes');
   await actionForm.getByPlaceholder('For example: Compare two entry routes').fill('Map three undergraduate research routes');
   await actionForm.getByPlaceholder('Describe the result or next decision that would show progress.').fill('Compare entry requirements, cost, and practical exposure.');
@@ -1206,6 +1209,16 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator('#workspace-status')).toHaveText('');
   await page.locator('.student-plan-start').getByRole('button', { name: 'Add next action' }).click();
+  const studentActionForm = page.locator('#student-action-form');
+  await expect(studentActionForm.locator('[data-action-category]')).toHaveCount(6);
+  await expect(studentActionForm.locator('[data-action-custom]')).toBeVisible();
+  await expect(studentActionForm.locator('[data-action-skill-group]')).toContainText(/Current focus|Saved option|Useful in any career/);
+  await studentActionForm.locator('[data-action-custom]').click();
+  await expect(studentActionForm.locator('.action-preset-field')).toBeHidden();
+  await expect(studentActionForm.getByLabel('Your action')).toBeFocused();
+  await studentActionForm.locator('[data-action-category="build"]').click();
+  await expect(studentActionForm.locator('.action-preset-field')).toBeVisible();
+  await expect(studentActionForm.getByLabel('Suggested actions in selected category')).toContainText('Complete a small role simulation');
   const weeklyHours = page.locator('#student-action-form select[name="weekly_hours_preset"]');
   await expect(weeklyHours).toBeVisible();
   await expect(page.locator('#student-action-form input[name="weekly_hours_custom"]')).toBeHidden();
@@ -1629,7 +1642,7 @@ test('career filters stay intersected and never show a stale guide', async ({ pa
   await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
   await page.locator('#career-clear-filters').click();
   await expect(search).toHaveValue('');
-  await expect(page.locator('#career-preset-count')).toContainText('608 career options shown');
+  await expect(page.locator('#career-preset-count')).toContainText('612 career options shown');
   await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
   await search.fill('Software Engineer');
   await expect(page.locator('#career-preset-results .career-library-result').first().locator('.career-result-title strong')).toHaveText('Software Engineer');
@@ -1652,7 +1665,7 @@ test('career sort changes ordering while keeping the full matching catalogue', a
   const quickTest = await firstTitles();
   await expect(page.locator('#career-preset-count')).toContainText('ordered by easiest routes to learn about first');
   expect(quickTest).not.toEqual(recommended);
-  await expect(page.locator('#career-preset-count')).toContainText('608 career options shown');
+  await expect(page.locator('#career-preset-count')).toContainText('612 career options shown');
   await expect(page.locator('.career-result-save-actions').first()).toContainText('Keep this option:');
   await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="primary"]')).toHaveText('Make current focus');
   await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="alternative"]')).toHaveText('Save for later');
@@ -1754,7 +1767,7 @@ test('independent-work ordering does not promote employer-only routes', async ({
   const firstPageTags = await page.locator('#career-preset-results .career-library-result .career-result-meta').allTextContents();
   expect(firstPageTags.length).toBeGreaterThan(0);
   expect(firstPageTags[0]).toContain('Can grow into independent work');
-  await expect(page.locator('#career-preset-count')).toContainText('608 career options shown');
+  await expect(page.locator('#career-preset-count')).toContainText('612 career options shown');
   await page.locator('#career-preset-search').fill('Civil Services Officer');
   const publicRoute = page.locator('#career-preset-results .career-library-result')
     .filter({ has: page.locator('.career-result-title strong', { hasText: 'Civil Services Officer' }) }).first();
@@ -1780,9 +1793,14 @@ test('student plan explains PDF contents and shows the shared readiness checklis
   await firstHelp.locator('summary').click();
   await expect(firstHelp).toContainText('What time and money can I realistically sustain?');
   const presetKeys = await checklist.locator('[data-growth-action]').evaluateAll((buttons) => buttons.map((button) => button.getAttribute('data-growth-action')));
-  const availablePresetKeys = await page.locator('#student-action-form [data-action-preset] option').evaluateAll((options) => options.map((option) => option.value));
+  const availablePresetKeys = new Set();
+  for (const category of ['explore', 'learn', 'build', 'connect', 'apply', 'decide']) {
+    await page.locator(`#student-action-form [data-action-category="${category}"]`).evaluate((button) => button.click());
+    const keys = await page.locator('#student-action-form [data-action-preset] option').evaluateAll((options) => options.map((option) => option.value).filter(Boolean));
+    keys.forEach((key) => availablePresetKeys.add(key));
+  }
   expect(presetKeys.length).toBe(10);
-  for (const key of presetKeys) expect(availablePresetKeys).toContain(key);
+  for (const key of presetKeys) expect(availablePresetKeys.has(key)).toBe(true);
   await expect(page.locator('#student-readiness-progress')).toContainText('of 10 evidenced');
   const layout = await page.locator('#student-readiness-checklist').locator('..').evaluate((panel) => ({
     overflow: panel.scrollWidth - panel.clientWidth,
@@ -1812,7 +1830,7 @@ test('preference matches stay relevant and composite upside breaks equal-fit tie
   await page.locator('[data-career-interest="numbers"]').click();
   const filteredCount = Number((await page.locator('#career-preset-count').textContent())?.match(/[\d,]+/)?.[0].replace(/,/g, ''));
   expect(filteredCount).toBeGreaterThan(0);
-  expect(filteredCount).toBeLessThan(608);
+  expect(filteredCount).toBeLessThan(612);
   const rows = await page.locator('#career-preset-results .career-library-result').evaluateAll((items) => items.map((item) => ({
     match: Number(item.getAttribute('data-match-percent')),
     upside: Number(item.getAttribute('data-upside-score')),

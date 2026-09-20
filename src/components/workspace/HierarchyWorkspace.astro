@@ -48,6 +48,14 @@ import { guidedCareerPresets } from '../../data/coachingPlaybooks';
 
 const showRoleLab = true;
 const { careerDecisionPage = false } = Astro.props;
+const actionCategoryChoices = [
+  { key: 'explore', label: 'Explore', help: 'Research careers, courses, routes, and real work.' },
+  { key: 'learn', label: 'Learn', help: 'Build knowledge, tools, and study habits.' },
+  { key: 'build', label: 'Build proof', help: 'Complete practical work and portfolio evidence.' },
+  { key: 'connect', label: 'Connect', help: 'Speak with practitioners, alumni, or mentors.' },
+  { key: 'apply', label: 'Apply', help: 'Publish work or pursue a real opportunity.' },
+  { key: 'decide', label: 'Decide', help: 'Compare evidence, choose, review, or change direction.' },
+];
 ---
 
 <div id="hierarchy-workspace" class="hierarchy-workspace" data-dev-role-lab={showRoleLab ? 'true' : 'false'} data-career-decision-page={careerDecisionPage ? 'true' : 'false'}>
@@ -408,14 +416,15 @@ const { careerDecisionPage = false } = Astro.props;
         <button class="action-featured" type="button" data-action-featured="money-safety-check"><strong>Check money safety</strong><small>Make a simple route and cost plan.</small></button>
       </div>
       <div class="action-composer-main">
-        <label class="action-field"><span>Your next step</span><input name="title" maxlength="180" required placeholder="For example: Compare two entry routes" /><small class="field-help">Write one clear step in your own words, starting with a verb.</small></label>
-        <label class="action-field"><span>Choose from suggested actions</span><select data-action-preset aria-label="Choose from suggested actions"><option value="">Choose a suggested action</option></select></label>
+        <section class="action-pathway-picker" aria-labelledby="record-action-pathway-title"><header><span class="action-step-number">1</span><div><strong id="record-action-pathway-title">Choose the kind of action</strong><small>Each category has a shorter, relevant list. You can also write a completely different action.</small></div></header><div class="action-category-choices" role="group" aria-label="Action categories">{actionCategoryChoices.map((choice, index) => <button type="button" class:list={["action-category-choice", { "is-selected": index === 0 }]} data-action-category={choice.key} aria-pressed={index === 0 ? "true" : "false"}><strong>{choice.label}</strong><small>{choice.help}</small></button>)}<button type="button" class="action-category-choice action-custom-choice" data-action-custom aria-pressed="false"><strong>My own action</strong><small>Enter an action that is not in the suggestions.</small></button></div><label class="action-field action-preset-field"><span>Suggested actions in this category</span><select data-action-preset aria-label="Suggested actions in selected category"><option value="">Choose an Explore action</option></select><small class="field-help" data-action-preset-help>Suggestions are starting points. You can edit the wording after choosing one.</small></label></section>
+        <label class="action-field action-title-field"><span>Action to complete</span><input name="title" maxlength="180" required placeholder="For example: Compare two entry routes" /><small class="field-help">Choose a suggestion or write your own specific action, starting with a verb.</small></label>
       </div>
       <div class="action-composer-options">
-        <label class="action-field"><span>What kind of progress is this?</span><select name="category"><option value="explore">Explore</option><option value="learn">Learn</option><option value="build">Build</option><option value="connect">Connect</option><option value="apply">Apply</option><option value="decide">Decide</option></select></label>
+        <input type="hidden" name="category" value="explore" />
         <label class="action-field"><span>Priority</span><select name="priority"><option value="normal">Normal</option><option value="important">Important</option></select></label>
         <label class="action-field"><span>Due date</span><input name="due_date" type="date" /></label>
-        <label class="action-field"><span>Skill this will develop <em>(optional)</em></span><select name="skill_id" data-action-skill aria-label="Skill this action will develop"><option value="">No specific skill</option></select></label>
+        <label class="action-field"><span>Skill group <em>(optional)</em></span><select data-action-skill-group aria-label="Choose a skill group for this action"><option value="all">All skill groups</option></select><small class="field-help">Start with skills for a saved career, transferable foundations, or changing work.</small></label>
+        <label class="action-field"><span>Specific skill <em>(optional)</em></span><select name="skill_id" data-action-skill aria-label="Skill this action will develop"><option value="">No specific skill</option></select><small class="field-help">Only skills from the selected group appear here.</small></label>
         <label class="action-field weekly-time-field"><span>Time available each week</span><select name="weekly_hours_preset" aria-describedby="record-weekly-hours-help"><option value="" selected>Choose a starting point</option>{[5,10,15,20,25,30,35,40,45,50,55,60].map((hours) => <option value={hours}>{hours} hours</option>)}<option value="custom">Enter a different amount</option></select><small id="record-weekly-hours-help" class="field-help">Choose the time the student can sustain.</small></label>
         <label class="action-field" data-weekly-hours-custom hidden><span>Hours each week</span><input name="weekly_hours_custom" type="number" min="1" max="100" step="1" placeholder="For example, 12" /></label>
       </div>
@@ -501,9 +510,9 @@ const { careerDecisionPage = false } = Astro.props;
         <button class="action-featured" type="button" data-action-featured="money-safety-check"><strong>Check money safety</strong><small>Make a simple route and cost plan.</small></button>
       </div>
       <div class="action-composer-main">
-        <label class="action-field"><span>Choose from suggested actions</span><select data-action-preset aria-label="Choose from suggested actions"><option value="">Choose a suggested action</option></select></label>
-        <label class="action-field"><span>Describe your action</span><input name="title" maxlength="180" required placeholder="For example: Watch two day-in-the-life videos" /><small class="field-help">Choose a suggestion above, or describe the action you want to take.</small></label>
-        <label class="action-field"><span>Skill this will develop <em>(optional)</em></span><select name="skill_id" data-action-skill aria-label="Skill this action will develop"><option value="">No specific skill</option></select><small class="field-help">Link the action to one skill so the plan stays connected.</small></label>
+        <section class="action-pathway-picker" aria-labelledby="student-action-pathway-title"><header><span class="action-step-number">1</span><div><strong id="student-action-pathway-title">Choose the kind of action</strong><small>Open one category to see a short list. If none fits, choose “My own action.”</small></div></header><div class="action-category-choices" role="group" aria-label="Action categories">{actionCategoryChoices.map((choice, index) => <button type="button" class:list={["action-category-choice", { "is-selected": index === 0 }]} data-action-category={choice.key} aria-pressed={index === 0 ? "true" : "false"}><strong>{choice.label}</strong><small>{choice.help}</small></button>)}<button type="button" class="action-category-choice action-custom-choice" data-action-custom aria-pressed="false"><strong>My own action</strong><small>Write an action that is not in the suggestions.</small></button></div><label class="action-field action-preset-field"><span>Suggested actions in this category</span><select data-action-preset aria-label="Suggested actions in selected category"><option value="">Choose an Explore action</option></select><small class="field-help" data-action-preset-help>Suggestions are optional starting points, not the full list of actions you may take.</small></label></section>
+        <label class="action-field action-title-field"><span>Your action</span><input name="title" maxlength="180" required placeholder="For example: Watch two day-in-the-life videos and note the repeated tasks" /><small class="field-help">Choose a suggestion or type your own action. Make it specific enough that you know exactly what to do next.</small></label>
+        <div class="action-skill-picker"><header><span class="action-step-number">2</span><div><strong>Connect a skill if useful</strong><small>Career-linked groups come from the career options saved in your plan. Linking a skill is optional.</small></div></header><div><label class="action-field"><span>Skill group</span><select data-action-skill-group aria-label="Choose a skill group for this action"><option value="all">All skill groups</option></select></label><label class="action-field"><span>Specific skill</span><select name="skill_id" data-action-skill aria-label="Skill this action will develop"><option value="">No specific skill</option></select></label></div></div>
       </div>
       <label class="action-field action-due-date"><span>Due date <em>(optional)</em></span><input name="due_date" type="date" /></label>
       <div class="action-extra-options">
