@@ -865,38 +865,20 @@ function prepareActionSkillOptions() {
   const careers = studentId
     ? rowsFor(coaching.careers, 'user_id', studentId).filter((career) => !['paused', 'ruled-out'].includes(String(career.status || '')))
     : [];
-  const careerById = new Map(careers.map((career) => [String(career.id), career]));
-  qsa<HTMLSelectElement>('[data-action-skill-group]').forEach((groupSelect) => {
-    const form = groupSelect.closest<HTMLFormElement>('form');
-    const skillSelect = form?.querySelector<HTMLSelectElement>('[data-action-skill]');
-    if (!form || !skillSelect) return;
-    const previousGroup = groupSelect.dataset.prepared === 'true' ? groupSelect.value : '';
+  qsa<HTMLSelectElement>('[data-action-skill]').forEach((skillSelect) => {
     const previousSkill = skillSelect.value;
-    const careerGroups = careers.flatMap((career) => {
-      const count = skills.filter((skill) => String(skill.linked_career_path_id || '') === String(career.id)).length;
-      return count ? [{ value: `career:${career.id}`, label: `${career.option_type === 'primary' ? 'Current focus' : 'Saved option'}: ${career.title} (${count})` }] : [];
-    });
-    const scopeGroups = [
-      { value: 'foundation', label: `Useful in any career (${skills.filter((skill) => skillScopeFor(skill) === 'foundation').length})` },
-      { value: 'future-ready', label: `For changing work (${skills.filter((skill) => skillScopeFor(skill) === 'future-ready').length})` },
-      { value: 'other', label: `Other skills (${skills.filter((skill) => !['foundation', 'career-specific', 'future-ready'].includes(skillScopeFor(skill))).length})` },
-      { value: 'all', label: `All skills (${skills.length})` },
-    ].filter((group) => !group.label.endsWith('(0)'));
-    groupSelect.innerHTML = `${careerGroups.length ? `<optgroup label="For your saved career options">${careerGroups.map((group) => `<option value="${ctx!.escapeHtml(group.value)}">${ctx!.escapeHtml(group.label)}</option>`).join('')}</optgroup>` : ''}<optgroup label="Transferable and other skills">${scopeGroups.map((group) => `<option value="${group.value}">${ctx!.escapeHtml(group.label)}</option>`).join('')}</optgroup>`;
-    const availableGroups = Array.from(groupSelect.options).map((option) => option.value);
-    groupSelect.value = availableGroups.includes(previousGroup)
-      ? previousGroup
-      : careerGroups.find((group) => careerById.get(group.value.slice(7))?.option_type === 'primary')?.value
-        ?? careerGroups[0]?.value
-        ?? (availableGroups.includes('foundation') ? 'foundation' : availableGroups[0] ?? 'all');
-    groupSelect.dataset.prepared = 'true';
-    const selectedGroup = groupSelect.value;
-    const filtered = skills.filter((skill) => selectedGroup === 'all'
-      || (selectedGroup.startsWith('career:') && String(skill.linked_career_path_id || '') === selectedGroup.slice(7))
-      || (selectedGroup === 'other' && !['foundation', 'career-specific', 'future-ready'].includes(skillScopeFor(skill)))
-      || skillScopeFor(skill) === selectedGroup);
-    skillSelect.innerHTML = `<option value="">No specific skill</option>${filtered.map((skill) => `<option value="${ctx!.escapeHtml(skill.id)}">${ctx!.escapeHtml(skill.skill_name || 'Unnamed skill')}</option>`).join('')}`;
-    if (previousSkill && filtered.some((skill) => String(skill.id) === previousSkill)) skillSelect.value = previousSkill;
+    const groupHtml = (label: string, rows: Row[]) => rows.length
+      ? `<optgroup label="${ctx!.escapeHtml(label)}">${rows.map((skill) => `<option value="${ctx!.escapeHtml(skill.id)}">${ctx!.escapeHtml(skill.skill_name || 'Unnamed skill')}</option>`).join('')}</optgroup>`
+      : '';
+    const careerGroups = careers.map((career) => ({
+      label: `${career.option_type === 'primary' ? 'Current focus' : 'Saved option'}: ${career.title}`,
+      rows: skills.filter((skill) => String(skill.linked_career_path_id || '') === String(career.id)),
+    })).filter((group) => group.rows.length);
+    const foundation = skills.filter((skill) => skillScopeFor(skill) === 'foundation');
+    const futureReady = skills.filter((skill) => skillScopeFor(skill) === 'future-ready');
+    const other = skills.filter((skill) => !['foundation', 'career-specific', 'future-ready'].includes(skillScopeFor(skill)));
+    skillSelect.innerHTML = `<option value="">No specific skill</option>${careerGroups.map((group) => groupHtml(group.label, group.rows)).join('')}${groupHtml('Useful in any career', foundation)}${groupHtml('For changing work', futureReady)}${groupHtml('Other skills', other)}`;
+    if (previousSkill && skills.some((skill) => String(skill.id) === previousSkill)) skillSelect.value = previousSkill;
   });
 }
 
@@ -921,7 +903,7 @@ function actionHtml(item: Row) {
       ? `<small class="action-evidence-hint"><b>Evidence:</b> ${ctx.escapeHtml(String(evidenceHint))}</small>`
       : '';
   const linkedSkill = coaching.skills.find((skill) => String(skill.id) === String(item.skill_id));
-  return `<article class="coaching-action-row${item.status === 'done' ? ' is-done' : ''}" data-due-state="${due}">
+  return `<article class="coaching-action-row${item.status === 'done' ? ' is-done' : ''}" data-due-state="${due}" data-action-milestone="${ctx.escapeHtml(String(milestone))}">
     ${canToggle ? `<button class="task-check" type="button" data-state="${item.status === 'done' ? 'done' : 'open'}" data-toggle-coaching-action="${ctx.escapeHtml(item.id)}" aria-label="${item.status === 'done' ? 'Mark incomplete' : 'Mark complete'}" title="${item.status === 'done' ? 'Mark incomplete' : 'Mark complete'}"><span class="task-check-mark" aria-hidden="true">${item.status === 'done' ? '✓' : ''}</span></button>` : ''}
     <div class="action-copy"><header><strong>${ctx.escapeHtml(item.title)}</strong><span class="priority-label" data-priority="${ctx.escapeHtml(item.priority)}">${ctx.escapeHtml(ctx.formatStatus(item.priority))}</span></header><div class="action-meta"><span>${ctx.escapeHtml(ctx.formatStatus(item.category))}</span><span class="action-milestone">Stage: ${ctx.escapeHtml(String(milestone))}</span>${linkedSkill ? `<span>Skill: ${ctx.escapeHtml(linkedSkill.skill_name)}</span>` : ''}${effort ? `<span>About ${ctx.escapeHtml(String(effort))} minutes</span>` : ''}${item.due_date ? `<span>Due ${ctx.escapeHtml(ctx.formatDate(item.due_date))}</span>` : ''}${weeklyHours ? `<span>${ctx.escapeHtml(weeklyHours)} hours/week</span>` : ''}${assigned ? `<span>Assigned by ${ctx.escapeHtml(assigned.full_name)}</span>` : ''}${completion ? `<span>${ctx.escapeHtml(completion.replace(/^ · /, ''))}</span>` : ''}</div>${visibleDetails ? `<p>${ctx.escapeHtml(visibleDetails)}</p>` : ''}${learnerNote}</div>
     ${canRemove ? `<div class="action-controls"><button class="table-action" type="button" data-delete-coaching-action="${ctx.escapeHtml(item.id)}">Remove</button></div>` : ''}
@@ -945,8 +927,11 @@ function actionProgressHtml(rows: Row[]) {
   const progressWord = learner ? 'completed' : 'evidenced';
   return `<section class="action-progression" aria-labelledby="action-progression-title"><div class="action-progression-heading"><div><strong id="action-progression-title">Your progress pathway</strong><span>Six useful stages—not a rigid sequence</span></div><em>${progress} of ${stages.length} ${progressWord}</em></div><progress max="${stages.length}" value="${progress}" aria-label="${progress} of ${stages.length} action stages ${progressWord}"></progress><ol class="action-progression-steps">${stages.map((stage, index) => {
     const state = done.has(stage) ? 'complete' : active.has(stage) ? 'current' : 'upcoming';
-    const stateLabel = state === 'complete' ? (learner ? 'Complete' : 'Evidence added') : state === 'current' ? 'In progress' : 'When useful';
-    return `<li class="action-progression-step is-${state}"${state === 'current' ? ' aria-current="step"' : ''}><b aria-hidden="true">${String(index + 1).padStart(2, '0')}</b><span><strong>${ctx!.escapeHtml(stage)}</strong><small>${stateLabel}</small></span></li>`;
+    const stageRows = rows.filter((row) => String(row.milestone || actionMilestone(String(row.category || ''))) === stage && row.status !== 'archived');
+    const stateLabel = stageRows.length
+      ? `${stageRows.filter((row) => row.status === 'done').length} of ${stageRows.length} complete`
+      : state === 'complete' ? (learner ? 'Complete' : 'Evidence added') : state === 'current' ? 'In progress' : 'No action yet';
+    return `<li class="action-progression-step is-${state}"${state === 'current' ? ' aria-current="step"' : ''}><button type="button" data-action-stage="${ctx!.escapeHtml(stage)}" aria-label="${ctx!.escapeHtml(stage)}: ${ctx!.escapeHtml(stateLabel)}"><b aria-hidden="true">${String(index + 1).padStart(2, '0')}</b><span><strong>${ctx!.escapeHtml(stage)}</strong><small>${ctx!.escapeHtml(stateLabel)}</small></span></button></li>`;
   }).join('')}</ol><p class="field-help">Move at a pace that fits your time. You can work on more than one stage and return to an earlier one when what you learn changes the plan.</p></section>`;
 }
 
@@ -4210,6 +4195,27 @@ function bindEvents() {
     revealWorkspacePane('[data-plan-pane="actions"]', '[name="title"]');
   });
   document.addEventListener('click', (event) => {
+    const stageButton = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-action-stage]');
+    if (!stageButton) return;
+    const stage = stageButton.dataset.actionStage || '';
+    const list = stageButton.closest<HTMLElement>('#student-action-list, #record-action-list');
+    const matchingAction = list
+      ? Array.from(list.querySelectorAll<HTMLElement>('.coaching-action-row')).find((row) => row.dataset.actionMilestone === stage)
+      : null;
+    if (matchingAction) {
+      const top = Math.max(0, matchingAction.getBoundingClientRect().top + window.scrollY - 104);
+      window.scrollTo({ top, behavior: 'auto' });
+      matchingAction.setAttribute('tabindex', '-1');
+      matchingAction.focus({ preventScroll: true });
+      return;
+    }
+    const student = ctx?.profile.role === 'student';
+    const form = qs<HTMLFormElement>(student ? '#student-action-form' : '#record-action-form');
+    ctx?.setWorkspaceStatus(`No ${stage.toLowerCase()} action yet. Add one when this stage becomes useful.`);
+    if (student) showPlanTab('actions', true);
+    if (form) revealWorkspacePane(student ? '[data-plan-pane="actions"]' : '[data-record-pane="actions"]', '[name="title"]');
+  });
+  document.addEventListener('click', (event) => {
     const button = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-readiness-target]');
     if (!button) return;
     const target = button.dataset.readinessTarget || '';
@@ -4250,7 +4256,6 @@ function bindEvents() {
     }
   }));
   qsa<HTMLSelectElement>('[data-action-preset]').forEach((select) => select.addEventListener('change', () => applyActionPreset(select)));
-  qsa<HTMLSelectElement>('[data-action-skill-group]').forEach((select) => select.addEventListener('change', () => prepareActionSkillOptions()));
   qsa<HTMLSelectElement>('[name="weekly_hours_preset"]').forEach((select) => select.addEventListener('change', () => {
     const form = select.closest<HTMLFormElement>('form');
     if (form) updateActionTimeGuidance(form);

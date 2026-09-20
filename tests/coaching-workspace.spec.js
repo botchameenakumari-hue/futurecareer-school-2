@@ -495,6 +495,20 @@ async function mockWorkspace(page, role, options = {}) {
       await route.fulfill({ status: 200, headers, body: '[]' });
       return;
     }
+    if (url.pathname === '/rest/v1/rpc/set_action_completion') {
+      const payload = request.postDataJSON();
+      const rows = localFixtures.action_items ?? [];
+      const index = rows.findIndex((row) => row.id === payload.target_action_id);
+      const saved = {
+        ...rows[index],
+        status: payload.target_status,
+        completed_at: payload.target_status === 'done' ? timestamp : null,
+        updated_at: timestamp,
+      };
+      if (index >= 0) rows[index] = saved;
+      await route.fulfill({ status: 200, headers, body: JSON.stringify(saved) });
+      return;
+    }
     if (url.pathname.startsWith('/rest/v1/')) {
       const table = url.pathname.split('/').pop();
       const rows = localFixtures[table] ?? [];
@@ -881,12 +895,23 @@ test('student dashboard opens when assessment results are unavailable', async ({
         const iconRect = icon.getBoundingClientRect();
         return Math.abs((buttonRect.left + buttonRect.width / 2) - (iconRect.left + iconRect.width / 2));
       }),
+      navColumnOffset: (() => {
+        const nav = document.querySelector('#mobile-nav');
+        const navRect = nav?.getBoundingClientRect();
+        if (!navRect || navButtons.length !== 3) return [999];
+        return navButtons.map((button, index) => {
+          const rect = button.getBoundingClientRect();
+          const expected = navRect.left + navRect.width * ((index + .5) / 3);
+          return Math.abs(expected - (rect.left + rect.width / 2));
+        });
+      })(),
     };
   });
   expect(narrowOverview.overflow).toBeLessThanOrEqual(1);
   expect(narrowOverview.browseOverflow).toBeLessThanOrEqual(1);
   expect(narrowOverview.browseOutOfBounds).toBe(false);
   expect(narrowOverview.navIconOffset.every((offset) => offset <= 1)).toBe(true);
+  expect(narrowOverview.navColumnOffset.every((offset) => offset <= 1)).toBe(true);
   await page.locator('#mobile-nav [data-view-target="career"]').click();
   await expect(page.locator('[data-workspace-view="career"]')).toBeVisible();
   await expect(page.locator('#student-assessment-list')).toContainText('Assessments are optional');
@@ -1201,6 +1226,9 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await expect(actionProgression).toContainText('Six useful stages—not a rigid sequence');
   await expect(actionProgression.locator('.action-progression-step')).toHaveCount(6);
   await expect(actionProgression.locator('[aria-current="step"]')).not.toHaveCount(0);
+  await expect(actionProgression.locator('[data-action-stage]')).toHaveCount(6);
+  await actionProgression.getByRole('button', { name: /Build:/ }).click();
+  await expect(page.locator('#student-action-list .coaching-action-row[data-action-milestone="Build"]').first()).toBeFocused();
   const mobileStageRows = await actionProgression.locator('.action-progression-step').evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().top)));
   expect(new Set(mobileStageRows).size).toBe(6);
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -1212,9 +1240,13 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   const studentActionForm = page.locator('#student-action-form');
   await expect(studentActionForm.locator('[data-action-category]')).toHaveCount(6);
   await expect(studentActionForm.locator('[data-action-custom]')).toBeVisible();
-  const actionSkillGroup = studentActionForm.locator('[data-action-skill-group]');
-  await expect(actionSkillGroup).toContainText(/Current focus|Saved option|Useful in any career/);
-  await expect(actionSkillGroup).toHaveValue(/^career:/);
+  await expect(studentActionForm.locator('[data-action-skill-group]')).toHaveCount(0);
+  const actionSkill = studentActionForm.locator('[data-action-skill]');
+  await expect(actionSkill.locator('optgroup')).not.toHaveCount(0);
+  await expect(actionSkill).toContainText(/No specific skill/);
+  await expect(actionSkill.locator('optgroup').first()).toHaveAttribute('label', /Current focus|Saved option|Useful in any career/);
+  const completionBox = studentActionForm.getByLabel('What would make this feel complete?');
+  expect((await completionBox.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(128);
   await expect(studentActionForm.getByLabel('Suggested actions in selected category')).toContainText('Choose an Explore action');
   await studentActionForm.locator('[data-action-custom]').click();
   await expect(studentActionForm.locator('.action-preset-field')).toBeHidden();
@@ -1230,6 +1262,17 @@ test('student plan is useful on mobile and preserves coach-owned records', async
   await expect(staffAction.getByRole('button', { name: 'Mark complete' })).toBeVisible();
   await expect(staffAction.getByRole('button', { name: 'Remove' })).toHaveCount(0);
   await expect(ownAction.getByRole('button', { name: 'Remove' })).toBeVisible();
+  await staffAction.getByRole('button', { name: 'Mark complete' }).click();
+  await expect(page.locator('#workspace-status')).toHaveText('Action marked complete.');
+  await expect(actionProgression).toContainText('2 of 6 completed');
+  await expect(actionProgression.getByRole('button', { name: /Build: 1 of 1 complete/ })).toBeVisible();
+  await expect(page.locator('#student-action-list .coaching-action-row').filter({ hasText: 'Portfolio case study' }).getByRole('button', { name: 'Mark incomplete' })).toBeVisible();
+
+  const readiness = page.locator('.macro-checklist-disclosure').filter({ has: page.locator('#student-readiness-title') });
+  await expect(readiness).not.toHaveAttribute('open', '');
+  await readiness.locator(':scope > summary').click();
+  await expect(readiness).toHaveAttribute('open', '');
+  await expect(readiness.locator('.macro-checklist-item')).toHaveCount(10);
 
   await page.locator('[data-plan-tab="guidance"]').click();
   await assertPlanTabFits();
@@ -1817,6 +1860,10 @@ test('student plan explains PDF contents and shows the shared readiness checklis
   await expect(exportPanel).toContainText('Download your full coaching plan as a PDF');
   await expect(exportPanel).toContainText('private staff notes');
   await expect(exportPanel.getByRole('button', { name: 'Create my plan PDF' })).toBeVisible();
+  const readinessDisclosure = page.locator('.macro-checklist-disclosure').filter({ has: page.locator('#student-readiness-title') });
+  await expect(readinessDisclosure).not.toHaveAttribute('open', '');
+  await readinessDisclosure.locator(':scope > summary').click();
+  await expect(readinessDisclosure).toHaveAttribute('open', '');
   const checklist = page.locator('#student-readiness-checklist');
   await expect(checklist.locator('.macro-checklist-item')).toHaveCount(10);
   await expect(checklist).toContainText('Verify the route, cost, and eligibility');

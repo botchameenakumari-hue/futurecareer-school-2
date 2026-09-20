@@ -1266,18 +1266,32 @@ body:has(#hierarchy-workspace) {
 }
 
 #hierarchy-workspace .action-progression-step {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: .55rem;
   min-width: 0;
-  padding: .62rem;
+  padding: 0;
   border: 1px solid #d9e4ea;
   border-radius: .65rem;
   background: #fff;
+  overflow: hidden;
 }
 
-#hierarchy-workspace .action-progression-step > b {
+#hierarchy-workspace .action-progression-step > button {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  min-height: 3.55rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: .55rem;
+  padding: .62rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+#hierarchy-workspace .action-progression-step > button:hover { background: rgba(255,255,255,.08); }
+
+#hierarchy-workspace .action-progression-step > button > b {
   display: inline-grid;
   place-items: center;
   width: 1.85rem;
@@ -1288,7 +1302,7 @@ body:has(#hierarchy-workspace) {
   font-size: .7rem;
 }
 
-#hierarchy-workspace .action-progression-step > span {
+#hierarchy-workspace .action-progression-step > button > span {
   display: grid;
   gap: .1rem;
   min-width: 0;
@@ -1313,7 +1327,7 @@ body:has(#hierarchy-workspace) {
   box-shadow: inset 0 0 0 1px #cae1ed;
 }
 
-#hierarchy-workspace .action-progression-step.is-current > b {
+#hierarchy-workspace .action-progression-step.is-current > button > b {
   color: #fff;
   background: var(--dash-blue);
 }
@@ -1323,7 +1337,7 @@ body:has(#hierarchy-workspace) {
   background: #f1faf6;
 }
 
-#hierarchy-workspace .action-progression-step.is-complete > b {
+#hierarchy-workspace .action-progression-step.is-complete > button > b {
   color: #fff;
   background: var(--dash-teal);
 }
@@ -3421,6 +3435,30 @@ body:has(#hierarchy-workspace) {
   white-space: nowrap;
 }
 
+.macro-checklist-disclosure { padding: 0; overflow: hidden; }
+.macro-checklist-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(1rem, 2.4vw, 1.3rem);
+  cursor: pointer;
+  list-style: none;
+}
+.macro-checklist-summary::-webkit-details-marker { display: none; }
+.macro-checklist-summary::after {
+  content: "Open";
+  flex: 0 0 auto;
+  color: #176fa9;
+  font-weight: 850;
+}
+.macro-checklist-disclosure[open] .macro-checklist-summary::after { content: "Close"; }
+.macro-checklist-summary > span:first-child { display: grid; gap: .2rem; min-width: 0; }
+.macro-checklist-summary strong { color: #172f43; font-size: 1.05rem; line-height: 1.3; }
+.macro-checklist-summary small { color: #4d6578; line-height: 1.45; }
+.macro-checklist-body { padding: 0 clamp(1rem, 2.4vw, 1.5rem) clamp(1rem, 2.4vw, 1.5rem); }
+.macro-checklist-body > p { margin: 0 0 1rem; max-width: 76ch; color: #4d6578; line-height: 1.55; }
+
 .macro-checklist-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3488,6 +3526,8 @@ body:has(#hierarchy-workspace) {
   .plan-export-panel .primary-button { width: 100%; }
   .macro-checklist-progress { align-self: flex-start; white-space: normal; }
   .macro-checklist-grid { grid-template-columns: 1fr; }
+  .macro-checklist-summary { align-items: flex-start; flex-wrap: wrap; }
+  .macro-checklist-summary::after { order: 3; }
   .macro-checklist-actions > * { flex: 1 1 11rem; }
 }
 
