@@ -21,6 +21,7 @@ import {
   interestRelevanceScore,
   careerInterestMatchPercent,
   careerInterestMatchScore,
+  careerUpsideScore,
   independencePotentialFor,
   decisionSignalFor,
   decisionSignalLabel,
@@ -1764,7 +1765,7 @@ function sortCareerGuides(guides: ReturnType<typeof careerLibraryMatches>, sort:
     return (guide.regulated ? -3 : 0) + (/degree|licence|license|exam/.test(route) ? -1 : 0) + (/training|apprentice|certificate|portfolio|short course|learn on the job/.test(route) ? 2 : 0);
   };
   if (sort === 'lower-barrier') return copy.sort((a, b) => firstStepAccess(b) - firstStepAccess(a) || a.title.localeCompare(b.title));
-  if (sort === 'earning-upside') return copy.sort((a, b) => b.earningPotential - a.earningPotential || fitScore(b) - fitScore(a) || a.title.localeCompare(b.title));
+  if (sort === 'earning-upside') return copy.sort((a, b) => careerUpsideScore(b) - careerUpsideScore(a) || fitScore(b) - fitScore(a) || a.title.localeCompare(b.title));
   if (sort === 'stable') return copy.sort((a, b) => (b.outlook === 'stable' ? 2 : b.outlook === 'growing' ? 1 : 0) - (a.outlook === 'stable' ? 2 : a.outlook === 'growing' ? 1 : 0) || a.title.localeCompare(b.title));
   const testEffort = (guide: typeof copy[number]) => {
     const task = guide.starterTests?.[0]?.toLowerCase() || '';
@@ -1780,13 +1781,13 @@ function sortCareerGuides(guides: ReturnType<typeof careerLibraryMatches>, sort:
   // entry route and a practical first test. This keeps the catalogue broad
   // while avoiding an arbitrary source-file order.
   const search = query.trim().toLowerCase();
-  return copy.map((guide, index) => ({ guide, index, fit: fitPercent(guide), score: (search && guide.title.toLowerCase() === search ? 30 : search && guide.title.toLowerCase().includes(search) ? 12 : 0) + interests.reduce((total, interest) => total + interestRelevanceScore(guide, interest) * 3, 0) + (guide.outlook === 'growing' ? 4 : guide.outlook === 'evolving' ? 3 : guide.outlook === 'stable' ? 1 : 0) + Math.min(3, guide.futureSkills?.length ?? 0) + (guide.marketEvidence?.url ? 1 : 0) + (guide.starterTests?.length ? 1 : 0) }))
+  return copy.map((guide, index) => ({ guide, index, fit: fitPercent(guide), upside: careerUpsideScore(guide), search: search && guide.title.toLowerCase() === search ? 2 : search && guide.title.toLowerCase().includes(search) ? 1 : 0, score: interests.reduce((total, interest) => total + interestRelevanceScore(guide, interest) * 3, 0) + (guide.outlook === 'growing' ? 4 : guide.outlook === 'evolving' ? 3 : guide.outlook === 'stable' ? 1 : 0) + Math.min(3, guide.futureSkills?.length ?? 0) + (guide.marketEvidence?.url ? 1 : 0) + (guide.starterTests?.length ? 1 : 0) }))
     // Once a learner supplies preferences, relevance remains the gate and the
     // primary order. Earning upside then breaks equal-fit ties so lucrative but
     // irrelevant routes never displace a substantially better personal match.
-    .sort((a, b) => interests.length
-      ? b.fit - a.fit || b.guide.earningPotential - a.guide.earningPotential || b.score - a.score || a.index - b.index
-      : b.score - a.score || a.index - b.index)
+    .sort((a, b) => b.search - a.search || (interests.length
+      ? b.fit - a.fit || b.upside - a.upside || b.score - a.score || a.index - b.index
+      : b.upside - a.upside || b.score - a.score || a.index - b.index))
     .map(({ guide }) => guide);
 }
 
@@ -1852,11 +1853,11 @@ function preparePresetControls() {
   const sortSelect = qs<HTMLSelectElement>('#career-preset-sort');
   if (sortSelect) {
     const sortLabels: Record<string, string> = {
-      recommended: 'Suggested starting routes',
+      recommended: 'High-upside starting points',
       'best-fit': 'Closest to my interests and strengths',
       'practical-first': 'Practical and hands-on work',
       'lower-barrier': 'Easier routes to begin exploring',
-      'earning-upside': 'Stronger earning upside',
+      'earning-upside': 'Income, growth & ownership potential',
       stable: 'More established and steady work',
       alphabetical: 'Names A–Z',
       'quick-test': 'Show easiest routes to learn about first',
@@ -1869,11 +1870,11 @@ function preparePresetControls() {
     const sortField = sortSelect.closest('label');
     if (sortField && !sortField.querySelector('[data-career-sort-choice]')) {
       const choices = [
-        ['recommended', 'Suggested starting routes', 'Put clear starting routes at the top; every matching route stays available.'],
+        ['recommended', 'High-upside starting points', 'With preferences selected, fit comes first. Within equally strong matches, earning, growth, and ownership potential decide the order. Without preferences, those three signals lead.'],
         ['best-fit', 'Closest to my interests and strengths', 'Use the preference buttons above as starting signals; this brings closer matches forward.'],
         ['practical-first', 'Practical and hands-on work', 'Bring routes involving tools, equipment, sites, making, or real-world problem solving forward.'],
         ['lower-barrier', 'Easier routes to begin exploring', 'Bring routes with clearer first steps forward without calling them easy careers.'],
-        ['earning-upside', 'Stronger earning upside', 'Bring routes with stronger specialist, commercial, or independent potential forward; this is not a salary promise.'],
+        ['earning-upside', 'Income, growth & ownership potential', 'Compare earning capacity, future growth, and a credible path to consulting, private practice, a brand, or a business. This is not a salary promise.'],
         ['stable', 'More established and steady work', 'Bring established routes forward while keeping growing and changing routes available.'],
         ['quick-test', 'Show easiest routes to learn about first', 'Put routes you can learn about by reading, watching, talking, or observing at the top.'],
         ['alphabetical', 'Names A–Z', 'See all names in A–Z order.'],
@@ -2020,11 +2021,11 @@ function renderCareerPresetResults() {
   const sortLabel = selectedInterests.length && sort === 'recommended'
     ? 'highest preference matches first'
     : ({
-        recommended: 'suggested starting routes first',
+        recommended: 'high-upside starting points first',
         'best-fit': 'highest preference matches first',
         'practical-first': 'practical and hands-on work first',
         'lower-barrier': 'clearer starting routes first',
-        'earning-upside': 'stronger earning upside first',
+        'earning-upside': 'income, growth, and ownership potential first',
         stable: 'more established work first',
         alphabetical: 'role name A–Z',
         'quick-test': 'easiest routes to learn about first',
@@ -2492,11 +2493,11 @@ function updateCareerSortHelp() {
   const note = select?.closest('label')?.querySelector<HTMLElement>('small');
   if (!select || !note) return;
   const help: Record<string, string> = {
-    recommended: 'All matching options stay available. With preferences selected, the highest matches come first; otherwise suggested starting routes come first.',
+    recommended: 'All matching options stay available. With preferences selected, fit comes first and upside breaks close ties; without preferences, income, growth, and ownership potential lead.',
     'best-fit': 'All matching options stay available. This uses selected interests and strengths as starting signals.',
     'practical-first': 'All matching options stay available. This puts practical and hands-on work near the top.',
     'lower-barrier': 'All matching options stay available. This puts clearer first routes near the top; no career is labelled easy.',
-    'earning-upside': 'All matching options stay available. This uses cautious earning-potential signals, not salary promises.',
+    'earning-upside': 'All matching options stay available. This combines cautious earning, growth, and ownership signals; it is not a salary promise.',
     stable: 'All matching options stay available. This puts established routes near the top.',
     alphabetical: 'All matching options stay available. Names are sorted A–Z.',
     'quick-test': 'All matching options stay available. This puts the easiest routes to learn about near the top. Read, watch, talk, or observe if useful.',

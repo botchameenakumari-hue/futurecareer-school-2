@@ -592,6 +592,22 @@ const highUpsideCareerPresets: CareerPreset[] = [
   ['Venture Capital Analyst', 'Commerce, Finance & Economics', 'Research markets and founders, evaluate young companies, and support investment decisions.', 'Evaluate a fictional startup using a market map, risks, and evidence.', ['finance', 'entrepreneurship', 'technology', 'research', 'people', 'commercial']],
   ['Anesthesiologist', 'Health & Life Sciences', 'Plan and deliver safe anaesthesia and perioperative care as a regulated medical specialist.', 'Interview a practitioner and map the full regulated education and training route.', ['medicine', 'science', 'care', 'responsibility', 'people', 'detailed learning']],
   ['Interventional Radiologist', 'Health & Life Sciences', 'Use medical imaging to diagnose and treat conditions through minimally invasive procedures.', 'Compare the ordinary work and training route with diagnostic radiology and surgery.', ['medicine', 'imaging', 'technology', 'science', 'care', 'visual details']],
+  ['MLOps and AI Platform Engineer', 'Technology & Data', 'Build reliable platforms that train, evaluate, deploy, monitor, and govern machine-learning systems.', 'Deploy a small model with versioning, monitoring, rollback, and an evaluation note.', ['ai', 'machine learning', 'cloud', 'automation', 'systems', 'independent focus']],
+  ['Cybersecurity Architect', 'Technology & Data', 'Design security controls across identity, cloud, networks, applications, data, and incident response.', 'Threat-model a small digital service and explain a layered security design.', ['cybersecurity', 'cloud', 'systems', 'risk', 'technology', 'structured']],
+  ['Semiconductor Process Engineer', 'Engineering & Built Environment', 'Develop, monitor, and improve the tightly controlled processes used to manufacture semiconductor devices.', 'Analyse a fictional fabrication process variation and propose a controlled improvement.', ['semiconductor', 'electronics', 'materials', 'statistics', 'quality', 'practical']],
+  ['Power Electronics Engineer', 'Engineering & Built Environment', 'Design and test converters, drives, charging, and power-control systems for electrification and industry.', 'Model and compare two converter designs for efficiency, safety, cost, and control.', ['electronics', 'energy', 'mathematics', 'simulation', 'electric vehicles', 'practical']],
+  ['Green Hydrogen Project Engineer', 'Engineering & Built Environment', 'Integrate electrolysers, renewable power, storage, water, safety, and project delivery for green-hydrogen systems.', 'Map a small green-hydrogen project from energy input through storage, safety, and customer use.', ['green hydrogen', 'renewable energy', 'chemical engineering', 'safety', 'projects', 'climate']],
+  ['Renewable Energy Project Finance Analyst', 'Commerce, Finance & Economics', 'Build financial models and assess contracts, risks, cash flows, and funding for renewable-energy projects.', 'Build a simple solar-project finance model and test price, cost, and delay assumptions.', ['finance', 'renewable energy', 'mathematics', 'risk', 'climate', 'commercial']],
+  ['Climate Finance and Carbon Markets Specialist', 'Commerce, Finance & Economics', 'Evaluate climate investments, transition plans, carbon-market claims, disclosure, and financial risk.', 'Review a fictional climate investment and document assumptions, integrity risks, and decision criteria.', ['finance', 'climate', 'carbon markets', 'risk', 'regulation', 'impact']],
+  ['Space Systems Engineer', 'Engineering & Built Environment', 'Integrate spacecraft or satellite subsystems, requirements, testing, reliability, and mission operations.', 'Design a small satellite mission architecture and trace requirements to tests and failure risks.', ['space', 'aerospace', 'electronics', 'systems', 'simulation', 'research']],
+  ['Drone Systems and Autonomy Engineer', 'Engineering & Built Environment', 'Develop and integrate flight systems, sensing, autonomy, safety, and mission workflows for drones.', 'Prototype a simulated inspection mission and document safety, control, and data-quality limits.', ['drones', 'robotics', 'computer vision', 'electronics', 'field', 'automation']],
+  ['Biomanufacturing Process Engineer', 'Health & Life Sciences', 'Scale biological production while controlling quality, contamination, yield, safety, and regulatory evidence.', 'Map a small bioprocess and identify critical quality measures, failure points, and scale-up risks.', ['biotechnology', 'manufacturing', 'quality', 'biology', 'regulation', 'practical']],
+  ['Technology Transfer and Licensing Specialist', 'Business, Marketing & Operations', 'Assess inventions, shape commercialisation routes, negotiate licences, and connect research with market partners.', 'Evaluate a fictional invention and propose a licensing, startup, or partnership route.', ['technology', 'commercialisation', 'intellectual property', 'negotiation', 'research', 'business']],
+  ['Fractional CFO and Business Finance Advisor', 'Commerce, Finance & Economics', 'Help growing businesses improve cash flow, pricing, controls, fundraising readiness, and financial decisions.', 'Create a 12-month cash-flow and decision dashboard for a fictional small business.', ['finance', 'consulting', 'business', 'pricing', 'independent', 'entrepreneurship']],
+  ['E-commerce Brand Operator', 'Business, Marketing & Operations', 'Build and run a focused product brand across customer research, sourcing, pricing, channels, retention, and cash flow.', 'Validate one narrow customer problem with interviews, a unit-economics model, and a test offer.', ['brand', 'ecommerce', 'customer research', 'marketing', 'operations', 'entrepreneurship']],
+  ['Export Market Development Consultant', 'Languages, International & Emerging Routes', 'Help businesses choose markets, adapt offers, find partners, manage trade requirements, and win export customers.', 'Build a market-entry brief for one product, country, buyer type, and compliant first test.', ['export', 'international business', 'sales', 'languages', 'research', 'consulting']],
+  ['Industrial AI Transformation Consultant', 'Business, Marketing & Operations', 'Identify valuable industrial AI uses, redesign workflows, evaluate risk, and lead adoption with measurable outcomes.', 'Map one factory workflow, select an AI use case, and define value, safety, data, and adoption tests.', ['ai', 'manufacturing', 'consulting', 'operations', 'change', 'commercial']],
+  ['Data Centre Infrastructure Architect', 'Technology & Data', 'Design resilient compute, network, power, cooling, capacity, security, and operations for data-centre infrastructure.', 'Design a small resilient data-centre architecture and explain capacity, energy, failure, and recovery trade-offs.', ['cloud', 'data centre', 'network', 'power', 'cooling', 'systems']],
 ] .map(([title, category, routeSummary, nextStep, tags]) => ({
   key: slug(String(title)), title: String(title), category: String(category), featured: true,
   routeSummary: String(routeSummary),
@@ -602,6 +618,8 @@ const highUpsideCareerPresets: CareerPreset[] = [
   nextStep: String(nextStep),
   tags: tags as string[],
 }));
+
+const highUpsideSummaries = new Map(highUpsideCareerPresets.map((preset) => [preset.key, preset.routeSummary]));
 
 const futureRoleDetails = new Map(futureRoles.map(([title, summary, specialistSkills, futureSkills]) => [slug(title), { summary, specialistSkills: [...specialistSkills], futureSkills: [...futureSkills] }]));
 
@@ -659,13 +677,13 @@ function roleSkillSignals(title: string) {
   const value = title.toLowerCase();
   const signals: string[] = [];
   const add = (...items: string[]) => signals.push(...items);
-  if (/developer|programmer|software|web|mobile|blockchain|ar\/vr|devops|sre|database|network|systems administrator|cloud/.test(value)) add('Programming logic', 'Software testing', 'Version control with Git');
+  if (/developer|programmer|software|web|mobile|blockchain|ar\/vr|devops|sre|database|network|systems administrator|cloud|mlops|ai platform|cybersecurity|data centre/.test(value)) add('Programming logic', 'Software testing', 'Version control with Git');
   if (/data|analyst|statistic|economist|research|intelligence|actuary|operations research|market research/.test(value)) add('Data interpretation', 'Spreadsheet fundamentals', 'Source evaluation');
   if (/designer|artist|illustrator|animator|photograph|filmmaker|cinematographer|editor|creative|fashion|interior|architect/.test(value)) add('Visual design', 'Design thinking', 'Portfolio curation');
   if (/engineer|technician|machinist|welder|electrician|plumber|hvac|construction|survey|mechanic|fabrication/.test(value)) add('Measurement and testing', 'Safety awareness', 'Technical communication');
   if (/doctor|dentist|nurse|therap|psychologist|pharmac|clinical|medical|health|veter|optomet|audiolog|dietitian|nutrition|emergency/.test(value)) add('Professional ethics', 'Accurate documentation', 'Active listening');
   if (/teacher|education|lecturer|professor|trainer|facilitator|counsellor|social worker|community|youth|learning/.test(value)) add('Facilitation', 'Active listening', 'Clear writing');
-  if (/manager|consultant|business|marketing|sales|account|customer|commerce|finance|bank|investment|procurement|supply|logistics|operations|entrepreneur/.test(value)) add('Planning and prioritisation', 'Commercial awareness', 'Stakeholder management');
+  if (/manager|consultant|business|marketing|sales|account|customer|commerce|finance|bank|investment|procurement|supply|logistics|operations|entrepreneur|technology transfer|licensing|brand operator|e-commerce|export market/.test(value)) add('Planning and prioritisation', 'Commercial awareness', 'Stakeholder management');
   if (/lawyer|legal|policy|civil service|government|police|defence|diplomat|compliance|regulatory|tax|election/.test(value)) add('Legal research', 'Clear writing', 'Ethical judgement');
   if (/chef|hotel|travel|tour|airline|airport|event|sport|fitness|hospitality|restaurant|guest/.test(value)) add('Customer understanding', 'Reliable execution', 'Teamwork');
   if (/agri|farm|food|forest|wildlife|marine|aquaculture|soil|horticulture|conservation|climate|environment|water/.test(value)) add('Sustainability awareness', 'Field observation', 'Scientific measurement');
@@ -674,7 +692,7 @@ function roleSkillSignals(title: string) {
 
 function roleWorkSignals(title: string) {
   const value = title.toLowerCase();
-  if (/developer|programmer|software|web|mobile|blockchain|devops|sre|database|network|systems administrator|cloud|llm|language model|machine learning|ai engineer|prompt engineer|finops|analytics|privacy|governance/.test(value)) {
+  if (/developer|programmer|software|web|mobile|blockchain|devops|sre|database|network|systems administrator|cloud|llm|language model|machine learning|ai engineer|ai platform|mlops|prompt engineer|finops|analytics|privacy|governance|cybersecurity|data centre/.test(value)) {
     return ['Translate a real need into a small, reliable digital solution', 'Build, test, document, and improve the solution with feedback', 'Work with users or colleagues to diagnose issues and decide what to change next'];
   }
   if (/data|analyst|statistic|economist|actuary|intelligence|research|analytics|privacy|governance/.test(value)) {
@@ -692,7 +710,7 @@ function roleWorkSignals(title: string) {
   if (/teacher|education|lecturer|professor|trainer|facilitator|counsellor|social worker|community|youth|learning/.test(value)) {
     return ['Understand the learner or community need and plan an appropriate activity', 'Facilitate, explain, or support progress while adapting to feedback', 'Record outcomes and agree the next useful step with the people involved'];
   }
-  if (/manager|consultant|business|marketing|sales|account|customer|commerce|finance|bank|investment|procurement|supply|logistics|operations|entrepreneur/.test(value)) {
+  if (/manager|consultant|business|marketing|sales|account|customer|commerce|finance|bank|investment|procurement|supply|logistics|operations|entrepreneur|technology transfer|licensing|brand operator|e-commerce|export market/.test(value)) {
     return ['Clarify the customer, commercial, or operational problem and gather evidence', 'Coordinate people or resources, make a recommendation, and deliver the agreed work', 'Review results against useful measures and improve the next decision'];
   }
   if (/lawyer|legal|policy|civil service|government|police|defence|diplomat|compliance|regulatory|tax|election/.test(value)) {
@@ -767,7 +785,7 @@ function buildCareerGuide(preset: CareerPreset): CareerGuide {
 const roleSkills = roleSkillSignals(preset.title);
   const title = preset.title.toLowerCase();
   const isGovernment = /civil service|government|public service|police|defence|diplomat|election|military|ias|ips|ifs\b/.test(title) || /Law, Government/.test(preset.category);
-  const isIndependentFriendly = /software|developer|data|designer|writer|marketing|consult|account|finance|lawyer|legal|teacher|trainer|therap|architect|photograph|chef|electrician|plumber|mechanic|engineer|analyst|translator|coach|nutrition|beauty|business|entrepreneur/.test(title);
+  const isIndependentFriendly = /software|developer|data|designer|writer|marketing|consult|account|finance|lawyer|legal|teacher|trainer|therap|architect|photograph|chef|electrician|plumber|mechanic|engineer|analyst|translator|coach|nutrition|beauty|business|entrepreneur|brand|e-commerce/.test(title);
   const localContext = isGovernment
     ? 'Public-service routes are established, but selection is highly competitive and usually exam-led.'
     : ({
@@ -847,7 +865,7 @@ const roleSkills = roleSkillSignals(preset.title);
   const evidenceMatch = evidenceForCareer(preset);
   return {
     ...preset,
-    summary: override.summary ?? future?.summary ?? `${preset.title} ${family.purpose}.`,
+    summary: override.summary ?? future?.summary ?? highUpsideSummaries.get(preset.key) ?? `${preset.title} ${family.purpose}.`,
     outlook: override.outlook ?? family.outlook,
     outlookDetail: override.outlookDetail ?? family.outlookDetail,
     dailyWork,
@@ -932,8 +950,8 @@ export function careerGuideFor(key: unknown) {
  * learner's filters. */
 export function careerEarningPotentialScore(title: string, category = ''): 1 | 2 | 3 | 4 | 5 {
   const value = `${title} ${category}`.toLowerCase();
-  if (/anesthesiologist|interventional radiologist|specialist surgeon|quantitative|private equity|investment banker|patent.*attorney|enterprise solutions architect/.test(value)) return 5;
-  if (/ai product manager|machine learning|artificial intelligence|cybersecurity|cloud|chip design|semiconductor|actuary|venture capital|sales engineer|petroleum|corporate lawyer|management consultant|product manager|energy storage/.test(value)) return 4;
+  if (/anesthesiologist|interventional radiologist|specialist surgeon|quantitative|private equity|investment banker|patent.*attorney|enterprise solutions architect|fractional cfo/.test(value)) return 5;
+  if (/ai product manager|machine learning|mlops|artificial intelligence|industrial ai|cybersecurity|cloud|data centre|chip design|semiconductor|power electronics|green hydrogen|project finance|climate finance|carbon market|space systems|drone systems|biomanufacturing|technology transfer|e-commerce brand|export market|actuary|venture capital|sales engineer|petroleum|corporate lawyer|management consultant|product manager|energy storage/.test(value)) return 4;
   if (/software|data scientist|data engineer|finance|engineer|doctor|dentist|pharmac|architect|commercial|consult|manager|analyst|renewable|robotics|automation/.test(value)) return 3;
   if (/assistant|support|coordinator|operator|entry|junior|trainee/.test(value)) return 1;
   return 2;

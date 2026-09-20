@@ -1629,7 +1629,7 @@ test('career filters stay intersected and never show a stale guide', async ({ pa
   await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
   await page.locator('#career-clear-filters').click();
   await expect(search).toHaveValue('');
-  await expect(page.locator('#career-preset-count')).toContainText('584 career options shown');
+  await expect(page.locator('#career-preset-count')).toContainText('600 career options shown');
   await expect(page.locator('#career-guide-preview')).not.toContainText('Marine Engineer');
   await search.fill('Software Engineer');
   await expect(page.locator('#career-preset-results .career-library-result').first().locator('.career-result-title strong')).toHaveText('Software Engineer');
@@ -1642,15 +1642,17 @@ test('career sort changes ordering while keeping the full matching catalogue', a
   const firstTitles = async () => page.locator('#career-preset-results .career-library-result .career-result-title strong').allTextContents();
   await page.locator('.career-sort-details').evaluate((details) => { details.open = true; });
   await expect(page.locator('[data-career-sort-choice="quick-test"]')).toContainText('Show easiest routes to learn about first');
-  await expect(page.locator('[data-career-sort-choice="recommended"]')).toContainText('every matching route stays available');
+  await expect(page.locator('[data-career-sort-choice="recommended"]')).toContainText('earning, growth, and ownership potential');
   await page.locator('[data-career-sort-choice="recommended"]').click();
   const recommended = await firstTitles();
-  await expect(page.locator('#career-preset-count')).toContainText('ordered by suggested starting routes first');
+  await expect(page.locator('#career-preset-count')).toContainText('ordered by high-upside starting points first');
+  const defaultUpside = await page.locator('#career-preset-results .career-library-result').evaluateAll((items) => items.map((item) => Number(item.getAttribute('data-upside-score'))));
+  for (let index = 1; index < defaultUpside.length; index += 1) expect(defaultUpside[index - 1]).toBeGreaterThanOrEqual(defaultUpside[index]);
   await page.locator('[data-career-sort-choice="quick-test"]').click();
   const quickTest = await firstTitles();
   await expect(page.locator('#career-preset-count')).toContainText('ordered by easiest routes to learn about first');
   expect(quickTest).not.toEqual(recommended);
-  await expect(page.locator('#career-preset-count')).toContainText('584 career options shown');
+  await expect(page.locator('#career-preset-count')).toContainText('600 career options shown');
   await expect(page.locator('.career-result-save-actions').first()).toContainText('Keep this option:');
   await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="primary"]')).toHaveText('Make current focus');
   await expect(page.locator('.career-result-save-actions').first().locator('[data-choose-career="alternative"]')).toHaveText('Save for later');
@@ -1752,7 +1754,7 @@ test('independent-work ordering does not promote employer-only routes', async ({
   const firstPageTags = await page.locator('#career-preset-results .career-library-result .career-result-meta').allTextContents();
   expect(firstPageTags.length).toBeGreaterThan(0);
   expect(firstPageTags[0]).toContain('Can grow into independent work');
-  await expect(page.locator('#career-preset-count')).toContainText('584 career options shown');
+  await expect(page.locator('#career-preset-count')).toContainText('600 career options shown');
   await page.locator('#career-preset-search').fill('Civil Services Officer');
   const publicRoute = page.locator('#career-preset-results .career-library-result')
     .filter({ has: page.locator('.career-result-title strong', { hasText: 'Civil Services Officer' }) }).first();
@@ -1800,7 +1802,7 @@ test('student plan explains PDF contents and shows the shared readiness checklis
   await expect(page.locator('#student-action-form [name="title"]')).toHaveValue('Make a simple personal money plan');
 });
 
-test('preference matches stay relevant and higher earning potential breaks equal-fit ties', async ({ page }) => {
+test('preference matches stay relevant and composite upside breaks equal-fit ties', async ({ page }) => {
   await page.setViewportSize({ width: 1365, height: 900 });
   await mockWorkspace(page, 'student');
   await page.goto('http://127.0.0.1:4321/dashboard/career-decision', { waitUntil: 'domcontentloaded' });
@@ -1810,20 +1812,28 @@ test('preference matches stay relevant and higher earning potential breaks equal
   await page.locator('[data-career-interest="numbers"]').click();
   const filteredCount = Number((await page.locator('#career-preset-count').textContent())?.match(/[\d,]+/)?.[0].replace(/,/g, ''));
   expect(filteredCount).toBeGreaterThan(0);
-  expect(filteredCount).toBeLessThan(584);
+  expect(filteredCount).toBeLessThan(600);
   const rows = await page.locator('#career-preset-results .career-library-result').evaluateAll((items) => items.map((item) => ({
     match: Number(item.getAttribute('data-match-percent')),
-    earning: Number(item.getAttribute('data-earning-potential')),
+    upside: Number(item.getAttribute('data-upside-score')),
   })));
   for (let index = 1; index < rows.length; index += 1) {
     expect(rows[index - 1].match).toBeGreaterThanOrEqual(rows[index].match);
-    if (rows[index - 1].match === rows[index].match) expect(rows[index - 1].earning).toBeGreaterThanOrEqual(rows[index].earning);
+    if (rows[index - 1].match === rows[index].match) expect(rows[index - 1].upside).toBeGreaterThanOrEqual(rows[index].upside);
   }
+  await page.locator('.career-interest-group-details:has([data-career-interest="growth"])').evaluate((details) => { details.open = true; });
+  await page.locator('[data-career-interest="growth"]').click();
+  await page.locator('[data-career-interest="ownership"]').click();
+  await expect(page.locator('#career-preset-count')).toContainText('for your selected preferences');
+  const holisticCount = Number((await page.locator('#career-preset-count').textContent())?.match(/[\d,]+/)?.[0].replace(/,/g, ''));
+  expect(holisticCount).toBeGreaterThan(0);
+  expect(holisticCount).toBeLessThan(filteredCount);
   await page.locator('.career-sort-details').evaluate((details) => { details.open = true; });
   await page.locator('[data-career-sort-choice="earning-upside"]').click();
-  const earningOrder = await page.locator('#career-preset-results .career-library-result').evaluateAll((items) => items.map((item) => Number(item.getAttribute('data-earning-potential'))));
-  for (let index = 1; index < earningOrder.length; index += 1) expect(earningOrder[index - 1]).toBeGreaterThanOrEqual(earningOrder[index]);
+  const upsideOrder = await page.locator('#career-preset-results .career-library-result').evaluateAll((items) => items.map((item) => Number(item.getAttribute('data-upside-score'))));
+  for (let index = 1; index < upsideOrder.length; index += 1) expect(upsideOrder[index - 1]).toBeGreaterThanOrEqual(upsideOrder[index]);
+  await page.locator('#career-clear-filters').click();
   await page.locator('#career-preset-search').fill('Quantitative Analyst');
   await expect(page.locator('#career-preset-results')).toContainText('Quantitative Analyst');
-  await expect(page.locator('#career-preset-results')).toContainText('Higher earning potential to investigate');
+  await expect(page.locator('#career-preset-results')).toContainText('High income, growth & ownership potential');
 });

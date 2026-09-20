@@ -355,6 +355,8 @@ const careerInterestFamilies: Record<string, string[]> = {
   'outdoor-field': ['Engineering & Built Environment', 'Agriculture, Food & Rural Careers', 'Skilled Trades & Applied Careers', 'Science, Research & Environment', 'Hospitality, Travel, Sports & Events'],
   'project-based': ['Technology & Data', 'Engineering & Built Environment', 'Design, Media & Creative Arts', 'Business, Marketing & Operations', 'Future-ready & Cross-functional'],
   earning: ['Technology & Data', 'Engineering & Built Environment', 'Health & Life Sciences', 'Commerce, Finance & Economics', 'Law, Government & Public Service', 'Future-ready & Cross-functional'],
+  growth: ['Technology & Data', 'Engineering & Built Environment', 'Health & Life Sciences', 'Business, Marketing & Operations', 'Science, Research & Environment', 'Future-ready & Cross-functional'],
+  ownership: ['Technology & Data', 'Commerce, Finance & Economics', 'Business, Marketing & Operations', 'Design, Media & Creative Arts', 'Languages, International & Emerging Routes', 'Skilled Trades & Applied Careers'],
   stability: ['Health & Life Sciences', 'Law, Government & Public Service', 'Education, Psychology & Social Impact', 'Engineering & Built Environment', 'Commerce, Finance & Economics'],
   impact: ['Health & Life Sciences', 'Education, Psychology & Social Impact', 'Law, Government & Public Service', 'Science, Research & Environment', 'Agriculture, Food & Rural Careers'],
   mobility: ['Technology & Data', 'Languages, International & Emerging Routes', 'Commerce, Finance & Economics', 'Business, Marketing & Operations', 'Engineering & Built Environment'],
@@ -406,6 +408,8 @@ const interestRoleCues: Record<string, string[]> = {
   'outdoor-field': ['field', 'outdoor', 'site', 'survey', 'agri', 'farm', 'construction', 'environment', 'travel', 'installation'],
   'project-based': ['project', 'build', 'develop', 'design', 'launch', 'implementation', 'consult', 'campaign', 'prototype'],
   earning: ['software', 'developer', 'engineer', 'finance', 'sales', 'marketing', 'consult', 'business'],
+  growth: ['ai', 'machine learning', 'cybersecurity', 'cloud', 'semiconductor', 'energy', 'climate', 'biotech', 'robotics', 'automation', 'space', 'drone'],
+  ownership: ['consult', 'advisor', 'freelance', 'business', 'brand', 'entrepreneur', 'practice', 'operator', 'studio', 'agency'],
   stability: ['health', 'public', 'education', 'account', 'engineering', 'laboratory'],
   impact: ['health', 'education', 'social', 'environment', 'community', 'public', 'sustain'],
   mobility: ['software', 'data', 'cloud', 'international', 'travel', 'sales', 'consult'],
@@ -451,6 +455,8 @@ const careerPreferenceLabels: Record<string, string> = {
   visual: 'seeing visual details',
   organised: 'organising people or work',
   earning: 'stronger earning upside',
+  growth: 'strong future growth',
+  ownership: 'building a business or brand',
   stability: 'stability and continuity',
   impact: 'social or environmental impact',
   mobility: 'international mobility',
@@ -461,6 +467,13 @@ const careerPreferenceLabels: Record<string, string> = {
 };
 
 export function interestRelevanceScore(guide: CareerGuide, interest: string) {
+  if (interest === 'earning') return guide.earningPotential >= 4 ? 2 : guide.earningPotential === 3 ? 1 : 0;
+  if (interest === 'growth') return guide.outlook === 'growing' ? 2 : 0;
+  if (interest === 'ownership') {
+    const path = guide.independencePath.toLowerCase();
+    if (/can lead to consulting|can lead to.*freelance|can lead to.*private practice|can lead to.*business/.test(path)) return 2;
+    return 0;
+  }
   const cues = interestRoleCues[interest] ?? [];
   if (!cues.length) return 0;
   const routeText = `${guide.entryLevel} ${guide.routeLength} ${guide.entryRoutes.join(' ')}`.toLowerCase();
@@ -524,6 +537,14 @@ export function independencePotentialFor(guide: CareerGuide) {
   if (/can lead to consulting|can lead to.*freelance|can lead to.*private practice|can lead to.*business/.test(path)) return 2;
   if (/may be possible later/.test(path)) return 1;
   return 0;
+}
+
+/** Relative upside for comparing already-relevant careers. Earnings alone can
+ * hide routes with durable growth or a credible ownership path, so all three
+ * signals contribute. This remains an exploration aid, not a salary promise. */
+export function careerUpsideScore(guide: CareerGuide) {
+  const growth = guide.outlook === 'growing' ? 5 : guide.outlook === 'evolving' ? 4 : guide.outlook === 'stable' ? 3 : guide.outlook === 'niche' ? 2 : 1;
+  return guide.earningPotential * 4 + growth * 3 + independencePotentialFor(guide) * 3;
 }
 
 export function decisionSignalFor(path: Row) {
@@ -733,7 +754,7 @@ export function careerLibraryResultsHtml(matches: CareerGuide[], selectedKey: st
       ? ''
       : `<em class="career-match-score" aria-label="${matchPercent} percent preference alignment; ${matchedPreferences} of ${selectedInterests.length} selected preferences supported">${matchPercent}% preference alignment · ${matchedPreferences}/${selectedInterests.length} signals</em>`;
     const earningBadge = guide.earningPotential >= 4
-      ? '<em class="career-earning-signal">Higher earning potential to investigate</em>'
+      ? `<em class="career-earning-signal">${careerUpsideScore(guide) >= 31 ? 'High income, growth & ownership potential' : 'Higher earning potential to investigate'}</em>`
       : '';
     const resultTier = selectedInterests.length
       ? (matchPercent !== null && matchPercent >= 80 && matchedPreferences === selectedInterests.length ? 'Strong preference match' : 'Worth investigating')
@@ -741,7 +762,7 @@ export function careerLibraryResultsHtml(matches: CareerGuide[], selectedKey: st
     const matchReason = matchedPreferenceLabels.length
       ? `<span class="career-match-reasons"><b>Why this appeared</b>${escapeHtml(matchedPreferenceLabels.slice(0, 4).join(' · '))}</span>`
       : '';
-    return `<div class="career-library-result" data-earning-potential="${guide.earningPotential}" data-match-percent="${matchPercent ?? ''}"><button type="button" data-career-preset="${escapeHtml(guide.key)}" class="${guide.key === selectedKey ? 'is-selected' : ''}"><span class="career-result-tier" data-tier="${escapeHtml(guide.dataConfidence)}">${escapeHtml(resultTier)}</span><span class="career-result-title"><strong>${escapeHtml(guide.title)}</strong>${competition === 'Highly competitive' ? '<em class="career-competition-flag">Highly competitive</em>' : ''}</span><small>${escapeHtml(guide.careerGroup)} · ${escapeHtml(careerFamilyLabel(guide.category))}</small><p>${escapeHtml(guide.summary)}</p>${matchReason}<div class="career-result-facts"><span><b>Ordinary work</b>${escapeHtml(ordinaryWork)}</span><span><b>Typical route in</b>${escapeHtml(entryRoute)}</span><span><b>Useful first skills</b>${escapeHtml(starterSkills)}</span><span><b>What to verify</b>${escapeHtml(guide.watchOuts?.[0] || competition)}</span></div><span class="career-result-meta">${matchBadge}${earningBadge}<em>${escapeHtml(outlook)}</em><em>${escapeHtml(competition)}</em><em>${escapeHtml(independence)}</em><em>${guide.regulated ? 'Check registration or licence' : 'No universal licence'}</em></span><span class="career-result-action" data-career-preset="${escapeHtml(guide.key)}">Explore this career <b aria-hidden="true">→</b></span></button><div class="career-result-save-actions" aria-label="Choose what to do with ${escapeHtml(guide.title)}"><span>Keep this option:</span><button class="table-action" type="button" data-choose-career="primary" data-guide-key="${escapeHtml(guide.key)}" aria-label="Make ${escapeHtml(guide.title)} your current focus">Make current focus</button><button class="table-action" type="button" data-choose-career="alternative" data-guide-key="${escapeHtml(guide.key)}" aria-label="Save ${escapeHtml(guide.title)} for later">Save for later</button></div><label class="career-compare-toggle"><input type="checkbox" data-compare-career="${escapeHtml(guide.key)}" aria-label="Add ${escapeHtml(guide.title)} to comparison" /><span>Add to comparison</span></label></div>`;
+    return `<div class="career-library-result" data-earning-potential="${guide.earningPotential}" data-upside-score="${careerUpsideScore(guide)}" data-match-percent="${matchPercent ?? ''}"><button type="button" data-career-preset="${escapeHtml(guide.key)}" class="${guide.key === selectedKey ? 'is-selected' : ''}"><span class="career-result-tier" data-tier="${escapeHtml(guide.dataConfidence)}">${escapeHtml(resultTier)}</span><span class="career-result-title"><strong>${escapeHtml(guide.title)}</strong>${competition === 'Highly competitive' ? '<em class="career-competition-flag">Highly competitive</em>' : ''}</span><small>${escapeHtml(guide.careerGroup)} · ${escapeHtml(careerFamilyLabel(guide.category))}</small><p>${escapeHtml(guide.summary)}</p>${matchReason}<div class="career-result-facts"><span><b>Ordinary work</b>${escapeHtml(ordinaryWork)}</span><span><b>Typical route in</b>${escapeHtml(entryRoute)}</span><span><b>Useful first skills</b>${escapeHtml(starterSkills)}</span><span><b>What to verify</b>${escapeHtml(guide.watchOuts?.[0] || competition)}</span></div><span class="career-result-meta">${matchBadge}${earningBadge}<em>${escapeHtml(outlook)}</em><em>${escapeHtml(competition)}</em><em>${escapeHtml(independence)}</em><em>${guide.regulated ? 'Check registration or licence' : 'No universal licence'}</em></span><span class="career-result-action" data-career-preset="${escapeHtml(guide.key)}">Explore this career <b aria-hidden="true">→</b></span></button><div class="career-result-save-actions" aria-label="Choose what to do with ${escapeHtml(guide.title)}"><span>Keep this option:</span><button class="table-action" type="button" data-choose-career="primary" data-guide-key="${escapeHtml(guide.key)}" aria-label="Make ${escapeHtml(guide.title)} your current focus">Make current focus</button><button class="table-action" type="button" data-choose-career="alternative" data-guide-key="${escapeHtml(guide.key)}" aria-label="Save ${escapeHtml(guide.title)} for later">Save for later</button></div><label class="career-compare-toggle"><input type="checkbox" data-compare-career="${escapeHtml(guide.key)}" aria-label="Add ${escapeHtml(guide.title)} to comparison" /><span>Add to comparison</span></label></div>`;
   }).join('');
 }
 

@@ -32,7 +32,7 @@ const interests = [
   'people', 'systems', 'numbers', 'creative', 'practical', 'nature', 'service',
   'active', 'language', 'independent', 'collaborative', 'structured', 'flexible',
   'people-facing', 'hands-on-setting', 'predictable-routine', 'remote-friendly', 'outdoor-field', 'project-based',
-  'earning', 'stability', 'impact', 'mobility', 'analytical', 'verbal', 'hands-on',
+  'earning', 'growth', 'ownership', 'stability', 'impact', 'mobility', 'analytical', 'verbal', 'hands-on',
   'empathetic', 'visual', 'organised',
   'quick-income', 'lower-cost', 'flexible-time', 'local-access',
 ];

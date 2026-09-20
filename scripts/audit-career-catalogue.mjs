@@ -33,6 +33,12 @@ const requiredHighUpsideTitles = [
   'Enterprise Sales Engineer', 'Chip Design Engineer', 'Patent and Intellectual Property Attorney',
   'Energy Storage Engineer', 'Private Equity Analyst', 'Venture Capital Analyst',
   'Anesthesiologist', 'Interventional Radiologist',
+  'MLOps and AI Platform Engineer', 'Cybersecurity Architect', 'Semiconductor Process Engineer',
+  'Power Electronics Engineer', 'Green Hydrogen Project Engineer', 'Renewable Energy Project Finance Analyst',
+  'Climate Finance and Carbon Markets Specialist', 'Space Systems Engineer', 'Drone Systems and Autonomy Engineer',
+  'Biomanufacturing Process Engineer', 'Technology Transfer and Licensing Specialist',
+  'Fractional CFO and Business Finance Advisor', 'E-commerce Brand Operator',
+  'Export Market Development Consultant', 'Industrial AI Transformation Consultant', 'Data Centre Infrastructure Architect',
 ];
 
 for (const preset of presets) {
