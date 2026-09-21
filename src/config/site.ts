@@ -170,6 +170,16 @@ export const LIVE_INDEXABLE_ROUTES: IndexableRoute[] = [
     changefreq: 'monthly',
     priority: '0.88',
   },
+  {
+    path: '/services/assessments/vark-learning-style-test',
+    changefreq: 'monthly',
+    priority: '0.88',
+  },
+  {
+    path: '/services/assessments/enneagram-personality-test-careers',
+    changefreq: 'monthly',
+    priority: '0.88',
+  },
   ...ASSESSMENT_PAGE_ROUTE_CONFIG,
   {
     path: '/career-resources',
