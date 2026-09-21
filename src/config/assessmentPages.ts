@@ -7,6 +7,7 @@
   | 'verbal'
   | 'personality'
   | 'big5'
+  | 'riasec'
   | 'professionals'
   | 'stream10'
   | 'aptitude10'
@@ -110,6 +111,14 @@ export const ASSESSMENT_TARGETS = {
     summary:
       'Best if you want five continuous trait scores, 20 narrower facets, cross-trait career indicators, environment questions, and practical experiments without treating personality as a career verdict.',
   },
+  riasec: {
+    href: '/services/assessments/riasec-holland-code-career-test/',
+    title: 'RIASEC Holland Code Career Test',
+    label: 'Take Free RIASEC Holland Code Test',
+    guidanceMode: 'mixed' as AssessmentGuidanceMode,
+    summary:
+      'Best if you want a genuine six-type RIASEC interest score, a three-letter Holland Code, matched career families, and practical next steps instead of a keyword page describing the model.',
+  },
   professionals: {
     href: '/services/assessments/working-professionals-and-career-changers/',
     title: 'Working Professionals and Career Changers Assessment',
@@ -160,6 +169,7 @@ const ALL_STAGE_RELATED_TARGETS: AssessmentTargetId[] = [
   'verbal',
   'personality',
   'big5',
+  'riasec',
   'professionals',
   'stream10',
   'aptitude10',
@@ -179,6 +189,7 @@ const STUDENT_RELATED_TARGETS: AssessmentTargetId[] = [
 const PSYCHOMETRIC_RELATED_TARGETS: AssessmentTargetId[] = [
   'personality',
   'big5',
+  'riasec',
   'class10',
   'class1112',
   'graduates',
@@ -220,6 +231,8 @@ const BEST_FIT_REASON_BY_TARGET: Record<AssessmentTargetId, string> = {
     'it directly maps four work-style preference pairs, preference strength, context sensitivity, and practical career experiments without claiming that a type determines career fit.',
   big5:
     'it directly maps five continuous personality traits, 20 facets, cross-trait career indicators, work-environment questions, and practical experiments without claiming that personality determines career fit.',
+  riasec:
+    'it directly scores all six RIASEC interest types, generates your three-letter Holland Code, and matches it to real career families and practical next steps instead of only explaining the model.',
   professionals:
     'it covers transition pressure, skill leverage, and growth clarity in one complete free professional layer.',
   stream10:
@@ -911,9 +924,7 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     slug: 'holland-code-career-test',
     title: 'Holland Code Career Test',
     aliases: ['holland code career test'],
-    target: 'class1112',
-    bestFitBody:
-      'For broad holland-code-career-test needs, the Class 11 and 12 assessment is a strong starting point because it already includes RIASEC-style career-interest signals inside a broader student-fit layer.',
+    target: 'riasec',
   }),
   createStudentCareerPage({
     slug: 'career-aptitude-test-for-high-school-students',
@@ -2317,7 +2328,7 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     slug: 'riasec-career-test',
     title: 'RIASEC Career Test',
     aliases: ['riasec career test'],
-    target: 'class1112',
+    target: 'riasec',
     extraFaqItems: [
       {
         question: 'Is this the same as the Holland Code test?',
