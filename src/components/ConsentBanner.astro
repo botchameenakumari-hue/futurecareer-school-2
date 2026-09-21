@@ -44,6 +44,21 @@
 
     const firstChoiceButton = banner.querySelector('[data-consent-choice="granted"]');
 
+    // If nobody interacts with the banner, it quietly steps aside into the small
+    // "Privacy choices" pill after this long, rather than sitting over page content
+    // (like an assessment result) indefinitely. No consent choice is recorded by this
+    // timeout, so analytics stays off exactly as before; the pill still lets anyone
+    // open the full banner and choose at any time.
+    const AUTO_COLLAPSE_MS = 10000;
+    let autoCollapseTimer = null;
+
+    const clearAutoCollapseTimer = () => {
+      if (autoCollapseTimer !== null) {
+        window.clearTimeout(autoCollapseTimer);
+        autoCollapseTimer = null;
+      }
+    };
+
     const showBanner = (moveFocus = false) => {
       banner.hidden = false;
       manageButton.hidden = true;
@@ -52,6 +67,7 @@
     };
 
     const hideBanner = () => {
+      clearAutoCollapseTimer();
       banner.hidden = true;
       manageButton.hidden = false;
       manageButton.setAttribute('aria-expanded', 'false');
@@ -66,12 +82,18 @@
       manageButton.focus();
     });
 
+    // Any interaction inside the banner (focusing a control, typing, etc.) cancels the
+    // auto-collapse so it never disappears mid-interaction.
+    banner.addEventListener('focusin', clearAutoCollapseTimer);
+    banner.addEventListener('pointerdown', clearAutoCollapseTimer);
+
     manageButton.addEventListener('click', () => showBanner(true));
 
     if (consentApi.getChoice()) {
       hideBanner();
     } else {
       showBanner(false);
+      autoCollapseTimer = window.setTimeout(hideBanner, AUTO_COLLAPSE_MS);
     }
   })();
 </script>
