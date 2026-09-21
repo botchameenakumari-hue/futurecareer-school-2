@@ -1615,6 +1615,13 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     aliases: ['career guidance test after 10th'],
     target: 'class10',
     relatedTargets: ['class10', 'stream10', 'aptitude10'],
+    extraFaqItems: [
+      {
+        question: 'Is this a test, or does it come with actual guidance?',
+        answer:
+          "It's a free test first. The result gives you real direction on its own, and updated one-on-one guidance is there as the next step if you want a full plan built around it.",
+      },
+    ],
   }),
   createCounsellingTestPage({
     slug: 'career-guidance-test-india',
@@ -2115,6 +2122,13 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     aliases: ['career test after graduation'],
     target: 'graduates',
     relatedTargets: ['graduates', 'professionals'],
+    extraFaqItems: [
+      {
+        question: "I've already graduated and I'm confused about what's next — is this actually for me?",
+        answer:
+          "Yes, this is exactly the stage it's built for — after your degree is done and the direction still isn't clear, rather than a school or stream-selection test.",
+      },
+    ],
   }),
   createBroadCareerDirectionPage({
     slug: 'career-test-for-adults',
@@ -2304,6 +2318,13 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     title: 'RIASEC Career Test',
     aliases: ['riasec career test'],
     target: 'class1112',
+    extraFaqItems: [
+      {
+        question: 'Is this the same as the Holland Code test?',
+        answer:
+          "Yes. RIASEC is just the short name for the Holland Code model (Realistic, Investigative, Artistic, Social, Enterprising, Conventional), so both names lead to the same kind of result here.",
+      },
+    ],
   }),
   createPsychometricAssessmentPage({
     slug: 'career-type-test',
@@ -2538,6 +2559,13 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     aliases: ['career aptitude test for teens'],
     target: 'aptitude10',
     relatedTargets: ['class10', 'aptitude10', 'stream10', 'class1112'],
+    extraFaqItems: [
+      {
+        question: 'Is this different from the Class 10 or Class 11-12 aptitude tests?',
+        answer:
+          "It's built for the same teenage age group, so it works alongside them. If your child is specifically at the Class 10 or Class 11-12 decision point, the stage-specific assessment gives a more precise result.",
+      },
+    ],
   }),
   createAptitudeAssessmentPage({
     slug: 'career-aptitude-test-free-india',
@@ -2662,6 +2690,13 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     aliases: ['career aptitude test for kids'],
     target: 'aptitude10',
     relatedTargets: ['class10', 'aptitude10', 'stream10'],
+    extraFaqItems: [
+      {
+        question: 'What age group is this really meant for?',
+        answer:
+          "It's built for younger, pre-teen students who are still exploring interests, rather than teenagers facing an immediate stream or subject decision — for that stage, the Class 10 assessment is the closer fit.",
+      },
+    ],
   }),
   createAptitudeAssessmentPage({
     slug: 'career-aptitude-test-for-elementary-students',
