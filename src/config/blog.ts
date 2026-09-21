@@ -3583,4 +3583,112 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-09-20',
     readTimeMinutes: 18,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'medical-laboratory-science-career-options',
+    title: 'Medical Laboratory Science Career Options in India: The Real Path Map',
+    description:
+      'Medical laboratory science career options in India: DMLT vs BMLT entry, real pay by employer, NABL accreditation, and the path to owning a diagnostic lab.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 17,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-in-space-science-india',
+    title: 'Career in Space Science in India: ISRO, IIST, and the Real Path Map',
+    description:
+      'Career in space science in India: ISRO and IIST entry routes, the ICRB selection process, research-institute paths via IISc/TIFR/PRL, private space-tech, and the honest scale of this field.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'social-science-career-options',
+    title: 'Social Science Career Options in India: Sociology, Economics, Social Work, and More',
+    description:
+      'Social science career options in India: economics, CSR, social work (MSW), sociology, and anthropology — ranked by real growth, not the usual NGO-or-UPSC list.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 22,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-biomedical-science-a-good-career',
+    title: 'Is Biomedical Science a Good Career in India? The Honest Verdict',
+    description:
+      'Is biomedical science a good career in India? The honest verdict on real pay, and how it compares to biomedical engineering, biotech, and BSc life sciences.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 18,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'exercise-science-career-options',
+    title: 'Exercise Science Career Options in India: Sports Science, Coaching, and the Real Path Map',
+    description:
+      'Exercise science career options in India, mapped honestly: strength and conditioning, sports biomechanics, performance analytics, LNIPE and NIS Patiala routes, real pay, and the scalable path.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'dairy-science-career-options',
+    title: 'Dairy Science Career Options in India: Pay, Employers, Real Path Map',
+    description:
+      'Dairy science career options in India: NDRI and B.Tech Dairy Technology entry, the cooperative-vs-private employer landscape, real pay, and the value-added-products ownership path.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-after-phd-life-sciences',
+    title: 'Career After PhD in Life Sciences: Academia, Industry R&D, and the Real Path Map',
+    description:
+      'Career after PhD in life sciences: the postdoc-to-faculty pipeline, CSIR/DBT/ICMR scientist posts, pharma and biotech industry R&D, regulatory affairs, medical writing, and consulting, ranked by growth.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 19,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'research-scientist-career-options',
+    title: 'Research Scientist Career Options in India: The Real Path Map Across Sectors',
+    description:
+      'Research scientist career options in India: compare government labs (CSIR/DRDO/ISRO/ICMR), corporate R&D, and academia — the real JRF-to-Scientist ladder, pay, and honest ceiling.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 15,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'commerce-with-computer-science-career',
+    title: 'Commerce with Computer Science Career Options: The Real Combination Map',
+    description:
+      'Commerce with computer science career options, mapped honestly: BCA, business analytics, fintech, and self-taught coding routes, and why this is a skill stack, not one labeled job.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 15,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'science-careers-that-involve-travel',
+    title: 'Science Careers That Involve Travel: Real Fieldwork Paths in India',
+    description:
+      'Science careers that involve travel in India: geology, marine biology, wildlife conservation, environmental fieldwork, and science journalism, mapped honestly against how much travel is real.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mortuary-science-careers-india',
+    title: 'Mortuary Science Careers in India: The Honest Reality',
+    description:
+      'Mortuary science is not a formal degree path in India. See what genuinely exists instead: forensic medicine, informal embalming roles, and the honest closest alternatives.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'science-museum-and-science-centre-careers-india',
+    title: 'Science Museum and Science Centre Careers in India: NCSM, Curators, and Science Communication',
+    description:
+      'Science museum and science centre careers in India run mostly through NCSM, the government body behind most science centres. See real roles, pay, competition, and the independent alternative.',
+    publishedAtISO: '2026-09-21',
+    readTimeMinutes: 13,
+  },
 ];
