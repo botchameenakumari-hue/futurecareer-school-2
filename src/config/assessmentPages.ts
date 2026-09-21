@@ -251,6 +251,7 @@ function createBroadCareerDirectionPage({
   target = 'class1112',
   relatedTargets = ALL_STAGE_RELATED_TARGETS,
   bestFitBody,
+  extraFaqItems = [],
 }: {
   slug: string;
   title: string;
@@ -258,6 +259,7 @@ function createBroadCareerDirectionPage({
   target?: AssessmentTargetId;
   relatedTargets?: AssessmentTargetId[];
   bestFitBody?: string;
+  extraFaqItems?: { question: string; answer: string }[];
 }): AssessmentPage {
   const phrase = lowerLead(title);
   return {
@@ -336,6 +338,7 @@ function createBroadCareerDirectionPage({
         answer:
           'Start by matching the assessment to your stage and your real decision instead of choosing only by a general label.',
       },
+      ...extraFaqItems,
     ],
   };
 }
@@ -443,6 +446,7 @@ function createPsychometricAssessmentPage({
   target = 'class1112',
   relatedTargets = PSYCHOMETRIC_RELATED_TARGETS,
   bestFitBody,
+  extraFaqItems = [],
 }: {
   slug: string;
   title: string;
@@ -450,6 +454,7 @@ function createPsychometricAssessmentPage({
   target?: AssessmentTargetId;
   relatedTargets?: AssessmentTargetId[];
   bestFitBody?: string;
+  extraFaqItems?: { question: string; answer: string }[];
 }): AssessmentPage {
   const phrase = lowerLead(title);
   return {
@@ -528,6 +533,7 @@ function createPsychometricAssessmentPage({
         answer:
           'Start by matching the assessment to your stage and the decision in front of you, not only to a general term.',
       },
+      ...extraFaqItems,
     ],
   };
 }
@@ -539,6 +545,7 @@ function createAptitudeAssessmentPage({
   target = 'aptitude12',
   relatedTargets = APTITUDE_RELATED_TARGETS,
   bestFitBody,
+  extraFaqItems = [],
 }: {
   slug: string;
   title: string;
@@ -546,6 +553,7 @@ function createAptitudeAssessmentPage({
   target?: AssessmentTargetId;
   relatedTargets?: AssessmentTargetId[];
   bestFitBody?: string;
+  extraFaqItems?: { question: string; answer: string }[];
 }): AssessmentPage {
   const phrase = lowerLead(title);
   const relevantTargets = [...new Set([target, ...(relatedTargets ?? [])])];
@@ -635,6 +643,7 @@ function createAptitudeAssessmentPage({
         answer:
           'Yes. A strong free starting point can still reduce random choices before you pay for anything heavier.',
       },
+      ...extraFaqItems,
     ],
   };
 }
@@ -646,6 +655,7 @@ function createCounsellingTestPage({
   target = 'class1112',
   relatedTargets = ALL_STAGE_RELATED_TARGETS,
   bestFitBody,
+  extraFaqItems = [],
 }: {
   slug: string;
   title: string;
@@ -653,6 +663,7 @@ function createCounsellingTestPage({
   target?: AssessmentTargetId;
   relatedTargets?: AssessmentTargetId[];
   bestFitBody?: string;
+  extraFaqItems?: { question: string; answer: string }[];
 }): AssessmentPage {
   const phrase = lowerLead(title);
   return {
@@ -731,6 +742,7 @@ function createCounsellingTestPage({
         answer:
           'Yes. The page includes related free routes for different stages so the first layer matches the actual decision better.',
       },
+      ...extraFaqItems,
     ],
   };
 }
@@ -741,12 +753,14 @@ function createSkillAssessmentPage({
   aliases,
   target = 'graduates',
   bestFitBody,
+  extraFaqItems = [],
 }: {
   slug: string;
   title: string;
   aliases: string[];
   target?: AssessmentTargetId;
   bestFitBody?: string;
+  extraFaqItems?: { question: string; answer: string }[];
 }): AssessmentPage {
   const phrase = lowerLead(title);
   return {
@@ -825,6 +839,7 @@ function createSkillAssessmentPage({
         answer:
           'It is most useful for graduates, freshers, and working professionals who want clearer readiness or growth signals.',
       },
+      ...extraFaqItems,
     ],
   };
 }
@@ -928,6 +943,18 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     aliases: ['career aptitude test for class 10', 'aptitude test for career after 10th'],
     target: 'aptitude10',
     relatedTargets: ['aptitude10', 'class10', 'stream10'],
+    extraFaqItems: [
+      {
+        question: 'Is this the same as an aptitude test for choosing a stream after 10th?',
+        answer:
+          "Yes. Stream selection after Class 10 is exactly what this assessment is built for, whether you search for it as an aptitude test, a stream test, or a career test after 10th.",
+      },
+      {
+        question: 'Is this free, or do I need to pay to see which stream fits me?',
+        answer:
+          "It's completely free. A paid session is only worth considering if you want personalised guidance built around your result.",
+      },
+    ],
   }),
   createBroadCareerDirectionPage({
     slug: 'career-path-test',
@@ -1128,6 +1155,18 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     slug: 'career-role-test',
     title: 'Career Role Test',
     aliases: ['career role test'],
+    extraFaqItems: [
+      {
+        question: 'Is this the same as a career match test or career type test?',
+        answer:
+          "Yes. Whether you call it a role test, a match test, or a career type test, the goal is the same: matching your strengths and preferences to roles that genuinely fit, not just naming a type.",
+      },
+      {
+        question: "Does this tell me what I'm actually good at, or just what I like?",
+        answer:
+          "Both. The result separates what you're naturally strong at from what you simply enjoy, since those aren't always the same thing.",
+      },
+    ],
   }),
   createAptitudeAssessmentPage({
     slug: 'aptitude-test-for-career-after-10th',
@@ -1146,6 +1185,18 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     relatedTargets: ['aptitude12', 'class1112', 'stream12'],
     bestFitBody:
       'For aptitude-test-for-career-after-12th needs, the Career Aptitude Test After 12th is the best fit because it focuses directly on strength-fit before course, degree, or training choices after school. The broader Class 11 and 12 assessment and the Career Test After 12th are also worth comparing below.',
+    extraFaqItems: [
+      {
+        question: 'Is there a separate version for commerce or science students after 12th?',
+        answer:
+          "The assessment adjusts to your background, so whether you're coming from Commerce, Science, or Arts after Class 12, the questions and result stay relevant to your stream.",
+      },
+      {
+        question: 'Is this useful after 12th if I already know my stream but not my career?',
+        answer:
+          "Yes. This is built for exactly that stage — your stream is already decided, and the assessment helps narrow the career and course direction from there.",
+      },
+    ],
   }),
   createPsychometricAssessmentPage({
     slug: 'career-personality-test-free',
@@ -1296,6 +1347,18 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     aliases: ['career aptitude test for adults'],
     target: 'professionals',
     relatedTargets: ['graduates', 'professionals'],
+    extraFaqItems: [
+      {
+        question: 'Is this only for people looking for their first job, or also for a career change?',
+        answer:
+          "Both. It works whether you're an adult exploring a first serious career direction or considering a change from your current one.",
+      },
+      {
+        question: 'Is there a free version for adults, or is it only for students?',
+        answer:
+          "It's completely free for adults too. The assessment isn't limited to students.",
+      },
+    ],
   }),
   createBroadCareerDirectionPage({
     slug: 'career-assessment-test-for-adults',
@@ -1943,6 +2006,18 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     aliases: ['career change test'],
     target: 'professionals',
     relatedTargets: ['graduates', 'professionals'],
+    extraFaqItems: [
+      {
+        question: 'Is this only for a midlife career change, or does it work earlier too?',
+        answer:
+          "It works at any stage. Whether you're a few years into your career or considering a bigger change later, the assessment adjusts to where you actually are.",
+      },
+      {
+        question: 'Will this tell me if switching careers is the right move, or just suggest new options?',
+        answer:
+          "Both. It helps you weigh whether the issue is really your career, or something else like role, company, or skills, before pointing you toward new directions.",
+      },
+    ],
   }),
   createStudentCareerPage({
     slug: 'career-choosing-test-after-10th',
@@ -2430,6 +2505,18 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     aliases: ['career aptitude test for college students'],
     target: 'graduates',
     relatedTargets: ['graduates', 'class1112', 'aptitude12', 'professionals'],
+    extraFaqItems: [
+      {
+        question: 'Is this different from the high school version?',
+        answer:
+          "Yes. This one is built around college-stage decisions like majors, internships, and early job direction, rather than stream or board-exam choices.",
+      },
+      {
+        question: 'Can this help me pick a career path if I already know my degree?',
+        answer:
+          "Yes. Many college students already have their degree fixed and need direction on what to do with it, which is exactly what this assessment helps with.",
+      },
+    ],
   }),
   createAptitudeAssessmentPage({
     slug: 'career-aptitude-test-for-school-students',
@@ -2946,6 +3033,16 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
         answer:
           'That is exactly why this page points to the Class 11 and 12 assessment first. It is a stronger broad student fit for psychometric-style clarity.',
       },
+      {
+        question: 'Is this psychometric test free, and does it give a real result or just a teaser?',
+        answer:
+          'It\'s completely free, and the result is a full, usable one, not a locked preview.',
+      },
+      {
+        question: 'Is this the same test for students and for career guidance generally?',
+        answer:
+          'The core assessment is the same. What changes is which career-guidance option we point you to afterward, based on your stage.',
+      },
     ],
   },
   {
@@ -3177,6 +3274,16 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
         answer:
           'Yes. A strong free starting point can narrow fit and reduce random decisions before you pay for more help.',
       },
+      {
+        question: 'What\'s the difference between an aptitude test and a career test?',
+        answer:
+          'An aptitude test looks specifically at your natural strengths and reasoning patterns — numerical, verbal, logical, and similar — while a broader career test also weighs interests and personality. If you want strengths first, start here; for a broader picture, try the career test instead.',
+      },
+      {
+        question: 'Can this help me choose or decide on a career, not just tell me my strengths?',
+        answer:
+          'Yes. The result is built to translate into a direction — which streams, courses, or roles fit your strengths — not just a raw score.',
+      },
     ],
   },
   {
@@ -3407,6 +3514,16 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
         question: 'Why use a free starting point here?',
         answer:
           'Because you should know whether work-style clarity is enough or whether the bigger issue still needs updated, skill-first guidance before paying for more.',
+      },
+      {
+        question: 'Is this the same as a personality type test, like MBTI?',
+        answer:
+          'It\'s related but career-focused. Instead of just giving you a personality type label, it connects your personality traits directly to career-relevant strengths and work styles, so the result is something you can actually act on.',
+      },
+      {
+        question: 'Will this tell me which career suits my personality, not just my type?',
+        answer:
+          'Yes. The result links your personality pattern to real career directions, not just a label to read and forget.',
       },
     ],
   },
@@ -3792,6 +3909,16 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
         question: 'Are all of these career tests really free?',
         answer:
           'Yes. The existing assessments linked from this page are fully free.',
+      },
+      {
+        question: 'Is this the same as a career quiz, career evaluation test, or career guidance test?',
+        answer:
+          'Yes. Different people search for this in different words — career quiz, career evaluation test, career decision test, career guidance test — but they\'re all looking for the same thing: a free way to get clarity on which direction fits them. This page and the assessments linked from it cover that need.',
+      },
+      {
+        question: 'Is there an accurate, reliable free career test, or do I have to pay to get a real result?',
+        answer:
+          'The free assessments linked from this page give you a genuine, usable result, not a locked preview that pushes you to pay. You only need to pay if you want a guidance session to act on the result.',
       },
     ],
   },
@@ -4255,6 +4382,11 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
         answer:
           'Yes. The linked skill-oriented assessment pages here are fully free.',
       },
+      {
+        question: 'Is this a skill assessment or a career test? What\'s the difference?',
+        answer:
+          'A skill test looks at what you\'re already capable of doing well right now, while a career test looks more broadly at fit and direction. If you want your current strengths specifically, start here.',
+      },
     ],
   },
   {
@@ -4639,6 +4771,16 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
         question: 'Should students and professionals use the same psychometric page?',
         answer:
           'Not usually. The stage changes what kind of psychometric starting point is most useful, which is why the related free options below matter.',
+      },
+      {
+        question: 'Is a psychometric test different from a regular career test?',
+        answer:
+          'A psychometric test specifically measures traits like reasoning, personality, and aptitude in a structured, scored way, which makes it more rigorous than a general interest quiz, though it\'s still completely free here.',
+      },
+      {
+        question: 'Is this free, or do psychometric tests usually cost money?',
+        answer:
+          'This one is free. Psychometric tests elsewhere often sit behind a paywall, but the version linked from this page doesn\'t.',
       },
     ],
   },
@@ -5255,6 +5397,16 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
         question: 'Should students start with a broad assessment or a narrower aptitude test?',
         answer:
           'That depends on the stage and question. Some students need broader direction first, while others already need a narrower aptitude-first page.',
+      },
+      {
+        question: 'Is this specifically for high school students, or does "students" include college too?',
+        answer:
+          'This page is built for school-stage students — high school and before college. If you\'re already in college, the college-student aptitude test is a closer match.',
+      },
+      {
+        question: 'Is there a free version for high school students, or only a paid one?',
+        answer:
+          'The assessment linked from this page is completely free for high school students. No payment is needed to see your result.',
       },
     ],
   },
