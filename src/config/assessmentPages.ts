@@ -268,7 +268,7 @@ function createBroadCareerDirectionPage({
     hubTitle: title,
     hubDescription:
       `A free starting option for ${phrase} before choosing the right assessment for your stage.`,
-    metaTitle: `${title} | Free Career Test | Future Career School`,
+    metaTitle: `${title} | Future Career School`,
     metaDescription:
       `Looking for ${phrase}? Use the free career assessment pages from Future Career School and choose the right test for your stage.`,
     h1: title,
@@ -365,7 +365,7 @@ function createStudentCareerPage({
     hubTitle: title,
     hubDescription:
       `A student-first option for ${phrase} before bigger education decisions harden.`,
-    metaTitle: `${title} | Free Student Career Test | Future Career School`,
+    metaTitle: `${title} | Future Career School`,
     metaDescription:
       `Looking for ${phrase}? Use the free student assessment pages from Future Career School and choose the right one for your stage.`,
     h1: title,
@@ -463,7 +463,7 @@ function createPsychometricAssessmentPage({
     hubTitle: title,
     hubDescription:
       `A free psychometric-style option for ${phrase} before bigger decisions harden.`,
-    metaTitle: `${title} | Free Psychometric Career Test | Future Career School`,
+    metaTitle: `${title} | Future Career School`,
     metaDescription:
       `Looking for ${phrase}? Use the free psychometric-style assessment pages from Future Career School and choose the right one for your stage.`,
     h1: title,
@@ -566,7 +566,7 @@ function createAptitudeAssessmentPage({
     hubTitle: title,
     hubDescription:
       `A free aptitude-focused option for ${phrase} before choosing a stream, course, or training path.`,
-    metaTitle: `${title} | Free Career Aptitude Test | Future Career School`,
+    metaTitle: `${title} | Future Career School`,
     metaDescription:
       `Looking for ${phrase}? Use the free aptitude-focused assessment pages from Future Career School and choose the right one for your stage.`,
     h1: title,
@@ -672,9 +672,9 @@ function createCounsellingTestPage({
     hubTitle: title,
     hubDescription:
       `A free assessment option for ${phrase} before or alongside updated career guidance.`,
-    metaTitle: `${title} | Free Career Guidance Test | Future Career School`,
+    metaTitle: `${title} | Future Career School`,
     metaDescription:
-      `Looking for ${phrase}? Use the free assessment pages from Future Career School and choose the right one before moving into updated, skill-first career guidance.`,
+      `Looking for ${phrase}? Use the free assessment from Future Career School, then move into updated career guidance if you want a fuller plan.`,
     h1: title,
     pill: 'Free assessment before the updated career guidance',
     heroSub:
@@ -769,7 +769,7 @@ function createSkillAssessmentPage({
     hubTitle: title,
     hubDescription:
       `A free skill-first option for ${phrase} when readiness, employability, or growth signals matter more than interest alone.`,
-    metaTitle: `${title} | Free Career Skill Test | Future Career School`,
+    metaTitle: `${title} | Future Career School`,
     metaDescription:
       `Looking for ${phrase}? Use the free skill-focused assessment pages from Future Career School and choose the right one for your stage.`,
     h1: title,
