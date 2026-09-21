@@ -5796,6 +5796,141 @@ const FORCED_DUPLICATE_INTENT_GROUPS: string[][] = [
   ],
   // Adult aptitude test.
   ['career-aptitude-test-for-adults', 'career-finder-test-for-adults', 'career-test-for-adults'],
+
+  // --- Second pass, based on 3 months of real Search Console performance data ---
+  // The groups above still left dozens of pages per audience that only differ by
+  // filler words (free/online/best/etc.) or a synonym of "test"/"choose"/"find".
+  // Google was only ever ranking 1-2 pages per audience anyway (everything else
+  // sat at position 20-95 with zero clicks despite real impressions), so these
+  // near-duplicates are forced together too. This does not touch the 13 hand-built
+  // ASSESSMENT_TARGETS pages (class-10-and-below, class-11-to-12,
+  // career-aptitude-test-after-10th, etc.) — only the auto-generated keyword pages
+  // that feed them.
+
+  // class1112: generic "career test/quiz" phrasing (student, no specific framework).
+  // NOTE: career-inclination-test is deliberately left OUT of this group — it is
+  // already ranking well on its own (position ~8, real clicks per GSC), so it stays
+  // a separate live page instead of folding into the (currently non-ranking) winner
+  // of this cluster.
+  [
+    'career-test',
+    'career-assessment-for-students',
+    'career-guidance-test',
+    'career-selection-test',
+    'career-path-test',
+    'career-field-test',
+    'career-predictor-test',
+    'career-test-based-on-interests',
+    'interest-based-career-test',
+    'career-options-test',
+    'career-orientation-test-free',
+    'career-advisor-test',
+    'career-exam-test',
+    'best-test-to-figure-out-career-path',
+    'career-counseling-tests-free-online',
+    'career-counselling-tests-for-students',
+    'career-guidance-aptitude-test-free',
+    'free-career-guidance-test-after-12th',
+    'career-test-online-for-12th-students',
+    'career-guidance-test-for-teenagers',
+    'fun-career-test',
+    'creative-career-test',
+    'how-to-find-your-career-passion-test',
+    'free-career-passion-test',
+    'free-career-planning-test',
+    'free-career-counselling-aptitude-test',
+    'aptitude-test-and-career-counselling',
+    'career-counselling-test',
+  ],
+  // class1112: psychometric-test phrasing specifically.
+  [
+    'psychometric-test',
+    'psychometric-test-for-students',
+    'psychometric-test-for-career-counselling',
+    'psychometric-test-for-career-guidance',
+    'psychometric-test-for-career-selection',
+  ],
+  // class1112: aptitude test for students / high schoolers.
+  [
+    'career-aptitude-test-for-students',
+    'career-aptitude-test-for-high-school-students',
+    'career-aptitude-test-for-school-students',
+    'career-interest-test-for-high-school-students',
+    'free-career-path-test-for-high-school-students',
+  ],
+  // class1112: named-framework tests (Holland Code and RIASEC are the same model).
+  ['riasec-career-test', 'holland-code-career-test'],
+
+  // aptitude12: generic "aptitude test" phrasing, no explicit 12th-grade mention.
+  [
+    'aptitude-test',
+    'career-aptitude-test',
+    'aptitude-test-for-career',
+    'aptitude-test-for-career-counselling',
+    'aptitude-test-for-career-options',
+    'aptitude-test-for-career-guidance',
+    'aptitude-test-to-choose-career',
+    'aptitude-test-to-determine-career-path',
+    'career-ability-test',
+  ],
+  // aptitude12: explicit "after 12th" aptitude test phrasing.
+  [
+    'aptitude-test-for-career-after-12th',
+    'aptitude-test-for-career-after-12th-commerce',
+    'aptitude-test-for-career-after-12th-science',
+    'aptitude-test-to-choose-career-after-12th',
+    'career-aptitude-test-for-class-12-students',
+    'career-aptitude-test-for-students-after-12th',
+  ],
+
+  // graduates: skill-focused test phrasing.
+  ['skill-test', 'skill-based-career-test'],
+  // graduates: psychometric test for career (graduate/professional framing).
+  [
+    'psychometric-test-for-career',
+    'best-psychometric-test-for-career-choice',
+    'psychometric-test-for-career-planning',
+  ],
+  // graduates: general "career fit" test phrasing.
+  [
+    'career-match-test',
+    'career-role-test',
+    'what-am-i-good-at-test-career',
+    'career-type-test',
+    'career-alignment-test',
+    'career-analysis-test',
+    'best-career-finder-test',
+    'career-proficiency-test',
+    'career-development-assessment-tests',
+  ],
+  // graduates: college-student-specific aptitude test phrasing.
+  [
+    'career-aptitude-test-for-college-students',
+    'career-aptitude-test-free-for-college-students',
+    'career-interest-test-for-college-students',
+    'career-assessment-test-free-college-students',
+  ],
+  // graduates: after-graduation phrasing.
+  ['career-test-after-graduation', 'aptitude-test-for-career-selection-after-graduation'],
+
+  // professionals: adult aptitude/interest test phrasing.
+  ['career-aptitude-test-for-adults', 'career-interest-test-for-adults'],
+  // professionals: career-change / transition phrasing (kept separate from the
+  // generic adult test above — this is a distinct search intent).
+  [
+    'career-transition-assessment',
+    'aptitude-test-for-career-change',
+    'midlife-career-change-aptitude-test',
+    'career-change-test',
+  ],
+
+  // aptitude10: "aptitude test after 10th" phrasing, class-10-specific wording.
+  [
+    'career-aptitude-test-for-class-10',
+    'career-aptitude-test-for-students-class-10',
+    'aptitude-test-for-career-guidance-after-10th',
+    'aptitude-test-to-choose-career-after-10th',
+  ],
 ];
 
 const slugToIndex = new Map(ALL_ASSESSMENT_PAGES.map((page, index) => [page.slug, index]));
