@@ -224,6 +224,48 @@ const assessmentSlug = Astro.url.pathname
         parent.textContent = `${baseText} (${badgeText})`;
       }
     });
+    // A "Skills to develop:" label followed by a run of small colored pill
+    // <span>s (e.g. "Time Management", "Planning", "Documentation") reads
+    // fine visually - each pill is a distinct tag - but `.innerText` has no
+    // way to know they are separate tags rather than one sentence, so they
+    // extract as a single run-on line with no separator ("Skills to
+    // develop: Time Management Planning Documentation"), which reads like
+    // gibberish. Rebuild the line with the tags explicitly comma-separated.
+    exportContainer.querySelectorAll('.res-skill-tags').forEach((wrap) => {
+      const wrapEl = wrap as HTMLElement;
+      const tagEls = Array.from(wrapEl.querySelectorAll('.res-skill-tag'));
+      if (!tagEls.length) return;
+      const labelEl = wrapEl.querySelector('span');
+      const labelText = cleanPdfText(labelEl?.innerText || 'Skills to develop:');
+      const tagText = tagEls
+        .map((el) => cleanPdfText((el as HTMLElement).innerText))
+        .filter(Boolean)
+        .join(', ');
+      if (tagText) {
+        wrapEl.textContent = `${labelText} ${tagText}`;
+      }
+    });
+    // A numbered circular/pill badge (e.g. "1", "2", "3") sits next to its
+    // item's text as two sibling elements inside a `display:flex` row (used
+    // for "Next Steps" activity lists and "N Things You Can Start Today" /
+    // "N Career Moves" cards). Extracted separately, each bare digit becomes
+    // its own tiny line - and a later heuristic that reunites a label
+    // accidentally split from a following bare score can mistake this digit
+    // for that label's score, silently swallowing an entire step (its
+    // number gets appended to the PREVIOUS step's line as "... — 3", and
+    // that step itself is left with no visible index at all). Fold the
+    // badge number into its own item's text as "N. <text>" before
+    // extraction so no bare digit line is ever produced.
+    exportContainer.querySelectorAll('.start-num, .res-step-badge').forEach((badge) => {
+      const badgeEl = badge as HTMLElement;
+      const numText = cleanPdfText(badgeEl.innerText);
+      const sibling = badgeEl.nextElementSibling as HTMLElement | null;
+      if (!numText || !sibling) return;
+      const siblingText = cleanPdfText(sibling.innerText);
+      if (!siblingText) return;
+      sibling.textContent = `${numText}. ${siblingText}`;
+      badgeEl.remove();
+    });
     // `.innerText` is expected to insert a tab between adjacent table cells,
     // but that only holds when every ancestor keeps its table layout boxes -
     // easy to lose once a table sits inside an off-screen, width-forced

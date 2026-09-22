@@ -397,7 +397,16 @@ export function createVisualAssessmentPdf(
   const renderMetric = (line: VisualReportLine, match: RegExpMatchArray) => {
     const rawValue = Number(match[1]);
     const barValue = Math.max(0, Math.min(100, rawValue));
-    const wrapped = measureWrap(line.text, contentWidth - 28, 'bold', 9.2);
+    // Text is drawn starting at marginX + 30 (past the gold value badge), so
+    // the wrap width must be measured from that same offset, with a small
+    // right-hand buffer before the rounded box edge - matching the pattern
+    // every other badge+text row in this file uses. This used to wrap
+    // against contentWidth - 28 (as if the text started at marginX), which
+    // is wider than the actual space between the badge and the box's right
+    // edge. For a short label that was invisible, but a long metric label
+    // (e.g. a full sentence ending in "...NN%") would run past the box
+    // border with no wrapping to catch it.
+    const wrapped = measureWrap(line.text, contentWidth - 36, 'bold', 9.2);
     const height = Math.max(22, wrapped.length * 4.4 + 12);
     ensureSpace(height + 3);
     setFill(COLORS.navySoft);
