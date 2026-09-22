@@ -144,10 +144,15 @@ const assessmentSlug = Astro.url.pathname
 
     const exportContainer = container.cloneNode(true) as HTMLElement;
     exportContainer
-      .querySelectorAll('.result-actions, .report-actions, [data-result-actions]')
+      .querySelectorAll(
+        '.result-actions, .report-actions, [data-result-actions], .assessment-report-actions, .assessment-quick-nav, .assessment-section-toggle'
+      )
       .forEach((actions) => actions.remove());
     exportContainer.querySelectorAll('details').forEach((details) => {
       details.open = true;
+    });
+    exportContainer.querySelectorAll('.is-collapsed').forEach((collapsed) => {
+      collapsed.classList.remove('is-collapsed');
     });
     exportContainer.style.cssText =
       'position:fixed;left:-10000px;top:0;width:900px;opacity:0;pointer-events:none;z-index:-1;';
