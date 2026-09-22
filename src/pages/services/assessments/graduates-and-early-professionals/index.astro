@@ -1197,9 +1197,9 @@ function calculateCognitiveBalance(scores) {
 }
 
 function calculateCareerReadiness(patterns, percentiles, primary) {
-  var convictionScore = patterns.convictionLevel === 'High' ? 85 : patterns.convictionLevel === 'Moderate' ? 65 : 45;
+  var convictionScore = typeof patterns.convictionScore === 'number' ? patterns.convictionScore : 45;
   var clarityScore = percentiles[primary] || 50;
-  var consistencyScore = patterns.consistency || 50;
+  var consistencyScore = patterns.contradictions ? Math.max(0, 100 - patterns.contradictions.length * 20) : 50;
 
   var readiness = Math.round((convictionScore + clarityScore + consistencyScore) / 3);
   var stage = readiness > 75 ? 'Ready to Move' : readiness > 60 ? 'Building Clarity' : 'Still Exploring';
@@ -1263,9 +1263,9 @@ function calculateAptitudeProfile(scores) {
 }
 
 function calculateAdaptability(patterns, conflicts) {
-  var consistencyBonus = patterns.consistency > 70 ? 20 : 10;
+  var consistencyBonus = patterns.contradictions && patterns.contradictions.length === 0 ? 20 : 10;
   var conflictPenalty = (conflicts && Object.keys(conflicts).length > 0) ? -10 : 10;
-  var convictionBonus = patterns.convictionLevel === 'Exploring' ? 30 : 0;
+  var convictionBonus = patterns.conviction === 'Exploring' ? 30 : 0;
 
   var score = Math.max(0, Math.min(100, 50 + consistencyBonus + conflictPenalty + convictionBonus));
   var adaptability = score > 70 ? 'Highly Adaptable' : score > 50 ? 'Moderately Adaptable' : 'Prefers Clarity';
@@ -1400,9 +1400,17 @@ function computeProfile() {
   var patterns = analyzeResponsePatterns();
   var careerStage = inferMonthsSinceGraduation();
 
+  // How decisively the primary type stands out above the secondary type -
+  // percentiles[primary] is always 100 by construction (it's normalized against
+  // its own max), so it can't be used as a "clarity" signal on its own.
+  var clarityPercentiles = Object.assign({}, percentiles);
+  clarityPercentiles[primary] = riasecMax > 0
+    ? Math.max(40, Math.min(100, Math.round(40 + ((scores[primary] - scores[secondary]) / riasecMax) * 60)))
+    : 50;
+
   // Additional metrics
   var cogBalance = calculateCognitiveBalance(scores);
-  var readiness = calculateCareerReadiness(patterns, percentiles, primary);
+  var readiness = calculateCareerReadiness(patterns, clarityPercentiles, primary);
   var lsAlign = calculateLearningStyleAlignment(topLS, primary);
   var aptProfile = calculateAptitudeProfile(scores);
   var adapt = calculateAdaptability(patterns, conflicts);

@@ -1791,10 +1791,10 @@ function mapProfileToCoachesSkills(primary) {
 }
 
 function calculateCognitiveBalance(scores) {
-  var logical = (scores.pivot || 0 + scores.income || 0) / 2;
+  var logical = ((scores.pivot || 0) + (scores.income || 0)) / 2;
   var creative = (scores.startup || 0) / 1;
   var social = (scores.leadership || 0) / 1;
-  var practical = (scores.remote || 0 + scores.ai || 0) / 2;
+  var practical = ((scores.remote || 0) + (scores.ai || 0)) / 2;
 
   var all = [logical, creative, social, practical];
   var max = Math.max(...all);
@@ -1864,9 +1864,9 @@ function calculateAptitudeProfile(scores) {
 }
 
 function calculateCareerReadiness(patterns, percentiles, primary) {
-  var convictionScore = patterns && patterns.convictionLevel === 'High' ? 85 : patterns && patterns.convictionLevel === 'Moderate' ? 65 : 45;
+  var convictionScore = patterns && typeof patterns.convictionScore === 'number' ? patterns.convictionScore : 45;
   var clarityScore = percentiles && percentiles[primary] ? percentiles[primary] : 50;
-  var consistencyScore = patterns && patterns.consistency ? patterns.consistency : 50;
+  var consistencyScore = patterns && patterns.contradictions ? Math.max(0, 100 - patterns.contradictions.length * 20) : 50;
 
   var readiness = Math.round((convictionScore + clarityScore + consistencyScore) / 3);
   var stage = readiness > 75 ? 'Ready to Execute' : readiness > 60 ? 'Building Strategy' : 'Early Assessment';
@@ -1884,9 +1884,9 @@ function calculateCareerReadiness(patterns, percentiles, primary) {
 }
 
 function calculateAdaptability(patterns, conflicts) {
-  var consistencyBonus = patterns && patterns.consistency > 70 ? 20 : 10;
+  var consistencyBonus = patterns && patterns.contradictions && patterns.contradictions.length === 0 ? 20 : 10;
   var conflictPenalty = (conflicts && Object.keys(conflicts).length > 0) ? -10 : 10;
-  var convictionBonus = patterns && patterns.convictionLevel === 'Exploring' ? 30 : 0;
+  var convictionBonus = patterns && patterns.conviction === 'Exploring options' ? 30 : 0;
 
   var score = Math.max(0, Math.min(100, 50 + consistencyBonus + conflictPenalty + convictionBonus));
   var adaptability = score > 70 ? 'Highly Adaptable' : score > 50 ? 'Moderately Adaptable' : 'Needs Stability';
@@ -1916,16 +1916,16 @@ function computeProfile() {
   }
 
   // Assign archetype
-  var archetype = assignArchetype(scores);
+  var archetype = assignArchetype(percentiles);
 
   // Estimate timeline
-  var timeline = estimateTimeline(scores.pivot, scores.leadership, scores.income);
+  var timeline = estimateTimeline(percentiles.pivot, percentiles.leadership, percentiles.income);
 
   // Get dimension interaction
-  var dimInteraction = getDimensionInteraction(scores, primary);
+  var dimInteraction = getDimensionInteraction(percentiles, primary);
 
   // Detect dimension conflicts
-  var conflicts = detectDimensionConflicts(scores, primary);
+  var conflicts = detectDimensionConflicts(percentiles, primary);
 
   // Get coaches frameworks
   var coachesRecommendations = mapProfileToCoachesSkills(primary);
@@ -1941,11 +1941,11 @@ function computeProfile() {
 
   // Additional metrics
   var patterns = analyzeResponsePatterns(answers);
-  var cogBalance = calculateCognitiveBalance(scores);
+  var cogBalance = calculateCognitiveBalance(percentiles);
   var readiness = calculateCareerReadiness(patterns, percentiles, primary);
   var adapt = calculateAdaptability(patterns, conflicts);
   var lsAlign = calculateLearningStyleAlignment('aud', primary);
-  var aptProfile = calculateAptitudeProfile(scores);
+  var aptProfile = calculateAptitudeProfile(percentiles);
 
   return {
     primary: primary,
