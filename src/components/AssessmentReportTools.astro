@@ -411,6 +411,135 @@ const assessmentSlug = Astro.url.pathname
         void triggerReportDownload(container);
       });
     container.prepend(actions);
+    enhanceLongResults(container);
+  }
+
+  // Reduces perceived scroll length on long result pages: adds a sticky
+  // jump-to-section nav and collapses the less-critical sections by
+  // default (the first few sections, which always carry the core
+  // profile/score and the career options, stay open). Collapsing is done
+  // with max-height/opacity only — never `display:none` or the `hidden`
+  // attribute — so every section's full text remains part of the normal
+  // render tree and is still captured intact by collectReportLines() for
+  // the PDF export, regardless of its on-screen collapsed state.
+  const SECTIONS_KEPT_OPEN = 3;
+  const MIN_SECTIONS_TO_ENHANCE = 6;
+
+  function enhanceLongResults(container: HTMLElement) {
+    if (container.querySelector('.assessment-quick-nav')) return;
+
+    const allSections = Array.from(
+      container.querySelectorAll<HTMLElement>('.result-section, .res-section')
+    );
+    const sections = allSections.filter(
+      (el) => !allSections.some((other) => other !== el && other.contains(el))
+    );
+    if (sections.length < MIN_SECTIONS_TO_ENHANCE) return;
+
+    const nav = document.createElement('nav');
+    nav.className = 'assessment-quick-nav';
+    nav.setAttribute('aria-label', 'Jump to a section of your results');
+    const navList = document.createElement('div');
+    navList.className = 'assessment-quick-nav__list';
+    nav.appendChild(navList);
+
+    const expandAllButton = document.createElement('button');
+    expandAllButton.type = 'button';
+    expandAllButton.className = 'assessment-quick-nav__expand-all';
+    expandAllButton.textContent = 'Expand all sections';
+    nav.appendChild(expandAllButton);
+
+    const collapsibleToggles: { section: HTMLElement; toggle: HTMLButtonElement }[] = [];
+
+    sections.forEach((section, index) => {
+      const heading = section.querySelector<HTMLElement>('h2,h3,h4,h5');
+      const label = heading?.textContent?.trim() || `Section ${index + 1}`;
+      if (!section.id) {
+        const slug = label
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '')
+          .slice(0, 40);
+        section.id = `result-section-${index}-${slug || 'item'}`;
+      }
+
+      const link = document.createElement('a');
+      link.href = `#${section.id}`;
+      link.textContent = label;
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        section.classList.remove('is-collapsed');
+        const toggleEntry = collapsibleToggles.find((entry) => entry.section === section);
+        toggleEntry?.toggle.setAttribute('aria-expanded', 'true');
+        if (toggleEntry) toggleEntry.toggle.textContent = 'Hide this section';
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', `#${section.id}`);
+      });
+      navList.appendChild(link);
+
+      if (index >= SECTIONS_KEPT_OPEN && heading) {
+        const headerNode = heading.closest<HTMLElement>('.res-section-header') || heading;
+
+        let node = headerNode.nextSibling;
+        const toMove: ChildNode[] = [];
+        while (node) {
+          toMove.push(node);
+          node = node.nextSibling;
+        }
+
+        // Safety net for pages whose generated HTML has a stray unclosed
+        // tag: never collapse a section whose body would end up swallowing
+        // another recognised section, or any save/download/retake/CTA
+        // control, since that would make that content unreachable on
+        // screen. When in doubt, leave the section fully visible.
+        const swallowsSomethingCritical = toMove.some((n) => {
+          if (n.nodeType !== 1) return false;
+          const el = n as HTMLElement;
+          if (allSections.some((other) => other !== section && (other === el || el.contains(other)))) {
+            return true;
+          }
+          const ctaSelector =
+            '.result-actions, .res-guidance, .assessment-report-actions, [data-download-assessment-report], [data-save-assessment-result], [onclick*="retake" i], [onclick*="download" i]';
+          return el.matches(ctaSelector) || !!el.querySelector(ctaSelector);
+        });
+        if (swallowsSomethingCritical) return;
+
+        section.classList.add('is-collapsible', 'is-collapsed');
+        const bodyWrap = document.createElement('div');
+        bodyWrap.className = 'assessment-section-body';
+        toMove.forEach((n) => bodyWrap.appendChild(n));
+        headerNode.insertAdjacentElement('afterend', bodyWrap);
+
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'assessment-section-toggle';
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = 'Show this section';
+        toggle.addEventListener('click', () => {
+          const collapsed = section.classList.toggle('is-collapsed');
+          toggle.setAttribute('aria-expanded', String(!collapsed));
+          toggle.textContent = collapsed ? 'Show this section' : 'Hide this section';
+        });
+        headerNode.insertAdjacentElement('afterend', toggle);
+        collapsibleToggles.push({ section, toggle });
+      }
+    });
+
+    if (!collapsibleToggles.length) return;
+
+    expandAllButton.addEventListener('click', () => {
+      const anyCollapsed = collapsibleToggles.some(({ section }) =>
+        section.classList.contains('is-collapsed')
+      );
+      collapsibleToggles.forEach(({ section, toggle }) => {
+        section.classList.toggle('is-collapsed', !anyCollapsed);
+        toggle.setAttribute('aria-expanded', String(anyCollapsed));
+        toggle.textContent = anyCollapsed ? 'Hide this section' : 'Show this section';
+      });
+      expandAllButton.textContent = anyCollapsed ? 'Collapse extra sections' : 'Expand all sections';
+    });
+
+    sections[0].parentElement?.insertBefore(nav, sections[0]);
   }
 
   document.querySelectorAll<HTMLElement>('.assessment-first-flow').forEach((flow) => {
@@ -536,6 +665,110 @@ const assessmentSlug = Astro.url.pathname
     color: rgba(255, 255, 255, 0.58);
     font-size: 0.78rem;
     line-height: 1.5;
+  }
+
+  .assessment-report-results .result-section,
+  .assessment-report-results .res-section {
+    scroll-margin-top: 8.75rem;
+  }
+
+  .assessment-quick-nav {
+    position: sticky;
+    top: 4.35rem;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 1.25rem;
+    padding: 0.55rem 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+    background: rgba(16, 22, 38, 0.92);
+    backdrop-filter: blur(6px);
+  }
+
+  .assessment-quick-nav__list {
+    display: flex;
+    flex: 1 1 auto;
+    gap: 0.45rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .assessment-quick-nav__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .assessment-quick-nav__list a {
+    flex: 0 0 auto;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid rgba(45, 212, 191, 0.28);
+    border-radius: 999px;
+    background: rgba(45, 212, 191, 0.08);
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .assessment-quick-nav__list a:hover,
+  .assessment-quick-nav__list a:focus-visible {
+    border-color: rgba(45, 212, 191, 0.6);
+    background: rgba(45, 212, 191, 0.16);
+  }
+
+  .assessment-quick-nav__expand-all {
+    flex: 0 0 auto;
+    padding: 0.4rem 0.7rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--gold, #e5b84a);
+    color: #101626;
+    font-size: 0.76rem;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .assessment-section-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin: 0.4rem 0 0.75rem;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid rgba(229, 184, 74, 0.4);
+    border-radius: 999px;
+    background: rgba(229, 184, 74, 0.1);
+    color: #f0d38a;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .assessment-section-toggle:hover,
+  .assessment-section-toggle:focus-visible {
+    border-color: rgba(229, 184, 74, 0.7);
+    background: rgba(229, 184, 74, 0.18);
+  }
+
+  .assessment-section-body {
+    overflow: hidden;
+    max-height: none;
+    opacity: 1;
+  }
+
+  .is-collapsible.is-collapsed .assessment-section-body {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  @media (max-width: 620px) {
+    .assessment-quick-nav {
+      top: 3.6rem;
+    }
   }
 
   @media (max-width: 760px) {
