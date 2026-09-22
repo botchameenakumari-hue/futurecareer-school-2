@@ -2012,6 +2012,7 @@ function buildRiasecBars(riasecSorted) {
     return '<div class="rb-row">' +
       '<div class="rb-label"><span class="rb-dot" style="background:' + p.color + '"></span>' + p.emoji + ' <strong>' + p.label + '</strong></div>' +
       '<div class="rb-track"><div class="rb-fill" style="width:' + pct + '%;background:' + p.color + '"></div></div>' +
+      '<div class="rb-pct" style="color:' + p.color + '">' + pct + '%</div>' +
     '</div>';
   }).join('');
 }
@@ -2026,7 +2027,7 @@ function buildAptitudeBars(aptMax) {
     var pct = Math.max(Math.round((scores[it.key] / aptMax) * 100), 2);
     var level = pct >= 80 ? 'Very Strong' : pct >= 55 ? 'Strong' : pct >= 35 ? 'Moderate' : 'Developing';
     return '<div class="apt-row">' +
-      '<div class="apt-label">' + it.emoji + ' <strong>' + it.label + '</strong> <span class="apt-level" style="color:' + it.color + '">' + level + '</span></div>' +
+      '<div class="apt-label">' + it.emoji + ' <strong>' + it.label + '</strong> <span class="apt-level" style="color:' + it.color + '">' + level + ' (' + pct + '%)</span></div>' +
       '<div class="apt-track"><div class="apt-fill" style="width:' + pct + '%;background:' + it.color + '"></div></div>' +
     '</div>';
   }).join('');
@@ -2128,6 +2129,7 @@ function showResults() {
       '<div class="mi-card-emoji">' + m.emoji + '</div>' +
       '<div class="mi-card-name" style="' + (isTop ? 'color:' + m.color : '') + '">' + m.label + (isTop ? ' ★' : '') + '</div>' +
       '<div class="mi-card-bar-track"><div class="mi-card-bar-fill" style="width:' + barPct + '%;background:' + m.color + '"></div></div>' +
+      '<div class="mi-card-pct" style="color:' + m.color + '">' + barPct + '%</div>' +
     '</div>';
   }).join('');
 
@@ -3496,6 +3498,7 @@ globalThis.retakeQuiz = retakeQuiz;
   .rb-label { display: flex; align-items: center; gap: .4rem; font-size: 13px; min-width: 165px; }
   .rb-track { flex: 1; height: 10px; background: rgba(255,255,255,.07); border-radius: 999px; overflow: hidden; }
   .rb-fill { height: 100%; border-radius: 999px; transition: width .6s ease; }
+  .rb-pct { font-size: 12px; font-weight: 700; min-width: 34px; text-align: right; }
   .riasec-legend { display: flex; flex-wrap: wrap; gap: .4rem .9rem; margin-top: .5rem; }
   .legend-item { font-size: 12px; color: rgba(255,255,255,.5); display: flex; align-items: center; gap: .3rem; }
 
@@ -3550,6 +3553,7 @@ globalThis.retakeQuiz = retakeQuiz;
   .mi-card-name { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.75); margin-bottom: .4rem; }
   .mi-card-bar-track { height: 5px; background: rgba(255,255,255,.08); border-radius: 999px; overflow: hidden; }
   .mi-card-bar-fill { height: 100%; border-radius: 999px; }
+  .mi-card-pct { font-size: 10.5px; font-weight: 700; margin-top: .3rem; text-align: right; }
   .mi-detail-box { padding: 1rem 1.1rem; border-radius: 12px; font-size: 13.5px; }
   .mi-tip-inner { margin-top: .6rem; font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.6; }
 
