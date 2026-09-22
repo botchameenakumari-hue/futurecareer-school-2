@@ -35,6 +35,167 @@ const COLORS = {
   line: [220, 226, 232],
 } satisfies Record<string, Rgb>;
 
+// On the live page, a stat/skill/percentile row is usually built from two
+// sibling elements (a label span and a value span) so it lines up visually.
+// `.innerText` reads them as two separate lines, which breaks them apart
+// here (the value renders as an orphaned bar with no label, and vice versa).
+// Re-merge a short label immediately followed by a bare "NN%" line into one
+// line so the renderer can show them together.
+// A dual-sided "slider" row (e.g. "People-Oriented" vs "Independently
+// Driven") is built from FOUR sibling spans on the live page: a left label,
+// a right label, then (after the non-text fill bars) a left percentage and
+// a right percentage. `.innerText` flattens all four into separate lines in
+// that same order. The generic single-pair merge below only ever catches
+// the line immediately before a "NN%" value, so it pairs the RIGHT label
+// with the LEFT value and leaves the left label and the right value both
+// orphaned. Detect the specific 4-line [label, label, pct%, pct%] shape
+// first and pair each label with its matching value before that happens.
+function mergeDualSliderPairs(lines: VisualReportLine[]): VisualReportLine[] {
+  const merged: VisualReportLine[] = [];
+  const isPlainLabel = (l?: VisualReportLine) =>
+    !!l &&
+    l.kind === 'body' &&
+    l.text.trim().length > 0 &&
+    l.text.trim().length <= 40 &&
+    !/[%:.]$/.test(l.text.trim()) &&
+    !/^\d/.test(l.text.trim());
+  const isPct = (l?: VisualReportLine) => !!l && l.kind === 'body' && /^\d{1,3}\s?%$/.test(l.text.trim());
+  for (let i = 0; i < lines.length; i += 1) {
+    const leftLabel = lines[i];
+    const rightLabel = lines[i + 1];
+    const leftPct = lines[i + 2];
+    const rightPct = lines[i + 3];
+    if (isPlainLabel(leftLabel) && isPlainLabel(rightLabel) && isPct(leftPct) && isPct(rightPct)) {
+      merged.push({ kind: 'body', text: `${leftLabel.text.trim()} — ${leftPct.text.trim()}` });
+      merged.push({ kind: 'body', text: `${rightLabel.text.trim()} — ${rightPct.text.trim()}` });
+      i += 3;
+      continue;
+    }
+    merged.push(leftLabel);
+  }
+  return merged;
+}
+
+function mergeLabelValuePairs(lines: VisualReportLine[]): VisualReportLine[] {
+  const merged: VisualReportLine[] = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    const current = lines[i];
+    const next = lines[i + 1];
+    const afterNext = lines[i + 2];
+    const currentText = current.text.trim();
+    const nextText = next?.text.trim() ?? '';
+    const label = currentText.replace(/:$/, '').trim();
+    const isPlainLabel =
+      label.length > 0 && label.length <= 60 && !/[%.]$/.test(label) && !/^\d/.test(label);
+    if (current.kind === 'body' && next && next.kind === 'body' && /^\d{1,3}\s?%$/.test(nextText) && isPlainLabel) {
+      merged.push({ kind: 'body', text: `${label} — ${nextText}` });
+      i += 1;
+      continue;
+    }
+    // A "Percentile" caption followed by a bare score (no % sign, e.g. a
+    // 0-100 dimension percentile shown as a plain number) - same split, no %.
+    if (
+      current.kind === 'body' &&
+      next &&
+      next.kind === 'body' &&
+      /^percentile$/i.test(currentText) &&
+      /^\d{1,3}$/.test(nextText)
+    ) {
+      merged.push({ kind: 'body', text: `${currentText} — ${nextText}%` });
+      i += 1;
+      continue;
+    }
+    merged.push(current);
+  }
+  return merged;
+}
+
+// A short label followed by a bare, un-suffixed score (no "%"), e.g. a
+// readiness/aptitude card showing "Move to New Domain" then "36" (optionally
+// then a separate "/100" line). Without this, the bare number falls through
+// to the generic "standalone 1-2 digit number" renderer, which draws it as a
+// numbered step badge - visually implying it's a list index rather than a
+// score - and leaves its label orphaned above.
+//
+// This has to stay section-scoped and run AFTER the document is split into
+// sections (unlike the merges above): a 32-question response review has
+// MANY standalone bare numbers throughout the whole document, but within
+// any one non-review section there are only ever a handful, so only a
+// per-section count can tell a real "label, score" card apart from a
+// "tag | 0 sec" / next-question-number sequence elsewhere in the report.
+function mergeBareScorePairs(sectionLines: VisualReportLine[]): VisualReportLine[] {
+  const merged: VisualReportLine[] = [];
+  for (let i = 0; i < sectionLines.length; i += 1) {
+    const current = sectionLines[i];
+    const next = sectionLines[i + 1];
+    const afterNext = sectionLines[i + 2];
+    const currentText = current.text.trim();
+    const nextText = next?.text.trim() ?? '';
+    const label = currentText.replace(/:$/, '').trim();
+    const isPlainLabel =
+      label.length > 0 && label.length <= 60 && !/[%.]$/.test(label) && !/^\d/.test(label);
+    if (current.kind === 'body' && next && next.kind === 'body' && /^\d{1,3}$/.test(nextText) && isPlainLabel) {
+      const hasMaxSuffix = !!afterNext && afterNext.kind === 'body' && /^\/\s?\d{1,4}$/.test(afterNext.text.trim());
+      const value = hasMaxSuffix ? `${nextText}${afterNext!.text.trim().replace(/^\/\s?/, '/')}` : nextText;
+      merged.push({ kind: 'body', text: `${label} — ${value}` });
+      i += hasMaxSuffix ? 2 : 1;
+      continue;
+    }
+    merged.push(current);
+  }
+  return merged;
+}
+
+// A repeating card grid (e.g. one "Worth exploring" / "<Archetype>" badge per
+// career-name card) reads as the SAME short line many times in a row once
+// flattened to text. Treated individually, each repeat gets the full ALL-CAPS
+// callout banner treatment meant for a one-off section label, drowning the
+// actual career names in giant colored bands. When a short line repeats 3+
+// times in one section, fold it into the line that follows it instead.
+function mergeRepeatedBadges(sectionLines: VisualReportLine[]): VisualReportLine[] {
+  const frequency = new Map<string, number>();
+  sectionLines.forEach((l) => {
+    if (l.kind === 'body') frequency.set(l.text, (frequency.get(l.text) || 0) + 1);
+  });
+  const merged: VisualReportLine[] = [];
+  for (let i = 0; i < sectionLines.length; i += 1) {
+    const current = sectionLines[i];
+    const previous = sectionLines[i - 1];
+    const next = sectionLines[i + 1];
+    const nextText = next?.text.trim() ?? '';
+    // A response-review question number (bare "13", or "13. question text")
+    // must never be swallowed here - it belongs to the numbered response-card
+    // logic below, which needs to see it as its own line to group correctly.
+    const nextIsResponseNumber = /^\d{1,2}$/.test(nextText) || /^\d{1,2}\.\s+/.test(nextText);
+    // A short word right after a percentage/metric line (e.g. a strength
+    // tier caption like "Low Focus" under a percentile bar) is a TRAILING
+    // caption for what came before it, not a leading tag for what follows -
+    // pairing it with the next line would misattribute it to the wrong item.
+    const previousLooksLikeMetric = !!previous && /\d\s*%/.test(previous.text);
+    // A genuine repeatable tag/badge is short label-like text - never a data
+    // readout (which will contain digits, "|", or "sec").
+    const looksLikeTag = current.kind === 'body' && !/[\d|]/.test(current.text) && !/\bsec\b/i.test(current.text);
+    const isRepeatedShortBadge =
+      looksLikeTag &&
+      current.text.length > 0 &&
+      current.text.length <= 30 &&
+      (frequency.get(current.text) || 0) >= 3;
+    if (
+      isRepeatedShortBadge &&
+      next &&
+      (next.kind === 'body' || next.kind === 'bullet') &&
+      !nextIsResponseNumber &&
+      !previousLooksLikeMetric
+    ) {
+      merged.push({ kind: next.kind, text: `${current.text}: ${next.text}` });
+      i += 1;
+      continue;
+    }
+    merged.push(current);
+  }
+  return merged;
+}
+
 function groupSections(lines: VisualReportLine[]): VisualReportSection[] {
   const sections: VisualReportSection[] = [];
   let current: VisualReportSection = { title: 'Your Result at a Glance', lines: [] };
@@ -68,7 +229,7 @@ export function createVisualAssessmentPdf(
   const marginX = 15;
   const contentWidth = pageWidth - marginX * 2;
   const contentBottom = pageHeight - 18;
-  const sections = groupSections(lines);
+  const sections = groupSections(mergeLabelValuePairs(mergeDualSliderPairs(lines)));
   let y = 0;
   let onContentPage = false;
 
@@ -76,6 +237,18 @@ export function createVisualAssessmentPdf(
   const setText = (color: Rgb) => pdf.setTextColor(...color);
   const setDraw = (color: Rgb) => pdf.setDrawColor(...color);
   const wrap = (text: string, width: number) => pdf.splitTextToSize(text, width) as string[];
+  // `splitTextToSize` measures using whatever font/size is CURRENTLY set on
+  // the pdf object - not the font the text will eventually be drawn with.
+  // Calling `wrap()` before setting that font (as several renderers below
+  // used to) measures against font state left over from an unrelated,
+  // previous draw call, which can under-count how much width the real text
+  // needs and let it run past the card edge. Always set the font this text
+  // will actually be drawn with before measuring it.
+  const measureWrap = (text: string, width: number, style: 'normal' | 'bold', size: number) => {
+    pdf.setFont('helvetica', style);
+    pdf.setFontSize(size);
+    return pdf.splitTextToSize(text, width) as string[];
+  };
 
   const drawContentChrome = () => {
     onContentPage = true;
@@ -187,7 +360,7 @@ export function createVisualAssessmentPdf(
   };
 
   const renderSectionHeader = (section: VisualReportSection, index: number) => {
-    const titleLines = wrap(section.title, contentWidth - 28);
+    const titleLines = measureWrap(section.title, contentWidth - 28, 'bold', 14);
     const height = Math.max(25, titleLines.length * 7.5 + 13);
     ensureSpace(height + 6);
     setFill(COLORS.navy);
@@ -209,7 +382,7 @@ export function createVisualAssessmentPdf(
 
   const renderSubheading = (line: VisualReportLine) => {
     const fontSize = line.kind === 'heading-2' ? 11.5 : 10;
-    const wrapped = wrap(line.text, contentWidth - 8);
+    const wrapped = measureWrap(line.text, contentWidth - 8, 'bold', fontSize);
     const height = wrapped.length * (fontSize * 0.42) + 7;
     ensureSpace(height);
     setFill(line.kind === 'heading-2' ? COLORS.gold : COLORS.teal);
@@ -224,7 +397,7 @@ export function createVisualAssessmentPdf(
   const renderMetric = (line: VisualReportLine, match: RegExpMatchArray) => {
     const rawValue = Number(match[1]);
     const barValue = Math.max(0, Math.min(100, rawValue));
-    const wrapped = wrap(line.text, contentWidth - 28);
+    const wrapped = measureWrap(line.text, contentWidth - 28, 'bold', 9.2);
     const height = Math.max(22, wrapped.length * 4.4 + 12);
     ensureSpace(height + 3);
     setFill(COLORS.navySoft);
@@ -236,6 +409,7 @@ export function createVisualAssessmentPdf(
     pdf.setFontSize(11);
     pdf.text(`${rawValue}%`, marginX + 15.5, y + 13, { align: 'center' });
     setText(COLORS.white);
+    pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(9.2);
     pdf.text(wrapped, marginX + 30, y + 8.5, { lineHeightFactor: 1.25 });
     setFill([46, 61, 81]);
@@ -254,7 +428,7 @@ export function createVisualAssessmentPdf(
   };
 
   const renderBullet = (line: VisualReportLine) => {
-    const wrapped = wrap(line.text, contentWidth - 15);
+    const wrapped = measureWrap(line.text, contentWidth - 15, 'normal', 9.1);
     const height = Math.max(11, wrapped.length * 4.25 + 5);
     ensureSpace(height + 2);
     setFill(COLORS.tealSoft);
@@ -285,7 +459,10 @@ export function createVisualAssessmentPdf(
       return;
     }
 
-    const metricMatch = line.text.match(/\b(\d{1,3})\s*%/);
+    // "NN/100" is mathematically identical to "NN%" - treat it the same so
+    // a score shown as ".../100" gets the same styled bar as a percentage,
+    // instead of falling through to plain text or a numbered step badge.
+    const metricMatch = line.text.match(/\b(\d{1,3})\s*%/) || line.text.match(/\b(\d{1,3})\s*\/\s*100\b/);
     if (metricMatch && line.text.length < 165) {
       renderMetric(line, metricMatch);
       return;
@@ -296,8 +473,19 @@ export function createVisualAssessmentPdf(
       (/^(your|top|best|next|focus|strength|risk|readiness|timeline|income|freedom|important|remember|action)\b/i.test(
         line.text
       ) ||
-        /^[A-Z][A-Z\s&/()-]{3,}$/.test(line.text));
-    const wrapped = wrap(line.text, isCallout ? contentWidth - 14 : contentWidth - 2);
+        /^[A-Z][A-Z\s&/()-]{1,}$/.test(line.text) ||
+        // An ALL-CAPS tag/fit label followed by its (mixed-case) detail,
+        // e.g. "STRONGEST FIT: Engineering and technical trades..." or
+        // "WORTH EXPLORING: Data science, analytics...". Without this,
+        // these read as a wall of near-identical plain paragraph lines
+        // instead of a styled callout like the rest of the section.
+        /^[A-Z][A-Z\s&/()-]{2,}:\s+\S/.test(line.text));
+    const wrapped = measureWrap(
+      line.text,
+      isCallout ? contentWidth - 14 : contentWidth - 2,
+      isCallout ? 'bold' : 'normal',
+      isCallout ? 9.3 : 9
+    );
     const height = wrapped.length * 4.35 + (isCallout ? 8 : 3.5);
     ensureSpace(height + 1);
     if (isCallout) {
@@ -315,10 +503,15 @@ export function createVisualAssessmentPdf(
     y += height + 1;
   };
 
+  const wrapResponseBlockLines = (contentLines: VisualReportLine[], textWidth: number) =>
+    contentLines.map((line, index) =>
+      measureWrap(line.text, textWidth, index === 0 ? 'bold' : 'normal', index === 0 ? 8.8 : 8.2)
+    );
+
   const getResponseBlockHeight = (block: VisualReportLine[]) => {
     const contentLines = block.slice(1);
     const textWidth = contentWidth - 25;
-    const wrappedLines = contentLines.map((line) => wrap(line.text, textWidth));
+    const wrappedLines = wrapResponseBlockLines(contentLines, textWidth);
     const contentHeight = wrappedLines.reduce(
       (height, wrapped, index) => height + wrapped.length * (index === 0 ? 4.25 : 3.9),
       0
@@ -329,7 +522,7 @@ export function createVisualAssessmentPdf(
   const renderResponseBlock = (block: VisualReportLine[]) => {
     const [numberLine, ...contentLines] = block;
     const textWidth = contentWidth - 25;
-    const wrappedLines = contentLines.map((line) => wrap(line.text, textWidth));
+    const wrappedLines = wrapResponseBlockLines(contentLines, textWidth);
     const height = getResponseBlockHeight(block);
     ensureSpace(height + 2);
     setFill(COLORS.white);
@@ -448,6 +641,13 @@ export function createVisualAssessmentPdf(
   renderCover();
   addContentPage();
   sections.forEach((section, sectionIndex) => {
+    const rawBareNumberCount = section.lines.filter(
+      (line) => line.kind === 'body' && /^\d{1,3}$/.test(line.text.trim())
+    ).length;
+    if (rawBareNumberCount < 10) {
+      section.lines = mergeBareScorePairs(section.lines);
+    }
+    section.lines = mergeRepeatedBadges(section.lines);
     const numberedRecordCount = section.lines.filter(
       (line) =>
         line.kind === 'body' &&
@@ -463,7 +663,12 @@ export function createVisualAssessmentPdf(
         line.kind === 'body' && /^\d{1,2}$/.test(line.text);
       const numberedQuestion =
         line.kind === 'body' ? line.text.match(/^(\d{1,2})\.\s+(.+)/) : null;
-      if (standaloneNumber || numberedQuestion) {
+      // Only a real question-by-question response review has this many
+      // standalone numbers in one section. A handful of standalone numbers
+      // (a percentile/score card grid, a stat count) is a different pattern
+      // entirely and must not be forced into the numbered response-card
+      // layout, or its label/caption text gets silently swallowed.
+      if ((standaloneNumber || numberedQuestion) && numberedRecordCount >= 10) {
         const responseBlock: VisualReportLine[] = standaloneNumber
           ? [line]
           : [
