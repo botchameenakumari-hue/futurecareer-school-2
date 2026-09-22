@@ -256,7 +256,7 @@ const assessmentSlug = Astro.url.pathname
     // that step itself is left with no visible index at all). Fold the
     // badge number into its own item's text as "N. <text>" before
     // extraction so no bare digit line is ever produced.
-    exportContainer.querySelectorAll('.start-num, .res-step-badge').forEach((badge) => {
+    exportContainer.querySelectorAll('.start-num, .res-step-badge, .pre11-num').forEach((badge) => {
       const badgeEl = badge as HTMLElement;
       const numText = cleanPdfText(badgeEl.innerText);
       const sibling = badgeEl.nextElementSibling as HTMLElement | null;
@@ -266,6 +266,80 @@ const assessmentSlug = Astro.url.pathname
       sibling.textContent = `${numText}. ${siblingText}`;
       badgeEl.remove();
     });
+    // A trait/type/axis result card puts its numeric score in a bold
+    // <strong> that is a `display:flex` sibling of the div holding the
+    // item's own name heading (e.g. "Empathy" and "78%" sit side by side in
+    // the live layout). `.innerText` splits flex siblings onto separate
+    // lines, so the score ends up as a bare "78%" line disconnected from
+    // which trait it belongs to - especially confusing once several of
+    // these cards are extracted in a row. Fold the score into its heading.
+    exportContainer
+      .querySelectorAll('.trait-result-head, .type-result-head, .axis-card-head')
+      .forEach((head) => {
+        const headEl = head as HTMLElement;
+        const scoreEl = headEl.querySelector('strong');
+        const heading = headEl.querySelector('h1,h2,h3,h4,h5,h6') as HTMLElement | null;
+        if (!scoreEl || !heading) return;
+        const scoreText = cleanPdfText(scoreEl.innerText);
+        const headingText = cleanPdfText(heading.innerText);
+        if (!scoreText || !headingText) return;
+        heading.textContent = `${headingText} — ${scoreText}`;
+        scoreEl.remove();
+      });
+    // A small stat card puts a caption (and sometimes a bare score) in
+    // block-level siblings BEFORE the <h5> title they actually describe
+    // (e.g. "Low Autonomy" then "34%" then "Structured Execution
+    // Preference"). None of these are flex, but being separate block
+    // elements they still extract as their own disconnected lines ABOVE a
+    // heading with no visible link to it - the same "orphaned caption"
+    // shape as `.res-label`, just with an extra bare score in front of the
+    // heading instead of directly above it. Fold every non-paragraph
+    // sibling into the heading before extraction.
+    exportContainer.querySelectorAll('.indicator-card, .diagnostic-card').forEach((card) => {
+      const cardEl = card as HTMLElement;
+      const heading = cardEl.querySelector('h1,h2,h3,h4,h5,h6') as HTMLElement | null;
+      if (!heading) return;
+      const captionEls = Array.from(cardEl.children).filter(
+        (child) => child !== heading && child.tagName !== 'P'
+      ) as HTMLElement[];
+      const captionText = captionEls
+        .map((el) => cleanPdfText(el.innerText))
+        .filter(Boolean)
+        .join(' — ');
+      const headingText = cleanPdfText(heading.innerText);
+      if (!captionText || !headingText) return;
+      heading.textContent = `${headingText} (${captionText})`;
+      captionEls.forEach((el) => el.remove());
+    });
+    // A data row lays its cells out side by side with `display:flex` or
+    // `display:grid` and no heading tag at all (e.g. a domain name, its
+    // progress bar, and its score as three siblings). Extracted as-is the
+    // cells scatter onto separate lines with nothing to show they belong
+    // to the same row. Recombine each row's own text content into one line.
+    // A cell can itself be a wrapper around two stacked sub-divs (e.g. a
+    // role's title above its path) rather than plain text - in the
+    // detached, off-screen export clone those sub-divs don't always keep
+    // the line break `.innerText` would normally put between them, so
+    // reading one level deeper and joining with an explicit space avoids
+    // two words silently running together ("...DesignerEntry: Junior...").
+    const cellText = (el: HTMLElement): string => {
+      if (!el.children.length) return cleanPdfText(el.innerText);
+      return Array.from(el.children)
+        .map((child) => cleanPdfText((child as HTMLElement).innerText))
+        .filter(Boolean)
+        .join(' ');
+    };
+    exportContainer
+      .querySelectorAll('.domain-row, .pace-row, .allocation-item, .rg-role-card')
+      .forEach((row) => {
+        const rowEl = row as HTMLElement;
+        const parts = Array.from(rowEl.children)
+          .map((child) => cellText(child as HTMLElement))
+          .filter(Boolean);
+        if (parts.length > 1) {
+          rowEl.textContent = parts.join(' — ');
+        }
+      });
     // `.innerText` is expected to insert a tab between adjacent table cells,
     // but that only holds when every ancestor keeps its table layout boxes -
     // easy to lose once a table sits inside an off-screen, width-forced
