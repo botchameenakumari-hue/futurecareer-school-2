@@ -161,6 +161,49 @@ const assessmentSlug = Astro.url.pathname
     exportContainer.querySelectorAll('.is-collapsed').forEach((collapsed) => {
       collapsed.classList.remove('is-collapsed');
     });
+    // A small uppercase "eyebrow" caption (e.g. "Your Career Profile") that
+    // sits directly above the real result title (e.g. "The Deep Thinker")
+    // is meant to be a tiny label, not a section of its own. Extracted by
+    // itself it reads as its own heading-styled line with nothing under it
+    // before the next real section starts - as if that whole section's
+    // content had gone missing. Fold it into the title it introduces
+    // instead of exporting it as a separate, empty-looking line.
+    exportContainer.querySelectorAll('.res-label').forEach((label) => {
+      const labelEl = label as HTMLElement;
+      const labelText = cleanPdfText(labelEl.innerText);
+      let sibling = labelEl.nextElementSibling as HTMLElement | null;
+      while (sibling && !/^h[1-6]$/i.test(sibling.tagName)) {
+        sibling = sibling.nextElementSibling as HTMLElement | null;
+      }
+      if (labelText && sibling) {
+        const originalHeadingText = cleanPdfText(sibling.innerText);
+        if (originalHeadingText) {
+          const kind = headingKinds.get(originalHeadingText);
+          const mergedText = `${labelText}: ${originalHeadingText}`;
+          if (kind) headingKinds.set(mergedText, kind);
+          sibling.textContent = mergedText;
+        }
+      }
+      labelEl.remove();
+    });
+    // A stat-card's bold title ("Career Readiness") sits directly above a
+    // small grey subtitle ("Clarity + Conviction") as two separate plain
+    // <div>s with no heading tag - neither gets any PDF styling, so the
+    // pair extracts as two bare, disconnected caption lines that read like
+    // an empty heading with nothing under it. Fold the subtitle into the
+    // title as one line instead.
+    exportContainer.querySelectorAll('.res-stat-title').forEach((titleEl) => {
+      const title = titleEl as HTMLElement;
+      const subtitle = title.nextElementSibling as HTMLElement | null;
+      if (subtitle && subtitle.classList.contains('res-stat-subtitle')) {
+        const titleText = cleanPdfText(title.innerText);
+        const subtitleText = cleanPdfText(subtitle.innerText);
+        if (titleText && subtitleText) {
+          title.textContent = `${titleText} — ${subtitleText}`;
+        }
+        subtitle.remove();
+      }
+    });
     // `.innerText` is expected to insert a tab between adjacent table cells,
     // but that only holds when every ancestor keeps its table layout boxes -
     // easy to lose once a table sits inside an off-screen, width-forced
