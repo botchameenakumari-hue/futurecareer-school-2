@@ -204,6 +204,26 @@ const assessmentSlug = Astro.url.pathname
         subtitle.remove();
       }
     });
+    // A small pill badge marking the user's matched option in a list (e.g.
+    // "People Connector YOU" for a highlighted thinking style) sits inside
+    // a `display:flex` name row as a nested <span>. `.innerText` on a flex
+    // container puts each flex item on its own line, so the badge text
+    // ("YOU") splits away from the label it belongs to - and because it's
+    // short and ALL-CAPS, it then gets rendered as its own big attention-
+    // grabbing callout banner instead of a small "(YOU)" suffix. Fold the
+    // badge back into the label it marks before extraction.
+    exportContainer.querySelectorAll('.ts-me').forEach((badge) => {
+      const badgeEl = badge as HTMLElement;
+      const parent = badgeEl.parentElement;
+      if (!parent) return;
+      const badgeText = cleanPdfText(badgeEl.innerText);
+      const clone = parent.cloneNode(true) as HTMLElement;
+      clone.querySelectorAll('.ts-me').forEach((el) => el.remove());
+      const baseText = cleanPdfText(clone.innerText);
+      if (baseText && badgeText) {
+        parent.textContent = `${baseText} (${badgeText})`;
+      }
+    });
     // `.innerText` is expected to insert a tab between adjacent table cells,
     // but that only holds when every ancestor keeps its table layout boxes -
     // easy to lose once a table sits inside an off-screen, width-forced
