@@ -1,0 +1,80 @@
+<script>
+  import { createGraduateAssessmentPdf } from '../scripts/graduateAssessmentPdf';
+
+  declare global {
+    interface Window {
+      downloadGraduateAssessmentPdf?: () => Promise<boolean>;
+    }
+  }
+
+  const downloadButtons = () =>
+    Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        '[data-download-assessment-report], [data-graduate-pdf-download]'
+      )
+    );
+
+  const setDownloadState = (state: 'loading' | 'success' | 'error') => {
+    const buttons = downloadButtons();
+    const statuses = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-report-download-status]')
+    );
+    buttons.forEach((button) => {
+      button.dataset.originalLabel ||= button.textContent || 'Download PDF';
+      button.disabled = state === 'loading';
+      button.textContent =
+        state === 'loading'
+          ? 'Preparing complete PDF...'
+          : state === 'success'
+            ? 'PDF downloaded'
+            : button.dataset.originalLabel;
+    });
+    statuses.forEach((status) => {
+      status.textContent =
+        state === 'loading'
+          ? 'Designing every section of your complete report. This may take a few seconds.'
+          : state === 'success'
+            ? 'Your complete, redesigned report has been downloaded.'
+            : 'The PDF could not be created. Please try again.';
+    });
+  };
+
+  async function downloadGraduateAssessmentPdf() {
+    const container = document.getElementById('results-container') as HTMLElement | null;
+    if (!container) return false;
+    setDownloadState('loading');
+    try {
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      const { jsPDF: PdfDocument } = await import('jspdf');
+      const { pdf } = createGraduateAssessmentPdf(container, PdfDocument, {
+        title: 'Graduates and Early Professionals Assessment Report',
+        reportKicker: 'EARLY CAREER GROWTH REPORT',
+        guidanceUrl:
+          'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance/',
+        siteUrl: 'https://futurecareerschool.com',
+        phoneDisplay: '+91 78159 27259',
+      });
+      pdf.save('graduate-career-assessment-report.pdf');
+      setDownloadState('success');
+      window.setTimeout(() => {
+        downloadButtons().forEach((button) => {
+          button.disabled = false;
+          button.textContent = button.dataset.originalLabel || 'Download PDF';
+        });
+      }, 2400);
+      return true;
+    } catch (error) {
+      console.error('Unable to generate the graduates and early professionals assessment PDF:', error);
+      setDownloadState('error');
+      return false;
+    }
+  }
+
+  window.downloadGraduateAssessmentPdf = downloadGraduateAssessmentPdf;
+</script>
+
+
+
+
+
+

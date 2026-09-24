@@ -3,6 +3,7 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
 import AssessmentReportTools from '../../../../components/AssessmentReportTools.astro';
+import GraduateAssessmentPdf from '../../../../components/GraduateAssessmentPdf.astro';
 import AssessmentGuidanceCta from '../../../../components/bofu/AssessmentGuidanceCta.astro';
 import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import { getAssessmentPlansConfig } from '../../../../config/assessmentPlans';
@@ -253,10 +254,12 @@ const jsonLd = [
   <AssessmentReportTools
     title="Graduates and Early Professionals Assessment Report"
     fileName="graduate-career-assessment-report.pdf"
+    downloadFunctionName="downloadGraduateAssessmentPdf"
     reportKicker="EARLY CAREER GROWTH REPORT"
     guidanceLabel="Explore Early Career Guidance"
     guidanceUrl="https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance/"
   />
+  <GraduateAssessmentPdf />
   <Footer />
 </BaseLayout>
 
@@ -2157,7 +2160,7 @@ function showResults() {
 
   // ===== PHASE 5: UNIVERSAL SECTIONS END =====
 
-  html += '<div class="res-guidance" style="background:linear-gradient(135deg,rgba(229,184,74,.08),rgba(45,212,191,.04));border:2px solid rgba(229,184,74,.25);border-radius:20px;padding:2rem;text-align:center;margin-bottom:.5rem"><div class="rg-icon-row" style="font-size:2rem;margin-bottom:.75rem">'+P.emoji+' + 🗺️</div><h3 style="font-size:1.6rem;font-weight:800;margin-bottom:.75rem">Want to Go Deeper?</h3><p style="font-size:14.5px;color:rgba(255,255,255,.6);line-height:1.75;max-width:580px;margin:0 auto 1.5rem">'+P.guidance+'</p><div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem"><a href="' + guidanceResultsHref + '" class="btn-gold">' + guidanceResultsLabel + ' <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a><button class="btn-outline" onclick="downloadResultsAsPDF()" style="background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.3);color:#2dd4bf;font-weight:600;padding:12px 22px;border-radius:10px;cursor:pointer;text-decoration:none;margin:0">📥 Download Results as PDF</button><button class="btn-outline" onclick="retakeQuiz()" style="background:transparent;color:rgba(255,255,255,.8);font-weight:600;padding:12px 22px;border:1px solid rgba(255,255,255,.2);border-radius:10px;cursor:pointer;text-decoration:none;margin:0">Retake Assessment</button></div><p style="font-size:12.5px;color:rgba(255,255,255,.35)">All assessments are free &nbsp;&middot;&nbsp; Sessions online &nbsp;&middot;&nbsp; Available across India</p></div>';
+  html += '<div class="res-guidance" style="background:linear-gradient(135deg,rgba(229,184,74,.08),rgba(45,212,191,.04));border:2px solid rgba(229,184,74,.25);border-radius:20px;padding:2rem;text-align:center;margin-bottom:.5rem"><div class="rg-icon-row" style="font-size:2rem;margin-bottom:.75rem">'+P.emoji+' + 🗺️</div><h3 style="font-size:1.6rem;font-weight:800;margin-bottom:.75rem">Want to Go Deeper?</h3><p style="font-size:14.5px;color:rgba(255,255,255,.6);line-height:1.75;max-width:580px;margin:0 auto 1.5rem">'+P.guidance+'</p><div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem"><a href="' + guidanceResultsHref + '" class="btn-gold">' + guidanceResultsLabel + ' <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a><button class="btn-outline" data-graduate-pdf-download onclick="downloadResultsAsPDF()" style="background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.3);color:#2dd4bf;font-weight:600;padding:12px 22px;border-radius:10px;cursor:pointer;text-decoration:none;margin:0">📥 Download Results as PDF</button><button class="btn-outline" onclick="retakeQuiz()" style="background:transparent;color:rgba(255,255,255,.8);font-weight:600;padding:12px 22px;border:1px solid rgba(255,255,255,.2);border-radius:10px;cursor:pointer;text-decoration:none;margin:0">Retake Assessment</button></div><p style="font-size:12.5px;color:rgba(255,255,255,.35)">All assessments are free &nbsp;&middot;&nbsp; Sessions online &nbsp;&middot;&nbsp; Available across India</p></div>';
 
   document.getElementById('results-container').innerHTML = html;
   document.getElementById('results-container').style.display = 'block';
@@ -2176,16 +2179,10 @@ function showResults() {
 }
 
 function downloadResultsAsPDF() {
-  var resultsContainer = document.getElementById('results-container');
-  if (!resultsContainer || !window.downloadAssessmentReportPdf) {
+  if (!window.downloadGraduateAssessmentPdf) {
     return;
   }
-
-  window.downloadAssessmentReportPdf({
-    title: 'Graduates and Early Professionals Assessment Report',
-    fileName: 'graduate-career-assessment-report.pdf',
-    container: resultsContainer
-  });
+  window.downloadGraduateAssessmentPdf();
 }
 
 function retakeQuiz() {
