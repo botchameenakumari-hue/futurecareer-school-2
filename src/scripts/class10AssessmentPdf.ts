@@ -1,0 +1,506 @@
+type JsPdfConstructor = typeof import('jspdf').jsPDF;
+
+type LineKind = 'subheading' | 'bullet' | 'table' | 'body';
+
+interface ReportLine {
+  kind: LineKind;
+  text: string;
+}
+
+interface ReportSection {
+  title: string;
+  lines: ReportLine[];
+}
+
+interface Class10PdfOptions {
+  title: string;
+  reportKicker: string;
+  guidanceUrl: string;
+  siteUrl: string;
+  phoneDisplay: string;
+}
+
+type Rgb = readonly [number, number, number];
+
+const COLOR = {
+  navy: [8, 18, 35],
+  navyCard: [18, 35, 57],
+  ink: [24, 39, 58],
+  slate: [75, 94, 114],
+  muted: [122, 139, 156],
+  paper: [247, 249, 252],
+  white: [255, 255, 255],
+  gold: [229, 184, 74],
+  goldSoft: [253, 247, 226],
+  teal: [21, 164, 151],
+  tealSoft: [229, 248, 245],
+  indigo: [99, 102, 241],
+  indigoSoft: [238, 239, 255],
+  line: [218, 226, 234],
+} satisfies Record<string, Rgb>;
+
+function normaliseVisibleText(value: string) {
+  return value.replace(/\u00a0/g, ' ').replace(/[ \t]+/g, ' ').trim();
+}
+
+// jsPDF's built-in Helvetica font covers the report's English copy but not
+// decorative emoji. Keep every word and number verbatim, and turn ornamental
+// glyphs into readable ASCII equivalents instead of allowing a PDF viewer to
+// render them as missing-character boxes.
+function pdfText(value: string) {
+  return value
+    .replace(/\u20b9/g, 'Rs. ')
+    .replace(/[\u2012\u2013\u2014\u2212]/g, '-')
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201c\u201d]/g, '"')
+    .replace(/[\u2022\u00b7\u2219]/g, '-')
+    .replace(/[\u2192\u21d2\u27a4\u279c]/g, '->')
+    .replace(/[\u2713\u2714\u2705]/g, 'Yes')
+    .replace(/[\u2605]/g, '*')
+    .replace(/[\u2606]/g, 'o')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\x20-\x7e]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function linesFromElement(element: HTMLElement): ReportLine[] {
+  const clone = element.cloneNode(true) as HTMLElement;
+  clone
+    .querySelectorAll(
+      '.assessment-report-actions, .assessment-quick-nav, .assessment-section-toggle, script, style'
+    )
+    .forEach((node) => node.remove());
+  clone.querySelectorAll('details').forEach((details) => {
+    details.open = true;
+  });
+  clone.querySelectorAll('.is-collapsed').forEach((node) => node.classList.remove('is-collapsed'));
+
+  const subheadings = new Set(
+    Array.from(clone.querySelectorAll('h4,h5,h6'))
+      .map((node) => normaliseVisibleText(node.textContent || ''))
+      .filter(Boolean)
+  );
+  const bullets = new Set(
+    Array.from(clone.querySelectorAll('li'))
+      .map((node) => normaliseVisibleText(node.textContent || ''))
+      .filter(Boolean)
+  );
+
+  clone.querySelectorAll('table').forEach((table) => {
+    const replacement = document.createElement('div');
+    table.querySelectorAll('tr').forEach((row) => {
+      const cells = Array.from(row.querySelectorAll('th,td'))
+        .map((cell) => normaliseVisibleText(cell.textContent || ''))
+        .filter(Boolean);
+      if (!cells.length) return;
+      const line = document.createElement('p');
+      line.dataset.pdfTableRow = 'true';
+      line.textContent = cells.join('  |  ');
+      replacement.append(line);
+    });
+    table.replaceWith(replacement);
+  });
+
+  const tableRows = new Set(
+    Array.from(clone.querySelectorAll<HTMLElement>('[data-pdf-table-row]'))
+      .map((node) => normaliseVisibleText(node.innerText))
+      .filter(Boolean)
+  );
+
+  // Mounting the clone gives innerText the same layout-aware line breaks as
+  // the visible report. Unlike the old shared exporter, no line is discarded
+  // for being repeated: repeated labels can be meaningful report content.
+  clone.style.cssText =
+    'position:fixed;left:-10000px;top:0;width:900px;opacity:0;pointer-events:none;z-index:-1;';
+  document.body.append(clone);
+  const visibleLines = clone.innerText.split(/\r?\n/).map(normaliseVisibleText).filter(Boolean);
+  clone.remove();
+
+  return visibleLines.map((text) => ({
+    kind: tableRows.has(text)
+      ? 'table'
+      : subheadings.has(text)
+        ? 'subheading'
+        : bullets.has(text)
+          ? 'bullet'
+          : 'body',
+    text,
+  }));
+}
+
+export function collectClass10Report(container: HTMLElement): ReportSection[] {
+  const clone = container.cloneNode(true) as HTMLElement;
+  clone
+    .querySelectorAll('.assessment-report-actions, .assessment-quick-nav, .assessment-section-toggle')
+    .forEach((node) => node.remove());
+
+  const topLevelBlocks = Array.from(clone.children).filter((child) => {
+    const element = child as HTMLElement;
+    return element.matches('.res-header, .res-section, .res-guidance');
+  }) as HTMLElement[];
+
+  return topLevelBlocks
+    .map((block, index) => {
+      const heading = block.querySelector<HTMLElement>('h1,h2,h3');
+      const title = normaliseVisibleText(
+        heading?.textContent || (index === 0 ? 'Your Career Profile' : `Insight ${index + 1}`)
+      );
+      heading?.remove();
+      return { title, lines: linesFromElement(block) };
+    })
+    .filter((section) => section.title || section.lines.length);
+}
+
+export function createClass10AssessmentPdf(
+  container: HTMLElement,
+  PdfDocument: JsPdfConstructor,
+  options: Class10PdfOptions
+) {
+  const sections = collectClass10Report(container);
+  if (!sections.length) throw new Error('No Class 10 assessment result content was available to export.');
+
+  const pdf = new PdfDocument({ unit: 'mm', format: 'a4', compress: true });
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+  const marginX = 16;
+  const contentWidth = pageWidth - marginX * 2;
+  const contentTop = 27;
+  const contentBottom = pageHeight - 18;
+  let y = contentTop;
+  let sectionNumber = 0;
+
+  const setFill = (color: Rgb) => pdf.setFillColor(...color);
+  const setText = (color: Rgb) => pdf.setTextColor(...color);
+  const setDraw = (color: Rgb) => pdf.setDrawColor(...color);
+  const setFont = (style: 'normal' | 'bold', size: number) => {
+    pdf.setFont('helvetica', style);
+    pdf.setFontSize(size);
+  };
+  const wrap = (text: string, width: number, style: 'normal' | 'bold', size: number) => {
+    setFont(style, size);
+    return pdf.splitTextToSize(pdfText(text), width) as string[];
+  };
+
+  const drawPageChrome = () => {
+    setFill(COLOR.paper);
+    pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+    setFill(COLOR.navy);
+    pdf.rect(0, 0, pageWidth, 18, 'F');
+    setFill(COLOR.gold);
+    pdf.rect(0, 18, pageWidth, 1.1, 'F');
+    setText(COLOR.white);
+    setFont('bold', 8.5);
+    pdf.text('FUTURE CAREER SCHOOL', marginX, 11.2);
+    setText([182, 197, 214]);
+    setFont('normal', 7.2);
+    pdf.text('CLASS 10 & BELOW  /  PERSONALISED REPORT', pageWidth - marginX, 11.2, {
+      align: 'right',
+    });
+    y = contentTop;
+  };
+
+  const addContentPage = () => {
+    pdf.addPage();
+    drawPageChrome();
+  };
+
+  const ensureSpace = (height: number) => {
+    if (y + height > contentBottom) addContentPage();
+  };
+
+  const drawWrappedAcrossPages = (
+    text: string,
+    width: number,
+    x: number,
+    style: 'normal' | 'bold',
+    size: number,
+    color: Rgb,
+    lineHeight: number,
+    beforeChunk?: (height: number) => void
+  ) => {
+    let remaining = wrap(text, width, style, size);
+    while (remaining.length) {
+      if (contentBottom - y < lineHeight * 2) addContentPage();
+      const availableLines = Math.max(1, Math.floor((contentBottom - y - 2) / lineHeight));
+      const chunk = remaining.splice(0, availableLines);
+      const height = chunk.length * lineHeight + 4;
+      beforeChunk?.(height);
+      setText(color);
+      setFont(style, size);
+      pdf.text(chunk, x, y + lineHeight, { lineHeightFactor: 1.16 });
+      y += height;
+      if (remaining.length) addContentPage();
+    }
+  };
+
+  const renderCover = () => {
+    setFill(COLOR.navy);
+    pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+    setFill(COLOR.indigo);
+    pdf.circle(pageWidth + 5, 8, 62, 'F');
+    setFill(COLOR.teal);
+    pdf.circle(pageWidth - 1, 14, 45, 'F');
+    setFill(COLOR.navyCard);
+    pdf.circle(pageWidth - 5, 18, 34, 'F');
+    setFill(COLOR.gold);
+    pdf.rect(0, 0, 7, pageHeight, 'F');
+
+    setText(COLOR.gold);
+    setFont('bold', 8.8);
+    pdf.text(pdfText(options.reportKicker), 21, 34);
+    setText(COLOR.white);
+    const titleLines = wrap(options.title, 160, 'bold', 25);
+    pdf.text(titleLines, 21, 55, { lineHeightFactor: 1.05 });
+    const titleBottom = 55 + titleLines.length * 10;
+
+    setFill(COLOR.gold);
+    pdf.roundedRect(21, titleBottom + 9, 47, 9, 4.5, 4.5, 'F');
+    setText(COLOR.navy);
+    setFont('bold', 7.5);
+    pdf.text('YOUR DISCOVERY MAP', 44.5, titleBottom + 15, { align: 'center' });
+
+    const profile = sections[0];
+    const profileLead = profile?.lines.find((line) => line.text.length > 12)?.text || profile?.title;
+    setText(COLOR.white);
+    setFont('bold', 17);
+    pdf.text(wrap(profileLead || 'Your personalised profile', 160, 'bold', 17), 21, titleBottom + 37, {
+      lineHeightFactor: 1.08,
+    });
+
+    const summary = sections
+      .flatMap((section) => section.lines)
+      .find((line) => line.kind === 'body' && line.text.length > 80)?.text;
+    const cardY = titleBottom + 65;
+    setFill(COLOR.navyCard);
+    setDraw([45, 65, 87]);
+    pdf.roundedRect(21, cardY, 168, 55, 5, 5, 'FD');
+    setText([190, 204, 219]);
+    setFont('normal', 10);
+    pdf.text(
+      wrap(
+        summary || 'A complete, personalised view of your interests, strengths, stream fit, learning style and next steps.',
+        148,
+        'normal',
+        10
+      ).slice(0, 8),
+      31,
+      cardY + 13,
+      { lineHeightFactor: 1.4 }
+    );
+
+    const statY = cardY + 70;
+    [
+      [`${sections.length}`, 'REPORT SECTIONS'],
+      ['25', 'QUESTIONS'],
+      ['100%', 'YOUR ANSWERS'],
+    ].forEach(([value, label], index) => {
+      const x = 21 + index * 57;
+      setFill(index === 0 ? COLOR.gold : COLOR.navyCard);
+      pdf.roundedRect(x, statY, 52, 29, 4, 4, 'F');
+      setText(index === 0 ? COLOR.navy : COLOR.white);
+      setFont('bold', 14);
+      pdf.text(value, x + 26, statY + 12, { align: 'center' });
+      setText(index === 0 ? COLOR.ink : [163, 183, 203]);
+      setFont('bold', 6.6);
+      pdf.text(label, x + 26, statY + 21.5, { align: 'center' });
+    });
+
+    setText([158, 177, 197]);
+    setFont('normal', 8.3);
+    pdf.text(`Prepared ${new Date().toLocaleDateString('en-IN')}`, 21, pageHeight - 25);
+    pdf.text(options.phoneDisplay, 21, pageHeight - 16);
+    setText(COLOR.gold);
+    setFont('bold', 8.3);
+    pdf.text('futurecareerschool.com', pageWidth - 21, pageHeight - 16, { align: 'right' });
+    pdf.link(pageWidth - 76, pageHeight - 23, 55, 12, { url: options.siteUrl });
+  };
+
+  const renderSectionHeader = (title: string) => {
+    sectionNumber += 1;
+    const titleLines = wrap(title, contentWidth - 31, 'bold', 14);
+    const height = Math.max(25, titleLines.length * 7 + 11);
+    ensureSpace(height + 5);
+    setFill(COLOR.navy);
+    pdf.roundedRect(marginX, y, contentWidth, height, 4, 4, 'F');
+    setFill(sectionNumber % 2 ? COLOR.gold : COLOR.teal);
+    pdf.roundedRect(marginX + 6, y + 5.5, 18, 14, 3, 3, 'F');
+    setText(sectionNumber % 2 ? COLOR.navy : COLOR.white);
+    setFont('bold', 8.8);
+    pdf.text(String(sectionNumber).padStart(2, '0'), marginX + 15, y + 14.5, { align: 'center' });
+    setText([164, 182, 201]);
+    setFont('bold', 6.5);
+    pdf.text('DISCOVERY', marginX + 29, y + 8.7);
+    setText(COLOR.white);
+    setFont('bold', 14);
+    pdf.text(titleLines, marginX + 29, y + 16.5, { lineHeightFactor: 1.08 });
+    y += height + 5;
+  };
+
+  const renderLine = (line: ReportLine, index: number) => {
+    const text = pdfText(line.text);
+    if (!text || !/[A-Za-z0-9]/.test(text)) return;
+
+    if (line.kind === 'subheading') {
+      const wrapped = wrap(text, contentWidth - 10, 'bold', 11.2);
+      const height = wrapped.length * 5.1 + 7;
+      ensureSpace(height);
+      setFill(COLOR.indigo);
+      pdf.roundedRect(marginX, y + 1, 2.5, Math.max(8, height - 3), 1, 1, 'F');
+      setText(COLOR.ink);
+      setFont('bold', 11.2);
+      pdf.text(wrapped, marginX + 7, y + 6.5, { lineHeightFactor: 1.15 });
+      y += height;
+      return;
+    }
+
+    if (line.kind === 'table') {
+      const wrapped = wrap(text, contentWidth - 12, index === 0 ? 'bold' : 'normal', 8.1);
+      const height = wrapped.length * 3.9 + 7;
+      ensureSpace(height + 1);
+      setFill(index % 2 ? COLOR.white : COLOR.indigoSoft);
+      setDraw(COLOR.line);
+      pdf.roundedRect(marginX, y, contentWidth, height, 2.5, 2.5, 'FD');
+      setText(COLOR.ink);
+      setFont(index === 0 ? 'bold' : 'normal', 8.1);
+      pdf.text(wrapped, marginX + 6, y + 5.5, { lineHeightFactor: 1.15 });
+      y += height + 1.5;
+      return;
+    }
+
+    const metric = text.match(/(?:^|\s)(\d{1,3})\s*%(?:\s|$)/);
+    if (metric && text.length < 150) {
+      const metricLabel = text === `${metric[1]}%` ? 'Relative score' : text;
+      const wrapped = wrap(metricLabel, contentWidth - 35, 'bold', 9.1);
+      const height = Math.max(21, wrapped.length * 4.3 + 10);
+      ensureSpace(height + 2);
+      setFill(COLOR.navyCard);
+      pdf.roundedRect(marginX, y, contentWidth, height, 4, 4, 'F');
+      setFill(COLOR.gold);
+      pdf.roundedRect(marginX + 6, y + 5, 22, 11, 3, 3, 'F');
+      setText(COLOR.navy);
+      setFont('bold', 10.5);
+      pdf.text(`${metric[1]}%`, marginX + 17, y + 12.5, { align: 'center' });
+      setText(COLOR.white);
+      setFont('bold', 9.1);
+      pdf.text(wrapped, marginX + 33, y + 7.5, { lineHeightFactor: 1.16 });
+      setFill([48, 67, 88]);
+      pdf.roundedRect(marginX + 33, y + height - 6, contentWidth - 40, 2, 1, 1, 'F');
+      setFill(COLOR.teal);
+      pdf.roundedRect(
+        marginX + 33,
+        y + height - 6,
+        (contentWidth - 40) * (Math.min(100, Number(metric[1])) / 100),
+        2,
+        1,
+        1,
+        'F'
+      );
+      y += height + 2;
+      return;
+    }
+
+    if (line.kind === 'bullet') {
+      const wrapped = wrap(text, contentWidth - 18, 'normal', 9);
+      const height = wrapped.length * 4.2 + 7;
+      ensureSpace(height + 1);
+      setFill(COLOR.tealSoft);
+      pdf.roundedRect(marginX, y, contentWidth, height, 3, 3, 'F');
+      setFill(COLOR.teal);
+      pdf.circle(marginX + 7, y + 6.2, 2.2, 'F');
+      setText(COLOR.white);
+      setFont('bold', 6.5);
+      pdf.text('>', marginX + 7, y + 7.3, { align: 'center' });
+      setText(COLOR.ink);
+      setFont('normal', 9);
+      pdf.text(wrapped, marginX + 13, y + 6.5, { lineHeightFactor: 1.18 });
+      y += height + 1.5;
+      return;
+    }
+
+    const isLabel =
+      text.length <= 72 &&
+      !/[.!?]$/.test(text) &&
+      (/[:%]$/.test(text) || /^[A-Z][A-Z0-9 &/+()-]{2,}$/.test(text) || text.split(' ').length <= 7);
+    if (isLabel) {
+      const wrapped = wrap(text, contentWidth - 14, 'bold', 9.2);
+      const height = wrapped.length * 4.3 + 7;
+      ensureSpace(height + 1);
+      setFill(COLOR.goldSoft);
+      pdf.roundedRect(marginX, y, contentWidth, height, 3, 3, 'F');
+      setFill(COLOR.gold);
+      pdf.roundedRect(marginX, y, 3, height, 1.5, 1.5, 'F');
+      setText(COLOR.ink);
+      setFont('bold', 9.2);
+      pdf.text(wrapped, marginX + 8, y + 6.2, { lineHeightFactor: 1.15 });
+      y += height + 1.5;
+      return;
+    }
+
+    drawWrappedAcrossPages(text, contentWidth - 2, marginX + 1, 'normal', 9, COLOR.slate, 4.25);
+    y += 1;
+  };
+
+  renderCover();
+  addContentPage();
+  sections.forEach((section) => {
+    renderSectionHeader(section.title);
+    section.lines.forEach(renderLine);
+    y += 4;
+  });
+
+  pdf.addPage();
+  setFill(COLOR.navy);
+  pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+  setFill(COLOR.gold);
+  pdf.rect(0, 0, 7, pageHeight, 'F');
+  setText(COLOR.gold);
+  setFont('bold', 9);
+  pdf.text('YOUR NEXT STEP', 22, 39);
+  setText(COLOR.white);
+  setFont('bold', 24);
+  pdf.text(['Turn your discovery', 'into a confident plan.'], 22, 61, { lineHeightFactor: 1.06 });
+  setText([188, 203, 218]);
+  setFont('normal', 10.5);
+  pdf.text(
+    wrap(
+      'Keep this report, discuss it with a parent or teacher, and use the exploration plan before making a stream decision. Personalised guidance is available when you want help comparing the realistic options.',
+      160,
+      'normal',
+      10.5
+    ),
+    22,
+    95,
+    { lineHeightFactor: 1.4 }
+  );
+  setFill(COLOR.gold);
+  pdf.roundedRect(22, 134, 166, 28, 5, 5, 'F');
+  setText(COLOR.navy);
+  setFont('bold', 11.5);
+  pdf.text('Explore Student Career Guidance', 31, 146);
+  setFont('normal', 8.2);
+  pdf.text('Compare streams, careers and practical next steps with a counsellor.', 31, 155);
+  pdf.link(22, 134, 166, 28, { url: options.guidanceUrl });
+  setText([166, 185, 204]);
+  setFont('normal', 9);
+  pdf.text(`Future Career School  |  ${options.phoneDisplay}`, 22, 190);
+  setText(COLOR.gold);
+  setFont('bold', 9);
+  pdf.text('futurecareerschool.com', 22, 204);
+  pdf.link(22, 197, 55, 12, { url: options.siteUrl });
+
+  const totalPages = pdf.getNumberOfPages();
+  for (let page = 1; page <= totalPages; page += 1) {
+    pdf.setPage(page);
+    const dark = page === 1 || page === totalPages;
+    setDraw(dark ? [54, 72, 94] : COLOR.line);
+    pdf.line(marginX, pageHeight - 12, pageWidth - marginX, pageHeight - 12);
+    setText(dark ? [148, 168, 189] : COLOR.muted);
+    setFont('normal', 7.4);
+    pdf.text(`Future Career School  |  Page ${page} of ${totalPages}`, marginX, pageHeight - 7);
+    if (!dark) pdf.text(options.phoneDisplay, pageWidth - marginX, pageHeight - 7, { align: 'right' });
+  }
+
+  return { pdf, sections };
+}

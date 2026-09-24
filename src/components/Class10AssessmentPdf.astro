@@ -1,0 +1,74 @@
+<button id="class-10-pdf-download" type="button" hidden aria-hidden="true" tabindex="-1"></button>
+
+<script>
+  import { createClass10AssessmentPdf } from '../scripts/class10AssessmentPdf';
+
+  declare global {
+    interface Window {
+      downloadClass10AssessmentPdf?: () => Promise<boolean>;
+    }
+  }
+
+  const downloadButton = document.getElementById('class-10-pdf-download') as HTMLButtonElement | null;
+
+  const setDownloadState = (state: 'loading' | 'success' | 'error') => {
+    const buttons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('[data-download-assessment-report]')
+    );
+    const statuses = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-report-download-status]')
+    );
+    buttons.forEach((button) => {
+      button.dataset.originalLabel ||= button.textContent || 'Download PDF';
+      button.disabled = state === 'loading';
+      button.textContent =
+        state === 'loading'
+          ? 'Preparing complete PDF...'
+          : state === 'success'
+            ? 'PDF downloaded'
+            : button.dataset.originalLabel;
+    });
+    statuses.forEach((status) => {
+      status.textContent =
+        state === 'loading'
+          ? 'Designing every section of your complete report. This may take a few seconds.'
+          : state === 'success'
+            ? 'Your complete, redesigned report has been downloaded.'
+            : 'The PDF could not be created. Please try again.';
+    });
+  };
+
+  async function downloadClass10AssessmentPdf() {
+    const container = document.getElementById('results-container') as HTMLElement | null;
+    if (!container) return false;
+    setDownloadState('loading');
+    try {
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      const { jsPDF: PdfDocument } = await import('jspdf');
+      const { pdf } = createClass10AssessmentPdf(container, PdfDocument, {
+        title: 'Class 10 and Below Career Assessment Report',
+        reportKicker: 'STUDENT CAREER DISCOVERY REPORT',
+        guidanceUrl:
+          'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-class-10-students/',
+        siteUrl: 'https://futurecareerschool.com',
+        phoneDisplay: '+91 78159 27259',
+      });
+      pdf.save('class-10-career-assessment-report.pdf');
+      setDownloadState('success');
+      window.setTimeout(() => {
+        document.querySelectorAll<HTMLButtonElement>('[data-download-assessment-report]').forEach((button) => {
+          button.disabled = false;
+          button.textContent = button.dataset.originalLabel || 'Download PDF';
+        });
+      }, 2400);
+      return true;
+    } catch (error) {
+      console.error('Unable to generate the Class 10 assessment PDF:', error);
+      setDownloadState('error');
+      return false;
+    }
+  }
+
+  window.downloadClass10AssessmentPdf = downloadClass10AssessmentPdf;
+  downloadButton?.addEventListener('click', () => void downloadClass10AssessmentPdf());
+</script>
