@@ -4,38 +4,53 @@
 // toward the main, full-depth stage assessment instead. Placed just below
 // the hero on the shorter quiz's own page, before the visitor invests time
 // answering questions on the narrower test.
+//
+// The copy is written to do three things a visitor needs before they'll
+// switch tests: confirm the thing they actually came here for is still
+// covered (searchIntent), make the free-ness impossible to miss, and give
+// concrete extra reasons ("points") rather than a vague "go deeper" claim.
 interface Props {
   href: string;
-  quizName: string;
+  mainAssessmentName: string;
+  searchIntent: string;
   points: string[];
   ctaLabel?: string;
 }
 
-const { href, quizName, points, ctaLabel = 'Take the Full Assessment — Free' } = Astro.props;
+const {
+  href,
+  mainAssessmentName,
+  searchIntent,
+  points,
+  ctaLabel = `Take the ${mainAssessmentName} — 100% Free`,
+} = Astro.props;
 ---
 
 <section class="upgrade-banner-wrap">
   <div class="container">
     <a href={href} class="upgrade-banner card">
       <div class="upgrade-banner-badge">
-        <span class="dot"></span>
-        Recommended · Goes Deeper Than This Quiz
+        <span class="star">★</span>
+        Highly Recommended · 100% Free · No Sign-Up
       </div>
       <h2 class="upgrade-banner-title">
-        Before you start, see the <span class="gold-text">complete picture</span>
+        Yes, {searchIntent} is included — <span class="gold-text">plus a lot more</span>
       </h2>
       <p class="upgrade-banner-body">
-        {quizName} looks at one thing. Our main Class 10 and Below Assessment is the
-        all-in-one report — it includes everything this quiz checks, plus a lot more, in a
-        single free result.
+        This shorter quiz only checks one thing. The <strong>{mainAssessmentName}</strong> is our
+        complete, all-in-one report — it gives you everything you came here for, in full, and
+        pairs it with everything else you'll want to know before making a real decision. Same
+        price: free. Same time it takes to get a result: instant.
       </p>
       <ul class="upgrade-banner-points">
         {points.map((point) => (
           <li><span class="check-icon">✓</span>{point}</li>
         ))}
       </ul>
-      <span class="btn-gold upgrade-banner-cta">{ctaLabel}</span>
-      <span class="upgrade-banner-note">34 insight sections · Free · Instant result</span>
+      <div class="upgrade-banner-cta-row">
+        <span class="btn-gold upgrade-banner-cta">{ctaLabel}</span>
+        <span class="upgrade-banner-note">34+ insight sections · Free · Instant result</span>
+      </div>
     </a>
   </div>
 </section>
@@ -45,45 +60,46 @@ const { href, quizName, points, ctaLabel = 'Take the Full Assessment — Free' }
   .upgrade-banner {
     display: block;
     padding: 1.75rem 2rem;
-    border: 1px solid rgba(229, 184, 74, 0.35);
-    background: linear-gradient(135deg, rgba(229, 184, 74, 0.09), rgba(45, 212, 191, 0.05));
+    border: 1px solid rgba(229, 184, 74, 0.4);
+    background: linear-gradient(135deg, rgba(229, 184, 74, 0.11), rgba(45, 212, 191, 0.05));
     transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   }
   .upgrade-banner:hover {
     transform: translateY(-2px);
-    border-color: rgba(229, 184, 74, 0.6);
-    box-shadow: 0 10px 32px rgba(229, 184, 74, 0.18);
+    border-color: rgba(229, 184, 74, 0.65);
+    box-shadow: 0 12px 36px rgba(229, 184, 74, 0.2);
   }
   .upgrade-banner-badge {
     display: inline-flex;
     align-items: center;
     gap: 7px;
     font-size: 11.5px;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.06em;
     color: var(--gold);
     margin-bottom: 0.75rem;
   }
-  .upgrade-banner-badge .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--teal);
+  .upgrade-banner-badge .star {
+    color: var(--gold);
+    font-size: 13px;
   }
   .upgrade-banner-title {
-    font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
     font-weight: 800;
     color: #fff;
     margin-bottom: 0.6rem;
-    line-height: 1.3;
+    line-height: 1.32;
   }
   .upgrade-banner-body {
     font-size: 14.5px;
-    line-height: 1.65;
-    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.68;
+    color: rgba(255, 255, 255, 0.75);
     margin-bottom: 1rem;
-    max-width: 62ch;
+    max-width: 66ch;
+  }
+  .upgrade-banner-body strong {
+    color: #fff;
   }
   .upgrade-banner-points {
     list-style: none;
@@ -92,7 +108,7 @@ const { href, quizName, points, ctaLabel = 'Take the Full Assessment — Free' }
     gap: 0.5rem 1.5rem;
     margin: 0 0 1.35rem;
     padding: 0;
-    max-width: 56rem;
+    max-width: 58rem;
   }
   .upgrade-banner-points li {
     display: flex;
@@ -107,9 +123,11 @@ const { href, quizName, points, ctaLabel = 'Take the Full Assessment — Free' }
     font-weight: 800;
     flex-shrink: 0;
   }
-  .upgrade-banner-cta {
-    display: inline-flex;
-    margin-right: 0.9rem;
+  .upgrade-banner-cta-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.9rem;
   }
   .upgrade-banner-note {
     font-size: 12.5px;
@@ -119,7 +137,6 @@ const { href, quizName, points, ctaLabel = 'Take the Full Assessment — Free' }
   @media (max-width: 640px) {
     .upgrade-banner { padding: 1.4rem 1.3rem; }
     .upgrade-banner-points { grid-template-columns: 1fr; }
-    .upgrade-banner-cta { display: flex; justify-content: center; margin: 0 0 0.75rem; }
-    .upgrade-banner-note { display: block; text-align: center; }
+    .upgrade-banner-cta-row { flex-direction: column; align-items: stretch; text-align: center; gap: 0.5rem; }
   }
 </style>

@@ -68,6 +68,19 @@ const relevantAssessmentTargets = expandedAssessmentTargets
     ...ASSESSMENT_TARGETS[id],
   }))
   .sort((a, b) => Number(b.isHolistic) - Number(a.isHolistic));
+// What each holistic assessment adds on top of the narrower test the
+// visitor actually searched for - used to confirm, by name, that whatever
+// they came here for is still covered before asking them to take a longer
+// report instead.
+const HOLISTIC_EXTRA_COPY: Partial<Record<AssessmentTargetId, string>> = {
+  class10: 'stream fit across PCM, PCB, Commerce, and Humanities, your thinking style, aptitude signals, and a full 6-month roadmap',
+  class1112: 'a college entrance strategy with realistic college targets, entrance exam readiness, aptitude signals, and a full skill roadmap',
+};
+const holisticConfirmationNote = (item: (typeof relevantAssessmentTargets)[number]) => {
+  const extra = HOLISTIC_EXTRA_COPY[item.id] ?? 'a lot more depth';
+  const whatTheyCameFor = item.id === target.id ? 'everything on this page' : target.title;
+  return `Yes, ${whatTheyCameFor} is included here too - 100% free, no sign-up, instant result - plus ${extra}, all in one report.`;
+};
 const plansMode = resolveAssessmentPlansMode(
   relevantAssessmentTargets.map((item) => item.guidanceMode),
 );
@@ -590,11 +603,12 @@ const jsonLd = [
       {showRelevantAssessmentChoices && (
         <div id="hero-assessment-choices" class="hero-choice-wrap card">
           <div class="hero-choice-copy">
-            <div class="hero-choice-kicker">Start here</div>
-            <h2>Choose the free assessment that fits you best</h2>
+            <div class="hero-choice-kicker">Start here · Always free</div>
+            <h2>Get the complete picture, not just one piece of it</h2>
             <p>
-              Different stages need different free assessments. Pick the one that matches where
-              you are and the kind of clarity you need right now.
+              Every option below is 100% free with an instant result. The recommended one covers
+              everything the others check individually, plus a lot more, in a single report - so
+              most people get more value starting there.
             </p>
           </div>
 
@@ -602,14 +616,13 @@ const jsonLd = [
             {relevantAssessmentTargets.map((item) => (
               <article class={`hero-choice-card${item.isHolistic ? ' hero-choice-card-featured' : ''}`}>
                 <div class={`hero-choice-badge${item.isHolistic ? ' hero-choice-badge-featured' : ''}`}>
-                  {item.isHolistic ? 'Recommended · Most complete' : '100% free'}
+                  {item.isHolistic ? '★ Highly recommended · Most complete · 100% free' : '100% free'}
                 </div>
                 <h3>{item.title}</h3>
                 <p>{item.summary}</p>
                 {item.isHolistic && (
                   <p class="hero-choice-holistic-note">
-                    Covers everything the other free tests below check, plus stream fit, thinking
-                    style, aptitude signals, and a full roadmap - in one report.
+                    {holisticConfirmationNote(item)}
                   </p>
                 )}
                 <a href={item.href} class="btn-gold hero-choice-cta">{item.label}</a>
