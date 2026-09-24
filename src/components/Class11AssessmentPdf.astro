@@ -1,0 +1,76 @@
+<script>
+  import { createClass11AssessmentPdf } from '../scripts/class11AssessmentPdf';
+
+  declare global {
+    interface Window {
+      downloadClass11AssessmentPdf?: () => Promise<boolean>;
+    }
+  }
+
+  const downloadButtons = () =>
+    Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        '[data-download-assessment-report], [data-class-11-pdf-download]'
+      )
+    );
+
+  const setDownloadState = (state: 'loading' | 'success' | 'error') => {
+    const buttons = downloadButtons();
+    const statuses = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-report-download-status]')
+    );
+    buttons.forEach((button) => {
+      button.dataset.originalLabel ||= button.textContent || 'Download PDF';
+      button.disabled = state === 'loading';
+      button.textContent =
+        state === 'loading'
+          ? 'Preparing complete PDF...'
+          : state === 'success'
+            ? 'PDF downloaded'
+            : button.dataset.originalLabel;
+    });
+    statuses.forEach((status) => {
+      status.textContent =
+        state === 'loading'
+          ? 'Designing every section of your complete report. This may take a few seconds.'
+          : state === 'success'
+            ? 'Your complete, redesigned report has been downloaded.'
+            : 'The PDF could not be created. Please try again.';
+    });
+  };
+
+  async function downloadClass11AssessmentPdf() {
+    const container = document.getElementById('results-container') as HTMLElement | null;
+    if (!container) return false;
+    setDownloadState('loading');
+    try {
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      const { jsPDF: PdfDocument } = await import('jspdf');
+      const { pdf } = createClass11AssessmentPdf(container, PdfDocument, {
+        title: 'Class 11 and 12 Career Assessment Report',
+        reportKicker: 'STREAM AND CAREER DIRECTION REPORT',
+        guidanceUrl:
+          'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-12th/',
+        siteUrl: 'https://futurecareerschool.com',
+        phoneDisplay: '+91 78159 27259',
+      });
+      pdf.save('class-11-12-career-assessment-report.pdf');
+      setDownloadState('success');
+      window.setTimeout(() => {
+        downloadButtons().forEach((button) => {
+          button.disabled = false;
+          button.textContent = button.dataset.originalLabel || 'Download PDF';
+        });
+      }, 2400);
+      return true;
+    } catch (error) {
+      console.error('Unable to generate the Class 11 and 12 assessment PDF:', error);
+      setDownloadState('error');
+      return false;
+    }
+  }
+
+  window.downloadClass11AssessmentPdf = downloadClass11AssessmentPdf;
+</script>
+
+

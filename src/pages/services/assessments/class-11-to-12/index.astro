@@ -3,6 +3,7 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
 import AssessmentReportTools from '../../../../components/AssessmentReportTools.astro';
+import Class11AssessmentPdf from '../../../../components/Class11AssessmentPdf.astro';
 import AssessmentGuidanceCta from '../../../../components/bofu/AssessmentGuidanceCta.astro';
 import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
@@ -401,10 +402,12 @@ const jsonLd = [
   <AssessmentReportTools
     title="Class 11 and 12 Career Assessment Report"
     fileName="class-11-12-career-assessment-report.pdf"
+    downloadFunctionName="downloadClass11AssessmentPdf"
     reportKicker="STREAM AND CAREER DIRECTION REPORT"
     guidanceLabel="Explore Guidance After Class 12"
     guidanceUrl="https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-12th/"
   />
+  <Class11AssessmentPdf />
   <Footer />
 </BaseLayout>
 
@@ -3333,7 +3336,7 @@ function showResults() {
       '<h3 class="rg-title">Want to Go Deeper?</h3>' +
       '<p class="rg-body">' + P.guidance + '</p>' +
       '<div class="rg-actions">' +
-        '<button class="btn-outline" onclick="downloadResultsAsPDF()" style="background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.3);color:#2dd4bf">📥 Download Results as PDF</button>' +
+        '<button class="btn-outline" data-class-11-pdf-download onclick="downloadResultsAsPDF()" style="background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.3);color:#2dd4bf">📥 Download Results as PDF</button>' +
         '<a href="' + guidanceResultsHref + '" class="btn-gold">' + guidanceResultsLabel + ' <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>' +
         '<button class="btn-outline" onclick="retakeQuiz()">Retake Assessment</button>' +
       '</div>' +
@@ -3357,16 +3360,10 @@ function showResults() {
 }
 
 function downloadResultsAsPDF() {
-  var resultsContainer = document.getElementById('results-container');
-  if (!resultsContainer || !window.downloadAssessmentReportPdf) {
+  if (!window.downloadClass11AssessmentPdf) {
     return;
   }
-
-  window.downloadAssessmentReportPdf({
-    title: 'Class 11 and 12 Career Assessment Report',
-    fileName: 'class-11-12-career-assessment-report.pdf',
-    container: resultsContainer
-  });
+  window.downloadClass11AssessmentPdf();
 }
 
 function retakeQuiz() {
