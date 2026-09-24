@@ -41,6 +41,8 @@ test('Class 10 results preserve both PDF controls and both download the redesign
   await expect(topActions.locator('[data-save-assessment-result]')).toBeVisible();
   await expect(topDownload).toBeVisible();
   await expect(bottomDownload).toBeVisible();
+  await expect(results.locator('[data-pdf-title="The 4 Core Human Skills (Forever Valuable)"]')).toBeVisible();
+  await expect(results.locator('[data-pdf-title="The 4 Business Types (For Later)"]')).toBeVisible();
 
   await expectPdfDownload(page, bottomDownload);
   await expect(topDownload).toBeEnabled({ timeout: 10_000 });

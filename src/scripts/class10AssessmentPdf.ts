@@ -67,9 +67,13 @@ function pdfText(value: string) {
 
 function linesFromElement(element: HTMLElement): ReportLine[] {
   const clone = element.cloneNode(true) as HTMLElement;
+  // A result section can itself be collapsed by the on-page report tools.
+  // querySelectorAll() only searches descendants, so remove the state from
+  // the cloned root explicitly before reading its complete text.
+  clone.classList.remove('is-collapsed');
   clone
     .querySelectorAll(
-      '.assessment-report-actions, .assessment-quick-nav, .assessment-section-toggle, script, style'
+      '.assessment-report-actions, .assessment-quick-nav, .assessment-section-toggle, .rg-actions, script, style'
     )
     .forEach((node) => node.remove());
   clone.querySelectorAll('details').forEach((details) => {
@@ -138,14 +142,16 @@ export function collectClass10Report(container: HTMLElement): ReportSection[] {
 
   const topLevelBlocks = Array.from(clone.children).filter((child) => {
     const element = child as HTMLElement;
-    return element.matches('.res-header, .res-section, .res-guidance');
+    return element.matches('.res-header, .res-section, .res-guidance, [data-pdf-section]');
   }) as HTMLElement[];
 
   return topLevelBlocks
     .map((block, index) => {
-      const heading = block.querySelector<HTMLElement>('h1,h2,h3');
+      const heading = block.querySelector<HTMLElement>('h1,h2,h3,[data-pdf-section-heading]');
       const title = normaliseVisibleText(
-        heading?.textContent || (index === 0 ? 'Your Career Profile' : `Insight ${index + 1}`)
+        block.dataset.pdfTitle ||
+          heading?.textContent ||
+          (index === 0 ? 'Your Career Profile' : `Insight ${index + 1}`)
       );
       heading?.remove();
       return { title, lines: linesFromElement(block) };
@@ -262,35 +268,69 @@ export function createClass10AssessmentPdf(
     pdf.text('YOUR DISCOVERY MAP', 44.5, titleBottom + 15, { align: 'center' });
 
     const profile = sections[0];
-    const profileLead = profile?.lines.find((line) => line.text.length > 12)?.text || profile?.title;
+    const profileCode = profile?.lines.find((line) => /^Holland Code:/i.test(line.text))?.text;
+    const profileBlend = profile?.lines.find(
+      (line) =>
+        line.text.includes('+') &&
+        !/^Holland Code:/i.test(line.text) &&
+        line.text.length < 90
+    )?.text;
+    const profileParagraphs =
+      profile?.lines.filter((line) => line.kind === 'body' && line.text.length > 45) || [];
+    const profileTagline = profileParagraphs[0]?.text;
+    const profileContext = profileParagraphs[1]?.text;
+
+    setText(COLOR.gold);
+    setFont('bold', 8.2);
+    pdf.text('PRIMARY CAREER PERSONALITY', 21, titleBottom + 36);
     setText(COLOR.white);
-    setFont('bold', 17);
-    pdf.text(wrap(profileLead || 'Your personalised profile', 160, 'bold', 17), 21, titleBottom + 37, {
-      lineHeightFactor: 1.08,
+    setFont('bold', 22);
+    const profileTitleLines = wrap(profile?.title || 'Your personalised profile', 160, 'bold', 22);
+    pdf.text(profileTitleLines, 21, titleBottom + 47, { lineHeightFactor: 1.03 });
+
+    const profileTitleBottom = titleBottom + 47 + profileTitleLines.length * 8.5;
+    let chipX = 21;
+    [profileCode, profileBlend].filter(Boolean).forEach((label, index) => {
+      const safeLabel = pdfText(label || '');
+      setFont('bold', 7.8);
+      const chipWidth = Math.min(index === 0 ? 45 : 82, pdf.getTextWidth(safeLabel) + 12);
+      setFill(index === 0 ? COLOR.gold : COLOR.teal);
+      pdf.roundedRect(chipX, profileTitleBottom + 3, chipWidth, 8.5, 4.25, 4.25, 'F');
+      setText(index === 0 ? COLOR.navy : COLOR.white);
+      pdf.text(safeLabel, chipX + chipWidth / 2, profileTitleBottom + 8.6, { align: 'center' });
+      chipX += chipWidth + 4;
     });
 
-    const summary = sections
-      .flatMap((section) => section.lines)
-      .find((line) => line.kind === 'body' && line.text.length > 80)?.text;
-    const cardY = titleBottom + 65;
+    const cardY = profileTitleBottom + 19;
     setFill(COLOR.navyCard);
     setDraw([45, 65, 87]);
-    pdf.roundedRect(21, cardY, 168, 55, 5, 5, 'FD');
-    setText([190, 204, 219]);
-    setFont('normal', 10);
+    pdf.roundedRect(21, cardY, 168, 52, 5, 5, 'FD');
+    setText(COLOR.white);
+    setFont('bold', 11.2);
+    const taglineLines = wrap(
+      profileTagline || 'Your personalised career pattern and the strengths behind it.',
+      148,
+      'bold',
+      11.2
+    );
+    pdf.text(taglineLines, 31, cardY + 12, { lineHeightFactor: 1.25 });
+    const contextY = cardY + 14 + taglineLines.length * 5.1;
+    setText([182, 199, 216]);
+    setFont('normal', 9.7);
     pdf.text(
       wrap(
-        summary || 'A complete, personalised view of your interests, strengths, stream fit, learning style and next steps.',
+        profileContext ||
+          'This complete report connects your interests, strengths, stream fit, learning style and practical next steps.',
         148,
         'normal',
-        10
-      ).slice(0, 8),
+        9.7
+      ),
       31,
-      cardY + 13,
-      { lineHeightFactor: 1.4 }
+      contextY,
+      { lineHeightFactor: 1.32 }
     );
 
-    const statY = cardY + 70;
+    const statY = cardY + 65;
     [
       [`${sections.length}`, 'REPORT SECTIONS'],
       ['25', 'QUESTIONS'],
@@ -319,23 +359,25 @@ export function createClass10AssessmentPdf(
 
   const renderSectionHeader = (title: string) => {
     sectionNumber += 1;
-    const titleLines = wrap(title, contentWidth - 31, 'bold', 14);
-    const height = Math.max(25, titleLines.length * 7 + 11);
-    ensureSpace(height + 5);
-    setFill(COLOR.navy);
-    pdf.roundedRect(marginX, y, contentWidth, height, 4, 4, 'F');
-    setFill(sectionNumber % 2 ? COLOR.gold : COLOR.teal);
-    pdf.roundedRect(marginX + 6, y + 5.5, 18, 14, 3, 3, 'F');
+    const accent = sectionNumber % 2 ? COLOR.gold : COLOR.teal;
+    const titleLines = wrap(title, contentWidth - 27, 'bold', 15.5);
+    const height = Math.max(18, titleLines.length * 7 + 7);
+    ensureSpace(height + 6);
+    setFill(COLOR.white);
+    setDraw(COLOR.line);
+    pdf.roundedRect(marginX, y, contentWidth, height, 3.5, 3.5, 'FD');
+    setFill(accent);
+    pdf.roundedRect(marginX, y, 4, height, 2, 2, 'F');
+    pdf.circle(marginX + 13, y + height / 2, 6, 'F');
     setText(sectionNumber % 2 ? COLOR.navy : COLOR.white);
-    setFont('bold', 8.8);
-    pdf.text(String(sectionNumber).padStart(2, '0'), marginX + 15, y + 14.5, { align: 'center' });
-    setText([164, 182, 201]);
-    setFont('bold', 6.5);
-    pdf.text('DISCOVERY', marginX + 29, y + 8.7);
-    setText(COLOR.white);
-    setFont('bold', 14);
-    pdf.text(titleLines, marginX + 29, y + 16.5, { lineHeightFactor: 1.08 });
-    y += height + 5;
+    setFont('bold', 7.8);
+    pdf.text(String(sectionNumber).padStart(2, '0'), marginX + 13, y + height / 2 + 2.4, {
+      align: 'center',
+    });
+    setText(COLOR.ink);
+    setFont('bold', 15.5);
+    pdf.text(titleLines, marginX + 24, y + 8.5, { lineHeightFactor: 1.06 });
+    y += height + 6;
   };
 
   const renderLine = (line: ReportLine, index: number) => {
@@ -343,28 +385,28 @@ export function createClass10AssessmentPdf(
     if (!text || !/[A-Za-z0-9]/.test(text)) return;
 
     if (line.kind === 'subheading') {
-      const wrapped = wrap(text, contentWidth - 10, 'bold', 11.2);
-      const height = wrapped.length * 5.1 + 7;
+      const wrapped = wrap(text, contentWidth - 12, 'bold', 11.8);
+      const height = wrapped.length * 5.5 + 5;
       ensureSpace(height);
-      setFill(COLOR.indigo);
-      pdf.roundedRect(marginX, y + 1, 2.5, Math.max(8, height - 3), 1, 1, 'F');
+      setFill(COLOR.teal);
+      pdf.roundedRect(marginX, y + 1, 2.2, Math.max(7, height - 3), 1.1, 1.1, 'F');
       setText(COLOR.ink);
-      setFont('bold', 11.2);
-      pdf.text(wrapped, marginX + 7, y + 6.5, { lineHeightFactor: 1.15 });
+      setFont('bold', 11.8);
+      pdf.text(wrapped, marginX + 7, y + 6.3, { lineHeightFactor: 1.15 });
       y += height;
       return;
     }
 
     if (line.kind === 'table') {
-      const wrapped = wrap(text, contentWidth - 12, index === 0 ? 'bold' : 'normal', 8.1);
-      const height = wrapped.length * 3.9 + 7;
+      const wrapped = wrap(text, contentWidth - 12, index === 0 ? 'bold' : 'normal', 9.4);
+      const height = wrapped.length * 4.5 + 7;
       ensureSpace(height + 1);
       setFill(index % 2 ? COLOR.white : COLOR.indigoSoft);
       setDraw(COLOR.line);
       pdf.roundedRect(marginX, y, contentWidth, height, 2.5, 2.5, 'FD');
       setText(COLOR.ink);
-      setFont(index === 0 ? 'bold' : 'normal', 8.1);
-      pdf.text(wrapped, marginX + 6, y + 5.5, { lineHeightFactor: 1.15 });
+      setFont(index === 0 ? 'bold' : 'normal', 9.4);
+      pdf.text(wrapped, marginX + 6, y + 5.8, { lineHeightFactor: 1.18 });
       y += height + 1.5;
       return;
     }
@@ -372,8 +414,8 @@ export function createClass10AssessmentPdf(
     const metric = text.match(/(?:^|\s)(\d{1,3})\s*%(?:\s|$)/);
     if (metric && text.length < 150) {
       const metricLabel = text === `${metric[1]}%` ? 'Relative score' : text;
-      const wrapped = wrap(metricLabel, contentWidth - 35, 'bold', 9.1);
-      const height = Math.max(21, wrapped.length * 4.3 + 10);
+      const wrapped = wrap(metricLabel, contentWidth - 35, 'bold', 9.8);
+      const height = Math.max(19, wrapped.length * 4.6 + 9);
       ensureSpace(height + 2);
       setFill(COLOR.navyCard);
       pdf.roundedRect(marginX, y, contentWidth, height, 4, 4, 'F');
@@ -383,7 +425,7 @@ export function createClass10AssessmentPdf(
       setFont('bold', 10.5);
       pdf.text(`${metric[1]}%`, marginX + 17, y + 12.5, { align: 'center' });
       setText(COLOR.white);
-      setFont('bold', 9.1);
+      setFont('bold', 9.8);
       pdf.text(wrapped, marginX + 33, y + 7.5, { lineHeightFactor: 1.16 });
       setFill([48, 67, 88]);
       pdf.roundedRect(marginX + 33, y + height - 6, contentWidth - 40, 2, 1, 1, 'F');
@@ -402,18 +444,19 @@ export function createClass10AssessmentPdf(
     }
 
     if (line.kind === 'bullet') {
-      const wrapped = wrap(text, contentWidth - 18, 'normal', 9);
-      const height = wrapped.length * 4.2 + 7;
+      const wrapped = wrap(text, contentWidth - 18, 'normal', 10);
+      const height = wrapped.length * 4.75 + 6;
       ensureSpace(height + 1);
-      setFill(COLOR.tealSoft);
-      pdf.roundedRect(marginX, y, contentWidth, height, 3, 3, 'F');
+      setFill(COLOR.white);
+      setDraw(COLOR.line);
+      pdf.roundedRect(marginX, y, contentWidth, height, 3, 3, 'FD');
       setFill(COLOR.teal);
       pdf.circle(marginX + 7, y + 6.2, 2.2, 'F');
       setText(COLOR.white);
       setFont('bold', 6.5);
       pdf.text('>', marginX + 7, y + 7.3, { align: 'center' });
       setText(COLOR.ink);
-      setFont('normal', 9);
+      setFont('normal', 10);
       pdf.text(wrapped, marginX + 13, y + 6.5, { lineHeightFactor: 1.18 });
       y += height + 1.5;
       return;
@@ -424,22 +467,20 @@ export function createClass10AssessmentPdf(
       !/[.!?]$/.test(text) &&
       (/[:%]$/.test(text) || /^[A-Z][A-Z0-9 &/+()-]{2,}$/.test(text) || text.split(' ').length <= 7);
     if (isLabel) {
-      const wrapped = wrap(text, contentWidth - 14, 'bold', 9.2);
-      const height = wrapped.length * 4.3 + 7;
+      const wrapped = wrap(text, contentWidth - 14, 'bold', 10.2);
+      const height = wrapped.length * 4.8 + 4;
       ensureSpace(height + 1);
-      setFill(COLOR.goldSoft);
-      pdf.roundedRect(marginX, y, contentWidth, height, 3, 3, 'F');
       setFill(COLOR.gold);
-      pdf.roundedRect(marginX, y, 3, height, 1.5, 1.5, 'F');
+      pdf.circle(marginX + 2.2, y + 4.7, 1.7, 'F');
       setText(COLOR.ink);
-      setFont('bold', 9.2);
-      pdf.text(wrapped, marginX + 8, y + 6.2, { lineHeightFactor: 1.15 });
-      y += height + 1.5;
+      setFont('bold', 10.2);
+      pdf.text(wrapped, marginX + 7, y + 6.2, { lineHeightFactor: 1.18 });
+      y += height + 0.8;
       return;
     }
 
-    drawWrappedAcrossPages(text, contentWidth - 2, marginX + 1, 'normal', 9, COLOR.slate, 4.25);
-    y += 1;
+    drawWrappedAcrossPages(text, contentWidth - 2, marginX + 1, 'normal', 10.25, COLOR.slate, 4.95);
+    y += 1.5;
   };
 
   renderCover();
