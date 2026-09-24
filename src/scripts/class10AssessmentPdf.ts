@@ -122,7 +122,26 @@ function linesFromElement(element: HTMLElement): ReportLine[] {
   const visibleLines = clone.innerText.split(/\r?\n/).map(normaliseVisibleText).filter(Boolean);
   clone.remove();
 
-  return visibleLines.map((text) => ({
+  // Some result cards place a decorative marker in an absolutely positioned
+  // span, which innerText exposes as a separate line. Re-attach that marker to
+  // its label so the PDF keeps the same visual and semantic relationship.
+  const mergedLines: string[] = [];
+  for (let index = 0; index < visibleLines.length; index += 1) {
+    const current = visibleLines[index];
+    const next = visibleLines[index + 1];
+    if (
+      next &&
+      /^[\u2713\u2714\u2705\u2192\u21d2\u27a4\u279c]$/.test(current) &&
+      !/^[\u2605\u2606\u2713\u2714\u2705\u2192\u21d2\u27a4\u279c]+$/.test(next)
+    ) {
+      mergedLines.push(`${current} ${next}`);
+      index += 1;
+    } else {
+      mergedLines.push(current);
+    }
+  }
+
+  return mergedLines.map((text) => ({
     kind: tableRows.has(text)
       ? 'table'
       : subheadings.has(text)
@@ -183,6 +202,40 @@ export function createClass10AssessmentPdf(
   const setFont = (style: 'normal' | 'bold', size: number) => {
     pdf.setFont('helvetica', style);
     pdf.setFontSize(size);
+  };
+
+  const drawStar = (centerX: number, centerY: number, filled: boolean, radius = 3.1) => {
+    const points = Array.from({ length: 10 }, (_, index) => {
+      const angle = -Math.PI / 2 + (index * Math.PI) / 5;
+      const pointRadius = index % 2 === 0 ? radius : radius * 0.45;
+      return [centerX + Math.cos(angle) * pointRadius, centerY + Math.sin(angle) * pointRadius] as const;
+    });
+    const deltas = points.slice(1).map((point, index) => [
+      point[0] - points[index][0],
+      point[1] - points[index][1],
+    ]);
+    deltas.push([points[0][0] - points[9][0], points[0][1] - points[9][1]]);
+    setDraw(filled ? COLOR.gold : COLOR.muted);
+    setFill(filled ? COLOR.gold : COLOR.white);
+    pdf.setLineWidth(filled ? 0.35 : 0.55);
+    pdf.lines(deltas, points[0][0], points[0][1], [1, 1], filled ? 'FD' : 'S', true);
+  };
+
+  const drawCheck = (centerX: number, centerY: number, radius = 3.2) => {
+    setFill(COLOR.teal);
+    pdf.circle(centerX, centerY, radius, 'F');
+    setDraw(COLOR.white);
+    pdf.setLineWidth(0.8);
+    pdf.line(centerX - 1.6, centerY, centerX - 0.35, centerY + 1.35);
+    pdf.line(centerX - 0.35, centerY + 1.35, centerX + 1.9, centerY - 1.35);
+  };
+
+  const drawArrow = (x: number, centerY: number) => {
+    setDraw(COLOR.teal);
+    pdf.setLineWidth(0.8);
+    pdf.line(x, centerY, x + 6, centerY);
+    pdf.line(x + 6, centerY, x + 3.8, centerY - 2);
+    pdf.line(x + 6, centerY, x + 3.8, centerY + 2);
   };
   const wrap = (text: string, width: number, style: 'normal' | 'bold', size: number) => {
     setFont(style, size);
@@ -384,9 +437,84 @@ export function createClass10AssessmentPdf(
     y += height + 6;
   };
 
-  const renderLine = (line: ReportLine, index: number) => {
-    const text = pdfText(line.text);
+  const renderLine = (line: ReportLine, index: number, nextLine?: ReportLine) => {
+    const rawText = normaliseVisibleText(line.text);
+    const ratingSymbols = rawText.match(/^[\u2605\u2606]+$/)?.[0];
+    if (ratingSymbols) {
+      const filledCount = Array.from(ratingSymbols).filter((symbol) => symbol === '\u2605').length;
+      const totalCount = Array.from(ratingSymbols).length;
+      const height = 15;
+      ensureSpace(height + 2);
+      setFill(COLOR.goldSoft);
+      setDraw([239, 220, 166]);
+      pdf.roundedRect(marginX, y, contentWidth, height, 3, 3, 'FD');
+      setText(COLOR.ink);
+      setFont('bold', 8.2);
+      pdf.text('STREAM FIT', marginX + 7, y + 9.2);
+      Array.from(ratingSymbols).forEach((symbol, starIndex) => {
+        drawStar(marginX + 42 + starIndex * 8.2, y + 7.5, symbol === '\u2605');
+      });
+      setText(COLOR.slate);
+      setFont('bold', 9.2);
+      pdf.text(
+        `${filledCount} of ${totalCount} stars`,
+        pageWidth - marginX - 7,
+        y + 9.4,
+        { align: 'right' }
+      );
+      y += height + 2;
+      return;
+    }
+
+    if (/^[\u2713\u2714\u2705]+$/.test(rawText)) {
+      ensureSpace(8);
+      drawCheck(marginX + 4, y + 3.7, 2.8);
+      y += 7.5;
+      return;
+    }
+
+    if (/^[\u2192\u21d2\u27a4\u279c]+$/.test(rawText)) {
+      ensureSpace(7);
+      drawArrow(marginX + 1, y + 3.2);
+      y += 6.5;
+      return;
+    }
+
+    const isRecommended = /[\u2713\u2714\u2705]\s*$/.test(rawText);
+    const isTopMatch = /\u2605\s*$/.test(rawText) && !/^[\u2605\u2606]+$/.test(rawText);
+    const hasLeadingCheck = /^[\u2713\u2714\u2705]\s+/.test(rawText);
+    const hasLeadingArrow = /^[\u2192\u21d2\u27a4\u279c]\s+/.test(rawText);
+    const hasLeadingSwatch = /^\u25a0\s+/.test(rawText);
+    const cleanedText = rawText
+      .replace(/^[\u2713\u2714\u2705\u2192\u21d2\u27a4\u279c\u25a0]\s+/, '')
+      .replace(/\s+[\u2713\u2714\u2705\u2605]\s*$/, '');
+    const text = pdfText(cleanedText);
     if (!text || !/[A-Za-z0-9]/.test(text)) return;
+
+    if (isRecommended || isTopMatch) {
+      const badgeLabel = isRecommended ? 'RECOMMENDED' : 'TOP MATCH';
+      const wrapped = wrap(text, contentWidth - 56, 'bold', 10.7);
+      const height = Math.max(14, wrapped.length * 5.1 + 6);
+      ensureSpace(height + 2);
+      setFill(isRecommended ? COLOR.tealSoft : COLOR.goldSoft);
+      setDraw(isRecommended ? [176, 226, 219] : [239, 220, 166]);
+      pdf.roundedRect(marginX, y, contentWidth, height, 3.5, 3.5, 'FD');
+      if (isRecommended) drawCheck(marginX + 8, y + height / 2, 3.2);
+      else drawStar(marginX + 8, y + height / 2, true, 3.4);
+      setText(COLOR.ink);
+      setFont('bold', 10.7);
+      pdf.text(wrapped, marginX + 15, y + 6.8, { lineHeightFactor: 1.16 });
+      setFill(isRecommended ? COLOR.teal : COLOR.gold);
+      pdf.roundedRect(pageWidth - marginX - 37, y + height / 2 - 3.8, 31, 7.6, 3.8, 3.8, 'F');
+      setText(isRecommended ? COLOR.white : COLOR.navy);
+      setFont('bold', 6.7);
+      pdf.text(badgeLabel, pageWidth - marginX - 21.5, y + height / 2, {
+        align: 'center',
+        baseline: 'middle',
+      });
+      y += height + 2;
+      return;
+    }
 
     if (line.kind === 'subheading') {
       const wrapped = wrap(text, contentWidth - 12, 'bold', 11.8);
@@ -447,18 +575,25 @@ export function createClass10AssessmentPdf(
       return;
     }
 
-    if (line.kind === 'bullet') {
+    if (line.kind === 'bullet' || hasLeadingCheck || hasLeadingArrow || hasLeadingSwatch) {
       const wrapped = wrap(text, contentWidth - 18, 'normal', 10.2);
       const height = wrapped.length * 4.85 + 6;
       ensureSpace(height + 1);
       setFill(COLOR.white);
       setDraw(COLOR.line);
       pdf.roundedRect(marginX, y, contentWidth, height, 3, 3, 'FD');
-      setFill(COLOR.teal);
-      pdf.circle(marginX + 7, y + 6.2, 2.2, 'F');
-      setText(COLOR.white);
-      setFont('bold', 6.5);
-      pdf.text('>', marginX + 7, y + 7.3, { align: 'center' });
+      if (hasLeadingCheck) drawCheck(marginX + 7, y + 6.2, 2.6);
+      else if (hasLeadingArrow) drawArrow(marginX + 4, y + 6.2);
+      else if (hasLeadingSwatch) {
+        setFill(index % 2 ? COLOR.teal : COLOR.indigo);
+        pdf.roundedRect(marginX + 4.4, y + 3.6, 5.2, 5.2, 1.1, 1.1, 'F');
+      } else {
+        setFill(COLOR.teal);
+        pdf.circle(marginX + 7, y + 6.2, 2.2, 'F');
+        setText(COLOR.white);
+        setFont('bold', 6.5);
+        pdf.text('>', marginX + 7, y + 7.3, { align: 'center' });
+      }
       setText(COLOR.ink);
       setFont('normal', 10.2);
       pdf.text(wrapped, marginX + 13, y + 6.5, { lineHeightFactor: 1.18 });
@@ -476,7 +611,8 @@ export function createClass10AssessmentPdf(
       const wrapped = wrap(text, contentWidth - 14, 'bold', 10.5);
       const height = wrapped.length * 4.95 + 4;
       // Avoid leaving a label by itself at the foot of a page.
-      ensureSpace(height + 10);
+      const nextIsRating = Boolean(nextLine && /^[\u2605\u2606]+$/.test(normaliseVisibleText(nextLine.text)));
+      ensureSpace(height + (nextIsRating ? 40 : 10));
       setFill(COLOR.gold);
       pdf.circle(marginX + 2.2, y + 4.7, 1.7, 'F');
       setText(COLOR.ink);
@@ -494,7 +630,7 @@ export function createClass10AssessmentPdf(
   addContentPage();
   sections.forEach((section) => {
     renderSectionHeader(section.title);
-    section.lines.forEach(renderLine);
+    section.lines.forEach((line, index) => renderLine(line, index, section.lines[index + 1]));
     y += 4;
   });
 
