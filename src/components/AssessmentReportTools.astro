@@ -6,6 +6,7 @@ interface Props {
   fileName: string;
   containerId?: string;
   downloadButtonId?: string;
+  downloadFunctionName?: string;
   guidanceUrl?: string;
   guidanceLabel?: string;
   reportKicker?: string;
@@ -16,6 +17,7 @@ const {
   fileName,
   containerId = 'results-container',
   downloadButtonId = '',
+  downloadFunctionName = '',
   guidanceUrl = `${SITE_URL}/services/career-counselling-and-career-guidance/career-guidance/`,
   guidanceLabel = 'Explore Personalised Career Guidance',
   reportKicker = 'PERSONALISED CAREER REPORT',
@@ -33,6 +35,7 @@ const assessmentSlug = Astro.url.pathname
   data-file-name={fileName}
   data-container-id={containerId}
   data-download-button-id={downloadButtonId}
+  data-download-function-name={downloadFunctionName}
   data-guidance-url={guidanceUrl}
   data-guidance-label={guidanceLabel}
   data-report-kicker={reportKicker}
@@ -65,6 +68,7 @@ const assessmentSlug = Astro.url.pathname
   const defaultFileName = config?.dataset.fileName || 'career-assessment-report.pdf';
   const defaultContainerId = config?.dataset.containerId || 'results-container';
   const customDownloadButtonId = config?.dataset.downloadButtonId || '';
+  const customDownloadFunctionName = config?.dataset.downloadFunctionName || '';
   const guidanceUrl =
     config?.dataset.guidanceUrl ||
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance/';
@@ -454,6 +458,14 @@ const assessmentSlug = Astro.url.pathname
   }
 
   async function triggerReportDownload(container: HTMLElement) {
+    const customDownloadFunction = customDownloadFunctionName
+      ? (window as unknown as Record<string, unknown>)[customDownloadFunctionName]
+      : null;
+
+    if (typeof customDownloadFunction === 'function') {
+      return (customDownloadFunction as () => Promise<boolean>)();
+    }
+
     const customDownloadButton = customDownloadButtonId
       ? (document.getElementById(customDownloadButtonId) as HTMLButtonElement | null)
       : null;
@@ -1234,6 +1246,5 @@ const assessmentSlug = Astro.url.pathname
     }
   }
 </style>
-
 
 
