@@ -26,7 +26,7 @@ const COLOR = {
   navy: [8, 18, 35],
   navyCard: [18, 35, 57],
   ink: [24, 39, 58],
-  slate: [75, 94, 114],
+  slate: [61, 80, 101],
   muted: [122, 139, 156],
   paper: [247, 249, 252],
   white: [255, 255, 255],
@@ -360,23 +360,27 @@ export function createClass10AssessmentPdf(
   const renderSectionHeader = (title: string) => {
     sectionNumber += 1;
     const accent = sectionNumber % 2 ? COLOR.gold : COLOR.teal;
-    const titleLines = wrap(title, contentWidth - 27, 'bold', 15.5);
-    const height = Math.max(18, titleLines.length * 7 + 7);
-    ensureSpace(height + 6);
+    const titleLines = wrap(title, contentWidth - 29, 'bold', 15.2);
+    const height = Math.max(19, titleLines.length * 7 + 7);
+    // Keep the heading with at least the first line of its section.
+    ensureSpace(height + 18);
     setFill(COLOR.white);
     setDraw(COLOR.line);
     pdf.roundedRect(marginX, y, contentWidth, height, 3.5, 3.5, 'FD');
     setFill(accent);
     pdf.roundedRect(marginX, y, 4, height, 2, 2, 'F');
-    pdf.circle(marginX + 13, y + height / 2, 6, 'F');
+    const badgeCenterX = marginX + 13.5;
+    const badgeCenterY = y + height / 2;
+    pdf.circle(badgeCenterX, badgeCenterY, 6.8, 'F');
     setText(sectionNumber % 2 ? COLOR.navy : COLOR.white);
-    setFont('bold', 7.8);
-    pdf.text(String(sectionNumber).padStart(2, '0'), marginX + 13, y + height / 2 + 2.4, {
+    setFont('bold', 9.4);
+    pdf.text(String(sectionNumber).padStart(2, '0'), badgeCenterX, badgeCenterY, {
       align: 'center',
+      baseline: 'middle',
     });
     setText(COLOR.ink);
-    setFont('bold', 15.5);
-    pdf.text(titleLines, marginX + 24, y + 8.5, { lineHeightFactor: 1.06 });
+    setFont('bold', 15.2);
+    pdf.text(titleLines, marginX + 25.5, y + 8.8, { lineHeightFactor: 1.06 });
     y += height + 6;
   };
 
@@ -387,7 +391,7 @@ export function createClass10AssessmentPdf(
     if (line.kind === 'subheading') {
       const wrapped = wrap(text, contentWidth - 12, 'bold', 11.8);
       const height = wrapped.length * 5.5 + 5;
-      ensureSpace(height);
+      ensureSpace(height + 10);
       setFill(COLOR.teal);
       pdf.roundedRect(marginX, y + 1, 2.2, Math.max(7, height - 3), 1.1, 1.1, 'F');
       setText(COLOR.ink);
@@ -398,14 +402,14 @@ export function createClass10AssessmentPdf(
     }
 
     if (line.kind === 'table') {
-      const wrapped = wrap(text, contentWidth - 12, index === 0 ? 'bold' : 'normal', 9.4);
-      const height = wrapped.length * 4.5 + 7;
+      const wrapped = wrap(text, contentWidth - 12, index === 0 ? 'bold' : 'normal', 9.6);
+      const height = wrapped.length * 4.6 + 7;
       ensureSpace(height + 1);
       setFill(index % 2 ? COLOR.white : COLOR.indigoSoft);
       setDraw(COLOR.line);
       pdf.roundedRect(marginX, y, contentWidth, height, 2.5, 2.5, 'FD');
       setText(COLOR.ink);
-      setFont(index === 0 ? 'bold' : 'normal', 9.4);
+      setFont(index === 0 ? 'bold' : 'normal', 9.6);
       pdf.text(wrapped, marginX + 6, y + 5.8, { lineHeightFactor: 1.18 });
       y += height + 1.5;
       return;
@@ -444,8 +448,8 @@ export function createClass10AssessmentPdf(
     }
 
     if (line.kind === 'bullet') {
-      const wrapped = wrap(text, contentWidth - 18, 'normal', 10);
-      const height = wrapped.length * 4.75 + 6;
+      const wrapped = wrap(text, contentWidth - 18, 'normal', 10.2);
+      const height = wrapped.length * 4.85 + 6;
       ensureSpace(height + 1);
       setFill(COLOR.white);
       setDraw(COLOR.line);
@@ -456,7 +460,7 @@ export function createClass10AssessmentPdf(
       setFont('bold', 6.5);
       pdf.text('>', marginX + 7, y + 7.3, { align: 'center' });
       setText(COLOR.ink);
-      setFont('normal', 10);
+      setFont('normal', 10.2);
       pdf.text(wrapped, marginX + 13, y + 6.5, { lineHeightFactor: 1.18 });
       y += height + 1.5;
       return;
@@ -465,21 +469,24 @@ export function createClass10AssessmentPdf(
     const isLabel =
       text.length <= 72 &&
       !/[.!?]$/.test(text) &&
-      (/[:%]$/.test(text) || /^[A-Z][A-Z0-9 &/+()-]{2,}$/.test(text) || text.split(' ').length <= 7);
+      ((/[A-Z]/.test(text) && text === text.toUpperCase()) ||
+        /[:%]$/.test(text) ||
+        text.split(' ').length <= 7);
     if (isLabel) {
-      const wrapped = wrap(text, contentWidth - 14, 'bold', 10.2);
-      const height = wrapped.length * 4.8 + 4;
-      ensureSpace(height + 1);
+      const wrapped = wrap(text, contentWidth - 14, 'bold', 10.5);
+      const height = wrapped.length * 4.95 + 4;
+      // Avoid leaving a label by itself at the foot of a page.
+      ensureSpace(height + 10);
       setFill(COLOR.gold);
       pdf.circle(marginX + 2.2, y + 4.7, 1.7, 'F');
       setText(COLOR.ink);
-      setFont('bold', 10.2);
+      setFont('bold', 10.5);
       pdf.text(wrapped, marginX + 7, y + 6.2, { lineHeightFactor: 1.18 });
       y += height + 0.8;
       return;
     }
 
-    drawWrappedAcrossPages(text, contentWidth - 2, marginX + 1, 'normal', 10.25, COLOR.slate, 4.95);
+    drawWrappedAcrossPages(text, contentWidth - 2, marginX + 1, 'normal', 10.5, COLOR.slate, 5.1);
     y += 1.5;
   };
 
