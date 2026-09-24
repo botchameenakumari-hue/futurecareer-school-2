@@ -53,10 +53,21 @@ const requestedAssessmentTargets: AssessmentTargetId[] = [
 const expandedAssessmentTargets = requestedAssessmentTargets.includes('personality')
   ? [...requestedAssessmentTargets, 'big5' as AssessmentTargetId]
   : requestedAssessmentTargets;
-const relevantAssessmentTargets = expandedAssessmentTargets.filter((id, index, all) => all.indexOf(id) === index).map((id) => ({
-  id,
-  ...ASSESSMENT_TARGETS[id],
-}));
+// The two full, all-in-one stage assessments (class10, class1112) cover
+// everything the narrower single-purpose tests check (aptitude, stream,
+// personality, etc.) plus a lot more in one report. When a visitor is shown
+// a choice between several free assessments, the holistic one should read
+// as the clear best pick, not one neutral option among several - so it is
+// always sorted first and visually marked as the most complete choice.
+const HOLISTIC_ASSESSMENT_TARGETS = new Set<AssessmentTargetId>(['class10', 'class1112']);
+const relevantAssessmentTargets = expandedAssessmentTargets
+  .filter((id, index, all) => all.indexOf(id) === index)
+  .map((id) => ({
+    id,
+    isHolistic: HOLISTIC_ASSESSMENT_TARGETS.has(id),
+    ...ASSESSMENT_TARGETS[id],
+  }))
+  .sort((a, b) => Number(b.isHolistic) - Number(a.isHolistic));
 const plansMode = resolveAssessmentPlansMode(
   relevantAssessmentTargets.map((item) => item.guidanceMode),
 );
@@ -589,10 +600,18 @@ const jsonLd = [
 
           <div class="hero-choice-grid">
             {relevantAssessmentTargets.map((item) => (
-              <article class="hero-choice-card">
-                <div class="hero-choice-badge">100% free</div>
+              <article class={`hero-choice-card${item.isHolistic ? ' hero-choice-card-featured' : ''}`}>
+                <div class={`hero-choice-badge${item.isHolistic ? ' hero-choice-badge-featured' : ''}`}>
+                  {item.isHolistic ? 'Recommended · Most complete' : '100% free'}
+                </div>
                 <h3>{item.title}</h3>
                 <p>{item.summary}</p>
+                {item.isHolistic && (
+                  <p class="hero-choice-holistic-note">
+                    Covers everything the other free tests below check, plus stream fit, thinking
+                    style, aptitude signals, and a full roadmap - in one report.
+                  </p>
+                )}
                 <a href={item.href} class="btn-gold hero-choice-cta">{item.label}</a>
               </article>
             ))}
@@ -825,6 +844,13 @@ const jsonLd = [
     border: 1px solid rgba(255, 255, 255, 0.11);
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012));
     box-shadow: 0 16px 34px rgba(0, 0, 0, 0.2);
+    grid-column: span 1;
+  }
+  .hero-choice-card-featured {
+    grid-column: 1 / -1;
+    border: 1px solid rgba(229, 184, 74, 0.4);
+    background: linear-gradient(135deg, rgba(229, 184, 74, 0.1), rgba(45, 212, 191, 0.05));
+    box-shadow: 0 18px 40px rgba(229, 184, 74, 0.16);
   }
   .hero-choice-badge {
     width: fit-content;
@@ -838,16 +864,30 @@ const jsonLd = [
     text-transform: uppercase;
     color: rgba(45, 212, 191, 0.96);
   }
+  .hero-choice-badge-featured {
+    border: 1px solid rgba(229, 184, 74, 0.4);
+    background: rgba(229, 184, 74, 0.14);
+    color: var(--gold);
+  }
   .hero-choice-card h3 {
     margin: 0;
     font-size: 1rem;
     line-height: 1.42;
     color: #fff;
   }
+  .hero-choice-card-featured h3 {
+    font-size: 1.1rem;
+  }
   .hero-choice-card p {
     margin: 0;
     color: rgba(255, 255, 255, 0.68);
     line-height: 1.72;
+  }
+  .hero-choice-holistic-note {
+    color: rgba(255, 255, 255, 0.82) !important;
+    font-size: 13px;
+    padding-top: 0.15rem;
+    border-top: 1px solid rgba(229, 184, 74, 0.18);
   }
   .hero-choice-cta {
     justify-content: center;
