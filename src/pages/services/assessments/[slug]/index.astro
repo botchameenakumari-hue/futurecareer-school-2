@@ -46,9 +46,27 @@ if (!page) {
 }
 const target = ASSESSMENT_TARGETS[page.target];
 const pageUrl = `https://futurecareerschool.com/services/assessments/${page.slug}/`;
+// Every narrower, single-purpose 10th/12th test has a full, all-in-one
+// stage assessment that covers it plus a lot more (class10 for
+// aptitude10/stream10, class1112 for aptitude12/stream12). A page's
+// relatedTargets are hand-authored per page, and several were written
+// before that full assessment existed as an upsell target - so relying on
+// relatedTargets alone silently drops the holistic option on any page
+// where it was never added by hand. Auto-injecting it here from the page's
+// own primary target instead means every current and future page for one
+// of these four narrower tests always offers the holistic option, with no
+// per-page authoring required.
+const NARROW_TO_HOLISTIC_TARGET: Partial<Record<AssessmentTargetId, AssessmentTargetId>> = {
+  aptitude10: 'class10',
+  stream10: 'class10',
+  aptitude12: 'class1112',
+  stream12: 'class1112',
+};
+const autoHolisticTarget = NARROW_TO_HOLISTIC_TARGET[page.target];
 const requestedAssessmentTargets: AssessmentTargetId[] = [
   page.target,
   ...(page.relatedTargets ?? []),
+  ...(autoHolisticTarget ? [autoHolisticTarget] : []),
 ];
 const expandedAssessmentTargets = requestedAssessmentTargets.includes('personality')
   ? [...requestedAssessmentTargets, 'big5' as AssessmentTargetId]
