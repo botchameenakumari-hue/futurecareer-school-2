@@ -359,7 +359,7 @@ export function createClass11AssessmentPdf(
 
     setText(COLOR.gold);
     setFont('bold', 8.2);
-    pdf.text('PRIMARY CAREER PERSONALITY', 21, titleBottom + 36);
+    pdf.text('YOUR CAREER PROFILE', 21, titleBottom + 36);
     setText(COLOR.white);
     setFont('bold', 22);
     const profileTitleLines = wrap(profile?.title || 'Your personalised profile', 160, 'bold', 22);

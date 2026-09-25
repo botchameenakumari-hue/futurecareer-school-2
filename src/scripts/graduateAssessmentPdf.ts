@@ -11,7 +11,14 @@ interface ReportSection {
   title: string;
   lines: ReportLine[];
   kind?: 'profile' | 'riasec' | 'intelligences' | 'aptitude' | 'careers';
-  scoreRows?: Array<{ code: string; label: string; score: number; raw: string; rank?: string }>;
+  scoreRows?: Array<{
+    code: string;
+    label: string;
+    score: number;
+    raw: string;
+    rank?: string;
+    isLeading?: boolean;
+  }>;
   careerRows?: Array<{ career: string; domain: string; skill: string; salary: string; path: string }>;
   profile?: { code: string; label: string; badge: string; tagline: string; description: string };
 }
@@ -34,6 +41,13 @@ interface GraduatePdfOptions {
   removeDecorativeSectionIcons?: boolean;
   insightModuleSelector?: string;
   moduleCountLabel?: string;
+  coverMetricSelector?: string;
+}
+
+interface CoverMetric {
+  label: string;
+  value: string;
+  detail: string;
 }
 
 type Rgb = readonly [number, number, number];
@@ -220,6 +234,7 @@ export function collectGraduateReport(
           label: row.dataset.miLabel || '',
           score: Number(row.dataset.miScore || 0),
           raw: `${row.dataset.miRaw || '0'} raw points`,
+          isLeading: Boolean(row.querySelector('[aria-label="leading signal"]')),
         });
         row.remove();
       });
@@ -323,6 +338,15 @@ export function createGraduateAssessmentPdf(
   const insightModuleCount = options.insightModuleSelector
     ? container.querySelectorAll(options.insightModuleSelector).length || sections.length
     : sections.length;
+  const coverMetrics: CoverMetric[] = options.coverMetricSelector
+    ? Array.from(resultHeader?.querySelectorAll<HTMLElement>(options.coverMetricSelector) || [])
+        .map((element) => ({
+          label: normaliseVisibleText(element.dataset.pdfCoverLabel || ''),
+          value: normaliseVisibleText(element.dataset.pdfCoverValue || ''),
+          detail: normaliseVisibleText(element.dataset.pdfCoverDetail || ''),
+        }))
+        .filter((metric) => metric.label || metric.value || metric.detail)
+    : [];
 
   const pdf = new PdfDocument({ unit: 'mm', format: 'a4', compress: true });
   const pageWidth = pdf.internal.pageSize.getWidth();
@@ -499,10 +523,12 @@ export function createGraduateAssessmentPdf(
       chipX += chipWidth + 4;
     });
 
-    const cardY = profileTitleBottom + 19;
+    const hasCoverMetrics = coverMetrics.length > 0;
+    const cardY = profileTitleBottom + (hasCoverMetrics ? 15 : 19);
+    const profileCardHeight = hasCoverMetrics ? 43 : 52;
     setFill(COLOR.navyCard);
     setDraw([45, 65, 87]);
-    pdf.roundedRect(21, cardY, 168, 52, 5, 5, 'FD');
+    pdf.roundedRect(21, cardY, 168, profileCardHeight, 5, 5, 'FD');
     setText(COLOR.white);
     setFont('bold', 11.2);
     const taglineLines = wrap(
@@ -528,7 +554,34 @@ export function createGraduateAssessmentPdf(
       { lineHeightFactor: 1.32 }
     );
 
-    const statY = cardY + 65;
+    let statY = cardY + 65;
+    if (hasCoverMetrics) {
+      const metricY = cardY + profileCardHeight + 7;
+      const metricWidth = 52;
+      const metricHeight = 34;
+      coverMetrics.slice(0, 3).forEach((metric, index) => {
+        const x = 21 + index * 57;
+        setFill(index === 0 ? COLOR.goldSoft : COLOR.navyCard);
+        setDraw(index === 0 ? [239, 220, 166] : [45, 65, 87]);
+        pdf.roundedRect(x, metricY, metricWidth, metricHeight, 4, 4, 'FD');
+        setText(index === 0 ? COLOR.slate : [163, 183, 203]);
+        setFont('bold', 6.2);
+        pdf.text(pdfText(metric.label.toUpperCase()), x + 5, metricY + 7.2);
+        setText(index === 0 ? COLOR.ink : COLOR.white);
+        const valueLines = wrap(metric.value, metricWidth - 10, 'bold', 9.2);
+        pdf.text(valueLines.slice(0, 3), x + 5, metricY + 14.2, { lineHeightFactor: 1.08 });
+        if (metric.detail) {
+          setText(index === 0 ? COLOR.slate : [174, 192, 210]);
+          setFont('normal', 6.8);
+          const detailY = Math.min(metricY + 28.2, metricY + 17 + valueLines.slice(0, 3).length * 3.8);
+          pdf.text(wrap(metric.detail, metricWidth - 10, 'normal', 6.8).slice(0, 2), x + 5, detailY, {
+            lineHeightFactor: 1.08,
+          });
+        }
+      });
+      statY = metricY + metricHeight + 6;
+    }
+    const statHeight = hasCoverMetrics ? 23 : 29;
     [
       [`${insightModuleCount}`, options.moduleCountLabel || 'REPORT SECTIONS'],
       [String(options.questionCount || 26), 'QUESTIONS'],
@@ -536,13 +589,13 @@ export function createGraduateAssessmentPdf(
     ].forEach(([value, label], index) => {
       const x = 21 + index * 57;
       setFill(index === 0 ? COLOR.gold : COLOR.navyCard);
-      pdf.roundedRect(x, statY, 52, 29, 4, 4, 'F');
+      pdf.roundedRect(x, statY, 52, statHeight, 4, 4, 'F');
       setText(index === 0 ? COLOR.navy : COLOR.white);
-      setFont('bold', 14);
-      pdf.text(value, x + 26, statY + 12, { align: 'center' });
+      setFont('bold', hasCoverMetrics ? 12.5 : 14);
+      pdf.text(value, x + 26, statY + (hasCoverMetrics ? 10 : 12), { align: 'center' });
       setText(index === 0 ? COLOR.ink : [163, 183, 203]);
       setFont('bold', 6.6);
-      pdf.text(label, x + 26, statY + 21.5, { align: 'center' });
+      pdf.text(label, x + 26, statY + (hasCoverMetrics ? 17.7 : 21.5), { align: 'center' });
     });
 
     setText([158, 177, 197]);
@@ -609,7 +662,7 @@ export function createGraduateAssessmentPdf(
       setFont('normal', 6.8);
       pdf.text(pdfText(row.raw), x + 15, rowY + 10.9);
       const barX = x + 15;
-      const scoreArea = compact ? 19 : 25;
+      const scoreArea = compact ? 30 : 25;
       const barWidth = rowWidth - 15 - scoreArea - 6;
       setFill(COLOR.line);
       pdf.roundedRect(barX, rowY + rowHeight - 4.5, barWidth, 2.4, 1.2, 1.2, 'F');
@@ -617,7 +670,15 @@ export function createGraduateAssessmentPdf(
       pdf.roundedRect(barX, rowY + rowHeight - 4.5, Math.max(1, barWidth * Math.min(100, row.score) / 100), 2.4, 1.2, 1.2, 'F');
       setText(COLOR.ink);
       setFont('bold', compact ? 8.4 : 9.2);
-      pdf.text(`${row.score}%`, x + rowWidth - 6, rowY + rowHeight / 2 + 1.2, { align: 'right' });
+      pdf.text(
+        compact ? `${row.score}% evidence` : `${row.score}%`,
+        x + rowWidth - 6,
+        rowY + rowHeight / 2 + 1.2,
+        { align: 'right' }
+      );
+      if (compact && row.isLeading) {
+        drawStar(x + rowWidth - 8.5, rowY + 4.7, true, 2.25);
+      }
       if (!compact || column === 1 || index === rows.length - 1) y += rowHeight + 2;
     });
     y += 2;
@@ -654,6 +715,18 @@ export function createGraduateAssessmentPdf(
   };
 
   const renderCareerRows = (section: ReportSection) => {
+    if ((section.careerRows || []).length) {
+      const columnKey = 'CAREER  |  DOMAIN  |  KEY SKILL  |  INDICATIVE PAY (3 YRS)  |  ENTRY PATH';
+      const keyLines = wrap(columnKey, contentWidth - 12, 'bold', 7.6);
+      const keyHeight = Math.max(10, keyLines.length * 3.8 + 5);
+      ensureSpace(keyHeight + 3);
+      setFill(COLOR.navyCard);
+      pdf.roundedRect(marginX, y, contentWidth, keyHeight, 2.8, 2.8, 'F');
+      setText(COLOR.gold);
+      setFont('bold', 7.6);
+      pdf.text(keyLines, marginX + 6, y + 5.8, { lineHeightFactor: 1.15 });
+      y += keyHeight + 3;
+    }
     (section.careerRows || []).forEach((row, index) => {
       const detail = `Domain: ${row.domain}   |   Key skill: ${row.skill}   |   Indicative pay: ${row.salary}`;
       const pathLines = wrap(`Entry path: ${row.path}`, contentWidth - 14, 'normal', 8.4);
