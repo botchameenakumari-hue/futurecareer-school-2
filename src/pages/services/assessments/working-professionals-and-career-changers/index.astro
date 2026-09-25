@@ -3,6 +3,7 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
 import AssessmentReportTools from '../../../../components/AssessmentReportTools.astro';
+import WorkingProfessionalAssessmentPdf from '../../../../components/WorkingProfessionalAssessmentPdf.astro';
 import AssessmentGuidanceCta from '../../../../components/bofu/AssessmentGuidanceCta.astro';
 import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import { getAssessmentPlansConfig } from '../../../../config/assessmentPlans';
@@ -248,7 +249,9 @@ const jsonLd = [
     reportKicker="PROFESSIONAL GROWTH AND PIVOT REPORT"
     guidanceLabel="Explore Working Professional Guidance"
     guidanceUrl="https://futurecareerschool.com/services/career-counselling-and-career-guidance/working-professional-career-guidance/"
+    downloadFunctionName="downloadWorkingProfessionalAssessmentPdf"
   />
+  <WorkingProfessionalAssessmentPdf />
   <Footer />
 </BaseLayout>
 
@@ -942,12 +945,17 @@ globalThis.nextQuestion = nextQuestion;
 <script is:inline>
 // Dimension ranges for normalization
 var DIMENSION_RANGES = {
-  pivot: {min: 0, max: 42},
-  income: {min: 0, max: 42},
-  leadership: {min: 0, max: 42},
-  remote: {min: 0, max: 42},
-  ai: {min: -30, max: 42},
-  startup: {min: 0, max: 42}
+  // These are the actual reachable totals from the 32 current questions.
+  // The two multi-select questions contribute every selected option, so their
+  // positive weights are additive when calculating the maximum.
+  pivot: {min: 9, max: 66},
+  income: {min: 7, max: 69},
+  leadership: {min: 3, max: 68},
+  remote: {min: 8, max: 63},
+  // AI questions award higher raw points for automation exposure and lower
+  // points for judgment/AI fluency, so this dimension is intentionally reversed.
+  ai: {min: -3, max: 27, invert: true},
+  startup: {min: 3, max: 99}
 };
 
 // Archetype definitions
@@ -1091,9 +1099,11 @@ var ARCHETYPES = {
   }
 };
 
-function calculatePercentile(score, min, max) {
+function calculatePercentile(score, min, max, invert) {
   if (max <= min) return 50;
-  return Math.round(((score - min) / (max - min)) * 100);
+  var normalized = ((score - min) / (max - min)) * 100;
+  if (invert) normalized = 100 - normalized;
+  return Math.max(0, Math.min(100, Math.round(normalized)));
 }
 
 function classifyStrength(percentile) {
@@ -1305,7 +1315,8 @@ function generateAIRiskAssessment(aiScore, leadershipScore, remote) {
   var assessment = {};
 
   // Normalize AI score to 0-100 percentile
-  var aiPercentile = calculatePercentile(aiScore, -30, 42);
+  var aiRange = DIMENSION_RANGES.ai;
+  var aiPercentile = calculatePercentile(aiScore, aiRange.min, aiRange.max, aiRange.invert);
 
   assessment.percentile = aiPercentile;
 
@@ -1911,7 +1922,7 @@ function computeProfile() {
   var strengths = {};
   for (var key in DIMENSION_RANGES) {
     var range = DIMENSION_RANGES[key];
-    percentiles[key] = calculatePercentile(scores[key], range.min, range.max);
+    percentiles[key] = calculatePercentile(scores[key], range.min, range.max, range.invert);
     strengths[key] = classifyStrength(percentiles[key]);
   }
 
@@ -2015,15 +2026,10 @@ function setupResultsTabs() {
 
 function downloadResultsAsPDF() {
   var resultsContainer = document.getElementById('results-container');
-  if (!resultsContainer || !window.downloadAssessmentReportPdf) {
+  if (!resultsContainer || !window.downloadWorkingProfessionalAssessmentPdf) {
     return;
   }
-
-  window.downloadAssessmentReportPdf({
-    title: 'Working Professional Career Assessment Report',
-    fileName: 'working-professional-career-assessment-report.pdf',
-    container: resultsContainer
-  });
+  window.downloadWorkingProfessionalAssessmentPdf();
 }
 
 function retakeQuiz() {
@@ -2063,8 +2069,8 @@ function showResults() {
   html += '<div style="width:70px;height:70px;background:'+P.color+'15;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:2.5rem">'+P.emoji+'</div>';
   html += '<div>';
   html += '<div style="font-size:12px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:.25rem">Your Primary Profile</div>';
-  html += '<div style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:.5rem">'+P.label+'</div>';
-  html += '<div style="font-size:13px;color:rgba(255,255,255,.7)">'+P.desc+'</div>';
+  html += '<div data-pdf-primary-profile style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:.5rem">'+P.label+'</div>';
+  html += '<div data-pdf-primary-description style="font-size:13px;color:rgba(255,255,255,.7)">'+P.desc+'</div>';
   html += '</div>';
   html += '</div>';
   html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem">';
@@ -2082,7 +2088,7 @@ function showResults() {
   html += '<div style="background:rgba(255,255,255,.05);border:1px solid rgba(229,184,74,.2);border-radius:12px;padding:1.25rem">';
   html += '<div style="font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:.5rem">Your Archetype</div>';
   html += '<div style="font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:.5rem">'+archetype.emoji+' '+archetype.name+'</div>';
-  html += '<div style="font-size:12px;color:rgba(255,255,255,.8);line-height:1.5">'+archetype.description.substring(0,80)+'...</div>';
+  html += '<div data-pdf-profile-context style="font-size:12px;color:rgba(255,255,255,.8);line-height:1.5">'+archetype.description.substring(0,80)+'...</div>';
   html += '</div>';
 
   // Timeline card
@@ -3789,7 +3795,7 @@ function showResults() {
   // ===== PHASE 5: UNIVERSAL SECTIONS END =====
 
   // ===== FINAL CTA =====
-  html += '<div class="res-guidance" style="background:linear-gradient(135deg,rgba(229,184,74,.08),rgba(45,212,191,.04));border:2px solid rgba(229,184,74,.25);border-radius:20px;padding:2rem;text-align:center;margin-bottom:.5rem"><div class="rg-icon-row" style="font-size:2rem;margin-bottom:.75rem">'+P.emoji+' + 📈</div><h3 style="font-size:1.6rem;font-weight:800;margin-bottom:.75rem">Ready to Build Your Strategy?</h3><p style="font-size:14.5px;color:rgba(255,255,255,.6);line-height:1.75;max-width:580px;margin:0 auto 1.5rem">This assessment clarifies your readiness across six dimensions. Updated career guidance turns those signals into a sharper career plan — which moves are realistic, which skills create more leverage, how to position yourself better, and what your next 12–24 months should focus on for stronger compensation and earlier financial freedom.</p><div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem"><a href="' + guidanceResultsHref + '" class="btn-gold">' + guidanceResultsLabel + ' <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a><button class="btn-outline" onclick="downloadResultsAsPDF()" style="background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.3);color:#2dd4bf;font-weight:600;padding:12px 22px;border-radius:10px;cursor:pointer;text-decoration:none;margin:0">📥 Download Results as PDF</button><button class="btn-outline" onclick="retakeQuiz()" style="background:transparent;color:rgba(255,255,255,.8);font-weight:600;padding:12px 22px;border:1px solid rgba(255,255,255,.2);border-radius:10px;cursor:pointer;text-decoration:none;margin:0">Retake Assessment</button></div><p style="font-size:12.5px;color:rgba(255,255,255,.35)">All assessments are free &nbsp;&middot;&nbsp; Sessions online &nbsp;&middot;&nbsp; Available across India</p></div>';
+  html += '<div class="res-guidance" style="background:linear-gradient(135deg,rgba(229,184,74,.08),rgba(45,212,191,.04));border:2px solid rgba(229,184,74,.25);border-radius:20px;padding:2rem;text-align:center;margin-bottom:.5rem"><div class="rg-icon-row" style="font-size:2rem;margin-bottom:.75rem">'+P.emoji+' + 📈</div><h3 style="font-size:1.6rem;font-weight:800;margin-bottom:.75rem">Ready to Build Your Strategy?</h3><p style="font-size:14.5px;color:rgba(255,255,255,.6);line-height:1.75;max-width:580px;margin:0 auto 1.5rem">This assessment clarifies your readiness across six dimensions. Updated career guidance turns those signals into a sharper career plan — which moves are realistic, which skills create more leverage, how to position yourself better, and what your next 12–24 months should focus on for stronger compensation and earlier financial freedom.</p><div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem"><a href="' + guidanceResultsHref + '" class="btn-gold">' + guidanceResultsLabel + ' <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a><button class="btn-outline" data-working-professional-pdf-download onclick="downloadResultsAsPDF()" style="background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.3);color:#2dd4bf;font-weight:600;padding:12px 22px;border-radius:10px;cursor:pointer;text-decoration:none;margin:0">📥 Download Results as PDF</button><button class="btn-outline" onclick="retakeQuiz()" style="background:transparent;color:rgba(255,255,255,.8);font-weight:600;padding:12px 22px;border:1px solid rgba(255,255,255,.2);border-radius:10px;cursor:pointer;text-decoration:none;margin:0">Retake Assessment</button></div><p style="font-size:12.5px;color:rgba(255,255,255,.35)">All assessments are free &nbsp;&middot;&nbsp; Sessions online &nbsp;&middot;&nbsp; Available across India</p></div>';
 
   html += '</div>';
 

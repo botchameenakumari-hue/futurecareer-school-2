@@ -1,0 +1,86 @@
+<script>
+  import { createGraduateAssessmentPdf } from '../scripts/graduateAssessmentPdf';
+
+  declare global {
+    interface Window {
+      downloadWorkingProfessionalAssessmentPdf?: () => Promise<boolean>;
+    }
+  }
+
+  const downloadButtons = () =>
+    Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        '[data-download-assessment-report], [data-working-professional-pdf-download]'
+      )
+    );
+
+  const setDownloadState = (state: 'loading' | 'success' | 'error') => {
+    const buttons = downloadButtons();
+    const statuses = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-report-download-status]')
+    );
+    buttons.forEach((button) => {
+      button.dataset.originalLabel ||= button.textContent || 'Download PDF';
+      button.disabled = state === 'loading';
+      button.textContent =
+        state === 'loading'
+          ? 'Preparing complete PDF...'
+          : state === 'success'
+            ? 'PDF downloaded'
+            : button.dataset.originalLabel;
+    });
+    statuses.forEach((status) => {
+      status.textContent =
+        state === 'loading'
+          ? 'Designing every section of your complete report. This may take a few seconds.'
+          : state === 'success'
+            ? 'Your complete, redesigned report has been downloaded.'
+            : 'The PDF could not be created. Please try again.';
+    });
+  };
+
+  async function downloadWorkingProfessionalAssessmentPdf() {
+    const container = document.getElementById('results-container') as HTMLElement | null;
+    if (!container) return false;
+    setDownloadState('loading');
+    try {
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      const { jsPDF: PdfDocument } = await import('jspdf');
+      const { pdf } = createGraduateAssessmentPdf(container, PdfDocument, {
+        title: 'Working Professional Career Assessment Report',
+        reportKicker: 'PROFESSIONAL GROWTH AND PIVOT REPORT',
+        guidanceUrl:
+          'https://futurecareerschool.com/services/career-counselling-and-career-guidance/working-professional-career-guidance/',
+        siteUrl: 'https://futurecareerschool.com',
+        phoneDisplay: '+91 78159 27259',
+        audienceLabel: 'WORKING PROFESSIONALS  /  CAREER CHANGERS',
+        discoveryLabel: 'YOUR CAREER STRATEGY',
+        profileHeading: 'PRIMARY PROFESSIONAL PROFILE',
+        questionCount: 32,
+        profileRootSelector: '.exec-dashboard',
+        profileTitleSelector: '[data-pdf-primary-profile]',
+        profileSecondarySelector: '[data-pdf-secondary-profile]',
+        profileTaglineSelector: '[data-pdf-primary-description]',
+        profileContextSelector: '[data-pdf-profile-context]',
+        removeDecorativeSectionIcons: true,
+        insightModuleSelector: '.res-section-header h3',
+        moduleCountLabel: 'INSIGHT MODULES',
+      });
+      pdf.save('working-professional-career-assessment-report.pdf');
+      setDownloadState('success');
+      window.setTimeout(() => {
+        downloadButtons().forEach((button) => {
+          button.disabled = false;
+          button.textContent = button.dataset.originalLabel || 'Download PDF';
+        });
+      }, 2400);
+      return true;
+    } catch (error) {
+      console.error('Unable to generate the working professionals assessment PDF:', error);
+      setDownloadState('error');
+      return false;
+    }
+  }
+
+  window.downloadWorkingProfessionalAssessmentPdf = downloadWorkingProfessionalAssessmentPdf;
+</script>

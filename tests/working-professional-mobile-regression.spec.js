@@ -56,9 +56,11 @@ test('working professional result fixes the exact reported mobile sections', asy
   await assertSingleColumnGrid(ruleOfThreeGrid);
 
   const leadershipGrid = page
-    .getByText('IC/Specialist', { exact: true })
+    .getByText('Your Career Ladder — The Next 3 Levels', { exact: true })
     .locator('..')
-    .locator('..');
+    .locator('..')
+    .locator('div[style*="display:grid"]')
+    .first();
   await assertSingleColumnGrid(leadershipGrid);
 
   const multiColumnGrids = await result.locator('*').evaluateAll((elements) => {

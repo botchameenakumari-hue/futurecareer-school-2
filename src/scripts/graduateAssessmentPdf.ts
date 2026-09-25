@@ -22,6 +22,18 @@ interface GraduatePdfOptions {
   guidanceUrl: string;
   siteUrl: string;
   phoneDisplay: string;
+  audienceLabel?: string;
+  discoveryLabel?: string;
+  profileHeading?: string;
+  questionCount?: number;
+  profileRootSelector?: string;
+  profileTitleSelector?: string;
+  profileSecondarySelector?: string;
+  profileTaglineSelector?: string;
+  profileContextSelector?: string;
+  removeDecorativeSectionIcons?: boolean;
+  insightModuleSelector?: string;
+  moduleCountLabel?: string;
 }
 
 type Rgb = readonly [number, number, number];
@@ -70,7 +82,7 @@ function pdfText(value: string) {
     .trim();
 }
 
-function linesFromElement(element: HTMLElement): ReportLine[] {
+function linesFromElement(element: HTMLElement, removeDecorativeSectionIcons = false): ReportLine[] {
   const clone = element.cloneNode(true) as HTMLElement;
   // A result section can itself be collapsed by the on-page report tools.
   // querySelectorAll() only searches descendants, so remove the state from
@@ -81,6 +93,9 @@ function linesFromElement(element: HTMLElement): ReportLine[] {
       '.assessment-report-actions, .assessment-quick-nav, .assessment-section-toggle, .rg-actions, button, script, style'
     )
     .forEach((node) => node.remove());
+  if (removeDecorativeSectionIcons) {
+    clone.querySelectorAll('.res-section-icon').forEach((node) => node.remove());
+  }
   clone.querySelectorAll('details').forEach((details) => {
     details.open = true;
   });
@@ -158,7 +173,10 @@ function linesFromElement(element: HTMLElement): ReportLine[] {
   }));
 }
 
-export function collectGraduateReport(container: HTMLElement): ReportSection[] {
+export function collectGraduateReport(
+  container: HTMLElement,
+  removeDecorativeSectionIcons = false
+): ReportSection[] {
   const clone = container.cloneNode(true) as HTMLElement;
   clone
     .querySelectorAll('.assessment-report-actions, .assessment-quick-nav, .assessment-section-toggle')
@@ -235,7 +253,7 @@ export function collectGraduateReport(container: HTMLElement): ReportSection[] {
         block.dataset.pdfTitle || profileTitle || heading?.textContent || ''
       );
       heading?.remove();
-      const lines = linesFromElement(block);
+      const lines = linesFromElement(block, removeDecorativeSectionIcons);
       const kind: ReportSection['kind'] = block.matches('[data-pdf-profile]') ? 'profile' :
         block.matches('[data-pdf-riasec]') ? 'riasec' :
         scoreRows.some((row) => ['lin','log','spa','bk','inter','intra','mus','nat'].includes(row.code)) ? 'intelligences' :
@@ -258,12 +276,16 @@ export function createGraduateAssessmentPdf(
   PdfDocument: JsPdfConstructor,
   options: GraduatePdfOptions
 ) {
-  const sections = collectGraduateReport(container);
+  const sections = collectGraduateReport(container, options.removeDecorativeSectionIcons);
   if (!sections.length) throw new Error('No Graduates and early professionals assessment result content was available to export.');
 
-  const resultHeader = container.querySelector<HTMLElement>('.res-header');
+  const resultHeader = container.querySelector<HTMLElement>(
+    options.profileRootSelector || '.res-header'
+  );
   const coverProfileTitle = normaliseVisibleText(
-    resultHeader?.querySelector<HTMLElement>('.res-title')?.textContent || sections[0]?.title || ''
+    resultHeader?.querySelector<HTMLElement>(options.profileTitleSelector || '.res-title')?.textContent ||
+      sections[0]?.title ||
+      ''
   );
   const coverProfileCodeValue = normaliseVisibleText(
     resultHeader?.querySelector<HTMLElement>('.res-code-badge')?.textContent || ''
@@ -272,13 +294,17 @@ export function createGraduateAssessmentPdf(
     ? `RIASEC Code: ${coverProfileCodeValue}`
     : undefined;
   const coverProfileSecondary = normaliseVisibleText(
-    resultHeader?.querySelector<HTMLElement>('.res-secondary-badge')?.textContent || ''
+    resultHeader?.querySelector<HTMLElement>(
+      options.profileSecondarySelector || '.res-secondary-badge'
+    )?.textContent || ''
   );
   const coverProfileTagline = normaliseVisibleText(
-    resultHeader?.querySelector<HTMLElement>('.res-tagline')?.textContent || ''
+    resultHeader?.querySelector<HTMLElement>(options.profileTaglineSelector || '.res-tagline')
+      ?.textContent || ''
   );
   const coverProfileContext = normaliseVisibleText(
-    resultHeader?.querySelector<HTMLElement>('.res-combo-note')?.textContent || ''
+    resultHeader?.querySelector<HTMLElement>(options.profileContextSelector || '.res-combo-note')
+      ?.textContent || ''
   );
   const guidanceBlock = container.querySelector<HTMLElement>('.res-guidance');
   const guidanceTitle = normaliseVisibleText(
@@ -294,6 +320,9 @@ export function createGraduateAssessmentPdf(
   const guidanceFinePrint = normaliseVisibleText(
     guidanceParagraphs[guidanceParagraphs.length - 1]?.textContent || ''
   );
+  const insightModuleCount = options.insightModuleSelector
+    ? container.querySelectorAll(options.insightModuleSelector).length || sections.length
+    : sections.length;
 
   const pdf = new PdfDocument({ unit: 'mm', format: 'a4', compress: true });
   const pageWidth = pdf.internal.pageSize.getWidth();
@@ -383,7 +412,7 @@ export function createGraduateAssessmentPdf(
     pdf.text('FUTURE CAREER SCHOOL', marginX, 11.2);
     setText([182, 197, 214]);
     setFont('normal', 7.2);
-    pdf.text('GRADUATES  /  EARLY CAREER REPORT', pageWidth - marginX, 11.2, {
+    pdf.text(options.audienceLabel || 'GRADUATES  /  EARLY CAREER REPORT', pageWidth - marginX, 11.2, {
       align: 'right',
     });
     y = contentTop;
@@ -447,11 +476,11 @@ export function createGraduateAssessmentPdf(
     pdf.roundedRect(21, titleBottom + 9, 47, 9, 4.5, 4.5, 'F');
     setText(COLOR.navy);
     setFont('bold', 7.5);
-    pdf.text('YOUR DISCOVERY MAP', 44.5, titleBottom + 15, { align: 'center' });
+    pdf.text(options.discoveryLabel || 'YOUR DISCOVERY MAP', 44.5, titleBottom + 15, { align: 'center' });
 
     setText(COLOR.gold);
     setFont('bold', 8.2);
-    pdf.text('STRONGEST CAREER-INTEREST PATTERN', 21, titleBottom + 36);
+    pdf.text(options.profileHeading || 'STRONGEST CAREER-INTEREST PATTERN', 21, titleBottom + 36);
     setText(COLOR.white);
     setFont('bold', 22);
     const profileTitleLines = wrap(coverProfileTitle || 'Your personalised profile', 160, 'bold', 22);
@@ -501,8 +530,8 @@ export function createGraduateAssessmentPdf(
 
     const statY = cardY + 65;
     [
-      [`${sections.length}`, 'REPORT SECTIONS'],
-      ['26', 'QUESTIONS'],
+      [`${insightModuleCount}`, options.moduleCountLabel || 'REPORT SECTIONS'],
+      [String(options.questionCount || 26), 'QUESTIONS'],
       ['100%', 'YOUR ANSWERS'],
     ].forEach(([value, label], index) => {
       const x = 21 + index * 57;
@@ -992,7 +1021,7 @@ export function createGraduateAssessmentPdf(
       pdf.text('FUTURE CAREER SCHOOL', marginX, 11.2);
       setText([182, 197, 214]);
       setFont('normal', 7.2);
-      pdf.text('GRADUATES  /  EARLY CAREER REPORT', pageWidth - marginX, 11.2, { align: 'right' });
+      pdf.text(options.audienceLabel || 'GRADUATES  /  EARLY CAREER REPORT', pageWidth - marginX, 11.2, { align: 'right' });
     }
     setDraw(dark ? [54, 72, 94] : COLOR.line);
     pdf.line(marginX, pageHeight - 12, pageWidth - marginX, pageHeight - 12);
