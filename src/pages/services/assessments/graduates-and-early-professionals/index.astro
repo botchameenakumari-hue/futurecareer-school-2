@@ -1079,109 +1079,80 @@ var COACHES_SKILL_HIERARCHY = [
 ];
 
 var RULE_OF_30_DATA = {
-  baseline_monthly: '₹3,00,000',
-  baseline_yearly: '₹36,00,000',
-  freedom_number: '₹10.8 Crore',
+  baseline_monthly: '₹50,000',
+  baseline_yearly: '₹6,00,000',
+  freedom_number: '₹1.8 Crore',
   multiplier: 30,
-  inflation_assumption: '12% per year',
-  duration_years: 30,
-  description: 'This is your financial freedom baseline. It assumes: (1) A minimum lifestyle cost of ₹3,00,000/month (covers future inflation and a good life), (2) The "Rule of 30" multiplier for safety with 12% inflation, (3) At this freedom number, passive income covers your life forever.'
+  description: 'A planning illustration only: monthly expenses × 12 × 30. It is not a promise of permanent income and does not replace advice that accounts for inflation, taxes, returns, emergencies, and your circumstances.'
 };
 
 /* ─────────────────────────────────────────────
    HELPER FUNCTIONS FOR ASSESSMENT ANALYTICS
 ─────────────────────────────────────────────── */
 
-function calculatePercentile(score, min, max) {
-  if (max <= min) return 50;
-  return Math.round(((score - min) / (max - min)) * 100);
-}
-
-function classifyStrength(percentile) {
-  if (percentile >= 85) return {tier: 'Critical Strength', icon: '🔴', color: '#ef4444'};
-  if (percentile >= 70) return {tier: 'Strong', icon: '🟠', color: '#f59e0b'};
-  if (percentile >= 50) return {tier: 'Moderate', icon: '🟡', color: '#eab308'};
-  if (percentile >= 30) return {tier: 'Emerging', icon: '🟢', color: '#10b981'};
-  return {tier: 'Low Focus', icon: '⚪', color: '#6b7a99'};
-}
-
-function analyzeResponsePatterns() {
-  // Calculate conviction level based on variance in responses
-  var scores_array = [];
-  for (var key in scores) {
-    if (typeof scores[key] === 'number') {
-      scores_array.push(scores[key]);
+function getDimensionMaximum(key) {
+  return QUESTIONS.reduce(function(total, question) {
+    var available = (question.opts || []).map(function(option) {
+      return Math.max(0, Number(option.s && option.s[key]) || 0);
+    });
+    if (question.multiselect) {
+      return total + available.reduce(function(sum, value) { return sum + value; }, 0);
     }
-  }
-  var mean = scores_array.reduce(function(a, b) { return a + b; }, 0) / scores_array.length;
-  var variance = scores_array.reduce(function(a, b) { return a + Math.pow(b - mean, 2); }, 0) / scores_array.length;
-  var stdDev = Math.sqrt(variance);
-  var convictionScore = Math.max(0, Math.min(100, 100 - (stdDev * 8)));
+    return total + Math.max.apply(null, [0].concat(available));
+  }, 0);
+}
 
-  // Detect contradictions
-  var contradictions = [];
-  if (scores.R > 40 && scores.A > 40) {
-    contradictions.push('High Realistic + High Artistic: Your hands-on nature meets creative drive — balance making with designing.');
-  }
-  if (scores.S > 40 && scores.I > 40 && scores.E < 35) {
-    contradictions.push('High Social + High Investigative but Low Enterprising: You care about people and ideas, but may struggle to sell them.');
-  }
-  if (scores.E > 40 && scores.I > 40 && scores.A < 35) {
-    contradictions.push('High Enterprising + Investigative but Low Artistic: You want to lead analytical teams, but may miss creative approaches.');
-  }
+function buildEvidenceScores(keys) {
+  var normalized = {};
+  var maximums = {};
+  keys.forEach(function(key) {
+    var maximum = getDimensionMaximum(key);
+    maximums[key] = maximum;
+    normalized[key] = maximum > 0 ? Math.round(((scores[key] || 0) / maximum) * 100) : 0;
+  });
+  return {normalized: normalized, maximums: maximums};
+}
 
-  // Detect response bias
-  var maxScore = Math.max.apply(null, scores_array);
-  var minScore = Math.min.apply(null, scores_array);
-  var maxCount = scores_array.filter(function(s) { return s === maxScore; }).length;
-  var bias = '';
-  if (maxCount > scores_array.length / 2) {
-    bias = 'Strong agreement pattern';
-  } else if (Math.abs(maxScore - minScore) < 10) {
-    bias = 'Balanced neutral pattern';
-  }
+function classifyStrength(evidence) {
+  if (evidence >= 70) return {tier: 'Strong evidence', icon: '●', color: '#10b981'};
+  if (evidence >= 50) return {tier: 'Moderate evidence', icon: '●', color: '#f59e0b'};
+  if (evidence >= 30) return {tier: 'Some evidence', icon: '●', color: '#60a5fa'};
+  return {tier: 'Limited evidence', icon: '○', color: '#6b7a99'};
+}
 
+function analyzeResponsePatterns(riasecEvidence, orderedKeys) {
+  var values = orderedKeys.map(function(key) { return riasecEvidence[key]; });
+  var gap = Math.max(0, values[0] - values[1]);
+  var breadth = values.filter(function(value) { return value >= 45; }).length;
+  var shape = gap <= 4 ? 'Blended' : gap <= 11 ? 'Clear lead' : 'Focused';
+  var combinations = [];
+  if (riasecEvidence.R >= 45 && riasecEvidence.A >= 45) combinations.push('Maker + creator: you may enjoy turning original ideas into tangible work.');
+  if (riasecEvidence.S >= 45 && riasecEvidence.I >= 45) combinations.push('People + inquiry: you may enjoy research, diagnosis, teaching, or user insight.');
+  if (riasecEvidence.E >= 45 && riasecEvidence.I >= 45) combinations.push('Leadership + analysis: you may enjoy strategy, product, consulting, or evidence-led decision-making.');
   return {
-    convictionScore: Math.round(convictionScore),
-    conviction: convictionScore > 70 ? 'High' : convictionScore > 50 ? 'Moderate' : 'Exploring',
-    contradictions: contradictions,
-    bias: bias
+    gap: gap,
+    breadth: breadth,
+    shape: shape,
+    combinations: combinations,
+    explanation: gap <= 4 ? 'Your top interests are close together, so the combination is more useful than forcing a single type.' :
+      gap <= 11 ? 'One interest leads, but the supporting types still matter when choosing roles and environments.' :
+      'One interest stands out clearly in this set of answers; test it in real work before treating it as a commitment.'
   };
 }
 
-function inferMonthsSinceGraduation() {
-  // Infer from response patterns about job search confidence, experience with workplace dynamics
-  // This is a heuristic based on how they answer about domain knowledge and workplace situations
-  var inference = {
-    months: 0,
-    stage: 'Recently Graduated (0-3 months)',
-    label: 'Just Starting'
+function getCareerStageContext() {
+  return {
+    stage: 'Graduate / early professional (0–3 years)',
+    label: 'Audience context, not inferred experience',
+    note: 'The assessment does not estimate months since graduation. Recommendations are written for the stated audience of this assessment.'
   };
-
-  if (scores.E && scores.E > 30 && scores.S && scores.S > 25) {
-    inference.months = 6;
-    inference.stage = 'Early Career (3-12 months)';
-    inference.label = 'Adjusting';
-  }
-  if (scores.I && scores.I > 35 && scores.C && scores.C > 35) {
-    inference.months = 12;
-    inference.stage = 'Established (1-2 years)';
-    inference.label = 'Building';
-  }
-  if (scores.E && scores.E > 40) {
-    inference.months = 24;
-    inference.stage = 'Experienced (2-5 years)';
-    inference.label = 'Growing';
-  }
-
-  return inference;
 }
 
-function calculateCognitiveBalance(scores) {
-  var logical = (scores.I + (scores.lgc || 0)) / 2;
-  var creative = (scores.A + (scores.spa || 0) + (scores.mus || 0)) / 3;
-  var social = (scores.S + (scores.inter || 0)) / 2;
-  var practical = (scores.R + (scores.bk || 0)) / 2;
+function calculateCognitiveBalance(evidence) {
+  var logical = (evidence.I + evidence.lgc) / 2;
+  var creative = (evidence.A + evidence.spa + evidence.mus) / 3;
+  var social = (evidence.S + evidence.inter) / 2;
+  var practical = (evidence.R + evidence.bk) / 2;
   var all = [logical, creative, social, practical];
   var max = Math.max(...all);
   var min = Math.min(...all);
@@ -1193,29 +1164,20 @@ function calculateCognitiveBalance(scores) {
     creative: Math.round(creative),
     social: Math.round(social),
     practical: Math.round(practical),
-    interpretation: balance > 70 ? 'You have diverse strengths across thinking styles. You can adapt to many roles and take on various responsibilities.' :
-                   balance > 50 ? 'You have a mix of strengths with one primary style. Good flexibility while staying true to your nature.' :
-                   'You have a clear dominant thinking style. Choose roles that match your natural style for best results.'
+    interpretation: balance > 70 ? 'Your answers contain evidence across several thinking styles. Treat this as breadth, not proof that every role will fit.' :
+                   balance > 50 ? 'Your answers show a useful mix with one or two clearer preferences.' :
+                   'Your answers show a more specialized pattern. Test roles that use the strongest style while building complementary skills.'
   };
 }
 
-function calculateCareerReadiness(patterns, percentiles, primary) {
-  var convictionScore = typeof patterns.convictionScore === 'number' ? patterns.convictionScore : 45;
-  var clarityScore = percentiles[primary] || 50;
-  var consistencyScore = patterns.contradictions ? Math.max(0, 100 - patterns.contradictions.length * 20) : 50;
-
-  var readiness = Math.round((convictionScore + clarityScore + consistencyScore) / 3);
-  var stage = readiness > 75 ? 'Ready to Move' : readiness > 60 ? 'Building Clarity' : 'Still Exploring';
-
+function calculateDecisionSignal(patterns) {
+  var stage = patterns.gap <= 4 ? 'Compare two directions' : patterns.gap <= 11 ? 'Test the leading direction' : 'Build evidence in the lead direction';
   return {
-    score: readiness,
     stage: stage,
-    conviction: convictionScore,
-    clarity: clarityScore,
-    consistency: consistencyScore,
-    recommendation: readiness > 75 ? 'You\'re ready to make concrete career moves. Consider applying to roles, freelancing, or starting a project.' :
-                   readiness > 60 ? 'Continue exploring through projects, side hustles, and conversations with people in fields that interest you.' :
-                   'Keep experimenting across different domains. Clarity will come from trying different things.'
+    reason: patterns.explanation,
+    recommendation: patterns.gap <= 4 ? 'Run two small, comparable experiments—one for each leading interest—then compare energy, skill growth, and feedback.' :
+      patterns.gap <= 11 ? 'Choose one short project, conversation, or job-shadowing experiment in the leading direction and record what you learn.' :
+      'Build one visible proof point in the leading direction, then use feedback from a practitioner to decide whether to deepen it.'
   };
 }
 
@@ -1226,25 +1188,21 @@ function calculateLearningStyleAlignment(topLS, riasecPrimary) {
     kin: {R: 90, A: 75, S: 70, I: 50, E: 60, C: 45}
   };
 
-  var score = (alignment[topLS] && alignment[topLS][riasecPrimary]) || 60;
   var lsName = {vis: 'Visual', aud: 'Auditory', kin: 'Kinesthetic'}[topLS];
 
   return {
     learningStyle: lsName,
-    alignmentScore: score,
-    careerAlignment: score > 75 ? 'Excellent alignment. Your learning style matches your career strengths.' :
-                    score > 60 ? 'Good alignment. You can leverage your learning style in your career.' :
-                    'Moderate alignment. You may need to develop complementary learning approaches.',
+    careerAlignment: 'Learning preference—not a fixed ability or career-fit score.',
     implication: lsName === 'Visual' ? 'Seek careers involving design, visualization, product thinking, and clear systems.' :
                 lsName === 'Auditory' ? 'Seek careers involving communication, collaboration, mentoring, and group work.' :
                 'Seek careers involving hands-on work, physical problem-solving, building, and direct application.'
   };
 }
 
-function calculateAptitudeProfile(scores) {
-  var num = scores.num || 0;
-  var ver = scores.ver || 0;
-  var lgc = scores.lgc || 0;
+function calculateAptitudeProfile(scores, evidence) {
+  var num = evidence.num || 0;
+  var ver = evidence.ver || 0;
+  var lgc = evidence.lgc || 0;
 
   var max = Math.max(num, ver, lgc);
   var total = num + ver + lgc;
@@ -1257,6 +1215,9 @@ function calculateAptitudeProfile(scores) {
     numerical: num,
     verbal: ver,
     logical: lgc,
+    rawNumerical: scores.num || 0,
+    rawVerbal: scores.ver || 0,
+    rawLogical: scores.lgc || 0,
     dominanceStrength: strength,
     profile: strength > 60 ? 'Specialized: ' + primary + ' strength dominant' : 'Balanced across aptitudes',
     careerImplication: primary === 'Numerical' ? 'Data, statistics, finance, and quantitative roles suit you best. Consider careers in analytics, data science, or finance.' :
@@ -1265,20 +1226,13 @@ function calculateAptitudeProfile(scores) {
   };
 }
 
-function calculateAdaptability(patterns, conflicts) {
-  var consistencyBonus = patterns.contradictions && patterns.contradictions.length === 0 ? 20 : 10;
-  var conflictPenalty = (conflicts && Object.keys(conflicts).length > 0) ? -10 : 10;
-  var convictionBonus = patterns.conviction === 'Exploring' ? 30 : 0;
-
-  var score = Math.max(0, Math.min(100, 50 + consistencyBonus + conflictPenalty + convictionBonus));
-  var adaptability = score > 70 ? 'Highly Adaptable' : score > 50 ? 'Moderately Adaptable' : 'Prefers Clarity';
-
+function calculateFlexibilitySignal(patterns) {
+  var adaptability = patterns.breadth >= 4 ? 'Broad interest pattern' : patterns.breadth >= 2 ? 'Several usable directions' : 'More focused interest pattern';
   return {
-    score: score,
     adaptability: adaptability,
-    interpretation: score > 70 ? 'You can easily pivot and try different paths. Uncertainty is your strength in a changing job market.' :
-             score > 50 ? 'You can adapt with some planning. Try new things while maintaining structure in your transition.' :
-             'You thrive with clear direction. Build deep expertise in your chosen area before pivoting.'
+    interpretation: patterns.breadth >= 4 ? 'Several interests received meaningful evidence. This creates options, but it does not by itself prove adaptability.' :
+             patterns.breadth >= 2 ? 'You have more than one plausible direction. Compare them through real tasks before choosing.' :
+             'Your interests are more concentrated. Build depth while deliberately testing one adjacent skill.'
   };
 }
 
@@ -1358,7 +1312,12 @@ function detectProfileType() {
 
 function computeProfile() {
   var riasecKeys = ['R','I','A','S','E','C'];
-  var riasecSorted = riasecKeys.slice().sort(function(a,b){ return scores[b]-scores[a]; });
+  var allMeasuredKeys = riasecKeys.concat(['num','ver','lgc','lin','log','spa','bk','inter','intra','mus','nat']);
+  var evidenceBundle = buildEvidenceScores(allMeasuredKeys);
+  var evidenceScores = evidenceBundle.normalized;
+  var riasecSorted = riasecKeys.slice().sort(function(a,b){
+    return evidenceScores[b] - evidenceScores[a] || scores[b] - scores[a] || riasecKeys.indexOf(a) - riasecKeys.indexOf(b);
+  });
   var primary = riasecSorted[0];
   var secondary = riasecSorted[1];
   var domKeys = ['tech','biz','cre','sci','hum'];
@@ -1375,48 +1334,27 @@ function computeProfile() {
   var aptSorted = aptKeys.slice().sort(function(a,b){ return scores[b]-scores[a]; });
   var aptMax = aptSorted[0];
 
-  // Calculate percentiles for RIASEC
-  var riasecMax = Math.max(scores.R, scores.I, scores.A, scores.S, scores.E, scores.C);
-  var percentiles = {};
-  riasecKeys.forEach(function(k) {
-    percentiles[k] = calculatePercentile(scores[k], 0, riasecMax);
-  });
-
-  // Calculate percentiles for aptitudes
-  var aptMaxScore = Math.max(scores.num, scores.ver, scores.lgc);
-  percentiles.num = calculatePercentile(scores.num, 0, aptMaxScore);
-  percentiles.ver = calculatePercentile(scores.ver, 0, aptMaxScore);
-  percentiles.lgc = calculatePercentile(scores.lgc, 0, aptMaxScore);
-
-  // Classify strengths
   var strengths = {};
   riasecKeys.forEach(function(k) {
-    strengths[k] = classifyStrength(percentiles[k]);
+    strengths[k] = classifyStrength(evidenceScores[k]);
   });
-  strengths.num = classifyStrength(percentiles.num);
-  strengths.ver = classifyStrength(percentiles.ver);
-  strengths.lgc = classifyStrength(percentiles.lgc);
+  strengths.num = classifyStrength(evidenceScores.num);
+  strengths.ver = classifyStrength(evidenceScores.ver);
+  strengths.lgc = classifyStrength(evidenceScores.lgc);
 
   var dimInteraction = getDimensionInteraction(scores, primary, detectedDomain);
-  var conflicts = detectDimensionConflicts(scores, primary, detectedDomain);
+  var conflicts = detectDimensionConflicts(evidenceScores, primary, detectedDomain);
   var coachesRecommendations = mapRIASECToCoachesSkills(primary, secondary);
-  var patterns = analyzeResponsePatterns();
-  var careerStage = inferMonthsSinceGraduation();
+  var patterns = analyzeResponsePatterns(evidenceScores, riasecSorted);
+  var careerStage = getCareerStageContext();
 
-  // How decisively the primary type stands out above the secondary type -
-  // percentiles[primary] is always 100 by construction (it's normalized against
-  // its own max), so it can't be used as a "clarity" signal on its own.
-  var clarityPercentiles = Object.assign({}, percentiles);
-  clarityPercentiles[primary] = riasecMax > 0
-    ? Math.max(40, Math.min(100, Math.round(40 + ((scores[primary] - scores[secondary]) / riasecMax) * 60)))
-    : 50;
-
-  // Additional metrics
-  var cogBalance = calculateCognitiveBalance(scores);
-  var readiness = calculateCareerReadiness(patterns, clarityPercentiles, primary);
+  var cogBalance = calculateCognitiveBalance(evidenceScores);
+  var readiness = calculateDecisionSignal(patterns);
   var lsAlign = calculateLearningStyleAlignment(topLS, primary);
-  var aptProfile = calculateAptitudeProfile(scores);
-  var adapt = calculateAdaptability(patterns, conflicts);
+  var aptProfile = calculateAptitudeProfile(scores, evidenceScores);
+  var adapt = calculateFlexibilitySignal(patterns);
+  var interestCode = riasecSorted.slice(0, 3).join('');
+  var leadingTies = riasecSorted.filter(function(key) { return evidenceScores[key] === evidenceScores[primary]; });
 
   return {
     primary: primary,
@@ -1427,7 +1365,10 @@ function computeProfile() {
     altMI: altMI,
     topLS: topLS,
     aptMax: aptMax,
-    percentiles: percentiles,
+    interestCode: interestCode,
+    leadingTies: leadingTies,
+    evidenceScores: evidenceScores,
+    evidenceMaximums: evidenceBundle.maximums,
     strengths: strengths,
     dimInteraction: dimInteraction,
     conflicts: conflicts,
@@ -1456,23 +1397,30 @@ function showResults() {
   var mi = MI[prof.topMI];
   var ls = LS[prof.topLS];
   var domReasoning = getRoleReasoning(primary, detectedDomain);
+  var isBlended = prof.patterns.shape === 'Blended';
+  var profileTitle = isBlended ? P.label + ' + ' + SEC.label : P.label;
+  var supportingLabel = isBlended ? 'Leading blend: ' + P.label + ' + ' + SEC.label : 'Supporting interest: ' + SEC.label;
 
   var startHtml = (P.startNow||[]).map(function(s,i){return '<div class="start-card"><div class="start-num">'+(i+1)+'</div><p>'+s+'</p></div>';}).join('');
   var rolesHtml = (RG.roles||[]).map(function(r){return '<div class="rg-role-card"><div><div class="rg-role-title">'+r.title+'</div><div class="rg-role-path">'+r.path+'</div></div><div class="rg-role-salary">'+r.salary+'</div></div>';}).join('');
-  var miHtml = ['lin','log','spa','bk','inter','intra','mus','nat'].map(function(k){var m=MI[k]; var isTop=k===prof.topMI||k===prof.altMI; return '<div class="mi-card'+(isTop?' mi-top':'')+'"><div class="mi-icon">'+m.emoji+'</div><div class="mi-name">'+m.label+'</div><div class="mi-score">'+scores[k]+(isTop?' ⭐':'')+'</div></div>';}).join('');
-  var aptBars = ['num','ver','lgc'].map(function(k){var max=Math.max(scores.num,scores.ver,scores.lgc); var pct=max>0?Math.round((scores[k]/max)*100):0; var colors={'num':'#6366f1','ver':'#8b5cf6','lgc':'#14b8a6'}; return '<div class="apt-row"><div class="apt-label">'+(k==='num'?'Numerical':k==='ver'?'Verbal':'Logical')+'</div><div class="apt-bar"><div class="apt-fill" style="width:'+pct+'%;background:'+colors[k]+'"></div></div><div class="apt-val">'+scores[k]+'</div></div>';}).join('');
-  var ctRows = (CAREER_TABLE_GRAD[primary]||[]).map(function(r){return '<tr><td>'+r.career+'</td><td>'+r.domain+'</td><td>'+r.skill+'</td><td><span class="salary-pill">'+r.salary+'</span></td><td>'+r.path+'</td></tr>';}).join('');
+  var miHtml = ['lin','log','spa','bk','inter','intra','mus','nat'].map(function(k){var m=MI[k]; var isTop=k===prof.topMI||k===prof.altMI; return '<div class="mi-card'+(isTop?' mi-top':'')+'" data-mi-code="'+k+'" data-mi-label="'+m.label+'" data-mi-score="'+prof.evidenceScores[k]+'" data-mi-raw="'+scores[k]+'"><div class="mi-icon">'+m.emoji+'</div><div class="mi-name">'+m.label+'</div><div class="mi-score">'+prof.evidenceScores[k]+'% evidence'+(isTop?' <span aria-label="leading signal">★</span>':'')+'</div></div>';}).join('');
+  var aptBars = ['num','ver','lgc'].map(function(k){var pct=prof.evidenceScores[k]; var colors={'num':'#6366f1','ver':'#8b5cf6','lgc':'#14b8a6'}; var label=k==='num'?'Numerical':k==='ver'?'Verbal':'Logical'; return '<div class="apt-row" data-apt-code="'+k+'" data-apt-label="'+label+'" data-apt-score="'+pct+'" data-apt-raw="'+scores[k]+'"><div class="apt-label">'+label+'</div><div class="apt-bar"><div class="apt-fill" style="width:'+pct+'%;background:'+colors[k]+'"></div></div><div class="apt-val">'+pct+'%</div></div>';}).join('');
+  var ctRows = (CAREER_TABLE_GRAD[primary]||[]).map(function(r){return '<tr data-career-row><td>'+r.career+'</td><td>'+r.domain+'</td><td>'+r.skill+'</td><td><span class="salary-pill">'+r.salary+'</span></td><td>'+r.path+'</td></tr>';}).join('');
   var reflectHtml = (REFLECTION_QS[primary]||[]).map(function(q,i){return '<div class="pre11-card"><div class="pre11-num">'+(i+1)+'</div><div><p class="pre11-q">'+q+'</p></div></div>';}).join('');
 
   var html = '';
-  html += '<div class="res-header">';
-  html += '<div class="res-hero-left"><div class="res-emoji-wrap" style="background:'+P.color+'11"><div class="res-emoji">'+P.emoji+'</div></div><div class="res-code-badge" style="background:'+P.color+'20;color:'+P.color+'">'+primary+'</div></div>';
-  html += '<div><div class="res-label">Your Career Type</div><div class="res-title">'+P.label+'</div><div class="res-secondary-badge">Secondary: '+SEC.label+' '+SEC.emoji+'</div><div class="res-tagline">'+P.tagline+'</div><div class="res-combo-note">'+P.desc+'</div></div>';
+  html += '<div class="res-header" data-pdf-profile data-interest-code="'+prof.interestCode+'" data-profile-shape="'+prof.patterns.shape+'">';
+  html += '<div class="res-hero-left"><div class="res-emoji-wrap" style="background:'+P.color+'11"><div class="res-emoji">'+P.emoji+'</div></div><div class="res-code-badge" style="background:'+P.color+'20;color:'+P.color+'">'+prof.interestCode+'</div></div>';
+  html += '<div><div class="res-label">Your strongest career-interest pattern</div><div class="res-title">'+profileTitle+'</div><div class="res-secondary-badge">'+supportingLabel+' · '+prof.patterns.shape+' profile</div><div class="res-tagline">'+P.tagline+'</div><div class="res-combo-note">'+P.desc+' Your three-letter code <strong>'+prof.interestCode+'</strong> combines the three strongest signals and should be read together.</div></div>';
   html += '</div>';
 
-  html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:'+P.color+'20;color:'+P.color+'">📊</span><h3>Your RIASEC Profile</h3></div>';
-  var riasecMax = Math.max(scores.R,scores.I,scores.A,scores.S,scores.E,scores.C);
-  ['R','I','A','S','E','C'].forEach(function(k){var typ=RIASEC[k]; var pct=riasecMax>0?Math.round((scores[k]/riasecMax)*100):0; html+='<div class="rb-row"><div class="rb-dot" style="background:'+typ.color+'"></div><div class="rb-label"><strong>'+k+'</strong> '+typ.label+'</div><div class="rb-track"><div class="rb-fill" style="width:'+pct+'%;background:'+typ.color+'"></div></div><div class="rb-pct">'+scores[k]+'</div></div>';});
+  html += '<div class="res-section riasec-result" data-pdf-riasec><div class="res-section-header"><span class="res-section-icon" style="background:'+P.color+'20;color:'+P.color+'">📊</span><h3>Your RIASEC Interest Evidence</h3></div>';
+  html += '<div class="riasec-summary"><div><span>3-letter code</span><strong>'+prof.interestCode+'</strong></div><div><span>Profile shape</span><strong>'+prof.patterns.shape+'</strong></div><div><span>Top-two gap</span><strong>'+prof.patterns.gap+' '+(prof.patterns.gap===1?'point':'points')+'</strong></div></div>';
+  html += '<p class="res-section-note"><strong>How to read this:</strong> each percentage is the evidence you selected for that interest compared with the maximum evidence available for that same interest in these 26 questions. It is <strong>not a population percentile</strong>. Equal scores are shown as joint ranks rather than silently forcing a winner.</p>';
+  var previousEvidence = null; var displayedRank = 0;
+  prof.riasecSorted.forEach(function(k,index){var typ=RIASEC[k]; var pct=prof.evidenceScores[k]; if(pct!==previousEvidence){displayedRank=index+1;previousEvidence=pct;} var rankLabel=(index>0&&pct===prof.evidenceScores[prof.riasecSorted[index-1]])?'Joint #'+displayedRank:'#'+displayedRank; html+='<div class="rb-row" data-riasec-code="'+k+'" data-riasec-label="'+typ.label+'" data-riasec-score="'+pct+'" data-riasec-raw="'+scores[k]+'" data-riasec-max="'+prof.evidenceMaximums[k]+'" data-riasec-rank="'+rankLabel+'"><div class="rb-rank">'+rankLabel+'</div><div class="rb-dot" style="background:'+typ.color+'"></div><div class="rb-label"><strong>'+k+'</strong> '+typ.label+'</div><div class="rb-track"><div class="rb-fill" style="width:'+pct+'%;background:'+typ.color+'"></div></div><div class="rb-pct">'+pct+'%<small>'+scores[k]+'/'+prof.evidenceMaximums[k]+' pts</small></div></div>';});
+  html += '<div class="riasec-conclusion"><strong>What this pattern suggests:</strong> '+prof.patterns.explanation+' Use <strong>'+prof.interestCode+'</strong> to explore roles that combine '+RIASEC[prof.riasecSorted[0]].label.toLowerCase()+', '+RIASEC[prof.riasecSorted[1]].label.toLowerCase()+', and '+RIASEC[prof.riasecSorted[2]].label.toLowerCase()+' work rather than searching for a job title from one letter alone.</div>';
+  html += '<p class="assessment-method-note">Directional career-exploration result—not a diagnosis or standardized percentile. For a validated standalone interest assessment, use the <a href="https://www.onetcenter.org/IP.html" target="_blank" rel="noopener">O*NET Interest Profiler</a>.</p>';
   html += '</div>';
 
   // NEW: Dimension Conflict Detector
@@ -1492,41 +1440,33 @@ function showResults() {
     html += '</div>';
   }
 
-  // NEW: Assessment Reliability & Career Stage
+  // Transparent interpretation and audience context
   var patterns = prof.patterns;
   var careerStage = prof.careerStage;
   html += '<div class="res-section">';
-  html += '<div class="res-section-header"><span class="res-section-icon" style="background:'+P.color+'20;color:'+P.color+'">🔍</span><h3>Assessment Reliability & Your Stage</h3></div>';
-  html += '<p class="res-section-note">How confident is your profile? Plus: Where are you in your early career journey?</p>';
+  html += '<div class="res-section-header"><span class="res-section-icon" style="background:'+P.color+'20;color:'+P.color+'">🔍</span><h3>How to Interpret This Result</h3></div>';
+  html += '<p class="res-section-note">A transparent reading of the pattern—without pretending this short, mixed-purpose assessment provides population norms, diagnostic certainty, or an inferred work-history timeline.</p>';
   html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-bottom:1.5rem">';
-
-  var convictionColor = patterns.convictionScore > 70 ? '#10b981' : patterns.convictionScore > 50 ? '#f59e0b' : '#6b7280';
   html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:1.5rem">';
-  html += '<div style="font-size:12px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:.75rem">Response Conviction</div>';
-  html += '<div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:1rem">';
-  html += '<div style="font-size:2.2rem;font-weight:900;color:'+convictionColor+'">'+patterns.convictionScore+'</div>';
-  html += '<div style="font-size:12px;color:rgba(255,255,255,.7)">/100</div>';
-  html += '</div>';
+  html += '<div style="font-size:12px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:.75rem">Profile shape</div>';
+  html += '<div style="font-size:1.55rem;font-weight:900;color:'+P.color+';margin-bottom:1rem">'+patterns.shape+'</div>';
   html += '<div style="background:rgba(255,255,255,.02);border-radius:6px;padding:.75rem;font-size:12px;color:rgba(255,255,255,.8)">';
-  html += '<strong>'+patterns.conviction+':</strong> Your answers show '+
-  (patterns.convictionScore > 70 ? 'strong, consistent patterns. Results are highly reliable.' :
-   patterns.convictionScore > 50 ? 'clear patterns with some variation. Results are reliable.' :
-   'significant variation. You may still be exploring your direction.');
+  html += '<strong>Top-two separation: '+patterns.gap+' '+(patterns.gap===1?'point':'points')+'.</strong> '+patterns.explanation;
   html += '</div>';
   html += '</div>';
 
   html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:1.5rem">';
   html += '<div style="font-size:12px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:.75rem">Career Stage</div>';
   html += '<div style="font-size:1.3rem;font-weight:800;color:rgba(255,255,255,.95);margin-bottom:.5rem">'+careerStage.stage+'</div>';
-  html += '<div style="font-size:12px;color:rgba(255,255,255,.7)">You\'re in the <strong>'+careerStage.label+'</strong> phase. Guidance is tailored to this stage.</div>';
+  html += '<div style="font-size:12px;color:rgba(255,255,255,.7)"><strong>'+careerStage.label+'.</strong> '+careerStage.note+'</div>';
   html += '</div>';
 
-  if (patterns.contradictions.length > 0) {
+  if (patterns.combinations.length > 0) {
     html += '<div style="background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.2);border-radius:10px;padding:1.5rem">';
-    html += '<div style="font-size:12px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:.75rem">⚠️ Response Patterns</div>';
+    html += '<div style="font-size:12px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:.75rem">Useful combinations</div>';
     html += '<ul style="list-style:none;padding:0;margin:0">';
-    patterns.contradictions.forEach(function(contra) {
-      html += '<li style="font-size:12px;color:rgba(255,255,255,.8);margin-bottom:.5rem;padding-left:1rem;position:relative">→ '+contra+'</li>';
+    patterns.combinations.forEach(function(combination) {
+      html += '<li style="font-size:12px;color:rgba(255,255,255,.8);margin-bottom:.5rem;padding-left:1rem;position:relative">→ '+combination+'</li>';
     });
     html += '</ul>';
     html += '</div>';
@@ -1569,21 +1509,21 @@ function showResults() {
   html += '<div style="background:rgba(255,255,255,.03);border-radius:8px;padding:1rem;font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;margin-top:1rem"><strong>Note:</strong> These are general paths. Your specific journey will depend on your domain, skills, and opportunities. A career coach can help you customize this to your exact situation.</div>';
   html += '</div>';
 
-  html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:'+RG.color+'20;color:'+RG.color+'">🗺️</span><h3>Your Role & Domain Guide — '+RG.label+'</h3></div><p class="res-section-note">Your detected domain: <strong style="color:'+RG.color+'">'+RG.label+'</strong>. Based on your interest pattern and background signals.</p><div class="rg-roles">'+rolesHtml+'</div><div class="rg-meta"><div class="rg-meta-card"><div class="rg-meta-label">Your Next Move</div><div class="rg-meta-val">'+RG.nextMove+'</div></div><div class="rg-meta-card"><div class="rg-meta-label">Fast-Track Path</div><div class="rg-meta-val">'+RG.fastTrack+'</div></div></div><div class="rg-reasoning-box" style="background:'+P.color+'11;border:1px solid '+P.color+'33"><div class="rg-reasoning-title" style="color:'+P.color+'">'+P.label+' × '+RG.label+' — Your Specific Positioning</div><div class="rg-reasoning-text">'+domReasoning+'</div></div></div>';
+  html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:'+RG.color+'20;color:'+RG.color+'">🗺️</span><h3>Your Role & Domain Guide — '+RG.label+'</h3></div><p class="res-section-note">Your selected study/work field: <strong style="color:'+RG.color+'">'+RG.label+'</strong>. This comes directly from your first answer; it was not inferred from personality.</p><div class="rg-roles">'+rolesHtml+'</div><div class="rg-meta"><div class="rg-meta-card"><div class="rg-meta-label">Your Next Move</div><div class="rg-meta-val">'+RG.nextMove+'</div></div><div class="rg-meta-card"><div class="rg-meta-label">Fast-Track Path</div><div class="rg-meta-val">'+RG.fastTrack+'</div></div></div><div class="rg-reasoning-box" style="background:'+P.color+'11;border:1px solid '+P.color+'33"><div class="rg-reasoning-title" style="color:'+P.color+'">'+P.label+' × '+RG.label+' — Your Specific Positioning</div><div class="rg-reasoning-text">'+domReasoning+'</div></div></div>';
 
   html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:#2dd4bf20;color:#2dd4bf">⚡</span><h3>5 Career Moves Right Now</h3></div><p class="res-section-note">Based on your <strong style="color:'+P.color+'">'+P.label+'</strong> profile — all free, actionable today. The goal at your stage is calibration: doing things that tell you whether your direction is real or imagined.</p><div class="start-cards">'+startHtml+'</div></div>';
 
-  html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:'+mi.color+'20;color:'+mi.color+'">🧠</span><h3>Your 8 Intelligences</h3></div><p class="res-section-note">Everyone has all 8 types. Some are stronger. Your dominant type shapes what work feels natural versus draining. The numbers show your relative strength.</p><div class="mi-grid">'+miHtml+'</div><div class="mi-detail-box" style="border-left:4px solid '+mi.color+';background:'+mi.color+'08"><strong style="color:'+mi.color+'">'+mi.emoji+' '+mi.label+'</strong><br /><p style="color:rgba(255,255,255,.7);font-size:13px;line-height:1.65">'+mi.desc+'</p><div class="mi-tip-inner"><strong>How to use this: </strong>'+mi.tip+'</div></div></div>';
+  html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:'+mi.color+'20;color:'+mi.color+'">🧠</span><h3>Your 8 Intelligence Signals</h3></div><p class="res-section-note">These percentages are answer-evidence within this assessment, not measured IQ or population rankings. The star marks the two strongest signals in your answers.</p><div class="mi-grid">'+miHtml+'</div><div class="mi-detail-box" style="border-left:4px solid '+mi.color+';background:'+mi.color+'08"><strong style="color:'+mi.color+'">'+mi.emoji+' '+mi.label+'</strong><br /><p style="color:rgba(255,255,255,.7);font-size:13px;line-height:1.65">'+mi.desc+'</p><div class="mi-tip-inner"><strong>How to use this: </strong>'+mi.tip+'</div></div></div>';
 
   html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:#14b8a620;color:#14b8a6">📊</span><h3>Your Aptitude Signals</h3></div><p class="res-section-note">Directional signals about your natural thinking strengths. Use as signals, not fixed labels. All aptitudes are developable with practice.</p><div class="apt-bars">'+aptBars+'</div><div class="apt-meaning"><div class="apt-key"><span class="apt-k-dot" style="background:#6366f1"></span><strong>Numerical</strong> — quantitative subjects will feel easier and more natural.</div><div class="apt-key"><span class="apt-k-dot" style="background:#8b5cf6"></span><strong>Verbal</strong> — writing, communication, language-based careers compound faster.</div><div class="apt-key"><span class="apt-k-dot" style="background:#14b8a6"></span><strong>Logical</strong> — coding, strategy, systematic problem-solving feel instinctive.</div></div></div>';
 
-  html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:'+ls.color+'20;color:'+ls.color+'">📚</span><h3>How You Learn Best</h3></div><div class="ls-type-banner" style="background:'+ls.color+'15;border:1px solid '+ls.color+'40"><span class="ls-type-name" style="color:'+ls.color+'">'+ls.emoji+' '+ls.title+'</span><span class="ls-type-note">Your dominant learning style based on 25 questions</span></div><div class="ls-tip-box" style="border-left:3px solid '+ls.color+'"><p>'+ls.tip+'</p></div></div>';
+  html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:'+ls.color+'20;color:'+ls.color+'">📚</span><h3>Your Learning Preference</h3></div><div class="ls-type-banner" style="background:'+ls.color+'15;border:1px solid '+ls.color+'40"><span class="ls-type-name" style="color:'+ls.color+'">'+ls.emoji+' '+ls.title+'</span><span class="ls-type-note">A practical preference signal from this 26-question assessment—not a fixed learning ability</span></div><div class="ls-tip-box" style="border-left:3px solid '+ls.color+'"><p>'+ls.tip+'</p></div></div>';
 
-  html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:#f59e0b20;color:#f59e0b">🎓</span><h3>Career Paths That Match Your Profile</h3></div><p class="res-section-note">These careers align with your <strong style="color:'+P.color+'">'+P.label+'</strong> type. Shows role fit, salary, and why it specifically matches how you think and work.</p><div class="ct-wrap"><table class="career-table"><thead><tr><th>Career</th><th>Domain</th><th>Key Skill</th><th>Salary (3 yrs)</th><th>Entry Path</th></tr></thead><tbody>'+ctRows+'</tbody></table></div></div>';
+  html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:#f59e0b20;color:#f59e0b">🎓</span><h3>Career Hypotheses to Test</h3></div><p class="res-section-note">These are exploration starting points for your <strong style="color:'+P.color+'">'+prof.interestCode+'</strong> pattern—not guaranteed matches. Salary ranges are indicative India estimates and vary by city, employer, experience, and market; verify current job listings before deciding.</p><div class="ct-wrap"><table class="career-table"><thead><tr><th>Career</th><th>Domain</th><th>Key Skill</th><th>Indicative pay (3 yrs)</th><th>Entry Path</th></tr></thead><tbody>'+ctRows+'</tbody></table></div></div>';
 
   html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:#6366f120;color:#6366f1">🗺️</span><h3>Your Skill Roadmap — Early Career Stage</h3></div><p class="res-section-note">A three-phase skill-build for your professional development. You are at Level 1.5: Early career. Goal shifts from exploration to commitment — picking direction and going deep.</p><div class="roadmap-phases"><div class="rp-phase rp-free"><div class="rp-tag">Phase 1 — Start This Month, Free</div><p>Start one project aligned with your domain. Pick one professional to shadow or interview. Join one online community in your field. The goal is calibration, not commitment.</p></div><div class="rp-phase rp-taste"><div class="rp-tag">Phase 2 — The Taste Test (4–8 Weeks)</div><p>Commit to one skill that is directly relevant to your target role. Build one small portfolio piece or project. Get feedback from someone 5 years ahead. Start positioning yourself online.</p></div><div class="rp-phase rp-commit"><div class="rp-tag">Phase 3 — After Year 1</div><p>Choose one specialisation and go significantly deeper. Build real professional credentials or certifications. Create meaningful output that others can see and evaluate. Move from learning to doing.</p></div></div></div>';
 
-  html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:#6366f120;color:#6366f1">🤖</span><h3>Your AI Readiness Signal</h3></div><p class="res-section-note">AI is transforming every field. This identifies which parts of your profile are AI-resistant and what human superpower to develop.</p><div class="air-rating-badge" style="background:#6366f115;border:2px solid #6366f140;color:#6366f1">Your AI Readiness: ★★★★☆</div><div class="air-grid"><div class="air-card"><div class="air-card-title">✅ What AI Cannot Take From You</div><p>Judgment in ambiguous situations. Authentic relationship-building. Original strategic thinking. Making moves under uncertainty and real stakes.</p></div><div class="air-card"><div class="air-card-title">⚡ Your Human Superpower to Build</div><p>Build genuine expertise in your domain that enables you to judge what AI outputs are correct and what is hallucination or irrelevant. This expertise is increasingly your moat.</p></div></div><div class="air-action-box" style="border-left:4px solid '+P.color+';background:'+P.color+'08"><strong style="color:'+P.color+'">What to do about it:</strong> Learn to use AI as your research and execution accelerator while maintaining deep domain knowledge. The winning formula is human judgment + AI leverage, not AI replacing your thinking.</div><div class="air-risk-box"><strong>⚠️ What to watch:</strong> Roles that are 90% surface knowledge + execution without judgment (data entry, basic content generation, routine analysis) are commoditising fastest. Build judgment-based skills your whole career.</div><div class="air-4c-box"><div class="air-4c-title">The 4 Skills That AI Can Never Replace</div><div class="air-4c-grid"><div class="air-4c-item"><span class="air-4c-icon">🔍</span><strong>Curiosity</strong><p>Always asking why. Never stopping at the surface answer.</p></div><div class="air-4c-item"><span class="air-4c-icon">🎨</span><strong>Creativity</strong><p>Making new combinations. Seeing what others miss.</p></div><div class="air-4c-item"><span class="air-4c-icon">💪</span><strong>Courage</strong><p>Taking action even when the outcome is uncertain.</p></div><div class="air-4c-item"><span class="air-4c-icon">❤️</span><strong>Compassion</strong><p>Genuinely caring about people and their problems.</p></div></div><p class="air-4c-note">No AI has these. Every great career — in every field — needs at least two of these four.</p></div></div>';
+  html += '<div class="res-section"><div class="res-section-header"><span class="res-section-icon" style="background:#6366f120;color:#6366f1">🤖</span><h3>Your AI-Era Work Strategy</h3></div><p class="res-section-note">This assessment does not measure AI readiness. Use this section as a practical strategy for combining tools with accountable human judgment.</p><div class="air-grid"><div class="air-card"><div class="air-card-title">✅ Keep human ownership here</div><p>Ambiguous decisions, relationship-building, strategy, ethics, and work where someone must be accountable for the outcome.</p></div><div class="air-card"><div class="air-card-title">⚡ Build verification skill</div><p>Develop enough domain expertise to check sources, spot weak assumptions, protect confidential data, and judge whether an AI output is fit for use.</p></div></div><div class="air-action-box" style="border-left:4px solid '+P.color+';background:'+P.color+'08"><strong style="color:'+P.color+'">What to do about it:</strong> Use AI to accelerate drafts, research, and repetitive work; keep a human review step and measure whether quality, accuracy, and time actually improve.</div><div class="air-risk-box"><strong>⚠️ What to watch:</strong> Never treat fluent output as verified output. Check important claims, respect privacy and employer policy, and keep evidence for consequential decisions.</div><div class="air-4c-box"><div class="air-4c-title">Four durable human capabilities to practise</div><div class="air-4c-grid"><div class="air-4c-item"><span class="air-4c-icon">🔍</span><strong>Curiosity</strong><p>Ask better questions and investigate what is missing.</p></div><div class="air-4c-item"><span class="air-4c-icon">🎨</span><strong>Creativity</strong><p>Frame problems and combine ideas in useful ways.</p></div><div class="air-4c-item"><span class="air-4c-icon">💪</span><strong>Courage</strong><p>Act under uncertainty while owning the consequences.</p></div><div class="air-4c-item"><span class="air-4c-icon">❤️</span><strong>Compassion</strong><p>Understand people, context, and the effects of a decision.</p></div></div><p class="air-4c-note">These capabilities complement technical and domain expertise; none is a guarantee against automation.</p></div></div>';
 
   // ===== PHASE 3: COACHING FRAMEWORKS START =====
 
@@ -1692,15 +1632,15 @@ function showResults() {
         '<div style="font-weight:700;color:#10b981;margin-bottom:1rem;font-size:13px">The Rule of 30 Formula</div>' +
         '<div style="background:rgba(255,255,255,.03);border-radius:6px;padding:1rem;margin-bottom:1rem;font-size:13px;line-height:1.8">' +
           '<div><strong style="color:#10b981">Step 1:</strong> Calculate your monthly living expense (food, rent, transport, utilities)</div>' +
-          '<div style="margin-top:.5rem"><strong style="color:#10b981">Step 2:</strong> Multiply by 30 (for inflation and safety margin)</div>' +
-          '<div style="margin-top:.5rem"><strong style="color:#10b981">Step 3:</strong> That is your Freedom Number</div>' +
-          '<div style="margin-top:1rem;padding:1rem;background:rgba(16,185,129,.1);border-radius:4px"><strong>Example:</strong> If you spend ₹50,000/month → Freedom Number = ₹50,000 × 30 = ₹15 Lakhs (total saved). At 8% returns, that generates ₹12,000/month forever.</div>' +
+          '<div style="margin-top:.5rem"><strong style="color:#10b981">Step 2:</strong> Multiply monthly expenses by 12 to get annual expenses</div>' +
+          '<div style="margin-top:.5rem"><strong style="color:#10b981">Step 3:</strong> Multiply annual expenses by 30 for a planning illustration</div>' +
+          '<div style="margin-top:1rem;padding:1rem;background:rgba(16,185,129,.1);border-radius:4px"><strong>Correct example:</strong> ₹50,000/month × 12 × 30 = ₹1.8 crore. This does not guarantee a return or permanent income.</div>' +
         '</div>' +
       '</div>' +
       '<div style="background:rgba(255,255,255,.03);border-left:3px solid #10b981;border-radius:8px;padding:1.5rem">' +
         '<div style="font-weight:700;color:rgba(255,255,255,.9);margin-bottom:.75rem;font-size:13px">Your Path to Freedom Number</div>' +
-        '<p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:1rem">At your current trajectory (average early professional income), how many years to reach your Freedom Number? (Estimate: 12-20 years if you start saving 30% now). If that feels too long, you need to build a high-income skill faster or find a scaling model. This is where your T-shaped skill choice matters.</p>' +
-        '<p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin:0"><strong>Your role:</strong> Make progress toward your Freedom Number every single year. If a choice moves you closer, take it. If it moves you away, decline it. That simple rule removes most career confusion.</p>' +
+        '<p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:1rem">Your real target depends on expenses, inflation, taxes, investment returns, emergencies, dependants, and the withdrawal approach you use. Recalculate it periodically instead of treating one number as universal.</p>' +
+        '<p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin:0"><strong>Use it carefully:</strong> treat this as a prompt to connect career choices with savings capacity—not as financial advice or a reason to choose income over every other value.</p>' +
       '</div>' +
     '</div>';
 
@@ -1789,15 +1729,15 @@ function showResults() {
 
   // ===== PHASE 2 SECTIONS START =====
   // Section 1: Job Search Readiness
-  var jobSearchReady = classifyJobSearchReadiness(scores, detectedDomain, {num: scores.num||50, ver: scores.ver||50, lgc: scores.lgc||50});
-  html += '<div class="res-section" style="margin-bottom:2rem"><div class="res-section-header"><span class="res-section-icon" style="background:'+P.color+'20;color:'+P.color+'">🎯</span><h3>Your Job Search Readiness (3 Strategies)</h3></div><p class="res-section-note">Early professionals have 3 distinct job search advantages. Rank them by your strengths and timeline.</p>';
+  var jobSearchReady = classifyJobSearchReadiness(primary, detectedDomain, prof.aptitudeProfile);
+  html += '<div class="res-section" style="margin-bottom:2rem"><div class="res-section-header"><span class="res-section-icon" style="background:'+P.color+'20;color:'+P.color+'">🎯</span><h3>Three Job-Search Routes to Test</h3></div><p class="res-section-note">This assessment cannot grade whether you are ready to be hired. Use these routes as an experiment plan and judge them by interviews, referrals, portfolio feedback, and response rates.</p>';
   html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-bottom:1.5rem">';
   ['direct', 'referral', 'startup'].forEach(function(strategy) {
     var s = jobSearchReady[strategy];
     var labels = {direct: '📋 Direct Applications', referral: '🤝 Referral Network', startup: '⚡ Startup/Early Stage'};
     html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:1.5rem">';
     html += '<div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.95);margin-bottom:1rem">'+labels[strategy]+'</div>';
-    html += '<div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:1rem"><div style="font-size:2rem;font-weight:900;color:'+P.color+'">'+s.score+'</div><div style="font-size:12px;color:rgba(255,255,255,.6)">/100</div></div>';
+    html += '<div style="font-size:1.05rem;font-weight:800;color:'+P.color+';margin-bottom:1rem">'+s.label+'</div>';
     html += '<div style="font-size:12px;color:rgba(255,255,255,.7);line-height:1.6;background:rgba(255,255,255,.02);border-radius:6px;padding:0.75rem">'+s.tip+'</div>';
     html += '</div>';
   });
@@ -1914,25 +1854,25 @@ function showResults() {
       businessTypesHtml += '<div style="background:linear-gradient(135deg,' + btObj.color + '08,' + btObj.color + '04);border:1px solid ' + btObj.color + '30;border-radius:10px;padding:1rem;margin-bottom:.75rem"><div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;font-weight:700;color:rgba(255,255,255,.9)"><span style="font-size:1.2rem">' + btObj.emoji + '</span><span>' + btObj.name + '</span></div><p style="font-size:12px;color:rgba(255,255,255,.7);margin:0">' + btObj.desc + '</p></div>';
     }
   });
-  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.5rem;margin:2rem 0"><div style="font-size:14px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:1rem">🎯 High-Value Skills Worth Building Now</div><div style="margin-bottom:1.5rem"><h4 style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,.1)">10 High-Income Skills</h4>' + highIncomeSkillsHtml + '</div><div style="margin-bottom:1.5rem"><h4 style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,.1)">Deep Skills for Your Domain</h4>' + deepSkillsHtml + '</div><div><h4 style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,.1)">4 Paths to Earning (Pick Your Model)</h4>' + businessTypesHtml + '</div><div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:1.25rem;margin-top:1rem"><div style="font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;font-weight:700;margin-bottom:.5rem">💰 Rule of 30: Your Financial Freedom Number</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem"><div><div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Monthly Baseline</div><div style="font-size:1.3rem;font-weight:900;color:#10b981">₹3,00,000</div></div><div><div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Freedom Number (Goal)</div><div style="font-size:1.3rem;font-weight:900;color:#10b981">₹10.8 Crore</div></div></div><p style="font-size:12px;color:rgba(255,255,255,.6);margin:0">Using Rule of 30 (multiply annual costs by 30) with 12% inflation adjustment. This is your target for financial independence.</p></div></div>';
+  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.5rem;margin:2rem 0"><div style="font-size:14px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:1rem">🎯 High-Value Skills Worth Building Now</div><div style="margin-bottom:1.5rem"><h4 style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,.1)">10 High-Income Skills</h4>' + highIncomeSkillsHtml + '</div><div style="margin-bottom:1.5rem"><h4 style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,.1)">Deep Skills for Your Domain</h4>' + deepSkillsHtml + '</div><div><h4 style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,.1)">4 Paths to Earning (Pick Your Model)</h4>' + businessTypesHtml + '</div><div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:1.25rem;margin-top:1rem"><div style="font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;font-weight:700;margin-bottom:.5rem">💰 Rule of 30 planning illustration</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem"><div><div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Example monthly expenses</div><div style="font-size:1.3rem;font-weight:900;color:#10b981">₹50,000</div></div><div><div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Illustrative amount</div><div style="font-size:1.3rem;font-weight:900;color:#10b981">₹1.8 Crore</div></div></div><p style="font-size:12px;color:rgba(255,255,255,.6);margin:0">Formula: monthly expenses × 12 × 30. This is a planning prompt, not a guaranteed return or personal financial advice.</p></div></div>';
 
   // Advanced Insights
-  html += '<div class="res-section" style="background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(236,72,153,.04));border:2px solid rgba(139,92,246,.15)"><div class="res-section-header"><span class="res-section-icon" style="background:#8b5cf620;color:#8b5cf6">📊</span><h3>Advanced Insights About You</h3></div><p class="res-section-note">Beyond your career type — here is what your answers reveal about your learning style, adaptability, and readiness</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem">';
+  html += '<div class="res-section" style="background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(236,72,153,.04));border:2px solid rgba(139,92,246,.15)"><div class="res-section-header"><span class="res-section-icon" style="background:#8b5cf620;color:#8b5cf6">📊</span><h3>Additional Decision Signals</h3></div><p class="res-section-note">Useful summaries from your answers. They are directional evidence, not diagnoses, readiness grades, or population percentiles.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem">';
 
   var cogBalance = prof.cognitiveBalance;
-  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">🧠</span><div><div style="font-weight:800;color:#fff">Cognitive Balance</div><div style="font-size:12px;color:rgba(255,255,255,.5)">Thinking Style Diversity</div></div></div><div style="font-size:2.5rem;font-weight:900;color:#8b5cf6;margin-bottom:.5rem">'+cogBalance.score+'%</div><div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:1rem">'+cogBalance.interpretation+'</div><div style="background:rgba(255,255,255,.02);border-radius:8px;padding:1rem;font-size:11px;color:rgba(255,255,255,.6)"><div style="margin-bottom:.75rem"><strong>Logical:</strong> '+cogBalance.logical+'</div><div style="margin-bottom:.75rem"><strong>Creative:</strong> '+cogBalance.creative+'</div><div style="margin-bottom:.75rem"><strong>Social:</strong> '+cogBalance.social+'</div><div><strong>Practical:</strong> '+cogBalance.practical+'</div></div></div>';
+  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">🧠</span><div><div style="font-weight:800;color:#fff">Thinking-style mix</div><div style="font-size:12px;color:rgba(255,255,255,.5)">Normalized evidence across four composites</div></div></div><div style="font-size:2rem;font-weight:900;color:#8b5cf6;margin-bottom:.5rem">'+cogBalance.profile+'</div><div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:1rem">'+cogBalance.interpretation+'</div><div style="background:rgba(255,255,255,.02);border-radius:8px;padding:1rem;font-size:11px;color:rgba(255,255,255,.6)"><div style="margin-bottom:.75rem"><strong>Logical:</strong> '+cogBalance.logical+'% evidence</div><div style="margin-bottom:.75rem"><strong>Creative:</strong> '+cogBalance.creative+'% evidence</div><div style="margin-bottom:.75rem"><strong>Social:</strong> '+cogBalance.social+'% evidence</div><div><strong>Practical:</strong> '+cogBalance.practical+'% evidence</div></div></div>';
 
   var readiness = prof.careerReadiness;
-  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">🎯</span><div><div style="font-weight:800;color:#fff">Career Readiness</div><div style="font-size:12px;color:rgba(255,255,255,.5)">Clarity + Conviction</div></div></div><div style="font-size:2.5rem;font-weight:900;color:#10b981;margin-bottom:.5rem">'+readiness.stage+'</div><div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:1rem">'+readiness.recommendation+'</div><div style="background:rgba(255,255,255,.02);border-radius:8px;padding:1rem;font-size:11px;color:rgba(255,255,255,.6)"><div style="margin-bottom:.5rem;display:flex;justify-content:space-between"><span>Conviction:</span> <strong>'+readiness.conviction+'%</strong></div><div style="margin-bottom:.5rem;display:flex;justify-content:space-between"><span>Clarity:</span> <strong>'+readiness.clarity+'%</strong></div><div style="display:flex;justify-content:space-between"><span>Consistency:</span> <strong>'+readiness.consistency+'%</strong></div></div></div>';
+  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">🎯</span><div><div style="font-weight:800;color:#fff">Decision next step</div><div style="font-size:12px;color:rgba(255,255,255,.5)">Based on top-interest separation</div></div></div><div style="font-size:1.65rem;font-weight:900;color:#10b981;margin-bottom:.5rem">'+readiness.stage+'</div><div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:1rem">'+readiness.reason+'</div><div style="background:rgba(255,255,255,.02);border-radius:8px;padding:1rem;font-size:12px;color:rgba(255,255,255,.7)"><strong>Do this:</strong> '+readiness.recommendation+'</div></div>';
 
   var lsAlign = prof.learningStyleAlignment;
-  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">📚</span><div><div style="font-weight:800;color:#fff">Learning Style Fit</div><div style="font-size:12px;color:rgba(255,255,255,.5)">How you learn best</div></div></div><div style="font-size:2rem;font-weight:900;color:#14b8a6;margin-bottom:.75rem">'+lsAlign.learningStyle+' Learner</div><div style="font-size:1.5rem;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:.5rem">'+lsAlign.alignmentScore+'% Career Alignment</div><div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6">'+lsAlign.implication+'</div></div>';
+  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">📚</span><div><div style="font-weight:800;color:#fff">Learning preference</div><div style="font-size:12px;color:rgba(255,255,255,.5)">A study/work tactic, not career fit</div></div></div><div style="font-size:2rem;font-weight:900;color:#14b8a6;margin-bottom:.75rem">'+lsAlign.learningStyle+'</div><div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:.5rem">'+lsAlign.careerAlignment+'</div><div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6">'+lsAlign.implication+'</div></div>';
 
   var aptProfile = prof.aptitudeProfile;
-  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">💡</span><div><div style="font-weight:800;color:#fff">Aptitude Profile</div><div style="font-size:12px;color:rgba(255,255,255,.5)">Strongest thinking strength</div></div></div><div style="font-size:2rem;font-weight:900;color:#f59e0b;margin-bottom:.75rem">'+aptProfile.primary+' Mind</div><div style="font-size:1.3rem;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:1rem">'+aptProfile.dominanceStrength+'% dominant</div><div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:1rem">'+aptProfile.careerImplication+'</div><div style="background:rgba(255,255,255,.02);border-radius:8px;padding:1rem;font-size:11px;color:rgba(255,255,255,.6)"><div style="margin-bottom:.5rem;display:flex;justify-content:space-between"><span>Numerical:</span> <strong>'+aptProfile.numerical+'</strong></div><div style="margin-bottom:.5rem;display:flex;justify-content:space-between"><span>Verbal:</span> <strong>'+aptProfile.verbal+'</strong></div><div style="display:flex;justify-content:space-between"><span>Logical:</span> <strong>'+aptProfile.logical+'</strong></div></div></div>';
+  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">💡</span><div><div style="font-weight:800;color:#fff">Aptitude evidence</div><div style="font-size:12px;color:rgba(255,255,255,.5)">Strongest signal in these answers</div></div></div><div style="font-size:2rem;font-weight:900;color:#f59e0b;margin-bottom:.75rem">'+aptProfile.primary+'</div><div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:1rem">'+aptProfile.careerImplication+'</div><div style="background:rgba(255,255,255,.02);border-radius:8px;padding:1rem;font-size:11px;color:rgba(255,255,255,.6)"><div style="margin-bottom:.5rem;display:flex;justify-content:space-between"><span>Numerical:</span> <strong>'+aptProfile.numerical+'%</strong></div><div style="margin-bottom:.5rem;display:flex;justify-content:space-between"><span>Verbal:</span> <strong>'+aptProfile.verbal+'%</strong></div><div style="display:flex;justify-content:space-between"><span>Logical:</span> <strong>'+aptProfile.logical+'%</strong></div></div></div>';
 
   var adapt = prof.adaptabilityIndex;
-  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">🔄</span><div><div style="font-weight:800;color:#fff">Adaptability Index</div><div style="font-size:12px;color:rgba(255,255,255,.5)">How ready to pivot</div></div></div><div style="font-size:2.5rem;font-weight:900;color:#ef4444;margin-bottom:.5rem">'+adapt.score+'%</div><div style="font-size:1.2rem;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:1rem">'+adapt.adaptability+'</div><div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6">'+adapt.interpretation+'</div></div></div></div>';
+  html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">🔄</span><div><div style="font-weight:800;color:#fff">Interest breadth</div><div style="font-size:12px;color:rgba(255,255,255,.5)">Options visible in this response set</div></div></div><div style="font-size:1.5rem;font-weight:900;color:#ef4444;margin-bottom:.5rem">'+adapt.adaptability+'</div><div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6">'+adapt.interpretation+'</div></div></div></div>';
 
   // ===== PHASE 5: UNIVERSAL SECTIONS START =====
 
@@ -2200,15 +2140,12 @@ function retakeQuiz() {
 globalThis.downloadResultsAsPDF = downloadResultsAsPDF;
 globalThis.retakeQuiz = retakeQuiz;
 
-function classifyJobSearchReadiness(riasec, domain, ap) {
-  var readiness = {};
-  var directScore = (ap.num + ap.ver) / 2;
-  var referralScore = 70;
-  var startupScore = ap.lgc + 20;
-  readiness.direct = {score: Math.min(100, Math.round(directScore * 1.2)), label: directScore > 60 ? 'Strong' : 'Moderate', tip: 'Apply directly to postings. Build portfolio on GitHub/Behance. Get feedback early.'};
-  readiness.referral = {score: Math.min(100, Math.round(referralScore)), label: 'Strong', tip: 'Ask 10 people you know: "Who should I talk to in [domain]?" Warm intros beat cold emails 3:1.'};
-  readiness.startup = {score: Math.min(100, Math.round(startupScore)), label: startupScore > 70 ? 'Strong' : 'Moderate', tip: 'Startups hire for potential + learning speed over 5 years of refined expertise.'};
-  return readiness;
+function classifyJobSearchReadiness(riasec, domain, aptitudeProfile) {
+  return {
+    direct: {label: 'Proof-led applications', tip: 'Choose 10 closely matched roles. Tailor your evidence to each role, link one relevant project, and track interview response rather than application volume.'},
+    referral: {label: 'Conversation-led referrals', tip: 'Speak with practitioners in your selected field, ask what strong junior evidence looks like, and request an introduction only after a useful, specific conversation.'},
+    startup: {label: 'Small-team trial', tip: 'Target roles where you can show learning speed and ownership. Ask exactly what you would own in the first 90 days and test that work in a small project first.'}
+  };
 }
 
 function generateSkillRoadmap(domain, riasec, aptMax) {
@@ -2385,7 +2322,17 @@ h1{font-size:clamp(2rem,4.8vw,3.4rem);font-weight:800;line-height:1.1;letter-spa
 .res-section-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;line-height:1}
 .res-section-header h3{font-size:16px;font-weight:800;color:#fff}
 .res-section-note{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:1rem;line-height:1.65}
-.rb-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.55rem}
+.riasec-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin:0 0 1rem}
+.riasec-summary>div{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:.75rem .9rem;display:flex;flex-direction:column;gap:.25rem}
+.riasec-summary span{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);font-weight:700}
+.riasec-summary strong{font-size:1.05rem;color:#f8fafc}
+.rb-row{display:grid;grid-template-columns:58px 10px minmax(130px,180px) minmax(120px,1fr) 72px;align-items:center;gap:.7rem;margin-bottom:.65rem;padding:.45rem .55rem;border-radius:9px;background:rgba(255,255,255,.018)}
+.rb-rank{font-size:10px;font-weight:800;color:rgba(255,255,255,.48);text-transform:uppercase;letter-spacing:.04em}
+.rb-pct{font-weight:800;color:#f8fafc;text-align:right}
+.rb-pct small{display:block;font-size:9px;font-weight:600;color:rgba(255,255,255,.38);margin-top:1px}
+.riasec-conclusion{margin-top:1rem;padding:1rem 1.1rem;border-radius:11px;background:rgba(45,212,191,.07);border-left:3px solid #2dd4bf;color:rgba(255,255,255,.74);font-size:13px;line-height:1.65}
+.assessment-method-note{margin:.9rem 0 0;color:rgba(255,255,255,.45);font-size:11px;line-height:1.55}
+.assessment-method-note a{color:#7dd3fc;text-decoration:underline}
 .rb-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .rb-label{display:flex;align-items:center;gap:.4rem;font-size:13px;min-width:165px}
 .rb-track{flex:1;height:10px;background:rgba(255,255,255,.07);border-radius:999px;overflow:hidden}
@@ -2417,6 +2364,7 @@ h1{font-size:clamp(2rem,4.8vw,3.4rem);font-weight:800;line-height:1.1;letter-spa
 .mi-tip-inner{margin-top:.6rem;font-size:13px;color:rgba(255,255,255,.65);line-height:1.6}
 .apt-bars{display:flex;flex-direction:column;gap:.65rem;margin-bottom:.85rem}
 .apt-row{display:flex;flex-direction:column;gap:.3rem}
+@media(max-width:680px){.riasec-summary{grid-template-columns:1fr}.rb-row{grid-template-columns:50px 8px minmax(105px,1fr) 58px}.rb-track{grid-column:1/-1}.rb-pct{grid-column:4;grid-row:1}.rb-label{grid-column:3}}
 .apt-label{display:flex;align-items:center;gap:.5rem;font-size:13px}
 .apt-bar{height:9px;background:rgba(255,255,255,.07);border-radius:999px;overflow:hidden}
 .apt-fill{height:100%;border-radius:999px}

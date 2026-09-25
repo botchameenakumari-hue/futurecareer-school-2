@@ -28,7 +28,7 @@ const legacyAssessments = [
   {
     route: '/services/assessments/graduates-and-early-professionals/',
     title: /Graduates.*Early Professionals/,
-    anchor: 'Your Career Type',
+    anchor: 'Your strongest career-interest pattern',
   },
   {
     route: '/services/assessments/working-professionals-and-career-changers/',

@@ -10,6 +10,10 @@ interface ReportLine {
 interface ReportSection {
   title: string;
   lines: ReportLine[];
+  kind?: 'profile' | 'riasec' | 'intelligences' | 'aptitude' | 'careers';
+  scoreRows?: Array<{ code: string; label: string; score: number; raw: string; rank?: string }>;
+  careerRows?: Array<{ career: string; domain: string; skill: string; salary: string; path: string }>;
+  profile?: { code: string; label: string; badge: string; tagline: string; description: string };
 }
 
 interface GraduatePdfOptions {
@@ -174,6 +178,55 @@ export function collectGraduateReport(container: HTMLElement): ReportSection[] {
 
   return topLevelBlocks
     .map((block, index) => {
+      const profile = block.matches('[data-pdf-profile]') ? {
+        code: normaliseVisibleText(block.querySelector<HTMLElement>('.res-code-badge')?.textContent || ''),
+        label: normaliseVisibleText(block.querySelector<HTMLElement>('.res-label')?.textContent || ''),
+        badge: normaliseVisibleText(block.querySelector<HTMLElement>('.res-secondary-badge')?.textContent || ''),
+        tagline: normaliseVisibleText(block.querySelector<HTMLElement>('.res-tagline')?.textContent || ''),
+        description: normaliseVisibleText(block.querySelector<HTMLElement>('.res-combo-note')?.textContent || ''),
+      } : undefined;
+      const scoreRows: ReportSection['scoreRows'] = [];
+      block.querySelectorAll<HTMLElement>('[data-riasec-code]').forEach((row) => {
+        scoreRows.push({
+          code: row.dataset.riasecCode || '',
+          label: row.dataset.riasecLabel || '',
+          score: Number(row.dataset.riasecScore || 0),
+          raw: `${row.dataset.riasecRaw || '0'}/${row.dataset.riasecMax || '0'} pts`,
+          rank: row.dataset.riasecRank || '',
+        });
+        row.remove();
+      });
+      block.querySelectorAll<HTMLElement>('[data-mi-code]').forEach((row) => {
+        scoreRows.push({
+          code: row.dataset.miCode || '',
+          label: row.dataset.miLabel || '',
+          score: Number(row.dataset.miScore || 0),
+          raw: `${row.dataset.miRaw || '0'} raw points`,
+        });
+        row.remove();
+      });
+      block.querySelectorAll<HTMLElement>('[data-apt-code]').forEach((row) => {
+        scoreRows.push({
+          code: row.dataset.aptCode || '',
+          label: row.dataset.aptLabel || '',
+          score: Number(row.dataset.aptScore || 0),
+          raw: `${row.dataset.aptRaw || '0'} raw points`,
+        });
+        row.remove();
+      });
+      const careerRows: ReportSection['careerRows'] = [];
+      block.querySelectorAll<HTMLTableRowElement>('[data-career-row]').forEach((row) => {
+        const cells = Array.from(row.querySelectorAll('td')).map((cell) =>
+          normaliseVisibleText(cell.textContent || '')
+        );
+        if (cells.length >= 5) {
+          careerRows.push({
+            career: cells[0], domain: cells[1], skill: cells[2], salary: cells[3], path: cells[4],
+          });
+        }
+        row.remove();
+      });
+      if (careerRows.length) block.querySelector('table')?.remove();
       const heading = block.querySelector<HTMLElement>('h1,h2,h3,[data-pdf-section-heading]');
       const profileTitle = block.classList.contains('res-header')
         ? block.querySelector<HTMLElement>('.res-title')?.textContent || ''
@@ -183,13 +236,19 @@ export function collectGraduateReport(container: HTMLElement): ReportSection[] {
       );
       heading?.remove();
       const lines = linesFromElement(block);
-      if (explicitTitle) return { title: explicitTitle, lines };
+      const kind: ReportSection['kind'] = block.matches('[data-pdf-profile]') ? 'profile' :
+        block.matches('[data-pdf-riasec]') ? 'riasec' :
+        scoreRows.some((row) => ['lin','log','spa','bk','inter','intra','mus','nat'].includes(row.code)) ? 'intelligences' :
+        scoreRows.some((row) => ['num','ver','lgc'].includes(row.code)) ? 'aptitude' :
+        careerRows.length ? 'careers' : undefined;
+      if (profile) lines.splice(0, lines.length);
+      if (explicitTitle) return { title: explicitTitle, lines, kind, scoreRows, careerRows, profile };
 
       const inferredTitleIndex = lines.findIndex((line) => pdfText(line.text).length >= 4);
       const inferredTitle =
         inferredTitleIndex >= 0 ? pdfText(lines[inferredTitleIndex].text) : `Insight ${index + 1}`;
       if (inferredTitleIndex >= 0) lines.splice(inferredTitleIndex, 1);
-      return { title: inferredTitle, lines };
+      return { title: inferredTitle, lines, kind, scoreRows, careerRows, profile };
     })
     .filter((section) => section.title || section.lines.length);
 }
@@ -242,7 +301,11 @@ export function createGraduateAssessmentPdf(
   const marginX = 16;
   const contentWidth = pageWidth - marginX * 2;
   const contentTop = 27;
-  const contentBottom = pageHeight - 18;
+  // Keep a generous safety zone above the footer. jsPDF can continue a tall
+  // text array onto a fresh page when its internal leading exceeds our visual
+  // estimate; the extra buffer ensures every break goes through addContentPage
+  // so continuation pages retain the full report header and margins.
+  const contentBottom = pageHeight - 34;
   let y = contentTop;
   let sectionNumber = 0;
 
@@ -388,7 +451,7 @@ export function createGraduateAssessmentPdf(
 
     setText(COLOR.gold);
     setFont('bold', 8.2);
-    pdf.text('PRIMARY CAREER PERSONALITY', 21, titleBottom + 36);
+    pdf.text('STRONGEST CAREER-INTEREST PATTERN', 21, titleBottom + 36);
     setText(COLOR.white);
     setFont('bold', 22);
     const profileTitleLines = wrap(coverProfileTitle || 'Your personalised profile', 160, 'bold', 22);
@@ -488,6 +551,104 @@ export function createGraduateAssessmentPdf(
     setFont('bold', 15.2);
     pdf.text(titleLines, marginX + 25.5, y + 8.8, { lineHeightFactor: 1.06 });
     y += height + 6;
+  };
+
+  const renderScoreRows = (section: ReportSection) => {
+    const rows = section.scoreRows || [];
+    if (!rows.length) return;
+    const compact = section.kind === 'intelligences';
+    const rowWidth = compact ? (contentWidth - 4) / 2 : contentWidth;
+    const rowHeight = compact ? 20 : 18;
+    rows.forEach((row, index) => {
+      if (compact && index % 2 === 0) ensureSpace(rowHeight + 3);
+      if (!compact) ensureSpace(rowHeight + 2);
+      const column = compact ? index % 2 : 0;
+      const x = marginX + column * (rowWidth + 4);
+      const rowY = y;
+      setFill(index % 2 ? COLOR.white : COLOR.indigoSoft);
+      setDraw(COLOR.line);
+      pdf.roundedRect(x, rowY, rowWidth, rowHeight, 3, 3, 'FD');
+      setFill(section.kind === 'riasec' && index < 3 ? COLOR.gold : COLOR.teal);
+      pdf.circle(x + 8, rowY + rowHeight / 2, 4.3, 'F');
+      setText(section.kind === 'riasec' && index < 3 ? COLOR.navy : COLOR.white);
+      setFont('bold', row.code.length > 2 ? 6.8 : 8.4);
+      pdf.text(pdfText(row.code.toUpperCase()), x + 8, rowY + rowHeight / 2, { align: 'center', baseline: 'middle' });
+      setText(COLOR.ink);
+      setFont('bold', compact ? 8.7 : 9.5);
+      pdf.text(pdfText(`${row.rank ? `${row.rank}  ` : ''}${row.label}`), x + 15, rowY + 6.2);
+      setText(COLOR.muted);
+      setFont('normal', 6.8);
+      pdf.text(pdfText(row.raw), x + 15, rowY + 10.9);
+      const barX = x + 15;
+      const scoreArea = compact ? 19 : 25;
+      const barWidth = rowWidth - 15 - scoreArea - 6;
+      setFill(COLOR.line);
+      pdf.roundedRect(barX, rowY + rowHeight - 4.5, barWidth, 2.4, 1.2, 1.2, 'F');
+      setFill(section.kind === 'riasec' && index < 3 ? COLOR.gold : COLOR.teal);
+      pdf.roundedRect(barX, rowY + rowHeight - 4.5, Math.max(1, barWidth * Math.min(100, row.score) / 100), 2.4, 1.2, 1.2, 'F');
+      setText(COLOR.ink);
+      setFont('bold', compact ? 8.4 : 9.2);
+      pdf.text(`${row.score}%`, x + rowWidth - 6, rowY + rowHeight / 2 + 1.2, { align: 'right' });
+      if (!compact || column === 1 || index === rows.length - 1) y += rowHeight + 2;
+    });
+    y += 2;
+  };
+
+  const renderProfile = (section: ReportSection) => {
+    if (!section.profile) return;
+    const profile = section.profile;
+    const tagline = wrap(profile.tagline, contentWidth - 35, 'bold', 11.2);
+    const description = wrap(profile.description, contentWidth - 20, 'normal', 9.8);
+    const height = 35 + tagline.length * 5.2 + description.length * 4.7;
+    ensureSpace(height + 2);
+    setFill(COLOR.navyCard);
+    pdf.roundedRect(marginX, y, contentWidth, height, 5, 5, 'F');
+    setFill(COLOR.gold);
+    pdf.circle(marginX + 14, y + 14, 9, 'F');
+    setText(COLOR.navy);
+    setFont('bold', profile.code.length > 2 ? 8.7 : 11);
+    pdf.text(pdfText(profile.code), marginX + 14, y + 14, { align: 'center', baseline: 'middle' });
+    setText([175, 194, 213]);
+    setFont('bold', 7.2);
+    pdf.text(pdfText(profile.label.toUpperCase()), marginX + 28, y + 8.7);
+    setText(COLOR.white);
+    setFont('bold', 10.4);
+    pdf.text(pdfText(profile.badge), marginX + 28, y + 15.2);
+    setText(COLOR.gold);
+    setFont('bold', 11.2);
+    pdf.text(tagline, marginX + 10, y + 29, { lineHeightFactor: 1.14 });
+    const descriptionY = y + 32 + tagline.length * 5.2;
+    setText([190, 204, 218]);
+    setFont('normal', 9.8);
+    pdf.text(description, marginX + 10, descriptionY, { lineHeightFactor: 1.22 });
+    y += height + 3;
+  };
+
+  const renderCareerRows = (section: ReportSection) => {
+    (section.careerRows || []).forEach((row, index) => {
+      const detail = `Domain: ${row.domain}   |   Key skill: ${row.skill}   |   Indicative pay: ${row.salary}`;
+      const pathLines = wrap(`Entry path: ${row.path}`, contentWidth - 14, 'normal', 8.4);
+      const height = Math.max(24, 18 + pathLines.length * 4.1);
+      ensureSpace(height + 2);
+      setFill(index % 2 ? COLOR.white : COLOR.goldSoft);
+      setDraw(COLOR.line);
+      pdf.roundedRect(marginX, y, contentWidth, height, 3.5, 3.5, 'FD');
+      setFill(COLOR.gold);
+      pdf.roundedRect(marginX + 5, y + 5, 8, 8, 2.3, 2.3, 'F');
+      setText(COLOR.navy);
+      setFont('bold', 7.6);
+      pdf.text(String(index + 1), marginX + 9, y + 9, { align: 'center', baseline: 'middle' });
+      setText(COLOR.ink);
+      setFont('bold', 10.2);
+      pdf.text(pdfText(row.career), marginX + 17, y + 9.5);
+      setText(COLOR.slate);
+      setFont('bold', 7.6);
+      pdf.text(pdfText(detail), marginX + 17, y + 15);
+      setFont('normal', 8.4);
+      pdf.text(pathLines, marginX + 7, y + 21, { lineHeightFactor: 1.18 });
+      y += height + 2;
+    });
+    y += 2;
   };
 
   const renderLine = (line: ReportLine, index: number, nextLine?: ReportLine) => {
@@ -760,6 +921,9 @@ export function createGraduateAssessmentPdf(
   addContentPage();
   sections.forEach((section) => {
     renderSectionHeader(section.title);
+    renderProfile(section);
+    renderScoreRows(section);
+    renderCareerRows(section);
     section.lines.forEach((line, index) => renderLine(line, index, section.lines[index + 1]));
     y += 4;
   });
@@ -816,6 +980,20 @@ export function createGraduateAssessmentPdf(
   for (let page = 1; page <= totalPages; page += 1) {
     pdf.setPage(page);
     const dark = page === 1 || page === totalPages;
+    if (!dark) {
+      // Repaint the header in the final pass as a hard guarantee for pages
+      // that jsPDF may have inserted while laying out a long text array.
+      setFill(COLOR.navy);
+      pdf.rect(0, 0, pageWidth, 18, 'F');
+      setFill(COLOR.gold);
+      pdf.rect(0, 18, pageWidth, 1.1, 'F');
+      setText(COLOR.white);
+      setFont('bold', 8.5);
+      pdf.text('FUTURE CAREER SCHOOL', marginX, 11.2);
+      setText([182, 197, 214]);
+      setFont('normal', 7.2);
+      pdf.text('GRADUATES  /  EARLY CAREER REPORT', pageWidth - marginX, 11.2, { align: 'right' });
+    }
     setDraw(dark ? [54, 72, 94] : COLOR.line);
     pdf.line(marginX, pageHeight - 12, pageWidth - marginX, pageHeight - 12);
     setText(dark ? [148, 168, 189] : COLOR.muted);

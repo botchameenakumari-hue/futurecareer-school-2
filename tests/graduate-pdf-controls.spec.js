@@ -31,7 +31,13 @@ test('Graduates and early professionals preserves both PDF controls and exports 
   const results = page.locator('#results-container');
   await expect(results).toBeVisible();
   expect((await results.innerText()).length).toBeGreaterThan(27_000);
-  await expect(results).toContainText('The Leader');
+  await expect(results).toContainText('Your RIASEC Interest Evidence');
+  await expect(results).toContainText('not a population percentile');
+  await expect(results).toContainText('Audience context, not inferred experience');
+  await expect(results).toContainText('₹50,000/month × 12 × 30 = ₹1.8 crore');
+  await expect(results).toContainText('Three Job-Search Routes to Test');
+  await expect(results).not.toContainText('Response Conviction');
+  await expect(results).not.toContainText('Adaptability Index');
   await expect(results).toContainText('The 4 Core Human Skills (Forever Valuable)');
   await expect(results).toContainText('The 4 Business Types (For Your Future)');
 
@@ -47,5 +53,4 @@ test('Graduates and early professionals preserves both PDF controls and exports 
   await expectPdfDownload(page, topDownload);
   expect(pageErrors).toEqual([]);
 });
-
 
