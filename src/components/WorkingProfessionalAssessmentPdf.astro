@@ -1,5 +1,5 @@
 <script>
-  import { createGraduateAssessmentPdf } from '../scripts/graduateAssessmentPdf';
+  import { createWorkingProfessionalAssessmentPdf } from '../scripts/workingProfessionalAssessmentPdf';
 
   declare global {
     interface Window {
@@ -46,7 +46,7 @@
     try {
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       const { jsPDF: PdfDocument } = await import('jspdf');
-      const { pdf } = createGraduateAssessmentPdf(container, PdfDocument, {
+      const { pdf } = await createWorkingProfessionalAssessmentPdf(container, PdfDocument, {
         title: 'Working Professional Career Assessment Report',
         reportKicker: 'PROFESSIONAL GROWTH AND PIVOT REPORT',
         guidanceUrl:
@@ -54,18 +54,8 @@
         siteUrl: 'https://futurecareerschool.com',
         phoneDisplay: '+91 78159 27259',
         audienceLabel: 'WORKING PROFESSIONALS  /  CAREER CHANGERS',
-        discoveryLabel: 'YOUR CAREER STRATEGY',
-        profileHeading: 'YOUR PRIMARY PROFILE',
         questionCount: 32,
-        profileRootSelector: '.exec-dashboard',
-        profileTitleSelector: '[data-pdf-primary-profile]',
-        profileSecondarySelector: '[data-pdf-secondary-profile]',
-        profileTaglineSelector: '[data-pdf-primary-description]',
-        profileContextSelector: '[data-pdf-profile-context]',
-        removeDecorativeSectionIcons: true,
-        insightModuleSelector: '.res-section-header h3',
         moduleCountLabel: 'INSIGHT MODULES',
-        coverMetricSelector: '[data-pdf-cover-metric]',
       });
       pdf.save('working-professional-career-assessment-report.pdf');
       setDownloadState('success');
