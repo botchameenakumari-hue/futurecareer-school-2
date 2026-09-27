@@ -1,0 +1,1151 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Best Courses for Computer Science and CSE Students: Degree Path vs Skill Stack';
+const description =
+  'Best courses for computer science and CSE students: which undergraduate path (BTech CSE, BCA, BSc CS) to pick after 12th, plus the real DSA, system design, cloud, and AI courses that get CS students hired.';
+const canonical =
+  'https://futurecareerschool.com/blog/college-degrees/best-courses-for-computer-science-cse-students/';
+const publishedDateISO = '2026-09-27';
+const publishedDateLabel = '27 Sep 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'two-questions', label: 'The two searches hiding inside this one keyword' },
+  { id: 'degree-path', label: 'Choosing your undergraduate path into CSE' },
+  { id: 'entrance-exams', label: 'JEE, state CETs, and CUET: what actually gets you in' },
+  { id: 'degree-fit', label: 'Which degree fits which student' },
+  { id: 'already-enrolled', label: 'Already doing a CS/CSE degree? This is the real question' },
+  { id: 'dsa', label: 'Course 1: Data structures and algorithms' },
+  { id: 'system-design', label: 'Course 2: System design' },
+  { id: 'cloud', label: 'Course 3: Cloud (AWS or Azure)' },
+  { id: 'language-cs-fundamentals', label: 'Course 4: One language, deeply, plus real CS fundamentals' },
+  { id: 'ai-ml', label: 'Course 5: AI and machine learning basics' },
+  { id: 'higher-studies', label: 'Course 6: GATE and NPTEL, if you want a PSU or MTech route' },
+  { id: 'stack-table', label: 'The full stack at a glance' },
+  { id: 'how-to-pick', label: 'How to actually pick a course without wasting money' },
+  { id: 'proof', label: 'A certificate is not proof. This is' },
+  { id: 'checkpoint', label: 'The 4-Checkpoint Protocol before you commit' },
+  { id: 'mistakes', label: 'Mistakes that quietly waste a CS degree' },
+  { id: 'faq', label: 'FAQs' },
+  { id: 'next-step', label: 'What to do next' },
+];
+
+const degreeRows = [
+  {
+    course: 'B.Tech / B.E. in CSE',
+    duration: '4 years',
+    entry: 'JEE Main (NITs/IIITs/GFTIs via JoSAA), JEE Advanced (IITs), or a state CET (MHT-CET, WBJEE, KCET, and others) for state colleges; BITSAT for BITS campuses',
+    reality: 'The widest, most recognised route. Curriculum leans theory-heavy and often runs a year or two behind current industry tools, so the degree alone rarely produces a hireable profile without add-on skill-building.',
+  },
+  {
+    course: 'BCA (Bachelor of Computer Applications)',
+    duration: '3 years (a 4-year BCA(Hons) version exists at some universities)',
+    entry: 'Mostly merit-based on Class 12 marks; a handful of universities run their own computer-aptitude entrance test',
+    reality: 'Cheaper and faster than B.Tech, more applied and less math-heavy. Works well for software and web-development roles, but core-engineering and PSU doors that require a B.Tech/B.E. stay closed.',
+  },
+  {
+    course: 'B.Sc Computer Science / B.Sc IT',
+    duration: '3 years (4-year honours version at some universities under NEP)',
+    entry: 'Merit-based at most state and private universities; CUET UG for many central universities',
+    reality: 'Lighter fee, science-stream flavour with some pure-math and statistics depth. Recognised for higher study (MSc, MCA) and product-company hiring, but the brand pull is weaker than a B.Tech at most colleges.',
+  },
+  {
+    course: '5-year integrated M.Tech / M.Sc in CS',
+    duration: '5 years, one continuous programme',
+    entry: 'JEE-based or institute-specific entrance depending on the university (some IITs and central universities run integrated CS programmes)',
+    reality: 'Saves a year versus doing B.Tech then a separate master\'s, and often gives deeper research exposure. Locks you into one institute for five years before you know your actual interests inside CS.',
+  },
+];
+
+const stackCards = [
+  {
+    num: '01',
+    badge: 'Do this first, no exceptions',
+    title: 'Data structures and algorithms (DSA)',
+    body:
+      'This is the one skill every hiring loop in software still tests, from a service company to a product company to a startup. It is also the fastest way to turn "I have a CS degree" into "I can actually solve a problem I have not seen before."',
+    fitText: 'Every CS/CSE student, from first year onward — this is not optional the way a certificate is.',
+    watchText: 'Watching solutions without writing your own code first teaches pattern recognition of the wrong kind.',
+    tags: ['Free, high-quality routes exist', 'Tests logic, not memorisation', 'Non-negotiable for interviews'],
+  },
+  {
+    num: '02',
+    badge: 'The gap that separates juniors from seniors',
+    title: 'System design',
+    body:
+      'DSA gets you through the first interview round. System design is what separates a junior developer from someone trusted to design how an actual product holds up under real traffic, failure, and scale — and it is asked from the SDE-2 level onward at most product companies.',
+    fitText: 'Second/third-year students prepping for internships, and final-years targeting product companies.',
+    watchText: 'Memorising "the Twitter design" or "the Uber design" from a video fails the moment the interviewer changes one constraint.',
+    tags: ['Asked from SDE-2 onward', 'Rewards trade-off thinking', 'Weak without DSA first'],
+  },
+  {
+    num: '03',
+    badge: 'The fastest resume-line ROI',
+    title: 'One cloud platform: AWS or Azure',
+    body:
+      'Almost nothing you build in college gets deployed anywhere real without touching a cloud platform. A foundational cloud certification is inexpensive, takes a few weeks of focused study, and signals you understand how software actually runs in production — not just on your laptop.',
+    fitText: 'Anyone who has finished at least one working project and wants it to look deployable, not just coded.',
+    watchText: 'Collecting the badge without ever deploying a real project on that cloud defeats the point of taking it.',
+    tags: ['Low cost, short timeline', 'Works for AWS or Azure', 'Backed by a real deployed project'],
+  },
+  {
+    num: '04',
+    badge: 'Depth beats a scattered toolbox',
+    title: 'One language mastered, plus real CS fundamentals',
+    body:
+      'Most CS syllabi teach a language shallowly across many subjects instead of one language deeply. Pick one language you will actually build in — Python, Java, or JavaScript, depending on your target track — and go deep enough to reason about memory, concurrency, and performance, not just syntax.',
+    fitText: 'First and second-year students still deciding what to specialise in.',
+    watchText: 'Jumping between five languages in one semester because a video told you to "future-proof" your resume rarely builds real depth in any of them.',
+    tags: ['Depth over breadth', 'Feeds directly into DSA practice', 'Free official docs are often enough'],
+  },
+  {
+    num: '05',
+    badge: 'The fastest-growing lane right now',
+    title: 'AI and machine learning fundamentals',
+    body:
+      'You do not need to become a research scientist to benefit from this. A foundational ML course teaches you how models are trained, evaluated, and where they break — which matters even if your actual job ends up being backend, product, or data engineering next to an AI feature.',
+    fitText: 'Third and final-year students, and anyone targeting product companies building AI features.',
+    watchText: 'Collecting AI course certificates without ever training or evaluating a real model on real data teaches vocabulary, not skill.',
+    tags: ['Highest current demand growth', 'Math-light entry courses exist', 'Needs a real project to count'],
+  },
+  {
+    num: '06',
+    badge: 'Only if this is genuinely your route',
+    title: 'GATE-aligned CS fundamentals (NPTEL)',
+    body:
+      'If you are aiming at an MTech seat, a PSU technical role, or a teaching/research path, the theory GATE tests — operating systems, DBMS, computer networks, theory of computation — is worth revisiting properly through free IIT-faculty lectures, not last-minute cramming.',
+    fitText: 'Students who genuinely want MTech, a PSU technical role, or academia — not everyone.',
+    watchText: 'Preparing for GATE "just in case" while ignoring DSA and projects for three years is a common, expensive mistake.',
+    tags: ['Free, IIT-faculty taught', 'Only relevant for specific paths', 'Deep on core CS theory'],
+  },
+];
+
+const stackTable = [
+  {
+    area: 'DSA',
+    free: 'Striver\'s A2Z DSA Sheet (takeUforward, Raj Vikramaditya) — free problem list with video explanations; Love Babbar\'s 450 DSA Sheet; Apna College and Kunal Kushwaha\'s free YouTube DSA playlists',
+    paid: 'takeUforward\'s TUF+ paid track for structured contests and mentorship, if you want built-in accountability',
+    output: 'A public GitHub with your solved problems, organised by pattern, not just a "150/450 solved" screenshot',
+  },
+  {
+    area: 'System design',
+    free: 'ByteByteGo\'s free newsletter and YouTube breakdowns; Gaurav Sen\'s system design YouTube series',
+    paid: 'Grokking the System Design Interview (originally on Educative, now also on DesignGurus.io)',
+    output: 'One written design doc for a real system (a URL shortener, a chat app) with the trade-offs you chose and why',
+  },
+  {
+    area: 'Cloud',
+    free: 'AWS Free Tier plus AWS Skill Builder\'s free foundational content; Microsoft Learn\'s free AZ-900 modules',
+    paid: 'The official exam fee for AWS Certified Cloud Practitioner (CLF-C02) or Microsoft Azure Fundamentals (AZ-900)',
+    output: 'One personal or college project actually deployed and reachable on that cloud, not just a certificate PDF',
+  },
+  {
+    area: 'Core language + CS fundamentals',
+    free: 'CS50: Introduction to Computer Science (Harvard, free on edX and via cs50.harvard.edu) for fundamentals; official language documentation (Python docs, MDN for JavaScript)',
+    paid: 'Rarely needed here — the free official material is usually enough if you actually do the problem sets',
+    output: 'One project built without a tutorial open beside you, even if it is small',
+  },
+  {
+    area: 'AI / ML',
+    free: 'Google\'s free "Machine Learning Crash Course"; fast.ai\'s free practical deep-learning course',
+    paid: 'Machine Learning Specialization by Andrew Ng (Coursera, DeepLearning.AI and Stanford Online)',
+    output: 'One small trained model with a short write-up of the data, the accuracy, and exactly where it fails',
+  },
+  {
+    area: 'GATE-aligned theory (if relevant)',
+    free: 'NPTEL courses taught by IIT faculty on operating systems, DBMS, computer networks, and theory of computation',
+    paid: 'A GATE-specific coaching subscription, only if self-study alone is not sticking after an honest attempt',
+    output: 'A working score in full-length mock tests, not just "watched the lecture"',
+  },
+];
+
+const checkpointItems = [
+  {
+    num: '01',
+    title: 'Fit',
+    body: 'Is this course teaching a skill you will actually use in the track you are aiming at, or does it just sound impressive on a resume?',
+    note: 'A cloud certification means little if you never plan to deploy anything.',
+  },
+  {
+    num: '02',
+    title: 'Context',
+    body: 'Does the cost and time fit your current semester, your money, and your family\'s realistic education budget?',
+    note: 'A ₹15,000 paid bootcamp is not automatically better than a free structured sheet plus discipline.',
+  },
+  {
+    num: '03',
+    title: 'Market',
+    body: 'Is this skill actually showing up in the internship and job listings you can see right now, not just in a course marketing page?',
+    note: 'Check real listings on LinkedIn and Naukri for your target role before committing months to a course.',
+  },
+  {
+    num: '04',
+    title: 'Survival',
+    body: 'Does this course teach judgement AI tools cannot yet supply — trade-offs, debugging, architecture decisions — or does it teach something an AI assistant can already do for you?',
+    note: 'DSA, system design, and applied ML all pass this test. Memorising syntax mostly does not, anymore.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Collecting five certificates instead of building one real skill',
+    body: 'A stack of Coursera certificates with no project behind any of them is not a skill portfolio. It is proof you can finish a course, which is a much weaker signal than proof you can build something.',
+  },
+  {
+    num: '02',
+    title: 'Skipping DSA because "I want to do AI, not competitive coding"',
+    body: 'Almost every hiring loop for software and ML-adjacent roles still opens with a DSA round. Skipping it does not remove the round — it just means you show up unprepared for it.',
+  },
+  {
+    num: '03',
+    title: 'Paying for an expensive bootcamp before testing the free version of the same skill',
+    body: 'Sample the subject through a free sheet, a free YouTube series, or a free platform tier first. Pay only when structure, mentorship, or accountability is the actual thing missing — not the information itself.',
+  },
+  {
+    num: '04',
+    title: 'Treating your degree branch as your whole identity',
+    body: 'A B.Tech CSE, a BCA, and a B.Sc CS graduate with the same GitHub, the same DSA depth, and the same shipped projects compete on close to equal footing for most software roles. The degree opens some doors; the skill stack decides what happens once you are inside them.',
+  },
+  {
+    num: '05',
+    title: 'Choosing every course based on what is trending this month',
+    body: 'AI is genuinely growing fast, but chasing whatever is trending without a real DSA and systems foundation underneath it produces a shallow profile that struggles the moment an interviewer asks "why," not just "what."',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'What are the best courses for computer science and CSE students right now?',
+    a: 'It depends which question you are actually asking. If you are choosing your undergraduate path after 12th, compare B.Tech CSE, BCA, and B.Sc CS on entry exams, cost, and career doors. If you are already enrolled in a CS/CSE degree, the highest-value add-ons are DSA (Striver\'s A2Z Sheet or Love Babbar\'s sheet), one cloud certification (AWS Cloud Practitioner or Azure AZ-900), a system design course once you have DSA down, and a foundational AI/ML course such as Andrew Ng\'s Machine Learning Specialization.',
+  },
+  {
+    q: 'Should I choose B.Tech CSE, BCA, or B.Sc Computer Science after 12th?',
+    a: 'B.Tech CSE is the widest-recognised route and the only one that opens core-engineering and most PSU technical doors, but it needs JEE Main, JEE Advanced, or a state CET. BCA is faster and cheaper, and works well if your goal is software or web development specifically. B.Sc CS suits students who want a lighter fee, more theory and statistics depth, and are open to a master\'s (MSc or MCA) afterward. For most private-sector software roles, a strong DSA and project portfolio narrows the gap between these three faster than the degree label does.',
+  },
+  {
+    q: 'Do I really need to learn DSA if I am not targeting a FAANG-style company?',
+    a: 'Yes, in almost every case. DSA rounds are not limited to elite product companies anymore — most product companies, many well-funded startups, and a growing number of service companies now test basic problem-solving ability in interviews. Treat DSA as the entry-level skill floor for software roles generally, not a niche prep track for a handful of elite employers.',
+  },
+  {
+    q: 'Is a paid system design course worth it, or is free content enough?',
+    a: 'Start free — ByteByteGo\'s newsletter and YouTube content, and Gaurav Sen\'s system design series, cover the core concepts well. Pay for a structured course like Grokking the System Design Interview only once you already understand DSA and want a more organised, practice-heavy path with mock scenarios, rather than paying before you have tested the free material.',
+  },
+  {
+    q: 'Should I get an AWS or an Azure certification first?',
+    a: 'Either is a reasonable starting point, and the honest answer is that the specific cloud matters less than actually deploying something on it. AWS has the larger market share in India\'s hiring listings overall, so AWS Certified Cloud Practitioner is a slightly safer default if you have no other signal pulling you toward Azure. If your target companies or internship already uses Azure, AZ-900 is the better first move.',
+  },
+  {
+    q: 'Can a non-CS student still get into computer science careers using these courses?',
+    a: 'Yes, for several tracks — general software development, cloud, and cybersecurity in particular are more degree-agnostic than people assume, and a strong project portfolio can substitute for a weaker-brand or non-CS degree. AI/ML research-heavy roles and government or PSU technology posts still lean much more heavily on a formal CS or engineering credential, so weigh the specific track before assuming self-study alone is enough.',
+  },
+  {
+    q: 'How many of these courses should I actually be doing at once?',
+    a: 'One at a time, done properly, beats three started and none finished. A realistic sequence for most CS students is: DSA first and continuously in the background, then a cloud certification alongside your first real project, then system design once DSA is solid, then an AI/ML course if that track genuinely interests you — not all four crammed into one semester.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="college-degrees"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>The best courses for computer science and CSE students depend on which stage you are actually at.</strong>
+    If you are choosing your path after 12th, the real decision is B.Tech CSE versus BCA versus B.Sc CS,
+    weighed against the entrance exam you can realistically clear. If you are already inside a CS or CSE
+    degree, the courses that actually move the needle are DSA, system design, one cloud platform, and a
+    foundational AI/ML course — the stack that turns a degree into a high-income skill portfolio instead of
+    just a certificate on a wall.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Picking your CSE-track degree and picking add-on courses inside a CSE degree are two different decisions — this article answers both, separately.</li>
+      <li>A CS degree alone rarely produces a hireable profile anymore. The right skill portfolio — DSA, system design, cloud, and visible proof of work — is what actually unlocks high-income opportunities and moves you toward earlier financial freedom, degree brand aside.</li>
+      <li>Sample the free version of a skill before paying for a course. Pay only when structure, mentorship, or accountability is the missing piece, not the information itself.</li>
+      <li>Run any course you're considering through <strong>The 4-Checkpoint Protocol</strong> below before you spend money or a semester on it.</li>
+    </ul>
+  </div>
+
+  <p>
+    If a specific course-versus-course decision, or the whole skill-stacking plan, is what's actually
+    stressing you out, structured
+    {' '}<a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    can help you sequence it instead of guessing alone. If you want the wider map of where a CS
+    background can actually lead, read
+    {' '}<a href="/blog/career-options/computer-science-career-options/">computer science career options</a> next.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="two-questions">The two searches hiding inside this one keyword</h2>
+
+  <p>
+    "Best courses for CSE students" gets typed by two completely different people.
+  </p>
+
+  <p>
+    One is in Class 12, comparing PCM streams and trying to figure out which undergraduate degree
+    actually gets them into computer science. The other already has a CSE degree in progress and wants
+    to know what else to study so a placement cell interview does not end in silence.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">Why this matters</p>
+    <p class="callout__footer" style="margin-top:0;">
+      Answering only one of these questions wastes the other person's time. This article covers the
+      degree-path decision first, then goes deep on the add-on courses — because for most CS and CSE
+      students landing here, that second question is the one with real money and career consequences
+      attached.
+    </p>
+  </div>
+
+  <h2 id="degree-path">Choosing your undergraduate path into CSE</h2>
+
+  <p>
+    If you're finishing 12th and trying to get into computer science, three degrees compete for your
+    attention: B.Tech CSE, BCA, and B.Sc Computer Science. A fourth, less common option — a 5-year
+    integrated M.Tech or M.Sc in CS — exists at a handful of institutes.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Path</th>
+          <th>Duration</th>
+          <th>How you get in</th>
+          <th>The real trade-off</th>
+        </tr>
+      </thead>
+      <tbody>
+        {degreeRows.map((row) => (
+          <tr>
+            <td data-label="Path"><strong>{row.course}</strong></td>
+            <td data-label="Duration">{row.duration}</td>
+            <td data-label="How you get in">{row.entry}</td>
+            <td data-label="The real trade-off">{row.reality}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="entrance-exams">JEE, state CETs, and CUET: what actually gets you in</h3>
+
+  <p>
+    B.Tech CSE at an IIT needs JEE Main followed by JEE Advanced. NITs, IIITs, and other centrally-funded
+    institutes are reached through JEE Main alone, via JoSAA counselling. Most state government
+    engineering colleges run their own CET — MHT-CET in Maharashtra, WBJEE in West Bengal, KCET in
+    Karnataka, and similar exams in other states — and private universities like BITS Pilani run BITSAT.
+  </p>
+
+  <p>
+    BCA and B.Sc CS are lighter on entrance pressure. Most colleges admit on Class 12 marks alone, a few
+    private universities run their own short aptitude test, and several central universities now admit
+    B.Sc CS students through CUET UG instead of a college-specific exam.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      A JEE rank that misses your dream NIT does not close the door to a CS career. BCA and B.Sc CS
+      graduates who build the same DSA depth, the same shipped projects, and the same GitHub history as a
+      B.Tech CSE graduate compete on close to equal footing for most private-sector software roles.
+    </p>
+    <p>
+      The doors that genuinely stay shut without a B.Tech/B.E. are core-engineering roles, most PSU
+      technical postings via GATE, and a small number of product companies whose campus hiring is
+      restricted to specific engineering colleges. For general software development, cloud, and most
+      product-company off-campus hiring, the skill stack in the second half of this article matters more
+      than the degree label.
+    </p>
+  </div>
+
+  <h3 id="degree-fit">Which degree fits which student</h3>
+
+  <p>
+    If you can sustain the math and physics load and clear a reasonable JEE or state CET rank, B.Tech
+    CSE keeps the widest set of doors open, including the ones that specifically require it. If your
+    family's budget is tighter, or the entrance-exam grind genuinely does not fit you, BCA gets you into
+    software work faster and at a fraction of the cost of a private engineering seat.
+  </p>
+
+  <p>
+    B.Sc CS suits a student who wants a science-degree structure, cares about going deeper into theory
+    and statistics, and is open to an MSc or MCA afterward for that extra credential weight. None of these
+    three is wrong. The wrong move is picking a private B.Tech seat priced like a top-tier college without
+    checking whether that specific college's placement outcomes justify the fee — treat roughly 10% of
+    your total education budget as the starting benchmark for the college itself, and keep the rest for
+    the tools, projects, and courses covered next, which is where most of the actual hiring signal gets
+    built anyway.
+  </p>
+
+  <h2 id="already-enrolled">Already doing a CS/CSE degree? This is the real question</h2>
+
+  <p>
+    If you're already in a B.Tech CSE, BCA, or B.Sc CS programme, the degree decision is behind you.
+  </p>
+
+  <p>
+    The question that actually decides your first salary, and your first three years of income growth,
+    is which courses you stack on top of the syllabus — because the syllabus alone was never designed to
+    make you hireable by itself.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>The chain that matters here:</strong> the right skill portfolio unlocks high-income
+      opportunities, and high-income opportunities are what actually move you toward earlier financial
+      freedom — not the degree certificate by itself, and not a pile of course-completion badges either.
+    </p>
+    <p>
+      Most engineering colleges run one or two years behind current industry tools. The courses below are
+      how you close that gap yourself, on your own timeline, without waiting for your syllabus committee
+      to catch up.
+    </p>
+  </div>
+
+  <div class="track-grid">
+    {stackCards.map((item) => (
+      <div class="track-card">
+        <div class="track-card__top">
+          <span class="track-card__num">{item.num}</span>
+          <span class="track-card__badge">{item.badge}</span>
+        </div>
+        <div class="track-card__title">{item.title}</div>
+        <p>{item.body}</p>
+        <div class="card-subrow card-subrow--fit">
+          <span class="card-subrow__label">Best for</span>
+          <span>{item.fitText}</span>
+        </div>
+        <div class="card-subrow card-subrow--watch">
+          <span class="card-subrow__label">Watch out</span>
+          <span>{item.watchText}</span>
+        </div>
+        <div class="tag-pills">
+          {item.tags.map((tag) => (
+            <span class="tag-pill">{tag}</span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="dsa">Course 1: Data structures and algorithms — the non-negotiable</h2>
+
+  <p>
+    Nothing else on this list matters if DSA is missing. It is what almost every technical interview
+    still opens with, regardless of the specific track you end up in.
+  </p>
+
+  <p>
+    <strong>Striver's A2Z DSA Sheet</strong>, run by Raj Vikramaditya on takeUforward, is the most
+    widely-used free structured DSA path right now — roughly 450 problems across 20 modules, with video
+    explanations and editorials, taking most students a steady few months to work through properly.
+    <strong>Love Babbar's 450 DSA Sheet</strong> is a well-known free alternative organised by topic. For
+    beginner-friendly, Hinglish video explanations, <strong>Apna College</strong> (Shradha Khapra) and
+    <strong>Kunal Kushwaha's</strong> free Java + DSA playlist are both genuinely useful starting points
+    if reading a sheet cold feels intimidating.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Watching someone else solve a problem is not the same as solving it yourself. The sheet or the
+      video is the map; the 30-60 minutes you spend stuck on a problem before checking the solution is
+      where the actual skill gets built. Track your progress on a public GitHub, organised by pattern —
+      not just a screenshot of "310/450 done."
+    </p>
+  </div>
+
+  <h2 id="system-design">Course 2: System design — for after your first internship, not before</h2>
+
+  <p>
+    System design gets asked from the SDE-2 level onward at most product companies, and increasingly
+    even at strong internship interviews once you have DSA basics down. It tests whether you can reason
+    about trade-offs at scale — consistency versus availability, caching, database choice — not whether
+    you memorised one specific system's diagram.
+  </p>
+
+  <p>
+    Start free: <strong>ByteByteGo's</strong> newsletter and YouTube breakdowns, and <strong>Gaurav
+    Sen's</strong> system design series on YouTube, both cover the core concepts well. If you want a more
+    structured, practice-heavy path once the fundamentals feel solid, <strong>Grokking the System Design
+    Interview</strong> — originally an Educative course, now also offered through DesignGurus.io — is the
+    most commonly recommended paid option among engineers who have actually used it for interview prep.
+  </p>
+
+  <h2 id="cloud">Course 3: One cloud platform — the fastest resume-line ROI</h2>
+
+  <p>
+    Almost nothing you build in a college project actually ships anywhere real without touching a cloud
+    platform. A foundational certification is cheap, takes a focused few weeks, and proves you understand
+    how software runs in production, not just on your own laptop.
+  </p>
+
+  <p>
+    <strong>AWS Certified Cloud Practitioner (CLF-C02)</strong> and <strong>Microsoft Azure Fundamentals
+    (AZ-900)</strong> are the two standard entry-level options, and both have well-regarded free study
+    material — AWS Skill Builder's free tier and Microsoft Learn's free AZ-900 modules — before you pay
+    the exam fee. AWS has the larger footprint across India's job listings overall, which makes it a
+    slightly safer default if nothing else is pulling you toward Azure specifically.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">The part most students skip</p>
+    <p class="callout__footer" style="margin-top:0;">
+      The certification badge alone proves almost nothing to an interviewer. Deploy one real project — even
+      a small one — on the cloud platform you certified in. That single deployed link does more for your
+      resume than the certificate PDF.
+    </p>
+  </div>
+
+  <h2 id="language-cs-fundamentals">Course 4: One language mastered, plus real CS fundamentals</h2>
+
+  <p>
+    Most CS syllabi teach a language shallowly across many subjects instead of one language deeply.
+    Reverse that. Pick Python, Java, or JavaScript, based on the track you're leaning toward, and go
+    deep enough to reason about memory, concurrency, and performance — not just syntax you can look up.
+  </p>
+
+  <p>
+    For fundamentals underneath any language choice, <strong>CS50: Introduction to Computer Science</strong>
+    from Harvard is free on edX and directly at cs50.harvard.edu, and remains one of the most respected
+    free introductory computer-science courses available, covering algorithms, memory management, data
+    structures, and web development across multiple languages through actual problem sets, not just
+    lectures.
+  </p>
+
+  <h2 id="ai-ml">Course 5: AI and machine learning fundamentals — the fastest-growing lane</h2>
+
+  <p>
+    You do not need to become a research scientist for this to matter. A foundational ML course teaches
+    you how models get trained, evaluated, and where they fail — genuinely useful even if your actual
+    role ends up being backend, data, or product work next to an AI feature, not model-building itself.
+  </p>
+
+  <p>
+    <strong>Machine Learning Specialization</strong> by Andrew Ng, offered jointly through DeepLearning.AI,
+    Stanford Online, and Coursera, remains the most widely recommended structured entry point for
+    students with basic math and programming behind them. If you want a completely free starting point
+    first, Google's <strong>Machine Learning Crash Course</strong> and fast.ai's practical deep-learning
+    course are both solid, no-cost alternatives to sample before paying for a specialization.
+  </p>
+
+  <h2 id="higher-studies">Course 6: GATE-aligned theory, only if that's genuinely your route</h2>
+
+  <p>
+    If an MTech seat, a PSU technical role, or an academic path is genuinely where you're headed, revisit
+    operating systems, DBMS, computer networks, and theory of computation properly through
+    <strong>NPTEL's</strong> free IIT-faculty-taught courses, rather than cramming them the month before
+    GATE.
+  </p>
+
+  <p class="note-line">
+    This one is deliberately not for everyone. If your actual goal is a software or product-company role,
+    time spent on deep GATE theory instead of DSA, projects, and a cloud deployment is usually time spent
+    on the wrong lever.
+  </p>
+
+  <h2 id="stack-table">The full stack at a glance: free route, paid route, and the proof each one needs</h2>
+
+  <p>
+    Every skill area above has a free path worth trying first, and a paid path worth considering only
+    once the free version stops being enough on its own.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Skill area</th>
+          <th>Try free first</th>
+          <th>Consider paying for</th>
+          <th>The proof it needs to actually count</th>
+        </tr>
+      </thead>
+      <tbody>
+        {stackTable.map((row) => (
+          <tr>
+            <td data-label="Skill area"><strong>{row.area}</strong></td>
+            <td data-label="Try free first">{row.free}</td>
+            <td data-label="Consider paying for">{row.paid}</td>
+            <td data-label="The proof it needs to actually count">{row.output}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="how-to-pick">How to actually pick a course without wasting money</h2>
+
+  <p>
+    A course is not automatically good because it's expensive, and not automatically bad because it's
+    free. Judge the specific course, not the platform's brand name.
+  </p>
+
+  <ul>
+    <li>Check the instructor's actual recent credibility in the specific skill, not just subscriber count or star rating.</li>
+    <li>Check when the syllabus was last meaningfully updated — a "cloud computing" course last revised three years ago is teaching outdated tooling.</li>
+    <li>Check whether the course demands you build something, not just watch and take a quiz.</li>
+    <li>Check independent reviews, not the testimonials on the course's own sales page.</li>
+    <li>Compare the total cost and time against what you would learn from the free version first — pay only for structure, mentorship, or accountability you genuinely lack on your own.</li>
+  </ul>
+
+  <h2 id="proof">A certificate is not proof. This is what actually is.</h2>
+
+  <p>
+    Certificate collecting feels productive and rarely changes an interview outcome. What changes it is
+    something a hiring manager can actually inspect.
+  </p>
+
+  <div class="gates-block">
+    <p class="gates-block__title">
+      Run every course you finish through The 3 Gates before you count it as "done."
+    </p>
+    <div class="gates-row">
+      <div class="gate">
+        <span class="gate__num">Gate 1</span>
+        <span class="gate__name">Proof of skill</span>
+        <p>A working project, deployed link, solved-problem repo, or trained model you can point to — not just a completion badge.</p>
+      </div>
+      <div class="gate">
+        <span class="gate__num">Gate 2</span>
+        <span class="gate__name">Proof of communication</span>
+        <p>Can you explain what you built and why, in under two minutes, without reading from notes?</p>
+      </div>
+      <div class="gate">
+        <span class="gate__num">Gate 3</span>
+        <span class="gate__name">Proof of value</span>
+        <p>Real feedback from someone already doing this work — a senior student, a mentor, or an actual interviewer — not just your own sense that it went well.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="checkpoint">The 4-Checkpoint Protocol before you commit to a course</h2>
+
+  <p>
+    Before spending money or a semester's worth of evenings on any course from the lists above, run it
+    through the same four checks every time.
+  </p>
+
+  <div class="protocol-stack">
+    {checkpointItems.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+          <div class="checkpoint__note">{item.note}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="mistakes">Mistakes that quietly waste a CS degree</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="faq">FAQs on the best courses for computer science and CSE students</h2>
+
+  <div class="faq-list">
+    {faqItems.map((item) => (
+      <details class="faq-item">
+        <summary class="faq-item__q">{item.q}</summary>
+        <div class="faq-item__a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    If you're still choosing your undergraduate path, don't let the entrance-exam pressure alone decide
+    it — compare the actual doors each route opens for the specific CS career you're picturing. Read
+    {' '}<a href="/blog/career-options/computer-science-career-options/">computer science career options</a>
+    {' '}for the full map of where a CS background can actually lead.
+  </p>
+
+  <p>
+    If you're already enrolled and trying to sequence DSA, system design, cloud, and AI without burning
+    out or wasting money on the wrong course, structured
+    {' '}<a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a>
+    {' '}can help you build the right skill portfolio in the right order — the kind that actually unlocks
+    high-income opportunities instead of just adding another certificate to a folder nobody opens. You can
+    also start with a
+    {' '}<a href="https://futurecareerschool.com/services/assessments">free career and skill assessment</a>
+    {' '}if you want a starting point before committing to a full plan.
+  </p>
+
+  <p>
+    Weighing the degree decision against overall cost, not just entrance exams? Read
+    {' '}<a href="/blog/college-degrees/best-courses-after-12th-for-high-salary-india/">best courses after 12th for high salary in India</a>
+    {' '}for how B.Tech CSE stacks up against law, CA, BBA, and other high-salary degree routes. For
+    {' '}<a href="/blog/college-degrees/">more college and degree guides</a>, browse the full category.
+  </p>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong { color: #fff; }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li { margin: 0 !important; }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover { color: #fff; }
+    h2[id], h3[id] { scroll-margin-top: 108px; }
+    h2[id]:target, h3[id]:target { color: #fff6d7; }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.06);
+    }
+    .callout__eyebrow {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.7rem !important;
+    }
+    .callout__footer {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      margin: 0.8rem 0 0 !important;
+      line-height: 1.74 !important;
+    }
+
+    .track-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .track-card {
+      border-radius: 16px;
+      padding: 1.3rem 1.3rem 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .track-card__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+    }
+    .track-card__num {
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: rgba(255, 255, 255, 0.22);
+      line-height: 1;
+    }
+    .track-card__badge {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(45, 212, 191, 0.92);
+      text-align: right;
+    }
+    .track-card__title {
+      font-size: 1.06rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.94);
+      line-height: 1.3;
+      font-family: "Sora", sans-serif;
+    }
+    .track-card p {
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0 !important;
+    }
+    .track-card:nth-child(3n+1) { border-color: rgba(45, 212, 191, 0.2); }
+    .track-card:nth-child(3n+2) { border-color: rgba(229, 184, 74, 0.2); }
+    .track-card:nth-child(3n+3) { border-color: rgba(255, 255, 255, 0.14); }
+
+    .card-subrow {
+      display: flex;
+      gap: 0.5rem;
+      align-items: baseline;
+      border-radius: 10px;
+      padding: 0.55rem 0.75rem;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .card-subrow__label {
+      flex-shrink: 0;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+    .card-subrow--fit {
+      background: rgba(45, 212, 191, 0.08);
+      color: rgba(255, 255, 255, 0.78);
+    }
+    .card-subrow--fit .card-subrow__label { color: rgba(45, 212, 191, 0.95); }
+    .card-subrow--watch {
+      background: rgba(229, 184, 74, 0.08);
+      color: rgba(255, 255, 255, 0.78);
+    }
+    .card-subrow--watch .card-subrow__label { color: #e5b84a; }
+
+    .tag-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.2rem;
+    }
+    .tag-pill {
+      font-size: 11px;
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.62);
+      white-space: nowrap;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    .paths-table th {
+      padding: 0.9rem 0.95rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.9rem 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.62;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td { border-bottom: none; }
+    .paths-table strong { color: rgba(255, 255, 255, 0.93); }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal { border-color: rgba(45, 212, 191, 0.24); background: rgba(45, 212, 191, 0.05); }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+    .highlight-box strong { color: #fff; }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1.1rem 1.2rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.78 !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      margin: 0.5rem 0 !important;
+    }
+    .honest-take strong { color: rgba(255, 255, 255, 0.94); }
+
+    .gates-block {
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+      padding: 1.25rem 1.2rem;
+      margin: 1.45rem 0;
+    }
+    .gates-block__title {
+      font-size: 13px !important;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      line-height: 1.6 !important;
+      margin: 0 0 0.95rem !important;
+    }
+    .gates-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .gate {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1rem 0.95rem;
+    }
+    .gate__num {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(45, 212, 191, 0.82);
+      font-weight: 800;
+      margin-bottom: 0.24rem;
+    }
+    .gate__name {
+      display: block;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.45rem;
+      font-family: "Sora", sans-serif;
+    }
+    .gate p { margin: 0 !important; font-size: 13.5px !important; line-height: 1.66 !important; color: rgba(255, 255, 255, 0.64) !important; }
+
+    .protocol-stack,
+    .mistakes-list,
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .mistake-item,
+    .faq-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .mistake-item { display: flex; gap: 1rem; padding: 1.15rem 1.2rem; }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p { margin: 0 !important; font-size: 14px !important; line-height: 1.72 !important; color: rgba(255, 255, 255, 0.66) !important; }
+
+    .faq-item__q {
+      padding: 0.95rem 1.15rem;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .faq-item__a { padding: 0.95rem 1.15rem 1rem; font-size: 14.5px; line-height: 1.76; color: rgba(255, 255, 255, 0.68); }
+
+    @media (max-width: 820px) {
+      .track-grid,
+      .gates-row,
+      .jump-nav__list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .track-card,
+      .highlight-box,
+      .honest-take,
+      .checkpoint,
+      .gates-block,
+      .gate,
+      .mistake-item,
+      .faq-item__q,
+      .faq-item__a {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table { min-width: 640px; }
+      .paths-table th,
+      .paths-table td { padding: 0.75rem 0.75rem; }
+    }
+  </style>
+</BlogPostLayout>

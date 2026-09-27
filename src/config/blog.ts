@@ -3691,4 +3691,94 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-09-21',
     readTimeMinutes: 13,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'courses-for-commerce-students-after-12th',
+    title: 'Courses for Commerce Students After 12th: The Full Decision Map',
+    description:
+      'Courses for commerce students after 12th, compared: BCom, BBA, CA/CS/CMA foundation routes, diplomas, certificates, and online courses, with real fees and pay.',
+    publishedAtISO: '2026-09-27',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'best-computer-and-data-science-courses-for-commerce-students',
+    title: 'Best computer and data science courses for commerce students',
+    description:
+      'The best computer and data science courses for commerce students: real Excel, SQL, Power BI, and Python-for-finance courses, ranked in order, with costs.',
+    publishedAtISO: '2026-09-27',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'courses-for-arts-and-humanities-students-after-12th',
+    title: '12 courses for arts students after 12th, ranked by real fit and pay',
+    description:
+      'The real courses for arts students after 12th: BA majors, BA LLB, BJMC, BFA, BSW, psychology, hotel management, animation, and skill certificates, compared by cost, entry route, and pay.',
+    publishedAtISO: '2026-09-27',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'courses-for-pcb-bipc-biology-students-after-12th-without-neet',
+    title: 'Courses for PCB and BiPC Students After 12th Without NEET',
+    description:
+      'Courses for PCB and BiPC students after 12th without NEET: real BSc, B.Tech, and paramedical options ranked by pay, plus Bio-Maths and EAMCET specifics.',
+    publishedAtISO: '2026-09-27',
+    readTimeMinutes: 17,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'cuet-eamcet-courses-for-pcb-bipc-biology-students',
+    title: 'CUET and EAMCET courses for PCB/BiPC students: the real admission map',
+    description:
+      'CUET courses for PCB students and EAMCET courses for BiPC students, mapped honestly: which BSc, pharmacy, agriculture, and biotech seats you can actually get through each exam, and which ones you cannot.',
+    publishedAtISO: '2026-09-27',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'courses-for-pcm-mpc-science-students-after-12th',
+    title: 'Degree Courses List for PCM/MPC/Science Students After 12th, Mapped by Exam',
+    description:
+      'Courses for PCM/MPC/science students after 12th: the full degree list from BTech and BSc to BArch, actuarial science, Merchant Navy, and NDA, mapped to real entrance exams and honest trade-offs.',
+    publishedAtISO: '2026-09-27',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'best-courses-for-computer-science-cse-students',
+    title: 'Best Courses for Computer Science and CSE Students: Degree Path vs Skill Stack',
+    description:
+      'Best courses for computer science and CSE students: which undergraduate path (BTech CSE, BCA, BSc CS) to pick after 12th, plus the real DSA, system design, cloud, and AI courses that get CS students hired.',
+    publishedAtISO: '2026-09-27',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'certificate-courses-for-law-students',
+    title: 'Certificate Courses for Law Students: Which Ones Actually Pay Off',
+    description:
+      'Certificate courses for law students compared honestly: which NUJS, ILI, NLSIU, and platform courses in IPR, arbitration, corporate law, and legal tech actually move a hiring decision.',
+    publishedAtISO: '2026-09-27',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'online-courses-for-mba-students',
+    title: 'Online courses for MBA students: what actually pays off alongside your degree',
+    description:
+      'Online courses for MBA students, sorted by specialization: which Coursera/edX picks, CFA, PMP, Six Sigma, and Google certs are worth your time and money, and which just pad a resume.',
+    publishedAtISO: '2026-09-27',
+    readTimeMinutes: 15,
+  },
+  {
+    categorySlug: 'study-abroad',
+    slug: 'postgraduate-diploma-courses-in-canada-for-international-students',
+    title: 'Postgraduate Diploma Courses in Canada for International Students',
+    description:
+      'Postgraduate diploma courses in Canada for international students: real 2026 costs, PGWP eligibility rules, and whether the loan risk is worth it for your field.',
+    publishedAtISO: '2026-09-27',
+    readTimeMinutes: 16,
+  },
 ];

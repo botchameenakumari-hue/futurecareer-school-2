@@ -1,0 +1,1370 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'CUET and EAMCET courses for PCB/BiPC students: the real admission map';
+const description =
+  'CUET courses for PCB students and EAMCET courses for BiPC students, mapped honestly: which BSc, pharmacy, agriculture, and biotech seats you can actually get through each exam, and which ones you cannot.';
+const canonical = 'https://futurecareerschool.com/blog/college-degrees/cuet-eamcet-courses-for-pcb-bipc-biology-students/';
+const publishedDateISO = '2026-09-27';
+const publishedDateLabel = '27 September 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'answer', label: 'The direct answer' },
+  { id: 'what-each-exam-is', label: 'What CUET and EAMCET actually are' },
+  { id: 'cuet-courses', label: 'CUET courses list for PCB/biology students' },
+  { id: 'cuet-not-admit', label: "What CUET doesn't guarantee" },
+  { id: 'eamcet-courses', label: 'EAMCET courses for BiPC students' },
+  { id: 'eamcet-engineering', label: 'Can BiPC students do B.Tech through EAMCET?' },
+  { id: 'cuet-vs-eamcet', label: 'CUET vs EAMCET for a PCB/BiPC student' },
+  { id: 'process', label: 'Registration to admitted seat' },
+  { id: 'cutoffs', label: 'How competitive each route is' },
+  { id: 'fit', label: 'Which exam should you actually sit' },
+  { id: 'outcomes', label: 'Where each course leads' },
+  { id: 'checkpoint', label: 'The 4-Checkpoint Protocol' },
+  { id: 'gates', label: 'The 3 Gates' },
+  { id: 'mistakes', label: 'Mistakes to avoid' },
+  { id: 'budget', label: 'College spend filter' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const quickStartCards = [
+  {
+    label: 'Central universities',
+    title: 'You want a BSc, general degree, or life-science seat outside your state',
+    body:
+      'CUET-UG scores get PCB and biology-stream students into BSc Life Sciences, Biotechnology, and dozens of general-stream BA/BCom programs at central and participating universities across India.',
+  },
+  {
+    label: 'AP or Telangana',
+    title: 'You want pharmacy, agriculture, or biotech seats inside your state',
+    body:
+      'AP EAPCET and TS EAPCET run a dedicated BiPC-group paper that opens B.Pharm, Pharm.D, agriculture, forestry, fisheries, veterinary, and biotechnology seats without needing a NEET rank.',
+  },
+  {
+    label: 'Skip the NEET wait',
+    title: 'You want a route that does not depend on a 720-mark national rank',
+    body:
+      'Both CUET and EAMCET run on very different mark schemes than NEET. Neither gets you into MBBS or BDS, but both open real, funded degree paths for PCB/BiPC students.',
+  },
+  {
+    label: 'Verify every year',
+    title: 'Course lists and eligibility rules move year to year',
+    body:
+      'Domain-subject rules, participating universities, and BiPC-eligible course lists are set fresh each admission cycle. Treat every list here as a planning map, not a guarantee, and confirm on the official portal before you commit.',
+  },
+];
+
+const cuetAdmitsRows = [
+  {
+    course: 'BSc Life Sciences / Biological Sciences',
+    detail:
+      'The most direct CUET route for a biology-stream student. Requires Chemistry plus Physics plus one of Biology, Biological Studies, Biotechnology, or Biochemistry as domain subjects at most universities, including many Delhi University colleges.',
+  },
+  {
+    course: 'BSc Biotechnology / Microbiology / Botany / Zoology',
+    detail:
+      'Runs on a similar domain-subject combination to Life Sciences. Offered by several central and state universities that participate in CUET-UG for their science programs.',
+  },
+  {
+    course: 'BSc Nursing (at CUET-participating institutes)',
+    detail:
+      'Some universities admit BSc Nursing through CUET domain scores, but many nursing programs still run their own separate entrance test. Check each target college individually rather than assuming CUET covers nursing everywhere.',
+  },
+  {
+    course: 'BSc Agriculture / Horticulture (at CUET-participating agricultural universities)',
+    detail:
+      'A subset of state agricultural universities accept CUET scores for BSc Agriculture and allied programs, while many others still use the separate ICAR AIEEA exam. Confirm which entrance route your target agricultural university actually uses this year.',
+  },
+  {
+    course: 'General degrees: BA, BCom, and humanities-linked programs',
+    detail:
+      'Most BA and BCom programs accept any 12th stream, PCB included, with a general or discipline-specific domain paper rather than a biology-only requirement. This is the widest, least competitive CUET route for a PCB student who wants to change direction.',
+  },
+  {
+    course: 'BSc Home Science, Food Science, and allied applied-science programs',
+    detail:
+      'Several universities run these through the same biology-linked domain combination used for Life Sciences, at institutes where the program is offered.',
+  },
+];
+
+const cuetNotAdmitItems = [
+  {
+    title: 'MBBS, BDS, and AYUSH courses',
+    body:
+      'These stay NEET-only across India. CUET has no role in medical, dental, or AYUSH admission at any stage, regardless of your domain-subject choice.',
+  },
+  {
+    title: 'BSc Nursing at most institutes',
+    body:
+      'Outside the specific universities that use CUET for nursing, most nursing colleges run their own entrance test or state-level nursing CET. Do not assume a CUET score works at a nursing college you have not individually checked.',
+  },
+  {
+    title: 'ICAR-affiliated agricultural universities',
+    body:
+      'Most agricultural universities under the Indian Council of Agricultural Research use the ICAR AIEEA exam, not CUET, for BSc Agriculture admission. A handful of state agricultural universities do participate in CUET, so this needs a college-by-college check, not a blanket assumption either way.',
+  },
+  {
+    title: 'A guaranteed seat at any specific university',
+    body:
+      'CUET gives you a percentile-based score, not an admission. Each participating university runs its own separate counselling and cutoff process on top of the CUET result.',
+  },
+];
+
+const cuetPatternPoints = [
+  'CUET-UG lets a candidate attempt up to a defined number of domain subjects (along with language and general-test sections), and the exact domain-subject list changes slightly each year.',
+  'A recent policy shift allows candidates to choose domain subjects that differ from their Class 12 stream, but individual universities can still set their own alignment rules for specific programs — check the university, not just the exam.',
+  'For biology-linked programs, the common working domain combination is Chemistry plus Physics plus one biology-family subject (Biology, Biological Studies, Biotechnology, or Biochemistry), alongside a qualifying language paper.',
+  'CUET-UG reports scores that each participating university converts into its own merit list; there is no single, universal CUET cutoff that applies everywhere.',
+];
+
+const eamcetAdmitsRows = [
+  {
+    course: 'B.Pharm and Pharm.D',
+    detail:
+      'The core pharmacy route through the BiPC-group EAPCET paper in both Andhra Pradesh and Telangana, covering manufacturing, quality, regulatory, clinical pharmacy, and retail-linked careers.',
+  },
+  {
+    course: 'BSc (Hons) Agriculture and Horticulture',
+    detail:
+      'Biology is the load-bearing subject here, not maths. These agriculture-university seats are a standard BiPC-group EAPCET destination in both states.',
+  },
+  {
+    course: 'BSc (Hons) Forestry',
+    detail:
+      'A dedicated BiPC-only entry point that sits inside the agriculture-university counselling process, separate from the general BSc Agriculture list.',
+  },
+  {
+    course: 'BFSc (Fisheries Science)',
+    detail:
+      'Also admitted through the agriculture EAPCET counselling stream, distinct from both engineering and pharmacy seats.',
+  },
+  {
+    course: 'B.V.Sc & Animal Husbandry (Veterinary Science)',
+    detail:
+      'Veterinary science seats in AP and Telangana are commonly filled through EAPCET/NEET-linked processes managed alongside agriculture counselling; verify the current year\'s exact entry route for veterinary seats specifically, since this detail shifts.',
+  },
+  {
+    course: 'BSc / B.Tech Biotechnology',
+    detail:
+      'Lab-and-research-leaning seats reachable through the BiPC-group score at several institutes in both states.',
+  },
+  {
+    course: 'B.Tech Food Technology',
+    detail:
+      'Applies biology and chemistry to food processing and safety, admitted through the same BiPC-group score.',
+  },
+  {
+    course: 'BSc Nursing (through the agriculture/BiPC counselling stream where offered)',
+    detail:
+      'Some AP and Telangana institutes admit BSc Nursing through the same BiPC-linked process. Confirm with the specific college, since nursing admission routes vary more than pharmacy or agriculture do.',
+  },
+];
+
+const eamcetVsCuetCards = [
+  {
+    tone: 'gold',
+    title: 'AP/TS EAPCET (BiPC group)',
+    items: [
+      'A state-level exam covering Andhra Pradesh and Telangana colleges mainly.',
+      'Opens pharmacy, agriculture, forestry, fisheries, biotechnology, and food technology seats without a NEET rank.',
+      'Score converts into a rank used inside state counselling, with reserved-category and local/non-local seat rules.',
+      'Most B.Tech engineering branches stay closed to BiPC candidates, with a small, conditional exception described below.',
+    ],
+  },
+  {
+    tone: 'teal',
+    title: 'CUET-UG',
+    items: [
+      'A national test used by central universities and a large, growing list of state and private universities.',
+      'Opens BSc Life Sciences, Biotechnology, and general-stream degrees at a much wider geographic spread of colleges.',
+      'Domain-subject rules are university-specific, so the same CUET score can mean different things at different institutes.',
+      'Does not typically open pharmacy, agriculture, or professional science-degree seats the way EAPCET does inside AP/Telangana.',
+    ],
+  },
+];
+
+const processSteps = [
+  {
+    title: 'Register for CUET-UG on the official NTA portal, and separately for AP/TS EAPCET if you are targeting those states.',
+    body:
+      'CUET-UG runs through cuet.nta.nic.in. AP EAPCET runs through cets.apsche.ap.gov.in, and Telangana\'s exam runs through its own state council portal. These are three separate applications with separate fees and deadlines.',
+  },
+  {
+    title: 'Choose your domain subjects (CUET) or confirm your BiPC-group paper (EAPCET) carefully.',
+    body:
+      'For CUET, pick the domain combination your target programs actually require; getting this wrong can shut out a program after the exam is already over. For EAPCET, the BiPC-group paper is fixed by your intermediate stream.',
+  },
+  {
+    title: 'Sit the exam and wait for your score or rank, not a fixed pass mark.',
+    body:
+      'CUET reports a percentile-style score per subject that each university converts independently. EAPCET reports a rank used directly in that state\'s counselling rounds.',
+  },
+  {
+    title: 'Register separately for each university\'s CUET-based admission process, or for EAPCET counselling.',
+    body:
+      'A CUET score does not auto-enrol you anywhere — each participating university runs its own application and merit list. EAPCET counselling is a separate registration step after the result, where you rank colleges and courses in order of preference.',
+  },
+  {
+    title: 'Work through counselling rounds and confirm your seat by each round\'s deadline.',
+    body:
+      'Both systems run multiple rounds. Missing a confirmation deadline is one of the most common, most avoidable ways students lose a seat they were genuinely eligible for.',
+  },
+];
+
+const cutoffNotes = [
+  {
+    tier: 'Top-tier government pharmacy and agriculture colleges (EAPCET)',
+    range: 'Historically needs a strong rank inside the first few thousand places, tighter in Round 1',
+    note: 'Flagship agricultural universities and well-known pharmacy colleges draw the strongest BiPC applicants every year.',
+  },
+  {
+    tier: 'Mid-tier and private pharmacy/agriculture colleges (EAPCET)',
+    range: 'Meaningfully more accessible, with wide seat availability across both states',
+    note: 'Andhra Pradesh and Telangana between them run a large number of pharmacy and agriculture seats, so a genuine BiPC effort usually lands somewhere in the system.',
+  },
+  {
+    tier: 'Top Delhi University and central-university science programs (CUET)',
+    range: 'Very high domain-subject percentile requirements at the most sought-after colleges',
+    note: 'Colleges like the well-known Delhi University science colleges set some of the highest cutoffs in the whole CUET ecosystem for Life Sciences and Biotechnology.',
+  },
+  {
+    tier: 'Wider CUET-participating universities',
+    range: 'A far larger, more accessible pool once you move past the handful of flagship names',
+    note: 'Hundreds of universities now use CUET scores, so the realistic odds of finding a genuine BSc seat somewhere are decent even without a top-tier percentile.',
+  },
+];
+
+const fitGroups = [
+  {
+    tone: 'teal',
+    title: 'CUET is the stronger fit when',
+    items: [
+      'You want geographic flexibility and are open to studying outside your home state.',
+      'Your real interest is core life-science, biotechnology, or a general-stream pivot rather than a professional pharmacy or agriculture degree.',
+      'You value the wide net of many participating universities over a single state\'s seat pool.',
+    ],
+  },
+  {
+    tone: 'gold',
+    title: 'AP/TS EAPCET is the stronger fit when',
+    items: [
+      'You want pharmacy, agriculture, forestry, fisheries, or biotechnology, and you are eligible for Andhra Pradesh or Telangana state quota.',
+      'You want a state-level counselling process with a large, known number of BiPC-linked seats inside a familiar system.',
+      'Staying closer to home for college, or the lower state-quota fees at government-aided colleges, genuinely matters to your family\'s budget.',
+    ],
+  },
+];
+
+const outcomeCards = [
+  {
+    label: 'Pharmacy',
+    title: 'B.Pharm and Pharm.D lead into a wide, uneven pay ladder',
+    body:
+      'Early roles in retail and hospital pharmacy often pay modestly. The stronger ceiling comes from regulatory affairs, quality assurance, drug safety, clinical research, or an M.Pharm-led specialisation, plus eventually owning or managing a pharmacy outlet under the right licence.',
+  },
+  {
+    label: 'Agriculture and allied sciences',
+    title: 'These degrees now stretch well past farming itself',
+    body:
+      'Agronomy and extension roles still exist, but agribusiness management, agri-input sales, food processing, agri-tech, and government agricultural services are where a lot of current demand sits.',
+  },
+  {
+    label: 'Biotechnology and life sciences',
+    title: 'A standalone bachelor\'s degree usually needs a masters-level plan',
+    body:
+      'BSc/BTech Biotechnology or Life Sciences graduates who stop at the bachelor\'s degree often land support-level lab or QA work. Roles with a real pay ceiling tend to need an MSc, further specialisation, or a pivot into bioinformatics, research support, or quality systems.',
+  },
+  {
+    label: 'General degrees (BA, BCom via CUET)',
+    title: 'The degree is a starting point, not a career strategy by itself',
+    body:
+      'A PCB student who pivots into a general degree through CUET should treat the degree as one input. The bigger driver of outcome is the skill stack built alongside it — communication, data handling, a specific commerce or humanities specialisation, and visible proof of work.',
+  },
+];
+
+const checkpointItems = [
+  {
+    num: '01',
+    title: 'Fit',
+    body:
+      'Ask honestly whether you want lab-and-research depth (biotech, life sciences), medicines and systems (pharmacy), land and food (agriculture), or a genuine pivot away from biology entirely — not just "any biology-linked seat that comes through."',
+    note: 'A seat chosen only because your score cleared it rarely turns into years of motivated work.',
+  },
+  {
+    num: '02',
+    title: 'Context',
+    body:
+      'Check your state, budget, and whether CUET\'s national spread or EAPCET\'s in-state quota advantage actually works better for your situation.',
+    note: 'An AP/Telangana student chasing a distant CUET university on merit alone faces a very different calculation than one using the state EAPCET quota at home.',
+  },
+  {
+    num: '03',
+    title: 'Market',
+    body:
+      'Look at where the specific course actually leads — pharmacy retail pay, agri-business roles, biotech\'s masters-dependent ceiling, or a general degree\'s dependence on the skills you add — before assuming any admitted degree guarantees the same outcome.',
+    note: 'If you cannot name two or three real job titles the degree leads to, you are still choosing a label, not a path.',
+  },
+  {
+    num: '04',
+    title: 'Survival',
+    body:
+      'Ask how AI and automation change pharmacy documentation, agri-data, and lab workflows. The safer bet is domain knowledge plus tool fluency, not either alone.',
+    note: 'Routine dispensing and paperwork get pressured first. Regulatory judgement, quality decisions, and client trust hold up better.',
+  },
+];
+
+const gateItems = [
+  {
+    num: 'Gate 1',
+    title: 'Proof of skill',
+    body:
+      'Before locking into pharmacy, agriculture, biotech, or a general-degree pivot, do one small real task: read a real drug-quality process, a real agri-extension case, or a real biotech research abstract and summarise it in your own words.',
+  },
+  {
+    num: 'Gate 2',
+    title: 'Proof of communication',
+    body:
+      'Explain in under two minutes why this specific CUET- or EAPCET-admitted course fits you, not just why it was the seat your score could get.',
+  },
+  {
+    num: 'Gate 3',
+    title: 'Proof of value',
+    body:
+      'Talk to one working pharmacist, agriculture graduate, biotech professional, or someone in the general-degree field before you commit years and fees to counselling.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Assuming CUET or EAMCET covers MBBS, BDS, or AYUSH',
+    body:
+      'Neither exam touches these courses. Confusing them with NEET wastes a whole admission cycle for a student who actually wanted a clinical route.',
+  },
+  {
+    num: '02',
+    title: 'Picking CUET domain subjects that do not match your target program',
+    body:
+      'Domain-subject requirements are university- and program-specific. Choosing the wrong combination can quietly shut you out of a program after results are already out.',
+  },
+  {
+    num: '03',
+    title: 'Assuming a CUET score is an automatic admission',
+    body:
+      'A CUET score only becomes a seat once you separately apply to and clear each university\'s own counselling process.',
+  },
+  {
+    num: '04',
+    title: 'Treating BiPC-route B.Tech seats as a normal, guaranteed option',
+    body:
+      'A small number of engineering seats admit BiPC candidates through a mandatory bridge course, but this is a limited, college-specific concession, not a standard path. Confirm availability directly before planning around it.',
+  },
+  {
+    num: '05',
+    title: 'Ignoring the separate counselling registration step',
+    body:
+      'Sitting either exam does not automatically enter you into admissions. Counselling registration and choice filling are separate, deadline-bound steps for both CUET-based admissions and EAPCET.',
+  },
+  {
+    num: '06',
+    title: 'Picking biotech, life sciences, or agriculture without a masters-level plan',
+    body:
+      'These fields often need further study or a clear specialisation to reach real pay. Walking in expecting a strong first job straight after a bachelor\'s degree usually disappoints.',
+  },
+];
+
+const budgetCards = [
+  {
+    label: 'Government and government-aided seats',
+    title: 'The cheapest, and often the most competitive',
+    body:
+      'Government-aided pharmacy, agriculture, and central-university science seats cost far less than private ones, which is exactly why their cutoffs run higher.',
+  },
+  {
+    label: 'Private colleges',
+    title: 'Wider access, but check the fee against the real outcome',
+    body:
+      'A private pharmacy, biotech, or general-degree seat can cost several times a government seat. Weigh that against realistic early-career pay before treating any paid seat as automatically worth it.',
+  },
+  {
+    label: 'Budget heuristic',
+    title: 'Keep the degree spend proportionate to your total education budget',
+    body:
+      'As a starting planning rule, treat roughly 10% of your total education budget as the default ceiling for the college fee itself, leaving the rest for tools, upskilling, and financial security. Spend materially more only when a specific college gives a verified, course-specific advantage — not just a nicer campus.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'What are the CUET courses for PCB students?',
+    a: 'CUET courses for PCB students mainly run through BSc Life Sciences, Biotechnology, Microbiology, Botany, and Zoology at universities that require a Chemistry plus Physics plus biology-family domain-subject combination. PCB students can also apply to most general-stream BA and BCom programs through CUET, since those usually accept any 12th stream. A smaller set of universities also admit BSc Nursing or BSc Agriculture through CUET, but this varies a lot by institute, so check each target college individually.',
+  },
+  {
+    q: 'Is there a fixed CUET courses list for PCB students that applies everywhere?',
+    a: 'No single fixed list applies to every university. CUET-UG is used by a large and growing number of central, state, and private universities, and each one sets its own domain-subject requirements and course-specific eligibility for the same CUET score. Treat any "CUET courses list for PCB students" as a starting map, then confirm the exact requirement on your target university\'s own admission page.',
+  },
+  {
+    q: 'What CUET courses are available for biology students who want to change direction?',
+    a: 'Biology students who want a genuine pivot away from science can use CUET for most general-stream BA and BCom programs, which typically accept any 12th stream rather than requiring biology-linked domain subjects. This is usually the widest, least competitive CUET route for a PCB student who has decided science is not the right direction.',
+  },
+  {
+    q: 'What EAMCET courses are open to BiPC students?',
+    a: 'EAMCET (EAPCET) courses for BiPC students in Andhra Pradesh and Telangana mainly cover B.Pharm, Pharm.D, BSc (Hons) Agriculture and Horticulture, BSc (Hons) Forestry, BFSc Fisheries Science, B.V.Sc and Animal Husbandry, and BSc/BTech Biotechnology and Food Technology. These run through the dedicated BiPC-group paper, separate from the MPC-group paper used mainly for engineering.',
+  },
+  {
+    q: 'Can a BiPC student get into B.Tech engineering through EAMCET?',
+    a: 'Mostly no. Standard B.Tech admission through EAPCET is built around the MPC-group paper. A limited number of colleges allow BiPC candidates into specific branches such as biotechnology, pharmaceutical engineering, or agricultural engineering through a mandatory bridge course in mathematics, but this is a conditional, college-specific concession, not a standard route. Confirm current-year availability directly with the college and the state counselling authority before planning around it.',
+  },
+  {
+    q: 'Do CUET and EAMCET admit students to MBBS or BDS?',
+    a: 'No. Neither exam has any role in MBBS, BDS, or AYUSH admission at any stage. Those courses run on NEET-UG scores across India, regardless of whether you also sit CUET or EAMCET.',
+  },
+  {
+    q: 'Can students from outside Andhra Pradesh or Telangana apply for EAMCET?',
+    a: 'Yes, candidates without AP or Telangana domicile can usually register and sit the exam, but they typically compete for a smaller non-local seat share and do not get the state\'s reservation benefits, so admission chances at the most sought-after colleges are tighter than for in-state candidates. Confirm the current-year domicile and quota rules on the official EAPCET portal.',
+  },
+  {
+    q: 'Do I need to choose CUET domain subjects that match my Class 12 PCB stream?',
+    a: 'Not strictly. Recent CUET rules let candidates pick domain subjects that differ from their Class 12 stream, but individual universities can still require stream alignment for specific programs, and biology-linked programs generally still expect a Chemistry-Physics-Biology-family combination. Check your target university\'s own eligibility page rather than assuming either rule applies everywhere.',
+  },
+  {
+    q: 'Which is more competitive for a PCB/BiPC student: CUET or EAMCET?',
+    a: 'It depends on the specific course and college, not the exam as a whole. The most sought-after Delhi University science colleges and the top government pharmacy and agriculture colleges in AP/Telangana are both genuinely competitive. Wider mid-tier options exist in both systems, so a realistic PCB/BiPC effort usually finds a seat somewhere, even if it is not the flagship college.',
+  },
+  {
+    q: 'Should a PCB/BiPC student sit CUET, EAMCET, or both?',
+    a: 'Many students sit both as a reasonable hedge: EAMCET for in-state pharmacy, agriculture, or biotech seats, and CUET for broader access to central-university science programs or a general-degree pivot outside the state. The right combination depends on your target course, your domicile, and your budget and prep time for two separate applications.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="college-degrees"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para" id="answer">
+    <strong>CUET courses for PCB students run mainly through BSc Life Sciences, Biotechnology, and general-stream BA/BCom programs, while EAMCET courses for BiPC students run through B.Pharm, Pharm.D, agriculture, forestry, fisheries, and biotechnology seats in Andhra Pradesh and Telangana — neither exam gets you into MBBS, BDS, or AYUSH.</strong>
+    CUET-UG is a national test used by a wide, growing list of universities; AP/TS EAPCET is a state-level test built around a dedicated BiPC-group paper. Knowing exactly what each one opens, and what it does not, is the real decision here — not just clearing a cutoff.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>CUET courses for PCB/biology students mainly cover BSc Life Sciences, Biotechnology, Microbiology, and most general-stream BA/BCom degrees, at universities that individually set their own domain-subject rules.</li>
+      <li>EAMCET (EAPCET) courses for BiPC students mainly cover B.Pharm, Pharm.D, agriculture, horticulture, forestry, fisheries, veterinary science, and biotechnology, inside Andhra Pradesh and Telangana.</li>
+      <li>Neither exam admits you to MBBS, BDS, or AYUSH courses — those stay NEET-only across India.</li>
+      <li>Course lists, domain-subject rules, and eligibility percentages change every admission cycle. Verify the current year's exact rules on the official CUET (cuet.nta.nic.in) and AP/TS EAPCET portals before you finalise any plan.</li>
+      <li>The degree that pays off long-term is the one where fit, skill-building, and a real specialisation plan stack up — that combination moves a graduate toward a stronger skill portfolio and earlier financial freedom, not the admitted seat alone.</li>
+      <li><strong>Run any CUET- or EAPCET-admitted course through the 4-Checkpoint Protocol and 3 Gates below before committing years and fees to it.</strong></li>
+    </ul>
+  </div>
+
+  <p>
+    If you are still deciding between CUET and JEE as entrance routes in general, <a href="/blog/stream-selection/cuet-vs-jee-which-is-better-for-career/">CUET vs JEE: which is better for your career</a> covers that broader decision.
+    For the wider "which course should I pick after 12th" question beyond just eligibility, see <a href="/blog/college-degrees/best-courses-after-12th-for-high-salary-india/">best courses after 12th for high salary in India</a>.
+  </p>
+
+  <p>
+    If you want a clearer read on your own strengths before choosing a course, use the <a href="/career-skills-compass/">Career &amp; Skills Compass</a>, or talk it through with <a href="/services/career-counselling-and-career-guidance/">career guidance</a>.
+  </p>
+
+  <div class="feature-grid">
+    {quickStartCards.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="what-each-exam-is">What CUET and EAMCET actually are, for a PCB/BiPC student</h2>
+
+  <p>
+    CUET-UG (Common University Entrance Test) is a national exam run by the National Testing Agency. It started as the admission route for central universities and has since been adopted by a large and growing list of state and private universities as well.
+  </p>
+
+  <p>
+    EAMCET, now formally called EAPCET, is not one exam but two state-level exams: AP EAPCET for Andhra Pradesh and TS EAPCET for Telangana. Both split candidates into an MPC group (Maths, Physics, Chemistry, mainly engineering-bound) and a BiPC group (Biology, Physics, Chemistry, mainly pharmacy, agriculture, and life-science-bound).
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">Where the confusion starts</p>
+    <ul class="callout__list">
+      <li>CUET is national and multi-university; EAMCET/EAPCET is state-specific to Andhra Pradesh and Telangana.</li>
+      <li>Neither exam is the same as NEET, even though BiPC/PCB students sit a biology-heavy paper for all three.</li>
+      <li>A CUET score is not one universal cutoff — each participating university reads it differently for its own programs.</li>
+    </ul>
+    <p class="callout__footer">
+      Get this distinction right before you plan your whole year around either exam.
+    </p>
+  </div>
+
+  <h2 id="cuet-courses">CUET courses list for PCB and biology students</h2>
+
+  <p>
+    This is the part most generic "PCB career options" advice skips: what a CUET score actually, currently gets a biology-stream student into.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>What it actually covers</th>
+        </tr>
+      </thead>
+      <tbody>
+        {cuetAdmitsRows.map((item) => (
+          <tr>
+            <td data-label="Course"><strong>{item.course}</strong></td>
+            <td data-label="What it actually covers">{item.detail}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Course lists, participating universities, and domain-subject rules change every year. Verify the current CUET information bulletin on <a href="https://cuet.nta.nic.in/" target="_blank" rel="noopener noreferrer">cuet.nta.nic.in</a>, and each target university's own admission page, before finalising any plan.
+  </p>
+
+  <h3>How CUET's domain-subject rule actually works</h3>
+
+  <ul>
+    {cuetPatternPoints.map((point) => (
+      <li>{point}</li>
+    ))}
+  </ul>
+
+  <h2 id="cuet-not-admit">What CUET doesn't guarantee for a PCB student</h2>
+
+  <p>
+    This is where families waste the most time — assuming CUET opens a course it simply does not touch, or that a CUET score alone equals a seat.
+  </p>
+
+  <ol class="rich-list">
+    {cuetNotAdmitItems.map((item) => (
+      <li>
+        <strong>{item.title}.</strong>
+        {' '}
+        {item.body}
+      </li>
+    ))}
+  </ol>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      If your actual goal is nursing at a specific college, or an ICAR agricultural university, do not assume CUET is your route until you have checked that exact institute's current admission page.
+    </p>
+    <p>
+      A CUET score is a passport, not a ticket — you still need each university's own gate to open.
+    </p>
+  </div>
+
+  <h2 id="eamcet-courses">EAMCET courses for BiPC students</h2>
+
+  <p>
+    Here is the real, current list of course families the BiPC-group paper in AP/TS EAPCET admits you to.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>What it actually covers</th>
+        </tr>
+      </thead>
+      <tbody>
+        {eamcetAdmitsRows.map((item) => (
+          <tr>
+            <td data-label="Course"><strong>{item.course}</strong></td>
+            <td data-label="What it actually covers">{item.detail}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Eligibility percentages, seat numbers, and even which authority runs a given course's counselling can shift year to year. Verify the current information bulletin on <a href="https://cets.apsche.ap.gov.in/EAPCET/" target="_blank" rel="noopener noreferrer">cets.apsche.ap.gov.in</a> for Andhra Pradesh or <a href="https://eapcet.tgche.ac.in/" target="_blank" rel="noopener noreferrer">eapcet.tgche.ac.in</a> for Telangana before finalising any plan.
+  </p>
+
+  <h2 id="eamcet-engineering">Can BiPC students do B.Tech through EAMCET?</h2>
+
+  <p>
+    Mostly no, and this is one of the most-asked, most-misunderstood questions BiPC students bring to EAMCET.
+  </p>
+
+  <p>
+    Standard B.Tech admission through EAPCET is built around the MPC-group paper, which tests mathematics directly. A BiPC student's paper does not include the same maths content, so most engineering branches stay closed by default.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      A small number of colleges do admit BiPC candidates into specific branches — commonly biotechnology, pharmaceutical engineering, or agricultural engineering — through a mandatory bridge course in mathematics completed after admission.
+    </p>
+    <p>
+      This is a limited, college-specific concession, not a standard, guaranteed path. Availability changes by year and by institute, so confirm directly with the specific college and the state counselling authority before you plan your whole strategy around it.
+    </p>
+  </div>
+
+  <h2 id="cuet-vs-eamcet">CUET vs EAMCET for a PCB/BiPC student</h2>
+
+  <p>
+    Once you know what each exam actually opens, the comparison gets much simpler.
+  </p>
+
+  <div class="comparison-grid">
+    {eamcetVsCuetCards.map((card) => (
+      <div class:list={['compare-card', `compare-card--${card.tone}`]}>
+        <div class="compare-card__label">{card.title}</div>
+        <ul>
+          {card.items.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <p class="note-line">
+    Many PCB/BiPC students in Andhra Pradesh or Telangana sit both exams in the same year — EAPCET for the in-state pharmacy or agriculture chance, CUET as a parallel route into central-university life sciences or a general-degree pivot. That is a reasonable hedge if your budget and prep time allow it.
+  </p>
+
+  <h2 id="process">Step-by-step: from registration to an actual admitted seat</h2>
+
+  <p>
+    Sitting the exam is the easy part. Most confusion happens after the result, at the separate counselling stage.
+  </p>
+
+  <ol class="rich-list">
+    {processSteps.map((item) => (
+      <li>
+        <strong>{item.title}</strong>
+        {' '}
+        {item.body}
+      </li>
+    ))}
+  </ol>
+
+  <p class="note-line">
+    Every step above has its own deadline. Missing a counselling-round deadline is one of the most common, most avoidable ways students lose a seat they were actually eligible for.
+  </p>
+
+  <h2 id="cutoffs">How competitive each route really is</h2>
+
+  <p>
+    "State exam" and "national exam" can sound like a difficulty statement. The real competition depends on the specific course and college, not the exam label.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Tier</th>
+          <th>Rough reality</th>
+          <th>Reality check</th>
+        </tr>
+      </thead>
+      <tbody>
+        {cutoffNotes.map((item) => (
+          <tr>
+            <td data-label="Tier"><strong>{item.tier}</strong></td>
+            <td data-label="Rough reality">{item.range}</td>
+            <td data-label="Reality check">{item.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    These are directional patterns, not fixed numbers. Both CUET and EAPCET publish fresh cutoff and rank data every year — treat this table as a planning reference and verify against the current year's official counselling data once it publishes.
+  </p>
+
+  <h2 id="fit">Which exam should you actually sit</h2>
+
+  <div class="comparison-grid">
+    {fitGroups.map((card) => (
+      <div class:list={['compare-card', `compare-card--${card.tone}`]}>
+        <div class="compare-card__label">{card.title}</div>
+        <ul>
+          {card.items.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="outcomes">Where each admitted course actually leads</h2>
+
+  <p>
+    A seat is not the finish line. What the degree leads to over the next five to ten years matters more than the admission letter.
+  </p>
+
+  <p>
+    The order below is not the conventional "closest to medicine" pecking order. Pharmacy leads because, among these course families, it combines the widest job market, the clearest ownership route, and the broadest ladder of paid specialisations — real scalability, not exam prestige. Agriculture follows for genuine, demand-led growth; biotechnology and general degrees sit last here only because their pay ceiling depends on a further specialisation or a deliberately built skill stack, not because they matter less.
+  </p>
+
+  <div class="feature-grid">
+    {outcomeCards.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      <strong>Owning a pharmacy is one of the clearest scalable paths in this whole list.</strong> A pharmacist who eventually runs their own outlet sets their own prices, can hire staff and open further locations, and earns from repeat, recurring customer visits — a ceiling most pure-employment tracks above do not offer by themselves.
+    </p>
+  </div>
+
+  <p class="note-line">
+    Pharmacy's competition does not end at admission, either. Getting a B.Pharm seat is the first competitive gate; reaching the higher-paying regulatory affairs, quality assurance, or clinical research roles usually needs an M.Pharm, and M.Pharm intake runs through its own competitive entrance exam (GPAT), with limited seats at top institutes. Plan for two separate competitive stages, not one.
+  </p>
+
+  <p class="note-line">
+    <strong>Build a high-income skill portfolio around the degree, not just the degree.</strong> A pharmacy, agriculture, biotech, or general-degree graduate who adds communication, data handling, regulatory or quality-systems literacy, and visible proof of work usually out-earns and out-lasts a peer who only holds the certificate.
+  </p>
+
+  <h2 id="checkpoint">Use The 4-Checkpoint Protocol before you commit to any admitted course</h2>
+
+  <p>
+    The 4-Checkpoint Protocol helps you compare pharmacy, agriculture, biotech, and a general-degree pivot without letting "which seat my score cleared" make the decision for you.
+  </p>
+
+  <div class="protocol-stack">
+    {checkpointItems.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+          <div class="checkpoint__note">{item.note}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="gates">Pass The 3 Gates before you spend a counselling cycle and years of fees</h2>
+
+  <p>
+    The 4-Checkpoint Protocol helps you compare options. The 3 Gates help you test the choice against reality before you commit.
+  </p>
+
+  <div class="gates-block">
+    <p class="gates-block__title">
+      Use The 3 Gates before you lock a CUET- or EAPCET-admitted course into your whole plan.
+    </p>
+    <div class="gates-row">
+      {gateItems.map((item) => (
+        <div class="gate">
+          <span class="gate__num">{item.num}</span>
+          <span class="gate__name">{item.title}</span>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <h2 id="mistakes">Common mistakes PCB/BiPC students make with CUET and EAMCET</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="budget">Run a college-spend filter before you pay for an admitted seat</h2>
+
+  <p>
+    CUET- and EAPCET-admitted courses span a huge fee range, from near-free government colleges to expensive private ones.
+  </p>
+
+  <div class="feature-grid">
+    {budgetCards.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next if you are serious about either route</h2>
+
+  <p>
+    Do not decide by whichever seat shows up first in a counselling round.
+  </p>
+
+  <p>
+    Decide by fit, then let CUET or EAPCET counselling find the seat.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      Shortlist pharmacy, agriculture, biotechnology, or a general-degree pivot based on real interest, not just which score cleared.
+    </p>
+    <p>
+      Run it through The 4-Checkpoint Protocol and complete one proof-of-interest task before results day.
+    </p>
+    <p>
+      Then pass The 3 Gates before you commit years and fees through counselling.
+    </p>
+  </div>
+
+  <p>
+    If NEET itself did not go your way and you want the wider no-NEET picture beyond CUET and EAMCET-admitted courses, read <a href="/blog/career-options/pcb-career-options-without-neet/">PCB career options without NEET</a> next.
+  </p>
+
+  <p>
+    If you want the wider PCB map first, including MBBS and the full non-MBBS list, read <a href="/blog/career-options/career-options-after-12th-pcb/">career options after 12th PCB</a>.
+  </p>
+
+  <p>
+    If the bigger issue is the decision system itself, read <a href="/blog/career-guidance/how-to-choose-a-career-after-12th/">how to choose a career after 12th</a>.
+  </p>
+
+  <h2 id="faq">FAQs on CUET and EAMCET courses for PCB/BiPC students</h2>
+
+  <div class="faq-list faq-accordion">
+    {faqItems.map((item, index) => (
+      <details class="faq-item" open={index === 0}>
+        <summary class="faq-item__q">{item.q}</summary>
+        <div class="faq-item__a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong {
+      color: #fff;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.65rem 0.8rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      padding: 0.72rem 0.8rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.45;
+      text-decoration: none;
+      transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+      border-color: rgba(229, 184, 74, 0.18);
+      background: rgba(229, 184, 74, 0.06);
+      transform: translateY(-1px);
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.06);
+    }
+    .callout__eyebrow {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.7rem !important;
+    }
+    .callout__list {
+      margin: 0 0 0.2rem 1.1rem !important;
+      padding: 0 !important;
+    }
+    .callout__list li {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.7 !important;
+      margin: 0.32rem 0 !important;
+    }
+    .callout__footer {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      margin: 0.8rem 0 0 !important;
+      line-height: 1.74 !important;
+    }
+
+    .feature-grid,
+    .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .feature-card,
+    .compare-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .feature-card__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      color: rgba(45, 212, 191, 0.96);
+      margin-bottom: 0.5rem;
+    }
+    .feature-card__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.93);
+      line-height: 1.28;
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .feature-card p {
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0 !important;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .compare-card--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .compare-card--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul {
+      margin: 0 0 0 1rem !important;
+      padding: 0 !important;
+    }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .rich-list {
+      counter-reset: rl;
+      list-style: none !important;
+      margin: 1.35rem 0 !important;
+      padding: 0 !important;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .rich-list li {
+      counter-increment: rl;
+      position: relative;
+      padding: 1rem 1.1rem 1rem 3.2rem !important;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      color: rgba(255, 255, 255, 0.69) !important;
+      line-height: 1.75 !important;
+      margin: 0 !important;
+    }
+    .rich-list li::before {
+      content: counter(rl);
+      position: absolute;
+      left: 0.95rem;
+      top: 1rem;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e5b84a;
+      color: #0a0f1e;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .protocol-stack,
+    .faq-list,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .faq-item,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .gates-block {
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+      padding: 1.25rem 1.2rem;
+      margin: 1.45rem 0;
+    }
+    .gates-block__title {
+      font-size: 13px !important;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      line-height: 1.6 !important;
+      margin: 0 0 0.95rem !important;
+    }
+    .gates-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .gate {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1rem 0.95rem;
+    }
+    .gate__num {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(45, 212, 191, 0.82);
+      font-weight: 800;
+      margin-bottom: 0.24rem;
+    }
+    .gate__name {
+      display: block;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.45rem;
+      font-family: "Sora", sans-serif;
+    }
+    .gate p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.66 !important;
+      color: rgba(255, 255, 255, 0.64) !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .faq-item__q {
+      padding: 0.95rem 1.15rem;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .faq-item__a {
+      padding: 0.95rem 1.15rem 1rem;
+      font-size: 14.5px;
+      line-height: 1.76;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    @media (max-width: 820px) {
+      .feature-grid,
+      .comparison-grid,
+      .gates-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .feature-card,
+      .compare-card,
+      .highlight-box,
+      .checkpoint,
+      .gates-block,
+      .gate,
+      .mistake-item,
+      .faq-item__q,
+      .faq-item__a {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 620px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+  </style>
+</BlogPostLayout>
