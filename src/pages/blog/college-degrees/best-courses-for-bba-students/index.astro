@@ -18,8 +18,11 @@ const jumpLinks = [
   { id: 'lanes', label: 'Pick the add-on by your BBA specialisation' },
   { id: 'paid-value', label: 'What you pay for when the content is free' },
   { id: 'exams', label: 'CS, CMA, CA and CFA after a BBA' },
+  { id: 'rules', label: 'What each official body says about BBA graduates' },
+  { id: 'cost-math', label: 'The cost arithmetic and a budget test' },
   { id: 'mba', label: 'MBA, CAT and IPM: when the degree is worth it' },
   { id: 'week', label: 'What a realistic BBA week can hold' },
+  { id: 'years', label: 'A three-year BBA sequence' },
   { id: 'growth', label: 'Where the income ceiling actually moves' },
   { id: 'checkpoint', label: 'The 4-Checkpoint Protocol for your course pick' },
   { id: 'gates', label: 'The 3 Gates before you pay for anything' },
@@ -33,56 +36,56 @@ const mapRows = [
   {
     course: 'Excel, SQL and Power BI (self-built, then one structured course)',
     when: 'During BBA, from year 1 or 2',
-    cost: 'Free to start; paid structured courses vary widely, so compare before you pay',
-    unlocks: 'Business analyst, MIS, operations and finance-support roles; fresher pay commonly Rs 3.5-6 LPA',
+    cost: 'Free learning material exists (YouTube, Microsoft Learn, NPTEL). A paid structured course is optional, so compare before you pay',
+    unlocks: 'Business analyst, MIS, operations and finance-support roles. Salary summaries place analyst roles above sales and HR executive roles, but the sources disagree widely',
     verdict: 'Do first. Lowest cost, widest use.',
   },
   {
     course: 'Google Data Analytics or Digital Marketing certificate',
     when: 'During BBA, any year',
-    cost: 'A monthly subscription (about USD 20-49 a month depending on country); most people finish in 3-6 months',
+    cost: 'Coursera lists USD 49 a month in the US and Canada. India pricing was reported at Rs 1,699 a month from September 2025, so 3-6 months is about Rs 5,100-10,200; check the live page',
     unlocks: 'A structured path plus a finished capstone project to show',
     verdict: 'Good if you finish the project. Weak if you only collect the badge.',
   },
   {
     course: 'NISM certification (for example, mutual fund distributor)',
     when: 'During BBA finance track, or right after',
-    cost: 'Exams listed from Rs 0 to about Rs 3,000; valid about 3 years',
+    cost: 'Mutual fund distributor exam: Rs 1,500 plus payment gateway charges. Most NISM exams are Rs 1,500, advanced ones up to Rs 3,000; certificates stay valid for 3 years',
     unlocks: 'Entry into distribution, wealth and broking desks where SEBI asks for the certificate',
     verdict: 'Cheap and role-specific. Take it only if you want that desk.',
   },
   {
     course: 'CS Executive (direct entry for graduates)',
-    when: 'After BBA (registration open to any graduate)',
-    cost: 'Registration about Rs 23,900 plus Rs 1,500 per exam group, as reported for 2026',
+    when: 'After BBA (ICSI lets graduates in any discipline register directly)',
+    cost: 'Rs 23,900 in total for registration, education and CSEET-exemption fees on the ICSI fee sheet, plus Rs 1,500 per exam group',
     unlocks: 'Company secretary route: compliance and governance in listed and large companies',
     verdict: 'A serious option if you like rules, drafting and documentation.',
   },
   {
     course: 'CMA (direct entry to Intermediate for eligible graduates)',
-    when: 'After BBA',
-    cost: 'Check the current ICMAI prospectus; institute fees are lower than CA',
+    when: 'After BBA (ICMAI admits graduates in any discipline except Fine Arts)',
+    cost: 'Direct Intermediate registration is reported at about Rs 23,100; confirm on the ICMAI site',
     unlocks: 'Cost and management accounting, FP&A and finance-controller tracks',
     verdict: 'Strong for BBA finance students who like numbers.',
   },
   {
     course: 'CA Intermediate (direct entry)',
     when: 'After BBA',
-    cost: 'About Rs 18,000 to register, plus coaching, plus years of articleship',
+    cost: 'Rs 18,000 to register for Intermediate (ICAI FAQ), plus coaching, plus 2 years of articleship after both groups',
     unlocks: 'Audit, tax and advisory; the highest ceiling among the exam routes',
-    verdict: 'Only with genuine exam stamina. Confirm your marks band first.',
+    verdict: 'Only with genuine exam stamina. Get ICAI to confirm whether your degree needs 55% or 60%.',
   },
   {
     course: 'CFA (all three levels)',
     when: 'During final year or after BBA',
-    cost: 'USD 3,520-4,570 for all levels; about 300 study hours per level',
+    cost: 'USD 3,520-4,570 for all three levels (the separate enrolment fee was dropped for 2026 exam windows); about 300 study hours per level',
     unlocks: 'Equity research, portfolio and investment roles',
     verdict: 'Good for investing-minded students. Level 1 alone still helps a resume.',
   },
   {
     course: 'MBA or PGDM',
     when: 'After BBA, ideally after some work',
-    cost: 'Varies widely: a few lakh at modest colleges, well above Rs 17 lakh at the IIMs',
+    cost: 'Private colleges vary widely. Base fees at the IIMs run from about Rs 17.9 lakh to Rs 27.5 lakh, before Rs 2-3.5 lakh of mess and other costs',
     unlocks: 'Management-track roles and a stronger placement network',
     verdict: 'Worth it only for a strong institute and a clear target role.',
   },
@@ -120,6 +123,90 @@ const laneCards = [
     multiplier: 'SQL, Power BI, and a project management basics course',
     proof: 'A report that finds a cost or delay problem in a public dataset and proposes a fix',
     watch: 'Learning five tools at a shallow level is worse than one tool with a finished project.',
+  },
+];
+
+const ruleRows = [
+  {
+    body: 'ICAI (CA direct entry)',
+    says: 'Graduates in Commerce with 55% marks, or graduates in other subjects with 60%, can register for Intermediate for Rs 18,000. Articleship is 2 years after both groups (ICAI FAQ, updated September 2024).',
+    open: 'It does not say whether a BBA, BMS or BBM counts as Commerce.',
+    move: 'Email ICAI with your degree name and marks, and plan for the 60% band until it answers.',
+  },
+  {
+    body: 'ICSI (CS Executive)',
+    says: 'Graduates and postgraduates in any discipline are exempt from CSEET and can register directly (ICSI CSEET FAQ).',
+    open: 'The FAQ line sets no marks condition. Fees are on a separate fee sheet.',
+    move: 'Register for Executive directly and budget Rs 23,900 plus Rs 1,500 per exam group.',
+  },
+  {
+    body: 'ICMAI (CMA)',
+    says: 'Graduation in any discipline other than Fine Arts allows direct registration for Intermediate (ICMAI admission page).',
+    open: 'The page does not list the registration fee.',
+    move: 'Confirm the fee on the ICMAI site; Rs 23,100 is the reported figure.',
+  },
+  {
+    body: 'CFA Institute',
+    says: 'A bachelor\'s degree, or a Level I window within 23 months before graduation, or 4,000 hours of work or study over three years. A valid passport is required.',
+    open: 'No finance degree and no marks percentage is required.',
+    move: 'A final-year BBA student can sit Level I. Budget the dollar fee and the 900 study hours together.',
+  },
+  {
+    body: 'CAT (IIM Indore, 2026)',
+    says: 'A bachelor\'s degree with 50% marks (45% for reserved categories); final-year students can apply. Exam on 29 November 2026 (as summarised by Collegedunia; confirm on the official CAT site).',
+    open: 'Individual IIMs add their own cut-offs and selection weights.',
+    move: 'Read the official CAT notification and the admission policy of each institute on your list.',
+  },
+  {
+    body: 'NISM (mutual fund distributor)',
+    says: 'Rs 1,500 plus payment gateway charges, 100 questions in 120 minutes, 50% to pass, no negative marking, certificate valid 3 years. A PAN must be on record.',
+    open: 'The page lists no degree requirement.',
+    move: 'Take it only if you want a desk that needs it.',
+  },
+  {
+    body: 'AICTE (BBA, BMS, BCA)',
+    says: 'These programmes were brought under AICTE approval from 2024-25 (AICTE notice as reported by Careers360).',
+    open: 'Whether your college has received approval this year.',
+    move: 'Ask for the approval letter and check the AICTE approved-institutes list.',
+  },
+];
+
+const costRows = [
+  {
+    route: 'NISM mutual fund distributor exam',
+    cost: 'Rs 1,500 plus gateway charges',
+    share: 'About 0.5%',
+    meaning: 'Easily inside a 10% budget.',
+  },
+  {
+    route: 'Google certificate, 3-6 months',
+    cost: 'Rs 5,097-10,194 (3 to 6 months at a reported Rs 1,699)',
+    share: 'About 1.7-3.4%',
+    meaning: 'Inside a 10% budget. Finish the capstone or the money is wasted.',
+  },
+  {
+    route: 'CA Intermediate registration',
+    cost: 'Rs 18,000, before coaching and training costs',
+    share: 'About 6%',
+    meaning: 'Registration fits; coaching and years of exams are the real cost.',
+  },
+  {
+    route: 'CS Executive, first attempt at both groups',
+    cost: 'Rs 23,900 + 2 x Rs 1,500 = Rs 26,900',
+    share: 'About 9%',
+    meaning: 'Just inside a 10% budget, before coaching.',
+  },
+  {
+    route: 'CFA, all three levels',
+    cost: 'USD 3,520-4,570, about Rs 3.1-4.0 lakh at an assumed Rs 87 per dollar',
+    share: 'About 100-130%',
+    meaning: 'It costs about as much as the whole illustrative budget. Only Level I at a time makes sense.',
+  },
+  {
+    route: 'MBA at an IIM (base fee)',
+    cost: 'Rs 17.9-27.5 lakh',
+    share: 'About 600-900%',
+    meaning: 'Needs a named role and placement proof, not a hopeful loan.',
   },
 ];
 
@@ -207,19 +294,19 @@ const faqItems = [
   },
   {
     q: 'Can I do CA after BBA?',
-    a: 'Yes. Graduates can register for CA Intermediate directly under ICAI\'s direct entry route. Coaching sites report the required marks as 55% for commerce graduates and 60% for other graduates, and a BBA is often treated in the second group. Confirm your own band on the ICAI portal before you plan around it. Plan for a multi-year commitment including articleship, and try a mock paper first.',
+    a: 'Yes. Graduates can register for CA Intermediate directly under ICAI\'s direct entry route. ICAI\'s FAQ asks for 55% marks from graduates in Commerce and 60% from graduates in other subjects, and it does not say which group a BBA belongs to. Ask ICAI in writing and plan for 60% until it answers. Plan for a multi-year commitment including 2 years of articleship, and try a mock paper first.',
   },
   {
     q: 'Can a BBA graduate do CS directly?',
-    a: 'Yes. Graduates from any stream can register for CS Executive without clearing CSEET. Reported 2026 figures are about Rs 23,900 for Executive registration and Rs 1,500 per exam group. Fees change, so check the ICSI site before you pay.',
+    a: 'Yes. ICSI\'s FAQ lists graduates in any discipline as exempt from CSEET. Its fee sheet shows Rs 23,900 in total for the direct-entry route and Rs 1,500 per exam group. Fees change, so check the ICSI site before you pay.',
   },
   {
     q: 'Is CMA a good option after BBA?',
-    a: 'It can be, especially for finance-track BBA students who like costing, budgeting and business numbers. Direct entry to Intermediate exists for eligible graduates, but coaching guides warn against assuming every degree qualifies automatically, so read the current ICMAI prospectus. It usually costs less than CA and leads to controller and FP&A roles.',
+    a: 'It can be, especially for finance-track BBA students who like costing, budgeting and business numbers. ICMAI\'s admission page says graduates in any discipline other than Fine Arts can register directly for Intermediate, so a BBA qualifies. Registration is reported at about Rs 23,100, and the route leads to controller and FP&A roles. Read the current ICMAI fee notice before you pay.',
   },
   {
     q: 'Is MBA compulsory after BBA?',
-    a: 'No. Many BBA graduates work first in analyst, sales, operations, HR or finance-support roles and add credentials later. An MBA makes sense when a specific strong institute and a specific target role need it. CAT 2026 is on 29 November 2026 and its registration has already closed, so the next realistic window for most students is the CAT cycle that opens around August next year. Check the official CAT website for the latest dates.',
+    a: 'No. Many BBA graduates work first in analyst, sales, operations, HR or finance-support roles and add credentials later. An MBA makes sense when a specific strong institute and a specific target role need it. CAT 2026 is on 29 November 2026 and its registration closed on 22 September 2026, so the next realistic window for most students is the CAT cycle that opens around August next year. Check the official CAT website for the latest dates.',
   },
   {
     q: 'BBA or BCom: which needs fewer extra courses?',
@@ -227,7 +314,7 @@ const faqItems = [
   },
   {
     q: 'Do online courses like Google or Coursera certificates get BBA students hired?',
-    a: 'Not on their own. Google says 75% of its Digital Marketing certificate graduates report a positive career outcome within six months, but that figure is self-reported and comes from the company itself. What hiring managers respond to is the project you built while learning. Use the certificate as a structured path and treat the capstone as your real product.',
+    a: 'Not on their own. Google says 75% of its Digital Marketing certificate graduates report a positive career outcome within six months, but that comes from a 2022 survey of US graduates run by the company, so it says little about an Indian BBA job search. What hiring managers respond to is the project you built while learning. Use the certificate as a structured path and treat the capstone as your real product.',
   },
   {
     q: 'Are free courses enough for a BBA student?',
@@ -235,11 +322,11 @@ const faqItems = [
   },
   {
     q: 'How do I check if my BBA college is approved?',
-    a: 'From the 2024-25 academic year, colleges offering BBA, BMS and BCA were brought under AICTE approval. Look for your college on the AICTE approved-institutes listing and confirm its university affiliation before you pay fees.',
+    a: 'AICTE brought BBA, BMS and BCA programmes under its approval from the 2024-25 academic year. Ask your college for its current AICTE approval letter, check it against the AICTE approved-institutes listing, and confirm its university affiliation before you pay fees.',
   },
   {
     q: 'What salary can a BBA fresher expect, and does a course change it?',
-    a: 'Most BBA freshers report about Rs 2.5-5 LPA. Naukri lists roles such as marketing executive, sales executive and HR executive in roughly the Rs 2.5-5 LPA band, and business or financial analyst roles higher at about Rs 3.5-6.5 LPA. Tool skill plus proof is what moves you into the higher band. Ranges of Rs 8-30 LPA quoted on many college pages describe top institutes or later years, not a typical first job.',
+    a: 'Salary summaries put most BBA freshers at about Rs 2.5-5 LPA. Naukri\'s BBA guide gives Rs 2.5-4.5 LPA as the usual entry range and up to Rs 6.5 LPA for analyst-type roles, while some college pages quote analyst roles far higher. These are secondary figures and the sources disagree, so use them as a rough band. Tool skill plus proof is what moves you toward the higher end. Ranges of Rs 8-30 LPA quoted on many college pages describe top institutes or later years, not a typical first job.',
   },
   {
     q: 'Which BBA add-on is safest against AI automation?',
@@ -322,7 +409,7 @@ const faqJsonLd = {
   </div>
 
   <p>
-    Here is why that matters. Salary pages report that most BBA freshers start around Rs 2.5-5 LPA, with business and financial analyst roles at the higher end of about Rs 3.5-6.5 LPA. The large numbers on college pages describe top institutes or later years. The gap between the two bands is mostly tool skill and proof, not the degree name.
+    Here is why that matters. Salary summaries put most BBA freshers at about Rs 2.5-5 LPA. Naukri's BBA career guide gives Rs 2.5-4.5 LPA as the usual entry range and up to Rs 6.5 LPA for analyst-type roles. These are secondary figures from college and job-site pages, and they differ by source, so treat them as a rough band. The large numbers on college pages describe top institutes or later years. The gap between the bands is mostly tool skill and proof, not the degree name.
   </p>
 
   <h2 id="map">Best courses for BBA students, side by side</h2>
@@ -357,7 +444,7 @@ const faqJsonLd = {
   </div>
 
   <p class="note-line">
-    Fees and eligibility change often. Check the official pages of ICSI, ICMAI, ICAI, CFA Institute and NISM, and the current course page of any certificate, before you pay. Figures above come from those pages and recent exam-body summaries.
+    Fees and eligibility change often. Check the official pages of ICSI, ICMAI, ICAI, CFA Institute and NISM, and the current course page of any certificate, before you pay. Figures marked reported come from press or coaching summaries; the rest come from the official pages.
   </p>
 
   <div class="highlight-box highlight-box--teal">
@@ -369,7 +456,7 @@ const faqJsonLd = {
   <h2 id="floor">The tool floor: Excel, SQL and Power BI first</h2>
 
   <p>
-    This is where BBA students win or lose. Job posts for business analyst, operations, MIS and finance-support roles keep asking for Excel, SQL and a dashboard tool such as Power BI. Naukri's own guide to BBA careers lists Excel, SQL and CRM tools as what companies look for.
+    This is where BBA students win or lose. Job posts for business analyst, operations, MIS and finance-support roles keep asking for Excel, SQL and a dashboard tool such as Power BI. Naukri's own guide to BBA careers says BBA students work with Excel, PowerPoint and CRM systems, and warns that many programmes give little hands-on training in Excel automation, SQL or data analysis.
   </p>
 
   <p>
@@ -377,7 +464,7 @@ const faqJsonLd = {
   </p>
 
   <p>
-    If you want a credential that comes with a path, Google's Data Analytics and Digital Marketing and E-commerce certificates on Coursera take most people about 3-6 months at around 10 hours a week, and the capstone gives you something to show. Prices are monthly and depend on country, so check the current page. The Power BI Data Analyst exam (PL-300) is a proctored, 100-minute Microsoft exam that must be renewed each year through a free online assessment.
+    If you want a credential that comes with a path, Google's Data Analytics and Digital Marketing and E-commerce certificates on Coursera take most people about 3-6 months at around 10 hours a week, and the capstone gives you something to show. Coursera lists USD 49 a month in the US and Canada, and India pricing was reported at Rs 1,699 a month from September 2025, so plan on roughly Rs 5,100-10,200 for 3-6 months. Check the live page, because prices change. The Power BI Data Analyst exam (PL-300) is a proctored, 100-minute Microsoft exam that must be renewed each year through a free online assessment.
   </p>
 
   <div class="honest-take">
@@ -448,19 +535,19 @@ const faqJsonLd = {
   </p>
 
   <p>
-    <strong>CS (Company Secretary).</strong> Graduates from any stream can register for CS Executive directly without the CSEET screening. Reported 2026 fees are about Rs 23,900 for registration and Rs 1,500 per exam group. Most graduates take one and a half to two years for Executive while managing other things. Choose it if you like rules, drafting and documentation.
+    <strong>CS (Company Secretary).</strong> ICSI's own FAQ lists graduates and postgraduates in any discipline as exempt from CSEET, so a BBA graduate can register for CS Executive directly. The ICSI fee sheet shows Rs 23,900 in total for the direct-entry route and Rs 1,500 per exam group. Choose it if you like rules, drafting and documentation.
   </p>
 
   <p>
-    <strong>CMA.</strong> The Institute of Cost Accountants lets eligible graduates enter at Intermediate. Coaching guides warn that not every degree qualifies automatically, so read the current prospectus before you plan. It suits BBA finance students who enjoy costing, budgeting and business numbers.
+    <strong>CMA.</strong> The Institute of Cost Accountants says graduates in any discipline other than Fine Arts can register directly for Intermediate. Direct registration is reported at about Rs 23,100. It suits BBA finance students who enjoy costing, budgeting and business numbers.
   </p>
 
   <p>
-    <strong>CA.</strong> ICAI's direct entry lets graduates skip Foundation and register for Intermediate. Coaching sites report 55% marks for commerce graduates and 60% for other graduates, and BBA is often placed in the second group. Registration is reported at about Rs 18,000, and the full route takes roughly four and a half years including articleship. Confirm your band on the ICAI portal first.
+    <strong>CA.</strong> ICAI's direct entry lets graduates skip Foundation and register for Intermediate. Its FAQ asks for 55% marks from graduates in Commerce and 60% from graduates in other subjects, and charges Rs 18,000 for both groups. The FAQ does not say which group a BBA falls in, so ask ICAI in writing and plan for 60% until it answers. Articleship is 2 years after both Intermediate groups.
   </p>
 
   <p>
-    <strong>CFA.</strong> The CFA Institute lists USD 3,520 to 4,570 for all three levels, with about 300 study hours per level, and 4,000 hours of relevant work experience over at least 36 months for the charter. It fits students who want equity research or portfolio work. Even Level 1 strengthens a finance-track CV.
+    <strong>CFA.</strong> The CFA Institute lists USD 3,520 to 4,570 for all three levels and about 300 study hours per level. You can enrol with a bachelor's degree, with a Level I window that falls within 23 months before graduation, or with 4,000 hours of work or study over at least three years, and you need a valid passport. The charter also needs 4,000 hours of relevant work over at least three years. Even Level I strengthens a finance-track CV.
   </p>
 
   <div class="honest-take">
@@ -474,6 +561,78 @@ const faqJsonLd = {
     For a longer look at how these compare for a commerce graduate, see our guide to the <a href="/blog/college-degrees/best-courses-after-bcom-for-high-salary/">best courses after BCom for high salary</a>. The exam-body rules are the same, but a BBA student should confirm which marks band applies to their degree before planning.
   </p>
 
+  <h2 id="rules">What each official body says about BBA graduates</h2>
+
+  <p>
+    Coaching pages often blur these rules. Here is what the official pages state, and what they leave open.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Body</th>
+          <th>What the official page says</th>
+          <th>What it leaves open</th>
+          <th>Your move</th>
+        </tr>
+      </thead>
+      <tbody>
+        {ruleRows.map((item) => (
+          <tr>
+            <td data-label="Body"><strong>{item.body}</strong></td>
+            <td data-label="What the official page says">{item.says}</td>
+            <td data-label="What it leaves open">{item.open}</td>
+            <td data-label="Your move">{item.move}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="cost-math">The cost arithmetic and a budget test</h2>
+
+  <p>
+    Fees look small one at a time. Put them next to your total education budget and the picture changes.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Route</th>
+          <th>Cost in rupees</th>
+          <th>Share of an illustrative Rs 3 lakh budget</th>
+          <th>What that means</th>
+        </tr>
+      </thead>
+      <tbody>
+        {costRows.map((item) => (
+          <tr>
+            <td data-label="Route"><strong>{item.route}</strong></td>
+            <td data-label="Cost in rupees">{item.cost}</td>
+            <td data-label="Share of an illustrative Rs 3 lakh budget">{item.share}</td>
+            <td data-label="What that means">{item.meaning}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    The Rs 3 lakh budget is an assumption for illustration: use your own total for degree fees plus everything else you will spend on learning. The 10% and 20% lines are planning heuristics, not research facts. The dollar conversion uses an assumed Rs 87 per US dollar, so recheck it on the day you pay.
+  </p>
+
+  <div class="highlight-box highlight-box--amber">
+    <p>
+      <strong>Time is the hidden price of CFA.</strong> Three levels at about 300 hours each is 900 study hours. At 8 hours a week, that is about 112 weeks, over two years, before any retake. The CFA Institute reports a 10-year average Level I pass rate of 41%, so more than half of candidates do not pass on a given try. Only take it if you would still want the finance job after that stretch.
+    </p>
+  </div>
+
+  <p>
+    The MBA sum is the biggest. Rs 17.9 lakh is 3.6 to 7.2 years of gross pay at a starting salary of Rs 5 lakh or Rs 2.5 lakh a year. The IPM's reported Rs 38.3 lakh total academic fee is 7.7 to 15.3 years of the same pay. That is why an MBA or IPM needs a named role and a placement report before you commit, not after.
+  </p>
+
   <h2 id="mba">MBA, CAT and IPM: when the degree is worth it</h2>
 
   <p>
@@ -481,11 +640,11 @@ const faqJsonLd = {
   </p>
 
   <p>
-    CAT 2026 is on 29 November 2026, conducted by IIM Indore. Registration closed in September. The eligibility is a bachelor's degree with at least 50% marks (45% for reserved categories), and final-year students can apply. If you missed this cycle, the next one normally opens around August; check the official CAT website for the latest dates.
+    CAT 2026 is on 29 November 2026, conducted by IIM Indore. Registration closed in September. The eligibility is a bachelor's degree with at least 50% marks (45% for reserved categories), and final-year students can apply. The application fee was Rs 2,700 (Rs 1,350 for SC, ST and PwD candidates), and the deadline of 22 September 2026 was not extended. If you missed this cycle, the next one normally opens around August; check the official CAT website for the latest dates.
   </p>
 
   <p>
-    If you are still in Class 12 and thinking of a five-year integrated route, IIM Indore's IPM charges roughly Rs 6 lakh per year in the first three years, and total programme costs are commonly reported at Rs 35-40 lakh. That is a very different bet from a regular BBA. Read <a href="/blog/career-options/bba-career-options/">BBA career options</a> for how the integrated route compares.
+    If you are still in Class 12 and thinking of a five-year integrated route, IIM Indore's IPM charges Rs 6 lakh per year of course fee in the first three years, and its total academic fee is reported at Rs 38.3 lakh for the 2026-31 batch. IIM Indore held the 2026 entrance test on 4 May 2026. That is a very different bet from a regular BBA. Read <a href="/blog/career-options/bba-career-options/">BBA career options</a> for how the integrated route compares.
   </p>
 
   <div class="highlight-box highlight-box--amber">
@@ -509,6 +668,18 @@ const faqJsonLd = {
   <p>
     Some people finish a small project in a few weeks; others need a couple of months. Both are fine. The goal is one finished piece of proof, not a fast one.
   </p>
+
+  <h2 id="years">A three-year BBA sequence</h2>
+
+  <p>
+    A course pick is easier when each year has one job. This is a sequence, not a deadline.
+  </p>
+
+  <ul>
+    <li><strong>Year 1:</strong> learn Excel (lookups, pivot tables, clean formatting) and finish one small analysis on a public dataset. Test one professional syllabus by attempting a free sample paper.</li>
+    <li><strong>Year 2:</strong> add SQL and a Power BI dashboard. Take the specialisation piece from the lane cards above. Finance students can sit the NISM exam now, since the certificate stays valid for 3 years, and a three-year BBA student is usually already inside the CFA Level I 23-month window by the end of year 1 (this follows from the rule; confirm at enrolment).</li>
+    <li><strong>Year 3:</strong> finish the capstone project, run it through The 3 Gates, and decide between work, a professional route, or an MBA. Final-year students can apply to CAT, and the 2026 cycle opened in August.</li>
+  </ul>
 
   <h2 id="growth">Where the income ceiling actually moves</h2>
 

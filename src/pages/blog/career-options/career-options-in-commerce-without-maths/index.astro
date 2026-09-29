@@ -19,11 +19,14 @@ const jumpLinks = [
   { id: 'myths', label: 'Doors people wrongly call closed' },
   { id: 'ca', label: 'CA without maths, honestly' },
   { id: 'quant-floor', label: 'Open, but with a quant section' },
+  { id: 'quant-load', label: 'How much of each exam is quant' },
+  { id: 'cs', label: 'Company Secretary: the lightest quant route' },
   { id: 'skill-first', label: 'Skill-first paths that never ask' },
   { id: 'ai', label: 'AI and these careers' },
   { id: 'money', label: 'Money and college budget' },
   { id: 'checkpoint', label: 'The 4-Checkpoint Protocol' },
   { id: 'gates', label: 'The 3 Gates' },
+  { id: 'mistakes', label: 'Expensive mistakes' },
   { id: 'test', label: 'A short first test' },
   { id: 'parents', label: 'For parents' },
   { id: 'next-step', label: 'What to do next' },
@@ -56,19 +59,19 @@ const situationCards = [
 const closedCards = [
   {
     title: 'DU BA (Hons) Economics, Business Economics, BMS and BBA (FIA)',
-    body: 'In Delhi University\'s 2026-27 undergraduate bulletin, each of these asks for Mathematics or Applied Mathematics in the CUET subject combination. Accountancy does not replace it for these four.',
+    body: 'In Delhi University\'s 2026-27 undergraduate bulletin, BMS and BBA (FIA) ask for Mathematics/Applied Mathematics plus one subject from List B and the General Aptitude Test. Economics Hons and Business Economics ask for the same maths subject. Accountancy does not replace it for these four.',
   },
   {
-    title: 'IIM Amritsar\'s integrated programme (IPM)',
-    body: 'Its admission policy asks for Mathematics or Applied Mathematics as a compulsory Class 12 paper. Other integrated programmes have different rules, so read each brochure.',
+    title: 'IIM Amritsar and IIM Shillong integrated programmes (IPM)',
+    body: 'IIM Amritsar\'s admission policy asks for Mathematics or Applied Mathematics as a compulsory Class 12 paper. IIM Shillong asks for it in both Class 11 and Class 12, with 70% marks. Prep sources also report IIFT Kakinada as maths-gated. IIM Indore, Rohtak, Ranchi, Jammu and Bodh Gaya are reported to accept any stream, so read each brochure.',
   },
   {
     title: 'Engineering and architecture through the national route',
     body: 'Entrance routes such as JEE Main are built on Mathematics as a Class 12 subject. Commerce students without maths cannot use that route. Verify on the official portal before you plan around a workaround.',
   },
   {
-    title: 'Statistics, mathematics and data-science degrees',
-    body: 'BSc Statistics, BSc Mathematics and similar degrees assume Class 12 maths from day one. If data work interests you, the bridge routes in the skill-first section are the honest way in.',
+    title: 'Statistics, mathematics and data-science degrees, and most of actuarial science',
+    body: 'BSc Statistics, BSc Mathematics and similar degrees assume Class 12 maths from day one. The actuarial entrance test does not bar any stream, but prep sources report that Mathematics and Statistics carry 60 of its 100 marks at Class 11-12 level. If data work interests you, the bridge routes in the skill-first section are the honest way in.',
   },
 ];
 
@@ -79,24 +82,38 @@ const mythRows = [
   },
   {
     claim: '"You cannot do CFA without maths"',
-    fact: 'The CFA Institute\'s enrolment policy asks for a bachelor\'s degree, final-year status, or a work-experience alternative. It lists no Class 12 maths condition. The exams themselves are quantitative, so it is a hard road, not a locked door.',
+    fact: 'The CFA Institute\'s enrolment policy asks for a completed bachelor\'s degree, a bachelor\'s programme that ends within 23 months of the Level I exam window, or 4,000 hours of work and/or higher education over at least three years. It lists no Class 12 maths condition. The exams themselves are quantitative, so it is a hard road, not a locked door.',
   },
   {
     claim: '"CA needs maths in Class 12"',
-    fact: 'Any stream can register. Paper 3 of the Foundation covers business mathematics, statistics and logical reasoning at an entry level, so you learn it there.',
+    fact: 'ICAI lets you register in the Foundation after Class 10, with no stream condition. Paper 3 (Quantitative Aptitude) is real maths, so you learn it there, and graduates with 55% (commerce) or 60% (other streams) can skip the Foundation entirely.',
+  },
+  {
+    claim: '"Company Secretary needs maths"',
+    fact: 'ICSI\'s restructured entrance test (CSEET) has four papers: Business Communication, Fundamentals of Accounting, Economic and Business Environment, and Business Laws and Management. None is a maths or quantitative paper. Details are in the Company Secretary section below.',
   },
   {
     claim: '"IPMAT is only for maths students"',
-    fact: 'Prep sources report that IIM Indore and IIM Rohtak accept any stream. IIM Indore\'s own 2026-31 admission document lists no maths subject condition, but it does test quantitative ability in two of its three sections.',
+    fact: 'IIM Indore\'s own 2026-31 admission document lists no maths subject condition, and prep sources report the same for IIM Rohtak, Ranchi, Jammu and Bodh Gaya. But IIM Indore\'s test has three 40-minute sections, and two are Quantitative Ability.',
   },
   {
     claim: '"Bank PO needs a maths background"',
-    fact: 'SBI PO asks for graduation in any discipline. The preliminary exam has a Quantitative Aptitude section, which you prepare for like any other section.',
+    fact: 'SBI\'s current PO advertisement (CRPD/PO/2026-27/09) asks for graduation in any discipline. The prelims carry a Quantitative Aptitude section, reported as 30 of 100 marks in 20 minutes, which you prepare for like any other section.',
   },
   {
     claim: '"Actuary is closed to commerce students"',
-    fact: 'The Institute of Actuaries of India does not list Class 12 maths as a condition for its entrance test. The test syllabus does cover algebra, calculus, matrices and statistics, so expect a serious maths climb.',
+    fact: 'The Institute of Actuaries of India\'s ACET page accepts candidates from any stream and does not list Class 12 maths as a condition, though it says you need a love for mathematics and numeracy. Prep sources report Mathematics and Statistics at 60 of 100 marks, so expect a serious maths climb.',
   },
+];
+
+const quantLoadRows = [
+  { exam: 'CA Foundation', maths: 'No', load: 'Paper 3 of 4, so 100 of 400 marks (25%). Objective, with negative marking.', source: 'ICAI FAQ; paper split from prep sources' },
+  { exam: 'CMA Foundation', maths: 'No, per prep sources', load: 'Paper 3, Fundamentals of Business Mathematics and Statistics, is one of four papers.', source: 'ICMAI curriculum page' },
+  { exam: 'CS entrance (CSEET)', maths: 'No', load: 'None of the four papers is a quantitative paper. Fundamentals of Accounting is the numbers-heavy one.', source: 'ICSI restructured syllabus' },
+  { exam: 'SBI PO prelims', maths: 'No', load: 'Quantitative Aptitude is 30 of 100 marks in 20 minutes. Mains adds Data Analysis and Interpretation at 60 of 230 marks.', source: 'SBI advertisement; pattern from prep sources' },
+  { exam: 'IPMAT (IIM Indore)', maths: 'No condition listed', load: 'Two of three 40-minute sections are Quantitative Ability, at 4 marks a question, with negative marking on the multiple-choice one.', source: 'IIM Indore IPM 2026-31 document' },
+  { exam: 'CLAT (law)', maths: 'No', load: 'About 10 to 14 of 120 questions (roughly 10%) are Quantitative Techniques.', source: 'Prep sources, pattern for 2027' },
+  { exam: 'ACET (actuarial)', maths: 'No stream bar', load: 'Mathematics and Statistics reported at 60 of 100 marks, at Class 11-12 level.', source: 'Institute of Actuaries of India; marks from prep sources' },
 ];
 
 const quantCards = [
@@ -104,7 +121,7 @@ const quantCards = [
     tone: 'gold',
     title: 'What these papers test',
     items: [
-      'CA Foundation Paper 3: business mathematics, statistics and logical reasoning',
+      'CA Foundation Paper 3: business mathematics, statistics and logical reasoning, as 100 multiple-choice questions',
       'SBI PO prelims: a timed Quantitative Aptitude section',
       'IPMAT: quantitative ability, in two of three sections at IIM Indore',
       'CAT and other MBA entrances: a quantitative section built on school-level topics',
@@ -151,7 +168,7 @@ const skillCards = [
   {
     label: 'Formal track',
     title: 'Law after commerce',
-    body: 'CLAT is not restricted by stream. Its quantitative part is short and school-level. Verify the pattern on the consortium site each year.',
+    body: 'CLAT is not restricted by stream. Its quantitative part is reported at roughly 10% of the paper and school-level. Verify the pattern on the consortium site each year.',
   },
 ];
 
@@ -159,7 +176,7 @@ const checkpointItems = [
   {
     num: '01',
     title: 'Biology',
-    body: 'Do you like desk work with numbers, people-facing work, or building things? Accounting, sales and marketing feel very different day to day.',
+    body: 'How do you work best? Check your energy: desk work with numbers or people-facing work, office or remote, quiet or talkative days. Accounting, sales and marketing feel very different day to day.',
     note: 'Test: spend one working day shadowing, or watch a full working-day video, for each option.',
   },
   {
@@ -217,11 +234,11 @@ const testSteps = [
 const faqItems = [
   {
     q: 'Can I become a CA if I take commerce without maths?',
-    a: 'Yes. Any stream can register for the CA Foundation, and registration can start after Class 10 while the exam comes only after Class 12. Paper 3 includes business mathematics, statistics and logical reasoning, and the reported Foundation pass rate has been roughly 15 to 20 per cent in recent attempts, so treat it as a real effort. Check the current rules on the ICAI website.',
+    a: 'Yes. ICAI lets you register for the Foundation after Class 10, and the exam comes only after Class 12. Paper 3 is Quantitative Aptitude, and the reported Foundation pass rate was about 15 to 20 per cent in the last three sittings, so treat it as a real effort. Graduates with 55% (commerce) or 60% (other streams) can also enter Intermediate directly. Check the current rules on the ICAI website.',
   },
   {
     q: 'Can I do BBA after commerce without maths?',
-    a: 'Many BBA programmes do not ask for maths, but some do. Delhi University\'s BMS and BBA (FIA) ask for Mathematics or Applied Mathematics in the CUET combination, and IIM Amritsar\'s integrated programme does too. Check each college\'s admission page.',
+    a: 'Many BBA programmes do not ask for maths, but some do. Delhi University\'s BMS and BBA (FIA) ask for Mathematics or Applied Mathematics in the CUET combination, and the integrated programmes at IIM Amritsar and IIM Shillong do too. Check each college\'s admission page.',
   },
   {
     q: 'Can I do an MBA later without maths?',
@@ -237,7 +254,15 @@ const faqItems = [
   },
   {
     q: 'Can I do CFA without maths in Class 12?',
-    a: 'The CFA Institute\'s enrolment requirements are a bachelor\'s degree, final-year status, or a work-experience alternative, with no Class 12 maths condition listed. The exams are quantitative, so prepare early.',
+    a: 'The CFA Institute\'s enrolment requirements are a completed bachelor\'s degree, a degree that ends within 23 months of the exam window, or 4,000 hours of work and/or higher education over at least three years. No Class 12 maths condition is listed. The exams are quantitative, so prepare early.',
+  },
+  {
+    q: 'Can I become a Company Secretary without maths?',
+    a: 'Yes. ICSI\'s restructured entrance test, CSEET, has four papers: Business Communication, Fundamentals of Accounting, Economic and Business Environment, and Business Laws and Management. None is a maths paper, and Class 12 in any stream is enough to sit it. Graduates are reported as exempt from it. Confirm the current rules on icsi.edu.',
+  },
+  {
+    q: 'Can I skip the CA Foundation and its maths paper?',
+    a: 'ICAI\'s FAQ allows commerce graduates with 55% marks and other graduates with 60% marks to register directly for Intermediate without the Foundation. Check the current ICAI notice before you plan around it.',
   },
   {
     q: 'Which commerce careers need the least maths?',
@@ -249,7 +274,7 @@ const faqItems = [
   },
   {
     q: 'Can I still get bank jobs without maths?',
-    a: 'Yes. SBI PO asks for graduation in any discipline. The prelims include a quantitative section that you prepare for with school-level topics and timed practice.',
+    a: 'Yes. SBI\'s current PO advertisement asks for graduation in any discipline. The prelims include a Quantitative Aptitude section, reported as 30 marks in 20 minutes, that you prepare for with school-level topics and timed practice.',
   },
   {
     q: 'I already took commerce without maths. Is it too late to fix?',
@@ -282,7 +307,7 @@ const faqJsonLd = {
 >
   <p class="lead-para">
     <strong>Career options in commerce without maths are wider than most families think, because only a short list of degrees and exams checks for a maths subject on your marksheet.</strong>
-    CA, most BBA programmes, bank PO, law, marketing, HR and accounting practice stay open. What closes is narrow and specific, and this guide names it so you can build a high-income skill portfolio without guessing.
+    CA, most BBA programmes, bank PO, law, marketing, HR and accounting practice stay open. What closes is narrow and specific, and the list is short enough to check yourself, so you can build a high-income skill portfolio without guessing.
   </p>
 
   <div class="key-takeaways">
@@ -295,11 +320,11 @@ const faqJsonLd = {
   </div>
 
   <p>
-    This page is about one specific worry: a missing maths subject. If you want the full role-by-role map of commerce work, read <a href="/blog/career-options/career-options-in-commerce/">career options in commerce</a>. For the wider after-school picture, see <a href="/blog/career-options/career-options-after-12th-commerce/">career options after 12th commerce</a>. For degree and course fees, use <a href="/blog/college-degrees/courses-for-commerce-students-after-12th/">courses for commerce students after 12th</a>.
+    A missing maths subject worries most families, and it is the wrong first question. The better one is what your marksheet allows, and which exams simply test timed numbers you can practise.
   </p>
 
   <p>
-    What is different here: those pages ask what you want to do. This one asks what your marksheet allows and what needs practice. More guides like it sit in <a href="/blog/career-options/">career options</a>. If you are stuck between paths, <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">continuous career guidance</a> helps you choose the skill mix and proof that fits you, and the <a href="/career-skills-compass/">Career &amp; Skills Compass</a> helps you read your strengths first.
+    For the full role-by-role map of commerce work, see <a href="/blog/career-options/career-options-in-commerce/">career options in commerce</a>. For the wider picture after school, read <a href="/blog/career-options/career-options-after-12th-commerce/">career options after 12th commerce</a>, and for course fees and durations, <a href="/blog/college-degrees/courses-for-commerce-students-after-12th/">courses for commerce students after 12th</a>. If you are stuck between paths, <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">continuous career guidance</a> helps you choose the skill mix and proof that fits you, and the <a href="/career-skills-compass/">Career &amp; Skills Compass</a> helps you read your strengths first.
   </p>
 
   <div class="situation-grid">
@@ -334,7 +359,7 @@ const faqJsonLd = {
   <div class="callout callout--amber">
     <p class="callout__eyebrow">The usual bad advice</p>
     <ul class="callout__list">
-      <li>"No maths means no CA, no BBA, no MBA." Wrong on all three, as the tables below show.</li>
+      <li>"No maths means no CA, no BBA, no MBA." Wrong on all three: CA takes any stream, most BBA programmes do not gate on maths, and MBA entrances ask for a degree.</li>
       <li>"Take maths anyway, just in case." Fine if you can sustain it, costly if it damages your marks and confidence.</li>
       <li>"Websites list what you can do, so trust the list." The popular lists contradict each other and sometimes the official documents.</li>
     </ul>
@@ -366,6 +391,10 @@ const faqJsonLd = {
     CBSE introduced Applied Mathematics for Classes 11 and 12 from the 2020-21 session, because standard Mathematics suits science subjects better than commerce or social-science subjects. It targets practical maths for business, finance and economics. CBSE's own advice, as reported, is that students heading for Mathematics Honours or engineering should take standard Mathematics.
   </p>
 
+  <p>
+    In September 2021 the UGC asked universities to treat Applied Mathematics as equal to Mathematics for humanities and commerce admissions, but not for engineering, mathematics or the physical sciences. That is a request, not a rule, so each college still writes its own line.
+  </p>
+
   <div class="comparison-grid">
     <div class="compare-card compare-card--teal">
       <div class="compare-card__label">Applied Mathematics can suit you if</div>
@@ -392,7 +421,7 @@ const faqJsonLd = {
   <h2 id="closed">Doors that really close</h2>
 
   <p>
-    This is the short list that deserves the word "closed". It is based on the documents we could read, so treat each item as a starting point and confirm it on the official page.
+    This is the short list that deserves the word "closed". Where a college or exam publishes its own rule, we quote it for the current admission cycle, and we flag anything that comes from prep sources. Either way, confirm it on the official page before you plan around it.
   </p>
 
   <div class="door-grid">
@@ -434,7 +463,7 @@ const faqJsonLd = {
   </div>
 
   <p class="note-line">
-    Sources checked: <a href="https://www.cfainstitute.org/programs/cfa-program/policies" target="_blank" rel="noopener noreferrer">CFA Institute enrolment policies</a>, <a href="https://sbi.bank.in/web/careers/current-openings" target="_blank" rel="noopener noreferrer">SBI careers</a>, the <a href="https://www.actuariesindia.org/about-acet" target="_blank" rel="noopener noreferrer">Institute of Actuaries of India ACET page</a> and <a href="https://iimidr.ac.in/wp-content/uploads/2026/01/AdmissionProcedure_IPM-2026-31_-Domestic-Applicants.pdf" target="_blank" rel="noopener noreferrer">IIM Indore's IPM 2026-31 admission document</a>.
+    Sources checked: <a href="https://www.cfainstitute.org/programs/cfa-program/policies" target="_blank" rel="noopener noreferrer">CFA Institute enrolment policies</a>, <a href="https://sbi.bank.in/web/careers/current-openings" target="_blank" rel="noopener noreferrer">SBI careers</a>, the <a href="https://www.actuariesindia.org/about-acet" target="_blank" rel="noopener noreferrer">Institute of Actuaries of India ACET page</a> and <a href="https://iimidr.ac.in/wp-content/uploads/2026/01/AdmissionProcedure_IPM-2026-31_-Domestic-Applicants.pdf" target="_blank" rel="noopener noreferrer">IIM Indore's IPM 2026-31 admission document</a>, the <a href="https://www.icsi.edu/media/webmodules/Restructured_Syllabus_CSEET_with_Cover.pdf" target="_blank" rel="noopener noreferrer">ICSI restructured CSEET syllabus</a> and <a href="https://www.iimshillong.ac.in/ipm/admission-process" target="_blank" rel="noopener noreferrer">IIM Shillong's IPM admission page</a>. Exemption rules, fees and exam-pattern details marked as reported come from prep and news sources.
   </p>
 
   <h2 id="ca">CA without maths, honestly</h2>
@@ -444,12 +473,22 @@ const faqJsonLd = {
   </p>
 
   <p>
-    Foundation Paper 3 covers business mathematics, statistics and logical reasoning, reported as 100 marks with 40, 40 and 20 marks respectively. Coaching sources report a 40 per cent minimum per paper and 50 per cent overall, with calculators allowed. Confirm current rules at <a href="https://www.icai.org/" target="_blank" rel="noopener noreferrer">icai.org</a>.
+    Foundation Paper 3 is Quantitative Aptitude: Business Mathematics, Statistics and Logical Reasoning. Prep sources report it as 100 multiple-choice questions in two hours, with 40, 40 and 20 marks respectively, and topics that run through logarithms, mathematics of finance and basic calculus. That is more than Class 10 arithmetic. ICAI's own FAQ says you pass the Foundation with at least 40 per cent in each paper and 50 per cent in aggregate, at one sitting, with 0.25 negative marking on wrong answers in the objective papers. Confirm current rules at <a href="https://www.icai.org/" target="_blank" rel="noopener noreferrer">icai.org</a>.
   </p>
 
   <div class="highlight-box highlight-box--amber">
     <p>
       <strong>Multi-stage competition:</strong> Foundation is only the first filter. Intermediate, Final and articleship follow, each with its own pass rate and time cost. Reported Foundation pass rates were about 14.8 per cent (September 2025), 19.2 per cent (January 2026) and 20.1 per cent (May 2026). These figures are not split by maths background, so they do not show that non-maths students fail more.
+    </p>
+  </div>
+
+  <p>
+    Add the three sittings and about 2.99 lakh candidates appeared, and about 53,800 passed. That is roughly 18 per cent per attempt, and the CA Foundation runs three times a year, so one bad sitting does not end the year.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>The route around Paper 3:</strong> ICAI's FAQ lets commerce graduates with 55% marks, and other graduates with 60%, register directly for Intermediate without the Foundation. A B.Com plus a strong skill stack keeps that door open, so Paper 3 is a choice, not a wall.
     </p>
   </div>
 
@@ -470,7 +509,7 @@ const faqJsonLd = {
   <h2 id="quant-floor">Open, but with a quant section waiting</h2>
 
   <p>
-    CA Foundation, bank PO and IPMAT do not ask what subjects you took. They ask you to perform on a timed quantitative section. Treat that as a training problem.
+    CA Foundation, bank PO and IPMAT do not ask what subjects you took. They ask you to perform on a timed quantitative section. A bank PO prelim gives you 20 minutes for 30 quant questions, which is 40 seconds each, so speed matters as much as method. Treat that as a training problem.
   </p>
 
   <div class="comparison-grid">
@@ -489,6 +528,66 @@ const faqJsonLd = {
   <p class="note-line">
     A prep source reports that IPMAT's quantitative ability is pitched at Class 9-10 level. That is a claim from a coaching site, so check the syllabus in the official brochure.
   </p>
+
+  <h2 id="quant-load">How much of each exam is actually quant</h2>
+
+  <p>
+    "Needs maths" hides a big range. Here is the share of the paper that is quantitative, next to whether the rules ask for a Class 12 maths subject at all.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Exam or programme</th>
+          <th>Class 12 maths required?</th>
+          <th>How much of the test is quant</th>
+          <th>Where this comes from</th>
+        </tr>
+      </thead>
+      <tbody>
+        {quantLoadRows.map((item) => (
+          <tr>
+            <td data-label="Exam or programme"><strong>{item.exam}</strong></td>
+            <td data-label="Class 12 maths required?">{item.maths}</td>
+            <td data-label="How much of the test is quant">{item.load}</td>
+            <td data-label="Where this comes from">{item.source}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Sources: <a href="https://icmai.in/ClntStudents/Foundation_Course_Curriculum" target="_blank" rel="noopener noreferrer">ICMAI Foundation curriculum</a>, <a href="https://www.actuariesindia.org/about-acet" target="_blank" rel="noopener noreferrer">Institute of Actuaries of India</a>, ICAI and SBI pages linked above. CLAT, SBI pattern and ACET marks come from prep and news sources, so check the current official brochure.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      The lightest quant load sits in the Company Secretary entry test. The heaviest sits in the actuarial test and the IPM aptitude test. Choosing a path by that number, rather than by the word "maths", is the fairest way to match effort to fit.
+    </p>
+  </div>
+
+  <h2 id="cs">Company Secretary: the lightest quant route into a professional qualification</h2>
+
+  <p>
+    ICSI restructured its entrance test, CSEET, from 2026. It now has four papers of 100 marks each: Business Communication, Fundamentals of Accounting, Economic and Business Environment, and Business Laws and Management. None of them is a maths or quantitative aptitude paper.
+  </p>
+
+  <p>
+    To sit the test you must be an Indian national who has passed or is appearing in Class 12. ICSI's syllabus sets no stream. Reported pass rules are 40 per cent in each paper and 50 per cent overall, with three sessions a year and offline exams.
+  </p>
+
+  <p>
+    Graduates, final-year bachelor's students and passers of ICSI Foundation, CA Final or CMA Final are reported as exempt, and can register straight for CS Executive. Fees are reported as ₹7,500 registration plus ₹1,500 a sitting. Check <a href="https://www.icsi.edu/students/restructured-cseet" target="_blank" rel="noopener noreferrer">icsi.edu</a> before you pay, because these are reported figures.
+  </p>
+
+  <div class="highlight-box highlight-box--amber">
+    <p>
+      <strong>Multi-stage competition:</strong> CSEET is a light gate, but Executive and Professional stages follow, with accounting, tax and company-law papers that carry real numerical work. Choose CS for the legal and compliance work, not because the first exam looked easy.
+    </p>
+  </div>
 
   <h2 id="skill-first">Skill-first commerce paths that never ask about maths</h2>
 
@@ -537,7 +636,7 @@ const faqJsonLd = {
   </p>
 
   <p>
-    Spending well above that needs a course-specific reason, such as a required credential, verified placement outcomes with the real median, or scarce access you cannot build yourself. Avoid an education loan unless the credential is necessary. Degrees do have a place, but a degree without a skill portfolio rarely raises income.
+    Spending well above that needs a course-specific reason, such as a required credential, verified placement outcomes with the real median, or scarce access you cannot build yourself. Treat anything above roughly 20% as a serious caution that needs course-specific evidence. Avoid an education loan unless the credential is necessary. Degrees do have a place, but a degree without a skill portfolio rarely raises income.
   </p>
 
   <p>

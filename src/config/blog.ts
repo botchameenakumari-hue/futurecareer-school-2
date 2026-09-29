@@ -1887,7 +1887,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'mba-career-options',
     title: 'MBA career options in India: the doors your first job actually opens',
     description:
-      'MBA career options in India mapped by lane: consulting, finance, product, sales, operations, marketing, HR, regulators, and ownership. See which doors open at your institute tier.',
+      'MBA career options in India by lane: consulting, finance, product, sales, operations, HR, regulators. See which doors your institute tier opens.',
     publishedAtISO: '2026-09-29',
     readTimeMinutes: 16,
   },
@@ -3876,16 +3876,16 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'job-oriented-courses-for-ece-students',
     title: 'Job-Oriented Courses for ECE Students: Choose the Track First',
     description:
-      'Job-oriented courses for ECE students in India: embedded, VLSI, PLC, EV, a software bridge and GATE compared on cost, proof and real openings.',
+      'Job-oriented courses for ECE students in India: embedded, VLSI, PLC, EV, a software bridge and GATE compared on cost, proof and real openings. Pick your track.',
     publishedAtISO: '2026-09-29',
     readTimeMinutes: 14,
   },
   {
     categorySlug: 'skills',
     slug: 'career-development-skills',
-    title: 'Career development skills: how to pick the one your career is stuck on',
+    title: 'Career development skills: pick the one your career is stuck on',
     description:
-      'Career development skills work best when chosen by what is blocking you: no shortlists, no offers, no growth or a pay ceiling. Pick one and prove it.',
+      'Career development skills list and matrix for students and professionals: choose by blocker, check current India data and course quality, then prove one skill.',
     publishedAtISO: '2026-09-29',
     readTimeMinutes: 16,
   },

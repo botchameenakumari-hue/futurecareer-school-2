@@ -24,12 +24,14 @@ const jumpLinks = [
   { id: 'ai', label: 'AI pressure on each lane' },
   { id: 'weekly', label: 'What the daily work looks like' },
   { id: 'salary', label: 'How to read a salary claim' },
+  { id: 'paid-routes', label: 'What earn-first routes pay, in rupees' },
   { id: 'doors', label: 'Exit points and two degrees' },
   { id: 'mistakes', label: 'Expensive wrong turns' },
   { id: 'test', label: 'A short test before you commit' },
   { id: 'parents', label: 'For parents and families' },
   { id: 'hard-days', label: 'If results feel like a verdict' },
   { id: 'next-step', label: 'What to do next' },
+  { id: 'related', label: 'Guides for your stream' },
   { id: 'sources', label: 'Official pages to check' },
   { id: 'faq', label: 'FAQs' },
 ];
@@ -59,14 +61,14 @@ const worryCards = [
 
 const seatTiles = [
   {
-    big: 'About 8 for 1',
-    label: 'NEET',
-    body: '11.21 lakh candidates qualified NEET (UG) 2026. MBBS has 1,36,939 seats across 823 colleges, so roughly eight qualified candidates compete for each MBBS seat, before BDS and AYUSH are counted.',
+    big: 'About 15 for 1',
+    label: 'MBBS seat, counted from NEET',
+    body: 'Close to 20 lakh candidates appeared in NEET (UG) 2026 and 11.21 lakh qualified. MBBS has 1,36,939 seats in 823 colleges, and 63,296 of them are government seats. That is about 15 test-takers, or about 8 qualified candidates, per seat, before BDS and AYUSH are counted.',
   },
   {
-    big: 'About 3 for 1',
-    label: 'IIT via JEE Advanced',
-    body: 'Over 15 lakh candidates appeared in JEE Main 2026. Around 2.5 lakh qualified for Advanced, 56,880 cleared Advanced, and IITs offered 18,826 seats through JoSAA.',
+    big: 'About 82 for 1',
+    label: 'IIT seat, counted from JEE Main',
+    body: '15,38,468 unique candidates appeared in JEE Main 2026. IITs offered 18,826 seats through JoSAA, the joint counselling for IITs, NITs, and IIITs. Only 1,79,694 appeared in JEE Advanced and 56,880 qualified, which is about 3 qualifiers per IIT seat.',
   },
   {
     big: '1 in 5',
@@ -76,8 +78,171 @@ const seatTiles = [
   {
     big: '230+',
     label: 'CUET universities',
-    body: 'CUET UG 2026 had 15.68 lakh registrations and over 230 participating universities. There is no single counselling, so every university runs its own admission steps.',
+    body: 'CUET UG 2026 had 15.69 lakh registrations, 11.64 lakh test-takers, and over 230 participating universities. There is no single counselling, so every university runs its own admission steps.',
   },
+];
+
+const funnelRows = [
+  {
+    filter: 'NEET (UG) to an MBBS seat',
+    counted: 'About 20,00,000 appeared; 11,21,000 qualified; 1,36,939 MBBS seats, of which 63,296 are government seats',
+    math: '20,00,000 / 1,36,939 = 14.6 test-takers per seat. 11,21,000 / 63,296 = 17.7 qualified candidates per government seat.',
+    plan: 'Qualifying is not the same as getting a seat. Price a private MBBS seat, or an allied-health and BSc plan, before results.',
+  },
+  {
+    filter: 'JEE Main to an IIT seat',
+    counted: '15,38,468 unique candidates appeared in Main; 18,826 IIT seats',
+    math: '15,38,468 / 18,826 = 81.7 Main test-takers per IIT seat.',
+    plan: 'A good Main score is not an IIT plan. It is an NIT, IIIT, or state-college plan unless Advanced also goes well.',
+  },
+  {
+    filter: 'JEE Advanced to an IIT seat',
+    counted: '1,79,694 appeared; 56,880 qualified; 18,826 IIT seats',
+    math: '56,880 / 1,79,694 = 31.7% qualified. 56,880 / 18,826 = 3.0 qualifiers per IIT seat.',
+    plan: 'Even after qualifying, about two in three qualifiers do not get an IIT seat, so rank, branch, and college are traded off in counselling.',
+  },
+  {
+    filter: 'JEE Main rank alone (NITs, IIITs, other government-funded institutes)',
+    counted: '48,372 of the 67,323 JoSAA seats (25,162 NIT, 11,518 IIIT, 11,692 other institutes) need only a Main rank',
+    math: '48,372 / 67,323 = 71.9% of JoSAA seats. 15,38,468 / 48,372 = 31.8 Main test-takers per seat.',
+    plan: 'Most engineering seats on the central list never needed Advanced. State counselling adds more seats on top.',
+  },
+  {
+    filter: 'CA Foundation',
+    counted: 'May 2026: 90,217 appeared; 18,124 passed',
+    math: '18,124 / 90,217 = 20.1% passed.',
+    plan: 'One in five clears the first level. Treat CA as a serious filter with a backup degree running beside it.',
+  },
+  {
+    filter: 'CUET UG turnout',
+    counted: '15,68,867 registered; 11,64,098 appeared',
+    math: '11,64,098 / 15,68,867 = 74.2% took the test.',
+    plan: 'A quarter of those who register never sit the test. There is no single seat pool, so shortlist universities and course rules first.',
+  },
+];
+
+const mythRows = [
+  {
+    myth: '"Law is only for arts students."',
+    rule: 'CLAT 2027 asks for 10+2 in any stream with 45% marks (40% for SC and ST).',
+    check: 'Consortium of NLUs',
+    href: 'https://consortiumofnlus.ac.in/',
+  },
+  {
+    myth: '"Only PCM students can join the defence forces through NDA."',
+    rule: 'The Army wing accepts Class 12 pass students of any stream. The Air Force and Naval wings need Physics and Mathematics.',
+    check: 'UPSC NDA notice',
+    href: 'https://upsc.gov.in/',
+  },
+  {
+    myth: '"CA is only for commerce students who took Maths."',
+    rule: 'CA Foundation registration needs a pass or an appearance in Class 12, with provisional registration after Class 10. No stream is named.',
+    check: 'ICAI',
+    href: 'https://www.icai.org/',
+  },
+  {
+    myth: '"Design needs an art or arts background."',
+    rule: 'UCEED, the entrance test for B.Des programmes at several IITs and IIITDM Jabalpur, accepts 10+2 in any stream.',
+    check: 'UCEED, IIT Bombay',
+    href: 'https://www.uceed.iitb.ac.in/',
+  },
+  {
+    myth: '"You must finish one degree before you start another."',
+    rule: 'UGC guidelines from April 2022 allow two programmes together (two physical, two online, or one of each) when the timetables do not overlap.',
+    check: 'UGC',
+    href: 'https://www.ugc.gov.in/',
+  },
+  {
+    myth: '"IIT and NIT seats all need JEE Advanced."',
+    rule: 'Only IIT and IISc seats use Advanced ranks. NITs, IIITs, and other government-funded institutes admit on JEE Main ranks.',
+    check: 'JoSAA',
+    href: 'https://josaa.nic.in/',
+  },
+];
+
+const liveRows = [
+  {
+    item: 'CLAT 2027 (National Law Universities)',
+    fact: 'Applications 3 August to 31 October 2026. Exam on 6 December 2026, 2 to 4 pm. Fee ₹4,000 (₹3,500 for SC, ST, BPL, and PwD).',
+    action: 'Decide about law before the last date. The eligibility and fee figures come from third-party summaries of the notice, so confirm them on the consortium site.',
+  },
+  {
+    item: 'NID DAT 2027 (B.Des and integrated M.Des)',
+    fact: 'Apply on admissions.nid.edu by 30 November 2026. Prelims on 20 December 2026. Fee ₹3,000 for the general category, ₹2,000 for women.',
+    action: 'Build two or three portfolio pieces before the mains stage. Dates for mains were still to be announced.',
+  },
+  {
+    item: 'UCEED 2027 (IIT design programmes)',
+    fact: 'Exam on 17 January 2027. The full notification was expected on 1 October 2026 (tentative in the sources checked).',
+    action: 'Wait for the IIT Bombay notice before paying anything. Any stream is eligible.',
+  },
+  {
+    item: 'JEE Main 2027, Session 1',
+    fact: 'The NTA calendar lists 22 to 24 and 28 to 30 January 2027. Session 2 dates were not yet out at the time of writing.',
+    action: 'Registration usually opens well before the exam, so check the NTA site rather than a coaching page.',
+  },
+];
+
+const paidAgniveerRows = [
+  { year: 'Year 1', monthly: '₹30,000', annual: '₹3,60,000', corpus: '₹1,08,000' },
+  { year: 'Year 2', monthly: '₹33,000', annual: '₹3,96,000', corpus: '₹1,18,800' },
+  { year: 'Year 3', monthly: '₹36,500', annual: '₹4,38,000', corpus: '₹1,31,400' },
+  { year: 'Year 4', monthly: '₹40,000', annual: '₹4,80,000', corpus: '₹1,44,000' },
+  { year: 'Four years', monthly: 'Total package', annual: '₹16,74,000', corpus: '₹5,02,200' },
+];
+
+const natsRows = [
+  { category: 'Vocational technician apprentice', monthly: '₹9,600', annual: '₹1,15,200', employer: '₹4,800' },
+  { category: 'Diploma holder apprentice', monthly: '₹10,900', annual: '₹1,30,800', employer: '₹5,450' },
+  { category: 'Graduate apprentice', monthly: '₹12,300', annual: '₹1,47,600', employer: '₹6,150' },
+];
+
+const scaleRows = [
+  {
+    lane: 'Build, analyse, ship',
+    ceiling: 'Not capped. Pay can rise with proof, and freelance work, consulting, or an own product sit above a salary.',
+    separates: 'A domain where mistakes are costly (finance, health, security, logistics) joined to one shipped, checkable project, rather than a generic course list.',
+    add: 'SQL and one cloud platform, a domain, and the habit of testing AI output before you trust it.',
+  },
+  {
+    lane: 'Business and finance',
+    ceiling: 'Not capped once you can advise. Own practice (tax, compliance, financial planning) is the scalable route.',
+    separates: 'A niche client type and repeat advisory work. CA also has three exam levels (Foundation, Intermediate, Final) plus articleship, so each stage is its own filter and a degree should run beside it.',
+    add: 'Excel or Sheets to a professional level, GST and tax basics, and plain-language client communication.',
+  },
+  {
+    lane: 'Regulated professions',
+    ceiling: 'High trust, but capped by hours until you own a practice or a scarce specialism.',
+    separates: 'MBBS with internship and registration is the minimum to practise, so a postgraduate seat is not a legal must. It is a second competitive filter, and a clinic adds rent, equipment, and patient-flow risk. Working under an established practice first is safer.',
+    add: 'A specialism with local demand, digital record-keeping, and patient communication in the local language.',
+  },
+  {
+    lane: 'Words, media, people',
+    ceiling: 'Capped for generic output, open for work tied to a business result.',
+    separates: 'Research, strategy, or communication that a client can connect to sales or risk, plus a body of work under your own name.',
+    add: 'Basic analytics, one niche subject, and an owned channel such as a newsletter or portfolio site, so you do not depend on one platform.',
+  },
+  {
+    lane: 'Uniform and public service',
+    ceiling: 'Structured pay bands, so salary alone is the slowest route to financial freedom. Saving and investing still matter, and service rules on outside work must be checked per service.',
+    separates: 'Clearing more than one stage: for NDA, the written exam and then SSB. Exam-only study often leaves little marketable proof behind.',
+    add: 'One earning skill or degree alongside preparation, so an unsuccessful attempt still leaves you employable.',
+  },
+  {
+    lane: 'Diploma, ITI, apprenticeship',
+    ceiling: 'Low at the start, and open to supervisors, contractors, and workshop owners who add estimating and client skills.',
+    separates: 'A licensed or certified trade, plus a route upward such as lateral entry to a degree or your own small contracting work.',
+    add: 'Estimating, digital job records, safety certification, and basic accounting.',
+  },
+];
+
+const relatedGuides = [
+  { title: 'Career options after 12th science', body: 'Engineering, health, data, and research routes if you studied PCM, PCB, or PCMB.', href: '/blog/career-options/career-options-after-12th-science/', tone: 'teal' },
+  { title: 'Science options beyond engineering and medical', body: 'Where science students go when neither JEE nor NEET is the plan.', href: '/blog/career-options/career-options-after-12th-science-except-engineering-and-medical/', tone: 'gold' },
+  { title: 'Maths without engineering', body: 'Data, finance, actuarial, and design routes that use your Maths.', href: '/blog/career-options/career-after-12th-maths-without-engineering/', tone: 'blue' },
+  { title: 'Career options in commerce', body: 'CA, finance, analytics, and business routes for commerce students.', href: '/blog/career-options/career-options-in-commerce/', tone: 'purple' },
+  { title: 'Career options in arts', body: 'Law, media, psychology, design, and policy routes for arts students.', href: '/blog/career-options/career-options-in-arts/', tone: 'teal' },
+  { title: 'Options for girls after 12th', body: 'Scholarships, college safety, and how to talk to family.', href: '/blog/career-options/career-options-after-12th-for-girls-in-india/', tone: 'gold' },
 ];
 
 const laneCards = [
@@ -85,7 +250,7 @@ const laneCards = [
     badge: 'Lane 1',
     title: 'Build, analyse, and ship (tech, data, product, design-tech)',
     paths: 'BTech, BCA, BSc computer science or data, BDes, UCEED-linked design',
-    body: 'Leads this list because pay can rise with proof rather than with years served, and one person with AI tools can now do more. The catch: entry is crowded, and BTech seats in 2024-25 were only about 75% filled nationally, so a weak college plus no projects is a real risk.',
+    body: 'Leads this list because pay can rise with proof rather than with years served, and one person with AI tools can now do more. The catch: entry is crowded, and AICTE data for 2024-25, as reported by Careers360, put BTech enrolment at about 75% of approved seats, so a weak college plus no projects is a real risk.',
     best: 'Best for: people who like building and fixing things and can keep practising without a teacher.',
     watch: 'Watch out: degree alone will not carry you. Projects, internships, and a public portfolio decide who gets shortlisted.',
     tone: 'teal',
@@ -121,16 +286,16 @@ const laneCards = [
     badge: 'Lane 5',
     title: 'Uniform, public service, and government exams',
     paths: 'NDA, Agniveer, SSC CHSL, state and central exams, UPSC later after graduation',
-    body: 'Stable and respected, with structured pay and slower income growth. Selection is thin: NDA 2 in 2026 had 394 vacancies. Preparation years cost income, so keep a parallel skill running.',
+    body: 'Stable and respected, with structured pay and slower income growth. Selection is thin and comes in two stages: NDA 2 in 2026 had 394 vacancies, and each candidate must clear a written exam and then a separate Services Selection Board (SSB) interview. Preparation years cost income, so keep a parallel skill running.',
     best: 'Best for: people who want service, discipline, and security, and who can handle long preparation.',
-    watch: 'Watch out: years of exam prep with no marketable proof. Agniveer retains about 25% of a batch, so know your plan for the rest.',
+    watch: 'Watch out: years of exam prep with no marketable proof. Agniveer retains up to 25% of a batch after four years, so know your plan for the other three in four.',
     tone: 'gold',
   },
   {
     badge: 'Lane 6',
     title: 'Earn while you learn (diploma, ITI, apprenticeship)',
     paths: 'Polytechnic diploma, ITI trades, NAPS and NATS apprenticeships, skill certificates',
-    body: 'Fastest to first income and the cheapest to try. India has 13,888 ITIs, and the NATS minimum stipend was revised from April 2026 to ₹9,600 (vocational technician), ₹10,900 (diploma), and ₹12,300 (graduate), shared 50:50 between government and employer.',
+    body: 'Fastest to first income and the cheapest to try. The Directorate General of Training homepage lists 13,888 ITIs, and the NATS minimum stipend was revised from April 2026 to ₹9,600 (vocational technician), ₹10,900 (diploma), and ₹12,300 (graduate), shared 50:50 between government and employer.',
     best: 'Best for: people who need income early, learn by doing, or want a lower-cost route to a technical degree through lateral entry later.',
     watch: 'Watch out: treating it as a lesser path. Add documentation, digital, and supervision skills so the ceiling rises.',
     tone: 'teal',
@@ -192,13 +357,13 @@ const situationCards = [
   {
     label: 'Situation B',
     title: 'JEE or NEET did not go your way',
-    body: 'Count the cost of one more attempt: a year of income, fees, and stress. If you still want that exact path, plan the repeat year with a parallel skill. If not, check state engineering exams, allied health, BSc, or BCA before the year is gone. Read the full drop-year answer in our guide on whether to take a drop year.',
+    body: 'Count the cost of one more attempt: a year of income, fees, and stress. If you still want that exact path, plan the repeat year with a parallel skill. If not, check state engineering exams, allied health, BSc, or BCA before the year is gone. Our guide on whether to take a drop year has the full answer.',
     tone: 'gold',
   },
   {
     label: 'Situation C',
     title: 'Your marks are low or average',
-    body: 'Marks matter for cut-offs, not for your whole career. Many private colleges, diploma routes, and skill-first paths do not need high scores. What they need from you is proof of work. See our guide for average students.',
+    body: 'Marks matter for cut-offs, not for your whole career. Many private colleges, diploma routes, and skill-first paths do not need high scores. What they need from you is proof of work, and our guide for average students shows how.',
     tone: 'blue',
   },
   {
@@ -229,7 +394,7 @@ const calendarRows = [
   },
   {
     item: 'JoSAA (IITs, NITs, IIITs, GFTIs)',
-    fact: 'Counselling started on 2 June 2026 with 67,323 seats across 136 institutes.',
+    fact: 'Registration opened on 2 June 2026 with 67,323 seats across 138 institutes (23 IITs, IISc Bengaluru, 31 NITs, IIEST Shibpur, 26 IIITs, 56 other government-funded institutes). Round 5 was running in July, with reporting into mid-August.',
     action: 'Rank by branch and college quality together, not by brand alone. Keep state options as backup.',
   },
   {
@@ -239,13 +404,13 @@ const calendarRows = [
   },
   {
     item: 'CLAT (National Law Universities)',
-    fact: 'CLAT 2027: registration 3 August to 31 October 2026, exam on 6 December 2026, 3,649 UG seats. Class 12 needs 45% (40% for SC and ST).',
+    fact: 'CLAT 2027: registration 3 August to 31 October 2026, exam on 6 December 2026. Class 12 needs 45% (40% for SC and ST).',
     action: 'If law interests you, register before the closing date. Dates change each year, so confirm on the official consortium site.',
   },
   {
     item: 'CA Foundation (ICAI)',
-    fact: 'The January 2027 attempt needed registration by 1 September 2026 (tentative). Passing needs 40% in each paper and 50% aggregate.',
-    action: 'You can also register after Class 10 provisionally. Check ICAI for the current cycle.',
+    fact: 'Registration for the January 2027 attempt closed on 1 September 2026. ICAI asks for a study period of about four months between registration and the exam. Passing needs 40% in each paper and 50% in aggregate.',
+    action: 'You can register once you have passed or are appearing in Class 12, and provisionally after Class 10. Confirm the next cycle on the ICAI portal.',
   },
   {
     item: 'NDA (UPSC)',
@@ -258,7 +423,7 @@ const checkpointItems = [
   {
     num: '1',
     title: 'Biology: how you actually work',
-    body: 'Do you have energy for people, or for screens? Field work, desk work, or lab? Do you recharge alone or with others? A lane that fights your energy will burn you out even if it pays well.',
+    body: 'Do you have energy for people or for screens, for field work or desk work, alone or with others? A lane that fights your energy will burn you out even if it pays well.',
   },
   {
     num: '2',
@@ -443,7 +608,7 @@ const faqItems = [
   },
   {
     q: 'What are the best career choices after 12th for all streams?',
-    a: 'Science students can move into tech, data, licensed health careers, or research. Commerce students can go into finance, CA, analytics, law, or business. Arts students can go into law, media, psychology, design, policy, or teaching. Any stream can choose diploma, ITI, or apprenticeship routes, or a skill-first start.',
+    a: 'Science students can move into tech, data, licensed health careers, or research. Commerce students can go into finance, CA, analytics, law, or business, and arts students into law, media, psychology, design, policy, or teaching. Any stream can choose diploma, ITI, or apprenticeship routes, or a skill-first start.',
   },
   {
     q: 'What is the best career path after 12th if I have low marks?',
@@ -455,7 +620,7 @@ const faqItems = [
   },
   {
     q: 'Can I switch stream after 12th, for example from science to commerce or arts?',
-    a: 'For many degrees, yes. Most BA, BCom, BBA, and law entrance routes accept students from any stream, though some subject or Maths requirements apply. Going the other way is harder: BTech needs PCM, and MBBS needs PCB. Always check each course\'s eligibility on the official admission page.',
+    a: 'For many degrees, yes. Most BA, BCom, BBA, and law entrance routes accept students from any stream, though some subject or Maths requirements apply. Going the other way is harder, because BTech needs PCM and MBBS needs PCB, so check each course\'s eligibility on the official admission page.',
   },
   {
     q: 'What can I do after 12th without NEET or JEE?',
@@ -463,7 +628,7 @@ const faqItems = [
   },
   {
     q: 'Which government job options are there after 12th?',
-    a: 'Examples include SSC CHSL (12th pass), NDA for those who qualify, and Agniveer recruitment. Agniveer runs for four years, with about 25% of each batch retained. Notifications, age, and eligibility change every cycle, so verify on the official recruitment pages.',
+    a: 'Examples include SSC CHSL (12th pass), NDA for those who qualify, and Agniveer recruitment. Agniveer runs for four years on ₹30,000 rising to ₹40,000 a month (30% goes into a corpus), with a tax-free Seva Nidhi of about ₹11.71 lakh at exit and up to 25% of each batch kept for a regular career. The first batch finishes in late 2026, and a higher retention share has been requested but not approved. Age and eligibility change every cycle, so verify on the official recruitment pages.',
   },
   {
     q: 'Is a gap year after 12th okay?',
@@ -478,6 +643,14 @@ const faqItems = [
     a: 'Under the UGC framework linked to NEP 2020, students can exit with a certificate after one year, a diploma after two, a bachelor\'s degree after three, or complete a four-year honours or research degree. Credits are stored in the Academic Bank of Credits. Check whether your chosen university has adopted the framework.',
   },
   {
+    q: 'Do I need JEE Advanced to get an NIT or IIIT seat?',
+    a: 'No. Only IIT and IISc seats use JEE Advanced ranks. NITs, IIITs, and other government-funded institutes on the JoSAA list admit on JEE Main ranks, and those seats were 48,372 of 67,323 in 2026. State counselling adds more seats.',
+  },
+  {
+    q: 'Which entrance forms are open right now?',
+    a: 'As of 29 September 2026, CLAT 2027 applications close on 31 October and NID DAT 2027 applications close on 30 November. UCEED 2027 (exam 17 January 2027) and JEE Main 2027 Session 1 (22 to 30 January 2027) were the next big dates. Confirm each on the official site.',
+  },
+  {
     q: 'Which careers are safest from AI?',
     a: 'No career is fully safe. The safer layer in any field is human judgment, trust, and accountability plus the skill to use AI well. The WEF expects 170 million new jobs and 92 million displaced by 2030, so the goal is to be on the useful side of that change.',
   },
@@ -487,7 +660,7 @@ const faqItems = [
   },
   {
     q: 'I feel like a loser because I do not know what to do. Is that normal?',
-    a: 'Yes. Uncertainty at this stage is normal, and it does not measure your ability. If the stress feels heavy, talk to someone you trust. Tele-MANAS (14416) is a free, 24x7 mental health helpline in many Indian languages.',
+    a: 'Yes. Uncertainty at this stage is normal, and it does not measure your ability. If the stress feels heavy, talk to someone you trust or call Tele-MANAS (14416), a free, 24x7 mental health helpline in many Indian languages.',
   },
 ];
 
@@ -516,24 +689,28 @@ const faqJsonLd = {
 >
   <p class="lead-para">
     <strong>Career options after 12th are best chosen by lane, not by stream label.</strong>
-    Pick the lane that fits how you work, what your family can afford, and what you can prove, because a high-income skill portfolio built early opens more choices and a faster route to financial freedom than a famous course name.
+    Pick the lane that fits how you work, what your family can afford, and what you can prove. A high-income skill portfolio built early opens more choices and a faster route to financial freedom than a famous course name.
   </p>
 
   <div class="key-takeaways">
     <p class="key-takeaways__label">The short version</p>
     <ul>
       <li>There are six real lanes after 12th: build and ship, business and finance, licensed professions, words and media, public service, and earn-while-you-learn.</li>
-      <li>Run each lane through the 4-Checkpoint Protocol (your energy, life context, market demand, AI risk) and pass The 3 Gates of proof before you spend big money.</li>
+      <li>Run each lane through the 4-Checkpoint Protocol (your energy, life context, market demand, AI risk) and pass The 3 Gates of proof before you spend big money. The goal is a high-income skill portfolio, which opens better income options and earlier financial freedom than a course name does.</li>
       <li>Next step: shortlist two lanes, talk to one working person in each, and run a small real test before the admission deadline.</li>
     </ul>
   </div>
 
   <p>
-    Most students do not lack options after 12th. They lack a map that shows the seat math, the real deadlines, and the cost of a wrong turn.
+    Most students do not lack options after 12th. They lack a map that shows the seat math, the real deadlines, and the cost of a wrong turn. A lane is a group of courses and jobs that share the same kind of daily work, entry filter, and risk.
   </p>
 
   <p>
-    This guide gives you that map, and links to the deeper page for your stream. For the wider decision system, see the <a href="/blog/career-options/">Career Options category</a>. If you want a mentor to help you turn the map into a plan, look at our <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance service</a>, which is continuous rather than a single session. A quick <a href="https://futurecareerschool.com/services/assessments/stream-selector-test-after-12th">stream selector test</a> is also there if you want a starting signal.
+    Here is that map. For the wider decision system, see the <a href="/blog/career-options/">Career Options category</a>.
+  </p>
+
+  <p>
+    If you want a mentor to help you turn the map into a plan, look at our <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance service</a>, which is continuous rather than a single session. A quick <a href="https://futurecareerschool.com/services/assessments/stream-selector-test-after-12th">stream selector test</a> can give a starting signal.
   </p>
 
   <nav class="jump-nav" aria-label="Jump to section">
@@ -595,8 +772,33 @@ const faqJsonLd = {
     ))}
   </div>
 
+  <h3>The arithmetic behind each filter</h3>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Filter</th>
+          <th>Official counts used</th>
+          <th>The arithmetic</th>
+          <th>What it means for your plan</th>
+        </tr>
+      </thead>
+      <tbody>
+        {funnelRows.map((item) => (
+          <tr>
+            <td data-label="Filter"><strong>{item.filter}</strong></td>
+            <td data-label="Official counts used">{item.counted}</td>
+            <td data-label="The arithmetic">{item.math}</td>
+            <td data-label="What it means for your plan">{item.plan}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
   <p class="note-line">
-    Sources: NTA press release on NEET (UG) 2026; NMC seat matrix reported for 2026-27; JEE (Advanced) 2026 results press release; JoSAA 2026 seat matrix reports; NTA CUET UG 2026 statistics; ICAI CA Foundation results. Ratios are simple planning comparisons, and not every qualifier applies to every seat.
+    Sources: NTA press release on NEET (UG) 2026 (16 July 2026); NMC MBBS seat matrix for 2026-27 as reported by Careers360; JEE (Advanced) 2026 results press release (1 June 2026); NTA JEE Main 2026 statistics; JoSAA 2026 seat matrix and institute list; NTA CUET UG 2026 statistics; ICAI CA Foundation May 2026 results. Ratios are planning comparisons. Many candidates also target state seats, private colleges, or other courses, so no single ratio is a personal chance of selection.
   </p>
 
   <div class="honest-take">
@@ -628,17 +830,48 @@ const faqJsonLd = {
   <div class="honest-take">
     <p class="honest-take__label">Honest take</p>
     <p>
-      Lane 1 has the highest ceiling and the crowdedest entry. Lane 3 has the strongest trust and the longest runway. Lane 6 has the quickest first income and the lowest cost of trying. None of these is "best" for everyone. It depends on which risk you can afford.
+      Lane 1 has the highest ceiling and the crowdedest entry. Lane 3 has the strongest trust and the longest runway. Lane 6 has the quickest first income and the lowest cost of trying.
     </p>
     <p>
-      One scalable option sits inside several lanes: independent work. A skilled designer, analyst, accountant, or tutor can price by outcome, add repeat clients, and hire help over time. It scales because you own the pricing and the client list. It needs proof first, so treat it as a later step, not a first-year plan.
+      None of these is "best" for everyone. It depends on which risk you can afford.
     </p>
+    <p>
+      One scalable option sits inside several lanes: independent work. A skilled designer, analyst, accountant, or tutor can price by outcome, add repeat clients, and hire help over time. It scales because you own the pricing and the client list.
+    </p>
+    <p>
+      It needs proof first, so treat it as a later step, not a first-year plan.
+    </p>
+  </div>
+
+  <h3>What separates the top from the median in each lane</h3>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Lane</th>
+          <th>Income ceiling</th>
+          <th>What separates the strongest outcomes</th>
+          <th>Skills to add</th>
+        </tr>
+      </thead>
+      <tbody>
+        {scaleRows.map((item) => (
+          <tr>
+            <td data-label="Lane"><strong>{item.lane}</strong></td>
+            <td data-label="Income ceiling">{item.ceiling}</td>
+            <td data-label="What separates the strongest outcomes">{item.separates}</td>
+            <td data-label="Skills to add">{item.add}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </div>
 
   <h2 id="stream-map">What your stream opens and closes</h2>
 
   <p>
-    Your subjects decide eligibility for some courses, and only some. Use this table for a quick check, then open the linked guide for depth.
+    Your subjects decide eligibility for some courses, and only some. Here is the quick check for each stream.
   </p>
 
   <div class="table-wrap">
@@ -668,9 +901,28 @@ const faqJsonLd = {
     Course eligibility changes by university and year. Confirm subject and minimum marks on the official admission page before you plan around a course.
   </p>
 
-  <p>
-    Other close guides: <a href="/blog/career-options/career-options-after-12th-science/">career options after 12th science</a>, <a href="/blog/career-options/career-options-after-12th-science-except-engineering-and-medical/">science except engineering and medical</a>, <a href="/blog/career-options/career-after-12th-maths-without-engineering/">maths without engineering</a>, <a href="/blog/career-options/career-options-in-commerce/">career options in commerce</a>, and <a href="/blog/career-options/career-options-after-12th-for-girls-in-india/">options for girls</a>.
-  </p>
+  <h3>Common stream myths, checked against the rules</h3>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>What students hear</th>
+          <th>What the rule says</th>
+          <th>Where to confirm</th>
+        </tr>
+      </thead>
+      <tbody>
+        {mythRows.map((item) => (
+          <tr>
+            <td data-label="What students hear"><strong>{item.myth}</strong></td>
+            <td data-label="What the rule says">{item.rule}</td>
+            <td data-label="Where to confirm"><a href={item.href} rel="noopener">{item.check}</a></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
 
   <h2 id="situation">Start from your situation, not from a course list</h2>
 
@@ -695,7 +947,7 @@ const faqJsonLd = {
   <h2 id="calendar">What actually has a deadline</h2>
 
   <p>
-    Some decisions can wait. A few cannot. This table uses the 2026 admission cycle. Dates and rules change each year, so treat it as a pattern to plan around and check official pages for the next one.
+    Some decisions can wait. A few cannot. This table uses the 2026 admission cycle, and dates and rules change each year, so check official pages for the next one.
   </p>
 
   <div class="table-wrap">
@@ -712,6 +964,33 @@ const faqJsonLd = {
           <tr>
             <td data-label="Route"><strong>{item.item}</strong></td>
             <td data-label="What the 2026 cycle showed">{item.fact}</td>
+            <td data-label="What to do">{item.action}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Still open or coming up</h3>
+
+  <p>
+    These dates were current on 29 September 2026. Sources are the official notices as reported by exam news sites, so confirm each date on the official portal.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Route</th>
+          <th>Dates</th>
+          <th>What to do</th>
+        </tr>
+      </thead>
+      <tbody>
+        {liveRows.map((item) => (
+          <tr>
+            <td data-label="Route"><strong>{item.item}</strong></td>
+            <td data-label="Dates">{item.fact}</td>
             <td data-label="What to do">{item.action}</td>
           </tr>
         ))}
@@ -782,7 +1061,7 @@ const faqJsonLd = {
     <div class="compare-card compare-card--teal">
       <div class="compare-card__label">Self-learning can carry a lot here</div>
       <p>
-        Software, data, design, digital marketing, content, and many business skills can be learned with good YouTube channels, official documentation, and reputable low-cost courses, then proved with projects. Judge each course by instructor, last update, exercises, feedback, and what you will build.
+        Software, data, design, digital marketing, content, and many business skills can be learned with good YouTube channels, free SWAYAM and NPTEL courses, low-cost courses on platforms such as Coursera, edX, or Udemy, and official documentation, then proved with projects. Judge each course by instructor, last update, exercises, feedback, and what you will build.
       </p>
     </div>
     <div class="compare-card compare-card--gold">
@@ -830,7 +1109,7 @@ const faqJsonLd = {
   </div>
 
   <p>
-    India Skills Report 2026 puts national graduate employability at 56.35%. That gap between degree and job-readiness is where proof of work pays.
+    India Skills Report 2026 puts employability among the graduates it tested at 56.35%, which means close to half were judged not job-ready. That gap between degree and job-readiness is where proof of work pays.
   </p>
 
   <h2 id="ai">AI pressure on each lane, and where to start</h2>
@@ -870,23 +1149,13 @@ const faqJsonLd = {
     Titles hide the boring 80%. Read this before you fall in love with a job name.
   </p>
 
-  <div class="table-wrap">
-    <table class="paths-table">
-      <thead>
-        <tr>
-          <th>Lane</th>
-          <th>What most of the week is made of</th>
-        </tr>
-      </thead>
-      <tbody>
-        {weeklyRows.map((item) => (
-          <tr>
-            <td data-label="Lane"><strong>{item.lane}</strong></td>
-            <td data-label="What most of the week is made of">{item.reality}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+  <div class="situation-grid">
+    {weeklyRows.map((item, index) => (
+      <div class:list={['situation-card', `situation-card--${['teal', 'gold', 'blue', 'purple', 'gold', 'teal'][index % 6]}`]}>
+        <div class="situation-card__label">{item.lane}</div>
+        <p>{item.reality}</p>
+      </div>
+    ))}
   </div>
 
   <h2 id="salary">How to read a salary claim before you trust it</h2>
@@ -903,8 +1172,78 @@ const faqJsonLd = {
     <li><strong>What did it cost to get there?</strong> Subtract fees, loan interest, and years without income before you call a path "high paying".</li>
   </ol>
 
-  <p class="note-line">
-    For earn-while-you-learn routes there is an official floor: the revised NATS minimum stipend from 1 April 2026 is ₹9,600 for vocational technician apprentices, ₹10,900 for diploma holders, and ₹12,300 for graduates. Employers can pay more.
+  <h2 id="paid-routes">What the earn-first routes pay, in rupees</h2>
+
+  <p>
+    Two routes publish real pay figures, so you can do the arithmetic before you decide. Both are income now, and neither is a full career plan by itself.
+  </p>
+
+  <h3>Agniveer: four years of pay and a corpus</h3>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th>Monthly package</th>
+          <th>Package for the year</th>
+          <th>Your 30% paid into the corpus</th>
+        </tr>
+      </thead>
+      <tbody>
+        {paidAgniveerRows.map((item) => (
+          <tr>
+            <td data-label="Year"><strong>{item.year}</strong></td>
+            <td data-label="Monthly package">{item.monthly}</td>
+            <td data-label="Package for the year">{item.annual}</td>
+            <td data-label="Your 30% paid into the corpus">{item.corpus}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    The government matches your contribution, so the corpus is ₹5,02,200 plus ₹5,02,200, or ₹10,04,400. With interest the Ministry of Defence scheme note quotes a tax-free Seva Nidhi of ₹11.71 lakh. Cash in hand across the four years is the other 70%, about ₹11.7 lakh.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      The scheme note says up to 25% of each batch can join the regular cadre. The first batch finishes its four years in late 2026, and reports say the forces have asked for a higher share, which has not been approved.
+    </p>
+    <p>
+      So nobody has real exit data yet. Plan for the three in four who leave, and use the four years to add a certified trade or a degree through open or online study.
+    </p>
+  </div>
+
+  <h3>Apprenticeship: the official minimum stipend</h3>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Apprentice category</th>
+          <th>Minimum per month from 1 April 2026</th>
+          <th>Per year</th>
+          <th>Employer's half per month</th>
+        </tr>
+      </thead>
+      <tbody>
+        {natsRows.map((item) => (
+          <tr>
+            <td data-label="Apprentice category"><strong>{item.category}</strong></td>
+            <td data-label="Minimum per month from 1 April 2026">{item.monthly}</td>
+            <td data-label="Per year">{item.annual}</td>
+            <td data-label="Employer's half per month">{item.employer}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    A graduate apprentice at the minimum earns ₹1,47,600 in a year. That is more than the entire 10% college benchmark for a ₹10 lakh education budget (₹1 lakh), which is why this lane is the cheapest one to test. Employers can pay more than the floor, and the floor itself is not a career: judge the route by what year three looks like and which skill you own by then.
   </p>
 
   <h2 id="doors">Exit points, credits, and two degrees: keep the doors open</h2>
@@ -1008,6 +1347,17 @@ const faqJsonLd = {
   <p class="note-line">
     If you would like a mentor and a small group of ambitious students to help you turn one lane into a real skill portfolio and a path toward earlier financial freedom, see <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-12th/">career guidance after 12th</a>.
   </p>
+
+  <h2 id="related">Guides for your stream and situation</h2>
+
+  <div class="situation-grid">
+    {relatedGuides.map((item) => (
+      <div class:list={['situation-card', `situation-card--${item.tone}`]}>
+        <div class="situation-card__title"><a href={item.href}>{item.title}</a></div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
 
   <h2 id="sources">Official pages to check before you decide</h2>
 
@@ -1188,6 +1538,8 @@ const faqJsonLd = {
     .lane-card__row--fit { background: rgba(45, 212, 191, 0.09); color: rgba(210, 255, 248, 0.92) !important; }
     .lane-card__row--watch { background: rgba(229, 184, 74, 0.09); color: rgba(255, 238, 190, 0.92) !important; }
 
+    .situation-card__title a { color: #e5b84a; text-decoration: none; }
+    .situation-card__title a:hover { text-decoration: underline; }
     .situation-card--gold::before { background: #e5b84a; }
     .situation-card--blue::before { background: #5a8cff; }
     .situation-card--purple::before { background: #b46eff; }
