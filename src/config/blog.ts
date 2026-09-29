@@ -1397,6 +1397,15 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     readTimeMinutes: 18,
   },
   {
+    categorySlug: 'career-options',
+    slug: 'ba-career-options',
+    title: 'BA career options in India: 3 lanes and what each costs in years',
+    description:
+      'BA career options in India fall into three lanes: work now, study more, or sit an exam. Real odds, pay, eligibility and a subject-wise map to pick yours today.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 16,
+  },
+  {
     categorySlug: 'stream-selection',
     slug: 'career-options-after-10th',
     title: 'Career options after 10th: the real paths beyond science pressure',
@@ -1404,6 +1413,15 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
       'A practical guide to science, commerce, humanities, diploma, and ITI routes after 10th with fit checks and next steps.',
     publishedAtISO: '2026-05-13',
     readTimeMinutes: 19,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-chart-after-12th',
+    title: 'Career chart after 12th: every route, its cost and its real odds',
+    description:
+      'Career chart after 12th for science, commerce and arts, plus a career chart after 10th: entry exams, seat numbers, first-job pay and the catch behind each route.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 16,
   },
   {
     categorySlug: 'career-options',
@@ -1452,6 +1470,15 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
   },
   {
     categorySlug: 'career-options',
+    slug: 'pcb-career-options',
+    title: 'PCB career options: the honest lane-by-lane map after Class 12',
+    description:
+      'PCB career options in eight lanes, from MBBS and nursing to pharma and health-tech, with 2026 NEET seat maths, entry gates and what to read next.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 19,
+  },
+  {
+    categorySlug: 'career-options',
     slug: 'pcm-career-options',
     title: 'PCM career options: real paths after 12th, not just engineering',
     description:
@@ -1476,6 +1503,15 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
       'Career options after 12th commerce span professional exams, corporate degrees, and skill-first paths. Here is what each track actually looks like — income, timeline, and AI risk included.',
     publishedAtISO: '2026-05-10',
     readTimeMinutes: 20,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-in-commerce-without-maths',
+    title: 'Career options in commerce without maths: what closes, what stays open',
+    description:
+      'Career options in commerce without maths, checked against real eligibility rules: CA, BBA, DU B.Com Hons, CFA, banking, law, plus the Applied Maths middle path.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 16,
   },
   {
     categorySlug: 'career-options',
@@ -1845,6 +1881,15 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
       'MBA after BCom worth it in India depends on institute tier. Real IIM vs tier-2 vs tier-3 fees, salaries, ROI payback, CAT reality, and who should skip it.',
     publishedAtISO: '2026-07-06',
     readTimeMinutes: 19,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-career-options',
+    title: 'MBA career options in India: the doors your first job actually opens',
+    description:
+      'MBA career options in India mapped by lane: consulting, finance, product, sales, operations, marketing, HR, regulators, and ownership. See which doors open at your institute tier.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 16,
   },
   {
     categorySlug: 'career-options',
@@ -3513,6 +3558,15 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
   },
   {
     categorySlug: 'career-options',
+    slug: 'bsc-career-options',
+    title: 'BSc Career Options: What Your Subject Actually Opens Up',
+    description:
+      'BSc career options in India by subject: which exams accept your BSc, what MSc, NET, B.Ed, MBA and government routes need, and real pay. Find your next move.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
     slug: 'computer-science-engineering-career-options',
     title: 'Computer Science Engineering Career Options: What the "Engineering" Label Actually Unlocks',
     description:
@@ -3773,6 +3827,15 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     readTimeMinutes: 15,
   },
   {
+    categorySlug: 'college-degrees',
+    slug: 'certificate-courses-for-bcom-students',
+    title: 'Certificate Courses for BCom Students: Which Ones Employers Can Verify',
+    description:
+      'Certificate courses for BCom students, ranked by how much weight the certificate carries: NISM, GST Practitioner, Tally, Power BI, SWAYAM credits, and what to skip. Real fees.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 14,
+  },
+  {
     categorySlug: 'study-abroad',
     slug: 'postgraduate-diploma-courses-in-canada-for-international-students',
     title: 'Postgraduate Diploma Courses in Canada for International Students',
@@ -3780,5 +3843,59 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
       'Postgraduate diploma courses in Canada for international students: real 2026 costs, PGWP eligibility rules, and whether the loan risk is worth it for your field.',
     publishedAtISO: '2026-09-27',
     readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-12th',
+    title: 'Career Options After 12th: Choose Your Lane, Not Just a Stream',
+    description:
+      'Career options after 12th, mapped as six lanes with real seat numbers, deadlines, costs, and AI risk. Find your best career after 12th and take the next step.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 18,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-12th-humanities',
+    title: 'Career options after 12th humanities: the first-year decision map',
+    description:
+      'Career options after 12th humanities, mapped by exam deadlines, maths gates and real pay: law, design, IPM, teaching, defence and media. Plan your next move.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 17,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'best-courses-for-bba-students',
+    title: 'Best courses for BBA students: what to add now, what to skip',
+    description:
+      'Best courses for BBA students in India: Excel, SQL, Power BI, NISM, CS, CMA, CFA and MBA compared on cost, time and pay. Know what to add and what to skip.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'job-oriented-courses-for-ece-students',
+    title: 'Job-Oriented Courses for ECE Students: Choose the Track First',
+    description:
+      'Job-oriented courses for ECE students in India: embedded, VLSI, PLC, EV, a software bridge and GATE compared on cost, proof and real openings.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'career-development-skills',
+    title: 'Career development skills: how to pick the one your career is stuck on',
+    description:
+      'Career development skills work best when chosen by what is blocking you: no shortlists, no offers, no growth or a pay ceiling. Pick one and prove it.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'engineering-career-options',
+    title: 'Engineering career options: seven lanes and how to pick yours',
+    description:
+      'Engineering career options in India as seven lanes: software, data-AI, consulting, core, MBA, M.Tech and PSU. Live exam dates, honest pay and a lane test.',
+    publishedAtISO: '2026-09-29',
+    readTimeMinutes: 20,
   },
 ];
