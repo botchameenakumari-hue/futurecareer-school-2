@@ -27,7 +27,7 @@ These docs extract and generalise patterns from the broader project. Read the pr
 | [keyword-research.md](keyword-research.md) | Keyword CSV format, expansion axes, intent/funnel definitions, GSC feedback loop |
 | [content-rules.md](content-rules.md) | Generic content integrity rules (see `CLIENT_FACING_COPY_RULE.md` for project-specific rules) |
 | [build-verification.md](build-verification.md) | PowerShell SEO audit script, deployment checklist |
-| [HIGH_PAYING_SCALABLE_CAREERS_RESEARCH_2026.md](HIGH_PAYING_SCALABLE_CAREERS_RESEARCH_2026.md) | Research: skill-first (college-independent) routes to earliest financial freedom, plus degree/licence routes by stream and degree with college-dependence ratings, consulting/business ladders and sources |
+| [HIGH_PAYING_SCALABLE_CAREERS_RESEARCH_2026.md](HIGH_PAYING_SCALABLE_CAREERS_RESEARCH_2026.md) | Research: skill-first (college-independent) routes to earliest financial freedom, options open to anyone (jobs, agencies, creator and local businesses, funding schemes), plus degree/licence routes by stream and degree with college-dependence ratings, consulting/business ladders and sources |
 
 ## Quick rules
 
