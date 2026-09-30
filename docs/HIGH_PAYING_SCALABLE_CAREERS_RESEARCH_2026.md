@@ -1,6 +1,52 @@
 # High-Paying, Scalable Careers for Students Outside Top Colleges — Research 2026
 
-Last reviewed: 30 September 2026 (Part R remote added in round 6; Part 0 deep dives in round 5; Part A skill-first routes; Part B options open to anyone; Part C degree routes)
+Last reviewed: 30 September 2026 (usability layer and certification costs added in round 7; Part R remote added in round 6; Part 0 deep dives in round 5; Part A skill-first routes; Part B options open to anyone; Part C degree routes)
+
+## Contents
+
+- **[START HERE — how to use this file](#start-here--how-to-use-this-file)**
+  - [Quick answers (find the right section in 60 seconds)](#quick-answers-find-the-right-section-in-60-seconds)
+  - [The 30 strongest options at a glance](#the-30-strongest-options-at-a-glance)
+  - [Fit by strengths (start from what the student is already good at)](#fit-by-strengths-start-from-what-the-student-is-already-good-at)
+  - [Certifications and real costs (2026)](#certifications-and-real-costs-2026)
+  - [90-day starter plans for 10 high-paying routes](#90-day-starter-plans-for-10-high-paying-routes)
+  - [For FutureCareerSchool counsellors: six questions that pick the route](#for-futurecareerschool-counsellors-six-questions-that-pick-the-route)
+  - [1. The scalability ladder (how to read "scalable")](#1-the-scalability-ladder-how-to-read-scalable)
+- **[PART 0 — Start here: the high-paying routes most career lists miss](#part-0--start-here-the-high-paying-routes-most-career-lists-miss)**
+- **[PART R — Remote: which options work remotely, and the high-paying remote work most lists skip](#part-r--remote-which-options-work-remotely-and-the-high-paying-remote-work-most-lists-skip)**
+  - [R1. Remote index of every option in this file](#r1-remote-index-of-every-option-in-this-file)
+  - [R2. High-paying remote jobs (salaried or long-term contract)](#r2-high-paying-remote-jobs-salaried-or-long-term-contract)
+  - [R3. High-paying remote freelancing & agencies: marketing, branding, copywriting, sales, finance](#r3-high-paying-remote-freelancing--agencies-marketing-branding-copywriting-sales-finance)
+  - [R4. Remote earning markets beyond USD/EUR/GBP](#r4-remote-earning-markets-beyond-usdeurgbp)
+  - [R5. Where remote work is actually found](#r5-where-remote-work-is-actually-found)
+  - [R6. Remote reality checks (money, law and scams)](#r6-remote-reality-checks-money-law-and-scams)
+- **[PART A — Skill-first routes to the earliest financial freedom (college-independent)](#part-a--skill-first-routes-to-the-earliest-financial-freedom-college-independent)**
+  - [A1. Why skill-first: the evidence](#a1-why-skill-first-the-evidence)
+  - [A2. Selection test for Part A](#a2-selection-test-for-part-a)
+  - [A3. The skill-first shortlist](#a3-the-skill-first-shortlist)
+  - [A4. Best skill-first picks by stream (for students not in top colleges)](#a4-best-skill-first-picks-by-stream-for-students-not-in-top-colleges)
+  - [A5. Roadmap to the earliest financial freedom](#a5-roadmap-to-the-earliest-financial-freedom)
+  - [A6. The money side of financial freedom](#a6-the-money-side-of-financial-freedom)
+  - [A7. Reality checks for skill-first routes](#a7-reality-checks-for-skill-first-routes)
+- **[PART B — Open to anyone: high-income jobs, freelancing and businesses that need no particular subject](#part-b--open-to-anyone-high-income-jobs-freelancing-and-businesses-that-need-no-particular-subject)**
+  - [B1. High-income jobs open to any stream (earn while you learn the business)](#b1-high-income-jobs-open-to-any-stream-earn-while-you-learn-the-business)
+  - [B2. Service agencies anyone can start (beyond the Part A skills)](#b2-service-agencies-anyone-can-start-beyond-the-part-a-skills)
+  - [B3. Creator and digital-product businesses (S4 potential, highly skewed)](#b3-creator-and-digital-product-businesses-s4-potential-highly-skewed)
+  - [B4. Local and physical businesses (capital-based, any stream)](#b4-local-and-physical-businesses-capital-based-any-stream)
+  - [B5. Funding that anyone can use](#b5-funding-that-anyone-can-use)
+  - [B6. Best "anyone" options for the earliest financial freedom (ranked)](#b6-best-anyone-options-for-the-earliest-financial-freedom-ranked)
+  - [B7. Reality checks for Part B](#b7-reality-checks-for-part-b)
+- **[PART C — Degree, licence and exam routes](#part-c--degree-licence-and-exam-routes)**
+  - [2. Master shortlist of degree and licence routes](#2-master-shortlist-of-degree-and-licence-routes)
+  - [3. Options after Class 11–12, by subject group](#3-options-after-class-1112-by-subject-group)
+  - [4. Options by degree (for graduates and people choosing a degree)](#4-options-by-degree-for-graduates-and-people-choosing-a-degree)
+  - [5. The most scalable careers (for students who want their own business)](#5-the-most-scalable-careers-for-students-who-want-their-own-business)
+  - [6. Community reality checks (Quora, TeamBlind, CAclubindia, Careers360 Q&A, legal press)](#6-community-reality-checks-quora-teamblind-caclubindia-careers360-qa-legal-press)
+  - [7. Growth outlook (why these fields keep rising)](#7-growth-outlook-why-these-fields-keep-rising)
+  - [Deliberately excluded or downgraded careers](#deliberately-excluded-or-downgraded-careers)
+  - [Common mistakes that cost students years](#common-mistakes-that-cost-students-years)
+  - [Glossary](#glossary)
+  - [Key sources (primary and first-hand data only)](#key-sources-primary-and-first-hand-data-only)
 
 ## Scope
 
@@ -21,6 +67,128 @@ This is an internal research file for FutureCareerSchool. It lists career option
 Careers that fail the first two tests are left out on purpose, even if they are popular (see [Deliberately excluded](#deliberately-excluded-or-downgraded-careers)).
 
 All figures are Indian rupees, per year (LPA = lakh per annum), for 2025–26, taken from the sources listed at the end. Salary data online varies widely: treat every number as a **range to sanity-check**, not a promise. Top-college, top-company and top-city figures sit at the upper end.
+
+---
+
+# START HERE — how to use this file
+
+## Quick answers (find the right section in 60 seconds)
+
+| If the question is… | Go to |
+|---|---|
+| "I'm not in a top college. What pays the most?" | [Part 0](#part-0--start-here-the-high-paying-routes-most-career-lists-miss) and the [at-a-glance table](#the-30-strongest-options-at-a-glance) |
+| "I want to work from home / earn in dollars" | [Part R](#part-r--remote-which-options-work-remotely-and-the-high-paying-remote-work-most-lists-skip) |
+| "I want to earn while still in college" | [Part A](#part-a--skill-first-routes-to-the-earliest-financial-freedom-college-independent) and the [90-day starter plans](#90-day-starter-plans-for-10-high-paying-routes) |
+| "I want my own business, not a job" | [Part B](#part-b--open-to-anyone-high-income-jobs-freelancing-and-businesses-that-need-no-particular-subject) and [section 5](#5-the-most-scalable-careers-for-students-who-want-their-own-business) |
+| "Which option fits my stream / degree?" | [Part C](#part-c--degree-licence-and-exam-routes) (sections 3 and 4) |
+| "What will the certification cost?" | [Certifications and real costs](#certifications-and-real-costs-2026) |
+| "How fast can I become financially free?" | [A6. The money side](#a6-the-money-side-of-financial-freedom) |
+| "What are the traps?" | [Common mistakes](#common-mistakes-that-cost-students-years), [R6](#r6-remote-reality-checks-money-law-and-scams), [B7](#b7-reality-checks-for-part-b) |
+| "What does OTE / CTC / VSL / EOR mean?" | [Glossary](#glossary) |
+
+## The 30 strongest options at a glance
+
+How to read: **ceiling** is a realistic top-end income from the evidence in this file (not the average); **first income** is typical time from starting to first paid work; **college** is how much the college name matters; **rung** is the business ceiling (S1 job only → S4 product/brand, see [section 1](#1-the-scalability-ladder-how-to-read-scalable)).
+
+| # | Option | Realistic ceiling | First income | Start cost | College | Remote | Rung | Details |
+|---|---|---|---|---|---|---|---|---|
+| 1 | AI automation → agency | ₹2–6 L+/month solo; agency higher | 3–6 months | Nil | Low | Remote | S4 | A3 #1 |
+| 2 | Performance marketing → D2C agency | ₹2.5 L+/month freelance; agency uncapped | 3–6 months | Nil | Low | Remote | S4 | A3 #2, R3 |
+| 3 | Direct-response & email copywriting | $7.5–50 K per VSL script + royalties; email retainers $1.5–5 K/month | 3–6 months | Nil | Low | Remote | S3 | R3 |
+| 4 | LinkedIn ghostwriting / B2B content agency | $2–15 K per client per month | 2–4 months | Nil | Low | Remote | S3 | R3 |
+| 5 | Video editing → post-production agency | ₹1–5 L/month | 2–4 months | Low (PC) | Low | Remote | S3 | A3 #3 |
+| 6 | SEO → agency | ₹2.5–5 L+/month; agency ₹3–10 L/month | 4–8 months | Nil | Low | Remote | S3 | A3 #5 |
+| 7 | Remote software / app development | $49–63 K/yr remote jobs; Toptal $70–200/hr | 6–12 months | Low | Low–Medium | Remote | S4 | A3 #7, R2 |
+| 8 | Developer relations (after 2–4 yrs dev) | ₹60 L–1.4 Cr senior | After dev experience | Nil | Low–Medium | Remote | S2 | R2 |
+| 9 | Smart-contract security auditing | $200 K+/yr for top contest auditors | 6–12 months | Nil (free courses) | Low | Remote | S3 | 0.2 |
+| 10 | Bug bounty / VAPT → security firm | ₹1–2.5 L/month freelance; 30 HackerOne hackers passed $1 M | 6–12 months | Low (OSCP $1,499+) | Low | Remote | S3 | 0.3 |
+| 11 | AI-training work for subject experts | $35–210/hr (domain-dependent) | 1–3 months if selected | Nil | Low (credentials matter) | Remote | S2 | 0.1 |
+| 12 | US accounting + Enrolled Agent → offshore firm | ₹18–30 LPA; own firm | 6–12 months | ~$800–1,050 exams | Low | Remote | S3 | A3 #10 |
+| 13 | B2B sales / high-ticket closing | OTE ₹50–65 L; closers $8–25 K/month | 1–3 months | Nil | Low | Partly remote | S3 | A3 #11, R2 |
+| 14 | US IT recruiter → staffing firm | ₹1–2.5 L+/month; firm margins 18–28% | 1–2 months | Nil | Low | Partly remote | S3 | 0.7 |
+| 15 | Niche platforms (ServiceNow, Guidewire, COBOL, AUTOSAR) | ₹25–35 L+; contracts $75–200/hr | 6–12 months | Low ($150–200 certs) | Low–Medium | Partly remote | S3 | 0.5 |
+| 16 | Solutions / sales engineer | OTE ₹25–50 L; top offers ₹80 L base + stock | After 2–4 yrs | Nil | Low–Medium | Partly remote | S3 | 0.6 |
+| 17 | Quant developer via competitive programming | ₹50 L+ entry | 1–3 yrs of practice | Nil | Medium | On-site | S1 | 0.4 |
+| 18 | Medical coding → RCM firm | ₹10–20 LPA; own firm | 4–6 months | ~₹29–35 K (CPC) | Low | Partly remote | S3 | 0.10 |
+| 19 | Teleradiology (MD Radiology) | ₹1.8–2.4 L+/month from home | After MD | — | High (NEET) | Remote | S3 | R2 |
+| 20 | Online teaching → education business | Avg ₹28 L at PW; stars ₹1–2 Cr | Immediate if strong | Nil | Low | Remote | S4 | 0.11 |
+| 21 | Gulf & offshore trades (NDT, NEBOSH, IRATA) | NDT $720–1,110/day senior offshore | 3–12 months | ₹17–75 K certs | Low | On-site | S3 | 0.8 |
+| 22 | International cabin crew | ₹1.8–2.5 L/month tax-free after 3 yrs | 3–6 months | Nil (airline trains) | Low | On-site | S1 | B1 |
+| 23 | Dubai real estate brokerage | AED 1 M+/yr for top brokers | 3–6 months | Visa + living costs | Low | On-site | S3 | 0.9 |
+| 24 | Chartered Accountant → practice | ₹40–50 L job; practice uncapped | 4–5 yrs | ICAI fees | Low | Partly remote | S3 | Part C |
+| 25 | Actuary | ₹30–80 L; appointed actuary ₹1–2 Cr | Exam-by-exam | Exam fees | Low | Partly remote | S3 | Part C |
+| 26 | Fractional CMO / CFO (mid-career) | ₹1–3 L per client per month | After 5–8 yrs | Nil | Low | Remote | S3 | R3 |
+| 27 | Cross-border e-commerce exports | ₹1 Cr+ sales (1,200+ exporters did it in 2022) | 3–6 months | Low–Medium | Low | Partly remote | S4 | 0.13 |
+| 28 | Plugins, apps, micro-SaaS | $25–78 K MRR examples | 6–24 months | Nil | Low | Remote | S4 | 0.12, B3 |
+| 29 | Bridal makeup / wedding photography | ₹36 L–1.2 Cr for top artists | 3–12 months | Low–Medium | Low | On-site | S3 | B4 |
+| 30 | Study library / tiffin / local service chain | ₹58 K–1.5 L/month per unit | 3–6 months | ₹2–10 L | Low | On-site | S4 (chain) | B4 |
+
+## Fit by strengths (start from what the student is already good at)
+
+| Strength | Strongest matches |
+|---|---|
+| **Numbers & logic** | Quant dev, actuary, US tax (EA), data analytics, financial modelling, Amazon PPC |
+| **Building with code** | Full-stack, AI automation, plugins/SaaS, niche enterprise platforms, smart-contract development |
+| **Breaking things / puzzles** | Bug bounty, smart-contract auditing, CRO |
+| **Words** | Direct-response copy, ghostwriting, B2B/technical content, medical & regulatory writing |
+| **Visual taste** | UI/UX, brand identity, video editing, 3D/CGI, paid-social creative strategy |
+| **People & persuasion** | B2B sales, closing, US IT recruiting, insurance/DSA, Dubai brokerage |
+| **Teaching & explaining** | Online teaching, DevRel, cohort courses, YouTube |
+| **Hands-on / physical** | Gulf & offshore trades, solar, AC/electrical → own service company, drones |
+| **Health & care** | Medical coding → RCM, teleradiology (MD), regulatory writing, medical-tier AI training |
+| **Organising & operations** | Executive assistant / chief of staff, VA agency, RevOps, marketplace management |
+
+## Certifications and real costs (2026)
+
+Costs are the official or typical 2026 fees found in research; coaching is extra unless stated. Always confirm on the certifying body's site before paying.
+
+| Credential | What it unlocks | Cost (2026) |
+|---|---|---|
+| **IRS Enrolled Agent (3 parts)** | US tax work (A3 #10) | $267/part under Prometric; the IRS moved the exam to PSI in March 2026 with a higher reported fee (~$350/part). No degree required |
+| **ACCA** | Global accounting roles | ACCA's own fees ≈ ₹2.2–3 L in total; ₹3.5–4.5 L with coaching |
+| **US CMA (IMA)** | FP&A, fractional-CFO support | IMA fees ≈ $1,088 (students) / $1,585 (professionals); ₹1.5–2.5 L with coaching |
+| **CFA Level I** | Investment research | $1,140 early / $1,490 standard; the $350 enrolment fee was removed from Feb 2026 |
+| **AAPC CPC** | Medical coding (0.10) | ~$399 first attempt (≈ ₹29–35 K in India); AAPC membership required |
+| **OffSec OSCP** | Pentesting (0.3) | $1,499–1,749 course + exam bundle; Learn One $2,749/yr |
+| **AWS Solutions Architect Associate** | Cloud roles | $150 |
+| **Salesforce Administrator** | CRM / RevOps | $200 (retake $100) |
+| **Google Ads & GA4 (Skillshop), HubSpot Academy, Klaviyo Academy** | Performance, inbound & email marketing | **Free** |
+| **Meta Blueprint** | Meta ads | Courses free; proctored exams ~$150–250 |
+| **Cyfrin Updraft** (smart-contract security) | Web3 auditing (0.2) | **Free** (150+ hours) |
+| **PortSwigger Web Security Academy** | Web bug bounty (0.3) | **Free** |
+| **JLPT N2 / N1** | Japanese-language roles | ~₹2,012 / ~₹2,142 (varies by centre) |
+| **NEBOSH IGC** | HSE roles in the Gulf | ₹48–50 K online; ₹65–75 K classroom |
+| **IRATA Level 1** | Rope access | ~₹35–48 K in India |
+| **ASNT NDT Level II** | NDT inspection | 5-method packages from ~₹17–18 K at some institutes; ₹35–45 K+ elsewhere |
+| **GP rating (DG Shipping)** | Merchant navy ratings | ₹2.5–3 L (6 months) |
+| **IATA cabin crew course** | Cabin crew | ₹60 K–2.5 L, but **not required by Emirates**, which trains new crew for ~8 weeks at its own cost |
+
+## 90-day starter plans for 10 high-paying routes
+
+Each plan follows the same shape: **learn (weeks 1–4) → build proof (weeks 5–8) → first paid work (weeks 9–12).**
+
+| Route | Weeks 1–4: learn | Weeks 5–8: build proof | Weeks 9–12: first money |
+|---|---|---|---|
+| **AI automation** | n8n or Make fundamentals; LLM API basics | Build 3 real automations (lead capture → WhatsApp/CRM, invoice processing, review replies) for local businesses, free | Convert 1–2 pilots into ₹10–25 K/month retainers; record case studies |
+| **Performance marketing** | Google Skillshop (free) + Meta Blueprint courses | Run ₹5–10 K test campaigns for a local shop or friend's store; document cost-per-lead and ROAS | White-label for agencies (₹12–18 K per account) or a first direct client |
+| **Copywriting & email** | Klaviyo Academy + HubSpot Academy (free); study proven sales pages | Rewrite 3 real brands' welcome/abandoned-cart flows as samples | Pitch 20 D2C brands; aim for a first $500–1,500 project, then a retainer |
+| **Software / app development** | freeCodeCamp or CS50 (free); one stack deeply | Ship 3 deployed projects + open-source pull requests; GSoC if eligible | Apply through Arc, Wellfound and YC job boards; take small freelance fixes |
+| **Bug bounty / pentesting** | PortSwigger Web Security Academy labs (free) | Hunt vulnerability-disclosure programmes; publish write-ups | First bounties; later OSCP for VAPT consulting |
+| **Smart-contract auditing** | Cyfrin Updraft security course (free) | Reproduce past exploits with Foundry; enter CodeHawks First Flights | Low-competition contests; expect the first 6–12 months to pay little |
+| **US accounting + EA** | EA Part 1 prep; QuickBooks/Xero basics | Mock bookkeeping for sample businesses; clear Part 1 | Apply to offshore accounting firms serving US/AU clients |
+| **B2B sales / closing** | Discovery-call and objection-handling practice; CRM basics | Book 20 meetings for your own freelance offer or a friend's business | Apply for SDR roles at SaaS firms; take commission roles only from legitimate offers |
+| **Gulf & offshore trades** | Pick one: NDT Level II package, NEBOSH IGC or IRATA L1 | Gain site experience in India (usually 1–2 years is expected) | Apply only through government-registered recruiting agents (the eMigrate list) |
+| **Medical coding** | CPC syllabus: anatomy, CPT/ICD-10 coding | Practice charts; sit the CPC exam | Join an RCM firm; specialise in HCC or surgical coding for higher pay |
+
+## For FutureCareerSchool counsellors: six questions that pick the route
+
+1. **What are you already good at, or enjoy for hours?** (map with the strengths table)
+2. **Can your family support 6–12 months of low income, or do you need money now?** (commission and practice routes need a runway)
+3. **How much can you invest up front?** (Nil → Parts A/R; ₹2–10 L → B4 businesses; ₹75 L+ → pilot)
+4. **Would you move abroad or work nights?** (Gulf trades, cabin crew, US-shift remote work)
+5. **Do you prefer a stable salary or an uncapped income?** (S1 vs S3/S4 routes)
+6. **What proof of skill can you show in 90 days?** (pick a starter plan and commit)
+
 
 ### Research method and a note on sources
 
@@ -496,7 +664,7 @@ Ranking logic, which is our judgement from the data above: **low capital + fast 
 | 1 | **B2B sales → own agency (lead-gen, SMM, CRM, chatbots)** | Nil capital, monthly retainers, sells outcomes; sales skill compounds into any business |
 | 2 | **US IT recruiting → own staffing firm** | Paid while learning the business; commission-driven; known path to firm ownership |
 | 3 | **AI automation / WhatsApp-voice AI for local businesses** | Recurring fees, huge SMB market, AI makes one person productive |
-| 4 | **Cabin crew / merchant navy ratings (tax-free savings) → capital business** | Fastest route to high savings from 12th pass; seed money for C4 |
+| 4 | **Cabin crew / merchant navy ratings (tax-free savings) → capital business** | Fastest route to high savings from 12th pass; seed money for B4 |
 | 5 | **Loan DSA / insurance / broking partner** | Nil capital; trail/renewal income builds wealth; team-based scaling |
 | 6 | **Local accounting & GST practice** | Recurring monthly clients; ₹30–50 L/yr for established practitioners |
 | 7 | **Bridal makeup / wedding photography** | High ticket per event, can build a studio and academy; seasonal |
@@ -778,6 +946,44 @@ These are popular but did not meet the "high pay + high growth" test on their ow
 
 ---
 
+## Common mistakes that cost students years
+
+1. **Choosing by headline package, not realistic median.** HFT, FAANG and influencer numbers describe the top 1%. Check the "realistic" column.
+2. **Learning forever, shipping nothing.** Clients and recruiters pay for proof: projects, case studies, write-ups, ratings.
+3. **Staying generic.** Generic freelancing averages ~$9/hr for Indians. Niche + outcome + retainer is where the money is.
+4. **Paying to get work.** Task-based and "registration fee" job offers are scams. Real employers and clients never charge you.
+5. **Taking loans before proving demand.** Mudra and PMEGP money should scale a business that already has paying customers.
+6. **Trading F&O as a "career".** 91% of individual traders lost money in FY25 (SEBI).
+7. **Dropping the degree too early.** Keep it as a safety net for visas, government jobs and enterprise clients; earn alongside it.
+8. **Staying on one platform.** Upwork, YouTube and Etsy have all frozen or de-monetised accounts. Move good clients to direct contracts.
+9. **Ignoring tax and payment paperwork.** Use FIRAs, the right purpose code, 44ADA and LUT from the first foreign payment.
+10. **Skipping the runway.** Keep 6 months of expenses before leaving a salary for practice, commission or business income.
+
+## Glossary
+
+| Term | Meaning |
+|---|---|
+| **LPA / CTC** | Lakh per annum / cost to company: total yearly package including variable pay, which is higher than in-hand pay |
+| **OTE** | On-target earnings: base salary + expected commission (sales roles) |
+| **RSU** | Restricted stock units: company shares that vest over time |
+| **Retainer** | A fixed monthly fee a client pays for ongoing work |
+| **VSL** | Video sales letter: a scripted video that sells a product; a top-paying copywriting format |
+| **CRO** | Conversion-rate optimisation: raising the share of visitors who buy |
+| **RevOps** | Revenue operations: running the CRM, data and processes behind sales and marketing |
+| **SDR / AE** | Sales development rep (books meetings) / account executive (closes deals) |
+| **DevRel** | Developer relations: developers who teach, write and speak about a product |
+| **RCM** | Revenue-cycle management: US medical billing and coding outsourcing |
+| **VAPT** | Vulnerability assessment and penetration testing |
+| **EOR** | Employer of record: a service (e.g. Deel) that legally employs you for a foreign company |
+| **C2C** | Corp-to-corp: contracting through your own company rather than as an employee |
+| **FIRA / FIRC** | Foreign inward remittance advice/certificate: proof of a foreign payment, needed for tax and GST |
+| **LUT** | Letter of undertaking: lets exporters of services bill foreign clients without paying GST |
+| **44ADA** | Presumptive-tax section: eligible professionals declare 50% of receipts as income |
+| **FI number** | The investment corpus needed to live off returns (30–33× annual expenses in India) |
+| **S1–S4** | This file's scalability rungs: job only → freelance → firm → product/brand |
+
+---
+
 ## Key sources (primary and first-hand data only)
 
 - [Deel — State of Global Hiring Report 2025](https://www.deel.com/global-hiring-report-2025/)
@@ -814,6 +1020,9 @@ These are popular but did not meet the "high pay + high growth" test on their ow
 - [Brainstorm Force — company site (Astra)](https://brainstormforce.com/)
 - [Indie Hackers — bootstrapped Shopify app to 78K CAD MRR](https://www.indiehackers.com/post/i-bootstrapped-a-shopify-app-to-78k-cad-mrr-in-3-years-ask-me-anything-5fbbc2b886)
 - [Rigzone — offshore NDT inspector pay](https://www.rigzone.com/insights/salary-1/what-is-the-average-pay-for-an-ndt-inspector-offshore-17)
+- [Federal Register — Enrolled Agent exam user-fee update (2026)](https://www.federalregister.gov/documents/2026/04/20/2026-07681/enrolled-agent-special-enrollment-examination-user-fee-update)
+- [Cyfrin Updraft — smart-contract security course (free)](https://updraft.cyfrin.io/courses/security)
+- [PortSwigger — Web Security Academy (free)](https://portswigger.net/web-security)
 - [ClearTax — Section 44ADA](https://cleartax.in/s/section-44ada)
 - [Entrepreneur India — PMEGP loan scheme 2026](https://www.entrepreneurindia.co/blogs/pmegp-loan-scheme-2026/)
 
