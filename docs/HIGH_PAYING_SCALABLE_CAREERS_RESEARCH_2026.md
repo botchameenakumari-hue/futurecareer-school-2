@@ -1,6 +1,6 @@
 # High-Paying, Scalable Career Options by Stream and Degree — Research 2026
 
-Last reviewed: 30 September 2026
+Last reviewed: 30 September 2026 (round 2 research added the same day)
 
 ## Scope
 
@@ -16,7 +16,7 @@ All figures are Indian rupees, per year (LPA = lakh per annum), for 2025–26, t
 
 ### Research method and a note on sources
 
-- ~40 targeted web searches across salary databases (levels.fyi, Glassdoor, AmbitionBox-style aggregators, RepVue, 6figr, PayScale), placement reports (IIM Ahmedabad 2026), professional-body and exam-prep data, industry reports (WEF Future of Jobs 2025) and **community / Q&A sites**: Quora, TeamBlind (anonymous verified-employee forum), Careers360 Q&A.
+- Round 1: ~40 web searches. Round 2 (same day): ~36 more searches into areas round 1 did not cover: emerging sectors (EV, solar, semiconductors, space, drones, GCCs, ESG, data privacy), vocational/ITI/diploma routes, careers abroad, regulated niche professions (AME, ATC, judiciary, PSU via GATE, forensic audit), business-first routes open to any stream, and more community forums (CAclubindia; junior-lawyer stipend coverage on LiveLaw and LawBeat; MBA ROI debates; remote-work and hiring-platform guides). Round 1 covered salary databases (levels.fyi, Glassdoor, AmbitionBox-style aggregators, RepVue, 6figr, PayScale), placement reports (IIM Ahmedabad 2026), professional-body and exam-prep data, industry reports (WEF Future of Jobs 2025) and **community / Q&A sites**: Quora, TeamBlind (anonymous verified-employee forum), Careers360 Q&A.
 - **Reddit could not be read directly.** The research tools used here are blocked from reddit.com (both search and page fetch). Quora pages returned HTTP 403 on direct fetch, so Quora input comes from search-indexed answers. Community sentiment below is therefore drawn from Quora, TeamBlind and Careers360 Q&A rather than from Reddit threads. No Reddit quotes have been invented. If Reddit input is essential, a human should manually review subreddits such as r/Indian_Academia, r/developersIndia, r/CAIndia, r/LawSchool (India threads), r/JEENEETards and r/IndianStockMarket and add findings to this file.
 
 ---
@@ -58,6 +58,10 @@ The strongest careers combine a **licensed or hard-to-learn skill** (moat) with 
 | Clinical psychologist (RCI) | Arts, PCB | ₹4–8 LPA | ₹20 LPA+ in practice | S3–S4 | Private practice → multi-therapist clinic / app |
 | Architect / interior design studio | PCM (B.Arch), any (interior design) | ₹4–8 LPA | Studio owners ₹30–60 LPA; large firms ₹10–50 Cr revenue | S3 | Design & build studio |
 | Digital / performance marketing | Any | ₹3–5 LPA | ₹15–25 LPA; agency owners uncapped | S4 | Marketing agency |
+| Aircraft maintenance engineer (licensed AME) | PCM | ₹3–6 LPA | ₹12–20 LPA in India; Dubai ₹2–4 L/month tax-free | S2 | Contract licensed engineer abroad, MRO services |
+| PSU engineer via GATE (ONGC, IOCL, NTPC) | PCM → B.Tech | ₹15–20 LPA CTC at entry | Rises with grades + job security | S1 | None while in service |
+| Data protection officer / privacy lawyer (DPDP Act) | Law, tech, compliance | ₹5–12 LPA | Avg ~₹25 LPA; senior ₹20–40 LPA+ | S3 | Privacy compliance consultancy |
+| Forensic accountant / internal audit (CA, CIA, CISA) | Commerce | ₹8–12 LPA | ₹15–25 LPA; CIA leaders ₹40–90 LPA; independent ₹30–50 LPA | S3 | Fraud-investigation / risk advisory firm |
 | Civil services / RBI Grade B | Any graduate | IAS ~₹1.2 L/month gross (7th CPC); RBI ~₹20–24 LPA CTC | Rising further under 8th Pay Commission | S1 | None while in service |
 
 ---
@@ -79,6 +83,11 @@ The widest set of high-paying options. Community advice on Careers360 Q&A and Te
 | **Actuarial science** | ACET + IAI/IFoA papers (can start in Class 12) | One of India's highest-paid finance careers | Actuarial consulting |
 | **B.Tech + MBA (IIM)** | CAT after graduation | IIM-A 2026 median ₹37 LPA; consulting median ₹45.86 LPA | Consulting, startups |
 | **Defence (NDA)** | NDA exam | Stable, respected, allowances; post-retirement corporate / security consulting | S1 while serving |
+| **Aircraft maintenance engineering (AME, DGCA B1/B2 licence)** | AME CET / DGCA-approved institute | Low start (₹28–40 K/month unlicensed); licensed + type-rated ₹12–20 LPA; Gulf/UK/US pay 2–5× | Licensed contractor abroad, MRO business |
+| **Air traffic controller (AAI JE-ATC)** | B.Sc (Physics+Maths) or B.Tech + AAI exam | ~₹13 LPA CTC at entry, PSU perks, 3% annual increments | Job-only |
+| **PSU via GATE** | B.Tech + GATE score | ONGC ~₹18–20 LPA, IOCL ~₹16 LPA, NTPC ~₹15 LPA CTC at entry | Job-only |
+| **EV / battery / power electronics** | B.Tech EE/ECE/Mech + BMS, electrochemistry, thermal modelling | Battery engineers ₹9–22 LPA; electrochemistry + thermal modelling at ₹20 LPA+ | EV service/charging business, battery-pack assembly |
+| **Space tech & robotics** | B.Tech Aero/Mech/ECE | Private space startups (Skyroot, Agnikul, Pixxel) pay freshers ₹8–15 LPA; senior ₹25–50 LPA+; AI-robotics ₹20 LPA+ | Deep-tech startup |
 | **Integrated BS-MS / research (IISER, NISER, IISc)** | IAT / NEST / JEE | ISRO/DRDO/BARC scientist; deep-tech startups | Deep-tech startup |
 
 ### 3.2 Science — PCB (Physics, Chemistry, Biology)
@@ -95,6 +104,8 @@ MBBS remains the top earner for PCB, but specialisation decides income. Communit
 | **Physiotherapy (BPT → MPT sports/ortho)** | Entrance / merit | Solo clinic net ₹60 K–1.5 L/month after 2–3 yrs | Multi-branch physio / sports-rehab clinics |
 | **Biotech / bioinformatics + data science** | B.Tech/B.Sc Biotech → MS (often abroad) | Pure biotech starts low; biology plus AI/data is the premium combination | Bio-AI startup, CRO |
 | **Clinical research / regulatory affairs** | B.Sc/M.Sc life sciences, B.Pharm | Entry ₹3.5–5 LPA; ₹12 LPA+ at manager level | Regulatory consulting firm |
+| **MBBS → UK (PLAB) or US (USMLE)** | PLAB 1+2 (~£1,964 in fees) → GMC registration; or USMLE → US residency | UK FY1 £40,190/yr; NHS consultant from £109,725/yr. US residency $64–78 K, attending $300–450 K+ | Private practice abroad |
+| **Veterinary science (BVSc & AH)** | NEET-UG (15% all-India quota) / state exams | Senior vets ₹9–20 LPA; metro clinic owners/surgeons ₹1.5–3 L+/month; pet-care products market growing ~24% CAGR | Pet clinic → hospital chain, pet D2C, grooming/boarding |
 | **Nutrition & dietetics (specialised: sports/clinical)** | B.Sc → M.Sc | ₹6–12 LPA in own practice | Online nutrition programmes, D2C brand |
 
 ### 3.3 PCMB
@@ -110,6 +121,8 @@ Keeps both doors open. Best high-pay bridges: **bioinformatics / computational b
 | **CFA / investment banking / equity research** | B.Com/BBA/Economics + CFA or MBA | Charterholders ₹15–50 LPA; senior buy-side ₹50 L–1 Cr+ | PMS / AIF / SEBI Registered Investment Adviser |
 | **Economics (Hons) → MBA / MA Econ (DSE, ISI)** | CUET, ISI entrance | Consulting, policy, analytics | Research / advisory firm |
 | **CA + CFA / CA + CS combos** | Stack credentials | Dual-qualified CS/CA earn 30–50% more | Full-service advisory firm |
+| **Forensic accounting / internal audit (CA + CIA/CISA/CFE)** | CA or B.Com + certifications | Forensic accountants avg ~₹17 LPA; CIA leaders ₹40–90 LPA; independent forensic consultants ₹30–50 LPA | Fraud-investigation / risk advisory firm |
+| **ESG & sustainability reporting** | B.Com/CA/MBA + BRSR/GHG training | ₹6–12 LPA early; ₹18–30 LPA at 3–5 yrs. SEBI BRSR Core (140+ data points) drives demand | BRSR / carbon-accounting consultancy |
 | **Data / business analytics** | B.Com/BBA + SQL/Python/BI | Mid-level analysts move into ₹15–30 LPA roles | Analytics consultancy |
 
 ### 3.5 Commerce (without Maths)
@@ -130,7 +143,20 @@ Career sites and forum answers largely agree that humanities pays well only in a
 | **Content / journalism → creator economy** | Mass comm or self-taught | Median creator income is low (67% earn < $10 K/yr), but top 1% of Indian creators earn ₹1 Cr+ | Media company, courses, D2C brand |
 | **Digital marketing / brand strategy** | Any | Performance marketers ₹15–22 LPA at mid-level | Agency |
 | **Enterprise / B2B sales** | Any | OTE median ~₹52–65 LPA for account executives in India | Sales consultancy / reseller business |
+| **Judicial services (PCS-J / civil judge)** | LLB + state judiciary exam | Entry basic ₹77,840/month (in-hand ~₹90 K–1.15 L) under the 2nd National Judicial Pay Commission, rising through ACP steps; status, housing, security | Job-only |
+| **Data privacy / DPDP law** | LLB + privacy certifications (CIPP etc.) | Freshers ₹8–12 LPA; DPOs avg ~₹25 LPA | Privacy compliance consultancy, DPO-as-a-service |
 | **Foreign languages (Japanese, German, French) + domain** | Certified language levels | Premium when paired with tech, legal or business | Translation / localisation agency |
+
+### 3.7 Diploma, polytechnic and ITI routes (any stream, lower cost)
+
+These start with lower pay but have clear paths to high income: a licence, a job abroad, or a trade business.
+
+| Path | Pay reality | Scalable to |
+|---|---|---|
+| **Polytechnic diploma → lateral-entry B.Tech** (joins 2nd year) | Diploma starts ₹2–5 LPA; diploma + lateral B.Tech reaches ₹8–18 LPA after 8–12 yrs; also a route to PSU JE posts | Same as B.Tech once the degree is done |
+| **ITI trades abroad (electrician, welder, fitter, plumber)** | Gulf ₹40 K–1 L/month (often with housing and food); Germany €40–95 K/yr (placement drives quote up to ₹2.5 L/month); welders in Japan ~¥5 M/yr | Contracting firm or manpower-supply business back home |
+| **Solar installer → rooftop solar EPC business** | PM Surya Ghar: 30 lakh+ installs by May 2026, 1 crore target, ₹78,000 subsidy. Dealers closing 4–5 homes/month net ₹1.5–2 L; 8–15 projects/month net ₹3–8 L | EPC company, O&M contracts |
+| **DGCA remote pilot (drones)** | RPC needs only Class 10; employees ₹3–5.5 LPA; freelancers ₹5–25 K/day; agri-spraying / inspection drone-service firms net ₹15–40 L/yr after ~3 yrs | Drone-as-a-service company |
 
 ---
 
@@ -179,9 +205,40 @@ These give the clearest path from **job → consulting → business**. They rank
 
 **Common advice from Quora and consulting-business guides:** build 3–5 years of real experience first, specialise in one niche, get the credential that proves it (CA, CFA, OSCP, PMP, RCI registration, etc.), and win the first clients through your network and LinkedIn before quitting. The first 1–3 years of any practice usually pay less than a salary.
 
+### 5.1 Business-first routes open to any stream
+
+These need little or no degree-specific licence. They depend on sales ability, trust and operations. None of them is passive income.
+
+| Business | How it makes money | Evidence on size / income |
+|---|---|---|
+| **Rooftop solar EPC** | Installation margin + AMC | Gross margin 12–25% (25–40% at ₹48–58/W pricing); ₹1.5–8 L/month net depending on volume. Margins are shrinking in crowded districts |
+| **Recruitment / staffing agency** | 8.33–16.67% of annual CTC per permanent hire; 12–20% (up to 25–30%) for senior roles; 15–35% markup on contract staff | Permanent-placement agencies earn higher net margins than temp staffing |
+| **Study-abroad / career counselling consultancy** | 5–20% of first-year tuition as university commission, plus student packages of ₹10 K–2 L+ | High-volume model; quality and ethics are the differentiators (directly relevant to FutureCareerSchool) |
+| **Coaching / test-prep** | Fees, online courses, test series | Coaching market ~₹58,088 Cr, projected ~₹1.34 lakh Cr by 2028; online course models report 50–75% net margins; big JEE/NEET institutes run to ₹25–30 Cr/yr |
+| **Real estate channel partner (RERA-registered)** | 1–3% of property value per sale | Channel partners make 55–70% of new residential sales; the top 5% earn ₹50 L–5 Cr/yr, most earn far less |
+| **Export–import (merchant exporter)** | Trade margin | IEC costs ₹500; start with ₹0.5–8 L working capital; beginners net ₹20–50 K/month; net margins ~14–22% after freight and documentation |
+| **Wedding & event management** | Planning fees + vendor margins | India has ~10 million weddings a year; wedding services market ~$139 B, ~15% CAGR; senior planners ~₹35 LPA, firm owners higher |
+| **Drone services** | Per-acre spraying, surveys, inspections | ₹15–40 L/yr net for established firms |
+| **Bootstrapped SaaS** | Subscriptions, often sold to US customers | Zoho (no VC) ₹12,313 Cr revenue FY25; Wingify (VWO) $30 M+ ARR; niche vertical SaaS ₹10–30 Cr ARR |
+| **Customs clearing agent (licensed)** | ₹3–5 K per consignment | ~50 shipments/month ≈ ₹1.5–2.5 L/month (Quora-cited example) |
+
 ---
 
-## 6. Community reality checks (Quora, TeamBlind, Careers360 Q&A)
+### 5.2 Global routes (earning in foreign currency)
+
+| Route | Who it suits | Numbers |
+|---|---|---|
+| **MS in CS (USA)** | B.Tech/B.Sc CS with strong profile | Costs $80–150 K; starting pay $110–180 K from top-50 schools. **Risk:** H-1B lottery ~12–15% per attempt, only ~32–38% succeed over 3 OPT years. Returnees still get ₹25–50 L starts at big tech in India |
+| **Remote work for US/EU companies from India** | Experienced developers, designers, marketers | Junior $40–60 K, mid $60–90 K, senior $90–150 K; Toptal-vetted freelancers $70–200/hr; typical Indian freelance devs $20–52/hr |
+| **GCC (global capability centre) jobs in India** | Tech, finance, analytics, engineering grads | 1,700–2,100+ GCCs; ~5.1 lakh hires projected in 2026, 64% needing AI/data/automation skills; pay 30–50% above IT services, ~11.5% increments |
+| **Nurses abroad** | B.Sc Nursing | UK ₹2.5–4 L/month, Australia ₹3.5–5 L/month, Germany ₹19–24 LPA once recognised; PR in ~3–5 yrs |
+| **Doctors abroad (PLAB / USMLE)** | MBBS | UK consultant from £109,725; US attending $300–450 K+; the US route takes longer and costs ₹15–40 L before residency |
+| **Skilled trades abroad** | ITI / diploma | Gulf, Germany, Japan (see 3.7) |
+| **Licensed AME / merchant navy** | PCM | Dollar-denominated pay; tax advantages when non-resident |
+
+---
+
+## 6. Community reality checks (Quora, TeamBlind, CAclubindia, Careers360 Q&A, legal press)
 
 - **"Highest package" headlines mislead.** HFT and FAANG numbers include large bonuses and stock; in-hand is often 60–70% of CTC.
 - **College tier affects the first job most.** Tier-3 graduates start lower but can close the gap through skills, competitive coding and switching jobs (TeamBlind progression threads).
@@ -190,12 +247,28 @@ These give the clearest path from **job → consulting → business**. They rank
 - **Creator/influencer income is extremely skewed.** 67% of creators globally earn under $10 K a year; only the top ~1% in India cross ₹1 Cr.
 - **Bug bounty is not a salary.** Earnings arrive in bursts: some months are zero, others ₹5 L.
 - **Psychology practice takes 3–7 years** of low income to build referrals.
+- **CA: job vs practice (CAclubindia forum consensus).** A fresher CA finds a job within 2–3 months, but a new practice has 2–5 years of struggle, with the first months all spending and no income. The most common forum advice is 2–3 years in a job first, to build capital and industry contacts, then practice.
+- **Litigation pays almost nothing at first.** Junior litigators often earn under ₹15,000/month for 2–3 years. The Bar Council of India recommends (but does not mandate) ₹20,000 urban / ₹15,000 rural stipends for three years. Litigation is high-ceiling but needs family support or savings; corporate law firms pay from day one.
+- **MBA ROI depends on the college tier.** Tier-2 fees are ₹9–23 L with average packages of ₹10–25 LPA and a 3–5 year payback. With a pre-MBA salary above ~₹12 LPA, a tier-2 MBA often doesn't pay off; it pays off below ~₹8 LPA, or for domain-strong schools (e.g. MICA for marketing).
+- **Stock trading is not a career plan.** SEBI's FY25 study: **91% of individual F&O traders lost money**, with combined losses of ₹1.06 lakh crore (average ~₹1.1 L per person). Professional routes into markets are quant roles, CFA/research, PMS/AIF or SEBI-registered advisory, not retail F&O.
+- **Entry-level IT services is being restructured by AI.** TCS cut ~12,000 roles while the big IT firms still plan ~80,000 fresher hires. Infosys pays up to ₹21 LPA for advanced-AI freshers against much lower standard packages. Freshers with projects and AI-tool skills are the ones getting hired.
 
 ---
 
 ## 7. Growth outlook (why these fields keep rising)
 
 The [WEF Future of Jobs Report 2025](https://www.weforum.org/stories/2025/01/future-of-jobs-report-2025-the-fastest-growing-and-declining-jobs/) lists the fastest-growing jobs to 2030 as **big data specialists, fintech engineers, AI and machine learning specialists, software and applications developers, and security management specialists**. It also projects large absolute growth in **nursing and care** and **education** roles, with 170 million jobs created and 92 million displaced by 2030. Every high-growth tech category in this file maps directly onto that list.
+
+Further 2026 demand signals from round-2 research:
+
+- **Semiconductors:** VLSI pay up 15–20% a year since 2022 (India Semiconductor Mission).
+- **GCCs:** ~5.1 lakh hires projected for 2026, mostly needing AI/data/cloud/cyber skills.
+- **Clean energy:** PM Surya Ghar (1 crore rooftop target) plus 100 GW+ domestic module capacity.
+- **EV:** skills reports flag shortages in power electronics and battery-cell R&D.
+- **Space & defence:** aerospace/defence growing 13–15% CAGR; private launch and satellite firms hiring in propulsion, avionics and payloads.
+- **Regulation-driven careers:** DPDP Act rules (privacy/DPO) and SEBI BRSR Core (ESG assurance) create new compliance work in every listed company.
+- **Drones:** ~40,000 DGCA-certified remote pilots and 244 approved training organisations.
+- **Pet care / veterinary:** pet products ~24% CAGR; veterinary healthcare projected $2.8 B → $7.4 B by 2035.
 
 AI will change tasks in every profession listed here (accounting, law, design, marketing). The winners combine domain expertise with AI fluency, which is also what makes a one-person consultancy viable.
 
@@ -211,6 +284,13 @@ These are popular but did not meet the "high pay + high growth" test on their ow
 - **Most allied-health roles without specialisation or clinic ownership** (lab tech, generic pharmacy jobs) — ₹2.5–5 LPA start.
 - **Journalism (traditional)** — ₹3–4 LPA start, ₹8–15 LPA at senior editor level.
 - **Patent agent (junior roles)** — low pay until paired with an LLB or a firm.
+- **Retail F&O / day trading as a "career"** — 91% of individual traders lost money in FY25 (SEBI).
+- **Game development, animation and VFX jobs in India** — averages ~₹4–9 LPA (game developer avg ~₹5.5 LPA). The exceptions are remote roles with international studios (₹12.5–25 LPA) or owning a studio or game that sells.
+- **Generic hospital administration (MHA)** — ₹3.5–8 LPA for most; only senior roles at large chains reach ₹20–50 LPA.
+- **Freight forwarding / customs broker jobs** — ₹4–7 LPA as employees. The business version (licensed clearing agent, forwarder) is the one that scales.
+- **Fitness trainer as an employee** — ₹15–30 K/month at the start. Only an online coaching brand or owning a gym scales.
+- **Tier-2/3 MBA without prior work experience or a domain specialisation** — weak ROI (see community checks).
+- **Unlicensed AME or non-type-rated roles** — low pay until the DGCA licence and type endorsements are done.
 
 ---
 
@@ -283,6 +363,64 @@ Salary, placement and industry data
 - [WEF — Future of Jobs 2025: fastest growing and declining jobs](https://www.weforum.org/stories/2025/01/future-of-jobs-report-2025-the-fastest-growing-and-declining-jobs/)
 - [WEF — Future of Jobs 2025 press release](https://www.weforum.org/press/2025/01/future-of-jobs-report-2025-78-million-new-job-opportunities-by-2030-but-urgent-upskilling-needed-to-prepare-workforces/)
 
+Round-2 sources (emerging sectors, vocational, global, business routes)
+
+- [Puran Murti — AME salary 2026](https://blog.puranmurti.com/ame-salary-in-india-2026/)
+- [AME CEE — AME salary guide](https://www.amecee.in/blog/aircraft-maintenance-engineering-ame-salary-in-india-a-simplified-guide/)
+- [Career Power — AAI ATC salary 2026](https://www.careerpower.in/blog/aai-atc-salary)
+- [PW — PSU hiring through GATE 2026](https://www.pw.live/gate/exams/top-psu-hiring-through-gate-2026-salary-job-roles-explained)
+- [Supertutor — PSU E1 salary 2026](https://supertutor.in/resources/salary/psu-salary/)
+- [DIYguru — EV industry salaries](https://diyguru.org/guide/role-based-salary-ranges-across-experience-levels/)
+- [SalaryExpert — battery engineer India](https://www.salaryexpert.com/salary/job/battery-engineer/india)
+- [Vidyamandir — aerospace demand & space tech 2026](https://vidyamandir.com/studyhub/aerospace-engineering-demand-india-space-tech/)
+- [6figr — robotics salaries India](https://6figr.com/in/salary/robotics--s)
+- [Dheya — drone pilot career 2026](https://www.dheya.com/insights/drone-pilot-career-india-2026)
+- [CIGPL — drone pilot salary 2026](https://cigpldronetraining.com/drone-pilot-salary-india/)
+- [Tata Power — rooftop solar dealer 2026](https://www.tatapower.com/blogs/8-reasons-to-become-a-rooftop-solar-dealer-in-india-in-2026)
+- [Quickest — why 2026 for a solar business](https://quickestimate.co/blog/why-now-is-best-year-for-solar-business)
+- [Bridge to India — solar EPC churn](https://bridgetoindia.com/solar-epc-business-undergoing-a-churn/)
+- [Zell Education — ESG salary 2026](https://www.zelleducation.com/blog/esg-salary-in-india/)
+- [CFA Institute — State of BRSR in corporate India 2.0](https://rpc.cfainstitute.org/research/reports/2026/current-state-brsr-corporate-india)
+- [Glassdoor — data protection officer salary India](https://www.glassdoor.co.in/Salaries/data-protection-officer-salary-SRCH_KO0,23.htm)
+- [The Legal School — data privacy lawyer salary](https://thelegalschool.in/blog/data-privacy-lawyer-salary)
+- [LawSikho — civil judge salary 2026](https://lawsikho.com/blog/civil-judge-salary-in-india-2026-pay-scale-perks/)
+- [Miles — forensic accounting in India 2026](https://www.mileseducation.com/blog/accounting/forensic-accounting-in-india)
+- [CA Tushar Makkar — forensic accountant income 2026](https://www.catusharmakkar.com/blog/forensic-accountant-salary-in-india-2026-big-4-mid-tier-firms-freelancing-income)
+- [Eduyush — CIA salary India 2026](https://eduyush.com/en-us/blogs/cima/cia-salary-in-india)
+- [Salary Insight — veterinarian salary 2026](https://salaryinsight.in/veterinarian-salary/)
+- [Expert Market Research — India pet care products market](https://www.expertmarketresearch.com/reports/india-pet-care-products-market)
+- [Leap Scholar — PG in UK after MBBS 2026](https://leapscholar.com/blog/study-pg-in-uk-after-mbbs/)
+- [QuantaPrep — PLAB vs USMLE 2026](https://www.quantaprep.com/blog/plab-vs-usmle-2026)
+- [Karan Gupta — MS in USA for Indian students](https://www.karangupta.com/masters-in-usa)
+- [EEC Global — OPT, STEM OPT, H-1B 2026](https://eecglobal.com/blog/opt-stem-opt-h1b-usa-2026)
+- [Let's Move Globally — remote USD jobs from India 2026](https://letsmoveglobally.com/blog/how-to-get-remote-job-usd-india-2026)
+- [Second Talent — cost to hire freelance developers in India](https://www.secondtalent.com/cost-to-hire/india/)
+- [Taggd — India GCC hiring trends 2026](https://taggd.in/blogs/hiring-trends-every-india-gcc-must-watch/)
+- [RKHRM — GCCs in India 2026](https://www.rkhrm.com/blog/blog-gcc-india-complete-guide-2026/)
+- [Y-Axis — skilled trades abroad 2026](https://www.y-axis.com/blog/top-10-countries-for-skilled-trades-to-work-abroad/)
+- [Yuvaguru — ITI electrician/fitter/welder salary 2026](https://yuvaguru.in/electrician-fitter-welder-iti-salary/)
+- [Findmycollege — polytechnic courses, scope & salary](https://articles.findmycollege.com/polytechnic-courses-after-10th-how-many-years/)
+- [Manatal — starting a recruitment agency in India](https://www.manatal.com/blog/how-to-start-a-recruitment-agency-in-india)
+- [ImpactGrad — study-abroad consultancy model 2026](https://impactgrad.com/why-traditional-study-abroad-consultancies-fail-2026/)
+- [Leap Scholar — what study-abroad consultants charge](https://leapscholar.com/blog/how-much-do-study-abroad-consultants-charge-in-india/)
+- [Markets Belong — coaching business profitability](https://marketsbelong.com/is-coaching-tuition-center-business-profitable-in-india/)
+- [Propote — channel partner in Indian real estate](https://propote.com/glossary/channel-partner-meaning-india/)
+- [GFE Business — import-export income India](https://www.gfebusiness.org/blog/average-income-import-export-business-in-india/)
+- [Custom Market Insights — India wedding services market](https://www.custommarketinsights.com/report/india-wedding-services-market/)
+- [PayScale — wedding planner salary India](https://www.payscale.com/research/IN/Job=Wedding_Planner/Salary)
+- [Inc42 — top SaaS startups by revenue](https://inc42.com/lists/20-saas-startups-by-revenue/)
+- [UpForge — bootstrapped Indian startups](https://upforge.org/blog/bootstrapped-startups-india-success-stories)
+- [Business Standard — SEBI study: F&O losses widen in FY25](https://www.business-standard.com/amp/markets/news/net-losses-of-traders-in-fo-widens-in-fy25-sebi-study-125070701221_1.html)
+- [Moneylife — ₹1.06 lakh crore lost by individual F&O traders](https://www.moneylife.in/article/106-lakh-crore-lost-by-individual-traders-in-fo-in-fy2425-govt-confirms-sebi-action-on-4-entities-for-market-abuse/79124.html)
+- [The Register — hiring at India's big IT outsourcers stalls](https://www.theregister.com/2026/01/19/hcl_infosys_tcs_wipro_results/)
+- [CareerCracker — TCS cuts 12,000, IT plans 80,000 fresher hires](https://www.careercracker.com/insights/tcs-layoffs-2026)
+- [Outlook Respawn — game developer entry salaries 2026](https://respawn.outlookindia.com/gaming/gaming-guides/entry-level-salaries-for-game-developers-in-india-2026-data)
+- [AAFT — animator salary 2026](https://aaft.com/blog/animation-multimedia/animator-salary-in-india-after-animation-courses/)
+- [Getmyuni — MHA jobs & salary 2026](https://www.getmyuni.com/mha-jobs-scope-salary)
+- [IITK EICT — supply chain salary 2026](https://www.eicta.iitk.ac.in/knowledge-hub/supply-chain/supply-chain-management-salary-india-2026)
+- [PayScale — customs broker salary India](https://www.payscale.com/research/IN/Job=Customs_Broker/Salary)
+- [Fitness Matters — personal trainer salary 2026](https://www.fitnessmatters.org/personal-trainer-salary-in-india-2026-how-much-you-can-earn-after-certification/)
+
 Community and Q&A sources
 
 - [Quora — Which are the most lucrative jobs in India?](https://www.quora.com/Which-are-the-most-lucrative-jobs-in-India)
@@ -296,4 +434,13 @@ Community and Q&A sources
 - [TeamBlind — Bangalore salary expectations, 6 YOE](https://www.teamblind.com/post/bangalore-salary-expectations-for-software-engineer-with-6-yoe-xdjfi3c4)
 - [Careers360 Q&A — high-salary careers for PCM other than engineering](https://www.careers360.com/question-possible-high-salary-careers-for-a-pcm-student-other-than-engineering-or-not-applying-for-jee)
 - [Careers360 Q&A — engineering in a tier-3 college](https://www.careers360.com/question-doing-engineering-in-tier-3-college-is-good-or-bad)
+- [CAclubindia forum — CA practise vs job](https://www.caclubindia.com/forum/ca-practise-vs-job--1880.asp)
+- [CAclubindia — CA in job vs CA in practice, long run](https://www.caclubindia.com/articles/ca-in-job-vs-ca-in-practice-who-is-better-in-the-long-run--27966.asp)
+- [CAclubindia — job or practice, first-generation CA](https://www.caclubindia.com/articles/job-or-practice-a-dilemma-every-first-generation-ca-faces-56034.asp)
+- [LiveLaw — junior advocates must be paid stipend (MP High Court)](https://www.livelaw.in/high-court/madhya-pradesh-high-court/madhya-pradesh-high-court-directs-state-bar-council-to-frame-guidelines-for-minimum-stipend-for-junior-advocates-552254)
+- [LawBeat — BCI recommends ₹20,000 / ₹15,000 junior stipend](https://lawbeat.in/news-updates/bci-recommends-rs-20000-stipend-in-urban-areas-rs-15000-in-rural-for-junior-advocates-1563933)
+- [Percentilers — tier-2 MBA: smart move or scam? (ROI math)](https://percentilers.in/tier-2-mba-smart-move-or-glorified-scam-pranshuls-math)
+- [Career Plan B — tier 1 vs tier 2 MBA ROI](https://www.careerplanb.co/tier-1-vs-tier-2-mba-colleges-placements-fees-roi-campus-life/)
+- [Quora — Which profession gives money, fame, power and name in India?](https://www.quora.com/Which-profession-gives-a-lot-of-money-fame-power-and-name-in-India)
+- [HubPages — little-known high-paying jobs in India (customs agent example)](https://discover.hubpages.com/business/Highest-Paying-Jobs-India)
 - [Careers360 Q&A — high-paid jobs other than doctor](https://www.careers360.com/question-what-are-some-high-paid-jobs-in-india-either-skill-based-or-in-medicine-field-other-than-doc)
