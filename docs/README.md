@@ -27,6 +27,7 @@ These docs extract and generalise patterns from the broader project. Read the pr
 | [keyword-research.md](keyword-research.md) | Keyword CSV format, expansion axes, intent/funnel definitions, GSC feedback loop |
 | [content-rules.md](content-rules.md) | Generic content integrity rules (see `CLIENT_FACING_COPY_RULE.md` for project-specific rules) |
 | [build-verification.md](build-verification.md) | PowerShell SEO audit script, deployment checklist |
+| [HIGH_PAYING_SCALABLE_CAREERS_RESEARCH_2026.md](HIGH_PAYING_SCALABLE_CAREERS_RESEARCH_2026.md) | Research: high-paying, scalable careers by stream (after 11th/12th) and by degree, with consulting/business routes and sources |
 
 ## Quick rules
 
