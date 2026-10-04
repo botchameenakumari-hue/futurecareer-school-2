@@ -3952,4 +3952,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-09-30',
     readTimeMinutes: 20,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-12th-pcm',
+    title: 'Career options after 12th PCM: what each JEE rank band really buys',
+    description:
+      'Career options after 12th PCM mapped to JEE rank bands: JoSAA seats, closing ranks, NIRF outcomes, fees and the exits that still work after a low rank.',
+    publishedAtISO: '2026-10-04',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-12th-pcm-other-than-engineering',
+    title: 'Career options after 12th PCM other than engineering: the JEE score ledger',
+    description:
+      'Career options after 12th PCM other than engineering, checked against your JEE result: 20 doors, which read it, which ignore it, plus dates, seats and ranks.',
+    publishedAtISO: '2026-10-05',
+    readTimeMinutes: 17,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-12th-science-without-biology',
+    title: 'Career options after 12th science without biology: the rule check',
+    description:
+      'Career options after 12th science without biology, checked rule by rule: what each course really asks for, and how to add Biology later for NEET.',
+    publishedAtISO: '2026-10-05',
+    readTimeMinutes: 18,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-12th-commerce-without-maths',
+    title: 'Career options after 12th commerce without maths: tests and deadlines',
+    description:
+      'Career options after 12th commerce without maths, planned around this admission cycle: DU seat data, CUET subject rules, and CA, CS, CMA, IPM and CLAT dates.',
+    publishedAtISO: '2026-10-05',
+    readTimeMinutes: 17,
+  },
 ];
