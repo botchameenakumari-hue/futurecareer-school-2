@@ -15,6 +15,8 @@ export interface Props {
   sectionId?: string;
   sectionClass?: string;
   centered?: boolean;
+  // Assessment comparison rows are only for assessment-intent pages.
+  allowAssessmentRows?: boolean;
 }
 
 const {
@@ -26,7 +28,12 @@ const {
   sectionId,
   sectionClass = '',
   centered = false,
+  allowAssessmentRows = false,
 } = Astro.props;
+
+const visibleRows = allowAssessmentRows
+  ? rows
+  : rows.filter((row) => !/assessment/i.test(`${row.left} ${row.right}`));
 ---
 
 <section id={sectionId} class:list={['bofu-compare-section', centered && 'is-centered', sectionClass]}>
@@ -48,7 +55,7 @@ const {
       </div>
 
       <div class="compare-stack">
-        {rows.map((row) => (
+        {visibleRows.map((row) => (
           <article class="compare-track">
             <div class="compare-side compare-side-muted">
               <div class="compare-side-kicker">{leftLabel}</div>
