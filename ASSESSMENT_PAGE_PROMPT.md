@@ -73,7 +73,7 @@ make more sense in an assistant response than on the live page, it does not belo
 `free first layer`, `assessment-first decision`, `more than one assessment can be relevant`, and anything that reads
 like route instructions, content-strategy notes, or developer/agent reminders.
 
-After building, run `npm run check:public-copy` (or `npm run verify` for build + guardrail) and treat any rendered-copy
+After building, run `npm run check:public-copy` (or `npm run verify` for build + both guardrails) and treat any rendered-copy
 failure as a release blocker.
 
 ---
@@ -93,6 +93,7 @@ failure as a release blocker.
 - Keep visible copy natural. Show only representative wording variants and do not dump every covered phrase into the page as phrase-stuffed chips or hidden text.
 - Create a separate indexable page only when the visitor needs a meaningfully different assessment, audience treatment, result, or decision experience.
 - When a stronger canonical assessment replaces a highly similar assessment page, remove the old page from the generated sitemap and redirect its URL to the canonical assessment.
+- Redirects for consolidated `[slug]` pages are generated automatically: duplicates listed in `ASSESSMENT_PAGE_REDIRECTS` become real one-hop 301s in `dist/.htaccess` at build time (`integrations/htaccess-redirects.mjs`). Never hand-write a rule that points at another redirecting URL, and never redirect a URL that is a live page. A hand-written rule in `public/.htaccess` must target the final live page.
 - Link internally to the canonical assessment URL, not to duplicate variants.
 - Do not create many substantially similar pages whose main purpose is forwarding visitors to the same assessment.
 
@@ -187,7 +188,11 @@ quiz variants are exactly where that creeps in.
 ## On-page SEO & schema baseline
 
 - Place the target phrase (or a close natural variation) in: the title tag, URL slug, H1, the first sentence, within the first 100 words, the meta description, and at least one H2 — naturally, never stuffed.
-- Title: unique, ≤ ~60 chars, compelling. Meta description: unique, ~155–160 chars, ad-like with a reason to act.
+- Title: unique, ≤ ~60 chars before the brand suffix, natural Title Case, main phrase first, phrased the way people search ("X vs Y: Which…?", "Free Class 10 Career Test…"). Put a number in when it is true. Never repeat a keyword awkwardly or stack several keywords with commas.
+- Meta description: unique, ≤ ~155 chars, stating what the visitor gets plus one concrete detail (question count, what the report covers, "instant result, no sign-up"). Anything past ~160 characters is cut off in results.
+- The `<title>` and the H1 may differ. The H1 states the page promise; the title is tuned for the results page. Keep them separate when a shorter search title would weaken the on-page heading.
+- **A full stage assessment's title and description must name the narrower tests it contains** (e.g. stream selector test, aptitude test, career interest test), because people search those names, not "career assessment". Check the live Search Console queries for the stage before writing.
+- If Search Console shows a page at position ≤ 10 with a CTR under ~1.5%, rewrite the title and description first — that is a snippet problem, not a ranking problem.
 - Exactly **one H1** per page; logical H2/H3 with no skipped levels.
 - Canonical URL present and matching the final slug (canonical domain `https://futurecareerschool.com`).
 - Evergreen copy: no calendar year in slug/title/evergreen headings unless the page is genuinely date-bound.
@@ -195,10 +200,44 @@ quiz variants are exactly where that creeps in.
 - **Schema:** `BreadcrumbList` mirroring the URL; `FAQPage` only when a real FAQ exists on the page; `Service` (or `WebPage`) as fits the page. Never fabricate review schema, authors, or ratings.
 - Add the route to `LIVE_INDEXABLE_ROUTES` in `src/config/site.ts` only when the page is genuinely ready to index; the dynamic `[slug]` template generates pages from `assessmentPages.ts` at build time.
 
+## Full Assessments vs Narrower Tests (traffic routing)
+
+Four full assessments are the main product. Each bundles interests, aptitude, thinking/learning style and stage-specific fit (stream, college, role, or pivot readiness) into one report:
+
+| Stage | Full assessment |
+|---|---|
+| Class 10 and below | `/services/assessments/class-10-and-below/` |
+| Class 11 and 12 | `/services/assessments/class-11-to-12/` |
+| Graduates and early professionals | `/services/assessments/graduates-and-early-professionals/` |
+| Working professionals and career changers | `/services/assessments/working-professionals-and-career-changers/` |
+
+Search demand lands mostly on the narrower tests (stream selector, aptitude, placement, reasoning, personality). Every narrower test and every generated `[slug]` page must therefore send visitors to the full assessment that matches their stage, whenever the stage fits. These rules apply to every new assessment:
+
+- **Single source of truth:** the four assessments (URL, name, audience, question count, minutes, what the report covers) live in `src/config/mainAssessments.ts`. Add or change facts there, not in individual pages. Only state counts and report contents that the assessment really produces.
+- **Narrower test pages** use the shared funnel components in `src/components/bofu/`:
+  - `MainAssessmentRibbon` under the hero buttons.
+  - `MainAssessmentCompare` (a stage-specific test) or `MainAssessmentPicker` (a test that suits every stage) before the quiz when the page has no other upgrade banner. Pass 2–3 honest `narrowChecks` describing only what this quick test measures.
+  - `MainAssessmentFunnel` once per page, near the end. It injects a banner and a comparison card into the result screen and adds a dismissible sticky bar, via `public/scripts/main-assessment-cta.js`, without touching the page's own quiz code. Give it the id of the page's result container (`results-container` or `result-shell`). The result markup should keep a headline wrapper (`.res-top` or `.result-head`) and an actions row (`.res-actions` or `.result-actions`) so the blocks land in the right place.
+- **Stage mapping:** after-10th stream/aptitude → Class 10 and below; after-12th stream/aptitude → Class 11 and 12; placement, numerical and verbal reasoning → Graduates; personality, learning-style, EQ, entrepreneurial and other stage-neutral tests → the four-card picker.
+- **Generated `[slug]` pages** list the matching full assessment first and mark it "Highly recommended". For a new `AssessmentTargetId`, add its mapping in `NARROW_TO_HOLISTIC_TARGET` in `src/pages/services/assessments/[slug]/index.astro` and a "what the full one adds" line in `HOLISTIC_EXTRA_COPY`.
+- **Blog posts** get a category-matched picker from `BlogBottomCta`; when adding a blog category, add it to the category map in that component.
+- **Never** remove the visitor's quick path: the narrower test must still be takeable. The full assessment is offered as the better, free next step, with honest "free, no sign-up, instant result" wording.
+- Do not claim one test replaces the guidance layer; the plans section rules above still apply on every page.
+- Click tracking is built in (`main_assessment_click` with `placement` and `target_assessment`). Reuse it; do not invent a second event.
+
+## URLs, Links and Redirects
+
+- The site is served from `build.format: 'directory'`, so every real URL ends with `/`. **All internal links, breadcrumb items, CTA hrefs, canonical URLs and JSON-LD URLs must end with a trailing slash** (`/services/assessments/`, not `/services/assessments`). A slash-less link is a 301 and shows up in Search Console as "Page with redirect".
+- Never link internally to a redirecting URL, a redirect stub, or a noindex page. Link to the canonical live page.
+- Generated `[slug]` pages reach the sitemap from `assessmentPages.ts` automatically; a dedicated standalone assessment page needs its own `LIVE_INDEXABLE_ROUTES` entry in `src/config/site.ts`. Do not also hand-list redirects for a live page.
+- After any assessment change, check that no URL in `dist/sitemap.xml` is redirected by `dist/.htaccess` and that no `.htaccess` rule forms a chain.
+
 ## Existing Shared Files to Reuse
 
 - `src/config/assessmentPages.ts`
 - `src/config/assessmentPlans.ts`
+- `src/config/mainAssessments.ts` (the four full assessments)
+- `src/components/bofu/MainAssessment*.astro` and `integrations/htaccess-redirects.mjs` (see the two sections above)
 - `src/pages/services/assessments/[slug]/index.astro`
 - `src/components/bofu/AssessmentGuidanceCta.astro`
 - `src/components/bofu/GuidancePlansSection.astro`
@@ -217,5 +256,7 @@ quiz variants are exactly where that creeps in.
 - Approved facts only — no invented pricing, guarantees, outcomes, or accreditations.
 - Assessment intent stays primary; guidance bridge + plans sit in the lower half.
 - Uniqueness ≥ 30% vs. the nearest sibling; no template-fatigue red flags.
-- Run `npm run verify` (build + `check:public-copy`). Treat any guardrail failure as a release blocker.
+- Run `npm run verify` (build + `check:public-copy` + `check:blog-links`). Treat any guardrail failure as a release blocker.
 - Re-check the generated `dist/sitemap.xml` so the new/updated route appears as expected.
+- Narrower tests route to the matching full assessment (ribbon, pre-quiz block, result screen); full-assessment titles name the narrower tests they contain.
+- Every internal link and JSON-LD URL has a trailing slash; none points at a redirect or noindex URL.
