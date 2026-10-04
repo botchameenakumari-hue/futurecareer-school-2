@@ -3898,4 +3898,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-09-29',
     readTimeMinutes: 20,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-12th-without-neet',
+    title: 'Career options after 12th without NEET: a score-band map',
+    description:
+      'Career options after 12th without NEET, sorted by what still needs the exam, what a 500 or 400 score opens, and the NEET-free routes with seats, pay and dates.',
+    publishedAtISO: '2026-09-30',
+    readTimeMinutes: 17,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-12th-except-engineering',
+    title: 'Career options after 12th except engineering: 14 doors, dates, seats',
+    description:
+      'Career options after 12th except engineering, filtered by Class 12 subject, entrance date, seats, crowd and age cap. Design, IISER, NDA, NATA, IPM and pilot.',
+    publishedAtISO: '2026-09-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-12th-except-medical',
+    title: 'Career options after 12th except medical: what stays open after NEET',
+    description:
+      'Career options after 12th except medical: NEET-gated vs open courses, marks-to-rank gaps, the real cost of a drop year, and which doors are still open now.',
+    publishedAtISO: '2026-09-30',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'bio-student-career-options-after-12th-without-neet',
+    title: 'Bio student career options after 12th without NEET: AP and Telangana rules',
+    description:
+      'Bio student career options after 12th without NEET, checked on AP and Telangana notices: nursing, BVSc, pharmacy and agriculture rules, seats and fees.',
+    publishedAtISO: '2026-09-30',
+    readTimeMinutes: 17,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'best-career-options-after-12th-with-high-salary',
+    title: 'Best career options after 12th with high salary: the real pay ledger',
+    description:
+      'Best career options after 12th with high salary, tested on placement data, pay levels and fees: what a typical student earns, not the topper. Compare first.',
+    publishedAtISO: '2026-09-30',
+    readTimeMinutes: 22,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'biology-career-options-after-12th',
+    title: 'Biology career options after 12th: seats, exam locks and real pay',
+    description:
+      'Biology career options after 12th on one scale: seats per 1,000 test-takers, which BSc subject opens or closes govt exams, second-stage odds and sourced pay.',
+    publishedAtISO: '2026-09-30',
+    readTimeMinutes: 20,
+  },
 ];

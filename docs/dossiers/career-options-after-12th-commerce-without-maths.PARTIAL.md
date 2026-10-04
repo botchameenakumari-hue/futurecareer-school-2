@@ -1,0 +1,22 @@
+# N10 dossier (PARTIAL - research stopped: WebFetch session limit hit, resets 1:10pm IST). NO PAGE WRITTEN.
+
+## STEP 0 / classification
+- Slug career-options-after-12th-commerce-without-maths; nearest sibling career-options-in-commerce-without-maths (title/H1/URL lack "after 12th"). Other neighbours: career-options-after-12th-commerce, career-options-in-commerce, pcb-career-options-without-maths, courses-for-commerce-students-after-12th. No exact-match page -> (b) DISTINCT. TOFU/blog (career choice/stream topic) -> BLOG_WRITING_PROMPT.md. Category career-options has 203 dirs -> uniqueness audit mandatory (40% floor).
+- Files read in full: COMMON_RULES, NEW_PAGES, COWORK_KICKOFF, CLIENT_FACING_COPY_RULE, DOORWAY_PREVENTION_GUIDE, BLOG_WRITING_PROMPT (3119 lines), BLOG_WRITING_PROMPT_FOLLOWUP, RESEARCH_NOTES incl. ERRATA, sibling verify log.
+
+## Commodity map (8 pages read)
+Read: Careers360 (nav hub only, no data), Indeed India, IIDE, Amity Online, Jain Online, ITM, Edzeb (7 fetched OK); iide/careercounsellingiicc, itm, presidency: robots/timeouts on some. Need 1 more (Presidency or getyourcollege) to reach 8.
+Commodity: 12-13 item course lists (BCom, BBA, BMS, BHM, BJMC, BFA, B.Des, BSW, CA/CS/CMA, BA LLB, digital marketing).
+Errors/blind spots seen: all salary ranges unsourced (Edzeb CA 7-25 LPA, IIDE CA 8-13 -> 25-75+; Amity 2-10 entry); Amity lists "DU JAT" as a BCom entrance (DU JAT is defunct, CUET is the route) and "CPA 1-2 years"; Amity/Edzeb/IIDE give no exam dates and no CUET/DU/IPM detail; IIDE says CA "50%" unverified; none mention DU 2026-27 bulletin, seat matrix, CUET subject choice, CA/CS/CMA registration timing, or what to do in the current cycle; Indeed lists BSW/BFA without entrances; Jain online gives no eligibility at all; several pages carry impossible future "updated" dates.
+
+## Primary data found so far (not yet read in full)
+- DU official 2026-27 UG seat matrix PDF: https://admission.uod.ac.in/userfiles/downloads/03-07-2026-UGSeatMatrix2026.pdf (WebFetch summary: B.Com (Hons) in 20+ colleges, UR seats 21-138 per college, College of Vocational Studies 138 UR; BMS only at DDUC, Keshav Mahavidyalaya, CVS). Totals NOT yet computed - needs full read.
+- DU official vacant-seat PDFs: 03-08-2026 Round Three (.../2026/03082026_VacantSeats_UG_Round_Three_1.pdf) and 23-08-2026 Spot Round (.../2026/23082026_VacantSeats_UG_SpotRound.pdf). Partial read: spot-round B.Com (Hons) vacant e.g. Aditi 20, Jesus & Mary 10, Mata Sundri 6, Janki Devi 17, Indraprastha 4, Aryabhatta 1, ARSD 2; B.Com (Prog) Aditi 38, Bharati 33. Planned ORIGINAL ANGLE: seat matrix minus spot-round vacancies = how full each commerce course actually ran in 2026-27 (computed), plus which colleges still had B.Com(Hons) seats after 3 rounds.
+- curl to admission.uod.ac.in returned proxy 403 -> not used (no workaround attempted).
+- Search hits to fetch next: collegedunia.com/exams/cuet/du-cutoff (2026 cutoffs), collegedunia CUET exam-dates (CUET UG 2027 registration expected Jan 2027 - secondary), careers360 CA Foundation registration (Jan 2027 sitting), inkl/ICAI Jan 2027 exam-dates report, shiksha CUET UG 2027 registration.
+- Already-verified reusable facts (from ERRATA + sibling log, official): DU 2026-27 bulletin B.Com (Hons) Combination II = Accountancy/Book Keeping + two from List B; BMS/BBA(FIA)/Econ Hons/Bus Econ need Maths/Applied Maths (+GAT for BMS, FIA, BusEcon); IIM Amritsar Maths compulsory; IIM Shillong Maths XI+XII 70%; IIM Indore IPM no subject condition, 3x40 min, 2 quant; ICAI Foundation reg after Class 10, 40%/50%, direct entry Inter 55%/60% for graduates; CSEET 4 papers no quant; CLAT 2027 6 Dec 2026, applications 3 Aug-31 Oct 2026; CUET UG 2026 15,68,867 registered, 244 universities; CAT 2026 29 Nov.
+
+## STILL TO DO before writing (remaining research)
+- Primary: full DU seat matrix + vacancy PDFs; DU CSAS 2026 cutoffs; CUET UG 2027 NTA bulletin/dates; ICAI Jan 2027 & May 2027 Foundation registration windows; ICSI CSEET 2026-27 sessions; ICMAI Dec 2026/Jun 2027; IPMAT 2027 official (iimidr.ac.in/ipm) + IIM Rohtak; CLAT 2027 official; NCHM JEE 2027; SET/NPAT/CUET-BBA routes; state (e.g. AP/TS) B.Com admissions (OAMDC/DOST) for Vagdevi's likely audience.
+- 15+ real questions (Careers360 Q&A titles via search), Reddit blocked, Quora/YouTube/X robots-blocked.
+- Fact ledger, original angle build, then draft, 3 follow-up passes, uniqueness audit (6-gram vs siblings), build+check via flock.

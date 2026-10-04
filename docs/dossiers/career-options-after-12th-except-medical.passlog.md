@@ -1,0 +1,4 @@
+N3 pass log
+Pass 1 (draft, fact-ledger audit): compared every number to the dossier ledger. Removed 9 unledgered claims (839 colleges, Round 1 rank 22,342, CSIR JRF stipend, 2 Mar NCAHP letter date, NIFTEM JEE route, AP nursing seat split, AP 23 Sep/239 colleges, MCC stray sub-dates, reserved-category percentages, VCI 15% quota, IISc partner claim); softened age-limit and MPhil lines. Recomputed marks-gap and drop-cost tables (all match).
+Pass 2 (structure/compliance): no year in title/slug/headings (FAQ question renamed), no free-counselling claim, primary CTA paid guidance, no dead links (removed nonexistent /blog/career-options/ index link), component types vary, PCM ambiguity settled in lead + first section.
+Pass 3 (build/render/uniqueness): build 1007 pages OK, check:public-copy passed, GA tag x1, 184/184 td data-label, ~6,900 words rendered, 6-gram unique share 89% vs 6 siblings (max overlap 10% with pcb-career-options, shared protocol/gates boilerplate).

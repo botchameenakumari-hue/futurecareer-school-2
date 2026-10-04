@@ -1,0 +1,69 @@
+# Dossier N3: career-options-after-12th-except-medical (30 Sep 2026; resumed after limit reset)
+Category blog/career-options (198 posts, audit mandatory). Classification TOFU/blog.
+
+## STEP 0
+Nearest: pcb-career-options-other-than-medical (PCB-only non-health map), career-options-after-12th-science-except-engineering-and-medical, pcb-career-options-without-neet, career-options-after-12th-pcb, pcb-career-options (verified; already has qualifiers-per-seat funnel), career-options-after-12th. No exact match (b DISTINCT). Missing concept in nearest: "after 12th" for every Class 12 combination; defining "medical" (NEET-gated doctor track) vs health; the sunk-NEET-prep audit; door calendar for 30 Sep 2026.
+Ambiguity: Indian "non-medical" = PCM stream; SERP for this keyword is mostly PCM "non-medical courses" pages (UPES defines it as PCM; LPU/Manipal/Careers360 undefined or loose).
+
+## A. COMMODITY MAP (11 pages fetched 29 Sep 2026)
+careers360 non-medical (nav only), upes (PCM def; 30 Sep 2025; no pay; unsourced "85% jobs not invented"), onlinemanipal (updated 23 Jun 2026; loose def; unsourced AISHE 43.4 lakh BCom), lpu (6 Nov 2024; promo; no data), dizitaladda (22 Jan 2026; unsourced Rs 8-15 LPA DS, actuarial 10-18, psychology 4-8), vedantu study-abroad biology (undated; unsourced pay Rs 6-20 lakh; claims nursing/BPT/B.Pharm need no NEET), foundit (19 May 2026; no pay, no NEET detail), hindustanuniv (undated; fee ranges unsourced; BHMS "5.5 yrs"), govtcareerhub (upd 25 Sep 2025; lists BDS and BSc Nursing/BPT as "without NEET": wrong for BDS; pay Rs 2-8 lakh entry, 8-30 lakh experienced unsourced), presidencyuniversity (undated; correct NEET gate list; promo), pw.live PCB without NEET (8 Apr 2026; all options "without NEET"; unsourced pay; stale on nursing/BPT).
+Commodity: same 12-20 degrees; no seat/rank data; unsourced pay bands; conflate non-medical(PCM) with PCB-without-MBBS; nobody prices a drop year or maps NEET prep reuse; nobody dates the doors open now.
+
+## B. PRIMARY / OFFICIAL SOURCES USED
+1 DR NTR UHS notification (official PDF) https://drntr.uhsap.in/index/notification/20260909153830487.pdf : AP BSc Nursing 4-yr 2026-27: must have appeared in NEET-UG 2026; 45% science (BC/SC/ST 40%); age 17 by 31-12-2026; registration 9-16 Sep 2026; 100% govt nursing seats + 60% category A private. OFFICIAL
+2 KNRUHS notification (official PDF) https://www.knruhs.telangana.gov.in/wp-content/uploads/notifications/20260916054022_KNRUHS-BSC-NURSING-ADMISSIONS-UNDER-CONVENER-QUOTA-FOR-THE-AY-2026-27-NOTIFICATION-FOR-REGISTRATION-OF-CANDIDATES-FOR-ADMISSION-INTO-BSC-NURSING-COURSE.pdf : Telangana BSc Nursing 2026-27 via TG-EAPCET-2026 (not NEET); 45% PCB (40% SC/ST/BC); registration 16-24 Sep 2026; cutoff 50th percentile = rank 42,477 (general), 40th = 50,972. OFFICIAL. => same course, neighbouring states, opposite gate.
+3 ICAR UG counselling schedule (official circular) https://icar.gov.in/sites/default/files/Circulars/2026%2007%2017%20Online%20UG%20Counselling%20Schedule%202026-27.pdf : registration 17-23 Jul; ranks 26 Jul; rounds 31 Jul, 6 Aug, 10 Aug, 14 Aug (fee by 16 Aug); mop-up choice 18-20 Aug; final allotment 22 Aug 2026. OFFICIAL => closed for this cycle.
+4 NTA CUET ICAR page https://cuet.nta.nic.in/indian-council-of-agricultural-research-icar/ : (2025 cycle text) Class 12 PCM/PCB/PCA etc; 50% (40% reserved); at least 3 of 5 domain subjects (Physics, Chemistry, Maths, Biology, Agriculture); BSc/BTech/BFSc agriculture & allied. OFFICIAL (2025 page; confirm 2027).
+5 NTA CUET UG 2026 Biology (304) syllabus PDF https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227553390532.pdf : units VI-X only (Reproduction; Genetics and Evolution; Biology and Human Welfare; Biotechnology; Ecology) = Class 12 half; Units I-V (Class 11) absent. OFFICIAL. (PW: 50 Qs, attempt 40, 60 min, 250 marks: SECONDARY)
+6 NFSU programme sheet AY 2026-27 (official PDF) https://beta.nfsu.ac.in/data/pdfs/CSAS_Portal/Programme%20Details%20for%20AY%202026-27.pdf : BSc-MSc Forensic Science 5 yr; 10+2 Science with Physics/Chem/Bio/Maths 55% (50% reserved); route CUET-UG 2026 304-Biology/306-Chemistry/322-Physics/319-Maths; Gandhinagar 40 seats + Delhi 40 seats; Rs 60,000/semester. OFFICIAL. (Computed: 80 seats vs ~20 lakh NEET appearers = 1 seat per 25,000.)
+7 NCAHP deferral (Medical Dialogues) https://medicaldialogues.in/news/education/medical-admissions/neet-not-mandatory-for-physiotherapy-occupational-therapy-admissions-this-year-requirement-deferred-to-2027-28-165924 : 2 Mar 2026; BPT/BOT 2026-27 by Class 12 PCB marks 50% (40% reserved); NEET from 2027-28. SECONDARY well corroborated (also verified in earlier batch).
+8 MCC Round 3 / stray schedule (FindMyCollege) https://articles.findmycollege.com/news/mcc-neet-ug-counselling-2026-round-3-stray-vacancy-round-schedule-out-register-by-september-27/ : R3 registration 22-27 Sep, results 30 Sep, reporting 1-9 Oct; stray registration 12-14 Oct, results 17 Oct, reporting 19-26 Oct; covers MBBS, BDS and BSc Nursing. SECONDARY (mcc.nic.in not fetched).
+9 NMC MBBS matrix (CareerIndia) https://www.careerindia.com/news/nmc-mbbs-seat-matrix-2026-27-updated-1-40-664-seats-065981.html : 1,40,664 seats, 839 colleges; 64,121 govt + 76,543 private; 1,27,028 renewed + 13,636 increased; revised 22 Sep (earlier notes said 21 Sep: page says "third week of September 2026"). SECONDARY.
+10 Careers360 seat matrix (22 Jul 2026 version) https://medicine.careers360.com/articles/neet-2026-seat-matrix-list-of-medical-dental-and-ayush-colleges : >2.23 lakh NEET seats: MBBS 1,36,939; BDS ~27,868; AYUSH ~52,720; BVSc ~5,300-6,000; 823 medical, 319 dental, 914 AYUSH colleges. SECONDARY.
+11 NEET UG 2026: registered 22.79 lakh, appeared ~20 lakh (87.75%), qualified 11.21 lakh; exam 21 Jun (re-NEET), result 16 Jul; general qualifying 213 marks (144 in 2025) (medicalseat.com reading; result PDF per earlier verified notes) SECONDARY/official.
+12 Marks-to-rank (Careers360 "official NTA data" reading) https://medicine.careers360.com/articles/neet-result-marks-vs-rank : 650~900; 600~10,500; 550~29,500; 500~90,000; 450~1,65,000; 400~2,70,000; 350~4,00,000; 300~6,00,000; 250~8,00,000; 213~10,00,000. SECONDARY (rounded).
+13 MCC AIQ MBBS Round 2 closing ranks (Sartha) https://www.sartha.in/blogs/mcc-neet-ug-2026-round-2-mbbs-cutoff : Open 25,655; OBC 25,768; EWS 29,743; SC 1,20,870; ST 1,31,976 (R1 Open 22,342). SECONDARY.
+14 IAT 2026 (Sciastra; Careers360 news) https://www.sciastra.com/blogs/iat-changes-in-participating-institute-list-seat-matrix-courses-syllabus-pattern ; https://news.careers360.com/iiser-iat-2026-registration-begins-for-bs-ms-btech-last-date-april-13-cbt-exam-on-june-7-eligibility-engineering-iiseradmission-in/amp : exam 7 Jun 2026 CBT; 60% (55% reserved); at least 3 of Bio/Chem/Maths/Phys; 60 Qs 15 each, 180 min, +4/-1, 240 marks; 7 IISERs + IISc + IIT Madras/Guwahati + IIEST + IACS; 2,343 seats (2,043 BS-MS + 300 BS/BTech). SECONDARY. iiseradmission.in cached page is stale 2020 text.
+15 IISER counselling: Round 9 allotment 9 Sep 2026 (Shiksha) => effectively closed. SECONDARY.
+16 DU CSAS spot round 1 (CollegeDwar): 13,433 vacant seats, apply by 24 Aug, fee by 29 Aug 2026 => closed. SECONDARY.
+17 AP EAPCET BiPC final phase (Manabadi): allotment 23 Sep, reporting 24-26 Sep; courses B.Pharm, Pharm.D, BSc Agri/Horti, Biotech, Agri Engg; 516 seats unfilled across 239 colleges; B.Pharm 10,543 filled, Pharm.D 1,627, engineering 548; institutional spot admissions possible but no govt fee reimbursement. SECONDARY.
+18 Maharashtra B.Pharm CAP round 1 (ummid): options 23-25 Sep, allotment 27 Sep, reporting 28-30 Sep 2026; MHT-CET PCB 2026 OR NEET UG 2026 accepted. SECONDARY.
+19 2027 dates (Sciastra calendar, TENTATIVE): CUET UG notification+registration first week Jan 2027, closes last week Feb; NEET UG bulletin 2nd week Feb, apply to 2nd week Mar, exam first week May; IAT notification first week Feb, apply Mar to 2nd week Apr, exam first week Jun. UNVERIFIED (labelled tentative).
+20 Coaching cost: ALLEN Kota Leader (class 12 pass) offline Rs 1,42,000-1,49,000; online Rs 75,600 + Rs 13,608 tax (2025-26, Propelld reading); hostel Rs 4,500-12,000/month (Rs 54,000-1,44,000/yr); PW offline dropper Rs 40,000 (PW own page); Careers360 (20 Mar 2025): coaching+living in Kota Rs 1.5-3 lakh/yr. SECONDARY. ALLEN official fee page had blank template values.
+21 PayScale India (fetched 30 Sep 2026): pharmacist entry Rs 2,51,181 (n=173; 371 profiles; upd 18 Jun 2026); registered nurse entry Rs 2,61,158 (n=52; 219 profiles; 10 Jun 2026); biotechnologist entry Rs 4,92,168 (n=44; 38 profiles; 24 Jan 2026); microbiologist entry Rs 3,08,652 (n=81; 16 May 2026); psychologist entry Rs 3,05,853 (n=38; 92 profiles; median 3,94,148; 5 Mar 2026); food technologist entry Rs 3,93,883 (n=37; 25 Jul 2025); forensic scientist entry Rs 4,04,521 (n=10 only; 11 Feb 2026); data analyst entry Rs 4,13,462 (n=576; 2,389 profiles; 10 Jul 2026); clinical research coordinator entry Rs 2,28,000 (n=6; 2023, DROPPED). SECONDARY salary survey, self-reported; small n flagged.
+22 RCI clinical psychologist route (UPS Education, secondary): bachelor's alone does not qualify; M.Psy 2 yr / PsyD 4 yr / PG Dip; MPhil reported discontinued 2025-26; entry needs 60% + entrance. SECONDARY; hedge.
+23 PCI B.Pharm eligibility (college pages, secondary): Physics+Chemistry + Maths or Biology; ~45%. PCI FAQ page only points to regulations. SECONDARY; hedged "PCM or PCB per PCI rules, confirm with state notice".
+24 BVSc&AH: NEET UG mandatory; VCI 15% AIQ (indiabiologyneet, low authority) SECONDARY.
+25 NEET upper age limit removed: NMC told SC (mbbsadmissionabroad, secondary); attempts cap: not verified => not stated.
+26 Earlier verified batch (RESEARCH_NOTES errata): CSIR JRF Rs 37,000/month; ICAR/CUET 2025 rules; BPT/BOT; AP nursing; CUET UG 2026 15,68,867 registered.
+
+## C. REAL QUESTIONS (titles only; from search snippets 30 Sep 2026; Quora/Careers360 bodies not read; Reddit/Quora/YouTube/X not fetched)
+1 "I have completed my 12 with PCB, but now I realise that I don't want to do anything related to medical. I am not getting options. What should I do?" (Quora title)
+2 "What can I do after my 12th with PCB if I dont want to go in medical sector?" (Quora)
+3 "What can I do after 12th class? I am a PCB student but I don't want to become a doctor." (Quora)
+4 "What are the career options other than medical after taking PCB in class 12th?" (Quora)
+5 "What is the option for non-medical after 12th?" (Quora)
+6 "I am in class 12 and I am a non-medical student. What are the career options after my 12th except engineering?" (Quora)
+7 "What should I do after 12? I have PCB and I don't want to be a doctor" (Careers360 Q&A)
+8 "What careers to choose after 12th pcb rather than medical" (Careers360)
+9 "I have just passed 12 from science pcb and not want to take admission in medical field. what is the other choice" (Careers360)
+10 "what's are multiple career option after 12th except engineering and medical" (Careers360)
+11 "Should I drop this year to prepare for NEET one more time or join BSc bio to be on the safer side?" (Careers360)
+12 "Is it good to take drop for NEET since my 75% syllabus is incomplete... parents say do Pharm.D (6 years)" (Careers360)
+13 "I attempted NEET this year, got 330 marks, willing to take a drop but parents advised B.Pharmacy..." (Careers360)
+14 "I have given NEET for the first time, scored 132... BSc Forensic Science or complete drop?" (Careers360)
+15 "I have drop 1 year for NEET but could not clear, now got admission in DU BSc Life Science, should I carry on?" (Careers360)
+16 "Can I drop in the first year of BSc for NEET preparation" (Careers360)
+17 "I want to take a drop... parents not ready, want me to take admission in BSc private" (Careers360)
+Worries themes: parents vs drop year; is a BSc a waste; is PCB useless without medicine; which options still exist after low score; forensic glamour; Pharm.D as consolation.
+
+## D. ORIGINAL ANGLE and COMPUTATIONS (arithmetic shown on page)
+1 Prep-reuse table (NTA Biology syllabus Units VI-X only; IAT 15 Qs each of 4 subjects incl Maths; ICAR via CUET 3 of 5 domains; Maharashtra B.Pharm accepts NEET score; MCC includes BSc Nursing; NFSU via CUET domain).
+2 Marks-gap arithmetic: AIR 25,655 (Open R2 closing) ~ 560 marks (linear interpolation between 550=29,500 and 600=10,500 => 550+ (29,500-25,655)/380 = 560.1). Gap at 550:+10 (overtake 3,845), 500:+60 (64,345; rank compress 3.5x), 450:+110 (1,39,345; 6.4x), 400:+160 (2,44,345; 10.5x), 350:+210 (15.6x), 300:+260 (23.4x). Reserved categories differ (SC 1,20,870).
+3 Drop-year cost: direct Rs 40,000 (PW offline) / ~Rs 1.5 lakh (Kota coaching+living low end) / Rs 3 lakh (top of Careers360 range); delay = one year of entry pay of the alternative path Rs 2.51-4.92 lakh (PayScale entry medians above). Totals: low 40,000+2,51,181=Rs 2.9 lakh; mid 1,50,000+3,08,652=Rs 4.6 lakh; high 3,00,000+4,92,168=Rs 7.9 lakh. Break-even p = cost / gain: mid Rs 4.6 lakh vs placeholder gain Rs 15 lakh -> 31%, Rs 30 lakh -> 15% (scenario, user replaces gain).
+4 Door calendar at 30 Sep 2026 (closed/open/next).
+5 Scarcity contrast: NFSU forensic 80 seats (1 per 25,000 NEET appearers); IAT 2,343 seats (1 per ~854 appearers); AP BiPC final phase B.Pharm 10,543 seats filled and 516 unfilled: pharmacy/nursing seats are abundant, so the filter is college quality not entry.
+6 AP vs TS BSc Nursing: opposite gates in neighbouring states, both official.
+
+## E. Blocked/limits
+Reddit blocked (not attempted), Quora/YouTube/X robots-blocked (titles only from search), Careers360/Shiksha article bodies nav-only; AmbitionBox timeouts (PayScale used); ALLEN fee page placeholders; mcc.nic.in and nta.ac.in result PDF not fetched this session (secondary readings used, labelled); iiseradmission.in cached 2020; CareerIndia/others secondary.

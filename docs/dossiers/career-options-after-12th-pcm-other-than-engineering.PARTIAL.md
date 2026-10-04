@@ -1,0 +1,35 @@
+# PARTIAL DOSSIER (N7) - research halted by session limit (WebFetch: "session limit, resets 1:10pm Asia/Kolkata"). Page NOT written. No repo files edited, no build run.
+
+## Files read in full this session
+COMMON_RULES.md, NEW_PAGES.md, COWORK_KICKOFF_PROMPT.md, CLIENT_FACING_COPY_RULE.md, BLOG_WRITING_PROMPT.md (all 3,119 lines), BLOG_WRITING_PROMPT_FOLLOWUP.md, DOORWAY_PREVENTION_GUIDE.md, docs/RESEARCH_NOTES_2026-09-29_KEYWORD_BATCH.md (incl. ERRATA), N2 dossier, N2 log, N2 page source (src/pages/blog/career-options/career-options-after-12th-except-engineering/index.astro, 1,700 lines incl. CSS and filter script), N9 dossier ledger.
+
+## STEP 0 (done)
+- Category blog/career-options: 203 posts in src/config/blog.ts (mandatory audit).
+- Registration is blog.ts only (site.ts derives routes from BLOG_PUBLISHED_POSTS); page path src/pages/blog/career-options/<slug>/index.astro using BlogPostLayout.
+- Nearest: career-options-after-12th-except-engineering (N2, built; no "PCM" in title/H1/slug; filter table of 14 doors), career-after-12th-maths-without-engineering, career-options-after-12th-science-except-engineering-and-medical, pcm-career-options, pcm-with-computer-science-career-options, courses-for-pcm-mpc-science-students-after-12th, cuet-vs-jee-which-is-better-for-career, career-in-navy-after-12th-science, career-options-after-12th-except-medical (N3), career-options-after-12th-without-neet (N1). Service page for PCM exists: career-counselling-for-pcm-students (link candidate).
+- Verdict: (b) DISTINCT. Missing from N2's title/H1/URL: "PCM" (the stream) and the JEE-score holder framing. Classification: TOFU blog -> BLOG_WRITING_PROMPT.md.
+
+## Planned differentiation from N2
+N2 = cross-stream door filter (date, seats, age cap, crowd). N7 = "the JEE score ledger": for a PCM student who already has (or will sit) JEE Main/Advanced and chooses not to do B.Tech, what does the score itself buy in each non-engineering door? Columns: does the door read JEE at all (yes / no / alternative test), which score (Main percentile, Paper 2A/2B, Advanced rank), validity (one admission year), and what to do with a 2026 score in the 2026-27 cycle vs a January 2027 attempt. Sections planned: score-validity clock; "doors that read your JEE score" (JEE Main Paper 2A B.Arch and 2B B.Plan via JoSAA/NITs/SPAs; IISc UG and IISER routes if JEE rank channels still exist - VERIFY; IIT B.Arch via JEE Advanced AAT; IIT-JoSAA non-B.Tech programmes such as BS/BSc/Integrated MSc/Economics - VERIFY counts); "doors that ignore it" (NDA, IPMAT/JIPMAT, CUET, NATA, UCEED/NID/NIFT, IMU CET, DGCA, IAT, NEST); "boundary rows that read JEE but still give a B.Tech" (Indian Navy 10+2 B.Tech Cadet Entry, Army TES) named honestly; JEE percentile-to-door bands; sunk-prep switching arithmetic (hours already spent -> which proof asset they transfer to); parent conversation; IIT Madras BS degree (no JEE) as the IIT-brand non-engineering route - VERIFY on study.iitm.ac.in.
+
+## Research done before halt (3 WebSearch calls; ZERO successful fetches)
+- Ranking pages surfaced for the N7 keyword (URLs to fetch for the commodity map once the limit resets): bmu.edu.in/social/career-options-after-12th-science-pcm-other-than-engineering/ ; jainuniversity.ac.in/blogs/best-career-options-after-12th-science-pcm ; competishun.com/career-options-after-12th-pcm-other-than-engineering-complete-list/ ; leverageedu.com/blog/career-options-after-12th-science-pcm-other-than-engineering/ ; toprankers.com/career-options-after-pcm-apart-from-engineering ; foundit.in/career-advice/courses-for-pcm-students-after-class-12th/ ; mindler.com/blog/pcm-career-options/ ; mahindrauniversity.edu.in/blog/career-options-after-12th-pcm-find-your-path-beyond-the-obvious/ ; quora (robots-blocked; title only: "What are career options after 12th for pcm with cs students other than engineering?").
+- JEE-angle pages surfaced: vedantu.com/blog/what-after-jee-main ; sandipuniversity.edu.in/blog/did-not-make-the-jee-mains-cut-off-top-career-options-after-jee-mains/ ; infinitylearn.com/surge/blog/general/alternate-options-after-jee-mains/ ; mentrovert.com (robots.txt fetch timed out) ; 21kschool.com/in/blog/pcm-career-options-without-jee/ ; phodu.club pages.
+- Primary/near-primary pages surfaced for JoSAA: josaa.nic.in/seat-matrix/ ; cracku.in/josaa-2026-seat-matrix/ ; shiksha.com/engineering/articles/josaa-seat-matrix-blogId-185060 ; neramclasses.com/counseling/josaa (JoSAA B.Arch: AAT date, NIT/IIT/SPA cutoffs) ; engineering.careers360.com/articles/iit-roorkee-seat-matrix.
+
+## Reusable verified facts (from batch research notes ERRATA and N2 ledger; cross-check any dated item before publishing)
+- JEE Advanced 2026: 1,79,694 appeared, 56,880 qualified (official press release); JoSAA 138 institutes, IIT seats 18,826, total 67,323, of which 48,372 (71.9%) need only JEE Main rank; JEE Main 2027 Session 1 tentative 22-24 and 28-30 Jan 2027 (NTA "tentative").
+- UCEED 2027: 17 Jan 2027; 245 seats across 7 institutes for 2026-27 (official). NID DAT 2027 apps 10 Sep-30 Nov 2026, prelims 20 Dec 2026. NIFT 10 Jan 2027. CLAT 6 Dec 2026, apps close 31 Oct. NATA 2026 brochure (COA, official): Physics+Maths compulsory, 45% aggregate, two Phase-1 attempts, B.Arch via NATA or JEE (NTA). IAT 2026: 2,343 seats, about 1.86 lakh appeared (about 79 per seat). NEST 2026: 257 seats. NDA II 2026: 394 vacancies, exam 13 Sep 2026, birth window 2 Jan 2008-1 Jan 2011 (secondary-corroborated). IMU (secondary): BSc Nautical Science 240 seats, B.Tech Marine 120. CUET UG 2026: 15,68,867 registered; Maths 4,01,527 appeared; Physics 6,47,076; Chemistry 6,77,609. IPM Indore 150 seats, fee about Rs 38.3 lakh.
+- Pay/level reuse from N9 dossier: 7th CPC Level 10 entry 56,100; DA 60% from 1 Jan 2026 (PIB); Agniveer package (PIB).
+
+## STILL TO VERIFY (all blocking; nothing below may be published until read from a source)
+1. Whether IISER 2026 admitted via JEE Advanced rank as well as IAT (one Deccan Herald line says IAT only); IISc UG (BS Research) routes and seat count and whether it reads JEE Main/Advanced.
+2. JoSAA 2026 seat-matrix composition: B.Arch, B.Plan, B.Sc/BS/Integrated MSc/Economics counts; closing ranks for B.Arch (JEE Paper 2A / AAT) at NITs, SPAs, IIT Kharagpur/Roorkee.
+3. JEE Main 2026 official numbers (registered, appeared, Paper 2A/2B takers), score validity rule, NTA information bulletin.
+4. Indian Navy 10+2 B.Tech Cadet Entry and Army TES 2026-27 notices (JEE Main dependence, PCM %, vacancies, age).
+5. NDA I 2027 notice status (expected Dec 2026) and NDA II 2026 result; UPSC pages timed out previously.
+6. IIT Madras BS (Data Science and Applications / Electronic Systems) eligibility and fee (study.iitm.ac.in); any private university that accepts JEE Main for non-engineering UG.
+7. Commodity map (8 pages) and 15+ real questions (search-snippet titles only; Reddit/Quora/YouTube/X are blocked platforms, do not touch).
+
+## STATUS
+Blocked by the session limit before any page fetch. Per COMMON_RULES item 2: page not written, nothing edited in the repo, no build, no pass log beyond this file. Resume after 1:10pm IST with the URLs above.
