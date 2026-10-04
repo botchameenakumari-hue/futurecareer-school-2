@@ -1,0 +1,76 @@
+---
+// Drops the full-assessment call to action into a narrower test page at the
+// moments that matter, without touching the page's own quiz code:
+//   1. inside the result screen (a short banner under the headline and a full
+//      comparison card above the action buttons),
+//   2. a dismissible bar that follows the visitor while they read the page.
+// The result screen is filled in by each page's own script, so
+// /scripts/main-assessment-cta.js watches the result container and inserts the
+// templates below once results appear.
+import '../../styles/main-assessment.css';
+import { MAIN_ASSESSMENTS, type MainAssessmentId } from '../../config/mainAssessments';
+import MainAssessmentCompare from './MainAssessmentCompare.astro';
+import MainAssessmentPicker from './MainAssessmentPicker.astro';
+
+interface Props {
+  containerId: string;
+  main: MainAssessmentId | 'picker';
+  narrowName: string;
+  narrowChecks?: string[];
+  quizSectionId?: string;
+}
+
+const { containerId, main, narrowName, narrowChecks = [], quizSectionId = 'assessment' } = Astro.props;
+const target = main === 'picker' ? null : MAIN_ASSESSMENTS[main];
+---
+
+<div
+  id="mac-funnel"
+  data-container={containerId}
+  data-quiz-section={quizSectionId}
+  data-main={main}
+  hidden
+>
+  {target && (
+    <template data-mac-slot="top">
+      <a class="mac-topbar" href={target.href} data-mac-cta="result-top" data-mac-target={target.id}>
+        <span class="mac-topbar-star" aria-hidden="true">★</span>
+        <span class="mac-topbar-copy"><strong>{target.name}:</strong> {target.topbar}</span>
+        <span class="mac-topbar-go">Take it free →</span>
+      </a>
+    </template>
+  )}
+  <template data-mac-slot="bottom">
+    {target ? (
+      <MainAssessmentCompare
+        main={target.id}
+        narrowName={narrowName}
+        narrowChecks={narrowChecks}
+        placement="result"
+        title="Your result is one slice. See the whole picture, free."
+      />
+    ) : (
+      <MainAssessmentPicker sectionId="mac-picker-result" placement="result" title="One result is one side of you. Get the whole picture, free." />
+    )}
+  </template>
+  <template data-mac-slot="sticky">
+    <div class="mac-sticky" role="complementary" aria-label="Full free career assessment">
+      <a
+        class="mac-sticky-link"
+        href={target ? target.href : '#mac-picker'}
+        data-mac-cta="sticky"
+        data-mac-target={target ? target.id : 'picker'}
+      >
+        <span class="mac-sticky-star" aria-hidden="true">★</span>
+        <span class="mac-sticky-copy">
+          <strong>{target ? `Free ${target.shortName}` : 'Free full career assessment'}</strong>
+          <span>{target ? '6 tests in one report' : 'Pick the one for your stage'}</span>
+        </span>
+        <span class="mac-sticky-go">Start →</span>
+      </a>
+      <button type="button" class="mac-sticky-close" aria-label="Dismiss">×</button>
+    </div>
+  </template>
+</div>
+
+<script is:inline src="/scripts/main-assessment-cta.js" defer></script>

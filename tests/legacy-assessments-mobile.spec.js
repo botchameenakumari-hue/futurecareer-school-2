@@ -8,17 +8,17 @@ const simplePages = [
   },
   {
     route: '/services/assessments/class-11-to-12/',
-    title: /Class 11 and 12/,
+    title: /Class 11 & 12/,
     supportSelector: '#what-this-tests',
   },
   {
     route: '/services/assessments/graduates-and-early-professionals/',
-    title: /Graduates.*Early Professionals/,
+    title: /Graduates & Freshers/,
     supportSelector: '#what-this-tests',
   },
   {
     route: '/services/assessments/working-professionals-and-career-changers/',
-    title: /Working Professionals and Career Changers/,
+    title: /Working Professionals/,
     supportSelector: '#what-this-tests',
   },
   {

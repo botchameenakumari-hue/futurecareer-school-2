@@ -644,3 +644,11 @@ If context is tight, remember this:
 - On assessment-intent pages inside `/services/assessments/`, use `ASSESSMENT_PAGE_PROMPT.md` and the shared plans flow built from `src/config/assessmentPlans.ts` plus `src/components/bofu/GuidancePlansSection.astro` so free assessment pages still funnel into the relevant paid guidance plans.
 - BOFU section-tag / eyebrow labels must stay client-facing and should not sound like internal planning or framework language.
 - When narrower student-intent BOFU keywords ultimately route to the broader student guidance destination, keep the broader student page CTA wording at the student-guidance level instead of adding narrower keyword CTA labels there.
+
+## Search Console fixes and main-assessment funnel (Oct 2026)
+
+- Internal links, breadcrumb/JSON-LD URLs and CTA hrefs must end with a trailing slash. The site is served by Apache from `build.format: 'directory'`, so a slash-less URL is a 301. Slash-less links were the main source of the "Page with redirect" report.
+- `integrations/htaccess-redirects.mjs` (Astro integration) turns every redirect stub page (`meta refresh` + noindex) into a real one-hop 301 in `dist/.htaccess` after each build, and rewrites hand-written `services/assessments/*` rules in `public/.htaccess` so they never point at another stub or at a live page.
+- Mistyped/truncated blog and service URLs that Google still had impressions for are redirected by the block at the end of `public/.htaccess`.
+- Blog `<title>`/meta description overrides for low-CTR posts live in `src/config/blogSeoOverrides.ts` (key: `category/slug`); the on-page H1 and intro are unchanged.
+- The four full assessments are defined in `src/config/mainAssessments.ts`. Narrower tests promote them through `bofu/MainAssessmentRibbon` (hero), `bofu/MainAssessmentCompare` or `bofu/MainAssessmentPicker` (before the quiz) and `bofu/MainAssessmentFunnel` (result-screen injection plus a sticky bar via `public/scripts/main-assessment-cta.js`). Every blog post gets a category-matched picker from `BlogBottomCta`. Clicks are reported to GA as `main_assessment_click` (`placement`, `target_assessment`).

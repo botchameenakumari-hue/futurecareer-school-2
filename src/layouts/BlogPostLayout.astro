@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import BlogBottomCta from '../components/BlogBottomCta.astro';
 import LinkDirectorySection from '../components/LinkDirectorySection.astro';
 import { BLOG_BASE_PATH, BLOG_PUBLISHED_POSTS, getBlogCategory } from '../config/blog';
+import { BLOG_SEO_OVERRIDES } from '../config/blogSeoOverrides';
 
 export interface Props {
   title: string;
@@ -41,6 +42,7 @@ const {
 } = Astro.props;
 const categoryMeta = getBlogCategory(category);
 const currentSlug = canonical.replace(/\/$/, '').split('/').filter(Boolean).at(-1) ?? '';
+const seoOverride = BLOG_SEO_OVERRIDES[`${category}/${currentSlug}`];
 
 const AUTHOR_AVATARS: Record<string, string> = {
   'Allu Vagdevi': '/images/authors/allu-vagdevi.jpg',
@@ -74,7 +76,7 @@ const rawDirectoryItems = [
       }
     : null,
   {
-    href: BLOG_BASE_PATH,
+    href: `${BLOG_BASE_PATH}/`,
     title: 'All Career Articles',
     description: 'Browse all article categories and the latest practical guides.',
     note: 'All categories',
@@ -116,14 +118,14 @@ const jsonLd = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: `https://futurecareerschool.com${BLOG_BASE_PATH}` },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `https://futurecareerschool.com${BLOG_BASE_PATH}/` },
       ...(categoryMeta
         ? [
             {
               '@type': 'ListItem',
               position: 3,
               name: categoryMeta.title,
-              item: `https://futurecareerschool.com${BLOG_BASE_PATH}/${categoryMeta.slug}`,
+              item: `https://futurecareerschool.com${BLOG_BASE_PATH}/${categoryMeta.slug}/`,
             },
             {
               '@type': 'ListItem',
@@ -181,8 +183,8 @@ const jsonLd = [
 ---
 
 <BaseLayout
-  title={title}
-  description={description}
+  title={seoOverride?.title ?? title}
+  description={seoOverride?.description ?? description}
   canonical={canonical}
   ogType="article"
   ogImage={ogImage}
@@ -199,11 +201,11 @@ const jsonLd = [
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <a href="/">Home</a>
           <span aria-hidden="true">&rsaquo;</span>
-          <a href={BLOG_BASE_PATH}>Blog</a>
+          <a href={`${BLOG_BASE_PATH}/`}>Blog</a>
           {categoryMeta && (
             <>
               <span aria-hidden="true">&rsaquo;</span>
-              <a href={`${BLOG_BASE_PATH}/${categoryMeta.slug}`}>{categoryMeta.title}</a>
+              <a href={`${BLOG_BASE_PATH}/${categoryMeta.slug}/`}>{categoryMeta.title}</a>
             </>
           )}
           <span aria-hidden="true">&rsaquo;</span>
@@ -238,7 +240,7 @@ const jsonLd = [
     />
 
     <div class="container">
-      <BlogBottomCta />
+      <BlogBottomCta category={category} />
     </div>
   </main>
 

@@ -1,12 +1,43 @@
 ---
+import MainAssessmentPicker from './bofu/MainAssessmentPicker.astro';
+import type { MainAssessmentId } from '../config/mainAssessments';
+
 export interface Props {
   sectionClass?: string;
+  category?: string;
 }
 
-const { sectionClass = '' } = Astro.props;
-const assessmentsUrl = 'https://futurecareerschool.com/services/assessments';
+// Which of the four full assessments a reader of each blog category is most
+// likely to need, most relevant first.
+const ASSESSMENTS_BY_CATEGORY: Record<string, MainAssessmentId[]> = {
+  'stream-selection': ['class10', 'class1112'],
+  parents: ['class10', 'class1112'],
+  'college-degrees': ['class1112', 'graduates'],
+  'medical-careers': ['class1112', 'graduates'],
+  'career-options': ['class1112', 'graduates', 'professionals'],
+  'career-guidance': ['class1112', 'graduates', 'professionals'],
+  'study-abroad': ['graduates', 'class1112'],
+  'career-change': ['professionals', 'graduates'],
+  'government-jobs': ['professionals', 'graduates'],
+  'ai-future': ['graduates', 'professionals'],
+  'freelancing-business': ['professionals', 'graduates'],
+};
+const DEFAULT_ASSESSMENTS: MainAssessmentId[] = ['graduates', 'professionals', 'class1112'];
+
+const { sectionClass = '', category: categoryProp = '' } = Astro.props;
+const category = categoryProp || (Astro.url.pathname.match(/^\/blog\/([^/]+)\//)?.[1] ?? '');
+const assessmentIds = ASSESSMENTS_BY_CATEGORY[category] ?? DEFAULT_ASSESSMENTS;
+const assessmentsUrl = 'https://futurecareerschool.com/services/assessments/';
 const guidanceUrl = 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/';
 ---
+
+<MainAssessmentPicker
+  sectionId="blog-assessment-picker"
+  placement="blog"
+  ids={assessmentIds}
+  title="Not sure which way to go? Take a free career assessment"
+  subtitle="Reading helps, but your own interests, strengths and situation decide what fits. Each free assessment turns them into a personal report in about 15 minutes."
+/>
 
 <section class:list={['blog-bottom-cta', sectionClass]}>
   <div class="card cta-card">

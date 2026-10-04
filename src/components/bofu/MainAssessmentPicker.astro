@@ -1,0 +1,47 @@
+---
+// Four-card chooser for tests that suit every stage (personality, learning
+// style, emotional intelligence and so on). Sends the visitor to whichever of
+// the four full assessments matches where they are.
+import '../../styles/main-assessment.css';
+import { MAIN_ASSESSMENTS, MAIN_ASSESSMENT_ORDER, type MainAssessmentId } from '../../config/mainAssessments';
+
+interface Props {
+  sectionId?: string;
+  title?: string;
+  subtitle?: string;
+  placement?: string;
+  ids?: MainAssessmentId[];
+}
+
+const {
+  sectionId = 'mac-picker',
+  title = 'Get the complete picture with a full free career assessment',
+  subtitle = 'One test shows one side of you. Each full assessment combines interests, aptitude, thinking style, learning style and role or stream fit into a single report. Pick the one for your stage.',
+  placement = 'picker',
+  ids = MAIN_ASSESSMENT_ORDER,
+} = Astro.props;
+---
+
+<section class="mac-picker" id={sectionId}>
+  <div class="container">
+    <div class="mac-picker-head">
+      <div class="mac-badge"><span aria-hidden="true">★</span> Recommended · 100% free · Instant result</div>
+      <h2>{title}</h2>
+      <p>{subtitle}</p>
+    </div>
+    <div class="mac-picker-grid" data-count={ids.length}>
+      {ids.map((id) => {
+        const item = MAIN_ASSESSMENTS[id];
+        return (
+          <a class="mac-picker-card" href={item.href} data-mac-cta={placement} data-mac-target={id}>
+            <span class="mac-picker-audience">{item.audience}</span>
+            <strong>{item.name}</strong>
+            <span class="mac-picker-line">{item.headline}</span>
+            <span class="mac-picker-meta">{item.questions} questions · about {item.minutes} min</span>
+            <span class="mac-picker-go">Take it free →</span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</section>

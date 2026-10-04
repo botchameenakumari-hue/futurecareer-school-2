@@ -411,6 +411,31 @@ export const LIVE_INDEXABLE_ROUTES: IndexableRoute[] = [
     changefreq: 'weekly',
     priority: '0.9',
   },
+  {
+    path: '/career-skills-compass/careers',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/career-skills-compass/direction',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/career-skills-compass/skills',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/career-skills-compass/transition',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/career-skills-compass/method',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
   ...BLOG_ROUTES,
   {
     path: '/about',

@@ -3,6 +3,9 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
 import AssessmentReportTools from '../../../../components/AssessmentReportTools.astro';
+import MainAssessmentFunnel from '../../../../components/bofu/MainAssessmentFunnel.astro';
+import MainAssessmentRibbon from '../../../../components/bofu/MainAssessmentRibbon.astro';
+import MainAssessmentCompare from '../../../../components/bofu/MainAssessmentCompare.astro';
 import AssessmentGuidanceCta from '../../../../components/bofu/AssessmentGuidanceCta.astro';
 import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
 import LinkDirectorySection from '../../../../components/LinkDirectorySection.astro';
@@ -72,8 +75,8 @@ const jsonLd = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services' },
-      { '@type': 'ListItem', position: 3, name: 'Assessments', item: 'https://futurecareerschool.com/services/assessments' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      { '@type': 'ListItem', position: 3, name: 'Assessments', item: 'https://futurecareerschool.com/services/assessments/' },
       { '@type': 'ListItem', position: 4, name: 'Placement Aptitude Test', item: pageUrl },
     ],
   },
@@ -124,9 +127,9 @@ const jsonLd = [
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <a href="/">Home</a>
           <span aria-hidden="true">&rsaquo;</span>
-          <a href="/services">Services</a>
+          <a href="/services/">Services</a>
           <span aria-hidden="true">&rsaquo;</span>
-          <a href="/services/assessments">Assessments</a>
+          <a href="/services/assessments/">Assessments</a>
           <span aria-hidden="true">&rsaquo;</span>
           <span aria-current="page">Placement Aptitude Test</span>
         </nav>
@@ -147,12 +150,15 @@ const jsonLd = [
           <a href="#assessment" class="btn-gold pulse">Start the Free Test ↓</a>
           <a href={plansConfig.jumpHref} class="btn-outline">{plansConfig.jumpLabel}</a>
         </div>
+        <MainAssessmentRibbon main="graduates" />
 
         <div class="related-name-row" aria-label="Related test names">
           {relatedTestNames.map((name) => <span>{name}</span>)}
         </div>
       </div>
     </section>
+    <MainAssessmentCompare main="graduates" narrowName="Placement Aptitude Test" narrowChecks={['Five aptitude areas used in placement and job screening', 'Numerical, logical, verbal, data and judgement practice', 'A readiness read for hiring rounds']} sectionId="mac-picker" />
+
 
     <div class="assessment-first-flow">
     <section id="test-coverage" class="coverage-section">
@@ -276,6 +282,12 @@ const jsonLd = [
     guidanceUrl="https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance/"
   />
 
+    <MainAssessmentFunnel
+      containerId="result-shell"
+      main="graduates"
+      narrowName="Placement Aptitude Test"
+      narrowChecks={['Five aptitude areas used in placement and job screening', 'Numerical, logical, verbal, data and judgement practice', 'A readiness read for hiring rounds']}
+    />
   <Footer />
 </BaseLayout>
 

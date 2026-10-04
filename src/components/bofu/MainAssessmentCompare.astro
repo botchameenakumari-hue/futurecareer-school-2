@@ -1,0 +1,60 @@
+---
+// Side-by-side card for a narrower test page: what this quick test checks versus
+// what the full stage assessment covers. Shown before the quiz and again inside
+// the result screen (via MainAssessmentFunnel) so the full assessment is the
+// obvious next click at both decision points.
+import '../../styles/main-assessment.css';
+import { MAIN_ASSESSMENTS, MAIN_ASSESSMENT_ORDER, type MainAssessmentId } from '../../config/mainAssessments';
+
+interface Props {
+  main: MainAssessmentId;
+  narrowName: string;
+  narrowChecks: string[];
+  placement?: string;
+  sectionId?: string;
+  title?: string;
+}
+
+const { main, narrowName, narrowChecks, placement = 'compare', sectionId, title } = Astro.props;
+const target = MAIN_ASSESSMENTS[main];
+const others = MAIN_ASSESSMENT_ORDER.filter((id) => id !== main).map((id) => MAIN_ASSESSMENTS[id]);
+const heading = title ?? `Get more than ${narrowName} gives you, free`;
+---
+
+<section class="mac-compare" id={sectionId}>
+  <div class="container">
+    <div class="mac-compare-card">
+      <div class="mac-badge"><span aria-hidden="true">★</span> Most complete · 100% free · No sign-up</div>
+      <h2 class="mac-compare-title">{heading}</h2>
+      <div class="mac-compare-grid">
+        <div class="mac-col mac-col-narrow">
+          <h3>{narrowName}</h3>
+          <ul>
+            {narrowChecks.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div class="mac-col mac-col-main">
+          <h3>{target.name}</h3>
+          <p class="mac-col-sub">{target.headline}</p>
+          <ul>
+            {target.covers.map((item) => <li><span class="mac-tick" aria-hidden="true">✓</span>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+      <div class="mac-cta-row">
+        <a class="btn-gold pulse mac-cta" href={target.href} data-mac-cta={placement} data-mac-target={main}>
+          Take the {target.shortName} Free
+        </a>
+        <span class="mac-cta-note">{target.questions} questions · about {target.minutes} minutes · instant result</span>
+      </div>
+      <p class="mac-others">
+        Different stage?
+        {others.map((item, index) => (
+          <>
+            <a href={item.href} data-mac-cta={`${placement}-other`} data-mac-target={item.id}>{item.audience.split(',')[0]}</a>{index < others.length - 1 ? ' · ' : ''}
+          </>
+        ))}
+      </p>
+    </div>
+  </div>
+</section>

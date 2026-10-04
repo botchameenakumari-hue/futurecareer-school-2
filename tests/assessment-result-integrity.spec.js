@@ -22,17 +22,17 @@ const legacyAssessments = [
   },
   {
     route: '/services/assessments/class-11-to-12/',
-    title: /Class 11 and 12/,
+    title: /Class 11 & 12/,
     anchor: 'Your Career Profile',
   },
   {
     route: '/services/assessments/graduates-and-early-professionals/',
-    title: /Graduates.*Early Professionals/,
+    title: /Graduates & Freshers/,
     anchor: 'Your strongest career-interest pattern',
   },
   {
     route: '/services/assessments/working-professionals-and-career-changers/',
-    title: /Working Professionals and Career Changers/,
+    title: /Working Professionals/,
     anchor: 'Your Primary Profile',
   },
   {

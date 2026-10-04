@@ -1,0 +1,23 @@
+---
+// One-line recommendation under a hero's buttons, pointing at the full
+// assessment for the visitor's stage. Styles live in MainAssessmentFunnel.
+import '../../styles/main-assessment.css';
+import { MAIN_ASSESSMENTS, type MainAssessmentId } from '../../config/mainAssessments';
+
+interface Props {
+  main: MainAssessmentId | 'picker';
+  lead?: string;
+}
+
+const { main, lead = 'Want more than one result?' } = Astro.props;
+const target = main === 'picker' ? null : MAIN_ASSESSMENTS[main];
+const href = target ? target.href : '#mac-picker';
+const label = target
+  ? `Take the free ${target.name}: ${target.headline}`
+  : 'Take the full free career assessment for your stage: 6 tests in one report';
+---
+
+<a class="mac-ribbon" href={href} data-mac-cta="hero-ribbon" data-mac-target={target ? target.id : 'picker'}>
+  <span class="mac-ribbon-star" aria-hidden="true">★</span>
+  <span><strong>{lead}</strong> {label} →</span>
+</a>
