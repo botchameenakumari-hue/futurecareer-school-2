@@ -1,0 +1,5 @@
+N7 career-options-after-12th-pcm-other-than-engineering - pass log
+Pass 1: answer-first lead, positioning vs N2, plain language, table/schema audit -> simplified lead, defined JoSAA, added proof-portfolio line, NDA parallel-skill line, N6 and PCM+CS links.
+Pass 2: claim-vs-source audit, counts and hedges -> removed unsupported "open entry, not seat-capped" claim, fixed "eight doors / other twelve" count, added integrated seats to Situation C, "most likely" on IISc 2027, "as reported" on NDA I date, "four seats we could check", new IIT Madras BS section + jump link, FAQ moved to shared faq-accordion, proof list to shared accordion.
+Pass 3: uniqueness/doorway audit + final render checks -> 6-gram overlap of article text: N2 10.4%, N6 3.6%, others <=0.2%, union 11.0% (about 89% unique, floor 40%); 1 H1, 1 FAQPage, 1 BlogPosting, 1 GA, 173/173 td data-label, no banned/free-claim phrases, internal links resolve.
+Build + check:public-copy: pass (build-n7-2.txt, 1012 pages). No Chromium, so no 360/390/430px render; code-level responsive checks only.

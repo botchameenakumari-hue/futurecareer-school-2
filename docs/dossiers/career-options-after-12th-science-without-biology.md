@@ -1,0 +1,37 @@
+# PARTIAL DOSSIER (N8) - research halted by session limit (resets 1:10pm IST, 30 Sep 2026). Page NOT written.
+
+## Reading done (all mandatory files read in full this session)
+COMMON_RULES.md, NEW_PAGES.md, COWORK_KICKOFF_PROMPT.md, BLOG_WRITING_PROMPT.md (3,119 lines, all), BLOG_WRITING_PROMPT_FOLLOWUP.md (251 lines), DOORWAY_PREVENTION_GUIDE.md, CLIENT_FACING_COPY_RULE.md, docs/RESEARCH_NOTES_2026-09-29_KEYWORD_BATCH.md (incl. ERRATA), dossiers N1, N2, N3, N4, N9. Template page to mirror: src/pages/blog/career-options/bio-student-career-options-after-12th-without-neet/index.astro (structure, classes, ~500-line <style> block, FAQ JSON-LD via jsonLdExtras, BlogPostLayout props).
+
+## STEP 0 (done)
+- Category blog/career-options: 203 folders (about 201 posts). Audit mandatory (40% unique floor).
+- No exact match for "career options after 12th science without biology". DISTINCT (b): the concept "without biology" is absent from every nearby title/H1/slug.
+- Nearest siblings (titles/H2s already read): career-options-after-12th-science (subject-combination section, 4 tracks, salary by track), pcm-career-options, pcm-with-computer-science-career-options, career-after-12th-maths-without-engineering, career-options-after-12th-science-except-engineering-and-medical, college-degrees/courses-for-pcm-mpc-science-students-after-12th, pcmb-career-options, career-options-after-12th-except-engineering (N2, built), career-options-after-12th-except-medical (N3), career-options-after-12th-without-neet (N1), bio-student-career-options-after-12th-without-neet (N4).
+- Classification: TOFU blog -> BLOG_WRITING_PROMPT.md (career-options, 2,200+ words, 40% unique).
+- Planned differentiation: siblings list careers by track/branch. N8 is a BIOLOGY-GATE AUDIT: for each course, what the official eligibility text says about Biology (required / Maths-or-Biology / not needed), what the absence of Biology closes in seat terms (NEET-linked ~2.23 lakh seats vs JoSAA 67,323 + ICAR ~6,000 + IAT 2,343 + NFSU 80 ... computed), the "can I add Biology later" rule (NMC additional-subject notice) and its cost, plus PCM/PCMC/PCME/PCMB-dropped-bio decision paths.
+
+## Research done so far (about 9 calls, then blocked)
+Searches run: "career options after 12th science without biology"; "courses after 12th PCM without biology non-medical list"; NEET Biology additional subject (x3); PCM B.Pharm PCI eligibility.
+Ranking pages surfaced (NOT yet fetched; need 8 fetched): hindustanuniv.ac.in list-of-courses-after-12th-biology; upgrad career-options-after-12th-science; krmangalam career-options-after-12th-science; theknowledgeacademy; careerplanneredufair; knyamed non-medical science careers; upes non-medical courses after 12th (already read by N3: PCM def, unsourced); emversity BSc non-medical; krmangalam courses-after-12th-non-medical; sgtuniversity career-option-after-12th-pcm; foundit courses for PCM (already read N3); mindler non-science; cheggindia pcm-career-options; careers360 Q&A "courses after 12th science non-medical".
+
+## Key finding to VERIFY (potentially the original angle and a correction of N1 dossier)
+N1 dossier called the Jain University claim "PCM students can sit NEET after an additional biology exam" WRONG. Search snippets and two fetched secondary pages (Careers360 "Can PCM students give NEET", updated 26 Feb 2026; PW Live; IndiaHerald 17 Feb 2026) say the OPPOSITE: an NMC public notice of 22 Nov 2023 (reported by BusinessToday 23 Nov 2023, Medical Dialogues, Vikaspedia, Careers360 news "NEET UG 2024: NMC revises eligibility criteria; allows biology as additional subject in Class 12") allows candidates to take Biology/Biotechnology as an ADDITIONAL subject (PCM + Biology extra, incl. NIOS route per Careers360) and appear in NEET. Must read: NMC notice itself (nmc.org.in), NEET UG 2026 information bulletin eligibility clause (exams.nta.nic.in), and confirm whether the additional-subject route is honoured by MCC/state counselling. If confirmed, N1/N4 dossier statements and any built page saying "PCM cannot sit NEET" need checking (grep built pages for "additional" and "PCM" and "NEET").
+Also unverified: Careers360 says NIOS route; NMC page text not read; PW/IndiaHerald pieces say the 2-year regular-study requirement was dropped.
+
+## Remaining research plan (need ~35 more calls)
+A. Commodity map: fetch 8+ of the pages above; note errors (e.g. PCM student claims, BSc Nursing/BPT for non-bio, B.Pharm, pilots, unsourced pay).
+B. Primary: (1) NMC 22 Nov 2023 notice + NEET UG 2026 bulletin eligibility; (2) PCI Education Regulations 2020 B.Pharm eligibility (Physics, Chemistry + Maths or Biology) via pci.gov.in; (3) ICAR-UG 2026 bulletin (3 of P/C/M/B/Ag; already in N1/N3) ; (4) IISER IAT / NDA / NATA / DGCA eligibility (already partly in N2 dossier: NDA Physics+Maths for Navy/AF, Army any stream; NATA Physics+Maths; DGCA Physics+Maths) ; (5) JoSAA 2026 seat matrix 67,323 and B.Tech Biotechnology/Food/Agri branches open to PCM ; (6) AP EAPCET / TG EAPCET engineering-stream eligibility for B.Pharm (MPC students) and Pharm.D ; (7) INC BSc Nursing (needs PCB) and NCAHP allied-health subject requirements (Optometry etc. for PCM?) ; (8) CUET UG 2026 domain subject counts (Maths 5.80 lakh vs Biology 5.56 lakh vs Physics 9.15 lakh; from N1/N2 dossiers) ; (9) CBSE/NIOS additional-subject rules and NIOS fee ; (10) NEET 2026 seat matrix (N3 dossier: 1,36,939 MBBS; 2.23 lakh total) ; (11) NFSU forensic (Physics/Chem/Bio/Maths, 80 seats), NCAHP/psychology routes.
+C. Real questions: 15+ from search snippets (Careers360/Shiksha/Quora titles), note Reddit/Quora/YouTube/X blocked.
+D. Computations planned: seats reachable by Class 12 combination (with/without Biology) using verified counts; qualifiers/seat; cost and time of adding Biology as additional subject vs drop-year; share of listed courses whose official text needs Biology.
+E. Fact ledger with confidence tags.
+
+## Status
+Blocked: WebFetch and WebSearch return "session limit, resets 1:10pm Asia/Kolkata" (now 09:29 IST). Per COMMON_RULES item 2 no page written, no repo files edited, no build run, no pass log (only STEP 0 and reading complete).
+
+## UPDATE (research completed)
+Angle: "Biology-gate audit" - 15 doors, each with the written Biology line (5 need, 6 free, 4 vary).
+Commodity map (9 pages): upGrad, KR Mangalam, SGT, Chegg India (stale: says no-Biology cannot be doctors), Emversity, Foundit, UPES, Career Planner, Mindler. Gaps: no dates, no seat counts, unsourced pay, no per-programme Biology audit.
+Primary/secondary: NMC notice 22 Nov 2023 (via Medical Dialogues, The Federal, Business Standard; NMC/NTA pages unreachable); NEET 2026 bulletin reading (PW Live, CollegeDekho, Careers360; PDF unread); ICAR bulletin (official PDF, programme rows inconsistent across reads); PCI regs 2020 (via LegitQuest); KNRUHS/NTRUHS nursing; PVNRTVU note; NFSU sheet; NIOS fees (Careers360); PayScale/AmbitionBox with n.
+Arithmetic: 1,36,939+27,868+52,720+5,300=2,22,827; 67,323+6,002+2,343+80=75,748; ratio 2.94; +48,878 = 1,24,626; Maharashtra vacant 15,927/48,878=32.6%; NIOS 720+300+150+50=1,220; +40,000=41,220 (4.1%); +1.5L=1,51,220 (15.1%); +3L=3,01,220 (30.1%); Biology marks table (PC 200/250/300 vs totals 400/500/550).
+Questions (19): Careers360 x8, Quora x5, Shiksha x3, Collegedunia, CareerVillage, MHT-CET blog title. Blocked: Reddit (tool), Quora/YouTube/X titles only.
+Pass log: ../logs/career-options-after-12th-science-without-biology.md

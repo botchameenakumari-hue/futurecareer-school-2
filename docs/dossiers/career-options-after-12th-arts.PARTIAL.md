@@ -1,0 +1,48 @@
+# N11 dossier: career-options-after-12th-arts (PARTIAL; research stopped 5 Oct 2026 - session limit hit, so NO page was written)
+
+## STEP 0 / classification
+- Nearest pages: career-options-after-12th-humanities (verified 30 Sep), career-options-in-arts (older; lacks "after 12th"), courses-for-arts-and-humanities-students-after-12th (courses, not career options), career-chart-after-12th (has an arts row), ba-career-options (after BA). None is an exact match ("arts" vs "humanities"; "career options" vs "courses") -> (b) DISTINCT. TOFU blog, folder blog/career-options, category has ~208 posts -> uniqueness audit mandatory (40% floor).
+- Humanities page already has: entry-door dates, maths gate, age gates, CUET humanities candidate shares, NLSIU denominator, pay. Do NOT repeat those; link to it.
+- Planned differentiator: SUBJECT-COMBINATION LEDGER: which Class 12 arts subjects + CUET subjects each DU BA(Hons) door accepts (official), crowding = CUET subject candidates per listed DU seat (computed), plus fine-arts/design doors and AP/TS degree-admission context.
+
+## A. COMMODITY MAP (9 pages read via WebFetch)
+Read: Online Manipal, upGrad, LPU, Great Learning, Jaro Education, Mangalmay, Career Planner Edufair, Invest4Edu, Henry Harvin.
+Commodity: 12-20 item lists (law, journalism, psychology, design, hotel mgmt, digital marketing, event mgmt, civil services, teaching, BFA, BSW), generic exam names (CLAT, UPSC, NIFT, NID, UCEED, NCHM JEE).
+Errors / blind spots:
+- Salary figures: all unsourced except Online Manipal (cites AmbitionBox, no n or date). Great Learning gives single-figure averages (BA Rs 4,33,106; Hotel Mgmt Rs 13.7 lakh; BSc Design Rs 9.8 lakh) with no source and mixes USD. Mangalmay/Jaro/Henry Harvin/Invest4Edu: ranges (Rs 2.5-6 LPA entry, 10-25 LPA later) with no source.
+- LPU: no salary data at all for arts; Jaro names no exams.
+- Invest4Edu FAQ: oversimplifies engineering via NIOS; "Arts with Mathematics" mentioned in one line.
+- NONE of the 9 discusses Class 12 arts subject combinations, the CUET rule that you must sit the subjects you passed in Class 12, which subject opens which DU BA (Hons), or seat-vs-candidate crowding. None gives dated 2027 entrances beyond names.
+- (Note: several pages show 2026 'updated' dates; today is 5 Oct 2026 so these are NOT errors.)
+
+## B. PRIMARY DATA (read so far)
+1. DU Seat Matrix 2026-27 (admission.uod.ac.in/userfiles/downloads/03-07-2026-UGSeatMatrix2026.pdf), read through the fetch summariser; document read ENDS at Miranda House (colleges alphabetically after Miranda - Ramjas, SVC, Shivaji, St Stephen's, Zakir Husain etc. - NOT read). Some cells shown as dashes. So totals below are "listed seats in the colleges read" = lower bounds.
+   Totals I computed from the rows (colleges counted; seats): English 23; 644 | History 23; 653 | Political Science 20; 819 | Hindi 21; 541 | Economics 20; 618 | Psychology 9; 219 | Geography 8; 184 | Philosophy 10; 212 | Sanskrit 17; 331 | Sociology 8; 177 | Journalism 5; 93 | other (single rows): Applied Psychology 20+19=39; Social Work 22+31; Hindi Patrakarita 22+31; Multimedia & Mass Comm (IP College) 26; Hindustani Music 8+5+13+5=31.
+   Row lists used (seats by college): PolSci: Aryabhatta 42, ARSD 38, Bharati 31, Bhagini Nivedita 23, Daulat Ram 47, DCAC 24, Deshbandhu 62, Dyal Singh 31, DS Evening 39, Gargi 46, Hindu 20, IP 57, JDM 47, Kalindi 62, Kamala Nehru 47, KMC 26, LSR 43, Lakshmibai 46, Mata Sundri 60, Miranda 28 (=819). Psychology: Aryabhatta 21, Daulat Ram 19, Gargi 19, IP 26, JDM 15, Kamala Nehru 23, Keshav 16, LSR 25, Mata Sundri 55 (=219). History 653, Sociology 177 (Bharati 23, Hindu 20, IP 23, JDM 23, LSR 16, Lakshmibai 23, Maitreya 23, Miranda 26). Re-verify before use.
+2. DU Bulletin of Information UG 2026-27 (du.ac.in/uploads/2026/06012026_BOI_UG_compressed.pdf), via summariser (two reads): History, Psychology, Applied Psychology, Sociology, Geography, Philosophy, Social Work: "Any one Language from List A + Any three subjects from List B" OR "Any two Languages + any two List B" (no Class 12 subject prerequisite). English/Hindi: that language from List A + any three List B (or that language + one more language + two List B). Economics: language + Mathematics/Applied Mathematics + two List B (maths mandatory). Business Economics: language + Maths/Applied Maths + one List B + General Aptitude Test. Journalism: English + any three List B, or English + GAT. Multimedia & Mass Communication: language + Mass Media + GAT, or language + GAT. BA (Programme): three combination options; where Maths/Stats/Computer Applications/CS is one of the two core disciplines, Maths passed in Class 12 is mandatory. General: must appear in CUET in subjects in which you are appearing/have passed Class 12; must take at least one language and the language studied in Class 12; best-score combination counts; no minimum marks stated. CONFLICT TO RESOLVE: Political Science read twice as "Combination I: Any one Language + Any one subject from List B + General Aptitude Test" while Collegedekho (updated 16 Jan 2026) says language + two B1 + one B1/B2, and PW says "Section I + any three Section II". Do NOT publish a PolSci combination until the bulletin page is read directly.
+3. CUET UG 2026 subject-wise numbers (Careers360 article 23 Jun 2026, secondary quoting NTA stats): registered / appeared - English 12,64,153 / 9,14,653; Political Science 1,59,165 / 1,21,267; History 1,22,847 / 97,513; Geography 84,635 / 66,255; Psychology 38,019 / 26,345; Sociology 34,718 / 24,000; Economics 2,48,892 / 1,95,583; Fine Arts 17,506 / 12,662; Mass Media 6,356 / 3,892; Home Science 11,326 / 8,317; Hindi 1,49,370 / 1,11,616; General Aptitude Test 9,15,039 / 6,75,419; total 15,68,867 registered, 11,64,098 appeared.
+4. Earlier-verified official facts reusable (docs/RESEARCH_NOTES errata + humanities verify log): CLAT 2027 6 Dec 2026, apps 3 Aug-31 Oct; CLAT 2026 72,631 appeared; NID DAT last date 30 Nov 2026; UCEED 2027 17 Jan 2027 (secondary: registration to 31 Oct per findmycollege headline, not yet confirmed on uceed.iitb.ac.in); PLFS 2025 wage figures; NLSIU 2026 placements; NCET 2026; NCHM JEE.
+5. NOT yet read (stopped by limit): Delhi Govt College of Art BFA admission policy 2026-27 (colart.delhi.gov.in/sites/default/files/2026-07/admision_policy_of_bfa_for_2026-2027.pdf - found in search, unread), uceed.iitb.ac.in, AP OAMDC / TS DOST degree admissions (collegedekho AP OAMDC page; allotment reported 2 Sep, reporting 3-7 Sep 2026), UGC NET subject-wise qualified data, AISHE BA enrolment, NIFT/NID official pages, BHU/Jamia BFA.
+Primary/official sources used so far: 2 (DU seat matrix, DU bulletin) + 1 secondary-of-official (CUET numbers). Requirement is 6+: NOT MET.
+
+## C. COMPUTATIONS (shown)
+Crowding index = CUET 2026 candidates who appeared in the subject / listed DU BA (Hons) seats read (upper bound because seats from later colleges are missing; candidates also apply elsewhere; this is a crowding index, not an admission probability):
+- Political Science 1,21,267 / 819 = 148.1; History 97,513 / 653 = 149.3; Psychology 26,345 / 219 = 120.3; Sociology 24,000 / 177 = 135.6; Geography 66,255 / 184 = 360.1; Hindi 1,11,616 / 541 = 206.3; Economics 1,95,583 / 618 = 316.5 (but Economics needs maths-takers only, so a smaller real pool).
+- Registered basis: PolSci 194.3, History 188.1, Psychology 173.6, Sociology 196.1.
+- Takeaway to verify later: Psychology and Sociology have fewer candidates than seats-per-subject would suggest vs PolSci/History, but seat count is tiny (Psychology 9 colleges read); English CUET (9.14 lakh) is mostly the language paper, not Hons demand, so do not compute a ratio for English.
+- Rough total of arts-programme seats read: 4,491 (11 programmes, partial) vs 11,64,098 appeared overall = 259 appeared per listed seat if every candidate wanted these (illustrative only; most CUET candidates target other courses).
+
+## D. DATES: not yet gathered beyond the humanities-page ledger (CUET UG 2027 tentative; CLAT 6 Dec 2026; NID DAT prelims 20 Dec 2026; UCEED 17 Jan 2027). UCEED registration deadline needs official check (secondary: 31 Oct 2026).
+
+## E. REAL QUESTIONS: only the search sets above collected (search-result titles, 0 Q&A titles yet). Need 15+. Blocked platforms not yet attempted (known: Reddit WebFetch-blocked, Quora/YouTube/X robots-blocked, no workaround used). From the DU searches: Quora title seen via snippet: "What is the eligibility criteria for a BA in psychology at DU if I did not have psychology as a subject in class 12?" (1 of 15).
+
+## F. ORIGINAL ANGLE (planned)
+"Subject ledger": for each Class 12 arts subject choice, the DU door it opens or closes (Economics needs maths; Journalism needs English; Psychology/History/Sociology need no specific Class 12 subject), the rule that you cannot sit a CUET subject you did not pass in Class 12, and the computed candidates-per-listed-seat crowding index per subject; plus the fine-arts/design doors and AP/TS degree route once read.
+
+## G. FACT LEDGER (publish-ready subset)
+- DU eligibility combinations above (except PolSci): official (bulletin), read via summariser, hedge "as printed in the 2026-27 bulletin; confirm for 2027-28".
+- DU seat totals: official, partial (colleges A to Miranda) -> label "listed seats in the colleges we could read".
+- CUET subject numbers: secondary (Careers360 quoting NTA), dated 23 Jun 2026.
+- Do NOT publish: PolSci combination; max number of CUET subjects (sources said 5 vs 6 - unresolved); any salary figure not already verified in the humanities page.
+
+## STATUS: STOPPED. Rules say stop and report when the search/fetch tool is capped. No page, no log passes, no build run, no repo edits.
