@@ -1,6 +1,9 @@
 ---
 import { DEFAULT_BOFU_COMPARISON_ROWS } from '../../config/bofu';
 
+const MIN_ROWS = 4;
+const MAX_ROWS = 6;
+
 export interface ComparisonRow {
   left: string;
   right: string;
@@ -17,6 +20,8 @@ export interface Props {
   centered?: boolean;
   // Assessment comparison rows are only for assessment-intent pages.
   allowAssessmentRows?: boolean;
+  // Rows written for this page's own keyword and audience. They are shown first.
+  extraRows?: ComparisonRow[];
 }
 
 const {
@@ -29,11 +34,21 @@ const {
   sectionClass = '',
   centered = false,
   allowAssessmentRows = false,
+  extraRows = [],
 } = Astro.props;
 
-const visibleRows = allowAssessmentRows
+const baseRows = allowAssessmentRows
   ? rows
   : rows.filter((row) => !/assessment/i.test(`${row.left} ${row.right}`));
+// Keyword-specific rows first, then the shared rows that still fit. Pad from the
+// approved library when a page would otherwise show fewer than MIN_ROWS, and cap
+// the table at MAX_ROWS so it stays easy to scan.
+const seen = new Set(extraRows.map((row) => row.left));
+const combined = [...extraRows, ...baseRows.filter((row) => !seen.has(row.left))];
+const padding = DEFAULT_BOFU_COMPARISON_ROWS.filter(
+  (row) => !combined.some((item) => item.left === row.left) && (allowAssessmentRows || !/assessment/i.test(`${row.left} ${row.right}`)),
+);
+const visibleRows = [...combined, ...padding.slice(0, Math.max(0, MIN_ROWS - combined.length))].slice(0, MAX_ROWS);
 ---
 
 <section id={sectionId} class:list={['bofu-compare-section', centered && 'is-centered', sectionClass]}>
