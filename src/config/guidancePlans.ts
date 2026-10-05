@@ -106,6 +106,6 @@ export const GUIDANCE_PLAN_PRICE_COPY = {
   professionalSessionPriceText: `${formatGuidancePlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.price)} (limited-time price, down from ${formatGuidancePlanAmount(WORKING_PROFESSIONAL_GUIDANCE_PLAN.comparePrice ?? '')})`,
   studentContinuousIncludesText: 'includes the 1-on-1 and up to 24 small-group sessions across the year',
   freeLayerText:
-    'Career and skill assessments, career and income-growth resources, and finder tools are the genuinely free layer. A live 1-on-1 session is paid counsellor time spent on a specific situation.',
+    'Career and income-growth resources and finder tools are the genuinely free layer. A live 1-on-1 session is paid counsellor time spent on a specific situation.',
 };
 
