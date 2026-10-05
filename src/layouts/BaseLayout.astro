@@ -2,6 +2,7 @@
 import { DEFAULT_OG_IMAGE_URL, SITE_NAME } from '../config/site';
 import ConsentBanner from '../components/ConsentBanner.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+import BofuImage from '../components/bofu/BofuImage.astro';
 
 export interface Props {
   title: string;
@@ -241,6 +242,14 @@ const isDashboardRoute = Astro.url.pathname === '/dashboard' || Astro.url.pathna
 </head>
 <body>
   <slot />
+  {Astro.url.pathname.startsWith('/services/career-counselling-and-career-guidance/') && <BofuImage />}
+  {Astro.url.pathname.startsWith('/services/career-counselling-and-career-guidance/') && (
+    <script is:inline>
+      const serviceMedia = document.querySelector('body > .bofu-image, body > .bofu-diagrams');
+      const serviceMain = document.querySelector('main');
+      if (serviceMedia && serviceMain) serviceMain.insertBefore(serviceMedia, serviceMain.children[1] || null);
+    </script>
+  )}
   {isDashboardRoute ? null : <ConsentBanner />}
 </body>
 </html>
