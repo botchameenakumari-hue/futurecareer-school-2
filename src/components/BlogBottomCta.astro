@@ -1,9 +1,27 @@
 ---
+import GuidancePlansSection from './bofu/GuidancePlansSection.astro';
+import { getBlogPlansAudience, resolveBlogSalesTarget } from '../config/blogSalesLinks';
+
 export interface Props {
   sectionClass?: string;
+  category?: string;
+  // Optional per-post override of the service page the primary button points to.
+  salesHref?: string;
+  salesLabel?: string;
 }
 
-const { sectionClass = '' } = Astro.props;
+const { sectionClass = '', category: categoryProp = '', salesHref, salesLabel } = Astro.props;
+const pathMatch = Astro.url.pathname.match(/^\/blog\/([^/]+)\/([^/]+)\/?/);
+const category = categoryProp || (pathMatch?.[1] ?? '');
+const slug = pathMatch?.[2] ?? '';
+// A topic-matched service page when one exists; otherwise the pricing is shown right below.
+const salesTarget = resolveBlogSalesTarget(
+  category,
+  slug,
+  salesHref ? { href: salesHref, label: salesLabel ?? 'Get Career Guidance' } : undefined,
+);
+const showPlans = !salesTarget;
+const plansAudience = getBlogPlansAudience(category);
 const assessmentsUrl = 'https://futurecareerschool.com/services/assessments/';
 const guidanceUrl = 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/';
 ---
@@ -16,11 +34,13 @@ const guidanceUrl = 'https://futurecareerschool.com/services/career-counselling-
     <p class="cta-line">Build the right skills.</p>
     <p class="cta-line">Move toward earlier financial freedom through stronger skill choices.</p>
     <div class="cta-pair">
-      <a class="btn-gold pulse" href={guidanceUrl}>Get Career Guidance</a>
+      <a class="btn-gold pulse" href={salesTarget ? salesTarget.href : '#blog-plans'}>{salesTarget ? salesTarget.label : 'See Career Guidance Pricing'}</a>
       <a class="btn-outline cta-assessment-lite" href={assessmentsUrl}>Free career and skill assessments</a>
     </div>
   </div>
 </section>
+
+{showPlans && <GuidancePlansSection sectionId="blog-plans" audience={plansAudience} title="Career Guidance Pricing" />}
 
 <style>
   .blog-bottom-cta {

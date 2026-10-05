@@ -2238,7 +2238,7 @@ async function handleDelegatedClick(event: MouseEvent) {
       // their matching plan tab below.
       const planTab = viewButton.dataset.planTab ?? viewButton.dataset.planShortcutTab;
       if (view === 'career' && planTab === 'options' && state.profile?.role === 'student') {
-        window.location.assign('/dashboard/career-decision');
+        window.location.assign('/dashboard/career-decision/');
         return;
       }
       openView(view);

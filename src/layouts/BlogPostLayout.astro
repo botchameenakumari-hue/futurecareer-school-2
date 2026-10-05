@@ -5,11 +5,15 @@ import Footer from '../components/Footer.astro';
 import BlogBottomCta from '../components/BlogBottomCta.astro';
 import LinkDirectorySection from '../components/LinkDirectorySection.astro';
 import { BLOG_BASE_PATH, BLOG_PUBLISHED_POSTS, getBlogCategory } from '../config/blog';
-import { BLOG_SEO_OVERRIDES } from '../config/blogSeoOverrides';
 
 export interface Props {
   title: string;
   description: string;
+  // Optional search-result title and meta description. When omitted, title and
+  // description are used. Lets the on-page H1 and intro stay rich while the
+  // search snippet stays within the length Google shows.
+  seoTitle?: string;
+  seoDescription?: string;
   canonical: string;
   category: string;
   noindex?: boolean;
@@ -22,11 +26,15 @@ export interface Props {
   ogImageWidth?: number;
   ogImageHeight?: number;
   jsonLdExtras?: unknown[];
+  salesHref?: string;
+  salesLabel?: string;
 }
 
 const {
   title,
   description,
+  seoTitle,
+  seoDescription,
   canonical,
   category,
   noindex = false,
@@ -39,10 +47,11 @@ const {
   ogImageWidth,
   ogImageHeight,
   jsonLdExtras = [],
+  salesHref,
+  salesLabel,
 } = Astro.props;
 const categoryMeta = getBlogCategory(category);
 const currentSlug = canonical.replace(/\/$/, '').split('/').filter(Boolean).at(-1) ?? '';
-const seoOverride = BLOG_SEO_OVERRIDES[`${category}/${currentSlug}`];
 
 const AUTHOR_AVATARS: Record<string, string> = {
   'Allu Vagdevi': '/images/authors/allu-vagdevi.jpg',
@@ -183,8 +192,8 @@ const jsonLd = [
 ---
 
 <BaseLayout
-  title={seoOverride?.title ?? title}
-  description={seoOverride?.description ?? description}
+  title={seoTitle ?? title}
+  description={seoDescription ?? description}
   canonical={canonical}
   ogType="article"
   ogImage={ogImage}
@@ -240,7 +249,7 @@ const jsonLd = [
     />
 
     <div class="container">
-      <BlogBottomCta />
+      <BlogBottomCta category={category} salesHref={salesHref} salesLabel={salesLabel} />
     </div>
   </main>
 
