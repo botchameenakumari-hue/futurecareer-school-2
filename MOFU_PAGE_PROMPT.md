@@ -2916,3 +2916,9 @@ Never invent a flat root URL by default.
 - Compare click-through rate against sibling pages of the same type; a persistently lower rate usually means thin or templated content.
 - If a page drops 15 or more positions after 30 days, or duplicate warnings appear, pause new pages in that group and audit it for template fatigue before publishing more.
 
+---
+
+### Contact Rule (WhatsApp Only)
+
+- There is no phone helpline and no call-booking line. People reach Future Career School by WhatsApp message (`WHATSAPP_BOOKING_URL` in `src/config/site.ts`) or through the payment links. Never write "call us", "call the helpline", "talk on the phone", or a "Call Now" button on service pages, and never claim a phone line, 24/7 support, or a call-centre.
+

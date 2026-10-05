@@ -370,3 +370,10 @@ If assessment-intent keyword, above rules do NOT apply — assessment can be pro
 - the page should pass all doorway-prevention audits (30% unique content, no assessment bait-and-switch, no template fatigue)
 - the page's uniqueness should be measurable and defensible against Google's scaled-content and doorway-page policies
 - `npm run check:public-copy` must pass after build before the follow-up is considered done
+
+---
+
+### Contact Rule (WhatsApp Only)
+
+- There is no phone helpline and no call-booking line. People reach Future Career School by WhatsApp message (`WHATSAPP_BOOKING_URL` in `src/config/site.ts`) or through the payment links. Never write "call us", "call the helpline", "talk on the phone", or a "Call Now" button on service pages, and never claim a phone line, 24/7 support, or a call-centre.
+

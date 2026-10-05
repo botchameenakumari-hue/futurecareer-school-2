@@ -3831,3 +3831,21 @@ Service pages read like landing pages, not articles.
 - Compare click-through rate against sibling pages of the same type; a persistently lower rate usually means thin or templated content.
 - If a page drops 15 or more positions after 30 days, or duplicate warnings appear, pause new pages in that group and audit it for template fatigue before publishing more.
 
+---
+
+### Contact Rule (WhatsApp Only)
+
+- There is no phone helpline and no call-booking line. People reach Future Career School by WhatsApp message (`WHATSAPP_BOOKING_URL` in `src/config/site.ts`) or through the payment links. Never write "call us", "call the helpline", "talk on the phone", or a "Call Now" button on service pages, and never claim a phone line, 24/7 support, or a call-centre.
+
+### Doorway and Duplication Guard (BOFU)
+
+- Run the nearest-sibling check before publishing: no more than about 50% of a page's text may also appear on its nearest sibling page (same group, such as two city pages or two audience pages). If it is higher, rewrite with different local facts, examples, objections, FAQs, and comparison rows.
+- Location pages must carry facts that are true only for that place (named employers, exams, colleges, industries, commute or cost realities) and must not merely swap the city name. A page whose local section could be pasted onto another city unchanged fails.
+- Do not create two pages for the same intent (for example `career-counselling` and `career-guidance` with the same promise). Differentiate the intent or merge one into the other with a 301.
+- Only publish a location page if the online service gives that city's searcher something specific; a thin city page weakens the whole `/services/` group.
+
+### Images (BOFU)
+
+- Use shared hero and diagram images by page group instead of one image per page. The approved list and the pages that use each image are in `docs/BOFU_IMAGE_PLAN.md`; follow it when adding images.
+- Images are 1600x900 WebP under 150 KB, hero above the fold eager and the rest lazy, with alt text that describes the picture for this page's topic. No faces of real people, no logos, no text baked into the image, no job-guarantee imagery.
+

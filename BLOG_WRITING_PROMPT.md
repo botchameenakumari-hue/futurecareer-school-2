@@ -3135,3 +3135,10 @@ Fill these before drafting a new non-local page:
 8. One internal link unique to this audience's next step.
 
 If you cannot fill at least 6 of the 8 honestly, the keyword is probably not ready for a standalone page.
+
+---
+
+### Contact Rule (WhatsApp Only)
+
+- There is no phone helpline and no call-booking line. People reach Future Career School by WhatsApp message (`WHATSAPP_BOOKING_URL` in `src/config/site.ts`) or through the payment links. Never write "call us", "call the helpline", "talk on the phone", or a "Call Now" button on service pages, and never claim a phone line, 24/7 support, or a call-centre.
+
