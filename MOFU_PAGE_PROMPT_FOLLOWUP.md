@@ -36,8 +36,8 @@ outcomes. Use only these approved facts:
 - Career counselling, career guidance, career coaching, and career strategy are treated as one practical service family.
 - Guidance is delivered online across India.
 - The business is not a job-guarantee or placement service.
-- Career and skill assessments are fully free and can be described as updated, practical, and AI-powered.
-- Many providers in the market charge thousands for outdated or impractical assessments; Future Career School offers free, updated, practical, AI-powered assessments.
+- (assessment-intent pages only) Career and skill assessments are fully free and can be described as updated, practical, and AI-powered.
+- (assessment-intent pages only) Many providers in the market charge thousands for outdated or impractical assessments; Future Career School offers free, updated, practical, AI-powered assessments.
 - Career and income-growth resources, Career & Skills Compass, and course-finder tools are free.
 
 **Approved pricing:**
@@ -50,7 +50,7 @@ outcomes. Use only these approved facts:
 **Approved CTA destinations:**
 - Parent guidance page: `https://futurecareerschool.com/services/career-counselling-and-career-guidance/`
 - Relevant BOFU sibling pages (career-guidance, career-counselling, student/professional guidance)
-- Assessments hub: `https://futurecareerschool.com/services/assessments/`
+- Assessments hub (assessment-intent pages only): `https://futurecareerschool.com/services/assessments/`
 - Do not link directly to a Razorpay payment link from a MOFU page — route through the BOFU page or its `#plans` anchor.
 
 **Approved positioning:**
@@ -58,7 +58,7 @@ outcomes. Use only these approved facts:
 - Helping people make the decisions that unlock high income opportunities through a deliberate high-value, high-income skill portfolio — the chain is: right skill portfolio → better decisions that unlock high income opportunities → earlier financial freedom. Never say the service itself unlocks opportunities; say it helps people make the decisions that unlock them
 - Holistic skill approach: the right skill mix, proof of work, communication, market positioning, personal fit, and financial/family reality
 - High-leverage decision support over generic advice
-- Free updated practical AI-powered assessments instead of paid outdated assessments
+- (assessment-intent pages only) Free updated practical AI-powered assessments instead of paid outdated assessments
 - Degrees have a place; the problem is degree-only thinking without skill-building alongside it
 
 ---
@@ -100,7 +100,7 @@ cosmetic edit below.
 - confirm the primary CTA routes to the parent guidance/counselling page, a relevant BOFU sibling, or a `#plans` anchor — not a bare payment link and not an assessment-first path
 - confirm there are 2-3 contextual CTA moments placed after real decision-support sections (after the comparison table, after the cost breakdown, after addressing "is it worth it") — not stacked at the top
 - if the keyword is assessment-intent, confirm the page links the assessments that apply to that keyword (full assessment for the audience, plus the specific narrower test if named) and still bridges to paid guidance
-- if the keyword is not assessment-intent and the page mentions assessments, confirm it is framed as a small lower-pressure support option for someone still deciding, not a bait-and-switch hero CTA and not an equal-weight button beside guidance/counselling
+- if the keyword is not assessment-intent, confirm the page has no assessment mentions, links, FAQs, rows or cards at all (strict rule); the old "small lower-pressure mention" is retired. equal-weight button beside guidance/counselling
 - if the closing section reads like a hard countdown-style push rather than a natural next step after a comparison, soften it
 - if the page has drifted toward zero CTAs (pure blog tone) or toward 4+ hard CTAs (BOFU tone), rebalance to the MOFU middle ground
 
@@ -160,7 +160,7 @@ cosmetic edit below.
 - keep the keyword natural in the title, meta description, H1, first sentence, and at least one H2
 - schema should be `Article` (+ `FAQPage` if real FAQs exist) + `BreadcrumbList` — verify it is NOT `Service`; `Service` schema belongs on BOFU pages only
 - if the page has several relevant internal destinations, use one dedicated related-links section instead of scattering them, or link inline where it fits the comparison naturally
-- confirm the page links up to the parent guidance hub, across to the relevant BOFU sibling(s) once the comparison resolves, and down to assessments if the free layer is genuinely relevant
+- confirm the page links up to the parent guidance hub, across to the relevant BOFU sibling(s) once the comparison resolves, and, on assessment-intent pages only, down to the applicable assessments
 - **answer-first summary check:** confirm a `key-takeaways`/"honest short version" block sits immediately after the opening framing, before jump navigation or CTAs, and that it states the actual answer, trade-off, and decision filter in 2-3 tight sentences or equivalent bullets — not a table of contents restating the page's own headings
 - **table check:** confirm every `<td>` in every table has a `data-label` attribute, including 2-column tables — verify by rendering at ~390px, not just by reading the code
 - **FAQ check:** confirm FAQs use `.faq-accordion` with the first item open by default, not a long always-open Q&A stack

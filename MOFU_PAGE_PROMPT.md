@@ -95,7 +95,7 @@ A MOFU page must do three things at once — this is the core difference from th
 
 1. **Answer the real comparison or consideration question honestly**, the way a blog article would —
    with genuine trade-offs, not a one-sided pitch. If the honest answer sometimes favors "you may not
-   need a paid service yet" (e.g. a free assessment is enough for now), say that. A MOFU page that
+   need a paid service yet" (e.g. the free resources are enough for now), say that. A MOFU page that
    only ever concludes "buy now" reads as biased and won't earn trust or rankings.
 2. **Make Future Career School's business advantage visible while answering that question** — not
    bolted on as an unrelated CTA block, but woven into the comparison itself (see Approved MOFU
@@ -214,7 +214,7 @@ Current live parent and sibling pages relevant to MOFU placement:
 - `/services/career-counselling-and-career-guidance/student-career-guidance/`
 - `/services/career-counselling-and-career-guidance/career-guidance-after-12th/`
 - `/services/career-counselling-and-career-guidance/working-professional-career-guidance/`
-- `/services/assessments/` — assessments hub (free assessments live here; useful contextual link on MOFU pages)
+- `/services/assessments/` — assessments hub (link only from assessment-intent MOFU pages)
 
 Sitemap route config lives in `src/config/site.ts` as `LIVE_INDEXABLE_ROUTES`.
 Add new MOFU pages there only when genuinely ready for indexing.
@@ -243,7 +243,7 @@ Add new MOFU pages there only when genuinely ready for indexing.
 4. Make sure the page uses `BaseLayout.astro` for canonical, title, description, and JSON-LD.
 5. Add breadcrumbs that mirror the URL hierarchy.
 6. Add `BreadcrumbList` schema and `Article` schema (see Schema Rules below). Add `FAQPage` only when a real FAQ section exists.
-7. Add an internal link up to the parent guidance page, and down/across to at least one relevant BOFU sibling or the assessments hub.
+7. Add an internal link up to the parent guidance page, and down/across to at least one relevant BOFU sibling (the assessments hub only on assessment-intent pages).
 8. Run `npm run check:public-copy` after build and fix rendered-copy failures.
 9. Rebuild and verify generated `dist/sitemap.xml` and `dist/robots.txt`.
 
@@ -268,8 +268,8 @@ claims for MOFU pages. Use these facts naturally and honestly while answering th
 - Career counselling, career guidance, career coaching, career strategy, and other close variants can be treated as one practical service family unless the user explicitly asks for a narrower distinction.
 - Guidance is delivered online across India. Sessions are fully online and available across cities, not limited to one offline location.
 - The business should not be described as a job-guarantee or placement service.
-- Career and skill assessments are fully free, and can be described as updated, practical, and AI-powered.
-- Many providers in the market charge thousands for outdated or impractical assessments; Future Career School offers free, updated, practical, AI-powered career and skill assessments.
+- (assessment-intent pages only) Career and skill assessments are fully free, and can be described as updated, practical, and AI-powered.
+- (assessment-intent pages only) Many providers in the market charge thousands for outdated or impractical assessments; Future Career School offers free, updated, practical, AI-powered career and skill assessments.
 - Career and income-growth resources, Career & Skills Compass, and course-finder tools are free.
 
 ### Approved Pricing Facts (for fees/cost-intent MOFU pages)
@@ -278,8 +278,8 @@ Use only these numbers — never invent tiers, discounts, or guarantees. Shared 
 - Student 1-on-1: `Rs 3000` crossed, `Rs 250` current limited-time price
 - Working-professional 1-on-1: `Rs 5000` crossed, `Rs 3000` current limited-time price
 - Student continuous guidance: `Rs 29000` crossed, `Rs 12000` current limited-time price (includes the 1-on-1 plus up to 24 small-group sessions across the year)
-- Career and skill assessments: fully free, not part of any paid tier
-- If a MOFU page compares "free vs paid" or discusses cost, present these numbers honestly next to what the free layer (assessments, resources) already covers, so the comparison reads as fair rather than as a sales page in disguise.
+- (assessment-intent pages only) Career and skill assessments: fully free, not part of any paid tier
+- If a MOFU page compares "free vs paid" or discusses cost, present these numbers honestly next to what the free resources (Career & Skills Compass, career resources) already cover, so the comparison reads as fair rather than as a sales page in disguise.
 
 ### Approved Differentiation Angles (the comparison substance)
 
@@ -287,14 +287,14 @@ Use these as the actual content of a comparison/consideration page, not just a b
 - generic advice vs high-leverage decision support around path, skill, and risk
 - degree-only thinking (chasing credentials without building skills) vs a holistic skill-first approach with proof of work — degrees still have a place
 - isolated skill decisions vs a deliberate high-value, high-income skill portfolio that compounds over time
-- paid outdated impractical assessments vs free updated practical AI-powered career and skill assessments
+- (assessment-intent pages only) paid outdated impractical assessments vs free updated practical AI-powered career and skill assessments
 - one-off session format vs continuous small-group guidance that keeps skill direction current as the market shifts
 
 Exact shared comparison row library (mirrors `src/config/bofu.ts` — reuse rows that genuinely fit as the base; add keyword-specific rows on top, see "Comparison Table Rules (MOFU)" below):
 - `Generic advice that still leaves you unclear` vs `High-leverage decision support around path, skill, and risk`
 - `Degree-first direction with weak skill edge` vs `Skill-first direction with proof of work and stronger market value`
 - `Low-growth paths that delay real earning progress` vs `Stronger skill choices aimed at achieving earlier financial freedom`
-- `Paid outdated impractical assessments with weak practical value` vs `Free updated practical AI-powered career and skill assessments`
+- (assessment-intent pages only) `Paid outdated impractical assessments with weak practical value` vs `Free updated practical AI-powered career and skill assessments`
 - `Generic low-paying path advice that limits growth` vs `Higher-value skill direction with clearer income-growth logic`
 - `Random upskilling that compounds slowly` vs `Clearer skill direction tied to growth and income upside`
 
@@ -303,7 +303,7 @@ Do not claim: guaranteed jobs, guaranteed income outcomes, or absolute superiori
 ### Approved FAQ Ground Truth (reuse from BOFU prompt)
 
 - Degree alone is usually not enough for high income outcomes — skills and proof of work move the needle.
-- Career and skill assessments are fully free.
+- (assessment-intent pages only) Career and skill assessments are fully free.
 - Guidance is online across India.
 - Ethical providers do not guarantee jobs.
 - Achieving earlier financial freedom can be worked toward through profile-fit skill stacking and consistent execution.
@@ -367,13 +367,13 @@ MOFU CTA discipline sits between the blog prompt (one CTA, informational tone) a
 - **No direct-payment hero CTA.** The hero/opening should not push straight to a Razorpay link the way a BOFU hero can. The reader is still deciding.
 - **One primary CTA type across the page:** route to the parent guidance/counselling page, the relevant BOFU sibling, or `#plans` on the parent/sibling page if the page already covers pricing — not a bare payment link. Guidance/counselling must visually dominate assessment links on MOFU pages.
 - **2–3 contextual CTA moments in the body** at natural decision points (after the comparison table, after the cost breakdown, after addressing "is it worth it") — not stacked at the top.
-- **For non-assessment keywords, one small assessments mention is allowed** only as a lower-pressure supporting check for readers who are not ready to commit yet. Do not make assessment the gold/pulsing CTA, do not say the normal path must start with assessments, and do not let it compete visually with guidance/counselling.
+- **For non-assessment keywords, no assessment mentions at all** (see "Assessment Mention Rules"). Guidance, counselling and the plans section are the only conversion routes.
 - **Closing CTA should feel like a natural conclusion to the comparison**, not a hard pitch: something like "Once you know which fits your situation, here's how to start" rather than a countdown-timer style push.
 
 Approved CTA destinations (reuse from `src/config/bofu.ts` — do not invent new ones):
 - parent guidance page: `https://futurecareerschool.com/services/career-counselling-and-career-guidance/`
 - relevant BOFU sibling pages (career-guidance, career-counselling, student/professional guidance pages)
-- assessments hub: `https://futurecareerschool.com/services/assessments/`
+- assessments hub (assessment-intent MOFU pages only): `https://futurecareerschool.com/services/assessments/`
 - plan-jump links: `<destination>#plans` when the linked page has the shared plans section
 
 Do not link directly to a Razorpay payment link from a MOFU page. Route through the relevant BOFU
@@ -392,8 +392,10 @@ Decide from the keyword which kind of MOFU page this is.
 - Every assessment URL ends with a trailing slash.
 
 **2. Every other MOFU keyword** (comparisons, cost, how it works, is it worth it, who needs it):
-- Same restraint as before: one small contextual mention is allowed, framed as a lower-pressure option for someone still deciding. Never the gold/pulsing CTA, never "start with an assessment", and guidance/counselling must visually dominate.
-- Pending decision (flagged to the owner): whether these pages should follow the stricter BOFU rule of no assessment mentions at all. Until decided, keep to one small mention at most.
+- Follow the strict BOFU rule: no assessment mentions, links, notes, cards, FAQs, comparison rows or "free first step" framing anywhere on the page, and no assessment-quality criterion in a checklist. The reader is deciding about our service; every free-assessment link is a reason to leave.
+- A truthful one-line description of what the paid session itself includes (for example, that the counsellor works from your profile and psychometric input) is allowed, with no link and no "free" framing.
+- If the honest answer to a "free vs paid" question needs the free layer, point to the Career & Skills Compass or career resources, and show pricing and the service.
+- The closing CTA and every CTA point to the parent guidance page, the relevant BOFU sibling or `#plans`.
 
 ---
 
@@ -412,7 +414,7 @@ page should usually include:
 - an honest breakdown of the real trade-off (cost, format, provider type, effort, or fit)
 - the comparison itself — using a comparison grid/table, not buried in paragraphs
 - Future Career School's relevant advantage woven into that comparison (see messaging bank above)
-- one honest acknowledgment of when the free layer (assessments/resources) may be enough on its own
+- one honest acknowledgment of when the free resources may be enough on its own
 - client-relevant objections or doubts specific to this comparison (not generic)
 - FAQ only when it adds real decision value to this specific comparison
 - a closing section that makes the next step obvious without a hard sell
@@ -509,7 +511,7 @@ MOFU pages should link to the specific BOFU sibling(s) relevant to the compariso
 `/career-guidance/` children once the comparison is resolved.
 
 ### Downward/contextual flow
-Link to `/services/assessments/` when the free-layer option is genuinely relevant to the comparison.
+Do not link to `/services/assessments/` from non-assessment pages.
 
 ### Breadcrumb Rules
 Breadcrumbs must match the actual URL hierarchy, e.g.
@@ -561,7 +563,7 @@ Before marking a MOFU page complete:
 - 2-3 contextual CTA moments placed after real decision-support sections, not stacked at the top
 - pricing (if mentioned) matches the approved numbers exactly
 - schema is `Article` (+ `FAQPage` if real FAQs exist) + `BreadcrumbList` — not `Service`
-- internal links: up to parent hub, across to the relevant BOFU sibling(s), down to assessments if relevant
+- internal links: up to parent hub, across to the relevant BOFU sibling(s), down to assessments only on assessment-intent pages
 - no internal planning or developer voice leaks into public content
 - page is mobile-readable and scannable
 - build passes
@@ -2957,7 +2959,7 @@ Some keywords are routed to this prompt even though they behave like top-of-funn
 
 ### Landing Layout And Images
 - A MOFU page that converts (comparison with a CTA) keeps the hero simple: no boxed "Best when / Main value" summary under the hero and no eyebrow labels above ordinary section headings.
-- Use the shared images from `docs/BOFU_IMAGE_PLAN.md` where a group image applies; do not generate one image per page.
+- Use the shared images from `docs/BOFU_IMAGE_PLAN.md` (ids in `src/config/bofuImages.ts`, component `BofuImage.astro`) where a group image applies; do not generate one image per page.
 
 ### Titles, Descriptions And Headings
 - Title below 70 characters, 75 ceiling, keyword and hook in the first 60-65. Meta description about 155, 160 max. The H1 and the search title can differ. Titles must name the same keyword the page targets (for example "counselling" vs "coaching" must match the slug).

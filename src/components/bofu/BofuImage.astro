@@ -1,0 +1,46 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import { BOFU_IMAGE_ALT, BOFU_PAGE_IMAGES } from '../../config/bofuImages';
+
+export interface Props {
+  slug?: string;
+  eager?: boolean;
+}
+
+const base = '/services/career-counselling-and-career-guidance/';
+const { slug: slugProp, eager = true } = Astro.props;
+const pathname = Astro.url.pathname;
+const slug = slugProp ?? (pathname.startsWith(base) ? pathname.slice(base.length).replace(/\/$/, '') : '');
+const id = BOFU_PAGE_IMAGES[slug];
+const exists = id ? fs.existsSync(path.join(process.cwd(), 'public', 'images', 'bofu', `${id}.webp`)) : false;
+const alt = id ? (BOFU_IMAGE_ALT[id] ?? '') : '';
+---
+
+{exists && (
+  <figure class="bofu-image">
+    <img
+      src={`/images/bofu/${id}.webp`}
+      alt={alt}
+      width="1600"
+      height="900"
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
+      decoding="async"
+    />
+  </figure>
+)}
+
+<style>
+  .bofu-image {
+    margin: 24px auto 0;
+    max-width: 960px;
+    padding: 0 16px;
+  }
+  .bofu-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    display: block;
+  }
+</style>
