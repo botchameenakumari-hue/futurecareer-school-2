@@ -55,7 +55,7 @@ outcomes. Use only these approved facts:
 
 **Approved positioning:**
 - Achieving earlier financial freedom through high-value skill building
-- Unlocking high income opportunities through a deliberate high-value, high-income skill portfolio — the chain is: right skill portfolio → high income opportunities → earlier financial freedom
+- Helping people make the decisions that unlock high income opportunities through a deliberate high-value, high-income skill portfolio — the chain is: right skill portfolio → better decisions that unlock high income opportunities → earlier financial freedom. Never say the service itself unlocks opportunities; say it helps people make the decisions that unlock them
 - Holistic skill approach: the right skill mix, proof of work, communication, market positioning, personal fit, and financial/family reality
 - High-leverage decision support over generic advice
 - Free updated practical AI-powered assessments instead of paid outdated assessments

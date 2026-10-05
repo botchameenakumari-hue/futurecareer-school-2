@@ -238,7 +238,7 @@ Use these facts naturally and flexibly in client-facing copy.
 ### Core Positioning
 
 - Achieving earlier financial freedom through high-value skill building is a core positioning priority.
-- Unlocking high income opportunities through a high-value, high-income skill portfolio is a core positioning priority. The chain is: right skill portfolio → high income opportunities → earlier financial freedom. This chain should be visible whenever the positioning section appears.
+- Helping people make the decisions that unlock high income opportunities through a high-value, high-income skill portfolio is a core positioning priority. The chain is: right skill portfolio → better decisions that unlock high income opportunities → earlier financial freedom. Wording rule: never say the service itself unlocks opportunities. Say it helps people make the decisions that unlock high income opportunities (for example, "helping you make the skill decisions that unlock high income opportunities"). This chain should be visible whenever the positioning section appears.
 - Building a high-value, high-income skill portfolio is a core positioning priority — not just one skill decision, but a deliberate portfolio of skills that compounds earning potential and opens high income opportunities over time.
 - A holistic skill approach is a core positioning priority. FCS covers not just technical or hard skills but the full picture: the right skill mix for the person, proof of work, communication skills, market positioning, fit with how they actually work, and their financial and family reality.
 - High-leverage decision support is a core positioning priority.
@@ -344,7 +344,7 @@ Use these contrast directions where relevant:
 - degree-only thinking (chasing credentials without building skills) vs a holistic skill-first approach with proof of work — note: degrees have a place, but degree-only thinking without skill-building alongside it is the problem
 - isolated skill decisions vs a deliberate high-value, high-income skill portfolio that compounds over time
 - low-growth path dependency vs a stronger route toward achieving earlier financial freedom through higher-value skill building
-- missed income opportunities vs unlocking high income opportunities through the right skill portfolio
+- missed income opportunities vs the right skill decisions that unlock high income opportunities
 - paid outdated impractical assessments vs free updated practical AI-powered career and skill assessments
 - generic low-paying path advice vs higher-value skill direction with clearer income-growth logic
 - random upskilling vs clearer skill direction tied to growth and income upside
@@ -407,7 +407,7 @@ Do not force every page into the exact same section order.
 - A practical way to build a high-value, high-income skill portfolio — a deliberate stack of skills that compounds earning potential and opens high income opportunities over time.
 - A holistic skill approach: not just technical skills, but the full picture — the right skill mix for the person, proof of work, communication skills, market positioning, fit with how they actually work, and their financial and family reality.
 - A practical way to choose stronger skill paths before expensive commitments.
-- Guidance that considers fit, market reality, and long-term upside — including unlocking high income opportunities.
+- Guidance that considers fit, market reality, and long-term upside — including the decisions that unlock high income opportunities.
 - Support toward proof of work, positioning, and income growth direction.
 - Honest feedback even when the best answer is not the easiest one.
 - A clearer route toward achieving earlier financial freedom through stronger skill choices.
@@ -575,11 +575,11 @@ For link-card descriptions, explain what the destination helps with, who it is u
   - should feel like a premium landing-page opening, not a basic text block with buttons
   - should create one strong focal point around the main promise and CTA
   - should use support lines, layout balance, and visual framing to make the page feel immediately credible
-  - **Hero section positioning requirement:** The hero (H1, hero subtext, and badge/pill) must carry at least one of the core positioning advantages — earlier financial freedom, high-income skill portfolio, or unlocking high income opportunities. These advantages must not appear only in body sections. A hero that describes the service category without a positioning signal is under-positioned.
+  - **Hero section positioning requirement:** The hero (H1, hero subtext, and badge/pill) must carry at least one of the core positioning advantages — earlier financial freedom, high-income skill portfolio, or the decisions that unlock high income opportunities. These advantages must not appear only in body sections. A hero that describes the service category without a positioning signal is under-positioned.
   - **First two sections rule:** Within the first two visible body sections after the hero, at least one sentence must explicitly reference the income or financial freedom goal — earlier financial freedom, high income opportunities, or the high-income skill portfolio. Positioning buried only in the lower half of the page does not count.
   - **Scannability rule:** Core positioning advantages must be visible to a skimmer — not buried inside long prose paragraphs only. At least one positioning signal should appear in a heading, a tile label, a bolded sentence, or a support line that a skimmer would see before reading full paragraphs. If the only positioning is inside dense prose, move one signal to a higher-visibility location.
   - **Positioning frequency rule:** Positioning must appear at minimum in: (1) the hero, (2) one of the first two body sections, and (3) the final CTA section. A page that has positioning only in the hero and final CTA but nowhere in the body has a positioning dead zone in the middle — add one signal in the first body section.
-  - **Audience-specific positioning:** The same three core advantages apply to all audiences, but the connection to each audience's situation should be specific. For a student: earlier financial freedom through choosing the right skill before wasting years on the wrong stream. For a working professional: unlocking high income opportunities by moving beyond a low-ceiling role without blowing up stability. For a career changer: building a new high-income skill portfolio the market can see. Generic positioning that names the advantage without naming the audience's specific risk is weaker than positioning that names both.
+  - **Audience-specific positioning:** The same three core advantages apply to all audiences, but the connection to each audience's situation should be specific. For a student: earlier financial freedom through choosing the right skill before wasting years on the wrong stream. For a working professional: making the decisions that unlock high income opportunities by moving beyond a low-ceiling role without blowing up stability. For a career changer: building a new high-income skill portfolio the market can see. Generic positioning that names the advantage without naming the audience's specific risk is weaker than positioning that names both.
 - Signal, fit, or "when this matters" sections:
   - should be fast to scan
   - should not be just plain repeated boxes unless that is clearly the best treatment
@@ -1401,7 +1401,7 @@ Before marking a BOFU page complete:
 - route follows the correct hierarchy
 - distinct intent is clear
 - one H1 only (prefer keyword-first placement when it reads naturally — see H1 keyword placement note in On-Page SEO section)
-- hero section (H1, subtext, badge/pill) carries at least one core positioning advantage: early financial freedom, high-income skill portfolio, or unlocking high income opportunities — not deferred to body sections only
+- hero section (H1, subtext, badge/pill) carries at least one core positioning advantage: early financial freedom, high-income skill portfolio, or the decisions that unlock high income opportunities — not deferred to body sections only
 - metadata, canonical, and schema are set
 - target keyword appears naturally in the key zones
 - approved business facts only

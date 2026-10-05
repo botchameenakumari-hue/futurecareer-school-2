@@ -52,7 +52,7 @@ Do not invent business facts, deliverables, promises, prices, guarantees, framew
 
 **Approved positioning:**
 - Achieving earlier financial freedom through high-value skill building
-- Unlocking high income opportunities through a deliberate high-value, high-income skill portfolio — the chain is: right skill portfolio → high income opportunities → earlier financial freedom
+- Helping people make the decisions that unlock high income opportunities through a deliberate high-value, high-income skill portfolio — the chain is: right skill portfolio → better decisions that unlock high income opportunities → earlier financial freedom. Never say the service itself unlocks opportunities; say it helps people make the decisions that unlock them
 - Building a high-value, high-income skill portfolio: a deliberate stack of skills that compounds earning potential over time, not just one skill decision
 - Holistic skill approach: the right skill mix for the person, proof of work, communication skills, market positioning, personal fit, and financial and family reality — not just technical skills in isolation
 - Skill-first direction with proof of work
@@ -87,7 +87,7 @@ Do not invent business facts, deliverables, promises, prices, guarantees, framew
 - add intent-specific decision criteria, comparison framing, objection handling, or next-step clarity when they improve the page
 - if relevant, strengthen the difference between degree-only thinking (chasing credentials without building skills) and a holistic skill approach: the right skill mix, proof of work, communication, market positioning, and personal fit — remember that degrees have a place, so the framing should be skill-first, not anti-degree
 - if relevant, make the high-value, high-income skill portfolio positioning visible: the idea that FCS helps people build a deliberate stack of skills that compounds earning potential and unlocks high income opportunities over time — not just one skill decision
-- if relevant, surface the positioning chain explicitly: right skill portfolio → high income opportunities → earlier financial freedom
+- if relevant, surface the positioning chain explicitly: right skill portfolio → better decisions that unlock high income opportunities → earlier financial freedom. Never say the service itself unlocks opportunities; say it helps people make the decisions that unlock them
 - on service-intent pages, do not add free assessment or free-layer promotion; keep the visitor on the service, the proof, and the price
 - do not use the "paid outdated assessments versus free assessments" contrast on service-intent pages (assessment-intent pages only)
 - on service-intent pages, no assessment note, card, or link at all (see `BOFU_PAGE_PROMPT.md` "Assessment Mention Rules")
@@ -307,7 +307,7 @@ Before finalizing any BOFU follow-up pass, run this doorway-detection audit:
 
 ### Hero Positioning Check
 
-- [ ] Hero section (H1, subtext, badge/pill) carries at least one core positioning advantage: earlier financial freedom, high-income skill portfolio, or unlocking high income opportunities
+- [ ] Hero section (H1, subtext, badge/pill) carries at least one core positioning advantage: earlier financial freedom, high-income skill portfolio, or the decisions that unlock high income opportunities
 - [ ] Positioning signal is not deferred to body sections only — it appears in the first screen
 - [ ] A hero that only describes the service category without a positioning signal is under-positioned: fix it before finalising
 - [ ] At least one sentence in the first two body sections (after the hero) explicitly references earlier financial freedom, high income opportunities, or the high-income skill portfolio — positioning is not buried below the fold

@@ -257,7 +257,7 @@ claims for MOFU pages. Use these facts naturally and honestly while answering th
 ### Core Positioning (weave into the comparison, not just the CTA)
 
 - Achieving earlier financial freedom through high-value skill building is a core positioning priority.
-- Unlocking high income opportunities through a high-value, high-income skill portfolio is a core positioning priority. The chain is: right skill portfolio → high income opportunities → earlier financial freedom.
+- Helping people make the decisions that unlock high income opportunities through a high-value, high-income skill portfolio is a core positioning priority. The chain is: right skill portfolio → better decisions that unlock high income opportunities → earlier financial freedom. Wording rule: never say the service itself unlocks opportunities. Say it helps people make the decisions that unlock high income opportunities (for example, "helping you make the skill decisions that unlock high income opportunities").
 - A holistic skill approach is a core positioning priority: the right skill mix for the person, proof of work, communication skills, market positioning, fit with how they actually work, and their financial and family reality — not just technical skills in isolation.
 - High-leverage decision support over generic advice is a core positioning priority.
 - Degrees have a place — the issue is degree-only thinking without skill-building alongside it.
