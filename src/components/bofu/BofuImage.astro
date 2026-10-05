@@ -12,7 +12,11 @@ const base = '/services/career-counselling-and-career-guidance/';
 const { slug: slugProp, eager = true } = Astro.props;
 const pathname = Astro.url.pathname;
 const slug = slugProp ?? (pathname.startsWith(base) ? pathname.slice(base.length).replace(/\/$/, '') : '');
-const id = BOFU_PAGE_IMAGES[slug];
+const id = pathname === '/services/' || pathname === '/services'
+  ? 'hero-hub'
+  : pathname.startsWith('/services/assessments/')
+    ? 'hero-assessment'
+    : BOFU_PAGE_IMAGES[slug];
 const exists = id ? fs.existsSync(path.join(process.cwd(), 'public', 'images', 'bofu', `${id}.webp`)) : false;
 const alt = id ? (BOFU_IMAGE_ALT[id] ?? '') : '';
 const showDiagrams = slug === '' || slug === 'career-guidance';
