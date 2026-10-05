@@ -375,5 +375,5 @@ If assessment-intent keyword, above rules do NOT apply — assessment can be pro
 
 ### Contact Rule (WhatsApp Only)
 
-- There is no phone helpline and no call-booking line. People reach Future Career School by WhatsApp message (`WHATSAPP_BOOKING_URL` in `src/config/site.ts`) or through the payment links. Never write "call us", "call the helpline", "talk on the phone", or a "Call Now" button on service pages, and never claim a phone line, 24/7 support, or a call-centre.
+- There is no phone helpline and no call-booking line. People reach Future Career School by WhatsApp message (`WHATSAPP_BOOKING_URL` in `src/config/site.ts`) or through the payment links. The nav, footer, and contact page keep their phone link; that is fine. In page content, lead with WhatsApp (it is the primary contact route, repeated in hero or closing CTA where a contact route is needed). Never write "call us", "call the helpline", "talk on the phone", or a "Call Now" button on service pages, and never claim a phone line, 24/7 support, or a call-centre.
 

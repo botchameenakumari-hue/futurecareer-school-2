@@ -99,7 +99,8 @@ cosmetic edit below.
 - confirm there is no direct-payment hero CTA — the opening should not push straight to a Razorpay link
 - confirm the primary CTA routes to the parent guidance/counselling page, a relevant BOFU sibling, or a `#plans` anchor — not a bare payment link and not an assessment-first path
 - confirm there are 2-3 contextual CTA moments placed after real decision-support sections (after the comparison table, after the cost breakdown, after addressing "is it worth it") — not stacked at the top
-- if the page mentions assessments, confirm it is framed as a small lower-pressure support option for someone still deciding, not a bait-and-switch hero CTA and not an equal-weight button beside guidance/counselling
+- if the keyword is assessment-intent, confirm the page links the assessments that apply to that keyword (full assessment for the audience, plus the specific narrower test if named) and still bridges to paid guidance
+- if the keyword is not assessment-intent and the page mentions assessments, confirm it is framed as a small lower-pressure support option for someone still deciding, not a bait-and-switch hero CTA and not an equal-weight button beside guidance/counselling
 - if the closing section reads like a hard countdown-style push rather than a natural next step after a comparison, soften it
 - if the page has drifted toward zero CTAs (pure blog tone) or toward 4+ hard CTAs (BOFU tone), rebalance to the MOFU middle ground
 
@@ -197,3 +198,15 @@ cosmetic edit below.
 - the next step should be easy and low-pressure, appearing at the point the reader has actually decided
 - if the page still feels one-sided, generic, or like a BOFU/blog page wearing a MOFU URL, keep improving before considering the follow-up complete
 - `npm run check:public-copy` must pass after build before the follow-up is considered done
+
+## Added Checks (carried over from BOFU and blog rules)
+
+- [ ] Keyword classified first: service-to-buy -> BOFU prompt, explainer -> blog prompt, assessment keyword -> assessment rule
+- [ ] 4-6 comparison rows, at least 2 specific to this keyword and listed first; no assessment row unless assessment-intent
+- [ ] Positioning wording: "helps make the decisions that unlock high income opportunities", never "unlocks"
+- [ ] WhatsApp is the contact route; no phone-helpline or call claims in page content
+- [ ] Trailing slash on every internal URL; `npm run verify` passes
+- [ ] Title below 70 (75 ceiling), meta about 155 (160 max), title matches the slug's keyword
+- [ ] Nearest-sibling overlap about 50% or less; no two pages for one intent
+- [ ] Related-links section, two-click rule, and 390px mobile check done
+

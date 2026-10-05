@@ -3835,17 +3835,35 @@ Service pages read like landing pages, not articles.
 
 ### Contact Rule (WhatsApp Only)
 
-- There is no phone helpline and no call-booking line. People reach Future Career School by WhatsApp message (`WHATSAPP_BOOKING_URL` in `src/config/site.ts`) or through the payment links. Never write "call us", "call the helpline", "talk on the phone", or a "Call Now" button on service pages, and never claim a phone line, 24/7 support, or a call-centre.
+- There is no phone helpline and no call-booking line. People reach Future Career School by WhatsApp message (`WHATSAPP_BOOKING_URL` in `src/config/site.ts`) or through the payment links. The nav, footer, and contact page keep their phone link; that is fine. In page content, lead with WhatsApp (it is the primary contact route, repeated in hero or closing CTA where a contact route is needed). Never write "call us", "call the helpline", "talk on the phone", or a "Call Now" button on service pages, and never claim a phone line, 24/7 support, or a call-centre.
 
 ### Doorway and Duplication Guard (BOFU)
 
 - Run the nearest-sibling check before publishing: no more than about 50% of a page's text may also appear on its nearest sibling page (same group, such as two city pages or two audience pages). If it is higher, rewrite with different local facts, examples, objections, FAQs, and comparison rows.
 - Location pages must carry facts that are true only for that place (named employers, exams, colleges, industries, commute or cost realities) and must not merely swap the city name. A page whose local section could be pasted onto another city unchanged fails.
 - Do not create two pages for the same intent (for example `career-counselling` and `career-guidance` with the same promise). Differentiate the intent or merge one into the other with a 301.
+- On location pages the "template" blocks (the "what you need" list, the local-versus-broader decision list, the summary strips, the "what to keep ready" list, the "what to check" list) must also be written for that city using its own economy, exams, employers, or commute. Only the structure may repeat, never the sentences. Check the nearest-sibling overlap after the build (excluding nav, footer and plans text).
 - Only publish a location page if the online service gives that city's searcher something specific; a thin city page weakens the whole `/services/` group.
 
 ### Images (BOFU)
 
 - Use shared hero and diagram images by page group instead of one image per page. The approved list and the pages that use each image are in `docs/BOFU_IMAGE_PLAN.md`; follow it when adding images.
 - Images are 1600x900 WebP under 150 KB, hero above the fold eager and the rest lazy, with alt text that describes the picture for this page's topic. No faces of real people, no logos, no text baked into the image, no job-guarantee imagery.
+
+---
+
+## Ranking Lessons (do not repeat)
+
+These mistakes were found when the BOFU pages were not ranking. Check every new page against them.
+1. **Slash-less internal links** split signals and create "Page with redirect" in Search Console. Always use the trailing slash.
+2. **Titles over the ceiling.** Measure the title without the brand suffix: below 70 standard, 75 ceiling. Anything longer is cut in the results and wastes the hook.
+3. **Title keyword must match the slug.** A page at `...counselling-for-x` must not be titled "Career Coaching for X". Counselling, guidance and coaching are separate searches.
+4. **Descriptions over about 185 characters** are cut. Keep about 155, 160 max.
+5. **Near-duplicate sibling pages** (city pages, audience pages) are treated as doorway content. Keep overlap with the nearest sibling about 50% or less and use facts true only for that place or audience.
+6. **Two pages for the same intent** compete with each other. Differentiate or merge with a 301.
+7. **Jump-nav, summary boxes and eyebrow labels** make a service page read like an article. Keep it a landing page.
+8. **False promises.** No phone helpline, no 24/7 support, no guarantees. WhatsApp is the contact route.
+9. **Assessment links on service pages** pull visitors away from the offer. Assessment links only on assessment-intent pages.
+10. **Orphan pages.** Every new page needs a link from its hub and sibling pages on the day it ships, and an entry in the sitemap.
+11. **After publishing,** submit the page in Search Console, then check indexing after two to four weeks. "Crawled - currently not indexed" on several siblings usually means thin or templated content.
 

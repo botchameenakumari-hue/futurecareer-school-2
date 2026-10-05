@@ -227,7 +227,7 @@ Add new MOFU pages there only when genuinely ready for indexing.
 
 **`src/config/site.ts`** — contains `SITE_NAME`, `SITE_URL`, `SITE_ALTERNATE_URLS`, `DEFAULT_OG_IMAGE_PATH`, `DEFAULT_OG_IMAGE_URL`, `CONTACT`, `WHATSAPP_BASE_URL`, `WHATSAPP_BOOKING_URL`, `LIVE_INDEXABLE_ROUTES`.
 
-**`src/config/bofu.ts`** — shared comparison row library, internal/public link destinations, payment links, plan-jump links. MOFU pages reuse this same library; do not invent a separate one.
+**`src/config/bofu.ts`** — shared comparison row library, internal/public link destinations, payment links, plan-jump links. MOFU pages reuse this same library as the base layer and add their own keyword-specific rows; do not build a separate library.
 
 **`src/components/Nav.astro`** — shared public navigation.
 
@@ -290,7 +290,7 @@ Use these as the actual content of a comparison/consideration page, not just a b
 - paid outdated impractical assessments vs free updated practical AI-powered career and skill assessments
 - one-off session format vs continuous small-group guidance that keeps skill direction current as the market shifts
 
-Exact shared comparison row library (mirrors `src/config/bofu.ts` — reuse rows that genuinely fit; do not invent new ones):
+Exact shared comparison row library (mirrors `src/config/bofu.ts` — reuse rows that genuinely fit as the base; add keyword-specific rows on top, see "Comparison Table Rules (MOFU)" below):
 - `Generic advice that still leaves you unclear` vs `High-leverage decision support around path, skill, and risk`
 - `Degree-first direction with weak skill edge` vs `Skill-first direction with proof of work and stronger market value`
 - `Low-growth paths that delay real earning progress` vs `Stronger skill choices aimed at achieving earlier financial freedom`
@@ -367,7 +367,7 @@ MOFU CTA discipline sits between the blog prompt (one CTA, informational tone) a
 - **No direct-payment hero CTA.** The hero/opening should not push straight to a Razorpay link the way a BOFU hero can. The reader is still deciding.
 - **One primary CTA type across the page:** route to the parent guidance/counselling page, the relevant BOFU sibling, or `#plans` on the parent/sibling page if the page already covers pricing — not a bare payment link. Guidance/counselling must visually dominate assessment links on MOFU pages.
 - **2–3 contextual CTA moments in the body** at natural decision points (after the comparison table, after the cost breakdown, after addressing "is it worth it") — not stacked at the top.
-- **One small assessments mention is allowed** only as a lower-pressure supporting check for readers who are not ready to commit yet. Do not make assessment the gold/pulsing CTA, do not say the normal path must start with assessments, and do not let it compete visually with guidance/counselling.
+- **For non-assessment keywords, one small assessments mention is allowed** only as a lower-pressure supporting check for readers who are not ready to commit yet. Do not make assessment the gold/pulsing CTA, do not say the normal path must start with assessments, and do not let it compete visually with guidance/counselling.
 - **Closing CTA should feel like a natural conclusion to the comparison**, not a hard pitch: something like "Once you know which fits your situation, here's how to start" rather than a countdown-timer style push.
 
 Approved CTA destinations (reuse from `src/config/bofu.ts` — do not invent new ones):
@@ -383,9 +383,17 @@ page (or its `#plans` anchor) so the reader sees the full offer before paying.
 
 ## Assessment Mention Rules
 
-Same restraint as BOFU non-assessment pages: one contextual mention is fine, framed as a genuine
-lower-pressure option for someone still deciding — not a bait-and-switch hero CTA. If the MOFU keyword
-is itself assessment/cost-of-assessment intent, read `ASSESSMENT_PAGE_PROMPT.md` instead of this file.
+Decide from the keyword which kind of MOFU page this is.
+
+**1. Assessment-intent MOFU keyword** (the searcher is comparing or choosing tests, quizzes, assessments, psychometric or aptitude tests, or "which test should I take"):
+- Link the assessments that apply to that keyword. Use the matching full assessment for the audience when one exists, and the specific narrower test when the keyword names it. More than one assessment link is fine when the audience is broad.
+- Read `ASSESSMENT_PAGE_PROMPT.md` first for how narrower tests route to the four full assessments (`src/config/mainAssessments.ts`), and for assessment titles and descriptions.
+- Close by bridging into the paid guidance page or its `#plans` once the reader has enough free signal.
+- Every assessment URL ends with a trailing slash.
+
+**2. Every other MOFU keyword** (comparisons, cost, how it works, is it worth it, who needs it):
+- Same restraint as before: one small contextual mention is allowed, framed as a lower-pressure option for someone still deciding. Never the gold/pulsing CTA, never "start with an assessment", and guidance/counselling must visually dominate.
+- Pending decision (flagged to the owner): whether these pages should follow the stricter BOFU rule of no assessment mentions at all. Until decided, keep to one small mention at most.
 
 ---
 
@@ -2920,5 +2928,37 @@ Never invent a flat root URL by default.
 
 ### Contact Rule (WhatsApp Only)
 
-- There is no phone helpline and no call-booking line. People reach Future Career School by WhatsApp message (`WHATSAPP_BOOKING_URL` in `src/config/site.ts`) or through the payment links. Never write "call us", "call the helpline", "talk on the phone", or a "Call Now" button on service pages, and never claim a phone line, 24/7 support, or a call-centre.
+- There is no phone helpline and no call-booking line. People reach Future Career School by WhatsApp message (`WHATSAPP_BOOKING_URL` in `src/config/site.ts`) or through the payment links. The nav, footer, and contact page keep their phone link; that is fine. In page content, lead with WhatsApp (it is the primary contact route, repeated in hero or closing CTA where a contact route is needed). Never write "call us", "call the helpline", "talk on the phone", or a "Call Now" button on service pages, and never claim a phone line, 24/7 support, or a call-centre.
+
+---
+
+## Rules Carried Over From The BOFU And Blog Prompts (MOFU)
+
+Some keywords are routed to this prompt even though they behave like top-of-funnel or bottom-of-funnel keywords. Apply these rules so the same mistakes do not repeat.
+
+### Funnel-Stage Check First
+- Classify the keyword before writing. If it asks for a service to buy (counselling, coaching, guidance, session, program, price for a service), use `BOFU_PAGE_PROMPT.md`. If it is a pure question or explainer, use `BLOG_WRITING_PROMPT.md`. If it asks for a test, quiz or assessment, apply the assessment rule above and `ASSESSMENT_PAGE_PROMPT.md`.
+- A page that mixes two stages must still have one main job and one primary CTA.
+
+### Comparison Table Rules (MOFU)
+- Show 4 to 6 comparison rows. At least 2 must be written for this page's own keyword and audience, and they come first. Shared library rows fill the remaining slots. No invented guarantees, statistics or named competitors. The assessment contrast row appears only on assessment-intent pages.
+- If the page uses `src/components/bofu/ComparisonMatrix.astro`, pass the page-specific rows through `extraRows`.
+
+### Positioning Wording
+- Follow the wording rule in "Core Positioning": the service helps people make the decisions that unlock high income opportunities; it never claims to unlock them itself. The opening or hero carries at least one core positioning advantage.
+
+### Contact And Links
+- WhatsApp is the contact route; no phone helpline, no "call us", no call button in page content (nav, footer and contact page keep their phone link).
+- Every internal URL ends with a trailing slash. Never link to a redirecting or noindex URL. `npm run verify` must pass.
+
+### Doorway And Duplication Guard
+- No more than about 50% of the page's text may also appear on its nearest sibling page. Do not publish two pages for the same intent; merge or differentiate.
+- Location or audience variants must carry facts that are true only for that place or audience, not a swapped name.
+
+### Landing Layout And Images
+- A MOFU page that converts (comparison with a CTA) keeps the hero simple: no boxed "Best when / Main value" summary under the hero and no eyebrow labels above ordinary section headings.
+- Use the shared images from `docs/BOFU_IMAGE_PLAN.md` where a group image applies; do not generate one image per page.
+
+### Titles, Descriptions And Headings
+- Title below 70 characters, 75 ceiling, keyword and hook in the first 60-65. Meta description about 155, 160 max. The H1 and the search title can differ. Titles must name the same keyword the page targets (for example "counselling" vs "coaching" must match the slug).
 
