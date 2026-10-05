@@ -87,7 +87,7 @@ Informational/problem queries like "how to get a job after gap year", "resume re
 - A "{audience} in {city}" long-tail belongs to the **city page** (city-qualified), NOT the industry page
 
 ### Rule 7 — canonical + trailing slash everywhere
-Use `build.format: 'directory'` in Astro. Every URL has a trailing slash. One canonical version only — never let `https://` and `http://`, `www.` and non-www, or `/path` and `/path/` compete.
+Use `build.format: 'directory'` in Astro. Every URL has a trailing slash. One canonical version only — never let `https:/` and `http:/`, `www.` and non-www, or `/path` and `/path/` compete.
 
 ### Rule 8 — no doorway pages
 Don't create `/career-coaching/{city}` pages for every city-audience combination unless Google Search Console shows real demand for those exact queries. Thin, forced combinations are doorway pages and get penalised.

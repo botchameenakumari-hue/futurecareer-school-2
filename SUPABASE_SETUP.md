@@ -65,7 +65,7 @@ The bootstrap is deliberately unavailable to website visitors, signed-in users, 
 
 5. Deploy `supabase/functions/manage-accounts/index.ts` as the `manage-accounts` Edge Function with JWT verification enabled.
 6. Set the Edge Function secret `APP_URL` to the public website origin, for example `https://app.yourbusiness.com`.
-7. In **Authentication -> URL Configuration**, set the same Site URL and allow its `/dashboard` redirect.
+7. In **Authentication -> URL Configuration**, set the same Site URL and allow its `/dashboard/` redirect.
 8. Configure custom SMTP before inviting real staff or students. Supabase's default mail service is suitable only for limited testing.
 9. Add these public values to the website environment:
 

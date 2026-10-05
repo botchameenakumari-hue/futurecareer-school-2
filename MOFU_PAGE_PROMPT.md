@@ -436,7 +436,10 @@ X vs Y query`. Write the comparison itself, not commentary about why the compari
 - The keyword is provided by the user directly. Use it as the single primary keyword.
 - One H1 only. Lead with the keyword when it reads naturally; do not force awkward phrasing.
 - Include the target keyword naturally in the title, meta, H1, first sentence, and at least one H2.
-- Keep title concise and click-worthy; meta description unique and under 160 characters.
+- Title: concise and click-worthy; below 70 characters is the standard and 75 is the hard ceiling. Keep the keyword and the hook inside the first 60-65 characters, and phrase it the way people search.
+- The H1 and the `<title>` are different jobs: the H1 can be longer and richer for the reader; the title is the short search snippet. Both carry the primary keyword.
+- Meta description unique, about 155 characters, 160 at most; lead with what the reader learns, plus one concrete detail.
+- Every internal link, canonical, breadcrumb and JSON-LD URL ends with a trailing slash. Slash-less URLs 301-redirect and show as "Page with redirect" in Search Console. `npm run verify` fails on them.
 - Use semantic secondary keywords naturally without stuffing.
 - Keep core copy and internal links server-rendered.
 - Ensure strong mobile readability and scannable layout — reuse the responsive table/card patterns from `BOFU_PAGE_PROMPT.md` (table-wrap + `data-label`, single-column collapse, no flat grey card grids).

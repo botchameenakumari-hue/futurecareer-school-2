@@ -188,7 +188,7 @@ quiz variants are exactly where that creeps in.
 ## On-page SEO & schema baseline
 
 - Place the target phrase (or a close natural variation) in: the title tag, URL slug, H1, the first sentence, within the first 100 words, the meta description, and at least one H2 — naturally, never stuffed.
-- Title: unique, ≤ ~60 chars before the brand suffix, natural Title Case, main phrase first, phrased the way people search ("X vs Y: Which…?", "Free Class 10 Career Test…"). Put a number in when it is true. Never repeat a keyword awkwardly or stack several keywords with commas.
+- Title: unique, ≤ ~60 chars before the brand suffix (hard ceiling 65 for assessment pages; never trim the keyword to fit), natural Title Case, main phrase first, phrased the way people search ("X vs Y: Which…?", "Free Class 10 Career Test…"). Put a number in when it is true. Never repeat a keyword awkwardly or stack several keywords with commas.
 - Meta description: unique, ≤ ~155 chars, stating what the visitor gets plus one concrete detail (question count, what the report covers, "instant result, no sign-up"). Anything past ~160 characters is cut off in results.
 - The `<title>` and the H1 may differ. The H1 states the page promise; the title is tuned for the results page. Keep them separate when a shorter search title would weaken the on-page heading.
 - **A full stage assessment's title and description must name the narrower tests it contains** (e.g. stream selector test, aptitude test, career interest test), because people search those names, not "career assessment". Check the live Search Console queries for the stage before writing.
@@ -227,7 +227,7 @@ Search demand lands mostly on the narrower tests (stream selector, aptitude, pla
 
 ## URLs, Links and Redirects
 
-- The site is served from `build.format: 'directory'`, so every real URL ends with `/`. **All internal links, breadcrumb items, CTA hrefs, canonical URLs and JSON-LD URLs must end with a trailing slash** (`/services/assessments/`, not `/services/assessments`). A slash-less link is a 301 and shows up in Search Console as "Page with redirect".
+- The site is served from `build.format: 'directory'`, so every real URL ends with `/`. **All internal links, breadcrumb items, CTA hrefs, canonical URLs and JSON-LD URLs must end with a trailing slash** (`/services/assessments/`, not `/services/assessments/`). A slash-less link is a 301 and shows up in Search Console as "Page with redirect".
 - Never link internally to a redirecting URL, a redirect stub, or a noindex page. Link to the canonical live page.
 - Generated `[slug]` pages reach the sitemap from `assessmentPages.ts` automatically; a dedicated standalone assessment page needs its own `LIVE_INDEXABLE_ROUTES` entry in `src/config/site.ts`. Do not also hand-list redirects for a live page.
 - After any assessment change, check that no URL in `dist/sitemap.xml` is redirected by `dist/.htaccess` and that no `.htaccess` rule forms a chain.

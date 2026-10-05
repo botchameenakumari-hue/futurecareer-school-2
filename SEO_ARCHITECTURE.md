@@ -134,7 +134,7 @@ exhaustive list, and not guaranteed to be complete or current:
 - `/contact/` is the functional contact page with WhatsApp, email, phone, and address — links to /contact/book-session/ (planned)
 
 Current non-primary routes:
-- `/topics-index` -> redirect/noindex
+- `/topics-index/` -> redirect/noindex
 - `/career-landing` -> legacy/noindex
 - `/coaches-dashboard` -> internal/noindex
 - `/404` -> noindex not-found fallback
@@ -259,7 +259,7 @@ Blog, resources, and content pages should pass relevance upward into the right c
 Examples:
 - a stream-selection blog post should link into counselling/student pages
 - an AI-skills article should link into skill pages or future coaching/service pages
-- assessment-focused blocks should link to `/services/assessments` before linking to deeper child tests
+- assessment-focused blocks should link to `/services/assessments/` before linking to deeper child tests
 
 ## Breadcrumb Rules
 
@@ -306,7 +306,7 @@ After each real deployment:
 4. Test:
    - `http://futurecareerschool.com`
    - `http://www.futurecareerschool.com`
-   - `https://futurecareerschool.com/topics-index`
+   - `https://futurecareerschool.com/topics-index/`
    - `https://futurecareerschool.com/robots.txt`
    - `https://futurecareerschool.com/sitemap.xml`
 5. Make sure the final public responses match the canonical `.com` setup.
@@ -421,10 +421,10 @@ If a page exists, it should have:
 Global navigation should favor real parent hubs and discovery pages.
 
 Current preferred primary nav focus:
-- `/services`
-- `/services/career-counselling-and-career-guidance`
-- `/career-skills-compass`
-- `/career-resources`
+- `/services/`
+- `/services/career-counselling-and-career-guidance/`
+- `/career-skills-compass/`
+- `/career-resources/`
 
 Do not give primary public nav weight to:
 - internal training dashboards
@@ -457,7 +457,7 @@ Rules:
 - categories represent search intent (topic), not audience
 - avoid splitting the same intent into student vs graduate vs professional posts; handle audience sections inside one strong post
 - do not publish thin placeholder posts or empty category pages as indexable
-- do not add `/blog` or blog categories to the XML sitemap until real posts are published
+- do not add `/blog/` or blog categories to the XML sitemap until real posts are published
 
 ## Blog Publishing Checklist (Exhaustive)
 
@@ -474,8 +474,8 @@ This checklist is designed so you can publish one SEO article at a time without 
 2. Pick exactly one blog category that owns the post.
 3. Decide the one main CTA destination:
    - guidance intent -> `/how-guidance-works`
-   - assessment intent -> `/services/assessments`
-   - skill intent -> `/career-skills-compass` or `/career-resources?topic=skills&type=roadmap`
+   - assessment intent -> `/services/assessments/`
+   - skill intent -> `/career-skills-compass/` or `/career-resources?topic=skills&type=roadmap`
 
 ### 2) URL + slug rules
 
@@ -528,7 +528,7 @@ When a category has real posts (and you want it indexed):
 
 When the blog hub is ready for search:
 1. remove `noindex` from `/blog/`
-2. add `/blog` to `LIVE_INDEXABLE_ROUTES` in `src/config/site.ts`
+2. add `/blog/` to `LIVE_INDEXABLE_ROUTES` in `src/config/site.ts`
 
 For the current live blog categories and posts, read `LIVE_INDEXABLE_ROUTES` in
 `src/config/site.ts` directly rather than trusting a list here — this list is

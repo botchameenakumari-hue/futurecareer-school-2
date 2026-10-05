@@ -275,44 +275,44 @@ Planned pages belong in documentation until they are actually published with rea
 
 Current live indexable routes are defined in `src/config/site.ts` as `LIVE_INDEXABLE_ROUTES`:
 - `/`
-- `/services`
-- `/services/career-counselling-and-career-guidance`
-- `/services/career-counselling-and-career-guidance/career-guidance`
-- `/services/career-counselling-and-career-guidance/career-coach-near-me`
-- `/services/career-counselling-and-career-guidance/career-counselling`
-- `/services/career-counselling-and-career-guidance/student-career-guidance`
-- `/services/career-counselling-and-career-guidance/working-professional-career-guidance`
-- `/services/assessments`
-- `/services/assessments/class-10-and-below`
-- `/services/assessments/class-11-to-12`
-- `/services/assessments/graduates-and-early-professionals`
-- `/services/assessments/stream-selector-test-after-10th`
-- `/services/assessments/career-aptitude-test-after-10th`
-- `/services/assessments/stream-selector-test-after-12th`
-- `/services/assessments/career-aptitude-test-after-12th`
-- `/career-resources`
-- `/career-skills-compass`
-- `/blog`
-- `/blog/ai-future`
-- `/blog/ai-future/top-careers-for-the-future`
-- `/blog/career-options`
-- `/blog/career-options/best-career-options-with-high-salary`
-- `/blog/career-options/bca-career-options`
-- `/blog/career-options/bba-career-options`
-- `/blog/career-options/career-options-after-12th-commerce`
-- `/blog/career-options/career-options-after-12th-pcb`
-- `/blog/career-options/career-options-after-12th-science`
-- `/blog/career-options/career-options-in-commerce`
-- `/blog/career-options/career-options-in-arts`
-- `/blog/career-options/pcb-career-options-without-neet`
-- `/blog/career-options/pcm-career-options`
-- `/blog/career-guidance`
-- `/blog/career-guidance/how-to-choose-a-career-after-12th`
-- `/blog/stream-selection`
-- `/blog/stream-selection/career-options-after-10th`
-- `/about`
-- `/locations`
-- `/contact`
+- `/services/`
+- `/services/career-counselling-and-career-guidance/`
+- `/services/career-counselling-and-career-guidance/career-guidance/`
+- `/services/career-counselling-and-career-guidance/career-coach-near-me/`
+- `/services/career-counselling-and-career-guidance/career-counselling/`
+- `/services/career-counselling-and-career-guidance/student-career-guidance/`
+- `/services/career-counselling-and-career-guidance/working-professional-career-guidance/`
+- `/services/assessments/`
+- `/services/assessments/class-10-and-below/`
+- `/services/assessments/class-11-to-12/`
+- `/services/assessments/graduates-and-early-professionals/`
+- `/services/assessments/stream-selector-test-after-10th/`
+- `/services/assessments/career-aptitude-test-after-10th/`
+- `/services/assessments/stream-selector-test-after-12th/`
+- `/services/assessments/career-aptitude-test-after-12th/`
+- `/career-resources/`
+- `/career-skills-compass/`
+- `/blog/`
+- `/blog/ai-future/`
+- `/blog/ai-future/top-careers-for-the-future/`
+- `/blog/career-options/`
+- `/blog/career-options/best-career-options-with-high-salary/`
+- `/blog/career-options/bca-career-options/`
+- `/blog/career-options/bba-career-options/`
+- `/blog/career-options/career-options-after-12th-commerce/`
+- `/blog/career-options/career-options-after-12th-pcb/`
+- `/blog/career-options/career-options-after-12th-science/`
+- `/blog/career-options/career-options-in-commerce/`
+- `/blog/career-options/career-options-in-arts/`
+- `/blog/career-options/pcb-career-options-without-neet/`
+- `/blog/career-options/pcm-career-options/`
+- `/blog/career-guidance/`
+- `/blog/career-guidance/how-to-choose-a-career-after-12th/`
+- `/blog/stream-selection/`
+- `/blog/stream-selection/career-options-after-10th/`
+- `/about/`
+- `/locations/`
+- `/contact/`
 
 Current generated SEO endpoints:
 - `src/pages/sitemap.xml.ts`
@@ -373,7 +373,7 @@ Approved default CTA copy:
 
 Approved default CTA links:
 - primary: `https://futurecareerschool.com/services/career-counselling-and-career-guidance/`
-- small supporting link: `https://futurecareerschool.com/services/assessments`
+- small supporting link: `https://futurecareerschool.com/services/assessments/`
 
 Execution rule for future agents:
 - when creating a new blog page, use the shared `BlogBottomCta.astro` component by default even if the prompt does not repeat CTA instructions
@@ -445,9 +445,9 @@ Execution rule for future agents:
 
 #### `src/components/Nav.astro`
 Current public primary nav should emphasize:
-- `/services`
-- `/career-skills-compass`
-- `/career-resources`
+- `/services/`
+- `/career-skills-compass/`
+- `/career-resources/`
 
 The internal coaches dashboard should not be promoted as a primary public nav destination.
 
@@ -472,7 +472,7 @@ Purpose:
 - provide a single CTA destination for assessment-related sections across the website
 
 Primary CTA URL:
-- `https://futurecareerschool.com/services/assessments`
+- `https://futurecareerschool.com/services/assessments/`
 
 #### `src/pages/services/career-counselling-and-career-guidance/index.astro`
 Role:
@@ -572,27 +572,27 @@ Route structure:
 
 Current state:
 - live published posts:
-  - `/blog/ai-future/top-careers-for-the-future`
-  - `/blog/career-options/best-career-options-with-high-salary`
-  - `/blog/career-options/bca-career-options`
-  - `/blog/career-options/bba-career-options`
-  - `/blog/career-options/career-options-after-12th-commerce`
-  - `/blog/career-options/career-options-after-12th-pcb`
-  - `/blog/career-options/career-options-after-12th-science`
-  - `/blog/career-options/career-options-in-commerce`
-  - `/blog/career-options/career-options-in-arts`
-  - `/blog/career-options/pcb-career-options-without-neet`
-  - `/blog/career-options/pcm-career-options`
-  - `/blog/career-guidance/how-to-choose-a-career-after-12th`
-  - `/blog/stream-selection/career-options-after-10th`
-  - `/blog/resume/resume-tips-for-freshers-india`
+  - `/blog/ai-future/top-careers-for-the-future/`
+  - `/blog/career-options/best-career-options-with-high-salary/`
+  - `/blog/career-options/bca-career-options/`
+  - `/blog/career-options/bba-career-options/`
+  - `/blog/career-options/career-options-after-12th-commerce/`
+  - `/blog/career-options/career-options-after-12th-pcb/`
+  - `/blog/career-options/career-options-after-12th-science/`
+  - `/blog/career-options/career-options-in-commerce/`
+  - `/blog/career-options/career-options-in-arts/`
+  - `/blog/career-options/pcb-career-options-without-neet/`
+  - `/blog/career-options/pcm-career-options/`
+  - `/blog/career-guidance/how-to-choose-a-career-after-12th/`
+  - `/blog/stream-selection/career-options-after-10th/`
+  - `/blog/resume/resume-tips-for-freshers-india/`
 - `/blog/`, `/blog/ai-future/`, `/blog/career-guidance/`, `/blog/career-options/`, `/blog/stream-selection/`, and `/blog/resume/` are indexable because real published posts exist
 - CTA destination priority used in the article:
   - career guidance/counselling: `/services/career-counselling-and-career-guidance/` as the visually primary paid action
-  - assessments: `/services/assessments` only as a smaller contextual support link/button unless the page is assessment-intent
+  - assessments: `/services/assessments/` only as a smaller contextual support link/button unless the page is assessment-intent
 
 Publishing rule:
-- keep `/blog` or `/blog/<category>` out of the sitemap until they have real post support
+- keep `/blog/` or `/blog/<category>` out of the sitemap until they have real post support
 
 ### Internal Linking Rules to Preserve
 
@@ -601,8 +601,8 @@ Publishing rule:
 - top-nav and footer should reinforce real live hubs
 - blog/content pages should link into the relevant service or resource parent page
 - breadcrumb trails should mirror the URL hierarchy
-- assessment-focused CTA blocks should route to `/services/assessments`
-- career counselling, guidance, and coaching CTAs should route to `/services/career-counselling-and-career-guidance`
+- assessment-focused CTA blocks should route to `/services/assessments/`
+- career counselling, guidance, and coaching CTAs should route to `/services/career-counselling-and-career-guidance/`
 - when editing actual assessment pages under `/services/assessments/`, read `ASSESSMENT_PAGE_PROMPT.md` first and use the shared plans flow built from `src/config/assessmentPlans.ts` and `src/components/bofu/GuidancePlansSection.astro`
 
 ### Updated SEO Content Strategy Overlay
@@ -719,19 +719,19 @@ Whenever a new page is genuinely ready for search traffic:
 
 Current live indexable pages:
 - `/`
-- `/services`
-- `/services/career-counselling-and-career-guidance`
-- `/services/assessments`
-- `/career-resources`
-- `/career-skills-compass`
-- `/blog`
-- `/blog/career-options`
-- `/blog/career-options/career-options-in-commerce`
-- `/blog/career-guidance`
-- `/blog/career-guidance/how-to-choose-a-career-after-12th`
-- `/about`
-- `/locations`
-- `/contact`
+- `/services/`
+- `/services/career-counselling-and-career-guidance/`
+- `/services/assessments/`
+- `/career-resources/`
+- `/career-skills-compass/`
+- `/blog/`
+- `/blog/career-options/`
+- `/blog/career-options/career-options-in-commerce/`
+- `/blog/career-guidance/`
+- `/blog/career-guidance/how-to-choose-a-career-after-12th/`
+- `/about/`
+- `/locations/`
+- `/contact/`
 
 Meaning:
 - `/services/` is the client-facing services hub
@@ -745,7 +745,7 @@ Meaning:
 - the `#guidance-process` section on `/services/career-counselling-and-career-guidance/` is the live supporting process/details destination
 
 Current non-primary routes:
-- `/topics-index` -> redirect/noindex
+- `/topics-index/` -> redirect/noindex
 - `/career-landing` -> legacy/noindex
 - `/coaches-dashboard` -> internal/noindex
 - `/404` -> noindex fallback
@@ -855,7 +855,7 @@ Blog, resources, and content pages should pass relevance upward into the right c
 Examples:
 - a stream-selection blog post should link into counselling/student pages
 - an AI-skills article should link into skill pages or future coaching/service pages
-- assessment-focused blocks should link to `/services/assessments` before linking to deeper child tests
+- assessment-focused blocks should link to `/services/assessments/` before linking to deeper child tests
 
 ### Breadcrumb Rules
 
@@ -1053,10 +1053,10 @@ When publishing 20+ articles in a category:
 Global navigation should favor real parent hubs and discovery pages.
 
 Current preferred primary nav focus:
-- `/services`
-- `/services/career-counselling-and-career-guidance`
-- `/career-skills-compass`
-- `/career-resources`
+- `/services/`
+- `/services/career-counselling-and-career-guidance/`
+- `/career-skills-compass/`
+- `/career-resources/`
 
 Do not give primary public nav weight to:
 - internal training dashboards
@@ -1089,7 +1089,7 @@ Rules:
 - categories represent search intent (topic), not audience
 - avoid splitting the same intent into student vs graduate vs professional posts; handle audience sections inside one strong post
 - do not publish thin placeholder posts or empty category pages as indexable
-- do not add `/blog` or blog categories to the XML sitemap until real posts are published
+- do not add `/blog/` or blog categories to the XML sitemap until real posts are published
 
 ### Blog Publishing Checklist (Exhaustive)
 
@@ -1106,8 +1106,8 @@ This checklist is designed so you can publish one SEO article at a time without 
 2. Pick exactly one blog category that owns the post.
 3. Decide the one main CTA destination:
    - guidance intent -> `/services/career-counselling-and-career-guidance/`
-   - assessment intent -> `/services/assessments`
-   - skill intent -> `/career-skills-compass` or `/career-resources?topic=skills&type=roadmap`
+   - assessment intent -> `/services/assessments/`
+   - skill intent -> `/career-skills-compass/` or `/career-resources?topic=skills&type=roadmap`
 
 #### 2) URL + slug rules
 
@@ -1165,27 +1165,27 @@ When a category has real posts (and you want it indexed):
 
 When the blog hub is ready for search:
 1. remove `noindex` from `/blog/`
-2. add `/blog` to `LIVE_INDEXABLE_ROUTES` in `src/config/site.ts`
+2. add `/blog/` to `LIVE_INDEXABLE_ROUTES` in `src/config/site.ts`
 
 Current live implementation in this repo:
-- `/blog` is indexable
-- `/blog/ai-future` is indexable because it now has a real published post
-- `/blog/ai-future/top-careers-for-the-future` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-guidance` is indexable because it has a real published post
-- `/blog/career-guidance/how-to-choose-a-career-after-12th` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options` is indexable because it has a real published post
-- `/blog/career-options/best-career-options-with-high-salary` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/bca-career-options` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/bba-career-options` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/career-options-after-12th-commerce` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/career-options-after-12th-pcb` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/career-options-after-12th-science` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/career-options-in-commerce` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/career-options-in-arts` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/pcb-career-options-without-neet` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/career-options/pcm-career-options` is in `LIVE_INDEXABLE_ROUTES`
-- `/blog/stream-selection` is indexable because it now has a real published post
-- `/blog/stream-selection/career-options-after-10th` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/` is indexable
+- `/blog/ai-future/` is indexable because it now has a real published post
+- `/blog/ai-future/top-careers-for-the-future/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/career-guidance/` is indexable because it has a real published post
+- `/blog/career-guidance/how-to-choose-a-career-after-12th/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/career-options/` is indexable because it has a real published post
+- `/blog/career-options/best-career-options-with-high-salary/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/career-options/bca-career-options/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/career-options/bba-career-options/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/career-options/career-options-after-12th-commerce/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/career-options/career-options-after-12th-pcb/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/career-options/career-options-after-12th-science/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/career-options/career-options-in-commerce/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/career-options/career-options-in-arts/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/career-options/pcb-career-options-without-neet/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/career-options/pcm-career-options/` is in `LIVE_INDEXABLE_ROUTES`
+- `/blog/stream-selection/` is indexable because it now has a real published post
+- `/blog/stream-selection/career-options-after-10th/` is in `LIVE_INDEXABLE_ROUTES`
 
 Never:
 - add empty category pages to `LIVE_INDEXABLE_ROUTES`
@@ -1241,7 +1241,7 @@ Hostinger deployment note:
 `public/.htaccess`:
 - Hostinger-ready redirect file
 - `.in` alternate domain can be consolidated into canonical `.com`
-- includes `/topics-index` permanent redirect handling
+- includes `/topics-index/` permanent redirect handling
 
 `public/og-image.svg`:
 - default social preview asset used by `BaseLayout`
@@ -1256,7 +1256,7 @@ After deployment:
 4. verify:
 - `http://futurecareerschool.com`
 - `http://www.futurecareerschool.com`
-- `https://futurecareerschool.com/topics-index`
+- `https://futurecareerschool.com/topics-index/`
 - `https://futurecareerschool.com/robots.txt`
 - `https://futurecareerschool.com/sitemap.xml`
 

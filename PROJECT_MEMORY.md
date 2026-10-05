@@ -118,76 +118,76 @@ Planned pages belong in documentation until they are actually published with rea
 
 Current live indexable routes are defined in `src/config/site.ts` as `LIVE_INDEXABLE_ROUTES`:
 - `/`
-- `/services`
-- `/services/career-counselling-and-career-guidance`
-- `/services/career-counselling-and-career-guidance/career-guidance`
-- `/services/career-counselling-and-career-guidance/career-counselling`
-- `/services/career-counselling-and-career-guidance/career-counselling-online`
-- `/services/career-counselling-and-career-guidance/locations`
-- `/services/career-counselling-and-career-guidance/locations/career-counselling-in-visakhapatnam`
-- `/services/career-counselling-and-career-guidance/career-coach-near-me`
-- `/services/career-counselling-and-career-guidance/student-career-guidance`
-- `/services/career-counselling-and-career-guidance/career-guidance-after-12th`
-- `/services/career-counselling-and-career-guidance/career-guidance-after-12th-online`
-- `/services/career-counselling-and-career-guidance/career-guidance-online`
-- `/services/career-counselling-and-career-guidance/working-professional-career-guidance`
-- `/services/assessments`
-- `/services/assessments/class-10-and-below`
-- `/services/assessments/class-11-to-12`
-- `/services/assessments/graduates-and-early-professionals`
-- `/services/assessments/working-professionals-and-career-changers`
-- `/services/assessments/stream-selector-test-after-10th`
-- `/services/assessments/career-aptitude-test-after-10th`
-- `/services/assessments/stream-selector-test-after-12th`
-- `/services/assessments/career-aptitude-test-after-12th`
-- `/career-resources`
-- `/career-resources/biology-check-thinking-style`
-- `/career-resources/biology-check-self-assessment`
-- `/career-resources/how-to-pick-the-right-online-course`
-- `/career-resources/skill-sampling-try-before-you-commit`
-- `/career-resources/t-shaped-skill-stack-builder`
-- `/career-resources/freedom-number-how-much-do-you-actually-need-to-earn`
-- `/career-resources/the-4-checkpoint-career-protocol-explained`
-- `/career-resources/3-career-profiles-which-type-are-you`
-- `/career-resources/career-profile-quiz-perfect-plan-passion-or-empire-builder`
-- `/career-resources/are-you-a-people-thinker-or-systems-thinker`
-- `/career-resources/what-to-do-when-your-passion-doesnt-pay`
-- `/career-resources/multiplier-skill-guide-one-addition-that-doubles-value`
-- `/career-resources/tarzan-rule-the-exact-moment-to-quit-your-job`
-- `/career-resources/night-shift-plan-learn-7pm-11pm-without-burning-out`
-- `/career-resources/how-to-ai-proof-your-career`
-- `/career-resources/ai-multiplier-skills-for-the-next-decade`
-- `/career-resources/side-income-while-employed-7-legit-options`
-- `/career-resources/career-change-without-starting-over`
-- `/career-resources/creating-a-portfolio-without-work-experience`
-- `/career-resources/personal-brand-without-posting-every-day`
-- `/career-resources/resume-that-gets-shortlisted-in-india`
-- `/career-resources/prompt-engineering-for-non-technical-professionals`
-- `/career-resources/using-ai-tools-without-getting-replaced`
-- `/career-resources/tech-leverage-automate-80-percent-of-your-work-reclaim-4-hours`
-- `/career-resources/linkedin-profile-optimization-the-full-guide`
-- `/career-resources/arts-and-humanities-careers-that-pay-well-today`
-- `/career-resources/new-jobs-ai-will-create-not-just-replace`
-- `/career-resources/github-for-non-developers-build-a-portfolio-without-code`
-- `/career-resources/from-employee-to-freelancer-the-real-roadmap`
-- `/career-resources/how-indian-freelancers-make-1-5-lakh-month`
-- `/career-resources/digital-marketing-career-roadmap`
-- `/career-resources/data-science-analytics-career-roadmap`
-- `/career-resources/ux-ui-design-career-roadmap`
-- `/career-resources/web-development-career-roadmap`
-- `/career-resources/video-editing-content-creation-roadmap`
-- `/career-resources/copywriting-career-roadmap`
-- `/career-resources/graphic-design-career-roadmap`
-- `/career-resources/ai-prompt-engineering-roadmap`
-- `/career-resources/how-to-ask-for-a-salary-raise-with-scripts`
-- `/career-resources/salary-negotiation-what-to-say-and-what-never-to-say`
-- `/career-resources/sales-career-roadmap-from-rep-to-revenue-leader`
-- `/career-resources/financial-modelling-career-roadmap`
-- `/career-resources/high-income-skills-for-the-next-decade`
-- `/career-skills-compass`
-- `/blog`
-- `/blog/career-guidance`
-- `/blog/career-guidance/how-to-choose-a-career-after-12th`
+- `/services/`
+- `/services/career-counselling-and-career-guidance/`
+- `/services/career-counselling-and-career-guidance/career-guidance/`
+- `/services/career-counselling-and-career-guidance/career-counselling/`
+- `/services/career-counselling-and-career-guidance/career-counselling-online/`
+- `/services/career-counselling-and-career-guidance/locations/`
+- `/services/career-counselling-and-career-guidance/locations/career-counselling-in-visakhapatnam/`
+- `/services/career-counselling-and-career-guidance/career-coach-near-me/`
+- `/services/career-counselling-and-career-guidance/student-career-guidance/`
+- `/services/career-counselling-and-career-guidance/career-guidance-after-12th/`
+- `/services/career-counselling-and-career-guidance/career-guidance-after-12th-online/`
+- `/services/career-counselling-and-career-guidance/career-guidance-online/`
+- `/services/career-counselling-and-career-guidance/working-professional-career-guidance/`
+- `/services/assessments/`
+- `/services/assessments/class-10-and-below/`
+- `/services/assessments/class-11-to-12/`
+- `/services/assessments/graduates-and-early-professionals/`
+- `/services/assessments/working-professionals-and-career-changers/`
+- `/services/assessments/stream-selector-test-after-10th/`
+- `/services/assessments/career-aptitude-test-after-10th/`
+- `/services/assessments/stream-selector-test-after-12th/`
+- `/services/assessments/career-aptitude-test-after-12th/`
+- `/career-resources/`
+- `/career-resources/biology-check-thinking-style/`
+- `/career-resources/biology-check-self-assessment/`
+- `/career-resources/how-to-pick-the-right-online-course/`
+- `/career-resources/skill-sampling-try-before-you-commit/`
+- `/career-resources/t-shaped-skill-stack-builder/`
+- `/career-resources/freedom-number-how-much-do-you-actually-need-to-earn/`
+- `/career-resources/the-4-checkpoint-career-protocol-explained/`
+- `/career-resources/3-career-profiles-which-type-are-you/`
+- `/career-resources/career-profile-quiz-perfect-plan-passion-or-empire-builder/`
+- `/career-resources/are-you-a-people-thinker-or-systems-thinker/`
+- `/career-resources/what-to-do-when-your-passion-doesnt-pay/`
+- `/career-resources/multiplier-skill-guide-one-addition-that-doubles-value/`
+- `/career-resources/tarzan-rule-the-exact-moment-to-quit-your-job/`
+- `/career-resources/night-shift-plan-learn-7pm-11pm-without-burning-out/`
+- `/career-resources/how-to-ai-proof-your-career/`
+- `/career-resources/ai-multiplier-skills-for-the-next-decade/`
+- `/career-resources/side-income-while-employed-7-legit-options/`
+- `/career-resources/career-change-without-starting-over/`
+- `/career-resources/creating-a-portfolio-without-work-experience/`
+- `/career-resources/personal-brand-without-posting-every-day/`
+- `/career-resources/resume-that-gets-shortlisted-in-india/`
+- `/career-resources/prompt-engineering-for-non-technical-professionals/`
+- `/career-resources/using-ai-tools-without-getting-replaced/`
+- `/career-resources/tech-leverage-automate-80-percent-of-your-work-reclaim-4-hours/`
+- `/career-resources/linkedin-profile-optimization-the-full-guide/`
+- `/career-resources/arts-and-humanities-careers-that-pay-well-today/`
+- `/career-resources/new-jobs-ai-will-create-not-just-replace/`
+- `/career-resources/github-for-non-developers-build-a-portfolio-without-code/`
+- `/career-resources/from-employee-to-freelancer-the-real-roadmap/`
+- `/career-resources/how-indian-freelancers-make-1-5-lakh-month/`
+- `/career-resources/digital-marketing-career-roadmap/`
+- `/career-resources/data-science-analytics-career-roadmap/`
+- `/career-resources/ux-ui-design-career-roadmap/`
+- `/career-resources/web-development-career-roadmap/`
+- `/career-resources/video-editing-content-creation-roadmap/`
+- `/career-resources/copywriting-career-roadmap/`
+- `/career-resources/graphic-design-career-roadmap/`
+- `/career-resources/ai-prompt-engineering-roadmap/`
+- `/career-resources/how-to-ask-for-a-salary-raise-with-scripts/`
+- `/career-resources/salary-negotiation-what-to-say-and-what-never-to-say/`
+- `/career-resources/sales-career-roadmap-from-rep-to-revenue-leader/`
+- `/career-resources/financial-modelling-career-roadmap/`
+- `/career-resources/high-income-skills-for-the-next-decade/`
+- `/career-skills-compass/`
+- `/blog/`
+- `/blog/career-guidance/`
+- `/blog/career-guidance/how-to-choose-a-career-after-12th/`
 
 Current generated SEO endpoints:
 - `src/pages/sitemap.xml.ts`
@@ -214,7 +214,7 @@ Important rule:
 These routes exist but should not be treated as primary indexable landing pages:
 
 - `src/pages/topics-index.astro`
-  - redirect shim to `/career-resources`
+  - redirect shim to `/career-resources/`
   - `noindex, nofollow`
 
 - `src/pages/career-landing.html`
@@ -241,14 +241,14 @@ These routes exist but should not be treated as primary indexable landing pages:
 - Hostinger-ready redirect file copied into `dist` at build time
 - consolidates the `.in` alternate domain into the canonical `.com` domain when both are pointed at the same site
 - currently handles HTTPS/non-`www` normalization for `.com`
-- currently handles the retired `/topics-index` route with a permanent redirect
+- currently handles the retired `/topics-index/` route with a permanent redirect
 - if deployment platform changes away from Hostinger/Apache-style hosting, revisit this file
 
 ### Hostinger deployment note
 - deploy the built contents of `dist/*` into the domain's web root, typically `public_html`
 - make sure `.htaccess` is present in the deployed root after upload
 - SSL should be active before relying on HTTPS normalization
-- after deployment, manually verify `robots.txt`, `sitemap.xml`, `/topics-index`, `http://futurecareerschool.com`, and `http://www.futurecareerschool.com`
+- after deployment, manually verify `robots.txt`, `sitemap.xml`, `/topics-index/`, `http://futurecareerschool.com`, and `http://www.futurecareerschool.com`
 
 ### `src/config/site.ts`
 Contains the main reusable SEO constants:
@@ -290,7 +290,7 @@ Approved default CTA copy:
 - small supporting button/link: `Free career and skill assessments`
 
 Approved default CTA links:
-- primary: `https://futurecareerschool.com/services/assessments`
+- primary: `https://futurecareerschool.com/services/assessments/`
 - secondary: `https://futurecareerschool.com/services/career-counselling-and-career-guidance/`
 
 Execution rule for future agents:
@@ -352,10 +352,10 @@ Execution rule for future agents:
 
 ### `src/components/Nav.astro`
 Current public primary nav should emphasize:
-- `/services`
-- `/career-skills-compass`
-- `/career-resources`
-- `/blog`
+- `/services/`
+- `/career-skills-compass/`
+- `/career-resources/`
+- `/blog/`
 
 The internal coaches dashboard should not be promoted as a primary public nav destination.
 
@@ -429,7 +429,7 @@ Purpose:
 - provide a single CTA destination for assessment-related sections across the website
 
 Primary CTA URL:
-- `https://futurecareerschool.com/services/assessments`
+- `https://futurecareerschool.com/services/assessments/`
 
 ### `src/pages/career-skills-compass.astro`
 Role:
@@ -538,14 +538,14 @@ Route structure:
 - `/blog/<category>/<post-slug>/`
 
 Current state:
-- first live blog post is active at `/blog/career-guidance/how-to-choose-a-career-after-12th`
+- first live blog post is active at `/blog/career-guidance/how-to-choose-a-career-after-12th/`
 - `/blog/` and `/blog/career-guidance/` are now indexable because a real published post exists
 - paired CTA destinations used in the article:
-  - assessments: `/services/assessments`
+  - assessments: `/services/assessments/`
   - career guidance: `/services/career-counselling-and-career-guidance/`
 
 Publishing rule:
-- keep `/blog` or `/blog/<category>` out of the sitemap until they have real post support
+- keep `/blog/` or `/blog/<category>` out of the sitemap until they have real post support
 
 Within `/services/`, the intended hierarchy is:
 - `/services/counselling/`
@@ -590,8 +590,8 @@ Important warning:
 - top-nav and footer should reinforce real live hubs
 - blog/content pages should link into the relevant service or resource parent page
 - breadcrumb trails should mirror the URL hierarchy
-- assessment-focused CTA blocks should route to `/services/assessments`
-- career counselling, career guidance, and career coaching CTAs should route to `/services/career-counselling-and-career-guidance`
+- assessment-focused CTA blocks should route to `/services/assessments/`
+- career counselling, career guidance, and career coaching CTAs should route to `/services/career-counselling-and-career-guidance/`
 - the `#guidance-process` section on `/services/career-counselling-and-career-guidance/` is the live process/details destination, not a separate standalone page
 - `/services/career-counselling-and-career-guidance/career-counselling-online/` is the dedicated BOFU child page for direct online counselling intent when the searcher wants clarity-first support without depending on local options
 - `/services/career-counselling-and-career-guidance/locations/` is the live parent for city-intent guidance pages inside the main guidance branch

@@ -33,8 +33,8 @@ Do not invent business facts, deliverables, promises, prices, guarantees, framew
 - Career counselling, career guidance, career coaching, and career strategy are treated as one practical service family.
 - Guidance is delivered online across India.
 - The business is not a job-guarantee or placement service.
-- Career and skill assessments are fully free and can be described as updated, practical, and AI-powered.
-- Many providers in the market charge thousands for outdated or impractical assessments; Future Career School offers free, updated, practical, AI-powered assessments.
+- (assessment-intent pages only) Career and skill assessments are fully free and can be described as updated, practical, and AI-powered.
+- (assessment-intent pages only) Many providers in the market charge thousands for outdated or impractical assessments; Future Career School offers free, updated, practical, AI-powered assessments.
 - Career and income-growth resources are free. Career & Skills Compass and course-finder tools are free.
 
 **Approved pricing:**
@@ -48,7 +48,7 @@ Do not invent business facts, deliverables, promises, prices, guarantees, framew
 - Student payment link: `https://rzp.io/rzp/ApMfIAtW`
 - Working-professional payment link: `https://rzp.io/rzp/n7u0omdt`
 - Parent guidance page: `https://futurecareerschool.com/services/career-counselling-and-career-guidance/`
-- Assessments hub: `https://futurecareerschool.com/services/assessments/`
+- Assessments hub (assessment-intent pages only): `https://futurecareerschool.com/services/assessments/`
 
 **Approved positioning:**
 - Achieving earlier financial freedom through high-value skill building
@@ -57,7 +57,7 @@ Do not invent business facts, deliverables, promises, prices, guarantees, framew
 - Holistic skill approach: the right skill mix for the person, proof of work, communication skills, market positioning, personal fit, and financial and family reality — not just technical skills in isolation
 - Skill-first direction with proof of work
 - High-leverage decision support over generic advice
-- Free updated practical AI-powered assessments instead of paid outdated assessments
+- (assessment-intent pages only) Free updated practical AI-powered assessments instead of paid outdated assessments
 - Degrees have a place; the problem is degree-only thinking without skill-building alongside it
 
 ---
@@ -88,12 +88,12 @@ Do not invent business facts, deliverables, promises, prices, guarantees, framew
 - if relevant, strengthen the difference between degree-only thinking (chasing credentials without building skills) and a holistic skill approach: the right skill mix, proof of work, communication, market positioning, and personal fit — remember that degrees have a place, so the framing should be skill-first, not anti-degree
 - if relevant, make the high-value, high-income skill portfolio positioning visible: the idea that FCS helps people build a deliberate stack of skills that compounds earning potential and unlocks high income opportunities over time — not just one skill decision
 - if relevant, surface the positioning chain explicitly: right skill portfolio → high income opportunities → earlier financial freedom
-- if relevant, make the free assessments and free resource layer more visible without turning them into the only point of the page
-- if relevant, clarify that many providers charge thousands for outdated or impractical assessments while Future Career School offers free, updated, practical, AI-powered career and skill assessments
-- if relevant, use a brief contextual assessment note or link instead of a full standalone assessment section
-- if the page is not assessment-intent, remove or collapse oversized assessment sections that distract from the main service decision
-- if the keyword is not assessment- or test-intent, do not let the hero CTA drift back into leading with assessments
-- if the keyword is a career counselling, guidance, coaching, or strategy page rather than an assessment-intent page, do not let the closing CTA drift into an assessment button when that assessment link is already present contextually in the body
+- on service-intent pages, do not add free assessment or free-layer promotion; keep the visitor on the service, the proof, and the price
+- do not use the "paid outdated assessments versus free assessments" contrast on service-intent pages (assessment-intent pages only)
+- on service-intent pages, no assessment note, card, or link at all (see `BOFU_PAGE_PROMPT.md` "Assessment Mention Rules")
+- if the page is service-intent, remove every assessment section, note, link, FAQ, comparison row, and checklist item; truthful one-line descriptions of the paid session's own process may stay
+- if the keyword is not assessment- or test-intent, never let hero or closing CTAs mention assessments
+- if the keyword is service-intent, the closing CTA points only to the service or `#plans`
 - if the keyword is assessment- or test-intent, make sure the page still bridges into the paid guidance service once the visitor has enough free signal
 - if the keyword is assessment-, test-, or quiz-intent, apply `ASSESSMENT_PAGE_PROMPT.md` first and keep using the shared `GuidancePlansSection` + `#plans` flow instead of inventing a page-local closing funnel
 - if the keyword is assessment- or test-intent, make sure result-screen CTAs, lower guidance cards, or the final CTA point to the relevant guidance plans destination for that audience or stage instead of looping only into more free assessments
@@ -226,7 +226,7 @@ Do not invent business facts, deliverables, promises, prices, guarantees, framew
 - strengthen internal links when useful:
   - parent service page
   - services hub
-  - assessments hub: `https://futurecareerschool.com/services/assessments/`
+  - (assessment-intent pages only) assessments hub: `https://futurecareerschool.com/services/assessments/`
   - relevant live sibling pages
   - relevant published blog pages when they genuinely help the user decide
 - if a page has several relevant internal destinations, do not keep hiding those links inside unrelated cards or scattered body paragraphs
@@ -237,7 +237,7 @@ Do not invent business facts, deliverables, promises, prices, guarantees, framew
 
 **Internal linking direction:**
 - child pages link up to parent (e.g., `/career-guidance-after-12th/` links to `/career-counselling-and-career-guidance/`)
-- assessments links go to `https://futurecareerschool.com/services/assessments/`
+- assessments links go to `https://futurecareerschool.com/services/assessments/` (assessment-intent pages only)
 - guidance/counselling/coaching CTAs go to `https://futurecareerschool.com/services/career-counselling-and-career-guidance/`
 
 ---
@@ -315,19 +315,23 @@ Before finalizing any BOFU follow-up pass, run this doorway-detection audit:
 - [ ] Positioning appears at minimum in: (1) hero, (2) one of the first two body sections, and (3) final CTA section — if the body middle has no positioning signal, add one
 - [ ] If the page targets a specific audience (student / working professional / career changer), the positioning connects the advantage to that audience's specific risk or situation — not a generic statement of the advantage alone
 
+### Comparison, Title and URL Compliance
+
+- [ ] Comparison table has 4 to 6 rows, at least 2 specific to the page's keyword (passed via `extraRows`)
+- [ ] Title below 70 characters (75 hard ceiling) with the keyword in the first 60-65; meta about 155 (160 max)
+- [ ] Every internal URL has a trailing slash; `npm run verify` passes
+
 ### Assessment Mention Compliance
 
-For non-assessment keywords:
+For service-intent keywords (counselling, guidance, coaching, mentoring, consultation, cost, evaluation, comparison, location, audience):
 
-- [ ] Hero CTA does NOT mention assessment or "take a test"
-- [ ] No assessment-only section in the first 3 page sections
-- [ ] Assessment mentioned only ONCE in a contextual inline note (inside a larger section)
-- [ ] Assessment note uses neutral framing: "As context, we offer free assessments..." (not "First, take an assessment...")
-- [ ] Final CTA primary button is the service CTA (Get Counselling, not Get Assessment)
-- [ ] Page would still work and feel complete without the assessment mention
-- [ ] NO assessment appears in hero copy, headlines, or prominent CTA labels
+- [ ] Zero assessment links; no assessment, test, or quiz promotion anywhere (hero, body, FAQ, comparison table, buyer checks, related links, closing CTA, JSON-LD)
+- [ ] No `AssessmentSupportNote`, no "free layer" or "free first step" wording
+- [ ] Any remaining mention is a plain description of the paid session's own process, with no link
+- [ ] Hero and final CTA are the service CTA pointing at the service or `#plans`
 
-If assessment-intent keyword, above rules do NOT apply — assessment can be prominent.
+If assessment-intent keyword, above rules do NOT apply — assessment can be prominent and multiple assessment links are allowed.
+
 
 ### Template Fatigue Check
 
@@ -353,7 +357,7 @@ If assessment-intent keyword, above rules do NOT apply — assessment can be pro
 - [ ] All sections use the identical order and structure as a nearby sibling page
 - [ ] No original problem framing unique to this keyword's intent
 - [ ] Zero unique examples, objections, or decision filters not on sibling pages
-- [ ] Assessment CTA appears in hero or prominent CTA sections when the keyword is NOT assessment-intent
+- [ ] Assessment CTA or link appears on a service-intent page
 - [ ] Copy reads auto-generated or like a variable-swapped template
 
 ---

@@ -359,17 +359,20 @@ Exact shared comparison row library approved for reuse:
 - `Generic low-paying path advice that limits growth` vs `Higher-value skill direction with clearer income-growth logic`
 - `Random upskilling that compounds slowly` vs `Clearer skill direction tied to growth and income upside`
 
-Future selection rule:
-- if all of the shared comparison rows genuinely fit the keyword and page intent, present all of them
-- if only some of the rows genuinely fit the keyword and page intent, present only the relevant rows
-- do not force every BOFU page to show the full library when the intent is narrower
-- do not invent new comparison rows outside the approved library
+### Comparison table rules (keyword-specific, mandatory)
+
+- Every BOFU page shows 4 to 6 comparison rows.
+- At least 2 rows must be written for the page's own keyword and audience (the specific decision the searcher is making: for example, for "career coach near me", local-versus-online and in-person accountability; for "career counselling cost", price-versus-outcome rows). Generic rows alone are not acceptable.
+- Pass the page-specific rows through the `extraRows` prop of `ComparisonMatrix`. They render first. The shared library rows below are the base and fill the remaining slots. The component pads to 4 and caps at 6.
+- Keep every row truthful and verifiable. No invented guarantees, no invented statistics, no named competitors.
+- The assessment contrast row is for assessment-intent pages only. `ComparisonMatrix` hides any row mentioning assessments unless the page passes `allowAssessmentRows`.
+- Write both sides in the same dimension (the "other approach" and "our approach" must be comparable on the same point).
 
 Source-of-truth rule for future pages:
 - the approved contrast ideas live in this markdown file
 - the exact shared comparison row library is mirrored in `src/config/bofu.ts`
 - `src/components/bofu/ComparisonMatrix.astro` renders the shared library
-- if a future page uses the shared comparison component without custom rows, the full library from `src/config/bofu.ts` is what will appear
+- a page that passes no `extraRows` gets only library rows, which breaks the keyword-specific rule above, so always pass `extraRows`
 - if a future page needs only some comparison rows, pass a deliberate approved subset from the same library instead of inventing new claims
 
 Do not claim:
@@ -747,11 +750,8 @@ Default BOFU CTA rule:
 - the visible CTA wording and the underlying destination do not have to be identical as long as the destination genuinely fits that keyword's audience
 - if a CTA is meant for students, the visible label must still clearly say `for Students` or `Student`
 - if a CTA is meant for working professionals, the visible label must still clearly say `for Working Professionals` or `Working Professional`
-- for non-assessment BOFU pages, free assessments can still be mentioned or linked later on the page without becoming the hero lead
-- for non-assessment career counselling, guidance, coaching, or strategy pages, do not add the free-assessments button to the closing CTA block when that assessment link already exists contextually inside the page
-- for non-assessment career counselling, guidance, coaching, or strategy pages, do not create a full dedicated assessment section by default
-- instead, mention the relevant free assessments briefly inside a more relevant section and use only a small contextual assessment link when it genuinely helps
-- when a repeated inline assessment note is useful across pages, prefer `src/components/bofu/AssessmentSupportNote.astro` instead of rebuilding a larger assessment block
+- for service-intent BOFU pages, do not mention or link assessments anywhere on the page (see "Assessment Mention Rules"); the only conversion destinations are the service, the plans section, and the payment links
+- `src/components/bofu/AssessmentSupportNote.astro` is for assessment-intent pages only; do not use it on service-intent pages
 - when a BOFU page needs multiple internal links to parent pages, sibling service pages, stage pages, assessments, tools, or support pages, do not bury those links inside audience cards, comparison cards, hero cards, or random body paragraphs
 - instead, give those links a dedicated standalone section near the lower half of the page
 - prefer `src/components/LinkDirectorySection.astro` for that scalable related-links section instead of rebuilding one-off card clusters
@@ -778,8 +778,7 @@ Approved CTA wording rule:
   - `Get Career Guidance After 12th`
 - keep this pattern open-ended for future BOFU keywords with the same commercial intent
 
-Contextual supporting-link wording can stay explicit inside relevant body sections:
-- `Free career and skill assessments`
+Contextual supporting-link wording on assessment-intent pages only:
 - `Free career and skill assessments`
 
 Approved CTA destinations:
@@ -790,7 +789,7 @@ Approved CTA destinations:
 - working-professional guidance page: `https://futurecareerschool.com/services/career-counselling-and-career-guidance/working-professional-career-guidance/`
 - after-12th guidance page: `https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-guidance-after-12th/`
 
-Approved assessment destinations:
+Approved assessment destinations (for assessment-intent pages only; never link these from a service-intent page):
 - assessments hub: `https://futurecareerschool.com/services/assessments/`
 - class 10 and below: `https://futurecareerschool.com/services/assessments/class-10-and-below/`
 - class 11 to 12: `https://futurecareerschool.com/services/assessments/class-11-to-12/`
@@ -812,7 +811,7 @@ Destination-selection rule:
 - school, class 10, class 11 to 12, college, undergraduate, recent-graduate, postgraduate, fresher, and after-12th keywords should usually route to the common student payment link as the main conversion CTA
 - working-professional keywords should usually route to the working-professional payment link as the main conversion CTA
 - broader mixed-audience counselling, guidance, coaching, or strategy keywords can show one student CTA and one working-professional CTA when both audiences are genuinely relevant
-- when adding contextual assessment links, use the most relevant stage-specific assessment page when that is clear; otherwise use the assessments hub
+- on assessment-intent pages, use the most relevant stage-specific assessment page when that is clear; otherwise use the assessments hub
 - internal guidance pages should still be used for navigation, supporting directories, breadcrumbs, and contextual internal links
 
 Do not introduce new commercial CTA claims that are not approved here.
@@ -821,94 +820,36 @@ Do not introduce new commercial CTA claims that are not approved here.
 
 ## Assessment Mention Rules (Strict)
 
-**Assessments are free and useful, but they should NEVER drive the hero CTA on non-assessment-intent BOFU pages.**
+There are only two kinds of BOFU page when it comes to assessments. Decide which one it is from what the searcher is actually asking for.
 
-Google flags pages that lead with assessments when the user searched for guidance/counselling/coaching as bait-and-switch or doorway patterns.
-Users searching "career counselling" want counselling, not an assessment-first experience.
+**1. Service-intent pages (the default).** The search is for the service: career counselling, career guidance, career coaching, mentoring, consultation, a session, a package, a program, a workshop, or any synonym, including audience, stage, location, comparison, evaluation, cost, fee, and "best / near me / online" variants of those.
+- Do not mention assessments, tests, quizzes, or aptitude/psychometric tests as something the visitor can take. That means no assessment links, no assessment cards or note boxes, no "free assessments" FAQ, no "free layer / free first step" sections, no "free versus paid" sections, no assessment comparison rows, no assessment-quality criterion in an evaluation checklist, and no assessment items in related-link directories or closing CTA blocks.
+- The reason: the visitor searched for our service. Every link to free material is a reason to leave the page and a lost conversion. Keep the visitor on the service, the proof, the comparison, and the price.
+- Describing the paid session's own process truthfully is allowed (for example, that the counsellor works from your profile and psychometric input, or screen-shares your profile), as long as it is a plain description of what the session includes and carries no link and no promotion of free material.
+- Free resources that are not assessments (Career & Skills Compass, career resources, finder tools) may be mentioned sparingly where they are the honest answer to a free-access question. Prefer pricing and the service itself.
+- The closing section and every CTA point to the service or to `#plans`, never to the assessments hub.
+- When a competitor-contrast point is needed, use the approved comparison rows that are about guidance quality, skill direction, and income logic. The "paid outdated assessments versus free updated assessments" row is for assessment-intent pages only; `ComparisonMatrix` hides it unless the page passes `allowAssessmentRows`.
 
-### Assessment Mention Restrictions by Keyword Intent
+**2. Assessment-intent pages.** The search is for a test, quiz, assessment, aptitude test, psychometric test, stream selector, or similar.
+- The assessment CTA can be the hero primary CTA and the page can link to several assessments. A broad-audience assessment page may list more than one relevant assessment.
+- Read `ASSESSMENT_PAGE_PROMPT.md` first; it is the rule source for these pages, including how the narrower tests route to the four full assessments.
+- The page should still close by bridging into the paid guidance service once the visitor has enough free signal. Use the shared assessment plans flow built from `src/config/assessmentPlans.ts` and `src/components/bofu/GuidancePlansSection.astro`, choosing the plans mode from the real audience (school / after-10th -> `student`; class 11 to 12 / after-12th -> `after12th` or `student`; graduates / freshers -> `graduate`; working professionals / career changers -> `professional`; mixed hubs -> `mixed`).
+- Keep the hero primary CTA assessment-first and use `#plans` as the supporting paid-guidance route.
 
-| Keyword Intent | Hero CTA | Prominent Sections | Contextual Mentions |
-|---|---|---|---|
-| **Assessment/Test-intent** (e.g., "career aptitude test") | Assessment CTA OK | Full assessment info section OK | Multiple assessment mentions OK |
-| **Non-assessment Guidance/Counselling/Coaching** (e.g., "career counselling", "career guidance") | NO assessment CTA | NO full assessment-only sections | Contextual inline note OK (1 mention max per page) |
-| **Audience-specific** (e.g., "career guidance for students") | NO assessment CTA | NO standalone assessment sections | Optional inline note within deliverables/value section (1 mention max) |
-| **Stage-specific** (e.g., "career guidance after 12th") | NO assessment CTA | NO assessment-focused sections | Contextual mention within guidance process section only |
-| **Location/Local** (e.g., "career counselling in Rajkot") | NO assessment CTA | NO assessment sections | Optional 1-line note in deliverables, NOT separate section |
-
-### Non-Assessment Page Assessment Rules (Mandatory)
-
-If the page target keyword is NOT assessment/test-intent:
-
-1. **Hero section:**
-   - NO assessment CTA button
-   - NO "Take the free assessment" as primary CTA
-   - NO assessment mention in hero copy or headlines
-   - Hero CTAs should be "Get Career Counselling", "Get Guidance", "Get Coaching" — using the keyword's service verb
-
-2. **Prominent sections (above the fold, first screen):**
-   - NO full dedicated assessment section in the first 3 sections
-   - NO separate assessment showcase or card block
-   - NO assessment-first narrative ("Start with an assessment to understand yourself")
-
-3. **Contextual inline mentions (allowed):**
-   - ONE small inline mention is acceptable: `src/components/bofu/AssessmentSupportNote.astro`
-   - Place only INSIDE a relevant section (e.g., within "What You Get" or "Guidance Process")
-   - Text should be: "As a starting point, we offer free assessments to clarify your strengths and work style." (not "The first step is to take an assessment")
-   - No separate button or CTA — just context within a larger section
-
-4. **Final CTA section:**
-   - Primary CTA should match the keyword service: "Get Career Counselling", not "Start Free Assessment"
-   - If assessment link is included, it should be secondary: "Or explore free assessments" (not equal weight)
-   - For non-assessment keywords, closing CTA should END with the guidance service CTA, not the assessment CTA
-
-5. **Lower-page sections:**
-   - If assessment mentions appear, they should be in the bottom 40% of the page (FAQ, resource links, etc.)
-   - Still limited to 1 mention max (inline note in a resource list, link to `/services/assessments/` hub)
-
-### Assessment Pages (Assessment-Intent Keywords)
-
-For pages targeting assessment/test keywords:
-
-- Assessment CTA can be the primary hero CTA
-- A full section explaining what the assessment covers is OK
-- Multiple assessment mentions and links are appropriate
-- Assessment-first narrative makes sense
-- Free assessment positioning should be prominent
-- The page should still close by bridging into the paid guidance service once the user has enough free signal.
-- Read `ASSESSMENT_PAGE_PROMPT.md` first for assessment-intent pages.
-- Use the shared assessment plans flow built from:
-  - `src/config/assessmentPlans.ts`
-  - `src/components/bofu/GuidancePlansSection.astro`
-- Choose the plans mode from the page's real audience or stage:
-  - school / after-10th -> `student`
-  - class 11 / class 12 / after-12th -> `after12th` or `student` depending on the real decision stage
-  - graduates / freshers / early professionals -> `graduate`
-  - working professionals / career changers -> `professional`
-  - mixed assessment hubs -> `mixed`
-- Keep the hero primary CTA assessment-first, and use `#plans` as the supporting paid-guidance route where relevant.
-
-### Why This Rule Matters
-
-- Users searching "career counselling in Mumbai" expect counselling, not an assessment funnel
-- Google penalizes bait-and-switch patterns (advertising one service, delivering another)
-- Assessment-first navigation on non-assessment pages signals to Google that the page's real intent is unclear
-- Doorway patterns include burying the actual service behind a required first step (assessment)
-- Pages that feel assessment-bait get lower E-E-A-T scores and may lose ranking
+**Current assessment-intent BOFU pages:** `best-career-aptitude-test`, `best-career-assessment-platform`, `career-counselling-psychometric-test`. A new page belongs in this group only when the keyword itself asks for an assessment or test.
 
 ### Audit Before Publishing
 
-For every non-assessment BOFU page:
+For every service-intent BOFU page, before it ships:
 
-- [ ] Hero CTA uses service verb (Get Counselling, Get Guidance, Get Coaching), NOT "Take Assessment"
-- [ ] No assessment section in first 3 page sections
-- [ ] Assessment mentions limited to 1 inline contextual note (using AssessmentSupportNote component)
-- [ ] Assessment note is inside a larger, non-assessment section (not standalone)
-- [ ] Final CTA primary button matches the keyword service
-- [ ] Page would work identically without the assessment mention (assessment is optional context, not required)
-- [ ] User searching "career counselling" would find counselling, not assessment-first flow
+- [ ] The rendered page has zero links to `/services/assessments/` or any assessment page
+- [ ] No assessment, test, quiz, or aptitude promotion anywhere: hero, body, FAQ, comparison table, buyer checks, related links, closing CTA, JSON-LD
+- [ ] Any mention of assessments that remains is a plain description of what the paid session itself includes, with no link and no "free" framing
+- [ ] No `AssessmentSupportNote`, no assessment card, no "free layer / free first step" wording
+- [ ] Hero CTA and final CTA both use the service verb and point at the service or `#plans`
+- [ ] The page would convert the same without any free-assessment mention
 
-Failing any of these checks = do not publish until fixed.
+Failing any of these means do not publish until fixed.
 
 ---
 
@@ -918,7 +859,7 @@ A BOFU page must help a ready visitor decide:
 - what exact problem is being solved
 - how this guidance is more useful than generic advice
 - what practical value they can expect
-- where a free assessment link may help as a first low-pressure step without turning the page into an assessment page
+- how to start now, with the price and the plan visible
 - what next step to take now
 
 The page must never read like internal planning, SEO notes, or a business-owner memo.
@@ -1009,11 +950,10 @@ The page should usually include the ingredients below in whatever sequence best 
 - a clear explanation of the real decision pressure behind the keyword
 - what practical value the visitor gets
 - at least one useful differentiation layer when comparison intent is present
-- free assessments and free resource mention where relevant, with enough emphasis to matter without turning them into the only point
-- on non-assessment pages, a small inline assessment note or link is usually better than a full standalone assessment section
-- when relevant, a truthful contrast between paid outdated impractical assessments in the market and Future Career School's free updated practical AI-powered assessments
+- at least one keyword-specific comparison layer (see "Comparison table rules" below) when comparison intent is present
+- no assessment mentions or links on service-intent pages (assessment-intent pages follow `ASSESSMENT_PAGE_PROMPT.md`)
 - client-relevant objections, doubts, or filters
-- links to the approved assessment and audience guidance destinations
+- links to the approved audience guidance destinations and the plans section
 - FAQ only when it adds real decision value
 - a closing section that makes the next step obvious
 
@@ -1038,8 +978,10 @@ Write the most useful page for the intent instead of copying a template blindly.
 - Use H2/H3 in logical order.
 - Include the target keyword naturally in the title, meta, H1, first sentence, and at least one H2 when natural.
 - Include the target keyword naturally within the first 100 words.
-- Keep title concise and click-worthy.
-- Keep meta description unique.
+- Title: concise and click-worthy. Below 70 characters is the standard and 75 is the hard ceiling. Google shows roughly the first 60-65 characters, so the keyword and the reason to click must sit inside that part. Phrase it the way people search.
+- The `<title>` and the H1 are different jobs. The H1 is the page's promise to the reader and can be longer and more specific than the search title. Both carry the primary keyword. Existing BOFU pages already use a short title and a longer H1; keep that pattern.
+- Meta description: unique, about 155 characters and 160 at most. Lead with what the visitor gets or the direct answer, add one concrete detail (a price shown on the page, a deliverable, who it is for). A call to action is optional.
+- Every internal link, breadcrumb URL, canonical, and JSON-LD URL ends with a trailing slash (`/services/career-counselling-and-career-guidance/`). Slash-less URLs are redirected by the server and appear in Search Console as "Page with redirect". Never link to a redirecting or noindex URL. `npm run verify` fails on slash-less URLs.
 - Use semantic secondary keywords naturally without stuffing.
 - Unique title, meta description, canonical, and schema per page.
 - Keep core copy and internal links server-rendered.
@@ -1296,7 +1238,7 @@ Before considering a BOFU page complete:
 - [ ] For location pages: original local context block (300+ words, no generic rewrites)
 - [ ] For audience/stage pages: distinct life-stage-specific problem framing
 - [ ] At least one internal link to supporting content unique to this page's theme
-- [ ] Assessment mentions are contextual only (not hero CTA for non-assessment keywords)
+- [ ] No assessment mentions or links on service-intent pages
 - [ ] No red-flag conditions met
 - [ ] Page reads as intentional and useful, not templated
 - [ ] No keyword cannibalization: page does NOT duplicate another existing page's intent
@@ -1463,7 +1405,9 @@ Before marking a BOFU page complete:
 - metadata, canonical, and schema are set
 - target keyword appears naturally in the key zones
 - approved business facts only
-- free assessments and audience guidance CTA links are present where appropriate
+- audience guidance CTA links and the plans section are present; no assessment links on service-intent pages
+- the comparison table has 4 to 6 rows, at least 2 written for this page's own keyword and audience
+- every internal URL ends with a trailing slash; `npm run verify` passes
 - internal links to relevant live pages exist
 - no internal planning or developer voice leaks into public content
 - page is mobile-readable and scannable

@@ -55,9 +55,11 @@ handle it as a service page instead.
 
 **`src/layouts/BaseLayout.astro`** — central SEO wrapper: title, description, canonical, robots, OG tags, JSON-LD injection.
 
-**`src/layouts/BlogPostLayout.astro`** — preferred reusable wrapper for normal blog pages. Provides per-H2 gold-to-teal kicker bars, `.lead-para` accented lead style, gold list markers, `.table-wrap`, `.faq-accordion`, `.key-takeaways`, universal card-grid polish.
+**`src/layouts/BlogPostLayout.astro`** — preferred reusable wrapper for normal blog pages. Provides per-H2 gold-to-teal kicker bars, `.lead-para` accented lead style, gold list markers, `.table-wrap`, `.faq-accordion`, `.key-takeaways`, universal card-grid polish. It also accepts optional `seoTitle` and `seoDescription` props: the search-result `<title>`, social title and meta description. The on-page H1 (`title`) and visible intro (`description`) stay as written. See "Title, H1 and meta description rules" below.
 
-**`src/components/BlogBottomCta.astro`** — standard reusable CTA for blog posts. Use this by default on all blog pages unless the user explicitly asks for a different CTA. The paid career guidance/counselling action must be visually primary; assessments can appear only as a smaller supporting action unless the page itself is assessment-intent.
+**`src/components/BlogBottomCta.astro`** — standard reusable CTA for blog posts. Use this by default on all blog pages unless the user explicitly asks for a different CTA. The primary (gold) button goes to the most relevant service page for the post's topic, chosen by `src/config/blogSalesLinks.ts`. When no service page fits, the guidance pricing is shown directly under the box instead. Assessments appear only as the one small, quiet supporting link; never as cards, pickers, banners, or a competing button.
+
+**`src/config/blogSalesLinks.ts`** — maps a blog post (by slug keywords, then category) to its most relevant service page and label. Add a rule here whenever a new service page or blog category is created. A post can override it with `salesHref` and `salesLabel` on `BlogPostLayout` (or on `BlogBottomCta`) when the topic needs a different page.
 
 **`src/config/site.ts`** — contains `SITE_NAME`, `SITE_URL`, `LIVE_INDEXABLE_ROUTES`, and other SEO constants.
 
@@ -76,7 +78,7 @@ Rules:
 - categories represent search intent (topic), not audience
 - avoid splitting the same intent into student vs graduate vs professional posts; handle audience sections inside one strong post
 - do not publish thin placeholder posts or empty category pages as indexable
-- do not add `/blog` or blog categories to the XML sitemap until real posts are published
+- do not add `/blog/` or blog categories to the XML sitemap until real posts are published
 
 URL slug rules:
 - lowercase and hyphens only
@@ -85,19 +87,19 @@ URL slug rules:
 - do not create multiple near-identical posts for "students" and "professionals" separately; write one strong post and add audience sections
 
 Current live published blog posts:
-- `/blog/ai-future/top-careers-for-the-future`
-- `/blog/career-options/best-career-options-with-high-salary`
-- `/blog/career-options/bca-career-options`
-- `/blog/career-options/bba-career-options`
-- `/blog/career-options/career-options-after-12th-commerce`
-- `/blog/career-options/career-options-after-12th-pcb`
-- `/blog/career-options/career-options-after-12th-science`
-- `/blog/career-options/career-options-in-commerce`
-- `/blog/career-options/career-options-in-arts`
-- `/blog/career-options/pcb-career-options-without-neet`
-- `/blog/career-options/pcm-career-options`
-- `/blog/career-guidance/how-to-choose-a-career-after-12th`
-- `/blog/stream-selection/career-options-after-10th`
+- `/blog/ai-future/top-careers-for-the-future/`
+- `/blog/career-options/best-career-options-with-high-salary/`
+- `/blog/career-options/bca-career-options/`
+- `/blog/career-options/bba-career-options/`
+- `/blog/career-options/career-options-after-12th-commerce/`
+- `/blog/career-options/career-options-after-12th-pcb/`
+- `/blog/career-options/career-options-after-12th-science/`
+- `/blog/career-options/career-options-in-commerce/`
+- `/blog/career-options/career-options-in-arts/`
+- `/blog/career-options/pcb-career-options-without-neet/`
+- `/blog/career-options/pcm-career-options/`
+- `/blog/career-guidance/how-to-choose-a-career-after-12th/`
+- `/blog/stream-selection/career-options-after-10th/`
 
 When the user gives a new keyword, first check `src/config/blog.ts` to see if it cleanly fits an existing taxonomy branch. If the fit is weak or unclear, create a new taxonomy branch/category instead of forcing it into the wrong silo.
 
@@ -124,9 +126,11 @@ Within the first third of the post:
 - link to the parent category page `/blog/<category>/`
 - link to exactly one main service CTA. For blogs and MOFU-style informational pages, prefer paid career guidance/counselling when the reader has decision pressure, confusion, money risk, parent pressure, or a serious next move:
   - guidance/counselling intent -> `https://futurecareerschool.com/services/career-counselling-and-career-guidance/`
-  - assessment/test intent only -> `https://futurecareerschool.com/services/assessments`
-  - skill intent -> `/career-skills-compass` or `/career-resources`
+  - assessment/test intent only -> `https://futurecareerschool.com/services/assessments/`
+  - skill intent -> `/career-skills-compass/` or `/career-resources/`
 - if an assessment link appears in a normal blog, keep it small and contextual; do not make it the gold/pulsing CTA when a guidance/counselling CTA is present
+- the post's main call to action should be the most relevant service page for that post's topic (a post about MBA decisions points to the MBA counselling page, a post about after-12th choices points to the after-12th page, and so on), not only the generic guidance parent page. Free stuff must never take the place of a relevant sales page. If no service page fits the topic, show the guidance pricing directly rather than sending the reader to free tools.
+- every internal URL ends with a trailing slash (`/blog/<category>/`, `/services/career-counselling-and-career-guidance/`). Slash-less links are redirected by the server and are reported by Search Console as "Page with redirect". Never link to a redirecting or noindex URL.
 
 Near the end of the post:
 - link laterally to 1-3 closely related posts in the same category (when they exist)
@@ -149,8 +153,10 @@ see component #14 below.
 **Approved default blog CTA (use BlogBottomCta.astro):**
 - headline: `Do not choose your future on guesswork.`
 - support lines: `Find the right fit.` / `Build the right skills.` / `Move toward achieving earlier financial freedom through stronger skill choices.`
-- primary button: `Get Career Guidance` -> `https://futurecareerschool.com/services/career-counselling-and-career-guidance/`
-- small supporting button/link: `Free career and skill assessments` -> `https://futurecareerschool.com/services/assessments`
+- primary button: a topic-matched service page, for example `Get Career Counselling for MBA Students` -> `/services/career-counselling-and-career-guidance/career-counselling-for-mba-students/` (chosen automatically from `src/config/blogSalesLinks.ts`, or set per post with `salesHref` / `salesLabel`)
+- when no service page fits: the primary button reads `See Career Guidance Pricing` and the shared guidance plans (`GuidancePlansSection`) appear directly below the box, so the reader sees the price instead of being sent to free tools
+- small supporting button/link (the only assessment mention allowed on a normal blog): `Free career and skill assessments` -> `https://futurecareerschool.com/services/assessments/`
+- do not add assessment cards, pickers, banners, or a second gold button to a blog post
 
 **Schema for blog posts:** `BlogPosting` (always include `datePublished`). Do not add fake author bios or fake reviews.
 
@@ -247,8 +253,18 @@ Use this prompt with judgment. Not every idea here has the same weight.
 
 - Include your main keyword in the blog post title, meta description, and title tag.
 - Include the publishing date visibly on the page and in the schema — this builds credibility and shows the content is maintained. Do not put the calendar year in the title, slug, or evergreen headings.
-- Keep titles concise. Below 70 characters is ideal to avoid truncation in search results, but this is a guideline, not a hard rule.
-- Write a compelling meta description of 155-160 characters that summarizes the post.
+- Keep titles concise. Below 70 characters is ideal to avoid truncation in search results. The hard ceiling is 75 characters (five over the standard). Google shows roughly the first 60-65 characters, so the keyword and the reason to click must both sit inside that visible part; anything after it can be cut without losing the point.
+- Write a compelling meta description of about 155 characters (160 at most) that gives the direct answer or what is inside, plus one concrete detail (a salary, an exam name, a number). Anything past 160 characters is cut off in results.
+
+### Title, H1 and meta description rules (search title versus page heading)
+
+- The H1 on the page (`title` on `BlogPostLayout`) and the search-result title are different jobs. The H1 can be as rich and specific as it needs to be for the reader who has already arrived. The search title has to fit what Google shows, about 60-65 visible characters, and is capped at 75.
+- If the H1 is within the title ceiling and reads well as a search title, leave `seoTitle` out and the same text is used for both.
+- If the H1 is longer than the ceiling, keep the H1 as written and set `seoTitle` to a shorter version that keeps the primary keyword first and the reason to click inside the first 60-65 characters. Do the same with `seoDescription` when the visible intro (`description`) is longer than 160 characters; the visible intro is also shown on the page, so only change it when the reader-facing sentence itself needs to change.
+- Both `seoTitle` and the H1 must contain the primary keyword. Never use the search title to promise something the page does not deliver.
+- Example: H1 `Career without a degree after 12th India: 15 paths across tech, trades, and government exams` with `seoTitle` `Career Without a Degree After 12th: 15 Real Paths in India`.
+- Meta description: about 155 characters, 160 at most. Direct answer or what is inside first, one concrete detail (salary, exam, number) second. A call to action is optional.
+- For pages that already rank on page one with a low click-through rate, rewrite the search title and meta description first. That is a snippet problem, not a ranking problem.
 
 ### Informational Title Formula
 
@@ -267,8 +283,10 @@ Examples for this site's keywords:
 - "Career change: How to switch fields without quitting your job or losing income"
 
 The keyword near the start can establish search relevance when it reads naturally.
-A specific real-world angle gives the reader a reason to click over generic articles.
-Do not copy these formats exactly — generate a fresh, specific angle for each keyword.
+A specific real-world angle gives the reader a reason to click over generic articles, because most competing pages only repeat the keyword and say nothing about how the article helps. Keep the `[Target Keyword]: [specific angle]` format.
+Make the angle the single most relevant and useful specific for the target reader: the exact decision they face, the number of options, the audience or constraint (for example `after 12th`, `without NEET`, `with a low CGPA`), or the honest trade-off the article resolves. Prefer a concrete, checkable angle over a vague promise.
+Phrase the whole title the way people search or ask it (`Is CA a Good Career in India? The Honest Verdict`, `CUET vs JEE: Which Is Better for Your Career?`). Do not repeat the full keyword awkwardly, and do not stack several keywords with commas.
+Do not copy the example formats exactly — generate a fresh, specific angle for each keyword.
 
 ### Informational Search Intent and Opening Rules
 
@@ -393,16 +411,16 @@ Avoid Keyword Stuffing: Use keywords and their variations naturally. The focus s
 
 Title Tag:
 - Must be unique for every page.
-- Keep it concise. Below 70 characters is ideal to reduce truncation risk, but this is a guideline, not a hard rule.
-- Make it compelling and click-worthy.
+- Keep it concise. Below 70 characters is ideal to reduce truncation risk; the hard ceiling is 75 characters.
+- Make it compelling and click-worthy, with the keyword and the reason to click inside the first 60-65 characters.
 
 Meta Description:
 - Must be unique for every page.
-- Keep it under 160 characters.
-- Write it like ad copy to entice clicks. Include a call-to-action (CTA).
+- Keep it to about 155 characters, 160 at most.
+- Lead with the direct answer or what is inside, then add one concrete detail. A call to action is optional.
 
 Header Tags (H1, H2, H3, etc.):
-- Use only one H1 tag per page (typically the page title).
+- Use only one H1 tag per page. The H1 states the page's promise to the reader and may be longer and more descriptive than the search title.
 - Structure the rest of the content logically using H2s, H3s, etc. Do not skip levels (e.g., H2 to H4).
 
 Image SEO:
@@ -1231,7 +1249,7 @@ What we do and our USP/positioning — continuous career guidance for building a
 
 Prioritize CTAs for checkout/book continuous career guidance — We offer continuous career guidance for high income skill portfolio building because we want you to win in the long run. And rather than offering a single career counseling or guidance session, only continuous guidance with an expert and a small, closely knit group of other ambitious individuals is way more effective, real and practical. Link: `https://futurecareerschool.com/services/career-counselling-and-career-guidance/`
 
-You can mention practical, skill, career, psychometric, or personality based assessments and tests when useful — link: `https://futurecareerschool.com/services/assessments` — but on blogs and MOFU pages assessments must stay visually smaller than the guidance/counselling CTA. If both appear, guidance/counselling is the gold/pulsing primary action and assessments are a quiet supporting link/button.
+You can mention practical, skill, career, psychometric, or personality based assessments and tests when useful — link: `https://futurecareerschool.com/services/assessments/` — but on blogs and MOFU pages assessments must stay visually smaller than the guidance/counselling CTA. If both appear, guidance/counselling is the gold/pulsing primary action and assessments are a quiet supporting link/button. Do not build assessment cards, pickers, comparison blocks, or promotional sections into a blog post: the topic-matched service page (or the pricing) is the call to action that matters.
 
 **Article opening positioning requirement:** The article opening — the first paragraph and the key-takeaways box near the top — must carry at least one core positioning advantage when the topic allows it: earlier financial freedom, high-income skill portfolio, or unlocking high income opportunities. These advantages must not appear only in the CTA section at the bottom. An opening that only describes the topic category without a positioning signal is under-positioned and will feel generic.
 
