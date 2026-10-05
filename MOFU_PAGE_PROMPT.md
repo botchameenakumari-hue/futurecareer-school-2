@@ -2877,3 +2877,42 @@ This section adds the operating detail the section above doesn't cover — how f
 - **Automate saving and investing a fixed share of every payment**, the same way a salaried job automatically deducts savings before the money is even seen. Irregular income makes this habit easy to skip, which is exactly why it needs to be deliberate.
 - **Earning more and getting financially secure are not automatically the same thing.** Someone earning well but saving nothing can be in a shakier position than someone earning less but saving consistently.
 
+---
+
+## Navigation, Layout and Pre-Publish Rules
+
+### Related Links (Dedicated Section)
+
+- When a page needs several parent, sibling, or next-step links, give them one dedicated related-links section built with `src/components/LinkDirectorySection.astro`. Do not scatter them inside unrelated cards, hero boxes, or inline text.
+- Every page links up to its parent hub, across to its closest siblings, and down or forward to the next step. The anchor text names the destination.
+
+### Two-Click Rule
+
+- Every important page must be reachable within two clicks from the homepage or main navigation: homepage or nav -> hub -> page, and the page links back to its hub.
+- A new page is linked from its nearest hub on the day it ships. A page that no hub links to is not finished.
+
+### Mobile Check (390px)
+
+- Before finishing, view the page near 390px wide. Confirm no horizontal overflow, single-column grids, tables that stack or stay fully readable, tap targets that are easy to hit, and comfortable spacing. Do not assume mobile-friendliness from the desktop view.
+
+### Pre-Publish Placement Questions
+
+Before creating the page, answer all six. If any answer is unclear, do not create the page yet.
+1. Is this page really ready to be indexed (distinct intent, specific value)?
+2. Which parent folder should own it?
+3. Does a parent hub already exist?
+4. Does it belong under `/services/`, `/blog/`, `/locations/`, `/resources/`, or another established branch?
+5. Which page links to it first?
+6. Which page does it link back up to?
+Never invent a flat root URL by default.
+
+### Repeated Blocks
+
+- If a new block starts repeating across several pages, turn it into a shared component and note it in `PROJECT_MEMORY.md`. Keep keyword-specific content (comparison rows, FAQs, examples) page-specific; do not over-standardize it.
+
+### After Publishing
+
+- Check Search Console for duplicate-content or "Crawled, currently not indexed" signals on the page and its siblings after the first month.
+- Compare click-through rate against sibling pages of the same type; a persistently lower rate usually means thin or templated content.
+- If a page drops 15 or more positions after 30 days, or duplicate warnings appear, pause new pages in that group and audit it for template fatigue before publishing more.
+

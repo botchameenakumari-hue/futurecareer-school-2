@@ -260,3 +260,37 @@ Search demand lands mostly on the narrower tests (stream selector, aptitude, pla
 - Re-check the generated `dist/sitemap.xml` so the new/updated route appears as expected.
 - Narrower tests route to the matching full assessment (ribbon, pre-quiz block, result screen); full-assessment titles name the narrower tests they contain.
 - Every internal link and JSON-LD URL has a trailing slash; none points at a redirect or noindex URL.
+
+---
+
+## Navigation, Layout and Pre-Publish Rules
+
+### Related Links (Dedicated Section)
+
+- When a page needs several parent, sibling, or next-step links, give them one dedicated related-links section built with `src/components/LinkDirectorySection.astro`. Do not scatter them inside unrelated cards, hero boxes, or inline text.
+- Every page links up to its parent hub, across to its closest siblings, and down or forward to the next step. The anchor text names the destination.
+
+### Two-Click Rule
+
+- Every important page must be reachable within two clicks from the homepage or main navigation: homepage or nav -> hub -> page, and the page links back to its hub.
+- A new page is linked from its nearest hub on the day it ships. A page that no hub links to is not finished.
+
+### Mobile Check (390px)
+
+- Before finishing, view the page near 390px wide. Confirm no horizontal overflow, single-column grids, tables that stack or stay fully readable, tap targets that are easy to hit, and comfortable spacing. Do not assume mobile-friendliness from the desktop view.
+
+### Pre-Publish Placement Questions
+
+Before creating the page, answer all six. If any answer is unclear, do not create the page yet.
+1. Is this page really ready to be indexed (distinct intent, specific value)?
+2. Which parent folder should own it?
+3. Does a parent hub already exist?
+4. Does it belong under `/services/`, `/blog/`, `/locations/`, `/resources/`, or another established branch?
+5. Which page links to it first?
+6. Which page does it link back up to?
+Never invent a flat root URL by default.
+
+### Repeated Blocks
+
+- If a new block starts repeating across several pages, turn it into a shared component and note it in `PROJECT_MEMORY.md`. Keep keyword-specific content (comparison rows, FAQs, examples) page-specific; do not over-standardize it.
+
