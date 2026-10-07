@@ -4,7 +4,8 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import BlogBottomCta from '../components/BlogBottomCta.astro';
 import LinkDirectorySection from '../components/LinkDirectorySection.astro';
-import { BLOG_BASE_PATH, BLOG_PUBLISHED_POSTS, getBlogCategory } from '../config/blog';
+import { BLOG_BASE_PATH, getBlogCategory } from '../config/blog';
+import { getRelatedPosts } from '../config/blogRelated';
 
 export interface Props {
   title: string;
@@ -68,11 +69,7 @@ const getBlogCtaLabel = (href: string) => {
   return 'Read More';
 };
 
-const siblingPosts = categoryMeta
-  ? BLOG_PUBLISHED_POSTS.filter(
-      (post) => post.categorySlug === categoryMeta.slug && post.slug !== currentSlug
-    ).slice(0, 3)
-  : [];
+const siblingPosts = categoryMeta ? getRelatedPosts(categoryMeta.slug, currentSlug) : [];
 
 type DirectoryItem = { href: string; title: string; description: string; note: string };
 const rawDirectoryItems = [

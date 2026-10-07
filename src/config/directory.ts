@@ -195,3 +195,47 @@ export const completeCareerResourceHrefByTitle = (
   }
   return next;
 };
+
+// Neighbour links for career resource pages. Each resource links to the next resources on the
+// same topic in a fixed ring, so every resource page gets inbound links from its neighbours
+// and none depends only on the hub page.
+export const getResourceRingItems = (currentPath: string, count = 2) => {
+  const current = trimSlash(currentPath);
+  const sorted = [...resourcePaths].map(trimSlash).sort();
+  const topic = inferResourceTopic(current);
+  const sameTopic = sorted.filter((path) => inferResourceTopic(path) === topic);
+  const pool = sameTopic.includes(current) && sameTopic.length > count ? sameTopic : sorted;
+  const index = pool.indexOf(current);
+  if (index < 0) return [];
+  const items: { href: string; title: string; description: string }[] = [];
+  for (let step = 1; items.length < count && step < pool.length; step += 1) {
+    const path = pool[(index + step) % pool.length];
+    const title = titleFromPath(path);
+    items.push({
+      href: `${path}/`,
+      title,
+      description: `Read this next if you want another practical angle on the same decision.`,
+    });
+  }
+  return items;
+};
+
+// Neighbour links for service (BOFU) pages. Every page links to the next pages in its own group
+// (city pages with city pages, everything else together) in a fixed ring, so no service page
+// depends only on the hub for inbound links.
+export const getGuidanceRingItems = (currentPath: string, count = 2): DirectoryItem[] => {
+  const current = trimSlash(currentPath);
+  const isLocation = (path: string) => locationPaths.includes(path);
+  const pool = guidancePaths
+    .filter((path) => path !== '/services/career-counselling-and-career-guidance/locations')
+    .filter((path) => isLocation(path) === isLocation(current))
+    .map(trimSlash)
+    .sort();
+  const index = pool.indexOf(current);
+  if (index < 0) return [];
+  const items: DirectoryItem[] = [];
+  for (let step = 1; items.length < count && step < pool.length; step += 1) {
+    items.push(directoryFromPath(pool[(index + step) % pool.length]));
+  }
+  return items;
+};

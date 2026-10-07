@@ -3867,3 +3867,12 @@ These mistakes were found when the BOFU pages were not ranking. Check every new 
 10. **Orphan pages.** Every new page needs a link from its hub and sibling pages on the day it ships, and an entry in the sitemap.
 11. **After publishing,** submit the page in Search Console, then check indexing after two to four weeks. "Crawled - currently not indexed" on several siblings usually means thin or templated content.
 
+---
+
+### Indexing Rules ("Crawled - currently not indexed")
+- Every new indexable page needs at least four internal links from other pages (its hub, siblings, related blocks, topical blog posts). `npm run verify` runs `check:inbound-links` and fails below two; aim for four or more. Blog posts, career resources and service pages get neighbour links automatically (`src/config/blogRelated.ts`, `getResourceRingItems` and `getGuidanceRingItems` in `src/config/directory.ts`), but a page that does not use the shared layout, or a new section, must be linked by hand.
+- Never leave two pages sharing the same title, H1 and meta description (tool or app routes included); each route needs its own.
+- Do not recreate pages that were merged or redirected; the old URLs stay in "not indexed" reports until Google re-crawls the 301.
+- New blog posts get a real `publishedAtISO` date; it is used as sitemap `<lastmod>`.
+- Pages with little unique text, near-duplicates of a sibling, or no clear search intent are the ones Google crawls but does not index. Fix those before publishing more.
+

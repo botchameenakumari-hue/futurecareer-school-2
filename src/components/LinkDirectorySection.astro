@@ -1,4 +1,6 @@
 ---
+import { getGuidanceRingItems } from '../config/directory';
+
 export interface LinkDirectoryItem {
   href: string;
   title: string;
@@ -23,6 +25,18 @@ const {
   items,
   altBackground = false,
 } = Astro.props;
+
+// Service pages: append two neighbour pages so every page gets inbound links from its group.
+const guidanceBase = '/services/career-counselling-and-career-guidance/';
+const pathname = Astro.url.pathname;
+const isRelatedBlock = sectionId === 'related-links' || sectionId === 'related-pages';
+const ringItems =
+  isRelatedBlock && pathname.startsWith(guidanceBase)
+    ? getGuidanceRingItems(pathname).filter(
+        (ring) => !items.some((existing) => existing.href === ring.href) && ring.href !== pathname
+      )
+    : [];
+const displayItems = [...items, ...ringItems];
 ---
 
 <section id={sectionId} class:list={['link-directory-section', altBackground && 'link-directory-section-alt', sectionClass]}>
@@ -31,7 +45,7 @@ const {
     {subtitle && <p class="link-directory-sub">{subtitle}</p>}
 
     <div class="link-directory-grid">
-      {items.map((item) => (
+      {displayItems.map((item) => (
         <a class="link-directory-card card" href={item.href}>
           <div class="link-directory-copy">
             <strong>{item.title}</strong>

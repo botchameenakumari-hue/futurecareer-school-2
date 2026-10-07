@@ -1,5 +1,12 @@
 import type { APIRoute } from 'astro';
 import { LIVE_INDEXABLE_ROUTES, SITE_URL } from '../config/site';
+import { BLOG_BASE_PATH, BLOG_PUBLISHED_POSTS } from '../config/blog';
+
+// Blog posts carry a real publish date; use it as <lastmod> so crawlers can prioritise recrawling.
+// Other pages have no reliable modified date, so they omit <lastmod> rather than report a wrong one.
+const blogLastmod = new Map(
+  BLOG_PUBLISHED_POSTS.map((post) => [`${BLOG_BASE_PATH}/${post.categorySlug}/${post.slug}/`, post.publishedAtISO])
+);
 
 // Every page on this site is emitted by Astro's `directory` build format, so
 // the URL that actually serves without a redirect always carries a trailing
@@ -14,7 +21,9 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${LIVE_INDEXABLE_ROUTES.map(
   (route) => `  <url>
-    <loc>${new URL(withTrailingSlash(route.path), SITE_URL).href}</loc>
+    <loc>${new URL(withTrailingSlash(route.path), SITE_URL).href}</loc>${
+      blogLastmod.get(withTrailingSlash(route.path)) ? `\n    <lastmod>${blogLastmod.get(withTrailingSlash(route.path))}</lastmod>` : ''
+    }
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
   </url>`

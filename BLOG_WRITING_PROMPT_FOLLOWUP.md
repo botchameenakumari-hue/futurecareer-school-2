@@ -253,3 +253,5 @@ per-article):
 - treat any article dropping 15+ SERP positions within 30 days of publishing as a possible duplicate-content penalty signal
 - also treat it as a signal if the whole category loses 3-5 ranking positions across 40%+ of its articles at once, if new articles get zero organic traffic 60 days after publishing, or if bounce rate on the category runs 5-10%+ higher than comparable categories
 - **if any warning sign appears:** stop publishing new articles in that category, audit every existing article's uniqueness percentage, mark anything below its required floor (30% general / 40% career-options / 40% category-wide once 50+) for a content update, vary any repeated structure across the flagged articles, and only resume publishing once the audit is complete and fixes are live
+
+- [ ] Indexing check: at least four internal links point to this page, its title, H1 and description are unique, and `npm run verify` (including `check:inbound-links`) passes

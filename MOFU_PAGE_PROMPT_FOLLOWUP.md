@@ -210,3 +210,4 @@ cosmetic edit below.
 - [ ] Nearest-sibling overlap about 50% or less; no two pages for one intent
 - [ ] Related-links section, two-click rule, and 390px mobile check done
 
+- [ ] Indexing check: at least four internal links point to this page, its title, H1 and description are unique, and `npm run verify` (including `check:inbound-links`) passes

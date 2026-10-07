@@ -3142,3 +3142,12 @@ If you cannot fill at least 6 of the 8 honestly, the keyword is probably not rea
 
 - There is no phone helpline and no call-booking line. People reach Future Career School by WhatsApp message (`WHATSAPP_BOOKING_URL` in `src/config/site.ts`) or through the payment links. The nav, footer, and contact page keep their phone link; that is fine. In page content, lead with WhatsApp (it is the primary contact route, repeated in hero or closing CTA where a contact route is needed). Never write "call us", "call the helpline", "talk on the phone", or a "Call Now" button on service pages, and never claim a phone line, 24/7 support, or a call-centre.
 
+---
+
+### Indexing Rules ("Crawled - currently not indexed")
+- Every new indexable page needs at least four internal links from other pages (its hub, siblings, related blocks, topical blog posts). `npm run verify` runs `check:inbound-links` and fails below two; aim for four or more. Blog posts, career resources and service pages get neighbour links automatically (`src/config/blogRelated.ts`, `getResourceRingItems` and `getGuidanceRingItems` in `src/config/directory.ts`), but a page that does not use the shared layout, or a new section, must be linked by hand.
+- Never leave two pages sharing the same title, H1 and meta description (tool or app routes included); each route needs its own.
+- Do not recreate pages that were merged or redirected; the old URLs stay in "not indexed" reports until Google re-crawls the 301.
+- New blog posts get a real `publishedAtISO` date; it is used as sitemap `<lastmod>`.
+- Pages with little unique text, near-duplicates of a sibling, or no clear search intent are the ones Google crawls but does not index. Fix those before publishing more.
+

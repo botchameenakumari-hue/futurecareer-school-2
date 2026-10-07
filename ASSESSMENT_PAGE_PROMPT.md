@@ -294,3 +294,12 @@ Never invent a flat root URL by default.
 
 - If a new block starts repeating across several pages, turn it into a shared component and note it in `PROJECT_MEMORY.md`. Keep keyword-specific content (comparison rows, FAQs, examples) page-specific; do not over-standardize it.
 
+---
+
+### Indexing Rules ("Crawled - currently not indexed")
+- Every new indexable page needs at least four internal links from other pages (its hub, siblings, related blocks, topical blog posts). `npm run verify` runs `check:inbound-links` and fails below two; aim for four or more. Blog posts, career resources and service pages get neighbour links automatically (`src/config/blogRelated.ts`, `getResourceRingItems` and `getGuidanceRingItems` in `src/config/directory.ts`), but a page that does not use the shared layout, or a new section, must be linked by hand.
+- Never leave two pages sharing the same title, H1 and meta description (tool or app routes included); each route needs its own.
+- Do not recreate pages that were merged or redirected; the old URLs stay in "not indexed" reports until Google re-crawls the 301.
+- New blog posts get a real `publishedAtISO` date; it is used as sitemap `<lastmod>`.
+- Pages with little unique text, near-duplicates of a sibling, or no clear search intent are the ones Google crawls but does not index. Fix those before publishing more.
+
