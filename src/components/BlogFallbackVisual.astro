@@ -153,6 +153,8 @@ const supportVisuals = categorySupportExtensions[category] ?? [
   { file: selected.supportFile, alt: selected.supportAlt, caption: selected.supportCaption },
 ];
 const articlePath = Astro.url.pathname.split('/').filter(Boolean);
+const pageSlug = articlePath.at(-1) ?? '';
+const pageCardTitle = pageSlug.replace(/-/g, ' ').replace(/\b\w/g, (character) => character.toUpperCase());
 const excludedPillarSlugs = new Set([
   'career-options-after-12th-science', 'career-options-after-12th-commerce', 'career-options-after-10th', 'best-career-options-with-high-salary',
   'what-career-should-i-choose', 'how-to-find-the-right-career-for-me-india', 'how-to-choose-a-career-after-12th',
@@ -185,6 +187,10 @@ const isArticle = articlePath.length >= 3 && !excludedPillarSlugs.has(articlePat
     <figure class="blog-fallback-visual blog-fallback-visual--at-a-glance">
       <img src={`/images/blog/category/${category}-at-a-glance.webp`} alt={`At a glance: ${selected.alt}`} title={`At a glance: ${selected.alt}`} width="1600" height="1000" loading="lazy" decoding="async" />
       <figcaption>A concise visual summary of the decision and evidence this category asks the reader to consider.</figcaption>
+    </figure>
+    <figure class="blog-fallback-visual blog-fallback-visual--page-specific">
+      <img src={`/images/blog/page-cards/${category}/${pageSlug}.webp`} alt={`${pageCardTitle}: page-specific career decision visual`} title={`${pageCardTitle}: page-specific career decision visual`} width="1600" height="1000" loading="lazy" decoding="async" />
+      <figcaption>A page-specific visual summary built from this article’s topic and decision keywords.</figcaption>
     </figure>
   </div>
 )}
