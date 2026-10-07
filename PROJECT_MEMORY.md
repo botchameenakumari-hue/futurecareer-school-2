@@ -652,3 +652,8 @@ If context is tight, remember this:
 - Mistyped/truncated blog and service URLs that Google still had impressions for are redirected by the block at the end of `public/.htaccess`.
 - Blog `<title>`/meta description overrides for low-CTR posts live in `src/config/blogSeoOverrides.ts` (key: `category/slug`); the on-page H1 and intro are unchanged.
 - The four full assessments are defined in `src/config/mainAssessments.ts`. Narrower tests promote them through `bofu/MainAssessmentRibbon` (hero), `bofu/MainAssessmentCompare` or `bofu/MainAssessmentPicker` (before the quiz) and `bofu/MainAssessmentFunnel` (result-screen injection plus a sticky bar via `public/scripts/main-assessment-cta.js`). Blog posts and BOFU/MOFU service pages do not promote assessments; only assessment pages do. Clicks are reported to GA as `main_assessment_click` (`placement`, `target_assessment`).
+
+## Search Console coverage notes (Oct 2026)
+- "Crawled - currently not indexed" lists include URLs that are now 301 redirects (merged assessment variants, slash-less URLs, `/skill-finder/`). They clear on their own; do not recreate those pages.
+- Pages that share one template or tool shell (for example the six `/career-skills-compass/*` routes) must each have their own meta description and H1, otherwise Google treats them as duplicates.
+- Remaining real pages in that report are not thinner or less linked than indexed pages; the cause is crawl priority and site authority. Keep internal links to new pages from their hub and siblings, and re-check indexing 2-4 weeks after publishing.
