@@ -41,6 +41,10 @@ Every image needs a meaningful filename, descriptive human-written `alt`, useful
 
 Preserve navigation, typography, CTAs, and existing page structure. Images must be responsive (`width: 100%; height: auto`) and safe on mobile, tablet, desktop, and wide screens. Check text cards, captions, tables, and diagrams for overflow. Wire every asset into the actual route/component; do not leave unused files in `public/`.
 
+### Non-hero priority
+
+The non-hero set must be led by natural editorial scenes that help a reader understand the article quickly: people making the relevant decision, learning, working, comparing options, discussing trade-offs, or handling the real circumstances described by the page. Infographics, graphs, tables, Venn diagrams, flowcharts, process chains, timelines, funnels, matrices, checklists, pyramids, and arrays are supporting formats only when the article truly needs that explanation; they are not the default replacement for human/context imagery. Never fill a page with abstract diagrams just to increase the image count.
+
 ## Verification and delivery
 
 Audit every supplied route; confirm every referenced asset exists; check alt/title/captions; inspect representative hero, photo, text-card, diagram, service, mobile, and desktop layouts; run `git diff --check`; run one full production build after all changes; check broken links, missing assets, overflow, and preserved service SVGs; commit and push directly to `main`; report exact route coverage, reuse versus unique assets, exclusions, verification, and commit hashes.
