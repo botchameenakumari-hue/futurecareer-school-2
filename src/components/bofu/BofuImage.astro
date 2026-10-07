@@ -12,9 +12,14 @@ const base = '/services/career-counselling-and-career-guidance/';
 const { slug: slugProp, eager = true } = Astro.props;
 const pathname = Astro.url.pathname;
 const slug = slugProp ?? (pathname.startsWith(base) ? pathname.slice(base.length).replace(/\/$/, '') : '');
-const id = BOFU_PAGE_IMAGES[slug];
+const id = pathname === '/services/' || pathname === '/services'
+  ? 'hero-hub'
+  : pathname.startsWith('/services/assessments/')
+    ? 'hero-assessment'
+    : BOFU_PAGE_IMAGES[slug];
 const exists = id ? fs.existsSync(path.join(process.cwd(), 'public', 'images', 'bofu', `${id}.webp`)) : false;
 const alt = id ? (BOFU_IMAGE_ALT[id] ?? '') : '';
+const showDiagrams = slug === '' || slug === 'career-guidance';
 ---
 
 {exists && (
@@ -29,6 +34,13 @@ const alt = id ? (BOFU_IMAGE_ALT[id] ?? '') : '';
       decoding="async"
     />
   </figure>
+)}
+
+{showDiagrams && (
+  <div class="bofu-diagrams" aria-label="Career guidance diagrams">
+    <figure class="bofu-image"><img src="/images/bofu/session-flow.svg" alt="Five-stage career guidance session flow from context to review" width="1600" height="720" loading="lazy" /></figure>
+    <figure class="bofu-image"><img src="/images/bofu/skill-portfolio-chain.svg" alt="Skill portfolio chain from strengths to financial freedom" width="1600" height="720" loading="lazy" /></figure>
+  </div>
 )}
 
 <style>
