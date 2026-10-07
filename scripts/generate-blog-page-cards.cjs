@@ -30,7 +30,26 @@ const palettes = [['#193b52', '#d6a85f'], ['#24483f', '#d28b62'], ['#3c334d', '#
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const pageData = (file, slug) => {
   const source = fs.readFileSync(file, 'utf8');
-  const titleMatch = source.match(/const\s+title\s*=\s*['"]([^'"]+)['"]/);
+  const titleMatch = source.match(/const\s+title\s*=\s*['"]([^'"]+)['"]/) ?? source.match(/<h1[^>]*>\s*([^<]+?)\s*<\/h1>/i);
+  const keywordMatch = source.match(/const\s+primaryKeyword\s*=\s*['"]([^'"]+)['"]/);
+  const topicText = `${slug.replace(/-/g, ' ')} ${keywordMatch?.[1] ?? ''}`.toLowerCase();
+  const topicLabels = [
+    [/salary|income|pay|earning/, 'INCOME / UPSIDE'],
+    [/cost|fee|loan|spend|afford|budget/, 'TOTAL COST / RUNWAY'],
+    [/scholarship|funding|financial aid/, 'FUNDING / ELIGIBILITY'],
+    [/visa|abroad|canada|germany|australia|uk|usa|foreign|return to india/, 'MOBILITY / OUTCOME'],
+    [/parent|child|teenager|family/, 'FAMILY DECISION'],
+    [/confusion|confused|clarity|counsel/, 'CLARITY / QUESTIONS'],
+    [/promot|management|manager|leadership/, 'ROLE / LEVERAGE'],
+    [/creator|content|freelanc|consult|business|startup/, 'OFFER / CLIENT VALUE'],
+    [/exam|upsc|bank|government|govt|defence/, 'PREPARATION / ALTERNATIVE'],
+    [/resume|cv|linkedin|interview|job|placement|internship/, 'EVIDENCE / APPLICATION'],
+    [/skill|roadmap|learn|programming|data|digital marketing|design/, 'SKILL / PROJECT PROOF'],
+  ].filter(([pattern]) => pattern.test(topicText)).map(([, label]) => label);
+  const headingLabels = [
+    ...[...source.matchAll(/<h2[^>]*>\s*([^<]+?)\s*<\/h2>/g)].map((match) => match[1]),
+    ...[...source.matchAll(/(?:label|check|tag|q|heading|sectionTitle):\s*['"]([^'"]+)['"]/g)].map((match) => match[1]),
+  ];
   const labels = [...source.matchAll(/(?:label|check|tag|q):\s*['"]([^'"]+)['"]/g)]
     .map((match) => match[1].replace(/\s+/g, ' ').trim())
     .filter((label) => label.length >= 4 && label.length <= 48)
@@ -38,7 +57,11 @@ const pageData = (file, slug) => {
     .slice(0, 6);
   return {
     title: (titleMatch?.[1] ?? slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())).replace(/\s+/g, ' ').trim(),
-    labels,
+    labels: [...labels, ...headingLabels, ...topicLabels]
+      .map((label) => label.replace(/\s+/g, ' ').trim())
+      .filter((label) => label.length >= 4 && label.length <= 48)
+      .filter((label, index, all) => all.indexOf(label) === index)
+      .slice(0, 6),
   };
 };
 const linesFor = (title) => {
@@ -55,6 +78,10 @@ const linesFor = (title) => {
 const kindFor = (slug, title) => {
   const text = `${slug} ${title}`.toLowerCase();
   if (/\b(vs|versus|compare|comparison|which|choose|choice|better|difference)\b/.test(text)) return 'comparison';
+  if (/\b(cost|fee|loan|budget|spend|afford|tuition|expense|worth)\b/.test(text)) return 'table';
+  if (/\b(salary|income|pay|earning|growth|demand|scope|market|statistics?|data)\b/.test(text)) return 'chart';
+  if (/\b(job-search|job search|application|apply|client|creator|freelanc|marketing|network|placement|selection)\b/.test(text)) return 'funnel';
+  if (/\b(fit|interest|personality|overlap|strengths?|aptitude|suitable|suited)\b/.test(text)) return 'venn';
   if (/\b(timeline|after-\d|after \d|at-\d|next-\d|growth|progression|stages?)\b/.test(text)) return 'timeline';
   if (/\b(roadmap|path|pathway|how-to-become|how-to-get|how-to-start|steps?|process)\b/.test(text)) return 'roadmap';
   if (/\b(tips?|prepare|preparation|checklist|skills?|what-to-do|how-to|mistakes?|interview|filter|advice|criteria|red-flags?)\b/.test(text)) return 'checklist';
@@ -70,8 +97,8 @@ const shortLabel = (value) => value.length > 24 ? `${value.slice(0, 22).trim()}�
 const xmlText = (x, y, value, size, fill, weight = 400, family = 'Arial, Helvetica, sans-serif') => `<text x="${x}" y="${y}" font-family="${family}" font-size="${size}" font-weight="${weight}" fill="${fill}">${esc(value)}</text>`;
 const box = (x, y, w, h, fill, stroke, radius = 18) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${radius}" fill="${fill}" stroke="${stroke}" stroke-width="2"/>`;
 
-const detailKind = (kind) => ({ comparison: 'matrix', matrix: 'comparison', timeline: 'framework', roadmap: 'comparison', checklist: 'matrix', framework: 'checklist' }[kind] ?? 'framework');
-const actionKind = (kind) => ({ comparison: 'checklist', matrix: 'checklist', timeline: 'roadmap', roadmap: 'checklist', checklist: 'roadmap', framework: 'roadmap' }[kind] ?? 'checklist');
+const detailKind = (kind) => ({ comparison: 'matrix', table: 'comparison', chart: 'table', funnel: 'framework', venn: 'matrix', matrix: 'comparison', timeline: 'framework', roadmap: 'comparison', checklist: 'matrix', framework: 'checklist' }[kind] ?? 'framework');
+const actionKind = (kind) => ({ comparison: 'checklist', table: 'checklist', chart: 'roadmap', funnel: 'checklist', venn: 'checklist', matrix: 'checklist', timeline: 'roadmap', roadmap: 'checklist', checklist: 'roadmap', framework: 'roadmap' }[kind] ?? 'checklist');
 const cardSvg = (category, title, labels, kind, index, lens = 'primary') => {
   const [eyebrow] = categoryLabels[category] ?? ['CAREER GUIDE'];
   const [ink, accent] = palettes[index % palettes.length];
@@ -82,6 +109,34 @@ const cardSvg = (category, title, labels, kind, index, lens = 'primary') => {
   let body = '';
   if (kind === 'comparison') {
     body = `${box(120, 470, 600, 285, '#fffdf8', accent)}${box(880, 470, 600, 285, '#fffdf8', accent)}${xmlText(160, 525, tags[0], 30, ink, 700)}${xmlText(920, 525, tags[1], 30, ink, 700)}${xmlText(160, 600, 'WORK', 18, accent, 700)}${xmlText(920, 600, 'WORK', 18, accent, 700)}${xmlText(160, 660, tags[2] ?? 'FIT', 24, ink, 600)}${xmlText(920, 660, tags[3] ?? 'PROOF', 24, ink, 600)}${xmlText(160, 715, 'cost · time · evidence', 20, '#675f56')}${xmlText(920, 715, 'cost · time · evidence', 20, '#675f56')}${xmlText(120, 850, lens === 'action' ? 'Turn the comparison into a decision you can test.' : 'Compare the work, trade-offs, and proof before choosing.', 28, ink, 600, 'Georgia, serif')}`;
+  } else if (kind === 'table') {
+    const rows = [
+      ['QUESTION', tags[0] ?? 'What changes?'],
+      ['EVIDENCE', tags[1] ?? 'What should be checked?'],
+      ['TRADE-OFF', tags[2] ?? 'What does it cost?'],
+      ['NEXT TEST', tags[3] ?? 'What can you try?'],
+    ];
+    body = `${box(150, 470, 1300, 370, '#fffdf8', accent, 12)}${rows.map((row, i) => {
+      const y = 545 + i * 78;
+      return `${i > 0 ? `<path d="M180 ${y - 42} H1420" stroke="#d8cdbd" stroke-width="2"/>` : ''}${xmlText(200, y, row[0], 17, accent, 700)}${xmlText(500, y, row[1], 25, ink, 600)}`;
+    }).join('')}${xmlText(120, 900, 'A decision becomes clearer when cost, evidence, and next test sit in the same view.', 26, ink, 600, 'Georgia, serif')}`;
+  } else if (kind === 'chart') {
+    const bars = tags.slice(0, 4).map((tag, i) => {
+      const width = [720, 590, 470, 350][i];
+      const y = 500 + i * 82;
+      return `${xmlText(170, y + 30, tag, 23, ink, 700)}<rect x="510" y="${y}" width="${width}" height="42" rx="12" fill="${accent}" opacity="${0.95 - i * 0.14}"/><text x="${540 + width}" y="${y + 29}" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#675f56">lens ${i + 1}</text>`;
+    }).join('');
+    body = `${xmlText(170, 455, 'QUALITATIVE EVIDENCE LENSES', 18, accent, 700)}${bars}${xmlText(120, 900, 'This is a reading guide—not invented market data. Use the article’s sources for the numbers.', 25, ink, 600, 'Georgia, serif')}`;
+  } else if (kind === 'funnel') {
+    const stages = ['NOTICE', 'FILTER', 'TEST', 'COMMIT'];
+    body = stages.map((stage, i) => {
+      const w = 1120 - i * 220;
+      const x = (1600 - w) / 2;
+      const y = 470 + i * 92;
+      return `${box(x, y, w, 62, '#fffdf8', accent, 12)}${xmlText(x + 35, y + 40, stage, 18, accent, 700)}${xmlText(x + 260, y + 40, tags[i] ?? stage, 24, ink, 600)}`;
+    }).join('') + xmlText(120, 900, 'Narrow the decision by testing evidence before making the largest commitment.', 26, ink, 600, 'Georgia, serif');
+  } else if (kind === 'venn') {
+    body = `<circle cx="610" cy="625" r="190" fill="#d6a85f" opacity=".32" stroke="${accent}" stroke-width="3"/><circle cx="990" cy="625" r="190" fill="#8bb7a8" opacity=".34" stroke="${accent}" stroke-width="3"/><circle cx="800" cy="440" r="190" fill="#9aa9d6" opacity=".30" stroke="${accent}" stroke-width="3"/>${xmlText(495, 625, tags[0] ?? 'INTEREST', 23, ink, 700)}${xmlText(950, 625, tags[1] ?? 'ABILITY', 23, ink, 700)}${xmlText(730, 430, tags[2] ?? 'MARKET', 23, ink, 700)}${xmlText(720, 660, 'FIT + EVIDENCE', 22, accent, 700)}${xmlText(120, 900, 'The overlap is a hypothesis to test through real work—not a label to accept blindly.', 26, ink, 600, 'Georgia, serif')}`;
   } else if (kind === 'timeline') {
     const nodes = ['NOW', 'NEXT', 'BUILD', 'REVIEW'];
     const timeline = nodes.map((node, i) => {
