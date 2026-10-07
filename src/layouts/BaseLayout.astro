@@ -4,6 +4,7 @@ import ConsentBanner from '../components/ConsentBanner.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 import BofuImage from '../components/bofu/BofuImage.astro';
 import BofuContextVisual from '../components/bofu/BofuContextVisual.astro';
+import BlogFallbackVisual from '../components/BlogFallbackVisual.astro';
 
 export interface Props {
   title: string;
@@ -243,6 +244,20 @@ const isDashboardRoute = Astro.url.pathname === '/dashboard' || Astro.url.pathna
 </head>
 <body>
   <slot />
+  <BlogFallbackVisual />
+  <script is:inline>
+    const blogBody = document.querySelector('#blog-post .post-body, #itm-article, main article, article');
+    const fallbackGroup = document.querySelector('[data-blog-fallback-group]');
+    if (blogBody && fallbackGroup) {
+      const customImages = blogBody.querySelectorAll('img[src*="/images/blog/"]:not([src*="/images/blog/category/"])');
+      if (customImages.length >= 3) {
+        fallbackGroup.remove();
+      } else {
+        fallbackGroup.classList.add('is-visible');
+        blogBody.insertBefore(fallbackGroup, blogBody.children[1] || null);
+      }
+    }
+  </script>
   {Astro.url.pathname.startsWith('/services/') && <BofuImage />}
   {Astro.url.pathname.startsWith('/services/') && <BofuContextVisual />}
   {Astro.url.pathname.startsWith('/services/') && (
