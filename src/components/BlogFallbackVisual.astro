@@ -193,10 +193,12 @@ const isArticle = articlePath.length >= 3 && !excludedPillarSlugs.has(articlePat
       <img src={`/images/blog/category/${category}-at-a-glance.webp`} alt={`At a glance: ${selected.alt}`} title={`At a glance: ${selected.alt}`} width="1600" height="1000" loading="lazy" decoding="async" />
       <figcaption>A concise visual summary of the decision and evidence this category asks the reader to consider.</figcaption>
     </figure>
-    <figure class="blog-fallback-visual blog-fallback-visual--page-specific">
-      <img src={`/images/blog/page-cards/${category}/${pageSlug}.webp`} alt={pageExplainer?.alt ?? `${pageCardTitle}: page-specific career decision visual`} title={pageExplainer?.title ?? `${pageCardTitle}: page-specific career decision visual`} width="1600" height="1000" loading="lazy" decoding="async" />
-      <figcaption>{pageExplainer?.caption ?? 'A page-specific visual summary built from this article’s topic and decision keywords.'}</figcaption>
-    </figure>
+    {pageExplainer?.assets?.map((asset, index) => (
+      <figure class:list={['blog-fallback-visual', index === 0 ? 'blog-fallback-visual--page-specific' : 'blog-fallback-visual--page-explainer']}>
+        <img src={`/images/blog/page-cards/${category}/${asset.file}`} alt={asset.alt} title={asset.title} width="1600" height="1000" loading="lazy" decoding="async" />
+        <figcaption>{asset.caption}</figcaption>
+      </figure>
+    ))}
     {pageContext && (
       <figure class="blog-fallback-visual blog-fallback-visual--page-context">
         <img src={`/images/blog/page-context/${category}/${pageSlug}.webp`} alt={pageContext.alt} title={pageContext.title} width="1600" height="1000" loading="lazy" decoding="async" />

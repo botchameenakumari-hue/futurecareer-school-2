@@ -15,7 +15,7 @@ Create a premium, editorial, natural, human-designed visual system for Future Ca
 
 ## Blog standard
 
-For every eligible article, create 1 hero plus 5–7 supporting visuals; use up to 10 when the article needs it:
+For every eligible article, create 1 hero plus 5–7 supporting visuals; use up to 10 when the article needs it. At minimum, every eligible route must receive three route-specific explanatory visuals in addition to any shared category support set:
 
 1. Natural editorial hero reflecting the article’s audience and situation; suitable for search/social previews; do not overcrowd it with text.
 2. A human/context scene showing the real decision, work, learning, family, or career setting.
