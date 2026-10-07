@@ -16,7 +16,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `parents-editorial-cover.webp`, `parents-context.webp`, `parents-listen.webp`, `parents-conversation.webp`, `parents-framework.webp`, `parents-compare.webp`, `parents-at-a-glance.webp`.
@@ -97,7 +97,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `parents-editorial-cover.webp`, `parents-context.webp`, `parents-listen.webp`, `parents-conversation.webp`, `parents-framework.webp`, `parents-compare.webp`, `parents-at-a-glance.webp`.
@@ -170,7 +170,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `parents-editorial-cover.webp`, `parents-context.webp`, `parents-listen.webp`, `parents-conversation.webp`, `parents-framework.webp`, `parents-compare.webp`, `parents-at-a-glance.webp`.
@@ -243,7 +243,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `parents-editorial-cover.webp`, `parents-context.webp`, `parents-listen.webp`, `parents-conversation.webp`, `parents-framework.webp`, `parents-compare.webp`, `parents-at-a-glance.webp`.
@@ -316,7 +316,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `parents-editorial-cover.webp`, `parents-context.webp`, `parents-listen.webp`, `parents-conversation.webp`, `parents-framework.webp`, `parents-compare.webp`, `parents-at-a-glance.webp`.

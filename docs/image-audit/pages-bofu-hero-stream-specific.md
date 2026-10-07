@@ -13,7 +13,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-stream-specific.webp` is shared by 6 page(s); acceptable reuse.
 4. Hero `hero-stream-specific.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-healthcare-aspirant.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-healthcare-aspirant.webp` appears on 3 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -21,10 +21,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-stream-specific.webp` | 97% | eager/high | Four study streams shown side by side: biology… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-stream-specific.webp` | 96% | eager/high | Four study streams shown side by side: biology… | NO | NO |
 | `bofu/context-healthcare-aspirant.webp` | 97% | lazy | A healthcare career visual showing patients… | NO | NO |
 
 **Required actions**
@@ -79,7 +79,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-stream-specific.webp` is shared by 6 page(s); acceptable reuse.
 4. Hero `hero-stream-specific.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-stream-choice.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-stream-choice.webp` appears on 3 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -87,11 +87,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-stream-specific.webp` | 97% | eager/high | Four study streams shown side by side: biology… | NO | NO |
-| `bofu/context-stream-choice.webp` | 98% | lazy | A stream decision visual showing science… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-stream-specific.webp` | 96% | eager/high | Four study streams shown side by side: biology… | NO | NO |
+| `bofu/context-stream-choice.webp` | 97% | lazy | A stream decision visual showing science… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -153,11 +153,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-stream-specific.webp` | 97% | eager/high | Four study streams shown side by side: biology… | NO | NO |
-| `bofu/context-creative-media.webp` | 98% | lazy | A creative career visual showing idea, craft… | NO | NO |
+| `bofu/context-creative-media.webp` | 97% | lazy | A creative career visual showing idea, craft… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -220,11 +220,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-stream-specific.webp` | 97% | eager/high | Four study streams shown side by side: biology… | NO | NO |
-| `bofu/context-stream-choice.webp` | 98% | lazy | A stream decision visual showing science… | NO | NO |
+| `bofu/context-stream-choice.webp` | 97% | lazy | A stream decision visual showing science… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -278,7 +278,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-stream-specific.webp` is shared by 6 page(s); acceptable reuse.
 4. Hero `hero-stream-specific.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-stream-choice.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-stream-choice.webp` appears on 3 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -286,10 +286,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-stream-specific.webp` | 97% | eager/high | Four study streams shown side by side: biology… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-stream-specific.webp` | 96% | eager/high | Four study streams shown side by side: biology… | NO | NO |
 | `bofu/context-stream-choice.webp` | 97% | lazy | A stream decision visual showing science… | NO | NO |
 
 **Required actions**
@@ -352,11 +352,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
 | `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-stream-specific.webp` | 97% | eager/high | Four study streams shown side by side: biology… | NO | NO |
-| `bofu/context-healthcare-aspirant.webp` | 98% | lazy | A healthcare career visual showing patients… | NO | NO |
+| `bofu/context-healthcare-aspirant.webp` | 97% | lazy | A healthcare career visual showing patients… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.

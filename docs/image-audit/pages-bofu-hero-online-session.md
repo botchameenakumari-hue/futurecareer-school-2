@@ -13,7 +13,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-online-session.webp` is shared by 26 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-online-session.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 98% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-holistic-framework.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-holistic-framework.webp` appears on 24 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -22,9 +22,9 @@
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
 | `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-online-session.webp` | 98% | eager/high | A one-on-one online career counselling session on… | NO | NO |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
 | `bofu/context-holistic-framework.webp` | 98% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**
@@ -87,7 +87,7 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 96% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
 | `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 98% | eager/high | A one-on-one online career counselling session on… | NO | NO |
@@ -154,9 +154,9 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
 | `bofu/context-holistic-framework.webp` | 98% | lazy | A holistic career decision framework covering… | NO | NO |
 
@@ -212,7 +212,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-online-session.webp` is shared by 26 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-online-session.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-holistic-framework.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-holistic-framework.webp` appears on 24 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -220,11 +220,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-online-session.webp` | 96% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-holistic-framework.webp` | 97% | lazy | A holistic career decision framework covering… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-online-session.webp` | 95% | eager/high | A one-on-one online career counselling session on… | NO | NO |
+| `bofu/context-holistic-framework.webp` | 96% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -286,9 +286,9 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
 | `bofu/context-online-session.webp` | 98% | lazy | An online guidance visual showing live… | NO | NO |
 
@@ -352,9 +352,9 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
 | `bofu/context-career-plan.webp` | 98% | lazy | A career plan visual showing now, next, proof… | NO | NO |
 
@@ -419,11 +419,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-holistic-framework.webp` | 98% | lazy | A holistic career decision framework covering… | NO | NO |
+| `bofu/context-holistic-framework.webp` | 97% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -485,11 +485,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
 | `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-holistic-framework.webp` | 98% | lazy | A holistic career decision framework covering… | NO | NO |
+| `bofu/context-holistic-framework.webp` | 97% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -551,7 +551,7 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 96% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
 | `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 98% | eager/high | A one-on-one online career counselling session on… | NO | NO |
@@ -609,7 +609,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-online-session.webp` is shared by 26 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-online-session.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-pricing-value.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-pricing-value.webp` appears on 5 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -617,11 +617,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-online-session.webp` | 96% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-pricing-value.webp` | 97% | lazy | A pricing visual showing clarity, a skill plan… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-online-session.webp` | 95% | eager/high | A one-on-one online career counselling session on… | NO | NO |
+| `bofu/context-pricing-value.webp` | 96% | lazy | A pricing visual showing clarity, a skill plan… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -684,11 +684,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 96% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-holistic-framework.webp` | 97% | lazy | A holistic career decision framework covering… | NO | NO |
+| `bofu/context-holistic-framework.webp` | 96% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -754,7 +754,7 @@
 | `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-holistic-framework.webp` | 98% | lazy | A holistic career decision framework covering… | NO | NO |
+| `bofu/context-holistic-framework.webp` | 97% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -808,7 +808,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-online-session.webp` is shared by 26 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-online-session.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-pricing-value.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-pricing-value.webp` appears on 5 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -816,11 +816,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-online-session.webp` | 96% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-pricing-value.webp` | 97% | lazy | A pricing visual showing clarity, a skill plan… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-online-session.webp` | 95% | eager/high | A one-on-one online career counselling session on… | NO | NO |
+| `bofu/context-pricing-value.webp` | 96% | lazy | A pricing visual showing clarity, a skill plan… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -874,7 +874,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-online-session.webp` is shared by 26 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-online-session.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 98% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-holistic-framework.webp` was chosen by the regex in `BofuContextVisual.astro`; a cleaner match for this keyword is `context-career-plan.webp`.
 7. Context visual `context-holistic-framework.webp` has no title attribute and no caption.
 8. Context visual reuse: `context-holistic-framework.webp` appears on 24 pages.
@@ -883,10 +883,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-online-session.webp` | 98% | eager/high | A one-on-one online career counselling session on… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
 | `bofu/context-holistic-framework.webp` | 98% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**
@@ -950,11 +950,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-holistic-framework.webp` | 98% | lazy | A holistic career decision framework covering… | NO | NO |
+| `bofu/context-holistic-framework.webp` | 97% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1016,11 +1016,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
 | `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-holistic-framework.webp` | 98% | lazy | A holistic career decision framework covering… | NO | NO |
+| `bofu/context-holistic-framework.webp` | 97% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1074,7 +1074,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-online-session.webp` is shared by 26 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-online-session.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 98% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-career-plan.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-career-plan.webp` appears on 8 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1084,8 +1084,8 @@
 |---|---|---|---|---|---|
 | `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
 | `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-online-session.webp` | 98% | eager/high | A one-on-one online career counselling session on… | NO | NO |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
 | `bofu/context-career-plan.webp` | 98% | lazy | A career plan visual showing now, next, proof… | NO | NO |
 
 **Required actions**
@@ -1140,7 +1140,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-online-session.webp` is shared by 26 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-online-session.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 98% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-career-plan.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-career-plan.webp` appears on 8 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1149,9 +1149,9 @@
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
 | `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-online-session.webp` | 98% | eager/high | A one-on-one online career counselling session on… | NO | NO |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
 | `bofu/context-career-plan.webp` | 98% | lazy | A career plan visual showing now, next, proof… | NO | NO |
 
 **Required actions**
@@ -1206,7 +1206,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-online-session.webp` is shared by 26 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-online-session.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-career-plan.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-career-plan.webp` appears on 8 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1214,11 +1214,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-online-session.webp` | 96% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-career-plan.webp` | 97% | lazy | A career plan visual showing now, next, proof… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-online-session.webp` | 95% | eager/high | A one-on-one online career counselling session on… | NO | NO |
+| `bofu/context-career-plan.webp` | 96% | lazy | A career plan visual showing now, next, proof… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1280,11 +1280,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-career-plan.webp` | 98% | lazy | A career plan visual showing now, next, proof… | NO | NO |
+| `bofu/context-career-plan.webp` | 97% | lazy | A career plan visual showing now, next, proof… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1346,11 +1346,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-career-plan.webp` | 98% | lazy | A career plan visual showing now, next, proof… | NO | NO |
+| `bofu/context-career-plan.webp` | 97% | lazy | A career plan visual showing now, next, proof… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1413,11 +1413,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
 | `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-entrepreneur-path.webp` | 98% | lazy | An entrepreneurship visual showing problem… | NO | NO |
+| `bofu/context-entrepreneur-path.webp` | 97% | lazy | An entrepreneurship visual showing problem… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1480,11 +1480,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-holistic-framework.webp` | 98% | lazy | A holistic career decision framework covering… | NO | NO |
+| `bofu/context-holistic-framework.webp` | 97% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1538,7 +1538,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-online-session.webp` is shared by 26 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-online-session.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-online-session.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-online-session.webp` appears on 6 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1546,11 +1546,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-online-session.webp` | 98% | lazy | An online guidance visual showing live… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-online-session.webp` | 96% | eager/high | A one-on-one online career counselling session on… | NO | NO |
+| `bofu/context-online-session.webp` | 97% | lazy | An online guidance visual showing live… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1612,11 +1612,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-career-plan.webp` | 98% | lazy | A career plan visual showing now, next, proof… | NO | NO |
+| `bofu/context-career-plan.webp` | 97% | lazy | A career plan visual showing now, next, proof… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1678,11 +1678,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-online-session.webp` | 97% | eager/high | A one-on-one online career counselling session on… | NO | NO |
-| `bofu/context-online-session.webp` | 98% | lazy | An online guidance visual showing live… | NO | NO |
+| `bofu/context-online-session.webp` | 97% | lazy | An online guidance visual showing live… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.

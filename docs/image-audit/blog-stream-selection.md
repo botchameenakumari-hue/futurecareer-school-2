@@ -16,7 +16,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `stream-selection-editorial-cover.webp`, `stream-selection-context.webp`, `stream-selection-filters.webp`, `stream-selection-family.webp`, `stream-selection-sequence.webp`, `stream-selection-test.webp`, `stream-selection-at-a-glance.webp`.
@@ -97,7 +97,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `stream-selection-editorial-cover.webp`, `stream-selection-context.webp`, `stream-selection-filters.webp`, `stream-selection-family.webp`, `stream-selection-sequence.webp`, `stream-selection-test.webp`, `stream-selection-at-a-glance.webp`.
@@ -178,7 +178,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `stream-selection-editorial-cover.webp`, `stream-selection-context.webp`, `stream-selection-filters.webp`, `stream-selection-family.webp`, `stream-selection-sequence.webp`, `stream-selection-test.webp`, `stream-selection-at-a-glance.webp`.
@@ -242,6 +242,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **H1:** Career options after 10th: the real paths beyond science pressure  
 **Category:** stream-selection · **Words:** 4520 · **H2 sections:** 23 · **Search priority:** P2 (0 clicks, 29 impressions)  
 **Status: RED — NO IMAGES** · og:image: generic site SVG (not a hero, SVG is not shown by most social platforms)
+
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision. This excluded page currently has NO content images at all, which is probably unintended; ask the owner.
 
 **Findings**
 

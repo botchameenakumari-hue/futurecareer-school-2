@@ -22,11 +22,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
 | `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
-| `bofu/context-first-generation.webp` | 98% | lazy | A first-generation career visual showing context… | NO | NO |
+| `bofu/context-first-generation.webp` | 97% | lazy | A first-generation career visual showing context… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -80,7 +80,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-graduate-pathway.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-graduate-pathway.webp` appears on 7 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -88,11 +88,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
-| `bofu/context-graduate-pathway.webp` | 98% | lazy | A graduate pathway from degree and capability… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `bofu/context-graduate-pathway.webp` | 97% | lazy | A graduate pathway from degree and capability… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -146,7 +146,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-engineering-tech.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-engineering-tech.webp` appears on 8 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -154,11 +154,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
-| `bofu/context-engineering-tech.webp` | 98% | lazy | An engineering career visual showing foundations… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `bofu/context-engineering-tech.webp` | 97% | lazy | An engineering career visual showing foundations… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -212,7 +212,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-graduate-pathway.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-graduate-pathway.webp` appears on 7 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -220,10 +220,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-graduate-pathway.webp` | 97% | lazy | A graduate pathway from degree and capability… | NO | NO |
 
 **Required actions**
@@ -278,7 +278,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-engineering-tech.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-engineering-tech.webp` appears on 8 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -286,10 +286,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-engineering-tech.webp` | 97% | lazy | An engineering career visual showing foundations… | NO | NO |
 
 **Required actions**
@@ -344,7 +344,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-engineering-tech.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-engineering-tech.webp` appears on 8 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -352,10 +352,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-engineering-tech.webp` | 97% | lazy | An engineering career visual showing foundations… | NO | NO |
 
 **Required actions**
@@ -410,7 +410,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-graduate-pathway.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-graduate-pathway.webp` appears on 7 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -418,10 +418,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-graduate-pathway.webp` | 97% | lazy | A graduate pathway from degree and capability… | NO | NO |
 
 **Required actions**
@@ -476,7 +476,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-student-parent-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-student-parent-map.webp` appears on 15 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -484,10 +484,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-student-parent-map.webp` | 97% | lazy | A student and parent career decision map from… | NO | NO |
 
 **Required actions**
@@ -542,7 +542,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-engineering-tech.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-engineering-tech.webp` appears on 8 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -550,10 +550,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-engineering-tech.webp` | 97% | lazy | An engineering career visual showing foundations… | NO | NO |
 
 **Required actions**
@@ -608,7 +608,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-healthcare-aspirant.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-healthcare-aspirant.webp` appears on 3 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -616,10 +616,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-healthcare-aspirant.webp` | 97% | lazy | A healthcare career visual showing patients… | NO | NO |
 
 **Required actions**
@@ -682,11 +682,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
-| `bofu/context-student-parent-map.webp` | 98% | lazy | A student and parent career decision map from… | NO | NO |
+| `bofu/context-student-parent-map.webp` | 97% | lazy | A student and parent career decision map from… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -740,7 +740,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-exam-pressure.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-exam-pressure.webp` appears on 2 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -748,10 +748,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-exam-pressure.webp` | 97% | lazy | A career setback visual showing attempts, time… | NO | NO |
 
 **Required actions**
@@ -806,7 +806,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-first-generation.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-first-generation.webp` appears on 4 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -814,10 +814,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-first-generation.webp` | 97% | lazy | A first-generation career visual showing context… | NO | NO |
 
 **Required actions**
@@ -872,7 +872,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-graduate-pathway.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-graduate-pathway.webp` appears on 7 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -880,10 +880,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-graduate-pathway.webp` | 97% | lazy | A graduate pathway from degree and capability… | NO | NO |
 
 **Required actions**
@@ -947,11 +947,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
-| `bofu/context-law-policy.webp` | 98% | lazy | A law and policy career visual showing impact… | NO | NO |
+| `bofu/context-law-policy.webp` | 97% | lazy | A law and policy career visual showing impact… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1005,7 +1005,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-law-policy.webp` was chosen by the regex in `BofuContextVisual.astro`; a cleaner match for this keyword is `context-exam-pressure.webp`.
 7. Context visual `context-law-policy.webp` has no title attribute and no caption.
 8. Context visual reuse: `context-law-policy.webp` appears on 3 pages.
@@ -1014,11 +1014,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
-| `bofu/context-law-policy.webp` | 97% | lazy | A law and policy career visual showing impact… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 95% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `bofu/context-law-policy.webp` | 96% | lazy | A law and policy career visual showing impact… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1072,7 +1072,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-first-generation.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-first-generation.webp` appears on 4 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1080,10 +1080,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-first-generation.webp` | 97% | lazy | A first-generation career visual showing context… | NO | NO |
 
 **Required actions**
@@ -1138,7 +1138,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-graduate-pathway.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-graduate-pathway.webp` appears on 7 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1146,10 +1146,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-graduate-pathway.webp` | 97% | lazy | A graduate pathway from degree and capability… | NO | NO |
 
 **Required actions**
@@ -1204,7 +1204,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-student-parent-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-student-parent-map.webp` appears on 15 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1212,11 +1212,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
-| `bofu/context-student-parent-map.webp` | 98% | lazy | A student and parent career decision map from… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `bofu/context-student-parent-map.webp` | 97% | lazy | A student and parent career decision map from… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1278,11 +1278,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
-| `bofu/context-study-abroad.webp` | 98% | lazy | A study-abroad decision visual comparing cost… | NO | NO |
+| `bofu/context-study-abroad.webp` | 97% | lazy | A study-abroad decision visual comparing cost… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1336,7 +1336,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-study-abroad.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-study-abroad.webp` appears on 2 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1344,10 +1344,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-study-abroad.webp` | 97% | lazy | A study-abroad decision visual comparing cost… | NO | NO |
 
 **Required actions**
@@ -1402,7 +1402,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-first-generation.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-first-generation.webp` appears on 4 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1410,11 +1410,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
-| `bofu/context-first-generation.webp` | 98% | lazy | A first-generation career visual showing context… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `bofu/context-first-generation.webp` | 97% | lazy | A first-generation career visual showing context… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1477,11 +1477,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
 | `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
-| `bofu/context-law-policy.webp` | 98% | lazy | A law and policy career visual showing impact… | NO | NO |
+| `bofu/context-law-policy.webp` | 97% | lazy | A law and policy career visual showing impact… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1535,7 +1535,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-engineering-tech.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-engineering-tech.webp` appears on 8 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1543,11 +1543,11 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
-| `bofu/context-engineering-tech.webp` | 98% | lazy | An engineering career visual showing foundations… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `bofu/context-engineering-tech.webp` | 97% | lazy | An engineering career visual showing foundations… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1601,7 +1601,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-graduate-pathway.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-graduate-pathway.webp` appears on 7 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1609,10 +1609,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-graduate-pathway.webp` | 97% | lazy | A graduate pathway from degree and capability… | NO | NO |
 
 **Required actions**
@@ -1667,7 +1667,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-graduate-pathway.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-graduate-pathway.webp` appears on 7 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -1675,10 +1675,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 93% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-graduate-pathway.webp` | 97% | lazy | A graduate pathway from degree and capability… | NO | NO |
 
 **Required actions**
@@ -1733,7 +1733,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-graduates-college.webp` is shared by 27 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-graduates-college.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 96% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-holistic-framework.webp` was chosen by the regex in `BofuContextVisual.astro`; a cleaner match for this keyword is `context-graduate-pathway.webp`.
 7. Context visual `context-holistic-framework.webp` has no title attribute and no caption.
 8. Context visual reuse: `context-holistic-framework.webp` appears on 24 pages.
@@ -1742,10 +1742,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 94% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-graduates-college.webp` | 97% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 94% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 95% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-graduates-college.webp` | 96% | eager/high | A graduate with a laptop planning a skill roadmap… | NO | NO |
 | `bofu/context-holistic-framework.webp` | 97% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**

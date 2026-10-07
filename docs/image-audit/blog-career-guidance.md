@@ -25,13 +25,13 @@
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `career-guidance/career-factors/cover.webp` | 1600x1000 | 1600x1000 | eager | 14% | ok |
-| `career-guidance/career-factors/stack.webp` | 1600x1000 | 1600x1000 | lazy | 24% | 268 KB |
-| `career-guidance/career-factors/floor.webp` | 1600x1000 | 1600x1000 | lazy | 31% | ok |
-| `career-guidance/career-factors/shape.webp` | 1600x1000 | 1600x1000 | lazy | 33% | ok |
-| `career-guidance/career-factors/tradeoffs.webp` | 1600x1000 | 1600x1000 | lazy | 44% | ok |
-| `career-guidance/career-factors/weigh.webp` | 1600x1000 | 1600x1000 | lazy | 49% | 337 KB |
+| `career-guidance/career-factors/stack.webp` | 1600x1000 | 1600x1000 | lazy | 23% | 268 KB |
+| `career-guidance/career-factors/floor.webp` | 1600x1000 | 1600x1000 | lazy | 30% | ok |
+| `career-guidance/career-factors/shape.webp` | 1600x1000 | 1600x1000 | lazy | 34% | ok |
+| `career-guidance/career-factors/tradeoffs.webp` | 1600x1000 | 1600x1000 | lazy | 46% | ok |
+| `career-guidance/career-factors/weigh.webp` | 1600x1000 | 1600x1000 | lazy | 52% | 337 KB |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -86,12 +86,12 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 |---|---|---|---|---|---|
 | `career-guidance/parent-career-filter/cover.webp` | 1586x992 | 1600x1000 | eager | 19% | ok |
 | `career-guidance/parent-career-filter/four-filters.webp` | 1586x992 | 1600x1000 | lazy | 23% | 269 KB |
-| `career-guidance/parent-career-filter/job-market.webp` | 1586x992 | 1600x1000 | lazy | 35% | ok |
-| `career-guidance/parent-career-filter/family-budget.webp` | 1586x992 | 1600x1000 | lazy | 37% | ok |
-| `career-guidance/parent-career-filter/proof-project.webp` | 1586x992 | 1600x1000 | lazy | 40% | ok |
-| `career-guidance/parent-career-filter/decision-map.webp` | 1586x992 | 1600x1000 | lazy | 47% | 269 KB |
+| `career-guidance/parent-career-filter/job-market.webp` | 1586x992 | 1600x1000 | lazy | 37% | ok |
+| `career-guidance/parent-career-filter/family-budget.webp` | 1586x992 | 1600x1000 | lazy | 39% | ok |
+| `career-guidance/parent-career-filter/proof-project.webp` | 1586x992 | 1600x1000 | lazy | 43% | ok |
+| `career-guidance/parent-career-filter/decision-map.webp` | 1586x992 | 1600x1000 | lazy | 51% | 269 KB |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 88%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -136,7 +136,7 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -217,13 +217,13 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `career-guidance/money-career-choice/cover.webp` | 1586x992 | 1600x1000 | eager | 16% | ok |
-| `career-guidance/money-career-choice/money-floor.webp` | 1586x992 | 1600x1000 | lazy | 24% | ok |
+| `career-guidance/money-career-choice/money-floor.webp` | 1586x992 | 1600x1000 | lazy | 23% | ok |
 | `career-guidance/money-career-choice/sustainable-fit.webp` | 1586x992 | 1600x1000 | lazy | 31% | ok |
-| `career-guidance/money-career-choice/survivorship-bias.webp` | 1586x992 | 1600x1000 | lazy | 34% | 327 KB |
-| `career-guidance/money-career-choice/enough-number.webp` | 1586x992 | 1600x1000 | lazy | 44% | ok |
-| `career-guidance/money-career-choice/decision-map.webp` | 1586x992 | 1600x1000 | lazy | 46% | 292 KB |
+| `career-guidance/money-career-choice/survivorship-bias.webp` | 1586x992 | 1600x1000 | lazy | 35% | 327 KB |
+| `career-guidance/money-career-choice/enough-number.webp` | 1586x992 | 1600x1000 | lazy | 46% | ok |
+| `career-guidance/money-career-choice/decision-map.webp` | 1586x992 | 1600x1000 | lazy | 49% | 292 KB |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 88%, 89%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -276,13 +276,13 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `career-guidance/what-is-counselling/cover.webp` | 1600x1000 | 1600x1000 | eager | 18% | ok |
-| `career-guidance/what-is-counselling/self-market.webp` | 1600x1000 | 1600x1000 | lazy | 23% | 284 KB |
-| `career-guidance/what-is-counselling/process.webp` | 1600x1000 | 1600x1000 | lazy | 27% | ok |
-| `career-guidance/what-is-counselling/who.webp` | 1600x1000 | 1600x1000 | lazy | 33% | ok |
-| `career-guidance/what-is-counselling/distinctions.webp` | 1600x1000 | 1600x1000 | lazy | 36% | 303 KB |
-| `career-guidance/what-is-counselling/not.webp` | 1600x1000 | 1600x1000 | lazy | 41% | ok |
+| `career-guidance/what-is-counselling/self-market.webp` | 1600x1000 | 1600x1000 | lazy | 22% | 284 KB |
+| `career-guidance/what-is-counselling/process.webp` | 1600x1000 | 1600x1000 | lazy | 26% | ok |
+| `career-guidance/what-is-counselling/who.webp` | 1600x1000 | 1600x1000 | lazy | 34% | ok |
+| `career-guidance/what-is-counselling/distinctions.webp` | 1600x1000 | 1600x1000 | lazy | 37% | 303 KB |
+| `career-guidance/what-is-counselling/not.webp` | 1600x1000 | 1600x1000 | lazy | 43% | ok |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 83%, 84%, 85%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -344,13 +344,13 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `career-guidance/career-advice/cover.webp` | 1600x1000 | 1600x1000 | eager | 16% | ok |
-| `career-guidance/career-advice/filter.webp` | 1600x1000 | 1600x1000 | lazy | 24% | ok |
-| `career-guidance/career-advice/good-bad.webp` | 1600x1000 | 1600x1000 | lazy | 26% | ok |
-| `career-guidance/career-advice/life-stages.webp` | 1600x1000 | 1600x1000 | lazy | 37% | 331 KB |
-| `career-guidance/career-advice/sources.webp` | 1600x1000 | 1600x1000 | lazy | 43% | ok |
-| `career-guidance/career-advice/action.webp` | 1600x1000 | 1600x1000 | lazy | 45% | ok |
+| `career-guidance/career-advice/filter.webp` | 1600x1000 | 1600x1000 | lazy | 23% | ok |
+| `career-guidance/career-advice/good-bad.webp` | 1600x1000 | 1600x1000 | lazy | 25% | ok |
+| `career-guidance/career-advice/life-stages.webp` | 1600x1000 | 1600x1000 | lazy | 38% | 331 KB |
+| `career-guidance/career-advice/sources.webp` | 1600x1000 | 1600x1000 | lazy | 45% | ok |
+| `career-guidance/career-advice/action.webp` | 1600x1000 | 1600x1000 | lazy | 48% | ok |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 88%, 89%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -403,7 +403,7 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 84%, 85%, 86%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -484,14 +484,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-guidance/job-vs-higher-studies/cover.webp` | 1600x1000 | 1600x1000 | eager | 22% | ok |
-| `career-guidance/job-vs-higher-studies/opportunity-cost.webp` | 1600x1000 | 1600x1000 | lazy | 23% | 377 KB |
-| `career-guidance/job-vs-higher-studies/credentials.webp` | 1600x1000 | 1600x1000 | lazy | 31% | ok |
-| `career-guidance/job-vs-higher-studies/experience.webp` | 1600x1000 | 1600x1000 | lazy | 37% | ok |
-| `career-guidance/job-vs-higher-studies/hybrid.webp` | 1600x1000 | 1600x1000 | lazy | 49% | ok |
-| `career-guidance/job-vs-higher-studies/filter.webp` | 1600x1000 | 1600x1000 | lazy | 54% | ok |
+| `career-guidance/job-vs-higher-studies/cover.webp` | 1600x1000 | 1600x1000 | eager | 21% | ok |
+| `career-guidance/job-vs-higher-studies/opportunity-cost.webp` | 1600x1000 | 1600x1000 | lazy | 22% | 377 KB |
+| `career-guidance/job-vs-higher-studies/credentials.webp` | 1600x1000 | 1600x1000 | lazy | 32% | ok |
+| `career-guidance/job-vs-higher-studies/experience.webp` | 1600x1000 | 1600x1000 | lazy | 39% | ok |
+| `career-guidance/job-vs-higher-studies/hybrid.webp` | 1600x1000 | 1600x1000 | lazy | 53% | ok |
+| `career-guidance/job-vs-higher-studies/filter.webp` | 1600x1000 | 1600x1000 | lazy | 59% | ok |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -536,21 +536,27 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 **Category:** career-guidance · **Words:** 3902 · **H2 sections:** 18 · **Search priority:** P3 (0 clicks, 7 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /blog/how-to-choose-a-career-after-12th-decision-scorecard.svg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
-1. 6 authored images on the page (hero + 5 supporting).
+1. 8 authored images on the page (hero + 7 supporting).
 2. Desk scenes with small handwriting; "lanes" is the only visual that names real categories.
 3. Add a stream-to-career roadmap and a decision tree.
 4. Supporting visuals are mostly scenes/flat-lays with one-word labels. They do not meet “non-hero visuals must primarily explain”.
+5. 2 of 8 images have no title attribute.
+6. 2 images have no caption: `how-to-choose-a-career-after-12th-decision-scorecard.svg`, `how-to-choose-a-career-after-12th-career-lane-map.svg`
 
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `career-guidance/how-to-choose-after-12th/cover.webp` | 1600x1000 | 1600x1000 | eager | 19% | ok |
-| `career-guidance/how-to-choose-after-12th/lanes.webp` | 1600x1000 | 1600x1000 | lazy | 32% | ok |
-| `career-guidance/how-to-choose-after-12th/research.webp` | 1600x1000 | 1600x1000 | lazy | 41% | ok |
-| `career-guidance/how-to-choose-after-12th/budget.webp` | 1600x1000 | 1600x1000 | lazy | 44% | ok |
-| `career-guidance/how-to-choose-after-12th/portfolio.webp` | 1600x1000 | 1600x1000 | lazy | 51% | ok |
-| `career-guidance/how-to-choose-after-12th/scorecard.webp` | 1600x1000 | 1600x1000 | lazy | 62% | ok |
+| `/blog/how-to-choose-a-career-after-12th-decision-scorecard.svg` | MISSING FILE | 1200x675 | lazy | 20% | no title attr; no caption |
+| `career-guidance/how-to-choose-after-12th/lanes.webp` | 1600x1000 | 1600x1000 | lazy | 34% | ok |
+| `/blog/how-to-choose-a-career-after-12th-career-lane-map.svg` | MISSING FILE | 1200x675 | lazy | 35% | no title attr; no caption |
+| `career-guidance/how-to-choose-after-12th/research.webp` | 1600x1000 | 1600x1000 | lazy | 43% | ok |
+| `career-guidance/how-to-choose-after-12th/budget.webp` | 1600x1000 | 1600x1000 | lazy | 47% | ok |
+| `career-guidance/how-to-choose-after-12th/portfolio.webp` | 1600x1000 | 1600x1000 | lazy | 55% | ok |
+| `career-guidance/how-to-choose-after-12th/scorecard.webp` | 1600x1000 | 1600x1000 | lazy | 67% | ok |
 
 **Required actions**
 1. CREATE 3 supporting visuals (to replace 3 low-information images; remove those images):
@@ -562,23 +568,23 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 - Alt: Summary card listing the key points of “How to choose a career after 12th: real plan”
 - Title attribute: At a glance: How to choose a career after 12th: real plan
 - Caption (also keep the key point in the HTML text): How to choose a career after 12th means picking a path where you can build proof fast, afford it safely, build a high-income skill portfolio, and…
-**V2 — Mistakes versus smarter move panel** (place after the H2 “What most students do wrong after 12th”)
-- File: `how-to-choose-a-career-after-12th-mistakes-most-students-wrong-after.webp` · 1600×1000 landscape WebP (or portrait 1080×1350 if the content needs it), under 200 KB
-- Teaches: Common bad moves Choosing a course before choosing the actual job role.
-- On-image text (keep to about 25-40 words in total; shorten the article wording, never add claims): Common bad moves / Better move / Choosing a course before choosing the actual job role. / Copying friends, cousins, or social pressure. / Taking a loan before proving interest and fit. / Thinking a degree alone creates employability. / Ignoring communication, tech, and AI skills.
+**V2 — Linear process chain or roadmap** (place after the H2 “How to talk to parents without turning it into a fight”)
+- File: `how-to-choose-a-career-after-12th-linear-talk-parents-without-turning.webp` · 1600×1000 landscape WebP (or portrait 1080×1350 if the content needs it), under 200 KB
+- Teaches: Many students are not fighting only confusion.
+- On-image text (keep to about 25-40 words in total; shorten the article wording, never add claims): Talk with evidence, not only emotion / A script to open the conversation / Show the role you want, not only the degree name. / Show cost, likely return, and backup plans. / Show a project plan and timeline of milestones. / Show the skills you will build outside the classroom too. / Show that you are not avoiding hard work, only avoiding blind risk.
 - Numbers: use ONLY these facts from the article (exact values, no new ones): none in this section, so do not put any number, salary, percentage or ranking on the image
-- Alt: Mistakes versus smarter move panel for “What most students do wrong after 12th”: Common bad moves; Better move; Choosing a course before choosing the…
-- Title attribute: What most students do wrong after 12th
-- Caption (also keep the key point in the HTML text): Common bad moves Choosing a course before choosing the actual job role.
-**V3 — Comparison table** (place after the H2 “How to choose a career after 12th without wasting years”)
-- File: `how-to-choose-a-career-after-12th-comparison-choose-career-after-12th.webp` · 1600×1000 landscape WebP (or portrait 1080×1350 if the content needs it), under 200 KB
-- Teaches: Use the 4-Checkpoint Decision Scorecard below — Biology, Context, Market, and Survival.
-- On-image text (keep to about 25-40 words in total; shorten the article wording, never add claims): Columns: Checkpoint | Question | What a good sign… / Row: Biology | Does the daily work suit… | You can imagine doing the… / Row: Context | Does the path fit your… | The path is affordable… / Row: Market | Do real people pay for… | Entry roles, internships… / Row: Survival | Can you stay valuable… | You can use tools to… / Biology check / Context check
-- Numbers: use ONLY these facts from the article (exact values, no new ones): Context worth knowing: the Mercer Mettl India Graduate Skill Index put overall graduate employability at just 42.6% in its most recent count, while the Wheebox-ETS India Skills Report showed employability climbing from 46.2% in 2022 to 56.35% in 2026. | Context worth knowing: the World Economic Forum's Future of Jobs Report 2025 puts 39% of workers' core skills at risk of changing by 2030.
-- Alt: Comparison table for “How to choose a career after 12th without wasting years”: Checkpoint | Question | What a good…; Biology | Does the daily work suit… |……
-- Title attribute: How to choose a career after 12th without wasting years
-- Caption (also keep the key point in the HTML text): Use the 4-Checkpoint Decision Scorecard below — Biology, Context, Market, and Survival.
-2. Images to replace/remove (lowest information): `lanes.webp`, `research.webp`, `budget.webp`.
+- Alt: Linear process chain or roadmap for “How to talk to parents without turning it into a fight”: Talk with evidence, not only emotion; A script to open the…
+- Title attribute: How to talk to parents without turning it into a fight
+- Caption (also keep the key point in the HTML text): Many students are not fighting only confusion.
+**V3 — Mistakes versus smarter move panel** (place after the H2 “What to do if you already chose the wrong path”)
+- File: `how-to-choose-a-career-after-12th-mistakes-already-chose-wrong-path.webp` · 1600×1000 landscape WebP (or portrait 1080×1350 if the content needs it), under 200 KB
+- Teaches: Many students think one wrong choice ruins everything.
+- On-image text (keep to about 25-40 words in total; shorten the article wording, never add claims): Do this first / Do not do this / List the transferable skills your current course is already giving you. / Add one strong market skill on top. / Build one visible project around that stack. / Do not stay frozen because of sunk cost. / Do not keep paying for a weak path without upgrading your real value.
+- Numbers: use ONLY these facts from the article (exact values, no new ones): none in this section, so do not put any number, salary, percentage or ranking on the image
+- Alt: Mistakes versus smarter move panel for “What to do if you already chose the wrong path”: Do this first; Do not do this; List the transferable skills your…
+- Title attribute: What to do if you already chose the wrong path
+- Caption (also keep the key point in the HTML text): Many students think one wrong choice ruins everything.
+2. Images to replace/remove (lowest information): `how-to-choose-a-career-after-12th-decision-scorecard.svg`, `lanes.webp`, `how-to-choose-a-career-after-12th-career-lane-map.svg`.
 3. FIX attributes on every kept image: meaningful kebab-case filename; alt that describes what is visible; title attribute; caption (figcaption) for every explanatory image; width/height equal to the real pixel size; `loading="lazy"` below the fold, hero eager with fetchpriority; WebP under 200 KB.
 4. Mobile check at 390px: no horizontal overflow, text inside images readable without zoom (body text on the image at least about 16 px when the image is displayed at 360 px wide), captions wrap.
 
@@ -592,6 +598,8 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 **Category:** career-guidance · **Words:** 5985 · **H2 sections:** 16 · **Search priority:** P3 (0 clicks, 17 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/career-guidance/right-career-fit-signals/how-to-find-the-right-career-4-fit-signals-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 11 authored images on the page (hero + 10 supporting).
 2. 11 images but the "4 fit signals" idea appears three times (signals, four-fit-signals, how-to-find-the-right-career-4-fit-signals-1440) plus career-quiz-vs-4-fit-signals-1440. Keep one, remove the duplicates.
@@ -604,17 +612,17 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-guidance/right-career-fit-signals/how-to-find-the-right-career-4-fit-signals-1440.webp` | 1440x810 | 1440x811 | eager | 11% | no caption |
+| `career-guidance/right-career-fit-signals/how-to-find-the-right-career-4-fit-signals-1440.webp` | 1440x810 | 1440x811 | eager | 10% | no caption |
 | `career-guidance/right-career-fit/cover.webp` | 1600x1000 | 1600x1000 | eager | 12% | ok |
-| `career-guidance/right-career-fit-signals/career-quiz-vs-4-fit-signals-1440.webp` | 1440x810 | 1440x811 | lazy | 22% | no title attr |
-| `career-guidance/right-career-fit/signals.webp` | 1600x1000 | 1600x1000 | lazy | 25% | ok |
-| `career-guidance/right-career-fit-signals/four-fit-signals-career-framework-1080.webp` | 1080x1350 | 1080x1350 | lazy | 30% | no title attr |
+| `career-guidance/right-career-fit-signals/career-quiz-vs-4-fit-signals-1440.webp` | 1440x810 | 1440x811 | lazy | 20% | no title attr |
+| `career-guidance/right-career-fit/signals.webp` | 1600x1000 | 1600x1000 | lazy | 24% | ok |
+| `career-guidance/right-career-fit-signals/four-fit-signals-career-framework-1080.webp` | 1080x1350 | 1080x1350 | lazy | 29% | no title attr |
 | `career-guidance/right-career-fit/attention-feedback.webp` | 1600x1000 | 1600x1000 | lazy | 30% | ok |
 | `career-guidance/right-career-fit/friction.webp` | 1600x1000 | 1600x1000 | lazy | 36% | ok |
 | `career-guidance/right-career-fit/market.webp` | 1600x1000 | 1600x1000 | lazy | 40% | ok |
-| `career-guidance/right-career-fit-signals/five-step-market-signal-career-check-1080.webp` | 1080x1350 | 1080x1350 | lazy | 46% | no title attr |
-| `career-guidance/right-career-fit-signals/career-fit-signal-patterns-decision-guide-1080.webp` | 1080x1350 | 1080x1350 | lazy | 51% | no title attr |
-| `career-guidance/right-career-fit/experiment.webp` | 1600x1000 | 1600x1000 | lazy | 57% | ok |
+| `career-guidance/right-career-fit-signals/five-step-market-signal-career-check-1080.webp` | 1080x1350 | 1080x1350 | lazy | 48% | no title attr |
+| `career-guidance/right-career-fit-signals/career-fit-signal-patterns-decision-guide-1080.webp` | 1080x1350 | 1080x1350 | lazy | 53% | no title attr |
+| `career-guidance/right-career-fit/experiment.webp` | 1600x1000 | 1600x1000 | lazy | 60% | ok |
 
 **Required actions**
 1. CREATE 2 supporting visuals (to replace 2 low-information images; remove those images):
@@ -656,7 +664,7 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 85%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -736,14 +744,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-guidance/plan-after-graduation/cover.webp` | 1600x1000 | 1600x1000 | eager | 14% | ok |
-| `career-guidance/plan-after-graduation/path-vs-job.webp` | 1600x1000 | 1600x1000 | lazy | 20% | 348 KB |
-| `career-guidance/plan-after-graduation/self-assessment.webp` | 1600x1000 | 1600x1000 | lazy | 22% | ok |
-| `career-guidance/plan-after-graduation/direction.webp` | 1600x1000 | 1600x1000 | lazy | 28% | ok |
+| `career-guidance/plan-after-graduation/cover.webp` | 1600x1000 | 1600x1000 | eager | 13% | ok |
+| `career-guidance/plan-after-graduation/path-vs-job.webp` | 1600x1000 | 1600x1000 | lazy | 18% | 348 KB |
+| `career-guidance/plan-after-graduation/self-assessment.webp` | 1600x1000 | 1600x1000 | lazy | 21% | ok |
+| `career-guidance/plan-after-graduation/direction.webp` | 1600x1000 | 1600x1000 | lazy | 27% | ok |
 | `career-guidance/plan-after-graduation/first-job.webp` | 1600x1000 | 1600x1000 | lazy | 33% | ok |
-| `career-guidance/plan-after-graduation/test.webp` | 1600x1000 | 1600x1000 | lazy | 42% | ok |
+| `career-guidance/plan-after-graduation/test.webp` | 1600x1000 | 1600x1000 | lazy | 44% | ok |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -805,13 +813,13 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `career-guidance/purpose-counselling/cover.webp` | 1600x1000 | 1600x1000 | eager | 16% | ok |
-| `career-guidance/purpose-counselling/bridge.webp` | 1600x1000 | 1600x1000 | lazy | 23% | 390 KB |
-| `career-guidance/purpose-counselling/self-map.webp` | 1600x1000 | 1600x1000 | lazy | 33% | ok |
+| `career-guidance/purpose-counselling/bridge.webp` | 1600x1000 | 1600x1000 | lazy | 21% | 390 KB |
+| `career-guidance/purpose-counselling/self-map.webp` | 1600x1000 | 1600x1000 | lazy | 32% | ok |
 | `career-guidance/purpose-counselling/market.webp` | 1600x1000 | 1600x1000 | lazy | 35% | ok |
-| `career-guidance/purpose-counselling/decision-skill.webp` | 1600x1000 | 1600x1000 | lazy | 38% | ok |
-| `career-guidance/purpose-counselling/action.webp` | 1600x1000 | 1600x1000 | lazy | 40% | ok |
+| `career-guidance/purpose-counselling/decision-skill.webp` | 1600x1000 | 1600x1000 | lazy | 39% | ok |
+| `career-guidance/purpose-counselling/action.webp` | 1600x1000 | 1600x1000 | lazy | 42% | ok |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 88%, 89%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -848,6 +856,8 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 **Category:** career-guidance · **Words:** 3618 · **H2 sections:** 13 · **Search priority:** P3 (0 clicks, 3 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/career-guidance/career-choice-decision-ladder/what-career-should-i-choose-decision-ladder-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Hero is a flat-lay graphic of the decision ladder, not a human scene; keep because it is clear, but add a natural hero if desired.
@@ -860,11 +870,11 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `career-guidance/career-choice-decision-ladder/what-career-should-i-choose-decision-ladder-1440.webp` | 1440x810 | 1440x811 | eager | 15% | no caption |
-| `career-guidance/career-choice-decision-ladder/five-step-career-decision-ladder-1080.webp` | 1080x1350 | 1080x1350 | lazy | 27% | no title attr |
-| `career-guidance/career-choice-decision-ladder/hard-constraint-or-fear-career-choice-1080.webp` | 1080x1350 | 1080x1350 | lazy | 39% | no title attr |
-| `career-guidance/career-choice-decision-ladder/weighted-career-scorecard-1080.webp` | 1080x1350 | 1080x1350 | lazy | 42% | no title attr |
-| `career-guidance/career-choice-decision-ladder/test-the-work-not-the-idea-1080.webp` | 1080x1350 | 1080x1350 | lazy | 49% | no title attr |
-| `career-guidance/career-choice-decision-ladder/four-career-choice-traps-1080.webp` | 1080x1350 | 1080x1350 | lazy | 52% | no title attr |
+| `career-guidance/career-choice-decision-ladder/five-step-career-decision-ladder-1080.webp` | 1080x1350 | 1080x1350 | lazy | 26% | no title attr |
+| `career-guidance/career-choice-decision-ladder/hard-constraint-or-fear-career-choice-1080.webp` | 1080x1350 | 1080x1350 | lazy | 40% | no title attr |
+| `career-guidance/career-choice-decision-ladder/weighted-career-scorecard-1080.webp` | 1080x1350 | 1080x1350 | lazy | 43% | no title attr |
+| `career-guidance/career-choice-decision-ladder/test-the-work-not-the-idea-1080.webp` | 1080x1350 | 1080x1350 | lazy | 52% | no title attr |
+| `career-guidance/career-choice-decision-ladder/four-career-choice-traps-1080.webp` | 1080x1350 | 1080x1350 | lazy | 56% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -902,14 +912,14 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-guidance/after-12th-confused/cover.webp` | 1600x1000 | 1600x1000 | eager | 16% | ok |
-| `career-guidance/after-12th-confused/loop.webp` | 1600x1000 | 1600x1000 | lazy | 21% | 261 KB |
-| `career-guidance/after-12th-confused/exits.webp` | 1600x1000 | 1600x1000 | lazy | 30% | ok |
-| `career-guidance/after-12th-confused/unstick.webp` | 1600x1000 | 1600x1000 | lazy | 35% | ok |
-| `career-guidance/after-12th-confused/gap-year.webp` | 1600x1000 | 1600x1000 | lazy | 39% | ok |
-| `career-guidance/after-12th-confused/proof.webp` | 1600x1000 | 1600x1000 | lazy | 44% | ok |
+| `career-guidance/after-12th-confused/cover.webp` | 1600x1000 | 1600x1000 | eager | 15% | ok |
+| `career-guidance/after-12th-confused/loop.webp` | 1600x1000 | 1600x1000 | lazy | 20% | 261 KB |
+| `career-guidance/after-12th-confused/exits.webp` | 1600x1000 | 1600x1000 | lazy | 31% | ok |
+| `career-guidance/after-12th-confused/unstick.webp` | 1600x1000 | 1600x1000 | lazy | 36% | ok |
+| `career-guidance/after-12th-confused/gap-year.webp` | 1600x1000 | 1600x1000 | lazy | 41% | ok |
+| `career-guidance/after-12th-confused/proof.webp` | 1600x1000 | 1600x1000 | lazy | 46% | ok |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.
@@ -962,13 +972,13 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `career-guidance/counselling-importance/cover.webp` | 1600x1000 | 1600x1000 | eager | 16% | ok |
-| `career-guidance/counselling-importance/blind-cost.webp` | 1600x1000 | 1600x1000 | lazy | 23% | ok |
+| `career-guidance/counselling-importance/blind-cost.webp` | 1600x1000 | 1600x1000 | lazy | 21% | ok |
 | `career-guidance/counselling-importance/wellbeing.webp` | 1600x1000 | 1600x1000 | lazy | 30% | ok |
-| `career-guidance/counselling-importance/three-questions.webp` | 1600x1000 | 1600x1000 | lazy | 37% | ok |
-| `career-guidance/counselling-importance/who-risk.webp` | 1600x1000 | 1600x1000 | lazy | 42% | ok |
-| `career-guidance/counselling-importance/risk-lower.webp` | 1600x1000 | 1600x1000 | lazy | 46% | ok |
+| `career-guidance/counselling-importance/three-questions.webp` | 1600x1000 | 1600x1000 | lazy | 38% | ok |
+| `career-guidance/counselling-importance/who-risk.webp` | 1600x1000 | 1600x1000 | lazy | 44% | ok |
+| `career-guidance/counselling-importance/risk-lower.webp` | 1600x1000 | 1600x1000 | lazy | 48% | ok |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 88%, 89%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-guidance-editorial-cover.webp`, `career-guidance-context.webp`, `career-guidance-framework.webp`, `career-guidance-conversation.webp`, `career-guidance-experiment.webp`, `career-guidance-evidence.webp`, `career-guidance-at-a-glance.webp`.

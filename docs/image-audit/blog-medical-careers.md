@@ -8,6 +8,8 @@
 **Category:** medical-careers · **Words:** 4202 · **H2 sections:** 15 · **Search priority:** P1 (4 clicks, 790 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/medical-careers/paramedical-courses-scope/best-paramedical-courses-scope-india-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Verify pay and duration in the 10-specializations panel.
@@ -19,11 +21,11 @@
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `medical-careers/paramedical-courses-scope/best-paramedical-courses-scope-india-1440.webp` | 1440x810 | 1440x811 | eager | 13% | no caption |
-| `medical-careers/paramedical-courses-scope/ten-paramedical-specializations-india-1080.webp` | 1080x1350 | 1080x1350 | lazy | 41% | ok |
-| `medical-careers/paramedical-courses-scope/paramedical-salary-growth-factors-1080.webp` | 1080x1350 | 1080x1350 | lazy | 45% | ok |
-| `medical-careers/paramedical-courses-scope/paramedical-career-scope-government-private-international-1440.webp` | 1440x810 | 1440x811 | lazy | 54% | ok |
-| `medical-careers/paramedical-courses-scope/choose-paramedical-course-by-work-style-1080.webp` | 1080x1350 | 1080x1350 | lazy | 59% | ok |
-| `medical-careers/paramedical-courses-scope/paramedical-course-fee-verification-checklist-1080.webp` | 1080x1350 | 1080x1350 | lazy | 71% | ok |
+| `medical-careers/paramedical-courses-scope/ten-paramedical-specializations-india-1080.webp` | 1080x1350 | 1080x1350 | lazy | 42% | ok |
+| `medical-careers/paramedical-courses-scope/paramedical-salary-growth-factors-1080.webp` | 1080x1350 | 1080x1350 | lazy | 46% | ok |
+| `medical-careers/paramedical-courses-scope/paramedical-career-scope-government-private-international-1440.webp` | 1440x810 | 1440x811 | lazy | 57% | ok |
+| `medical-careers/paramedical-courses-scope/choose-paramedical-course-by-work-style-1080.webp` | 1080x1350 | 1080x1350 | lazy | 63% | ok |
+| `medical-careers/paramedical-courses-scope/paramedical-course-fee-verification-checklist-1080.webp` | 1080x1350 | 1080x1350 | lazy | 77% | ok |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -46,6 +48,8 @@
 **Category:** medical-careers · **Words:** 4054 · **H2 sections:** 13 · **Search priority:** P1 (1 clicks, 191 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/medical-careers/medical-coding-career/medical-coding-career-scope-salary-india-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 7 authored images on the page (hero + 6 supporting).
 2. Verify the ladder pay (Rs 2.5-4.5 LPA to Rs 20-30+ LPA) and CPC vs CCS exam facts.
@@ -58,10 +62,10 @@
 | `medical-careers/medical-coding-career/medical-coding-career-scope-salary-india-1440.webp` | 1440x810 | 1440x811 | eager | 14% | no caption |
 | `medical-careers/medical-coding-career/who-can-become-medical-coder-1080.webp` | 1080x1350 | 1080x1350 | lazy | 28% | ok |
 | `medical-careers/medical-coding-career/cpc-vs-ccs-medical-coding-certification-1080.webp` | 1080x1350 | 1080x1350 | lazy | 33% | ok |
-| `medical-careers/medical-coding-career/medical-coding-career-ladder-1080.webp` | 1080x1350 | 1080x1350 | lazy | 39% | ok |
-| `medical-careers/medical-coding-career/medical-coder-daily-workflow-1080.webp` | 1080x1350 | 1080x1350 | lazy | 43% | ok |
-| `medical-careers/medical-coding-career/medical-coding-ai-vs-human-judgment-1080.webp` | 1080x1350 | 1080x1350 | lazy | 52% | ok |
-| `medical-careers/medical-coding-career/medical-coding-course-four-checkpoints-three-gates-1080.webp` | 1080x1350 | 1080x1350 | lazy | 63% | ok |
+| `medical-careers/medical-coding-career/medical-coding-career-ladder-1080.webp` | 1080x1350 | 1080x1350 | lazy | 40% | ok |
+| `medical-careers/medical-coding-career/medical-coder-daily-workflow-1080.webp` | 1080x1350 | 1080x1350 | lazy | 44% | ok |
+| `medical-careers/medical-coding-career/medical-coding-ai-vs-human-judgment-1080.webp` | 1080x1350 | 1080x1350 | lazy | 55% | ok |
+| `medical-careers/medical-coding-career/medical-coding-course-four-checkpoints-three-gates-1080.webp` | 1080x1350 | 1080x1350 | lazy | 68% | ok |
 
 **Required actions**
 1. FIX attributes on every kept image: meaningful kebab-case filename; alt that describes what is visible; title attribute; caption (figcaption) for every explanatory image; width/height equal to the real pixel size; `loading="lazy"` below the fold, hero eager with fetchpriority; WebP under 200 KB.
@@ -85,7 +89,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `medical-careers-editorial-cover.webp`, `medical-careers-context.webp`, `medical-careers-routes.webp`, `medical-careers-compare.webp`, `medical-careers-chain.webp`, `medical-careers-work.webp`, `medical-careers-at-a-glance.webp`.
@@ -158,7 +162,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `medical-careers-editorial-cover.webp`, `medical-careers-context.webp`, `medical-careers-routes.webp`, `medical-careers-compare.webp`, `medical-careers-chain.webp`, `medical-careers-work.webp`, `medical-careers-at-a-glance.webp`.
@@ -223,6 +227,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** medical-careers · **Words:** 4882 · **H2 sections:** 19 · **Search priority:** P2 (1 clicks, 86 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/medical-careers/non-doctor-medical-careers/career-options-in-medical-field-other-than-doctor-india-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 5 authored images on the page (hero + 4 supporting).
 2. Verify starting-pay ranges (Rs 2.5-4.5 LPA etc.) and duration.
@@ -234,10 +240,10 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `medical-careers/non-doctor-medical-careers/career-options-in-medical-field-other-than-doctor-india.png` | 1672x941 | 1672x941 | eager | 12% | no caption; 2342 KB |
-| `medical-careers/non-doctor-medical-careers/medical-careers-beyond-mbbs-four-paths.png` | 1122x1402 | 1122x1402 | lazy | 22% | 2207 KB |
-| `medical-careers/non-doctor-medical-careers/medical-career-paths-duration-entry-pay-india.png` | 1122x1402 | 1122x1402 | lazy | 52% | 2004 KB |
-| `medical-careers/non-doctor-medical-careers/medical-careers-work-style-guide.png` | 1122x1402 | 1122x1402 | lazy | 61% | 2090 KB |
-| `medical-careers/non-doctor-medical-careers/medical-career-decision-checklist-india.png` | 1122x1402 | 1122x1402 | lazy | 73% | 2256 KB |
+| `medical-careers/non-doctor-medical-careers/medical-careers-beyond-mbbs-four-paths.png` | 1122x1402 | 1122x1402 | lazy | 20% | 2207 KB |
+| `medical-careers/non-doctor-medical-careers/medical-career-paths-duration-entry-pay-india.png` | 1122x1402 | 1122x1402 | lazy | 54% | 2004 KB |
+| `medical-careers/non-doctor-medical-careers/medical-careers-work-style-guide.png` | 1122x1402 | 1122x1402 | lazy | 65% | 2090 KB |
+| `medical-careers/non-doctor-medical-careers/medical-career-decision-checklist-india.png` | 1122x1402 | 1122x1402 | lazy | 78% | 2256 KB |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -285,7 +291,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `medical-careers-editorial-cover.webp`, `medical-careers-context.webp`, `medical-careers-routes.webp`, `medical-careers-compare.webp`, `medical-careers-chain.webp`, `medical-careers-work.webp`, `medical-careers-at-a-glance.webp`.
@@ -358,7 +364,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `medical-careers-editorial-cover.webp`, `medical-careers-context.webp`, `medical-careers-routes.webp`, `medical-careers-compare.webp`, `medical-careers-chain.webp`, `medical-careers-work.webp`, `medical-careers-at-a-glance.webp`.
@@ -431,7 +437,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `medical-careers-editorial-cover.webp`, `medical-careers-context.webp`, `medical-careers-routes.webp`, `medical-careers-compare.webp`, `medical-careers-chain.webp`, `medical-careers-work.webp`, `medical-careers-at-a-glance.webp`.

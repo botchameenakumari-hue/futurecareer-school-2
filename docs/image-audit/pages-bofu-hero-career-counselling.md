@@ -13,7 +13,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `career-counselling-and-career-guidance-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-career-counselling.webp` is shared by 1 page(s); acceptable reuse.
 4. Hero `hero-career-counselling.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 98% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 97% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-holistic-framework.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-holistic-framework.webp` appears on 24 pages.
 8. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
@@ -21,10 +21,10 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 96% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
 | `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
 | `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-career-counselling.webp` | 98% | eager/high | A career counsellor and a client reviewing a… | NO | NO |
+| `bofu/hero-career-counselling.webp` | 97% | eager/high | A career counsellor and a client reviewing a… | NO | NO |
 | `bofu/context-holistic-framework.webp` | 98% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**

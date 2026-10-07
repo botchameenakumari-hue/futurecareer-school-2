@@ -5,13 +5,43 @@
 ### /
 
 **H1:** The next ten years of your life are decided by one decision.  
-**Type:** home · **Search priority:** P1 (44 clicks, 339 impressions) · **Rendered images:** 0 (0 generic category, 0 hero, 0 context, 0 SVG)
+**Type:** home · **Search priority:** P1 (44 clicks, 339 impressions) · **Rendered images:** 14 (0 generic category, 0 hero, 0 context, 0 SVG)
 **Status: RED**
 
 **Findings**
-1. No images are rendered on this page.
+1. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1682962232755-f1d051ddb638?auto=format&fit=crop&q=82&w=1` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+2. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1781246212288-7fa538344718?auto=format&fit=crop&q=82&w=1` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+3. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1752776541969-a4a883830ece?auto=format&fit=crop&q=82&w=1` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+4. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1544456203-0af5a69f5789?auto=format&fit=crop&q=82&w=1400` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+5. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?auto=format&fit=crop&q=82&w=1` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+6. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1680525021501-ddea41969892?auto=format&fit=crop&q=82&w=3` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+7. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1590650589327-3f67c43ad8a2?auto=format&fit=crop&q=82&w=3` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+8. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1632507273499-df468b359d7d?auto=format&fit=crop&q=82&w=3` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+9. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1573497019707-1c04de26e58c?auto=format&fit=crop&q=82&w=3` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+10. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1757744705465-ea08b0ddc38a?auto=format&fit=crop&q=82&w=3` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+11. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1605299670824-00515e81b924?auto=format&fit=crop&q=82&w=1` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+12. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1628494391267-befcfdfaef67?auto=format&fit=crop&q=82&w=1` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+13. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1675664535418-959dd68004fd?auto=format&fit=crop&q=82&w=1` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+14. EXTERNAL HOTLINKED IMAGE: `https://images.unsplash.com/photo-1714976327252-c114f61d8b22?auto=format&fit=crop&q=82&w=1` is loaded from a third-party host (Unsplash). It is not an owned asset, its licence/attribution is not recorded, the page depends on another site being up, and several are portraits of real people. Replace with owned, documentary images in `public/images/`.
+15. All service images are appended after the page content and moved into `<main>` by an inline script in `BaseLayout.astro`; without JavaScript (crawlers, link previews) they stay at the bottom.
 
 **Current images**
+| File | Position | Loading | Alt | Title | Caption |
+|---|---|---|---|---|---|
+| `https://images.unsplash.com/photo-1714976327252-c114f61d8b22?auto=format&fit=crop&q=82&w=1900` | 8% | -/high |  | NO | NO |
+| `https://images.unsplash.com/photo-1675664535418-959dd68004fd?auto=format&fit=crop&q=82&w=1000&crop=faces` | 16% | lazy |  | NO | NO |
+| `https://images.unsplash.com/photo-1628494391267-befcfdfaef67?auto=format&fit=crop&q=82&w=1000&crop=faces` | 17% | lazy |  | NO | NO |
+| `https://images.unsplash.com/photo-1605299670824-00515e81b924?auto=format&fit=crop&q=82&w=1700` | 22% | lazy |  | NO | NO |
+| `https://images.unsplash.com/photo-1757744705465-ea08b0ddc38a?auto=format&fit=crop&q=82&w=300&crop=faces` | 24% | lazy |  | NO | NO |
+| `https://images.unsplash.com/photo-1573497019707-1c04de26e58c?auto=format&fit=crop&q=82&w=300&crop=faces` | 24% | lazy |  | NO | NO |
+| `https://images.unsplash.com/photo-1632507273499-df468b359d7d?auto=format&fit=crop&q=82&w=300&crop=faces` | 24% | lazy |  | NO | NO |
+| `https://images.unsplash.com/photo-1590650589327-3f67c43ad8a2?auto=format&fit=crop&q=82&w=300&crop=faces` | 24% | lazy |  | NO | NO |
+| `https://images.unsplash.com/photo-1680525021501-ddea41969892?auto=format&fit=crop&q=82&w=300&crop=faces` | 25% | lazy |  | NO | NO |
+| `https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?auto=format&fit=crop&q=82&w=1100` | 28% | lazy | A small group reviewing a career plan together | NO | NO |
+| `https://images.unsplash.com/photo-1544456203-0af5a69f5789?auto=format&fit=crop&q=82&w=1400` | 59% | lazy |  | NO | NO |
+| `https://images.unsplash.com/photo-1752776541969-a4a883830ece?auto=format&fit=crop&q=82&w=1100` | 76% | lazy | A professional working at a computer | NO | NO |
+| `https://images.unsplash.com/photo-1781246212288-7fa538344718?auto=format&fit=crop&q=82&w=1200` | 78% | lazy | A small group of professionals collaborating | NO | NO |
+| `https://images.unsplash.com/photo-1682962232755-f1d051ddb638?auto=format&fit=crop&q=82&w=1700` | 96% | lazy |  | NO | NO |
 
 **Required actions**
 1. CREATE a hero and 4 explanatory visuals:

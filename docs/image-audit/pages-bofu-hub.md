@@ -11,7 +11,7 @@
 **Findings**
 1. Hero `hero-hub.webp` is shared by 2 page(s); acceptable reuse.
 2. Hero `hero-hub.webp` has no title attribute and no caption.
-3. Hero is `fetchpriority=high` but is rendered at 99% of the raw HTML (after the content); it is moved by JavaScript.
+3. Hero is `fetchpriority=high` but is rendered at 98% of the raw HTML (after the content); it is moved by JavaScript.
 4. Context visual `context-holistic-framework.webp` has no title attribute and no caption.
 5. Context visual reuse: `context-holistic-framework.webp` appears on 24 pages.
 6. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -20,7 +20,7 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `bofu/hero-hub.webp` | 99% | eager/high | The career counselling and guidance service shown… | NO | NO |
+| `bofu/hero-hub.webp` | 98% | eager/high | The career counselling and guidance service shown… | NO | NO |
 | `bofu/session-flow.svg` | 99% | lazy | Five-stage career guidance session flow from… | NO | NO |
 | `bofu/skill-portfolio-chain.svg` | 99% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
 | `bofu/context-holistic-framework.webp` | 99% | lazy | A holistic career decision framework covering… | NO | NO |

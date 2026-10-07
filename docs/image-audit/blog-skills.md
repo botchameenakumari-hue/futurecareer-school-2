@@ -16,7 +16,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skills-editorial-cover.webp`, `skills-context.webp`, `skills-stack.webp`, `skills-practice.webp`, `skills-roadmap.webp`, `skills-feedback.webp`, `skills-at-a-glance.webp`.
@@ -97,7 +97,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skills-editorial-cover.webp`, `skills-context.webp`, `skills-stack.webp`, `skills-practice.webp`, `skills-roadmap.webp`, `skills-feedback.webp`, `skills-at-a-glance.webp`.
@@ -170,6 +170,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** skills · **Words:** 4524 · **H2 sections:** 17 · **Search priority:** P1 (2 clicks, 375 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/skills/high-income-skills-without-a-degree-india/high-income-skills-without-a-degree-india-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Verify cost/timeline/pay table (Sales Rs 9,975-98,881/mo, Coding Rs 4-8 LPA, UI/UX Rs 2.5-8 LPA etc.).
@@ -180,12 +182,12 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `skills/high-income-skills-without-a-degree-india/high-income-skills-without-a-degree-india-cover.webp` | 1600x900 | 1600x900 | eager | 14% | no title attr |
-| `skills/high-income-skills-without-a-degree-india/six-high-income-skill-lanes-india.webp` | 1122x1402 | 1122x1402 | lazy | 27% | no title attr |
-| `skills/high-income-skills-without-a-degree-india/proof-of-work-replaces-degree-india.webp` | 1122x1402 | 1122x1402 | lazy | 47% | no title attr |
-| `skills/high-income-skills-without-a-degree-india/high-income-skills-cost-timeline-pay-india.webp` | 1200x675 | 1200x675 | lazy | 54% | no title attr |
-| `skills/high-income-skills-without-a-degree-india/four-checkpoint-protocol-skill-choice.webp` | 1122x1402 | 1122x1402 | lazy | 60% | no title attr |
-| `skills/high-income-skills-without-a-degree-india/three-gates-job-ready.webp` | 1122x1402 | 1122x1402 | lazy | 63% | no title attr |
+| `skills/high-income-skills-without-a-degree-india/high-income-skills-without-a-degree-india-cover.webp` | 1600x900 | 1600x900 | eager | 13% | no title attr |
+| `skills/high-income-skills-without-a-degree-india/six-high-income-skill-lanes-india.webp` | 1122x1402 | 1122x1402 | lazy | 25% | no title attr |
+| `skills/high-income-skills-without-a-degree-india/proof-of-work-replaces-degree-india.webp` | 1122x1402 | 1122x1402 | lazy | 49% | no title attr |
+| `skills/high-income-skills-without-a-degree-india/high-income-skills-cost-timeline-pay-india.webp` | 1200x675 | 1200x675 | lazy | 57% | no title attr |
+| `skills/high-income-skills-without-a-degree-india/four-checkpoint-protocol-skill-choice.webp` | 1122x1402 | 1122x1402 | lazy | 64% | no title attr |
+| `skills/high-income-skills-without-a-degree-india/three-gates-job-ready.webp` | 1122x1402 | 1122x1402 | lazy | 68% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -225,7 +227,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skills-editorial-cover.webp`, `skills-context.webp`, `skills-stack.webp`, `skills-practice.webp`, `skills-roadmap.webp`, `skills-feedback.webp`, `skills-at-a-glance.webp`.
@@ -298,6 +300,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** skills · **Words:** 5167 · **H2 sections:** 21 · **Search priority:** P2 (1 clicks, 50 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/skills/best-skills-for-high-salary-in-india/best-skills-for-high-salary-in-india-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Identical image set to /blog/career-options/best-career-options-with-high-salary/.
@@ -309,12 +313,12 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `skills/best-skills-for-high-salary-in-india/best-skills-for-high-salary-in-india-cover.webp` | 1600x900 | 1600x900 | eager | 13% | no title attr |
-| `skills/best-skills-for-high-salary-in-india/high-salary-skills-ranked-india.webp` | 1122x1402 | 1122x1402 | lazy | 25% | no title attr |
-| `skills/best-skills-for-high-salary-in-india/high-salary-skills-salary-bands-india.webp` | 1122x1402 | 1122x1402 | lazy | 44% | no title attr |
-| `skills/best-skills-for-high-salary-in-india/scarce-vs-oversaturated-skills-india.webp` | 1122x1402 | 1122x1402 | lazy | 56% | no title attr |
-| `skills/best-skills-for-high-salary-in-india/high-salary-skills-4-checkpoint-protocol.webp` | 1122x1402 | 1122x1402 | lazy | 58% | no title attr |
-| `skills/best-skills-for-high-salary-in-india/high-salary-skills-3-gates.webp` | 1122x1402 | 1122x1402 | lazy | 63% | no title attr |
+| `skills/best-skills-for-high-salary-in-india/best-skills-for-high-salary-in-india-cover.webp` | 1600x900 | 1600x900 | eager | 12% | no title attr |
+| `skills/best-skills-for-high-salary-in-india/high-salary-skills-ranked-india.webp` | 1122x1402 | 1122x1402 | lazy | 23% | no title attr |
+| `skills/best-skills-for-high-salary-in-india/high-salary-skills-salary-bands-india.webp` | 1122x1402 | 1122x1402 | lazy | 45% | no title attr |
+| `skills/best-skills-for-high-salary-in-india/scarce-vs-oversaturated-skills-india.webp` | 1122x1402 | 1122x1402 | lazy | 59% | no title attr |
+| `skills/best-skills-for-high-salary-in-india/high-salary-skills-4-checkpoint-protocol.webp` | 1122x1402 | 1122x1402 | lazy | 61% | no title attr |
+| `skills/best-skills-for-high-salary-in-india/high-salary-skills-3-gates.webp` | 1122x1402 | 1122x1402 | lazy | 67% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -354,7 +358,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skills-editorial-cover.webp`, `skills-context.webp`, `skills-stack.webp`, `skills-practice.webp`, `skills-roadmap.webp`, `skills-feedback.webp`, `skills-at-a-glance.webp`.
@@ -427,7 +431,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skills-editorial-cover.webp`, `skills-context.webp`, `skills-stack.webp`, `skills-practice.webp`, `skills-roadmap.webp`, `skills-feedback.webp`, `skills-at-a-glance.webp`.
@@ -500,7 +504,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skills-editorial-cover.webp`, `skills-context.webp`, `skills-stack.webp`, `skills-practice.webp`, `skills-roadmap.webp`, `skills-feedback.webp`, `skills-at-a-glance.webp`.
@@ -581,7 +585,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skills-editorial-cover.webp`, `skills-context.webp`, `skills-stack.webp`, `skills-practice.webp`, `skills-roadmap.webp`, `skills-feedback.webp`, `skills-at-a-glance.webp`.
@@ -662,7 +666,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skills-editorial-cover.webp`, `skills-context.webp`, `skills-stack.webp`, `skills-practice.webp`, `skills-roadmap.webp`, `skills-feedback.webp`, `skills-at-a-glance.webp`.
@@ -743,7 +747,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skills-editorial-cover.webp`, `skills-context.webp`, `skills-stack.webp`, `skills-practice.webp`, `skills-roadmap.webp`, `skills-feedback.webp`, `skills-at-a-glance.webp`.
@@ -824,7 +828,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skills-editorial-cover.webp`, `skills-context.webp`, `skills-stack.webp`, `skills-practice.webp`, `skills-roadmap.webp`, `skills-feedback.webp`, `skills-at-a-glance.webp`.
@@ -905,7 +909,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skills-editorial-cover.webp`, `skills-context.webp`, `skills-stack.webp`, `skills-practice.webp`, `skills-roadmap.webp`, `skills-feedback.webp`, `skills-at-a-glance.webp`.

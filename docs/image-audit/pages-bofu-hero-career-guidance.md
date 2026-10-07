@@ -23,10 +23,10 @@
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
 | `blog/category/career-guidance-editorial-cover.webp` | 95% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 96% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 97% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 95% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/career-counselling-and-career-guidance-at-a-glance.webp` | 96% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
 | `bofu/hero-career-guidance.webp` | 97% | eager/high | A guidance roadmap from options to a skill-first… | NO | NO |
-| `bofu/session-flow.svg` | 98% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/session-flow.svg` | 97% | lazy | Five-stage career guidance session flow from… | NO | NO |
 | `bofu/skill-portfolio-chain.svg` | 98% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
 | `bofu/context-holistic-framework.webp` | 98% | lazy | A holistic career decision framework covering… | NO | NO |
 

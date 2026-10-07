@@ -22,7 +22,7 @@
 |---|---|---|---|---|---|
 | `bofu/hero-hub.webp` | 99% | eager/high | The career counselling and guidance service shown… | NO | NO |
 | `bofu/session-flow.svg` | 99% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 100% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 99% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
 | `bofu/context-holistic-framework.webp` | 100% | lazy | A holistic career decision framework covering… | NO | NO |
 
 **Required actions**

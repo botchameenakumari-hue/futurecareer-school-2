@@ -16,7 +16,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -89,6 +89,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** career-options · **Words:** 4596 · **H2 sections:** 20 · **Search priority:** P1 (1 clicks, 243 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/career-options/best-career-options-with-high-salary/best-skills-for-high-salary-india-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 11 authored images on the page (hero + 10 supporting).
 2. The first six images are byte-identical to the set on /blog/skills/best-skills-for-high-salary-in-india/. Two pages share one image set.
@@ -103,16 +105,16 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `career-options/best-career-options-with-high-salary/best-skills-for-high-salary-india-cover.webp` | 1600x900 | 1600x900 | eager | 10% | ok |
-| `career-options/high-salary-careers/what-actually-creates-high-salary-1080.webp` | 1080x1350 | 1080x1350 | lazy | 20% | no title attr |
-| `career-options/high-salary-careers/high-income-skills-that-lift-pay-1080.webp` | 1080x1350 | 1080x1350 | lazy | 25% | no title attr |
-| `career-options/best-career-options-with-high-salary/high-salary-skills-ranked-india.webp` | 1122x1402 | 1122x1402 | lazy | 25% | no title attr |
+| `career-options/high-salary-careers/what-actually-creates-high-salary-1080.webp` | 1080x1350 | 1080x1350 | lazy | 18% | no title attr |
+| `career-options/high-salary-careers/high-income-skills-that-lift-pay-1080.webp` | 1080x1350 | 1080x1350 | lazy | 23% | no title attr |
+| `career-options/best-career-options-with-high-salary/high-salary-skills-ranked-india.webp` | 1122x1402 | 1122x1402 | lazy | 24% | no title attr |
 | `career-options/best-career-options-with-high-salary/high-salary-salary-bands-compared-india.webp` | 1122x1402 | 1122x1402 | lazy | 31% | no title attr |
 | `career-options/high-salary-careers/high-salary-career-families-1080.webp` | 1080x1350 | 1080x1350 | lazy | 32% | no title attr |
 | `career-options/best-career-options-with-high-salary/scarce-vs-oversaturated-skills-india.webp` | 1122x1402 | 1122x1402 | lazy | 35% | no title attr |
-| `career-options/high-salary-careers/choose-the-pay-pattern-you-can-live-with-1080.webp` | 1080x1350 | 1080x1350 | lazy | 46% | no title attr |
-| `career-options/best-career-options-with-high-salary/four-checkpoint-protocol-high-salary-skills.webp` | 1122x1402 | 1122x1402 | lazy | 50% | no title attr |
-| `career-options/best-career-options-with-high-salary/three-gates-job-ready-skill-choice.webp` | 1122x1402 | 1122x1402 | lazy | 52% | no title attr |
-| `career-options/high-salary-careers/high-salary-career-reality-test-three-gates-sprint-1080.webp` | 1080x1350 | 1080x1350 | lazy | 67% | no title attr |
+| `career-options/high-salary-careers/choose-the-pay-pattern-you-can-live-with-1080.webp` | 1080x1350 | 1080x1350 | lazy | 48% | no title attr |
+| `career-options/best-career-options-with-high-salary/four-checkpoint-protocol-high-salary-skills.webp` | 1122x1402 | 1122x1402 | lazy | 52% | no title attr |
+| `career-options/best-career-options-with-high-salary/three-gates-job-ready-skill-choice.webp` | 1122x1402 | 1122x1402 | lazy | 55% | no title attr |
+| `career-options/high-salary-careers/high-salary-career-reality-test-three-gates-sprint-1080.webp` | 1080x1350 | 1080x1350 | lazy | 71% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -143,7 +145,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -224,7 +226,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -305,7 +307,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -378,7 +380,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -451,7 +453,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -524,7 +526,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -605,7 +607,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -686,7 +688,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -767,7 +769,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -840,7 +842,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -921,7 +923,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1002,7 +1004,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1075,7 +1077,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1156,7 +1158,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1237,7 +1239,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1318,7 +1320,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1399,7 +1401,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1480,7 +1482,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1561,7 +1563,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 81%, 82%, 83%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1634,7 +1636,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1715,7 +1717,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1796,7 +1798,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1869,7 +1871,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -1942,7 +1944,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2015,7 +2017,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2096,7 +2098,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2177,7 +2179,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2266,7 +2268,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2347,7 +2349,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2428,7 +2430,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2509,7 +2511,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2590,7 +2592,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2671,7 +2673,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2752,7 +2754,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2833,7 +2835,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2906,7 +2908,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 94%, 94%, 95%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -2995,7 +2997,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -3076,7 +3078,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -3149,7 +3151,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -3222,7 +3224,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -3303,7 +3305,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -3384,7 +3386,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -3457,6 +3459,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** career-options · **Words:** 5230 · **H2 sections:** 15 · **Search priority:** P2 (0 clicks, 32 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/career-options/career-after-bcom-in-india/career-after-bcom-in-india-career-paths.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Five infographics are reused on /blog/career-options/career-options-after-12th-commerce/. Keep them here and create new ones there.
@@ -3469,12 +3473,12 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/career-after-bcom-in-india/career-after-bcom-in-india-career-paths.webp` | 1600x900 | 1600x900 | eager | 12% | no title attr |
-| `career-options/career-after-bcom-in-india/12-career-paths-after-bcom-india.webp` | 1122x1402 | 1122x1402 | lazy | 24% | no title attr |
-| `career-options/career-after-bcom-in-india/ca-cs-cma-direct-entry-after-bcom.webp` | 1122x1402 | 1122x1402 | lazy | 35% | no title attr |
-| `career-options/career-after-bcom-in-india/mba-vs-mcom-vs-job-after-bcom.webp` | 1122x1402 | 1122x1402 | lazy | 39% | no title attr |
-| `career-options/career-after-bcom-in-india/bcom-career-choice-4-checkpoints-3-gates.webp` | 1122x1402 | 1122x1402 | lazy | 52% | no title attr |
-| `career-options/career-after-bcom-in-india/career-after-bcom-salary-comparison-india.webp` | 1122x1402 | 1122x1402 | lazy | 53% | no title attr |
+| `career-options/career-after-bcom-in-india/career-after-bcom-in-india-career-paths.webp` | 1600x900 | 1600x900 | eager | 11% | no title attr |
+| `career-options/career-after-bcom-in-india/12-career-paths-after-bcom-india.webp` | 1122x1402 | 1122x1402 | lazy | 23% | no title attr |
+| `career-options/career-after-bcom-in-india/ca-cs-cma-direct-entry-after-bcom.webp` | 1122x1402 | 1122x1402 | lazy | 36% | no title attr |
+| `career-options/career-after-bcom-in-india/mba-vs-mcom-vs-job-after-bcom.webp` | 1122x1402 | 1122x1402 | lazy | 40% | no title attr |
+| `career-options/career-after-bcom-in-india/bcom-career-choice-4-checkpoints-3-gates.webp` | 1122x1402 | 1122x1402 | lazy | 54% | no title attr |
+| `career-options/career-after-bcom-in-india/career-after-bcom-salary-comparison-india.webp` | 1122x1402 | 1122x1402 | lazy | 56% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -3514,7 +3518,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -3595,7 +3599,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -3676,7 +3680,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -3757,7 +3761,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -3838,7 +3842,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -3919,7 +3923,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4000,7 +4004,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4081,7 +4085,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4154,7 +4158,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4227,6 +4231,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** career-options · **Words:** 7995 · **H2 sections:** 19 · **Search priority:** P2 (0 clicks, 56 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/career-options/career-options-after-12th-commerce/career-after-bcom-in-india-career-paths.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 9 authored images on the page (hero + 8 supporting).
 2. Hero is the BCom flat-lay from the career-after-bcom article, which is the wrong topic for "after 12th commerce".
@@ -4241,15 +4247,15 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/career-options-after-12th-commerce/career-after-bcom-in-india-career-paths.webp` | 1600x900 | 1600x900 | eager | 8% | ok |
-| `career-options/after-12th-commerce/three-career-tracks-after-12th-commerce-1080.webp` | 1080x1350 | 1080x1350 | lazy | 15% | no title attr |
-| `career-options/career-options-after-12th-commerce/ca-cs-cma-direct-entry-after-bcom.webp` | 1122x1402 | 1122x1402 | lazy | 22% | no title attr |
-| `career-options/career-options-after-12th-commerce/mba-vs-mcom-vs-job-after-bcom.webp` | 1122x1402 | 1122x1402 | lazy | 25% | no title attr |
-| `career-options/career-options-after-12th-commerce/12-career-paths-after-bcom-india.webp` | 1122x1402 | 1122x1402 | lazy | 33% | no title attr |
-| `career-options/career-options-after-12th-commerce/career-after-bcom-salary-comparison-india.webp` | 1122x1402 | 1122x1402 | lazy | 41% | no title attr |
-| `career-options/after-12th-commerce/how-to-choose-career-after-12th-commerce-1080.webp` | 1080x1350 | 1080x1350 | lazy | 47% | no title attr |
-| `career-options/career-options-after-12th-commerce/bcom-career-choice-4-checkpoints-3-gates.webp` | 1122x1402 | 1122x1402 | lazy | 53% | no title attr |
-| `career-options/after-12th-commerce/skills-every-commerce-student-should-build-1080.webp` | 1080x1350 | 1080x1350 | lazy | 57% | no title attr |
+| `career-options/career-options-after-12th-commerce/career-after-bcom-in-india-career-paths.webp` | 1600x900 | 1600x900 | eager | 7% | ok |
+| `career-options/after-12th-commerce/three-career-tracks-after-12th-commerce-1080.webp` | 1080x1350 | 1080x1350 | lazy | 13% | no title attr |
+| `career-options/career-options-after-12th-commerce/ca-cs-cma-direct-entry-after-bcom.webp` | 1122x1402 | 1122x1402 | lazy | 21% | no title attr |
+| `career-options/career-options-after-12th-commerce/mba-vs-mcom-vs-job-after-bcom.webp` | 1122x1402 | 1122x1402 | lazy | 24% | no title attr |
+| `career-options/career-options-after-12th-commerce/12-career-paths-after-bcom-india.webp` | 1122x1402 | 1122x1402 | lazy | 32% | no title attr |
+| `career-options/career-options-after-12th-commerce/career-after-bcom-salary-comparison-india.webp` | 1122x1402 | 1122x1402 | lazy | 42% | no title attr |
+| `career-options/after-12th-commerce/how-to-choose-career-after-12th-commerce-1080.webp` | 1080x1350 | 1080x1350 | lazy | 49% | no title attr |
+| `career-options/career-options-after-12th-commerce/bcom-career-choice-4-checkpoints-3-gates.webp` | 1122x1402 | 1122x1402 | lazy | 54% | no title attr |
+| `career-options/after-12th-commerce/skills-every-commerce-student-should-build-1080.webp` | 1080x1350 | 1080x1350 | lazy | 60% | no title attr |
 
 **Required actions**
 1. CREATE hero:
@@ -4298,7 +4304,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4371,7 +4377,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4444,7 +4450,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4525,7 +4531,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4606,7 +4612,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4687,7 +4693,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4768,7 +4774,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4857,7 +4863,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -4946,7 +4952,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5027,7 +5033,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5108,7 +5114,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5189,7 +5195,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 84%, 85%, 86%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5262,7 +5268,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5343,7 +5349,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5424,7 +5430,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5497,7 +5503,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5578,7 +5584,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5651,7 +5657,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5732,7 +5738,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5805,7 +5811,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5886,7 +5892,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -5959,7 +5965,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6032,7 +6038,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6105,7 +6111,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6178,7 +6184,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6251,7 +6257,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6332,7 +6338,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6413,7 +6419,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6501,14 +6507,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/agriculture-career/is-agriculture-a-good-career-in-india.png` | 1672x941 | 1672x941 | eager | 10% | no caption; 3053 KB |
-| `career-options/agriculture-career/agriculture-career-vs-farming-in-india.png` | 1122x1402 | 1122x1402 | lazy | 18% | 2941 KB |
-| `career-options/agriculture-career/career-options-after-bsc-agriculture-india.png` | 1086x1448 | 1086x1448 | lazy | 22% | 2802 KB |
-| `career-options/agriculture-career/farming-income-land-msp-monsoon-india.png` | 1122x1402 | 1122x1402 | lazy | 32% | 2773 KB |
-| `career-options/agriculture-career/agriculture-career-salary-comparison-india.png` | 1122x1402 | 1122x1402 | lazy | 48% | 2679 KB |
-| `career-options/agriculture-career/agriculture-career-decision-framework.png` | 1086x1448 | 1086x1448 | lazy | 60% | 2826 KB |
+| `career-options/agriculture-career/is-agriculture-a-good-career-in-india.png` | 1672x941 | 1672x941 | eager | 9% | no caption; 3053 KB |
+| `career-options/agriculture-career/agriculture-career-vs-farming-in-india.png` | 1122x1402 | 1122x1402 | lazy | 16% | 2941 KB |
+| `career-options/agriculture-career/career-options-after-bsc-agriculture-india.png` | 1086x1448 | 1086x1448 | lazy | 20% | 2802 KB |
+| `career-options/agriculture-career/farming-income-land-msp-monsoon-india.png` | 1122x1402 | 1122x1402 | lazy | 31% | 2773 KB |
+| `career-options/agriculture-career/agriculture-career-salary-comparison-india.png` | 1122x1402 | 1122x1402 | lazy | 49% | 2679 KB |
+| `career-options/agriculture-career/agriculture-career-decision-framework.png` | 1086x1448 | 1086x1448 | lazy | 62% | 2826 KB |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6550,7 +6556,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6631,7 +6637,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6712,7 +6718,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6785,7 +6791,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6866,7 +6872,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -6947,7 +6953,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7028,7 +7034,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7109,7 +7115,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7190,7 +7196,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7271,7 +7277,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7352,7 +7358,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7433,7 +7439,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7519,14 +7525,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/is-dentistry-a-good-career-in-india/is-dentistry-a-good-career-in-india-cover.webp` | 1600x900 | 1600x900 | eager | 10% | no title attr |
-| `career-options/is-dentistry-a-good-career-in-india/mbbs-vs-bds-neet-cutoff-india.webp` | 1122x1402 | 1122x1402 | lazy | 19% | no title attr |
-| `career-options/is-dentistry-a-good-career-in-india/dentistry-india-oversupply-opportunity.webp` | 1122x1402 | 1122x1402 | lazy | 22% | no title attr |
-| `career-options/is-dentistry-a-good-career-in-india/bds-training-path-mds-competition-india.webp` | 1122x1402 | 1122x1402 | lazy | 28% | no title attr |
+| `career-options/is-dentistry-a-good-career-in-india/is-dentistry-a-good-career-in-india-cover.webp` | 1600x900 | 1600x900 | eager | 9% | no title attr |
+| `career-options/is-dentistry-a-good-career-in-india/mbbs-vs-bds-neet-cutoff-india.webp` | 1122x1402 | 1122x1402 | lazy | 17% | no title attr |
+| `career-options/is-dentistry-a-good-career-in-india/dentistry-india-oversupply-opportunity.webp` | 1122x1402 | 1122x1402 | lazy | 21% | no title attr |
+| `career-options/is-dentistry-a-good-career-in-india/bds-training-path-mds-competition-india.webp` | 1122x1402 | 1122x1402 | lazy | 27% | no title attr |
 | `career-options/is-dentistry-a-good-career-in-india/dentist-salary-india-career-paths.webp` | 1122x1402 | 1122x1402 | lazy | 32% | no title attr |
-| `career-options/is-dentistry-a-good-career-in-india/should-you-choose-dentistry-decision-framework.webp` | 1122x1402 | 1122x1402 | lazy | 61% | no title attr |
+| `career-options/is-dentistry-a-good-career-in-india/should-you-choose-dentistry-decision-framework.webp` | 1122x1402 | 1122x1402 | lazy | 64% | no title attr |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7561,7 +7567,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7649,14 +7655,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/is-doctor-a-good-career-in-india/is-doctor-a-good-career-in-india-cover.webp` | 1600x900 | 1600x900 | eager | 9% | no title attr |
-| `career-options/is-doctor-a-good-career-in-india/neet-ug-mbbs-cutoff-math-india.webp` | 1122x1402 | 1122x1402 | lazy | 19% | no title attr |
-| `career-options/is-doctor-a-good-career-in-india/government-vs-private-mbbs-fees-india.webp` | 1122x1402 | 1122x1402 | lazy | 22% | no title attr |
-| `career-options/is-doctor-a-good-career-in-india/neet-pg-md-ms-competition-india.webp` | 1122x1402 | 1122x1402 | lazy | 27% | no title attr |
+| `career-options/is-doctor-a-good-career-in-india/is-doctor-a-good-career-in-india-cover.webp` | 1600x900 | 1600x900 | eager | 8% | no title attr |
+| `career-options/is-doctor-a-good-career-in-india/neet-ug-mbbs-cutoff-math-india.webp` | 1122x1402 | 1122x1402 | lazy | 16% | no title attr |
+| `career-options/is-doctor-a-good-career-in-india/government-vs-private-mbbs-fees-india.webp` | 1122x1402 | 1122x1402 | lazy | 20% | no title attr |
+| `career-options/is-doctor-a-good-career-in-india/neet-pg-md-ms-competition-india.webp` | 1122x1402 | 1122x1402 | lazy | 25% | no title attr |
 | `career-options/is-doctor-a-good-career-in-india/mbbs-to-specialist-doctor-career-timeline-india.webp` | 1122x1402 | 1122x1402 | lazy | 30% | no title attr |
-| `career-options/is-doctor-a-good-career-in-india/should-i-choose-mbbs-career-decision-framework.webp` | 1122x1402 | 1122x1402 | lazy | 63% | no title attr |
+| `career-options/is-doctor-a-good-career-in-india/should-i-choose-mbbs-career-decision-framework.webp` | 1122x1402 | 1122x1402 | lazy | 66% | no title attr |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 94%, 94%, 95%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7706,7 +7712,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7795,7 +7801,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7876,7 +7882,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -7972,14 +7978,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/is-food-technology-a-good-career-in-india/is-food-technology-a-good-career-in-india-cover.webp` | 1600x900 | 1600x900 | eager | 10% | no title attr |
+| `career-options/is-food-technology-a-good-career-in-india/is-food-technology-a-good-career-in-india-cover.webp` | 1600x900 | 1600x900 | eager | 9% | no title attr |
 | `career-options/is-food-technology-a-good-career-in-india/food-technology-honest-picture.webp` | 1122x1402 | 1122x1402 | lazy | 13% | no title attr |
-| `career-options/is-food-technology-a-good-career-in-india/btech-vs-bsc-vs-diploma-food-technology.webp` | 1122x1402 | 1122x1402 | lazy | 25% | no title attr |
-| `career-options/is-food-technology-a-good-career-in-india/food-technology-pay-ceiling.webp` | 1122x1402 | 1122x1402 | lazy | 30% | no title attr |
+| `career-options/is-food-technology-a-good-career-in-india/btech-vs-bsc-vs-diploma-food-technology.webp` | 1122x1402 | 1122x1402 | lazy | 23% | no title attr |
+| `career-options/is-food-technology-a-good-career-in-india/food-technology-pay-ceiling.webp` | 1122x1402 | 1122x1402 | lazy | 29% | no title attr |
 | `career-options/is-food-technology-a-good-career-in-india/food-technology-career-lanes.webp` | 1122x1402 | 1122x1402 | lazy | 31% | no title attr |
-| `career-options/is-food-technology-a-good-career-in-india/food-technology-4-checkpoints-3-gates.webp` | 1122x1402 | 1122x1402 | lazy | 60% | no title attr |
+| `career-options/is-food-technology-a-good-career-in-india/food-technology-4-checkpoints-3-gates.webp` | 1122x1402 | 1122x1402 | lazy | 64% | no title attr |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8021,7 +8027,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8102,7 +8108,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8191,7 +8197,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8264,7 +8270,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 94%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8353,7 +8359,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8426,7 +8432,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8507,7 +8513,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8588,7 +8594,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8661,7 +8667,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8742,7 +8748,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8823,7 +8829,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8904,7 +8910,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -8985,7 +8991,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9066,7 +9072,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9147,7 +9153,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9228,7 +9234,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9309,7 +9315,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9382,7 +9388,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9463,7 +9469,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9544,7 +9550,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9633,7 +9639,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9720,14 +9726,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/pcb-other-than-medical/cover.webp` | 1600x1000 | 1600x1000 | eager | 11% | ok |
-| `career-options/pcb-other-than-medical/fit.webp` | 1600x1000 | 1600x1000 | lazy | 18% | ok |
-| `career-options/pcb-other-than-medical/paths.webp` | 1600x1000 | 1600x1000 | lazy | 52% | 380 KB |
-| `career-options/pcb-other-than-medical/compare.webp` | 1600x1000 | 1600x1000 | lazy | 53% | 259 KB |
-| `career-options/pcb-other-than-medical/checkpoint.webp` | 1600x1000 | 1600x1000 | lazy | 60% | 308 KB |
-| `career-options/pcb-other-than-medical/proof.webp` | 1600x1000 | 1600x1000 | lazy | 69% | ok |
+| `career-options/pcb-other-than-medical/cover.webp` | 1600x1000 | 1600x1000 | eager | 10% | ok |
+| `career-options/pcb-other-than-medical/fit.webp` | 1600x1000 | 1600x1000 | lazy | 15% | ok |
+| `career-options/pcb-other-than-medical/paths.webp` | 1600x1000 | 1600x1000 | lazy | 54% | 380 KB |
+| `career-options/pcb-other-than-medical/compare.webp` | 1600x1000 | 1600x1000 | lazy | 55% | 259 KB |
+| `career-options/pcb-other-than-medical/checkpoint.webp` | 1600x1000 | 1600x1000 | lazy | 63% | 308 KB |
+| `career-options/pcb-other-than-medical/proof.webp` | 1600x1000 | 1600x1000 | lazy | 74% | ok |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9780,7 +9786,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9861,7 +9867,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -9942,7 +9948,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10023,7 +10029,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10096,7 +10102,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10169,7 +10175,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10250,7 +10256,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10331,7 +10337,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10412,7 +10418,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10493,7 +10499,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10566,7 +10572,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10647,7 +10653,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10736,7 +10742,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10817,7 +10823,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10898,7 +10904,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 94%, 94%, 95%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -10979,7 +10985,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11060,7 +11066,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 94%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11141,7 +11147,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11222,7 +11228,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11303,7 +11309,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11384,7 +11390,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11465,7 +11471,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11546,7 +11552,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11635,14 +11641,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/career-options-after-12th-except-engineering/career-options-after-12th-except-engineering-cover.webp` | 1600x900 | 1600x1000 | eager | 11% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-except-engineering/career-options-after-12th-except-engineering-doors.webp` | 1536x1024 | 1600x1000 | lazy | 15% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-except-engineering/career-options-after-12th-except-engineering-cover.webp` | 1600x900 | 1600x1000 | eager | 10% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-except-engineering/career-options-after-12th-except-engineering-doors.webp` | 1536x1024 | 1600x1000 | lazy | 13% | width/height attributes do not match the file |
 | `career-options/career-options-after-12th-except-engineering/career-options-after-12th-except-engineering-clock.webp` | 1600x800 | 1600x1000 | lazy | 31% | width/height attributes do not match the file |
 | `career-options/career-options-after-12th-except-engineering/career-options-after-12th-except-engineering-crowd.webp` | 1536x1024 | 1600x1000 | lazy | 35% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-except-engineering/career-options-after-12th-except-engineering-checkpoint.webp` | 1600x900 | 1600x1000 | lazy | 48% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-except-engineering/career-options-after-12th-except-engineering-proof.webp` | 1600x900 | 1600x1000 | lazy | 58% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-except-engineering/career-options-after-12th-except-engineering-checkpoint.webp` | 1600x900 | 1600x1000 | lazy | 50% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-except-engineering/career-options-after-12th-except-engineering-proof.webp` | 1600x900 | 1600x1000 | lazy | 61% | width/height attributes do not match the file |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11711,14 +11717,14 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/career-options-after-12th-except-medical/career-options-after-12th-except-medical-cover.webp` | 1600x900 | 1600x1000 | eager | 9% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-except-medical/career-options-after-12th-except-medical-boundary.webp` | 1536x1024 | 1600x1000 | lazy | 17% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-except-medical/career-options-after-12th-except-medical-drop-cost.webp` | 1536x1024 | 1600x1000 | lazy | 31% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-except-medical/career-options-after-12th-except-medical-cover.webp` | 1600x900 | 1600x1000 | eager | 8% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-except-medical/career-options-after-12th-except-medical-boundary.webp` | 1536x1024 | 1600x1000 | lazy | 15% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-except-medical/career-options-after-12th-except-medical-drop-cost.webp` | 1536x1024 | 1600x1000 | lazy | 30% | width/height attributes do not match the file |
 | `career-options/career-options-after-12th-except-medical/career-options-after-12th-except-medical-lanes.webp` | 1536x1024 | 1600x1000 | lazy | 35% | width/height attributes do not match the file; 251 KB |
-| `career-options/career-options-after-12th-except-medical/career-options-after-12th-except-medical-week.webp` | 1600x800 | 1600x1000 | lazy | 54% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-except-medical/career-options-after-12th-except-medical-checkpoint.webp` | 1600x900 | 1600x1000 | lazy | 55% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-except-medical/career-options-after-12th-except-medical-week.webp` | 1600x800 | 1600x1000 | lazy | 55% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-except-medical/career-options-after-12th-except-medical-checkpoint.webp` | 1600x900 | 1600x1000 | lazy | 57% | width/height attributes do not match the file |
 
-Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 94%, 94%, 95%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 1 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11779,7 +11785,7 @@ Generic/template images present: 7 category, 3 page-card, 1 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11867,13 +11873,13 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `career-options/career-options-after-12th-pcb/career-options-after-12th-pcb-cover.webp` | 1600x1000 | 1600x1000 | eager | 10% | ok |
-| `career-options/career-options-after-12th-pcb/career-options-after-12th-pcb-paths.webp` | 1600x1000 | 1600x1000 | lazy | 19% | 292 KB |
-| `career-options/career-options-after-12th-pcb/career-options-after-12th-pcb-work-style.webp` | 1600x1000 | 1600x1000 | lazy | 24% | ok |
-| `career-options/career-options-after-12th-pcb/career-options-after-12th-pcb-non-hospital.webp` | 1600x1000 | 1600x1000 | lazy | 27% | ok |
+| `career-options/career-options-after-12th-pcb/career-options-after-12th-pcb-paths.webp` | 1600x1000 | 1600x1000 | lazy | 16% | 292 KB |
+| `career-options/career-options-after-12th-pcb/career-options-after-12th-pcb-work-style.webp` | 1600x1000 | 1600x1000 | lazy | 22% | ok |
+| `career-options/career-options-after-12th-pcb/career-options-after-12th-pcb-non-hospital.webp` | 1600x1000 | 1600x1000 | lazy | 25% | ok |
 | `career-options/career-options-after-12th-pcb/career-options-after-12th-pcb-checkpoint.webp` | 1600x1000 | 1600x1000 | lazy | 33% | 308 KB |
-| `career-options/career-options-after-12th-pcb/career-options-after-12th-pcb-proof.webp` | 1600x1000 | 1600x1000 | lazy | 52% | ok |
+| `career-options/career-options-after-12th-pcb/career-options-after-12th-pcb-proof.webp` | 1600x1000 | 1600x1000 | lazy | 54% | ok |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -11932,14 +11938,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/career-options-after-12th-pcm-other-than-engineering/career-options-after-12th-pcm-other-than-engineering-cover.webp` | 1600x800 | 1600x1000 | eager | 9% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-pcm-other-than-engineering/career-options-after-12th-pcm-other-than-engineering-ledger.webp` | 1536x1024 | 1600x1000 | lazy | 13% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-pcm-other-than-engineering/career-options-after-12th-pcm-other-than-engineering-cover.webp` | 1600x800 | 1600x1000 | eager | 8% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-pcm-other-than-engineering/career-options-after-12th-pcm-other-than-engineering-ledger.webp` | 1536x1024 | 1600x1000 | lazy | 11% | width/height attributes do not match the file |
 | `career-options/career-options-after-12th-pcm-other-than-engineering/career-options-after-12th-pcm-other-than-engineering-seats.webp` | 1600x900 | 1600x1000 | lazy | 33% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-pcm-other-than-engineering/career-options-after-12th-pcm-other-than-engineering-checkpoint.webp` | 1600x900 | 1600x1000 | lazy | 52% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-pcm-other-than-engineering/career-options-after-12th-pcm-other-than-engineering-proof.webp` | 1600x900 | 1600x1000 | lazy | 62% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-pcm-other-than-engineering/career-options-after-12th-pcm-other-than-engineering-plan.webp` | 1600x900 | 1600x1000 | lazy | 67% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-pcm-other-than-engineering/career-options-after-12th-pcm-other-than-engineering-checkpoint.webp` | 1600x900 | 1600x1000 | lazy | 53% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-pcm-other-than-engineering/career-options-after-12th-pcm-other-than-engineering-proof.webp` | 1600x900 | 1600x1000 | lazy | 65% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-pcm-other-than-engineering/career-options-after-12th-pcm-other-than-engineering-plan.webp` | 1600x900 | 1600x1000 | lazy | 70% | width/height attributes do not match the file |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 94%, 94%, 95%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12005,14 +12011,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/career-options-after-12th-pcm/career-options-after-12th-pcm-cover.webp` | 1600x800 | 1600x1000 | eager | 10% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-pcm/career-options-after-12th-pcm-ladder.webp` | 1536x1024 | 1600x1000 | lazy | 14% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-pcm/career-options-after-12th-pcm-crowd.webp` | 1536x1024 | 1600x1000 | lazy | 25% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-pcm/career-options-after-12th-pcm-cover.webp` | 1600x800 | 1600x1000 | eager | 9% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-pcm/career-options-after-12th-pcm-ladder.webp` | 1536x1024 | 1600x1000 | lazy | 11% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-pcm/career-options-after-12th-pcm-crowd.webp` | 1536x1024 | 1600x1000 | lazy | 23% | width/height attributes do not match the file |
 | `career-options/career-options-after-12th-pcm/career-options-after-12th-pcm-branch-college.webp` | 1536x1024 | 1600x1000 | lazy | 29% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-pcm/career-options-after-12th-pcm-checkpoint.webp` | 1600x800 | 1600x1000 | lazy | 50% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-pcm/career-options-after-12th-pcm-proof.webp` | 1600x900 | 1600x1000 | lazy | 59% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-pcm/career-options-after-12th-pcm-checkpoint.webp` | 1600x800 | 1600x1000 | lazy | 52% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-pcm/career-options-after-12th-pcm-proof.webp` | 1600x900 | 1600x1000 | lazy | 62% | width/height attributes do not match the file |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12079,14 +12085,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/science-except-eng-med/cover.webp` | 1600x1000 | 1600x1000 | eager | 12% | ok |
-| `career-options/science-except-eng-med/fit.webp` | 1600x1000 | 1600x1000 | lazy | 20% | ok |
-| `career-options/science-except-eng-med/tracks.webp` | 1600x1000 | 1600x1000 | lazy | 23% | 355 KB |
-| `career-options/science-except-eng-med/compare.webp` | 1600x1000 | 1600x1000 | lazy | 44% | 269 KB |
-| `career-options/science-except-eng-med/checkpoint.webp` | 1600x1000 | 1600x1000 | lazy | 51% | 300 KB |
-| `career-options/science-except-eng-med/proof.webp` | 1600x1000 | 1600x1000 | lazy | 65% | ok |
+| `career-options/science-except-eng-med/cover.webp` | 1600x1000 | 1600x1000 | eager | 11% | ok |
+| `career-options/science-except-eng-med/fit.webp` | 1600x1000 | 1600x1000 | lazy | 18% | ok |
+| `career-options/science-except-eng-med/tracks.webp` | 1600x1000 | 1600x1000 | lazy | 21% | 355 KB |
+| `career-options/science-except-eng-med/compare.webp` | 1600x1000 | 1600x1000 | lazy | 46% | 269 KB |
+| `career-options/science-except-eng-med/checkpoint.webp` | 1600x1000 | 1600x1000 | lazy | 54% | 300 KB |
+| `career-options/science-except-eng-med/proof.webp` | 1600x1000 | 1600x1000 | lazy | 70% | ok |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12145,14 +12151,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/career-options-after-12th-science-without-biology/career-options-after-12th-science-without-biology-cover.webp` | 1600x800 | 1600x1000 | eager | 8% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-science-without-biology/career-options-after-12th-science-without-biology-biology-gate.webp` | 1536x1024 | 1600x1000 | lazy | 14% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th-science-without-biology/career-options-after-12th-science-without-biology-add-biology.webp` | 1536x1024 | 1600x1000 | lazy | 27% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-science-without-biology/career-options-after-12th-science-without-biology-cover.webp` | 1600x800 | 1600x1000 | eager | 7% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-science-without-biology/career-options-after-12th-science-without-biology-biology-gate.webp` | 1536x1024 | 1600x1000 | lazy | 11% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-science-without-biology/career-options-after-12th-science-without-biology-add-biology.webp` | 1536x1024 | 1600x1000 | lazy | 26% | width/height attributes do not match the file |
 | `career-options/career-options-after-12th-science-without-biology/career-options-after-12th-science-without-biology-lanes.webp` | 1536x1024 | 1600x1000 | lazy | 37% | width/height attributes do not match the file; 277 KB |
-| `career-options/career-options-after-12th-science-without-biology/career-options-after-12th-science-without-biology-weekly-reality.webp` | 1536x1024 | 1600x1000 | lazy | 57% | width/height attributes do not match the file; 281 KB |
-| `career-options/career-options-after-12th-science-without-biology/career-options-after-12th-science-without-biology-checkpoint.webp` | 1536x1024 | 1600x1000 | lazy | 61% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th-science-without-biology/career-options-after-12th-science-without-biology-weekly-reality.webp` | 1536x1024 | 1600x1000 | lazy | 59% | width/height attributes do not match the file; 281 KB |
+| `career-options/career-options-after-12th-science-without-biology/career-options-after-12th-science-without-biology-checkpoint.webp` | 1536x1024 | 1600x1000 | lazy | 63% | width/height attributes do not match the file |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 95%, 95%, 95%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 94%, 94%, 95%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12213,6 +12219,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** career-options · **Words:** 5643 · **H2 sections:** 23 · **Search priority:** P3 (0 clicks, 10 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/career-options/after-12th-science/career-options-after-12th-science-beyond-jee-neet-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Hero is a flat-lay graphic; five infographics are strong.
@@ -12226,11 +12234,11 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `career-options/after-12th-science/career-options-after-12th-science-beyond-jee-neet-1440.webp` | 1440x810 | 1440x811 | eager | 10% | no caption |
-| `career-options/after-12th-science/science-stream-map-after-12th-1080.webp` | 1080x1350 | 1080x1350 | lazy | 19% | no title attr |
-| `career-options/after-12th-science/four-science-career-tracks-after-12th-1080.webp` | 1080x1350 | 1080x1350 | lazy | 23% | no title attr |
+| `career-options/after-12th-science/science-stream-map-after-12th-1080.webp` | 1080x1350 | 1080x1350 | lazy | 16% | no title attr |
+| `career-options/after-12th-science/four-science-career-tracks-after-12th-1080.webp` | 1080x1350 | 1080x1350 | lazy | 21% | no title attr |
 | `career-options/after-12th-science/science-entrance-exams-beyond-jee-neet-1080.webp` | 1080x1350 | 1080x1350 | lazy | 45% | no title attr |
-| `career-options/after-12th-science/science-career-four-checkpoint-protocol-three-gates-1080.webp` | 1080x1350 | 1080x1350 | lazy | 48% | no title attr |
-| `career-options/after-12th-science/salary-reality-by-science-track-1440.webp` | 1440x810 | 1440x811 | lazy | 65% | no title attr |
+| `career-options/after-12th-science/science-career-four-checkpoint-protocol-three-gates-1080.webp` | 1080x1350 | 1080x1350 | lazy | 49% | no title attr |
+| `career-options/after-12th-science/salary-reality-by-science-track-1440.webp` | 1440x810 | 1440x811 | lazy | 68% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -12270,7 +12278,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12357,14 +12365,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/career-options-after-12th/career-options-after-12th-cover.webp` | 1600x800 | 1600x1000 | eager | 8% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th/career-options-after-12th-seat-math.webp` | 1536x1024 | 1600x1000 | lazy | 15% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th/career-options-after-12th-lanes.webp` | 1536x1024 | 1600x1000 | lazy | 21% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th/career-options-after-12th-stream-map.webp` | 1536x1024 | 1600x1000 | lazy | 32% | width/height attributes do not match the file; 244 KB |
-| `career-options/career-options-after-12th/career-options-after-12th-checkpoint.webp` | 1600x800 | 1600x1000 | lazy | 47% | width/height attributes do not match the file |
-| `career-options/career-options-after-12th/career-options-after-12th-skills-proof.webp` | 1600x900 | 1600x1000 | lazy | 52% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th/career-options-after-12th-cover.webp` | 1600x800 | 1600x1000 | eager | 7% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th/career-options-after-12th-seat-math.webp` | 1536x1024 | 1600x1000 | lazy | 12% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th/career-options-after-12th-lanes.webp` | 1536x1024 | 1600x1000 | lazy | 19% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th/career-options-after-12th-stream-map.webp` | 1536x1024 | 1600x1000 | lazy | 31% | width/height attributes do not match the file; 244 KB |
+| `career-options/career-options-after-12th/career-options-after-12th-checkpoint.webp` | 1600x800 | 1600x1000 | lazy | 48% | width/height attributes do not match the file |
+| `career-options/career-options-after-12th/career-options-after-12th-skills-proof.webp` | 1600x900 | 1600x1000 | lazy | 54% | width/height attributes do not match the file |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 94%, 95%, 95%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 94%, 94%, 95%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12433,7 +12441,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12514,7 +12522,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12595,7 +12603,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12676,7 +12684,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12757,7 +12765,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12838,6 +12846,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** career-options · **Words:** 4135 · **H2 sections:** 11 · **Search priority:** P3 (0 clicks, 4 impressions)  
 **Status: RED — NO IMAGES** · og:image: generic site SVG (not a hero, SVG is not shown by most social platforms)
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision. This excluded page currently has NO content images at all, which is probably unintended; ask the owner.
+
 **Findings**
 
 **Current images**
@@ -12912,7 +12922,7 @@ No images at all are rendered on this route.
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -12993,7 +13003,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13066,7 +13076,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13147,7 +13157,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13228,7 +13238,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13301,6 +13311,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** career-options · **Words:** 4082 · **H2 sections:** 14 · **Search priority:** P3 (0 clicks, 14 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/career-options/how-to-become-a-data-scientist-india/how-to-become-a-data-scientist-india-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 7 authored images on the page (hero + 6 supporting).
 2. Strong, readable infographics with no invented numbers beyond the article (verify "closer to a year" timeline).
@@ -13312,13 +13324,13 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/how-to-become-a-data-scientist-india/how-to-become-a-data-scientist-india-cover.webp` | 1600x900 | 1600x900 | eager | 14% | no title attr |
-| `career-options/how-to-become-a-data-scientist-india/data-scientist-statistics-foundation.webp` | 1122x1402 | 1200x1600 | lazy | 31% | width/height attributes do not match the file; no title attr |
+| `career-options/how-to-become-a-data-scientist-india/how-to-become-a-data-scientist-india-cover.webp` | 1600x900 | 1600x900 | eager | 13% | no title attr |
+| `career-options/how-to-become-a-data-scientist-india/data-scientist-statistics-foundation.webp` | 1122x1402 | 1200x1600 | lazy | 30% | width/height attributes do not match the file; no title attr |
 | `career-options/how-to-become-a-data-scientist-india/data-scientist-ab-testing-end-to-end.webp` | 1122x1402 | 1200x1600 | lazy | 38% | width/height attributes do not match the file; no title attr |
-| `career-options/how-to-become-a-data-scientist-india/data-scientist-roadmap-build-order.webp` | 1122x1402 | 1200x1600 | lazy | 42% | width/height attributes do not match the file; no title attr |
-| `career-options/how-to-become-a-data-scientist-india/data-scientist-portfolio-insight-not-deployment.webp` | 1122x1402 | 1200x1600 | lazy | 51% | width/height attributes do not match the file; no title attr |
-| `career-options/how-to-become-a-data-scientist-india/data-scientist-vs-ml-engineer.webp` | 1122x1402 | 1200x1600 | lazy | 55% | width/height attributes do not match the file; no title attr |
-| `career-options/how-to-become-a-data-scientist-india/data-scientist-realistic-timeline.webp` | 1122x1402 | 1200x1600 | lazy | 64% | width/height attributes do not match the file; no title attr |
+| `career-options/how-to-become-a-data-scientist-india/data-scientist-roadmap-build-order.webp` | 1122x1402 | 1200x1600 | lazy | 43% | width/height attributes do not match the file; no title attr |
+| `career-options/how-to-become-a-data-scientist-india/data-scientist-portfolio-insight-not-deployment.webp` | 1122x1402 | 1200x1600 | lazy | 54% | width/height attributes do not match the file; no title attr |
+| `career-options/how-to-become-a-data-scientist-india/data-scientist-vs-ml-engineer.webp` | 1122x1402 | 1200x1600 | lazy | 59% | width/height attributes do not match the file; no title attr |
+| `career-options/how-to-become-a-data-scientist-india/data-scientist-realistic-timeline.webp` | 1122x1402 | 1200x1600 | lazy | 69% | width/height attributes do not match the file; no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -13349,7 +13361,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13430,7 +13442,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13503,7 +13515,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13576,7 +13588,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 84%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13649,7 +13661,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13722,7 +13734,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13803,7 +13815,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13891,14 +13903,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-options/is-event-management-a-good-career-in-india/is-event-management-a-good-career-in-india-cover.webp` | 1600x900 | 1600x900 | eager | 11% | no title attr |
-| `career-options/is-event-management-a-good-career-in-india/event-management-highlight-reel-vs-daily-reality.webp` | 1122x1402 | 1122x1402 | lazy | 22% | no title attr |
-| `career-options/is-event-management-a-good-career-in-india/event-management-pay-bands-india.webp` | 1122x1402 | 1122x1402 | lazy | 27% | no title attr |
+| `career-options/is-event-management-a-good-career-in-india/is-event-management-a-good-career-in-india-cover.webp` | 1600x900 | 1600x900 | eager | 10% | no title attr |
+| `career-options/is-event-management-a-good-career-in-india/event-management-highlight-reel-vs-daily-reality.webp` | 1122x1402 | 1122x1402 | lazy | 20% | no title attr |
+| `career-options/is-event-management-a-good-career-in-india/event-management-pay-bands-india.webp` | 1122x1402 | 1122x1402 | lazy | 26% | no title attr |
 | `career-options/is-event-management-a-good-career-in-india/event-income-instability-seasonality.webp` | 1122x1402 | 1122x1402 | lazy | 34% | no title attr |
 | `career-options/is-event-management-a-good-career-in-india/how-top-event-earners-scale.webp` | 1122x1402 | 1122x1402 | lazy | 38% | no title attr |
-| `career-options/is-event-management-a-good-career-in-india/event-management-4-checkpoints-3-gates.webp` | 1122x1402 | 1122x1402 | lazy | 58% | no title attr |
+| `career-options/is-event-management-a-good-career-in-india/event-management-4-checkpoints-3-gates.webp` | 1122x1402 | 1122x1402 | lazy | 61% | no title attr |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -13940,7 +13952,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14029,7 +14041,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14110,7 +14122,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14191,7 +14203,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14272,7 +14284,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14353,7 +14365,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14434,7 +14446,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14515,7 +14527,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14588,7 +14600,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14669,7 +14681,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14758,7 +14770,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14839,7 +14851,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14912,7 +14924,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -14993,7 +15005,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15066,7 +15078,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15139,7 +15151,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15220,7 +15232,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15293,7 +15305,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15366,7 +15378,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15439,7 +15451,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15512,7 +15524,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 93%, 94%, 94%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 94%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15593,7 +15605,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15674,7 +15686,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15755,7 +15767,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15836,7 +15848,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15917,7 +15929,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -15998,7 +16010,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -16071,7 +16083,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.
@@ -16144,7 +16156,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-options-editorial-cover.webp`, `career-options-context.webp`, `career-options-work.webp`, `career-options-compare.webp`, `career-options-framework.webp`, `career-options-test.webp`, `career-options-at-a-glance.webp`.

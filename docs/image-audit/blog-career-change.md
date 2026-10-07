@@ -8,6 +8,8 @@
 **Category:** career-change · **Words:** 3420 · **H2 sections:** 9 · **Search priority:** P2 (2 clicks, 66 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/career-change/career-change-after-5-years-india/career-change-after-5-years-india-cover-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 5 authored images on the page (hero + 4 supporting).
 2. The hero (cover-social) is a cropped fragment of an infographic showing part of two lanes, not a natural hero. Replace.
@@ -19,11 +21,11 @@
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-change/career-change-after-5-years-india/career-change-after-5-years-india-cover-social.jpg` | 1200x675 | 1122x1402 | eager | 18% | width/height attributes do not match the file; no title attr |
-| `career-change/career-change-after-5-years-india/career-change-year-5-trap.webp` | 1122x1402 | 1122x1402 | lazy | 33% | no title attr |
-| `career-change/career-change-after-5-years-india/career-change-golden-handcuffs.webp` | 1122x1402 | 1122x1402 | lazy | 38% | no title attr; 261 KB |
-| `career-change/career-change-after-5-years-india/career-change-job-hopping-reset.webp` | 1122x1402 | 1122x1402 | lazy | 44% | no title attr |
-| `career-change/career-change-after-5-years-india/career-change-three-signal-reset.webp` | 1200x675 | 1200x675 | lazy | 54% | no title attr |
+| `career-change/career-change-after-5-years-india/career-change-after-5-years-india-cover-social.jpg` | 1200x675 | 1122x1402 | eager | 19% | width/height attributes do not match the file; no title attr |
+| `career-change/career-change-after-5-years-india/career-change-year-5-trap.webp` | 1122x1402 | 1122x1402 | lazy | 34% | no title attr |
+| `career-change/career-change-after-5-years-india/career-change-golden-handcuffs.webp` | 1122x1402 | 1122x1402 | lazy | 40% | no title attr; 261 KB |
+| `career-change/career-change-after-5-years-india/career-change-job-hopping-reset.webp` | 1122x1402 | 1122x1402 | lazy | 47% | no title attr |
+| `career-change/career-change-after-5-years-india/career-change-three-signal-reset.webp` | 1200x675 | 1200x675 | lazy | 60% | no title attr |
 
 **Required actions**
 1. CREATE hero:
@@ -70,14 +72,14 @@
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-change/career-switch-from-it-to-management-india/career-switch-from-it-to-management-india-cover.webp` | 1600x800 | 1600x1000 | eager | 14% | width/height attributes do not match the file |
-| `career-change/career-switch-from-it-to-management-india/career-switch-from-it-to-management-india-lanes.webp` | 1536x1024 | 1600x1000 | lazy | 22% | width/height attributes do not match the file |
+| `career-change/career-switch-from-it-to-management-india/career-switch-from-it-to-management-india-cover.webp` | 1600x800 | 1600x1000 | eager | 13% | width/height attributes do not match the file |
+| `career-change/career-switch-from-it-to-management-india/career-switch-from-it-to-management-india-lanes.webp` | 1536x1024 | 1600x1000 | lazy | 21% | width/height attributes do not match the file |
 | `career-change/career-switch-from-it-to-management-india/career-switch-from-it-to-management-india-mba-choice.webp` | 1536x1024 | 1600x1000 | lazy | 33% | width/height attributes do not match the file |
-| `career-change/career-switch-from-it-to-management-india/career-switch-from-it-to-management-india-protocol.webp` | 1536x1024 | 1600x1000 | lazy | 38% | width/height attributes do not match the file |
-| `career-change/career-switch-from-it-to-management-india/career-switch-from-it-to-management-india-skill-stack.webp` | 1536x1024 | 1600x1000 | lazy | 42% | width/height attributes do not match the file |
-| `career-change/career-switch-from-it-to-management-india/career-switch-from-it-to-management-india-internal-pitch.webp` | 1536x1024 | 1600x1000 | lazy | 51% | width/height attributes do not match the file |
+| `career-change/career-switch-from-it-to-management-india/career-switch-from-it-to-management-india-protocol.webp` | 1536x1024 | 1600x1000 | lazy | 39% | width/height attributes do not match the file |
+| `career-change/career-switch-from-it-to-management-india/career-switch-from-it-to-management-india-skill-stack.webp` | 1536x1024 | 1600x1000 | lazy | 44% | width/height attributes do not match the file |
+| `career-change/career-switch-from-it-to-management-india/career-switch-from-it-to-management-india-internal-pitch.webp` | 1536x1024 | 1600x1000 | lazy | 54% | width/height attributes do not match the file |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.
@@ -138,7 +140,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.
@@ -211,7 +213,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.
@@ -292,7 +294,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.
@@ -357,6 +359,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** career-change · **Words:** 4204 · **H2 sections:** 11 · **Search priority:** P3 (0 clicks, 13 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/career-change/career-change-at-30-india/career-change-at-30-india-cover-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. EMI and take-home panel says "40% of gross can feel like 55-60% of take-home". The sentence is confusing and probably wrong; fix wording and verify against the article.
@@ -367,12 +371,12 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `career-change/career-change-at-30-india/career-change-at-30-india-cover-social.jpg` | 1200x675 | 1200x675 | eager | 15% | no title attr |
+| `career-change/career-change-at-30-india/career-change-at-30-india-cover-social.jpg` | 1200x675 | 1200x675 | eager | 14% | no title attr |
 | `career-change/career-change-at-30-india/career-change-at-30-four-checkpoints.webp` | 1122x1402 | 1122x1402 | lazy | 30% | no title attr |
-| `career-change/career-change-at-30-india/career-change-at-30-fresher-vs-constraints.webp` | 1122x1402 | 1122x1402 | lazy | 36% | no title attr |
-| `career-change/career-change-at-30-india/career-change-at-30-emi-runway.webp` | 1122x1402 | 1122x1402 | lazy | 40% | no title attr |
-| `career-change/career-change-at-30-india/career-change-at-30-three-paths.webp` | 1200x675 | 1200x675 | lazy | 46% | no title attr |
-| `career-change/career-change-at-30-india/career-change-at-30-test-before-leap.webp` | 1122x1402 | 1122x1402 | lazy | 61% | no title attr |
+| `career-change/career-change-at-30-india/career-change-at-30-fresher-vs-constraints.webp` | 1122x1402 | 1122x1402 | lazy | 37% | no title attr |
+| `career-change/career-change-at-30-india/career-change-at-30-emi-runway.webp` | 1122x1402 | 1122x1402 | lazy | 42% | no title attr |
+| `career-change/career-change-at-30-india/career-change-at-30-three-paths.webp` | 1200x675 | 1200x675 | lazy | 49% | no title attr |
+| `career-change/career-change-at-30-india/career-change-at-30-test-before-leap.webp` | 1122x1402 | 1122x1402 | lazy | 67% | no title attr |
 
 **Required actions**
 1. FIX attributes on every kept image: meaningful kebab-case filename; alt that describes what is visible; title attribute; caption (figcaption) for every explanatory image; width/height equal to the real pixel size; `loading="lazy"` below the fold, hero eager with fetchpriority; WebP under 200 KB.
@@ -396,7 +400,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.
@@ -469,7 +473,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.
@@ -542,7 +546,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.
@@ -615,7 +619,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.
@@ -688,7 +692,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.
@@ -761,7 +765,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.
@@ -834,7 +838,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.
@@ -907,7 +911,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `career-change-editorial-cover.webp`, `career-change-context.webp`, `career-change-bridge.webp`, `career-change-mapping.webp`, `career-change-sequence.webp`, `career-change-experiment.webp`, `career-change-at-a-glance.webp`.

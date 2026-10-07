@@ -16,7 +16,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skill-roadmaps-editorial-cover.webp`, `skill-roadmaps-context.webp`, `skill-roadmaps-path.webp`, `skill-roadmaps-sprint.webp`, `skill-roadmaps-framework.webp`, `skill-roadmaps-review.webp`, `skill-roadmaps-at-a-glance.webp`.
@@ -81,6 +81,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** skill-roadmaps · **Words:** 3907 · **H2 sections:** 11 · **Search priority:** P3 (0 clicks, 7 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/skill-roadmaps/full-stack-developer-roadmap-india/full-stack-developer-roadmap-india-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Clean, readable set.
@@ -93,9 +95,9 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 | `skill-roadmaps/full-stack-developer-roadmap-india/full-stack-developer-roadmap-india-cover.webp` | 1600x900 | 1600x900 | eager | 15% | no title attr |
 | `skill-roadmaps/full-stack-developer-roadmap-india/what-full-stack-means-today.webp` | 1122x1402 | 1122x1402 | lazy | 31% | no title attr |
 | `skill-roadmaps/full-stack-developer-roadmap-india/full-stack-developer-build-order.webp` | 1122x1402 | 1122x1402 | lazy | 33% | no title attr |
-| `skill-roadmaps/full-stack-developer-roadmap-india/full-stack-roadmap-which-stack-to-pick.webp` | 1122x1402 | 1122x1402 | lazy | 47% | no title attr |
-| `skill-roadmaps/full-stack-developer-roadmap-india/full-stack-proof-of-work.webp` | 1122x1402 | 1122x1402 | lazy | 53% | no title attr |
-| `skill-roadmaps/full-stack-developer-roadmap-india/full-stack-vs-specializing.webp` | 1122x1402 | 1122x1402 | lazy | 59% | no title attr |
+| `skill-roadmaps/full-stack-developer-roadmap-india/full-stack-roadmap-which-stack-to-pick.webp` | 1122x1402 | 1122x1402 | lazy | 50% | no title attr |
+| `skill-roadmaps/full-stack-developer-roadmap-india/full-stack-proof-of-work.webp` | 1122x1402 | 1122x1402 | lazy | 57% | no title attr |
+| `skill-roadmaps/full-stack-developer-roadmap-india/full-stack-vs-specializing.webp` | 1122x1402 | 1122x1402 | lazy | 65% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -126,7 +128,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skill-roadmaps-editorial-cover.webp`, `skill-roadmaps-context.webp`, `skill-roadmaps-path.webp`, `skill-roadmaps-sprint.webp`, `skill-roadmaps-framework.webp`, `skill-roadmaps-review.webp`, `skill-roadmaps-at-a-glance.webp`.
@@ -199,7 +201,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skill-roadmaps-editorial-cover.webp`, `skill-roadmaps-context.webp`, `skill-roadmaps-path.webp`, `skill-roadmaps-sprint.webp`, `skill-roadmaps-framework.webp`, `skill-roadmaps-review.webp`, `skill-roadmaps-at-a-glance.webp`.
@@ -272,7 +274,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `skill-roadmaps-editorial-cover.webp`, `skill-roadmaps-context.webp`, `skill-roadmaps-path.webp`, `skill-roadmaps-sprint.webp`, `skill-roadmaps-framework.webp`, `skill-roadmaps-review.webp`, `skill-roadmaps-at-a-glance.webp`.

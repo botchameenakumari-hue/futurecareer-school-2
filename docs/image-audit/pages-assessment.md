@@ -13,7 +13,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -22,13 +22,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 87% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -74,7 +74,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -83,13 +83,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 87% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -135,7 +135,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -144,13 +144,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -196,7 +196,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -205,13 +205,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 87% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 93% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -257,7 +257,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -266,13 +266,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 88% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -318,7 +318,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -327,13 +327,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 86% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 88% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 90% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 93% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -379,7 +379,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -388,13 +388,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 87% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -440,7 +440,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -449,13 +449,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 87% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -501,7 +501,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -510,13 +510,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
 | `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -562,7 +562,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -571,13 +571,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 87% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -623,7 +623,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -632,13 +632,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 87% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -684,7 +684,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -693,13 +693,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
 | `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -745,7 +745,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -754,13 +754,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 86% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 88% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 90% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 93% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -806,7 +806,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -815,13 +815,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -867,7 +867,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -876,13 +876,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -928,7 +928,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -937,13 +937,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -989,7 +989,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -998,13 +998,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1050,7 +1050,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1059,13 +1059,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 87% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1111,7 +1111,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1120,13 +1120,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 88% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1172,7 +1172,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1181,13 +1181,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 88% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1260,7 +1260,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1269,13 +1269,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 88% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1321,7 +1321,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1330,13 +1330,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 88% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1382,7 +1382,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1391,13 +1391,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 86% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 88% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 90% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 93% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1443,7 +1443,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1452,13 +1452,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1504,7 +1504,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1513,13 +1513,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 87% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1565,7 +1565,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1574,13 +1574,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 88% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1653,7 +1653,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1662,13 +1662,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 88% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1714,7 +1714,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1723,13 +1723,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 86% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 88% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 90% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 93% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1775,7 +1775,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1784,13 +1784,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 86% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 88% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 90% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 93% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1836,7 +1836,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1845,13 +1845,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 86% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 88% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 90% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 93% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1897,7 +1897,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1906,13 +1906,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 87% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 90% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 93% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -1958,7 +1958,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -1967,13 +1967,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2019,7 +2019,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2028,13 +2028,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2080,7 +2080,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2089,13 +2089,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 88% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2168,7 +2168,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2177,13 +2177,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2229,7 +2229,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2238,13 +2238,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2290,7 +2290,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2299,13 +2299,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2351,7 +2351,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2360,13 +2360,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2439,7 +2439,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2448,13 +2448,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2554,7 +2554,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2563,13 +2563,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
 | `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2615,7 +2615,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2624,13 +2624,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2676,7 +2676,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2685,13 +2685,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 88% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2737,7 +2737,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2746,13 +2746,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 88% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 89% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2798,7 +2798,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2807,13 +2807,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2886,7 +2886,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2895,13 +2895,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 92% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 93% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 90% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
 | `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -2947,7 +2947,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -2956,13 +2956,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 93% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 88% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 91% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -3008,7 +3008,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 95% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 93% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -3017,13 +3017,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 91% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 92% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 94% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 95% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 96% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 96% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 97% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 90% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 93% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 94% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.
@@ -3069,7 +3069,7 @@
 2. 3 generic blog-category images are injected on this service page: `career-guidance-editorial-cover.webp`, `career-guidance-editorial-support.webp`, `assessments-at-a-glance.webp`. They are the same three files on every service and assessment page (alt “Career decision notes and realistic options arranged on a desk”, caption “Good career guidance makes trade-offs visible…”). They are not about this keyword.
 3. Hero `hero-assessment.webp` is shared by 52 pages. Fine as a fallback, but it is excessive reuse for a page that has its own keyword.
 4. Hero `hero-assessment.webp` has no title attribute and no caption.
-5. Hero is `fetchpriority=high` but is rendered at 94% of the raw HTML (after the content); it is moved by JavaScript.
+5. Hero is `fetchpriority=high` but is rendered at 92% of the raw HTML (after the content); it is moved by JavaScript.
 6. Context visual `context-assessment-map.webp` has no title attribute and no caption.
 7. Context visual reuse: `context-assessment-map.webp` appears on 49 pages.
 8. SVG diagrams present (`session-flow.svg`, `skill-portfolio-chain.svg`): preserve them; add alt/title/caption if missing.
@@ -3078,13 +3078,13 @@
 **Current images**
 | File | Position | Loading | Alt | Title | Caption |
 |---|---|---|---|---|---|
-| `blog/category/career-guidance-editorial-cover.webp` | 89% | lazy | Career decision notes and realistic options… | yes | yes |
-| `blog/category/career-guidance-editorial-support.webp` | 91% | lazy | Compass surrounded by career decision cards for… | yes | yes |
-| `blog/category/assessments-at-a-glance.webp` | 92% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
-| `bofu/hero-assessment.webp` | 94% | eager/high | A student taking an online career assessment on a… | NO | NO |
-| `bofu/session-flow.svg` | 95% | lazy | Five-stage career guidance session flow from… | NO | NO |
-| `bofu/skill-portfolio-chain.svg` | 95% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
-| `bofu/context-assessment-map.webp` | 96% | lazy | An assessment signal map showing how results… | NO | NO |
+| `blog/category/career-guidance-editorial-cover.webp` | 86% | lazy | Career decision notes and realistic options… | yes | yes |
+| `blog/category/career-guidance-editorial-support.webp` | 88% | lazy | Compass surrounded by career decision cards for… | yes | yes |
+| `blog/category/assessments-at-a-glance.webp` | 90% | lazy | At a glance: Career decision notes and realistic… | yes | yes |
+| `bofu/hero-assessment.webp` | 92% | eager/high | A student taking an online career assessment on a… | NO | NO |
+| `bofu/session-flow.svg` | 93% | lazy | Five-stage career guidance session flow from… | NO | NO |
+| `bofu/skill-portfolio-chain.svg` | 94% | lazy | Skill portfolio chain from strengths to financial… | NO | NO |
+| `bofu/context-assessment-map.webp` | 95% | lazy | An assessment signal map showing how results… | NO | NO |
 
 **Required actions**
 1. REMOVE the three generic images and stop `BlogFallbackVisual` rendering on `/services/` routes.

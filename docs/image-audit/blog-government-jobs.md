@@ -16,7 +16,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.
@@ -88,6 +88,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **H1:** Banking sector career India: PSU vs private, the real ladder, and what each track pays  
 **Category:** government-jobs · **Words:** 4604 · **H2 sections:** 14 · **Search priority:** P1 (0 clicks, 263 impressions)  
 **Status: RED — NO IMAGES** · og:image: generic site SVG (not a hero, SVG is not shown by most social platforms)
+
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision. This excluded page currently has NO content images at all, which is probably unintended; ask the owner.
 
 **Findings**
 
@@ -171,7 +173,7 @@ No images at all are rendered on this route.
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.
@@ -244,7 +246,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.
@@ -309,6 +311,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** government-jobs · **Words:** 4534 · **H2 sections:** 15 · **Search priority:** P1 (1 clicks, 258 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/government-jobs/government-jobs-after-engineering-india/government-jobs-after-engineering-route-map-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Verify pay figures (Rs 10-15 LPA PSU, Rs 56,100 basic UPSC ESE, Rs 44,000-52,000 SSC JE in-hand, Rs 55,000-65,000 RRB JE, Rs 75,000-95,000 RRB SSE).
@@ -320,12 +324,12 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `government-jobs/government-jobs-after-engineering-india/government-jobs-after-engineering-route-map-cover.webp` | 1600x900 | 1600x900 | eager | 13% | no title attr |
-| `government-jobs/government-jobs-after-engineering-india/six-government-job-routes-after-engineering.webp` | 1122x1402 | 1122x1402 | lazy | 28% | no title attr; 251 KB |
-| `government-jobs/government-jobs-after-engineering-india/four-checkpoint-government-job-route-test.webp` | 1122x1402 | 1122x1402 | lazy | 51% | no title attr |
-| `government-jobs/government-jobs-after-engineering-india/realistic-government-exam-prep-timelines.webp` | 1600x900 | 1600x900 | lazy | 57% | no title attr |
-| `government-jobs/government-jobs-after-engineering-india/government-route-salary-reality.webp` | 1122x1402 | 1122x1402 | lazy | 63% | no title attr; 261 KB |
-| `government-jobs/government-jobs-after-engineering-india/government-job-prep-mistakes.webp` | 1122x1402 | 1122x1402 | lazy | 69% | no title attr; 290 KB |
+| `government-jobs/government-jobs-after-engineering-india/government-jobs-after-engineering-route-map-cover.webp` | 1600x900 | 1600x900 | eager | 12% | no title attr |
+| `government-jobs/government-jobs-after-engineering-india/six-government-job-routes-after-engineering.webp` | 1122x1402 | 1122x1402 | lazy | 27% | no title attr; 251 KB |
+| `government-jobs/government-jobs-after-engineering-india/four-checkpoint-government-job-route-test.webp` | 1122x1402 | 1122x1402 | lazy | 53% | no title attr |
+| `government-jobs/government-jobs-after-engineering-india/realistic-government-exam-prep-timelines.webp` | 1600x900 | 1600x900 | lazy | 61% | no title attr |
+| `government-jobs/government-jobs-after-engineering-india/government-route-salary-reality.webp` | 1122x1402 | 1122x1402 | lazy | 68% | no title attr; 261 KB |
+| `government-jobs/government-jobs-after-engineering-india/government-job-prep-mistakes.webp` | 1122x1402 | 1122x1402 | lazy | 75% | no title attr; 290 KB |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -365,7 +369,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.
@@ -445,13 +449,13 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `government-jobs/rbi-and-sbi-career-growth-india/rbi-sbi-career-growth-india-cover.webp` | 1600x900 | 1600x900 | eager | 12% | no title attr |
-| `government-jobs/rbi-and-sbi-career-growth-india/four-entry-doors-rbi-sbi-careers.webp` | 1122x1402 | 1122x1402 | lazy | 26% | no title attr |
-| `government-jobs/rbi-and-sbi-career-growth-india/rbi-sbi-pay-perks-compared.webp` | 1122x1402 | 1122x1402 | lazy | 40% | no title attr |
-| `government-jobs/rbi-and-sbi-career-growth-india/rbi-sbi-promotion-ladders.webp` | 1086x1448 | 1086x1448 | lazy | 43% | no title attr |
-| `government-jobs/rbi-and-sbi-career-growth-india/four-checkpoint-protocol-rbi-sbi-choice.webp` | 1122x1402 | 1122x1402 | lazy | 49% | no title attr |
-| `government-jobs/rbi-and-sbi-career-growth-india/rbi-vs-sbi-career-fit.webp` | 1122x1402 | 1122x1402 | lazy | 60% | no title attr |
+| `government-jobs/rbi-and-sbi-career-growth-india/four-entry-doors-rbi-sbi-careers.webp` | 1122x1402 | 1122x1402 | lazy | 25% | no title attr |
+| `government-jobs/rbi-and-sbi-career-growth-india/rbi-sbi-pay-perks-compared.webp` | 1122x1402 | 1122x1402 | lazy | 41% | no title attr |
+| `government-jobs/rbi-and-sbi-career-growth-india/rbi-sbi-promotion-ladders.webp` | 1086x1448 | 1086x1448 | lazy | 45% | no title attr |
+| `government-jobs/rbi-and-sbi-career-growth-india/four-checkpoint-protocol-rbi-sbi-choice.webp` | 1122x1402 | 1122x1402 | lazy | 52% | no title attr |
+| `government-jobs/rbi-and-sbi-career-growth-india/rbi-vs-sbi-career-fit.webp` | 1122x1402 | 1122x1402 | lazy | 64% | no title attr |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.
@@ -493,7 +497,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.
@@ -566,7 +570,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.
@@ -639,7 +643,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.
@@ -712,7 +716,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.
@@ -785,7 +789,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.
@@ -866,7 +870,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.
@@ -931,6 +935,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** government-jobs · **Words:** 3816 · **H2 sections:** 13 · **Search priority:** P2 (0 clicks, 126 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Verify: 7th CPC 2.57 factor, 3% annual increment, average 9.1% appraisal in 2026, UPSC 10.16 lakh applied / 5.92 lakh appeared / 1,016 selected / 0.17% success, 8th Pay Commission claims.
@@ -940,12 +946,12 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-cover.webp` | 1600x900 | 1600x900 | eager | 15% | no title attr |
-| `government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-what-differs.webp` | 1122x1402 | 1122x1402 | lazy | 30% | no title attr |
+| `government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-cover.webp` | 1600x900 | 1600x900 | eager | 14% | no title attr |
+| `government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-what-differs.webp` | 1122x1402 | 1122x1402 | lazy | 29% | no title attr |
 | `government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-pay-reality.webp` | 1122x1402 | 1122x1402 | lazy | 36% | no title attr |
-| `government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-prep-years-cost.webp` | 1122x1402 | 1122x1402 | lazy | 45% | no title attr |
-| `government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-3-runway-test.webp` | 1122x1402 | 1122x1402 | lazy | 52% | no title attr |
-| `government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-field-comparison.webp` | 1122x1402 | 1122x1402 | lazy | 62% | no title attr |
+| `government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-prep-years-cost.webp` | 1122x1402 | 1122x1402 | lazy | 47% | no title attr |
+| `government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-3-runway-test.webp` | 1122x1402 | 1122x1402 | lazy | 55% | no title attr |
+| `government-jobs/govt-vs-private-job-india/government-job-vs-private-job-india-field-comparison.webp` | 1122x1402 | 1122x1402 | lazy | 68% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -983,15 +989,15 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `government-jobs/is-government-exam-coaching-worth-it-india/government-exam-coaching-cover.webp` | 1600x900 | 1600x900 | eager | 14% | no title attr |
-| `government-jobs/is-government-exam-coaching-worth-it-india/coaching-content-structure-feedback.webp` | 1448x1086 | 1448x1086 | lazy | 22% | no title attr |
+| `government-jobs/is-government-exam-coaching-worth-it-india/government-exam-coaching-cover.webp` | 1600x900 | 1600x900 | eager | 13% | no title attr |
+| `government-jobs/is-government-exam-coaching-worth-it-india/coaching-content-structure-feedback.webp` | 1448x1086 | 1448x1086 | lazy | 20% | no title attr |
 | `government-jobs/is-government-exam-coaching-worth-it-india/government-exam-coaching-real-cost.webp` | 1122x1402 | 1122x1402 | lazy | 28% | no title attr; 250 KB |
-| `government-jobs/is-government-exam-coaching-worth-it-india/government-coaching-marketing-red-flags.webp` | 1122x1402 | 1122x1402 | lazy | 38% | no title attr |
-| `government-jobs/is-government-exam-coaching-worth-it-india/government-exam-coaching-four-filter-test.webp` | 1122x1402 | 1122x1402 | lazy | 48% | no title attr |
-| `government-jobs/is-government-exam-coaching-worth-it-india/government-exam-coaching-value-by-exam.webp` | 1586x992 | 1586x992 | lazy | 53% | no title attr; 256 KB |
-| `government-jobs/is-government-exam-coaching-worth-it-india/hybrid-government-exam-preparation-model.webp` | 1122x1402 | 1122x1402 | lazy | 56% | no title attr |
+| `government-jobs/is-government-exam-coaching-worth-it-india/government-coaching-marketing-red-flags.webp` | 1122x1402 | 1122x1402 | lazy | 39% | no title attr |
+| `government-jobs/is-government-exam-coaching-worth-it-india/government-exam-coaching-four-filter-test.webp` | 1122x1402 | 1122x1402 | lazy | 51% | no title attr |
+| `government-jobs/is-government-exam-coaching-worth-it-india/government-exam-coaching-value-by-exam.webp` | 1586x992 | 1586x992 | lazy | 57% | no title attr; 256 KB |
+| `government-jobs/is-government-exam-coaching-worth-it-india/hybrid-government-exam-preparation-model.webp` | 1122x1402 | 1122x1402 | lazy | 60% | no title attr |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `government-jobs-editorial-cover.webp`, `government-jobs-context.webp`, `government-jobs-filters.webp`, `government-jobs-compare.webp`, `government-jobs-sequence.webp`, `government-jobs-backup.webp`, `government-jobs-at-a-glance.webp`.

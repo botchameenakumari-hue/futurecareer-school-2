@@ -8,6 +8,8 @@
 **Category:** linkedin-networking · **Words:** 3436 · **H2 sections:** 10 · **Search priority:** P3 (0 clicks, 11 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 7 authored images on the page (hero + 6 supporting).
 2. Hero is an illustrated profile with magnifier. Good, readable infographics.
@@ -21,11 +23,11 @@
 |---|---|---|---|---|---|
 | `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-cover.webp` | 1600x900 | 1600x900 | eager | 16% | no title attr |
 | `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-profile-problems.webp` | 1122x1402 | 1122x1402 | lazy | 21% | no title attr |
-| `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-headline-formula.webp` | 1122x1402 | 1122x1402 | lazy | 35% | no title attr |
-| `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-about-section.webp` | 1122x1402 | 1122x1402 | lazy | 38% | no title attr |
-| `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-featured-pins.webp` | 1122x1402 | 1122x1402 | lazy | 45% | no title attr |
-| `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-network-without-spam.webp` | 1122x1402 | 1122x1402 | lazy | 55% | no title attr |
-| `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-open-to-work.webp` | 1122x1402 | 1122x1402 | lazy | 60% | no title attr |
+| `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-headline-formula.webp` | 1122x1402 | 1122x1402 | lazy | 36% | no title attr |
+| `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-about-section.webp` | 1122x1402 | 1122x1402 | lazy | 40% | no title attr |
+| `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-featured-pins.webp` | 1122x1402 | 1122x1402 | lazy | 49% | no title attr |
+| `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-network-without-spam.webp` | 1122x1402 | 1122x1402 | lazy | 60% | no title attr |
+| `linkedin-networking/linkedin-profile-tips-for-freshers-india/linkedin-profile-tips-for-freshers-india-open-to-work.webp` | 1122x1402 | 1122x1402 | lazy | 66% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.

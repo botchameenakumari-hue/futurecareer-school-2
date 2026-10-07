@@ -16,7 +16,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -81,6 +81,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** college-degrees · **Words:** 4173 · **H2 sections:** 16 · **Search priority:** P1 (0 clicks, 282 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/college-degrees/best-courses-after-12th-for-high-salary-india/best-courses-after-12th-high-salary-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Verify fee and salary figures in the quick-comparison table (BTech, BA LLB, BCom+CA, BBA, BCA, BHM, Nursing, BArch, BDes).
@@ -92,11 +94,11 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `college-degrees/best-courses-after-12th-for-high-salary-india/best-courses-after-12th-high-salary-cover.webp` | 1600x900 | 1600x900 | eager | 13% | no title attr |
-| `college-degrees/best-courses-after-12th-for-high-salary-india/best-courses-after-12th-high-salary-quick-comparison.webp` | 1122x1402 | 1122x1402 | lazy | 22% | no title attr |
-| `college-degrees/best-courses-after-12th-for-high-salary-india/salary-number-course-comparison.webp` | 1122x1402 | 1122x1402 | lazy | 48% | no title attr |
-| `college-degrees/best-courses-after-12th-for-high-salary-india/match-course-to-stream.webp` | 1122x1402 | 1122x1402 | lazy | 53% | no title attr |
-| `college-degrees/best-courses-after-12th-for-high-salary-india/four-checkpoint-course-selection.webp` | 1122x1402 | 1122x1402 | lazy | 57% | no title attr |
-| `college-degrees/best-courses-after-12th-for-high-salary-india/course-roi-mistakes.webp` | 1122x1402 | 1122x1402 | lazy | 62% | no title attr |
+| `college-degrees/best-courses-after-12th-for-high-salary-india/best-courses-after-12th-high-salary-quick-comparison.webp` | 1122x1402 | 1122x1402 | lazy | 20% | no title attr |
+| `college-degrees/best-courses-after-12th-for-high-salary-india/salary-number-course-comparison.webp` | 1122x1402 | 1122x1402 | lazy | 50% | no title attr |
+| `college-degrees/best-courses-after-12th-for-high-salary-india/match-course-to-stream.webp` | 1122x1402 | 1122x1402 | lazy | 56% | no title attr |
+| `college-degrees/best-courses-after-12th-for-high-salary-india/four-checkpoint-course-selection.webp` | 1122x1402 | 1122x1402 | lazy | 60% | no title attr |
+| `college-degrees/best-courses-after-12th-for-high-salary-india/course-roi-mistakes.webp` | 1122x1402 | 1122x1402 | lazy | 66% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -127,7 +129,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -208,7 +210,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -289,7 +291,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -370,7 +372,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -451,7 +453,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -524,7 +526,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -597,7 +599,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -670,7 +672,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -743,7 +745,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -816,7 +818,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -889,7 +891,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -962,7 +964,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1035,7 +1037,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1100,6 +1102,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** college-degrees · **Words:** 4599 · **H2 sections:** 18 · **Search priority:** P2 (0 clicks, 26 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/college-degrees/mba-specializations-india/best-mba-specializations-india-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Verify CTC ranges (Rs 8-12 LPA finance, 15-30 LPA top IIMs, etc.) and ROI math (Rs 20-25 lakh cost, 2-4 year break-even).
@@ -1110,12 +1114,12 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `college-degrees/mba-specializations-india/best-mba-specializations-india-1440.webp` | 1440x810 | 1440x811 | eager | 14% | no caption |
-| `college-degrees/mba-specializations-india/seven-mba-specializations-compared-1080.webp` | 1080x1350 | 1080x1350 | lazy | 26% | no title attr |
-| `college-degrees/mba-specializations-india/mba-specialization-by-undergraduate-background-1080.webp` | 1080x1350 | 1080x1350 | lazy | 46% | no title attr |
-| `college-degrees/mba-specializations-india/mba-specialization-roi-math-india-1080.webp` | 1080x1350 | 1080x1350 | lazy | 53% | no title attr |
-| `college-degrees/mba-specializations-india/mba-specialization-four-checkpoint-protocol-1080.webp` | 1080x1350 | 1080x1350 | lazy | 59% | no title attr |
-| `college-degrees/mba-specializations-india/mba-specialization-three-gates-1080.webp` | 1080x1350 | 1080x1350 | lazy | 65% | no title attr |
+| `college-degrees/mba-specializations-india/best-mba-specializations-india-1440.webp` | 1440x810 | 1440x811 | eager | 13% | no caption |
+| `college-degrees/mba-specializations-india/seven-mba-specializations-compared-1080.webp` | 1080x1350 | 1080x1350 | lazy | 25% | no title attr |
+| `college-degrees/mba-specializations-india/mba-specialization-by-undergraduate-background-1080.webp` | 1080x1350 | 1080x1350 | lazy | 47% | no title attr |
+| `college-degrees/mba-specializations-india/mba-specialization-roi-math-india-1080.webp` | 1080x1350 | 1080x1350 | lazy | 56% | no title attr |
+| `college-degrees/mba-specializations-india/mba-specialization-four-checkpoint-protocol-1080.webp` | 1080x1350 | 1080x1350 | lazy | 63% | no title attr |
+| `college-degrees/mba-specializations-india/mba-specialization-three-gates-1080.webp` | 1080x1350 | 1080x1350 | lazy | 70% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -1155,7 +1159,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1228,7 +1232,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1301,7 +1305,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1382,7 +1386,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1463,7 +1467,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1544,7 +1548,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1617,7 +1621,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1690,7 +1694,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1763,7 +1767,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1844,7 +1848,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -1925,7 +1929,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -2006,7 +2010,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -2079,7 +2083,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -2152,7 +2156,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -2225,7 +2229,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -2306,7 +2310,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -2387,7 +2391,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -2468,7 +2472,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -2549,7 +2553,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.
@@ -2622,7 +2626,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `college-degrees-editorial-cover.webp`, `college-degrees-context.webp`, `college-degrees-chain.webp`, `college-degrees-compare.webp`, `college-degrees-proof.webp`, `college-degrees-portfolio.webp`, `college-degrees-at-a-glance.webp`.

@@ -16,7 +16,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `job-search-editorial-cover.webp`, `job-search-context.webp`, `job-search-sequence.webp`, `job-search-research.webp`, `job-search-loop.webp`, `job-search-interview.webp`, `job-search-at-a-glance.webp`.
@@ -89,7 +89,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `job-search-editorial-cover.webp`, `job-search-context.webp`, `job-search-sequence.webp`, `job-search-research.webp`, `job-search-loop.webp`, `job-search-interview.webp`, `job-search-at-a-glance.webp`.
@@ -162,7 +162,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `job-search-editorial-cover.webp`, `job-search-context.webp`, `job-search-sequence.webp`, `job-search-research.webp`, `job-search-loop.webp`, `job-search-interview.webp`, `job-search-at-a-glance.webp`.
@@ -227,6 +227,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** job-search · **Words:** 5311 · **H2 sections:** 18 · **Search priority:** P2 (1 clicks, 97 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/job-search/first-job-after-graduation-india/first-job-after-graduation-india-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 7 authored images on the page (hero + 6 supporting).
 2. Verify "2-8% interview conversion" and "100+ applications".
@@ -238,13 +240,13 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `job-search/first-job-after-graduation-india/first-job-after-graduation-india-cover.webp` | 1600x900 | 1600x900 | eager | 12% | no title attr |
-| `job-search/first-job-after-graduation-india/first-job-search-timeline-india.webp` | 1122x1402 | 1122x1402 | lazy | 24% | no title attr |
-| `job-search/first-job-after-graduation-india/four-job-search-channels-india.webp` | 1122x1402 | 1122x1402 | lazy | 28% | no title attr |
-| `job-search/first-job-after-graduation-india/three-lane-application-split.webp` | 1122x1402 | 1122x1402 | lazy | 41% | no title attr |
-| `job-search/first-job-after-graduation-india/application-to-offer-math-india.webp` | 1122x1402 | 1122x1402 | lazy | 46% | no title attr |
-| `job-search/first-job-after-graduation-india/what-gets-you-shortlisted-first-job.webp` | 1122x1402 | 1122x1402 | lazy | 49% | no title attr |
-| `job-search/first-job-after-graduation-india/after-the-offer-first-job-money-habits.webp` | 1122x1402 | 1122x1402 | lazy | 60% | no title attr |
+| `job-search/first-job-after-graduation-india/first-job-after-graduation-india-cover.webp` | 1600x900 | 1600x900 | eager | 11% | no title attr |
+| `job-search/first-job-after-graduation-india/first-job-search-timeline-india.webp` | 1122x1402 | 1122x1402 | lazy | 22% | no title attr |
+| `job-search/first-job-after-graduation-india/four-job-search-channels-india.webp` | 1122x1402 | 1122x1402 | lazy | 27% | no title attr |
+| `job-search/first-job-after-graduation-india/three-lane-application-split.webp` | 1122x1402 | 1122x1402 | lazy | 42% | no title attr |
+| `job-search/first-job-after-graduation-india/application-to-offer-math-india.webp` | 1122x1402 | 1122x1402 | lazy | 47% | no title attr |
+| `job-search/first-job-after-graduation-india/what-gets-you-shortlisted-first-job.webp` | 1122x1402 | 1122x1402 | lazy | 51% | no title attr |
+| `job-search/first-job-after-graduation-india/after-the-offer-first-job-money-habits.webp` | 1122x1402 | 1122x1402 | lazy | 64% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -267,6 +269,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** job-search · **Words:** 4914 · **H2 sections:** 15 · **Search priority:** P2 (0 clicks, 63 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/job-search/how-to-get-a-job-without-experience-india/how-to-get-a-job-without-experience-india-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 7 authored images on the page (hero + 6 supporting).
 2. Good set. Scheme names (NAPS, PM Internship Scheme, Skill India Digital) must be verified as current.
@@ -275,13 +279,13 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `job-search/how-to-get-a-job-without-experience-india/how-to-get-a-job-without-experience-india-cover.webp` | 1600x900 | 1600x900 | eager | 13% | no title attr |
-| `job-search/how-to-get-a-job-without-experience-india/what-counts-as-experience.webp` | 1122x1402 | 1122x1402 | lazy | 27% | no title attr |
-| `job-search/how-to-get-a-job-without-experience-india/rewrite-experience-gap.webp` | 1122x1402 | 1122x1402 | lazy | 31% | no title attr |
+| `job-search/how-to-get-a-job-without-experience-india/how-to-get-a-job-without-experience-india-cover.webp` | 1600x900 | 1600x900 | eager | 12% | no title attr |
+| `job-search/how-to-get-a-job-without-experience-india/what-counts-as-experience.webp` | 1122x1402 | 1122x1402 | lazy | 25% | no title attr |
+| `job-search/how-to-get-a-job-without-experience-india/rewrite-experience-gap.webp` | 1122x1402 | 1122x1402 | lazy | 30% | no title attr |
 | `job-search/how-to-get-a-job-without-experience-india/portfolio-that-proves-experience.webp` | 1122x1402 | 1122x1402 | lazy | 37% | no title attr |
-| `job-search/how-to-get-a-job-without-experience-india/where-to-aim-first-no-experience.webp` | 1122x1402 | 1122x1402 | lazy | 42% | no title attr |
-| `job-search/how-to-get-a-job-without-experience-india/formal-routes-to-real-experience.webp` | 1122x1402 | 1122x1402 | lazy | 45% | no title attr |
-| `job-search/how-to-get-a-job-without-experience-india/be-useful-first-job-search.webp` | 1122x1402 | 1122x1402 | lazy | 51% | no title attr |
+| `job-search/how-to-get-a-job-without-experience-india/where-to-aim-first-no-experience.webp` | 1122x1402 | 1122x1402 | lazy | 43% | no title attr |
+| `job-search/how-to-get-a-job-without-experience-india/formal-routes-to-real-experience.webp` | 1122x1402 | 1122x1402 | lazy | 47% | no title attr |
+| `job-search/how-to-get-a-job-without-experience-india/be-useful-first-job-search.webp` | 1122x1402 | 1122x1402 | lazy | 53% | no title attr |
 
 **Required actions**
 1. FIX attributes on every kept image: meaningful kebab-case filename; alt that describes what is visible; title attribute; caption (figcaption) for every explanatory image; width/height equal to the real pixel size; `loading="lazy"` below the fold, hero eager with fetchpriority; WebP under 200 KB.
@@ -305,7 +309,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `job-search-editorial-cover.webp`, `job-search-context.webp`, `job-search-sequence.webp`, `job-search-research.webp`, `job-search-loop.webp`, `job-search-interview.webp`, `job-search-at-a-glance.webp`.
@@ -378,7 +382,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `job-search-editorial-cover.webp`, `job-search-context.webp`, `job-search-sequence.webp`, `job-search-research.webp`, `job-search-loop.webp`, `job-search-interview.webp`, `job-search-at-a-glance.webp`.
@@ -451,7 +455,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `job-search-editorial-cover.webp`, `job-search-context.webp`, `job-search-sequence.webp`, `job-search-research.webp`, `job-search-loop.webp`, `job-search-interview.webp`, `job-search-at-a-glance.webp`.
@@ -524,7 +528,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `job-search-editorial-cover.webp`, `job-search-context.webp`, `job-search-sequence.webp`, `job-search-research.webp`, `job-search-loop.webp`, `job-search-interview.webp`, `job-search-at-a-glance.webp`.

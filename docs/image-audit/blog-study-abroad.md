@@ -16,7 +16,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.
@@ -81,6 +81,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** study-abroad · **Words:** 3189 · **H2 sections:** 10 · **Search priority:** P2 (0 clicks, 131 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/study-abroad/canada-vs-germany-masters/canada-vs-germany-masters-india-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 5 authored images on the page (hero + 4 supporting).
 2. Verify costs and rules: CAD 21,100 vs near-zero tuition, living CAD 25,000 vs EUR 11,200, 18-month job-seeker permit, 3-year PGWP.
@@ -90,11 +92,11 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `study-abroad/canada-vs-germany-masters/canada-vs-germany-masters-india-1440.webp` | 1440x810 | 1440x811 | eager | 18% | no caption |
-| `study-abroad/canada-vs-germany-masters/masters-cost-canada-vs-germany-1080.webp` | 1080x1350 | 1080x1350 | lazy | 33% | ok |
-| `study-abroad/canada-vs-germany-masters/canada-vs-germany-post-study-path-1080.webp` | 1080x1350 | 1080x1350 | lazy | 41% | ok |
-| `study-abroad/canada-vs-germany-masters/canada-vs-germany-best-fit-by-field-1080.webp` | 1080x1350 | 1080x1350 | lazy | 53% | ok |
-| `study-abroad/canada-vs-germany-masters/canada-vs-germany-decision-filter-1080.webp` | 1080x1350 | 1080x1350 | lazy | 64% | ok |
+| `study-abroad/canada-vs-germany-masters/canada-vs-germany-masters-india-1440.webp` | 1440x810 | 1440x811 | eager | 17% | no caption |
+| `study-abroad/canada-vs-germany-masters/masters-cost-canada-vs-germany-1080.webp` | 1080x1350 | 1080x1350 | lazy | 36% | ok |
+| `study-abroad/canada-vs-germany-masters/canada-vs-germany-post-study-path-1080.webp` | 1080x1350 | 1080x1350 | lazy | 45% | ok |
+| `study-abroad/canada-vs-germany-masters/canada-vs-germany-best-fit-by-field-1080.webp` | 1080x1350 | 1080x1350 | lazy | 59% | ok |
+| `study-abroad/canada-vs-germany-masters/canada-vs-germany-decision-filter-1080.webp` | 1080x1350 | 1080x1350 | lazy | 72% | ok |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -134,7 +136,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.
@@ -199,6 +201,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** study-abroad · **Words:** 3203 · **H2 sections:** 9 · **Search priority:** P2 (0 clicks, 26 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/study-abroad/ms-usa-roi/ms-in-usa-worth-it-indian-students-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Verify H1B selection odds by wage level (15%, 31%, 46%, 61%), OPT 12 vs 36 months, cost bands, USD 70k-98k earnings.
@@ -210,11 +214,11 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `study-abroad/ms-usa-roi/ms-in-usa-worth-it-indian-students-1440.webp` | 1440x810 | 1440x811 | eager | 17% | no caption |
-| `study-abroad/ms-usa-roi/four-checks-before-ms-in-usa-1080.webp` | 1080x1350 | 1080x1350 | lazy | 27% | ok |
-| `study-abroad/ms-usa-roi/ms-usa-cost-by-university-tier-1080.webp` | 1080x1350 | 1080x1350 | lazy | 36% | ok |
-| `study-abroad/ms-usa-roi/ms-usa-earnings-opt-window-1080.webp` | 1080x1350 | 1080x1350 | lazy | 42% | ok |
-| `study-abroad/ms-usa-roi/h1b-selection-odds-by-wage-level-1080.webp` | 1080x1350 | 1080x1350 | lazy | 48% | ok |
-| `study-abroad/ms-usa-roi/ms-usa-vs-stay-in-india-decision-filter-1080.webp` | 1080x1350 | 1080x1350 | lazy | 62% | ok |
+| `study-abroad/ms-usa-roi/four-checks-before-ms-in-usa-1080.webp` | 1080x1350 | 1080x1350 | lazy | 28% | ok |
+| `study-abroad/ms-usa-roi/ms-usa-cost-by-university-tier-1080.webp` | 1080x1350 | 1080x1350 | lazy | 39% | ok |
+| `study-abroad/ms-usa-roi/ms-usa-earnings-opt-window-1080.webp` | 1080x1350 | 1080x1350 | lazy | 47% | ok |
+| `study-abroad/ms-usa-roi/h1b-selection-odds-by-wage-level-1080.webp` | 1080x1350 | 1080x1350 | lazy | 53% | ok |
+| `study-abroad/ms-usa-roi/ms-usa-vs-stay-in-india-decision-filter-1080.webp` | 1080x1350 | 1080x1350 | lazy | 69% | ok |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -245,7 +249,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.
@@ -318,7 +322,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.
@@ -391,7 +395,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.
@@ -464,7 +468,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.
@@ -537,7 +541,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.
@@ -610,7 +614,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.
@@ -683,7 +687,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.
@@ -756,7 +760,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.
@@ -829,7 +833,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.
@@ -894,6 +898,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** study-abroad · **Words:** 3775 · **H2 sections:** 11 · **Search priority:** P3 (0 clicks, 12 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/study-abroad/scholarships-study-abroad/scholarships-for-study-abroad-indian-students-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 5 authored images on the page (hero + 4 supporting).
 2. Clean set; verify named schemes (Fulbright-Nehru, Chevening, Commonwealth, DAAD) are current.
@@ -904,10 +910,10 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `study-abroad/scholarships-study-abroad/scholarships-for-study-abroad-indian-students-1440.webp` | 1440x810 | 1440x811 | eager | 16% | no caption |
-| `study-abroad/scholarships-study-abroad/three-study-abroad-scholarship-tiers-1080.webp` | 1080x1350 | 1080x1350 | lazy | 25% | ok |
-| `study-abroad/scholarships-study-abroad/build-competitive-scholarship-application-1080.webp` | 1080x1350 | 1080x1350 | lazy | 48% | ok |
-| `study-abroad/scholarships-study-abroad/study-abroad-scholarship-scam-check-1080.webp` | 1080x1350 | 1080x1350 | lazy | 54% | ok |
-| `study-abroad/scholarships-study-abroad/study-abroad-scholarship-application-timeline-1080.webp` | 1080x1350 | 1080x1350 | lazy | 62% | ok |
+| `study-abroad/scholarships-study-abroad/three-study-abroad-scholarship-tiers-1080.webp` | 1080x1350 | 1080x1350 | lazy | 26% | ok |
+| `study-abroad/scholarships-study-abroad/build-competitive-scholarship-application-1080.webp` | 1080x1350 | 1080x1350 | lazy | 53% | ok |
+| `study-abroad/scholarships-study-abroad/study-abroad-scholarship-scam-check-1080.webp` | 1080x1350 | 1080x1350 | lazy | 60% | ok |
+| `study-abroad/scholarships-study-abroad/study-abroad-scholarship-application-timeline-1080.webp` | 1080x1350 | 1080x1350 | lazy | 69% | ok |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -947,7 +953,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `study-abroad-editorial-cover.webp`, `study-abroad-context.webp`, `study-abroad-filters.webp`, `study-abroad-family.webp`, `study-abroad-chain.webp`, `study-abroad-research.webp`, `study-abroad-at-a-glance.webp`.

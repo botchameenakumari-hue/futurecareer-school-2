@@ -16,7 +16,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -95,14 +95,14 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-cover.webp` | 1600x800 | 1600x1000 | eager | 8% | width/height attributes do not match the file |
-| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-forces.webp` | 1600x800 | 1600x1000 | lazy | 13% | width/height attributes do not match the file |
-| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-path-map.webp` | 1536x1024 | 1600x1000 | lazy | 16% | width/height attributes do not match the file |
-| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-decline-pivot.webp` | 1536x1024 | 1600x1000 | lazy | 52% | width/height attributes do not match the file |
-| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-checkpoint.webp` | 1536x1024 | 1600x1000 | lazy | 62% | width/height attributes do not match the file |
-| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-proof-stack.webp` | 1536x1024 | 1600x1000 | lazy | 65% | width/height attributes do not match the file |
+| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-cover.webp` | 1600x800 | 1600x1000 | eager | 7% | width/height attributes do not match the file |
+| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-forces.webp` | 1600x800 | 1600x1000 | lazy | 11% | width/height attributes do not match the file |
+| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-path-map.webp` | 1536x1024 | 1600x1000 | lazy | 14% | width/height attributes do not match the file |
+| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-decline-pivot.webp` | 1536x1024 | 1600x1000 | lazy | 54% | width/height attributes do not match the file |
+| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-checkpoint.webp` | 1536x1024 | 1600x1000 | lazy | 64% | width/height attributes do not match the file |
+| `ai-future/best-career-paths-for-the-next-10-years/best-career-paths-for-the-next-10-years-proof-stack.webp` | 1536x1024 | 1600x1000 | lazy | 68% | width/height attributes do not match the file |
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 95%, 95%, 95%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 94%, 95%, 95%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -171,7 +171,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 84%, 85%, 86%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -236,6 +236,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** ai-future · **Words:** 2949 · **H2 sections:** 13 · **Search priority:** P2 (0 clicks, 33 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/ai-future/ai-and-human-skills-needed-india/ai-human-skills-needed-india-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Hero is a small illustrated notebook spread, not a natural human scene; acceptable but weakest image on the page.
@@ -248,11 +250,11 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `ai-future/ai-and-human-skills-needed-india/ai-human-skills-needed-india-cover.webp` | 1600x900 | 1600x900 | eager | 16% | no title attr |
-| `ai-future/ai-and-human-skills-needed-india/skills-demand-shift-snapshot-india.webp` | 1122x1402 | 1122x1402 | lazy | 29% | no title attr |
-| `ai-future/ai-and-human-skills-needed-india/rising-skills-global-wef-2030.webp` | 1122x1402 | 1122x1402 | lazy | 35% | no title attr |
-| `ai-future/ai-and-human-skills-needed-india/declining-skills-workplace-differentiators.webp` | 1122x1402 | 1122x1402 | lazy | 41% | no title attr |
-| `ai-future/ai-and-human-skills-needed-india/india-skills-demand-supply-employability.webp` | 1122x1402 | 1122x1402 | lazy | 45% | no title attr |
-| `ai-future/ai-and-human-skills-needed-india/global-vs-india-skills-demand-comparison.webp` | 1122x1402 | 1122x1402 | lazy | 49% | no title attr |
+| `ai-future/ai-and-human-skills-needed-india/skills-demand-shift-snapshot-india.webp` | 1122x1402 | 1122x1402 | lazy | 28% | no title attr |
+| `ai-future/ai-and-human-skills-needed-india/rising-skills-global-wef-2030.webp` | 1122x1402 | 1122x1402 | lazy | 36% | no title attr |
+| `ai-future/ai-and-human-skills-needed-india/declining-skills-workplace-differentiators.webp` | 1122x1402 | 1122x1402 | lazy | 43% | no title attr |
+| `ai-future/ai-and-human-skills-needed-india/india-skills-demand-supply-employability.webp` | 1122x1402 | 1122x1402 | lazy | 48% | no title attr |
+| `ai-future/ai-and-human-skills-needed-india/global-vs-india-skills-demand-comparison.webp` | 1122x1402 | 1122x1402 | lazy | 52% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -275,6 +277,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** ai-future · **Words:** 2267 · **H2 sections:** 9 · **Search priority:** P2 (0 clicks, 56 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/ai-future/careers-that-will-survive-ai-india/careers-that-will-survive-ai-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 5 authored images on the page (hero + 4 supporting).
 2. Hero is a four-person illustrated collage; acceptable.
@@ -286,11 +290,11 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `ai-future/careers-that-will-survive-ai-india/careers-that-will-survive-ai-cover.webp` | 1600x900 | 1600x900 | eager | 20% | no title attr |
-| `ai-future/careers-that-will-survive-ai-india/four-kinds-of-work-ai-struggles-to-replace.webp` | 1122x1402 | 1122x1402 | lazy | 32% | no title attr |
-| `ai-future/careers-that-will-survive-ai-india/careers-stable-but-entry-level-eroding.webp` | 1122x1402 | 1122x1402 | lazy | 43% | no title attr |
-| `ai-future/careers-that-will-survive-ai-india/automation-resistant-vs-absorbed-work.webp` | 1122x1402 | 1122x1402 | lazy | 54% | no title attr |
-| `ai-future/careers-that-will-survive-ai-india/four-filter-career-check.webp` | 1122x1402 | 1122x1402 | lazy | 58% | no title attr |
+| `ai-future/careers-that-will-survive-ai-india/careers-that-will-survive-ai-cover.webp` | 1600x900 | 1600x900 | eager | 21% | no title attr |
+| `ai-future/careers-that-will-survive-ai-india/four-kinds-of-work-ai-struggles-to-replace.webp` | 1122x1402 | 1122x1402 | lazy | 33% | no title attr |
+| `ai-future/careers-that-will-survive-ai-india/careers-stable-but-entry-level-eroding.webp` | 1122x1402 | 1122x1402 | lazy | 46% | no title attr |
+| `ai-future/careers-that-will-survive-ai-india/automation-resistant-vs-absorbed-work.webp` | 1122x1402 | 1122x1402 | lazy | 61% | no title attr |
+| `ai-future/careers-that-will-survive-ai-india/four-filter-career-check.webp` | 1122x1402 | 1122x1402 | lazy | 66% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -330,7 +334,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -411,7 +415,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -492,7 +496,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 85%, 86%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -565,7 +569,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -638,7 +642,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -703,24 +707,25 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** ai-future · **Words:** 5756 · **H2 sections:** 23 · **Search priority:** P3 (0 clicks, 0 impressions)  
 **Status: RED — CROPPED / BROKEN SET** · og:image: /images/blog/ai-future/artificial-intelligence-career-paths/visual-1-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
-1. 6 authored images on the page (hero + 5 supporting).
-2. Files are named visual-2..visual-6 (not meaningful).
-3. Every supporting image is a tall infographic centre-cropped to 16:9, so step 1, headings and footers are cut off (checked visual-3: step 1 and the title are missing).
-4. visual-7.webp is referenced by the page but does not exist (broken image).
-5. visual-1.webp and the *-social.jpg files exist but are not used as the page hero.
-6. No natural hero image.
-7. BROKEN IMAGE: `/images/blog/ai-future/artificial-intelligence-career-paths/visual-7.webp`
-8. 6 of 6 images have no title attribute.
-9. Numbers read from the images (OCR) that do not appear in the article text, verify or remove: `visual-4.webp`: 007. OCR can misread, so check by eye.
+1. 7 authored images on the page (hero + 6 supporting).
+2. Files are named visual-1..visual-6 (not meaningful).
+3. The hero (visual-1) and every supporting image are tall infographics centre-cropped to 16:9, so titles, step 1 and footers are cut off (checked visual-3: step 1 and the title are missing; the hero shows the middle of the infographic with no title).
+4. visual-7.webp is referenced by the page (seventh image) but does not exist (broken image).
+5. BROKEN IMAGE: `/images/blog/ai-future/artificial-intelligence-career-paths/visual-7.webp`
+6. 7 of 7 images have no title attribute.
+7. Numbers read from the images (OCR) that do not appear in the article text, verify or remove: `visual-4.webp`: 007. OCR can misread, so check by eye.
 
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
+| `ai-future/artificial-intelligence-career-paths/visual-1-social.jpg` | 1200x675 | 1200x675 | eager | 9% | no title attr; non-meaningful filename |
 | `ai-future/artificial-intelligence-career-paths/visual-2.webp` | 1200x675 | 1200x675 | lazy | 12% | no title attr; non-meaningful filename |
-| `ai-future/artificial-intelligence-career-paths/visual-3.webp` | 1200x675 | 1200x675 | lazy | 13% | no title attr; non-meaningful filename |
+| `ai-future/artificial-intelligence-career-paths/visual-3.webp` | 1200x675 | 1200x675 | lazy | 12% | no title attr; non-meaningful filename |
 | `ai-future/artificial-intelligence-career-paths/visual-4.webp` | 1200x675 | 1200x675 | lazy | 13% | no title attr; non-meaningful filename |
-| `ai-future/artificial-intelligence-career-paths/visual-5.webp` | 1200x675 | 1200x675 | lazy | 14% | no title attr; non-meaningful filename |
+| `ai-future/artificial-intelligence-career-paths/visual-5.webp` | 1200x675 | 1200x675 | lazy | 13% | no title attr; non-meaningful filename |
 | `ai-future/artificial-intelligence-career-paths/visual-6.webp` | 1200x675 | 1200x675 | lazy | 14% | no title attr; non-meaningful filename |
 | `ai-future/artificial-intelligence-career-paths/visual-7.webp` | MISSING FILE | 1200x675 | lazy | 14% | FILE MISSING; no title attr; non-meaningful filename |
 
@@ -732,7 +737,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 - Alt: describe what is visible and why it fits this article (not generic).
 - Title attribute: Artificial intelligence career paths: the real map, not the hype
 - Caption: one sentence tying the scene to the article's decision.
-2. REPLACE all 5 cropped visuals with full, uncropped, properly named files (the uncropped originals are not in the repo, so regenerate them at their native tall ratio, for example 1080×1350 portrait, with the full title, every step and the footer visible; do not centre-crop to 16:9).
+2. REPLACE all 6 cropped visuals with full, uncropped, properly named files (the uncropped originals are not in the repo, so regenerate them at their native tall ratio, for example 1080×1350 portrait, with the full title, every step and the footer visible; do not centre-crop to 16:9).
 3. CREATE 6 supporting visuals (replacing the cropped set):
 **V1 — At-a-glance key-takeaways summary card** (after the intro, before the first H2)
 - File: `artificial-intelligence-career-paths-at-a-glance-summary.webp` · 1600×1000 landscape WebP (or portrait 1080×1350 if the content needs it), under 200 KB
@@ -803,7 +808,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -876,7 +881,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 88%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 85%, 86%, 87%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -949,7 +954,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -1022,7 +1027,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -1095,7 +1100,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 92%, 93%, 93%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 91%, 92%, 92%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.
@@ -1168,7 +1173,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `ai-future-editorial-cover.webp`, `ai-future-context.webp`, `ai-future-proof.webp`, `ai-future-assistant.webp`, `ai-future-portfolio.webp`, `ai-future-experiment.webp`, `ai-future-at-a-glance.webp`.

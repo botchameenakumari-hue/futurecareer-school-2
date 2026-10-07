@@ -16,7 +16,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `portfolio-proof-of-work-editorial-cover.webp`, `portfolio-proof-of-work-context.webp`, `portfolio-proof-brief.webp`, `portfolio-proof-building.webp`, `portfolio-proof-sequence.webp`, `portfolio-proof-present.webp`, `portfolio-proof-of-work-at-a-glance.webp`.

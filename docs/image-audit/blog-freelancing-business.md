@@ -8,31 +8,35 @@
 **Category:** freelancing-business · **Words:** 4005 · **H2 sections:** 17 · **Search priority:** P1 (4 clicks, 1455 impressions)  
 **Status: RED — CROPPED / BROKEN SET** · og:image: /images/blog/freelancing-business/best-freelance-skills-in-demand-india/visual-1-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
-1. 5 authored images on the page (hero + 4 supporting).
-2. Files are named visual-2..visual-6.
-3. Tall infographics are centre-cropped to 16:9: the demand-vs-competition chart, the skill table and the pathway are cut at the top and bottom.
-4. No natural hero image; 5 supporting visuals only.
-5. 5 of 5 images have no title attribute.
+1. 6 authored images on the page (hero + 5 supporting).
+2. Files are named visual-1..visual-6.
+3. The hero (visual-1) is an acceptable desk flat-lay with a hand-drawn demand chart, but it has a cosmetic fake chart (not the real data).
+4. The five supporting images are tall infographics centre-cropped to 16:9: the demand-vs-competition chart, the skill table and the pathway are cut at the top and bottom.
+5. Hero is a graphic/flat-lay/illustration rather than a natural human scene. Keep it only if it is clear; otherwise add a natural editorial hero.
+6. 6 of 6 images have no title attribute.
 
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
+| `freelancing-business/best-freelance-skills-in-demand-india/visual-1-social.jpg` | 1200x675 | 1200x675 | eager | 14% | no title attr; non-meaningful filename |
 | `freelancing-business/best-freelance-skills-in-demand-india/visual-2.webp` | 1200x675 | 1200x675 | lazy | 15% | no title attr; non-meaningful filename |
 | `freelancing-business/best-freelance-skills-in-demand-india/visual-3.webp` | 1200x675 | 1200x675 | lazy | 16% | no title attr; non-meaningful filename |
-| `freelancing-business/best-freelance-skills-in-demand-india/visual-4.webp` | 1200x675 | 1200x675 | lazy | 17% | no title attr; non-meaningful filename |
+| `freelancing-business/best-freelance-skills-in-demand-india/visual-4.webp` | 1200x675 | 1200x675 | lazy | 16% | no title attr; non-meaningful filename |
 | `freelancing-business/best-freelance-skills-in-demand-india/visual-5.webp` | 1200x675 | 1200x675 | lazy | 17% | no title attr; non-meaningful filename |
 | `freelancing-business/best-freelance-skills-in-demand-india/visual-6.webp` | 1200x675 | 1200x675 | lazy | 18% | no title attr; non-meaningful filename |
 
 **Required actions**
-1. CREATE hero:
-- Reason: current hero is cropped or missing
+1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
+- Reason: current hero is a graphic, not a human scene
 - File: `best-freelance-skills-in-demand-india-hero.webp`, 1600×900, WebP under 150 KB, `loading="eager"` + `fetchpriority="high"`, also export `best-freelance-skills-in-demand-india-social.jpg` 1200×630 and set it as og:image/twitter:image
 - Scene: documentary photograph, natural light. Top-down desk view with hands in frame of a learner at a laptop with a small project, a family dining table in the evening. Props that belong to “Best freelance skills in demand India: ranked by demand vs real competition”: a client brief, a pricing notebook, a laptop. Candid gesture, believable Indian clothing and surroundings, restrained palette (ink blue, forest green, olive, clay, saffron, cream). No readable text unless a very short title treatment genuinely helps. Do not reuse the same desk, pose or person as other articles.
 - Alt: describe what is visible and why it fits this article (not generic).
 - Title attribute: Best freelance skills in demand India: ranked by demand vs real…
 - Caption: one sentence tying the scene to the article's decision.
-2. REPLACE all 4 cropped visuals with full, uncropped, properly named files (the uncropped originals are not in the repo, so regenerate them at their native tall ratio, for example 1080×1350 portrait, with the full title, every step and the footer visible; do not centre-crop to 16:9).
+2. REPLACE all 5 cropped visuals with full, uncropped, properly named files (the uncropped originals are not in the repo, so regenerate them at their native tall ratio, for example 1080×1350 portrait, with the full title, every step and the footer visible; do not centre-crop to 16:9).
 3. CREATE 5 supporting visuals (replacing the cropped set):
 **V1 — At-a-glance key-takeaways summary card** (after the intro, before the first H2)
 - File: `best-freelance-skills-in-demand-india-at-a-glance-summary.webp` · 1600×1000 landscape WebP (or portrait 1080×1350 if the content needs it), under 200 KB
@@ -95,7 +99,7 @@
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `freelancing-business-editorial-cover.webp`, `freelancing-business-context.webp`, `freelancing-business-sequence.webp`, `freelancing-business-offer.webp`, `freelancing-business-proof.webp`, `freelancing-business-delivery.webp`, `freelancing-business-at-a-glance.webp`.
@@ -168,7 +172,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `freelancing-business-editorial-cover.webp`, `freelancing-business-context.webp`, `freelancing-business-sequence.webp`, `freelancing-business-offer.webp`, `freelancing-business-proof.webp`, `freelancing-business-delivery.webp`, `freelancing-business-at-a-glance.webp`.
@@ -241,7 +245,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 85%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `freelancing-business-editorial-cover.webp`, `freelancing-business-context.webp`, `freelancing-business-sequence.webp`, `freelancing-business-offer.webp`, `freelancing-business-proof.webp`, `freelancing-business-delivery.webp`, `freelancing-business-at-a-glance.webp`.
@@ -314,7 +318,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 84%, 85%, 86%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `freelancing-business-editorial-cover.webp`, `freelancing-business-context.webp`, `freelancing-business-sequence.webp`, `freelancing-business-offer.webp`, `freelancing-business-proof.webp`, `freelancing-business-delivery.webp`, `freelancing-business-at-a-glance.webp`.
@@ -387,7 +391,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 92%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `freelancing-business-editorial-cover.webp`, `freelancing-business-context.webp`, `freelancing-business-sequence.webp`, `freelancing-business-offer.webp`, `freelancing-business-proof.webp`, `freelancing-business-delivery.webp`, `freelancing-business-at-a-glance.webp`.
@@ -460,6 +464,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** freelancing-business · **Words:** 3395 · **H2 sections:** 9 · **Search priority:** P2 (0 clicks, 96 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/freelancing-business/freelancing-vs-job-india/freelancing-vs-job-india-cover-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 5 authored images on the page (hero + 4 supporting).
 2. Hero (cover-social) is a cropped illustration.
@@ -469,11 +475,11 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `freelancing-business/freelancing-vs-job-india/freelancing-vs-job-india-cover-social.jpg` | 1200x675 | 1200x675 | eager | 17% | no title attr |
+| `freelancing-business/freelancing-vs-job-india/freelancing-vs-job-india-cover-social.jpg` | 1200x675 | 1200x675 | eager | 16% | no title attr |
 | `freelancing-business/freelancing-vs-job-india/freelancing-vs-job-fit-comparison.webp` | 1122x1402 | 1122x1402 | lazy | 26% | no title attr |
-| `freelancing-business/freelancing-vs-job-india/freelancing-money-protection-reality.webp` | 1122x1402 | 1122x1402 | lazy | 33% | no title attr |
-| `freelancing-business/freelancing-vs-job-india/freelancing-vs-job-fit-check.webp` | 1122x1402 | 1122x1402 | lazy | 57% | no title attr |
-| `freelancing-business/freelancing-vs-job-india/freelancing-mistakes-and-fixes.webp` | 1122x1402 | 1122x1402 | lazy | 63% | no title attr |
+| `freelancing-business/freelancing-vs-job-india/freelancing-money-protection-reality.webp` | 1122x1402 | 1122x1402 | lazy | 34% | no title attr |
+| `freelancing-business/freelancing-vs-job-india/freelancing-vs-job-fit-check.webp` | 1122x1402 | 1122x1402 | lazy | 63% | no title attr |
+| `freelancing-business/freelancing-vs-job-india/freelancing-mistakes-and-fixes.webp` | 1122x1402 | 1122x1402 | lazy | 71% | no title attr |
 
 **Required actions**
 1. CREATE hero:
@@ -513,7 +519,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `freelancing-business-editorial-cover.webp`, `freelancing-business-context.webp`, `freelancing-business-sequence.webp`, `freelancing-business-offer.webp`, `freelancing-business-proof.webp`, `freelancing-business-delivery.webp`, `freelancing-business-at-a-glance.webp`.
@@ -586,7 +592,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `freelancing-business-editorial-cover.webp`, `freelancing-business-context.webp`, `freelancing-business-sequence.webp`, `freelancing-business-offer.webp`, `freelancing-business-proof.webp`, `freelancing-business-delivery.webp`, `freelancing-business-at-a-glance.webp`.
@@ -667,7 +673,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 90%, 91%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `freelancing-business-editorial-cover.webp`, `freelancing-business-context.webp`, `freelancing-business-sequence.webp`, `freelancing-business-offer.webp`, `freelancing-business-proof.webp`, `freelancing-business-delivery.webp`, `freelancing-business-at-a-glance.webp`.
@@ -740,7 +746,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 88%, 89%, 90%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 86%, 87%, 88%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `freelancing-business-editorial-cover.webp`, `freelancing-business-context.webp`, `freelancing-business-sequence.webp`, `freelancing-business-offer.webp`, `freelancing-business-proof.webp`, `freelancing-business-delivery.webp`, `freelancing-business-at-a-glance.webp`.
@@ -813,7 +819,7 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 
 **Current images**
 
-Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 89%, 90%, 91%… of the page, i.e. after the article).
+Generic/template images present: 7 category, 3 page-card, 0 page-context (positions 87%, 88%, 89%… of the page, i.e. after the article).
 
 **Required actions**
 1. REMOVE the category images from this route: `freelancing-business-editorial-cover.webp`, `freelancing-business-context.webp`, `freelancing-business-sequence.webp`, `freelancing-business-offer.webp`, `freelancing-business-proof.webp`, `freelancing-business-delivery.webp`, `freelancing-business-at-a-glance.webp`.
@@ -878,30 +884,27 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 **Category:** freelancing-business · **Words:** 3586 · **H2 sections:** 11 · **Search priority:** P3 (0 clicks, 6 impressions)  
 **Status: RED — CROPPED / BROKEN SET** · og:image: /images/blog/freelancing-business/how-to-start-freelancing/visual-1-social.jpg
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
-1. 4 authored images on the page (hero + 3 supporting).
-2. Only four images, named visual-2..visual-5, all centre-cropped from tall infographics (step 1 and headings are cut).
-3. Below the five-supporting-visual target and no hero.
-4. 4 of 4 images have no title attribute.
+1. 5 authored images on the page (hero + 4 supporting).
+2. Files are named visual-1..visual-5.
+3. The hero (visual-1) is a good natural desk scene.
+4. Only four supporting images, all centre-cropped from tall infographics (step 1 and headings are cut). Below the five-supporting-visual target.
+5. 5 of 5 images have no title attribute.
 
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
+| `freelancing-business/how-to-start-freelancing/visual-1-social.jpg` | 1200x675 | 1200x675 | eager | 16% | no title attr; non-meaningful filename |
 | `freelancing-business/how-to-start-freelancing/visual-2.webp` | 1200x675 | 1200x675 | lazy | 17% | no title attr; non-meaningful filename |
 | `freelancing-business/how-to-start-freelancing/visual-3.webp` | 1200x675 | 1200x675 | lazy | 18% | no title attr; non-meaningful filename |
 | `freelancing-business/how-to-start-freelancing/visual-4.webp` | 1200x675 | 1200x675 | lazy | 19% | no title attr; non-meaningful filename |
-| `freelancing-business/how-to-start-freelancing/visual-5.webp` | 1200x675 | 1200x675 | lazy | 19% | no title attr; non-meaningful filename |
+| `freelancing-business/how-to-start-freelancing/visual-5.webp` | 1200x675 | 1200x675 | lazy | 20% | no title attr; non-meaningful filename |
 
 **Required actions**
-1. CREATE hero:
-- Reason: current hero is cropped or missing
-- File: `how-to-start-freelancing-hero.webp`, 1600×900, WebP under 150 KB, `loading="eager"` + `fetchpriority="high"`, also export `how-to-start-freelancing-social.jpg` 1200×630 and set it as og:image/twitter:image
-- Scene: documentary photograph, natural light. Top-down desk view with hands in frame of an independent freelancer at a neighbourhood workspace, a quiet corner of a library. Props that belong to “How to Start Freelancing in India: The Playbook Before You Quit Your Job”: a client brief, a pricing notebook, a laptop. Candid gesture, believable Indian clothing and surroundings, restrained palette (ink blue, forest green, olive, clay, saffron, cream). No readable text unless a very short title treatment genuinely helps. Do not reuse the same desk, pose or person as other articles.
-- Alt: describe what is visible and why it fits this article (not generic).
-- Title attribute: How to Start Freelancing in India: The Playbook Before You Quit Your…
-- Caption: one sentence tying the scene to the article's decision.
-2. REPLACE all 3 cropped visuals with full, uncropped, properly named files (the uncropped originals are not in the repo, so regenerate them at their native tall ratio, for example 1080×1350 portrait, with the full title, every step and the footer visible; do not centre-crop to 16:9).
-3. CREATE 5 supporting visuals (replacing the cropped set):
+1. REPLACE all 4 cropped visuals with full, uncropped, properly named files (the uncropped originals are not in the repo, so regenerate them at their native tall ratio, for example 1080×1350 portrait, with the full title, every step and the footer visible; do not centre-crop to 16:9).
+2. CREATE 5 supporting visuals (replacing the cropped set):
 **V1 — At-a-glance key-takeaways summary card** (after the intro, before the first H2)
 - File: `how-to-start-freelancing-at-a-glance-summary.webp` · 1600×1000 landscape WebP (or portrait 1080×1350 if the content needs it), under 200 KB
 - Teaches: How to start freelancing in India without quitting blind: pick a sellable skill, build minimal proof, price…
@@ -942,8 +945,8 @@ Generic/template images present: 7 category, 3 page-card, 0 page-context (positi
 - Alt: Stat panel or bar chart (only the numbers listed) for “The money runway before you go full-time”: Build an emergency buffer first. A…; Track real, paid income, not…
 - Title attribute: The money runway before you go full-time
 - Caption (also keep the key point in the HTML text): Going full-time freelance is a financial decision before it is a career decision.
-4. FIX attributes on every kept image: meaningful kebab-case filename; alt that describes what is visible; title attribute; caption (figcaption) for every explanatory image; width/height equal to the real pixel size; `loading="lazy"` below the fold, hero eager with fetchpriority; WebP under 200 KB.
-5. Mobile check at 390px: no horizontal overflow, text inside images readable without zoom (body text on the image at least about 16 px when the image is displayed at 360 px wide), captions wrap.
+3. FIX attributes on every kept image: meaningful kebab-case filename; alt that describes what is visible; title attribute; caption (figcaption) for every explanatory image; width/height equal to the real pixel size; `loading="lazy"` below the fold, hero eager with fetchpriority; WebP under 200 KB.
+4. Mobile check at 390px: no horizontal overflow, text inside images readable without zoom (body text on the image at least about 16 px when the image is displayed at 360 px wide), captions wrap.
 
 **Done when:** hero + 5 explanatory visuals are in the article body (spread through the page, not clustered), every image has alt + title (+ caption where it teaches), no generic category/page-card files remain for this route, `pnpm verify` passes, and the page looks right at 390 px and 1280 px.
 

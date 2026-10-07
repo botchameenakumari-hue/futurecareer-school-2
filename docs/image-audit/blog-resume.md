@@ -8,6 +8,8 @@
 **Category:** resume · **Words:** 2057 · **H2 sections:** 12 · **Search priority:** P3 (0 clicks, 19 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/resume/good-career-objective-for-resume/good-career-objective-for-resume-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 6 authored images on the page (hero + 5 supporting).
 2. Hero resume shows an invented name (Taylor Kim); fine as a sample but should be labelled "sample".
@@ -17,12 +19,12 @@
 **Current images**
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
-| `resume/good-career-objective-for-resume/good-career-objective-for-resume-cover.webp` | 1600x900 | 1600x900 | eager | 19% | no title attr |
-| `resume/good-career-objective-for-resume/good-career-objective-formula.webp` | 1122x1402 | 1122x1402 | lazy | 30% | no title attr |
-| `resume/good-career-objective-for-resume/career-objective-vs-resume-summary.webp` | 1122x1402 | 1122x1402 | lazy | 47% | no title attr |
-| `resume/good-career-objective-for-resume/ats-and-career-objective.webp` | 1122x1402 | 1122x1402 | lazy | 52% | no title attr |
-| `resume/good-career-objective-for-resume/career-objective-mistakes-to-avoid.webp` | 1122x1402 | 1122x1402 | lazy | 53% | no title attr |
-| `resume/good-career-objective-for-resume/career-objective-self-check.webp` | 1122x1402 | 1122x1402 | lazy | 60% | no title attr |
+| `resume/good-career-objective-for-resume/good-career-objective-for-resume-cover.webp` | 1600x900 | 1600x900 | eager | 20% | no title attr |
+| `resume/good-career-objective-for-resume/good-career-objective-formula.webp` | 1122x1402 | 1122x1402 | lazy | 29% | no title attr |
+| `resume/good-career-objective-for-resume/career-objective-vs-resume-summary.webp` | 1122x1402 | 1122x1402 | lazy | 51% | no title attr |
+| `resume/good-career-objective-for-resume/ats-and-career-objective.webp` | 1122x1402 | 1122x1402 | lazy | 57% | no title attr |
+| `resume/good-career-objective-for-resume/career-objective-mistakes-to-avoid.webp` | 1122x1402 | 1122x1402 | lazy | 59% | no title attr |
+| `resume/good-career-objective-for-resume/career-objective-self-check.webp` | 1122x1402 | 1122x1402 | lazy | 67% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.
@@ -45,6 +47,8 @@
 **Category:** resume · **Words:** 3414 · **H2 sections:** 13 · **Search priority:** P3 (0 clicks, 6 impressions)  
 **Status: AMBER — AUTHORED** · og:image: /images/blog/resume/resume-tips-for-freshers-india/resume-tips-for-freshers-india-cover.webp
 
+> **ON THE OWNER'S EXCLUSION LIST.** This route was explicitly excluded in the earlier visual brief (38 routes, listed in the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1). Do not create or replace images here unless the owner confirms. The findings below are for the owner's decision.
+
 **Findings**
 1. 7 authored images on the page (hero + 6 supporting).
 2. The "4-Checkpoint Protocol Before You Send" image forces the site framework onto a resume checklist; consider replacing it with a resume self-check.
@@ -57,12 +61,12 @@
 | File | Real size | Attr size | Loading | Position | Issues |
 |---|---|---|---|---|---|
 | `resume/resume-tips-for-freshers-india/resume-tips-for-freshers-india-cover.webp` | 1600x900 | 1600x900 | eager | 15% | no title attr |
-| `resume/resume-tips-for-freshers-india/fresher-resume-section-order.webp` | 1122x1402 | 1122x1402 | lazy | 28% | no title attr |
-| `resume/resume-tips-for-freshers-india/ats-safe-resume-basics.webp` | 1122x1402 | 1122x1402 | lazy | 34% | no title attr |
-| `resume/resume-tips-for-freshers-india/fresher-resume-projects-section.webp` | 1122x1402 | 1122x1402 | lazy | 41% | no title attr |
-| `resume/resume-tips-for-freshers-india/fresher-experience-internships-coursework-extracurriculars.webp` | 1122x1402 | 1122x1402 | lazy | 47% | no title attr |
-| `resume/resume-tips-for-freshers-india/six-fresher-resume-mistakes.webp` | 1122x1402 | 1122x1402 | lazy | 57% | no title attr |
-| `resume/resume-tips-for-freshers-india/fresher-resume-four-checkpoint-protocol.webp` | 1122x1402 | 1122x1402 | lazy | 62% | no title attr |
+| `resume/resume-tips-for-freshers-india/fresher-resume-section-order.webp` | 1122x1402 | 1122x1402 | lazy | 27% | no title attr |
+| `resume/resume-tips-for-freshers-india/ats-safe-resume-basics.webp` | 1122x1402 | 1122x1402 | lazy | 35% | no title attr |
+| `resume/resume-tips-for-freshers-india/fresher-resume-projects-section.webp` | 1122x1402 | 1122x1402 | lazy | 42% | no title attr |
+| `resume/resume-tips-for-freshers-india/fresher-experience-internships-coursework-extracurriculars.webp` | 1122x1402 | 1122x1402 | lazy | 50% | no title attr |
+| `resume/resume-tips-for-freshers-india/six-fresher-resume-mistakes.webp` | 1122x1402 | 1122x1402 | lazy | 61% | no title attr |
+| `resume/resume-tips-for-freshers-india/fresher-resume-four-checkpoint-protocol.webp` | 1122x1402 | 1122x1402 | lazy | 68% | no title attr |
 
 **Required actions**
 1. HERO: optional upgrade. Keep the current graphic hero if it reads clearly; otherwise add a natural scene hero using the brief below.

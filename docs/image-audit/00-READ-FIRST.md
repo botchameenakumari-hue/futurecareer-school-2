@@ -50,8 +50,21 @@ Files:
 
 Service/other page counts: bofu 119, assessment 55, location 47, resource 43, blog-hub 26, compass 6, about 3, other 3, home 1, assessment-hub 1, resource-hub 1, services-hub 1, bofu-hub 1, locations-hub 1.
 
-## What this audit did and did not verify
+## Coverage (double-checked)
 
-Verified directly: every `<img>` on every rendered route (attributes, real file, size, duplicates, missing files); all images of the 63 hand-made blog pages were viewed in contact sheets, and a sample of the generic category and auto-generated page-card images was viewed; page-card text and statistics on the hand-made images were read with OCR (OCR is noisy, so the "numbers not in the article" lists are leads, not proof); all BOFU/context/city/region images were viewed.
+- **Blog:** all 383 routes are in the reports (`blog-summary.csv` has 383 rows). 38 of them are on the owner's earlier exclusion list (from the deleted `BLOG-VISUAL-AUDIT.md`, commit 26b8e33~1); they are analysed too, but each section is marked "ON THE OWNER'S EXCLUSION LIST" so ChatGPT does not touch them without confirmation. 3 of the excluded routes (`cybersecurity-roadmap-india`, `banking-sector-career-india`, `career-options-after-10th`) have no content images at all, which is probably unintended.
+- **Service and other pages:** all 324 rendered non-blog routes were extracted; 308 are in the reports. The 16 left out are internal tools (dashboards, design demos, topics index, landing prototype), which are not part of the visual brief.
+- **Browser check:** all 690 real (non-redirect) routes, including all 383 blog pages, were loaded in headless Chromium at 390 px wide: 0 pages have horizontal overflow, and 0 failed to load. 84 pages render a broken image after JavaScript runs (mostly the two missing `*-at-a-glance.webp` files, plus 3 hero social JPGs referenced with absolute URLs).
+- **Images viewed by eye:** every image on the 63 hand-made blog pages; the 3 pages' heroes; all 49 service WebPs and the 4 SVGs; contact sheets of 96 of the 144 generic category images (the other 48 are the same templates for the remaining categories); and page-card samples.
+- **Text and numbers:** OCR was run on every hand-made blog image (399 files) to read in-image text and statistics. OCR is noisy; flagged numbers are leads.
 
-Not verified: that each infographic statistic matches a reliable external source; rendering in a real browser at 390 px (no page was screenshotted); the 144 category images other than a sample. The visual briefs in each page report are generated from that page's own headings, lists, tables and number-bearing sentences, so they never add claims, but a human or ChatGPT must still choose the final wording, check that the format suits the content, and fix any awkward section selection before producing the image.
+## Additional defects found in the double-check
+
+- The home page hot-links 14 Unsplash photos (`https://images.unsplash.com/...`), including portraits of real people. They are not owned assets, are not recorded with a licence, and one fails to load in my check. They are listed in `pages-home.md`.
+- `how-to-choose-a-career-after-12th` uses two hand-made SVGs (`/blog/*-career-lane-map.svg`, `*-decision-scorecard.svg`) in addition to the WebPs; these are fine as diagrams but need alt/title/caption review.
+- The 3 cropped sets: the heroes of `artificial-intelligence-career-paths` (and the supporting images) are also centre-cropped infographics, so that page has no real hero.
+- Alt text on the hand-made images is generally fine (only 2 over 160 characters, none under 40). Captions exist on 381 of 394; titles are missing on most. These are not the main problem.
+
+## What this audit did not verify
+
+Whether each infographic statistic matches an outside source (the reports list the numbers to check); the visual quality of the 48 category images I did not view (they follow the same templates); a real screenshot comparison of each page's rendered layout (only measurable layout rules were checked). The visual briefs in each page report are generated from that page's own headings, lists, tables and number-bearing sentences, so they never add claims, but ChatGPT or a human must still choose final wording, check the format fits the content, and fix any awkward section selection before producing the image.
