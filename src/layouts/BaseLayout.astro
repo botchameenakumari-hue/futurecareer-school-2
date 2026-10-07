@@ -251,7 +251,14 @@ const isDashboardRoute = Astro.url.pathname === '/dashboard' || Astro.url.pathna
     if (blogBody && fallbackGroup) {
       const customImages = blogBody.querySelectorAll('img[src*="/images/blog/"]:not([src*="/images/blog/category/"])');
       if (customImages.length >= 3) {
-        fallbackGroup.remove();
+        const contextVisual = fallbackGroup.querySelector('.blog-fallback-visual--context');
+        if (contextVisual) {
+          fallbackGroup.querySelectorAll('.blog-fallback-visual:not(.blog-fallback-visual--context)').forEach((visual) => visual.remove());
+          fallbackGroup.classList.add('is-visible');
+          blogBody.insertBefore(fallbackGroup, blogBody.children[1] || null);
+        } else {
+          fallbackGroup.remove();
+        }
       } else {
         fallbackGroup.classList.add('is-visible');
         blogBody.insertBefore(fallbackGroup, blogBody.children[1] || null);
