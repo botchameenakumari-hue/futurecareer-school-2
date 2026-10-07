@@ -1,5 +1,6 @@
 ---
 import pageContextManifest from '../data/blog-page-context.json';
+import pageExplainerManifest from '../data/blog-page-explainers.json';
 
 const category = Astro.url.pathname.split('/').filter(Boolean)[1] ?? 'career-guidance';
 const copy: Record<string, { file: string; alt: string; caption: string; supportFile: string; supportAlt: string; supportCaption: string }> = {
@@ -158,6 +159,7 @@ const articlePath = Astro.url.pathname.split('/').filter(Boolean);
 const pageSlug = articlePath.at(-1) ?? '';
 const pageCardTitle = pageSlug.replace(/-/g, ' ').replace(/\b\w/g, (character) => character.toUpperCase());
 const pageContext = pageContextManifest[`${category}/${pageSlug}`];
+const pageExplainer = pageExplainerManifest[`${category}/${pageSlug}`];
 const excludedPillarSlugs = new Set([
   'career-options-after-12th-science', 'career-options-after-12th-commerce', 'career-options-after-10th', 'best-career-options-with-high-salary',
   'what-career-should-i-choose', 'how-to-find-the-right-career-for-me-india', 'how-to-choose-a-career-after-12th',
@@ -192,8 +194,8 @@ const isArticle = articlePath.length >= 3 && !excludedPillarSlugs.has(articlePat
       <figcaption>A concise visual summary of the decision and evidence this category asks the reader to consider.</figcaption>
     </figure>
     <figure class="blog-fallback-visual blog-fallback-visual--page-specific">
-      <img src={`/images/blog/page-cards/${category}/${pageSlug}.webp`} alt={`${pageCardTitle}: page-specific career decision visual`} title={`${pageCardTitle}: page-specific career decision visual`} width="1600" height="1000" loading="lazy" decoding="async" />
-      <figcaption>A page-specific visual summary built from this article’s topic and decision keywords.</figcaption>
+      <img src={`/images/blog/page-cards/${category}/${pageSlug}.webp`} alt={pageExplainer?.alt ?? `${pageCardTitle}: page-specific career decision visual`} title={pageExplainer?.title ?? `${pageCardTitle}: page-specific career decision visual`} width="1600" height="1000" loading="lazy" decoding="async" />
+      <figcaption>{pageExplainer?.caption ?? 'A page-specific visual summary built from this article’s topic and decision keywords.'}</figcaption>
     </figure>
     {pageContext && (
       <figure class="blog-fallback-visual blog-fallback-visual--page-context">

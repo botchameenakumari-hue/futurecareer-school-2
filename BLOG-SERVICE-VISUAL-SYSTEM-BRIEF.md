@@ -43,7 +43,7 @@ Preserve navigation, typography, CTAs, and existing page structure. Images must 
 
 ### Non-hero priority
 
-The non-hero set must be led by natural editorial scenes that help a reader understand the article quickly: people making the relevant decision, learning, working, comparing options, discussing trade-offs, or handling the real circumstances described by the page. Infographics, graphs, tables, Venn diagrams, flowcharts, process chains, timelines, funnels, matrices, checklists, pyramids, and arrays are supporting formats only when the article truly needs that explanation; they are not the default replacement for human/context imagery. Never fill a page with abstract diagrams just to increase the image count.
+Non-hero visuals should usually be explanatory graphics that help a reader understand the article without reading every paragraph: infographics, graphs, tables, Venn diagrams, flowcharts, linear process chains, chronological timelines, pyramids, funnels, matrix grids, callout quote boxes, asymmetrical pros-and-cons layouts, comparison tables, self-assessment checklists, iconic arrays, decision trees, roadmaps, skill maps, and framework cards. These are preferred formats, not exclusions. Select the format from the article’s actual idea; do not repeat one generic layout across every page. Natural human/editorial scenes may be added for emotion, realism, trust, or context, but they should complement—not replace—the explanatory non-hero visuals.
 
 ## Verification and delivery
 
