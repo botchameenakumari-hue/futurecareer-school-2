@@ -21,6 +21,18 @@ const copy: Record<string, { file: string; alt: string; caption: string; support
   'study-abroad': { file: 'study-abroad-editorial-cover.webp', alt: 'Indian student and parent comparing study-abroad costs, outcomes, and fit', caption: 'Study abroad is a decision about cost, outcome, risk, and fit—not a default upgrade.', supportFile: 'study-abroad-editorial-support.webp', supportAlt: 'Study-abroad decision materials comparing cost, outcome, risk, and fit', supportCaption: 'A study-abroad choice deserves a clear comparison of cost, outcome, risk, and personal fit.' },
 };
 const selected = copy[category] ?? copy['career-guidance'];
+const categorySupportExtensions: Record<string, { file: string; alt: string; caption: string }[]> = {
+  'ai-future': [
+    { file: selected.supportFile, alt: selected.supportAlt, caption: selected.supportCaption },
+    { file: 'ai-future-proof.webp', alt: 'AI career decision desk separating routine tasks, human judgment, and proof of work', caption: 'The valuable move is to separate routine tasks from judgment and build proof around the part people still trust.' },
+    { file: 'ai-future-assistant.webp', alt: 'Indian professional checking an AI assistant output against notes and real evidence', caption: 'AI becomes leverage when a professional can question, verify, and improve its output.' },
+    { file: 'ai-future-portfolio.webp', alt: 'Editorial skill portfolio connecting domain skill, AI fluency, human trust, and a work sample', caption: 'A resilient portfolio combines domain depth, AI fluency, human trust, and visible work.' },
+    { file: 'ai-future-experiment.webp', alt: 'Career experiment sequence from noticing a change to testing, showing, and reflecting on work', caption: 'Small experiments turn a vague fear about AI into a practical next skill and a piece of evidence.' },
+  ],
+};
+const supportVisuals = categorySupportExtensions[category] ?? [
+  { file: selected.supportFile, alt: selected.supportAlt, caption: selected.supportCaption },
+];
 const articlePath = Astro.url.pathname.split('/').filter(Boolean);
 const excludedPillarSlugs = new Set([
   'career-options-after-12th-science', 'career-options-after-12th-commerce', 'career-options-after-10th', 'best-career-options-with-high-salary',
@@ -40,17 +52,23 @@ const excludedPillarSlugs = new Set([
 const isArticle = articlePath.length >= 3 && !excludedPillarSlugs.has(articlePath.at(-1) ?? '');
 ---
 {isArticle && (
-  <figure class="blog-fallback-visual" data-blog-fallback>
-    <img src={`/images/blog/category/${selected.file}`} alt={selected.alt} title={selected.alt} width="1600" height="1000" loading="lazy" decoding="async" />
-    <figcaption>{selected.caption}</figcaption>
-  </figure>
-  <figure class="blog-fallback-visual" data-blog-fallback-support>
-    <img src={`/images/blog/category/${selected.supportFile}`} alt={selected.supportAlt} title={selected.supportAlt} width="1600" height="1000" loading="lazy" decoding="async" />
-    <figcaption>{selected.supportCaption}</figcaption>
-  </figure>
+  <div class="blog-fallback-visual-group" data-blog-fallback-group>
+    <figure class="blog-fallback-visual">
+      <img src={`/images/blog/category/${selected.file}`} alt={selected.alt} title={selected.alt} width="1600" height="1000" loading="lazy" decoding="async" />
+      <figcaption>{selected.caption}</figcaption>
+    </figure>
+    {supportVisuals.map((visual) => (
+      <figure class="blog-fallback-visual">
+        <img src={`/images/blog/category/${visual.file}`} alt={visual.alt} title={visual.alt} width="1600" height="1000" loading="lazy" decoding="async" />
+        <figcaption>{visual.caption}</figcaption>
+      </figure>
+    ))}
+  </div>
 )}
 <style>
-  .blog-fallback-visual { display: none; margin: 1.8rem 0 2.2rem; }
+  .blog-fallback-visual-group { display: none; }
+  .blog-fallback-visual-group.is-visible { display: block; }
+  .blog-fallback-visual { margin: 1.8rem 0 2.2rem; }
   .blog-fallback-visual img { width: 100%; height: auto; display: block; border-radius: 18px; border: 1px solid rgba(255,255,255,.1); }
   .blog-fallback-visual figcaption { margin-top: .6rem; color: rgba(255,255,255,.52); font-size: 12px; line-height: 1.55; }
   .blog-fallback-visual.is-visible { display: block; }

@@ -247,18 +247,14 @@ const isDashboardRoute = Astro.url.pathname === '/dashboard' || Astro.url.pathna
   <BlogFallbackVisual />
   <script is:inline>
     const blogBody = document.querySelector('#blog-post .post-body, #itm-article, main article, article');
-    const fallbackVisuals = document.querySelectorAll('[data-blog-fallback]');
-    const fallbackSupport = document.querySelector('[data-blog-fallback-support]');
-    if (blogBody && fallbackVisuals.length) {
+    const fallbackGroup = document.querySelector('[data-blog-fallback-group]');
+    if (blogBody && fallbackGroup) {
       const customImages = blogBody.querySelectorAll('img[src*="/images/blog/"]:not([src*="/images/blog/category/"])');
       if (customImages.length >= 3) {
-        fallbackVisuals.forEach((visual) => visual.remove());
-        fallbackSupport?.remove();
+        fallbackGroup.remove();
       } else {
-        fallbackVisuals.forEach((visual) => visual.classList.add('is-visible'));
-        fallbackSupport?.classList.add('is-visible');
-        blogBody.insertBefore(fallbackVisuals[0], blogBody.children[1] || null);
-        if (fallbackSupport) blogBody.insertBefore(fallbackSupport, blogBody.children[3] || null);
+        fallbackGroup.classList.add('is-visible');
+        blogBody.insertBefore(fallbackGroup, blogBody.children[1] || null);
       }
     }
   </script>
