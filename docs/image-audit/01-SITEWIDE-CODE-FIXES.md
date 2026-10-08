@@ -1,4 +1,23 @@
-# Site-wide code fixes (do these before the page-by-page work)
+# Site-wide code fixes
+
+## STATUS (updated 2026-10-08): code fixes already done by Claude
+
+Done and pushed. ChatGPT must NOT redo these; it only needs to add image files and, per page, the figure markup.
+
+| Item | Status |
+|---|---|
+| C1 printed component code | Done |
+| C2 DOM-relocation hack | Done. The inline scripts are removed from `BaseLayout.astro`. `integrations/place-page-media.mjs` now places image groups in the finished HTML at build time (no browser JavaScript). Service heroes were at the very bottom of pages (about 97% down); they are now directly after the page hero (median 6% down). The 12 interactive test pages are handled too. |
+| C3 retire generic images | Partly. Generic category images are removed from all 218 service/assessment pages. On blog posts the generic and page-card images are still rendered (now in the right place without JS) so that no article loses its only visual before a real replacement exists. Delete them per category after each category has its own images. |
+| C4 social previews | Partly. The 22 blog pages that have their own authored image now use it for og:image/twitter:image with correct dimensions. The other blog pages still use `/og-image.svg` until they get a hero; when a page gets its hero image, the build picks it up automatically. A PNG/JPG site default still needs to be made (the SVG cannot be rendered here). |
+| C5 image attributes | Done at build time: width/height are set from the real file for every local image, and a `title` (copied from alt) is added when missing. Human-written titles are still better; write them in the page when creating new images. |
+| C6 file hygiene | Done for the broken reference (the missing `visual-7.webp` figure is removed). Still open: rename `visual-N` files, regenerate the three cropped sets at native ratio, compress images over 250 KB, de-duplicate shared sets. |
+| C7 service media | Captions and titles added to the service hero, context image and the two SVG diagrams. The keyword-to-image regex mapping is unchanged. |
+| C8 repetition of the 4-Checkpoint/3-Gates image | Open (content). |
+| C9 guard rails | Done: `scripts/check-page-media.mjs` runs inside `pnpm verify` (no printed code, no missing local image files, service media near the top). `scripts/audit-images.mjs` remains the stricter content audit. |
+
+Original description of each fix follows, for reference.
+
 
 These are structural problems found in the code. Page reports assume they are done. Change only what is listed; do not touch unrelated code. Explain each change in the commit message.
 

@@ -4,7 +4,7 @@ Audit date: 2026-10-07. Method: every blog route and every service/other route w
 
 ## How to use this folder
 
-1. Give ChatGPT `ORIGINAL-BRIEF.md` (the owner's brief) and `01-SITEWIDE-CODE-FIXES.md` first. Do the site-wide fixes before page work, because they change how images are rendered.
+1. Give ChatGPT `ORIGINAL-BRIEF.md` (the owner's brief) and `01-SITEWIDE-CODE-FIXES.md` first. The structural code fixes are already done by Claude (see its STATUS table); ChatGPT only creates images and wires them into pages.
 2. Then submit **one page section at a time** from the category files below (copy from the `###` heading to the next `---`). Each section has: current images, findings, and **Required actions** with the exact file name, scene brief, on-image text, allowed numbers, alt, title and caption for every image to create.
 3. After each batch run `pnpm build && node scripts/audit-images.mjs --scope=blog` (or `--scope=services`). The goal state is in `02-ACCEPTANCE-CHECKS.md`.
 4. Work in priority order: pages marked **P1** have the most search impressions/clicks (blog: 82 P1 pages, 152 P2 pages).

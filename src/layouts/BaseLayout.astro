@@ -245,35 +245,9 @@ const isDashboardRoute = Astro.url.pathname === '/dashboard' || Astro.url.pathna
 <body>
   <slot />
   <BlogFallbackVisual />
-  <script is:inline>
-    const blogBody = document.querySelector('#blog-post .post-body, #itm-article, main article, article');
-    const fallbackGroup = document.querySelector('[data-blog-fallback-group]');
-    if (blogBody && fallbackGroup) {
-      const customImages = blogBody.querySelectorAll('img[src*="/images/blog/"]:not([src*="/images/blog/category/"])');
-      if (customImages.length >= 3) {
-        const contextVisual = fallbackGroup.querySelector('.blog-fallback-visual--context');
-        if (contextVisual) {
-          fallbackGroup.querySelectorAll('.blog-fallback-visual:not(.blog-fallback-visual--context):not(.blog-fallback-visual--at-a-glance):not(.blog-fallback-visual--page-specific):not(.blog-fallback-visual--page-explainer):not(.blog-fallback-visual--page-context)').forEach((visual) => visual.remove());
-          fallbackGroup.classList.add('is-visible');
-          blogBody.insertBefore(fallbackGroup, blogBody.children[1] || null);
-        } else {
-          fallbackGroup.remove();
-        }
-      } else {
-        fallbackGroup.classList.add('is-visible');
-        blogBody.insertBefore(fallbackGroup, blogBody.children[1] || null);
-      }
-    }
-  </script>
+  {/* The image groups below are moved into place in the finished HTML by integrations/place-page-media.mjs; there is no browser script. */}
   {Astro.url.pathname.startsWith('/services/') && <BofuImage />}
   {Astro.url.pathname.startsWith('/services/') && <BofuContextVisual />}
-  {Astro.url.pathname.startsWith('/services/') && (
-    <script is:inline>
-      const serviceMedia = document.querySelectorAll('body > .bofu-image, body > .bofu-diagrams, body > .bofu-context-visual');
-      const serviceMain = document.querySelector('main');
-      if (serviceMain) serviceMedia.forEach((media) => serviceMain.insertBefore(media, serviceMain.children[1] || null));
-    </script>
-  )}
   {isDashboardRoute ? null : <ConsentBanner />}
 </body>
 </html>
