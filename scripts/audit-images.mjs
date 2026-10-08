@@ -57,7 +57,9 @@ const fail = (rule, route, msg) => {
 
 let pages = 0;
 for (const file of walk(dist)) {
-  const route = '/' + file.slice(dist.length + 1).replace(/index\.html$/, '');
+  // Build output uses Windows separators on local audits; normalize before
+  // applying the route patterns so the checker never reports a false 0 pages.
+  const route = '/' + file.slice(dist.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '');
   const isBlog = /^\/blog\/[^/]+\/[^/]+\/$/.test(route);
   const isService = route.startsWith('/services/');
   if (scope === 'blog' && !isBlog) continue;

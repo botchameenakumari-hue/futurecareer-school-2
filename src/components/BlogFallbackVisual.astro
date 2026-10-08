@@ -160,6 +160,11 @@ const pageSlug = articlePath.at(-1) ?? '';
 const pageCardTitle = pageSlug.replace(/-/g, ' ').replace(/\b\w/g, (character) => character.toUpperCase());
 const pageContext = pageContextManifest[`${category}/${pageSlug}`];
 const pageExplainer = pageExplainerManifest[`${category}/${pageSlug}`];
+// Routes with audited native figures should not receive the legacy fallback set.
+const nativeVisualRoutes = new Set([
+  'career-options/best-career-for-analytical-thinkers-india',
+  'career-options/best-careers-for-introverts-in-india',
+]);
 const excludedPillarSlugs = new Set([
   'career-options-after-12th-science', 'career-options-after-12th-commerce', 'career-options-after-10th', 'best-career-options-with-high-salary',
   'what-career-should-i-choose', 'how-to-find-the-right-career-for-me-india', 'how-to-choose-a-career-after-12th',
@@ -175,7 +180,8 @@ const excludedPillarSlugs = new Set([
   'canada-vs-germany-for-masters-india', 'career-options-in-medical-field-other-than-doctor-india',
   'best-paramedical-courses-scope-in-india', 'medical-coding-career-india'
 ]);
-const isArticle = articlePath.length >= 3 && !excludedPillarSlugs.has(articlePath.at(-1) ?? '');
+const routeKey = `${category}/${pageSlug}`;
+const isArticle = articlePath.length >= 3 && !excludedPillarSlugs.has(pageSlug) && !nativeVisualRoutes.has(routeKey);
 ---
 {isArticle && (
   <div class="blog-fallback-visual-group" data-blog-fallback-group>
