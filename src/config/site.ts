@@ -4,7 +4,7 @@ import { BLOG_CATEGORIES, BLOG_PUBLISHED_POSTS } from './blog';
 
 export const SITE_NAME = 'Future Career School';
 export const SITE_URL = 'https://futurecareerschool.com';
-export const DEFAULT_OG_IMAGE_PATH = '/og-image.svg';
+export const DEFAULT_OG_IMAGE_PATH = '/og-image.jpg';
 export const DEFAULT_OG_IMAGE_URL = `${SITE_URL}${DEFAULT_OG_IMAGE_PATH}`;
 
 export const CONTACT = {
