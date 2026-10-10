@@ -16,7 +16,7 @@ export const CHART_META = {
 };
 
 export const OFFICIAL_LINKS = [
-  { label: 'NIOS (open schooling)', url: 'https://www.nios.ac.in/', use: 'Open-school Secondary and Senior Secondary, vocational courses, study centres.' },
+  { label: 'NIOS (open schooling)', url: 'https://www.nios.ac.in/', use: 'Open-school Secondary and Senior Secondary, vocational courses, study centres. The site states that the Association of Indian Universities has issued equivalence for the NIOS Senior Secondary certificate.' },
   { label: 'DGT Craftsmen Training Scheme (ITI)', url: 'https://dgt.gov.in/en/CTS', use: 'How the ITI network works. The page lists 14,643 ITIs and 169 NSQF-compliant trades (checked October 2026).' },
   { label: 'NATS (apprenticeship training)', url: 'https://nats.education.gov.in/about-us.php', use: 'Apprenticeship-style, learn-while-working training for diploma and technical graduates.' },
   { label: 'AICTE', url: 'https://www.aicte-india.org/', use: 'Check that a diploma or engineering institute is approved before paying.' },
@@ -98,7 +98,7 @@ export const ROUTES = [
     gate: 'Class 10 pass. Maths in Class 10 helps; some schools ask for a minimum.',
     opens: [
       'B.Com, BBA, BMS, economics and statistics degrees',
-      'CA, CMA and CS professional ladders (ICAI and ICMAI let you register for Foundation after Class 10; verify current rules)',
+      'CA, CMA and CS professional ladders (ICAI has allowed provisional CA Foundation registration after Class 10, and the exam needs Class 12 appearance; confirm the current rule)',
       'Finance, analytics and actuarial-style routes that need Maths',
       'Integrated law (BBA LLB) and management routes through CUET or CLAT',
     ],
@@ -208,14 +208,14 @@ export const ROUTES = [
     family: 'open',
     label: 'Open schooling (NIOS and state open schools)',
     short: 'Study Class 11–12 on a flexible schedule, often while working',
-    length: 'Flexible; Senior Secondary subjects can be cleared over several exam sessions',
-    gate: 'Class 10 pass. Verify age rules, subject groups and exam sessions on the NIOS site.',
+    length: 'Flexible. Admission stays valid for 5 years with public exams twice a year (April–May and October–November), per the NIOS prospectus',
+    gate: 'Class 10 pass from a recognised board and a minimum age of 15 (NIOS prospectus rules; confirm the current prospectus). At least five subjects must be passed, with one or two languages.',
     opens: [
       'Completing Class 12 while working, training for a trade, or preparing for sport or arts',
       'A route back to degree courses for students who left school, started an ITI, or did a diploma first',
       'Subject combinations not offered in a nearby school',
     ],
-    closes: ['Nothing by itself. Confirm that the degree or exam you want accepts open-school certificates and your subject group.'],
+    closes: ['Nothing by itself. NIOS states its certificate is equivalent to other boards and accepted by universities, but some institutions set their own rules, so confirm for your course and subject group.'],
     yearsToWork: [2, 3],
     bestFor:
       'Students who must earn, travel for training or sport, have health reasons, or are returning to study after a break.',
