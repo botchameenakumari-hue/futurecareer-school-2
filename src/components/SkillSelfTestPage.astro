@@ -56,7 +56,7 @@ const clientData = {
   limits: test.limits,
   domains: test.domains,
   questions: [
-    ...test.questions.map((q, i) => ({ ...q, tip: depth.tips[i] })),
+    ...test.questions.map((q, i) => ({ ...q, tip: depth.tips[i], up: depth.tipsUp ? depth.tipsUp[i] : undefined })),
     ...extraQs,
     ...(hasParent ? PARENT_QUESTIONS : []),
     ...scenarios,
@@ -153,9 +153,9 @@ const jsonLd = [
       <section id="assessment" class="sst-section sst-quiz-section">
         <div class="container">
           <div class="sst-heading">
-            <span class="sst-kicker">Rate each statement honestly</span>
-            <h2>How true is each statement for you?</h2>
-            <p>There are no right answers. Think of your usual pattern, not your best day.</p>
+            <span class="sst-kicker">Answer honestly</span>
+            <h2>Rate each statement, then choose what you would do</h2>
+            <p>There are no right answers on the statements, so think of your usual pattern, not your best day. In the situations, pick what you would really do, not what sounds best.</p>
           </div>
           <div id="start-shell" class="sst-start">
             <h3 class="sst-stage-title">{depth.stageHeading}</h3>
@@ -306,6 +306,7 @@ const jsonLd = [
   .sst-progress{height:8px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin-bottom:1.3rem}
   .sst-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--gold));transition:width .25s}
   .sst-prompt{font-family:"Sora",sans-serif;font-size:clamp(1.15rem,2.6vw,1.45rem);line-height:1.4;color:#fff;margin-bottom:1.3rem;outline:none}
+  .sst-scale[hidden],.sst-scenario[hidden]{display:none}
   .sst-scale{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem}
   .sst-scale button{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;color:#fff;padding:.8rem .3rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.3rem;font-family:inherit}
   .sst-scale button strong{font-size:1.2rem}
@@ -390,6 +391,7 @@ const jsonLd = [
     function hash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
     function order(q) { var idx = q.opts.map(function (_, k) { return k; }), seed = hash(q.text), a = idx.slice(); for (var i = a.length - 1; i > 0; i--) { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; var j = seed % (i + 1); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
     function plain(t) { return String(t).replace(/^(Days? \d+( to \d+)?|Week \d+):\s*/i, ''); }
+    function ping(name, extra) { try { if (window.gtag) window.gtag('event', name, Object.assign({ test_id: D.id, stage: stage }, extra || {})); } catch (e) {} }
     var DRAFT = D.storeKey + '-draft';
     function saveDraft() { try { localStorage.setItem(DRAFT, JSON.stringify({ stage: stage, answers: answers, current: current, n: TOTAL })); } catch (e) {} }
     function clearDraft() { try { localStorage.removeItem(DRAFT); } catch (e) {} }
@@ -426,7 +428,7 @@ const jsonLd = [
       nextBtn.textContent = current === TOTAL - 1 ? 'See my result' : 'Next';
     }
 
-    startBtn.addEventListener('click', function () { if (!stage) return; startShell.hidden = true; quizShell.hidden = false; render(); reveal(quizShell, prompt); });
+    startBtn.addEventListener('click', function () { if (!stage) return; ping('self_test_start', { questions: TOTAL }); startShell.hidden = true; quizShell.hidden = false; render(); reveal(quizShell, prompt); });
     scale.querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { answers[current] = Number(b.dataset.value); saveDraft(); render(); }); });
     backBtn.addEventListener('click', function () { if (current > 0) { current -= 1; render(); prompt.focus({ preventScroll: true }); } });
     nextBtn.addEventListener('click', function () {
@@ -462,6 +464,7 @@ const jsonLd = [
 
     function showResult() {
       clearDraft();
+      ping('self_test_complete', { questions: TOTAL });
       var PAR = stage === 'parent';
       var BANDS = PAR && D.parentBands ? D.parentBands : D.bands;
       var results = DOMS.map(function (d0, order) {
@@ -496,7 +499,7 @@ const jsonLd = [
         statIdx.forEach(function (i) { var q = Q[i]; if (q.d === r.d.key && itemScore(q, answers[i]) <= 50) items.push({ q: q, i: i }); });
         if (!items.length) return '';
         return '<div class="sst-low-group"><h5>' + esc(r.d.name) + '</h5>' + items.map(function (it) {
-          return '<div class="sst-low-item"><p><b>Statement ' + (statIdx.indexOf(it.i) + 1) + ':</b> ' + esc(it.q.text) + '</p><p>You answered: ' + esc(RATING[answers[it.i]]) + '. <b>' + (itemScore(it.q, answers[it.i]) <= 25 ? 'Start here:' : 'Take it further:') + '</b> ' + esc(it.q.tip) + '</p></div>';
+          return '<div class="sst-low-item"><p><b>Statement ' + (statIdx.indexOf(it.i) + 1) + ':</b> ' + esc(it.q.text) + '</p><p>You answered: ' + esc(RATING[answers[it.i]]) + '. <b>' + (itemScore(it.q, answers[it.i]) <= 25 ? 'Start here:' : 'Take it further:') + '</b> ' + esc(itemScore(it.q, answers[it.i]) <= 25 ? it.q.tip : (it.q.up || it.q.tip)) + '</p></div>';
         }).join('') + '</div>';
       }).join('');
       var lowCount = statIdx.filter(function (i) { return itemScore(Q[i], answers[i]) <= 50; }).length;
@@ -634,7 +637,7 @@ const jsonLd = [
 
       quizShell.hidden = true; resultShell.hidden = false; reveal(resultShell);
       document.getElementById('download-button').addEventListener('click', function () {
-        if (window.downloadAssessmentReportPdf) window.downloadAssessmentReportPdf({ container: resultShell, title: D.reportTitle, fileName: D.reportFile });
+        ping('self_test_pdf_download'); if (window.downloadAssessmentReportPdf) window.downloadAssessmentReportPdf({ container: resultShell, title: D.reportTitle, fileName: D.reportFile });
       });
       document.getElementById('retake-button').addEventListener('click', function () {
         current = 0; answers = new Array(TOTAL).fill(null); resultShell.hidden = true; quizShell.hidden = false; render(); reveal(quizShell, prompt);

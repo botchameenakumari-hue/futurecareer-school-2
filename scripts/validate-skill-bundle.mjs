@@ -28,6 +28,9 @@ for (const f of process.argv.slice(2)) {
   if (!t.metaTitle || t.metaTitle.length > 70) err('metaTitle missing or over 70 chars (' + (t.metaTitle || '').length + ')');
   if (!t.metaDescription || t.metaDescription.length < 110 || t.metaDescription.length > 165) err('metaDescription 110-165 chars (' + (t.metaDescription || '').length + ')');
   if (t.questions.length < 18) err('need >= 18 core statements, got ' + t.questions.length);
+  if (D.tipsUp && D.tipsUp.length !== t.questions.length) err('tipsUp length ' + D.tipsUp.length + ' != questions ' + t.questions.length);
+  if (D.tipsUp) D.tipsUp.forEach((u, i) => { if (!u || u.length < 60) err('short tipsUp ' + i); if (u === D.tips[i]) err('tipsUp same as tip ' + i); });
+  b.extras.forEach((e, i) => { if (b.depth.tipsUp && (!e.up || e.up.length < 60)) err('extra ' + i + ' needs up (take-it-further) text'); });
   if (D.tips.length !== t.questions.length) err('tips ' + D.tips.length + ' != questions ' + t.questions.length);
   t.questions.forEach((q, i) => { if (!keys.includes(q.d)) err('question ' + i + ' bad domain ' + q.d); });
   keys.forEach((k) => {

@@ -434,6 +434,33 @@ export const bundle: SkillTestBundle = {
       },
     ],
     tips: CORE_LIST.map((q) => q.tip),
+    tipsUp: [
+      'On Sunday choose the three evenings for next week and tick each plan when it happens. Move a missed plan to another day instead of dropping it.',
+      'Each Friday write one line on the task you liked most and one on the task you liked least. After three Fridays, show the lines to a senior or teacher and ask for a little more of the first kind.',
+      'At the end of each day, compare your top three with what got done and carry over only the one that matters most. On Friday show the list to your manager or teacher to confirm you chose well.',
+      'Track your actual sleep and wake times on a paper chart for two weeks. If you miss your wake time on three days, move the wind-down reminder fifteen minutes earlier.',
+      'After each weekly chat, write one thing the person said that helped and one thing you will try. Open the next chat with how it went, so the talks build on each other.',
+      'On the days you feel drained by midday, take the ten minute break at the first sign, such as rereading the same line, and not after. Note on a calendar which days this worked.',
+      'Test your sentence on a hard day by reading it before the task you least want to do, and edit it if it sounds false. Tell one person at home your reason and ask whether they see it too.',
+      'When you ask for a later date, name the exact day you can deliver and the task you would move. Note each reply in a notebook, to see how people respond to the question.',
+      'Prepare the next day\'s quick meal or snack the night before and tick your three meals in a note each day. If one meal slips twice in a week, move its time instead of skipping it.',
+      'Tell your manager or teacher about a small difficulty early, before it becomes a crisis, using the three part sentence. Afterwards ask what they would like to hear next time.',
+      'Before a day off, decide the night before what the half day of rest will be and switch off work messages for it. On Monday write one line on what refilled you.',
+      'When you catch yourself doing just enough, add one extra check before you send the work. Ask a senior or teacher to point out one thing in it that could be better.',
+      'Each evening cut tomorrow\'s list to what fits in your working hours and write the rest under a later heading. Review that heading every Friday with your senior or teacher and drop what is stale.',
+      'Charge your phone outside the bedroom for seven nights and use an alarm clock to wake. If you remember a message, write it on paper for the morning and leave the phone where it is.',
+      'When the thought that you should handle it alone comes, write it down and ask who has handled something similar. Send that person a one line message asking for ten minutes.',
+      'On a morning when the dread shows up, do the first ten minutes of the dreaded part with your tea in hand and stop after that if you wish. Mark those days and look for a pattern.',
+      'Pick a colleague or classmate you only talk to about tasks and ask one question about them, such as their city, exam plan or weekend. Do it at the same time each week, such as the Tuesday tea break.',
+      'Try your own order or method on one task this week and tell your manager or teacher how it went. If it was faster or better, ask to use it again.',
+      'Before a day off, write down the one work thing that might tempt you and decide where it will wait. Afterwards note whether you stayed off work, and plan the next day off from that.',
+      'Put your hours in the calendar as blocked time that others can see. Each Friday count how many requests landed outside them, and if a pattern shows, mention it to the person concerned.',
+      'Raise one block from forty to fifty minutes and keep a sticky note on the desk. Mark it each time you reach for the phone, then aim for fewer marks next week.',
+      'Teach what you learnt to one person in five minutes, such as a classmate or junior. Keep the lessons in a running list in your notebook, so the learning stays visible on flat days.',
+      'Before you restart work after a change, ask once: is this still needed next week? Mark the log entries where work was wasted and bring the marked list to your next meeting.',
+      'Invite one friend or family member to join your weekly activity so it is harder to skip, and keep a tick chart. Hold the same slot for four weeks in a row before changing it.',
+      'List the extra requests you accepted this week and mark the ones you would rather have declined. Use the delay line on the next one and give your answer by evening.',
+    ],
     strongTip: 'This is a steady pattern for you. Protect it during your busiest weeks, because it is usually the first thing to go.',
     domains: {
       energy: {
@@ -602,137 +629,197 @@ export const bundle: SkillTestBundle = {
 
   extras: [
     // Student
-    x(
-      ['student'],
-      'energy',
-      'My study day has real breaks in it.',
-      'Write the breaks into your timetable first: a proper meal break, and one fifteen minute walk or chat in the evening. Then fit the study blocks around them, so that the break is not the first thing you cut.',
-    ),
-    x(
-      ['student'],
-      'interest',
-      'I can still name a subject, topic or activity at school or college that I look forward to.',
-      'Choose one subject or club you like and give it a fixed weekly slot. Interest in one corner often makes the rest feel less heavy.',
-    ),
-    x(
-      ['student'],
-      'control',
-      'Between school, tuition, coaching and homework, I have no hour in the week that is mine.',
-      'Write your whole week in one table. Mark any hour that is free, and talk to your parents or tuition teacher about moving one class or giving you one protected hour.',
-      true,
-    ),
-    x(
-      ['student'],
-      'recovery',
-      'I keep my sleep time steady even in busy weeks.',
-      'Tell your friends your sleep time and keep it, even if a late-night group is on. If a late session is truly needed, agree an end time before it starts.',
-    ),
-    x(
-      ['student'],
-      'support',
-      'Comparing my marks with friends and cousins often makes me feel worse about myself.',
-      'Keep a small page with your own marks and one thing you improved each month. When comparison starts, look at that page. Ask a friend to agree not to talk about marks at lunch.',
-      true,
-    ),
+    {
+      ...x(
+        ['student'],
+        'energy',
+        'My study day has real breaks in it.',
+        'Write the breaks into your timetable first: a proper meal break, and one fifteen minute walk or chat in the evening. Then fit the study blocks around them, so that the break is not the first thing you cut.',
+      ),
+      up: 'Check on Sunday which breaks survived the week and mark the ones you cut. Move a cut break to another time instead of deleting it, and protect the evening walk first.',
+    },
+    {
+      ...x(
+        ['student'],
+        'interest',
+        'I can still name a subject, topic or activity at school or college that I look forward to.',
+        'Choose one subject or club you like and give it a fixed weekly slot. Interest in one corner often makes the rest feel less heavy.',
+      ),
+      up: 'Add one small result to your weekly slot, such as a chapter read, a question solved or a sketch finished, and show it to a friend or teacher.',
+    },
+    {
+      ...x(
+        ['student'],
+        'control',
+        'Between school, tuition, coaching and homework, I have no hour in the week that is mine.',
+        'Write your whole week in one table. Mark any hour that is free, and talk to your parents or tuition teacher about moving one class or giving you one protected hour.',
+        true,
+      ),
+      up: 'Once the protected hour is agreed, use it for something you chose and hold it for four weeks. If a class or task takes it over, ask for another hour in the same week.',
+    },
+    {
+      ...x(
+        ['student'],
+        'recovery',
+        'I keep my sleep time steady even in busy weeks.',
+        'Tell your friends your sleep time and keep it, even if a late-night group is on. If a late session is truly needed, agree an end time before it starts.',
+      ),
+      up: 'Mark on a calendar the weeks your sleep time slipped, such as before tests. Before the next such week, tell a parent or friend the sleep time you will keep.',
+    },
+    {
+      ...x(
+        ['student'],
+        'support',
+        'Comparing my marks with friends and cousins often makes me feel worse about myself.',
+        'Keep a small page with your own marks and one thing you improved each month. When comparison starts, look at that page. Ask a friend to agree not to talk about marks at lunch.',
+        true,
+      ),
+      up: 'When you feel the comparison start, write one thing you did better than last month before you look at anyone else\'s marks. Show the page to a trusted teacher once a term.',
+    },
     // Early career
-    x(
-      ['early'],
-      'energy',
-      'After a shift or a workday, I can unwind.',
-      'Create a short fixed routine after work, such as a wash, a meal and thirty minutes of music or a call, before anything else. It tells your body that the day is over.',
-    ),
-    x(
-      ['early'],
-      'control',
-      'I hold back from asking what is expected of me, in case I look weak.',
-      'Prepare one question for your manager this week: "What would a good month look like in this role?" Asking early usually looks like interest, not weakness.',
-      true,
-    ),
-    x(
-      ['early'],
-      'interest',
-      'I can see how this job could lead to something that I want in the next few years.',
-      'Write two skills or experiences you want from this job in the next year and tell your manager. Ask for one task that builds them.',
-    ),
-    x(
-      ['early'],
-      'recovery',
-      'When my targets are high, I stay late to prove myself.',
-      'Set a finishing time on three days this week and keep it. Let your results show in the work you deliver, not in the hours you sit, and mention your finishing time to your manager once.',
-      true,
-    ),
-    x(
-      ['early'],
-      'support',
-      'I have a senior or colleague I can ask small questions without feeling judged.',
-      'Pick one friendly senior and ask a small question in the first hour of the day. Thank them and note the answer, so you do not ask the same thing twice.',
-    ),
+    {
+      ...x(
+        ['early'],
+        'energy',
+        'After a shift or a workday, I can unwind.',
+        'Create a short fixed routine after work, such as a wash, a meal and thirty minutes of music or a call, before anything else. It tells your body that the day is over.',
+      ),
+      up: 'Run the routine in the same order for ten days and rate from one to five how ready you feel to rest afterwards. Keep the steps that score best and drop the rest.',
+    },
+    {
+      ...x(
+        ['early'],
+        'control',
+        'I hold back from asking what is expected of me, in case I look weak.',
+        'Prepare one question for your manager this week: "What would a good month look like in this role?" Asking early usually looks like interest, not weakness.',
+        true,
+      ),
+      up: 'When you hold back a question, write it on a note and ask it within the day to one senior or teammate. Keep the answers in a list, so you can see how often asking helped.',
+    },
+    {
+      ...x(
+        ['early'],
+        'interest',
+        'I can see how this job could lead to something that I want in the next few years.',
+        'Write two skills or experiences you want from this job in the next year and tell your manager. Ask for one task that builds them.',
+      ),
+      up: 'Each month, tell your manager what you did to build the two skills and what comes next. Keep one piece of work as proof of each, such as a report or a recorded task.',
+    },
+    {
+      ...x(
+        ['early'],
+        'recovery',
+        'When my targets are high, I stay late to prove myself.',
+        'Set a finishing time on three days this week and keep it. Let your results show in the work you deliver, not in the hours you sit, and mention your finishing time to your manager once.',
+        true,
+      ),
+      up: 'When you stay late, write whether the reason was a real deadline or a wish to show effort. On the second kind, leave on time and send a short update of what is done.',
+    },
+    {
+      ...x(
+        ['early'],
+        'support',
+        'I have a senior or colleague I can ask small questions without feeling judged.',
+        'Pick one friendly senior and ask a small question in the first hour of the day. Thank them and note the answer, so you do not ask the same thing twice.',
+      ),
+      up: 'Keep a running page of questions and answers from your senior. Once a week, thank them and say one thing you used, so they see that their help is put to work.',
+    },
     // Experienced
-    x(
-      ['experienced'],
-      'energy',
-      'Other people\'s problems take most of my energy in the day.',
-      'Move team questions to two fixed windows in the day, and use the rest for your own work. Tell the team the windows and what counts as urgent.',
-      true,
-    ),
-    x(
-      ['experienced'],
-      'control',
-      'I hand over tasks and trust my team to finish them.',
-      'Pick one task this week and hand it over with a clear outcome and date. Check only at the agreed point, and give feedback once it is done.',
-    ),
-    x(
-      ['experienced'],
-      'interest',
-      'I still spend some of my week on the part of the work I enjoy most.',
-      'Protect two hours a week for the work you like, such as design, coaching or problem solving, and put them in the calendar as a meeting that cannot be moved.',
-    ),
-    x(
-      ['experienced'],
-      'recovery',
-      'My team contacts me after hours for things that could wait until morning.',
-      'Tell your team in writing what counts as an emergency and how to reach you for one. For everything else, ask them to leave a note for the morning, and use scheduled send for your own late replies.',
-      true,
-    ),
-    x(
-      ['experienced'],
-      'support',
-      'I have a peer or mentor outside my team with whom I can talk openly.',
-      'Ask a peer in another team, or a former boss, for a monthly thirty minute chat. Use it to talk about the pressure of the role and not only tasks.',
-    ),
+    {
+      ...x(
+        ['experienced'],
+        'energy',
+        'Other people\'s problems take most of my energy in the day.',
+        'Move team questions to two fixed windows in the day, and use the rest for your own work. Tell the team the windows and what counts as urgent.',
+        true,
+      ),
+      up: 'For a week, write each interruption and who it came from. Next week, move the three most repeated kinds into a weekly meeting or a short written guide for the team.',
+    },
+    {
+      ...x(
+        ['experienced'],
+        'control',
+        'I hand over tasks and trust my team to finish them.',
+        'Pick one task this week and hand it over with a clear outcome and date. Check only at the agreed point, and give feedback once it is done.',
+      ),
+      up: 'After a handover, ask the person what was unclear in your brief and rewrite your note with their answer. Reuse that note the next time you hand over a similar task.',
+    },
+    {
+      ...x(
+        ['experienced'],
+        'interest',
+        'I still spend some of my week on the part of the work I enjoy most.',
+        'Protect two hours a week for the work you like, such as design, coaching or problem solving, and put them in the calendar as a meeting that cannot be moved.',
+      ),
+      up: 'At each month end, check whether the protected two hours were kept and what you made in them. If meetings ate them, move the block to the first slot of the day and tell your team.',
+    },
+    {
+      ...x(
+        ['experienced'],
+        'recovery',
+        'My team contacts me after hours for things that could wait until morning.',
+        'Tell your team in writing what counts as an emergency and how to reach you for one. For everything else, ask them to leave a note for the morning, and use scheduled send for your own late replies.',
+        true,
+      ),
+      up: 'Count the after-hours contacts in one week and mark which could have waited. For the two most common kinds, write a short answer guide that the team can use without you.',
+    },
+    {
+      ...x(
+        ['experienced'],
+        'support',
+        'I have a peer or mentor outside my team with whom I can talk openly.',
+        'Ask a peer in another team, or a former boss, for a monthly thirty minute chat. Use it to talk about the pressure of the role and not only tasks.',
+      ),
+      up: 'Bring one real problem to each monthly chat, not only updates. Write the advice you got and what you did with it, and tell your peer the result at the next meeting.',
+    },
     // Independent
-    x(
-      ['independent'],
-      'energy',
-      'I have a clear end to my working day, even when I work from home.',
-      'Set a closing ritual, such as writing tomorrow\'s top three tasks and shutting the laptop in another room or a bag. It marks the end even when the home is the office.',
-    ),
-    x(
-      ['independent'],
-      'control',
-      'I accept work on terms I do not like because I worry about next month\'s income.',
-      'Write a short rule for new work, such as a minimum price, a maximum number of open projects and a standard delivery time. Use it for your next three enquiries before you reply.',
-      true,
-    ),
-    x(
-      ['independent'],
-      'recovery',
-      'I take at least one full day off in most weeks.',
-      'Choose the day, put an auto-reply or status on it, and tell your regular clients. A day off that clients expect is easier to keep.',
-    ),
-    x(
-      ['independent'],
-      'support',
-      'Running a home and a business together leaves me with no time that is only mine.',
-      'Divide one routine task, such as cooking or school pickup, with someone at home for a month. Use the time you gain for a rest slot, not for more work.',
-      true,
-    ),
-    x(
-      ['independent'],
-      'interest',
-      'I talk to other freelancers, founders or business owners, so that I do not feel alone in my work.',
-      'Join one local or online group, or meet one peer each month for tea. Ask how they handle slow months, late payments and time off.',
-    ),
+    {
+      ...x(
+        ['independent'],
+        'energy',
+        'I have a clear end to my working day, even when I work from home.',
+        'Set a closing ritual, such as writing tomorrow\'s top three tasks and shutting the laptop in another room or a bag. It marks the end even when the home is the office.',
+      ),
+      up: 'Pair the ritual with a stop time you can really keep, and tick the calendar on days you closed on time. Then move the stop time fifteen minutes earlier each week.',
+    },
+    {
+      ...x(
+        ['independent'],
+        'control',
+        'I accept work on terms I do not like because I worry about next month\'s income.',
+        'Write a short rule for new work, such as a minimum price, a maximum number of open projects and a standard delivery time. Use it for your next three enquiries before you reply.',
+        true,
+      ),
+      up: 'Keep a list of the enquiries you declined or negotiated under your rule and what happened next. Review it after a month and change the minimum price only on that evidence.',
+    },
+    {
+      ...x(
+        ['independent'],
+        'recovery',
+        'I take at least one full day off in most weeks.',
+        'Choose the day, put an auto-reply or status on it, and tell your regular clients. A day off that clients expect is easier to keep.',
+      ),
+      up: 'At each month end, tally the full days off you really took. If a client broke a day off, send your off-day note again and move the work to the next working day.',
+    },
+    {
+      ...x(
+        ['independent'],
+        'support',
+        'Running a home and a business together leaves me with no time that is only mine.',
+        'Divide one routine task, such as cooking or school pickup, with someone at home for a month. Use the time you gain for a rest slot, not for more work.',
+        true,
+      ),
+      up: 'Meet the person who shares the task for fifteen minutes every second week to check that the split still works. Note what you used the rest slot for, and keep it free of work.',
+    },
+    {
+      ...x(
+        ['independent'],
+        'interest',
+        'I talk to other freelancers, founders or business owners, so that I do not feel alone in my work.',
+        'Join one local or online group, or meet one peer each month for tea. Ask how they handle slow months, late payments and time off.',
+      ),
+      up: 'After each peer meeting, write one idea you heard and try it within two weeks. At the next meeting, tell them what happened, so the exchange goes both ways.',
+    },
   ],
 
   stageAdvice: {

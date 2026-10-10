@@ -3,7 +3,7 @@
 import type { SkillTestBundle } from './types';
 import { x, sa, o, sc } from './types';
 
-type Core = { d: string; text: string; tip: string; reverse?: boolean };
+type Core = { d: string; text: string; tip: string; up: string; reverse?: boolean };
 
 const CORE: Record<string, Core[]> = {
   prep: [
@@ -11,28 +11,33 @@ const CORE: Record<string, Core[]> = {
       d: 'prep',
       text: 'I have a written plan that spreads my syllabus across the days left before the exam.',
       tip: 'Count the days left, write chapter names against dates in one notebook page, and keep the last three or four days empty for revision and for any day that goes wrong.',
+      up: 'Review the plan every Sunday evening for ten minutes: tick what was done, move what was missed into the empty days, and show the page to one person at home or a friend.',
     },
     {
       d: 'prep',
       text: 'I know which chapters I am strong in and which ones need more time.',
       tip: 'Attempt five past questions from each chapter, mark the chapter green, amber or red, and give your next week to the red ones before you touch the green ones.',
+      up: 'Redo the green, amber, red list every Sunday with five fresh questions per chapter, and ask a teacher which two chapters they would move up your red list.',
     },
     {
       d: 'prep',
       text: 'I have attempted earlier question papers or mock tests with a timer, without opening my books.',
       tip: 'This weekend, pick one past paper, set a timer for the real duration, finish it without notes and check it only afterwards. Do one more every week.',
+      up: 'Fix one weekly slot at the real exam hour for a timed paper, and keep a table of date, score and the section where time ran out, so you can see whether your slow section is improving.',
     },
     {
       d: 'prep',
       text: 'I feel I will never be ready however much I study.',
       reverse: true,
       tip: 'Write what is left as a count: chapters, papers, days. A finite list is easier to carry than a vague fear. Cut it to what can be finished in the days you have and drop the rest on purpose.',
+      up: 'When the thought of never being ready shows up, open your count page and update or cross off one item within five minutes, so the thought meets a number instead of staying a feeling.',
     },
     {
       d: 'prep',
       text: 'I mostly revise by reading my notes again and again, without testing myself.',
       reverse: true,
       tip: 'After each topic, close the book and write three key points from memory. Check them against the notes, and copy only the missed ones onto a small revision card. If you cannot write anything, that is the topic to study again.',
+      up: 'When you start a second read of the same page, close the book, set a ten minute timer and write what you remember. Ask a friend to quiz you on one chapter each week.',
     },
   ],
   thoughts: [
@@ -40,28 +45,33 @@ const CORE: Record<string, Core[]> = {
       d: 'thoughts',
       text: 'After a bad mock or class test, I sit down and go through what exactly went wrong.',
       tip: 'After a bad test, give yourself twenty minutes with a timer: list the three types of mistake you made and pick one to fix this week. Then do something ordinary like a meal or a walk before you study again.',
+      up: 'Keep a mistake page across tests and read the last three entries together every Sunday. If one type of mistake repeats, plan a fix for that type before the next test.',
     },
     {
       d: 'thoughts',
       text: 'I judge my day by whether I met my study targets, not only by marks.',
       tip: 'Set two or three small targets each morning, such as one chapter and one set of questions, and tick them at night. A day with all ticks is a good day, whatever the next test says.',
+      up: 'On Sunday night, count the days that had all ticks this week and move the target you skipped most to the first slot of tomorrow morning.',
     },
     {
       d: 'thoughts',
       text: 'I keep replaying my mistakes from earlier exams in my head.',
       reverse: true,
       tip: 'Write the mistake once with one fix next to it, for example reading the question twice or watching the clock. Then close the page. When the thought returns, tell yourself the fix is already written.',
+      up: 'When a replay starts, open the fix you wrote for that mistake, read it aloud once and begin a ten minute study task straight away, so the replay has a next step.',
     },
     {
       d: 'thoughts',
       text: 'When a worry about the exam comes up, I ask myself what I can actually do about it this week.',
       tip: 'Keep a small notebook. Draw a line down the page: worries on the left, one action you can take this week on the right. If there is no action, mark it as not in your control and move on.',
+      up: 'Every Sunday, read last week\'s worry page: tick the actions you did, and for each one you did not do, book a time for it or write not in my control beside it.',
     },
     {
       d: 'thoughts',
       text: 'I feel that one bad paper or one bad result will ruin my whole future.',
       reverse: true,
       tip: 'Write down two other routes that stay open if this exam goes badly, such as a repeat attempt, a related course or a different entry exam. Talk to a teacher or counsellor to check them. Knowing a next step exists lowers the weight of one paper.',
+      up: 'When the thought of one result ruining everything comes, read your list of other routes once and add one detail to it, such as a date, a course page or a teacher to ask.',
     },
   ],
   body: [
@@ -69,28 +79,33 @@ const CORE: Record<string, Core[]> = {
       d: 'body',
       text: 'On most days in exam weeks I go to bed and wake up at roughly the same time.',
       tip: 'Choose a sleep and wake time you can keep for the next fourteen days, set a phone alarm thirty minutes before bedtime to put books away, and keep the wake time even after a bad night.',
+      up: 'Keep a tick chart of bedtime and wake time for two weeks, mark any day you slip by more than an hour and write the reason. Then fix the reason that repeats most.',
     },
     {
       d: 'body',
       text: 'I eat proper meals at regular times even on heavy study days.',
       tip: 'Fix three meal times and keep a simple option ready, such as roti with sabzi, dal rice, curd rice, idli, eggs or fruit, whatever is easy at your place. Eat away from your desk and phone for at least ten minutes.',
+      up: 'Set your three meal times as phone alarms for exam weeks, and get tomorrow\'s easy meal option ready the evening before so a heavy study day does not decide your meals.',
     },
     {
       d: 'body',
       text: 'I stay awake most of the night before an exam to cover more topics.',
       reverse: true,
       tip: 'Decide a closing time for the night before, make a one-page sheet of formulas, dates or headings, read it once and sleep. A tired mind can misread questions you actually know.',
+      up: 'Two nights before a paper, write the time you will stop and tell a family member or roommate. When the urge to go on comes at that time, close the book and start your sleep routine.',
     },
     {
       d: 'body',
       text: 'I rely on a lot of tea, coffee or energy drinks to get through study hours.',
       reverse: true,
       tip: 'For one week, keep to the cups you normally have, none after the afternoon, and when you want one more, drink water, wash your face or walk for five minutes instead. Notice how your evenings and sleep feel.',
+      up: 'Note your cups in a notebook for one week, with the time of the last one. When you reach for an extra cup, drink water and wait ten minutes first, and ask a friend to remind you of your stop time.',
     },
     {
       d: 'body',
       text: 'On most days in exam weeks I move my body, even if it is only a short walk or some stretching.',
       tip: 'Add a twenty minute walk or stretch at the same time every day, such as right after dinner, since a fixed time is easier to keep. Between study blocks of forty to fifty minutes, take a five to ten minute break away from your phone.',
+      up: 'Stretch the walk by five minutes or end it with a few simple stretches, and tick it in your timetable. Ask a friend or sibling to join you twice a week.',
     },
   ],
   paper: [
@@ -98,27 +113,32 @@ const CORE: Record<string, Core[]> = {
       d: 'paper',
       text: 'In the exam I read the whole paper first and decide how much time each section gets.',
       tip: 'Practise this in every mock: spend the first five minutes reading, write the time budget next to each section, and note the finish time for each on the margin of the paper.',
+      up: 'In the middle of each mock, check the time at the end of every section against your budget. Afterwards, change the budget for the section that ran over.',
     },
     {
       d: 'paper',
       text: 'If I am stuck on a question, I mark it and move on, then come back to it later.',
       tip: 'Set a rule before the exam: if a question has not moved in two or three minutes, put a small tick next to it and go on. Practise the rule in timed papers until it is automatic.',
+      up: 'After each mock, count how many ticked questions you went back to and solved. If you rarely return to them, fix a time for it, such as the last fifteen minutes.',
     },
     {
       d: 'paper',
       text: 'If I go blank in the exam hall, I do not know what to do to get going again.',
       reverse: true,
       tip: 'Make a thirty second reset and use it in every practice paper: put the pen down, breathe out slowly for longer than you breathe in, read the question again, then write any one line you know about it. Having a script helps more than hoping it will not happen.',
+      up: 'When you feel a blank starting in a mock, do the thirty second reset at once instead of pushing on, and note how long it took to get going again. Shorten the steps if it was slow.',
     },
     {
       d: 'paper',
       text: 'The evening before every paper, I pack my admit card and stationery and check how I will reach the centre.',
       tip: 'Make a checklist on a card and keep it in your bag: admit card, ID, pens, geometry box or calculator if allowed, water. Check the centre address and travel time the evening before.',
+      up: 'Pack the bag the evening before using your card and tick each item, then ask someone at home to check your admit card too. After each paper, add anything you wished you had carried.',
     },
     {
       d: 'paper',
       text: 'I wait until all my exams are over before comparing answers with friends.',
       tip: 'Agree a rule with your friends: no answer comparing until the last paper is done. After each paper, spend ten minutes noting one thing to fix, and begin the next subject.',
+      up: 'When friends start comparing answers, use one fixed line such as I will check after the last paper, and walk away. Spend those minutes on the next subject\'s one-page sheet.',
     },
   ],
   support: [
@@ -126,27 +146,32 @@ const CORE: Record<string, Core[]> = {
       d: 'support',
       text: 'I have at least one person I can tell honestly how my preparation is going.',
       tip: 'Choose one person, a friend, sibling, teacher or cousin, and agree a fixed short chat each week. Say how many chapters you finished and how you are feeling, in plain words.',
+      up: 'Make the weekly chat specific: share chapters done, mocks attempted and hours slept, and ask the person one question. Note one thing they said that you will try.',
     },
     {
       d: 'support',
       text: 'I can tell my family what kind of help I need, such as quiet time, meals on time or no comparisons.',
       tip: 'Write down two or three things that would help at home, such as a quiet hour or no questions about results during meals, and share them at one calm moment, not in the middle of an argument.',
+      up: 'After a week, ask your family how your requests worked and what is still hard. Adjust one request and thank them for one thing they did, so the arrangement stays friendly.',
     },
     {
       d: 'support',
       text: 'When I am stuck on a topic, I ask a teacher, senior or study partner soon instead of waiting.',
       tip: 'Keep a list of doubts through the week, and take the whole list to one teacher, senior or study partner at a fixed time. Do not carry a doubt for more than a few days.',
+      up: 'Set a three day limit for any doubt: if it is still open then, it goes on the list and to the teacher or partner that week. Write the answer you got beside the doubt.',
     },
     {
       d: 'support',
       text: 'I keep my worries to myself because I do not want others to think I cannot cope.',
       reverse: true,
       tip: 'Tell one trusted person one specific worry this week, for example that you are not sleeping before mocks. Saying it aloud often makes it lighter, and the person may help with something practical, like a quieter room or a doubt session.',
+      up: 'The next time you say all fine and it is not true, add one honest sentence, such as preparation is slow this week. Say it to the same trusted person once a week.',
     },
     {
       d: 'support',
       text: 'At least once a week I spend time with friends or family doing something that has nothing to do with exams.',
       tip: 'Put one fixed slot in your weekly timetable for a family meal, a game of cricket or carrom, a film or a visit to a relative, and treat it like a class you do not miss. Rest that is planned in advance feels less guilty.',
+      up: 'Decide the exact hours of your rest slot, switch off study group notifications in it and plan what you will do. Move it only if an exam is the next day.',
     },
   ],
 };
@@ -429,6 +454,7 @@ export const bundle: SkillTestBundle = {
       },
     ],
     tips: CORE_LIST.map((q) => q.tip),
+    tipsUp: CORE_LIST.map((q) => q.up),
     strongTip: 'This is a healthy habit. Keep it going through the heaviest weeks of the exam period.',
     domains: {
       prep: {
@@ -597,147 +623,147 @@ export const bundle: SkillTestBundle = {
 
   extras: [
     // Board
-    x(
+    { ...x(
       ['board'],
       'prep',
       'I know the syllabus, marking scheme and sample paper of my board for each subject.',
       'Download the latest syllabus and sample paper from your board\'s official website, or ask your school for them, and note the marks for each section so you spend time where the marks are.',
-    ),
-    x(
+    ), up: 'Make a one-page sheet for each subject with the marks per section and the chapters they come from, then ask a teacher to confirm it matches the current syllabus and your sample paper.' },
+    { ...x(
       ['board'],
       'thoughts',
       'I feel that my family\'s respect for me depends on my board marks.',
       'Ask one family member what they are hoping for beyond the marks, and listen to the answer. Then tell them your own target and what you are doing about it, so the talk is about a plan and not only about a number.',
       true,
-    ),
-    x(
+    ), up: 'When the thought that your family\'s respect depends on marks arrives, write one thing they have said or done that shows otherwise, and share your plan with the family member you trust most.' },
+    { ...x(
       ['board'],
       'body',
       'I keep my sleep time steady in pre-board and board weeks even when classmates stay up late.',
       'Tell your friends your sleep time and stick to it. If a late-night group session leaves you tired for the next day\'s paper, offer to meet in the afternoon instead.',
-    ),
-    x(
+    ), up: 'Tell one friend and one family member your fixed sleep time. When plans change, message the friend, and note in a diary any night you slipped and what caused it.' },
+    { ...x(
       ['board'],
       'paper',
       'I practise writing full answers within the time limit, including diagrams, steps and neat presentation.',
       'Write at least one full paper per subject by hand in the real time, then ask a subject teacher to read it as a marker would and tell you where the answers could be clearer, shorter or better laid out.',
-    ),
-    x(
+    ), up: 'Once a week, compare one of your answers with the marking scheme or a model answer and mark where steps or diagrams were missing. Do this for a different subject each time.' },
+    { ...x(
       ['board'],
       'support',
       'My parents and I have talked about what the plan is after the board results.',
       'Sit with your parents once before the exams and write two or three options, such as the stream, a college or a repeat or supplementary exam if your board allows it (check its official rules), so that the result is a choice between options, not the end of them.',
-    ),
+    ), up: 'Return to the written options with your parents a few weeks before the exams, update them with anything new, and fix a date for the next talk.' },
     // Entrance
-    x(
+    { ...x(
       ['entrance'],
       'prep',
       'After each mock test I study the kind of mistakes I made, not only my score.',
       'Make a mistake log with three columns: concept gap, speed, carelessness. Spend the first hour after each mock on it, and plan the week from the biggest column.',
-    ),
-    x(
+    ), up: 'Review the mistake log every Sunday for ten minutes, see which column grew and set one fix for the week, such as a timed set for the speed column. Check it again after the next mock.' },
+    { ...x(
       ['entrance'],
       'thoughts',
       'One bad mock test makes me doubt whether I should continue my preparation at all.',
       'Write down your last four or five mock results and notice the pattern, not just the last one. Decide any big question like continuing or changing plans only after talking to a teacher or mentor, never on the evening of a bad mock.',
       true,
-    ),
-    x(
+    ), up: 'On the evening after a bad mock, write the decision you are tempted to make and the date you will talk to your mentor about it. Read your last results page and decide only after that date.' },
+    { ...x(
       ['entrance'],
       'body',
       'My weekly schedule has a lighter half-day or a full break that I actually take.',
       'Mark one half-day as a fixed rest slot in your timetable for the next month, with no mock tests or solving. A routine you can keep for many months matters more than a few heroic weeks.',
-    ),
-    x(
+    ), up: 'Plan the rest half-day the day before, such as a film, a visit or a match, and tell someone at home. If you studied during it, note why and protect the next one.' },
+    { ...x(
       ['entrance'],
       'paper',
       'I have decided in advance how I will choose questions in the paper and when I will skip.',
       'In your next three mocks, try one strategy: a first pass for easy questions, a second pass for medium ones, and skip the rest. Check your exam\'s marking scheme for negative marking before deciding how much to guess, and keep the strategy that works for you.',
-    ),
-    x(
+    ), up: 'After each mock, note how many questions you skipped, how many you went back to and what the skipped ones were worth. Adjust your first-pass limit from that.' },
+    { ...x(
       ['entrance'],
       'support',
       'I have a Plan B that I have discussed with my family, so the exam does not feel like all or nothing.',
       'Write a short Plan B with your family, for example another entrance exam, a related course or one more attempt where the rules allow it, and read it once a month. Having it written lowers the pressure on each mock.',
-    ),
+    ), up: 'Look at your Plan B list after every second mock and ask a family member or mentor one question about it. Add the dates or application steps for the first option.' },
     // College
-    x(
+    { ...x(
       ['college'],
       'prep',
       'I leave most of my study for the last few days before semester exams.',
       'This week, give one evening to each subject and read through its units once, noting what you do not follow. A first pass spread over the term means the last week is for revision, not for reading the syllabus for the first time.',
       true,
-    ),
-    x(
+    ), up: 'Put a fixed weekly slot for one subject on your timetable, such as Sunday afternoon, and tick it. When the urge to postpone comes, do the first twenty minutes and then decide.' },
+    { ...x(
       ['college'],
       'prep',
       'When papers fall close together, I give more revision days to the harder subjects instead of splitting time equally.',
       'Rank your subjects from hardest to easiest for you and allot days in that proportion. Put the hardest paper\'s revision first, and a lighter subject close to its paper.',
-    ),
-    x(
+    ), up: 'After the first revision days for a hard subject, test yourself with ten past questions to see if the days were enough. Move a day from an easy subject if not.' },
+    { ...x(
       ['college'],
       'thoughts',
       'A backlog or low marks in one subject makes me feel I am behind everyone else.',
       'Write down what the backlog needs, such as which paper, which attempt and which dates, and the next step. Talk to your class mentor or the exam section, because the backlog rules differ between universities and are best read in your own university\'s notice.',
       true,
-    ),
-    x(
+    ), up: 'When the feeling of being behind comes, open your backlog page and do the next step on it, even if it is only a message or a form. Ask a senior how they cleared theirs.' },
+    { ...x(
       ['college'],
       'body',
       'In semester exam weeks I skip proper meals and live on snacks and tea.',
       'Before the first paper, arrange two proper meals a day with your hostel mess, canteen or home, and keep fruit or roasted chana for the study hours. Tea can stay, but not as a meal.',
       true,
-    ),
-    x(
+    ), up: 'Keep fruit or roasted chana in your bag. When you notice by afternoon that you have skipped a meal, make a proper meal your next break, with a friend if possible.' },
+    { ...x(
       ['college'],
       'support',
       'I talk to my class teacher, mentor or a senior about a weak subject early in the semester.',
       'Within the next week, meet the teacher of your weakest subject and ask what the important topics are and where students usually lose marks. Ask a senior for old question papers and tips.',
-    ),
-    x(
+    ), up: 'Book the meeting with your teacher or mentor now and take a list of three questions. Afterwards, write the answer you got and what you will do about it.' },
+    { ...x(
       ['college'],
       'paper',
       'I have looked at previous papers of each subject to see how marks are divided across units and question types.',
       'Collect three previous papers per subject from the department, library or a senior. Mark which units come up often and how long the answers are expected to be, then plan your revision around that pattern and not around the whole book equally.',
-    ),
+    ), up: 'After studying the previous papers, write a one-page table of units against marks and show it to a senior or teacher to check that it matches what they have seen.' },
     // Govt
-    x(
+    { ...x(
       ['govt'],
       'prep',
       'My study hours fit around my job or other duties, and I can keep them most days.',
       'Count the hours that are really free on a weekday and on a weekend, and plan only about three-quarters of them. A plan you can keep beats a plan that breaks in the first week.',
-    ),
-    x(
+    ), up: 'Track the hours you actually study for two weeks and compare them with your plan. If you missed it repeatedly, cut the plan to the lower number, then add back thirty minutes.' },
+    { ...x(
       ['govt'],
       'thoughts',
       'After a failed attempt, I can look at what went wrong without blaming myself for everything.',
       'Within two weeks of a result, write three things that cost marks or time and two things that went well. Change only two things in the next attempt, instead of rebuilding everything.',
-    ),
-    x(
+    ), up: 'Share your list of what cost marks with a friend who attempted the same exam, or a mentor, and ask what they would change. Put the two changes in your timetable with dates.' },
+    { ...x(
       ['govt'],
       'thoughts',
       'I feel guilty whenever I rest, because other aspirants are studying.',
       'Treat your rest as part of the plan: put a fixed rest slot in the week and tell yourself it is part of the schedule. Long preparation depends on steady energy, not on the number of hours others claim.',
       true,
-    ),
-    x(
+    ), up: 'When guilt comes during rest, check whether the day\'s study blocks are done. If they are, tell yourself this is planned rest. If not, shift a study block, not the rest.' },
+    { ...x(
       ['govt'],
       'body',
       'I protect my sleep even when I study after a day at work.',
       'Set a hard stop for evening study, a fixed time you will be in bed, and plan the next day\'s topic before you stop so you do not lie awake thinking about it.',
-    ),
-    x(
+    ), up: 'Check your sleep record weekly. If the stop time slipped on more than two days, start study thirty minutes earlier, and keep the next day\'s topic note on your desk so stopping is easier.' },
+    { ...x(
       ['govt'],
       'paper',
       'I know which sections cost me time or marks in my last attempt and have a plan for them.',
       'Take your last paper or your latest mock and mark the time spent against the marks gained in each section. Set a time limit for the weakest section and practise it separately for two weeks.',
-    ),
-    x(
+    ), up: 'Redo the weakest section of one paper under a timer every week, writing down the time and score each time. After two weeks, see whether the time limit still fits.' },
+    { ...x(
       ['govt'],
       'support',
       'My family and I have agreed how long and how many attempts I will go on, and a fallback we are comfortable with.',
       'Choose a calm time and ask your family what limits and fallback options they can accept. Check the attempt and age limits in the official notification of your exam, and write the plan down together. A shared plan can ease the feeling of unspoken pressure.',
-    ),
+    ), up: 'Review the agreement with your family every few months and after each attempt, confirm that the limit and fallback still work, and note any change in the official notification.' },
   ],
 
   stageAdvice: {
