@@ -1,0 +1,592 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Follow-up-checked: every two-row and three-row drop is already claimed by an existing sibling, so this page uses the unused single-row drop (0) and adds page-specific extra rows tied to the port, shipyard and Infopark questions below.
+const comparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 0,
+);
+
+const title = "Career Counselling in Kochi | Practical Online Guidance | Future Career School";
+const description = "Career counselling in Kochi: Infopark and SmartCity IT, port, shipyard and refinery careers, banking, or Gulf work. Online across India.";
+const canonical = "https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kochi/";
+
+const fitItems = [
+  {
+    "title": "What you actually need right now",
+    "listItems": [
+      "You want support that feels easier to trust and easier to start.",
+      "You want clarity before committing to an IT career, a port-and-shipping or core-engineering route, a banking path or a Gulf plan.",
+      "You want something more practical than a relative's opinion or an institute's admission pitch.",
+      "You want a real next step toward a high-value skill portfolio, not only motivational talk."
+    ]
+  },
+  {
+    "title": "What should matter more than city alone",
+    "listItems": [
+      "Whether IT, maritime-industrial and banking routes are compared honestly against each other",
+      "Whether the Kakkanad commute and rent reality is counted in the plan",
+      "Whether your skill choice would still hold if you left Kerala"
+    ]
+  }
+];
+const fitSummaryItems = [
+  {
+    "title": "Closer should still mean clearer",
+    "body": "Kochi has several large employers in very different sectors; nearness does not choose between them."
+  },
+  {
+    "title": "Quality before convenience",
+    "body": "IT, port, shipbuilding and banking each ask for different skills and different proof of work."
+  },
+  {
+    "title": "Act before the wrong turn compounds",
+    "body": "A course picked from a hoarding rather than a market check is the cost of waiting."
+  }
+];
+const localItems = [
+  {
+    "title": "Port, shipyard, refinery and the Eloor belt: Kochi is an industrial city before it is an IT city",
+    "body": "Cochin Port runs on a complex of islands that includes Willingdon Island, and the International Container Transshipment Terminal at Vallarpadam handles container traffic. Cochin Shipyard is among India's largest shipbuilding and ship-repair facilities, and BPCL's Kochi Refinery at Ambalamugal is a large public-sector refinery. North of the centre, Eloor is described as Kerala's largest industrial belt, and the Cochin Special Economic Zone and KINFRA export park sit on the outskirts. These workplaces hire marine, mechanical, electrical, chemical, instrumentation, logistics and supply-chain people, and a large share of the work rewards trade depth and certification over a general degree. Public-sector units usually hire through formal notices, so check each employer's own careers page for current openings and rules."
+  },
+  {
+    "title": "Infopark and SmartCity at Kakkanad carry the IT and services economy",
+    "body": "Infopark and the SmartCity township at Kakkanad are where most of Kochi's software, IT-services and back-office hiring sits. That makes Kakkanad, Edappally and the stretch between them the usual base for early-career tech workers, and rent and commute become part of the real salary calculation. The practical question is not whether Kakkanad hires; it is whether your skills are in the part of the work that grows (building, data, product, automation) or the part that is easiest to repeat and to replace."
+  },
+  {
+    "title": "Banking, spice trade, education and tourism add the quieter routes",
+    "body": "Federal Bank has its headquarters in Aluva, the Spices Board of India is headquartered in Kochi, and the city hosts the International Pepper Exchange. CUSAT at Kalamassery anchors engineering and science education, and Ernakulam is the commercial core. Fort Kochi and Mattancherry carry heritage tourism and hospitality. Each of these is a real route with its own entry rules, and Gulf work remains a parallel option for many Ernakulam-district families."
+  },
+  {
+    "title": "Pay, cost and competition: what to plan for",
+    "body": "Starting pay for entry-level service and back-office roles in Kerala's larger cities is often modest next to housing and commute costs, while skilled engineering, data and finance roles move faster once there is proof of work. Competition for public-sector and bank notices is high, and many applicants prepare for several attempts. Treat any figure you hear as unverified until you see it in a current offer letter or on the employer's own careers page, and plan a skill that keeps earning while an attempt is pending."
+  }
+];
+const localSummaryItems = [
+  {
+    "title": "Several economies, one city",
+    "body": "Port and industry, IT, banking and trade, and tourism each need a different skill base, so the first job is choosing which one you are actually building for."
+  }
+];
+const forkItems = [
+  {
+    "title": "The decisions worth separating",
+    "listItems": [
+      "IT and services work at Infopark and SmartCity versus a core-engineering or maritime-industrial route",
+      "A banking or finance path versus a skills-first technology route",
+      "Staying in Kerala versus moving to Bengaluru, Chennai or the Gulf",
+      "A degree-first plan versus a certificate-and-portfolio plan"
+    ]
+  },
+  {
+    "title": "What deliberate planning adds",
+    "listItems": [
+      "A skill choice matched to what Kochi employers really hire for",
+      "A realistic view of rent, commute and starting pay before choosing Kakkanad",
+      "A backup skill if a public-sector notice does not clear",
+      "Proof of work that travels, so the plan survives a move out of Kerala"
+    ]
+  }
+];
+const forkSummaryItems = [
+  {
+    "title": "Four routes, one decision",
+    "body": "The useful question is which combination fits your strengths and your family constraints, not which sector sounds biggest."
+  }
+];
+const areaItems = [
+  {
+    "title": "Kakkanad, Infopark and SmartCity",
+    "body": "The IT and services hub, and the main reason many freshers rent in Kakkanad, Edappally or Palarivattom."
+  },
+  {
+    "title": "Ernakulam, Kaloor, Panampilly Nagar and Kadavanthra",
+    "body": "The commercial and coaching core, with banks, offices, institutes and the High Court area close together."
+  },
+  {
+    "title": "Edappally, Vyttila and Tripunithura",
+    "body": "Residential belts linked by the metro and by road, popular with families managing a daily commute."
+  },
+  {
+    "title": "Kalamassery, Eloor and Aluva",
+    "body": "The industrial and education side of the city: CUSAT, the Eloor factories, and the Federal Bank headquarters in Aluva."
+  },
+  {
+    "title": "Willingdon Island, Thevara and Ambalamugal",
+    "body": "The port, naval and refinery side, where maritime, marine-engineering and process-industry careers are concentrated."
+  },
+  {
+    "title": "Fort Kochi and Mattancherry",
+    "body": "Heritage, tourism and hospitality, plus a spice-trade history that still shapes local business."
+  }
+];
+const cityDecisionItems = [
+  {
+    "title": "Choose local-first support when trust is the real blocker",
+    "listItems": [
+      "You are more likely to act if the search feels closer and easier to trust",
+      "You want to weigh IT, port-and-industry, banking and Gulf routes before deciding",
+      "You need one practical next step, not a long career-theory discussion first",
+      "You are using the city search to reduce hesitation, not because Kochi itself resolves the decision"
+    ]
+  },
+  {
+    "title": "Choose broader guidance when the decision itself is the bigger problem",
+    "listItems": [
+      "You are choosing between an IT course and a core-engineering route",
+      "You are considering Bengaluru or the Gulf and want to compare it with staying",
+      "You can meet online from anywhere in Kerala",
+      "You need risk, timelines and income compared"
+    ]
+  }
+];
+const cityDecisionSummaryItems = [
+  {
+    "title": "Use the city label as a trust shortcut",
+    "body": "A Kochi search can start the conversation, not end it."
+  },
+  {
+    "title": "Let decision quality decide the next step",
+    "body": "Pick the route that makes IT, industry, banking or migration a clear decision."
+  }
+];
+const deliverableItems = [
+  {
+    "title": "Clarity on the real decision creating pressure right now",
+    "listItems": [
+      "Whether an IT, maritime-industrial or banking route fits your strengths",
+      "Whether staying in Kochi or moving out is the stronger plan",
+      "What your income trajectory looks like on the current path",
+      "Which expensive wrong turn is most urgent to stop repeating"
+    ]
+  },
+  {
+    "title": "Skill direction tied to Kochi's actual economy",
+    "listItems": [
+      "Software, data or automation skills if the Infopark economy fits",
+      "Logistics, supply-chain or core-engineering depth if the port and industrial side fits",
+      "Finance and analytics skills if banking fits",
+      "A clearer route toward earlier financial freedom from your starting point"
+    ]
+  },
+  {
+    "title": "A lower-friction way to start moving",
+    "listItems": [
+      "A comparison of the routes you are already considering",
+      "A target and the qualification each one needs",
+      "One next step, with a backup in place"
+    ]
+  }
+];
+const onlineAdvantageItems = [
+  {
+    "title": "You can start from home, hostel, workplace or a flat in Kakkanad",
+    "body": "Sessions run online, so a long commute between Ernakulam and Kakkanad never decides whether you can attend."
+  },
+  {
+    "title": "Online guidance can sit alongside family conversations",
+    "body": "Parents, and relatives working abroad, can join the same call and hear the same comparison."
+  },
+  {
+    "title": "The stronger comparison is generic versus genuinely useful",
+    "body": "Outside advice can compare Kochi with Bengaluru, Chennai and overseas options without a local bias."
+  }
+];
+const objectionItems = [
+  {
+    "title": "Should I take an IT course for Infopark, or look at port, shipyard and refinery work?",
+    "body": "It depends on your strengths and on how you handle a narrower, certification-heavy entry route versus a faster but more crowded IT one. Both exist in Kochi; the honest answer depends on you and not on which looks more modern."
+  },
+  {
+    "title": "Rents in Kakkanad and Edappally eat most of a fresher salary, so is staying worth it?",
+    "body": "That is a legitimate calculation to make before accepting any offer. A plan should count rent, commute and growth together, and compare it with an offer in another city rather than assume Kochi is the default."
+  },
+  {
+    "title": "My family has Gulf experience and expects me to follow it. Is that a bad idea?",
+    "body": "No. It deserves the same structure as any other route: which trade or profession, realistic income, cost of getting there, and what happens on return."
+  }
+];
+const prepItems = [
+  {
+    "title": "The real decision you need to solve first",
+    "body": "Bring the question creating pressure right now, whether that is IT versus industry, a banking attempt, a move out of Kerala or income growth."
+  },
+  {
+    "title": "The serious options you are already considering",
+    "body": "Write down the two to four routes you are comparing so the trade-offs are visible from the start."
+  },
+  {
+    "title": "What feels risky, delayed or expensive",
+    "body": "Be clear about what you do not want to repeat: a wrong course, a family-pressure default or more time lost in confusion."
+  },
+  {
+    "title": "The constraints that cannot be ignored",
+    "body": "Include budget, family expectations, notice or exam limits and any relocation or migration timeline early."
+  }
+];
+const buyerCheckItems = [
+  {
+    "title": "Check whether the counsellor understands Kochi's mix of sectors",
+    "body": "Port, shipyard, refinery, IT and banking are different markets. Good guidance should engage with the one that applies to you, not offer a generic metro answer."
+  },
+  {
+    "title": "Check whether the Kakkanad cost reality is counted",
+    "body": "A plan that ignores rent, commute and a move to another city is a plan for someone else."
+  },
+  {
+    "title": "Check whether the next move is realistic",
+    "body": "Good guidance names entry rules, competition and what skill-building works from your actual starting point."
+  }
+];
+const extraRows = [
+  {
+    "left": "An IT-course pitch that ignores the port, shipyard and refinery side of Kochi",
+    "right": "A comparison across IT, industrial and banking routes before any course fee"
+  },
+  {
+    "left": "Choosing Kakkanad by default without counting rent and commute",
+    "right": "A plan that counts housing, travel and growth against an offer elsewhere"
+  }
+];
+
+const relatedItems = [
+  { href: BOFU_INTERNAL_LINKS.guidanceLocations, title: "Career Guidance by Location", description: "See other city guidance options if you want to compare before deciding further." },
+  { href: BOFU_INTERNAL_LINKS.trivandrumCounselling, title: "Career Counselling in Trivandrum", description: "See Trivandrum's page if the state capital's Technopark, ISRO and PSC mix is closer to your situation." },
+  { href: BOFU_INTERNAL_LINKS.kozhikodeCounselling, title: "Career Counselling in Kozhikode", description: "See Kozhikode's page if a trade-and-institute city in North Kerala fits your situation." },
+  { href: BOFU_INTERNAL_LINKS.thrissurCounselling, title: "Career Counselling in Thrissur", description: "See Thrissur's page if gold, banking and Koratty industry are closer to your situation." },
+  { href: BOFU_INTERNAL_LINKS.careerCounselling, title: "Career Counselling", description: "See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone." },
+  { href: BOFU_INTERNAL_LINKS.careerCounsellingOnline, title: "Career Counselling Online", description: "See the online page if easier access across India matters more than city-based search wording." },
+  { href: BOFU_INTERNAL_LINKS.parentGuidance, title: "Broader Career Guidance", description: "See the main guidance page if the bigger issue is stream, course, skill, or career direction beyond the city search." },
+];
+
+const faqItems = [
+  {
+    "question": "Why choose online career counselling in Kochi instead of only looking for a nearby office?",
+    "answer": "Because the decision depends on your path and odds, not on an office in Ernakulam. Online sessions fit around classes and work and are available in Kochi and across India."
+  },
+  {
+    "question": "Can counselling help me choose between IT work at Infopark and a port, shipyard or refinery career?",
+    "answer": "Yes. These need different preparation, so the comparison covers your strengths, entry rules, competition and what proof of work each route rewards."
+  },
+  {
+    "question": "Are Kakkanad rents a real factor when deciding where to build a career?",
+    "answer": "Yes. Housing and commute are part of take-home reality for a fresher, and they should be weighed against growth and against offers in other cities."
+  },
+  {
+    "question": "Can this help students, freshers and working professionals in Kochi?",
+    "answer": "Yes. Students, freshers, IT professionals and people returning from the Gulf in Kochi can use it. Sessions run online across India."
+  },
+  {
+    "question": "Do you guarantee a job, a shipyard or bank placement, or a Gulf offer?",
+    "answer": "No ethical provider can guarantee any of these outcomes. The practical goal is better decision quality, stronger skill direction and a clearer path forward."
+  }
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      { '@type': 'ListItem', position: 3, name: 'Career Counselling and Career Guidance', item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/' },
+      { '@type': 'ListItem', position: 4, name: 'Locations', item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/' },
+      { '@type': 'ListItem', position: 5, name: "Career Counselling in Kochi", item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: "Career Counselling in Kochi | Future Career School",
+    description: "Career counselling in Kochi for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, and better income-growth direction.",
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'City', name: "Kochi" },
+    inLanguage: 'en-IN',
+    provider: { '@type': ['Organization', 'ProfessionalService'], name: 'Future Career School', url: 'https://futurecareerschool.com' },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance/">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Kochi</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Kochi
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Kochi
+        <span class="gold-text"> for practical clarity and stronger next steps</span>
+      </h1>
+      <p class="hero-sub">
+        Kochi pulls people in several directions at once: IT jobs at Infopark and SmartCity in Kakkanad, port and shipping work around Cochin Port and the Vallarpadam terminal, shipbuilding at Cochin Shipyard, the BPCL refinery at Ambalamugal, the Eloor industrial belt, banking and spice trade, and a Gulf option many families already know. Most advice online treats all of that as one generic metro. If you are at a real decision point, the goal is to get clear before more time goes the wrong way, and to build the kind of high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Kochi and across India. You can start from home in Edappally, a hostel near Kalamassery, a flat in Kakkanad or your workplace, with no travel and no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Kochi. It is whether the guidance improves the next move enough to matter.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Kochi search already reflects a serious decision, move before more time goes into the wrong direction"
+    body="Use this when you want stronger guidance now, not another round of delay while the decision keeps getting more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="local-economy"
+    title="What the Kochi job market is actually built on"
+    subtitle="A useful local page starts from the employers and sectors that really exist in and around the city, and from what each one asks of a new entrant."
+    items={localItems}
+    variant="decision"
+  >
+    <BofuSummaryStrip items={localSummaryItems} variant="neutral" />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="local-routes"
+    title="Kochi puts four serious routes in front of one student"
+    subtitle="These are the real decisions people in Ernakulam district weigh, and each deserves a straight comparison."
+    items={forkItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={forkSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="kochi-areas"
+    title="Kochi's areas point to different real decisions"
+    subtitle="Where you live and study often decides which opportunities feel reachable. The areas below are the ones students and professionals here usually mention."
+    items={areaItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="city-page-vs-broader-guidance"
+    title="Choose the stronger starting point for your situation"
+    subtitle="For some people, local, Kochi-specific support is the easiest way to start. For others, broader guidance across paths and skills is the better fit because the decision itself is already the bigger issue."
+    items={cityDecisionItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={cityDecisionSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In a city with this many credible-looking paths, the risk is advice that ignores where you actually are. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={comparisonRows}
+    extraRows={[
+      ...extraRows,
+      { left: "Choosing a counsellor only because their office is in Kochi", right: "Live online sessions from Kochi, with the same process wherever you are" },
+    ]}
+  />
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Kochi"
+    subtitle="If the city search began as a trust shortcut, the next question is whether online guidance gives you a clearer, more practical next move than defaulting to whoever simply happens to be nearby."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Kochi"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Career counselling here is not about one isolated decision. It is about building a high-value skill portfolio backed by the decisions that unlock high income opportunities whether your path runs through IT, shipping and industry, banking, or somewhere else entirely."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #local-economy,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>

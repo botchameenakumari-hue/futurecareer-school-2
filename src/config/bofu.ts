@@ -82,6 +82,12 @@ export const BOFU_INTERNAL_LINKS = {
     '/services/career-counselling-and-career-guidance/locations/career-counselling-in-panchkula/',
   trivandrumCounselling:
     '/services/career-counselling-and-career-guidance/locations/career-counselling-in-trivandrum/',
+  kochiCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-kochi/',
+  kozhikodeCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-kozhikode/',
+  thrissurCounselling:
+    '/services/career-counselling-and-career-guidance/locations/career-counselling-in-thrissur/',
   jabalpurCounselling:
     '/services/career-counselling-and-career-guidance/locations/career-counselling-in-jabalpur/',
   delhiAfter10thCounselling:
@@ -238,6 +244,12 @@ export const BOFU_PUBLIC_LINKS = {
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-panchkula/',
   trivandrumCounselling:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-trivandrum/',
+  kochiCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kochi/',
+  kozhikodeCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kozhikode/',
+  thrissurCounselling:
+    'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-thrissur/',
   jabalpurCounselling:
     'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-jabalpur/',
   delhiAfter10thCounselling:

@@ -1,0 +1,591 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import BofuFaqSection from '../../../../../components/bofu/BofuFaqSection.astro';
+import BofuFeatureSection from '../../../../../components/bofu/BofuFeatureSection.astro';
+import BofuListCardSection from '../../../../../components/bofu/BofuListCardSection.astro';
+import BofuSummaryStrip from '../../../../../components/bofu/BofuSummaryStrip.astro';
+import ComparisonMatrix from '../../../../../components/bofu/ComparisonMatrix.astro';
+import GuidanceModelSection from '../../../../../components/bofu/GuidanceModelSection.astro';
+import BuyerChecks from '../../../../../components/bofu/BuyerChecks.astro';
+import ContextualCta from '../../../../../components/bofu/ContextualCta.astro';
+import GuidancePlansSection from '../../../../../components/bofu/GuidancePlansSection.astro';
+import FinalCta from '../../../../../components/bofu/FinalCta.astro';
+import LinkDirectorySection from '../../../../../components/LinkDirectorySection.astro';
+import { BOFU_COMPARISON_LIBRARY, BOFU_INTERNAL_LINKS } from '../../../../../config/bofu';
+
+// Follow-up-checked: every two-row and three-row drop is already claimed by an existing sibling, so this page uses the unused single-row drop (5) and adds page-specific extra rows tied to the trade, institute and Gulf-family questions below.
+const comparisonRows = BOFU_COMPARISON_LIBRARY.filter(
+  (_, index) => index !== 5,
+);
+
+const title = "Career Counselling in Kozhikode | Practical Online Guidance | Future Career School";
+const description = "Career counselling in Kozhikode (Calicut): trade and business, NIT and IIM city, Cyberpark IT, or Gulf work. Online across India.";
+const canonical = "https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/career-counselling-in-kozhikode/";
+
+const fitItems = [
+  {
+    "title": "What you actually need right now",
+    "listItems": [
+      "You want support that feels easier to trust and easier to start.",
+      "You want clarity before choosing between joining a family business, a professional course, an IT job or a Gulf plan.",
+      "You want something more practical than an admission counsellor or a relative advising by habit.",
+      "You want a real next step toward a high-value skill portfolio, not only motivational talk."
+    ]
+  },
+  {
+    "title": "What should matter more than city alone",
+    "listItems": [
+      "Whether the family-business route is compared fairly with outside employment",
+      "Whether the Gulf plan is weighed against building skills that pay at home",
+      "Whether you are using Kozhikode institutes as a ladder, not as the whole plan"
+    ]
+  }
+];
+const fitSummaryItems = [
+  {
+    "title": "Closer should still mean clearer",
+    "body": "Kozhikode has business, institute, IT and Gulf routes at once; nearness does not choose between them."
+  },
+  {
+    "title": "Quality before convenience",
+    "body": "Each route needs different skills and different capital, so compare them first."
+  },
+  {
+    "title": "Act before the wrong turn compounds",
+    "body": "A course chosen because a cousin did it is the cost of waiting."
+  }
+];
+const localItems = [
+  {
+    "title": "Trade, timber, footwear and tiles: a business-led economy",
+    "body": "Kozhikode is described as the main trade hub of North Kerala, and the district contributes a share of state income larger than its share of population. Mittai Theruvu (S. M. Street) is the commercial heart of the city, timber yards line the Kallayi River, and non-leather footwear and roof-tile manufacturing are established local industries. Further north, Vadakara's Nut Street is a large market for coconut and areca nut. Many families here run or trade in these businesses, which means the real decision for a young person is often whether to join, professionalise or leave the family business, and what skills (accounts, digital sales, operations, export paperwork) make it stronger."
+  },
+  {
+    "title": "NIT Calicut, IIM Kozhikode and Cyberpark: the knowledge economy",
+    "body": "NIT Calicut and IIM Kozhikode make the city a destination for engineering and management study, and UL Cyberpark, built by the Kozhikode-based Uralungal Labour Contract Co-operative Society (ULCCS), is the Malabar region's IT park. The honest picture is that IT hiring in Kozhikode is smaller than in Kochi or Bengaluru, so many graduates here weigh a local role against remote work for another city. A skill portfolio that can be shown to employers anywhere widens this choice."
+  },
+  {
+    "title": "Banking, healthcare, retail and the Gulf link",
+    "body": "Kozhikode has a long banking history; Nedungadi Bank, founded here in 1899, is described as Kerala's first modern bank. Hospitals, malls such as Focus Mall and HiLITE Mall, and a busy retail and services sector add steady employment. Gulf work is an established pattern across Malabar, so many families already have a relative abroad; that can be a strength, with contacts and experience to learn from, and a risk if it becomes the only plan."
+  },
+  {
+    "title": "Pay, cost and competition: what to plan for",
+    "body": "Family businesses can offer early responsibility and a steady base but uneven personal income, while salaried entry roles in the region often start modestly and rise with skill. Entrance routes to NIT, IIM and other institutes are highly competitive, and the Gulf path has its own costs and contract risks. Treat any figure you hear as unverified until it appears in a current offer letter or on an official website, and plan a skill that earns whichever route you take."
+  }
+];
+const localSummaryItems = [
+  {
+    "title": "A business city with institutes on top",
+    "body": "Trade and family enterprise, institutes, IT and Gulf work each need a different base, so the first job is choosing which one you are actually building for."
+  }
+];
+const forkItems = [
+  {
+    "title": "The decisions worth separating",
+    "listItems": [
+      "Joining or modernising a family business versus taking an outside job",
+      "A professional course through NIT, IIM or another institute versus a skills-first route",
+      "A local IT role at Cyberpark versus remote work for a Bengaluru or Kochi employer",
+      "A Gulf plan versus building a career at home"
+    ]
+  },
+  {
+    "title": "What deliberate planning adds",
+    "listItems": [
+      "A skill choice matched to what employers and family firms really need",
+      "A fair look at capital, risk and control in a family business",
+      "A backup plan if an entrance exam or a visa does not come through",
+      "Proof of work that employers outside Kerala can verify"
+    ]
+  }
+];
+const forkSummaryItems = [
+  {
+    "title": "Four routes, one decision",
+    "body": "The useful question is which combination fits your strengths and your family situation, not which route is most familiar."
+  }
+];
+const areaItems = [
+  {
+    "title": "Mittai Theruvu, Palayam and Valiyangadi",
+    "body": "The old trading core, where retail, wholesale and family firms are concentrated and the business-route question feels closest."
+  },
+  {
+    "title": "Eranhipalam, Nadakkavu, Mavoor Road and West Hill",
+    "body": "Residential and office belts with coaching centres, banks and professional firms."
+  },
+  {
+    "title": "Kunnamangalam and Chathamangalam",
+    "body": "The institute side: IIM Kozhikode, NIT Calicut and the students and faculty who surround them."
+  },
+  {
+    "title": "Medical College, Chevayur and Thondayad",
+    "body": "The healthcare and nursing cluster, with hospitals, pharmacies and allied training."
+  },
+  {
+    "title": "Beypore, Feroke and Kallai",
+    "body": "Port, timber, tile and small-factory areas where trades and manufacturing sit close to the water."
+  },
+  {
+    "title": "Vadakara and Koyilandy",
+    "body": "North of the city: coconut and areca trade, fishing and a strong tradition of working abroad."
+  }
+];
+const cityDecisionItems = [
+  {
+    "title": "Choose local-first support when trust is the real blocker",
+    "listItems": [
+      "You are more likely to act if the search feels closer and easier to trust",
+      "You want to weigh a family business, an institute route, IT and Gulf work before deciding",
+      "You need one practical next step, not a long career-theory discussion first",
+      "You are using the city search to reduce hesitation, not because Kozhikode itself resolves the decision"
+    ]
+  },
+  {
+    "title": "Choose broader guidance when the decision itself is the bigger problem",
+    "listItems": [
+      "You are choosing between a family business and an outside career",
+      "You are considering the Gulf and want to compare it with staying",
+      "You can meet online from anywhere in Kerala",
+      "You need risk, timelines and income compared"
+    ]
+  }
+];
+const cityDecisionSummaryItems = [
+  {
+    "title": "Use the city label as a trust shortcut",
+    "body": "A Kozhikode search can start the conversation, not end it."
+  },
+  {
+    "title": "Let decision quality decide the next step",
+    "body": "Pick the route that makes business, study, IT or migration a clear decision."
+  }
+];
+const deliverableItems = [
+  {
+    "title": "Clarity on the real decision creating pressure right now",
+    "listItems": [
+      "Whether to join, professionalise or step away from a family business",
+      "Whether a Gulf plan or a home-grown skill route is stronger for you",
+      "What your income trajectory looks like on the current path",
+      "Which expensive wrong turn is most urgent to stop repeating"
+    ]
+  },
+  {
+    "title": "Skill direction tied to Kozhikode's actual economy",
+    "listItems": [
+      "Accounts, digital sales and operations skills if a business route fits",
+      "Software, data or design skills if an IT route fits",
+      "Entrance-exam planning with a backup skill if an institute route fits",
+      "A clearer route toward earlier financial freedom from your starting point"
+    ]
+  },
+  {
+    "title": "A lower-friction way to start moving",
+    "listItems": [
+      "A comparison of the routes you are already considering",
+      "A target and the qualification each one needs",
+      "One next step, with a backup in place"
+    ]
+  }
+];
+const onlineAdvantageItems = [
+  {
+    "title": "You can start from home, hostel, shop or workplace",
+    "body": "Sessions run online, so a busy shop or a college timetable never decides whether you can attend."
+  },
+  {
+    "title": "Online guidance can include the whole family",
+    "body": "Parents, siblings and relatives working abroad can join the same call and hear the same comparison."
+  },
+  {
+    "title": "The stronger comparison is generic versus genuinely useful",
+    "body": "Outside advice can compare Kozhikode with Bengaluru, Kochi and overseas options without a local bias."
+  }
+];
+const objectionItems = [
+  {
+    "title": "My family business is established. Why look at anything else?",
+    "body": "You may well join it, and a good plan can still test whether you would be stronger with outside experience or a specific skill first. The comparison is about leverage, not loyalty."
+  },
+  {
+    "title": "Cyberpark is small compared with Kochi or Bengaluru. Is an IT career here realistic?",
+    "body": "It can be, particularly with remote-friendly skills and a portfolio that does not depend on your postcode. The plan should show both a local and a non-local version."
+  },
+  {
+    "title": "Many people around me went to the Gulf. Should I do the same?",
+    "body": "It is a legitimate route and deserves proper planning: which trade, realistic income, cost of going, and a return plan, rather than following precedent alone."
+  }
+];
+const prepItems = [
+  {
+    "title": "The real decision you need to solve first",
+    "body": "Bring the question creating pressure right now, whether that is the family business, an entrance exam, an IT move or a Gulf plan."
+  },
+  {
+    "title": "The serious options you are already considering",
+    "body": "Write down the two to four routes you are comparing so the trade-offs are visible from the start."
+  },
+  {
+    "title": "What feels risky, delayed or expensive",
+    "body": "Be clear about what you do not want to repeat: a wrong course, a family-pressure default or more time lost in confusion."
+  },
+  {
+    "title": "The constraints that cannot be ignored",
+    "body": "Include budget, family expectations, business obligations and any migration timeline early."
+  }
+];
+const buyerCheckItems = [
+  {
+    "title": "Check whether the counsellor understands Kozhikode's business culture",
+    "body": "Family enterprise is a real local route. Good guidance should weigh it seriously, not treat everyone as a future salaried employee."
+  },
+  {
+    "title": "Check whether a Gulf plan gets an honest answer",
+    "body": "Good guidance should plan a Gulf decision with realistic numbers and timelines, not dismiss it or assume it."
+  },
+  {
+    "title": "Check whether the next move is realistic",
+    "body": "Good guidance names entry rules, competition and what skill-building works from your actual starting point."
+  }
+];
+const extraRows = [
+  {
+    "left": "Treating every young person in Kozhikode as a future salaried employee",
+    "right": "A fair comparison of joining a family business, studying further and outside work"
+  },
+  {
+    "left": "Assuming a Gulf placement or a local course is the only choice",
+    "right": "A plan with a skill portfolio that works at home, remotely or abroad"
+  }
+];
+
+const relatedItems = [
+  { href: BOFU_INTERNAL_LINKS.guidanceLocations, title: "Career Guidance by Location", description: "See other city guidance options if you want to compare before deciding further." },
+  { href: BOFU_INTERNAL_LINKS.trivandrumCounselling, title: "Career Counselling in Trivandrum", description: "See Trivandrum's page if the state capital's Technopark, ISRO and PSC mix is closer to your situation." },
+  { href: BOFU_INTERNAL_LINKS.bangaloreCounselling, title: "Career Counselling in Bangalore", description: "See Bangalore if a move to a larger IT market is part of your plan." },
+  { href: BOFU_INTERNAL_LINKS.careerCounselling, title: "Career Counselling", description: "See the main counselling page if your bigger need is clarity and stronger next steps rather than location alone." },
+  { href: BOFU_INTERNAL_LINKS.careerCounsellingOnline, title: "Career Counselling Online", description: "See the online page if easier access across India matters more than city-based search wording." },
+  { href: BOFU_INTERNAL_LINKS.parentGuidance, title: "Broader Career Guidance", description: "See the main guidance page if the bigger issue is stream, course, skill, or career direction beyond the city search." },
+];
+
+const faqItems = [
+  {
+    "question": "Why choose online career counselling in Kozhikode instead of only looking for a nearby office?",
+    "answer": "Because the decision depends on your path and odds, not on an office in the city. Online sessions fit around classes, the shop or a job and are available in Kozhikode and across India."
+  },
+  {
+    "question": "Does this cover Calicut searches as well as Kozhikode?",
+    "answer": "Yes. Calicut is the same city. Guidance is the same whichever name you search under."
+  },
+  {
+    "question": "Can counselling help me decide between a family business and an outside career?",
+    "answer": "Yes. The comparison looks at capital, risk, control, learning and what skills make either route stronger, rather than assuming one answer."
+  },
+  {
+    "question": "Can this help students, freshers and working professionals in Kozhikode?",
+    "answer": "Yes. Students, freshers, business owners and professionals in Kozhikode and nearby Malabar towns can use it. Sessions run online across India."
+  },
+  {
+    "question": "Do you guarantee a job, an institute seat or a Gulf offer?",
+    "answer": "No ethical provider can guarantee any of these outcomes. The practical goal is better decision quality, stronger skill direction and a clearer path forward."
+  }
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      { '@type': 'ListItem', position: 3, name: 'Career Counselling and Career Guidance', item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/' },
+      { '@type': 'ListItem', position: 4, name: 'Locations', item: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/locations/' },
+      { '@type': 'ListItem', position: 5, name: "Career Counselling in Kozhikode", item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: "Career Counselling in Kozhikode | Future Career School",
+    description: "Career counselling in Kozhikode for students, freshers, and working professionals who want clearer decisions, stronger skill direction, proof of work, and better income-growth direction.",
+    url: canonical,
+    serviceType: 'Career Counselling and Career Guidance',
+    areaServed: { '@type': 'City', name: "Kozhikode" },
+    inLanguage: 'en-IN',
+    provider: { '@type': ['Organization', 'ProfessionalService'], name: 'Future Career School', url: 'https://futurecareerschool.com' },
+  },
+  faqJsonLd,
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav activePage="career-guidance" />
+
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-gold"></div>
+      <div class="orb orb-teal"></div>
+      <div class="grid"></div>
+    </div>
+    <div class="container hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/">Services</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href="/services/career-counselling-and-career-guidance/">Career Counselling and Guidance</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <a href={BOFU_INTERNAL_LINKS.guidanceLocations}>Locations</a>
+        <span aria-hidden="true">&rsaquo;</span>
+        <span aria-current="page">Career Counselling in Kozhikode</span>
+      </nav>
+
+      <div class="pill hero-pill">
+        <span class="pill-dot"></span>
+        Practical support for students, freshers, and working professionals in Kozhikode
+      </div>
+
+      <h1 class="hero-title">
+        Career counselling in Kozhikode
+        <span class="gold-text"> for practical clarity and stronger next steps</span>
+      </h1>
+      <p class="hero-sub">
+        Kozhikode, also searched as Calicut, is the main trade hub of North Kerala and also hosts NIT Calicut, IIM Kozhikode and a growing IT cluster at Cyberpark. Family businesses in timber, footwear and tiles, a long banking and trading history, strong Gulf connections across Malabar and a deep culture of professional courses all pull in different directions. Generic advice treats this as one more Kerala city. If you are at a real decision point, the goal is to get clear before more time goes the wrong way, and to build the high-value skill portfolio that unlocks high income opportunities and moves you toward earlier financial freedom.
+      </p>
+      <p class="hero-note">
+        Guidance is delivered fully online in Kozhikode and across India. You can start from home in Eranhipalam, a hostel near the Medical College, a flat in Kunnamangalam or your workplace, with no travel and no waiting for local availability.
+      </p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn-gold pulse">Get Student Career Counselling</a>
+        <a href="#plans" class="btn-outline">Get Working Professional Career Counselling</a>
+      </div>
+      <p class="hero-support">
+        The stronger filter is not only whether the search started with Kozhikode. It is whether the guidance improves the next move enough to matter.
+      </p>
+    </div>
+  </section>
+
+  <BofuListCardSection
+    sectionId="local-intent-fit"
+    title="Why this decision already feels important"
+    subtitle="You want support that feels easier to trust, easier to start, and more useful than generic advice - not another vague conversation."
+    items={fitItems}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={fitSummaryItems} variant="contrast" />
+  </BofuListCardSection>
+
+  <ContextualCta
+    audience="mixed"
+    title="If the Kozhikode search already reflects a serious decision, move before more time goes into the wrong direction"
+    body="Use this when you want stronger guidance now, not another round of delay while the decision keeps getting more expensive."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <BofuFeatureSection
+    sectionId="local-economy"
+    title="What the Kozhikode job market is actually built on"
+    subtitle="A useful local page starts from the sectors and institutions that really exist here, and from what each one asks of someone starting out."
+    items={localItems}
+    variant="decision"
+  >
+    <BofuSummaryStrip items={localSummaryItems} variant="neutral" />
+  </BofuFeatureSection>
+
+  <BofuListCardSection
+    sectionId="local-routes"
+    title="Kozhikode puts four serious routes in front of one student"
+    subtitle="These are the real choices Malabar families discuss, and each deserves a straight comparison."
+    items={forkItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={forkSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="kozhikode-areas"
+    title="Kozhikode's areas point to different real decisions"
+    subtitle="Where you live and study often decides which opportunities feel reachable. The areas below are the ones students and professionals here usually mention."
+    items={areaItems}
+    variant="decision"
+  />
+
+  <BofuListCardSection
+    sectionId="city-page-vs-broader-guidance"
+    title="Choose the stronger starting point for your situation"
+    subtitle="For some people, local, Kozhikode-specific support is the easiest way to start. For others, broader guidance across paths and skills is the better fit because the decision itself is already the bigger issue."
+    items={cityDecisionItems}
+    columns={2}
+    variant="contrast"
+  >
+    <BofuSummaryStrip items={cityDecisionSummaryItems} variant="neutral" />
+  </BofuListCardSection>
+
+  <GuidanceModelSection
+    sectionId="guidance-process"
+    title="How practical guidance should move the decision forward"
+    subtitle="The point is not a vague conversation. The point is better decisions, higher-value skill direction, proof of work, and a clearer path toward income growth."
+  />
+
+  <ComparisonMatrix
+    sectionId="comparison"
+    title="What makes this more useful than generic counselling"
+    subtitle="In a city with this many credible-looking paths, the risk is advice that ignores where you actually are. The comparison below shows what separates high-leverage guidance from generic career counselling."
+    rows={comparisonRows}
+    extraRows={[
+      ...extraRows,
+      { left: "Choosing a counsellor only because their office is in Kozhikode", right: "Live online sessions from Kozhikode, with the same process wherever you are" },
+    ]}
+  />
+
+  <BofuListCardSection
+    sectionId="what-good-support-should-give"
+    title="What stronger career counselling should give you"
+    subtitle="Good counselling should improve the next decision, not just describe your situation more politely."
+    items={deliverableItems}
+    columns={3}
+    variant="signal"
+  >
+  </BofuListCardSection>
+
+  <BofuFeatureSection
+    sectionId="why-online-still-works"
+    title="Why online career counselling can still be the stronger route from Kozhikode"
+    subtitle="If the city search began as a trust shortcut, the next question is whether online guidance gives you a clearer, more practical next move than defaulting to whoever simply happens to be nearby."
+    items={onlineAdvantageItems}
+    variant="decision"
+  />
+
+  <BofuFeatureSection
+    sectionId="common-doubts"
+    title="Common doubts before starting"
+    subtitle="These are the doubts worth resolving before you pay for any counselling support."
+    items={objectionItems}
+    variant="signal"
+  />
+
+  <BofuFeatureSection
+    sectionId="what-to-keep-ready"
+    title="What to keep ready before you pay for any career counselling"
+    subtitle="A stronger conversation starts faster when the real pressure, the real options, and the real constraints are already visible."
+    items={prepItems}
+    variant="signal"
+  />
+
+  <BuyerChecks
+    title="What to check before paying any career counselling service"
+    subtitle="Do not compare only convenience or the city label. Compare whether the process improves decision quality, skill direction, and the practical next step."
+    items={buyerCheckItems}
+  />
+
+  <ContextualCta
+    audience="mixed"
+    title="Locality can matter, but decision quality should still be what settles it"
+    body="The practical value is clearer fit, trade-offs, and next steps before a wrong route hardens further."
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <GuidancePlansSection
+    audience="mixed"
+    serviceLabel="Career Counselling"
+  />
+
+  <LinkDirectorySection
+    sectionId="related-help"
+    title="Explore related help"
+    subtitle="See the main guidance pages and other useful resources before you decide."
+    items={relatedItems}
+    altBackground={true}
+  />
+
+  <BofuFaqSection
+    sectionId="faq"
+    title="Questions people ask before choosing career counselling in Kozhikode"
+    items={faqItems}
+  />
+
+  <FinalCta
+    title="Move toward earlier financial freedom with a clearer next step"
+    subtitle="Career counselling here is not about one isolated decision. It is about building a high-value skill portfolio backed by the decisions that unlock high income opportunities whether your path runs through business, study, IT, Gulf work, or somewhere else entirely."
+    audience="mixed"
+    studentHref="#plans"
+    studentLabel="Get Student Career Counselling"
+    professionalHref="#plans"
+    professionalLabel="Get Working Professional Career Counselling"
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { position: relative; overflow: hidden; }
+  #hero { padding: 140px 0 86px; }
+  .hero-bg { position: absolute; inset: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+  .orb-gold { width: 520px; height: 520px; background: radial-gradient(circle, rgba(229,184,74,.18), transparent 70%); top: -140px; left: -80px; }
+  .orb-teal { width: 420px; height: 420px; background: radial-gradient(circle, rgba(45,212,191,.11), transparent 70%); top: 0; right: 0; }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,.86), transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 2rem; flex-wrap: wrap; }
+  .breadcrumb a { color: rgba(255,255,255,.45); transition: color .2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,.8); }
+  .hero-pill { width: fit-content; margin-bottom: 1.75rem; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .hero-title {
+    font-size: clamp(2.35rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -.04em;
+    color: #fff;
+    max-width: min(980px, 100%);
+    margin-bottom: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+  .hero-sub { font-size: clamp(15px, 1.95vw, 18px); color: rgba(255,255,255,.72); line-height: 1.88; max-width: 820px; margin-bottom: 1rem; }
+  .hero-note { font-size: 14px; color: rgba(255,255,255,.56); line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-support { font-size: 14px; color: rgba(255,255,255,.58); line-height: 1.8; max-width: 720px; margin-top: 1rem; }
+
+  #what-good-support-should-give,
+  #comparison,
+  #related-help { background: rgba(255,255,255,.012); }
+
+  #local-economy,
+  #common-doubts,
+  #faq { background: rgba(255,255,255,.008); }
+
+  @media (max-width: 680px) {
+    #hero { padding: 118px 0 72px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-gold,
+    .hero-actions .btn-outline,
+    .hero-actions .btn-soft { justify-content: center; }
+  }
+</style>
