@@ -156,7 +156,7 @@ const CONFUSED_10: SkillTest = {
       plan: [
         'Pick three things that matter to you, such as interest, strengths and future income, and score your two top routes on each.',
         'Set a decision date and tell one person about it. A date turns endless thinking into a task.',
-        'Treat the choice as reversible for the first months. Many students adjust later; knowing that lowers the fear.',
+        'Plan a review point a few months in. Options to adjust differ by board and college, so check what is possible before you need it. Knowing there is a review point lowers the fear.',
       ],
       next: {
         href: '/services/assessments/career-aptitude-test-after-10th/',
@@ -207,7 +207,7 @@ const CONFUSED_10: SkillTest = {
     {
       title: 'Confusion is usually one problem, not five',
       body: [
-        'Most students who feel confused after Class 10 are stuck on one of these areas, and the others are in better shape than they feel. The lowest area on your report is the best place to start because fixing it often makes the rest feel lighter.',
+        'Many students who feel confused after Class 10 are mainly stuck on one of these areas, and the others may be in better shape than they feel. The lowest area on your report is the best place to start because fixing it often makes the rest feel lighter.',
         'If two areas are close for lowest, begin with the one you can act on this week. Knowing the options and taking a small step are usually the quickest to improve.',
       ],
     },
@@ -236,7 +236,7 @@ const CONFUSED_10: SkillTest = {
     },
     {
       q: 'Is it normal to be confused after Class 10?',
-      a: 'Yes. Many students at 15 or 16 have not yet seen enough of different work to know what they like. Being unsure is a common starting point, and it can be worked through with a few focused steps.',
+      a: 'Yes. Many students at 15 or 16 may not yet have seen enough of different work to know what they like. Being unsure is a common starting point, and it can be worked through with a few focused steps.',
     },
     {
       q: 'Does this test tell me which stream to take?',
@@ -321,9 +321,9 @@ const COMMUNICATION: SkillTest = {
     mid: 'Developing, with room to grow.',
     low: 'The best place to practise first.',
   },
-  domainsHeading: 'Five areas of communication this assessment covers',
+  domainsHeading: 'Five areas this communication skills assessment covers',
   domainsIntro:
-    'Employers and interviewers rarely test communication as one thing. These five areas show up in interviews, group discussions, emails and day-to-day work.',
+    'Interviews and workplaces often test communication as several separate things. These five areas show up in interviews, group discussions, emails and day-to-day work.',
   domains: [
     {
       key: 'listen',
@@ -413,7 +413,7 @@ const COMMUNICATION: SkillTest = {
     {
       title: 'Why five scores matter more than one',
       body: [
-        'A single communication score hides what you can actually work on. Listening, speaking, writing, handling feedback and presenting are practised in different ways, and most people are clearly stronger in two or three of them.',
+        'A single communication score hides what you can actually work on. Listening, speaking, writing, handling feedback and presenting are practised in different ways, and many people are clearly stronger in two or three of them.',
         'Look at the gap between your highest and lowest area. A big gap means focused practice in one area will move your overall result quickly.',
       ],
     },
@@ -693,6 +693,11 @@ const SOFT_SKILLS: SkillTest = {
       href: '/services/assessments/graduates-and-early-professionals/',
       title: 'Graduates and Early Professionals Assessment',
       description: 'The full free assessment covering career fit, employability and role direction.',
+    },
+    {
+      href: '/services/assessments/working-professionals-and-career-changers/',
+      title: 'Working Professionals and Career Changers Assessment',
+      description: 'The full free assessment with leadership potential, income leverage, pivot readiness and AI career risk.',
     },
     {
       href: '/blog/skills/career-development-skills/',
