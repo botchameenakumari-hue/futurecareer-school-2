@@ -5,11 +5,12 @@ import type { SkillTestId } from './skillSelfTests';
 
 export type Talk = { q: string; a: string; line: string };
 
-export const TALK_TITLES: Record<SkillTestId, { strong: string; weak: string; intro: string }> = {
+export const TALK_TITLES: Record<SkillTestId, { strong: string; weak: string; intro: string; mode?: 'interview' | 'ask' }> = {
   'confused-after-10th': {
     strong: 'Use your strongest area when you talk to a counsellor or teacher',
     weak: 'Questions to ask about your lowest area',
     intro: 'Bring these to a school counsellor, teacher or someone working in a field you are considering. Specific questions get specific answers.',
+    mode: 'ask',
   },
   communication: {
     strong: 'How to show this strength in an interview or on your CV',

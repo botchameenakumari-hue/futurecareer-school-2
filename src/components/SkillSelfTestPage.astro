@@ -25,14 +25,25 @@ import {
   DOMAIN_PHRASES, STAGE_PLAN,
 } from '../config/skillSelfTestAudience';
 
+import type { SkillTestBundle } from '../config/skillTests/types';
+
 interface Props {
-  testId: SkillTestId;
+  testId?: SkillTestId;
+  bundle?: SkillTestBundle;
 }
 
-const { testId } = Astro.props;
-const test = SKILL_TESTS[testId];
-const baseDepth = SKILL_TEST_DEPTH[testId];
-const hasParent = testId === 'confused-after-10th';
+const { testId: testIdProp, bundle } = Astro.props;
+const testId = (bundle ? bundle.test.id : testIdProp) as SkillTestId;
+const test = bundle ? bundle.test : SKILL_TESTS[testId];
+const baseDepth = bundle ? bundle.depth : SKILL_TEST_DEPTH[testId];
+const hasParent = !bundle && testId === 'confused-after-10th';
+const extraQs = bundle ? bundle.extras : EXTRA_QUESTIONS[testId];
+const scenarios = bundle ? bundle.scenarios : [...SCENARIOS[testId], ...SCENARIOS_MORE[testId]];
+const stageAdviceAll = bundle ? bundle.stageAdvice : STAGE_ADVICE[testId];
+const phrasesAll = bundle ? bundle.phrases : DOMAIN_PHRASES[testId];
+const talkAll = bundle ? bundle.talk : TALK[testId];
+const talkTitlesAll = bundle ? bundle.talkTitles : TALK_TITLES[testId];
+const stagePlanAll = bundle ? bundle.stagePlan : STAGE_PLAN[testId];
 const depth = hasParent ? { ...baseDepth, stages: [...baseDepth.stages, PARENT_STAGE] } : baseDepth;
 const isStudent = test.main === 'class10';
 const plansConfig = getAssessmentPlansConfig(isStudent ? 'student' : 'mixed');
@@ -46,21 +57,20 @@ const clientData = {
   domains: test.domains,
   questions: [
     ...test.questions.map((q, i) => ({ ...q, tip: depth.tips[i] })),
-    ...EXTRA_QUESTIONS[testId],
+    ...extraQs,
     ...(hasParent ? PARENT_QUESTIONS : []),
-    ...SCENARIOS[testId],
-    ...SCENARIOS_MORE[testId],
+    ...scenarios,
   ],
   exclusiveStages: hasParent ? ['parent'] : [],
-  stageAdvice: hasParent ? { ...STAGE_ADVICE[testId], parent: PARENT_STAGE_ADVICE } : STAGE_ADVICE[testId],
+  stageAdvice: hasParent ? { ...stageAdviceAll, parent: PARENT_STAGE_ADVICE } : stageAdviceAll,
   parentBands: hasParent ? PARENT_BANDS : null,
   parentDomains: hasParent ? PARENT_DOMAINS : null,
   parentDeep: hasParent ? PARENT_DEEP : null,
-  phrases: DOMAIN_PHRASES[testId],
-  talk: TALK[testId],
-  talkTitles: TALK_TITLES[testId],
+  phrases: phrasesAll,
+  talk: talkAll,
+  talkTitles: talkTitlesAll,
   storeKey: 'sst-last-' + testId,
-  stagePlan: STAGE_PLAN[testId],
+  stagePlan: stagePlanAll,
   reportTitle: test.reportTitle,
   reportFile: test.reportFile,
   isStudent,
@@ -560,7 +570,7 @@ const jsonLd = [
       var TK = D.talk || {}, TT = D.talkTitles || {};
       var talkSection = '';
       if (!PAR && TK[highest.d.key] && TK[lowest.d.key]) {
-        var tH = TK[highest.d.key], tL = TK[lowest.d.key], isInt = !D.isStudent;
+        var tH = TK[highest.d.key], tL = TK[lowest.d.key], isInt = TT.mode ? TT.mode === 'interview' : !D.isStudent;
         talkSection = '<div class="result-section"><h4>' + esc(TT.strong) + '</h4><p>' + esc(TT.intro) + '</p>' +
           '<p><b>' + esc(highest.d.name) + (isInt ? ' - a question you may be asked:' : ' - a question to ask:') + '</b> ' + esc(tH.q) + '</p><p><b>' + (isInt ? 'How to answer:' : 'How to use it:') + '</b> ' + esc(tH.a) + '</p><p><b>' + (isInt ? 'A line for your CV or profile:' : 'A note to keep:') + '</b> ' + esc(tH.line) + '</p></div>' +
           '<div class="result-section"><h4>' + esc(TT.weak) + '</h4>' +

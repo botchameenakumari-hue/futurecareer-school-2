@@ -1,0 +1,806 @@
+import type { SkillTestBundle } from './types';
+import { x, sa, o, sc } from './types';
+
+const BASE = 'https://futurecareerschool.com/services/assessments/';
+
+export const bundle: SkillTestBundle = {
+  test: {
+    id: 'decision-making-skills-assessment',
+    slug: 'decision-making-skills-assessment',
+    pageUrl: '/services/assessments/decision-making-skills-assessment/',
+    breadcrumbName: 'Decision-Making Skills Assessment',
+    metaTitle: 'Decision-Making Skills Assessment | Free Self-Rating Test',
+    metaDescription:
+      'Free decision making test with 40 questions and five scores: clarity, facts, options, risk and follow-through. Instant result and a two-week plan.',
+    h1Lead: 'Decision-Making Skills',
+    h1Accent: 'Assessment',
+    eyebrow: 'Course, job and life choices in one honest report',
+    heroSub:
+      'Choosing a stream, a course, a job offer, a city or a loan is rarely hard because of one thing. For some people the real question is unclear, for others it is weak information, too few options, fear of regret or never acting. Rate statements and choose what you would do in real situations, and see which part of your decision-making to build first.',
+    stats: [
+      { value: '40', label: 'questions' },
+      { value: '5', label: 'decision areas' },
+      { value: 'Free', label: 'PDF report' },
+    ],
+    main: 'picker',
+    mainChecks: [
+      'Five decision-making areas from your own ratings',
+      'About 7 minutes, no sign-up',
+      'Your weakest step and a two-week plan to practise it',
+    ],
+    reportTitle: 'Decision-Making Report',
+    reportFile: 'future-career-school-decision-making-report.pdf',
+    reportKicker: 'DECISION-MAKING REPORT',
+    resultKicker: 'Your decision-making result',
+    scoreLabel: 'Overall decision-making',
+    bands: {
+      high: 'A relative strength.',
+      mid: 'Developing, with room to grow.',
+      low: 'This step needs the most work.',
+    },
+    domainsHeading: 'Five steps of a good decision this self-assessment covers',
+    domainsIntro:
+      'A decision usually goes wrong at one particular step, not everywhere. These five steps run from knowing what you are deciding to acting on it and reviewing it, written as everyday habits you can rate honestly.',
+    domains: [
+      {
+        key: 'clarity',
+        name: 'Defining the decision',
+        short: 'Knowing what you are really deciding and why',
+        strong: 'You can state the decision in one sentence, you know what matters most to you, and you separate your own wishes from what others expect.',
+        weak: 'You start comparing options before the real question is clear, or you let other people\'s expectations set the question for you.',
+        plan: [
+          'Write the decision as one sentence beginning with "I need to decide whether to..." and read it aloud to someone close.',
+          'List your top three priorities for this decision, for example interest, money in the first years, location or family needs, and rank them.',
+          'Write the date by which you must decide and the names of the people the decision affects.',
+        ],
+      },
+      {
+        key: 'facts',
+        name: 'Gathering and checking information',
+        short: 'Finding reliable facts before choosing',
+        strong: 'You check facts at the source, speak to people who have actually done it, and notice when a source has something to sell.',
+        weak: 'You rely on forwarded messages, one relative\'s opinion or a coaching centre\'s pitch, and rarely check the details yourself.',
+        plan: [
+          'Pick the one fact your decision depends on most and verify it on an official website, a prospectus or a notification.',
+          'Speak to two people who have actually done the course, job or move, and ask what surprised them.',
+          'Keep one page of notes with each fact and where you found it, so you can check it again later.',
+        ],
+      },
+      {
+        key: 'options',
+        name: 'Comparing options and trade-offs',
+        short: 'Weighing choices against what matters to you',
+        strong: 'You compare at least three real options, count what each one costs and gives, and check what each keeps open or closes off.',
+        weak: 'You compare only two options, go with the first one that feels good, or judge only by how things look today.',
+        plan: [
+          'Add a third option to your list, even if it is waiting six months or staying where you are.',
+          'Make a small table with each option as a column and your three priorities as rows, and give each cell a score from 1 to 5.',
+          'For each option, write one line on where it leads after two or three years and one line on what it makes harder to do later.',
+        ],
+      },
+      {
+        key: 'risk',
+        name: 'Handling risk, regret and fear',
+        short: 'Facing uncertainty without freezing or rushing',
+        strong: 'You name the worst realistic outcome, ask whether a choice can be tested or reversed, and accept that a good decision can still turn out badly.',
+        weak: 'Fear of the wrong choice, or of what people will say, makes you delay for weeks, hand the choice to someone else or rush to end the discomfort.',
+        plan: [
+          'Write the worst realistic outcome of your decision and what you would do in the first week if it happened.',
+          'Ask whether there is a smaller, cheaper way to test the choice first, such as a trial class, a short project or a conversation with someone in the role.',
+          'Write the fear you are carrying in one line, and next to it, whose voice it is: yours, a relative\'s or a friend\'s.',
+        ],
+      },
+      {
+        key: 'commit',
+        name: 'Deciding, acting and reviewing',
+        short: 'Closing the decision, starting and checking back',
+        strong: 'You decide by a date, take a first step within days, tell someone, and set a review date so you can change course on facts instead of mood.',
+        weak: 'You postpone until the deadline forces you, decide but do not act, or drop the choice at the first difficulty without a fair trial.',
+        plan: [
+          'Set a decision date no more than two weeks away and put it in your calendar with the words "decide by".',
+          'Choose a first step you can finish within three days of deciding, such as filling a form, paying a fee or sending a message.',
+          'Pick a review date and write down two facts that would make you change the decision.',
+        ],
+      },
+    ],
+    questions: [
+      { d: 'clarity', text: 'Before I compare options, I write down in one sentence what exactly I am deciding.' },
+      { d: 'clarity', text: 'I know the two or three things that matter most to me in a decision, such as interest, money, location or family needs.' },
+      { d: 'clarity', text: 'I often start choosing before I am clear what the real question is.', reverse: true },
+      { d: 'clarity', text: 'I can separate what I want from what others expect me to want.' },
+      { d: 'clarity', text: 'I know the date by which a decision must be made and who else is affected by it.' },
+      { d: 'facts', text: 'I check important facts on an official or first-hand source instead of trusting forwarded messages or videos.' },
+      { d: 'facts', text: 'Before a big choice, I speak to at least one person who has actually done the course, job or move.' },
+      { d: 'facts', text: 'I usually go with what one friend or relative told me, without checking it.', reverse: true },
+      { d: 'facts', text: 'I notice when a source has something to sell, such as a coaching centre, agent or course promoter, and I weigh its advice with that in mind.' },
+      { d: 'facts', text: 'I keep a note of what I found and where I found it, so I can go back to it.' },
+      { d: 'options', text: 'I compare at least three real options, and one of them can be waiting or changing nothing.' },
+      { d: 'options', text: 'For each option I list what it costs me and what it gives me in money, time, effort and learning.' },
+      { d: 'options', text: 'I judge options only by how they look now and do not think about where they lead after a few years.', reverse: true },
+      { d: 'options', text: 'I check which doors each option keeps open and which it closes.' },
+      { d: 'options', text: 'I rank options against my own priorities instead of taking the first one that feels right.' },
+      { d: 'risk', text: 'I can name the worst realistic result of a decision and what I would do if it happened.' },
+      { d: 'risk', text: 'Fear of choosing wrongly stops me from deciding for weeks.', reverse: true },
+      { d: 'risk', text: 'I ask whether a choice can be tested cheaply or reversed before I treat it as final.' },
+      { d: 'risk', text: 'I accept that a sensible decision can still have a bad result, and I do not blame myself for long.' },
+      { d: 'risk', text: 'I let worry about what relatives or friends will say decide the matter for me.', reverse: true },
+      { d: 'commit', text: 'Once I decide, I set a first step with a date within the same week.' },
+      { d: 'commit', text: 'I keep postponing decisions until the deadline forces me to act.', reverse: true },
+      { d: 'commit', text: 'I tell one or two people what I decided and what I will do first.' },
+      { d: 'commit', text: 'I set a date to review a decision and I am willing to change course if the facts say so.' },
+      { d: 'commit', text: 'I stay with a decision long enough to give it a fair trial before judging it.' },
+    ],
+    readingTitle: 'How to read your decision-making result',
+    readingSections: [
+      {
+        title: 'Decisions go wrong at one step, not everywhere',
+        body: [
+          'Most people do not struggle with every part of deciding. One person defines the question well but never checks facts. Another gathers facts for months and never acts. Your five scores show where your own process tends to break, so you can practise that step rather than trying to become a different person.',
+        ],
+      },
+      {
+        title: 'A low score is a habit, not a verdict on you',
+        body: [
+          'Each statement describes something you do, such as writing the decision in one sentence or setting a review date. Habits can be changed with a few weeks of practice on real choices. A low area means you have not yet used that step often, not that you are bad at choosing.',
+          'Your score also reflects how you rated yourself. If you were hard on yourself or generous with yourself, the number moves. Ask someone who has seen you make a decision whether they agree with your ratings.',
+        ],
+      },
+      {
+        title: 'Judge the process, not only the result',
+        body: [
+          'A decision can be made well and still turn out badly because something outside your control changed. A decision can also be made carelessly and work out by luck. This assessment looks at how you decide, so you can judge your choices by the steps you took and the facts you had at the time.',
+        ],
+      },
+      {
+        title: 'Turn the report into one real decision',
+        body: [
+          'Pick one live decision, such as a course, an offer, a city or a loan, and run your lowest area\'s plan on it for two weeks. A real choice gives the habit something to work on. After the plan, retake the assessment and compare the area scores.',
+        ],
+      },
+    ],
+    limits: [
+      'This is a self-rating tool and shows how you describe your own habits. It does not replace feedback from people who have seen you make decisions.',
+      'It does not tell you what to choose. It looks at how you decide, not whether a particular course, job or move is right for you.',
+      'It is not a psychological test, a personality profile or a diagnosis, and it does not predict selection, performance or success in any exam or job.',
+      'Scores are not compared with other people, so there is no pass mark. They only show how your five areas compare with each other.',
+      'For major financial, legal or health decisions, use this as a thinking aid and also speak to a qualified professional.',
+    ],
+    faqs: [
+      {
+        q: 'What is a decision making test?',
+        a: 'It is a set of statements and real-life situations about how you make choices. You rate yourself, and the report scores five steps: defining the decision, checking information, comparing options, handling risk and fear, and acting and reviewing.',
+      },
+      {
+        q: 'Is this a decision making style test?',
+        a: 'It looks at habits at each step of deciding rather than putting you into a single type. Two people with the same overall score can have very different weak steps, and the report shows yours.',
+      },
+      {
+        q: 'How good am I at making decisions? What is a good score?',
+        a: 'There is no pass mark and no comparison with other people. Your scores are based only on your own answers. The useful reading is which area is lowest, because that is where one or two small habits can help most.',
+      },
+      {
+        q: 'Is this a career decision making self assessment?',
+        a: 'It works for career choices such as stream, course, first job, job change or relocation, and also for money and family choices. It does not tell you which career to pick. For that, use a career fit assessment alongside it.',
+      },
+      {
+        q: 'Is this test free?',
+        a: 'Yes. You can take it without signing up and see the result straight away, along with a downloadable PDF report.',
+      },
+      {
+        q: 'How is the score worked out?',
+        a: 'Statements are rated from 1 to 5, and statements worded in the negative are reversed. In the situation questions, each option carries a score from 0 to 100. Each area score is the average of its statements and situations, shown out of 100, and the overall score is the average of the five areas.',
+      },
+      {
+        q: 'Can students and freshers use it?',
+        a: 'Yes. You choose the stage that fits you, student, fresher, working professional or someone also handling money, family or business choices, and a few statements and the advice change to match your situation.',
+      },
+      {
+        q: 'How is this different from the Confused After 10th test or the soft skills assessment?',
+        a: 'The Confused After 10th test finds what is blocking a Class 10 student\'s choice of stream. The soft skills assessment covers teamwork, leadership and similar skills. This one is about the decision process itself, for any age and any kind of choice.',
+      },
+    ],
+    related: [
+      {
+        href: '/services/assessments/confused-about-career-after-10th-test/',
+        title: 'Confused About Career After 10th Test',
+        description: 'Find what is blocking a stream or course decision after Class 10.',
+      },
+      {
+        href: '/services/assessments/soft-skills-self-assessment/',
+        title: 'Soft Skills Self-Assessment',
+        description: 'Leadership, teamwork, adaptability, ownership and problem solving, scored separately.',
+      },
+      {
+        href: '/services/assessments/communication-skills-assessment/',
+        title: 'Communication Skills Assessment',
+        description: 'Listening, speaking, writing, feedback and presenting, useful when a decision involves other people.',
+      },
+      {
+        href: '/services/assessments/entrepreneurial-aptitude-test/',
+        title: 'Entrepreneurial Aptitude Test',
+        description: 'Readiness areas for people weighing a business of their own.',
+      },
+      {
+        href: '/blog/career-guidance/factors-to-consider-when-choosing-a-career/',
+        title: 'Factors to Consider When Choosing a Career',
+        description: 'The points worth weighing before you commit to a career direction.',
+      },
+      {
+        href: '/blog/career-guidance/what-career-should-i-choose/',
+        title: 'What Career Should I Choose?',
+        description: 'A practical way to narrow down career options.',
+      },
+      {
+        href: '/blog/career-change/skills-needed-for-career-change-india/',
+        title: 'Skills Needed for a Career Change',
+        description: 'What to build before moving from one field or role to another.',
+      },
+      {
+        href: '/blog/career-options/career-options-after-12th/',
+        title: 'Career Options After 12th',
+        description: 'The main routes open after Class 12, to compare before you decide.',
+      },
+    ],
+    breadcrumbDescription: 'Free decision-making skills assessment with five scores and a two-week plan.',
+    webAppDescription:
+      'A free original 40-question decision-making self-assessment covering defining the decision, gathering and checking information, comparing options and trade-offs, handling risk, regret and fear, and deciding, acting and reviewing, with five scores, an overall score, a practice plan and a downloadable report.',
+    indexDescription: 'Five-step self-rating of how you make course, job and life decisions, with a two-week plan.',
+    indexNote: 'Free, about 7 minutes, PDF report',
+  },
+
+  depth: {
+    stageHeading: 'Which of these describes you best?',
+    stageNote:
+      'The decisions in front of you depend on your stage, so your report changes the questions and the advice to match.',
+    stages: [
+      {
+        key: 'student',
+        label: 'School or college student',
+        description: 'Choosing a stream, course, exam route or college',
+        title: 'Treat a course decision as a process with dates',
+        body: 'Stream and course choices come with deadlines, entrance exams, counselling rounds and family opinions all at once. A student who writes down the question, checks the official eligibility and compares three routes decides better than one who follows the crowd.',
+        actions: [
+          'Write down the decision and the last date for it, for example the stream form, the CUET or JEE/NEET registration, or the counselling round.',
+          'Check eligibility, fees and syllabus on the official prospectus or notification of at least three routes, not only the one your friends chose.',
+          'Speak to one senior who is in the course now and ask what they would check before joining if they could start again.',
+        ],
+      },
+      {
+        key: 'fresher',
+        label: 'Fresher or job seeker',
+        description: 'First job, job search, higher studies or exam preparation',
+        title: 'Choose the first step without treating it as the last',
+        body: 'Early choices, such as which offer to accept, whether to study further or whether to prepare for a government exam, feel permanent but are usually the first of several moves. Compare what you will learn and who you will learn from, not only the first month\'s pay.',
+        actions: [
+          'For each offer or route, write what you will learn in the first year, who you will work with, and what you can do next from there.',
+          'Ask the company or institute for the exact role, working hours, location and notice terms in writing before you decide.',
+          'Set a decision date for each offer and a fallback plan so that a deadline does not push you into a rushed yes.',
+        ],
+      },
+      {
+        key: 'professional',
+        label: 'Working professional',
+        description: 'Job change, promotion, relocation or career switch',
+        title: 'Decide with facts about the next role, not just the discomfort in the present one',
+        body: 'Job changes and relocations are often triggered by a bad month, which narrows the choice to leaving or staying. A better decision compares the real role, the team, the commute or move costs and what you give up, including options you can test before resigning.',
+        actions: [
+          'Write why you want to move in two columns: what you are leaving and what you are going towards. If the second column is thin, gather facts before acting.',
+          'Speak to two people who currently work in the target company or role, and ask about the team and workload, not just the brand.',
+          'Check notice period, benefits you would lose and the real cost of relocation before you accept anything.',
+        ],
+      },
+      {
+        key: 'personal',
+        label: 'Handling money, family or business choices as well',
+        description: 'Loans, savings, family duties or a small business alongside work',
+        title: 'Slow down the choices that are hard to undo',
+        body: 'Money, family and business decisions often carry costs that last for years and involve people who see things differently. The safest habit is to separate what is reversible from what is not, and to take more time and more checking for the second kind.',
+        actions: [
+          'Write the full monthly and total cost of the choice, including interest, fees and the time it will take from your work and family.',
+          'Talk through the decision with the family members it affects, and write down the one concern each of them raises.',
+          'For anything involving a loan, investment or legal paper, ask a qualified person to explain it before you sign.',
+        ],
+      },
+    ],
+    tips: [
+      'Open a note and finish this sentence before you start comparing anything: "I need to decide whether to..." If you cannot finish it in one line, the question is still unclear, and that is the thing to work on first.',
+      'Write your top three priorities for this decision and rank them, for example interest first, location second, early income third. Do it before you look at options so the options do not decide your priorities.',
+      'When you notice yourself comparing options, stop for five minutes and write what you are actually trying to solve. Many choices turn out to be two different questions mixed together.',
+      'Make two lists: "I want" and "they expect". Tick the items on the second list that you agree with after thinking. Anything left is theirs, and you can discuss it with them calmly.',
+      'Write the last date for the decision and the names of everyone affected. Tell those people the date, so the decision is not a surprise to them or to you.',
+      'For the one fact your decision rests on, such as fees, eligibility, placement process or cut-off, find the official page or notification and read it yourself. Forwarded messages and videos are for leads, not for proof.',
+      'Find one person who has done the course, job or move and ask them three questions: what surprised you, what would you do differently, and what would you check before joining. Fifteen minutes on a call is enough.',
+      'Before acting on advice from a friend or relative, ask them how they know it and when they last checked. Then verify one key point on your own and note the difference.',
+      'When a coaching centre, agent or course seller gives advice, ask what they gain if you say yes. Then ask the same question to one person who gains nothing, and compare the answers.',
+      'Keep a single page titled with the decision and add each fact with its source and the date you checked it. When someone challenges you or the situation changes, you can check the note quickly.',
+      'Add a third option to your list. If you only have two, make the third one waiting for a fixed time or staying as you are, and write what it would cost and give you.',
+      'Make a small table: options across the top, and money, time, effort and learning down the side. Fill every cell in plain words, for example "two hours of travel a day", before scoring anything.',
+      'For each option, write what your life could look like in two or three years if it goes well, and what you would have to do next. A choice that is good for six months can be a dead end after two years.',
+      'For each option, write one line on what it keeps open and one line on what it closes. Prefer the option that keeps more doors open when everything else is close.',
+      'Give each option a score from 1 to 5 against each of your three priorities, add them up and see which wins. If the winner surprises you, check whether a priority is missing instead of overruling the result.',
+      'Write the worst realistic outcome in one line, for example "I join, dislike it and need to switch after a year", and then your first-week plan for that case. A written worst case is usually smaller than the one in your head.',
+      'Set a deadline for the choice, and if you feel stuck at the deadline, ask what exactly you are afraid of. Write the fear down in one line. A named fear can be checked, and an unnamed one grows.',
+      'Ask whether you can try before you commit: a trial class, a short course, a month of freelance work, a visit to the workplace or a talk with someone in the role. A small test is cheaper than a big mistake.',
+      'After a decision, write down what you knew at the time and why you chose. If it turns out badly, read that note before blaming yourself, and ask only what you would check differently next time.',
+      'Before you decide, ask yourself whether you would still choose this if nobody would ever find out. Where the answer is no, talk to the person whose opinion worries you, with your reasons ready.',
+      'Once you decide, pick a first step you can finish in three days and put it in your calendar. It could be filling a form, paying a fee, sending an email or booking a visit.',
+      'Fix the decision date two weeks ahead and set a reminder with the words "decide by". Tell someone the date. When the day comes, decide with the facts you have and note what is still unknown.',
+      'Tell one or two people your decision and your first step, and ask them to check on you after a week. Saying it aloud makes backing out less easy.',
+      'Set a review date one to three months ahead and write two facts that would make you change course. On that date, look only at those facts, not your mood that day.',
+      'Decide in advance how long a fair trial lasts, for example one full semester or three months in the job, and write it down. Judge the choice at that point, not in the first difficult week.',
+    ],
+    strongTip: 'This is already a working habit in your decision-making. Keep using it on bigger choices too.',
+    domains: {
+      clarity: {
+        why: 'Many decisions stay stuck because the question itself is blurred. "Which course is best?" is a different question from "Which course keeps my options open and fits my family\'s budget?" Writing the real question and your own priorities first makes the later steps much easier.',
+        roles: [
+          'Course and stream choices, where interest, marks, cost and family views pull in different directions',
+          'Job offers and moves, where you need to know what you are actually trying to improve',
+          'Roles such as project lead, analyst or business owner, where framing the problem is part of the work',
+        ],
+        routine: [
+          'Days 1 to 3: Pick one live decision and write it as "I need to decide whether to..." in one sentence. Rewrite it until a friend can understand it.',
+          'Days 4 to 7: List your top three priorities, rank them, and mark which ones are truly yours and which came from someone else.',
+          'Days 8 to 11: Write the decision date and everyone affected, then tell each of them the date and the question.',
+          'Days 12 to 14: Do the same steps for a second, smaller decision, such as a purchase or a weekend plan, so the habit becomes automatic.',
+        ],
+        mistakes: [
+          'Comparing options before the real question is written down, so every option looks both good and bad',
+          'Letting a loud opinion at home or in the group become your own priority without checking it',
+          'Mixing two decisions into one, such as which course and which city, and getting stuck on both',
+        ],
+        proof: [
+          'A one-page decision note showing the question, your priorities and the date, written before you chose',
+          'An example of a time you reframed a vague problem into a clear question and what it changed',
+          'A note on how you separated your own priorities from outside expectations in a past choice',
+        ],
+        askOthers: 'When I talk about this decision, do I make clear what I am actually trying to decide, and do my priorities sound like mine or like someone else\'s?',
+        talkingPoints: [
+          'You define the problem and your priorities before comparing options',
+          'You separate your own goals from outside expectations and can explain the difference',
+          'You can explain in a sentence what you were deciding and why it mattered to you',
+        ],
+        midStep: 'Before your next decision, spend ten minutes writing the question and three ranked priorities, and show them to one person for a quick check.',
+      },
+      facts: {
+        why: 'A decision is only as good as the information under it. In India, advice reaches us through relatives, forwarded messages, videos, coaching centres and agents, and some of it is out of date or comes with a sales interest. Checking at the source takes an hour and can prevent a year of regret.',
+        roles: [
+          'Admission and course choices, where eligibility, fees and seat rules change from year to year',
+          'Job and offer choices, where role details, bond terms and growth paths need checking',
+          'Roles in research, analysis, audit, procurement or journalism, where verifying information is the job',
+        ],
+        routine: [
+          'Days 1 to 3: List the five facts your decision depends on and mark which ones you have only heard, not seen on an official source.',
+          'Days 4 to 7: Verify the two most important facts on an official website, notification, offer letter or prospectus.',
+          'Days 8 to 11: Speak to two people who have done it, and ask what surprised them and what the brochure did not say.',
+          'Days 12 to 14: Write a one-page fact note with sources and dates, and mark anything still unchecked.',
+        ],
+        mistakes: [
+          'Treating a forwarded message or a confident video as proof',
+          'Asking only people who made the same choice as you, so you hear only confirmation',
+          'Trusting the advice of someone who earns from your decision without checking another source',
+        ],
+        proof: [
+          'A fact note with sources for a past decision, showing what you verified and how',
+          'An example of a time you found that a popular claim was wrong or out of date, and what you did',
+          'A source list you kept for a past decision, with the dates you checked each fact',
+        ],
+        askOthers: 'When I told you why I chose something, did my reasons come from checked facts or from what I had heard?',
+        talkingPoints: [
+          'You verify important facts at the source before acting',
+          'You seek out first-hand views, including ones that disagree with you',
+          'You can say where each important fact came from and how recent it was',
+        ],
+        midStep: 'For your next decision, verify the single most important fact on an official source and speak to one person who disagrees with the popular view.',
+      },
+      options: {
+        why: 'Choices feel hard when there are only two options and both look bad, or when one option arrives first and everything else is compared against it. Three or more real options, compared against your own priorities and over a few years, give a clearer and calmer choice.',
+        roles: [
+          'Course, college and city choices where cost, quality and future routes differ',
+          'Job offer and promotion decisions, where pay, learning, stability and growth trade off',
+          'Roles in planning, finance, product, operations and management that depend on weighing trade-offs',
+        ],
+        routine: [
+          'Days 1 to 3: List at least three options for one live decision, including waiting or staying as you are.',
+          'Days 4 to 7: Build a table with options across and your three priorities down, and give each cell a score from 1 to 5 with a reason in a few words.',
+          'Days 8 to 11: For each option, write where it leads in two or three years and what it keeps open or closes.',
+          'Days 12 to 14: Look at the totals, check any surprise against your priorities, and write which option you lean to and why.',
+        ],
+        mistakes: [
+          'Dropping an option because of one disadvantage without checking how big it really is',
+          'Comparing a new option with your imagined best case and your current option with its worst case',
+          'Choosing for the first year and ignoring year three',
+        ],
+        proof: [
+          'A comparison table from a past decision showing options, criteria and your reasons',
+          'An example of a time a third option you added turned out to be the best one',
+          'A list of options you rejected and the reason for each, kept from a past decision',
+        ],
+        askOthers: 'When I explain my choice, do I compare enough options, and do I mention what I would be giving up?',
+        talkingPoints: [
+          'You compare several options against clear priorities, including the option of not changing anything',
+          'You look at where each option leads over the next few years, not only today',
+          'You can explain what you gave up and why the trade-off was worth it',
+        ],
+        midStep: 'Add one more option to your next decision and score all options against the same three priorities before you pick.',
+      },
+      risk: {
+        why: 'Every decision has uncertainty. Fear of the wrong choice can freeze you, and fear of what others will say can push you into a choice that is not yours. Naming the worst case, testing small and planning for a setback make uncertainty something you can work with.',
+        roles: [
+          'Choices that involve money, such as loans, investments and business ideas, where downside planning matters',
+          'Career switches and relocations, where you give up something known for something unknown',
+          'Roles in project management, finance, healthcare, safety and operations, where risk is part of daily work',
+        ],
+        routine: [
+          'Days 1 to 3: Write the worst realistic outcome of your decision and your first-week plan if it happened.',
+          'Days 4 to 7: Look for a small way to test the choice, such as a trial class, a short project or a visit, and do one.',
+          'Days 8 to 11: Mark each part of the decision as reversible or hard to reverse, and spend more time on the hard-to-reverse parts.',
+          'Days 12 to 14: Write the fear in one line and whose voice it is, then speak to that person or a neutral listener about it.',
+        ],
+        mistakes: [
+          'Waiting for a feeling of certainty that never arrives',
+          'Choosing the option that avoids family or friends\' disapproval rather than the one you can live with',
+          'Treating every decision as permanent, so even small choices feel heavy',
+        ],
+        proof: [
+          'A past decision where you named the risk, tested small and made a plan for the downside',
+          'An example of how you recovered from a choice that did not work out, and what you changed afterwards',
+          'A written worst-case plan from a past decision, and what actually happened',
+        ],
+        askOthers: 'When I am unsure, do I come across as stuck, rushed or calm, and do I ask for the right kind of advice?',
+        talkingPoints: [
+          'You name risks openly and plan what you would do if they happen',
+          'You test choices on a small scale before committing fully',
+          'You can describe the worst case calmly and what you would do about it',
+        ],
+        midStep: 'Pick one decision this month and run a small, cheap test of it before committing the full amount of time or money.',
+      },
+      commit: {
+        why: 'A decision only counts when it turns into action and gets checked afterwards. People who decide but do nothing, or who postpone until the last day, lose options by default. A first step, a witness and a review date turn a decision into a result you can learn from.',
+        roles: [
+          'Exam preparation, admission and application processes, where deadlines are fixed and late action closes doors',
+          'Job transitions, where acting on an offer or a plan within days or weeks matters',
+          'Roles in management, sales, operations and entrepreneurship, where steady follow-through is expected',
+        ],
+        routine: [
+          'Days 1 to 3: Set a decision date for one pending choice and write it in your calendar as "decide by".',
+          'Days 4 to 7: On the decision date, decide using the facts you have, and finish a first step within three days.',
+          'Days 8 to 11: Tell one or two people what you decided and what you did first, and ask them to check after a week.',
+          'Days 12 to 14: Set a review date and write two facts that would make you change course.',
+        ],
+        mistakes: [
+          'Deciding in your head but not telling anyone or setting a first step, so nothing changes',
+          'Reviewing a decision in the first hard week instead of at the agreed date',
+          'Refusing to change course when new facts clearly show the first choice was wrong',
+        ],
+        proof: [
+          'A decision note with a decision date, first step and review date, and what happened at the review',
+          'An example of a time you changed course because of new facts and what you learned from it',
+          'A calendar entry or message showing the date you decided and your first step',
+        ],
+        askOthers: 'Have you seen me decide and then follow through, or do my decisions drift, and what do you notice?',
+        talkingPoints: [
+          'You decide by a date, act on it quickly and review it against clear facts',
+          'You can change course when the facts change, without blaming yourself or others',
+          'You act soon after deciding and tell people what you are doing',
+        ],
+        midStep: 'For the next three decisions, write a first step with a date and a review date on the same page as the decision.',
+      },
+    },
+    thirtyDay: [
+      'Week 1: Pick one live decision, write it as one sentence, rank your top three priorities and run the first half of your lowest-area routine.',
+      'Week 2: Finish the routine, verify the key facts at the source and ask two people for their honest view of how you decide.',
+      'Week 3: Make the decision by your set date, take the first step within three days, tell someone, and move to your second-lowest area.',
+      'Week 4: Review the decision against the two facts you wrote down, retake the assessment, and compare each area score with your first result.',
+    ],
+  },
+
+  extras: [
+    x(['student'], 'clarity', 'When choosing a stream or course, I can say what I like about it apart from what my friends or family prefer.', 'Write three reasons for your choice that would still hold if your friends chose differently. If you cannot, spend a week trying a short activity in that subject, such as a free online lesson or a talk with a senior.'),
+    x(['student'], 'facts', 'I read the official eligibility and fee details of a course or entrance exam myself, instead of relying on a coaching centre\'s summary.', 'Open the official prospectus or notification for your top course and note the eligibility, last date and fee in your fact note. Compare it with what you were told and mark any difference.'),
+    x(['student'], 'options', 'I have compared at least three routes after school, such as a degree, a diploma, a professional course or a skill programme.', 'Pick three routes you have not seriously compared and read the duration, entry rule and what comes next for each. Write one line on what each keeps open if you later change your mind.'),
+    x(['student'], 'risk', 'I treat a drop year or a switch of stream as a serious decision, not as a failure or an escape.', 'If you are considering a drop year or a stream change, write what you would do each month of it, what it costs the family, and the date when you will review. A plan with dates is a decision. Without one it is mostly worry.'),
+    x(['fresher'], 'facts', 'Before I accept an offer, I check the role, location, working hours and notice terms in writing.', 'Email or message the company for the exact job title, work location, shift pattern, probation terms and any bond. Compare what they send with what was said in the interview.'),
+    x(['fresher'], 'options', 'When choosing between a job, higher studies and exam preparation, I compare what I will learn in the first year of each.', 'Make three columns for job, study and exam preparation. Write what you would do each day, who you would learn from and what you could do after a year. Choose on that comparison, not on the loudest advice.'),
+    x(['fresher'], 'risk', 'I would accept the first offer out of fear that no other will come, even if I have doubts about the role.', 'If doubts remain, ask the company one more question about the role and set a decision date. Meanwhile keep applying until you have signed. Accepting out of fear of having nothing is different from accepting because the role fits.', true),
+    x(['fresher'], 'commit', 'I set weekly targets for applications, interviews and skill-building and review them every Sunday.', 'Write a target such as ten applications and two skill hours a day for the week. On Sunday, count what you did and change one thing for next week. A weekly review keeps a job search from drifting.'),
+    x(['professional'], 'clarity', 'When I think of changing jobs, I can say what I want to improve, such as learning, role, pay, team or travel time, and what I am willing to give up.', 'Write the two things you most want to change and the two you are willing to compromise on. Show this list to a trusted colleague or friend. It stops you accepting an offer that fixes the wrong problem.'),
+    x(['professional'], 'facts', 'Before leaving a job or relocating, I speak to people who work in the new company or city, not only to the recruiter.', 'Find two people through LinkedIn, alumni or friends who work in the target team or live in the target city. Ask about workload, team behaviour and the real monthly cost of living, then compare with what you were told.'),
+    x(['professional'], 'risk', 'I resign or accept a move in a moment of anger or tiredness.', 'Do not submit a resignation on the day you feel worst. Write the decision, wait three working days, and read it again. If the reasons still hold, go ahead with a calm plan for notice and handover.', true),
+    x(['professional'], 'options', 'I compare staying and growing in my present role, an internal move and an external move before resigning.', 'Before you resign, ask your manager or HR about a role change or a new responsibility, and add it to your list as an option. Many people find a fix inside the company that they did not know about.'),
+    x(['personal'], 'facts', 'Before taking a loan, investing or signing a business agreement, I read the full terms and ask someone qualified to explain what I did not understand.', 'Mark every line of the document you do not understand and take it to a bank officer, accountant or lawyer. Ask what happens if you miss a payment or want to exit early.'),
+    x(['personal'], 'options', 'For a money or business decision, I compare the full cost, including interest, fees and the time it will take from work and family.', 'Write the total cost over the whole period and the monthly amount against your income. Add the hours per week the choice will take, and decide only after you have seen all three numbers together.'),
+    x(['personal'], 'risk', 'I put money into something because a relative or friend said it was a sure thing.', 'No return is certain. Before you put in money, ask what happens if the whole amount is lost, and only use money whose loss you could manage. Check the offer with someone who has no interest in it.', true),
+    x(['personal'], 'clarity', 'When a family decision affects several people, I discuss it with them and write down what each person is worried about.', 'Set a time to sit with the family and give each person two minutes to say their main worry. Write them down, and answer each one in your plan before you finalise the decision.'),
+  ],
+
+  stageAdvice: {
+    student: {
+      clarity: sa(
+        'As a student, the question is often decided for you by marks, friends and family before you have thought about it yourself.',
+        'Write the choice as "I need to decide whether to take X or Y after Class 10/12" and add your own three reasons before the next family discussion.',
+        'Make two lists, "my interests" and "what others expect", and share both with one parent or teacher.'
+      ),
+      facts: sa(
+        'As a student, you hear a lot from coaching centres, seniors and social media, and the official details are easy to skip.',
+        'Read the official information bulletin or prospectus for your top course, including eligibility, last dates and fees.',
+        'Ask a senior or a young alumnus of the course for one thing the brochure does not tell you.'
+      ),
+      options: sa(
+        'As a student, the choice often shrinks to the one or two routes your classmates talk about.',
+        'Compare at least three routes, for example a degree, a diploma and a professional course, on duration, cost and what comes next.',
+        'For each route, check what it allows you to change later, such as lateral entry or a bridge course.'
+      ),
+      risk: sa(
+        'As a student, fear of low marks, a failed entrance exam or a family\'s disappointment can freeze or rush the decision.',
+        'Write a plan B for the worst case in a sentence, such as which course or exam you would take if a seat does not come.',
+        'Tell one trusted adult your fear and ask them to help you plan, not to decide for you.'
+      ),
+      commit: sa(
+        'As a student, deadlines for forms, fees and counselling rounds are fixed, and missing a date closes the door.',
+        'Put every last date in your phone calendar with a reminder one week before.',
+        'After you choose, plan the first month of preparation or study and review it with a teacher or senior.'
+      ),
+    },
+    fresher: {
+      clarity: sa(
+        'As a fresher, you may be choosing between an offer, a further degree and an exam, without being clear what you want from the first job.',
+        'Write the three things you want from your first two years, for example learning, stability or location, and rank them.',
+        'Decide which of them you can compromise on if an offer is not perfect.'
+      ),
+      facts: sa(
+        'As a fresher, you rely on recruiters, friends and company reviews, and some details of the role are never said aloud.',
+        'Ask for the job description, location, shift, probation and bond terms in writing before you accept.',
+        'Speak to one person who joined the company in the last year to ask about training and the real work.'
+      ),
+      options: sa(
+        'As a fresher, the choice often feels like "this offer or nothing".',
+        'Compare the offer with continuing your search for a fixed period and with a short course that strengthens your profile.',
+        'Score the options on learning, people, growth and travel, not only on the first month\'s pay.'
+      ),
+      risk: sa(
+        'As a fresher, fear of staying unemployed can push you into the first offer, while fear of a wrong move can keep you from applying.',
+        'Set a time limit, for example four more weeks of searching, and a minimum you would accept after that.',
+        'Take one small step outside your comfort zone, such as applying to a role in a different sector, to test your options.'
+      ),
+      commit: sa(
+        'As a fresher, a job search can drift into months of scattered effort.',
+        'Set weekly targets for applications and skill-building and review them every Sunday.',
+        'Once you accept an offer, write a 90-day learning plan and share it with your manager.'
+      ),
+    },
+    professional: {
+      clarity: sa(
+        'As a working professional, frustration with the present job can make every other job look better.',
+        'Write what you want to change and what you want to keep in your current role before you open a job portal.',
+        'Separate problems that a new job would fix from those that follow you, such as workload habits.'
+      ),
+      facts: sa(
+        'As a working professional, the recruiter\'s pitch is the main source, and team behaviour or workload is hard to see from outside.',
+        'Speak to two current or former employees of the target team and ask about workload, manager style and attrition.',
+        'Check notice period, variable pay, benefits you would lose and relocation costs in the offer letter.'
+      ),
+      options: sa(
+        'As a working professional, the choice often shrinks to resign or stay put.',
+        'Add an internal role change, a new responsibility or a negotiated change in your present job as options.',
+        'Compare a move now with a move six months later after you have built one specific skill.'
+      ),
+      risk: sa(
+        'As a working professional, responsibilities such as EMIs and family needs make every move feel risky.',
+        'Calculate how many months of expenses you could cover without income, and set a minimum before you resign.',
+        'Test the new field with a side project or part-time course before leaving your job.'
+      ),
+      commit: sa(
+        'As a working professional, you can stay in a half-decision for years, always about to move but never moving.',
+        'Set a date by which you will either apply seriously or stop and commit to improving where you are.',
+        'After the move, set a three-month review with two clear checks, for example learning and team fit.'
+      ),
+    },
+    personal: {
+      clarity: sa(
+        'When money, family or business decisions run alongside work, the real question is often hidden inside a bigger worry.',
+        'Write the decision and the exact amount or time it involves, so it is a concrete question and not a general worry.',
+        'List what the family needs from the next year and what you can offer, and see where they do not match.'
+      ),
+      facts: sa(
+        'With money and business choices, the facts you need are often written in documents or terms that are easy to skip.',
+        'Read the full terms of any loan, policy or agreement and mark every line you cannot explain to a friend.',
+        'Check the person or company offering it on an independent source, and ask for the details in writing.'
+      ),
+      options: sa(
+        'With money and family choices, the options are often framed as a yes or no to someone else\'s plan.',
+        'Create at least one alternative, such as a smaller amount, a later start date or a different arrangement, and compare it.',
+        'Compare the total cost of each option over the full period, not just the first payment.'
+      ),
+      risk: sa(
+        'Money and family decisions carry longer-lasting consequences, so a loss or an argument can weigh heavily.',
+        'Decide how much you could lose without harming essential family needs, and keep the commitment below that.',
+        'Keep an emergency amount aside before you put money into anything new.'
+      ),
+      commit: sa(
+        'Money and family decisions are easy to postpone because they are uncomfortable to talk about.',
+        'Fix a date and place for the family conversation and decide who needs to be present.',
+        'After deciding, write down what each person will do and review it together after a month.'
+      ),
+    },
+  },
+
+  scenarios: [
+    sc('clarity', 'Your family asks "So, which course are you taking?" and you realise you have been comparing colleges without deciding what you want to study. What do you do?', [
+      o('Choose the college with the best reputation and decide the subject later', 33, 'A good college helps, but if you do not know what to study you may join a course that does not suit you. Settle the question first, what to study and why, and only then compare colleges.'),
+      o('Write down what you want to study and your top three priorities, then compare colleges', 100, 'Strong. Once the real question is clear, college comparison has a purpose. Share the written list with your family so that the conversation starts from your priorities.'),
+      o('Ask your family to decide, since they understand the options better', 0, 'Asking is fine, but handing over the decision leaves you with a course you did not choose. Ask them for their reasons and give yours too, and then decide together.'),
+      o('Follow what most of your friends are choosing', 17, 'Friends can be a useful source of information, but their priorities are not yours. Write what you want from the course and check whether it matches theirs.'),
+    ]),
+    sc('clarity', 'You are unhappy at work and your friend offers you a job at their company. You feel like saying yes straight away. What is your first step?', [
+      o('Accept before the offer is withdrawn', 0, 'Acting on frustration solves the feeling but may not solve the cause. Pause and find out what is actually bothering you before you pick a new place.'),
+      o('Ask for a few days, then write what exactly you want to change in your present job and check if the new job fixes it', 100, 'Strong. Naming the problem first stops you from moving into the same situation. A few days is a normal request.'),
+      o('Discuss it with colleagues who are also unhappy', 33, 'Colleagues can understand the situation, but they share the same frustration, so their view may add heat rather than clarity. Add one voice from outside the company.'),
+      o('Compare the salary of both jobs and pick the higher one', 67, 'Pay matters, but it is only one point and may not be your main reason for wanting to leave. Add learning, team, manager and travel time to the comparison.'),
+    ]),
+    sc('facts', 'A video says a certain course "assures" a good career and a coaching centre repeats the same claim. What do you do?', [
+      o('Join, since two sources say the same thing', 17, 'Two sources can repeat the same claim without either of them checking it. Find an independent source and ask what happened to past students in the real world.'),
+      o('Search for the course on the official website of the university or board, and speak to two people who completed it', 100, 'Strong. Official details plus first-hand accounts give you a picture without a sales pitch. Note anything that differs from the claim.'),
+      o('Ask the coaching centre for details and trust their answer', 33, 'The centre is a source, but it benefits from your enrolment. Ask for written details and compare them with an independent source.'),
+      o('Ignore the claim, since all such claims are false', 50, 'Being cautious is sensible, but dismissing everything stops you from finding the genuinely good routes. Check the course on its own merits using official and first-hand sources.'),
+    ]),
+    sc('facts', 'A recruiter gives you a verbal offer with attractive numbers and asks for an answer by tonight. What do you do?', [
+      o('Accept, because a delay may lose you the offer', 17, 'Real offers can wait a day or two for a written document. A recruiter who rushes you to decide without details is a signal to look closer.'),
+      o('Ask for the offer in writing and for a day or two to read it, then check role, location, notice and benefits', 100, 'Strong. Written details protect you from misunderstandings, and a genuine employer will understand the request.'),
+      o('Say yes and plan to check details after joining', 0, 'Details found after joining are much harder to act on. Check them before you commit, especially bonds, probation terms and the role.'),
+      o('Ask a friend who works in the same company for their view and decide on that', 67, 'A first-hand view is valuable, but one friend sees one team. Combine it with the written offer and a second opinion.'),
+    ]),
+    sc('options', 'You are choosing between two job offers and cannot decide. What do you do?', [
+      o('Choose the one with the higher monthly pay', 33, 'Pay matters, but it is one factor among learning, growth, people, travel and stability. Add the other factors before you decide.'),
+      o('Add the option of staying where you are or waiting, then score all three on your three main priorities', 100, 'Strong. A third option and a score against your priorities give a clearer picture, and the process often shows what matters most to you.'),
+      o('Toss a coin and see how you feel about the result', 17, 'A coin can reveal a preference, but it ignores facts you could use. Try it only after you have scored the options, as a final check.'),
+      o('Ask a relative which one has the better brand name', 50, 'Brand can matter for your next move, but it does not tell you about the work, team or learning. Ask what you would do each day in each job.'),
+    ]),
+    sc('options', 'You are considering a course that is two years long and costs a large part of your family\'s savings. What do you do?', [
+      o('Calculate the full cost, compare it with two other routes and check where past students went afterwards', 100, 'Strong. Total cost, alternatives and outcomes give a full picture of the trade-off. Share the numbers with your family.'),
+      o('Join because a close friend is joining', 17, 'A friend is a reason to feel comfortable, not a reason that the course is right. Add the course details, cost and outcome to your decision.'),
+      o('Choose the cheapest course to protect your savings', 50, 'Cost is a serious factor, but the cheapest route may not give you what you need. Compare what you get per rupee and per year.'),
+      o('Delay the decision until you are sure it is the best choice', 33, 'Waiting for certainty rarely ends. Fix a date and a limit, and decide with the information you have.'),
+    ]),
+    sc('risk', 'You have been thinking about changing your career field for months, but you keep imagining what could go wrong. What do you do?', [
+      o('Keep thinking until you feel sure', 17, 'Certainty does not arrive by thinking alone. Move from imagining to testing with something small and real.'),
+      o('Write the worst realistic outcome and a plan for it, then run a small test, such as a short course or a project', 100, 'Strong. A planned downside and a small test make the unknown manageable. Review it after the test, not before.'),
+      o('Resign and start right away to end the uncertainty', 33, 'Acting ends the waiting but you take on the whole risk at once. Set up a small test and a savings buffer first.'),
+      o('Stay in your present field and forget about it', 0, 'This avoids the risk but leaves the question open, and it tends to come back. If you do stay, make it a decision with reasons and a date to revisit.'),
+    ]),
+    sc('risk', 'Your decision is right for you, but a relative strongly disapproves. What do you do?', [
+      o('Change the decision to keep the peace', 17, 'Keeping peace has value, but if you give up a well-reasoned choice only to avoid friction, you may carry the cost for years. Listen first to what exactly worries them.'),
+      o('Go ahead without telling anyone', 0, 'It avoids the argument but may damage trust and leaves you without support. Tell them your decision calmly, even if they do not agree.'),
+      o('Ask what exactly worries them, answer each concern with facts and then go ahead if your reasons still hold', 100, 'Strong. You respect the person, deal with real concerns and still own the decision. Their concerns may also reveal a risk you missed.'),
+      o('Ask a few more relatives until someone supports you', 33, 'Collecting supporters feels better but does not address the concern. Ask what facts would change the first person\'s mind, and bring those.'),
+    ]),
+    sc('commit', 'You have researched a decision for weeks and the deadline is tomorrow. You still feel a little unsure. What do you do?', [
+      o('Ask for an extension and keep researching', 33, 'An extension is sensible if there are important facts missing. If not, more research just delays the discomfort. List what is still unknown and see whether it can change the answer.'),
+      o('Let the deadline pass and see what happens', 0, 'Not choosing is a choice, and it is usually the worst one because you do not control it. Decide today with what you know.'),
+      o('Decide based on your notes, take a first step today and set a review date', 100, 'Strong. Perfect certainty is rare. A decision with a first step and a review date lets you correct course.'),
+      o('Ask a friend to decide for you', 17, 'You may value their view, but you will live with the result. Ask your friend which point they would weigh most, then decide yourself.'),
+    ]),
+    sc('commit', 'Two weeks after joining a new course or job, you feel it is not what you expected. What do you do?', [
+      o('Quit immediately and look for something else', 17, 'Early doubts are common and may fade. Quitting before a fair trial means you learn nothing about the choice. Set a review period first.'),
+      o('Write down what you expected, what you see, and what you will check at your agreed review date', 100, 'Strong. Naming the gap and keeping the review date prevents both a hasty exit and a stubborn stay. Speak to a senior or manager about what you see.'),
+      o('Tell yourself you made your choice and ignore the doubt', 50, 'Staying with a choice is useful, but ignoring real information is not. Note what you see and decide at the review date whether to adjust.'),
+      o('Complain to friends and family without taking any step', 33, 'Talking helps, but it changes nothing by itself. Pick one thing you can do this week, such as asking a question or changing a routine.'),
+    ]),
+    { ...sc('clarity', 'You scored well in Class 10 and everyone expects you to take science, but you are more interested in commerce or arts. What do you do?', [
+      o('Take science because marks should decide', 17, 'Marks open doors but do not tell you what you will enjoy for two years. Check what each stream requires and where it leads before you follow the marks.'),
+      o('Write your reasons, check what each stream leads to, and discuss both with your family and a counsellor', 100, 'Strong. Reasons, facts and a conversation mean the decision is yours and informed. Bring the written comparison to the discussion.'),
+      o('Choose the stream your best friend chose', 0, 'A friend gives comfort but not a career. Check how you would feel in the subjects over two years without them.'),
+      o('Stay silent and take whatever the family says', 33, 'Respecting the family is natural, but silence hides your view. Share your reasons with one trusted person, and ask them to help you raise it.'),
+    ]), stages: ['student'] },
+    { ...sc('options', 'You have a campus offer in hand, but you also want to try for a government exam or higher studies. What do you do?', [
+      o('Accept the offer, drop the other plans and avoid the stress', 33, 'The offer is real and the plans are uncertain, but dropping the plans without comparing means you have not decided between them. Compare the first-year gains of each.'),
+      o('Compare the three routes on learning, income needs and time, and ask whether you can do the job and prepare together', 100, 'Strong. A real comparison and a check on whether the routes can overlap give the clearest answer. Set a review date.'),
+      o('Reject the offer to focus on preparation, because dividing attention never works', 17, 'Full focus can help, but giving up an offer without a plan for money and a time limit can leave you exposed. Set a clear limit for the attempt.'),
+      o('Ask your batchmates what they chose and do the same', 50, 'Seeing others\' choices is useful information, but their situation differs. Use their reasons as inputs and not as the answer.'),
+    ]), stages: ['fresher'] },
+    { ...sc('risk', 'A company is offering you a role in another city with a larger responsibility. You like your team and city. What do you do?', [
+      o('Decline immediately to avoid the risk', 33, 'Staying can be right, but declining at once means you have not looked at what the role offers. Spend a week on facts and then decide.'),
+      o('Accept immediately because it looks like progress', 17, 'Progress is possible, but you may be giving up things you value. Check the cost of living, team and your own reasons first.'),
+      o('Ask for details, visit if possible, speak to people in the team and decide with the trade-offs written down', 100, 'Strong. Real information about the role and city, plus a written trade-off, makes the risk visible. Set a date to decide.'),
+      o('Ask your current manager what they think and follow that', 50, 'Your manager knows your work, but they may have an interest in keeping you. Take their view as one input.'),
+    ]), stages: ['professional'] },
+    { ...sc('facts', 'A friend asks you to join a business idea and invest your savings, saying the profit is nearly certain. What do you do?', [
+      o('Invest a smaller amount to be safe', 50, 'A smaller amount limits the loss, but you still do not know whether the idea is sound. Check the idea first, then decide on the amount.'),
+      o('Ask for the business plan, costs, who else is putting in money and what happens if it fails, and take advice on the terms', 100, 'Strong. You ask for facts, agreements and a downside plan. If the friend cannot answer, that tells you something too.'),
+      o('Say yes, since you trust your friend', 17, 'Trust is valuable, but a business still needs numbers and written terms. Good friendships survive clear agreements better than vague ones.'),
+      o('Refuse at once, because friends and money do not mix', 33, 'This protects you but also closes the question. If you are interested, ask for the facts before deciding. If not, say so kindly.'),
+    ]), stages: ['personal'] },
+  ],
+
+  phrases: {
+    clarity: [
+      `"The decision I need to make is whether to [option A] or [option B] by [date]."`,
+      `"The three things that matter most to me here are [priority 1], [priority 2] and [priority 3]."`,
+      `"Before we compare options, let me check what we are actually trying to solve."`,
+    ],
+    facts: [
+      `"Where did this information come from, and when was it last checked?"`,
+      `"I have checked [fact] on the official [website or document], and it says [detail]."`,
+      `"Could you put the role, location and terms in writing so I can read them before I answer?"`,
+    ],
+    options: [
+      `"Apart from these two options, is there a third, such as waiting or keeping things as they are?"`,
+      `"If I choose this, what does it keep open for me, and what does it close?"`,
+      `"On my three priorities, option A scores [x] and option B scores [y], and the main difference is [reason]."`,
+    ],
+    risk: [
+      `"The worst realistic outcome is [outcome], and if it happens I will [plan]."`,
+      `"Can we try a small version of this first before we commit fully?"`,
+      `"I understand your concern about [issue], and here is what I have checked about it."`,
+    ],
+    commit: [
+      `"I will decide by [date] and take the first step, [action], within three days."`,
+      `"Can we set a review date on [date] to check whether [two facts] are holding?"`,
+      `"I have decided, and I would like you to check with me after a week on how it is going."`,
+    ],
+  },
+
+  stagePlan: {
+    student: [
+      'This week: write the decision as one sentence with the last date, and list the three routes you will compare.',
+      'Next two weeks: read the official eligibility, fee and syllabus details for each route and talk to one senior in each.',
+      'Before the deadline: score the routes on your three priorities, discuss the table with your family or a counsellor and choose.',
+      'After choosing: set a first step with a date, such as a form or fee payment, and a review date a few months ahead.',
+    ],
+    fresher: [
+      'This week: write what you want from the first two years and rank your top three priorities.',
+      'Next two weeks: gather written details for every offer or route and speak to one person who joined recently.',
+      'Before the offer deadline: compare the first year of each route and set a decision date and a minimum you will accept.',
+      'After choosing: write a 90-day learning plan and a review date, and keep weekly targets for the next step.',
+    ],
+    professional: [
+      'This week: write what you want to change and what you want to keep, before opening a job portal.',
+      'Next two weeks: speak to two people in the target team or city and check notice period, benefits and costs in the offer.',
+      'Before resigning: add an internal option, calculate your savings buffer in months and set a decision date.',
+      'After the move: set a three-month review with two clear checks, such as learning and team fit.',
+    ],
+    personal: [
+      'This week: write the decision with its exact amount and time, and list who it affects.',
+      'Next two weeks: read the full terms, take advice from a qualified person and hold the family conversation.',
+      'Before signing or paying: compare the total cost of every option and keep the commitment below what you can lose.',
+      'After deciding: write who does what, keep an emergency amount aside and review the decision with the family after a month.',
+    ],
+  },
+
+  talk: {
+    clarity: {
+      q: 'Tell me about a time you had a problem that was not clearly defined. How did you work out what you needed to solve?',
+      a: 'Describe the vague situation, how you wrote the problem as one sentence, who you checked it with, and how that changed your next step.',
+      line: 'Clarified the problem of [issue] by defining [one-sentence question] with [stakeholders], which led to [result].',
+    },
+    facts: {
+      q: 'Tell me about a decision where you had to verify information before acting.',
+      a: 'Say what claim or data you were given, how you checked it at the source or with a first-hand person, and what you found or changed.',
+      line: 'Verified [claim or data] against [source], which showed [finding] and changed [action].',
+    },
+    options: {
+      q: 'Tell me about a time you had to choose between several options with trade-offs.',
+      a: 'Name the options, the criteria you used, what you gave up and why you chose as you did. Mention what you would check again.',
+      line: 'Compared [number] options on [criteria] and chose [option], which resulted in [outcome].',
+    },
+    risk: {
+      q: 'Tell me about a time you made a decision under uncertainty or with a risk of failing.',
+      a: 'Describe the risk, how you tested or limited it, your backup plan and what happened. If it did not go well, say what you learned.',
+      line: 'Reduced risk on [project or decision] by [test or backup plan], which allowed [result].',
+    },
+    commit: {
+      q: 'Tell me about a decision you made and followed through on, and how you checked whether it worked.',
+      a: 'Say what you decided, your first step and date, how you reviewed the result and whether you changed course.',
+      line: 'Decided to [action] by [date], reviewed it after [period] and adjusted [thing], leading to [result].',
+    },
+  },
+
+  talkTitles: {
+    strong: 'How to show this strength in an interview or on your CV',
+    weak: 'How to answer if you are asked about your weakest area',
+    intro: 'Interviewers often ask for a real decision you made, so prepare one example for each step, with what you decided, how and what followed.',
+    mode: 'interview',
+  },
+};
+
+void BASE;

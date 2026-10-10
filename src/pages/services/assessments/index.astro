@@ -1,4 +1,5 @@
 ---
+import { SKILL_TEST_BUNDLES } from '../../../config/skillTests';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Nav from '../../../components/Nav.astro';
 import Footer from '../../../components/Footer.astro';
@@ -613,6 +614,12 @@ const skillSelfTests = [
     description: 'A free 39-question self-assessment with scores for leadership, teamwork and social skills, adaptability, ownership and problem solving.',
     note: 'Free, no sign-up, PDF report, covers leadership and employability habits',
   },
+  ...SKILL_TEST_BUNDLES.map((b) => ({
+    href: b.test.pageUrl,
+    title: b.test.breadcrumbName,
+    description: b.test.indexDescription || b.test.metaDescription,
+    note: b.test.indexNote || 'Free, no sign-up, PDF report',
+  })),
 ];
 
 const careerAssessmentPages = orderedAssessmentPages.filter((page) => page.hubGroup === 'career').map(

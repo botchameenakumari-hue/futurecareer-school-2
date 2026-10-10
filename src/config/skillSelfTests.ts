@@ -25,7 +25,7 @@ export type SkillTestQuestion = { d: string; text: string; reverse?: boolean };
 export type SkillTestLink = { href: string; title: string; description: string };
 
 export type SkillTest = {
-  id: SkillTestId;
+  id: SkillTestId | (string & {});
   slug: string;
   pageUrl: string;
   breadcrumbName: string;
@@ -57,6 +57,9 @@ export type SkillTest = {
   related: SkillTestLink[];
   breadcrumbDescription: string;
   webAppDescription: string;
+  /** Optional: short card text and note for the assessments index. */
+  indexDescription?: string;
+  indexNote?: string;
 };
 
 const BASE = 'https://futurecareerschool.com/services/assessments/';
@@ -256,6 +259,21 @@ const CONFUSED_10: SkillTest = {
     },
   ],
   related: [
+    {
+      href: '/services/assessments/study-habits-self-assessment/',
+      title: 'Study Habits Self-Assessment',
+      description: 'Planning, focus, learning methods, revision and rest, scored separately.',
+    },
+    {
+      href: '/services/assessments/exam-stress-self-assessment/',
+      title: 'Exam Stress Self-Assessment',
+      description: 'How you prepare, worry and cope around exams, with habits to work on.',
+    },
+    {
+      href: '/services/assessments/decision-making-skills-assessment/',
+      title: 'Decision-Making Skills Assessment',
+      description: 'How you define, compare and commit to decisions.',
+    },
     {
       href: '/services/assessments/stream-selector-test-after-10th/',
       title: 'Stream Selector Test After 10th',
@@ -464,6 +482,16 @@ const COMMUNICATION: SkillTest = {
   ],
   related: [
     {
+      href: '/services/assessments/interview-readiness-self-assessment/',
+      title: 'Interview Readiness Self-Assessment',
+      description: 'Research, examples, answers, basics and follow-up before an interview.',
+    },
+    {
+      href: '/services/assessments/leadership-skills-self-assessment/',
+      title: 'Leadership Skills Self-Assessment',
+      description: 'Direction, delegation, coaching, decisions and influence.',
+    },
+    {
       href: '/services/assessments/soft-skills-self-assessment/',
       title: 'Soft Skills Self-Assessment',
       description: 'Leadership, teamwork, adaptability, ownership and problem solving, scored in one report.',
@@ -654,7 +682,7 @@ const SOFT_SKILLS: SkillTest = {
     },
     {
       q: 'Does this cover a leadership skills self-assessment?',
-      a: 'Leadership is one of the five areas, with five statements on guiding a group, setting a clear goal and asking for feedback. For a wider view it sits next to teamwork, adaptability, ownership and problem solving.',
+      a: 'Leadership is one of the five areas, with statements and situations on guiding a group, setting a clear goal and asking for feedback. For a wider view it sits next to teamwork, adaptability, ownership and problem solving.',
     },
     {
       q: 'Is this a social skills self-assessment?',
@@ -670,10 +698,25 @@ const SOFT_SKILLS: SkillTest = {
     },
     {
       q: 'How is the score worked out?',
-      a: 'Each answer is rated from 1 to 5. Statements worded in the negative are reversed. Each area score is the average of its five statements, shown out of 100, and the overall score is the average of the five areas.',
+      a: 'Statements are rated from 1 to 5 and the ones worded in the negative are reversed. In the situation questions, each option carries a score from 0 to 100. Each area score is the average of its statements and situations, shown out of 100, and the overall score is the average of the five areas.',
     },
   ],
   related: [
+    {
+      href: '/services/assessments/leadership-skills-self-assessment/',
+      title: 'Leadership Skills Self-Assessment',
+      description: 'A deeper look at direction, delegation, coaching, decisions and influence.',
+    },
+    {
+      href: '/services/assessments/time-management-self-assessment/',
+      title: 'Time Management Self-Assessment',
+      description: 'Priorities, planning, starting, focus and protecting your time.',
+    },
+    {
+      href: '/services/assessments/resilience-and-growth-mindset-assessment/',
+      title: 'Resilience and Growth Mindset Assessment',
+      description: 'Bouncing back, effort, learning from feedback and staying motivated.',
+    },
     {
       href: '/services/assessments/communication-skills-assessment/',
       title: 'Communication Skills Assessment',

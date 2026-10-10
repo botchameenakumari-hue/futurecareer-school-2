@@ -1,3 +1,4 @@
+import { SKILL_TEST_BUNDLES } from './skillTests';
 import { ASSESSMENT_PAGE_ROUTE_CONFIG } from './assessmentPages';
 import { discoverRoutes } from './discoverRoutes';
 import { BLOG_CATEGORIES, BLOG_PUBLISHED_POSTS } from './blog';
@@ -200,6 +201,11 @@ export const LIVE_INDEXABLE_ROUTES: IndexableRoute[] = [
     changefreq: 'monthly',
     priority: '0.88',
   },
+  ...SKILL_TEST_BUNDLES.map((b) => ({
+    path: b.test.pageUrl.replace(/\/$/, ''),
+    changefreq: 'monthly',
+    priority: '0.88',
+  })),
   ...ASSESSMENT_PAGE_ROUTE_CONFIG,
   {
     path: '/career-resources',
