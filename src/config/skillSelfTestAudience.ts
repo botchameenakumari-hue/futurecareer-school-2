@@ -8,26 +8,26 @@ const p = (d: string, text: string, tip: string, reverse = false): ExtraQuestion
   reverse ? { d, text, stages: ['parent'], tip, reverse } : { d, text, stages: ['parent'], tip };
 
 export const PARENT_QUESTIONS: ExtraQuestion[] = [
-  p('self', 'My child can name subjects or activities they enjoy, and I have noticed what they do well.', 'Ask your child to name the three things they enjoyed most this year, and share what you have noticed. Compare the two lists.'),
-  p('self', 'I have asked my child what they enjoy before suggesting a stream or course.', 'Start the next conversation with a question, not a suggestion. Ask what they enjoy and why.'),
+  p('self', 'I can name two or three subjects or activities that my child enjoys.', 'Ask your child to name the three things they enjoyed most this year, and write down your own guess first. Compare the two lists.'),
+  p('self', 'Before I suggest a stream or course, I ask my child what they enjoy.', 'Keep this habit and add one follow-up: ask what makes it enjoyable. The reason shows more than the subject name does, and you can listen to the full answer before you mention streams.'),
   p('self', 'I can describe my child\'s strengths with examples, not only marks.', 'Write down two examples for each strength you see, such as a project, a task they took up on their own, or help they gave.'),
   p('self', 'I tend to assume what suits my child based on my own career or on relatives\' careers.', 'Notice when you reach for a family example. Ask whether your child\'s strengths and interests match it.', true),
   p('options', 'I know what the Science, Commerce, Arts, diploma and ITI routes involve after Class 10.', 'Read the official description of each route once, so that both of you start from the same facts.'),
-  p('options', 'I have read official information about the routes, and not only heard opinions.', 'Use the official board, institute and skill-department pages for eligibility, fees and dates.'),
+  p('options', 'I have read the official pages of the routes my child is considering.', 'Use the official board, institute and skill-department pages for eligibility, fees and dates, and print or save them for the family talk.'),
   p('options', 'I know what each route leads to in terms of work, not only the exam or college.', 'For each route, find three jobs it leads to and what they involve day to day.'),
   p('options', 'My view of careers comes mainly from a few relatives or neighbours.', 'Add two sources that are not family: an official page and someone working in the field.', true),
   p('pressure', 'I can accept a choice for my child that is different from the one I would pick.', 'Ask yourself what would have to be true for you to accept that choice, and then ask your child to show you that evidence.'),
   p('pressure', 'I compare my child with other children\'s choices when deciding.', 'Compare your child with their own earlier self instead: strengths, effort and growth.', true),
-  p('pressure', 'I let my child give reasons for their preference without interrupting.', 'Give your child a few uninterrupted minutes to explain. Then summarise their reasons back before responding.'),
-  p('pressure', 'The family\'s view of status or income from a career pushes the decision more than my child\'s fit does.', 'List what matters to the family and what matters to your child. Look at where the two lists agree and where they do not.', true),
+  p('pressure', 'When my child explains why they prefer a route, I often start answering before they finish.', 'Give your child five uninterrupted minutes. Then say their reasons back in your own words and ask if you got them right, before you give your view.', true),
+  p('pressure', 'Worry about what relatives will say about the stream or its income often outweighs, for us, the question of whether it suits my child.', 'This worry is common in families. List what matters to the family and what matters to your child, and look at where the two lists agree and where they do not.', true),
   p('process', 'We have discussed two or three options using the same points of comparison.', 'Agree on four points to compare, such as subjects, cost, what it leads to and how easy it is to change later.'),
-  p('process', 'I am comfortable that a good-enough choice with a way to adjust it is acceptable.', 'Look together at how the route can be adjusted later, so the decision does not feel final.'),
-  p('process', 'We keep changing the plan every time someone new gives advice.', 'Agree on which sources you will use and note advice from others as input, not as instructions.', true),
-  p('process', 'We have agreed a date to decide and a date to review.', 'Pick both dates now, and write them down where both of you can see them.'),
+  p('process', 'I am comfortable with my child choosing a good route that may need adjusting later, instead of a perfect one.', 'Check together how the route can be adjusted later, for example a change of subject combination where the board allows it, so the decision does not feel final.'),
+  p('process', 'When someone new gives us advice, we treat it as input and do not change the plan straight away.', 'Agree on which sources the family will rely on, and keep a list of advice from others to discuss together instead of acting on each piece.'),
+  p('process', 'We have agreed on a date by which the decision will be made.', 'Pick that date now, add a review date a few months later, and write both where your child can see them.'),
   p('action', 'I have spoken to a teacher or counsellor at school about my child\'s options.', 'Ask the school for a short meeting and bring two or three specific questions.'),
   p('action', 'We have a list of next steps with a name and a date against each.', 'Write three next steps with an owner and a date. Review them at your next conversation.'),
   p('action', 'I am putting off the discussion because I expect an argument.', 'Choose a calm moment, start with a question, and say you want to hear their view first.', true),
-  p('action', 'I support my child in building a skill beyond marks.', 'Ask your child which skill they would like to try, and help them make time for it.'),
+  p('action', 'I have made room in the week for my child to try a skill beyond the syllabus.', 'Ask your child which skill they would like to try, such as typing, drawing or a language, and fix two short slots a week for it.'),
 ];
 
 export const PARENT_BANDS = {
@@ -49,7 +49,7 @@ export const PARENT_DEEP: Record<string, {
 }> = {
   self: {
     why: 'Children are usually better supported when the adults around them can say what they actually enjoy and do well. Without it, the loudest example in the family becomes the default.',
-    routine: ['Ask your child to list what they enjoyed most this year and why.', 'Write down what you have noticed them do well, with an example for each.', 'Compare the two lists together and talk about where they match.'],
+    routine: ['Days 1 to 3: Ask your child to list what they enjoyed most this year and why, and listen without correcting.', 'Days 4 to 7: Write what you have noticed them do well, with one example for each, before you look at their list.', 'Days 8 to 11: Compare the two lists together, talk about where they match, and ask for an example where they differ.', 'Days 12 to 14: Ask one teacher where your child does their best work, and add it to a shared one-page list of interests and strengths.'],
     mistakes: ['Assuming what suits your child from your own career.', 'Judging strengths only by marks.', 'Treating a single comment from a teacher as the full picture.'],
     proof: ['A short shared list of interests and strengths with examples.', 'A note from a teacher on what your child does well.'],
     midStep: 'Ask your child for one example of a time they lost track of time doing something, and what it was.',
@@ -57,15 +57,15 @@ export const PARENT_DEEP: Record<string, {
   },
   options: {
     why: 'Most parents know one or two routes well and others by hearsay. Reading the same official pages as your child gives you both the same facts to discuss.',
-    routine: ['Read one official page for each route you are considering.', 'Note eligibility, cost and what the route leads to.', 'Talk to one person doing work that each route leads to.'],
-    mistakes: ['Relying on a single relative\'s experience.', 'Ignoring diploma, ITI and open schooling because they are less familiar.', 'Treating a college name as a career plan.'],
+    routine: ['Days 1 to 3: Read one official page for each route your child is considering, including diploma or ITI if it is on the list.', 'Days 4 to 7: Note eligibility, duration and what each route leads to on one page, and mark what you could not find.', 'Days 8 to 11: Talk to one person doing work that each route leads to, using questions your child has written.', 'Days 12 to 14: Sit down together, drop the weakest route and keep two for the final comparison.'],
+    mistakes: ['Relying on a single relative\'s experience.', 'Overlooking diploma, ITI and open schooling because they are less familiar.', 'Treating a college name as a career plan.'],
     proof: ['A one-page comparison of the routes with sources.', 'Notes from a conversation with someone in the field.'],
     midStep: 'Choose two routes you know least about and read about them together this week.',
     askOthers: 'Ask a school counsellor, "Which routes are open at my child\'s marks, and which need a minimum?"',
   },
   pressure: {
     why: 'Children decide better when they can say their reasons aloud without being overruled. Family views matter, and they work best as input, not as the answer.',
-    routine: ['Ask your child to explain their preference and listen without interrupting.', 'Write the family\'s concerns and your child\'s reasons side by side.', 'Find facts that address each concern.'],
+    routine: ['Days 1 to 3: Ask your child to explain their preference, and listen for five minutes without interrupting.', 'Days 4 to 7: Write the family\'s concerns and your child\'s reasons side by side on one page.', 'Days 8 to 11: Find one fact for each concern, from an official page or a person in the field, and share them with your child.', 'Days 12 to 14: Hold a second talk to agree what is settled, what is still open and who should join the next one.'],
     mistakes: ['Comparing your child with cousins or neighbours.', 'Letting status or salary decide before fit.', 'Winning an argument and losing trust.'],
     proof: ['A two-column list of concerns and facts.', 'An agreement to review the choice after a few months.'],
     midStep: 'In the next talk, summarise your child\'s reasons back to them before you share your view.',
@@ -73,7 +73,7 @@ export const PARENT_DEEP: Record<string, {
   },
   process: {
     why: 'A shared method turns a stressful argument into a comparison. It also makes the choice easier to adjust later because you both know why it was made.',
-    routine: ['Agree four points of comparison.', 'Score each shortlisted route against them.', 'Set a decision date and a review date.'],
+    routine: ['Days 1 to 3: Agree four points of comparison with your child, such as interest, subjects, cost and ease of changing later.', 'Days 4 to 7: Score each shortlisted route on the four points separately, then compare the two sheets.', 'Days 8 to 11: Talk through any point where your scores differ and note the fact each of you relied on.', 'Days 12 to 14: Fix a decision date and a review date, and write both where your child can see them.'],
     mistakes: ['Waiting for a perfect answer.', 'Changing the plan after each new opinion.', 'Treating the decision as permanent.'],
     proof: ['A scoring sheet with dates.', 'A short note on why the choice was made.'],
     midStep: 'Write the four points you will compare and score two routes this week.',
@@ -81,7 +81,7 @@ export const PARENT_DEEP: Record<string, {
   },
   action: {
     why: 'Decisions move when someone owns the next step. A short list with names and dates beats a long discussion.',
-    routine: ['List three next steps with an owner and a date.', 'Book a conversation with a teacher or counsellor.', 'Review the list at the next family talk.'],
+    routine: ['Days 1 to 3: List three next steps with an owner and a date, and let your child pick the first one.', 'Days 4 to 7: Book a short meeting with a teacher or counsellor and write down the questions to bring.', 'Days 8 to 11: Complete the steps that have dates this week and note anything that was harder than expected.', 'Days 12 to 14: Review the list together, tick what is done and set the next three steps.'],
     mistakes: ['Postponing the talk to avoid conflict.', 'Leaving admission steps to the last minute.', 'Taking all the steps yourself without involving your child.'],
     proof: ['A step list with dates and ticks.', 'Notes from the teacher or counsellor meeting.'],
     midStep: 'Book one conversation with a school counsellor or teacher and bring three questions.',
@@ -106,7 +106,7 @@ export const DOMAIN_PHRASES: Record<SkillTestId, Record<string, string[]>> = {
   'confused-after-10th': {
     self: ['"The three things I enjoyed most this year were..., because..."', '"People say I am good at..., and I noticed that when I..."', '"I am not sure yet, so I will try ... to find out."'],
     options: ['"Can you tell me what a typical day looks like in your job?"', '"What are the entry rules for this route, and where do I check them?"', '"What does this course lead to besides the obvious job?"'],
-    pressure: ['"I understand why you prefer this. Can I tell you my reasons, and then you tell me yours?"', '"Here are the facts I found about both options. Can we look at them together?"', '"I would like to try this and review it after a few months, if the marks and interest are not working we can change."'],
+    pressure: ['"I understand why you prefer this. Can I tell you my reasons, and then you tell me yours?"', '"Here are the facts I found about both options. Can we look at them together?"', '"I would like to try this and review it after a few months. If marks and interest are not working, we can look at changing."'],
     process: ['"I will compare both options on these four points."', '"I will decide by this date and review it by this date."', '"A good-enough choice I can adjust is better than waiting for a perfect one."'],
     action: ['"Can I meet you for twenty minutes to ask three questions about this route?"', '"My next three steps are..."', '"I will start with one step today: ..."'],
   },
@@ -141,17 +141,17 @@ export const STAGE_PLAN: Record<SkillTestId, Record<string, string[]>> = {
     professional: plan('End each meeting with a two-line recap and owners.', 'Use done, next, need, by when for every update.', 'Practise explaining one complex point in plain words.', 'Next time you push back, offer an alternative with it.'),
   },
   'soft-skills': {
-    school: plan('Write all commitments in one place with early dates.', 'In group work, take a role and check that everyone has one.', 'Try one new way of studying and keep what works.', 'Before asking for help, write what you tried.'),
-    college: plan('Take one responsibility that others depend on and finish it visibly.', 'Agree roles and dates at the start of each group project.', 'Join one activity beyond the syllabus for a full term.', 'Review with teammates what worked and what did not.'),
-    fresher: plan('Close each task with a short update on what is done.', 'List the tools and processes your team uses and learn the commonest first.', 'Ask for help with what you tried and what you need.', 'Tell people early when a deadline is at risk.'),
-    professional: plan('When delegating, state outcome, deadline and check-in point.', 'Learn what other teams are measured on before asking for help.', 'Pick one capability each change lets you build.', 'Review your commitments weekly and flag risks early.'),
+    school: plan('This week, write every homework and project date on one page, with your own earlier date beside each.', 'In your next group task, take a role and check that every member has one.', 'Test one new study method for a week and keep it only if it helps.', 'Next time you are stuck, show your teacher what you tried before you ask.'),
+    college: plan('Take one job in a club or project that others depend on, and finish it visibly.', 'Agree roles and dates at the first meeting of each group project.', 'Join one activity outside the syllabus for a full term.', 'At the end of a project, ask teammates what worked and what did not.'),
+    fresher: plan('Close each task with a short message saying what is done.', 'List the tools and processes your team uses and learn the commonest first.', 'When you ask for help, say what you tried and what you need.', 'Warn people at the first sign that a deadline is at risk.'),
+    professional: plan('When delegating, state the outcome, the deadline and a check-in point.', 'Find out what other teams are measured on before asking them for help.', 'Pick one capability that each change lets you build.', 'Review your commitments on a fixed day each week and flag risks early.'),
   },
 };
 
 export const PARENT_STAGE_ADVICE: Record<string, StageAdvice> = {
-  self: { situation: 'As a parent, knowing your child\'s strengths and interests from their own words gives your support a firm base.', actions: ['Ask your child to name the three things they enjoyed most this year.', 'Share the strengths you have noticed, with an example for each.'] },
-  options: { situation: 'As a parent, learning the routes from official sources lets you discuss facts, not opinions.', actions: ['Read one official page for each route under consideration.', 'Find someone working in the field for a short conversation.'] },
-  pressure: { situation: 'As a parent, giving your child room to explain their reasons makes the decision theirs and the support yours.', actions: ['Listen without interrupting for a few minutes and summarise what you heard.', 'List family concerns and match each with a fact.'] },
-  process: { situation: 'As a parent, a shared method keeps the decision calm.', actions: ['Agree four points of comparison.', 'Set a decision date and a review date.'] },
-  action: { situation: 'As a parent, turning the discussion into dated steps keeps the decision moving.', actions: ['Write three next steps with an owner and a date each.', 'Book a conversation with a teacher or counsellor.'] },
+  self: { situation: 'As a parent, knowing your child\'s strengths and interests from their own words gives your support a firm base.', actions: ['Ask your child to name the three things they enjoyed most this year, and write your own guess before you hear the answer.', 'Share two strengths you have noticed, with an example for each, and ask whether your child agrees.'] },
+  options: { situation: 'As a parent, learning the routes from official sources lets you discuss facts, not opinions.', actions: ['Read one official page for each route under consideration, so both of you work from the same facts.', 'Find someone working in the field and arrange a fifteen-minute conversation, using questions your child has written.'] },
+  pressure: { situation: 'As a parent, giving your child room to explain their reasons makes the decision theirs and the support yours.', actions: ['Listen for five minutes without interrupting, then say back what you heard before you give your view.', 'List each family concern and match it with a fact, so the talk is about evidence and not about who is more certain.'] },
+  process: { situation: 'As a parent, a shared method keeps the decision calm.', actions: ['Agree four points of comparison with your child, such as interest, subjects, cost and ease of changing later.', 'Set a decision date and a review date a few months on, and write both where your child can see them.'] },
+  action: { situation: 'As a parent, turning the discussion into dated steps keeps the decision moving.', actions: ['Write three next steps, each with an owner and a date, and let your child choose which to do first.', 'Book a short meeting with a teacher or counsellor and bring two or three specific questions.'] },
 };

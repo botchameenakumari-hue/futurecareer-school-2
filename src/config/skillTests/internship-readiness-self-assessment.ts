@@ -16,7 +16,7 @@ export const bundle: SkillTestBundle = {
     h1Accent: 'Self-Assessment',
     eyebrow: 'For college students, fresh graduates, diploma and non-engineering streams',
     heroSub:
-      'Many students apply for an internship with a copied resume, no clear goal and no idea how to behave on the first day. This free self-assessment checks five areas, knowing what you want, proof of your skills, finding and applying, workplace habits, and learning fast, then shows which one to fix first before you apply.',
+      'Applying for an internship with a copied resume, no clear goal and no idea how to behave on the first day is a common way to waste a good chance. This free self-assessment checks five areas, knowing what you want, proof of your skills, finding and applying, workplace habits, and learning fast, then shows which one to fix first before you apply.',
     stats: [
       { value: '40', label: 'questions' },
       { value: '5', label: 'readiness areas' },
@@ -73,7 +73,7 @@ export const bundle: SkillTestBundle = {
         strong: 'You know where genuine internships are listed, you tailor each application, keep track and check that an offer is real before you accept.',
         weak: 'You depend on one portal or one friend, send the same message everywhere, lose track of applications or are unsure how to tell a real offer from a fake one.',
         plan: [
-          'List five places to look: your placement or training cell, a faculty member, official company career pages, a recognised government or institute portal, and people you know.',
+          'List five places to look: your placement or training cell, a faculty member, official company career pages, a recognised government or institute portal, and people you know. Be careful with any offer that asks you to pay to be given a place.',
           'Make a sheet with company, role, date applied, contact, reply and follow-up date, and add every application.',
           'Write a four-line message that says who you are, what you can do, why this organisation and when you are available, and edit it for each one.',
         ],
@@ -105,30 +105,30 @@ export const bundle: SkillTestBundle = {
     ],
     questions: [
       { d: 'goals', text: 'I can say in a sentence or two what I want to learn or find out from an internship.' },
-      { d: 'proof', text: 'I have a resume that lists my studies, skills and activities, and I can explain every line.' },
+      { d: 'proof', text: 'If someone asks about any line of my resume, I can explain it.' },
       { d: 'search', text: 'I know at least three places to look for internships, such as my college, official portals, a teacher, family contacts or companies I follow.' },
-      { d: 'conduct', text: 'I know how to behave on the first day, such as reaching on time, dressing suitably and asking who to report to.' },
+      { d: 'conduct', text: 'I know what is expected on the first day of an internship, such as reporting time, dress and whom to report to.' },
       { d: 'learn', text: 'When a task is unclear, I try it for a short while and then ask a specific question.' },
-      { d: 'goals', text: 'I know which kinds of work or fields I would like to try, and which I would like to rule out.' },
+      { d: 'goals', text: 'I can name two kinds of work I would like to try as an intern.' },
       { d: 'proof', text: 'I can show something I have made or done, such as a file, report, design, page, project or an event I helped run.' },
-      { d: 'search', text: 'I write a separate short message for each application instead of sending the same one everywhere.' },
-      { d: 'conduct', text: 'I tell someone early when I will miss a deadline or cannot attend, instead of going silent.' },
+      { d: 'search', text: 'I send the same message, with only the name changed, to every organisation I apply to.', reverse: true },
+      { d: 'conduct', text: 'When I know I will miss a deadline, I stay quiet and hope to finish it later.', reverse: true },
       { d: 'learn', text: 'I keep a daily or weekly note of what I did and what I learned.' },
-      { d: 'goals', text: 'I would take any internship at all, just for the certificate, without checking what I would actually do.', reverse: true },
+      { d: 'goals', text: 'I would accept any internship that is offered to me, without checking what work I would do.', reverse: true },
       { d: 'proof', text: 'My resume is a template or a friend\'s resume with a few words changed.', reverse: true },
-      { d: 'search', text: 'I keep a list of my applications with the date, the contact person and the next follow-up.' },
-      { d: 'conduct', text: 'I keep company and client information private and do not post it on social media without permission.' },
-      { d: 'learn', text: 'During a task I wait to be told what to do and rarely ask for more work.', reverse: true },
+      { d: 'search', text: 'I do not keep any record of where I have applied or when I should follow up.', reverse: true },
+      { d: 'conduct', text: 'I would not post photos or details about a workplace on social media without permission.' },
+      { d: 'learn', text: 'During a task I wait to be told what to do next instead of asking.', reverse: true },
       { d: 'goals', text: 'I have checked whether my course, college or university has rules on internship duration, reports or credit.' },
       { d: 'proof', text: 'My email address, profile photo and public social media pages would look fine if an employer saw them.' },
-      { d: 'search', text: 'I check that an internship is genuine before applying, and I would never pay a fee to get one.' },
-      { d: 'conduct', text: 'I find it hard to take feedback, and I sometimes argue instead of listening.', reverse: true },
-      { d: 'learn', text: 'I can name two skills I want to improve during an internship and how I will know they improved.' },
-      { d: 'goals', text: 'I have thought about the weeks, daily hours, travel or remote work that I can manage along with my studies and home duties.' },
+      { d: 'search', text: 'Before I apply or pay anything, I check whether an internship offer is genuine.' },
+      { d: 'conduct', text: 'When someone corrects my work, I explain why I was right before I listen.', reverse: true },
+      { d: 'learn', text: 'I can name two skills I want to improve during an internship.' },
+      { d: 'goals', text: 'I know how many weeks and hours a day I can give to an internship alongside my studies and home duties.' },
       { d: 'proof', text: 'I can describe one task I did on my own in three parts: the problem, my action and the result.' },
-      { d: 'search', text: 'I find it hard to approach people I do not know about an opening, so I only use portals.', reverse: true },
-      { d: 'conduct', text: 'I usually reply to messages and emails within a day, politely and clearly.' },
-      { d: 'learn', text: 'I plan to ask my supervisor for feedback, a reference or letter, and permission to show my work before the internship ends.' },
+      { d: 'search', text: 'I look for internships only on portals and never ask teachers, seniors or relatives.', reverse: true },
+      { d: 'conduct', text: 'I usually reply to messages and emails within a day.' },
+      { d: 'learn', text: 'I plan to ask my supervisor for feedback before the internship ends.' },
     ],
     readingTitle: 'How to read your internship readiness result',
     readingSections: [
@@ -152,6 +152,13 @@ export const bundle: SkillTestBundle = {
         ],
       },
       {
+        title: 'Fees, fake offers and paid or unpaid internships',
+        body: [
+          'Some internships pay a stipend and some do not. This differs by organisation, field and rules, and a stipend alone does not make an internship good. What matters more is the work you will do, the person who supervises you and what you receive at the end.',
+          'Be very careful with any offer that asks you to pay to be given a place, to send ID or bank details to a personal number, or to decide in a hurry. Genuine employers do not normally charge for work experience. A paid training course is a different thing, so judge it as a course and ask a teacher or your placement cell before paying anything. Never share an OTP with anyone.',
+        ],
+      },
+      {
         title: 'Turn scores into steps, not worry',
         body: [
           'Pick your lowest area and follow its 14-day routine. Retake the test after a few weeks and compare it with your own earlier result. If a score does not move, look at the statements you rated lowest and fix those first.',
@@ -162,6 +169,7 @@ export const bundle: SkillTestBundle = {
       'This is a self-rating tool and shows how you describe your own preparation. It does not replace advice from a teacher, a placement officer or someone who works in the field you are considering.',
       'It is not an employer test and does not predict whether any organisation will offer you an internship or a job.',
       'Scores are not compared with other people, so there is no pass mark. A high score does not mean you are ready for every internship, and a low score does not mean you are not.',
+      'It cannot tell you whether a particular offer is genuine. Check each one yourself through the organisation\'s official website, a written offer and a teacher or placement officer before you share documents or pay anything.',
       'Internship rules differ between colleges, universities, boards and employers. Check your own course guidelines and the official offer letter, as they come first.',
     ],
     faqs: [
@@ -187,15 +195,23 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'Do I need experience or a portfolio before I apply?',
-        a: 'No. Most internships exist because you do not have experience yet. What helps is a clear reason, an honest resume and one small thing you have made or done. The test shows how to build that proof with what you already have.',
+        a: 'No. Internships are a way to gain experience, so you are not expected to have much yet. What helps is a clear reason, an honest resume and one small thing you have made or done. The test shows how to build that proof with what you already have.',
       },
       {
         q: 'How is this different from the interview readiness test?',
         a: 'The interview readiness test is about the interview itself: research, examples, answers and follow-up. This one is wider and starts earlier: choosing what you want, building proof, finding genuine openings and then behaving and learning well during the internship. Taking both covers the whole path.',
       },
       {
+        q: 'How can I tell if an internship offer is fake or asks for a fee?',
+        a: 'Treat any request to pay for a place, to send ID or bank details to a personal number, or to decide in a hurry as a warning. Look up the organisation on its own website, ask for the offer in writing from an official email address and show it to a teacher or your placement cell. Paid training courses exist, but a course is not the same as an internship, so judge it as a course before paying.',
+      },
+      {
+        q: 'Are internships paid or unpaid?',
+        a: 'It depends on the organisation, the field and the rules of your course, so some pay a stipend and some do not. Ask before you start whether there is a stipend, and also ask about hours, the supervisor and what you will receive at the end. An unpaid internship can be worth doing if the learning is real, but never pay money to take one.',
+      },
+      {
         q: 'How often should I take it?',
-        a: 'Take it once now, follow the 14-day routine for your lowest area, and retake it before you apply or when you start your internship. Your own earlier result is the only fair comparison.',
+        a: 'Every few weeks is enough. Take it once now, follow the 14-day routine for your lowest area, and retake it before you apply or when you start your internship. Your own earlier result is the only fair comparison.',
       },
     ],
     related: [
@@ -256,9 +272,9 @@ export const bundle: SkillTestBundle = {
         label: 'First or second year',
         description: 'Early in a degree, looking for a first taste of work',
         title: 'Use the internship to explore, and build small proof first',
-        body: 'In the early years, most employers do not expect deep skills, and a short summer or part-time experience is mainly about trying a field. Your best use of this time is to explore, build one or two small pieces of proof, and decide what to try next.',
+        body: 'In the early years, a short summer or part-time experience is mainly about trying a field, so deep skills are not the aim. Your best use of this time is to explore, build one or two small pieces of proof, and decide what to try next.',
         actions: [
-          'Choose two fields to try and ask for a short role, a few weeks of shadowing or a small project with each.',
+          'Choose two fields to try and ask for a short role, a few days of watching someone do the work, or a small project, with each.',
           'Build one small piece of proof this month, such as a report, a poster, a short video, a sheet or a club project, and keep it in one folder.',
           'Ask your college for its internship rules, including any minimum duration, report format or credit, so that you plan before the semester ends.',
         ],
@@ -283,7 +299,7 @@ export const bundle: SkillTestBundle = {
         body: 'After graduation, you need to show employers that you are active and learning. A well-chosen internship or trial project, even a short one, gives you something to say about the months since college and a person who can speak for you.',
         actions: [
           'Choose one role you want to test and apply to at least five organisations, using a tracking sheet and a separate message for each.',
-          'Ask each organisation about the learning plan, the supervisor, the duration, whether it is paid or unpaid and what you will receive at the end.',
+          'Ask each organisation about the learning plan, the supervisor, the duration, whether there is a stipend (some internships pay one and some do not), whether any fee is asked, and what you will receive at the end.',
           'Do one small self-directed project in the same field while you search, so that your resume stays current.',
         ],
       },
@@ -306,31 +322,31 @@ export const bundle: SkillTestBundle = {
       'Make a list of five places by tonight: your college cell, one teacher, two official company pages and one person you know. Check one of them every week for a month.',
       'On the first day, plan to reach 10 minutes early, wear plain neat clothes, carry a notebook and ID, and ask your supervisor on arrival what you should do first and who to go to for questions.',
       'Try the task for 15 minutes, write what you tried, and then ask something like "I did A and B and got C, is the next step D?" A specific question is easier to answer than "I do not understand".',
-      'Write the names of three kinds of work you would like to try, such as accounts, content, sales, field work, design or teaching, and one you would rather not do. Look for internships that match the first list.',
+      'Write down three kinds of work you would like to try, such as accounts, content, sales, field work, design or teaching, and one you would rather not do. Look for internships that match the three and ask one person in each field what a beginner does.',
       'Pick one small piece of work and finish it this week, such as a one-page report, a social media post set, a price comparison sheet or a simple form. Store it in a folder and note what you did in three lines.',
-      'Choose two openings you really want and write a four-line message for each, with who you are, what you can do, why this organisation and your available dates. Do not copy it to a third one without changing it.',
-      'Message your supervisor as soon as you know a problem, using a line such as "I may need until tomorrow evening for this, will that be fine?" Early warning is far better than a late excuse.',
+      'Choose two openings you really want and write a different four-line message for each: who you are, what you can do, why this organisation and your available dates. Put one fact from that organisation\'s own website in each, so it cannot be sent to anyone else.',
+      'Message your supervisor, teacher or team leader as soon as you know a problem, using a line such as "I may need until tomorrow evening for this, will that be fine?" Early warning is far better than a late excuse.',
       'Use the last five minutes of each day to write three lines: what I did, what I learned, what I will ask tomorrow. Read the notes on Friday and pick one thing to practise.',
       'Before applying, write down what you would do each week in this internship. If you cannot name at least three tasks, ask the organiser before accepting, since a certificate alone is a weak reason.',
       'Open your resume and replace the template wording with your own facts: your course, your best three skills with an example for each, and one activity. Remove anything you cannot explain.',
-      'Write the next step for each application in a sheet and set a reminder for a polite follow-up after a week. Without a record you will forget who you have written to.',
+      'Write each application in a notebook or sheet with the date, the contact name and a follow-up date one week later. Without a record you will forget who you have written to, and follow-ups will not happen.',
       'Treat everything you see at work as private unless told otherwise. Ask before taking photographs or posting about your office, and never share client names, files or screenshots.',
       'Pick one small task each day and say to your supervisor, "I have finished this, is there something else I can help with?" Do this on the second day itself, since waiting to be told rarely brings extra work.',
       'Ask your college office or department for the written rules on duration, reports, attendance and credit for internships. Keep a copy, and show it to the organiser before you finalise dates.',
       'Search your own name, switch to a plain profile photo, check your email address sounds like your real name and make personal posts private if you would not want an employer to see them.',
-      'Before sending any application, search for the organisation, check its official website and contact details, and ask for the offer in writing. A genuine internship will not ask you for money.',
-      'When you receive feedback, write down the words without replying, say "thank you, I will work on that" and then decide later what to change. Arguing now closes the door to getting feedback again.',
-      'Choose two skills, such as writing reports, using spreadsheets, speaking to customers or handling tools, and add a way to check each one, such as "I can finish a one-page report in one hour without help".',
+      'Before applying, search for the organisation, read its official website and find a contact you can verify. Ask for the offer in writing, and be very careful if anyone asks you to pay, to send ID or bank details, or to use only a personal number. If unsure, show the offer to a teacher or your placement cell.',
+      'Next time someone corrects your work, write down their words without replying and say "thank you, I will work on that". Decide later what to change, since explaining first makes people give you less feedback.',
+      'Choose two skills, such as writing reports, using spreadsheets, speaking to customers or handling tools. Add a way to check each one, such as "I can finish a one-page report in one hour without help".',
       'Write down your weeks, daily hours and travel limits, and speak to your family about them before you apply. Say them honestly to the organiser so that you are not forced to leave halfway.',
       'Take one task you did recently and write: the problem, what you did, the result. If it does not fit in three lines, choose another task or practise explaining it aloud once.',
-      'Pick one person you admire in your field and send a short, polite message to ask for 10 minutes. Use your teacher, senior or family friend as a first contact. Even one such conversation can change how you search.',
+      'This week, ask one teacher, senior or relative whether they know anyone who takes interns, and ask them to introduce you. A short, polite request for 10 minutes of their time is usually easy to say yes to.',
       'Set a rule to reply to messages and emails the same day, even if only to say "received, will reply by tomorrow". Check email twice a day during your search.',
-      'Put a reminder in your calendar for the last week to ask your supervisor for feedback, a reference or letter, and which of your work you may show. Write the list of tasks you handled on the way.',
+      'Put a reminder on your phone or calendar for the last week of the internship. On that day ask your supervisor for feedback, a short reference or letter, and which of your work you may show.',
     ],
-    strongTip: 'This is already a habit that works for internships. Keep doing it and use it as one of your strengths.',
+    strongTip: 'This habit already helps you in an internship. Keep doing it, and be ready to give one real example of it when someone asks.',
     domains: {
       goals: {
-        why: 'An internship is short, so a clear reason decides how much you get from it. Knowing what you want to learn or rule out helps you pick the right place, ask for the right tasks and avoid a few weeks of only making tea or copying files.',
+        why: 'An internship is short, so a clear reason decides how much you get from it. Knowing what you want to learn or rule out helps you pick the right place, ask for the right tasks and avoid a few weeks of only making tea or copying files. It also helps you say no to offers that look attractive but give you nothing to learn.',
         roles: [
           'College or university rules, where a set number of weeks or a report may be needed for credit',
           'Choosing between fields, such as accounts, marketing, operations, teaching, design or field work, before committing to a course or a first job',
@@ -396,17 +412,17 @@ export const bundle: SkillTestBundle = {
         roles: [
           'College placement or training cell routes, plus portals and company pages',
           'Direct approaches to local firms, shops, clinics, studios, NGOs and family contacts, which are common outside big cities',
-          'Checking that an offer is genuine, in writing, and free of any fee',
+          'Checking that an offer is genuine and in writing, and that you are not asked to pay to be given a place',
         ],
         routine: [
           'Days 1 to 3: List ten places that could take an intern and write how you will reach each one. Include your cell, a teacher, two official company pages and local contacts.',
           'Days 4 to 7: Write your four-line message and a one-page resume. Create the tracking sheet and send your first three applications.',
-          'Days 8 to 11: Ask two people for an introduction, and check every offer with the official website, a written offer and a contact you can call. Never pay a fee.',
+          'Days 8 to 11: Ask two people for an introduction, and check every offer with the official website, a written offer and a contact you can verify. Do not pay money to be given a place, and never share an OTP or bank details.',
           'Days 12 to 14: Follow up on the first applications with one polite message each, and log the replies. Add five more places to the sheet.',
         ],
         mistakes: [
           'Sending one identical message to fifty places and getting no replies',
-          'Accepting an offer that asks for payment or has no written details',
+          'Paying money or sending ID and bank details because a post said only a few places were left',
           'Forgetting who you contacted and when, so follow-ups never happen',
         ],
         proof: [
@@ -423,7 +439,7 @@ export const bundle: SkillTestBundle = {
         midStep: 'Send three well-written applications this week and log them in your sheet with a follow-up date.',
       },
       conduct: {
-        why: 'In a short internship, people judge you quickly by small things: whether you are on time, whether you reply, whether you warn them about problems and whether you handle feedback calmly. These habits decide how much help and trust you receive.',
+        why: 'In a short internship, people judge you quickly by small things: whether you are on time, whether you reply, whether you warn them about problems and whether you handle feedback calmly. These habits decide how much help and trust you receive. A one-line message saying you will be 20 minutes late costs nothing, and it is remembered longer than the delay.',
         roles: [
           'First-day basics such as reporting time, dress, ID, phone use and who to report to',
           'Working with a supervisor and a team in an office, shop, workshop, clinic, school or at home online',
@@ -454,7 +470,7 @@ export const bundle: SkillTestBundle = {
         midStep: 'For one week, reply to every message within a day and write down when you were late, then fix the pattern you see.',
       },
       learn: {
-        why: 'The value of an internship is what you take away. People who ask specific questions, write down what they learn and ask for more work usually get more responsibility, and they finish with feedback and proof, not only a certificate.',
+        why: 'The value of an internship is what you take away. People who ask specific questions, write down what they learn and ask for more work usually get more responsibility, and they finish with feedback and proof, not only a certificate. Even three lines written each evening give you something specific to say in your next interview.',
         roles: [
           'The first week, when you learn the tools, the people and the way things are done',
           'Mid-way, when asking for a bigger task or a new area makes a difference',
@@ -497,17 +513,17 @@ export const bundle: SkillTestBundle = {
     // Early years
     x(['early'], 'goals', 'I treat my first internship as a way to explore and try fields, not as a final choice.', 'Plan to try two different fields over your first two years, even for two or three weeks each. Write after each one what you liked and what you did not, so your next choice is based on experience.'),
     x(['early'], 'proof', 'I have started collecting small pieces of work from my classes, clubs and fests, such as reports, posters, photographs or plans.', 'Create one folder today and add anything you made this semester, with a note of the date and your part. After a year you will have real material for a resume.'),
-    x(['early'], 'learn', 'I use semester breaks only for rest and have not planned any short learning, volunteering or work.', 'Choose one small activity for the next break, such as helping a local business with its records, teaching at a nearby school, volunteering for an NGO or finishing a short course. Write the plan down with dates.', true),
+    x(['early'], 'learn', 'I have not planned how to use my next semester break for any learning, volunteering or work.', 'Choose one small activity for the next break, such as helping a local business with its records, teaching at a nearby school, volunteering for an NGO or finishing a short course. Write the plan down with dates.', true),
     x(['early'], 'search', 'I have spoken to my teachers or seniors about where students from my course usually do internships.', 'Ask two seniors and one teacher this week where they interned, how they found it and what they would do differently. Write the names of the places and contact people in your tracking sheet.'),
     // Final year
-    x(['final'], 'goals', 'I have decided which kind of full-time role I want and have chosen an internship that supports it.', 'Write the two job roles you would like after graduation and look for an internship that gives you work in one of them. If you are unsure, use the internship to test your first choice.'),
+    x(['final'], 'goals', 'I know which kind of full-time role I want to try for after graduation.', 'Write the two job roles you would like after graduation and look for an internship that gives you work in one of them. If you are unsure, use the internship to test your first choice.'),
     x(['final'], 'proof', 'My final-year project, or my internship tasks, are written up in a way I can describe in two minutes.', 'Write three lines on your project: the problem, your part and the result. Practise it aloud and keep a one-page summary ready for interviews.'),
     x(['final'], 'search', 'I have a plan to balance internship applications with exams, project work and placement drives.', 'Put exam dates, drive dates and project deadlines on one calendar. Apply for internships in the gaps, and ask for flexible hours only after you have agreed on the work.'),
-    x(['final'], 'conduct', 'I have asked about what happens after the internship, such as whether a conversation about a full-time role is possible.', 'In the second or third week, ask your supervisor politely how people usually move from intern to employee, and what they would like to see from you. Make no assumptions, and do not rely on an offer.'),
+    x(['final'], 'conduct', 'I assume an internship will lead to a job offer, so I have not asked what happens after it ends.', 'In the second or third week, ask your supervisor how interns usually move on and what they would like to see from you. An offer is never certain, so keep applying elsewhere and keep your attendance and work steady.', true),
     // Graduate
     x(['graduate'], 'goals', 'I can explain in one honest sentence what I have done since graduating and what I am looking for.', 'Write two sentences: what you have done since your degree and the kind of internship you want next. Use the same sentence in applications and when networking.'),
-    x(['graduate'], 'proof', 'I have worked on something outside college, such as a freelance task, a course project, volunteering or helping a family business.', 'If not, start one small task for a local business or an NGO this week and note what you do. In a month you will have a current example to write on your resume.'),
-    x(['graduate'], 'search', 'I ask about the learning plan, supervisor, duration and what I receive at the end before accepting an internship.', 'Before saying yes, ask for these four points in writing. If the organisation cannot give you a clear answer, treat that as a warning and keep looking.'),
+    x(['graduate'], 'proof', 'Since graduating, I have nothing from outside college that I can show an employer.', 'Start one small task this week, such as a sheet for a local shop, a volunteer job with an NGO or a short course project, and note what you do. In a month you will have a current example for your resume.', true),
+    x(['graduate'], 'search', 'I ask about the learning plan, supervisor, duration and what I receive at the end before accepting an internship.', 'Before saying yes, ask for these four points in writing, and also ask whether any fee is involved. If the organisation cannot answer clearly, or asks you to pay to join, treat that as a warning, talk to a teacher and keep looking.'),
     x(['graduate'], 'learn', 'I have a plan for how I will turn an internship into a reference, a project to show and a clear next step.', 'Write the three outputs you want at the end: a reference, a piece of work you may show and a next step. Share them with your supervisor in the first week.'),
     // Vocational and non-engineering
     x(['vocational'], 'goals', 'I know which kinds of places take interns in my own field, such as firms, clinics, workshops, shops, schools, NGOs or media.', 'List five types of organisation that use your skills, and two places near you for each. Ask a teacher or instructor which of them have taken students before.'),
@@ -518,7 +534,7 @@ export const bundle: SkillTestBundle = {
 
   stageAdvice: {
     early: {
-      goals: sa('In the early years, you are still discovering what you like, and a short experience can help you decide your stream or specialisation.', 'Pick two fields and plan a few weeks of shadowing, volunteering or a small project in each over the next year.', 'After each experience, write three lines on what you enjoyed, what drained you and what you want to try next.'),
+      goals: sa('In the early years, you are still discovering what you like, and a short experience can help you decide your stream or specialisation.', 'Pick two fields and plan a few days of watching someone work, volunteering or a small project in each over the next year.', 'After each experience, write three lines on what you enjoyed, what drained you and what you want to try next.'),
       proof: sa('In the early years, you have little to show, so proof comes from classes, clubs and small projects.', 'Choose one assignment or club task and polish it into a one-page piece of work with your name and the date.', 'Start a single folder and add something to it every month, even a photograph of an event you organised.'),
       search: sa('In the early years, formal internships are fewer, so you find opportunities through people, clubs and short programmes.', 'Ask seniors where they did their first experience and message two of those places with a short, polite request.', 'Look at your college club, department and local NGOs for part-time or holiday tasks that count as experience.'),
       conduct: sa('In the early years, your habits are formed in class, labs, clubs and group assignments, long before an office.', 'Treat every group assignment as practice: reach on time, reply the same day and say early when you will miss a deadline.', 'Ask a teacher for one piece of feedback this semester and practise listening to it without explaining.'),
@@ -528,7 +544,7 @@ export const bundle: SkillTestBundle = {
       goals: sa('In the final year, an internship can shape your interview answers and your first job choice, and time is limited.', 'Decide the one or two roles you want after graduation and look only for internships that give you work in that area.', 'Check your project and exam dates, and choose a length and daily hours you can complete properly.'),
       proof: sa('In the final year, your project, internship and placement documents make up most of your proof.', 'Write your final-year project as a one-page summary with the problem, your part, tools and result.', 'During the internship, collect a list of tasks and results, and ask your supervisor to review it before you leave.'),
       search: sa('In the final year, you compete for time with exams, project work and campus drives.', 'Ask the placement cell and your project guide for partner organisations, and apply to them first.', 'Plan to apply in blocks of two or three, and send each follow-up a week after the first message.'),
-      conduct: sa('In the final year, an internship is often watched as an extended interview, so small habits count.', 'Set a fixed routine for reaching, tasks and updates, and send your supervisor a short end-of-day note in the first two weeks.', 'Ask directly for feedback after the first fortnight and note two things to change in the following weeks.'),
+      conduct: sa('In the final year, supervisors notice small habits, and they may be asked about you later, so your routine counts.', 'Set a fixed routine for reaching, tasks and updates, and send your supervisor a short end-of-day note in the first two weeks.', 'Ask directly for feedback after the first fortnight and note two things to change in the following weeks.'),
       learn: sa('In the final year, the learning you take from an internship must turn into resume lines and interview stories.', 'Write each completed task as a resume line with an action and a result, and ask your supervisor to confirm the facts.', 'Ask to be involved in one task from start to finish, since a complete task makes a better interview story than many small ones.'),
     },
     graduate: {
@@ -542,95 +558,95 @@ export const bundle: SkillTestBundle = {
       goals: sa('In diploma, ITI, BBA, BCom, BA and other streams, internships and on-the-job training can lead in many directions, not only to IT.', 'List the types of workplace that use your course, such as a firm, shop, workshop, school, clinic or NGO, and choose one to try.', 'Check whether your course requires a particular duration or format of training, and plan the internship to meet it.'),
       proof: sa('In these streams, proof is practical work, a customer served, a document prepared or a job completed.', 'Photograph or save three examples of practical work this month, with the date and a short description of your part.', 'Ask an instructor, workshop head or shop owner to sign a short note saying what you did and how well.'),
       search: sa('In these streams, many internships come through local contacts, trade bodies and institutes, not large portals.', 'Visit or message three local businesses in your field with a clear one-page request and your available dates.', 'Ask your institute or a teacher for introductions to firms that have taken students before.'),
-      conduct: sa('In these streams, you may work with customers, tools, money or stock, so honesty and care are everything.', 'Learn the rules for cash, stock, safety and customer data in the workplace before you start and ask when unsure.', 'Keep your own record of what you did each day, since it can protect you if there is a mistake or a question later.'),
+      conduct: sa('In these streams, you may work with customers, tools, money or stock, so honesty and care matter most.', 'Learn the rules for cash, stock, safety and customer data in the workplace before you start and ask when unsure.', 'Keep your own record of what you did each day, since it can protect you if there is a mistake or a question later.'),
       learn: sa('In these streams, much of the learning is by watching and doing, and it can be lost if you do not record it.', 'Write down each new process you learn as a short step list, with a photograph if the workplace allows.', 'Ask to practise one task alone under supervision before you leave, and get feedback on it.'),
     },
   },
 
   scenarios: [
-    sc('goals', 'A friend tells you about an internship that gives a certificate in two weeks and asks only for a registration fee. Everyone in your class is applying. What do you do?', [
-      o('Pay the fee, since the certificate will look good and you may miss the chance', 0, 'A fee for an internship is a warning sign and a certificate alone teaches very little. Check what work you would do and who offers it, and do not pay to get an internship.'),
-      o('Ask what tasks you would do, who your supervisor would be and what you would have at the end, and decide only after the answers', 100, 'Strong. You are choosing for the work and the learning, not for a certificate. If the answers are unclear or a fee is required, look elsewhere.'),
-      o('Ignore it because you do not need an internship in the early years', 33, 'Skipping is not wrong, but small experiences in early years help you choose a direction. Look for a short, genuine option instead.'),
-      o('Apply along with your friends to stay together', 67, 'Going with friends is comforting but a good internship should also fit your own goals. Check that the work matches what you want to learn.'),
+    sc('goals', "A friend tells you about an internship that promises a certificate in two weeks and asks for a registration fee, saying only a few seats are left. Everyone in your class is applying. What do you do?", [
+      o("Pay the fee today along with your friends, because the certificate is only two weeks away and the seats may fill up", 0, "Be careful with any offer that asks you to pay to be given a place, especially with a rush to decide. A two-week certificate also tells an employer little about the work you did. Before any money moves, ask for the task list and supervisor's name, and talk to a teacher."),
+      o("Do not pay anything yet. Ask in writing what work you would do, who supervises it and what the fee is for", 100, "Judging the offer by the work, not the certificate, is the right way round. If the answers stay vague or the fee stays, drop it, and ask your placement cell or one teacher for a genuine option this week."),
+      o("Skip it and look for something else after your exams", 50, "Staying away from a fee-based offer is safe, but you lose the chance to choose on purpose. Fix a date after exams to ask a teacher or senior for a short option in a field you want to try, and check what it asks of you before you say yes."),
+      o("Apply along with your friends, but ask the organiser to send the fee details in writing before you pay anything", 33, "Going with friends is comforting, but a written fee note still does not tell you what you would learn. Ask for the tasks and the supervisor too, and remember that a paid training course is a different thing from an internship."),
     ]),
-    sc('goals', 'You have two offers: one close to home with simple tasks, and one in another city with more interesting work but a longer travel or stay. How do you decide?', [
-      o('Choose the interesting one without checking the practical cost', 33, 'Interest in the work is important, but you also need to afford the travel, stay and time. Work out the costs and your exam dates before saying yes.'),
-      o('Choose the closer one because it is easier, without asking about the work', 50, 'Convenience matters, but ask whether simple tasks will teach what you want to learn. Ask the nearer one if it can give you a bigger task.'),
-      o('Write what you want to learn, compare the tasks, the costs, the time and the family view, then choose and tell the other one politely', 100, 'Strong. You match each offer to your own goal and your limits, and you leave the other organisation with a good impression.'),
-      o('Accept both and decide on the first day', 0, 'This wastes the time of one organisation and can harm your name. Decide before you accept, and say no politely and early.'),
+    sc('goals', "You have two offers. One is near home with simple tasks. The other, in another city, has more interesting work, but its dates touch your exam weeks and the stay would cost more than your family has planned. How do you decide?", [
+      o("Take the far one anyway, since the learning matters most and the travel and stay can be sorted out after you join", 33, "Interest in the work counts, but an offer you cannot afford or attend regularly may force you to leave halfway, and exams still come first. Work out the full cost and the clashing dates before you say yes."),
+      o("Ask the far organisation whether the dates can shift and the stay can be arranged, and decide only after they reply", 67, "Asking once is reasonable, but waiting keeps the near organisation hanging. Give yourself a two-day limit, and if the dates still touch your exams, take the near offer."),
+      o("Take the near offer, ask for one bigger task from the second week, and decline the far one with thanks within a day", 100, "A nearby place you can attend fully, with a request for better work, beats a better offer you may have to abandon. Write down the bigger task you want to try and ask for it in week two."),
+      o("Accept both for now and decide on the first day", 0, "Accepting two offers blocks one organisation's seat and can hurt your name in a small circle of employers. Decide before you accept, and decline the other in writing within a day."),
     ]),
-    sc('proof', 'An organisation asks you to share "some work" with your application, and you have never done a project. What do you do?', [
-      o('Send your marks and certificates and say you have no other work', 33, 'Marks show your studies but not your skills. Make a small piece of work in the next few days and send that too.'),
-      o('Pick a class assignment, polish it into a one-page piece with your part described, and send it with a short note', 67, 'A good start. Make sure the piece is relevant to the role, and add a line on what you would improve if you had more time.'),
-      o('Copy a sample from the internet so that your application looks stronger', 0, 'Copied work is easily spotted and can end your chances. Create something small and original, even if it is simple.'),
-      o('Make a small piece related to the organisation, such as a short plan, a sheet or a sample post, and describe what you did and learned', 100, 'Strong. Work made for the organisation shows effort and understanding. Keep it short and honest about what it is.'),
+    sc('proof', "An organisation asks you to share \"some work\" with your application, and you have never done a project. What do you do?", [
+      o("Send your marks and certificates, and explain honestly that you have not done a project yet", 50, "Marks show that you studied but not how you work, and being honest is right. Spend one evening making a small piece of work and send it as a second attachment."),
+      o("Pick a class assignment you did well, tidy it into a one-page piece, describe your part in it, and send it with a short covering note", 67, "A reworked assignment is a fair start, though it may not match the role. Add one line on what you would improve with more time, and try making something aimed at this organisation next."),
+      o("Build a neat portfolio page from a free template and fill it with your skills and course names, since it looks professional", 17, "A polished page with nothing behind it shows design effort but no work. Put at least one real piece on it, even a plain one, and describe your part in it."),
+      o("Make a small piece for this organisation, such as a sample post or a short plan, and say plainly what it is", 100, "Work made for the organisation shows effort and some understanding of what they do. Keep it to a page or two and say honestly that it is a first attempt."),
     ]),
-    sc('proof', 'Your resume lists "Excel, communication and teamwork", and the interviewer asks you to show how you used Excel. What do you do?', [
-      o('Describe one sheet you made, what it calculated, what you did and how it helped, and offer to show it', 100, 'Strong. A specific example proves the skill. Keep a sample file ready for next time.'),
-      o('Say that you know it well and have used it many times', 17, 'General claims are easy to doubt. Give a specific example and be ready to explain the steps.'),
-      o('Say you only know the basics and ask to move to another question', 50, 'Honesty is good, but add what you can do and what you are learning. Update your resume to describe your level.'),
-      o('Explain what Excel is and its main features', 33, 'Describing the tool does not show your use of it. Talk about a task you did with it, and the result.'),
+    sc('proof', "Your resume lists \"Excel, communication and teamwork\", and the interviewer asks you to show how you used Excel. What do you do?", [
+      o("Say that you know Excel well and have used it many times for assignments, and that you learn new things quickly", 17, "A general claim like this is easy to doubt and hard to follow up. Pick one sheet you made and be ready to explain the steps in it."),
+      o("Describe one sheet you made, what it worked out and how it helped, and offer to show the file", 100, "A real example proves the skill better than any claim. Keep a sample file on your phone or a pen drive so that you can show it when asked."),
+      o("Say you only know the basics and ask whether you can move to the next question, since you would rather not guess", 50, "Being honest about your level is good, but stopping there gives the interviewer nothing to work with. Say what you can do and what you are learning, and change the resume line to match your real level."),
+      o("Explain what Excel is for and name the main things it can do, such as formulas, charts and filters", 33, "Describing the tool does not show that you have used it. Talk about one task you did with it and what came out of it."),
     ]),
-    sc('search', 'You find an internship post on social media. It asks you to send your documents and a small amount of money to a personal number to confirm your place. What do you do?', [
-      o('Send the money since the amount is small and the chance may close', 0, 'Genuine internships do not ask for money to confirm a place. Do not pay or share documents, and report the post.'),
-      o('Ask the sender for a proof of identity and then pay if they send it', 17, 'Identity proof can be faked. The request for money is itself the warning, so do not pay.'),
-      o('Check the organisation on its official website, ask for a written offer from an official email address, and do not pay anything', 100, 'Strong. Verifying through official sources and refusing to pay protects you. Tell a teacher or family member about the post.'),
-      o('Share the post with friends to see what they think', 33, 'Asking others is fine, but it can spread a fake post. Verify it yourself first, and warn them if it looks false.'),
+    sc('search', "You find an internship post on social media. It asks you to send your documents and a small amount of money to a personal number to confirm your place. What do you do?", [
+      o("Send the money and your documents to the number, because the amount is small and the post says only a few places are left", 0, "Genuine employers do not normally ask for money or documents on a personal number to hold a place, and a rush is a common pressure tactic. Stop here, do not pay, and report the post on the platform. Tell a teacher so others in your class are warned."),
+      o("Ask the sender for a photo of an ID card or an office address, and pay if it looks genuine to you", 17, "An ID photo or an address can be faked in minutes, so it proves little. The request for money is itself the warning, so do not pay until the organisation is verified another way."),
+      o("Send only your resume, not your documents, and see whether they reply with proper details before you pay", 33, "Sending only your resume is safer than sending documents, but the offer is still unchecked. Look up the organisation's own website and contact details first, and never send ID, bank details or an OTP to a personal number."),
+      o("Do not reply to that number. Find the organisation on its own website and write to the official address there to ask whether the post is theirs", 100, "Verifying through sources the sender does not control is the right order, and it costs you nothing. If the organisation cannot be found or says it did not post it, report the post and tell your placement cell or a teacher."),
     ]),
-    sc('search', 'You have sent 15 applications with the same message and received no replies. What is your next step?', [
-      o('Send the same message to 30 more places', 17, 'More of the same usually gives the same result. Change the message and the way you reach people.'),
-      o('Pick five places you want most, write a different message for each, and follow up politely with someone who can introduce you', 100, 'Strong. Fewer, better-matched applications with a warm introduction usually work better than a bulk message.'),
-      o('Conclude that no one takes freshers and stop applying', 0, 'Giving up on the basis of one batch is too early. Review your message and resume, and ask someone to check them.'),
-      o('Ask a friend to look at your resume and message, then fix them and resend', 67, 'A second pair of eyes helps. Add a short personalised line for each organisation and a polite follow-up after a week.'),
+    sc('search', "You have sent 15 applications with the same message and received no replies. What is your next step?", [
+      o("Send the same message to 30 more places, because more applications must mean more chances", 17, "The same message sent more widely usually gets the same silence. Change the message and the way you reach people before you add numbers."),
+      o("Pick five places you want most, write a different message for each, and ask someone to introduce you at one of them", 100, "Fewer, better-matched applications with a person to vouch for you usually get more attention than a bulk message. Do it this week and note every reply in your sheet."),
+      o("Wait two more weeks in case replies are slow, then think about what to do", 33, "Some replies do come late, and a short wait is fair. But fifteen identical messages are a weak start, so use the two weeks to rewrite your message, not only to wait."),
+      o("Ask a friend or teacher to read your resume and message, fix what they point out, and send the improved version to the same places after a week, with a short polite follow-up", 67, "A second pair of eyes helps, and a follow-up after a week is polite. Add one line in each message about why you chose that organisation, or it will still look like a bulk mail."),
     ]),
-    sc('conduct', 'On the second day of your internship, you realise you will not finish the task your supervisor gave you by the deadline. What do you do?', [
-      o('Work late and hand it in incomplete without saying anything', 33, 'Working hard is good, but surprise is not. Tell your supervisor before the deadline and explain what is left.'),
-      o('Tell your supervisor in the morning what is done, what is left and when you can finish, and ask if any part can be skipped', 100, 'Strong. An early warning with a plan lets your supervisor adjust, and it builds trust.'),
-      o('Wait until the deadline and then explain that it was too difficult', 0, 'A late excuse leaves no time to help. Raise the problem as soon as you see it.'),
-      o('Ask a colleague to finish it for you', 17, 'Asking for help is fine, but passing the work to someone else without telling your supervisor is not. Ask for guidance, and finish it yourself.'),
+    sc('conduct', "On the second day of your internship, you realise you will not finish the task your supervisor gave you by the deadline. What do you do?", [
+      o("Work late to finish as much as you can, hand in what is ready at the deadline and explain then, so that you do not disturb your supervisor earlier", 33, "Working late shows effort, but a surprise at the deadline leaves your supervisor no time to adjust. Send a short message the same morning saying what is done and what is left."),
+      o("Tell your supervisor in the morning what is done, what is left and when you can finish, and ask if any part can wait", 100, "An early warning with a plan lets your supervisor change the deadline or help, and it builds trust faster than a perfect result. Note the new time you agreed."),
+      o("Wait for the deadline and then say the task was too difficult for a beginner", 0, "A late excuse gives no one time to help, and it sounds like blaming the task. Raise the problem the moment you see it, even if you have no solution yet."),
+      o("Ask a friendly colleague to help you finish it quietly, so that nobody knows you were running late", 17, "Asking for help is fine, but quietly passing the work on hides the problem from your supervisor. Tell your supervisor first, then ask the colleague for guidance, not for the work."),
     ]),
-    sc('conduct', 'Your supervisor tells you that a report you wrote has several mistakes and the format is wrong. How do you respond?', [
-      o('Explain that nobody told you the format and that the mistakes were small', 17, 'Explaining can sound like an excuse. Listen first and ask for an example of the correct format.'),
-      o('Listen, write down each point, say thank you, ask for a sample of the format and send the corrected version the next day', 100, 'Strong. You show that you can take feedback and act on it, which tends to bring you more responsibility.'),
-      o('Say nothing and feel upset, then fix it quickly without asking questions', 50, 'Fixing is good, but asking for an example would stop the same errors again. Ask one clear question about the format.'),
-      o('Agree and then ask a colleague to redo it for you', 33, 'Learning to fix it yourself is the purpose of the internship. Ask a colleague for tips, not for the work.'),
+    sc('conduct', "Your supervisor tells you that a report you wrote has several mistakes and the format is wrong. How do you respond?", [
+      o("Explain that nobody told you the format and that the mistakes were small ones", 17, "Reasons sound like excuses in the first minute, even when they are true. Next time listen first, then ask for one example of the correct format."),
+      o("Listen, note each point, say thank you, ask for a sample of the right format and send a corrected version the next day", 100, "Taking the feedback, asking for a model and setting a time for the fix is what makes supervisors hand over more work. Keep the sample to reuse for your next report."),
+      o("Say little, feel bad, and quickly correct everything yourself without asking any questions, so that you do not look slow", 50, "Fixing it yourself is right, but silence means you may repeat the same errors. Ask one clear question about the format, such as \"Could I see a report that was done the way you want?\""),
+      o("Agree politely, then ask a more experienced colleague to redo the report properly so that it reaches the supervisor on time", 33, "Learning to fix it is the point of the internship, and a colleague's rewrite hides the gap. Ask the colleague for tips on format, then redo the report yourself."),
     ]),
-    sc('learn', 'It is the middle of your internship and your tasks are simple and repetitive. What do you do?', [
-      o('Do the tasks well and wait to see whether anything changes', 33, 'Doing the tasks well is right, but waiting rarely changes them. Ask for something more.'),
-      o('Tell your supervisor you have finished and ask what else you could take on, and suggest one task you would like to learn', 100, 'Strong. Asking with a specific suggestion shows initiative, and a polite request is easy to accept.'),
-      o('Complain to other interns that the work is boring', 0, 'Complaining spreads discontent and gets you nothing. Take the request to the person who can change it.'),
-      o('Finish the tasks quickly and spend the spare time on your phone', 17, 'Spare time is a chance to learn. Ask for more, or study something linked to the work.'),
+    sc('learn', "It is the middle of your internship and your tasks are simple and repetitive. What do you do?", [
+      o("Keep doing the tasks neatly and on time, since trust builds slowly and the supervisor will give you better work when ready", 50, "Doing simple work well is the base, but waiting seldom changes it, because supervisors are busy and may think you are happy with it. Make a request this week."),
+      o("Tell your supervisor you have finished and ask what else you could take on, naming one task you would like to learn", 100, "A request with a named task is easy to say yes to, and it shows initiative without complaint. If the answer is no, ask what would let you move up and check again in a week."),
+      o("Finish quickly and use the spare time to revise your own course books", 17, "Free time at work is a chance to learn, and unrelated study hides it. Ask for something extra, or read the files and manuals linked to your tasks."),
+      o("Start a side task you find more interesting on your own, without telling anyone, to show what you can do", 33, "Initiative is good, but unasked work can clash with real priorities or with rules on confidential material. Tell your supervisor what you would like to try and ask if you may do it."),
     ]),
-    sc('learn', 'Your internship ends next week. You have a certificate promised, but you have not talked about anything else. What do you do?', [
-      o('Wait for the certificate and thank everyone on the last day', 33, 'Thanking people is polite, but you can ask for more. Request feedback, a reference and permission to show your work.'),
-      o('Ask your supervisor for feedback, a short reference or letter, permission to show your work and the names of people to stay in touch with', 100, 'Strong. You leave with proof and contacts, which help your next application far more than a certificate alone.'),
-      o('Ask the supervisor to offer you a job at the end', 17, 'Asking for a job directly can put pressure on the person. Ask what the next steps might be and for feedback.'),
-      o('Send a general thank-you message afterwards and nothing else', 67, 'A thank-you is a good habit, but you may lose the chance to get a letter or permission. Make the request while you are still there.'),
+    sc('learn', "Your internship ends next week. You have a certificate promised, but you have not talked about anything else. What do you do?", [
+      o("Make sure you collect the certificate on the last day, thank everyone in person and keep in touch through messages afterwards", 17, "Thanking people is polite, but a certificate alone gives your next application little to stand on. Use the last week to ask for feedback and a reference in person."),
+      o("Ask your supervisor for feedback, a short reference, permission to show your work and a contact to stay in touch with", 100, "Feedback, a reference and permission to show your work carry into your next application more than the certificate does. Ask in the first half of the last week and note down the contact details you are given."),
+      o("Ask your supervisor whether there is any chance of a job offer after the internship ends", 33, "Asking for a job outright can put your supervisor on the spot. Ask what interns who did well usually do next and what you should improve, and take the feedback with you."),
+      o("Go home, then send a warm thank-you message with your contact details and ask for feedback and a reference at that time", 50, "A thank-you note is a good habit, but a request made after you leave is easier to ignore. Ask in person during the last two days, and send the note afterwards."),
     ]),
-    { ...sc('goals', 'You are in your first year. A senior says you are wasting time looking for an internship and should wait until the final year. What do you do?', [
-      o('Wait until the final year since the senior has more experience', 33, 'The advice is partly right: employers expect less early on. But a short, small experience now helps you choose a direction, so do not wait entirely.'),
-      o('Take the advice but plan one short exploration, such as volunteering or shadowing, during the next break', 100, 'Strong. You use the early years to explore without pressure, and you will have more information when the formal internship season comes.'),
-      o('Apply to many companies at once to prove the senior wrong', 17, 'Applying widely without preparation seldom works at this stage. Focus on a short, small experience that you can actually do.'),
-      o('Do nothing and focus on getting marks', 50, 'Marks matter, but a little exposure helps you pick a direction. Plan one small activity for the next break.'),
+    { ...sc('goals', "You are in your first year. A senior says you are wasting time looking for an internship and should wait until the final year. What do you do?", [
+      o("Follow the senior's advice completely and put all your time into marks until the final year", 33, "Marks matter, and the senior is right that formal internships can be harder to find in the early years. But waiting until the final year means you choose a direction with little experience. Plan one small activity for the coming break."),
+      o("Plan one short volunteering stint or work-shadowing for the next break, and tell the senior your studies still come first", 100, "Studies stay first while you still collect real information about work. Write the activity and its dates down now, and add three lines on what you learned when it ends."),
+      o("Apply to as many companies as possible right now, so that you are not behind the students who started early", 17, "Mass applications without a resume or a purpose rarely get answers at this stage, and they can feel discouraging. Narrow it to one short experience you can actually do, such as volunteering."),
+      o("Ask your teachers whether a short course or a club project this semester could count as early experience, and decide after they answer", 67, "Asking teachers is a sensible start, and a club project is real experience. Set a date this week to hear back, then choose one thing to do in the next break."),
     ]), stages: ['early'] },
-    { ...sc('proof', 'It is your final year. An internship application needs a project description, and your final-year project is not finished. What do you do?', [
-      o('Describe the finished project you plan to have, as though it is complete', 17, 'Presenting unfinished work as finished is dishonest. Describe what is done, what is in progress and the date you expect to finish.'),
-      o('Describe the problem, your part so far, what is done, what is pending and your expected finish date, and offer to share progress', 100, 'Strong. It is honest and shows ownership. Keep a short progress note updated so that you can share it quickly.'),
-      o('Leave out the project and write only about your academics', 33, 'This hides your best proof. Include the project and be clear about its stage.'),
-      o('Use an older mini project instead and not mention the final-year one', 67, 'An older project is acceptable if it is relevant, but mentioning the final-year project, with its stage, gives a fuller picture.'),
+    { ...sc('proof', "It is your final year. An internship application needs a project description, and your final-year project is not finished. What do you do?", [
+      o("Describe only the finished parts and say nothing about what is still pending", 33, "Leaving out the pending parts gives a false picture, and one question from the interviewer can show it. Say what is done, what is pending and when you expect to finish."),
+      o("Describe the problem, your part so far, what is pending and the date you expect to finish, and offer to share progress", 100, "An honest status with a date shows ownership and gives the interviewer something to ask about. Keep a short progress note updated so that you can share it within minutes."),
+      o("Leave out the project and write only about your academics and marks", 17, "Leaving the project out hides your strongest work. Include it, state its stage, and add an older mini project as a second example if it is relevant."),
+      o("Write about an older mini project that is completed and relevant, and leave the final-year project out until it is done, so that everything you list is finished", 67, "A finished older project is acceptable if it is relevant, but the final-year project, with its stage clearly stated, gives a fuller picture. Add one line about it."),
     ]), stages: ['final'] },
-    { ...sc('search', 'You graduated a few months ago and have no internship or job yet. A relative suggests you wait until a good opportunity arrives. What do you do?', [
-      o('Wait for a good opportunity, as the relative suggests', 17, 'Waiting without activity widens the gap on your resume. Do something visible while you look.'),
-      o('Apply for any internship, no matter the field or terms, to fill the gap', 33, 'Being active is right, but an unclear fit wastes your time. Choose a few fields and check the terms first.'),
-      o('Set a weekly target for applications, start one small project in your target field and ask three people for introductions', 100, 'Strong. You stay active, build proof and use contacts, which makes your search stronger and your story clearer.'),
-      o('Join a long course first and look for internships after it', 50, 'A course can help, but it should not replace real experience. Combine it with a small project or a short internship.'),
+    { ...sc('search', "You graduated a few months ago and have no internship or job yet. A relative suggests you wait until a good opportunity arrives. What do you do?", [
+      o("Wait for a good opportunity, as the relative suggests, and avoid taking something unsuitable", 17, "Waiting without activity widens the gap on your resume and slowly lowers your confidence. Do something visible each week, even while you wait for the right offer."),
+      o("Apply to every internship you see, whatever the field or terms, so that the gap on your resume is filled", 33, "Being busy is not the same as being focused, and applying without checking the field and terms can place you in work that teaches nothing. Pick two fields and check the duration, supervisor and what you receive first."),
+      o("Set a weekly target for applications, begin one small project in your field and ask three people to introduce you", 100, "Applying, building current proof and using people together make your search and your story stronger. Pick one fixed day each week for applications and put it on your calendar."),
+      o("Enrol in a course of several months first and start looking for internships once you finish it, so that you have more to offer", 50, "A course can add skills, but months pass with no real work to show. Combine it with a small project or a short internship, and begin the search while you study."),
     ]), stages: ['graduate'] },
-    { ...sc('goals', 'You study BCom or BA and a classmate says internships are only for IT and engineering students. What do you do?', [
-      o('Agree and focus only on exams and a degree', 33, 'Exams matter, but many fields take students for short periods, including accounts, retail, media, teaching and NGOs. Do not rule out experience.'),
-      o('Ask two teachers and a local professional which organisations near you take students in your field, and apply to one', 100, 'Strong. You test the claim with real people and find options in your own field, which are often found by asking.'),
-      o('Apply to IT companies because that is where internships are advertised', 17, 'IT companies mostly look for IT skills. Choose places that use your own course, where your studies count as an advantage.'),
-      o('Search online for a few minutes, find nothing and stop', 50, 'Many local options are not listed online. Ask teachers and local businesses directly before you stop.'),
+    { ...sc('goals', "You study BCom or BA and a classmate says internships are only for IT and engineering students. What do you do?", [
+      o("Agree, and concentrate on exams and your degree, then look for a job after finishing", 33, "Exams matter, but many fields take students for short periods, including accounts, retail, media, teaching and NGOs. Do not rule out experience before you have asked around."),
+      o("Ask two teachers and one local professional which places near you take students in your field, and apply to one", 100, "Testing the claim with people who know the local scene is smart, since many such openings are found by asking. Visit or message the place within a week, while the introduction is fresh."),
+      o("Apply only to large, well-known companies on the big portals, since a famous name looks best on a resume", 17, "Big names can have very few places and may give limited tasks. Smaller local firms, clinics, schools and shops that use your course often give more hands-on work, so add them to your list."),
+      o("Search online for internships in your field for a few evenings, and if you find nothing suitable, accept that your field does not have them", 50, "Many local firms, clinics, workshops and schools never advertise online, so a quiet search proves little. Add direct visits and teacher introductions before you decide."),
     ]), stages: ['vocational'] },
   ],
 
@@ -667,7 +683,7 @@ export const bundle: SkillTestBundle = {
       'Write what you want to explore and choose two fields to try over the next year.',
       'Start a folder for small pieces of work from classes, clubs and events, and add one each month.',
       'Ask two seniors and one teacher where they did their first experience and how they found it.',
-      'Plan one short activity for the next break, such as shadowing, volunteering or a small project, and note what you learn.',
+      'Plan one short activity for the next break, such as sitting with someone at work, volunteering or a small project, and note what you learn.',
     ],
     final: [
       'Choose one or two target roles and look for internships that give you work in them.',

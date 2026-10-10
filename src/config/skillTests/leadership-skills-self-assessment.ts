@@ -107,28 +107,28 @@ export const bundle: SkillTestBundle = {
       { d: 'direction', text: 'When I lead something, I can say in one sentence what the group is trying to achieve and by when.' },
       { d: 'direction', text: 'I explain why a goal matters to the people doing the work, not only what the task is.' },
       { d: 'direction', text: 'My plans change so often that people around me are unsure what the priority is this week.', reverse: true },
-      { d: 'direction', text: 'I pick a few priorities and tell people clearly what we will leave for later.' },
+      { d: 'direction', text: 'I tell people clearly what we will leave for later so that the main priorities get done.' },
       { d: 'direction', text: 'I tend to assume that everyone already knows the goal, so I do not repeat it.', reverse: true },
       { d: 'delegate', text: 'When I hand over a task, I state the result I expect, the deadline and the point where I want an update.' },
       { d: 'delegate', text: 'When someone\'s work is not what I wanted, I quietly redo it myself instead of explaining what to change.', reverse: true },
-      { d: 'delegate', text: 'I give people tasks that stretch them a little and stay available to support them.' },
+      { d: 'delegate', text: 'I give people tasks that stretch them a little beyond what they have done before.' },
       { d: 'delegate', text: 'I keep tasks I enjoy even when someone else could learn to do them.', reverse: true },
       { d: 'delegate', text: 'I let people do a task in their own way as long as the result meets the standard we agreed.' },
-      { d: 'coach', text: 'I give feedback soon after the work and talk about what the person did, not about what kind of person they are.' },
+      { d: 'coach', text: 'When I give feedback, I talk about what the person did, not about what kind of person they are.' },
       { d: 'coach', text: 'I leave a performance problem alone until it becomes serious.', reverse: true },
       { d: 'coach', text: 'Before I give an answer, I ask the person what they would try first.' },
-      { d: 'coach', text: 'I ask the people I lead what I could do differently, and I act on at least one point.' },
+      { d: 'coach', text: 'I ask the people I lead what I could do differently.' },
       { d: 'coach', text: 'I tell people in specific words what they did well, not only what went wrong.' },
-      { d: 'decide', text: 'When a call is urgent, I decide with the information I have and say what is still unknown.' },
+      { d: 'decide', text: 'When a call is urgent, I decide with the information I have instead of waiting for everything to be clear.' },
       { d: 'decide', text: 'Even when time is short, I wait until everyone agrees before I decide.', reverse: true },
-      { d: 'decide', text: 'When things go wrong in front of the group, I stay steady and give clear next steps.' },
+      { d: 'decide', text: 'When things go wrong in front of the group, I give people clear next steps.' },
       { d: 'decide', text: 'When a call is going to upset someone, I push it to a senior person so I am not blamed.', reverse: true },
       { d: 'decide', text: 'After a decision goes badly, I look for what I would change instead of finding someone to blame.' },
       { d: 'influence', text: 'When I need support from people who do not report to me, I first find out what they care about.' },
       { d: 'influence', text: 'I build a working relationship with people in other groups or teams before I need a favour from them.' },
       { d: 'influence', text: 'I expect my role or title to get things done without having to persuade anyone.', reverse: true },
       { d: 'influence', text: 'I bring a fact, an example or a small trial to persuade people instead of repeating my opinion.' },
-      { d: 'influence', text: 'I thank people publicly when they help my work, and I say what they did.' },
+      { d: 'influence', text: 'When someone helps my work, I thank them for the specific thing they did.' },
     ],
     readingTitle: 'How to read your leadership skills result',
     readingSections: [
@@ -175,19 +175,19 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'Am I a good leader? What is a good score?',
-        a: 'There is no pass mark and no comparison with other people. Your scores are based only on your own answers, so they cannot say whether you are a good leader. The useful reading is which of the five areas is lowest and which is highest, and what the people you lead would say about each.',
+        a: 'This test cannot say whether you are a good leader, because there is no pass mark and no comparison with other people. Your scores are based only on your own answers, so they cannot say whether you are a good leader. The useful reading is which of the five areas is lowest and which is highest, and what the people you lead would say about each.',
       },
       {
-        q: 'Is this a leadership potential test?',
-        a: 'It does not measure potential or predict whether you will be chosen as a leader. It shows how you describe your habits today. Most of these habits can be practised, so the report is better used to plan the next two weeks than to judge your future.',
+        q: 'How can I improve my leadership skills after taking the test?',
+        a: 'Start with your lowest-scoring area and practise its two-week routine on something you really lead, such as a class project, a team task or a shop. Ask two people who work with you whether they agree with your ratings, act on one point they give, and retake the assessment after two weeks to see what moved. The test does not measure leadership potential or predict who gets chosen to lead, so use it to plan practice and not to judge your future.',
       },
       {
         q: 'How is this different from the soft skills assessment?',
         a: 'The soft skills assessment includes leadership as one of five areas, along with teamwork, adaptability, ownership and problem solving. This leadership self-assessment is only about leadership, split into five habits with situations and advice for different stages. Take the soft skills one for a broad view and this one for depth.',
       },
       {
-        q: 'Is this test free?',
-        a: 'Yes. You can take it without signing up and see the result straight away, along with a downloadable PDF report.',
+        q: 'Is this leadership test free, and how long does it take?',
+        a: 'Yes, it is free. It takes about 8 minutes, needs no sign-up, and shows your result straight away along with a downloadable PDF report.',
       },
       {
         q: 'How is the score worked out?',
@@ -215,9 +215,9 @@ export const bundle: SkillTestBundle = {
         description: 'Self-awareness and handling emotions, useful when leading under pressure.',
       },
       {
-        href: '/services/assessments/disc-personality-test-careers/',
-        title: 'DISC Personality Test for Careers',
-        description: 'A work-style view of how you tend to behave in a team.',
+        href: '/services/assessments/decision-making-skills-assessment/',
+        title: 'Decision-Making Skills Assessment',
+        description: 'A closer look at how you weigh options and decide, which sits behind the deciding habit here.',
       },
       {
         href: '/services/assessments/entrepreneurial-aptitude-test/',
@@ -502,32 +502,32 @@ export const bundle: SkillTestBundle = {
   extras: [
     x(['student'], 'direction', 'When I lead a group task, I write down who does what and by when, and share it so everyone sees it.', 'Before the next group assignment or club event, post a short message with each person\'s task and date and ask everyone to react to confirm. Check it again halfway through.'),
     x(['student'], 'delegate', 'In a group project, I take the hard parts myself because I do not want to risk the marks.', 'Give each member a part that suits their strength and agree a halfway check. Offer help if they are stuck, but do not take the part back unless they ask.', true),
-    x(['student'], 'influence', 'I can get classmates to follow a plan even when I have no marks or position over them.', 'Next time, ask each person what they would like to do in the project before you assign anything, and make sure the plan includes at least one thing each person asked for.'),
-    x(['student'], 'coach', 'When a classmate does not do their share, I speak to them privately and ask what is getting in the way.', 'Choose a quiet moment, such as after class, and say what you noticed, for example "Your section is not yet in the file", and ask what you can do to help. Avoid saying it in the group chat in front of everyone.'),
+    x(['student'], 'influence', 'Before I ask classmates to follow my plan, I ask each of them which part they would like to take.', 'Next time, ask each person what they would like to do in the project before you assign anything, and make sure the plan includes at least one thing each person asked for.'),
+    x(['student'], 'coach', 'When a classmate does not do their share, I first ask them privately what is getting in the way.', 'Choose a quiet moment, such as after class, and say what you noticed, for example "Your section is not yet in the file", and ask what you can do to help. Avoid saying it in the group chat in front of everyone.'),
     x(['firsttime'], 'delegate', 'Now that I lead former peers, I find it hard to hand them tasks, so I end up doing too much myself.', 'List your tasks and choose two that you will give this week with a clear result and date. Tell the team you are changing how you work, so it does not seem like a lack of trust in anyone.', true),
     x(['firsttime'], 'coach', 'I have had a one-to-one with each person on my team to ask what they need from me as their lead.', 'Book twenty minutes with each person in the next two weeks. Ask what helps them, what gets in their way and what they want to learn, and write down one thing to do for each.'),
     x(['firsttime'], 'decide', 'I tell my team which decisions are mine, which we make together and which they can make on their own.', 'Write three short lists for your team and share them in the next meeting. Review them after a month, moving items to the team\'s list as trust grows.'),
     x(['firsttime'], 'direction', 'I turn instructions from my manager into a clear goal and priorities for my team, instead of passing them on word for word.', 'After each talk with your manager, write the goal in one sentence, why it matters and the two priorities for the team. Share that version, not the raw message.'),
     x(['experienced'], 'coach', 'I coach the managers who report to me on how they lead, not only on their numbers.', 'In your next one-to-one with a manager, ask how one of their team conversations went and what they would do differently. Give one observation about their leadership, not about the result.'),
-    x(['experienced'], 'influence', 'People in other departments come to me for help early, not only when there is a crisis.', 'List three peers in other functions and book a short conversation with each this month about their goals. Offer one thing you can do to make their work easier.'),
+    x(['experienced'], 'influence', 'I speak to peers in other departments about their goals before a problem forces us to talk.', 'List three peers in other functions and book a short conversation with each this month about their goals. Offer one thing you can do to make their work easier.'),
     x(['experienced'], 'delegate', 'I still make decisions that a team lead could make, because I can do it faster.', 'Choose one recurring decision and tell the team lead it is theirs from next week, with the limits you expect. Check one sample after two weeks and give feedback on the thinking, not only the outcome.', true),
     x(['experienced'], 'direction', 'Before I change a direction, I explain to my teams what has changed in the facts and what stays the same.', 'The next time priorities shift, send a short note with three lines: what changed, why and what it means for each team this week. Invite questions in the next meeting.'),
-    x(['founder'], 'delegate', 'My helpers can do repeat jobs from a written checklist or recording without asking me each time.', 'Pick one job you explain more than twice a month, write it as a ten-step checklist or record a voice note, and ask the helper to follow it once while you watch. Fix the unclear steps.'),
+    x(['founder'], 'delegate', 'I explain the same job to my helpers again and again instead of writing it down once.', 'Pick one job you explain more than twice a month, write it as a ten-step checklist or record a voice note, and ask the helper to follow it once while you watch. Fix the unclear steps.', true),
     x(['founder'], 'coach', 'I give feedback to family members or friends who work with me as clearly as I would to any other employee.', 'Choose one issue you have not raised, and have the talk privately with a specific example and what you need next. Agree on a date to review it together.'),
-    x(['founder'], 'decide', 'I decide when to spend money, take on a customer or let someone go using clear rules instead of the mood of the day.', 'Write three rules, such as the largest spend you can approve without waiting a day, the customers you will decline and the signs you will act on with a helper. Review the rules each quarter.'),
-    x(['founder'], 'influence', 'I can persuade customers, suppliers and partners I do not control to work with me on fair terms.', 'Before your next negotiation, write what the other side wants most, what you can offer and the one fact you will bring. Ask what would make it easier for them to say yes, and write the agreement down.'),
+    x(['founder'], 'decide', 'I decide when to spend money, take on a customer or bring in new help using clear rules instead of the mood of the day.', 'Write three rules, such as the largest spend you can approve without waiting a day, the kind of customer or order you will decline, and what you will check before taking on a new helper. Review the rules each quarter.'),
+    x(['founder'], 'influence', 'Before I negotiate with a customer, supplier or partner, I work out what they want most.', 'Before your next negotiation, write what the other side wants most, what you can offer and the one fact you will bring. Ask what would make it easier for them to say yes, and write the agreement down.'),
   ],
 
   stageAdvice: {
     student: {
       direction: sa(
         'As a student leader, your group changes with every assignment or event, so the goal is often unclear until the last week.',
-        'On day one of a project, write the goal, the deadline and each person\'s part in a shared message and ask everyone to confirm.',
+        'Before the first meeting, draft the goal, the deadline and a rough split of work, and let the group change it instead of starting from a blank page.',
         'Split the work into weekly checkpoints and mark each as done or not in the group chat every Friday.'
       ),
       delegate: sa(
         'As a student leader, you may be afraid that another member will lower the quality, so you take the hardest parts yourself.',
-        'Give each member a task that fits something they are good at or want to learn, and agree a halfway date to look at it.',
+        'Ask each member which part they want, then give the part nobody picked to the person with the most free time, and agree a halfway date to look at it.',
         'Let a quieter member present one section in the final submission or event, with a practice run beforehand.'
       ),
       coach: sa(
@@ -549,7 +549,7 @@ export const bundle: SkillTestBundle = {
     firsttime: {
       direction: sa(
         'As a first-time lead, you receive goals from your manager and must make them make sense to a team that may include former peers.',
-        'Rewrite each instruction from your manager as a goal with a date and a reason before you pass it to your team.',
+        'Ask your manager what a good result looks like and by when, so that you can explain it to your team without guessing.',
         'Hold a fifteen-minute Monday huddle to share the top three priorities of the week and what is on hold.'
       ),
       delegate: sa(
@@ -581,7 +581,7 @@ export const bundle: SkillTestBundle = {
       ),
       delegate: sa(
         'As an experienced leader, you may delegate well to some people and hold on to certain decisions or clients out of habit.',
-        'List your decisions of the last month and give one recurring type to a team lead, with limits and a review date.',
+        'List the clients, meetings or approvals you still hold personally and pass on the one that would teach someone the most, with limits and a review date.',
         'Pair each report with a stretch assignment and agree what help you will give and what you will not.'
       ),
       coach: sa(
@@ -608,13 +608,13 @@ export const bundle: SkillTestBundle = {
       ),
       delegate: sa(
         'As a founder or owner, you started by doing everything, and letting go of customer work or money tasks feels risky.',
-        'Pick one task that does not need you, such as scheduling, follow-up messages or basic bookkeeping, and train a helper to do it with a checklist.',
+        'Pick one task that does not need you, such as scheduling, follow-up messages or basic bookkeeping, and sit with a helper while they do it once, then leave them to repeat it.',
         'Set a rule that you review a sample of the delegated work in the first month, then move to a weekly spot check.'
       ),
       coach: sa(
         'As a founder or owner, helpers may be family, friends or part-timers, which makes you hesitate to correct them.',
         'Give feedback privately, with one example and one request, and agree the date when you will look at it again.',
-        'Hold a fifteen-minute weekly talk with each helper on what went well, what is stuck and what they need from you.'
+        'Keep a note for each helper of the one change you asked for, and look at it first at your next talk so that feedback is followed up.'
       ),
       decide: sa(
         'As a founder or owner, every decision about money, customers and people comes to you, often on the same day.',
@@ -630,89 +630,89 @@ export const bundle: SkillTestBundle = {
   },
 
   scenarios: [
-    sc('direction', 'You are leading a team that has just received three new requests from different seniors, all marked urgent. Your team is already full. What do you do?', [
-      o('Accept all three and ask the team to work longer to finish', 17, 'Taking everything on avoids a difficult talk but spreads the team thin and hides the trade-off. Take the list back to the people asking and ask which one comes first.'),
-      o('Tell the seniors your team can only do one right now and ask them to settle the order', 67, 'Good instinct to push back, but it can sound like a refusal. Add what you can do and by when, and suggest your own order so that the seniors respond to a plan.'),
-      o('Pick your own order, tell the team what is first and what waits, and tell the seniors the dates you can give', 100, 'Strong. You set a clear priority, protected the team and gave the seniors an honest timeline. Invite them to challenge the order if something is wrong.'),
-      o('Start all three so nobody is upset and see what gets done', 0, 'Starting everything usually means finishing nothing well, and the team will not know what matters. Choose an order and say it aloud, even if some people are disappointed.'),
+    sc('direction', 'You lead a group that has just received three new requests from different people above you, such as a manager, a teacher or a client, all marked urgent. Your group is already full. What do you do?', [
+      o('Accept all three, and ask the team to stay back on a few evenings this week so that no senior is told no', 33, 'Extra hours may clear the pile once, but they hide the real limit of your team from the people asking. Add up the hours the three jobs need this week and show that number to the seniors.'),
+      o('Write to all three seniors together, explain that the team is full and ask them to agree the order among themselves before you start', 67, 'Putting the choice back to the seniors is fair, but it can take days while your team waits. Next time, send your own suggested order in the same message and ask for a reply by a fixed hour.'),
+      o('Start with the request from the most senior person, and tell the others you will try to get to theirs later', 17, 'Rank in the office is not the same as urgency, and the other two seniors are left guessing. Ask each one for the date and what happens if it is missed, then order the work by that.'),
+      o('Sort the three by deadline and effect, tell the team what waits, and send each senior the date you can deliver', 100, 'You chose a clear priority, protected the team and gave honest dates. Post the order in the team chat today and ask the seniors to challenge it before an agreed time tomorrow.'),
     ]),
     sc('direction', 'Halfway through a project, a member says, "I thought we were doing a different thing." Others nod. What do you do?', [
-      o('Say that the goal was explained at the start and that they should have listened', 0, 'This protects your pride but not the project. If several people missed the goal, the message was probably not clear enough. Restate it simply and ask what was confusing.'),
-      o('Stop the work, restate the goal in one sentence, ask each person what they understood and fix the gaps', 100, 'Strong. You treat it as a communication gap and fix it quickly, which saves more time than pushing on. Write the goal where all can see it.'),
-      o('Ask the group to vote on whether to change the goal', 33, 'Voting might make people feel heard, but changing the goal because of a misunderstanding makes the plan unstable. Clarify first, and change it only if there is a real reason.'),
-      o('Send the written goal again in the group and continue', 50, 'Resending is quick and helps, but it does not show whether people now understand it. Add a short check, asking two people to say the goal in their words.'),
+      o('Share the first meeting\'s notes again and ask everyone to read them before the next call, since the goal is written there', 33, 'Notes are useful, but several nods mean the writing did not land, and rereading may not fix it. Ask which part was unclear and rewrite that part in simpler words.'),
+      o('Ask the person who is confused to explain what they understood, and correct only their part of the work', 67, 'Several people nodded, so their version may be off as well. Ask everyone to state the goal before you decide whose work needs changing.'),
+      o('Hold a vote between the original goal and the version the others had in mind, since so many people nodded', 17, 'A vote turns a misunderstanding into a contest and can change the goal for the wrong reason. Clear up what the goal was first, and vote only if there is a real choice between two goals.'),
+      o('Pause for ten minutes, write the goal in one sentence in the chat and ask each person what they had understood', 100, 'Several nods mean the message did not land, which is a gap in how you explained it and not one person\'s fault. Pin the sentence in the group and read it at the start of each weekly meeting.'),
     ]),
     sc('delegate', 'You give a team member a report to prepare. When it comes back, it is only partly what you wanted, and the deadline is tomorrow. What do you do?', [
-      o('Finish it yourself tonight so it is right', 33, 'It solves tomorrow, but the person learns nothing and next time you will do it again. If you must finish it, show them afterwards what you changed and why.'),
-      o('Send it back with two specific changes and an offer to look at the draft in the evening', 100, 'Strong. You keep the work with the owner, give clear direction and offer support under the time limit. This also shows how to brief better next time.'),
-      o('Send it up as it is and tell your manager that the team member did the work', 0, 'This avoids effort but puts a weak report in front of your manager and the person without feedback. You remain responsible for what your team delivers.'),
-      o('Tell the person it is not good enough and ask them to try again', 50, 'Asking for a redo can work, but without saying what to change the person is guessing. Name the two points and add a time to check in.'),
+      o('Mark the two parts that must change, send it back and fix a time tonight to look at the new version', 100, 'The report stays with its owner and the person gets a fair chance in the time left. Next time, write a short brief at the start so that the gap does not appear on the last day.'),
+      o('Sit with the person for an hour tonight and correct it together, taking over the last sections yourself if time runs out', 67, 'Working together is generous and the report will improve, but the lesson depends on who types. Let them make the changes while you only point, and take over only what is left at the end.'),
+      o('Rewrite the weak sections yourself tonight and tell them tomorrow what you changed and why', 33, 'Rewriting gets you through tomorrow, though the person mostly learns that their work was replaced. Send them a before and after so they can see the difference, and brief them better next time.'),
+      o('Send it to your manager or teacher as it is, with a note that two sections are still weak so that nobody is surprised', 17, 'Being open with them has value, but you still had the evening to improve it. Use tonight to fix it with the owner, and tell your manager only about whatever remains.'),
     ]),
     sc('delegate', 'You have been asked to organise a college fest session. You love doing the design work, and a junior says she would like to try it. What do you do?', [
-      o('Do the design yourself because the quality matters for the fest', 17, 'Quality matters, but if you keep every enjoyable task, the junior never learns and you remain overloaded. Give her the design with a clear brief and a review before the deadline.'),
-      o('Give her the design with a clear brief, a draft date and an offer to review, and take on the part nobody else wants to do', 100, 'Strong. You develop a junior while staying useful. Taking on the dull task yourself also shows fairness.'),
-      o('Give her the task but keep checking in every hour to see her progress', 33, 'The task is handed over, but hourly checks tell her you do not trust her. Agree two check-in points and let her work between them.'),
-      o('Ask her to watch you do the design first and decide later', 67, 'Watching can help her learn, but delay costs time. Agree a date when she takes over a section so the learning turns into doing.'),
+      o('Hand over the poster alone, and keep the main stage design yourself because the whole college will see it', 67, 'Giving her the poster is a start, but she learns little if the visible work stays with you. Agree a date when she takes one larger piece, with you reviewing the draft.'),
+      o('Give her the design with a brief and a first-draft date, and take the dull registration planning for yourself', 100, 'You develop a junior while carrying your share of the unwanted work, which is fair. Meet her at the draft date and name two things to change, and do not redraw it.'),
+      o('Hand over the design but ask her to send every small change on WhatsApp for approval before she carries on, since quality matters to the fest', 33, 'The task has moved, but constant approvals tell her you do not trust her and slow her down. Agree two check-in points and let her work freely between them.'),
+      o('Tell her you will teach her next year, because this year\'s session is too important to risk on a first attempt', 17, 'Protecting the fest sounds responsible, but next year the same reasoning will apply. Let her start with a small section now, with a review date, so that she is ready later.'),
     ]),
     sc('coach', 'A team member has arrived late a few times this month. It has not caused a major problem yet. What do you do?', [
-      o('Wait and see whether it improves, since nothing serious has happened', 17, 'Waiting feels kind, but small problems grow when no one speaks. A short, calm talk now is easier than a serious one later.'),
-      o('Mention it in the team meeting so everyone is reminded about timing', 0, 'This avoids the individual talk but embarrasses the team and still leaves the person unsure that you meant them. Speak to the person privately.'),
-      o('Speak privately, say the dates you noticed, ask what is going on and agree what will change', 100, 'Strong. You stay specific and open, and the person can explain any reason. Note what you agreed and check in after two weeks.'),
-      o('Send a firm message asking them to be on time from now on', 50, 'A message is a start and sets the expectation, but it misses the chance to understand the cause. Follow up with a short conversation.'),
+      o('Send a polite reminder about timings to the whole team, without naming anyone, and watch who improves', 33, 'A general message is safe, but the person may not think it is about them. Follow it with a private word within the week.'),
+      o('Ask a friend of theirs in the team to find out what is going on and to pass on a gentle word', 50, 'You may learn the reason, but it comes second-hand and the message may change on the way. Hear it from them directly, in a short private talk.'),
+      o('Talk to them alone, name the dates, ask what is happening and agree one change', 100, 'You stayed specific and curious, which gives the person room to explain a real reason. Write down what you both agreed and look at it again after two weeks.'),
+      o('Wait two more weeks and note the dates, so that your talk is based on a clear record and not on impressions', 17, 'A record helps, but two weeks of silence tells the person that it does not matter. Note the dates now and speak this week, when the matter is still small.'),
     ]),
-    sc('coach', 'Someone on your team asks you how to handle a difficult client email. You know exactly what to write. What do you do?', [
-      o('Write the reply for them, since it is quicker and the client is waiting', 33, 'Quick help works for an emergency, but they will ask again next time. If you do it, explain your reasoning afterwards so they can learn from it.'),
-      o('Ask what they think the client wants and how they would reply, then suggest improvements to their draft', 100, 'Strong. You help them think and keep the work theirs, which builds judgement. Share your own approach after they have tried.'),
-      o('Tell them to figure it out on their own since that is how you learned', 0, 'Struggle can teach, but leaving someone alone with a client email risks the relationship and the person\'s confidence. Offer a way to think it through first.'),
-      o('Give them a template that you use for such emails', 67, 'A template is useful and saves time, but it does not teach them to read the client\'s concern. Pair it with a question about how this client differs.'),
+    sc('coach', 'Someone on your team asks you how to reply to a difficult email from a client, sponsor or senior. You know exactly what to write. What do you do?', [
+      o('Share an old reply of yours to a similar client, ask them to adapt it and check the draft before it goes out', 67, 'An example saves time and gives them a shape to follow. Add one question about how this client differs, so that they learn to read the person and not just copy.'),
+      o('Write the reply together on a call, with you typing and explaining each line, because the client is waiting', 33, 'It is quick and the client is served, though they watch your thinking and do not practise their own. Next time, let them type the first two lines.'),
+      o('Ask what they think the client wants, let them draft it and then suggest two improvements', 100, 'You helped them think and kept the work theirs, which builds judgement. Tell them afterwards how you would have approached it, once they have tried.'),
+      o('Tell them to send their own reply and that you will review how the client reacts, since learning by doing is best', 17, 'Learning by doing is real, but a difficult client is a poor place for a first attempt without any cover. Look at the draft before it is sent, even for five minutes.'),
     ]),
     sc('decide', 'A supplier fails to deliver on the morning of an important event. Your team looks at you. You have two backup options, both imperfect. What do you do?', [
-      o('Call a quick huddle, ask for one-line views, choose a backup, tell everyone the reason and the first action for each person', 100, 'Strong. You take views quickly, decide and give clear actions, which steadies the team. Note afterwards what to change in the supplier plan.'),
-      o('Ask the team to vote on the backup option', 50, 'A vote shows respect, but in a crisis people look for a clear call. Hear them for a few minutes, then decide.'),
-      o('Ask your senior to decide, since the event is important and the risk is high', 17, 'Informing your senior is wise, but handing over the decision leaves the team waiting. Make a recommendation and ask them to confirm it.'),
-      o('Wait for the supplier\'s reply before choosing, in case they fix it', 33, 'Some waiting can be reasonable, but set a time limit. Decide by a stated hour on a backup, and drop it if the supplier comes through.'),
+      o('Keep calling the supplier until they promise a time, while the team prepares both backups in parallel just in case', 50, 'Preparing both options is careful, but it splits the team and the supplier\'s promise may still fail. Set a clock time, such as 11 a.m., after which you commit to one backup.'),
+      o('Ask your senior which backup to use and wait for the reply, since the event\'s reputation is at stake', 33, 'Keeping your senior informed is wise, but waiting leaves your team idle. Go with a recommendation and ask them to correct you only if they disagree.'),
+      o('Take one-line views for five minutes, pick a backup and give each person a first task', 100, 'You heard people quickly, decided and gave actions, which steadies a group. After the event, write down what the supplier plan lacked and fix it within the week.'),
+      o('Ask the team to vote on the backup option and go with the majority, so that no one can say the decision was one person\'s', 17, 'A vote looks fair, but in a crisis people want someone to carry the call. Hear them for a few minutes, then decide and say that it is your decision.'),
     ]),
     sc('decide', 'You made a call that your team disagreed with, and it has just turned out to be wrong. People are quiet. What do you do?', [
-      o('Point out that the team agreed in the end, so it was a shared decision', 0, 'This shifts the blame and weakens trust. The call was yours to make, and owning it makes it safer for others to own theirs.'),
-      o('Say nothing and move quickly to fix the problem', 33, 'Fixing is right, but silence leaves people to guess. A short acknowledgement costs little and builds trust.'),
-      o('Own the call, say what you missed, explain the fix and ask the team what they saw that you did not', 100, 'Strong. You take responsibility, correct course and invite the information you did not use. Use their input in the next decision.'),
-      o('Apologise at length and offer to let the team make the next few decisions', 50, 'Owning the mistake is good, but long apologies and giving away your role can unsettle the team. Be brief, fix it and keep leading.'),
+      o('Explain the reasons you had at the time, so that the team can see the call was sensible given what you knew', 33, 'Reasons matter, but giving them first sounds like defence and the team hears an excuse. Own the result first, and share the reasoning later if people ask.'),
+      o('Thank the team for the doubts they raised, move to the fix right away and hold the discussion once the pressure is off', 67, 'Moving to the fix is right and thanking them helps. Say clearly that the call was yours, and name the day you will hold the review.'),
+      o('Keep the team busy on the fix and leave the review for the monthly meeting', 17, 'A monthly review comes too late, and the quiet in the room goes unexplained. Spend five minutes now saying what went wrong, then fix.'),
+      o('Say the call was yours and it was wrong, name what you missed and ask what they saw that you did not', 100, 'You took responsibility and asked for the information you had not used, which makes it safer for others to speak next time. Note their points and use them in the next decision.'),
     ]),
-    sc('influence', 'You need a colleague in another department to share data for your project, but they are busy and have not replied to two messages. What do you do?', [
-      o('Escalate to your manager and ask them to push the other department', 17, 'Escalation sometimes works, but it can damage the relationship and may slow things later. Try a direct approach first.'),
-      o('Walk over or call, ask what is making their month difficult, and offer to make the request smaller or help with something they need', 100, 'Strong. You show that you understand their priorities and make saying yes easier. Thank them publicly after.'),
-      o('Send a third message marking it urgent', 33, 'Urgency tags work only a few times. A different approach, such as a call or a smaller request, is more likely to move things.'),
-      o('Look for the data in other places and avoid depending on them', 67, 'Finding another source can be practical, but you miss the chance to build the relationship. If you do find a workaround, still speak to the colleague about future needs.'),
+    sc('influence', 'You need someone in another department, team or club to share data for your project, but they are busy and have not replied to two messages. What do you do?', [
+      o('Send a fourth message with your manager copied, so that they can see the matter is serious', 17, 'Copying a manager can get a reply, but it makes the colleague defensive and costs goodwill you will need later. Try a call or a visit first.'),
+      o('Call or walk over, ask what is making their month hard, and offer to shrink the request or help with something they need', 100, 'You show that you understand their priorities and make saying yes easier. Thank them in front of their team once the data arrives.'),
+      o('Ask a mutual contact who knows them to introduce you and explain why the data matters', 67, 'A warm introduction can open a door, and it is a sensible second step. Do not hide behind it, and speak to the person yourself once you are introduced.'),
+      o('Use last year\'s figures from your own files and mention the limit in your report', 50, 'A workaround keeps the project moving and is honest about the limit. Still speak to the colleague once about future needs, so that next time they are not a stranger.'),
     ]),
-    sc('influence', 'You want your friends\' club to try a new format for its yearly event, but the senior members prefer the old one. You are not an office-bearer. What do you do?', [
-      o('Tell them that the old format is boring and the club is going nowhere', 0, 'Criticism of what they built makes people defend it. Ask what worked about the old format first.'),
-      o('Collect feedback from last year\'s attendees and suggest a small trial of the new format inside the old event', 100, 'Strong. You use evidence and lower the risk, so agreeing costs the seniors little. Ask them to help shape the trial.'),
-      o('Wait until you become an office-bearer, and then change it', 17, 'Waiting protects you from conflict but wastes a year. You can influence now by bringing facts and a small test.'),
-      o('Gather a few supporters and push the idea at the next meeting', 50, 'Supporters help, but pushing from numbers can split the club. Speak to a senior member beforehand, so they are not surprised in the meeting.'),
+    sc('influence', 'You want your college club to try a new format for its yearly event, but the senior members prefer the old one. You are not an office-bearer. What do you do?', [
+      o('Prepare a presentation with examples from other colleges\' fests and ask for time in the next meeting to show it', 33, 'Examples help, but a presentation to people who have not asked for it can feel like an attack on their work. Speak to one senior member first, so that no one is surprised.'),
+      o('Ask what last year\'s attendees liked, then suggest trying the new format in one session of the old event', 100, 'You used evidence and made agreeing cheap for the seniors, because the risk is small. Ask a senior member to help shape the trial, and look at the result together.'),
+      o('Meet one senior member you respect, ask what worries them about changing, and fit their view into your proposal', 67, 'Listening first is a strong move and builds an ally. Add something to show, such as attendee comments or a small trial, so that the idea does not rest on goodwill alone.'),
+      o('Let it go this year, and bring the idea back when you hold a position in the club', 17, 'Waiting avoids a quarrel but wastes a year, and your idea gets no testing. You can start now with a small test and a few facts.'),
     ]),
     { ...sc('direction', 'You lead a class project group of five. Exams are in three weeks, and every member has a different idea of how much time they can give. What do you do?', [
-      o('Divide the work equally by number of pages and tell everyone to finish their part', 33, 'Equal pages look fair but ignore how much time each person has. Ask for available hours first and share the work on that basis.'),
-      o('Ask each member for their free hours, split the work to match, set a weekly checkpoint and agree who covers if someone gets stuck', 100, 'Strong. You use the real limits of the group, and the weekly checkpoint catches problems early. Write the plan where everyone can see it.'),
-      o('Do most of the work yourself so that the project is finished before exams', 0, 'It feels responsible, but it burns you out before exams and the others learn nothing. Share the work with a realistic plan.'),
-      o('Ask the teacher to tell the group how to divide the work', 50, 'A teacher\'s guidance can help, but the group still needs its own plan. Ask for advice on one point, and make the plan yourselves.'),
+      o('Share the work equally by pages, but set an internal deadline a week before the real one so late work can be fixed', 50, 'A buffer week is a good idea, but equal pages ignore that some members have much less time. Ask for available hours first, then share the work to match.'),
+      o('Give each topic to the strongest person in it so that quality is highest, and ask the others to review', 33, 'Strengths matter, but this can overload two or three people and leave the rest idle before exams. Mix strengths with the hours people actually have.'),
+      o('Take the biggest part yourself and give the others small sections, since they are busy preparing for exams', 17, 'It feels responsible, but you may tire before your own exams and the others learn little. Share the load with a plan built on real hours.'),
+      o('Ask each member for free hours, split the work to match and fix a weekly check', 100, 'You used the real limits of the group, and the weekly check catches problems early. Write the plan where everyone can see it, and agree who covers if someone gets stuck.'),
     ]), stages: ['student'] },
     { ...sc('coach', 'You are a new lead. A close colleague, who is now on your team, keeps submitting work with errors and says, "We are friends, you know how I work." What do you do?', [
-      o('Fix the errors quietly so that you do not have to raise it', 17, 'This protects the friendship today but costs you time and holds your colleague back. The friendship is stronger if you can be honest.'),
-      o('Have a private talk, show two examples of the errors, say you want to help and ask what support they need, then agree a check date', 100, 'Strong. You keep the friendship and the standard together. Follow up on the date you agreed so the words become practice.'),
-      o('Tell your manager so that it is not your decision', 33, 'Involving the manager is sometimes needed, but going first to them skips the chance to fix it directly. Speak to your colleague first.'),
-      o('Raise it in the team meeting without naming anyone', 50, 'A general reminder is safe, but the person may not realise it is about them. Follow up with a private conversation.'),
+      o('Arrange a check step where another team member reviews all their work before it goes out, without saying much to them', 33, 'A review step catches errors, but the colleague is left unaware and the friendship rests on a quiet workaround. Say it to them directly as well.'),
+      o('Invite them for tea and say as a friend that the errors are affecting you both, then ask them to double-check their work', 50, 'The friendly setting helps, but "as a friend" may blur the standard you need. Add one or two concrete examples and a date when you will look again.'),
+      o('Fix the errors for now and raise it after the current project ends, when things are calmer', 17, 'Waiting protects the mood today, yet the errors continue and you carry the cost. Choose a day this week for the talk.'),
+      o('Talk privately, show two examples, ask what would help and fix a date to look again', 100, 'You keep the friendship and the standard together, which is what the new role needs. On the agreed date, check the work and say what you see.'),
     ]), stages: ['firsttime'] },
     { ...sc('delegate', 'You manage three team leads. One of them keeps sending you problems to solve instead of proposals. You can solve each in minutes. What do you do?', [
-      o('Keep solving them, since it is quick and builds your reputation as helpful', 17, 'It is quick today, but it keeps the lead dependent and your time stuck. Move the habit gradually.'),
-      o('Tell the lead to stop bringing problems and only bring solutions', 50, 'The intention is right, but an instruction without support may make them hide problems. Teach them how to think it through first.'),
-      o('Ask "What do you think we should do, and what are the options?" each time, and give feedback on their thinking before you offer yours', 100, 'Strong. You build their judgement without leaving them alone. Over a few weeks, expect proposals instead of problems.'),
-      o('Pass the problems to another lead who is better at solving them', 33, 'It might solve the problem but does not grow the first lead and overloads the second. Coach the first one to own it.'),
+      o('Keep solving them quickly, but write a short note after each one so that the lead can learn your reasoning', 33, 'Notes are a good touch, but you are still the one thinking, so the habit stays. Ask the lead for an option first, then add your note.'),
+      o('Solve the urgent ones yourself, and ask the lead to think over the rest and come back the next day', 50, 'Splitting by urgency is practical, and the delay gives time to think. Tell the lead what you expect on return, such as two options and a choice.'),
+      o('Ask which options they have thought of and which one they prefer, before you give your own view', 100, 'You build their judgement without leaving them alone with it. Over some weeks, expect them to arrive with a proposal, and say so when they do.'),
+      o('Tell the team leads that from next week every problem must arrive with one solution, and explain the rule in the team meeting', 67, 'A clear rule sets the standard, but it can make people hide problems they cannot solve. Pair it with time to think it through together when needed.'),
     ]), stages: ['experienced'] },
     { ...sc('decide', 'You run a small business. A regular customer asks for a big discount on a large order and says they will go elsewhere otherwise. You have no rule on discounts. What do you do?', [
-      o('Agree on the spot to keep the customer', 17, 'Losing a big customer feels worse than a thin margin, but a discount given in fear sets a pattern. Check your cost first and decide within limits.'),
-      o('Say you will reply by tomorrow, work out your cost and the lowest price you can accept, and offer a smaller discount with a condition such as advance payment', 100, 'Strong. You buy time, use your numbers and make an offer that protects you. Write down the rule for next time.'),
-      o('Refuse, as a firm policy to never give discounts', 33, 'Firmness protects the margin, but with no reasoning you may lose a good customer needlessly. Decide using your numbers and the value of the relationship.'),
-      o('Ask your helpers what they would do and follow the majority', 50, 'Your helpers may have useful views about the customer, but they do not carry the financial risk. Ask them, then decide with your own numbers.'),
+      o('Match the competitor\'s price if the customer can show the quote, since a regular customer is worth protecting', 50, 'Checking a real quote is better than guessing, but matching it may sink your margin. Work out your lowest acceptable price before you say yes.'),
+      o('Give the discount this once, but tell them clearly that it is a one-time offer for this order', 33, 'Saying one-time helps, but customers remember, and you have decided under pressure without your numbers. Check the cost first and then set the limit.'),
+      o('Refuse politely, because discounts cut profit and other customers will ask for the same', 17, 'A firm line protects margin, but a flat no with no reasons can lose a good customer needlessly. Weigh the order size and the relationship against your cost.'),
+      o('Ask for a day, work out your cost and offer a smaller discount for advance payment', 100, 'You bought time, used your numbers and made an offer that protects you. Write down the rule you arrive at, so the next request takes five minutes.'),
     ]), stages: ['founder'] },
   ],
 

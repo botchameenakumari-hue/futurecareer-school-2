@@ -10,7 +10,7 @@ const CORE: Record<string, Core[]> = {
     {
       d: 'prep',
       text: 'I have a written plan that spreads my syllabus across the days left before the exam.',
-      tip: 'Count the days left, write chapter names against dates in one notebook page, and keep the last three or four days free for revision and a buffer for lost days.',
+      tip: 'Count the days left, write chapter names against dates in one notebook page, and keep the last three or four days empty for revision and for any day that goes wrong.',
     },
     {
       d: 'prep',
@@ -30,30 +30,31 @@ const CORE: Record<string, Core[]> = {
     },
     {
       d: 'prep',
-      text: 'I revise by testing myself from memory, not only by reading my notes again.',
-      tip: 'After each page or topic, close the book and write three key points from memory. Check them, and write only the missed ones on a small revision card.',
+      text: 'I mostly revise by reading my notes again and again, without testing myself.',
+      reverse: true,
+      tip: 'After each topic, close the book and write three key points from memory. Check them against the notes, and copy only the missed ones onto a small revision card. If you cannot write anything, that is the topic to study again.',
     },
   ],
   thoughts: [
     {
       d: 'thoughts',
-      text: 'When I have a bad mock test or class test, I can look at it, learn from it and still finish my day.',
-      tip: 'After a bad test, give yourself twenty minutes: list the three types of mistake you made, pick one to fix, then do something ordinary like a meal or a walk before you study again.',
+      text: 'After a bad mock or class test, I sit down and go through what exactly went wrong.',
+      tip: 'After a bad test, give yourself twenty minutes with a timer: list the three types of mistake you made and pick one to fix this week. Then do something ordinary like a meal or a walk before you study again.',
     },
     {
       d: 'thoughts',
       text: 'I judge my day by whether I met my study targets, not only by marks.',
-      tip: 'Set two or three small targets each morning, such as one chapter and one set of questions, and tick them at night. Marks come later, but targets are in your hands today.',
+      tip: 'Set two or three small targets each morning, such as one chapter and one set of questions, and tick them at night. A day with all ticks is a good day, whatever the next test says.',
     },
     {
       d: 'thoughts',
-      text: 'I keep going back over mistakes from earlier exams and cannot stop replaying them.',
+      text: 'I keep replaying my mistakes from earlier exams in my head.',
       reverse: true,
       tip: 'Write the mistake once with one fix next to it, for example reading the question twice or watching the clock. Then close the page. When the thought returns, tell yourself the fix is already written.',
     },
     {
       d: 'thoughts',
-      text: 'When a worrying thought about the exam comes up, I write it down and note what I can actually do about it.',
+      text: 'When a worry about the exam comes up, I ask myself what I can actually do about it this week.',
       tip: 'Keep a small notebook. Draw a line down the page: worries on the left, one action you can take this week on the right. If there is no action, mark it as not in your control and move on.',
     },
     {
@@ -72,24 +73,24 @@ const CORE: Record<string, Core[]> = {
     {
       d: 'body',
       text: 'I eat proper meals at regular times even on heavy study days.',
-      tip: 'Fix three meal times and keep a simple option ready, such as roti with sabzi or dal, curd rice, eggs or fruit. Eat away from your desk and phone for at least ten minutes.',
+      tip: 'Fix three meal times and keep a simple option ready, such as roti with sabzi, dal rice, curd rice, idli, eggs or fruit, whatever is easy at your place. Eat away from your desk and phone for at least ten minutes.',
     },
     {
       d: 'body',
       text: 'I stay awake most of the night before an exam to cover more topics.',
       reverse: true,
-      tip: 'Decide a closing time for the night before, make a one-page sheet of formulas, dates or headings, read it once and sleep. A tired mind misreads questions that you actually know.',
+      tip: 'Decide a closing time for the night before, make a one-page sheet of formulas, dates or headings, read it once and sleep. A tired mind can misread questions you actually know.',
     },
     {
       d: 'body',
       text: 'I rely on a lot of tea, coffee or energy drinks to get through study hours.',
       reverse: true,
-      tip: 'For one week, cap yourself at your usual one or two cups, not after afternoon, and replace the rest with water, a short walk or washing your face. Notice how your evenings and sleep feel.',
+      tip: 'For one week, keep to the cups you normally have, none after the afternoon, and when you want one more, drink water, wash your face or walk for five minutes instead. Notice how your evenings and sleep feel.',
     },
     {
       d: 'body',
-      text: 'I move my body, even with a short walk or stretching, on most days and take short breaks between study blocks.',
-      tip: 'Use a study block of forty to fifty minutes followed by a five to ten minute break away from the screen. Add a twenty minute walk at the same time every day, since a fixed time is easier to keep.',
+      text: 'On most days in exam weeks I move my body, even if it is only a short walk or some stretching.',
+      tip: 'Add a twenty minute walk or stretch at the same time every day, such as right after dinner, since a fixed time is easier to keep. Between study blocks of forty to fifty minutes, take a five to ten minute break away from your phone.',
     },
   ],
   paper: [
@@ -105,18 +106,18 @@ const CORE: Record<string, Core[]> = {
     },
     {
       d: 'paper',
-      text: 'I go blank or freeze in the exam hall and I do not know what to do when it happens.',
+      text: 'If I go blank in the exam hall, I do not know what to do to get going again.',
       reverse: true,
       tip: 'Make a thirty second reset and use it in every practice paper: put the pen down, breathe out slowly for longer than you breathe in, read the question again, then write any one line you know about it. Having a script helps more than hoping it will not happen.',
     },
     {
       d: 'paper',
-      text: 'I prepare admit card, stationery, travel and my route the evening before every paper.',
+      text: 'The evening before every paper, I pack my admit card and stationery and check how I will reach the centre.',
       tip: 'Make a checklist on a card and keep it in your bag: admit card, ID, pens, geometry box or calculator if allowed, water. Check the centre address and travel time the evening before.',
     },
     {
       d: 'paper',
-      text: 'After a paper is over, I stop discussing the answers and start preparing for the next one.',
+      text: 'I wait until all my exams are over before comparing answers with friends.',
       tip: 'Agree a rule with your friends: no answer comparing until the last paper is done. After each paper, spend ten minutes noting one thing to fix, and begin the next subject.',
     },
   ],
@@ -140,12 +141,12 @@ const CORE: Record<string, Core[]> = {
       d: 'support',
       text: 'I keep my worries to myself because I do not want others to think I cannot cope.',
       reverse: true,
-      tip: 'Tell one trusted person one specific worry this week, for example that you are not sleeping before mocks. Saying it aloud usually makes it smaller, and they may help with something practical.',
+      tip: 'Tell one trusted person one specific worry this week, for example that you are not sleeping before mocks. Saying it aloud often makes it lighter, and the person may help with something practical, like a quieter room or a doubt session.',
     },
     {
       d: 'support',
       text: 'At least once a week I spend time with friends or family doing something that has nothing to do with exams.',
-      tip: 'Put one fixed slot in your weekly timetable for a meal, a game, a film or a visit, and treat it like a class you do not miss. Rest planned in advance feels less guilty.',
+      tip: 'Put one fixed slot in your weekly timetable for a family meal, a game of cricket or carrom, a film or a visit to a relative, and treat it like a class you do not miss. Rest that is planned in advance feels less guilty.',
     },
   ],
 };
@@ -160,14 +161,14 @@ export const bundle: SkillTestBundle = {
     slug: 'exam-stress-self-assessment',
     pageUrl: '/services/assessments/exam-stress-self-assessment/',
     breadcrumbName: 'Exam Stress Self-Assessment',
-    metaTitle: 'Exam Stress Self-Assessment | Free Exam Anxiety Test',
+    metaTitle: 'Exam Stress Self-Assessment | Free Exam Stress Test',
     metaDescription:
       'Free exam stress self-assessment: 41 to 42 questions and five scores for preparation, worry, sleep and food, the exam hall and support. Instant result, no sign-up.',
     h1Lead: 'Exam Stress',
     h1Accent: 'Self-Assessment',
     eyebrow: 'Free exam stress test with a habit plan',
     heroSub:
-      'Wondering how stressed you are about exams? This free self-assessment looks at five everyday areas, preparation, worry and self-talk, sleep and food, handling the exam itself, and getting support, and shows which habit to work on first. It is a habit check, not a medical or mental-health assessment.',
+      'Want to know how well your everyday habits are holding up under exam pressure? This free self-assessment looks at five areas, preparation, worry and self-talk, sleep and food, handling the exam itself, and getting support, and shows which habit to work on first. It is a habit check, not a medical or mental-health assessment.',
     stats: [
       { value: '41-42', label: 'questions' },
       { value: '5', label: 'coping areas' },
@@ -264,7 +265,7 @@ export const bundle: SkillTestBundle = {
       {
         title: 'A higher score means healthier habits',
         body: [
-          'Every statement is worded so that agreeing describes a healthy habit, such as a study plan, regular sleep or telling someone how you feel. Statements about worry habits are reversed, so saying they are not true for you raises your score. A higher score is therefore better news.',
+          'Most statements describe a healthy habit, such as a study plan, regular sleep or telling someone how you feel. Some describe an unwanted habit instead, such as staying awake all night before a paper or keeping worries to yourself. For those, saying they are not true for you raises your score, so a higher score always means healthier habits.',
           'A lower score is not a verdict about you. It points to a habit you can change, usually with a small step that you repeat for a couple of weeks.',
         ],
       },
@@ -284,7 +285,7 @@ export const bundle: SkillTestBundle = {
       {
         title: 'When a self-rating is not enough',
         body: [
-          'A tool like this can only describe your habits. If your worry is heavy, lasts for weeks, or stops you from sleeping, eating or studying, talk to a doctor, a school or college counsellor, or someone you trust. This page cannot tell you what is happening, and it does not try to.',
+          'A tool like this can only describe your habits. If your worry feels heavy, lasts for weeks, or stops you from sleeping, eating or studying, talk to a doctor, a school or college counsellor, or someone you trust. You do not need a low score, or any score, to ask for help, and asking early is never an overreaction. This page cannot tell you what is happening, and it does not try to.',
         ],
       },
     ],
@@ -292,7 +293,7 @@ export const bundle: SkillTestBundle = {
       'This is not a medical or mental-health assessment. It does not diagnose anything, and it cannot say whether you have any health condition.',
       'It is a self-rating of everyday exam habits and shows only how you describe yourself today. A different day or a different exam week may give a different result.',
       'If you feel unable to cope, or have thoughts of harming yourself, please speak to a doctor, a counsellor or someone you trust. You can call Tele-MANAS on 14416, a free national helpline.',
-      'Scores are not compared with other people, so there is no pass mark. A high score does not predict an exam result, and a low score does not predict one either.',
+      'Scores are not compared with other people, so there is no pass mark. A high score does not predict an exam result, and a low score does not predict one either. A high score also does not mean you should never ask for help.',
       'Advice here is general habit guidance. Exam rules, schedules and options differ by board, university and exam, so check official sources for your own exam.',
     ],
     faqs: [
@@ -306,19 +307,19 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'How is the score worked out?',
-        a: 'Statements are rated from 1 to 5 and the ones about worry habits are reversed, so a higher score always means a healthier habit. In the situation questions each option carries a score from 0 to 100. Each area score is the average of its statements and situations, shown out of 100, and the overall score is the average of the five areas.',
+        a: 'Statements are rated from 1 to 5. The ones that describe an unwanted habit are reversed, so a higher score always means a healthier habit. In the situation questions each option carries a score from 0 to 100. Each area score is the average of its statements and situations, shown out of 100, and the overall score is the average of the five areas.',
       },
       {
         q: 'What is a good score on an exam stress test?',
         a: 'There is no pass mark. Scores are only against your own answers and are not compared with anyone else. Use them to see which of the five areas has the most room for a small change.',
       },
       {
-        q: 'How can I tell how stressed I am about exams?',
-        a: 'This test does not measure stress as a number. It shows how well your habits are set up to handle exam pressure. Signs to notice yourself include poor sleep for many days, skipping meals, avoiding books, or feeling dread every day. If these continue, talk to someone you trust or a counsellor.',
+        q: 'Is it normal to feel stressed before exams, and when should I talk to someone?',
+        a: 'Yes, feeling nervous before an important exam is common, and a little of it can keep you alert. You can talk to a teacher, a counsellor, a doctor or someone you trust at any time, and you do not have to wait until things feel unbearable. It is a good idea to do it sooner if worry is stopping you from sleeping, eating or studying for more than a couple of weeks. This test does not measure stress as a number. It shows how well your habits are set up to handle the pressure.',
       },
       {
         q: 'Can Class 10, Class 12, college and government exam students use it?',
-        a: 'Yes. You choose your stage, whether board exams, entrance preparation, university semester exams, or government and competitive exams, and the advice in your report changes to fit.',
+        a: 'Yes. You choose your stage, whether Class 10 or 12 board exams, entrance preparation such as JEE, NEET or CUET, university semester exams, or government and competitive exams, and the advice in your report changes to fit.',
       },
       {
         q: 'What is the difference between this and a study habits test?',
@@ -331,9 +332,9 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
-        href: '/services/assessments/study-habits-self-assessment/',
-        title: 'Study Habits Self-Assessment',
-        description: 'How you plan, focus and revise, scored by area.',
+        href: '/services/assessments/time-management-self-assessment/',
+        title: 'Time Management Self-Assessment',
+        description: 'How you plan, prioritise and protect your hours, scored by area.',
       },
       {
         href: '/services/assessments/confused-about-career-after-10th-test/',
@@ -341,14 +342,14 @@ export const bundle: SkillTestBundle = {
         description: 'Find out what is really holding up your decision after Class 10.',
       },
       {
-        href: '/services/assessments/soft-skills-self-assessment/',
-        title: 'Soft Skills Self-Assessment',
-        description: 'Five everyday work skills rated from your own answers.',
+        href: '/services/assessments/study-habits-self-assessment/',
+        title: 'Study Habits Self-Assessment',
+        description: 'How you plan, focus and revise, scored by area.',
       },
       {
-        href: '/services/assessments/communication-skills-assessment/',
-        title: 'Communication Skills Assessment',
-        description: 'Listening, speaking, writing, feedback and presenting, scored separately.',
+        href: '/services/assessments/resilience-and-growth-mindset-assessment/',
+        title: 'Resilience and Growth Mindset Assessment',
+        description: 'How you respond to setbacks and learn from them, scored by area.',
       },
       {
         href: '/blog/parents/how-to-support-child-during-career-confusion/',
@@ -383,10 +384,10 @@ export const bundle: SkillTestBundle = {
         label: 'Class 10 or 12 board exams',
         description: 'CBSE, ICSE or a State board',
         title: 'Keep board pressure in proportion',
-        body: 'Board results are talked about by family, neighbours and school, so the pressure often comes from outside. The most useful work is a steady timetable, regular papers and a clear talk at home about what happens after the result.',
+        body: 'Board results are talked about by family, neighbours and school, so a lot of the pressure can come from outside. The most useful work is a steady timetable, regular papers and a clear talk at home about what happens after the result.',
         actions: [
           'Write a timetable that works backwards from each paper date and keep one revision day in every week.',
-          'Practise full papers with the exact time limit and the presentation expected by your board.',
+          'Practise full papers with the exact time limit, writing answers the way your board expects, with steps and diagrams.',
           'Talk to your parents before the exams about what the plan is after results, so one result does not feel like the end of every option.',
         ],
       },
@@ -423,7 +424,7 @@ export const bundle: SkillTestBundle = {
         actions: [
           'Fix study hours that fit your work and family duties, and protect sleep rather than adding late-night hours.',
           'After an attempt, write what cost you marks or time in each section and change only two things for the next one.',
-          'Agree with your family how long and how many attempts you will go on, and a fallback you are comfortable with.',
+          'Agree with your family how long you will go on and a fallback you are comfortable with, after checking the attempt and age limits in each official notification.',
         ],
       },
     ],
@@ -431,22 +432,22 @@ export const bundle: SkillTestBundle = {
     strongTip: 'This is a healthy habit. Keep it going through the heaviest weeks of the exam period.',
     domains: {
       prep: {
-        why: 'Much exam worry comes from not knowing where you stand. A plan with dates, a clear list of strong and weak topics and some timed practice turn a large fear into a list of tasks you can finish.',
+        why: 'A lot of exam worry can come from not knowing where you stand. If you cannot say which five chapters are weakest, every chapter feels like a threat. A plan with dates, a green, amber and red list of topics and some timed practice turn a large fear into tasks you can finish one by one.',
         roles: [
           'Board exams, where every subject has a fixed paper date and syllabus',
           'Entrance and government exams, where long preparation needs a plan that survives bad weeks',
           'University semesters, where several papers fall close together',
         ],
         routine: [
-          'Days 1 to 3: List every chapter of your subjects, mark each green, amber or red after a few questions, and write the list on one page.',
-          'Days 4 to 7: Put the red chapters into a dated plan, with the last days before the exam kept free for revision.',
-          'Days 8 to 11: Attempt one past paper under a timer without notes and sort the mistakes into concept, speed and carelessness.',
-          'Days 12 to 14: Revise by closing the book and writing key points from memory, then update the plan for the next two weeks.',
+          'Days 1 to 3: List every chapter of your subjects, mark each green, amber or red after five questions from it, and write the list on one page. Done when every chapter has a colour.',
+          'Days 4 to 7: Put the red chapters into a dated plan, with the last days before the exam kept free for revision. Done when you can say what you will study on each of the next seven days.',
+          'Days 8 to 11: Attempt one past paper under a timer without notes and sort each lost mark into concept, speed or carelessness. Done when you have three counts written at the top of the paper.',
+          'Days 12 to 14: Revise two red chapters by closing the book and writing key points from memory, then update the plan for the next two weeks. Done when each chapter has a revision card with only the points you missed.',
         ],
         mistakes: [
-          'Studying only the chapters you already like, because they feel comfortable',
-          'Planning for every hour of the day, so that one missed hour breaks the whole plan',
-          'Reading notes again and again without testing yourself',
+          'Studying only the chapters you already like, because finishing them feels good, while the red chapters stay untouched until the last week',
+          'Writing a timetable from five in the morning to eleven at night, so that one missed hour makes you give up the whole plan',
+          'Highlighting and re-reading notes three times and calling it revision, without ever closing the book to check what you remember',
         ],
         proof: [
           'A dated plan on paper that you have followed for a full week',
@@ -462,29 +463,29 @@ export const bundle: SkillTestBundle = {
         midStep: 'Do one timed past paper this week and write the three most common types of mistake on a card to read before the next one.',
       },
       thoughts: {
-        why: 'The way you talk to yourself about marks, results and family hopes affects how you feel and how well you study. Worry that is written down and turned into an action is easier to handle than worry that circles in your head.',
+        why: 'The way you talk to yourself about marks, results and family hopes affects how you feel and how well you study. A student who thinks "one bad test means I am finished" may avoid looking at the paper and so learn nothing from it. Worry that is written down with one action beside it is easier to handle than worry that circles in your head at night.',
         roles: [
           'The days after a bad mock test or class test',
           'The weeks before results, when family and neighbours ask questions',
           'Repeat attempts, where memories of an earlier result come back',
         ],
         routine: [
-          'Days 1 to 3: Start a worry notebook with two columns: the worry, and one action you can take this week.',
-          'Days 4 to 7: Set two or three small daily targets and tick them at night. Judge the day by the ticks.',
-          'Days 8 to 11: After any test, write three mistakes and one fix in twenty minutes, then close the notebook.',
-          'Days 12 to 14: Write down two other routes that would stay open if this exam goes badly, and check them with one teacher or counsellor.',
+          'Days 1 to 3: Start a worry notebook with two columns: the worry, and one action you can take this week. Done when at least three worries each have an action or a note saying not in my control.',
+          'Days 4 to 7: Each morning write two or three small targets, such as one chapter and ten questions, and tick them at night. Done when you have four days of ticks to look at.',
+          'Days 8 to 11: After any test, set a twenty minute timer, write three mistakes and one fix, then close the notebook and do something ordinary. Done when the timer ends and the page is closed.',
+          'Days 12 to 14: Write down two other routes that would stay open if this exam goes badly, and check them with one teacher, counsellor or senior. Done when each route has a name, an entry condition and a date.',
         ],
         mistakes: [
-          'Treating one test or one paper as proof of how your whole future will go',
-          'Replaying past mistakes at night instead of writing one fix and stopping',
-          'Comparing your worst day with someone else\'s best-looking day',
+          'Telling yourself after one weak mock that you are not a person who can clear this exam',
+          'Lying in bed replaying a silly mistake from the last paper instead of writing one fix on paper and stopping',
+          'Comparing your worst day with the marks or study hours another student posts in a group chat',
         ],
         proof: [
           'A worry notebook with actions next to the worries',
           'A short list of other routes you have checked with a teacher or counsellor',
           'A week of ticked daily targets',
         ],
-        askOthers: 'When I talk about my exam, do I sound more worried than the situation needs, or is the worry fair?',
+        askOthers: 'When I talk about my exam, does my worry sound like it is taking over, and what would you do in my place?',
         talkingPoints: [
           'You separate what you can act on from what you cannot control',
           'You learn from a poor result without punishing yourself',
@@ -493,22 +494,22 @@ export const bundle: SkillTestBundle = {
         midStep: 'Pick one worry that keeps returning and write down the one action you can take about it this week, then do it.',
       },
       body: {
-        why: 'Sleep, meals, movement and breaks are often the first things given up in exam weeks. A body that is rested and fed usually makes it easier to concentrate and to stay calm in the hall.',
+        why: 'Sleep, meals, movement and breaks are often the first things given up in exam weeks. A student who skips lunch and sleeps four hours may feel busy but often reads the same page three times. A body that is rested and fed usually finds it easier to concentrate and to stay calm in the hall.',
         roles: [
           'Pre-board and board weeks, when late nights are common',
           'Long entrance preparation, where an unsustainable routine wears you down',
           'Studying after a day of work for government exams',
         ],
         routine: [
-          'Days 1 to 3: Choose a sleep and wake time you can keep, and set an alarm to put books away thirty minutes before bed.',
-          'Days 4 to 7: Fix three meal times and keep a simple meal ready, eating away from your desk and phone.',
-          'Days 8 to 11: Add a twenty minute walk or stretch at a fixed time and a five to ten minute break after each study block.',
-          'Days 12 to 14: Cut back tea, coffee or energy drinks to your usual amount and not after afternoon, and plan a normal sleep for the night before your next paper.',
+          'Days 1 to 3: Choose a sleep and wake time you can keep, and set an alarm to put books away thirty minutes before bed. Done when you have slept and woken within half an hour of those times on three days.',
+          'Days 4 to 7: Fix three meal times and keep a simple meal ready, eating for at least ten minutes away from your desk and phone. Done when you have not skipped a meal for four days.',
+          'Days 8 to 11: Add a twenty minute walk or stretch at a fixed time and a five to ten minute break after each study block. Done when the walk is ticked in your timetable on three days out of four.',
+          'Days 12 to 14: Keep tea, coffee or energy drinks to your usual amount and none after the afternoon, and write down your plan for the night before your next paper. Done when the plan names a closing time and a one-page revision sheet.',
         ],
         mistakes: [
-          'Staying up the whole night before a paper to cover more',
-          'Skipping breakfast or lunch to save study time',
-          'Using more and more tea, coffee or energy drinks to keep going',
+          'Staying up the whole night before a paper to read one more chapter, then misreading the questions in the morning',
+          'Skipping breakfast or lunch to save thirty minutes, then feeling dull and headachy by the afternoon',
+          'Adding a fourth and fifth cup of tea or an energy drink at night to keep going, then not being able to sleep',
         ],
         proof: [
           'A week in which you kept your sleep time on most days',
@@ -524,22 +525,22 @@ export const bundle: SkillTestBundle = {
         midStep: 'Keep one fixed bedtime and wake time for the next seven days, even on weekends, and notice how your mornings feel.',
       },
       paper: {
-        why: 'Marks are also lost by poor time use, by staying too long on one question, or by arriving flustered. A routine for the paper and a plan for the moment you freeze can be practised long before the real exam.',
+        why: 'Marks are also lost by poor time use, by staying too long on one question, or by arriving flustered. A student may know the answers to the last section but never reach it because the first hard question took twenty minutes. A routine for the paper and a plan for the moment you freeze can be practised long before the real exam.',
         roles: [
           'Board exams with a fixed time per paper and a set answer style',
           'Entrance exams with many questions and tight time per question',
           'Semester exams where several papers follow each other in a few days',
         ],
         routine: [
-          'Days 1 to 3: Make an exam-day checklist card and a time budget for each section of your next paper.',
-          'Days 4 to 7: Do one timed paper using the budget, and mark questions to skip with a tick when you are stuck for two or three minutes.',
-          'Days 8 to 11: Practise a thirty second reset: pen down, slow breath out, reread the question, write one line you know.',
-          'Days 12 to 14: Do a full dress rehearsal: pack the bag, plan the route and time, and sleep at your normal time the night before.',
+          'Days 1 to 3: Make an exam-day checklist card and a time budget for each section of your next paper. Done when the card is in your bag and the budget is written on a past paper.',
+          'Days 4 to 7: Do one timed paper using the budget, and put a tick beside any question where you are stuck for two or three minutes. Done when you have written the finish time of each section on the paper.',
+          'Days 8 to 11: Practise a thirty second reset in two timed papers: pen down, slow breath out, reread the question, write one line you know. Done when you have used it at least once on purpose in each paper.',
+          'Days 12 to 14: Do a full dress rehearsal for one paper: pack the bag the evening before, work out the route and travel time, and sleep at your normal time. Done when you reach the venue, or the same time on the clock at home, calmly and early.',
         ],
         mistakes: [
-          'Starting to write before reading the whole paper',
+          'Starting to write the first answer in the first minute, without reading the rest of the paper',
           'Spending too long on one hard question and rushing the rest',
-          'Discussing answers outside the hall and then losing focus for the next paper',
+          'Standing outside the hall comparing answers, then walking into the next paper worried about marks already lost',
         ],
         proof: [
           'A mock paper where you finished all sections within the time',
@@ -555,22 +556,22 @@ export const bundle: SkillTestBundle = {
         midStep: 'In your next mock, write the time you will finish each section on the first page before you begin and check yourself against it.',
       },
       support: {
-        why: 'Carrying exam worry alone can make it feel heavier. Telling one trusted person, asking about doubts early and keeping some time for rest and company make a long preparation easier to bear.',
+        why: 'Carrying exam worry alone can make it feel heavier. A student who tells a cousin "I am not sleeping before mocks" may get a practical answer, like a quieter room or a shared study hour. Telling one trusted person, asking about doubts early and keeping some time for rest and company make a long preparation easier to bear.',
         roles: [
           'Home, where hopes and comparisons can add to the pressure',
           'School, college or coaching, where teachers and seniors can answer doubts',
           'Repeat attempts, where you may feel you have let others down',
         ],
         routine: [
-          'Days 1 to 3: Choose one person to talk to weekly and fix a time for a short check-in.',
-          'Days 4 to 7: Tell your family two practical things that would help, such as a quiet hour or no result questions at meals.',
-          'Days 8 to 11: Collect your doubts in a list and take them to a teacher, senior or study partner in one session.',
-          'Days 12 to 14: Plan one weekly slot for something that has nothing to do with exams, and keep it.',
+          'Days 1 to 3: Choose one person to talk to weekly and fix a day and time for a short check-in. Done when the person has said yes and the slot is in both your diaries.',
+          'Days 4 to 7: Tell your family two practical things that would help, such as a quiet hour or no result questions at meals. Done when they have said what they will do about each.',
+          'Days 8 to 11: Collect your doubts in a list and take them to a teacher, senior or study partner in one session. Done when each doubt on the list is ticked off or has a date for follow-up.',
+          'Days 12 to 14: Plan one weekly slot of at least an hour for something that has nothing to do with exams, and keep it. Done when you have taken that slot once without studying during it.',
         ],
         mistakes: [
-          'Hiding worries because you do not want to seem weak',
-          'Waiting for weeks before asking about a doubt',
-          'Giving up all meetings with friends and family until the exam is over',
+          'Saying "all fine" when someone asks, because you do not want to seem weak',
+          'Carrying a doubt on one chapter for weeks, hoping it will not come in the paper',
+          'Cutting off friends and family completely until the exam is over, and then feeling alone and low on energy',
         ],
         proof: [
           'A weekly check-in that you have kept for two weeks',
@@ -600,32 +601,32 @@ export const bundle: SkillTestBundle = {
       ['board'],
       'prep',
       'I know the syllabus, marking scheme and sample paper of my board for each subject.',
-      'Download the latest syllabus and sample paper from your board\'s official website and note the marks for each section, so you spend time where the marks are.',
+      'Download the latest syllabus and sample paper from your board\'s official website, or ask your school for them, and note the marks for each section so you spend time where the marks are.',
     ),
     x(
       ['board'],
       'thoughts',
       'I feel that my family\'s respect for me depends on my board marks.',
-      'Ask one family member what they hope for beyond the marks. Often they are worried about your safety and future, and hearing this changes how the marks feel. Share your own targets so they know what you are working towards.',
+      'Ask one family member what they are hoping for beyond the marks, and listen to the answer. Then tell them your own target and what you are doing about it, so the talk is about a plan and not only about a number.',
       true,
     ),
     x(
       ['board'],
       'body',
       'I keep my sleep time steady in pre-board and board weeks even when classmates stay up late.',
-      'Tell your friends your sleep time and stick to it. Late-night study groups often cover little and leave you tired for the next day\'s paper.',
+      'Tell your friends your sleep time and stick to it. If a late-night group session leaves you tired for the next day\'s paper, offer to meet in the afternoon instead.',
     ),
     x(
       ['board'],
       'paper',
       'I practise writing full answers within the time limit, including diagrams, steps and neat presentation.',
-      'Write at least one full paper per subject by hand in the real time, then ask a teacher to check how your answers look, since presentation affects marks in many boards.',
+      'Write at least one full paper per subject by hand in the real time, then ask a subject teacher to read it as a marker would and tell you where the answers could be clearer, shorter or better laid out.',
     ),
     x(
       ['board'],
       'support',
       'My parents and I have talked about what the plan is after the board results.',
-      'Sit with your parents once before the exams and write two or three options, such as the stream, a college or a re-exam route, so that the result is a choice between options, not the end of them.',
+      'Sit with your parents once before the exams and write two or three options, such as the stream, a college or a repeat or supplementary exam if your board allows it (check its official rules), so that the result is a choice between options, not the end of them.',
     ),
     // Entrance
     x(
@@ -651,20 +652,20 @@ export const bundle: SkillTestBundle = {
       ['entrance'],
       'paper',
       'I have decided in advance how I will choose questions in the paper and when I will skip.',
-      'In your next three mocks, try one strategy: a first pass for easy questions, a second pass for medium ones, and skip the rest. Keep the one that works for you and use it every time.',
+      'In your next three mocks, try one strategy: a first pass for easy questions, a second pass for medium ones, and skip the rest. Check your exam\'s marking scheme for negative marking before deciding how much to guess, and keep the strategy that works for you.',
     ),
     x(
       ['entrance'],
       'support',
       'I have a Plan B that I have discussed with my family, so the exam does not feel like all or nothing.',
-      'Write a short Plan B with your family, for example another entrance exam, a related course or one more attempt, and read it once a month. Having it written lowers the pressure on each mock.',
+      'Write a short Plan B with your family, for example another entrance exam, a related course or one more attempt where the rules allow it, and read it once a month. Having it written lowers the pressure on each mock.',
     ),
     // College
     x(
       ['college'],
       'prep',
-      'I leave most of my study for the last few days before semester exams and then panic.',
-      'Pick three days now to cover each subject\'s units at a first pass level. Even a short first pass spread over the term makes the last week about revision, not first reading.',
+      'I leave most of my study for the last few days before semester exams.',
+      'This week, give one evening to each subject and read through its units once, noting what you do not follow. A first pass spread over the term means the last week is for revision, not for reading the syllabus for the first time.',
       true,
     ),
     x(
@@ -677,14 +678,14 @@ export const bundle: SkillTestBundle = {
       ['college'],
       'thoughts',
       'A backlog or low marks in one subject makes me feel I am behind everyone else.',
-      'Write down what the backlog needs, such as which paper, which attempt and which dates, and the next step. Talk to your class mentor, since the rules for backlogs are usually clear once you ask.',
+      'Write down what the backlog needs, such as which paper, which attempt and which dates, and the next step. Talk to your class mentor or the exam section, because the backlog rules differ between universities and are best read in your own university\'s notice.',
       true,
     ),
     x(
       ['college'],
       'body',
-      'In semester exam weeks I skip meals or live on snacks and tea.',
-      'Before the first paper, arrange two proper meals a day with your hostel mess, canteen or home, and keep fruit or nuts for the study hours. Tea can stay, but not as a meal.',
+      'In semester exam weeks I skip proper meals and live on snacks and tea.',
+      'Before the first paper, arrange two proper meals a day with your hostel mess, canteen or home, and keep fruit or roasted chana for the study hours. Tea can stay, but not as a meal.',
       true,
     ),
     x(
@@ -692,6 +693,12 @@ export const bundle: SkillTestBundle = {
       'support',
       'I talk to my class teacher, mentor or a senior about a weak subject early in the semester.',
       'Within the next week, meet the teacher of your weakest subject and ask what the important topics are and where students usually lose marks. Ask a senior for old question papers and tips.',
+    ),
+    x(
+      ['college'],
+      'paper',
+      'I have looked at previous papers of each subject to see how marks are divided across units and question types.',
+      'Collect three previous papers per subject from the department, library or a senior. Mark which units come up often and how long the answers are expected to be, then plan your revision around that pattern and not around the whole book equally.',
     ),
     // Govt
     x(
@@ -729,7 +736,7 @@ export const bundle: SkillTestBundle = {
       ['govt'],
       'support',
       'My family and I have agreed how long and how many attempts I will go on, and a fallback we are comfortable with.',
-      'Choose a calm time and ask your family what limits and fallback options they can accept. Write it down together. A shared plan can ease the feeling of unspoken pressure.',
+      'Choose a calm time and ask your family what limits and fallback options they can accept. Check the attempt and age limits in the official notification of your exam, and write the plan down together. A shared plan can ease the feeling of unspoken pressure.',
     ),
   ],
 
@@ -738,7 +745,7 @@ export const bundle: SkillTestBundle = {
       prep: sa(
         'Board exams come with a fixed syllabus, a date sheet and a lot of voices telling you what to study.',
         'Work backwards from each paper date and give every subject a revision day in each week until the exams.',
-        'Use your board\'s sample papers and last years\' papers to see how questions are asked, and practise those instead of collecting more guides.',
+        'Use your board\'s sample papers and earlier years\' papers to see how questions are asked, and practise those instead of collecting more guides.',
       ),
       thoughts: sa(
         'Board results are discussed by family, neighbours and school, so worry often comes from what others may say.',
@@ -748,22 +755,22 @@ export const bundle: SkillTestBundle = {
       body: sa(
         'Pre-board and board weeks often mean late nights, tuition and few meals at normal times.',
         'Keep the same sleep time through the whole exam period and set the night before each paper as an early night.',
-        'Eat home-cooked meals at fixed times and carry water and a light snack for long exam days.',
+        'Eat regular meals at fixed times, whether at home, in a hostel mess or from a tiffin, and carry water and a light snack for long exam days.',
       ),
       paper: sa(
         'Board papers reward complete, well-presented answers and good time use across long papers.',
         'Practise writing full papers by hand, with diagrams and steps shown, in the exact time of your board paper.',
-        'Plan the last fifteen minutes for rechecking, and rehearse that in your practice papers.',
+        'Keep a few minutes at the end for rechecking, and rehearse that in your practice papers.',
       ),
       support: sa(
         'Parents often worry because they care, and they may not know how to help without adding pressure.',
         'Tell your parents one thing that would help, such as quiet study time or no result talk at meals.',
-        'Take a doubt list to your subject teacher every week, since schools often have extra classes before boards.',
+        'Take a doubt list to your subject teacher every week, since many schools hold extra classes or doubt sessions before boards.',
       ),
     },
     entrance: {
       prep: sa(
-        'Entrance preparation is long, with coaching schedules, mock tests and a very large syllabus.',
+        'Entrance preparation is long, with a large syllabus and frequent mock tests, whether you follow a coaching schedule or study on your own.',
         'Split your syllabus into months, with a revision cycle built in, and refresh the plan every two or three weeks using your mock mistakes.',
         'Keep a mistake log across mocks and revise from it before each new test.',
       ),
@@ -783,9 +790,9 @@ export const bundle: SkillTestBundle = {
         'Rehearse your reset for freezing in mocks too, not only on the final day.',
       ),
       support: sa(
-        'You may be living away from home or in a coaching centre, with less time for friends and family.',
+        'You may be living away from home, in a hostel or paying guest room, or studying alone at home for months, with little time for friends and family.',
         'Fix a regular call with someone at home and talk about more than marks.',
-        'Find one study partner or senior at the centre with whom you can speak honestly about the pressure.',
+        'Find one study partner or senior, in person or on a call, with whom you can speak honestly about the pressure.',
       ),
     },
     college: {
@@ -801,7 +808,7 @@ export const bundle: SkillTestBundle = {
       ),
       body: sa(
         'Exam weeks in hostels or at home can mean irregular meals, caffeine and late-night study groups.',
-        'Arrange two proper meals a day before the first paper and keep fruit or nuts for study hours.',
+        'Arrange proper meals through the day before the first paper, from the mess, canteen or home, and keep fruit or roasted chana for study hours.',
         'Skip the all-night group session before a paper and use that time for a final one-page revision and sleep.',
       ),
       paper: sa(
@@ -811,7 +818,7 @@ export const bundle: SkillTestBundle = {
       ),
       support: sa(
         'Class sizes are large and teachers may not notice who is struggling unless you tell them.',
-        'Go to one teacher\'s office hours or ask a classmate to study with you before the exam week.',
+        'Ask your weakest subject\'s teacher for ten minutes after class, or ask a classmate to study with you, before the exam week starts.',
         'Tell a friend or roommate how you are managing, and look out for them in the same way.',
       ),
     },
@@ -832,9 +839,9 @@ export const bundle: SkillTestBundle = {
         'Eat a proper dinner before study, not after midnight, and keep a short walk in your day.',
       ),
       paper: sa(
-        'Government exams often have a prelims, a mains and an interview, each with a different style and time pressure.',
+        'Many government exams have stages such as a preliminary test, a main exam or an interview, each with a different style and time pressure.',
         'Practise the exact pattern of the stage you are preparing for, with sectional time limits.',
-        'Plan travel to the exam centre the day before, since centres can be far and in a different city.',
+        'Check the exam centre address and travel time the day before, since centres can be far from where you live.',
       ),
       support: sa(
         'Friends and relatives may ask when you will get a job, and you may feel you are behind others.',
@@ -847,103 +854,103 @@ export const bundle: SkillTestBundle = {
   scenarios: [
     // prep
     sc('prep', 'Your exam is five weeks away and the syllabus feels huge. You have not started a plan. What do you do tonight?', [
-      o('Start with the first chapter and study as much as you can each day', 33, 'Starting is good, but without a plan you may reach the exam with some chapters unread. Count the days and chapters first, then place them on dates.'),
-      o('Wait until you feel calmer, then make a plan over the weekend', 0, 'Waiting for a calm mood often postpones the plan for weeks. Even a rough list tonight, with dates, usually makes you feel calmer than waiting does.'),
-      o('Ask your friends what they are studying and copy their order', 67, 'Knowing what others do can help, but their strengths and weak topics differ from yours. Use it as an idea, then adjust the plan for your own gaps.'),
-      o('List all chapters, mark strong and weak ones, then put them on a dated calendar with revision days kept free', 100, 'This is the strongest start. A dated list turns the syllabus into tasks, and the free revision days protect you if some days are lost.'),
+      o('Begin with the first chapter tonight and study long hours every day, planning to make a proper timetable after a couple of weeks', 33, 'Starting is a good instinct, but two weeks without a plan can leave the last chapters for the final days. Spend thirty minutes tonight counting chapters and days, then write each chapter against a date.'),
+      o('Spend this week collecting the best notes, guides and video playlists for every chapter, and make the plan once you have everything', 0, 'Collecting feels like progress, but the plan is what tells you which material you will actually use. Tonight, write the chapter list and the days left on one page, even roughly, and choose material only for the chapters you will study first.'),
+      o('Ask a friend who did well last year for the timetable they followed, and follow the same order', 67, 'A topper\'s timetable is a useful sample of how long things take. It was built around their gaps, though, so move your weak chapters earlier and keep the rest.'),
+      o('Count the chapters and days, then write a dated plan with revision days kept free', 100, 'Dates turn the syllabus into tasks you can finish. Keep the last three or four days empty so that lost days do not break the plan, and look at it again after one week.'),
     ]),
     sc('prep', 'You have a mock paper tomorrow morning. Your notes are not complete. What do you do?', [
-      o('Sit the mock honestly, then use the results to decide what to fix', 100, 'A mock is meant to show gaps. Taking it in full, and then spending time on the mistakes, is more useful than delaying until you feel ready.'),
-      o('Skip it and use the day to finish your notes', 33, 'Finishing notes feels productive, but you lose the chance to see what you do not know. Take the mock and complete the notes for the gaps it shows.'),
-      o('Study until late to complete the notes, then take the mock tired', 0, 'A mock taken after a short night usually gives a misleading result and adds stress. Stop at your fixed time and sleep, then fix the gaps afterwards.'),
-      o('Take the mock but keep your notes open to feel safer', 67, 'Open notes protect you from a low score, but they also hide what you cannot recall. Try the next one without them, even if the first result is lower.'),
+      o('Ask your teacher if you can sit the next mock instead, so that you can finish your notes and take it fully prepared', 33, 'Wanting to be prepared is natural, but a mock is where gaps show up. Sit this one, and spend the evening afterwards on the topics where marks were lost.'),
+      o('Sit the mock as it is, then spend the evening on the topics it shows you missed', 100, 'A mock exists to show what you do not know, and incomplete notes are one of those things. Write down the lost topics straight after and fix the biggest one first.'),
+      o('Sit the mock with your notes beside you for questions you cannot recall, and mark those questions clearly', 67, 'Marking the questions you needed notes for is a smart half-step. Next time, try one section without notes, since only that tells you what you can actually recall in the hall.'),
+      o('Stay up late to complete the notes tonight so that you can sit the mock feeling fully prepared', 0, 'A short night usually brings a poor mock and a misleading score. Set a stopping time now, sleep, and treat the gaps in the notes as the list of things to learn next.'),
     ]),
     // thoughts
     sc('thoughts', 'You score much lower than you expected in a class test, two weeks before the exam. What is your first move?', [
-      o('Decide that you are not good enough for this exam and think about leaving it', 0, 'One test, two weeks out, is not enough to decide this. Look at the mistakes first and talk to a teacher before making any large decision.'),
-      o('Spend twenty minutes listing the types of mistake, pick one to fix, and then return to your plan', 100, 'This keeps the test as information. A short review with one fix gets you moving again, and the plan carries on.'),
-      o('Ignore the result and do not look at the paper again', 33, 'Avoiding it spares you the discomfort, but you lose useful information. Look at it once with a time limit, then move on.'),
-      o('Study double hours for the next few days to make up for it', 67, 'Extra effort is understandable, but a few exhausting days often lead to a poor week. Add one focused hour on the mistake type instead of doubling everything.'),
+      o('Take it as a sign you are not ready and start thinking about writing the exam next year instead', 0, 'One test two weeks out is too little to decide a year. Go through the paper, ask your teacher where the marks went, and take any big decision only after that.'),
+      o('Ask a friend who scored well to show you how they answered the questions you lost marks on, and copy their method', 67, 'Seeing a better answer is useful. Pair it with your own review: write three mistakes you made, so that you fix your habit and not only that one answer.'),
+      o('Put the paper away for now and look at it after the exam, since there is little time left to dwell on it', 33, 'Protecting your time is reasonable, but the paper holds the cheapest lessons you will get before the exam. Give it twenty minutes with a timer, then close it.'),
+      o('Spend twenty minutes sorting the mistakes into types, choose one to fix this week, then return to your plan', 100, 'You treated the test as information, which is what keeps one low score from spreading into a week of doubt. Put the chosen fix at the top of tomorrow\'s targets so it actually happens.'),
     ]),
     sc('thoughts', 'At night you keep thinking about how your parents will react if you do badly. What helps most?', [
-      o('Tell yourself to stop thinking about it and try harder to sleep', 33, 'Pushing a thought away often makes it louder. Write it down and decide on one thing you can do tomorrow about it.'),
-      o('Write the worry on paper, add one action for tomorrow, such as speaking to your parents, then go back to bed', 100, 'Putting the thought on paper with an action gives your mind permission to rest. Speaking to your parents about it in daytime usually helps more than guessing.'),
-      o('Open your phone and scroll until you fall asleep', 0, 'Scrolling delays the worry, but it often cuts sleep and brings the same thought back in the morning. Keep a notebook by your bed instead.'),
-      o('Study through the night so that you feel you have done enough', 67, 'This tries to solve the worry with effort, which is understandable. A tired mind will do less well the next day, so write the action and rest.'),
+      o('Remind yourself that you must score well to make your parents proud, and use that feeling to keep studying', 33, 'Fear can push you for a few days, but it also tires you and makes mistakes feel heavier. Turn it into one honest talk with your parents about what they really expect.'),
+      o('Write the worry on paper with one action for tomorrow, such as telling your parents your target, then go to sleep', 100, 'Writing it down with an action gives the worry a place to stay till morning. Do the action in daylight, because a calm talk usually shows that your parents want less than you imagine.'),
+      o('Get up, tidy your desk and plan tomorrow\'s hours so that your mind has something to hold on to', 67, 'A plan for tomorrow does steady the mind. The worry itself is still unspoken, so add one line about what you will say to your parents and when.'),
+      o('Scroll through toppers\' routines and motivational videos until you feel inspired enough to sleep', 0, 'Other people\'s routines can leave you comparing, and the screen pushes sleep later while the worry stays where it was. Keep a notebook beside the bed and write the worry and one action there instead.'),
     ]),
     // body
     sc('body', 'It is the night before an important paper and you feel you have not revised the last two chapters. What do you do?', [
-      o('Revise the key points of those chapters on one page, then sleep at your usual time', 100, 'A short revision sheet with sleep gives you the best chance to read the questions well tomorrow. Whatever remains cannot be fixed by a very late night.'),
-      o('Stay up all night to read everything once', 0, 'A whole night without sleep makes you more likely to misread questions and forget what you studied. A fixed stop time protects what you already know.'),
-      o('Sleep early and do not look at the chapters at all', 33, 'Sleep is good, but ten or fifteen minutes with a one-page summary can calm your mind. Do a short review first, then sleep.'),
-      o('Study until 2 a.m. and then sleep for a few hours', 67, 'A few hours of sleep is better than none, but a fixed earlier stop is better. Decide your stop time now and keep it.'),
+      o('Study through the night, since those two chapters could carry many marks, and rest after the paper', 0, 'Marks from two chapters are lost if a sleepless mind misreads the questions on the whole paper. Pick a closing time now and let the rest go.'),
+      o('Sleep early and trust that what you studied earlier will come back in the hall', 33, 'Rest is right, but you can use twenty minutes first. Skim the headings and key formulas of those chapters once, which is enough to make them feel less strange.'),
+      o('Make a one-page sheet of the key points from those chapters, read it once and sleep at your usual time', 100, 'A sheet gives you a quick, calm last look, and sleep protects everything else you know. Pack your bag before you sleep so that nothing else is left for the morning.'),
+      o('Study until midnight, then sleep for six hours so that you are not too tired in the morning', 67, 'Six hours is far better than none, but an earlier cut-off would be better still. Decide the time today, and set an alarm that tells you to close the books.'),
     ]),
     sc('body', 'Your studies are heavy this week and you notice you are skipping lunch and drinking more tea. What do you do?', [
-      o('Keep going, because you can eat after the exams', 0, 'Skipping meals for days often makes it harder to concentrate and sleep. Eating takes only a few minutes and helps you study better.'),
-      o('Set fixed meal times, keep a simple meal ready and take a short walk after lunch', 100, 'A fixed routine removes the daily decision. A short walk after eating also gives your mind a break from the books.'),
-      o('Eat a big meal late at night when you have time', 33, 'It is better than skipping, but a heavy late meal can disturb sleep. Spread your eating across the day with lighter, regular meals.'),
-      o('Switch to coffee or an energy drink so you do not feel hungry', 67, 'This hides hunger for a short time but can affect sleep. Keep tea or coffee to a small amount and have something simple to eat alongside.'),
+      o('Skip lunch on heavy days to gain study time, and eat a big dinner when the day\'s work is done', 0, 'Long gaps without food tend to bring a dull, sleepy afternoon, which costs more study time than lunch takes. Pick a lunch hour and guard it, even if it lasts only fifteen minutes.'),
+      o('Fix three meal times, keep something simple ready, and eat for ten minutes away from your books', 100, 'A fixed time takes away the daily decision, and eating away from the desk gives your mind a short rest too. Tell someone at home your meal times so that they ask you if you miss one.'),
+      o('Eat lunch at your desk with a book open, so that the meal happens and no study time is lost', 67, 'The meal does happen, which is the main thing. Without a break, though, you barely notice what you eat and your mind gets no rest, so sit away from the desk for even ten minutes, with a plate of curd rice or roti and sabzi.'),
+      o('Have tea and biscuits or an energy drink at your desk so that you do not lose study time', 33, 'It gives quick energy and keeps the clock moving, but it does not feed you for long hours and can disturb sleep. Keep tea as a drink, not as a meal.'),
     ]),
     // paper
     sc('paper', 'Ten minutes into the paper you find you cannot recall the answer to the first question and your mind feels blank. What do you do?', [
-      o('Keep staring at the question until the answer comes', 0, 'Staring usually uses up minutes and raises panic. Move on after two or three minutes and come back later.'),
-      o('Leave the question, take a slow breath, read the next question and answer the easiest first', 67, 'This is a useful move. Add a note on the first question and come back to it, since other answers often help you recall.'),
-      o('Put the pen down, breathe out slowly, reread the question, write any one line you know, then move on if still stuck', 100, 'A short reset followed by a first line is a good way to restart your thinking. Practise it in mocks so that it feels natural in the hall.'),
-      o('Look at what others are writing to calm down', 33, 'Looking around does not help and may be treated as a breach of rules. Stay with your own paper and use your reset steps.'),
+      o('Close your eyes and try hard to picture the page in your notes where this topic appears, until the answer comes back', 33, 'Picturing the page can help for a few seconds, but it can also eat many minutes while panic grows. Give it a short try, then move to a question you can do.'),
+      o('Keep trying to recall that one answer for as long as it takes, since you do not want to leave the first question blank', 0, 'Each minute spent staring raises panic and uses time from questions you can answer. Set a two minute limit, tick the question and go on.'),
+      o('Pen down, a slow breath out, reread the question, write one line you know, then move on if still stuck', 100, 'A fixed reset gives your mind something to do besides panic, and the first line often starts the recall. Practise it in the next two mocks so that it comes naturally in the hall.'),
+      o('Move straight to the easiest question on the paper and come back to the first one if time is left', 67, 'Starting with an easy question is a sound way to settle yourself. Tick the skipped question so you do return to it, and take one slow breath before you start the next, since moving on in a hurry can carry the panic with you.'),
     ]),
     sc('paper', 'The first paper went badly and the second paper is tomorrow. Your friends are outside comparing answers. What do you do?', [
-      o('Join them to find out how bad it was, then study', 33, 'Comparing answers rarely changes marks and often adds worry. Leave quickly, since you cannot change the paper that is over.'),
-      o('Go home, note one thing to fix from the paper, and start preparing tomorrow\'s subject', 100, 'This keeps your focus on the paper you can still affect. Writing one lesson is enough, and you can look at the rest after the exams.'),
-      o('Call your parents and tell them it went badly', 67, 'Sharing can help, but doing it right away may add to worry for both of you. Tell them in a calm way later in the day, with your plan for the next paper.'),
-      o('Decide that the whole exam is spoiled and study less', 0, 'One paper does not decide the whole exam. Keep working on the remaining papers with your usual plan.'),
+      o('Stay with your friends and compare answers so that you know your likely marks, then study with that figure in mind', 0, 'Comparing answers feels like it removes uncertainty, but it often creates false worry, since you can be wrong or they can, and you cannot change the paper now. Walk away at the first mention of answers.'),
+      o('Go home, write down one thing to fix from the paper, and start on tomorrow\'s subject', 100, 'You have put your attention on the paper you can still influence. Keep the written fix on a card for after the exams, and set a time to begin tomorrow\'s revision.'),
+      o('Call a parent or sibling as soon as you get home and tell them honestly that it went badly, then start on the next subject', 67, 'Telling someone close can lighten the weight. Keep the call short and say what you are doing next, so that the talk does not turn into an hour of worry.'),
+      o('Sit down tonight and go through the whole bad paper question by question to find exactly where the marks went, before opening tomorrow\'s subject', 33, 'Reviewing is useful, but not the night before another paper, when it only eats the hours and the calm you need. Write one line on what to fix, keep the detailed review for after the last exam, and revise tomorrow\'s subject now.'),
     ]),
     // support
     sc('support', 'You feel very worried about the exam, but your friends say they are fine. What do you do?', [
-      o('Say nothing so that they do not think you are weak', 0, 'Keeping worry quiet can make it feel heavier. Telling one person often shows you are not alone.'),
-      o('Tell one friend or family member that you are worried, and ask to study together or talk once a week', 100, 'Sharing with one trusted person is a good first step, and a regular time makes it a habit. They may feel the same.'),
-      o('Post about it on social media to see who responds', 33, 'Posting may get quick replies, but it is a poor way to get steady support. Choose one person you trust and speak directly.'),
-      o('Tell your teacher only if the worry gets much worse', 67, 'A teacher is a good person to tell, but waiting until it gets worse can leave you carrying it longer than needed. Speak early about smaller things.'),
+      o('Keep it to yourself, because you do not want friends to think you cannot cope', 0, 'Hiding it makes it feel heavier and you may find the others are also pretending. Choose one friend or family member and say one honest sentence.'),
+      o('Post in a group chat or on social media asking if anyone else feels worried, and see who replies', 33, 'You may get quick replies, but a post rarely gives steady support and many people will read it. Pick one person and speak to them directly.'),
+      o('Tell your teacher if the worry stays for another few days, and ask how other students in previous years managed', 67, 'Teachers have seen many students in your position, so this works. Do not wait for days, though, because a small word early costs less than a bigger one later.'),
+      o('Tell one trusted person you are worried and ask if you can study together once a week', 100, 'One honest conversation and a fixed weekly time turn a private worry into something shared. If the worry does not ease, or it starts to affect your sleep, eating or studying, speak to a school or college counsellor or a doctor without waiting.'),
     ]),
     sc('support', 'Your relatives keep asking about your target marks or rank. It makes you tense. What do you do?', [
-      o('Answer with a big number to impress them', 0, 'A big number only raises the pressure on you. A modest honest answer keeps the pressure lower.'),
-      o('Prepare one calm sentence such as that you are following your plan and will share news after results, and ask your parents to help redirect the talk', 100, 'A ready sentence takes the pressure out of the moment. Asking your parents to support you at such times is also reasonable.'),
-      o('Avoid all relatives until the exam is over', 67, 'Avoiding the questions for a while is fine, but cutting off everyone can leave you lonely. Keep contact with the people who help.'),
-      o('Argue with them and tell them to stop asking', 33, 'It is understandable to feel angry, but an argument adds tension at a time you need calm. A short calm line works better.'),
+      o('Give one short, friendly answer such as "I am following my plan and will tell you after the results", and repeat it each time', 100, 'A short, ready answer lets you end the topic without a fight. If the questions continue, ask your parents to change the subject for you.'),
+      o('Stay in your room whenever relatives visit, so that nobody gets a chance to ask', 67, 'Avoiding the questions for a few days is fine, but staying away from everyone can leave you lonely. Join for tea or a meal, and have your one sentence ready.'),
+      o('Tell them firmly that you will not discuss exams at all and leave the room whenever it comes up', 33, 'Wanting to protect your time is fair, but walking out adds tension at home and the questions usually come back at the next visit. A short, friendly line does the same job with less cost.'),
+      o('Give them a high target so that they feel happy and stop asking for now', 0, 'A high number only raises the pressure on you, since the question returns later with a larger expectation. A modest honest answer keeps your load lower.'),
     ]),
     // stage-specific
     {
       ...sc('thoughts', 'It is two weeks before your board exams. A relative says your whole future depends on your marks. How do you take it?', [
-        o('Believe it and study until midnight each day', 0, 'Marks matter, but a whole future depends on many things, including the choices you make after the result. Study at a steady pace and keep your sleep.'),
-        o('Note the concern, then check with a teacher or counsellor what options exist after different outcomes', 100, 'Looking up what happens after different results turns a fear into facts. It often shows that more routes stay open than you feared.'),
-        o('Tell them they are wrong and refuse to talk to them again', 33, 'Anger is understandable, but you can set a limit without cutting people off. A short calm reply and a change of topic is enough.'),
-        o('Stop thinking about results completely and study only by mood', 67, 'Taking your mind off results is helpful, but studying only by mood leaves gaps. Keep a simple timetable and let the mood come and go.'),
+        o('Take it seriously, add two more hours to each day and cut down on sleep and meals to be safe', 0, 'Marks matter, but your future depends on many choices, including what you do after the result. Keep a steady timetable with sleep, since tired study earns less.'),
+        o('Listen, thank them for their concern, then ask a teacher or counsellor what options exist after different results', 100, 'Finding out the options after different results turns a vague fear into facts. Write two or three of them on a page and show it to your parents.'),
+        o('Explain why marks are not everything, and that there are many paths after the boards, so that they stop saying this', 33, 'You may well be right, but arguing with a relative rarely changes them and costs you an evening. Answer in one line, and put the energy into finding out the real options from your teacher.'),
+        o('Smile, say nothing and carry on with your timetable, trying not to think about results', 67, 'Staying steady is a good response. The fear may still sit there unspoken, so spend ten minutes asking a teacher what happens after a weaker result.'),
       ]),
       stages: ['board'],
     },
     {
       ...sc('prep', 'Three weeks before your entrance exam, your mock marks have not improved for a month. What is the best response?', [
-        o('Switch to a different set of books and a new coaching plan immediately', 33, 'A change can help, but changing everything this close to the exam is risky. First find the pattern in your mistakes and change one or two things.'),
-        o('Analyse the last four or five mocks to find your main type of mistake, fix that, and keep the rest of your plan', 100, 'This uses the evidence in your own papers. Fixing the largest source of lost marks is usually worth more than adding more hours.'),
-        o('Add two more hours of study daily', 67, 'More time can help, but if the cause is a type of mistake or poor time use, the extra hours may not change the score. Find the cause first.'),
-        o('Stop giving mocks for a week so that you are not discouraged', 0, 'Avoiding mocks protects your mood for a few days but removes your best information. Continue them and spend more time reviewing each one.'),
+        o('Change your books and study plan completely, since a month without progress means the present method is not working', 33, 'A fresh start feels strong, but three weeks is too short to learn a new system. Find the pattern first and change only one or two things.'),
+        o('Look at your last four or five mocks for your main type of mistake, fix that, and keep the rest of your plan', 100, 'The answer is already inside your papers. Count how many marks went to concepts, speed and carelessness, and give the largest count your next week.'),
+        o('Add an extra hour daily for questions from your weakest chapters, and review the plan again after the next mock', 67, 'Targeted extra time can help. Before you add the hour, check whether the lost marks come from those chapters at all, or from speed and silly errors.'),
+        o('Skip mocks for a week to protect your confidence', 0, 'A break from mocks calms the mind for a few days but removes your best information. Keep them, and spend more time reviewing each one than writing it.'),
       ]),
       stages: ['entrance'],
     },
     {
       ...sc('prep', 'Your semester has four papers in six days, one of which you find very difficult. How do you plan?', [
-        o('Spend the first days on the difficult paper and leave the easiest for the last', 67, 'Giving more time to the hardest paper is sensible, but if it comes late in the schedule, you should revise it again nearer the date. Order by paper dates too.'),
-        o('Split the time equally between all four papers', 33, 'Equal time looks fair but does not match your needs. Give more days to the difficult paper and fewer to the ones you know.'),
-        o('Plan by date: revise each paper in the days before it, give the difficult one the most days and keep a short revision slot for it again before the paper', 100, 'This respects both the paper dates and your own difficulty. A second short revision before the paper helps recall.'),
-        o('Study whichever subject you feel like each day', 0, 'Studying by mood tends to leave the hard subject for later and later. Fix the order on paper and keep to it.'),
+        o('Start your revision with the difficult subject and finish it first, then go through the others in the order of their dates', 67, 'Giving the hardest subject first is sensible, but if its paper comes late you may forget it. Plan a second short revision just before its date.'),
+        o('Divide the days equally among the four papers so that nothing is left out, in the order of the dates', 33, 'Equal time feels fair but does not match your needs. Take a day from the subject you know best and give it to the difficult one.'),
+        o('Work backwards from each paper date, give the difficult subject the extra days, and look at it again briefly before its paper', 100, 'This respects both the dates and your own difficulty. Write it as a table of days and subjects, and stick it where you study.'),
+        o('Revise your strongest subjects first to build confidence and leave the difficult one for the last two days', 0, 'Easy wins feel good, but the difficult subject then gets the least time and the most panic. Give it the first block of days and a short second look before its paper.'),
       ]),
       stages: ['college'],
     },
     {
       ...sc('thoughts', 'Your result for a government exam you attempted for the second time was not selected. You have a job. What do you do first?', [
-        o('Decide you are not meant for government jobs and stop completely that week', 33, 'Stopping is a valid decision if you reach it after thought, but not in the first week of disappointment. Give yourself time and talk it through.'),
-        o('Take a few days off, then write what cost marks in each section and decide with your family whether and how to go on', 100, 'A short rest and an honest review give you the information to decide. Including your family means the decision is shared.'),
-        o('Start the next attempt preparation the next morning without any break', 67, 'Determination is good, but without a review you may repeat the same plan. Take a short rest and look at what happened first.'),
-        o('Avoid talking about it with anyone and focus on work', 0, 'Keeping it hidden can make the disappointment heavier. Tell one person you trust and plan a time to review the attempt.'),
+        o('Start preparing for the next attempt tomorrow morning, because time is passing and you cannot waste any of it', 67, 'The determination is useful, but without a review you may repeat the same plan. Spend a weekend on what happened first, then restart.'),
+        o('Decide in this first week that government jobs are not for you and stop preparing completely', 33, 'Stopping can be a sound decision, but not one to take in the first week of disappointment. Give yourself some days and talk it over before deciding.'),
+        o('Take a few days off, then write what cost marks in each section and decide with your family whether and how to continue', 100, 'A short rest and an honest review give you the facts to decide on. Involving your family means the decision, and the support after it, is shared.'),
+        o('Say nothing to friends or relatives about it, and put your attention on work so that you do not have to answer questions', 0, 'Keeping the result hidden tends to make the disappointment heavier. Tell one person you trust and fix a day to review the attempt.'),
       ]),
       stages: ['govt'],
     },

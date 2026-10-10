@@ -27,7 +27,7 @@ const CORE: Record<string, Core[]> = {
       d: 'energy',
       text: 'I dread starting my day, even before anything has gone wrong.',
       reverse: true,
-      tip: 'Name the first thing you dread: a person, a task, the commute or just the start. Change only that one thing this week, for example start with tea before opening any message, or do the dreaded task first for ten minutes. If the dread stays for weeks, talk to someone you trust.',
+      tip: 'Name the first thing you dread: a person, a task, the commute or just the start. Change only that one thing this week, for example have tea before opening any message, or do the dreaded task first for ten minutes. If the dread stays for weeks, talk to someone you trust, a doctor or a counsellor.',
     },
     {
       d: 'energy',
@@ -43,37 +43,36 @@ const CORE: Record<string, Core[]> = {
     },
     {
       d: 'interest',
-      text: 'I know why my work or study matters to me, even on dull days.',
+      text: 'I know why my work or study matters to me.',
       tip: 'Write one sentence on what this gives you, such as income for your family, a skill, or a step toward a goal. Keep it on the first page of your notebook and read it on the days that feel flat.',
     },
     {
       d: 'interest',
-      text: 'These days I do the bare minimum to get through, and I do not care how it turns out.',
+      text: 'These days I do only the bare minimum to get through.',
       reverse: true,
       tip: 'Choose one task this week and finish it slightly better than required, for example by checking it once more or adding one example. Notice whether any care returns. Do not try to fix everything at once.',
     },
     {
       d: 'interest',
-      text: 'I feel distant from the people I work or study with, as if I am only going through the motions.',
-      reverse: true,
-      tip: 'Have one ten minute conversation this week with a colleague or classmate about something other than tasks, such as at tea or lunch. Connection often returns in small amounts, not in one big step.',
+      text: 'I feel connected to the people I work or study with.',
+      tip: 'Have one ten minute conversation this week with a colleague or classmate about something other than tasks, such as at tea or lunch. Connection usually returns in small amounts, not in one big step.',
     },
     {
       d: 'interest',
-      text: 'I still learn something new in my work or studies that I feel pleased about.',
+      text: 'I still learn something new in my work or studies, even in a small way.',
       tip: 'Pick one small thing to learn in the next two weeks, such as a shortcut a senior can show you or one twenty minute lesson. Write one line every Friday on what you learnt.',
     },
   ],
   control: [
     {
       d: 'control',
-      text: 'I know what matters most this week and can say it in a few lines.',
+      text: 'I know what matters most for me this week.',
       tip: 'On Monday write your top three outputs for the week. If you cannot, ask your manager, teacher or senior: "If I can finish only three things this week, which should they be?"',
     },
     {
       d: 'control',
-      text: 'I can ask for a later date or say no when my plate is full.',
-      tip: 'Keep one ready sentence: "I can do this by Thursday if I move the other task, which one should I do first?" Use it once this week, and notice that it is a question about priority, not a refusal.',
+      text: 'When my plate is full, I can ask for a later date.',
+      tip: 'Keep one ready sentence: "I can do this by Thursday if I move the other task. Which one should I do first?" Use it once this week, and notice that it is a question about priority, not a refusal.',
     },
     {
       d: 'control',
@@ -88,7 +87,7 @@ const CORE: Record<string, Core[]> = {
     },
     {
       d: 'control',
-      text: 'Plans and priorities change so often that much of my effort feels wasted.',
+      text: 'Plans and priorities change so often that my effort feels wasted.',
       reverse: true,
       tip: 'When a change comes, send a two line message confirming the new priority and what is being dropped. Keep a log of changes for two weeks so you can show the pattern calmly when you discuss it.',
     },
@@ -101,18 +100,18 @@ const CORE: Record<string, Core[]> = {
     },
     {
       d: 'recovery',
-      text: 'I eat my meals at fairly regular times and do not usually skip them for work or study.',
+      text: 'I eat my meals at fairly regular times, even in busy weeks.',
       tip: 'Fix three meal times, keep one quick option ready such as curd rice, eggs, fruit or a sabzi roll, and eat away from your desk for at least ten minutes.',
     },
     {
       d: 'recovery',
-      text: 'I check work messages or study chats in bed and on my days off.',
+      text: 'I check work messages or study chats in bed.',
       reverse: true,
-      tip: 'Choose a cut-off hour, mute work apps after it and move them off your first phone screen. Tell colleagues or classmates your reply hours so that the silence is expected, not a surprise.',
+      tip: 'Choose a cut-off hour such as 9 p.m., mute work apps and study groups after it, and move them off your first phone screen. Tell colleagues or classmates your reply hours so that your silence is expected, not a surprise.',
     },
     {
       d: 'recovery',
-      text: 'I use my weekly off and my leave days for rest, and I do not spend them working.',
+      text: 'I use my weekly off and my leave days for rest, not for work.',
       tip: 'Book one leave day or long weekend in the next month and tell people in advance. Hand over one clear note about what is pending so that you can switch off without worry.',
     },
     {
@@ -129,14 +128,14 @@ const CORE: Record<string, Core[]> = {
     },
     {
       d: 'support',
-      text: 'I can tell my manager, teacher or family when I am struggling, and I expect a fair hearing.',
+      text: 'When I am struggling, I can tell my manager, teacher or family and expect a fair hearing.',
       tip: 'Pick a calm time and say three things: what is happening, how it affects your work, and one request such as a deadline change or a hand-off. A specific request is easier for people to act on.',
     },
     {
       d: 'support',
-      text: 'I keep my difficulties to myself because I think I should manage alone.',
+      text: 'I feel I should manage my difficulties alone.',
       reverse: true,
-      tip: 'Tell one trusted person one specific difficulty this week, for example that you are not sleeping before deadlines. Saying it aloud often makes it smaller, and they may offer something practical.',
+      tip: 'Tell one trusted person one specific difficulty this week, for example that you are not sleeping before deadlines. Saying it aloud can make it feel lighter, and they may offer something practical.',
     },
     {
       d: 'support',
@@ -145,7 +144,7 @@ const CORE: Record<string, Core[]> = {
     },
     {
       d: 'support',
-      text: 'I take on extra requests because I find it hard to disappoint people.',
+      text: 'I find it hard to say no to extra requests.',
       reverse: true,
       tip: 'Use a delay line such as "Let me check my list and reply by evening". It gives you time to decide, not just to agree. Practise it on one small request this week.',
     },
@@ -169,7 +168,7 @@ export const bundle: SkillTestBundle = {
     h1Accent: 'Self-Assessment',
     eyebrow: 'Free burnout test: find which area needs attention first',
     heroSub:
-      'Searching for a burnout test or wondering if you are burnt out? This free self-assessment looks at five everyday areas of your work or study life, energy, interest, workload and control, rest, and people and support, and shows which area needs attention first. It is a habit check, not a diagnosis, and it cannot tell you whether you have any condition.',
+      'Looking for a burnout test? This free self-assessment looks at five everyday areas of your work or study life, energy, interest, workload and control, rest, and people and support, and shows which area needs attention first. It is a habit check, not a diagnosis, and it cannot tell you whether you have any condition.',
     stats: [
       { value: '41', label: 'questions' },
       { value: '5', label: 'life areas' },
@@ -187,13 +186,13 @@ export const bundle: SkillTestBundle = {
     resultKicker: 'Your work and study balance result',
     scoreLabel: 'Overall balance across five areas',
     bands: {
-      high: 'Your everyday balance in this area looks healthy.',
+      high: 'Your everyday habits in this area look well supported.',
       mid: 'Some things are in place, with gaps worth looking at.',
       low: 'This is the area that may deserve your attention first.',
     },
     domainsHeading: 'Five areas of work and study life this self-assessment covers',
     domainsIntro:
-      'Strain shows up in different places for different people. A higher score in an area means a healthier everyday balance there. The area with the lowest score is a good place to start, and it is not a verdict about you.',
+      'Strain shows up in different places for different people. A higher score in an area means steadier everyday habits there. The area with the lowest score is a good place to start, and it is not a verdict about you.',
     domains: [
       {
         key: 'energy',
@@ -260,9 +259,9 @@ export const bundle: SkillTestBundle = {
     readingTitle: 'How to read your burnout self-assessment result',
     readingSections: [
       {
-        title: 'A higher score means a healthier balance',
+        title: 'A higher score means steadier everyday habits',
         body: [
-          'Statements are worded so that agreeing describes a healthy pattern, such as having some energy left in the evening, knowing what matters this week or being able to talk to someone. Statements about strain are reversed, so saying they are not true for you raises your score.',
+          'Statements are worded so that agreeing describes a steady pattern, such as having some energy left in the evening, knowing what matters this week or being able to talk to someone. Statements about strain are reversed, so saying they are not true for you raises your score.',
           'The result answers one question: which area of your work or study life needs attention first. It does not say that you are or are not burnt out, and it cannot.',
         ],
       },
@@ -292,6 +291,7 @@ export const bundle: SkillTestBundle = {
       'If you feel unable to cope, are very low for weeks, or have thoughts of harming yourself, please see a doctor or a counsellor or speak to someone you trust. You can call Tele-MANAS on 14416, a free national helpline.',
       'Scores are not compared with other people, so there is no pass mark. A high score does not mean everything is fine, and a low score does not mean something is wrong with you.',
       'Advice here is general habit guidance. Some causes of strain, such as an unsafe or unfair workplace, are not solved by personal habits, and may need a conversation with a manager, HR, a union or a professional.',
+      'A score on one day is not a reason to leave a job or a course. Big decisions need more than a self-rating, and are better made after speaking to people who know your situation.',
     ],
     faqs: [
       {
@@ -304,7 +304,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'How is the score worked out?',
-        a: 'Statements are rated from 1 to 5 and the ones about strain are reversed, so a higher score always means a healthier balance. In the situation questions each option carries a score from 0 to 100. Each area score is the average of its statements and situations, shown out of 100, and the overall score is the average of the five areas.',
+        a: 'Statements are rated from 1 to 5 and the ones about strain are reversed, so a higher score always means steadier everyday habits. In the situation questions each option carries a score from 0 to 100. Each area score is the average of its statements and situations, shown out of 100, and the overall score is the average of the five areas.',
       },
       {
         q: 'What is a good score on a work burnout quiz like this?',
@@ -321,6 +321,14 @@ export const bundle: SkillTestBundle = {
       {
         q: 'What is the difference between this and the exam stress or time management self-assessments?',
         a: 'The exam stress self-assessment looks at coping around exams. The time management self-assessment looks at planning and focus. This one looks at the wider balance of energy, interest, workload, rest and support across work or study life. They work well together.',
+      },
+      {
+        q: 'Should I quit my job or course if my burnout self-assessment score is low?',
+        a: 'No. A self-rating from one day is not enough to base a decision like that on. Use the score to pick one small habit to change, give it a few weeks, and talk to a manager, teacher, family member or counsellor before any big decision.',
+      },
+      {
+        q: 'How often should I take this burnout self-assessment again?',
+        a: 'Retake it after about three to four weeks of working on your lowest area, so that you can see whether anything has shifted. Taking it every day is not useful, since habits change slowly and one bad day can move a score.',
       },
       {
         q: 'What should I do if my score is low?',
@@ -420,16 +428,16 @@ export const bundle: SkillTestBundle = {
         body: 'When you are your own manager, work has no natural end. Irregular income can make every offer feel impossible to refuse, and home duties may fill whatever time is left. You need limits that you set yourself.',
         actions: [
           'Set working hours and a weekly day off, and tell your clients and your family about them.',
-          'Keep a buffer of a few months of basic costs if you can, so that a quiet month feels less frightening.',
+          'Set aside a small buffer for slow months if you can, so that a quiet month feels less frightening.',
           'Write a short rule for new work, such as a price floor or a maximum number of open projects, and apply it before replying.',
         ],
       },
     ],
     tips: CORE_LIST.map((q) => q.tip),
-    strongTip: 'This is a healthy pattern. Protect it during your busiest weeks, because it is usually the first thing to go.',
+    strongTip: 'This is a steady pattern for you. Protect it during your busiest weeks, because it is usually the first thing to go.',
     domains: {
       energy: {
-        why: 'Your energy is the base for everything else. Noticing when it drops, what drains it and what refills it helps you plan your day around it, instead of blaming yourself for being tired.',
+        why: 'Your energy is the base for everything else. Noticing when it drops, what drains it and what refills it helps you plan your day around it, instead of blaming yourself for being tired. A student who is sharpest before 10 a.m., for example, can keep the hardest subject there and use the slump after lunch for revision.',
         roles: [
           'Long study days or shift work, where energy has to last through many hours',
           'Weeks with targets or deadlines, when evenings are the first to be given up',
@@ -460,7 +468,7 @@ export const bundle: SkillTestBundle = {
         midStep: 'For the next three days, write down the time your energy drops, and move one demanding task to the hour before it.',
       },
       interest: {
-        why: 'When the work or study feels pointless, everything else becomes heavier. Finding the parts that still interest you, and remembering why you are doing it, makes it easier to keep going.',
+        why: 'When the work or study feels pointless, everything else becomes heavier. Finding the parts that still interest you, and remembering why you are doing it, makes it easier to keep going. Someone on a repetitive shift, for instance, may find that helping a new joiner is the one part that still feels worthwhile.',
         roles: [
           'Long exam preparation, where the end feels far away',
           'Repetitive jobs and shifts, where tasks look the same every day',
@@ -491,7 +499,7 @@ export const bundle: SkillTestBundle = {
         midStep: 'Write the one sentence about why your work or study matters to you, and keep it where you can see it this week.',
       },
       control: {
-        why: 'Strain often comes from a load that is unclear, endless or not yours to shape. Writing the load down, asking about priority and choosing the small things you can control reduce that weight.',
+        why: 'Strain often comes from a load that is unclear, endless or not yours to shape. Writing the load down, asking about priority and choosing the small things you can control reduce that weight. A fresher who lists seven pending tasks may find that only two are due this week.',
         roles: [
           'Jobs with targets, where new tasks arrive faster than old ones finish',
           'Exam periods with a long syllabus and no clear order',
@@ -522,7 +530,7 @@ export const bundle: SkillTestBundle = {
         midStep: 'Write every task you are carrying today on one page, and mark which three truly matter this week.',
       },
       recovery: {
-        why: 'Sleep, meals and time off are how you refill. They are often the first things given up when you are busy, and the loss builds up slowly.',
+        why: 'Sleep, meals and time off are how you refill. They are often the first things given up when you are busy, and the loss builds up slowly. Studying until 2 a.m. may feel like extra time, but the next day\'s focus and mood often pay for it.',
         roles: [
           'Exam preparation, where late nights seem to buy extra time',
           'Always-on jobs, where messages arrive at night and on holidays',
@@ -553,7 +561,7 @@ export const bundle: SkillTestBundle = {
         midStep: 'Choose tonight a cut-off hour for messages, mute your work apps after it, and keep it for seven days.',
       },
       support: {
-        why: 'Carrying difficulties alone makes them feel bigger, and having no limits makes every request feel like yours. One honest person and a few clear boundaries make a lasting difference.',
+        why: 'Carrying difficulties alone makes them feel bigger, and having no limits makes every request feel like yours. One honest person and a few clear boundaries make a lasting difference. An eldest child who tells everyone at home that all is fine for months may find one honest talk lightens more than another quiet week.',
         roles: [
           'Home, where family hopes and duties can add to your load',
           'Workplaces with a culture of staying late and saying yes',
@@ -597,8 +605,8 @@ export const bundle: SkillTestBundle = {
     x(
       ['student'],
       'energy',
-      'My study day has real breaks and I do not study continuously from morning to night.',
-      'Plan the day as blocks of forty to fifty minutes with a break of five to ten minutes and a longer one after lunch. Put the breaks in your timetable, not just the study.',
+      'My study day has real breaks in it.',
+      'Write the breaks into your timetable first: a proper meal break, and one fifteen minute walk or chat in the evening. Then fit the study blocks around them, so that the break is not the first thing you cut.',
     ),
     x(
       ['student'],
@@ -616,13 +624,13 @@ export const bundle: SkillTestBundle = {
     x(
       ['student'],
       'recovery',
-      'I keep my sleep time steady in busy weeks even when classmates stay up late.',
-      'Tell your friends your sleep time and keep it. Late-night study groups often cover little and leave you slow the next day.',
+      'I keep my sleep time steady even in busy weeks.',
+      'Tell your friends your sleep time and keep it, even if a late-night group is on. If a late session is truly needed, agree an end time before it starts.',
     ),
     x(
       ['student'],
       'support',
-      'I compare my marks and progress with my friends and cousins, and it leaves me low.',
+      'Comparing my marks with friends and cousins often makes me feel worse about myself.',
       'Keep a small page with your own marks and one thing you improved each month. When comparison starts, look at that page. Ask a friend to agree not to talk about marks at lunch.',
       true,
     ),
@@ -630,13 +638,13 @@ export const bundle: SkillTestBundle = {
     x(
       ['early'],
       'energy',
-      'After a shift or a workday, I am able to unwind and do something that is mine.',
+      'After a shift or a workday, I can unwind.',
       'Create a short fixed routine after work, such as a wash, a meal and thirty minutes of music or a call, before anything else. It tells your body that the day is over.',
     ),
     x(
       ['early'],
       'control',
-      'I am not sure what is expected of me, but I do not like to ask in case I look weak.',
+      'I hold back from asking what is expected of me, in case I look weak.',
       'Prepare one question for your manager this week: "What would a good month look like in this role?" Asking early usually looks like interest, not weakness.',
       true,
     ),
@@ -649,8 +657,8 @@ export const bundle: SkillTestBundle = {
     x(
       ['early'],
       'recovery',
-      'When my targets are high, I skip lunch and stay late to prove myself.',
-      'Set a finishing time on three days this week, and eat lunch away from the desk. Show your results in the work you deliver, not in the hours you sit.',
+      'When my targets are high, I stay late to prove myself.',
+      'Set a finishing time on three days this week and keep it. Let your results show in the work you deliver, not in the hours you sit, and mention your finishing time to your manager once.',
       true,
     ),
     x(
@@ -663,14 +671,14 @@ export const bundle: SkillTestBundle = {
     x(
       ['experienced'],
       'energy',
-      'I carry other people\'s problems all day and have little energy left for my own work.',
+      'Other people\'s problems take most of my energy in the day.',
       'Move team questions to two fixed windows in the day, and use the rest for your own work. Tell the team the windows and what counts as urgent.',
       true,
     ),
     x(
       ['experienced'],
       'control',
-      'I hand over tasks to my team and trust them to finish without checking every step.',
+      'I hand over tasks and trust my team to finish them.',
       'Pick one task this week and hand it over with a clear outcome and date. Check only at the agreed point, and give feedback once it is done.',
     ),
     x(
@@ -682,8 +690,8 @@ export const bundle: SkillTestBundle = {
     x(
       ['experienced'],
       'recovery',
-      'I answer messages from my team and seniors late at night and on holidays.',
-      'Tell your team your reply hours and what to do in a real emergency. Use scheduled send for late replies so that your habit does not become their expectation.',
+      'My team contacts me after hours for things that could wait until morning.',
+      'Tell your team in writing what counts as an emergency and how to reach you for one. For everything else, ask them to leave a note for the morning, and use scheduled send for your own late replies.',
       true,
     ),
     x(
@@ -702,14 +710,14 @@ export const bundle: SkillTestBundle = {
     x(
       ['independent'],
       'control',
-      'I say yes to almost every client or customer request because I worry about the next month\'s income.',
+      'I accept work on terms I do not like because I worry about next month\'s income.',
       'Write a short rule for new work, such as a minimum price, a maximum number of open projects and a standard delivery time. Use it for your next three enquiries before you reply.',
       true,
     ),
     x(
       ['independent'],
       'recovery',
-      'I take at least one full day off in the week, and my clients know about it.',
+      'I take at least one full day off in most weeks.',
       'Choose the day, put an auto-reply or status on it, and tell your regular clients. A day off that clients expect is easier to keep.',
     ),
     x(
@@ -841,103 +849,103 @@ export const bundle: SkillTestBundle = {
   scenarios: [
     // energy
     sc('energy', 'It is 4 p.m. and your energy has dropped, with a lot of work still to do. What do you do?', [
-      o('Have another strong tea or coffee and push through without a break', 33, 'This may work for an hour, but it can make the evening and your sleep harder. A short break first usually brings back more focus.'),
-      o('Take ten minutes away from the screen with water and a short walk, then do one important task for a block', 100, 'A short real break plus one chosen task tends to help. Over the next week, note whether this time of day is always your low point and plan around it.'),
-      o('Carry on with easy tasks such as emails, and keep the hard task for tonight', 67, 'Using the low hour for light tasks is sensible. The risk is moving the hard task to a tired evening, so decide its time tomorrow in your best hour.'),
-      o('Stay at your desk later to make up for the lost energy', 0, 'Staying later when you are already empty usually gives little work and costs your evening. Stop at the planned time and begin the hard task fresh the next day.'),
+      o('Have another strong tea or coffee and push on through the dip until your usual finishing time, since the deadline is close', 33, 'Caffeine may carry you for an hour, but late in the day it can make your sleep lighter. Next time, take the break first and keep tea or coffee for the morning and early afternoon.'),
+      o('Take ten minutes away with water and a short walk, then pick the one task that must be done today and do only that', 100, 'You treated the dip as a signal, not a fault. For the next week, note the hour it arrives and keep your lightest work for that slot.'),
+      o('Switch to easy jobs such as replying to emails and filling forms, and keep the hard task for after dinner when it is quiet', 67, 'Giving the low hour light work is sensible. The weak point is the hard task meeting a tired mind at night, so fix tomorrow morning for it and write the time down tonight.'),
+      o('Stay at your desk an hour longer to make up for the lost time', 0, 'Extra hours at an empty moment usually bring little output and cost you the evening. Set a finish time today and start the hard task fresh tomorrow.'),
     ]),
     sc('energy', 'You finally have a free Sunday after a heavy fortnight. How do you use it?', [
-      o('Catch up on pending work so that Monday is easier', 0, 'This feels responsible, but it gives you no rest after a heavy stretch. Do the pending work in a short, fixed slot on another day.'),
-      o('Plan a restful half day, such as a long meal, a walk or a nap, and use a short slot for one small chore', 100, 'Resting on purpose and keeping chores small gives you a better chance to start Monday refilled. Protect that half day each week, not only after heavy periods.'),
-      o('Stay in bed and on your phone all day', 33, 'Rest is needed, but a whole day on the phone may leave you flat. Mix real rest with a little movement, a meal with someone or time outside.'),
-      o('Fill the day with social visits and errands so that you do not think about work', 67, 'Seeing people is good, but a packed day can be tiring too. Leave a few hours for quiet, and sleep in if you can.'),
+      o('Spend the whole day clearing pending work and preparing for tomorrow, so that Monday starts light', 0, 'It feels responsible, yet you get no rest after a heavy stretch. Move the pending work to a fixed two hour slot on a weekday evening and keep Sunday free.'),
+      o('Keep the day free of work, do one thing you enjoy, such as a long meal with family or a game with friends, and leave the rest open', 100, 'Resting on purpose while keeping chores small is how a day off actually refills you. Make this a weekly habit, not only a reward after hard weeks.'),
+      o('Sleep late, then watch shows and scroll on the phone for the rest of the day, since you have earned a lazy day', 33, 'Rest is needed, but a whole day on a screen can leave you flatter than before. Add one meal with someone and a short walk outside, even ten minutes.'),
+      o('Fill the day with family visits, shopping and errands so that you do not think about work', 67, 'Seeing people is good for you, though a packed day is tiring in its own way. Keep three quiet hours somewhere in it, and sleep in if you can.'),
     ]),
     // interest
     sc('interest', 'For a few weeks your work or study has felt flat and you do not care how it turns out. What is a sensible first step?', [
-      o('Decide that you picked the wrong path and plan to quit this month', 0, 'A few flat weeks, with tiredness and pressure, are not enough to judge a whole path. Look at the rest of your life first, then talk to someone before any big decision.'),
-      o('Wait for the feeling to pass on its own and say nothing', 33, 'Some flat spells do pass, but waiting alone can let them drag on. Make one small change this week and tell someone how it has been.'),
-      o('Find one part you still like, do it first on two days, and talk to a trusted person about how it has been', 100, 'A small change and an honest talk give you information without a big decision. If the flatness stays for weeks, speak to a counsellor or a doctor.'),
-      o('Take on a new project to feel excited again', 67, 'A new challenge can help, but adding to a full plate when you are flat may add strain. Choose something small or swap it with a current task.'),
+      o('Decide that you picked the wrong path and plan to quit or change course this month, since waiting only wastes more time', 0, 'A few flat weeks, with tiredness and pressure, are too little to judge a whole path. Look at sleep, workload and people first, and talk to someone before any big decision.'),
+      o('Give it a few more weeks before judging anything, since flat spells often pass, and carry on as usual', 33, 'Some flat spells do pass, but carrying on unchanged lets others drag on. Set a date two weeks from now to review it, and make one small change before then.'),
+      o('Tell someone you trust how it has felt, and do the part you still like first on two days this week', 100, 'A small change plus an honest talk gives you information without forcing a big decision. If the flatness lasts for several weeks, speak to a counsellor or a doctor.'),
+      o('Take on a new project or course to feel excited again, and keep the current work going alongside', 67, 'A fresh challenge can help, but piling it on a full plate may add strain. Make it small, or let it replace one current task.'),
     ]),
     sc('interest', 'A colleague or classmate you used to talk to has moved away, and you now work or study mostly alone. What do you do?', [
-      o('Accept it and focus on tasks only', 33, 'Focus is good, but connection also keeps interest alive. Add one small contact each week.'),
-      o('Invite a person from another team or class for tea once a week, and join one group or study circle', 100, 'Small, regular contact rebuilds a sense of connection. Choose a fixed time so that it does not depend on mood.'),
-      o('Message your old friend every day and wait for replies', 67, 'Staying in touch is kind, but depending on one person is fragile. Keep the old contact and also meet someone nearby.'),
-      o('Decide that people at work or college are not worth the time', 0, 'Pulling back feels safe, but it can make the days feel longer and flatter. One short chat a week is enough to start.'),
+      o('Put your energy into the tasks, since people come and go and the results are what matter', 33, 'Focus is useful, but company is part of what keeps interest alive. Add one short contact each week, even five minutes at tea.'),
+      o('Invite someone from another team or class for tea once a week', 100, 'Small, regular contact rebuilds a sense of belonging. Fix the day and time now so that it does not depend on your mood.'),
+      o('Call your old friend every evening, since that friendship is the one that really matters', 67, 'Staying in touch is kind, though leaning on one person is fragile. Keep that friendship and also get to know one person who is nearby.'),
+      o('Use tea and lunch breaks to catch up on pending work, since you have less to talk about now', 0, 'It saves time today but cuts the little contact you still have, and days get longer and flatter. Keep one break a day for tea, and one short chat a week is enough to begin.'),
     ]),
     // control
     sc('control', 'Your manager or teacher hands you a new task on top of an already full week. What do you do?', [
-      o('Accept it and work extra hours without comment', 0, 'This hides the load and may become the new normal. Say what you are already carrying before agreeing.'),
-      o('Say that you cannot take any more work', 33, 'Honesty is good, but a plain refusal can close the discussion. Give the facts and ask about priority so that you can find a solution.'),
-      o('Show your current list and ask which task should move or who else can help before you agree to the new one', 100, 'This makes the load visible and puts the choice of priority where it belongs. It also protects your reputation as someone who delivers.'),
-      o('Agree, then do the new task quickly and leave another one half done', 67, 'It saves face for the moment, but unfinished work may come back as a bigger problem. Agree the trade-off first.'),
+      o('Accept it cheerfully and finish it by working extra hours this week, to show that you can handle pressure', 0, 'Quiet overwork hides the real load and can become the new normal. Next time, say what you are already carrying before you agree to anything.'),
+      o('Say that you cannot take any more work this week', 33, 'Being honest helps, but a flat refusal can end the conversation. Bring the facts and a question about priority, so that the two of you can solve it together.'),
+      o('Ask which of your tasks should move, or who can help, before you agree', 100, 'Showing your list makes the load visible and hands the priority decision to the person who owns it. Do it the same day, before you start the new task.'),
+      o('Agree, and quietly reorder your own list so that the new task goes first and the least urgent one waits', 67, 'Reordering is a reasonable instinct, but the waiting task may surface later as a surprise. Tell your manager what is moving, in one line.'),
     ]),
     sc('control', 'Priorities change three times in a week, and the work you finished on Monday is no longer needed. How do you respond?', [
-      o('Complain to colleagues and slow down on new tasks', 0, 'Frustration is understandable, but slowing down hurts you too. Raise the pattern with the person who sets priorities.'),
-      o('Confirm the new priority and what is dropped in a short message, and keep a short log of changes for two weeks', 100, 'A written note removes confusion, and a log gives you facts for a calm discussion. You also learn which changes are one-offs and which are the usual pattern.'),
-      o('Keep all earlier work ready in case it is needed again', 33, 'Being prepared sounds sensible, but it doubles your effort. Ask whether the earlier work is paused or finished.'),
-      o('Ask your manager to decide the plan for the whole month in one meeting', 67, 'A planning conversation can help, but some changes are not predictable. Ask for a short weekly check on priorities as well.'),
+      o('Put in less effort on new tasks until the priorities settle, since the effort may be wasted again', 0, 'The frustration is fair, but slowing down mostly hurts your own record. Take the pattern to the person who sets priorities, with dates of the last three changes.'),
+      o('Confirm the new priority and what is dropped in a short message, and log each change', 100, 'A written note ends confusion, and two weeks of log give you facts for a calm talk. It also shows which changes are one-offs and which are the usual pattern.'),
+      o('Keep all your earlier work ready and organised in case it is needed again, so that nothing is wasted', 33, 'Being prepared sounds wise, yet it doubles your effort. Ask in one line whether the old work is paused or finished, and archive it if it is finished.'),
+      o('Ask your manager to fix the plan for the whole month in one meeting so that changes stop', 67, 'A planning talk can help, though some changes cannot be predicted. Ask also for a ten minute priority check every Monday.'),
     ]),
     // recovery
     sc('recovery', 'A work message arrives at 11 p.m. It is not an emergency, but it is from a senior. What do you do?', [
-      o('Reply at once so that they know you are available', 0, 'Replying at once teaches people to expect it, and it keeps your mind on work in the night. Reply in the morning unless it is urgent.'),
-      o('Read it, mute the phone and reply in the morning at your usual time; if it happens often, agree reply hours with the sender', 100, 'This protects your sleep and still shows reliability. Sharing your reply hours calmly usually sets a norm that others follow.'),
-      o('Do not open the message until the next day, without telling anyone', 67, 'Not opening it protects sleep. A line about your reply hours would help your seniors know what to expect from you.'),
-      o('Reply with a short note now and finish the task in bed', 33, 'It feels quick, but it keeps your mind busy and your sleep short. If the work is not urgent, leave it for the morning.'),
+      o('Reply at once so that they know you are reliable and available', 0, 'Instant replies teach people to expect them, and they keep your mind on work at night. Unless the message says urgent, answer at nine the next morning.'),
+      o('Read it, mute the phone and reply at your usual time in the morning', 100, 'Your sleep stays protected and you still look dependable. If late messages keep coming, mention your reply hours once, kindly, and many seniors will accept it.'),
+      o('Leave it unopened until morning, without telling anyone', 67, 'Protecting your sleep is right, but an unopened message may hide a real emergency. Glance at it, and add one line about your usual reply hours when you next speak to that senior.'),
+      o('Send a short reply now and finish the task in bed so that it is off your mind', 33, 'It seems quick, but the work stays in your head and sleep gets shorter. If it can wait, write the task on paper and close the phone.'),
     ]),
-    sc('recovery', 'You have a week of leave or a college holiday. How do you plan it?', [
-      o('Plan it so that you rest, tell people you are off, and leave a short hand-over note', 100, 'Preparing in advance lets you switch off. Keep a time at the end of the holiday for a slow return.'),
-      o('Stay reachable on calls and messages in case something comes up', 33, 'Being reachable keeps your mind at work. Name one person who can handle matters, and check messages once a day at most.'),
-      o('Use the holiday to finish the learning or study you could not do in the term', 0, 'This turns rest into more work. Keep at least a few days that are free of goals, with learning only if you want to.'),
-      o('Travel to many places in a short time so that you do not waste the leave', 67, 'Time away can be refreshing, but a rushed plan can be tiring. Leave a day or two at home before returning to work.'),
+    sc('recovery', 'You have a week of leave from work, or a week of holiday from college. How do you plan it?', [
+      o('Tell the people who need to know that you are away, name who covers, and keep most of the week unplanned', 100, 'Preparing before you go is what lets you switch off while away. Block the last day before returning as a slow day with no meetings or new tasks.'),
+      o('Stay reachable on calls and messages all week in case something urgent comes up in your team or class', 33, 'Staying reachable keeps part of your mind at work all week. Name one cover person and check messages once a day, at a fixed time, at most.'),
+      o('Use the holiday to finish the study or learning you could not manage during the term, so that you start fresh', 0, 'That turns rest into more work. Keep at least three days free of goals, and learn only what you would enjoy.'),
+      o('Travel to many places in a short time so that you do not waste the leave', 67, 'A trip can refresh you, though a rushed plan is tiring in itself. Keep a day or two at home before you return to work.'),
     ]),
     // support
     sc('support', 'You have been struggling for some weeks, but your family thinks you are doing well. What do you do?', [
-      o('Keep up appearances so that they do not worry', 0, 'Hiding it may make the load heavier and leave you alone with it. Telling one person is a first step.'),
-      o('Choose one person you trust, say plainly what has been hard and what you need, and think about speaking to a counsellor too', 100, 'Specific words help people respond. A counsellor can add support that family may not be able to give.'),
-      o('Post about it on social media to see who responds', 33, 'Posting may bring quick replies, but it is unreliable support. A direct talk with one person works better.'),
-      o('Wait until you have something good to report so that the talk is positive', 67, 'Wanting to report good news is natural. Waiting can leave you alone longer, so share a small honest update now.'),
+      o('Keep up appearances at home so that they do not worry, and handle it quietly on your own', 0, 'Hiding it usually makes the weight heavier, and you carry it alone. Pick one person this week and tell them one specific thing that has been hard.'),
+      o('Tell one person you trust plainly what has been hard and what you need', 100, 'Plain words let people respond with something useful. If it stays heavy for weeks, or you feel unable to cope, add a counsellor or doctor, and you can call Tele-MANAS on 14416, a free national helpline.'),
+      o('Talk to an online friend or a group instead, since they will not judge you or worry the way family would', 33, 'Online listeners can be a real relief, but they cannot see your day-to-day life. Keep them, and also tell one person who knows you in person.'),
+      o('Wait until you have some good news to share, so that the conversation is positive for everyone', 67, 'Wanting to share good news is natural, but waiting can leave you alone for longer. Give a small honest update now, such as "work has been heavy and I am tired".'),
     ]),
     sc('support', 'A friend or colleague asks for your help with a large favour when you are already full. What do you do?', [
-      o('Say yes to avoid disappointing them and fit it in at night', 0, 'Agreeing from guilt can build resentment and cost your rest. Give yourself time to decide.'),
-      o('Say that you would like to help, ask for a day to check your week, then offer what you can really do or another date', 100, 'This is warm and honest, and it protects your time. People usually accept a clear, kind offer.'),
-      o('Say no immediately without giving a reason', 33, 'A quick no protects your time, but a short explanation or alternative keeps the relationship warm.'),
-      o('Say yes, but do the work slowly so that it takes less of your energy', 67, 'This avoids the conflict for now, but the favour may stay half done and weigh on both of you. Agree the size of help at the start.'),
+      o('Say yes to avoid disappointing them and fit it in at night', 0, 'Agreeing out of guilt tends to build resentment and eat into rest. Next time, buy yourself a day before answering.'),
+      o('Say you would like to help, but ask for a day to check your week first', 100, 'The answer is warm, honest and protects your time. When you reply, offer what you can really give or another date, and write it down before you do.'),
+      o('Say no straight away, since you are already full', 67, 'A quick no does protect your time, and it is better than a yes you resent. One line of reason or a later date would keep the friendship warm.'),
+      o('Say yes, but do the work slowly and in small pieces so that it takes less of your energy and does not disturb your own tasks', 33, 'This avoids an awkward conversation for now, yet the favour may stay half done and weigh on both of you. Agree the size of the help at the start.'),
     ]),
     // stage specific
     {
       ...sc('energy', 'It is two weeks before your exams, and you have started studying until 2 a.m. and napping in class. What do you do?', [
-        o('Keep going, because there is not much time left', 0, 'Longer nights with less sleep tend to make study slower and mistakes more likely. A steady schedule serves you better in the last two weeks.'),
-        o('Set a fixed bedtime, cut the plan to the most important topics, and add short breaks to every block', 100, 'Cutting the plan to what matters and protecting sleep keeps your mind able to recall. Talk to a teacher about which topics to prioritise.'),
-        o('Sleep late on weekends to catch up', 67, 'Extra sleep on a weekend helps a little, but a steady bedtime helps more. Keep the same wake time most days.'),
-        o('Ask a friend to share notes so that you can skip a few classes and study all night', 33, 'Sharing notes is useful, but all-night study is the part that costs you. Keep class time for doubts and sleep at night.'),
+        o('Keep going the same way, because there are only two weeks left and every hour counts', 0, 'Shorter nights tend to make study slower and mistakes more likely. In the last two weeks a steady schedule serves you better than extra hours.'),
+        o('Fix a bedtime and cut the plan down to the topics that matter most', 100, 'Trimming the plan and guarding sleep keeps your memory working when you need it. Ask a teacher this week which topics to keep and which to leave.'),
+        o('Sleep late on weekends to catch up on what you lose on weekdays, and keep the same plan', 67, 'Weekend sleep helps a little, but a steady bedtime helps more. Wake at the same hour on most days, including Sundays.'),
+        o('Ask a friend for notes so that you can skip a few classes and study at night in a quiet house', 33, 'Shared notes are useful, but studying through the night is what costs you. Keep class time for clearing doubts and sleep at night.'),
       ]),
       stages: ['student'],
     },
     {
       ...sc('control', 'In your first job you are given monthly targets that you think are too high, and you have been working late to meet them. What is a sensible response?', [
-        o('Work even later and say nothing, so that people think you are committed', 0, 'Silence may lead to higher targets next month. Share your numbers with your manager calmly.'),
-        o('Complain to colleagues but do not raise it with your manager', 33, 'Colleagues may share the feeling, but only your manager can change the target. Take the facts to them.'),
-        o('Track your hours and results for two weeks, then ask your manager what should be done first and what support is possible', 100, 'Facts and a question about priority give your manager something to act on. Even if the target stays, you will know the trade-offs.'),
-        o('Ask a senior colleague how they meet the target and copy their method', 67, 'Learning from a senior is useful. Do it alongside a talk with your manager, since methods may not fix a target that is set too high.'),
+        o('Work even later and say nothing for now, so that people see how committed you are and your manager notices the effort', 0, 'Silence may lead to the same or a higher target next month. Share your numbers with your manager calmly, this week.'),
+        o('Complain to colleagues over tea, but do not raise it with your manager', 33, 'Colleagues may feel the same, but only your manager can change the target. Take the facts to them instead.'),
+        o('Track your hours and results for two weeks, then take the numbers to your manager and ask what comes first', 100, 'Numbers and a question about priority give your manager something to act on. Even if the target stays, you will learn what can be traded off.'),
+        o('Ask a senior colleague how they meet the target and copy their method exactly', 67, 'Learning from a senior is smart. Do it alongside the talk with your manager, because a good method cannot fix a target that is set too high.'),
       ]),
       stages: ['early'],
     },
     {
       ...sc('control', 'You manage a small team and find that you are doing your own work plus checking everyone else\'s late into the evening. What do you do?', [
-        o('Keep checking everything yourself, because quality matters', 33, 'Quality matters, but checking everything makes you the limit of the team. Check the key points and let the rest go.'),
-        o('Pick two types of task to hand over fully, define what good looks like, and check only at agreed points', 100, 'Clear outcomes and fewer checks free your time and build your team. Give feedback after the task and not during it.'),
-        o('Ask your team to work harder so that you can leave earlier', 0, 'This moves the pressure onto others and does not fix the cause. Look at how work is handed over and reviewed.'),
-        o('Hire or request an extra person without changing how work flows', 67, 'More hands may help, but if the checking habit stays, you will be the limit again. Change the flow at the same time.'),
+        o('Keep checking everything yourself in the evening, because the quality of the team\'s work reflects on you and mistakes are costly', 33, 'Quality does matter, but full checking makes you the ceiling of the team. Review only the key points and let the rest go.'),
+        o('Hand two types of task over fully, say what good looks like, and check only at agreed points', 100, 'Clear outcomes and fewer checks free your evenings and build your team. Give feedback once the task is done, not while it is under way.'),
+        o('Tell the team that quality has slipped, and that all work must now come to you for sign-off', 0, 'That adds more control and makes you even more of a bottleneck. Look at how work is handed over and reviewed, starting with one task this week.'),
+        o('Request an extra person for the team without changing how the work is passed and reviewed', 67, 'More hands may help, but if the checking habit stays you will be the bottleneck again. Change the flow at the same time as you ask.'),
       ]),
       stages: ['experienced'],
     },
     {
       ...sc('recovery', 'A client messages at 9 p.m. on a Sunday asking for urgent changes. Your income this month is lower than usual. What do you do?', [
-        o('Do the changes at once, since you cannot afford to lose the client', 33, 'Taking it on can ease the worry for now, but it teaches the client that you are always available. Weigh it against your rest and your rules.'),
-        o('Reply the next morning with a time for the changes, and explain your working hours and rush terms for the future', 100, 'A calm reply that sets hours and terms protects your rest and still serves the client. Clients who value your work usually accept clear terms.'),
-        o('Ignore the message and do not reply until the client contacts you again', 0, 'Silence can damage trust, and the client may feel ignored. Reply in the morning with a plan instead.'),
-        o('Do the changes but charge a rush fee, and keep working on Sundays whenever clients ask', 67, 'A fee for urgent work is a sensible rule, but making Sunday a regular workday removes your rest. Decide how often you will accept such requests.'),
+        o('Do the changes at once, since you cannot afford to lose the client this month', 33, 'It eases the money worry tonight, but it teaches the client you are always available. Check the request against your own rules before the next one comes.'),
+        o('Reply the next morning with a time for the changes and a note on your hours and rush terms', 100, 'A calm reply that sets hours and terms guards your rest and still serves the client. Clients who value your work often accept clear terms, so put them in writing once.'),
+        o('Leave it unanswered until Monday afternoon, so that the client learns Sundays are off limits', 0, 'Silence can damage trust and the client may feel ignored. Send a two line reply in the morning with a time for the work.'),
+        o('Do the changes tonight but charge a rush fee, and accept Sunday requests whenever clients ask', 67, 'A fee for urgent work is a sensible rule, yet a regular Sunday workday removes your rest. Decide how many such requests you will accept in a month.'),
       ]),
       stages: ['independent'],
     },
@@ -1022,7 +1030,7 @@ export const bundle: SkillTestBundle = {
     support: {
       q: 'Can I come to you once a week to talk about how things are going, and who else would you suggest I speak to if it gets heavy?',
       a: 'Fix a weekly slot and ask the person to suggest one more contact, such as a counsellor, a senior or a doctor. Keep a short list of what you want to say before each talk.',
-      line: 'Weekly check-in with [name] on [day and time]. Other people I can talk to: [name], [name]. Tele-MANAS 14416 if I need help at any hour.',
+      line: 'Weekly check-in with [name] on [day and time]. Other people I can talk to: [name], [name]. Tele-MANAS (14416), a free national helpline, if I ever need it.',
     },
   },
 

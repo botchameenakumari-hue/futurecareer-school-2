@@ -387,6 +387,12 @@ const jsonLd = [
     function lc(t) { return t.charAt(0).toLowerCase() + t.slice(1); }
     function band(score) { return score >= 70 ? 'high' : score >= 45 ? 'mid' : 'low'; }
     function list(items) { return '<ul>' + items.map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>'; }
+    function hash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+    function order(q) { var idx = q.opts.map(function (_, k) { return k; }), seed = hash(q.text), a = idx.slice(); for (var i = a.length - 1; i > 0; i--) { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; var j = seed % (i + 1); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+    function plain(t) { return String(t).replace(/^(Days? \d+( to \d+)?|Week \d+):\s*/i, ''); }
+    var DRAFT = D.storeKey + '-draft';
+    function saveDraft() { try { localStorage.setItem(DRAFT, JSON.stringify({ stage: stage, answers: answers, current: current, n: TOTAL })); } catch (e) {} }
+    function clearDraft() { try { localStorage.removeItem(DRAFT); } catch (e) {} }
     var RATING = { 1: 'Not true', 2: 'Rarely true', 3: 'Sometimes', 4: 'Mostly true', 5: 'Very true' };
 
     document.querySelectorAll('.sst-stage').forEach(function (b) {
@@ -409,8 +415,8 @@ const jsonLd = [
       prompt.textContent = q.text;
       if (q.opts) {
         scale.hidden = true; scen.hidden = false;
-        scen.innerHTML = q.opts.map(function (op, k) { return '<button type="button" role="radio" data-opt="' + k + '" aria-checked="' + String(answers[current] === k) + '">' + esc(op.t) + '</button>'; }).join('');
-        scen.querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { answers[current] = Number(b.dataset.opt); render(); }); });
+        scen.innerHTML = order(q).map(function (k, pos) { return '<button type="button" role="radio" data-opt="' + k + '" aria-checked="' + String(answers[current] === k) + '"><b>' + String.fromCharCode(65 + pos) + '.</b> ' + esc(q.opts[k].t) + '</button>'; }).join('');
+        scen.querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { answers[current] = Number(b.dataset.opt); saveDraft(); render(); }); });
       } else {
         scale.hidden = false; scen.hidden = true;
         scale.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-checked', String(Number(b.dataset.value) === answers[current])); });
@@ -421,14 +427,41 @@ const jsonLd = [
     }
 
     startBtn.addEventListener('click', function () { if (!stage) return; startShell.hidden = true; quizShell.hidden = false; render(); reveal(quizShell, prompt); });
-    scale.querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { answers[current] = Number(b.dataset.value); render(); }); });
+    scale.querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { answers[current] = Number(b.dataset.value); saveDraft(); render(); }); });
     backBtn.addEventListener('click', function () { if (current > 0) { current -= 1; render(); prompt.focus({ preventScroll: true }); } });
     nextBtn.addEventListener('click', function () {
       if (answers[current] === null) return;
-      if (current < TOTAL - 1) { current += 1; render(); prompt.focus({ preventScroll: true }); } else { showResult(); }
+      if (current < TOTAL - 1) { current += 1; saveDraft(); render(); prompt.focus({ preventScroll: true }); } else { showResult(); }
+    });
+
+    // Resume an unfinished attempt on this device.
+    try {
+      var dr = JSON.parse(localStorage.getItem(DRAFT) || 'null');
+      var stBtn = dr && document.querySelector('.sst-stage[data-stage="' + dr.stage + '"]');
+      if (dr && stBtn && Array.isArray(dr.answers) && activeFor(dr.stage).length === dr.n && dr.answers.some(function (a) { return a !== null; })) {
+        var done = dr.answers.filter(function (a) { return a !== null; }).length;
+        var rb = document.createElement('button');
+        rb.type = 'button'; rb.className = 'sst-btn sst-btn--ghost'; rb.textContent = 'Resume your unfinished test (' + done + ' of ' + dr.n + ' answered)';
+        startBtn.parentNode.insertBefore(rb, startBtn.nextSibling);
+        rb.addEventListener('click', function () {
+          stBtn.click(); answers = dr.answers; current = Math.min(dr.current, TOTAL - 1);
+          startShell.hidden = true; quizShell.hidden = false; render(); reveal(quizShell, prompt);
+        });
+      }
+    } catch (e) {}
+
+    // Keyboard: 1-5 (or 1-4 for situations) to answer, Enter for next, left arrow for back.
+    document.addEventListener('keydown', function (e) {
+      if (quizShell.hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+      var q = Q[current], n = Number(e.key);
+      if (q && q.opts && n >= 1 && n <= q.opts.length) { var btns = scen.querySelectorAll('button'); if (btns[n - 1]) btns[n - 1].click(); }
+      else if (q && !q.opts && n >= 1 && n <= 5) { answers[current] = n; saveDraft(); render(); }
+      else if (e.key === 'Enter' && document.activeElement && document.activeElement.tagName !== 'BUTTON' && !nextBtn.disabled) { nextBtn.click(); }
+      else if (e.key === 'ArrowLeft' && !backBtn.disabled) { backBtn.click(); }
     });
 
     function showResult() {
+      clearDraft();
       var PAR = stage === 'parent';
       var BANDS = PAR && D.parentBands ? D.parentBands : D.bands;
       var results = DOMS.map(function (d0, order) {
@@ -443,7 +476,7 @@ const jsonLd = [
       var lowest = ranked[0], second = ranked[1], highest = ranked[ranked.length - 1];
       var gap = highest.score - lowest.score;
       var st = DEPTH.stages.filter(function (x) { return x.key === stage; })[0] || DEPTH.stages[0];
-      var headline = PAR ? 'Where to focus first: ' + lc(lowest.d.name) : D.isStudent ? 'Your biggest source of confusion: ' + lc(lowest.d.name) : 'Best place to build first: ' + lc(lowest.d.name);
+      var headline = PAR ? 'Where to focus first: ' + lc(lowest.d.name) : D.isStudent ? 'Your biggest source of confusion: ' + lc(lowest.d.name) : 'Where to focus first: ' + lc(lowest.d.name);
       var overallText = overall >= 70 ? 'Your answers describe fairly strong habits overall.' : overall >= 45 ? 'Your answers describe a mixed pattern, with some strengths and some gaps.' : 'Your answers show several areas that need attention. That is a starting point, not a verdict.';
       var gapText = gap >= 35 ? 'Your areas differ a lot (' + gap + ' points between your highest and lowest), so focused work on ' + lc(lowest.d.name) + ' should make a clear difference.' : gap >= 15 ? 'Your areas differ moderately (' + gap + ' points). Start with ' + lc(lowest.d.name) + ' and keep ' + lc(highest.d.name) + ' going.' : 'Your areas are close together (' + gap + ' points), so pick the one that matters most for your next step.';
 
@@ -550,7 +583,7 @@ const jsonLd = [
       try { localStorage.setItem(D.storeKey, JSON.stringify({ date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }), stage: stage, overall: overall, scores: curScores })); } catch (e) {}
 
       // In 60 seconds
-      var firstMove = lowest.dd.routine[0];
+      var firstMove = plain(lowest.dd.routine[0]);
       var quick = '<div class="result-section"><h4>Your result in 60 seconds</h4>' + list([
         'Focus first on ' + lc(lowest.d.name) + ' (' + lowest.score + '%), then ' + lc(second.d.name) + ' (' + second.score + '%).',
         'Your strongest area is ' + lc(highest.d.name) + ' (' + highest.score + '%). Keep using it.',
@@ -560,10 +593,10 @@ const jsonLd = [
 
       // Week by week
       var weeks = '<div class="result-section"><h4>Your four weeks, week by week</h4>' + list([
-        'Week 1 - ' + lowest.d.name + ': ' + lowest.dd.routine[0],
-        'Week 2 - ' + lowest.d.name + ': ' + (lowest.dd.routine[1] || lowest.dd.routine[0]) + ' Then ' + lc(lowest.dd.routine[2] || lowest.dd.routine[0]),
+        'Week 1 - ' + lowest.d.name + ': ' + plain(lowest.dd.routine[0]),
+        'Week 2 - ' + lowest.d.name + ': ' + plain(lowest.dd.routine[1] || lowest.dd.routine[0]) + ' Then ' + lc(plain(lowest.dd.routine[2] || lowest.dd.routine[0])),
         'Week 3 - ' + second.d.name + ': ' + second.dd.midStep,
-        'Week 4 - Review: ' + (lowest.dd.routine[3] || 'Look back at what changed') + ' Then retake this test and compare the areas.'
+        'Week 4 - Review: ' + plain(lowest.dd.routine[3] || 'Look back at what changed') + ' Then retake this test and compare the areas.'
       ]) + '</div>';
 
       // How to talk about it

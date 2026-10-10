@@ -190,12 +190,12 @@ const CONFUSED_10: SkillTest = {
     { d: 'process', text: 'When I compare two options, I look at a few clear points instead of just going with a feeling.' },
     { d: 'action', text: 'I have already done something to find out more, such as asking someone, reading or watching about a career.' },
     { d: 'self', text: 'I know which kinds of tasks I do well, such as solving, explaining, creating, organising or helping.' },
-    { d: 'options', text: 'I know that diploma, ITI and polytechnic routes exist after Class 10 and what they lead to.' },
-    { d: 'pressure', text: 'I can talk to my family about what I want without it turning into an argument.', reverse: false },
+    { d: 'options', text: 'I know what diploma, ITI and polytechnic courses involve after Class 10.' },
+    { d: 'pressure', text: 'I avoid telling my family what I want because it usually turns into an argument.', reverse: true },
     { d: 'process', text: 'I change my mind about my choice every time I hear a new opinion.', reverse: true },
     { d: 'action', text: 'I am putting off thinking about this decision because it makes me uncomfortable.', reverse: true },
     { d: 'self', text: 'Most of the time I have no idea what I would enjoy doing as a job.', reverse: true },
-    { d: 'options', text: 'I can name at least five careers and what people in them do every day.' },
+    { d: 'options', text: 'I can describe what a person does on an ordinary day in at least three careers.' },
     { d: 'pressure', text: 'What my relatives or friends think matters more to me than what I think.', reverse: true },
     { d: 'process', text: 'I am comfortable choosing something good even if I cannot be sure it is the best.' },
     { d: 'action', text: 'I can list the next two or three things I need to do before I decide.' },
@@ -203,7 +203,7 @@ const CONFUSED_10: SkillTest = {
     { d: 'options', text: 'Most of what I know about careers comes from one or two people, and I have not checked it elsewhere.', reverse: true },
     { d: 'pressure', text: 'Even if my family disagreed, I could explain my reasons calmly.' },
     { d: 'process', text: 'I am waiting for one perfect answer that will make the decision obvious.', reverse: true },
-    { d: 'action', text: 'I feel I can move forward on this decision within the next few weeks.' },
+    { d: 'action', text: 'I know what my next step is and roughly when I will do it.' },
   ],
   readingTitle: 'What to do with your result',
   readingSections: [
@@ -250,12 +250,28 @@ const CONFUSED_10: SkillTest = {
       a: 'That shows up as Pressure from others. The steps in your report focus on understanding each person\'s reason and bringing facts to a calm conversation. If it stays stuck, a counsellor can help the family look at the choice together.',
     },
     {
+      q: 'Is a diploma, polytechnic or ITI a good option after 10th?',
+      a: 'It can be, if the course fits your interests and the work it leads to. Diploma, polytechnic and ITI courses are recognised routes with their own entry rules, duration and next steps, and these differ by trade, branch and state. Read the official page for each course and talk to someone who has studied it before you compare it with Science, Commerce or Arts.',
+    },
+    {
+      q: 'What if my marks are lower than I expected?',
+      a: 'Your marks decide which routes are open to you right now, not what you can do in the long run. Check the official eligibility and last dates for each route you like, and look at ways to improve or to reach the same goal another way where your board and the institute allow it. A teacher or counsellor can help you read the rules.',
+    },
+    {
       q: 'Can I take this test more than once?',
       a: 'Yes. Retake it after you have tried the steps for two or three weeks. If your lowest area has moved up, the steps are working.',
     },
     {
       q: 'Is this test free?',
       a: 'Yes. It is free, needs no sign-up and gives an instant result you can also download as a PDF.',
+    },
+    {
+      q: 'How is the score worked out, and what is a good score?',
+      a: 'Each area score is built only from your own ratings and your choices in the situation questions. There is no pass mark and no comparison with other students. A lower area is simply the one to work on first, and a higher one is where you already have some clarity.',
+    },
+    {
+      q: 'Can my parent take this test too?',
+      a: 'Yes. Choose the parent or guardian option at the start and you get 23 questions about how you support your child, scored in the same five areas. Taking it separately from your child, and then comparing the two reports, often shows where you see things differently.',
     },
   ],
   related: [
@@ -312,7 +328,7 @@ const COMMUNICATION: SkillTest = {
   breadcrumbName: 'Communication Skills Assessment',
   metaTitle: 'Communication Skills Assessment | Free Self-Test',
   metaDescription:
-    'Free communication skills assessment: rate 20 workplace situations and get scores for listening, speaking, writing, feedback and presenting. No sign-up.',
+    'Free communication skills assessment: rate 34 statements and situations to get scores for listening, speaking, writing, feedback and presenting. No sign-up.',
   h1Lead: 'Communication Skills',
   h1Accent: 'Assessment',
   eyebrow: 'Free self-assessment for students and professionals',
@@ -405,26 +421,26 @@ const COMMUNICATION: SkillTest = {
     },
   ],
   questions: [
-    { d: 'listen', text: 'In a conversation I wait until the other person has finished before I reply.' },
+    { d: 'listen', text: 'I start replying before the other person has finished speaking.', reverse: true },
     { d: 'speak', text: 'Before I answer a question, I decide my main point first.' },
     { d: 'write', text: 'When I write an email or message, I put the request or main point in the first line or two.' },
-    { d: 'feedback', text: 'When someone criticises my work, I can listen without getting defensive.' },
+    { d: 'feedback', text: 'When someone criticises my work, I start defending myself before I have understood the point.', reverse: true },
     { d: 'present', text: 'I can speak in front of a group of people I know without freezing.' },
     { d: 'listen', text: 'I often realise later that I missed an important detail someone told me.', reverse: true },
     { d: 'speak', text: 'People often ask me to repeat or explain what I said.', reverse: true },
     { d: 'write', text: 'I read my important messages through before I send them.' },
-    { d: 'feedback', text: 'I can disagree with someone politely and still keep the relationship good.' },
+    { d: 'feedback', text: 'When I disagree with someone, I say so politely instead of staying quiet.' },
     { d: 'present', text: 'In an interview or group discussion I avoid speaking because I feel nervous.', reverse: true },
-    { d: 'listen', text: 'I check that I have understood by repeating back what the other person meant.' },
+    { d: 'listen', text: 'After someone explains something, I check my understanding by saying it back to them.' },
     { d: 'speak', text: 'I can explain something I know to a person who has never heard of it, in simple words.' },
     { d: 'write', text: 'Others often need to ask follow-up questions after reading my messages.', reverse: true },
     { d: 'feedback', text: 'When something bothers me, I raise it early instead of letting it build up.' },
-    { d: 'present', text: 'I can make a two-minute talk with a clear beginning, middle and end.' },
+    { d: 'present', text: 'I can give a two-minute talk with a clear beginning, middle and end.' },
     { d: 'listen', text: 'I ask questions that show I paid attention to what was just said.' },
-    { d: 'speak', text: 'I tend to ramble before getting to my point.', reverse: true },
-    { d: 'write', text: 'I adjust the tone of my writing for different readers, such as a friend and a teacher or manager.' },
+    { d: 'speak', text: 'When I answer, I keep adding more points before I reach the main one.', reverse: true },
+    { d: 'write', text: 'I change the tone of my writing for different people, such as a friend and a teacher or manager.' },
     { d: 'feedback', text: 'I avoid giving honest feedback because I worry about upsetting people.', reverse: true },
-    { d: 'present', text: 'I prepare and practise out loud before an important talk or interview.' },
+    { d: 'present', text: 'Before an important talk or interview, I practise out loud at least once.' },
   ],
   readingTitle: 'How to use your communication scores',
   readingSections: [
@@ -432,14 +448,21 @@ const COMMUNICATION: SkillTest = {
       title: 'Why five scores matter more than one',
       body: [
         'A single communication score hides what you can actually work on. Listening, speaking, writing, handling feedback and presenting are practised in different ways, and many people are clearly stronger in two or three of them.',
-        'Look at the gap between your highest and lowest area. A big gap means focused practice in one area will move your overall result quickly.',
+        'Look at the gap between your highest and lowest area. If the gap is big, practice in the lowest area is the quickest way to improve your overall result.',
       ],
     },
     {
       title: 'Where communication shows up in careers',
       body: [
-        'Interviews test speaking and listening. Most office work depends on written messages. Team roles depend on feedback and disagreement, and leadership or client roles depend on presenting. Roles in sales, teaching, HR, content, consulting and management lean heavily on all five, but nearly every skilled role needs at least writing and listening.',
-        'Communication is a skill you can build, which makes it one of the easier skills to turn into an advantage when you are early in your career.',
+        'Interviews test speaking and listening. Most office work depends on written messages. Team roles depend on feedback and disagreement, and leadership or client roles depend on presenting. Roles in sales, teaching, HR, content, consulting and management lean heavily on all five, and nearly every skilled role needs at least writing and listening.',
+        'Communication can be practised in any language and at any age, so it is a sensible skill to work on early in a career or course.',
+      ],
+    },
+    {
+      title: 'How to read statements about unwanted habits',
+      body: [
+        'Some statements describe a habit you may want to drop, such as interrupting or avoiding speaking in a group. For these, agreeing lowers your score. Answer them as honestly as the others, because the report uses them to find where practice is needed.',
+        'In the situation questions, pick what you would really do on an ordinary day, not what you think is expected. A truthful answer gives a plan that fits you.',
       ],
     },
     {
@@ -460,20 +483,32 @@ const COMMUNICATION: SkillTest = {
       a: 'It measures five areas from your own ratings: listening, speaking clearly, writing, giving and receiving feedback, and presenting. You get a score for each, an overall score and a two-week practice plan for your lowest area.',
     },
     {
+      q: 'What is a good score on this test?',
+      a: 'There is no pass mark. Scores are based only on your own answers, so use them to compare your five areas with each other and to choose what to practise first. Retake it after a few weeks to see whether your own scores have moved.',
+    },
+    {
+      q: 'How is the score worked out?',
+      a: 'Each answer is converted into points for its area, and the area scores are combined into an overall score. For statements that describe an unwanted habit, such as interrupting, agreeing gives fewer points. Nothing is compared with other people.',
+    },
+    {
       q: 'Is this a writing skills assessment too?',
       a: 'Writing is one of the five areas, covering emails, messages and short documents. It does not grade grammar or vocabulary. It checks the habits that make written messages clear and easy to act on.',
     },
     {
       q: 'Is this the same as a spoken English test?',
-      a: 'No. Communication here means how clearly and effectively you listen, speak, write and deal with feedback in any language. It is not a test of English fluency.',
+      a: 'No. Communication here means how clearly and effectively you listen, speak, write and deal with feedback in any language. It is not a test of English fluency, accent or grammar.',
     },
     {
       q: 'Can students use it, or is it only for working people?',
-      a: 'Both. The situations are everyday ones, such as class discussions, group projects, emails, interviews and team work, so they apply to students and working professionals.',
+      a: 'Both can use it. The situations are everyday ones, such as class discussions, group projects, emails, interviews and teamwork, and some questions change with the stage you choose.',
     },
     {
       q: 'How can I improve my lowest score?',
       a: 'The report gives three specific practices for your lowest area. Practise for two weeks, then retake the assessment to see if the score moves. Asking two people for their view on the same area is also useful.',
+    },
+    {
+      q: 'How can I improve my communication skills for interviews?',
+      a: 'Practise out loud, not only in your head. Prepare a 30-second introduction and two short stories from your projects or work, say them to a friend who asks follow-up questions, and follow the two-week plan for your lowest area. Listening, writing and handling feedback count in interviews too, not only speaking.',
     },
     {
       q: 'Is it free?',
@@ -534,7 +569,7 @@ const SOFT_SKILLS: SkillTest = {
   h1Accent: 'Self-Assessment',
   eyebrow: 'Leadership, teamwork and employability in one report',
   heroSub:
-    'Employers keep saying they want soft skills, but the phrase is vague. This free self-assessment turns it into five concrete areas, leadership, teamwork and social skills, adaptability, ownership and problem solving, and shows which one to build first.',
+    'Soft skills is a vague phrase. This free self-assessment turns it into five concrete areas, leadership, teamwork and social skills, adaptability, ownership and problem solving, and shows which one to build first.',
   stats: [
     { value: '39', label: 'questions' },
     { value: '5', label: 'skill areas' },
@@ -558,7 +593,7 @@ const SOFT_SKILLS: SkillTest = {
   },
   domainsHeading: 'Five soft skill areas this self-assessment covers',
   domainsIntro:
-    'These are the areas hiring managers and team leads describe most often when they talk about employability, in the form of everyday behaviours you can rate honestly.',
+    'These are areas that team leads and managers often mention when they describe a good colleague. Each one is written as everyday behaviour you can rate honestly, whether you are in school, college or a job.',
   domains: [
     {
       key: 'lead',
@@ -623,30 +658,30 @@ const SOFT_SKILLS: SkillTest = {
   ],
   questions: [
     { d: 'lead', text: 'When a group has no clear direction, I am usually the one who suggests a plan.' },
-    { d: 'team', text: 'I get along with people who are very different from me.' },
+    { d: 'team', text: 'In a new group, I start a conversation with someone I have not met before.' },
     { d: 'adapt', text: 'When plans change suddenly, I adjust quickly instead of getting stuck.' },
     { d: 'own', text: 'People can rely on me to do what I said I would do, on time.' },
     { d: 'solve', text: 'When I face an unfamiliar problem, I try to work out options before asking for help.' },
     { d: 'lead', text: 'I can get a group to agree on who does what.' },
     { d: 'team', text: 'I notice when someone in a group is being left out and I include them.' },
-    { d: 'adapt', text: 'I enjoy learning a new tool or skill, even if I start badly.' },
-    { d: 'own', text: 'I tell people early when I will miss a deadline.' },
+    { d: 'adapt', text: 'I avoid trying a new tool or skill because I do not like looking like a beginner.', reverse: true },
+    { d: 'own', text: 'When I know I will miss a deadline, I usually tell the person only on the day it is due.', reverse: true },
     { d: 'solve', text: 'I break big or unclear problems into smaller parts.' },
     { d: 'lead', text: 'I would rather wait for someone else to take charge in a group.', reverse: true },
-    { d: 'team', text: 'I give credit to others when a group does well.' },
-    { d: 'adapt', text: 'I get very stressed when I have to change how I usually do things.', reverse: true },
+    { d: 'team', text: 'When a group does well, I mostly talk about my own part in it.', reverse: true },
+    { d: 'adapt', text: 'When I have to change how I usually work, I resist it for a long time.', reverse: true },
     { d: 'own', text: 'I often need reminders to finish what I committed to.', reverse: true },
     { d: 'solve', text: 'I get stuck when nobody tells me exactly what to do.', reverse: true },
     { d: 'lead', text: 'I can explain a goal clearly so others know what success looks like.' },
     { d: 'team', text: 'I find it hard to work with people whose style is different from mine.', reverse: true },
-    { d: 'adapt', text: 'I have recently learned something new that I did not think I could.' },
+    { d: 'adapt', text: 'In the last few months I have learned something that I was not sure I could learn.' },
     { d: 'own', text: 'I finish what I start rather than leaving things half done.' },
     { d: 'solve', text: 'After a problem is solved, I note what worked so I can use it again.' },
     { d: 'lead', text: 'I ask the people I lead or work with how I can do better.' },
     { d: 'team', text: 'I can disagree in a group without making things personal.' },
     { d: 'adapt', text: 'When something does not work, I try a different way instead of repeating the same thing.' },
     { d: 'own', text: 'I keep track of my commitments in a list or calendar.' },
-    { d: 'solve', text: 'I make a decision with the information I have instead of waiting for certainty.' },
+    { d: 'solve', text: 'I wait until I am completely sure before I decide anything.', reverse: true },
   ],
   readingTitle: 'How to read your soft skills result',
   readingSections: [
@@ -659,14 +694,14 @@ const SOFT_SKILLS: SkillTest = {
     {
       title: 'Why these five areas',
       body: [
-        'Leadership, teamwork and social skills, adaptability, ownership and problem solving cover most of what job descriptions mean by employability skills. Technical skill gets you shortlisted, and these areas decide how well you work once you are in the team.',
-        'If you are early in your career, ownership and problem solving are often the quickest to build and the most visible to a manager. If you are moving into a lead role, leadership and teamwork matter more.',
+        'Leadership, teamwork and social skills, adaptability, ownership and problem solving are habits that show up in almost every kind of work, from an office or a hospital to a shop or a family business. Technical skill covers the task itself, and these habits shape how well you work with other people on it.',
+        'If you are early in your career, ownership and problem solving are often the easiest to practise and the most visible to a manager. If you are moving into a lead role, leadership and teamwork may be the better place to start.',
       ],
     },
     {
       title: 'Turn scores into proof',
       body: [
-        'A score on its own convinces no one. Pick your strongest area and write down two real examples. Pick your lowest and run the two-week plan. Examples from actual work, projects or activities are what interviewers remember.',
+        'A score on its own convinces no one. Pick your strongest area and write down two real examples, each in three lines: what the situation was, what you did and what changed. Pick your lowest area and run the two-week plan. Examples from real projects, clubs, jobs or family responsibilities are something you can describe to an interviewer, a teacher or a manager.',
       ],
     },
   ],
@@ -674,27 +709,41 @@ const SOFT_SKILLS: SkillTest = {
     'This is a self-rating tool and shows how you describe yourself. It does not replace feedback from people who work with you.',
     'It is not an employer test and does not predict selection, performance or salary.',
     'Scores are not compared with other people, so there is no pass mark.',
+    'It is not a personality or psychological test. It looks only at habits you can change.',
+    'Your answers depend on your mood and recent experience that day, so retake it after a few weeks of practice before reading too much into a small change.',
   ],
   faqs: [
     {
       q: 'What is a soft skills assessment?',
-      a: 'It is a way to rate behaviours such as working with others, adapting to change, finishing work and solving problems. This one covers five areas from your own ratings and gives a score for each.',
+      a: 'It is a way to rate your own everyday behaviour with other people and at work, such as working in a group, adapting to change, finishing what you promised and solving problems. This one covers five areas and gives a score for each from your own ratings.',
+    },
+    {
+      q: 'Is this test free?',
+      a: 'Yes. You can answer the questions, see your five scores and download the report without paying anything.',
     },
     {
       q: 'Does this cover a leadership skills self-assessment?',
-      a: 'Leadership is one of the five areas, with statements and situations on guiding a group, setting a clear goal and asking for feedback. For a wider view it sits next to teamwork, adaptability, ownership and problem solving.',
+      a: 'Partly. Leadership is one of the five areas, with statements and situations on guiding a group, setting a clear goal and asking for feedback. For a deeper look at leadership alone, use the separate leadership self-assessment linked below.',
     },
     {
       q: 'Is this a social skills self-assessment?',
-      a: 'The teamwork and social skills area covers getting along with different people, including everyone in a group, sharing credit and disagreeing without making it personal. It is not a clinical measure of social skills.',
+      a: 'In part. The teamwork and social skills area covers starting conversations, including everyone in a group, sharing credit and disagreeing without making it personal. It is not a clinical measure of social skills.',
     },
     {
       q: 'Is this an employability skills assessment?',
-      a: 'It covers the people and work-habit skills employers often list as employability skills. It does not test technical knowledge, so pair it with a skills check for your field.',
+      a: 'It covers the people and work-habit skills that are often called employability skills, but it does not test technical knowledge. Pair it with a skills check for your own field.',
     },
     {
       q: 'Can freshers and students use it?',
-      a: 'Yes. The statements are about everyday behaviour in groups, projects, college and work, so they apply whether you are a student, fresher or working professional.',
+      a: 'Yes. The statements are about everyday behaviour in groups, projects, college and work, so they apply whether you are in school, college, looking for a first job or already working. Your report adjusts the situations and advice to the stage you choose.',
+    },
+    {
+      q: 'How can I improve my soft skills?',
+      a: 'Take your lowest area and follow its two-week plan, because soft skills improve through small repeated habits and not through reading about them. Take one real responsibility, such as leading a small task or closing every task with a short message, and ask two people for feedback after two weeks.',
+    },
+    {
+      q: 'What is a good score?',
+      a: 'There is no pass mark. Scores are only against your own answers, so the useful reading is which of your five areas is lowest and which is highest. Retake after a few weeks of practice and compare with your own earlier result.',
     },
     {
       q: 'How is the score worked out?',
