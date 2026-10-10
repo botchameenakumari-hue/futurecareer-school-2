@@ -6,11 +6,7 @@
 // and without JavaScript (crawlers, link previews) the blog images were hidden or at the bottom.
 //
 // What it does after the build (astro:build:done), by splicing exact source ranges found with parse5:
-//   blog posts      move the fallback image group into the article (after its first element), applying the
-//                   same keep/remove rules the old script used.
-//   service pages   drop the generic blog image group (it is not about the keyword and one of its files
-//                   does not exist) and move the hero, diagram and context figures to directly after
-//                   the page hero.
+//   service pages   move the hero, diagram and context figures to directly after the page hero.
 //   every page      correct width/height on local images to the real file size and add a title
 //                   attribute (copied from alt) when one is missing; point og:image/twitter:image at the
 //                   article's own hero when it has one instead of the generic SVG.
@@ -115,55 +111,13 @@ function insertionPointInside(container, html) {
   return container.sourceCodeLocation.endTag?.startOffset ?? container.sourceCodeLocation.endOffset;
 }
 
-function processBlog(html, doc) {
-  const body = findFirst(doc, (el) => el.tagName === 'body');
-  const group = findFirst(body, (el) => el.tagName === 'div' && attr(el, 'data-blog-fallback-group') !== undefined);
-  if (!group) return null;
-  const articleBody = findFirst(
-    body,
-    (el) => attr(el, 'id') === 'itm-article' || el.tagName === 'article' || (classes(el).includes('post-body') && !!findAncestorById(el, 'blog-post'))
-  );
-  const g = group.sourceCodeLocation;
-  const operations = [{ start: g.startOffset, end: g.endOffset, text: '' }];
-  if (!articleBody) return splice(html, operations);
-
-  const customImages = [...walkElements(articleBody)].filter(
-    (el) => el.tagName === 'img' && (attr(el, 'src') || '').includes('/images/blog/') && !(attr(el, 'src') || '').includes('/images/blog/category/')
-  ).length;
-  let groupHtml = html.slice(g.startOffset, g.endOffset);
-  const figures = elementChildren(group).filter((el) => el.tagName === 'figure');
-  const keepClasses = ['blog-fallback-visual--context', 'blog-fallback-visual--at-a-glance', 'blog-fallback-visual--page-specific', 'blog-fallback-visual--page-explainer', 'blog-fallback-visual--page-context'];
-  let show = true;
-  if (customImages >= 3) {
-    if (figures.some((f) => classes(f).includes('blog-fallback-visual--context'))) {
-      const drops = figures.filter((f) => !keepClasses.some((k) => classes(f).includes(k)));
-      groupHtml = splice(
-        groupHtml,
-        drops.map((f) => ({ start: f.sourceCodeLocation.startOffset - g.startOffset, end: f.sourceCodeLocation.endOffset - g.startOffset, text: '' }))
-      );
-    } else show = false;
-  }
-  if (show) {
-    groupHtml = groupHtml.replace(/class="blog-fallback-visual-group([^"]*)"/, 'class="blog-fallback-visual-group is-visible$1"');
-    operations.push({ start: insertionPointInside(articleBody, html), end: insertionPointInside(articleBody, html), text: groupHtml });
-  }
-  return splice(html, operations);
-}
-
-function findAncestorById(el, id) {
-  for (let p = el.parentNode; p; p = p.parentNode) if (p.attrs && attr(p, 'id') === id) return p;
-  return null;
-}
-
 function processService(html, doc) {
   const body = findFirst(doc, (el) => el.tagName === 'body');
   const kids = elementChildren(body);
-  const group = kids.find((el) => el.tagName === 'div' && attr(el, 'data-blog-fallback-group') !== undefined);
   const media = kids.filter((el) => ['bofu-image', 'bofu-diagrams', 'bofu-context-visual'].some((c) => classes(el).includes(c)));
   const navIndex = kids.findIndex((el) => el.tagName === 'header' && attr(el, 'id') === 'nav');
-  if (!group && !media.length) return null;
+  if (!media.length) return null;
   const operations = [];
-  if (group) operations.push({ start: group.sourceCodeLocation.startOffset, end: group.sourceCodeLocation.endOffset, text: '' });
   const target = navIndex >= 0 ? kids[navIndex + 1] : null;
   if (media.length && target && !media.includes(target)) {
     const mediaHtml = media.map((m) => html.slice(m.sourceCodeLocation.startOffset, m.sourceCodeLocation.endOffset)).join('\n');
@@ -183,7 +137,7 @@ function fixSocialImage(html, publicDir) {
   const og = (html.match(/<meta property="og:image" content="([^"]*)"/) || [])[1];
   if (!og || !og.endsWith('.svg')) return html;
   const body = html.slice(html.indexOf('<body'));
-  const match = body.match(/<img\b[^>]*\ssrc="(\/images\/blog\/(?!category\/|page-cards\/|page-context\/)[^"]+\.(?:webp|jpe?g|png))"/);
+  const match = body.match(/<img\b[^>]*\ssrc="(\/images\/blog\/[^\"]+\.(?:webp|jpe?g|png))"/);
   if (!match) return html;
   const size = imageSize(publicDir, match[1]);
   let out = setMeta(html, 'og:image', SITE + match[1]);
@@ -202,7 +156,7 @@ export default function placePageMedia() {
       'astro:build:done': ({ dir }) => {
         const distDir = fileURLToPath(dir);
         const publicDir = path.resolve('public');
-        const stats = { blog: 0, service: 0, attrs: 0, social: 0 };
+        const stats = { service: 0, attrs: 0, social: 0 };
         const walk = (d) => {
           for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
             const full = path.join(d, entry.name);
@@ -217,15 +171,13 @@ export default function placePageMedia() {
           const original = html;
           const isBlogPost = /^\/blog\/[^/]+\/[^/]+\/$/.test(route);
           const isService = route.startsWith('/services/');
-          const hasFallbackGroup = html.includes('data-blog-fallback-group');
           const hasServiceMedia = isService && /class="[^"]*bofu-(image|context-visual|diagrams)/.test(html);
-          if ((isBlogPost && hasFallbackGroup) || (isService && (hasFallbackGroup || hasServiceMedia))) {
+          if (isService && hasServiceMedia) {
             const doc = parse(html, { sourceCodeLocationInfo: true });
-            const next = isBlogPost ? processBlog(html, doc) : processService(html, doc);
+            const next = processService(html, doc);
             if (next !== null) {
               html = next;
-              if (isBlogPost) stats.blog += 1;
-              else stats.service += 1;
+              stats.service += 1;
             }
           }
           if (isBlogPost) {
@@ -239,7 +191,7 @@ export default function placePageMedia() {
           if (html !== original) fs.writeFileSync(file, html);
         };
         walk(distDir);
-        console.log(`[place-page-media] blog groups placed ${stats.blog}, service pages placed ${stats.service}, pages with fixed image attributes ${stats.attrs}, social images set ${stats.social}`);
+        console.log(`[place-page-media] service pages placed ${stats.service}, pages with fixed image attributes ${stats.attrs}, social images set ${stats.social}`);
       },
     },
   };
