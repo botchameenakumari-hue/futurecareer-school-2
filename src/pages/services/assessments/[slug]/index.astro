@@ -7,6 +7,7 @@ import BofuFeatureSection from '../../../../components/bofu/BofuFeatureSection.a
 import BofuFaqSection from '../../../../components/bofu/BofuFaqSection.astro';
 import AssessmentGuidanceCta from '../../../../components/bofu/AssessmentGuidanceCta.astro';
 import GuidancePlansSection from '../../../../components/bofu/GuidancePlansSection.astro';
+import QuickTest from '../../../../components/assessments/QuickTest.astro';
 import {
   ASSESSMENT_PAGES,
   ASSESSMENT_PAGE_REDIRECTS,
@@ -45,6 +46,15 @@ if (!page) {
   return Astro.redirect('/services/assessments/', 302);
 }
 const target = ASSESSMENT_TARGETS[page.target];
+// Broad "free aptitude test" / "free career test" landing pages carry a real,
+// scored starter test so the page does what the search asks for.
+const QUICK_TESTS: Record<string, { mode: 'aptitude' | 'career-fit'; href: string; label: string }> = {
+  'aptitude-test': { mode: 'aptitude', href: '/services/assessments/class-11-to-12/', label: 'Take the full free career assessment' },
+  'career-aptitude-test-for-students': { mode: 'aptitude', href: '/services/assessments/class-10-and-below/', label: 'Take the full free student assessment' },
+  'career-test': { mode: 'career-fit', href: '/services/assessments/class-11-to-12/', label: 'Take the full free career assessment' },
+  'psychometric-test': { mode: 'career-fit', href: '/services/assessments/class-11-to-12/', label: 'Take the full free psychometric assessment' },
+};
+const quickTest = QUICK_TESTS[page.slug];
 const pageUrl = `https://futurecareerschool.com/services/assessments/${page.slug}/`;
 // Every narrower, single-purpose 10th/12th test has a full, all-in-one
 // stage assessment that covers it plus a lot more (class10 for
@@ -114,8 +124,8 @@ const plansMode = resolveAssessmentPlansMode(
 );
 const plansConfig = getAssessmentPlansConfig(plansMode);
 const showRelevantAssessmentChoices = relevantAssessmentTargets.length > 1;
-const heroPrimaryHref = showRelevantAssessmentChoices ? '#hero-assessment-choices' : target.href;
-const heroPrimaryLabel = showRelevantAssessmentChoices ? 'Choose Your Free Assessment' : target.label;
+const heroPrimaryHref = quickTest ? '#quick-test' : showRelevantAssessmentChoices ? '#hero-assessment-choices' : target.href;
+const heroPrimaryLabel = quickTest ? 'Start the free test now' : showRelevantAssessmentChoices ? 'Choose Your Free Assessment' : target.label;
 const heroSecondaryHref = plansConfig.jumpHref;
 const heroSecondaryLabel = plansConfig.jumpLabel;
 const visibleRelatedPhrases = [
@@ -661,6 +671,10 @@ const jsonLd = [
       )}
     </div>
   </section>
+
+  {quickTest && (
+    <QuickTest mode={quickTest.mode} fullTestHref={quickTest.href} fullTestLabel={quickTest.label} />
+  )}
 
   <BofuFeatureSection
     sectionId="when-it-fits"

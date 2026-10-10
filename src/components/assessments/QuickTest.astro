@@ -1,0 +1,196 @@
+---
+// A real, scored on-page starter test for assessment landing pages that
+// target broad "free aptitude test" / "free career test" searches.
+// mode "aptitude": 16 questions, four skill areas, instant scored result.
+// mode "career-fit": 15 forced-choice pairs, RIASEC-style interest result.
+// Everything runs in the browser; nothing is sent anywhere.
+interface Props {
+  mode: 'aptitude' | 'career-fit';
+  sectionId?: string;
+  fullTestHref: string;
+  fullTestLabel: string;
+}
+const { mode, sectionId = 'quick-test', fullTestHref, fullTestLabel } = Astro.props;
+
+const aptitudeQuestions = [
+  { area: 'numerical', q: 'A shirt costs ₹800 after a 20% discount. What was the original price?', o: ['₹960', '₹1,000', '₹1,040', '₹1,600'], a: 1 },
+  { area: 'numerical', q: 'A train covers 180 km in 3 hours. At the same speed, how long will it take to cover 420 km?', o: ['6 hours', '7 hours', '8 hours', '9 hours'], a: 1 },
+  { area: 'numerical', q: 'Boys and girls in a class are in the ratio 3 : 5. If there are 64 students, how many are girls?', o: ['24', '32', '40', '48'], a: 2 },
+  { area: 'numerical', q: 'Monthly sales were ₹1,200 in January, rose 25% in February and then fell 20% in March. What were the March sales?', o: ['₹1,100', '₹1,200', '₹1,250', '₹1,500'], a: 1 },
+  { area: 'verbal', q: 'Choose the word closest in meaning to "scarce".', o: ['Plentiful', 'Rare', 'Ordinary', 'Expensive'], a: 1 },
+  { area: 'verbal', q: 'Doctor : Hospital :: Teacher : ?', o: ['School', 'Student', 'Book', 'Exam'], a: 0 },
+  { area: 'verbal', q: 'Although the plan looked flawless on paper, it failed because it ignored ___ realities.', o: ['practical', 'theoretical', 'imaginary', 'decorative'], a: 0 },
+  { area: 'verbal', q: 'Which sentence is grammatically correct?', o: ['Neither of the answers are right.', 'Neither of the answers is right.', 'Neither of the answer are right.', 'Neither of answers is rights.'], a: 1 },
+  { area: 'logical', q: 'What comes next? 2, 6, 12, 20, 30, ?', o: ['40', '42', '44', '46'], a: 1 },
+  { area: 'logical', q: 'All analysts are good at spreadsheets. Some people who are good at spreadsheets are managers. Which conclusion is definitely true?', o: ['Every manager is an analyst', 'Some analysts are managers', 'Every analyst is good at spreadsheets', 'No manager is good at spreadsheets'], a: 2 },
+  { area: 'logical', q: 'In a code, letters are replaced by their alphabet positions and added, so CAT = 3 + 1 + 20 = 24. What is DOG?', o: ['22', '24', '26', '28'], a: 2 },
+  { area: 'logical', q: 'Ravi is taller than Meena. Meena is taller than Anil. Kiran is shorter than Anil. Who is the second shortest?', o: ['Meena', 'Anil', 'Kiran', 'Ravi'], a: 1 },
+  { area: 'spatial', q: 'A cube painted on all faces is cut into 27 equal small cubes. How many small cubes have exactly one face painted?', o: ['4', '6', '8', '12'], a: 1 },
+  { area: 'spatial', q: 'What is the angle between the hour and minute hands of a clock at 4:00?', o: ['90°', '100°', '120°', '150°'], a: 2 },
+  { area: 'spatial', q: 'Pattern: ▲ ■ ● ▲ ■ ● ▲ ■ ? What comes next?', o: ['▲', '■', '●', '◆'], a: 2 },
+  { area: 'spatial', q: 'A clock seen in a mirror shows 3:00. What is the actual time?', o: ['3:00', '6:00', '9:00', '12:00'], a: 2 },
+];
+
+const areaInfo = {
+  numerical: { label: 'Numerical reasoning', careers: 'finance and accounting, data and analytics, banking, engineering, economics and business analysis' },
+  verbal: { label: 'Verbal reasoning', careers: 'content and communication, law, teaching, HR, sales and client-facing roles, journalism' },
+  logical: { label: 'Logical reasoning', careers: 'programming and software, systems and operations, research, consulting and problem-solving roles' },
+  spatial: { label: 'Pattern and spatial thinking', careers: 'design, architecture, mechanical and civil engineering, animation, UI and product design' },
+};
+
+const careerPairs = [
+  [['R', 'Fix, assemble or build something with tools or machines'], ['I', 'Work out why something happens by testing and analysing it']],
+  [['R', 'Set up and run equipment or a workshop process'], ['A', 'Create something original: design, write, film or compose']],
+  [['R', 'Repair a device and learn how it works inside'], ['S', 'Help or teach someone work through a problem']],
+  [['R', 'Work outdoors or on site rather than at a desk'], ['E', 'Lead a project or pitch an idea to a group']],
+  [['R', 'Make a physical prototype'], ['C', 'Organise records or accounts so every figure is accurate']],
+  [['I', 'Read research and find patterns in data'], ['A', 'Develop a new look, story or concept']],
+  [['I', 'Solve a hard puzzle that needs careful analysis'], ['S', 'Counsel or mentor people one to one']],
+  [['I', 'Test an idea with an experiment'], ['E', 'Persuade a customer or negotiate a deal']],
+  [['I', 'Investigate a problem in a system step by step'], ['C', 'Maintain clean files, schedules and checklists']],
+  [['A', 'Express yourself through design, music or writing'], ['S', 'Support a group through a difficult change']],
+  [['A', 'Imagine and sketch a new product'], ['E', 'Start a small business and make it grow']],
+  [['A', 'Edit a video or lay out a page until it feels right'], ['C', 'Reconcile a spreadsheet until the totals match']],
+  [['S', 'Teach a skill to a small group'], ['E', 'Take charge of a team and set its direction']],
+  [['S', 'Listen to someone and help them decide'], ['C', 'Follow a clear process to get tasks done exactly']],
+  [['E', 'Take a risk to win a client or a market'], ['C', 'Plan a budget and keep spending within it']],
+];
+
+const riasecInfo = {
+  R: { label: 'Practical and hands-on', careers: 'engineering and technical trades, electrical and mechanical work, agriculture, logistics, laboratory and field roles' },
+  I: { label: 'Analytical and investigative', careers: 'data and analytics, software, science and research, medicine, engineering design' },
+  A: { label: 'Creative and expressive', careers: 'design, media and content, architecture, animation, writing and branding' },
+  S: { label: 'People-helping', careers: 'teaching, counselling, HR, healthcare, social work, training and customer success' },
+  E: { label: 'Leading and persuading', careers: 'business and sales, management, entrepreneurship, marketing, law and public affairs' },
+  C: { label: 'Organised and detail-focused', careers: 'accounts and finance operations, banking, compliance, administration, supply-chain and records roles' },
+};
+
+const config = mode === 'aptitude'
+  ? { questions: aptitudeQuestions, info: areaInfo }
+  : { pairs: careerPairs, info: riasecInfo };
+const heading = mode === 'aptitude' ? 'Take the free aptitude test now' : 'Take the free career-fit test now';
+const intro = mode === 'aptitude'
+  ? 'Sixteen questions across four skill areas: numerical, verbal, logical and pattern thinking. Answer at a comfortable pace, then see which area is your strongest signal and which careers use it.'
+  : 'Fifteen quick choices. For each pair, pick the activity you would rather spend an afternoon on. You get your top interest areas and the careers that use them.';
+---
+
+<section id={sectionId} class="qt-section">
+  <div class="container">
+    <div class="qt-card card" data-qt-mode={mode}>
+      <div class="qt-kicker">Free · Works on this page · Nothing is sent anywhere</div>
+      <h2>{heading}</h2>
+      <p class="qt-intro">{intro}</p>
+      <div class="qt-progress" aria-hidden="true"><span class="qt-bar"></span></div>
+      <div class="qt-body" aria-live="polite"></div>
+      <noscript><p>This test needs JavaScript. Use the full free assessment below instead.</p></noscript>
+    </div>
+  </div>
+</section>
+<script type="application/json" id={`${sectionId}-data`} set:html={JSON.stringify({ mode, ...config, fullTestHref, fullTestLabel })}></script>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.qt-card').forEach((card) => {
+    const section = card.closest('.qt-section');
+    const dataEl = section?.nextElementSibling as HTMLScriptElement | null;
+    if (!dataEl) return;
+    const data = JSON.parse(dataEl.textContent || '{}');
+    const body = card.querySelector<HTMLElement>('.qt-body')!;
+    const bar = card.querySelector<HTMLElement>('.qt-bar')!;
+    const track = (name: string, extra: Record<string, unknown> = {}) => {
+      try { (window as any).gtag?.('event', name, { test_mode: data.mode, ...extra }); } catch {}
+    };
+    const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+    let i = 0;
+    const answers: number[] = [];
+    const total = data.mode === 'aptitude' ? data.questions.length : data.pairs.length;
+    let started = false;
+
+    function renderQuestion() {
+      bar.style.width = `${(i / total) * 100}%`;
+      if (data.mode === 'aptitude') {
+        const q = data.questions[i];
+        body.innerHTML = `<div class="qt-count">Question ${i + 1} of ${total}</div><p class="qt-q">${esc(q.q)}</p><div class="qt-opts">${q.o
+          .map((o: string, k: number) => `<button type="button" class="qt-opt" data-k="${k}">${esc(o)}</button>`)
+          .join('')}</div>`;
+      } else {
+        const p = data.pairs[i];
+        body.innerHTML = `<div class="qt-count">Choice ${i + 1} of ${total}</div><p class="qt-q">Which would you rather spend an afternoon doing?</p><div class="qt-opts">${p
+          .map((o: string[], k: number) => `<button type="button" class="qt-opt" data-k="${k}">${esc(o[1])}</button>`)
+          .join('')}</div>`;
+      }
+      body.querySelectorAll<HTMLButtonElement>('.qt-opt').forEach((b) =>
+        b.addEventListener('click', () => {
+          if (!started) { started = true; track('quick_test_start'); }
+          answers[i] = Number(b.dataset.k);
+          i += 1;
+          if (i < total) renderQuestion(); else renderResult();
+        }),
+      );
+    }
+
+    function renderResult() {
+      bar.style.width = '100%';
+      let rows = '';
+      let headline = '';
+      let explain = '';
+      if (data.mode === 'aptitude') {
+        const areas = Object.keys(data.info);
+        const scored = areas.map((a) => {
+          const qs = data.questions.map((q: any, idx: number) => ({ q, idx })).filter((x: any) => x.q.area === a);
+          const right = qs.filter((x: any) => answers[x.idx] === x.q.a).length;
+          return { a, right, n: qs.length };
+        });
+        const best = Math.max(...scored.map((s) => s.right));
+        const top = scored.filter((s) => s.right === best);
+        const overall = scored.reduce((t, s) => t + s.right, 0);
+        rows = scored
+          .map((s) => `<div class="qt-row"><div class="qt-row-label">${esc(data.info[s.a].label)} <strong>${s.right}/${s.n}</strong></div><div class="qt-row-track"><span style="width:${(s.right / s.n) * 100}%"></span></div></div>`)
+          .join('');
+        headline = `You scored ${overall} out of ${total}. Strongest signal: ${top.map((t) => data.info[t.a].label).join(' and ')}.`;
+        explain = top.map((t) => `<p><strong>${esc(data.info[t.a].label)}</strong> fits ${esc(data.info[t.a].careers)}.</p>`).join('');
+        explain += `<p class="qt-note">Sixteen questions give a first signal, not a diagnosis. A lower area is a place to practise, not a limit. Use the full assessment for a wider report and then compare routes before you commit money or time.</p>`;
+      } else {
+        const tally: Record<string, number> = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+        answers.forEach((k, idx) => { tally[data.pairs[idx][k][0]] += 1; });
+        const order = Object.keys(tally).sort((x, y) => tally[y] - tally[x]);
+        const topTwo = order.slice(0, 2);
+        rows = order
+          .map((l) => `<div class="qt-row"><div class="qt-row-label">${esc(data.info[l].label)} <strong>${tally[l]}/5</strong></div><div class="qt-row-track"><span style="width:${(tally[l] / 5) * 100}%"></span></div></div>`)
+          .join('');
+        headline = `Your leading interest areas: ${topTwo.map((l) => data.info[l].label).join(' + ')}.`;
+        explain = topTwo.map((l) => `<p><strong>${esc(data.info[l].label)}</strong> points to ${esc(data.info[l].careers)}.</p>`).join('');
+        explain += `<p class="qt-note">Interests show where work may feel natural. They do not show whether you will earn well there. Check each direction against market demand and your own proof of work before choosing.</p>`;
+      }
+      body.innerHTML = `<div class="qt-result"><h3>${esc(headline)}</h3>${rows}${explain}
+        <div class="qt-actions"><a class="btn-gold" href="${esc(data.fullTestHref)}">${esc(data.fullTestLabel)}</a><button type="button" class="btn-outline qt-again">Retake</button></div></div>`;
+      body.querySelector('.qt-again')?.addEventListener('click', () => { i = 0; answers.length = 0; renderQuestion(); });
+      track('quick_test_complete');
+    }
+
+    renderQuestion();
+  });
+</script>
+
+<style>
+  .qt-section { padding: 56px 0 20px; position: relative; }
+  .qt-card { padding: clamp(20px, 4vw, 36px); max-width: 860px; margin: 0 auto; }
+  .qt-kicker { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--teal, #2dd4bf); margin-bottom: 10px; }
+  .qt-card h2 { font-size: clamp(1.4rem, 3.2vw, 2rem); margin: 0 0 10px; }
+  .qt-intro { color: rgba(255,255,255,.7); line-height: 1.8; margin: 0 0 18px; }
+  .qt-progress { height: 6px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; margin-bottom: 20px; }
+  .qt-bar { display: block; height: 100%; width: 0; background: var(--gold, #e5b84a); transition: width .25s ease; }
+  .qt-card :global(.qt-count) { font-size: 13px; color: rgba(255,255,255,.5); margin-bottom: 8px; }
+  .qt-card :global(.qt-q) { font-size: clamp(1.02rem, 2.2vw, 1.2rem); line-height: 1.6; margin: 0 0 16px; color: #fff; }
+  .qt-card :global(.qt-opts) { display: grid; gap: 10px; }
+  .qt-card :global(.qt-opt) { text-align: left; padding: 14px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.03); color: #fff; font: inherit; line-height: 1.5; cursor: pointer; transition: border-color .15s, background .15s; min-height: 48px; }
+  .qt-card :global(.qt-opt:hover), .qt-card :global(.qt-opt:focus-visible) { border-color: var(--gold, #e5b84a); background: rgba(229,184,74,.08); outline: none; }
+  .qt-card :global(.qt-result h3) { font-size: clamp(1.1rem, 2.6vw, 1.4rem); line-height: 1.5; margin: 0 0 16px; }
+  .qt-card :global(.qt-row) { margin-bottom: 12px; }
+  .qt-card :global(.qt-row-label) { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; margin-bottom: 5px; color: rgba(255,255,255,.85); }
+  .qt-card :global(.qt-row-track) { height: 8px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; }
+  .qt-card :global(.qt-row-track span) { display: block; height: 100%; background: linear-gradient(90deg, var(--teal, #2dd4bf), var(--gold, #e5b84a)); }
+  .qt-card :global(.qt-result p) { color: rgba(255,255,255,.78); line-height: 1.75; margin: 12px 0 0; }
+  .qt-card :global(.qt-note) { font-size: 14px; color: rgba(255,255,255,.58) !important; }
+  .qt-card :global(.qt-actions) { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+  @media (max-width: 680px) { .qt-card :global(.qt-actions) { flex-direction: column; align-items: stretch; } .qt-card :global(.qt-actions > *) { justify-content: center; text-align: center; } }
+</style>
