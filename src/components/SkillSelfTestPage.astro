@@ -16,6 +16,7 @@ import LinkDirectorySection from './LinkDirectorySection.astro';
 import { getAssessmentPlansConfig } from '../config/assessmentPlans';
 import { SKILL_TESTS, type SkillTestId } from '../config/skillSelfTests';
 import { SKILL_TEST_DEPTH } from '../config/skillSelfTestDepth';
+import { EXTRA_QUESTIONS, STAGE_ADVICE, PARENT_SECTION } from '../config/skillSelfTestExtras';
 
 interface Props {
   testId: SkillTestId;
@@ -34,7 +35,12 @@ const clientData = {
   bands: test.bands,
   limits: test.limits,
   domains: test.domains,
-  questions: test.questions,
+  questions: [
+    ...test.questions.map((q, i) => ({ ...q, tip: depth.tips[i] })),
+    ...EXTRA_QUESTIONS[testId],
+  ],
+  stageAdvice: STAGE_ADVICE[testId],
+  parentSection: PARENT_SECTION[testId] || null,
   reportTitle: test.reportTitle,
   reportFile: test.reportFile,
   isStudent,
@@ -327,7 +333,8 @@ const jsonLd = [
   var dataEl = document.getElementById('sst-data');
   if (dataEl) {
     var D = JSON.parse(dataEl.textContent);
-    var Q = D.questions, DOMS = D.domains, DEPTH = D.depth, TOTAL = Q.length;
+    var ALLQ = D.questions, Q = ALLQ.filter(function (q) { return !q.stages; }), DOMS = D.domains, DEPTH = D.depth, TOTAL = Q.length;
+    function activeFor(st) { return ALLQ.filter(function (q) { return !q.stages || q.stages.indexOf(st) !== -1; }); }
     var startShell = document.getElementById('start-shell'), quizShell = document.getElementById('quiz-shell'), resultShell = document.getElementById('result-shell');
     var startBtn = document.getElementById('start-button'), nextBtn = document.getElementById('next-button'), backBtn = document.getElementById('back-button');
     var prompt = document.getElementById('question-prompt'), counter = document.getElementById('question-counter'), areaLabel = document.getElementById('area-label');
@@ -348,6 +355,7 @@ const jsonLd = [
       b.addEventListener('click', function () {
         stage = b.dataset.stage;
         document.querySelectorAll('.sst-stage').forEach(function (x) { x.setAttribute('aria-checked', String(x === b)); });
+        Q = activeFor(stage); TOTAL = Q.length; answers = new Array(TOTAL).fill(null);
         startBtn.disabled = false;
         startBtn.textContent = 'Start: ' + TOTAL + ' statements';
       });
@@ -399,16 +407,16 @@ const jsonLd = [
       // Statements that scored low, grouped by area, each with its own tip.
       var lowGroups = results.map(function (r) {
         var items = [];
-        Q.forEach(function (q, i) { if (q.d === r.d.key && itemScore(q, answers[i]) <= 25) items.push({ q: q, i: i }); });
+        Q.forEach(function (q, i) { if (q.d === r.d.key && itemScore(q, answers[i]) <= 50) items.push({ q: q, i: i }); });
         if (!items.length) return '';
         return '<div class="sst-low-group"><h5>' + esc(r.d.name) + '</h5>' + items.map(function (it) {
-          return '<div class="sst-low-item"><p><b>Statement ' + (it.i + 1) + ':</b> ' + esc(it.q.text) + '</p><p>You answered: ' + esc(RATING[answers[it.i]]) + '. <b>Try this:</b> ' + esc(DEPTH.tips[it.i]) + '</p></div>';
+          return '<div class="sst-low-item"><p><b>Statement ' + (it.i + 1) + ':</b> ' + esc(it.q.text) + '</p><p>You answered: ' + esc(RATING[answers[it.i]]) + '. <b>Try this:</b> ' + esc(it.q.tip) + '</p></div>';
         }).join('') + '</div>';
       }).join('');
-      var lowCount = Q.filter(function (q, i) { return itemScore(q, answers[i]) <= 25; }).length;
+      var lowCount = Q.filter(function (q, i) { return itemScore(q, answers[i]) <= 50; }).length;
       var lowSection = lowCount
-        ? '<div class="result-section"><h4>Your lowest-rated statements and what to do about each</h4><p>' + lowCount + ' of ' + TOTAL + ' statements scored low. Each one comes with a specific step so you can act on it instead of only reading a score.</p>' + lowGroups + '</div>'
-        : '<div class="result-section"><h4>Your lowest-rated statements</h4><p>No statement scored low. That is a strong pattern. The next step is to back it with examples and feedback from other people.</p></div>';
+        ? '<div class="result-section"><h4>Statements to work on, with a step for each</h4><p>' + lowCount + ' of ' + TOTAL + ' statements were rated "Not true", "Rarely true" or "Sometimes" (for reverse-worded statements, the opposite end). Each comes with a specific step so you can act on it instead of only reading a score.</p>' + lowGroups + '</div>'
+        : '<div class="result-section"><h4>Statements to work on</h4><p>No statement was rated below the strong range. That is a strong pattern. The next step is to back it with examples and feedback from other people.</p></div>';
 
       var strongItems = [];
       Q.forEach(function (q, i) { if (itemScore(q, answers[i]) >= 100) strongItems.push(q.text); });
@@ -452,13 +460,18 @@ const jsonLd = [
         var dn = DOMS.filter(function (d) { return d.key === q.d; })[0].name;
         return '<div><b>' + (i + 1) + '.</b><span>' + esc(q.text) + ' (' + esc(dn) + ') - ' + esc(RATING[answers[i]]) + '</span></div>';
       }).join('') + '</div></div>';
+      var SA = (D.stageAdvice && D.stageAdvice[stage]) || {};
+      function stageArea(r) { var a = SA[r.d.key]; return a ? '<p><b>' + esc(r.d.name) + ' (' + r.score + '%):</b> ' + esc(a.situation) + '</p>' + list(a.actions) : ''; }
+      var stageAreaSection = (SA[lowest.d.key] || SA[second.d.key])
+        ? '<div class="result-section"><h4>What this means at your stage</h4><p>The advice below is written for where you said you are right now, for your two lowest areas.</p>' + stageArea(lowest) + stageArea(second) + '</div>' : '';
+      var parentSection = D.parentSection ? '<div class="result-section"><h4>' + esc(D.parentSection.title) + '</h4>' + list(D.parentSection.body) + '</div>' : '';
       var stageSection = '<div class="result-section"><h4>' + esc(st.title) + '</h4><p>' + esc(st.label) + '. ' + esc(st.body) + '</p>' + list(st.actions) + '</div>';
 
       resultShell.innerHTML =
         '<div class="result-head"><div class="score-mark"><strong>' + overall + '%</strong><span>' + esc(D.scoreLabel) + '</span></div>' +
         '<div><span class="result-kicker">' + esc(D.resultKicker) + '</span><h3>' + esc(headline) + '</h3><p>' + esc(overallText) + ' ' + esc(gapText) + '</p></div></div>' +
         '<div class="result-section"><h4>Your scores by area</h4><p>Scores come only from your own ratings and are not compared with other people.</p>' + bars + '</div>' +
-        stageSection + lowSection + deep + secondSection + strongSection + guide + careers + others + plan + related + qualitySection + retake + limits + review +
+        stageSection + stageAreaSection + lowSection + deep + secondSection + strongSection + guide + careers + others + plan + parentSection + related + qualitySection + retake + limits + review +
         '<div class="result-actions"><button id="download-button" type="button" class="sst-btn sst-btn--primary">Download Detailed PDF</button><a href="' + guidanceHref + '" class="btn-gold">' + esc(guidanceLabel) + '</a><button id="retake-button" type="button" class="sst-btn sst-btn--ghost">Retake</button></div>';
 
       quizShell.hidden = true; resultShell.hidden = false; reveal(resultShell);
