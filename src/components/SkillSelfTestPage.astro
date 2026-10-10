@@ -16,7 +16,12 @@ import LinkDirectorySection from './LinkDirectorySection.astro';
 import { getAssessmentPlansConfig } from '../config/assessmentPlans';
 import { SKILL_TESTS, type SkillTestId } from '../config/skillSelfTests';
 import { SKILL_TEST_DEPTH } from '../config/skillSelfTestDepth';
-import { EXTRA_QUESTIONS, STAGE_ADVICE, PARENT_SECTION } from '../config/skillSelfTestExtras';
+import { EXTRA_QUESTIONS, STAGE_ADVICE } from '../config/skillSelfTestExtras';
+import { SCENARIOS } from '../config/skillSelfTestScenarios';
+import {
+  PARENT_QUESTIONS, PARENT_BANDS, PARENT_DOMAINS, PARENT_DEEP, PARENT_STAGE, PARENT_STAGE_ADVICE,
+  DOMAIN_PHRASES, STAGE_PLAN,
+} from '../config/skillSelfTestAudience';
 
 interface Props {
   testId: SkillTestId;
@@ -24,7 +29,9 @@ interface Props {
 
 const { testId } = Astro.props;
 const test = SKILL_TESTS[testId];
-const depth = SKILL_TEST_DEPTH[testId];
+const baseDepth = SKILL_TEST_DEPTH[testId];
+const hasParent = testId === 'confused-after-10th';
+const depth = hasParent ? { ...baseDepth, stages: [...baseDepth.stages, PARENT_STAGE] } : baseDepth;
 const isStudent = test.main === 'class10';
 const plansConfig = getAssessmentPlansConfig(isStudent ? 'student' : 'mixed');
 
@@ -38,9 +45,16 @@ const clientData = {
   questions: [
     ...test.questions.map((q, i) => ({ ...q, tip: depth.tips[i] })),
     ...EXTRA_QUESTIONS[testId],
+    ...(hasParent ? PARENT_QUESTIONS : []),
+    ...SCENARIOS[testId],
   ],
-  stageAdvice: STAGE_ADVICE[testId],
-  parentSection: PARENT_SECTION[testId] || null,
+  exclusiveStages: hasParent ? ['parent'] : [],
+  stageAdvice: hasParent ? { ...STAGE_ADVICE[testId], parent: PARENT_STAGE_ADVICE } : STAGE_ADVICE[testId],
+  parentBands: hasParent ? PARENT_BANDS : null,
+  parentDomains: hasParent ? PARENT_DOMAINS : null,
+  parentDeep: hasParent ? PARENT_DEEP : null,
+  phrases: DOMAIN_PHRASES[testId],
+  stagePlan: STAGE_PLAN[testId],
   reportTitle: test.reportTitle,
   reportFile: test.reportFile,
   isStudent,
@@ -148,6 +162,7 @@ const jsonLd = [
               <button type="button" data-value="4" role="radio" aria-checked="false"><strong>4</strong><span>Mostly true</span></button>
               <button type="button" data-value="5" role="radio" aria-checked="false"><strong>5</strong><span>Very true</span></button>
             </div>
+            <div id="scenario-options" class="sst-scenario" role="radiogroup" aria-label="Choose what you would do" hidden></div>
             <div class="sst-nav">
               <button id="back-button" type="button" class="sst-btn sst-btn--ghost" disabled>Back</button>
               <button id="next-button" type="button" class="sst-btn sst-btn--primary" disabled>Next</button>
@@ -280,6 +295,10 @@ const jsonLd = [
   .sst-scale button strong{font-size:1.2rem}
   .sst-scale button span{font-size:.75rem;color:rgba(255,255,255,.7)}
   .sst-scale button[aria-checked="true"]{background:rgba(229,184,74,.18);border-color:var(--gold)}
+  .sst-scenario{display:grid;gap:.6rem}
+  .sst-scenario button{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;color:#fff;padding:.85rem 1rem;cursor:pointer;text-align:left;font-family:inherit;line-height:1.55}
+  .sst-scenario button[aria-checked="true"]{background:rgba(229,184,74,.18);border-color:var(--gold)}
+  .sst-scenario button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
   .sst-nav{display:flex;justify-content:space-between;margin-top:1.4rem}
   .sst-domains{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
   .sst-domains article{border:1px solid var(--border);background:var(--card);border-radius:16px;padding:1.2rem}
@@ -334,17 +353,20 @@ const jsonLd = [
   if (dataEl) {
     var D = JSON.parse(dataEl.textContent);
     var ALLQ = D.questions, Q = ALLQ.filter(function (q) { return !q.stages; }), DOMS = D.domains, DEPTH = D.depth, TOTAL = Q.length;
-    function activeFor(st) { return ALLQ.filter(function (q) { return !q.stages || q.stages.indexOf(st) !== -1; }); }
+    function activeFor(st) {
+      var excl = (D.exclusiveStages || []).indexOf(st) !== -1;
+      return ALLQ.filter(function (q) { return q.stages ? q.stages.indexOf(st) !== -1 : !excl; });
+    }
     var startShell = document.getElementById('start-shell'), quizShell = document.getElementById('quiz-shell'), resultShell = document.getElementById('result-shell');
     var startBtn = document.getElementById('start-button'), nextBtn = document.getElementById('next-button'), backBtn = document.getElementById('back-button');
     var prompt = document.getElementById('question-prompt'), counter = document.getElementById('question-counter'), areaLabel = document.getElementById('area-label');
-    var fill = document.getElementById('progress-fill'), track = fill.parentElement, scale = document.getElementById('scale-options');
+    var fill = document.getElementById('progress-fill'), track = fill.parentElement, scale = document.getElementById('scale-options'), scen = document.getElementById('scenario-options');
     var guidanceHref = resultShell.dataset.guidanceHref || '#plans', guidanceLabel = resultShell.dataset.guidanceLabel || 'See guidance plans';
     var current = 0, answers = new Array(TOTAL).fill(null), stage = null;
 
     function esc(v) { return String(v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
     function avg(a) { return a.length ? a.reduce(function (x, y) { return x + y; }, 0) / a.length : 0; }
-    function itemScore(q, v) { var raw = (v - 1) * 25; return q.reverse ? 100 - raw : raw; }
+    function itemScore(q, v) { if (q.opts) return q.opts[v].s; var raw = (v - 1) * 25; return q.reverse ? 100 - raw : raw; }
     function reveal(el, focusEl) { var top = el.getBoundingClientRect().top + window.scrollY - 84; window.scrollTo({ top: Math.max(0, top), behavior: 'instant' }); (focusEl || el).focus({ preventScroll: true }); }
     function lc(t) { return t.charAt(0).toLowerCase() + t.slice(1); }
     function band(score) { return score >= 70 ? 'high' : score >= 45 ? 'mid' : 'low'; }
@@ -357,18 +379,26 @@ const jsonLd = [
         document.querySelectorAll('.sst-stage').forEach(function (x) { x.setAttribute('aria-checked', String(x === b)); });
         Q = activeFor(stage); TOTAL = Q.length; answers = new Array(TOTAL).fill(null);
         startBtn.disabled = false;
-        startBtn.textContent = 'Start: ' + TOTAL + ' statements';
+        startBtn.textContent = 'Start: ' + TOTAL + ' questions';
       });
     });
 
     function render() {
       var q = Q[current], pct = Math.round((current + 1) / TOTAL * 100);
-      areaLabel.textContent = 'Statement ' + (current + 1);
+      var nStat = Q.filter(function (x) { return !x.opts; }).length;
+      areaLabel.textContent = q.opts ? 'Situation ' + (current - nStat + 1) : 'Statement ' + (current + 1);
       counter.textContent = (current + 1) + ' of ' + TOTAL;
       fill.style.width = pct + '%';
       track.setAttribute('aria-valuenow', String(pct));
       prompt.textContent = q.text;
-      scale.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-checked', String(Number(b.dataset.value) === answers[current])); });
+      if (q.opts) {
+        scale.hidden = true; scen.hidden = false;
+        scen.innerHTML = q.opts.map(function (op, k) { return '<button type="button" role="radio" data-opt="' + k + '" aria-checked="' + String(answers[current] === k) + '">' + esc(op.t) + '</button>'; }).join('');
+        scen.querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { answers[current] = Number(b.dataset.opt); render(); }); });
+      } else {
+        scale.hidden = false; scen.hidden = true;
+        scale.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-checked', String(Number(b.dataset.value) === answers[current])); });
+      }
       backBtn.disabled = current === 0;
       nextBtn.disabled = answers[current] === null;
       nextBtn.textContent = current === TOTAL - 1 ? 'See my result' : 'Next';
@@ -383,95 +413,115 @@ const jsonLd = [
     });
 
     function showResult() {
-      var results = DOMS.map(function (d, order) {
+      var PAR = stage === 'parent';
+      var BANDS = PAR && D.parentBands ? D.parentBands : D.bands;
+      var results = DOMS.map(function (d0, order) {
         var scores = [];
-        Q.forEach(function (q, i) { if (q.d === d.key) scores.push(itemScore(q, answers[i])); });
-        return { d: d, order: order, score: Math.round(avg(scores)), dd: DEPTH.domains[d.key] };
+        Q.forEach(function (q, i) { if (q.d === d0.key) scores.push(itemScore(q, answers[i])); });
+        var d = PAR && D.parentDomains && D.parentDomains[d0.key] ? Object.assign({}, d0, D.parentDomains[d0.key]) : d0;
+        var dd = PAR && D.parentDeep && D.parentDeep[d0.key] ? Object.assign({}, DEPTH.domains[d0.key], D.parentDeep[d0.key]) : DEPTH.domains[d0.key];
+        return { d: d, order: order, score: Math.round(avg(scores)), dd: dd, n: scores.length };
       });
       var overall = Math.round(avg(results.map(function (r) { return r.score; })));
       var ranked = results.slice().sort(function (a, b) { return a.score - b.score || a.order - b.order; });
       var lowest = ranked[0], second = ranked[1], highest = ranked[ranked.length - 1];
       var gap = highest.score - lowest.score;
       var st = DEPTH.stages.filter(function (x) { return x.key === stage; })[0] || DEPTH.stages[0];
-      var headline = D.isStudent ? 'Your biggest source of confusion: ' + lc(lowest.d.name) : 'Best place to build first: ' + lc(lowest.d.name);
+      var headline = PAR ? 'Where to focus first: ' + lc(lowest.d.name) : D.isStudent ? 'Your biggest source of confusion: ' + lc(lowest.d.name) : 'Best place to build first: ' + lc(lowest.d.name);
       var overallText = overall >= 70 ? 'Your answers describe fairly strong habits overall.' : overall >= 45 ? 'Your answers describe a mixed pattern, with some strengths and some gaps.' : 'Your answers show several areas that need attention. That is a starting point, not a verdict.';
       var gapText = gap >= 35 ? 'Your areas differ a lot (' + gap + ' points between your highest and lowest), so focused work on ' + lc(lowest.d.name) + ' should make a clear difference.' : gap >= 15 ? 'Your areas differ moderately (' + gap + ' points). Start with ' + lc(lowest.d.name) + ' and keep ' + lc(highest.d.name) + ' going.' : 'Your areas are close together (' + gap + ' points), so pick the one that matters most for your next step.';
+
+      var statIdx = [], scenIdx = [];
+      Q.forEach(function (q, i) { (q.opts ? scenIdx : statIdx).push(i); });
 
       var bars = results.map(function (r) {
         var b = band(r.score);
         return '<div class="sst-bar-row"><div class="sst-bar-label"><span><b>' + esc(r.d.name) + '</b> - ' + esc(r.d.short) + '</span><span>' + r.score + '%</span></div>' +
           '<div class="sst-bar" aria-hidden="true"><i style="width:' + r.score + '%"></i></div>' +
-          '<p class="sst-bar-note">' + esc(D.bands[b]) + ' ' + esc(b === 'low' ? r.d.weak : b === 'high' ? r.d.strong : r.dd.midStep) + '</p></div>';
+          '<p class="sst-bar-note">' + esc(BANDS[b]) + ' ' + esc(b === 'low' ? r.d.weak : b === 'high' ? r.d.strong : r.dd.midStep) + ' (' + r.n + ' questions)</p></div>';
       }).join('');
 
-      // Statements that scored low, grouped by area, each with its own tip.
+      // Statements rated below "Mostly true" (or the opposite end for reverse-worded ones), each with its own step.
       var lowGroups = results.map(function (r) {
         var items = [];
-        Q.forEach(function (q, i) { if (q.d === r.d.key && itemScore(q, answers[i]) <= 50) items.push({ q: q, i: i }); });
+        statIdx.forEach(function (i) { var q = Q[i]; if (q.d === r.d.key && itemScore(q, answers[i]) <= 50) items.push({ q: q, i: i }); });
         if (!items.length) return '';
         return '<div class="sst-low-group"><h5>' + esc(r.d.name) + '</h5>' + items.map(function (it) {
-          return '<div class="sst-low-item"><p><b>Statement ' + (it.i + 1) + ':</b> ' + esc(it.q.text) + '</p><p>You answered: ' + esc(RATING[answers[it.i]]) + '. <b>Try this:</b> ' + esc(it.q.tip) + '</p></div>';
+          return '<div class="sst-low-item"><p><b>Statement ' + (statIdx.indexOf(it.i) + 1) + ':</b> ' + esc(it.q.text) + '</p><p>You answered: ' + esc(RATING[answers[it.i]]) + '. <b>' + (itemScore(it.q, answers[it.i]) <= 25 ? 'Start here:' : 'Take it further:') + '</b> ' + esc(it.q.tip) + '</p></div>';
         }).join('') + '</div>';
       }).join('');
-      var lowCount = Q.filter(function (q, i) { return itemScore(q, answers[i]) <= 50; }).length;
+      var lowCount = statIdx.filter(function (i) { return itemScore(Q[i], answers[i]) <= 50; }).length;
       var lowSection = lowCount
-        ? '<div class="result-section"><h4>Statements to work on, with a step for each</h4><p>' + lowCount + ' of ' + TOTAL + ' statements were rated "Not true", "Rarely true" or "Sometimes" (for reverse-worded statements, the opposite end). Each comes with a specific step so you can act on it instead of only reading a score.</p>' + lowGroups + '</div>'
+        ? '<div class="result-section"><h4>Statements to work on, with a step for each</h4><p>' + lowCount + ' of ' + statIdx.length + ' statements were rated below "Mostly true" (for reverse-worded statements, the opposite end). Each comes with a specific step so you can act on it instead of only reading a score.</p>' + lowGroups + '</div>'
         : '<div class="result-section"><h4>Statements to work on</h4><p>No statement was rated below the strong range. That is a strong pattern. The next step is to back it with examples and feedback from other people.</p></div>';
 
+      // Real-life situations: the advice depends on the option chosen.
+      var scenSection = '';
+      if (scenIdx.length) {
+        scenSection = '<div class="result-section"><h4>Your choices in real-life situations, and what each choice tells you</h4><p>For each situation you picked what you would do. The advice below is for the option you chose, and the strongest option is shown where yours differed.</p>' + scenIdx.map(function (i, n) {
+          var q = Q[i], chosen = q.opts[answers[i]];
+          var best = q.opts.reduce(function (a, b) { return b.s > a.s ? b : a; });
+          var dn = DOMS.filter(function (d) { return d.key === q.d; })[0].name;
+          return '<div class="sst-low-item"><p><b>Situation ' + (n + 1) + ' (' + esc(dn) + '):</b> ' + esc(q.text) + '</p><p><b>You chose:</b> ' + esc(chosen.t) + '</p><p><b>What this suggests:</b> ' + esc(chosen.a) + '</p>' + (chosen.s < 100 ? '<p><b>A stronger approach:</b> ' + esc(best.t) + '. ' + esc(best.a) + '</p>' : '') + '</div>';
+        }).join('') + '</div>';
+      }
+
       var strongItems = [];
-      Q.forEach(function (q, i) { if (itemScore(q, answers[i]) >= 100) strongItems.push(q.text); });
+      statIdx.forEach(function (i) { if (itemScore(Q[i], answers[i]) >= 100) strongItems.push(Q[i].text); });
       var strongSection = '<div class="result-section"><h4>Keep using ' + esc(lc(highest.d.name)) + '</h4><p>' + esc(highest.d.strong) + ' ' + esc(highest.dd.why) + '</p>' +
         (strongItems.length ? '<p>Statements you rated as fully true:</p>' + list(strongItems.slice(0, 6)) : '') +
-        '<p>How to use it:</p>' + list(highest.dd.talkingPoints.concat(highest.dd.proof)) + '</div>';
+        (PAR ? '' : '<p>How to use it:</p>' + list(highest.dd.talkingPoints.concat(highest.dd.proof))) + '</div>';
 
-      var nextStep = lowest.d.next ? '<p><a class="btn-gold" href="' + lowest.d.next.href + '">' + esc(lowest.d.next.label) + '</a></p>' : '';
+      var nextStep = !PAR && lowest.d.next ? '<p><a class="btn-gold" href="' + lowest.d.next.href + '">' + esc(lowest.d.next.label) + '</a></p>' : '';
+      var phrasesList = !PAR && D.phrases && D.phrases[lowest.d.key] ? '<p><b>Words you can use</b></p>' + list(D.phrases[lowest.d.key]) : '';
       var deep = '<div class="result-section"><h4>Deep dive: ' + esc(lc(lowest.d.name)) + '</h4><p>' + esc(lowest.dd.why) + '</p>' +
         '<p><b>Your 14-day routine</b></p>' + list(lowest.dd.routine) +
-        '<p><b>Common mistakes to avoid</b></p>' + list(lowest.dd.mistakes) +
+        '<p><b>Common mistakes to avoid</b></p>' + list(lowest.dd.mistakes) + phrasesList +
         '<p><b>How to show progress to others</b></p>' + list(lowest.dd.proof) + nextStep + '</div>';
 
-      var secondSection = '<div class="result-section"><h4>Then work on ' + esc(lc(second.d.name)) + ' (' + second.score + '%)</h4><p>' + esc(second.dd.why) + '</p>' + list(second.d.plan) + '<p><b>One move to try first:</b> ' + esc(second.dd.midStep) + '</p></div>';
+      var secondSection = '<div class="result-section"><h4>Then work on ' + esc(lc(second.d.name)) + ' (' + second.score + '%)</h4><p>' + esc(second.dd.why) + '</p>' + list(PAR ? second.dd.routine : second.d.plan) + '<p><b>One move to try first:</b> ' + esc(second.dd.midStep) + '</p></div>';
 
       var guide = '<div class="result-section"><h4>Area-by-area guide</h4>' + results.map(function (r) {
         var b = band(r.score);
         return '<p><b>' + esc(r.d.name) + ' (' + r.score + '%):</b> ' + esc(b === 'low' ? r.d.weak : b === 'high' ? r.d.strong : r.d.strong + ' There is still room to grow here.') + ' <b>Next move:</b> ' + esc(r.dd.midStep) + '</p>';
       }).join('') + '</div>';
 
-      var careers = '<div class="result-section"><h4>Where these areas matter</h4><p>' + esc(lowest.d.name) + ' (your lowest area):</p>' + list(lowest.dd.roles) +
+      var careers = PAR ? '' : '<div class="result-section"><h4>Where these areas matter</h4><p>' + esc(lowest.d.name) + ' (your lowest area):</p>' + list(lowest.dd.roles) +
         '<p>' + esc(highest.d.name) + ' (your strongest area):</p>' + list(highest.dd.roles) + '</div>';
 
-      var others = '<div class="result-section"><h4>Check your result with other people</h4><p>Self-ratings are one view. Ask someone who knows you well one question per area and compare with your score.</p>' + list(results.map(function (r) { return r.d.name + ': ' + r.dd.askOthers; })) + '</div>';
+      var others = '<div class="result-section"><h4>' + (PAR ? 'Check your view with your child and the school' : 'Check your result with other people') + '</h4><p>' + (PAR ? 'Your answers are your own view. Ask your child and a teacher one question per area and compare.' : 'Self-ratings are one view. Ask someone who knows you well one question per area and compare with your score.') + '</p>' + list(results.map(function (r) { return r.d.name + ': ' + r.dd.askOthers; })) + '</div>';
 
-      var plan = '<div class="result-section"><h4>Your 30-day plan</h4>' + list(DEPTH.thirtyDay) + '</div>';
+      var steps = D.stagePlan && D.stagePlan[stage];
+      var plan = '<div class="result-section"><h4>' + (steps ? 'Your four steps for this stage, in order' : 'Your 30-day plan') + '</h4>' + list(steps || DEPTH.thirtyDay) + (steps ? '<p>' + esc('Then continue with the routine for your lowest area and review your result again after a few weeks.') + '</p>' : '') + '</div>';
 
       var related = '<div class="result-section"><h4>Free next steps</h4><p>These free tools and guides go deeper on what your result points to:</p><ul>' + D.related.map(function (l) { return '<li><a href="' + l.href + '">' + esc(l.title) + '</a>: ' + esc(l.description) + '</li>'; }).join('') + '</ul></div>';
 
-      var neutral = answers.filter(function (v) { return v === 3; }).length, extreme = answers.filter(function (v) { return v === 1 || v === 5; }).length;
-      var quality = neutral >= Math.ceil(TOTAL * 0.4)
-        ? 'You chose the middle rating on ' + neutral + ' of ' + TOTAL + ' statements. That can mean real uncertainty. Re-read those statements and think of one recent real example for each before relying on the scores.'
-        : extreme >= Math.ceil(TOTAL * 0.75)
-          ? 'You chose the lowest or highest rating on ' + extreme + ' of ' + TOTAL + ' statements. Check a few of them against real examples, because very strong views about yourself are not always accurate.'
-          : 'You used a good spread of ratings (' + neutral + ' middle, ' + extreme + ' at the extremes out of ' + TOTAL + '), which gives the scores more meaning.';
+      var neutral = statIdx.filter(function (i) { return answers[i] === 3; }).length, extreme = statIdx.filter(function (i) { return answers[i] === 1 || answers[i] === 5; }).length, NS = statIdx.length;
+      var quality = neutral >= Math.ceil(NS * 0.4)
+        ? 'You chose the middle rating on ' + neutral + ' of ' + NS + ' statements. That can mean real uncertainty. Re-read those statements and think of one recent real example for each before relying on the scores.'
+        : extreme >= Math.ceil(NS * 0.75)
+          ? 'You chose the lowest or highest rating on ' + extreme + ' of ' + NS + ' statements. Check a few of them against real examples, because very strong views about yourself are not always accurate.'
+          : 'You used a good spread of ratings (' + neutral + ' middle, ' + extreme + ' at the extremes out of ' + NS + '), which gives the scores more meaning.';
       var qualitySection = '<div class="result-section"><h4>How to read your answer pattern</h4><p>' + esc(quality) + '</p></div>';
 
-      var retake = '<div class="result-section"><h4>When to retake</h4>' + list(['Retake after two to three weeks of practising your lowest area.', 'Compare area by area, not only the overall score.', 'Ask two people who know you well to rate you on the same areas and compare their view with yours.']) + '</div>';
+      var retake = '<div class="result-section"><h4>When to retake</h4>' + list(['Retake after a few weeks of practising your lowest area.', 'Compare area by area, not only the overall score.', PAR ? 'Ask your child to take the student version too and compare your views area by area.' : 'Ask two people who know you well to rate you on the same areas and compare their view with yours.']) + '</div>';
       var limits = '<div class="result-section"><h4>What this result cannot tell you</h4>' + list(D.limits) + '</div>';
       var review = '<div class="result-section"><h4>All your responses</h4><div class="sst-resp">' + Q.map(function (q, i) {
         var dn = DOMS.filter(function (d) { return d.key === q.d; })[0].name;
-        return '<div><b>' + (i + 1) + '.</b><span>' + esc(q.text) + ' (' + esc(dn) + ') - ' + esc(RATING[answers[i]]) + '</span></div>';
+        return '<div><b>' + (i + 1) + '.</b><span>' + esc(q.text) + ' (' + esc(dn) + ') - ' + esc(q.opts ? q.opts[answers[i]].t : RATING[answers[i]]) + '</span></div>';
       }).join('') + '</div></div>';
+
       var SA = (D.stageAdvice && D.stageAdvice[stage]) || {};
       function stageArea(r) { var a = SA[r.d.key]; return a ? '<p><b>' + esc(r.d.name) + ' (' + r.score + '%):</b> ' + esc(a.situation) + '</p>' + list(a.actions) : ''; }
       var stageAreaSection = (SA[lowest.d.key] || SA[second.d.key])
         ? '<div class="result-section"><h4>What this means at your stage</h4><p>The advice below is written for where you said you are right now, for your two lowest areas.</p>' + stageArea(lowest) + stageArea(second) + '</div>' : '';
-      var parentSection = D.parentSection ? '<div class="result-section"><h4>' + esc(D.parentSection.title) + '</h4>' + list(D.parentSection.body) + '</div>' : '';
       var stageSection = '<div class="result-section"><h4>' + esc(st.title) + '</h4><p>' + esc(st.label) + '. ' + esc(st.body) + '</p>' + list(st.actions) + '</div>';
 
       resultShell.innerHTML =
         '<div class="result-head"><div class="score-mark"><strong>' + overall + '%</strong><span>' + esc(D.scoreLabel) + '</span></div>' +
         '<div><span class="result-kicker">' + esc(D.resultKicker) + '</span><h3>' + esc(headline) + '</h3><p>' + esc(overallText) + ' ' + esc(gapText) + '</p></div></div>' +
-        '<div class="result-section"><h4>Your scores by area</h4><p>Scores come only from your own ratings and are not compared with other people.</p>' + bars + '</div>' +
-        stageSection + stageAreaSection + lowSection + deep + secondSection + strongSection + guide + careers + others + plan + parentSection + related + qualitySection + retake + limits + review +
+        '<div class="result-section"><h4>Your scores by area</h4><p>Scores come only from your own answers and are not compared with other people.</p>' + bars + '</div>' +
+        stageSection + stageAreaSection + lowSection + scenSection + deep + secondSection + strongSection + guide + careers + others + plan + related + qualitySection + retake + limits + review +
         '<div class="result-actions"><button id="download-button" type="button" class="sst-btn sst-btn--primary">Download Detailed PDF</button><a href="' + guidanceHref + '" class="btn-gold">' + esc(guidanceLabel) + '</a><button id="retake-button" type="button" class="sst-btn sst-btn--ghost">Retake</button></div>';
 
       quizShell.hidden = true; resultShell.hidden = false; reveal(resultShell);
