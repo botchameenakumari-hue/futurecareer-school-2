@@ -1415,6 +1415,15 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     readTimeMinutes: 19,
   },
   {
+    categorySlug: 'stream-selection',
+    slug: 'career-chart-after-10th',
+    title: 'Career chart after 10th: every route mapped, with free PDFs',
+    description:
+      'Career chart after 10th as a real chart: science, commerce, arts, diploma, ITI and open schooling, what each keeps open, years to work, and free PDF downloads.',
+    publishedAtISO: '2026-10-10',
+    readTimeMinutes: 12,
+  },
+  {
     categorySlug: 'career-options',
     slug: 'career-chart-after-12th',
     title: 'Career chart after 12th: every route, its cost and its real odds',
