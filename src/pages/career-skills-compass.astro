@@ -29,6 +29,14 @@ const routeSeo = {
 } as const;
 const seoDescription = routeSeo[route].description;
 const routeH1 = routeSeo[route].h1;
+const compassVisuals = {
+  hero: '/images/career-skills-compass/career-skills-compass-hero.webp',
+  social: '/images/career-skills-compass/career-skills-compass-social.jpg',
+  overview: '/images/career-skills-compass/career-skills-compass-at-a-glance-summary.webp',
+  routes: '/images/career-skills-compass/career-skills-compass-chronological-trying-today.webp',
+  suggestions: '/images/career-skills-compass/career-skills-compass-asymmetrical-career-suggestions-worth-exploring.webp',
+  stages: '/images/career-skills-compass/career-skills-compass-chronological-choose-stage-once-next.webp',
+};
 const allCareerRoles = [...futureCareerRoles, ...careerRoles];
 const clusters = [...new Set(allCareerRoles.map((role) => role.cluster))];
 const enrichedRoles = allCareerRoles.map((role) => ({ ...role, meta: futureCareerMeta[role.id] ?? getCareerMeta(role), ai: getAITransition(role) }));
@@ -53,7 +61,7 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout {title} description={seoDescription} {jsonLd}>
+<BaseLayout {title} description={seoDescription} {jsonLd} ogImage={isHub ? compassVisuals.social : undefined} ogImageWidth={isHub ? 1200 : undefined} ogImageHeight={isHub ? 630 : undefined}>
   <Nav activePage="compass" />
   <main class="compass-page" data-compass-route={route}>
     <section class="compass-hero" aria-labelledby="page-title">
@@ -86,6 +94,8 @@ const jsonLd = {
       </div>
     </section>
 
+    {isHub && <figure class="compass-visual compass-cover-visual"><img src={compassVisuals.hero} width="1600" height="900" alt="A graduate and an experienced professional compare career options around a table with a notebook, role cards and a laptop." title="Career and Skills Compass: compare work that fits your life" fetchpriority="high" decoding="async" /><figcaption>Start with the work and life you need—not a fashionable title.</figcaption></figure>}
+
     <nav class="jump-nav" aria-label="Career and skills routes"><div class="container"><a href="/career-skills-compass/">Compass home</a><a href="/career-skills-compass/direction/" aria-current={route==='direction'?'page':undefined}>Find direction</a><a href="/career-skills-compass/careers/" aria-current={route==='careers'?'page':undefined}>Explore careers</a><a href="/career-skills-compass/transition/" aria-current={route==='transition'?'page':undefined}>Change direction</a><a href="/career-skills-compass/skills/" aria-current={route==='skills'?'page':undefined}>Build skills</a></div></nav>
 
     {!isHub && <section class="route-page-banner" aria-labelledby="route-page-title"><div class="container"><a href="/career-skills-compass/">← Career &amp; Skills Compass</a><p>{routeConfig[route].eyebrow}</p><h1 id="route-page-title">{routeConfig[route].heading}</h1><span>{routeConfig[route].description}</span></div></section>}
@@ -102,6 +112,10 @@ const jsonLd = {
         <div class="route-status"><b>Not sure?</b><span>Start with “I need career ideas.” You can inspect roles and skills without completing every route. <a href="/career-skills-compass/method/">How this guide uses research and real-world signals →</a></span></div>
       </div>
     </section>
+
+    {isHub && <figure class="compass-visual compass-explainer"><img src={compassVisuals.overview} width="1600" height="1000" alt="Editorial overview showing the Compass questions, eight foundations, a practical shortlist, career suggestions and browsing work without hype." title="Career and Skills Compass: eight foundations and four useful routes" loading="lazy" decoding="async" /><figcaption>One Compass, four useful routes, and a practical way to keep moving.</figcaption></figure>}
+
+    {isHub && <figure class="compass-visual compass-explainer"><img src={compassVisuals.routes} width="1600" height="1000" alt="Four connected route choices: career ideas that fit, a role or vacancy in mind, experience already gained, and growth at a chosen pace." title="Career and Skills Compass: choose the route that fits today" loading="lazy" decoding="async" /><figcaption>Choose the question that is useful today; the next route stays focused.</figcaption></figure>}
 
     {isHub && <section class="universal-foundations" id="universal-foundations" aria-labelledby="universal-foundations-title"><div class="container"><header class="section-heading"><p class="kicker">Useful at every career stage</p><h2 id="universal-foundations-title">Eight foundations for work, growth and a thriving life.</h2><p>These are not prerequisites or a checklist to finish. They are the common capabilities that help people learn, choose, work with others and adapt—whether they are at school, returning to work, leading others or changing direction.</p></header><div class="universal-foundation-grid">{foundationSkills.map((skill,index)=><article><span>{String(index+1).padStart(2,'0')}</span><h3>{skill.name}</h3><p>{skill.why}</p><div><b>A simple place to start</b><small>{skill.practice}</small></div></article>)}</div><footer><div><b>Start with one foundation, not all eight.</b><span>Pick the one that would make the biggest difference to your work or life right now. The Build Skills route turns it into a practice plan at a pace you choose.</span></div><a class="button button-dark" href="/career-skills-compass/skills/">Build one foundation at my pace →</a></footer></div></section>}
 
@@ -157,6 +171,8 @@ const jsonLd = {
         <nav class="card-pagination" id="match-pagination" aria-label="Career suggestion pages"></nav>
       </div>
     </section>
+
+    {isHub && <figure class="compass-visual compass-explainer"><img src={compassVisuals.suggestions} width="1600" height="1000" alt="Decision brief explaining that changing one answer can change career suggestions, with examples of AI Work Architect, AI Steward, Evaluation Specialist, and AI Governance and Model Risk Specialist." title="Career suggestions worth exploring: compare fit, readiness and changing answers" loading="lazy" decoding="async" /><figcaption>Suggestions are starting points to investigate, not a verdict about your future.</figcaption></figure>}
 
     <section class="explore-section" id="explore" aria-labelledby="explore-title">
       <div class="container">
@@ -216,6 +232,8 @@ const jsonLd = {
     <section class="stages-section" id="stages" aria-labelledby="stages-title"><div class="container"><header class="section-heading"><p class="kicker">Personalise your skills route</p><h2 id="stages-title">Choose your stage once. Your next move and AI guidance adapt together.</h2><p>Choose your current stage—not your age. You can explore, return, lead or change direction at any point in life.</p></header><label class="stage-picker"><span>Show guidance for</span><select id="stage-guidance-select">{Object.entries(stageLabels).map(([stage,label]) => <option value={stage}>{label}</option>)}</select></label><div class="stage-playbook">
       {Object.entries(stageLabels).map(([stage,label],index) => { const play = stagePlaybook[stage]; return <article data-stage-guidance={stage} hidden={index!==0}><div class="stage-card-head"><span>{label}</span><button type="button" data-use-stage={stage}>Use this in my questions →</button></div><h3>{play.question}</h3><p><b>Focus on:</b> {play.use}</p><p class="avoid"><b>Try not to:</b> {play.avoid}</p><ol>{play.action.map((action) => <li>{action}</li>)}</ol></article> })}
     </div></div></section>
+
+    {isHub && <figure class="compass-visual compass-explainer"><img src={compassVisuals.stages} width="1600" height="1000" alt="Six-stage career learning path from curiosity and testing through entry evidence, compounding capabilities, a possible reset, and practical conversations and projects." title="Career and Skills Compass: choose your stage and next move" loading="lazy" decoding="async" /><figcaption>Good career decisions become clearer when curiosity turns into small, real tests.</figcaption></figure>}
 
     <section class="future-radar" id="future-radar" aria-labelledby="future-title">
       <div class="container">
@@ -438,6 +456,8 @@ const jsonLd = {
     .career-dialog :is(input,select,textarea){font-size:16px!important}
     .skill-bridge-explainer{grid-template-columns:1fr}
   }
+  .compass-visual{width:min(1180px,calc(100% - 36px));margin:0 auto;padding:28px 0 12px}.compass-visual img{display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 18px 45px rgba(8,21,35,.12)}.compass-visual figcaption{max-width:760px;margin:12px auto 0;color:var(--cc-muted);font-size:13px;line-height:1.55;text-align:center}.compass-cover-visual{padding-top:26px;background:var(--cc-paper)}.compass-explainer{padding-block:42px}.compass-page[data-compass-route]:not([data-compass-route="hub"]) .compass-visual{display:none}
+  @media(max-width:720px){.compass-visual{width:calc(100% - 24px);padding-block:18px 8px}.compass-visual img{border-radius:9px;box-shadow:0 10px 24px rgba(8,21,35,.1)}.compass-visual figcaption{font-size:12px;text-align:left}.compass-explainer{padding-block:26px}}
 </style>
 
 <script>
