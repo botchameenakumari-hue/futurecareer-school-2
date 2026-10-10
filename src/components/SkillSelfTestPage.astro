@@ -26,6 +26,7 @@ import {
 } from '../config/skillSelfTestAudience';
 
 import type { SkillTestBundle } from '../config/skillTests/types';
+import { PF_SKILLS, INCOME_LADDER, PF_PROOF, PF_WEEKLY, PF_INTRO, PF_GENTLE, FREEDOM_FRAME, FREEDOM_STEPS, PF_READ_NEXT, PARENT_SKILLS, PF_AUDIENCE, PF_GENTLE_TESTS } from '../config/skillPortfolio';
 
 interface Props {
   testId?: SkillTestId;
@@ -76,6 +77,11 @@ const clientData = {
   isStudent,
   depth,
   related: test.related,
+  pf: {
+    skills: PF_SKILLS, ladder: INCOME_LADDER, proof: PF_PROOF, weekly: PF_WEEKLY, intro: PF_INTRO, gentleNote: PF_GENTLE,
+    frame: FREEDOM_FRAME, steps: FREEDOM_STEPS, readNext: PF_READ_NEXT, parentSkills: PARENT_SKILLS,
+    audience: PF_AUDIENCE[test.id] || {}, gentle: PF_GENTLE_TESTS.includes(test.id),
+  },
 };
 
 const jsonLd = [
@@ -354,6 +360,16 @@ const jsonLd = [
   .sst-resp{display:grid;gap:.4rem}
   .sst-resp div{display:flex;gap:.7rem;font-size:.92rem;line-height:1.5}
   .sst-resp b{min-width:1.8rem;color:var(--gold)}
+  .sst-result .pf-card{border:1px solid var(--border,#d9dee6);border-radius:12px;padding:1rem 1.1rem;margin:.9rem 0}
+  .sst-result .pf-card h5{margin:0 0 .4rem;font-size:1.02rem}
+  .sst-result .pf-card summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
+  .sst-result .pf-tag{display:inline-block;margin-left:.4rem;padding:.1rem .5rem;border-radius:999px;font-size:.72rem;background:#fff4d6;color:#7a5600;vertical-align:middle}
+  .sst-result .pf-st{font-weight:600}
+  .sst-result .pf-scale{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.4rem;margin:.4rem 0 0}
+  .sst-result .pf-key{font-size:.78rem;opacity:.75;margin:.25rem 0 .6rem}
+  .sst-result .pf-card p{margin:.5rem 0}
+  .sst-result .pf-rate{min-width:44px;min-height:44px;border-radius:10px;border:1px solid currentColor;background:transparent;color:inherit;font:inherit;cursor:pointer}
+  .sst-result .pf-rate.is-on{background:#0b5cff;border-color:#0b5cff;color:#fff}
   .sst-result .result-actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.6rem}
   @media(max-width:620px){
     .sst-hero{padding-top:108px}
@@ -591,7 +607,8 @@ const jsonLd = [
         'Focus first on ' + lc(lowest.d.name) + ' (' + lowest.score + '%), then ' + lc(second.d.name) + ' (' + second.score + '%).',
         'Your strongest area is ' + lc(highest.d.name) + ' (' + highest.score + '%). Keep using it.',
         lowCount ? lowCount + ' of ' + statIdx.length + ' statements need a specific step. They are listed with a step for each below.' : 'No statement needs a specific step right now.',
-        'One thing to do today: ' + firstMove
+        'One thing to do today: ' + firstMove,
+        PAR ? 'Skills for earning power are covered in the section on skills to encourage.' : 'Skills for earning more, sooner: see the skill-led path to early financial freedom, and rate your nine skills there.'
       ]) + '</div>';
 
       // Week by week
@@ -628,14 +645,63 @@ const jsonLd = [
         ? '<div class="result-section"><h4>What this means at your stage</h4><p>The advice below is written for where you said you are right now, for your two lowest areas.</p>' + stageArea(lowest) + stageArea(second) + '</div>' : '';
       var stageSection = '<div class="result-section"><h4>' + esc(st.title) + '</h4><p>' + esc(st.label) + '. ' + esc(st.body) + '</p>' + list(st.actions) + '</div>';
 
+      // Skill-led path to early financial freedom (separate from the area scores)
+      var PF = D.pf, PFA = (PF.audience && PF.audience[stage]) || (PAR ? 'parent' : 'early');
+      var PFL = ['Not true', 'Rarely true', 'Sometimes true', 'Mostly true', 'Very true'];
+      var pfRate = PF.skills.map(function () { return null; }), pfOpen = PF.skills.map(function () { return false; });
+      var pfLinks = function (arr) { return '<ul>' + arr.map(function (l) { return '<li><a href="' + l.href + '">' + esc(l.title) + '</a></li>'; }).join('') + '</ul>'; };
+      var pfIntroSection = '<div class="result-section"><h4>' + (PAR ? 'Skills that build earning power, for your child' : 'Your skill-led path to early financial freedom') + '</h4><p>' + esc(PF.intro[PFA]) + '</p>' + (PAR ? '' : '<p>' + esc(PF.frame) + '</p><p>These skills help everyone, whatever work you do or want to do: using AI, clear English, building with technology (coding is best, and AI-assisted or no-code building is a strong start), and the basics of marketing and sales.</p>' + list(PF.steps)) + (PF.gentle ? '<p>' + esc(PF.gentleNote) + '</p>' : '') + '</div>';
+      function pfLevel(v) { return v === null ? 'start' : v <= 2 ? 'start' : v === 3 ? 'grow' : 'strong'; }
+      function pfCards() {
+        var order = PF.skills.map(function (k, i) { return i; });
+        var rated = order.filter(function (i) { return pfRate[i] !== null; }).sort(function (a, b) { return pfRate[a] - pfRate[b] || a - b; });
+        var top = rated.length ? rated.filter(function (i) { return pfRate[i] <= 3; }).slice(0, 3) : [0, 4, 1];
+        var head = rated.length === PF.skills.length
+          ? (top.length ? '<p><b>Build these first:</b> ' + esc(top.map(function (i) { return PF.skills[i].name; }).join(', ')) + '. Your other skills are at a good level, so keep them in use and add proof.</p>' : '<p><b>All nine skills are at a good level.</b> Move to proof and offers: the sections below show how.</p>')
+          : '<p>Rate each skill below to see steps matched to your level. ' + (rated.length ? 'Until you rate them all, unrated skills show starting steps.' : 'Until you rate them, every skill shows starting steps and the suggested first three are ' + esc(top.map(function (i) { return PF.skills[i].name; }).join(', ')) + '.') + '</p>';
+        return head + PF.skills.map(function (k, i) {
+          var v = pfRate[i], lv = pfLevel(v), steps = k[lv];
+          var btns = [1, 2, 3, 4, 5].map(function (n) { return '<button type="button" class="pf-rate' + (v === n ? ' is-on' : '') + '" data-pf="' + i + '" data-v="' + n + '" aria-pressed="' + (v === n) + '">' + n + '</button>'; }).join('');
+          return '<div class="pf-card"><h5>' + (i + 1) + '. ' + esc(k.name) + (top.indexOf(i) > -1 ? ' <span class="pf-tag">Build first</span>' : '') + '</h5>' +
+            '<p class="pf-st">' + esc(k.statement) + '</p>' +
+            '<div data-result-actions><div class="pf-scale">' + btns + '</div><p class="pf-key">1 = Not true, 5 = Very true</p></div>' +
+            '<p><b>Your rating:</b> ' + (v === null ? 'Not rated yet' : v + ' of 5 (' + PFL[v - 1] + ')') + '</p>' +
+            '<details' + (pfOpen[i] ? ' open' : '') + ' data-pfd="' + i + '"><summary>Why it matters, your steps, tools and reading</summary><p>' + esc(k.why) + '</p>' +
+            '<p><b>' + (v === null ? 'Starting steps' : lv === 'start' ? 'Your starting steps' : lv === 'grow' ? 'Your next steps' : 'To take it further') + ':</b></p>' + list(steps) +
+            '<p><b>For where you are now:</b> ' + esc(PAR ? '' : k.focus[PFA]) + '</p>' +
+            '<p><b>Free tools:</b> ' + esc(k.tools.join('; ')) + '.</p>' +
+            '<p><b>Read next:</b></p>' + pfLinks(k.links) + '</details></div>';
+        }).join('');
+      }
+      var pfCheck = PAR ? '' : '<div class="result-section" id="pf-check" data-keep-open="1"><h4>Check your nine skills and get steps for each</h4><p>Rate each statement from 1 (not true) to 5 (very true). This check is separate from your area scores above and does not change them.</p><div id="pf-cards" data-keep-open="1">' + pfCards() + '</div></div>';
+      var pfParent = PAR ? '<div class="result-section"><h4>Five skills to encourage alongside studies</h4>' + PF.parentSkills.map(function (k) { return '<p><b>' + esc(k.title) + ':</b> ' + esc(k.body) + '</p>'; }).join('') + '</div>' : '';
+      var pfLadder = '<div class="result-section"><h4>' + (PAR ? 'How skills turn into income, step by step' : 'The income ladder: from learning to freedom of choice') + '</h4>' + list(PF.ladder.map(function (l, i) { return 'Step ' + (i + 1) + ' - ' + l.name + ': ' + l.body; })) + '</div>';
+      var pfProof = PAR ? '' : '<div class="result-section"><h4>Proof projects you can build for your portfolio</h4><p>Pick two and finish them. Each one should end with a link and a short note on the problem, what you made and what happened.</p>' + list(PF.proof[PFA]) + '<p><b>Time to plan for:</b> ' + esc(PF.weekly[PFA]) + '</p></div>';
+      var pfSprint = PAR ? '' : '<div class="result-section" id="pf-sprint"><h4>Your 90-day skill sprint</h4><p>Choose one craft you want to be paid for, then use the sprint below to add AI, communication, tech and reach to it.</p>' + list([
+        'Days 1 to 30 - Learn and use daily: spend your skill time on the "Build first" skills above. Use an AI assistant every day, write and speak a little English every day, and finish one small build.',
+        'Days 31 to 60 - Prove it in public: publish three small pieces of real work in one place, add a short marketing post about each, and ask for feedback from two people.',
+        'Days 61 to 90 - Make your first offer: message ten people or businesses with a clear one-line offer, follow up once, and write down every reply. Then pick the next skill to add.'
+      ]) + (PF.gentle ? '<p>' + esc(PF.gentleNote) + '</p>' : '') + '</div>';
+      var pfRead = '<div class="result-section"><h4>Read next on skills and income</h4>' + pfLinks(PF.readNext) + '</div>';
+      var pfAll = pfIntroSection + pfCheck + pfParent + pfLadder + pfProof + pfSprint + pfRead;
+
       resultShell.innerHTML =
         '<div class="result-head"><div class="score-mark"><strong>' + overall + '%</strong><span>' + esc(D.scoreLabel) + '</span></div>' +
         '<div><span class="result-kicker">' + esc(D.resultKicker) + '</span><h3>' + esc(headline) + '</h3><p>' + esc(overallText) + ' ' + esc(gapText) + '</p></div></div>' +
         '<div class="result-section"><h4>Your scores by area</h4><p>Scores come only from your own answers and are not compared with other people.</p>' + bars + '</div>' +
-        quick + prevSection + stageSection + stageAreaSection + lowSection + scenSection + blindSection + deep + secondSection + strongSection + talkSection + guide + careers + others + plan + weeks + related + qualitySection + retake + limits + review +
+        quick + prevSection + stageSection + stageAreaSection + lowSection + scenSection + blindSection + deep + secondSection + strongSection + talkSection + guide + careers + others + plan + weeks + pfAll + related + qualitySection + retake + limits + review +
         '<div class="result-actions"><button id="download-button" type="button" class="sst-btn sst-btn--primary">Download Detailed PDF</button><a href="' + guidanceHref + '" class="btn-gold">' + esc(guidanceLabel) + '</a><button id="retake-button" type="button" class="sst-btn sst-btn--ghost">Retake</button></div>';
 
       quizShell.hidden = true; resultShell.hidden = false; reveal(resultShell);
+      var pfBox = document.getElementById('pf-cards');
+      if (pfBox) pfBox.addEventListener('click', function (e) {
+        var b = e.target.closest ? e.target.closest('.pf-rate') : null; if (!b) return;
+        pfBox.querySelectorAll('details[data-pfd]').forEach(function (d) { pfOpen[Number(d.getAttribute('data-pfd'))] = d.open; });
+        pfRate[Number(b.getAttribute('data-pf'))] = Number(b.getAttribute('data-v')); pfOpen[Number(b.getAttribute('data-pf'))] = true;
+        var y = window.scrollY; pfBox.innerHTML = pfCards(); window.scrollTo(0, y);
+        var again = pfBox.querySelector('.pf-rate[data-pf="' + b.getAttribute('data-pf') + '"][data-v="' + b.getAttribute('data-v') + '"]'); if (again) again.focus({ preventScroll: true });
+        ping('self_test_skill_rate', { skill: PF.skills[Number(b.getAttribute('data-pf'))].key });
+      });
       document.getElementById('download-button').addEventListener('click', function () {
         ping('self_test_pdf_download'); if (window.downloadAssessmentReportPdf) window.downloadAssessmentReportPdf({ container: resultShell, title: D.reportTitle, fileName: D.reportFile });
       });
