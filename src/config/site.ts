@@ -185,6 +185,21 @@ export const LIVE_INDEXABLE_ROUTES: IndexableRoute[] = [
     changefreq: 'monthly',
     priority: '0.88',
   },
+  {
+    path: '/services/assessments/confused-about-career-after-10th-test',
+    changefreq: 'monthly',
+    priority: '0.88',
+  },
+  {
+    path: '/services/assessments/communication-skills-assessment',
+    changefreq: 'monthly',
+    priority: '0.88',
+  },
+  {
+    path: '/services/assessments/soft-skills-self-assessment',
+    changefreq: 'monthly',
+    priority: '0.88',
+  },
   ...ASSESSMENT_PAGE_ROUTE_CONFIG,
   {
     path: '/career-resources',
