@@ -397,3 +397,40 @@ export const PF_AUDIENCE: Record<string, Record<string, Audience>> = {
 };
 
 export const PF_GENTLE_TESTS = ['burnout-self-assessment', 'exam-stress-self-assessment'];
+
+// The portfolio itself: one craft people pay for, plus multipliers, reach and proof.
+export const PF_BLUEPRINT: { layer: string; body: string }[] = [
+  { layer: 'Layer 1 - Your craft', body: 'One skill people already pay for, such as design, accounts, teaching, data, writing, sales, a trade, healthcare support or a technical field. This is what you are known for. Pick the one you can practise most days.' },
+  { layer: 'Layer 2 - Your multipliers', body: 'AI use, building with AI or no-code tools, and coding where you can. These make the same craft faster, cheaper to deliver and harder to replace. A designer who automates, an accountant who builds dashboards, or a teacher who makes AI study tools is rarer than one who only has the craft.' },
+  { layer: 'Layer 3 - Your reach', body: 'Clear English, digital marketing and sales. These bring customers, clients and employers to you, and help you explain your price. Without reach, even a strong craft stays unseen.' },
+  { layer: 'Layer 4 - Your proof', body: 'Public work, results and testimonials. This is what turns the other three layers into trust, and trust into paid work.' },
+];
+
+export const PF_CRAFT: string[] = [
+  'List three things you can already do better than most people around you. Ask two people what they come to you for.',
+  'For each one, check whether people pay for it: look at five job listings or freelance requests, and note the skills they ask for.',
+  'Pick the one that is both useful and something you can stay with for a year. This is your craft for now, and you can change it later.',
+  'Ask one question about every piece of your work: how could AI, a sheet or a small script make this faster, better or repeatable? Apply the answer once a week.',
+  'Describe your craft in one sentence that starts with who it helps and ends with the result, then use it in your profile and every message.',
+];
+
+export const PF_STACK: string[] = [
+  'Income from one employer or one client depends on one decision. Aim, over time, for two or three sources that use the same skills, such as a job plus a small paid service, or a service plus a template.',
+  'Services come first because they need no product: you do the work for a person or business. Templates, guides, workshops or tools can follow once you have done the same task several times.',
+  'Keep every source tied to skills you own. Skills travel with you between jobs, cities and industries.',
+];
+
+export const PF_TRACK: string[] = [
+  'Keep one sheet with these columns: date, skill used, who it was for, what you delivered, what you earned or learned, and the next step.',
+  'Every month, count three things: new proof pieces published, offers made, and paid tasks done. Improve the one that is lowest.',
+  'Write your freedom number at the top of the sheet and note, each quarter, how much of it your skills now cover.',
+];
+
+export const PF_MISTAKES: string[] = [
+  'Collecting courses without making anything. One finished project beats five certificates.',
+  'Switching skills every few weeks. Give one skill 60 to 90 days before deciding.',
+  'Copying AI output without checking it. Always verify facts, numbers and code before sharing.',
+  'Waiting until you feel ready to show your work. Publish early and improve from feedback.',
+  'Charging nothing for ever. Free work is for proof and a testimonial, so set a date to start asking for a fair price.',
+  'Learning only the craft and ignoring reach. If nobody knows your work, nobody can pay for it.',
+];

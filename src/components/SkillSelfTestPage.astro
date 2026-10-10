@@ -26,7 +26,7 @@ import {
 } from '../config/skillSelfTestAudience';
 
 import type { SkillTestBundle } from '../config/skillTests/types';
-import { PF_SKILLS, INCOME_LADDER, PF_PROOF, PF_WEEKLY, PF_INTRO, PF_GENTLE, FREEDOM_FRAME, FREEDOM_STEPS, PF_READ_NEXT, PARENT_SKILLS, PF_AUDIENCE, PF_GENTLE_TESTS } from '../config/skillPortfolio';
+import { PF_SKILLS, INCOME_LADDER, PF_PROOF, PF_WEEKLY, PF_INTRO, PF_GENTLE, FREEDOM_FRAME, FREEDOM_STEPS, PF_READ_NEXT, PARENT_SKILLS, PF_AUDIENCE, PF_GENTLE_TESTS, PF_BLUEPRINT, PF_CRAFT, PF_STACK, PF_TRACK, PF_MISTAKES } from '../config/skillPortfolio';
 
 interface Props {
   testId?: SkillTestId;
@@ -80,7 +80,7 @@ const clientData = {
   pf: {
     skills: PF_SKILLS, ladder: INCOME_LADDER, proof: PF_PROOF, weekly: PF_WEEKLY, intro: PF_INTRO, gentleNote: PF_GENTLE,
     frame: FREEDOM_FRAME, steps: FREEDOM_STEPS, readNext: PF_READ_NEXT, parentSkills: PARENT_SKILLS,
-    audience: PF_AUDIENCE[test.id] || {}, gentle: PF_GENTLE_TESTS.includes(test.id),
+    audience: PF_AUDIENCE[test.id] || {}, gentle: PF_GENTLE_TESTS.includes(test.id), blueprint: PF_BLUEPRINT, craft: PF_CRAFT, stack: PF_STACK, track: PF_TRACK, mistakes: PF_MISTAKES,
   },
 };
 
@@ -608,8 +608,8 @@ const jsonLd = [
         'Your strongest area is ' + lc(highest.d.name) + ' (' + highest.score + '%). Keep using it.',
         lowCount ? lowCount + ' of ' + statIdx.length + ' statements need a specific step. They are listed with a step for each below.' : 'No statement needs a specific step right now.',
         'One thing to do today: ' + firstMove,
-        PAR ? 'Skills for earning power are covered in the section on skills to encourage.' : 'Skills for earning more, sooner: see the skill-led path to early financial freedom, and rate your nine skills there.'
-      ]) + '</div>';
+        PAR ? 'Skills for earning power are covered in the section on skills to encourage.' : 'Skills for earning more, sooner: see the skill-led path to early financial freedom below and rate your nine skills.'
+      ]) + (PAR ? '' : '<p><a href="#pf-intro">Jump to the skill-led path to early financial freedom</a></p>') + '</div>';
 
       // Week by week
       var weeks = '<div class="result-section"><h4>Your four weeks, week by week</h4>' + list([
@@ -650,7 +650,7 @@ const jsonLd = [
       var PFL = ['Not true', 'Rarely true', 'Sometimes true', 'Mostly true', 'Very true'];
       var pfRate = PF.skills.map(function () { return null; }), pfOpen = PF.skills.map(function () { return false; });
       var pfLinks = function (arr) { return '<ul>' + arr.map(function (l) { return '<li><a href="' + l.href + '">' + esc(l.title) + '</a></li>'; }).join('') + '</ul>'; };
-      var pfIntroSection = '<div class="result-section"><h4>' + (PAR ? 'Skills that build earning power, for your child' : 'Your skill-led path to early financial freedom') + '</h4><p>' + esc(PF.intro[PFA]) + '</p>' + (PAR ? '' : '<p>' + esc(PF.frame) + '</p><p>These skills help everyone, whatever work you do or want to do: using AI, clear English, building with technology (coding is best, and AI-assisted or no-code building is a strong start), and the basics of marketing and sales.</p>' + list(PF.steps)) + (PF.gentle ? '<p>' + esc(PF.gentleNote) + '</p>' : '') + '</div>';
+      var pfIntroSection = '<div class="result-section" id="pf-intro"><h4>' + (PAR ? 'Skills that build earning power, for your child' : 'Your skill-led path to early financial freedom') + '</h4><p>' + esc(PF.intro[PFA]) + '</p>' + (PAR ? '' : '<p>' + esc(PF.frame) + '</p><p>These skills help everyone, whatever work you do or want to do: using AI, clear English, building with technology (coding is best, and AI-assisted or no-code building is a strong start), and the basics of marketing and sales.</p>' + list(PF.steps)) + (PF.gentle ? '<p>' + esc(PF.gentleNote) + '</p>' : '') + '</div>';
       function pfLevel(v) { return v === null ? 'start' : v <= 2 ? 'start' : v === 3 ? 'grow' : 'strong'; }
       function pfCards() {
         var order = PF.skills.map(function (k, i) { return i; });
@@ -682,8 +682,11 @@ const jsonLd = [
         'Days 31 to 60 - Prove it in public: publish three small pieces of real work in one place, add a short marketing post about each, and ask for feedback from two people.',
         'Days 61 to 90 - Make your first offer: message ten people or businesses with a clear one-line offer, follow up once, and write down every reply. Then pick the next skill to add.'
       ]) + (PF.gentle ? '<p>' + esc(PF.gentleNote) + '</p>' : '') + '</div>';
+      var pfBlue = PAR ? '' : '<div class="result-section"><h4>Your high-income skill portfolio: one craft plus three layers</h4><p>A strong portfolio has four layers. Whatever you do, the same structure works.</p>' + list(PF.blueprint.map(function (l) { return l.layer + ': ' + l.body; })) + '<h5>How to choose and grow your craft</h5>' + list(PF.craft) + '</div>';
+      var pfStack = PAR ? '' : '<div class="result-section"><h4>Build more than one source of income from your skills</h4>' + list(PF.stack) + '<h5>Track it so you can repeat what works</h5>' + list(PF.track) + '</div>';
+      var pfMist = PAR ? '' : '<div class="result-section"><h4>Mistakes that slow down skill-led income</h4>' + list(PF.mistakes) + '</div>';
       var pfRead = '<div class="result-section"><h4>Read next on skills and income</h4>' + pfLinks(PF.readNext) + '</div>';
-      var pfAll = pfIntroSection + pfCheck + pfParent + pfLadder + pfProof + pfSprint + pfRead;
+      var pfAll = pfIntroSection + pfBlue + pfCheck + pfParent + pfLadder + pfProof + pfStack + pfSprint + pfMist + pfRead;
 
       resultShell.innerHTML =
         '<div class="result-head"><div class="score-mark"><strong>' + overall + '%</strong><span>' + esc(D.scoreLabel) + '</span></div>' +
