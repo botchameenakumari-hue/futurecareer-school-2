@@ -18,6 +18,8 @@ import { SKILL_TESTS, type SkillTestId } from '../config/skillSelfTests';
 import { SKILL_TEST_DEPTH } from '../config/skillSelfTestDepth';
 import { EXTRA_QUESTIONS, STAGE_ADVICE } from '../config/skillSelfTestExtras';
 import { SCENARIOS } from '../config/skillSelfTestScenarios';
+import { SCENARIOS_MORE } from '../config/skillSelfTestScenarios2';
+import { TALK, TALK_TITLES } from '../config/skillSelfTestBoost';
 import {
   PARENT_QUESTIONS, PARENT_BANDS, PARENT_DOMAINS, PARENT_DEEP, PARENT_STAGE, PARENT_STAGE_ADVICE,
   DOMAIN_PHRASES, STAGE_PLAN,
@@ -47,6 +49,7 @@ const clientData = {
     ...EXTRA_QUESTIONS[testId],
     ...(hasParent ? PARENT_QUESTIONS : []),
     ...SCENARIOS[testId],
+    ...SCENARIOS_MORE[testId],
   ],
   exclusiveStages: hasParent ? ['parent'] : [],
   stageAdvice: hasParent ? { ...STAGE_ADVICE[testId], parent: PARENT_STAGE_ADVICE } : STAGE_ADVICE[testId],
@@ -54,6 +57,9 @@ const clientData = {
   parentDomains: hasParent ? PARENT_DOMAINS : null,
   parentDeep: hasParent ? PARENT_DEEP : null,
   phrases: DOMAIN_PHRASES[testId],
+  talk: TALK[testId],
+  talkTitles: TALK_TITLES[testId],
+  storeKey: 'sst-last-' + testId,
   stagePlan: STAGE_PLAN[testId],
   reportTitle: test.reportTitle,
   reportFile: test.reportFile,
@@ -502,6 +508,65 @@ const jsonLd = [
         : extreme >= Math.ceil(NS * 0.75)
           ? 'You chose the lowest or highest rating on ' + extreme + ' of ' + NS + ' statements. Check a few of them against real examples, because very strong views about yourself are not always accurate.'
           : 'You used a good spread of ratings (' + neutral + ' middle, ' + extreme + ' at the extremes out of ' + NS + '), which gives the scores more meaning.';
+      // Blind-spot check: statement self-ratings against what was chosen in situations.
+      var blindRows = [];
+      results.forEach(function (r) {
+        var sS = [], sC = [];
+        Q.forEach(function (q, i) { if (q.d === r.d.key) (q.opts ? sC : sS).push(itemScore(q, answers[i])); });
+        if (sS.length >= 2 && sC.length >= 2) {
+          var a = Math.round(avg(sS)), c = Math.round(avg(sC));
+          if (Math.abs(a - c) >= 25) blindRows.push({ r: r, a: a, c: c });
+        }
+      });
+      var blindSection = scenIdx.length
+        ? '<div class="result-section"><h4>Do your ratings match your choices?</h4>' + (blindRows.length
+          ? '<p>In some areas, what you say about yourself differs from what you chose to do in the situations. Treat this as a prompt to check, not as a verdict.</p>' + blindRows.map(function (b) {
+              return b.a > b.c
+                ? '<p><b>' + esc(b.r.d.name) + ':</b> you rated your statements at ' + b.a + '% but your choices in situations scored ' + b.c + '%. You may be seeing yourself more favourably than your actions show. Ask someone who has seen you in this situation what they noticed, and practise the stronger option from the situations above.</p>'
+                : '<p><b>' + esc(b.r.d.name) + ':</b> you rated your statements at ' + b.a + '% but your choices in situations scored ' + b.c + '%. You may be more capable than you give yourself credit for. Look for a recent example where you handled this well and write it down.</p>';
+            }).join('')
+          : '<p>Your statement ratings and your choices in situations point the same way in every area, which suggests your self-view is consistent with what you would do.</p>') + '</div>'
+        : '';
+
+      // Compare with the last attempt on this browser, if any.
+      var prev = null, curScores = {};
+      results.forEach(function (r) { curScores[r.d.key] = r.score; });
+      try { prev = JSON.parse(localStorage.getItem(D.storeKey) || 'null'); } catch (e) { prev = null; }
+      var prevSection = '';
+      if (prev && prev.scores && prev.stage === stage) {
+        var ch = function (n, o) { var dlt = n - o; return dlt > 0 ? 'up ' + dlt + ' points' : dlt < 0 ? 'down ' + Math.abs(dlt) + ' points' : 'unchanged'; };
+        prevSection = '<div class="result-section"><h4>Compared with your last attempt</h4><p>Your last attempt on this device was on ' + esc(prev.date) + '. Your overall score is ' + ch(overall, prev.overall) + ' (' + prev.overall + '% then, ' + overall + '% now).</p>' + list(results.map(function (r) { return prev.scores[r.d.key] === undefined ? '' : r.d.name + ': ' + ch(r.score, prev.scores[r.d.key]) + ' (' + prev.scores[r.d.key] + '% then, ' + r.score + '% now)'; }).filter(Boolean)) + '<p>Small changes can come from how you felt on the day. Look for steady movement in the area you practised.</p></div>';
+      }
+      try { localStorage.setItem(D.storeKey, JSON.stringify({ date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }), stage: stage, overall: overall, scores: curScores })); } catch (e) {}
+
+      // In 60 seconds
+      var firstMove = lowest.dd.routine[0];
+      var quick = '<div class="result-section"><h4>Your result in 60 seconds</h4>' + list([
+        'Focus first on ' + lc(lowest.d.name) + ' (' + lowest.score + '%), then ' + lc(second.d.name) + ' (' + second.score + '%).',
+        'Your strongest area is ' + lc(highest.d.name) + ' (' + highest.score + '%). Keep using it.',
+        lowCount ? lowCount + ' of ' + statIdx.length + ' statements need a specific step. They are listed with a step for each below.' : 'No statement needs a specific step right now.',
+        'One thing to do today: ' + firstMove
+      ]) + '</div>';
+
+      // Week by week
+      var weeks = '<div class="result-section"><h4>Your four weeks, week by week</h4>' + list([
+        'Week 1 - ' + lowest.d.name + ': ' + lowest.dd.routine[0],
+        'Week 2 - ' + lowest.d.name + ': ' + (lowest.dd.routine[1] || lowest.dd.routine[0]) + ' Then ' + lc(lowest.dd.routine[2] || lowest.dd.routine[0]),
+        'Week 3 - ' + second.d.name + ': ' + second.dd.midStep,
+        'Week 4 - Review: ' + (lowest.dd.routine[3] || 'Look back at what changed') + ' Then retake this test and compare the areas.'
+      ]) + '</div>';
+
+      // How to talk about it
+      var TK = D.talk || {}, TT = D.talkTitles || {};
+      var talkSection = '';
+      if (!PAR && TK[highest.d.key] && TK[lowest.d.key]) {
+        var tH = TK[highest.d.key], tL = TK[lowest.d.key], isInt = !D.isStudent;
+        talkSection = '<div class="result-section"><h4>' + esc(TT.strong) + '</h4><p>' + esc(TT.intro) + '</p>' +
+          '<p><b>' + esc(highest.d.name) + (isInt ? ' - a question you may be asked:' : ' - a question to ask:') + '</b> ' + esc(tH.q) + '</p><p><b>' + (isInt ? 'How to answer:' : 'How to use it:') + '</b> ' + esc(tH.a) + '</p><p><b>' + (isInt ? 'A line for your CV or profile:' : 'A note to keep:') + '</b> ' + esc(tH.line) + '</p></div>' +
+          '<div class="result-section"><h4>' + esc(TT.weak) + '</h4>' +
+          '<p><b>' + esc(lowest.d.name) + (isInt ? ' - a question you may be asked:' : ' - a question to ask:') + '</b> ' + esc(tL.q) + '</p><p><b>' + (isInt ? 'How to answer honestly:' : 'How to use it:') + '</b> ' + esc(isInt ? 'Say that this is an area you are working on, give the one specific step you started (see your routine above), and describe what has already changed. ' + tL.a : tL.a) + '</p></div>';
+      }
+
       var qualitySection = '<div class="result-section"><h4>How to read your answer pattern</h4><p>' + esc(quality) + '</p></div>';
 
       var retake = '<div class="result-section"><h4>When to retake</h4>' + list(['Retake after a few weeks of practising your lowest area.', 'Compare area by area, not only the overall score.', PAR ? 'Ask your child to take the student version too and compare your views area by area.' : 'Ask two people who know you well to rate you on the same areas and compare their view with yours.']) + '</div>';
@@ -521,7 +586,7 @@ const jsonLd = [
         '<div class="result-head"><div class="score-mark"><strong>' + overall + '%</strong><span>' + esc(D.scoreLabel) + '</span></div>' +
         '<div><span class="result-kicker">' + esc(D.resultKicker) + '</span><h3>' + esc(headline) + '</h3><p>' + esc(overallText) + ' ' + esc(gapText) + '</p></div></div>' +
         '<div class="result-section"><h4>Your scores by area</h4><p>Scores come only from your own answers and are not compared with other people.</p>' + bars + '</div>' +
-        stageSection + stageAreaSection + lowSection + scenSection + deep + secondSection + strongSection + guide + careers + others + plan + related + qualitySection + retake + limits + review +
+        quick + prevSection + stageSection + stageAreaSection + lowSection + scenSection + blindSection + deep + secondSection + strongSection + talkSection + guide + careers + others + plan + weeks + related + qualitySection + retake + limits + review +
         '<div class="result-actions"><button id="download-button" type="button" class="sst-btn sst-btn--primary">Download Detailed PDF</button><a href="' + guidanceHref + '" class="btn-gold">' + esc(guidanceLabel) + '</a><button id="retake-button" type="button" class="sst-btn sst-btn--ghost">Retake</button></div>';
 
       quizShell.hidden = true; resultShell.hidden = false; reveal(resultShell);

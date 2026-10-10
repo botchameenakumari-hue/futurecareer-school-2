@@ -68,14 +68,14 @@ const CONFUSED_10: SkillTest = {
   breadcrumbName: 'Confused After 10th Test',
   metaTitle: 'Confused About Career After 10th? Free Clarity Test',
   metaDescription:
-    'Confused about your career after 10th? Take this free 31-question test to find what is really blocking your decision. Instant result, no sign-up.',
+    'Confused about your career after 10th? Take this free 34-question test to find what is really blocking your decision. Instant result, no sign-up.',
   h1Lead: 'Confused about your career after 10th?',
   h1Accent: 'Find out why',
   eyebrow: 'Free 5-minute clarity test',
   heroSub:
-    'Being confused after Class 10 is not one problem. For some students it is not knowing themselves, for others it is not knowing the options, family pressure, or being unable to decide. Rate statements and choose what you would do in real situations (31 questions for students, 23 for parents) and see which one is actually holding you back.',
+    'Being confused after Class 10 is not one problem. For some students it is not knowing themselves, for others it is not knowing the options, family pressure, or being unable to decide. Rate statements and choose what you would do in real situations (34 questions for students, 23 for parents) and see which one is actually holding you back.',
   stats: [
-    { value: '31', label: 'questions' },
+    { value: '34', label: 'questions' },
     { value: '5', label: 'clarity areas' },
     { value: 'Free', label: 'no sign-up' },
   ],
@@ -232,7 +232,7 @@ const CONFUSED_10: SkillTest = {
   faqs: [
     {
       q: 'I am confused about my career after 10th. Where do I start?',
-      a: 'Start by finding out what kind of confusion it is. Answer the 31 questions here (or 23 if you are a parent), then work on your lowest area first. Not knowing yourself, not knowing the options, family pressure, indecision and not acting are five different problems with different fixes.',
+      a: 'Start by finding out what kind of confusion it is. Answer the 34 questions here (or 23 if you are a parent), then work on your lowest area first. Not knowing yourself, not knowing the options, family pressure, indecision and not acting are five different problems with different fixes.',
     },
     {
       q: 'Is it normal to be confused after Class 10?',
@@ -284,7 +284,7 @@ const CONFUSED_10: SkillTest = {
   ],
   breadcrumbDescription: 'Free career clarity test for students confused about their career after 10th.',
   webAppDescription:
-    'A free original 31-question self-rating test (statements plus real-life situations, with a version for parents) that shows which of five areas is behind a student\'s confusion about career after Class 10: knowing yourself, knowing the options, pressure from others, deciding and taking the next step.',
+    'A free original 34-question self-rating test (statements plus real-life situations, with a version for parents) that shows which of five areas is behind a student\'s confusion about career after Class 10: knowing yourself, knowing the options, pressure from others, deciding and taking the next step.',
 };
 
 const COMMUNICATION: SkillTest = {
@@ -299,9 +299,9 @@ const COMMUNICATION: SkillTest = {
   h1Accent: 'Assessment',
   eyebrow: 'Free self-assessment for students and professionals',
   heroSub:
-    'Communication is not one skill. Someone can write a clear email and freeze in a meeting, or speak well and miss what others say. Answer 31 questions (statements to rate and real situations to choose from, some chosen for your stage) and see your scores for listening, speaking, writing, handling feedback and presenting.',
+    'Communication is not one skill. Someone can write a clear email and freeze in a meeting, or speak well and miss what others say. Answer 34 questions (statements to rate and real situations to choose from, some chosen for your stage) and see your scores for listening, speaking, writing, handling feedback and presenting.',
   stats: [
-    { value: '31', label: 'questions and situations' },
+    { value: '34', label: 'questions and situations' },
     { value: '5', label: 'skill areas' },
     { value: 'Free', label: 'PDF report' },
   ],
@@ -319,7 +319,7 @@ const COMMUNICATION: SkillTest = {
   bands: {
     high: 'A relative strength.',
     mid: 'Developing, with room to grow.',
-    low: 'The best place to practise first.',
+    low: 'This area needs the most work.',
   },
   domainsHeading: 'Five areas this communication skills assessment covers',
   domainsIntro:
@@ -491,7 +491,7 @@ const COMMUNICATION: SkillTest = {
   ],
   breadcrumbDescription: 'Free communication skills assessment with five skill scores.',
   webAppDescription:
-    'A free original 31-question communication skills self-assessment covering listening, speaking clearly, writing, feedback and disagreement, and presenting, with five scores, an overall score, a practice plan and a downloadable report.',
+    'A free original 34-question communication skills self-assessment covering listening, speaking clearly, writing, feedback and disagreement, and presenting, with five scores, an overall score, a practice plan and a downloadable report.',
 };
 
 const SOFT_SKILLS: SkillTest = {
@@ -501,14 +501,14 @@ const SOFT_SKILLS: SkillTest = {
   breadcrumbName: 'Soft Skills Self-Assessment',
   metaTitle: 'Soft Skills Self-Assessment | Leadership & Teamwork Test',
   metaDescription:
-    'Free soft skills self-assessment: 36 questions and five scores for leadership, teamwork, adaptability, ownership and problem solving. Instant result.',
+    'Free soft skills self-assessment: 39 questions and five scores for leadership, teamwork, adaptability, ownership and problem solving. Instant result.',
   h1Lead: 'Soft Skills',
   h1Accent: 'Self-Assessment',
   eyebrow: 'Leadership, teamwork and employability in one report',
   heroSub:
     'Employers keep saying they want soft skills, but the phrase is vague. This free self-assessment turns it into five concrete areas, leadership, teamwork and social skills, adaptability, ownership and problem solving, and shows which one to build first.',
   stats: [
-    { value: '36', label: 'questions' },
+    { value: '39', label: 'questions' },
     { value: '5', label: 'skill areas' },
     { value: 'Free', label: 'PDF report' },
   ],
@@ -526,7 +526,7 @@ const SOFT_SKILLS: SkillTest = {
   bands: {
     high: 'A relative strength.',
     mid: 'Developing, with room to grow.',
-    low: 'The best place to build first.',
+    low: 'This area needs the most work.',
   },
   domainsHeading: 'Five soft skill areas this self-assessment covers',
   domainsIntro:
@@ -707,7 +707,7 @@ const SOFT_SKILLS: SkillTest = {
   ],
   breadcrumbDescription: 'Free soft skills self-assessment with leadership and teamwork scores.',
   webAppDescription:
-    'A free original 36-question soft skills self-assessment covering leadership, teamwork and social skills, adaptability, ownership and reliability, and problem solving, with five scores, an overall score, a practice plan and a downloadable report.',
+    'A free original 39-question soft skills self-assessment covering leadership, teamwork and social skills, adaptability, ownership and reliability, and problem solving, with five scores, an overall score, a practice plan and a downloadable report.',
 };
 
 export const SKILL_TESTS: Record<SkillTestId, SkillTest> = {
