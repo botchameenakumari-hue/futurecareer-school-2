@@ -31,6 +31,36 @@ export const BOFU_IMAGE_ALT: Record<string, string> = {
   "region-central": "Central India regional skyline illustration"
 };
 
+export const BOFU_IMAGE_TITLE: Record<string, string> = {
+  "hero-school-students-parents": "Compare school streams with a practical career plan",
+  "hero-class-11-12": "Make the Class 11–12 decision with evidence",
+  "hero-stream-specific": "Compare streams by fit, skills, and future work",
+  "hero-graduates-college": "Turn a college background into a stronger skill path",
+  "hero-working-professionals": "Plan a career move around leverage, not panic",
+  "hero-online-session": "A focused online career guidance conversation",
+  "hero-pricing": "Understand the value behind career guidance pricing",
+  "hero-evaluation": "Evaluate career guidance by its evidence and follow-through",
+  "hero-assessment": "Use assessment signals as the start of a better decision",
+  "hero-hub": "Career guidance from uncertainty to a practical next step",
+  "hero-career-counselling": "Build a career decision with context and trade-offs",
+  "hero-career-guidance": "Connect career options to skills, proof, and opportunity",
+  "hero-helpline-whatsapp": "Start with one honest career question on WhatsApp",
+  "hero-locations-hub": "Access online career guidance from cities across India",
+  "city-delhi": "Career guidance for Delhi and nearby learners",
+  "city-mumbai": "Career guidance for Mumbai and nearby learners",
+  "city-bangalore": "Career guidance for learners in Bangalore",
+  "city-hyderabad": "Career guidance for learners in Hyderabad",
+  "city-chennai": "Career guidance for learners in Chennai",
+  "city-kolkata": "Career guidance for learners in Kolkata",
+  "city-pune": "Career guidance for learners in Pune",
+  "city-ahmedabad": "Career guidance for learners in Ahmedabad",
+  "region-north": "Career guidance for learners across North India",
+  "region-west": "Career guidance for learners across West India",
+  "region-south": "Career guidance for learners across South India",
+  "region-east": "Career guidance for learners across East India",
+  "region-central": "Career guidance for learners across Central India"
+};
+
 export const BOFU_PAGE_IMAGES: Record<string, string> = {
   "career-counselling-after-10th": "hero-school-students-parents",
   "career-counselling-benefits": "hero-school-students-parents",
