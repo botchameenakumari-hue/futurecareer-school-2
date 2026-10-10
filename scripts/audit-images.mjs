@@ -1,13 +1,24 @@
 // Audits the rendered site (dist/) against the visual-system rules.
-// Usage: pnpm build && node scripts/audit-images.mjs [--strict] [--scope=blog|services|all]
+// Usage: pnpm build && node scripts/audit-images.mjs [--strict] [--include-excluded] [--scope=blog|services|all]
 // Without --strict it only reports. With --strict it exits 1 when any rule fails.
+// The supplied brief explicitly excludes 38 blog routes. They are skipped by default;
+// use --include-excluded when auditing those routes deliberately.
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 const strict = process.argv.includes('--strict');
+const includeExcluded = process.argv.includes('--include-excluded');
 const scope = (process.argv.find((a) => a.startsWith('--scope=')) || '--scope=all').split('=')[1];
 const dist = 'dist';
 const pub = 'public';
+
+const excludedBlogRoutes = new Set();
+if (!includeExcluded && existsSync('docs/image-audit/blog-summary.csv')) {
+  for (const line of readFileSync('docs/image-audit/blog-summary.csv', 'utf8').split(/\r?\n/).slice(1)) {
+    const [excluded, route] = line.split(',', 2);
+    if (excluded === '1' && route) excludedBlogRoutes.add(route.trim());
+  }
+}
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((n) => {
@@ -62,6 +73,7 @@ for (const file of walk(dist)) {
   const route = '/' + file.slice(dist.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '');
   const isBlog = /^\/blog\/[^/]+\/[^/]+\/$/.test(route);
   const isService = route.startsWith('/services/');
+  if (isBlog && excludedBlogRoutes.has(route)) continue;
   if (scope === 'blog' && !isBlog) continue;
   if (scope === 'services' && !isService) continue;
   const html = readFileSync(file, 'utf8');
