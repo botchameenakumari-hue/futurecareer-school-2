@@ -43,6 +43,9 @@ const data = {
   let F = blank();
   try { const raw = localStorage.getItem(KEY); if (raw) F = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(F)); } catch (e) {} };
+  const SHARE = Object.keys(blank()).filter((k) => k !== 'name' && k !== 'question');
+  try { const q = new URLSearchParams(location.search); let hit = false; SHARE.forEach((k) => { if (q.has('cf_' + k)) { F[k] = q.get('cf_' + k); hit = true; } }); if (hit) save(); } catch (e) {}
+  const shareUrl = () => { const q = new URLSearchParams(); SHARE.forEach((k) => { if (F[k] !== blank()[k]) q.set('cf_' + k, F[k]); }); const qs = q.toString(); return location.origin + location.pathname + (qs ? '?' + qs : '') + '#route-filter'; };
   const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const ping = (n, x) => { try { if (window.gtag) window.gtag('event', n, x || {}); } catch (e) {} };
   const NEEDS = { required: 'Required', helps: 'Helps', no: 'Not needed' };
@@ -95,7 +98,7 @@ const data = {
       field('Overseas mobility', 'overseas', [any, ['1', 'Medium or high'], ['2', 'High']]) +
       field('AI exposure of the work', 'ai', [any, ['0', 'Low only'], ['1', 'Low or medium']]) +
       field('Work from home potential', 'wfh', [any, ['1', 'Partly or often'], ['2', 'Often remote']]) +
-      '</div><div class="cf-actions"><button type="button" class="cf-btn" data-act="reset">Clear all filters</button></div></form>';
+      '</div><div class="cf-actions"><button type="button" class="cf-btn" data-act="reset">Clear all filters</button><button type="button" class="cf-btn" data-act="link">Copy a link to this filtered view</button></div></form>';
   }
 
   function resultHtml() {
@@ -171,9 +174,13 @@ const data = {
   }
 
   app.addEventListener('change', (e) => { const t = e.target; const f = t.getAttribute && t.getAttribute('data-f'); if (!f) return; F[f] = t.value; save(); render(); ping('chart12_filter', { filter: f }); });
-  app.addEventListener('click', (e) => { const b = e.target.closest ? e.target.closest('[data-act]') : null; if (!b) return; if (b.getAttribute('data-act') === 'reset') { F = blank(); save(); render(); } else if (b.getAttribute('data-act') === 'pdf') pdf(); });
+  app.addEventListener('click', (e) => { const b = e.target.closest ? e.target.closest('[data-act]') : null; if (!b) return; if (b.getAttribute('data-act') === 'reset') { F = blank(); save(); render(); } else if (b.getAttribute('data-act') === 'pdf') pdf(); else if (b.getAttribute('data-act') === 'link') { const u = shareUrl(); const done = () => { b.textContent = 'Link copied'; setTimeout(() => { b.textContent = 'Copy a link to this filtered view'; }, 2000); }; try { navigator.clipboard.writeText(u).then(done, () => { window.prompt('Copy this link', u); }); } catch (err) { window.prompt('Copy this link', u); } } });
   app.addEventListener('submit', (e) => e.preventDefault());
   render();
+  // Drop any filter value from an old link or saved state that no longer matches an option.
+  let fixed = false;
+  app.querySelectorAll('select[data-f]').forEach((el) => { const k = el.getAttribute('data-f'); if (String(F[k]) !== el.value) { F[k] = blank()[k]; fixed = true; } });
+  if (fixed) { save(); render(); }
 </script>
 
 <style is:global>
