@@ -1,0 +1,43 @@
+<section class="reb" id="resume-evidence-builder" aria-labelledby="reb-title">
+  <h2 id="reb-title">Resume skills evidence builder</h2>
+  <p>Turn one real task into a truthful resume bullet. Start with what you did and the result you can support; never add a number or claim just because it sounds stronger.</p>
+  <p class="reb-note"><b>Privacy:</b> this builder runs in your browser. It does not upload your resume, name, contact details or work examples.</p>
+  <div id="reb-app"></div>
+  <noscript><p class="reb-info">This builder needs JavaScript. Use the labels as a handwritten bullet-building worksheet.</p></noscript>
+</section>
+
+<script>
+  // @ts-nocheck
+  const app = document.getElementById('reb-app');
+  const KEY = 'fcs-resume-evidence-builder-v1';
+  const blank = () => ({ role: '', skill: '', context: '', action: '', outcome: '', proof: '' });
+  let state = blank();
+  try { const raw = localStorage.getItem(KEY); if (raw) state = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const field = (key, label, placeholder) => '<label>' + esc(label) + '<textarea data-reb="' + key + '" rows="3" maxlength="600" placeholder="' + esc(placeholder) + '">' + esc(state[key]) + '</textarea></label>';
+  function bullet() {
+    const action = state.action.trim().replace(/[.!?]+$/, '');
+    const context = state.context.trim().replace(/[.!?]+$/, '');
+    const outcome = state.outcome.trim().replace(/[.!?]+$/, '');
+    if (!action && !context && !outcome) return 'Your evidence-based resume bullet will appear here.';
+    return [action || 'Completed a project', context ? `for ${context}` : '', outcome ? `resulting in ${outcome}` : ''].filter(Boolean).join(', ') + '.';
+  }
+  function render() {
+    app.innerHTML = '<form class="reb-form" novalidate>' +
+      '<div class="reb-grid"><label>Target role or course (optional)<input data-reb="role" maxlength="160" value="' + esc(state.role) + '" placeholder="For example: marketing intern or BBA application"></label><label>Skill to show<input data-reb="skill" maxlength="120" value="' + esc(state.skill) + '" placeholder="For example: spreadsheet analysis, interviewing or research"></label></div>' +
+      field('context', 'Where did you use it?', 'Project, internship, class, volunteer task, family business or freelance work') +
+      field('action', 'What did you actually do?', 'Begin with a strong verb: analysed, organised, tested, designed, explained or built') +
+      field('outcome', 'What changed or became possible?', 'Use a verified result; if you have no number, describe the concrete change without inventing one') +
+      field('proof', 'What could you show if asked?', 'A file, link, screenshot, process note, feedback, published result or person who can confirm it') +
+      '<div class="reb-actions"><button type="button" class="reb-btn reb-btn--primary" data-reb-action="save">Save in this browser</button><button type="button" class="reb-btn" data-reb-action="print">Print / save as PDF</button><button type="button" class="reb-btn" data-reb-action="clear">Clear example</button></div><p class="reb-status" id="reb-status" role="status"></p></form>' +
+      '<div class="reb-result"><p class="reb-kicker">DRAFT BULLET — CHECK EVERY WORD</p><p class="reb-bullet" id="reb-bullet">' + esc(bullet()) + '</p><p><b>Skill signal:</b> ' + esc(state.skill || 'Add the skill you want the example to prove.') + '</p><p><b>Evidence to keep:</b> ' + esc(state.proof || 'Add the proof you could show if asked.') + '</p><p class="reb-warning">If the result is not measurable, do not guess a percentage, money figure or scale. A precise truthful description is stronger than an impressive unsupported claim.</p></div>';
+  }
+  app.addEventListener('input', (event) => { const key = event.target.getAttribute('data-reb'); if (key) { state[key] = event.target.value; save(); render(); const status = document.getElementById('reb-status'); if (status) status.textContent = 'Saved locally.'; } });
+  app.addEventListener('click', (event) => { const button = event.target.closest('[data-reb-action]'); if (!button) return; const action = button.getAttribute('data-reb-action'); if (action === 'save') { save(); document.getElementById('reb-status').textContent = 'Saved in this browser.'; } if (action === 'print') { save(); window.print(); } if (action === 'clear') { state = blank(); save(); render(); } });
+  render();
+</script>
+
+<style is:global>
+  .reb{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(229,184,74,.34);border-radius:18px;background:rgba(229,184,74,.045)}.reb h2{margin-top:0}.reb p,.reb li{line-height:1.65}.reb-note,.reb-info,.reb-warning{font-size:.86rem;color:rgba(255,255,255,.7)}.reb-form{display:grid;gap:.9rem;margin:1.1rem 0}.reb-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}.reb-form label{display:grid;gap:.35rem;font-size:.9rem;font-weight:600}.reb-form input,.reb-form textarea{width:100%;padding:.55rem .7rem;min-height:44px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400;resize:vertical}.reb-form textarea{min-height:78px}.reb-actions{display:flex;flex-wrap:wrap;gap:.6rem}.reb-btn{min-height:44px;padding:.5rem .85rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:600 .9rem inherit;cursor:pointer}.reb-btn--primary{background:linear-gradient(135deg,#e5b84a,#c49a2a);border:0;color:#151109}.reb-status{min-height:1.3em;color:#9ff3e6;font-size:.85rem}.reb-result{padding:1rem 1.1rem;border:1px solid rgba(18,154,141,.4);border-radius:14px;background:rgba(18,154,141,.08)}.reb-kicker{color:#f3cf70!important;font-size:.78rem;font-weight:800;letter-spacing:.1em}.reb-bullet{font-size:1.15rem;line-height:1.7}.reb-form input:focus-visible,.reb-form textarea:focus-visible,.reb-btn:focus-visible{outline:3px solid #129a8d;outline-offset:2px}@media(max-width:650px){.reb{padding:1rem}.reb-grid{grid-template-columns:1fr}}@media print{.reb{color:#111;background:#fff;border:1px solid #999}.reb-form input,.reb-form textarea{color:#111;background:#fff;border-color:#999}.reb-btn{display:none}.reb-note,.reb-warning{color:#444}}
+</style>

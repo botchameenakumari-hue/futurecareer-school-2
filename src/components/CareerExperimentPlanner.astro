@@ -1,0 +1,30 @@
+<section class="cep" id="career-experiment-planner" aria-labelledby="cep-title">
+  <p class="eyebrow">TEST BEFORE YOU COMMIT</p>
+  <h2 id="cep-title">Build a 30-day career experiment</h2>
+  <p>Choose one direction, define a real output, and decide what evidence would make you continue, change the test, or pause before committing to a course or job path.</p>
+  <p class="cep-note"><b>Limit:</b> one experiment cannot prove career fit or future income. It is a low-risk learning test, not a prediction.</p>
+  <form id="cep-form" class="cep-form" novalidate>
+    <label>Direction you want to test<input name="direction" maxlength="140" placeholder="For example: data analysis or UX research" required /></label>
+    <label>Work activity you want to experience<textarea name="activity" rows="3" maxlength="500" placeholder="Name the daily work, not only the job title" required></textarea></label>
+    <label>Small output you can finish in 30 days<textarea name="output" rows="3" maxlength="500" placeholder="A public-data analysis, prototype, lesson, interview set or process improvement" required></textarea></label>
+    <label>What evidence would change your mind?<textarea name="evidence" rows="3" maxlength="500" placeholder="Notice energy, learning friction, feedback quality and whether you want a harder second test" required></textarea></label>
+    <div class="cep-actions"><button class="cep-primary" type="submit">Create 30-day experiment</button><button type="button" data-cep="clear">Clear</button></div>
+    <p id="cep-status" class="cep-status" role="status" aria-live="polite"></p>
+  </form>
+  <div id="cep-result" class="cep-result" hidden></div>
+</section>
+<script>
+  type CepField = HTMLInputElement | HTMLTextAreaElement;
+  type CepForm = Omit<HTMLFormElement, 'querySelectorAll'> & { querySelectorAll(selectors: string): NodeListOf<CepField> };
+  const cepForm = document.querySelector<HTMLFormElement>('#cep-form') as CepForm | null;
+  const cepResult = document.querySelector<HTMLDivElement>('#cep-result');
+  const cepStatus = document.querySelector<HTMLParagraphElement>('#cep-status');
+  const cepClear = document.querySelector<HTMLButtonElement>('[data-cep="clear"]');
+  if (!cepForm || !cepResult || !cepStatus || !cepClear) throw new Error('Career experiment planner markup is incomplete.');
+  const cepEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
+  cepForm.addEventListener('submit', (event) => { event.preventDefault(); if (!cepForm.checkValidity()) { cepForm.reportValidity(); return; } const data = Object.fromEntries([...cepForm.querySelectorAll('input,textarea')].map((field) => [field.name, field.value])); cepResult.innerHTML = `<div class="cep-lead"><span>${cepEsc(data.direction)} · 30-day experiment</span><h3>${cepEsc(data.output)}</h3><p>Activity to observe: ${cepEsc(data.activity)}</p></div><div class="cep-grid"><article><b>Week 1 · understand</b><p>Read two reliable introductions, speak with one practitioner or learner, and write the assumptions you are testing.</p></article><article><b>Week 2 · practise</b><p>Complete a small version of the activity and record where instructions, tools or concepts slow you down.</p></article><article><b>Week 3 · produce</b><p>Finish the output, ask for specific feedback, and revise one important decision rather than adding scope.</p></article><article><b>Week 4 · review</b><p>Compare the evidence with your expectations and choose a second test, a changed direction, or a pause.</p></article></div><div class="cep-review"><h3>Review rubric</h3><p><b>Your evidence question:</b> ${cepEsc(data.evidence)}</p><ul><li>What did you actually do, and what can another person inspect?</li><li>What became more interesting, more difficult or less attractive than expected?</li><li>What feedback changed the output?</li><li>What is the smallest next test that would reduce the biggest uncertainty?</li></ul></div>`; cepResult.hidden = false; cepStatus.textContent = 'Experiment created from your entries; nothing was sent.'; });
+  cepClear.addEventListener('click', () => { cepForm.reset(); cepResult.hidden = true; cepStatus.textContent = 'Cleared.'; });
+</script>
+<style>
+  .cep{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.cep h2{margin:.2rem 0 .6rem}.cep>p{max-width:800px;line-height:1.65}.cep-note,.cep-status{color:rgba(255,255,255,.68);font-size:.88rem}.cep-form{display:grid;gap:1rem;margin-top:1.4rem}.cep-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.cep-form input,.cep-form textarea{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.cep-actions{display:flex;gap:.6rem;flex-wrap:wrap}.cep-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.cep-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.cep-result{margin-top:1.3rem}.cep-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.cep-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.cep-lead h3{margin:.4rem 0;font-size:1.5rem}.cep-lead p,.cep-grid p,.cep-review li{line-height:1.6;color:rgba(255,255,255,.75)}.cep-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.cep-grid article,.cep-review{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.cep-review{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.cep-review h3{margin-top:0}@media(max-width:650px){.cep-grid{grid-template-columns:1fr}}
+</style>

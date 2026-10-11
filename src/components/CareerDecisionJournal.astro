@@ -1,0 +1,56 @@
+<section class="cdj" aria-labelledby="cdj-title">
+  <div class="cdj-intro">
+    <p class="eyebrow">PRIVATE, BROWSER-LOCAL WORKSHEET</p>
+    <h2 id="cdj-title">Make a career decision testable</h2>
+    <p>Write down the assumption, run one small experiment, record what you actually learn, and review the next decision on a date you choose.</p>
+    <p class="cdj-note"><b>Privacy:</b> entries stay in this browser. They are not uploaded, scored against other people, or treated as research data.</p>
+  </div>
+  <form id="cdj-form" class="cdj-form" novalidate>
+    <label><span>What career or course direction are you testing?</span><input name="direction" maxlength="160" placeholder="For example, data analysis or B.Sc. Botany" required /></label>
+    <label><span>What do you currently believe?</span><textarea name="hypothesis" rows="3" maxlength="600" placeholder="I think I may enjoy..., or this route may fit because..." required></textarea></label>
+    <label><span>What evidence would change your mind?</span><textarea name="evidence" rows="3" maxlength="600" placeholder="A real task, practitioner conversation, official rule, feedback or cost check" required></textarea></label>
+    <label><span>What small experiment will you run?</span><textarea name="experiment" rows="3" maxlength="600" placeholder="Name the output, who can review it and what you will observe" required></textarea></label>
+    <div class="cdj-grid">
+      <label><span>Review date</span><input name="reviewDate" type="date" required /></label>
+      <label><span>Current status</span><select name="status"><option value="not-started">Not started</option><option value="in-progress">In progress</option><option value="complete">Complete</option><option value="paused">Paused</option></select></label>
+    </div>
+    <label><span>What did you learn or what remains uncertain?</span><textarea name="learning" rows="3" maxlength="800" placeholder="Complete this after the experiment; do not invent an outcome beforehand"></textarea></label>
+    <label><span>Next decision</span><select name="decision"><option value="continue-test">Run another small test</option><option value="deeper-research">Research the route more carefully</option><option value="compare">Compare it with another route</option><option value="pause">Pause or leave this direction for now</option></select></label>
+    <div class="cdj-actions"><button class="cdj-primary" type="submit">Save journal entry</button><button type="button" data-cdj="print">Print / save PDF</button><button type="button" data-cdj="export">Export JSON</button><button type="button" data-cdj="clear">Clear</button></div>
+    <p id="cdj-status" class="cdj-status" role="status" aria-live="polite"></p>
+  </form>
+  <div id="cdj-summary" class="cdj-summary" hidden></div>
+</section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#cdj-form');
+  const summary = document.querySelector<HTMLDivElement>('#cdj-summary');
+  const status = document.querySelector<HTMLParagraphElement>('#cdj-status');
+  const printButton = document.querySelector<HTMLButtonElement>('[data-cdj="print"]');
+  const exportButton = document.querySelector<HTMLButtonElement>('[data-cdj="export"]');
+  const clearButton = document.querySelector<HTMLButtonElement>('[data-cdj="clear"]');
+  if (!form || !summary || !status || !printButton || !exportButton || !clearButton) throw new Error('Career decision journal markup is incomplete.');
+  const key = 'fcs-career-decision-journal-v1';
+  const fields = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>('input, textarea, select')];
+  const esc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char] || char));
+  const read = () => Object.fromEntries(fields.map((field) => [field.name, field.value]));
+  const save = (data) => { try { localStorage.setItem(key, JSON.stringify(data)); } catch {} };
+  const load = () => { try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; } };
+  const render = (data) => {
+    if (!data?.direction) { summary.hidden = true; summary.innerHTML = ''; return; }
+    const label = { 'not-started': 'Not started', 'in-progress': 'In progress', complete: 'Complete', paused: 'Paused' }[data.status] || data.status;
+    summary.innerHTML = `<h3>${esc(data.direction)}</h3><p><b>Status:</b> ${esc(label)} · <b>Review:</b> ${esc(data.reviewDate || 'Choose a date')}</p><div class="cdj-summary-grid"><article><b>Working hypothesis</b><p>${esc(data.hypothesis || 'Not written yet')}</p></article><article><b>Experiment</b><p>${esc(data.experiment || 'Not written yet')}</p></article><article><b>Evidence to collect</b><p>${esc(data.evidence || 'Not written yet')}</p></article><article><b>Learning so far</b><p>${esc(data.learning || 'Complete this after the experiment')}</p></article></div><p class="cdj-boundary"><b>Review rule:</b> one experiment is a signal, not proof of career fit. Compare it with constraints, official route requirements and another source of evidence.</p>`;
+    summary.hidden = false;
+  };
+  const apply = (data) => { if (!data) return; fields.forEach((field) => { if (data[field.name] !== undefined) field.value = data[field.name]; }); render(data); };
+  form.addEventListener('input', () => { const data = read(); save(data); render(data); });
+  form.addEventListener('submit', (event) => { event.preventDefault(); if (!form.checkValidity()) { form.reportValidity(); return; } const data = read(); save(data); render(data); status.textContent = 'Saved in this browser.'; });
+  printButton.addEventListener('click', () => { save(read()); window.print(); });
+  exportButton.addEventListener('click', () => { const blob = new Blob([JSON.stringify(read(), null, 2)], { type: 'application/json' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'career-decision-journal.json'; link.click(); URL.revokeObjectURL(link.href); status.textContent = 'Journal exported. Keep the file somewhere private.'; });
+  clearButton.addEventListener('click', () => { localStorage.removeItem(key); form.reset(); render(null); status.textContent = 'Journal cleared from this browser.'; });
+  apply(load());
+</script>
+
+<style>
+  .cdj{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.cdj-intro h2{margin:.2rem 0 .6rem}.cdj-intro p{max-width:760px;line-height:1.65}.cdj-note,.cdj-status{color:rgba(255,255,255,.68);font-size:.88rem}.cdj-form{display:grid;gap:1rem;margin-top:1.4rem}.cdj-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.cdj-form input,.cdj-form textarea,.cdj-form select{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.cdj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.cdj-actions{display:flex;gap:.6rem;flex-wrap:wrap}.cdj-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.cdj-actions .cdj-primary{background:#129a8d;border-color:#129a8d;font-weight:700}.cdj-summary{margin-top:1.3rem;padding:1.1rem;border:1px solid rgba(229,184,74,.42);border-radius:14px;background:rgba(229,184,74,.08)}.cdj-summary h3{margin:.1rem 0 .35rem}.cdj-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}.cdj-summary-grid article{padding:.8rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.cdj-summary-grid p,.cdj-boundary{line-height:1.6;color:rgba(255,255,255,.76)}.cdj-boundary{margin-bottom:0}@media(max-width:650px){.cdj-grid,.cdj-summary-grid{grid-template-columns:1fr}}@media print{.cdj{color:#111;background:#fff;border-color:#888}.cdj-form{display:none}.cdj-summary{background:#fff;border-color:#888}.cdj-summary-grid article{border-color:#aaa}.cdj-summary-grid p,.cdj-boundary{color:#222}}
+</style>

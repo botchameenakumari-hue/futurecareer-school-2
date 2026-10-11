@@ -29,7 +29,64 @@ const KIND = {
 } as const;
 
 const SEC_SEL = '.result-section, .insight-section, .plan-section, .review-section, .res-section';
+
+// Concrete experiments for common score labels; generic experiments remain the fallback.
+const DIM: { re: RegExp; task: string; ask: string }[] = [
+  { re: /realistic/, task: 'build, fix or assemble something with your hands, such as repairing an item or building a simple shelf', ask: 'a technician, engineer, craftsperson or farmer' },
+  { re: /investigative/, task: 'pick a question you are curious about, look for the answer in two sources and write what you found', ask: 'a researcher, analyst, doctor or lab technician' },
+  { re: /artistic/, task: 'make something original, such as a poster, short story, song or design, without copying', ask: 'a designer, writer, filmmaker or musician' },
+  { re: /social(?! skills)/, task: 'help one person learn or sort out something, such as tutoring a younger student, and note what you enjoyed', ask: 'a teacher, counsellor, nurse or social worker' },
+  { re: /enterprising/, task: 'organise or sell something small, such as a class event or a handmade item, and note how persuading felt', ask: 'a business owner, sales professional or manager' },
+  { re: /conventional/, task: 'organise information, such as an event budget or a tidy sheet of your marks, and note how it felt', ask: 'an accountant, administrator, banker or data operator' },
+  { re: /openness/, task: 'learn one unfamiliar thing, such as a new tool or a subject outside your syllabus', ask: 'a designer, researcher or founder' },
+  { re: /conscientious/, task: 'plan one week of a small project with deadlines, then record each day whether you did what you planned', ask: 'a manager, accountant or engineer who depends on deadlines' },
+  { re: /extraversion/, task: 'start conversations with three new people or lead a small group activity, then note your energy afterwards', ask: 'a salesperson, teacher or team lead' },
+  { re: /agreeableness/, task: 'help a teammate with their part of a task and notice how you balance their needs with your own', ask: 'a counsellor, nurse, HR professional or customer support lead' },
+  { re: /emotional sensitivity/, task: 'note your mood at three points in a day for a week and what set each off, then try one calming habit', ask: 'a trusted friend, teacher or counsellor' },
+  { re: /engagement and reflection/, task: 'spend an hour on a task alone and an hour on a task with others, and note which gave you more energy', ask: 'a person who works mostly alone and a person who works mostly with others' },
+  { re: /information and possibilities/, task: 'solve one problem twice, once from facts and details and once from patterns and ideas', ask: 'a classmate or colleague who prefers the other style' },
+  { re: /decision criteria/, task: 'make one real decision twice, once by logic and once by values and people, and compare', ask: 'a person who usually decides the other way' },
+  { re: /work approach/, task: 'plan one task fully in advance on one day and stay flexible on the next, and compare how each felt', ask: 'a person whose work habits are the opposite of yours' },
+  { re: /dominance/, task: 'take charge of a small group decision and note how the group responded', ask: 'a manager, founder or project lead' },
+  { re: /influence/, task: 'present one idea to a small group in two minutes and note how they reacted', ask: 'a trainer, marketer or sales professional' },
+  { re: /steadiness/, task: 'keep one shared routine going for a week, such as a team schedule, and note how it felt', ask: 'a nurse, teacher or operations lead' },
+  { re: /social skills/, task: 'help settle a small disagreement or coordinate a group task and note what helped', ask: 'a team lead or customer manager' },
+  { re: /empathy/, task: 'listen to someone for ten minutes without giving advice, then say back what you heard and ask if you got it right', ask: 'a counsellor, nurse or teacher' },
+  { re: /motivation/, task: 'choose a goal that needs a week of effort and write what keeps you going on the hard days', ask: 'a person who stuck with a long goal' },
+  { re: /self-regulation/, task: 'next time you feel stressed, pause for one minute before replying and note what changed', ask: 'a person who stays calm under pressure' },
+  { re: /self-awareness/, task: 'write down three emotions in a day and what caused each, then ask a friend if it matches what they see', ask: 'a trusted friend or mentor' },
+  { re: /financial/, task: 'make a budget for a small event and divide the work among two or three people', ask: 'a small business owner' },
+  { re: /execution/, task: 'finish one small project in a week and note what nearly stopped you', ask: 'a person who finishes work regularly' },
+  { re: /resilience/, task: 'ask for feedback on something you made and write how you handled any criticism', ask: 'a person who recovered from a failed attempt' },
+  { re: /risk/, task: 'make a small decision with incomplete information and write what you checked before choosing', ask: 'a person who has started something new' },
+  { re: /kinesthetic/, task: 'learn one topic this week by doing it, such as an experiment or building a model', ask: 'a teacher who uses practical demonstrations' },
+  { re: /read\/write/, task: 'learn one topic by writing notes in your own words and a short summary', ask: 'a classmate who learns differently' },
+  { re: /auditory/, task: 'learn one topic by explaining it aloud or discussing it with a friend', ask: 'a classmate who learns differently' },
+  { re: /visual/, task: 'learn one topic by drawing a diagram or mind map', ask: 'a classmate who learns differently' },
+  { re: /quantitative|numerical reasoning/, task: 'set up a real situation, such as a trip budget, as a calculation and solve it', ask: 'an engineer or accountant' },
+  { re: /language precision|verbal ability/, task: 'edit or summarise one paragraph of your own writing and note each change', ask: 'an editor, writer or teacher' },
+  { re: /logical reasoning|data interpretation/, task: 'read a table or chart and write three facts it shows, including the evidence for each', ask: 'an analyst or statistics teacher' },
+];
+const dimFor = (label: string) => DIM.find((x) => x.re.test((label || '').toLowerCase().replace(/^\d+\.\s*/, '')));
+
 export function extractScores(container: HTMLElement): Score[] {
+  const marked = Array.from(container.querySelectorAll<HTMLElement>('[data-fcs-score-label][data-fcs-score-value]'))
+    .map((el) => ({ label: clean(el.dataset.fcsScoreLabel), value: Number(el.dataset.fcsScoreValue) }))
+    .filter((score) => score.label && Number.isFinite(score.value))
+    .map((score) => ({ label: score.label, value: Math.min(100, Math.max(0, score.value)) }));
+  if (marked.length >= 3) return marked;
+
+  // Newer result generators expose their score rows with an explicit data
+  // contract. Read those rows before falling back to the older article/percent
+  // heuristic so stage pages can share the same evidence plan without parsing
+  // presentation text.
+  const typed = [
+    ...Array.from(container.querySelectorAll<HTMLElement>('[data-riasec-label][data-riasec-score]')).map((el) => ({ label: clean(el.dataset.riasecLabel), value: Number(el.dataset.riasecScore) })),
+    ...Array.from(container.querySelectorAll<HTMLElement>('[data-mi-label][data-mi-score]')).map((el) => ({ label: clean(el.dataset.miLabel), value: Number(el.dataset.miScore) })),
+    ...Array.from(container.querySelectorAll<HTMLElement>('[data-apt-label][data-apt-score]')).map((el) => ({ label: clean(el.dataset.aptLabel), value: Number(el.dataset.aptScore) })),
+  ].filter((score) => score.label && Number.isFinite(score.value)).map((score) => ({ label: score.label, value: Math.min(100, Math.max(0, score.value)) }));
+  if (typed.length >= 3) return typed;
+
   const secs = Array.from(container.querySelectorAll<HTMLElement>(SEC_SEL));
   for (const sec of secs) {
     if (sec.id === 'fcs-companion-start' || sec.closest('#fcs-companion')) continue;
@@ -59,6 +116,14 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
   const head = d.kind === 'stage' ? 'the direction profile in this report' : headlineOf(container, d.title);
   const today = new Date(); const rev28 = fmt(plus(28)), rev90 = fmt(plus(90)), todayL = fmt(today);
   const t1 = top[0] ? top[0].label : 'your strongest area', l1 = low[0] ? low[0].label : 'your lowest area';
+  const t1Value = top[0]?.value;
+  const l1Value = low[0]?.value;
+  const scoreGap = t1Value != null && l1Value != null ? t1Value - l1Value : null;
+  const resultSignal = scoreGap != null && scoreGap < 10
+    ? 'Your leading and lowest areas are close, so use the experiments to create clearer evidence rather than treating the ranking as a decisive difference.'
+    : scoreGap != null
+      ? `The ${scoreGap}-point gap is a useful hypothesis to test, not proof that one area should define your choice.`
+      : 'Use the experiments to turn the result into evidence from real activity.';
   const state = { decision: '' };
   const decisionText = () => state.decision.trim() || 'not stated';
   const listScores = (xs: Score[]) => xs.map((x) => x.label + ' (' + x.value + '%)').join(', ');
@@ -85,7 +150,33 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
     'Spend one hour on a small real task from that route, then rate how it felt from 1 to 5.',
   ];
 
-  const pj = d.project;
+  const dt = top[0] ? dimFor(top[0].label) : undefined;
+  const dl = low[0] ? dimFor(low[0].label) : undefined;
+  // Stage assessments now expose the same score contract as standalone tests.
+  // Keep their experiments evidence-led too; the fallback above remains for
+  // any result that genuinely has no readable score rows.
+  if (dt && dl) {
+    exp[0] = 'Test your highest area, ' + t1 + '. Within a day or two, ' + dt.task + '. Afterwards rate how it felt from 1 to 5 and write one thing you liked and one you did not.';
+    exp[1] = 'Talk to ' + dt.ask + '. Ask how ' + t1.toLowerCase() + ' shows up in a normal week for them. Write the part that surprised you.';
+    exp[2] = 'Test your lowest area, ' + l1 + ', so you compare from experience and not only from the score. Within a day or two, ' + dl.task + '. Then note whether it changes how you read the score.';
+  }
+
+  // Keep the assessment's safe base project, but turn it into a result-specific
+  // brief. This makes the action section respond to the actual strongest and
+  // weakest dimensions instead of handing every person the same project copy.
+  const baseProject = d.project;
+  const pj = {
+    ...baseProject,
+    title: baseProject.title + ': test ' + t1 + ' through ' + l1,
+    outcome: baseProject.outcome + ' Show where ' + t1 + (t1Value != null ? ' (' + t1Value + '%)' : '') + ' helped, where ' + l1 + (l1Value != null ? ' (' + l1Value + '%)' : '') + ' created friction, and what you will practise next.',
+    steps: [
+      'Choose a real task where ' + t1 + ' can help. Write the expected output, the audience and one observable quality check before you begin.',
+      'Record the first attempt without hiding the part connected to ' + l1 + '. Note the time, uncertainty and any support you needed.',
+      ...baseProject.steps,
+      'Review the finished work against the quality check: record where ' + l1 + ' helped or slowed you, then choose one small practice for the next week.',
+    ],
+    proof: [...baseProject.proof, 'A short reflection comparing ' + t1 + ' and ' + l1 + ' in the same task, including the next practice.', resultSignal],
+  };
   const example = pj.examples[d.aud] || pj.examples.early || '';
   const trackerHref = '/services/assessments/skill-portfolio-tracker/?from=' + encodeURIComponent(d.slug) + '&aud=' + encodeURIComponent(d.aud) + '&skill=' + encodeURIComponent(d.skill);
 
@@ -95,13 +186,14 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
 
   const evidenceHtml = scores.length >= 3 ? '<div class="result-section"><h4>Strongest and weakest dimensions, with the evidence</h4>' +
     '<p><b>Strongest:</b> ' + esc(listScores(top)) + '.</p><p><b>Weakest:</b> ' + esc(listScores(low)) + '.</p>' +
-    '<p>The evidence is your own answers. Each percentage is the share of the available score you earned in that area on this test, so a gap of a few points is small and a gap of twenty or more is worth testing.</p>' +
+    '<p>The evidence is your own answers. Each percentage is the share of the available score you earned in that area on this test. ' + esc(resultSignal) + '</p>' +
     '<p>Headline result: ' + esc(head) + '.</p></div>' : '<div class="result-section"><h4>Strongest and weakest dimensions, with the evidence</h4><p>Headline result: ' + esc(head) + '. The scores above show your strongest and weakest areas. Compare your top and bottom two and use the experiments below to test them.</p></div>';
 
   const experHtml = '<div class="result-section"><h4>Three experiments to run</h4>' + list(exp.map((e, i) => 'Experiment ' + (i + 1) + ': ' + e)) +
     '<p>For each, write what you did, what happened and whether you would keep, change or drop it. Then decide your next step.</p></div>';
 
   const planHtml = '<div class="result-section"><h4>Your 30-day and 90-day plan with review dates</h4>' + list([
+    'Personal focus: use ' + t1 + ' as the starting strength and test ' + l1 + ' through the proof project below.',
     'Days 1 to 30: run the three experiments above and record the result of each in one place.',
     'Days 31 to 60: start the proof project below and share a first version with one person for feedback.',
     'Days 61 to 90: finish the proof project, retake this assessment and compare it with today (' + todayL + ').',

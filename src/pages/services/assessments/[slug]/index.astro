@@ -116,7 +116,7 @@ const HOLISTIC_EXTRA_COPY: Partial<Record<AssessmentTargetId, string>> = {
 };
 const holisticConfirmationNote = (item: (typeof relevantAssessmentTargets)[number]) => {
   const extra = HOLISTIC_EXTRA_COPY[item.id] ?? 'a lot more depth';
-  const whatTheyCameFor = item.id === target.id ? 'everything on this page' : target.title;
+  const whatTheyCameFor = item.href === target.href ? 'everything on this page' : target.title;
   return `Yes, ${whatTheyCameFor} is included here too - 100% free, no sign-up, instant result - plus ${extra}, all in one report.`;
 };
 const plansMode = resolveAssessmentPlansMode(
@@ -251,11 +251,12 @@ const renderedPage = {
 
 const bestFitHeading = renderedPage.bestFitTitle.replace(/ for this search/gi, '');
 const bestFitBody = renderedPage.bestFitBody;
-const relatedAssessmentHrefs = new Set(relevantAssessmentTargets.map((item) => item.href));
+const relatedAssessmentHrefs = new Set<string>(relevantAssessmentTargets.map((item) => item.href));
 const supportLinksByTarget: Record<
   AssessmentTargetId,
   { href: string; title: string; description: string }[]
 > = {
+  big5: [],
   class10: [
     {
       href: '/services/assessments/class-10-and-below/',

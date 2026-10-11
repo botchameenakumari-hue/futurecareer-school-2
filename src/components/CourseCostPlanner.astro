@@ -1,0 +1,44 @@
+<section class="ccp" id="course-cost-planner" aria-labelledby="ccp-title">
+  <p class="eyebrow">ASSUMPTION-BASED CALCULATOR</p>
+  <h2 id="ccp-title">Estimate the full course cost</h2>
+  <p>Enter figures from the course notice or your own budget. The result separates fixed fees, recurring living costs and the amount still needing a funding plan.</p>
+  <p class="ccp-note"><b>Important:</b> this is arithmetic, not a fee quote or financial advice. Verify every figure with the institution and keep a buffer for changes.</p>
+  <form id="ccp-form" class="ccp-form" novalidate>
+    <div class="ccp-grid">
+      <label>Total tuition and mandatory fees (₹)<input data-ccp="tuition" type="number" min="0" step="1000" inputmode="numeric" placeholder="180000" required /></label>
+      <label>Course length (years)<input data-ccp="years" type="number" min="0.25" max="10" step="0.25" value="3" required /></label>
+      <label>Monthly living, food or travel cost (₹)<input data-ccp="monthly" type="number" min="0" step="500" placeholder="8000" required /></label>
+      <label>One-time equipment, application or setup cost (₹)<input data-ccp="setup" type="number" min="0" step="500" value="0" required /></label>
+      <label>Funding already available (₹)<input data-ccp="funding" type="number" min="0" step="1000" value="0" required /></label>
+      <label>Monthly amount the family can set aside (₹)<input data-ccp="capacity" type="number" min="0" step="500" placeholder="10000" required /></label>
+    </div>
+    <label>What must still be verified?<textarea data-ccp="checks" rows="3" maxlength="600" placeholder="Hostel, exam fees, transport, refund rules, scholarship renewal or other missing costs"></textarea></label>
+    <div class="ccp-actions"><button class="ccp-primary" type="submit">Calculate planning view</button><button type="button" data-ccp-action="clear">Clear</button></div>
+    <p id="ccp-status" class="ccp-status" role="status" aria-live="polite"></p>
+  </form>
+  <div id="ccp-result" class="ccp-result" hidden></div>
+</section>
+<script>
+  const ccpForm = document.querySelector<HTMLFormElement>('#ccp-form');
+  const ccpResult = document.querySelector<HTMLDivElement>('#ccp-result');
+  const ccpStatus = document.querySelector<HTMLParagraphElement>('#ccp-status');
+  const ccpClear = document.querySelector<HTMLButtonElement>('[data-ccp-action="clear"]');
+  if (!ccpForm || !ccpResult || !ccpStatus || !ccpClear) throw new Error('Course cost planner markup is incomplete.');
+  const ccpEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
+  const ccpMoney = (value: number) => `₹${Math.round(value || 0).toLocaleString('en-IN')}`;
+  const ccpRead = () => Object.fromEntries([...ccpForm.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-ccp]')].map((field) => [field.dataset.ccp, field.value]));
+  const ccpRender = (data) => {
+    if (!data) { ccpResult.hidden = true; return; }
+    const tuition = Number(data.tuition) || 0, years = Number(data.years) || 0, monthly = Number(data.monthly) || 0, setup = Number(data.setup) || 0, funding = Number(data.funding) || 0, capacity = Number(data.capacity) || 0;
+    const recurring = monthly * years * 12, total = tuition + recurring + setup, gap = Math.max(0, total - funding), required = years > 0 ? gap / (years * 12) : gap, shortfall = Math.max(0, required - capacity);
+    const status = gap === 0 ? 'The entered funding covers the entered estimate.' : shortfall === 0 ? 'The entered monthly capacity covers the remaining estimate if the assumptions hold.' : 'The entered plan has a monthly funding gap that needs a change, scholarship, staged route or additional source.';
+    const verificationNote = data.checks ? ccpEsc(data.checks) : '';
+    ccpResult.innerHTML = `<div class="ccp-lead"><span>Planning result</span><h3>${ccpMoney(total)} estimated across ${years} year${years === 1 ? '' : 's'}</h3><p>${status}</p></div><div class="ccp-cards"><article><b>Fixed fees and setup</b><strong>${ccpMoney(tuition + setup)}</strong><small>Tuition, mandatory fees and one-time costs</small></article><article><b>Recurring costs</b><strong>${ccpMoney(recurring)}</strong><small>${ccpMoney(monthly)} per month × ${years * 12} months</small></article><article><b>Funding gap</b><strong>${ccpMoney(gap)}</strong><small>Estimate minus funding already available</small></article><article><b>Monthly amount needed</b><strong>${ccpMoney(required)}</strong><small>Simple average; not a loan repayment quote</small></article></div><div class="ccp-next"><h3>Before committing</h3><ul><li>Verify each fee, duration and refund condition from the current provider notice.</li><li>Separate tuition from accommodation, transport, exams, equipment, inflation and emergency costs.</li><li>Do not count uncertain part-time income, scholarships or future salary as guaranteed funding.</li><li>Compare a lower-cost route and write what evidence would make the more expensive route worth it.</li></ul>${verificationNote ? `<p><b>Your verification note:</b> ${verificationNote}</p>` : ''}</div>`;
+    ccpResult.hidden = false;
+  };
+  ccpForm.addEventListener('submit', (event) => { event.preventDefault(); if (!ccpForm.checkValidity()) { ccpForm.reportValidity(); return; } ccpRender(ccpRead()); ccpStatus.textContent = 'Calculated from the values you entered; nothing was sent.'; });
+  ccpClear.addEventListener('click', () => { ccpForm.reset(); ccpResult.hidden = true; ccpStatus.textContent = 'Cleared.'; });
+</script>
+<style>
+  .ccp{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.ccp h2{margin:.2rem 0 .6rem}.ccp>p{max-width:800px;line-height:1.65}.ccp-note,.ccp-status{color:rgba(255,255,255,.68);font-size:.88rem}.ccp-form{display:grid;gap:1rem;margin-top:1.4rem}.ccp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.ccp-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.ccp-form input,.ccp-form textarea{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.ccp-actions{display:flex;gap:.6rem;flex-wrap:wrap}.ccp-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.ccp-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.ccp-result{margin-top:1.3rem}.ccp-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.ccp-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.ccp-lead h3{margin:.4rem 0;font-size:1.55rem}.ccp-lead p{line-height:1.6}.ccp-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin-top:.8rem}.ccp-cards article{display:grid;gap:.25rem;padding:.85rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.ccp-cards strong{font-size:1.25rem;color:#f5d98c}.ccp-cards small{color:rgba(255,255,255,.65);line-height:1.4}.ccp-next{margin-top:.8rem;padding:1rem;border:1px solid rgba(229,184,74,.35);border-radius:12px;background:rgba(229,184,74,.06)}.ccp-next h3{margin-top:0}.ccp-next li,.ccp-next p{line-height:1.6;color:rgba(255,255,255,.75)}@media(max-width:650px){.ccp-grid,.ccp-cards{grid-template-columns:1fr}}
+</style>

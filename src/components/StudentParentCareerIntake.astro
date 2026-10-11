@@ -1,0 +1,57 @@
+<section class="spi" id="student-parent-career-intake" aria-labelledby="spi-title">
+  <h2 id="spi-title">Student–parent career guidance intake</h2>
+  <p>Use this short worksheet before a counselling conversation or a stream, course or career decision. It turns two different viewpoints into one next step; it does not choose a career for you.</p>
+  <p class="spi-note"><b>Privacy:</b> this intake stays in this browser. It does not ask for names, marks, contact details or family notes, and it does not send entries to the site.</p>
+  <div id="spi-app"></div>
+  <noscript><p class="spi-info">This intake needs JavaScript. You can use the questions as a handwritten conversation guide.</p></noscript>
+</section>
+
+<script>
+  // @ts-nocheck
+  const app = document.getElementById('spi-app');
+  const KEY = 'fcs-student-parent-intake-v1';
+  const blank = () => ({ stage: 'after-10th', decision: 'not-sure', studentGoal: '', studentQuestion: '', parentConcern: '', evidence: '', nextStep: '' });
+  let state = blank();
+  try { const raw = localStorage.getItem(KEY); if (raw) state = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const select = (key, label, options) => '<label>' + esc(label) + '<select data-spi="' + key + '">' + options.map(([value, text]) => '<option value="' + esc(value) + '"' + (state[key] === value ? ' selected' : '') + '>' + esc(text) + '</option>').join('') + '</select></label>';
+  const field = (key, label, placeholder) => '<label>' + esc(label) + '<textarea data-spi="' + key + '" rows="3" maxlength="500" placeholder="' + esc(placeholder) + '">' + esc(state[key]) + '</textarea></label>';
+  function formHtml() {
+    return '<form class="spi-form" novalidate>' +
+      '<div class="spi-grid">' +
+      select('stage', 'Which situation fits best?', [['after-10th', 'Choosing a stream or route after Class 10'], ['after-12th', 'Choosing a course, college or route after Class 12'], ['college', 'Already in college, training or an internship'], ['adult', 'Working, changing direction or returning to work']]) +
+      select('decision', 'What is the main decision today?', [['not-sure', 'We are not sure what to decide first'], ['explore', 'Explore interests, strengths or career options'], ['course', 'Compare courses, colleges or entrance routes'], ['family', 'Reduce disagreement between the student and family'], ['action', 'Turn a decision into a practical next step']]) +
+      '</div>' +
+      '<div class="spi-columns"><fieldset><legend>Student voice</legend>' +
+      field('studentGoal', 'What do I want to explore or test?', 'A subject, type of work, stream, course or skill') +
+      field('studentQuestion', 'What question do I want answered?', 'What am I still unsure or worried about?') +
+      '</fieldset><fieldset><legend>Parent or supporter voice</legend>' +
+      field('parentConcern', 'What concern should the conversation respect?', 'Cost, safety, marks, location, confidence, time or another constraint') +
+      field('evidence', 'What evidence would help us compare fairly?', 'An official rule, fee, deadline, conversation, project or course detail') +
+      '</fieldset></div>' +
+      field('nextStep', 'What small step will we complete next?', 'One official page, conversation, experiment or comparison table') +
+      '<div class="spi-actions"><button type="button" class="spi-btn spi-btn--primary" data-spi-action="save">Save in this browser</button><button type="button" class="spi-btn" data-spi-action="print">Print / save as PDF</button><button type="button" class="spi-btn" data-spi-action="clear">Clear intake</button></div>' +
+      '<p class="spi-status" id="spi-status" role="status"></p></form>';
+  }
+  function route() {
+    if (state.decision === 'course' || state.stage === 'after-12th') return { title: 'Compare the route before debating the label', href: '/tools/course-entrance-exam-finder/', label: 'Open the course and entrance-exam finder', text: 'Use the current subject and exam screen, then open the official source attached to each route.' };
+    if (state.decision === 'family') return { title: 'Start with a shared conversation', href: '/services/career-counselling-and-career-guidance/career-counselling-questions-for-students/', label: 'Review the questions for a counselling conversation', text: 'Bring one student question, one family concern and one evidence item into the conversation.' };
+    if (state.stage === 'after-10th') return { title: 'Start with stage-appropriate student signals', href: '/services/assessments/class-10-and-below/', label: 'Take the Class 10 and below assessment', text: 'Use the result as a starting signal, then compare it with real subjects, route rules and a small experiment.' };
+    if (state.stage === 'adult') return { title: 'Start with work and transition evidence', href: '/services/assessments/working-professionals-and-career-changers/', label: 'Take the working-professional assessment', text: 'Use current skills, constraints and a small transition experiment rather than relying on a job title alone.' };
+    return { title: 'Start with a broader direction check', href: '/services/assessments/graduates-and-early-professionals/', label: 'Take the graduates and early-professionals assessment', text: 'Use the result to choose one skill or role hypothesis to test with evidence.' };
+  }
+  function summaryHtml() {
+    const next = route();
+    const complete = state.studentGoal && state.studentQuestion && state.parentConcern && state.evidence && state.nextStep;
+    return '<div class="spi-summary"><h3>' + esc(next.title) + '</h3><p>' + (complete ? 'You have one student question, one family constraint and one evidence-led next step.' : 'Complete the two voices and the next-step field before treating this as a shared plan.') + '</p><p>' + esc(next.text) + '</p><a class="spi-link" href="' + next.href + '">' + esc(next.label) + ' &rarr;</a><ul><li><b>Student question:</b> ' + esc(state.studentQuestion || 'Add the question the student wants answered.') + '</li><li><b>Evidence:</b> ' + esc(state.evidence || 'Name the evidence that would help both sides compare.') + '</li><li><b>Next step:</b> ' + esc(state.nextStep || 'Write one small step and a date.') + '</li></ul></div>';
+  }
+  function render() { app.innerHTML = formHtml() + summaryHtml(); }
+  app.addEventListener('input', (event) => { const key = event.target.getAttribute('data-spi'); if (key) { state[key] = event.target.value; save(); render(); const status = document.getElementById('spi-status'); if (status) status.textContent = 'Saved locally.'; } });
+  app.addEventListener('click', (event) => { const button = event.target.closest('[data-spi-action]'); if (!button) return; const action = button.getAttribute('data-spi-action'); if (action === 'save') { save(); document.getElementById('spi-status').textContent = 'Saved in this browser.'; } if (action === 'print') { save(); window.print(); } if (action === 'clear') { state = blank(); save(); render(); } });
+  render();
+</script>
+
+<style is:global>
+  .spi{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(18,154,141,.38);border-radius:18px;background:rgba(18,154,141,.045)}.spi h2{margin-top:0}.spi p,.spi li{line-height:1.65}.spi-note,.spi-info{font-size:.86rem;color:rgba(255,255,255,.7)}.spi-form{display:grid;gap:.9rem;margin:1.1rem 0}.spi-grid,.spi-columns{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}.spi-form fieldset{border:1px solid rgba(255,255,255,.17);border-radius:12px;padding:1rem}.spi-form legend{font-weight:700;padding:0 .3rem}.spi-form label{display:grid;gap:.35rem;font-size:.9rem;font-weight:600;margin:.65rem 0}.spi-form input,.spi-form textarea,.spi-form select{width:100%;padding:.55rem .7rem;min-height:44px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400;resize:vertical}.spi-form textarea{min-height:78px}.spi-actions{display:flex;flex-wrap:wrap;gap:.6rem}.spi-btn{min-height:44px;padding:.5rem .85rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:600 .9rem inherit;cursor:pointer}.spi-btn--primary{background:linear-gradient(135deg,#129a8d,#0b766d);border:0;color:#fff}.spi-status{min-height:1.3em;color:#9ff3e6;font-size:.85rem}.spi-summary{padding:1rem 1.1rem;border:1px solid rgba(229,184,74,.4);border-radius:14px;background:rgba(229,184,74,.08)}.spi-summary h3{margin:.1rem 0 .4rem}.spi-link{display:inline-block;margin:.35rem 0 .8rem;color:#f3cf70;font-weight:700}.spi-form select:focus-visible,.spi-form textarea:focus-visible,.spi-btn:focus-visible,.spi-link:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}@media(max-width:650px){.spi{padding:1rem}.spi-grid,.spi-columns{grid-template-columns:1fr}}@media print{.spi{color:#111;background:#fff;border:1px solid #999}.spi-form input,.spi-form textarea,.spi-form select{color:#111;background:#fff;border-color:#999}.spi-btn{display:none}.spi-note{color:#444}}
+</style>

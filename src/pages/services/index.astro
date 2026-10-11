@@ -6,6 +6,17 @@ import GuidancePlansSection from '../../components/bofu/GuidancePlansSection.ast
 import LinkDirectorySection from '../../components/LinkDirectorySection.astro';
 import { BOFU_INTERNAL_LINKS } from '../../config/bofu';
 import { completeGuidanceDirectoryItems, completeServiceBrowseItems } from '../../config/directory';
+import type { ServiceBrowseItem } from '../../config/directory';
+
+const selectedCityGuides = [
+  { href: '/services/career-counselling-and-career-guidance/locations/career-counselling-in-agra/', title: 'Career counselling in Agra', description: 'Online-first career guidance with Agra-specific context.' },
+  { href: '/services/career-counselling-and-career-guidance/locations/career-counselling-in-aurangabad/', title: 'Career counselling in Aurangabad', description: 'Compare local context with a wider career decision.' },
+  { href: '/services/career-counselling-and-career-guidance/locations/career-counselling-in-jaipur/', title: 'Career counselling in Jaipur', description: 'A practical starting point for Jaipur students and professionals.' },
+  { href: '/services/career-counselling-and-career-guidance/locations/career-counselling-in-jalandhar/', title: 'Career counselling in Jalandhar', description: 'Explore the city page before choosing your next step.' },
+  { href: '/services/career-counselling-and-career-guidance/locations/career-counselling-in-kandivali/', title: 'Career counselling in Kandivali', description: 'Online guidance for decisions shaped by Mumbai-area context.' },
+  { href: '/services/career-counselling-and-career-guidance/locations/career-counselling-in-kota/', title: 'Career counselling in Kota', description: 'A city-aware route for students weighing education choices.' },
+  { href: '/services/career-counselling-and-career-guidance/locations/career-counselling-in-lucknow/', title: 'Career counselling in Lucknow', description: 'Career direction with local context and India-wide access.' },
+];
 
 const guidanceDirectoryItems = [
   {
@@ -113,7 +124,7 @@ const getOptionLabel = (options: { value: string; label: string }[], value: stri
 
 const isAssessmentChildHref = (href: string) => href.replace(/\/$/, '').startsWith('/services/assessments/');
 
-const curatedServiceBrowseItems = [
+const curatedServiceBrowseItems: ServiceBrowseItem[] = [
   {
     href: '/services/career-counselling-and-career-guidance/',
     title: 'Career Counselling and Guidance',
@@ -496,7 +507,7 @@ const jsonLd = [
       </h1>
       <p class="hero-sub">
         Future Career School is built for decisions that matter: stream selection, degree direction,
-        skill selection, career pivots, and achieving earlier financial freedom.
+        skill selection, career pivots, and practical progress.
         Career counselling, career guidance, career coaching, and career strategy often point to the same practical need: better decisions and stronger skill direction.
       </p>
       <p class="hero-sub hero-sub-secondary">
@@ -513,7 +524,7 @@ const jsonLd = [
 
   <figure class="services-hub-visual services-hub-hero-visual">
     <img src="/images/bofu/services-hub/services-hub-overview.webp" alt="At-a-glance summary of Future Career School's three service tracks: guidance, assessments, and skill roadmaps" title="At a glance: Choose the Right Career Support" width="1600" height="1000" loading="lazy" decoding="async" />
-    <figcaption>Future Career School connects stream and degree direction, skill selection, career pivots, and practical progress toward earlier financial freedom.</figcaption>
+    <figcaption>Future Career School connects stream and degree direction, skill selection, career pivots, and practical progress.</figcaption>
   </figure>
 
   <section id="tracks">
@@ -530,7 +541,7 @@ const jsonLd = [
           <p>
             People search with different labels, but the practical need is usually the same:
             a clear answer to what to do next and why.
-            The stronger direction is higher-value skill building, proof of work, better income growth, and a clearer route toward achieving earlier financial freedom.
+            The stronger direction is useful skill building, proof of work, clearer positioning, and a next step you can review.
           </p>
           <ul>
             <li>Stream selection and degree direction</li>
@@ -586,7 +597,7 @@ const jsonLd = [
     <div class="container">
       <h2 class="section-headline">Students and Working Professionals</h2>
       <p class="section-sub">
-        The right path depends on your stage, but the foundations stay the same: practical assessments, high-value skill building, market readiness, and a route toward achieving earlier financial freedom.
+        The right path depends on your stage, but the foundations stay the same: practical assessments, useful skill building, market readiness, and a route you can test and review.
       </p>
       <div class="who-grid">
         <div class="who-card card">
@@ -595,7 +606,7 @@ const jsonLd = [
         </div>
         <div class="who-card card">
           <div class="who-title">Working Professional</div>
-          <p>Stronger positioning, career pivots, and a clearer route toward achieving earlier financial freedom through better skill stacking.</p>
+          <p>Stronger positioning, career pivots, and a clearer route through better skill stacking.</p>
         </div>
       </div>
     </div>
@@ -731,11 +742,11 @@ const jsonLd = [
     sectionId="plans"
     audience="mixed"
     serviceLabel="Career Guidance"
-    title="Build Future-Ready Skills for Earlier Financial Freedom"
+    title="Build Future-Ready Skills for Clearer Next Steps"
   />
 
   <figure class="services-hub-visual">
-    <img src="/images/bofu/services-hub/services-linear-build-future-ready-skills.webp" alt="Linear roadmap from choosing a career direction through building high-value skills, creating proof of work, and positioning for better roles and income" title="Build Future-Ready Skills for Earlier Financial Freedom" width="1600" height="1000" loading="lazy" decoding="async" />
+    <img src="/images/bofu/services-hub/services-linear-build-future-ready-skills.webp" alt="Linear roadmap from choosing a career direction through building useful skills, creating proof of work, and reviewing the next move" title="Build Future-Ready Skills for Clearer Next Steps" width="1600" height="1000" loading="lazy" decoding="async" />
     <figcaption>Direction becomes practical progress when it turns into high-value skills, proof of work, and stronger positioning.</figcaption>
   </figure>
 
@@ -757,6 +768,13 @@ const jsonLd = [
     title="Free Tools and Practical Resources"
     subtitle="Free tools and resources that help you build momentum before or between bigger career decisions."
     items={toolDirectoryItems}
+  />
+
+  <LinkDirectorySection
+    sectionId="selected-city-guides"
+    title="Explore career guidance by city"
+    subtitle="Start with local context when it helps, then compare the wider path and next step."
+    items={selectedCityGuides}
   />
 
   <section id="cta">
@@ -782,27 +800,27 @@ const jsonLd = [
 </BaseLayout>
 
 <script>
-  const serviceBrowser = document.querySelector('[data-service-browser]');
+  const serviceBrowser = document.querySelector<HTMLElement>('[data-service-browser]');
 
   if (serviceBrowser) {
-    const controls = serviceBrowser.querySelector('#service-controls');
-    const grid = serviceBrowser.querySelector('#service-results');
-    const cards = Array.from(serviceBrowser.querySelectorAll('[data-service-card]'));
-    const searchInput = serviceBrowser.querySelector('#service-search');
-    const categorySelect = serviceBrowser.querySelector('#service-category');
-    const audienceSelect = serviceBrowser.querySelector('#service-audience');
-    const needSelect = serviceBrowser.querySelector('#service-need');
-    const sortSelect = serviceBrowser.querySelector('#service-sort');
-    const pageSizeSelect = serviceBrowser.querySelector('#service-page-size');
-    const resetButton = serviceBrowser.querySelector('#service-reset');
-    const quickButtons = Array.from(serviceBrowser.querySelectorAll('[data-quick-category], [data-quick-audience], [data-quick-need]'));
-    const status = serviceBrowser.querySelector('#service-status');
-    const statusRow = serviceBrowser.querySelector('.service-status-row');
-    const emptyState = serviceBrowser.querySelector('#service-empty');
-    const pagination = serviceBrowser.querySelector('#service-pagination');
-    const prevButton = serviceBrowser.querySelector('#service-prev');
-    const nextButton = serviceBrowser.querySelector('#service-next');
-    const pageStatus = serviceBrowser.querySelector('#service-page-status');
+    const controls = serviceBrowser.querySelector<HTMLElement>('#service-controls');
+    const grid = serviceBrowser.querySelector<HTMLElement>('#service-results')!;
+    const cards = Array.from(serviceBrowser.querySelectorAll<HTMLElement>('[data-service-card]'));
+    const searchInput = serviceBrowser.querySelector<HTMLInputElement>('#service-search')!;
+    const categorySelect = serviceBrowser.querySelector<HTMLSelectElement>('#service-category')!;
+    const audienceSelect = serviceBrowser.querySelector<HTMLSelectElement>('#service-audience')!;
+    const needSelect = serviceBrowser.querySelector<HTMLSelectElement>('#service-need')!;
+    const sortSelect = serviceBrowser.querySelector<HTMLSelectElement>('#service-sort')!;
+    const pageSizeSelect = serviceBrowser.querySelector<HTMLSelectElement>('#service-page-size')!;
+    const resetButton = serviceBrowser.querySelector<HTMLButtonElement>('#service-reset')!;
+    const quickButtons = Array.from(serviceBrowser.querySelectorAll<HTMLButtonElement>('[data-quick-category], [data-quick-audience], [data-quick-need]'));
+    const status = serviceBrowser.querySelector<HTMLElement>('#service-status')!;
+    const statusRow = serviceBrowser.querySelector<HTMLElement>('.service-status-row');
+    const emptyState = serviceBrowser.querySelector<HTMLElement>('#service-empty')!;
+    const pagination = serviceBrowser.querySelector<HTMLElement>('#service-pagination')!;
+    const prevButton = serviceBrowser.querySelector<HTMLButtonElement>('#service-prev')!;
+    const nextButton = serviceBrowser.querySelector<HTMLButtonElement>('#service-next')!;
+    const pageStatus = serviceBrowser.querySelector<HTMLElement>('#service-page-status')!;
     let currentPage = 1;
 
     const normalize = (value) => (value || '').toString().toLowerCase().trim();
@@ -885,7 +903,7 @@ const jsonLd = [
       render();
     };
 
-    controls.addEventListener('submit', (event) => event.preventDefault());
+    controls?.addEventListener('submit', (event) => event.preventDefault());
     searchInput.addEventListener('input', resetToFirstPage);
     categorySelect.addEventListener('change', resetToFirstPage);
     audienceSelect.addEventListener('change', resetToFirstPage);

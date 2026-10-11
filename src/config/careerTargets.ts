@@ -3,6 +3,17 @@
 // levels for comparing yourself with a direction, not hiring requirements: employers differ.
 export type SkillKey = 'ai_use' | 'ai_build' | 'automate' | 'code' | 'english_write' | 'english_speak' | 'marketing' | 'sales' | 'proof';
 export const SKILL_KEYS: SkillKey[] = ['ai_use', 'ai_build', 'automate', 'code', 'english_write', 'english_speak', 'marketing', 'sales', 'proof'];
+export const CAREER_TARGET_METHOD = {
+  version: 'Career target model 1.0',
+  editoriallyReviewedOn: '11 October 2026',
+  source: 'Future Career School editorial model',
+  purpose: 'Directional comparison between a learner’s self-rating and the kinds of work commonly present in a broad career direction.',
+  limits: [
+    'The 1–5 values are editorial emphasis bands, not hiring requirements, eligibility rules, salary data or a prediction of employability.',
+    'Employers, roles and routes vary. A target gap must be checked against current job descriptions, course rules and supervised practice.',
+    'The model has not been validated against hiring outcomes or a representative labour-market sample.'
+  ],
+} as const;
 export type CareerTarget = {
   id: string;
   name: string;

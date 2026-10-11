@@ -150,21 +150,22 @@ const photo = (seed, w = 600, h = 400) => `https://picsum.photos/seed/${seed}/${
   <script>
     // Interactive starfield + constellation
     (()=>{
-      const c=document.getElementById('stars'); if(!c) return; const x=c.getContext('2d');
-      let w,h,P=[],M={x:-1e3,y:-1e3};
+      const c=document.getElementById('stars'); if(!(c instanceof HTMLCanvasElement)) return; const canvas=c; const context=canvas.getContext('2d'); if(!context) return; const drawingContext=context as CanvasRenderingContext2D;
+      type Point={x:number;y:number;vx:number;vy:number;r:number};
+      let w=0,h=0,P:Point[]=[],M={x:-1e3,y:-1e3};
       const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
       const N=Math.min(150,Math.floor(innerWidth/11));
-      function rs(){w=c.width=innerWidth;h=c.height=innerHeight}
+      function rs(){w=canvas.width=innerWidth;h=canvas.height=innerHeight}
       rs(); addEventListener('resize',rs,{passive:true});
       addEventListener('pointermove',e=>{M.x=e.clientX;M.y=e.clientY},{passive:true});
       for(let i=0;i<N;i++)P.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.5+.4});
       function frame(){
-        x.clearRect(0,0,w,h);
+        drawingContext.clearRect(0,0,w,h);
         for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;
-          x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fillStyle='rgba(190,225,255,.85)';x.fill();}
+          drawingContext.beginPath();drawingContext.arc(p.x,p.y,p.r,0,7);drawingContext.fillStyle='rgba(190,225,255,.85)';drawingContext.fill();}
         for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const a=P[i],b=P[j],dx=a.x-b.x,dy=a.y-b.y,d=dx*dx+dy*dy;
-          if(d<11000){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.strokeStyle='rgba(99,102,241,'+(1-d/11000)*.35+')';x.lineWidth=1;x.stroke();}}
-        for(const p of P){const dx=p.x-M.x,dy=p.y-M.y,d=dx*dx+dy*dy;if(d<26000){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(M.x,M.y);x.strokeStyle='rgba(34,211,238,'+(1-d/26000)*.6+')';x.stroke();}}
+          if(d<11000){drawingContext.beginPath();drawingContext.moveTo(a.x,a.y);drawingContext.lineTo(b.x,b.y);drawingContext.strokeStyle='rgba(99,102,241,'+(1-d/11000)*.35+')';drawingContext.lineWidth=1;drawingContext.stroke();}}
+        for(const p of P){const dx=p.x-M.x,dy=p.y-M.y,d=dx*dx+dy*dy;if(d<26000){drawingContext.beginPath();drawingContext.moveTo(p.x,p.y);drawingContext.lineTo(M.x,M.y);drawingContext.strokeStyle='rgba(34,211,238,'+(1-d/26000)*.6+')';drawingContext.stroke();}}
         if(!reduce) requestAnimationFrame(frame);
       }
       frame();

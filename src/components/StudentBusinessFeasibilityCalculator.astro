@@ -1,0 +1,46 @@
+<section class="sbf" id="student-business-feasibility" aria-labelledby="sbf-title">
+  <div class="sbf-head"><div><p class="sbf-kicker">Private browser calculator · no income promise</p><h2 id="sbf-title">Stress-test a student business idea</h2><p>Use your own small-test assumptions to see whether the unit economics are worth testing. The calculator does not estimate demand or guarantee profit.</p></div><p class="sbf-note"><b>Private by design:</b> values stay in this browser and are not saved or sent.</p></div>
+  <form class="sbf-form" id="sbf-form" novalidate>
+    <label>Idea or offer<input data-sbf="idea" type="text" maxlength="80" placeholder="For example: poster design for local shops"></label>
+    <label>Expected sales per week<input data-sbf="sales" type="number" min="0" step="1" value="3" inputmode="numeric"></label>
+    <label>Price per sale (₹)<input data-sbf="price" type="number" min="0" step="50" value="500" inputmode="numeric"></label>
+    <label>Variable cost per sale (₹)<input data-sbf="variable" type="number" min="0" step="25" value="100" inputmode="numeric"></label>
+    <label>Fixed weekly cost (₹)<input data-sbf="fixed" type="number" min="0" step="50" value="200" inputmode="numeric"></label>
+    <label>Hours per week<input data-sbf="hours" type="number" min="0" step="1" value="6" inputmode="decimal"></label>
+    <label>Starting budget (₹)<input data-sbf="budget" type="number" min="0" step="100" value="2000" inputmode="numeric"></label>
+    <div class="sbf-actions"><button type="submit">Calculate the test view</button><button type="reset" class="sbf-secondary">Reset</button></div>
+  </form>
+  <div class="sbf-result" id="sbf-result" aria-live="polite" hidden><h3 data-sbf-out="title"></h3><div class="sbf-grid"><div><span>Contribution per sale</span><strong data-sbf-out="margin"></strong></div><div><span>Estimated weekly contribution</span><strong data-sbf-out="weekly"></strong></div><div><span>Sales to cover weekly fixed cost</span><strong data-sbf-out="breakEven"></strong></div><div><span>Contribution per hour</span><strong data-sbf-out="hourly"></strong></div><div><span>Budget runway at this burn</span><strong data-sbf-out="runway"></strong></div></div><p class="sbf-warning" data-sbf-out="warning"></p><div class="sbf-plan"><h4>Run a 14-day test before scaling</h4><ol><li>Speak to five plausible buyers and record their exact problem, not just compliments.</li><li>Offer the smallest paid version to a clear customer group.</li><li>Track enquiries, paid sales, delivery time, variable cost and repeat interest.</li><li>Continue, change the offer or stop based on observed evidence—not excitement alone.</li></ol></div></div>
+</section>
+
+<script>
+  const app = document.querySelector<HTMLElement>('#student-business-feasibility');
+  if (app) {
+    const form = app.querySelector<HTMLFormElement>('#sbf-form');
+    const result = app.querySelector<HTMLElement>('#sbf-result');
+    if (!form || !result) throw new Error('Student business calculator markup is incomplete.');
+    const input = (key: string) => { const field = form.querySelector<HTMLInputElement>(`[data-sbf="${key}"]`); if (!field) throw new Error(`Student business calculator input is missing: ${key}`); return field; };
+    const output = (key: string) => { const field = app.querySelector<HTMLElement>(`[data-sbf-out="${key}"]`); if (!field) throw new Error(`Student business calculator output is missing: ${key}`); return field; };
+    const number = (key: string) => Math.max(0, Number.parseFloat(input(key).value) || 0);
+    const money = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(Math.max(0, value));
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const idea = input('idea').value.trim() || 'This idea';
+      const sales = number('sales'); const price = number('price'); const variable = number('variable'); const fixed = number('fixed'); const hours = number('hours'); const budget = number('budget');
+      const margin = price - variable; const weekly = margin * sales - fixed; const breakEven = margin > 0 ? Math.ceil(fixed / margin) : null; const hourly = hours > 0 ? weekly / hours : 0; const runway = weekly < 0 ? (Math.abs(weekly) > 0 ? budget / Math.abs(weekly) : null) : null;
+      output('title').textContent = `${idea}: small-test view`;
+      output('margin').textContent = money(margin);
+      output('weekly').textContent = money(weekly);
+      output('breakEven').textContent = breakEven === null ? 'Not calculable' : `${breakEven} sale${breakEven === 1 ? '' : 's'}`;
+      output('hourly').textContent = money(hourly);
+      output('runway').textContent = runway === null ? (weekly >= 0 ? 'No weekly loss in this model' : 'Not calculable') : `${runway.toFixed(1)} weeks`;
+      output('warning').textContent = margin <= 0 ? 'Your price does not cover the entered variable cost. Change the offer, cost or price before spending the starting budget.' : weekly <= 0 ? 'This assumption set loses money each week before your time is valued. Treat the 14-day test as a learning experiment, not a business forecast.' : 'This assumption set leaves a positive contribution after the entered fixed cost. Test whether real buyers and delivery time match the assumptions.';
+      result.hidden = false;
+    });
+    form.addEventListener('reset', () => { result.hidden = true; });
+  }
+</script>
+
+<style is:global>
+  .sbf{margin:2rem 0;padding:clamp(1.1rem,3vw,2rem);border:1px solid rgba(229,184,74,.4);border-radius:22px;background:linear-gradient(145deg,rgba(229,184,74,.1),rgba(255,255,255,.03));color:#f8fafc}.sbf-head{display:grid;grid-template-columns:1fr minmax(210px,300px);gap:1.2rem}.sbf-kicker{margin:0;color:#f7d88c;font-size:.76rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.sbf h2{margin:.45rem 0 .55rem;color:#fff}.sbf p{color:rgba(255,255,255,.68);line-height:1.65}.sbf-note{padding:.85rem;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.04);font-size:.86rem}.sbf-form{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin:1.25rem 0}.sbf-form label{display:grid;gap:.35rem;color:#fff;font-size:.86rem;font-weight:700}.sbf-form input{min-height:44px;width:100%;padding:.55rem .7rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:#101927;color:#fff;font:inherit}.sbf-actions{display:flex;flex-wrap:wrap;gap:.6rem;align-items:end;grid-column:1/-1}.sbf-actions button{min-height:44px;padding:.55rem .85rem;border:0;border-radius:10px;background:#e5b84a;color:#17130a;font-weight:800;cursor:pointer}.sbf-actions .sbf-secondary{border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff}.sbf-result{padding:1rem;border-radius:15px;background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.14)}.sbf-result h3{margin-top:0;color:#fff}.sbf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.65rem}.sbf-grid>div{padding:.75rem;border:1px solid rgba(255,255,255,.13);border-radius:10px}.sbf-grid span,.sbf-grid strong{display:block}.sbf-grid span{font-size:.78rem;color:rgba(255,255,255,.62)}.sbf-grid strong{margin-top:.35rem;color:#f7d88c}.sbf-warning{padding:.8rem;border-left:3px solid #e5b84a;background:rgba(229,184,74,.1);color:#f7d88c!important}.sbf-plan{margin-top:1rem;padding:1rem;border-radius:12px;background:rgba(18,154,141,.1)}.sbf-plan h4{margin-top:0;color:#fff}.sbf-plan li{color:rgba(255,255,255,.7);line-height:1.55}.sbf-plan li+li{margin-top:.4rem}.sbf-form input:focus-visible,.sbf-actions button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}@media(max-width:900px){.sbf-form{grid-template-columns:repeat(2,1fr)}.sbf-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:620px){.sbf-head,.sbf-form,.sbf-grid{grid-template-columns:1fr}.sbf-actions{grid-column:auto}}
+</style>

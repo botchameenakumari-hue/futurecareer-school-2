@@ -1,0 +1,118 @@
+---
+import {
+  COURSE_ELIGIBILITY_RECORDS,
+  COURSE_FINDER_META,
+  COURSE_FINDER_STREAMS,
+  COURSE_FINDER_SUBJECTS,
+} from '../config/courseEligibilityFinder';
+
+interface Props {
+  initialPreset?: 'commerce-no-maths' | 'mpc' | 'bipc' | 'bipc-no-neet';
+  heading?: string;
+}
+
+const { initialPreset = '', heading = 'Course eligibility and entrance-exam finder' } = Astro.props;
+
+const data = {
+  records: COURSE_ELIGIBILITY_RECORDS,
+  streams: COURSE_FINDER_STREAMS,
+  subjects: COURSE_FINDER_SUBJECTS,
+  meta: COURSE_FINDER_META,
+  initialPreset,
+};
+---
+
+<section class="cef" id="course-eligibility-finder" aria-labelledby="cef-title">
+  <h2 id="cef-title">{heading}</h2>
+  <p>Start with your Class 12 stream and subjects. This screen separates routes that are usually open, routes that need a college-by-college check, and routes whose common subject gate you do not currently show.</p>
+  <p class="cef-note"><b>Editorial screening starting point:</b> {COURSE_FINDER_META.year}; official starting pages reviewed {COURSE_FINDER_META.editoriallyReviewedOn}. The review confirms the linked authority and starting point, not an institute-level admission result. Records are source-mapped, not independently verified admission records. This is a screening tool, not an admission ruling.</p>
+  <div id="cef-app"></div>
+  <noscript><p class="cef-info">The finder needs JavaScript. Use the full chart below and confirm each course on its official admission page.</p></noscript>
+  <script type="application/json" id="cef-data" set:html={JSON.stringify(data)} />
+</section>
+
+<script>
+  // @ts-nocheck
+  const D = JSON.parse(document.getElementById('cef-data').textContent);
+  const app = document.getElementById('cef-app');
+  const PRESETS = {
+    'commerce-no-maths': { stream: 'Commerce', subjects: ['Economics', 'Accountancy', 'Business Studies'] },
+    mpc: { stream: 'PCM', subjects: ['Physics', 'Chemistry', 'Maths'] },
+    bipc: { stream: 'PCB', subjects: ['Physics', 'Chemistry', 'Biology'] },
+    'bipc-no-neet': { stream: 'PCB', subjects: ['Physics', 'Chemistry', 'Biology'], excludeExam: 'NEET UG' },
+  };
+  const initial = PRESETS[D.initialPreset] || { stream: '', subjects: [] };
+  const EXAMS = [...new Set(D.records.flatMap((record) => record.examTags || []))].sort();
+  const state = { stream: initial.stream, subjects: initial.subjects, exam: '', query: '', excludeExam: initial.excludeExam || '' };
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const FIT = {
+    open: { label: 'Usually open', cls: 'cef-fit--open' },
+    conditional: { label: 'Conditional — verify', cls: 'cef-fit--conditional' },
+    'usually-closed': { label: 'Usually not open with this stream', cls: 'cef-fit--closed' },
+  };
+  const has = (record) => {
+    const required = record.requiredSubjects.filter((x) => !state.subjects.includes(x));
+    const anyMissing = record.anyOfSubjects?.length && !record.anyOfSubjects.some((x) => state.subjects.includes(x));
+    return { required, anyMissing };
+  };
+  function assess(record) {
+    const base = state.stream ? record.fit[state.stream] : 'conditional';
+    const missing = has(record);
+    if (!state.stream) return { key: 'conditional', reason: 'Choose a stream and subject combination first.' };
+    if (base === 'usually-closed') return { key: base, reason: 'This route is not usually open from the selected stream under the common rule.' };
+    if (missing.required.length || missing.anyMissing) {
+      const names = missing.required.length ? missing.required.join(', ') : 'one of ' + record.anyOfSubjects.join(', ');
+      return { key: base === 'open' ? 'conditional' : base, reason: 'Subject check needed: ' + names + '.' };
+    }
+    return { key: base, reason: base === 'open' ? 'Passes this broad stream-and-subject screen.' : 'The broad screen fits, but the target institute can add conditions.' };
+  }
+  function formHtml() {
+    return '<form class="cef-form" novalidate>' +
+      '<label>Your Class 12 stream<select data-cef="stream"><option value="">Choose a stream</option>' + D.streams.map((s) => '<option value="' + esc(s) + '"' + (state.stream === s ? ' selected' : '') + '>' + esc(s) + '</option>').join('') + '</select></label>' +
+      '<label>Entrance exam or route<select data-cef="exam"><option value="">All entrance routes</option>' + EXAMS.map((exam) => '<option value="' + esc(exam) + '"' + (state.exam === exam ? ' selected' : '') + '>' + esc(exam) + '</option>').join('') + '</select></label>' +
+      '<fieldset><legend>Subjects you studied or are studying</legend><div class="cef-subjects">' + D.subjects.map((s) => '<label><input type="checkbox" data-cef-subject="' + esc(s) + '"' + (state.subjects.includes(s) ? ' checked' : '') + '> ' + esc(s) + '</label>').join('') + '</div><p class="cef-hint">Leave subjects unticked only if you want a broad stream-level shortlist.</p></fieldset>' +
+      '<div class="cef-presets" aria-label="Common subject pathway presets"><b>Start with a common pathway:</b><button type="button" data-cef-preset="commerce-no-maths">Commerce without Maths</button><button type="button" data-cef-preset="mpc">MPC / PCM</button><button type="button" data-cef-preset="bipc">BiPC / PCB</button><button type="button" data-cef-preset="bipc-no-neet">PCB without NEET</button></div>' +
+      '<label>Search a course or exam<input type="search" data-cef="query" value="' + esc(state.query) + '" placeholder="For example: architecture, law, NEET"></label>' +
+      '</form>';
+  }
+  function cardHtml(record) {
+    const verdict = assess(record); const fit = FIT[verdict.key];
+    const haystack = (record.course + ' ' + record.exam + ' ' + record.subjectRule).toLowerCase();
+    if (state.exam && !(record.examTags || []).includes(state.exam)) return '';
+    if (state.excludeExam && (record.examTags || []).includes(state.excludeExam)) return '';
+    if (state.query && !haystack.includes(state.query.toLowerCase())) return '';
+    return '<article class="cef-card"><div class="cef-card-head"><h3>' + esc(record.course) + '</h3><span class="cef-fit ' + fit.cls + '">' + esc(fit.label) + '</span></div>' +
+      '<p class="cef-meta"><b>Entrance route:</b> ' + esc(record.exam) + ' · <b>Typical length:</b> ' + esc(record.duration) + '</p>' +
+      '<p><b>Why this result:</b> ' + esc(verdict.reason) + '</p>' +
+      '<p><b>Subject rule:</b> ' + esc(record.subjectRule) + '</p>' +
+      '<p class="cef-explanation">' + esc(record.explanation) + '</p>' +
+      '<details><summary>Official starting pages</summary><p class="cef-sources">Editorially reviewed ' + esc(D.meta.editoriallyReviewedOn) + ' · Status: ' + esc(D.meta.recordStatus) + ': ' + record.sources.map((s) => '<a href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(s.label) + '</a>').join(' · ') + '</p><p class="cef-hint">Read the current course, state and institute notice before applying.</p></details></article>';
+  }
+  function render() {
+    const cards = D.records.map(cardHtml).filter(Boolean);
+    app.innerHTML = formHtml() + '<p class="cef-count" aria-live="polite">' + cards.length + ' course routes shown' + (state.stream ? ' for ' + esc(state.stream) : '') + '.</p>' +
+      (cards.length ? '<div class="cef-results">' + cards.join('') + '</div>' : '<p class="cef-info">No route matches that search. Clear the search or check the spelling.</p>') +
+      '<p class="cef-disclaimer">' + esc(D.meta.disclaimer) + '</p>';
+  }
+  app.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-cef-preset]');
+    if (!button) return;
+    const preset = PRESETS[button.getAttribute('data-cef-preset')];
+    if (preset) { state.stream = preset.stream; state.subjects = preset.subjects; state.excludeExam = preset.excludeExam || ''; state.query = ''; render(); }
+  });
+  app.addEventListener('change', (event) => {
+    const target = event.target;
+    if (target.matches('[data-cef="stream"]')) state.stream = target.value;
+    if (target.matches('[data-cef="exam"]')) state.exam = target.value;
+    if (target.matches('[data-cef-subject]')) state.subjects = Array.from(app.querySelectorAll('[data-cef-subject]:checked')).map((x) => x.value);
+    render();
+  });
+  app.addEventListener('input', (event) => { if (event.target.matches('[data-cef="query"]')) { state.query = event.target.value; render(); const input = app.querySelector('[data-cef="query"]'); input.focus(); input.setSelectionRange(state.query.length, state.query.length); } });
+  render();
+</script>
+
+<style is:global>
+  .cef{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(18,154,141,.42);border-radius:18px;background:rgba(18,154,141,.06)}
+  .cef h2{margin-top:0}.cef h3{margin:.1rem 0;font-size:1.05rem;color:#fff}.cef p,.cef li{line-height:1.65}.cef-note,.cef-disclaimer,.cef-hint{font-size:.86rem;color:rgba(255,255,255,.7)}
+  .cef-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin:1.1rem 0}.cef-form label,.cef-form legend{display:grid;gap:.35rem;font-weight:600;font-size:.9rem}.cef-form input,.cef-form select{min-height:44px;width:100%;padding:.5rem .7rem;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font:inherit}.cef-form select option{color:#000}.cef-form fieldset{border:1px solid rgba(255,255,255,.17);border-radius:12px;padding:.7rem .9rem}.cef-form fieldset,.cef-form label:last-child,.cef-presets{grid-column:1/-1}.cef-subjects{display:flex;flex-wrap:wrap;gap:.2rem .9rem}.cef-subjects label{display:flex;align-items:center;min-height:40px;font-weight:400}.cef-subjects input{width:20px;margin-right:.4rem}.cef-presets{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;font-size:.86rem}.cef-presets button{min-height:40px;border:1px solid rgba(229,184,74,.45);border-radius:999px;background:rgba(229,184,74,.11);color:#f7d88c;padding:.35rem .7rem;font:600 .82rem inherit;cursor:pointer}.cef-count{font-weight:700}.cef-results{display:grid;gap:.8rem}.cef-card{padding:1rem 1.1rem;border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(255,255,255,.035)}.cef-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:.7rem}.cef-meta,.cef-explanation{color:rgba(255,255,255,.75)}.cef-fit{display:inline-flex;align-items:center;min-height:28px;padding:.2rem .55rem;border-radius:999px;font-size:.76rem;font-weight:700;white-space:nowrap}.cef-fit--open{background:rgba(18,154,141,.22);color:#9ff3e6}.cef-fit--conditional{background:rgba(229,184,74,.2);color:#f7d88c}.cef-fit--closed{background:rgba(221,93,93,.18);color:#ffb0b0}.cef-card details summary{cursor:pointer;min-height:40px;display:flex;align-items:center;font-weight:600}.cef-sources{font-size:.86rem;color:rgba(255,255,255,.72)}.cef-sources a{color:#8de4d8;text-decoration:underline;text-underline-offset:2px}.cef-form input:focus-visible,.cef-form select:focus-visible,.cef-card summary:focus-visible,.cef-presets button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}@media(max-width:600px){.cef{padding:1rem}.cef-card-head{display:block}.cef-fit{margin-top:.5rem}}
+</style>

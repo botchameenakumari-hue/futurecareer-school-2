@@ -2012,7 +2012,7 @@ function buildRiasecBars(riasecSorted) {
   return riasecSorted.map(function(k) {
     var p = RIASEC[k];
     var pct = Math.max(Math.round((scores[k] / maxScore) * 100), 2);
-    return '<div class="rb-row">' +
+    return '<div class="rb-row" data-fcs-score-label="' + p.label + '" data-fcs-score-value="' + pct + '">' +
       '<div class="rb-label"><span class="rb-dot" style="background:' + p.color + '"></span>' + p.emoji + ' <strong>' + p.label + '</strong></div>' +
       '<div class="rb-track"><div class="rb-fill" style="width:' + pct + '%;background:' + p.color + '"></div></div>' +
       '<div class="rb-pct" style="color:' + p.color + '">' + pct + '%</div>' +
@@ -2029,7 +2029,7 @@ function buildAptitudeBars(aptMax) {
   return items.map(function(it) {
     var pct = Math.max(Math.round((scores[it.key] / aptMax) * 100), 2);
     var level = pct >= 80 ? 'Very Strong' : pct >= 55 ? 'Strong' : pct >= 35 ? 'Moderate' : 'Developing';
-    return '<div class="apt-row">' +
+    return '<div class="apt-row" data-fcs-score-label="' + it.label + '" data-fcs-score-value="' + pct + '">' +
       '<div class="apt-label">' + it.emoji + ' <strong>' + it.label + '</strong> <span class="apt-level" style="color:' + it.color + '">' + level + ' (' + pct + '%)</span></div>' +
       '<div class="apt-track"><div class="apt-fill" style="width:' + pct + '%;background:' + it.color + '"></div></div>' +
     '</div>';
@@ -2128,7 +2128,7 @@ function showResults() {
   var miGridHtml = miKeys.map(function(k){
     var m = MI[k]; var isTop = k === topMI;
     var barPct = Math.round((scores[k]||0)/miMax*100);
-    return '<div class="mi-card' + (isTop ? ' mi-top' : '') + '" style="' + (isTop ? 'border-color:' + m.color + ';background:' + m.color + '10' : '') + '">' +
+    return '<div class="mi-card' + (isTop ? ' mi-top' : '') + '" data-fcs-score-label="' + m.label + '" data-fcs-score-value="' + barPct + '" style="' + (isTop ? 'border-color:' + m.color + ';background:' + m.color + '10' : '') + '">' +
       '<div class="mi-card-emoji">' + m.emoji + '</div>' +
       '<div class="mi-card-name" style="' + (isTop ? 'color:' + m.color : '') + '">' + m.label + (isTop ? ' ★' : '') + '</div>' +
       '<div class="mi-card-bar-track"><div class="mi-card-bar-fill" style="width:' + barPct + '%;background:' + m.color + '"></div></div>' +

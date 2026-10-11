@@ -15,11 +15,11 @@ export interface ListCardItem {
 export interface Props {
   sectionId?: string;
   sectionClass?: string;
-  title: string;
+  title?: string;
   subtitle?: string;
   items: ListCardItem[];
   columns?: 2 | 3;
-  variant?: 'signal' | 'contrast' | 'audience';
+  variant?: 'signal' | 'contrast' | 'audience' | 'decision';
 }
 
 const {
@@ -37,12 +37,12 @@ const columnClass = columns === 3 ? 'is-three-col' : 'is-two-col';
 
 <section id={sectionId} class:list={['bofu-list-card-section', `is-${variant}`, sectionClass]}>
   <div class="container">
-    <div class="list-intro card">
-      <div class="list-intro-copy">
-        <h2 class="section-headline">{title}</h2>
+    {(title || subtitle) && (
+      <div class="list-intro card">
+        {title && <div class="list-intro-copy"><h2 class="section-headline">{title}</h2></div>}
+        {subtitle && <p class="section-sub">{subtitle}</p>}
       </div>
-      {subtitle && <p class="section-sub">{subtitle}</p>}
-    </div>
+    )}
 
     <div class:list={['list-card-grid', columnClass]}>
       {items.map((item, index) => (

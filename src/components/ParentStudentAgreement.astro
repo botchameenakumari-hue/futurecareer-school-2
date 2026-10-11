@@ -1,0 +1,54 @@
+<section class="psa" id="parent-student-agreement" aria-labelledby="psa-title">
+  <h2 id="psa-title">Parent–student career decision agreement</h2>
+  <p>Use this before a stream, course or entrance-exam decision becomes an argument. The student records what they want to test; the parent records what support and evidence they need. The tool does not vote for a career.</p>
+  <p class="psa-note"><b>Privacy:</b> this worksheet is saved only in this browser. It does not send names, scores or family notes to the site.</p>
+  <div id="psa-app"></div>
+  <noscript><p class="psa-info">This worksheet needs JavaScript. You can use the questions below as a handwritten family conversation.</p></noscript>
+</section>
+
+<script>
+  // @ts-nocheck
+  const app = document.getElementById('psa-app');
+  const KEY = 'fcs-parent-student-agreement-v1';
+  const blank = () => ({ question: '', studentRoute: '', studentWhy: '', studentConcern: '', studentNonNegotiable: '', studentTest: '', parentHope: '', parentConcern: '', parentNonNegotiable: '', parentEvidence: '', parentSupport: '', sharedRule: '', reviewDate: '' });
+  let state = blank();
+  try { const raw = localStorage.getItem(KEY); if (raw) state = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const field = (key, label, placeholder) => '<label>' + esc(label) + '<textarea data-psa="' + key + '" rows="3" maxlength="500" placeholder="' + esc(placeholder) + '">' + esc(state[key]) + '</textarea></label>';
+  function formHtml() {
+    return '<form class="psa-form" novalidate>' +
+      '<label class="psa-wide">What decision are we trying to make?<input data-psa="question" maxlength="180" value="' + esc(state.question) + '" placeholder="For example: compare MPC with design before choosing a college route"></label>' +
+      '<div class="psa-columns"><fieldset><legend>Student’s view</legend>' +
+      field('studentRoute', 'The route I want to explore', 'Course, stream or exam route') +
+      field('studentWhy', 'What makes me want to test it', 'The work, subject or future I am curious about') +
+      field('studentConcern', 'What I am worried about', 'Money, marks, workload, location, failure or something else') +
+      field('studentNonNegotiable', 'What I need the family to respect', 'A boundary, value or condition I do not want ignored') +
+      field('studentTest', 'The small experiment I will do next', 'One task, conversation or official page I will complete') +
+      '</fieldset><fieldset><legend>Parent’s view</legend>' +
+      field('parentHope', 'What I hope this decision gives my child', 'Skills, safety, independence, income or another outcome') +
+      field('parentConcern', 'The family concern we need to respect', 'Budget, time, safety, location, confidence or another constraint') +
+      field('parentNonNegotiable', 'What the family cannot ignore', 'A safety, money, time or responsibility boundary') +
+      field('parentEvidence', 'What evidence would reassure me', 'A course rule, fee, conversation, project or deadline') +
+      field('parentSupport', 'What support I can offer', 'Time, fee limit, transport, introductions or space to test') +
+      '</fieldset></div>' +
+      field('sharedRule', 'What rule will make the disagreement fair?', 'For example: we will test the route for 30 days, then review evidence together before deciding') +
+      '<label class="psa-wide">When will we review the evidence together?<input data-psa="reviewDate" type="date" value="' + esc(state.reviewDate) + '"></label>' +
+      '<div class="psa-actions"><button type="button" class="psa-btn psa-btn--primary" data-psa-action="save">Save in this browser</button><button type="button" class="psa-btn" data-psa-action="print">Print / save as PDF</button><button type="button" class="psa-btn" data-psa-action="clear">Clear worksheet</button></div>' +
+      '<p class="psa-status" id="psa-status" role="status"></p></form>';
+  }
+  function summaryHtml() {
+    const studentReady = state.studentRoute && state.studentTest && state.studentNonNegotiable;
+    const parentReady = state.parentConcern && state.parentEvidence && state.parentSupport && state.parentNonNegotiable;
+    const review = state.reviewDate ? 'Review on ' + new Date(state.reviewDate + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) + '.' : 'Set a review date before making the final choice.';
+    return '<div class="psa-summary"><h3>Shared next step</h3><p>' + (studentReady && parentReady && state.sharedRule ? 'Both sides have named their boundaries, a next action and a fair rule for reviewing the evidence.' : 'Name one boundary from each side, one student action and one fair rule before trying to settle the decision.') + '</p><ul><li><b>Student:</b> ' + esc(state.studentTest || 'write one small experiment') + '</li><li><b>Parent:</b> ' + esc(state.parentEvidence || 'write the evidence that would answer the main concern') + '</li><li><b>Student boundary:</b> ' + esc(state.studentNonNegotiable || 'write what must be respected') + '</li><li><b>Family boundary:</b> ' + esc(state.parentNonNegotiable || 'write what cannot be ignored') + '</li><li><b>Decision rule:</b> ' + esc(state.sharedRule || 'agree how evidence will be reviewed before deciding') + '</li><li><b>Review:</b> ' + esc(review) + '</li></ul><p class="psa-hint">A fair process does not require identical preferences. It requires that neither side quietly changes the rule, and that the final choice is revisited after the agreed evidence is collected.</p></div>';
+  }
+  function render() { app.innerHTML = formHtml() + summaryHtml(); }
+  app.addEventListener('input', (event) => { const key = event.target.getAttribute('data-psa'); if (key) { state[key] = event.target.value; save(); const status = document.getElementById('psa-status'); if (status) status.textContent = 'Saved locally.'; const summary = app.querySelector('.psa-summary'); if (summary) summary.outerHTML = summaryHtml(); } });
+  app.addEventListener('click', (event) => { const button = event.target.closest('[data-psa-action]'); if (!button) return; const action = button.getAttribute('data-psa-action'); if (action === 'save') { save(); document.getElementById('psa-status').textContent = 'Saved in this browser.'; } if (action === 'print') { save(); window.print(); } if (action === 'clear') { state = blank(); save(); render(); } });
+  render();
+</script>
+
+<style is:global>
+  .psa{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(229,184,74,.34);border-radius:18px;background:rgba(229,184,74,.045)}.psa h2{margin-top:0}.psa p,.psa li{line-height:1.65}.psa-note,.psa-hint{font-size:.86rem;color:rgba(255,255,255,.7)}.psa-form{display:grid;gap:.9rem;margin:1.1rem 0}.psa-columns{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}.psa-form fieldset{border:1px solid rgba(255,255,255,.17);border-radius:12px;padding:1rem}.psa-form legend{font-weight:700;padding:0 .3rem}.psa-form label{display:grid;gap:.35rem;font-size:.9rem;font-weight:600;margin:.65rem 0}.psa-wide{width:100%}.psa-form input,.psa-form textarea{width:100%;padding:.55rem .7rem;min-height:44px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400;resize:vertical}.psa-form textarea{min-height:78px}.psa-actions{display:flex;flex-wrap:wrap;gap:.6rem}.psa-btn{min-height:44px;padding:.5rem .85rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:600 .9rem inherit;cursor:pointer}.psa-btn--primary{background:linear-gradient(135deg,#e5b84a,#c49a2a);border:0;color:#151109}.psa-status{min-height:1.3em;color:#9ff3e6;font-size:.85rem}.psa-summary{padding:1rem 1.1rem;border:1px solid rgba(18,154,141,.4);border-radius:14px;background:rgba(18,154,141,.08)}.psa-summary h3{margin:.1rem 0 .4rem}.psa-form input:focus-visible,.psa-form textarea:focus-visible,.psa-btn:focus-visible{outline:3px solid #129a8d;outline-offset:2px}@media(max-width:650px){.psa{padding:1rem}.psa-columns{grid-template-columns:1fr}}@media print{.psa{color:#111;background:#fff;border:1px solid #999}.psa input,.psa textarea{color:#111;background:#fff;border-color:#999}.psa-btn{display:none}.psa-note,.psa-hint{color:#444}}
+</style>

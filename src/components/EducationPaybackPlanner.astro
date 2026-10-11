@@ -1,0 +1,69 @@
+<section class="epp" id="education-payback-planner" aria-labelledby="epp-title">
+  <h2 id="epp-title">Education cost and payback planner</h2>
+  <p>Enter your own figures to compare the money exposure of a study route. The tool separates direct spending from the income you may give up while studying.</p>
+  <p class="epp-note"><b>Private by design:</b> this planner runs in your browser. Nothing is saved or sent. It is a planning model, not a salary or investment prediction.</p>
+  <form class="epp-form" novalidate>
+    <label>Route or course name <input data-epp="name" type="text" maxlength="80" placeholder="For example: B.Tech or B.Com"></label>
+    <label>Total tuition and mandatory fees (₹) <input data-epp="fees" type="number" min="0" step="1000" value="0" inputmode="numeric"></label>
+    <label>Monthly living and travel cost (₹) <input data-epp="living" type="number" min="0" step="500" value="0" inputmode="numeric"></label>
+    <label>Course duration (years) <input data-epp="years" type="number" min="0.25" max="12" step="0.25" value="3" inputmode="decimal"></label>
+    <label>Monthly income you might otherwise earn (₹) <input data-epp="opportunity" type="number" min="0" step="500" value="0" inputmode="numeric"></label>
+    <label>Scholarship or aid reducing cost (₹) <input data-epp="aid" type="number" min="0" step="1000" value="0" inputmode="numeric"></label>
+    <label>Expected take-home income after the route (₹/month) <input data-epp="income" type="number" min="0" step="500" value="0" inputmode="numeric"></label>
+    <label>Monthly essential expenses after starting work (₹) <input data-epp="essentials" type="number" min="0" step="500" value="0" inputmode="numeric"></label>
+    <div class="epp-actions"><button type="submit">Calculate my planning range</button><button type="reset" class="epp-secondary">Reset</button></div>
+  </form>
+  <div class="epp-results" aria-live="polite" hidden>
+    <p class="epp-result-title"></p>
+    <div class="epp-grid"><div><span>Direct education cost</span><strong data-epp-result="direct"></strong></div><div><span>Opportunity cost</span><strong data-epp-result="opportunity"></strong></div><div><span>Total exposure to compare</span><strong data-epp-result="exposure"></strong></div><div><span>Monthly surplus after essentials</span><strong data-epp-result="surplus"></strong></div><div><span>Direct-cost payback</span><strong data-epp-result="direct-payback"></strong></div><div><span>Total-exposure payback</span><strong data-epp-result="total-payback"></strong></div></div>
+    <p class="epp-warning" data-epp-result="warning"></p>
+    <p class="epp-method">Formula: direct cost = fees + living cost × study months − aid; opportunity cost = alternative monthly income × study months. Payback uses positive monthly surplus only. It excludes tax, inflation, loan interest, unemployment, family support and changing income.</p>
+  </div>
+</section>
+
+<script>
+  const planner = document.querySelector<HTMLElement>('#education-payback-planner');
+  if (planner) {
+    const form = planner.querySelector<HTMLFormElement>('form');
+    const result = planner.querySelector<HTMLElement>('.epp-results');
+    if (!form || !result) throw new Error('Education payback planner markup is incomplete.');
+    const input = (key: string) => {
+      const field = form.querySelector<HTMLInputElement>(`[data-epp="${key}"]`);
+      if (!field) throw new Error(`Education payback planner field is missing: ${key}`);
+      return field;
+    };
+    const output = (key: string) => {
+      const field = planner.querySelector<HTMLElement>(`[data-epp-result="${key}"]`);
+      if (!field) throw new Error(`Education payback planner output is missing: ${key}`);
+      return field;
+    };
+    const money = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(Math.max(0, value));
+    const number = (key: string) => Math.max(0, Number.parseFloat(input(key).value) || 0);
+    const payback = (amount: number, surplus: number) => surplus > 0 ? `${(amount / surplus).toFixed(1)} months (${(amount / surplus / 12).toFixed(1)} years)` : 'Not calculable yet';
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const name = input('name').value.trim() || 'This route';
+      const months = number('years') * 12;
+      const direct = number('fees') + number('living') * months - number('aid');
+      const opportunity = number('opportunity') * months;
+      const exposure = direct + opportunity;
+      const surplus = number('income') - number('essentials');
+      const title = planner.querySelector<HTMLElement>('.epp-result-title');
+      if (!title) throw new Error('Education payback planner title is missing.');
+      title.textContent = `${name}: planning view`;
+      output('direct').textContent = money(direct);
+      output('opportunity').textContent = money(opportunity);
+      output('exposure').textContent = money(exposure);
+      output('surplus').textContent = money(surplus);
+      output('direct-payback').textContent = payback(direct, surplus);
+      output('total-payback').textContent = payback(exposure, surplus);
+      output('warning').textContent = surplus > 0 ? 'Use this as one comparison, then stress-test the route with a lower income, a delayed start and a backup plan.' : 'Your entered income does not yet leave a positive monthly surplus. Reduce assumptions, add a buffer or compare a lower-cost route before treating payback as possible.';
+      result.hidden = false;
+    });
+    form.addEventListener('reset', () => { result.hidden = true; });
+  }
+</script>
+
+<style is:global>
+  .epp{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(18,154,141,.42);border-radius:18px;background:rgba(18,154,141,.06)}.epp h2{margin-top:0}.epp p{line-height:1.65}.epp-note,.epp-method{font-size:.86rem;color:rgba(255,255,255,.7)}.epp-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem;margin:1.1rem 0}.epp-form label{display:grid;gap:.35rem;font-weight:600;font-size:.9rem}.epp-form input{min-height:44px;width:100%;padding:.5rem .7rem;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font:inherit}.epp-actions{display:flex;flex-wrap:wrap;gap:.6rem;grid-column:1/-1}.epp-actions button{min-height:44px;border:0;border-radius:10px;background:#e5b84a;color:#17130a;padding:.5rem .9rem;font-weight:800;cursor:pointer}.epp-actions .epp-secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2)}.epp-results{margin-top:1.2rem;padding:1rem;border-radius:14px;background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.14)}.epp-result-title{font-weight:800;color:#fff}.epp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.7rem}.epp-grid>div{padding:.75rem;border:1px solid rgba(255,255,255,.13);border-radius:10px}.epp-grid span,.epp-grid strong{display:block}.epp-grid span{font-size:.8rem;color:rgba(255,255,255,.62)}.epp-grid strong{margin-top:.35rem;color:#9ff3e6}.epp-warning{padding:.8rem;border-left:3px solid #e5b84a;background:rgba(229,184,74,.1);color:#f7d88c}.epp-form input:focus-visible,.epp-actions button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
+</style>

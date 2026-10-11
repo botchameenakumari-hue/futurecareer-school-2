@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { COURSE_ELIGIBILITY_RECORDS, COURSE_FINDER_META } from '../../config/courseEligibilityFinder';
+
+const title = 'Course Eligibility and Entrance Routes Dataset 2026 | Future Career School';
+const description = 'Download Future Career School’s editorial course eligibility and entrance-route dataset for 2026, with official starting pages, subject rules and editorial review dates.';
+const canonical = 'https://futurecareerschool.com/datasets/course-eligibility-2026/';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Dataset',
+  name: 'Future Career School editorial course eligibility and entrance routes 2026',
+  description,
+  url: canonical,
+  dateModified: '2026-10-11',
+  creator: { '@type': 'Organization', name: 'Future Career School', url: 'https://futurecareerschool.com/' },
+  isAccessibleForFree: true,
+  distribution: [
+    { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: 'https://futurecareerschool.com/data/course-eligibility-2026.json' },
+    { '@type': 'DataDownload', encodingFormat: 'text/csv', contentUrl: 'https://futurecareerschool.com/data/course-eligibility-2026.csv' },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav />
+  <main class="dataset-page">
+    <div class="dataset-shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">›</span><a href="/career-resources/">Career resources</a><span aria-hidden="true">›</span><span aria-current="page">Dataset</span></nav>
+      <p class="dataset-kicker">FREE EDITORIAL DATASET · {COURSE_FINDER_META.year.toUpperCase()}</p>
+      <h1>Course eligibility and entrance routes</h1>
+      <p class="dataset-lead">A downloadable, source-linked table of common course families, subject gates and entrance routes for students comparing options after Class 12.</p>
+      <div class="dataset-actions"><a href="/data/course-eligibility-2026.csv" download>Download CSV</a><a href="/data/course-eligibility-2026.json" download>Download JSON</a><a href="/data/course-eligibility-verification-queue-2026.csv" download>Verification queue</a></div>
+      <div class="dataset-callout"><b>What this is:</b> {COURSE_FINDER_META.editoriallyReviewedOn} editorial data compiled from the official starting pages listed in each record. The linked authority or admissions page was opened during review to confirm the official starting point and current-cycle context. <b>What it is not:</b> independently verified admission data, survey data, a college database or an admission guarantee. Institute, state, category, marks, age and year-specific rules can change the answer.</div>
+      <h2>What is in the file?</h2>
+      <ul class="dataset-list"><li>{COURSE_ELIGIBILITY_RECORDS.length} course or route families</li><li>Stream-level screening for PCM, PCB, PCMB, Commerce and Arts</li><li>Required and alternative subjects where a broad screen is possible</li><li>Entrance route and official starting-page links</li><li>Editorial review date and explicit editorial provenance</li></ul>
+      <div class="dataset-table-wrap"><table><thead><tr><th>Course or route</th><th>Entrance route</th><th>Subject rule</th><th>Source count</th></tr></thead><tbody>{COURSE_ELIGIBILITY_RECORDS.map((record) => <tr><td><strong>{record.course}</strong></td><td>{record.exam}</td><td>{record.subjectRule}</td><td>{record.sources.length}</td></tr>)}</tbody></table></div>
+      <p class="dataset-note">To use it responsibly, start with the matching row, open every official source, then open the exact institute or counselling notice. The source review confirms the official starting point; it does not confirm that every student meets the final rule. The separate verification queue is an unpublished human-review work order, not proof that any record is verified. If you republish this dataset, keep the provenance, editorial review date and disclaimer attached. Read the <a href="/data-policy/">data and research policy</a>.</p>
+      <p><a href="/blog/career-options/career-chart-after-12th/">Use the interactive course eligibility finder</a> to filter these decisions by stream and subjects.</p>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .dataset-page{min-height:70vh;padding:4rem 1.2rem;background:radial-gradient(circle at 20% 0%,rgba(18,154,141,.12),transparent 35%),#080c18}.dataset-shell{max-width:1050px;margin:0 auto}.breadcrumb{display:flex;gap:.55rem;flex-wrap:wrap;color:rgba(255,255,255,.55);font-size:.85rem;margin-bottom:2.5rem}.breadcrumb a{color:#8de4d8;text-decoration:underline;text-underline-offset:2px}.dataset-kicker{color:#e5b84a;font-size:.8rem;font-weight:800;letter-spacing:.12em}.dataset-page h1{font-size:clamp(2rem,5vw,4rem);margin:.65rem 0 1rem;color:#fff}.dataset-lead{max-width:760px;font-size:1.15rem;line-height:1.7;color:rgba(255,255,255,.76)}.dataset-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.5rem 0}.dataset-actions a{display:inline-flex;align-items:center;min-height:44px;padding:.55rem .9rem;border-radius:10px;background:#e5b84a;color:#17130a;font-weight:800}.dataset-actions a+ a{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22)}.dataset-callout{padding:1rem 1.1rem;border:1px solid rgba(229,184,74,.4);border-radius:14px;background:rgba(229,184,74,.08);line-height:1.7;color:rgba(255,255,255,.78)}.dataset-page h2{margin:2rem 0 .7rem;color:#fff}.dataset-list{padding-left:1.2rem;line-height:1.8;color:rgba(255,255,255,.76)}.dataset-table-wrap{overflow-x:auto;margin:1.5rem 0}.dataset-table-wrap table{width:100%;min-width:700px;border-collapse:collapse}.dataset-table-wrap th,.dataset-table-wrap td{padding:.75rem;border:1px solid rgba(255,255,255,.15);vertical-align:top;text-align:left;line-height:1.55}.dataset-table-wrap th{background:rgba(18,154,141,.18);color:#fff}.dataset-table-wrap td{color:rgba(255,255,255,.72)}.dataset-note{color:rgba(255,255,255,.62);line-height:1.7}.dataset-page a:not(.dataset-actions a){color:#8de4d8;text-decoration:underline;text-underline-offset:2px}
+</style>

@@ -47,6 +47,14 @@ const transferableSkillIndex = [...enrichedRoles.reduce((index,role) => {
   }); return index;
 },new Map<string,{name:string;roles:{id:string;title:string}[];clusters:Set<string>;interests:Set<string>}>()).values()].map((item) => ({ ...item, clusters:[...item.clusters], interests:[...item.interests], count:item.roles.length })).sort((a,b) => b.count-a.count || a.name.localeCompare(b.name));
 const careerChangeStartingSkills = ['Communication','Planning','Problem solving','Writing','Teaching','Customer service','Teamwork','Research','Decision making','Project coordination','Stakeholder communication','Process improvement'];
+const underlinkedCareerResources = [
+  ['/tools/career-route-finder/', 'Search the career route catalogue'],
+  ['/career-resources/ai-prompt-engineering-roadmap/', 'AI and prompt engineering roadmap'],
+  ['/career-resources/graphic-design-career-roadmap/', 'Graphic design career roadmap'],
+  ['/career-resources/how-indian-freelancers-make-1-5-lakh-month/', 'How Indian freelancers build income'],
+  ['/career-resources/sales-career-roadmap-from-rep-to-revenue-leader/', 'Sales career roadmap'],
+  ['/career-resources/video-editing-content-creation-roadmap/', 'Video editing and content creation roadmap'],
+] as const;
 const careerChangeSkillIndex = [...transferableSkillIndex].sort((a,b) => {
   const aPriority=careerChangeStartingSkills.indexOf(a.name); const bPriority=careerChangeStartingSkills.indexOf(b.name);
   const aRank=aPriority<0?Number.MAX_SAFE_INTEGER:aPriority; const bRank=bPriority<0?Number.MAX_SAFE_INTEGER:bPriority;
@@ -231,7 +239,7 @@ const jsonLd = {
 
     <section class="stages-section" id="stages" aria-labelledby="stages-title"><div class="container"><header class="section-heading"><p class="kicker">Personalise your skills route</p><h2 id="stages-title">Choose your stage once. Your next move and AI guidance adapt together.</h2><p>Choose your current stage—not your age. You can explore, return, lead or change direction at any point in life.</p></header><label class="stage-picker"><span>Show guidance for</span><select id="stage-guidance-select">{Object.entries(stageLabels).map(([stage,label]) => <option value={stage}>{label}</option>)}</select></label><div class="stage-playbook">
       {Object.entries(stageLabels).map(([stage,label],index) => { const play = stagePlaybook[stage]; return <article data-stage-guidance={stage} hidden={index!==0}><div class="stage-card-head"><span>{label}</span><button type="button" data-use-stage={stage}>Use this in my questions →</button></div><h3>{play.question}</h3><p><b>Focus on:</b> {play.use}</p><p class="avoid"><b>Try not to:</b> {play.avoid}</p><ol>{play.action.map((action) => <li>{action}</li>)}</ol></article> })}
-    </div></div></section>
+    </div>{isHub && <div class="container compass-resource-bridge"><p class="kicker">Continue with a focused map</p><h2>Explore a practical career roadmap next.</h2><p>When the Compass points toward a skill or work pattern, these focused resources help you test the ordinary work and build visible evidence.</p><div>{underlinkedCareerResources.map(([href, label]) => <a href={href}>{label} <span aria-hidden="true">→</span></a>)}</div></div>}</section>
 
     {isHub && <figure class="compass-visual compass-explainer"><img src={compassVisuals.stages} width="1600" height="1000" alt="Six-stage career learning path from curiosity and testing through entry evidence, compounding capabilities, a possible reset, and practical conversations and projects." title="Career and Skills Compass: choose your stage and next move" loading="lazy" decoding="async" /><figcaption>Good career decisions become clearer when curiosity turns into small, real tests.</figcaption></figure>}
 
@@ -462,34 +470,38 @@ const jsonLd = {
 
 <script>
   type CompassRole = Record<string, any> & { id: string; title: string };
+  type CompassProfile = { stage:string; goal:string; interests:string[]; values:string[]; modes:string[]; access:string; pace:string; constraints:string[] };
+  type ScoreResult = { role:CompassRole; score:number; workFit:number; readiness:number; reasons:string[]; gaps:string[] };
+  type SkillSprint = { name:string; layer:string; roleIds:string[] };
   const dataElement = document.getElementById('compass-data');
   const data = JSON.parse(dataElement?.textContent || '{}');
   const roles: CompassRole[] = data.roles || [];
   const byId = new Map<string, CompassRole>(roles.map((role) => [role.id, role]));
-  const $ = <T extends Element = Element>(selector: string, root: ParentNode = document) => root.querySelector<T>(selector);
-  const $$ = <T extends Element = Element>(selector: string, root: ParentNode = document): T[] => [...root.querySelectorAll<T>(selector)];
-  const escapeHtml = (value='') => String(value).replace(/[&<>'"]/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
-  const profile = { stage:'', goal:'', interests:[], values:[], modes:[], access:'', pace:'', constraints:[] };
+  type DomNode = HTMLElement & { value: string; disabled: boolean; checked: boolean; open: boolean; placeholder: string; showModal: () => void; close: () => void };
+  const $ = <T extends Element = DomNode>(selector: string, root: ParentNode = document) => root.querySelector<T>(selector) as T;
+  const $$ = <T extends Element = DomNode>(selector: string, root: ParentNode = document): T[] => [...root.querySelectorAll<T>(selector)];
+  const escapeHtml = (value: unknown = '') => String(value).replace(/[&<>'"]/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'} as Record<string,string>)[char] || char);
+  const profile:CompassProfile = { stage:'', goal:'', interests:[], values:[], modes:[], access:'', pace:'', constraints:[] };
   let currentStep = 1;
   let matchPage = 1;
   let plannerHours = 5;
   let plannerStage = '';
   let activePlannerRole = '';
   let returnRoleScroll = 0;
-  let lastRanked = [];
+  let lastRanked: ScoreResult[] = [];
   let browsePage = 1;
   let skillPage = 1;
   let careerChangePage = 1;
   const staticPages = { future:1, evidence:1, practice:1 };
   let activeSkillInterest = 'all';
-  let activeSkillSprint = null;
+  let activeSkillSprint:SkillSprint|null = null;
   let skillSprintStage = '';
   let skillSprintMinutes = 30;
   let skillSprintPace = 'steady';
   let skillSprintLevel = 'new';
-  const selectedSkills = new Set();
-  const selectedExperienceThemes = new Set();
-  const experienceThemeMatchers = {
+  const selectedSkills = new Set<string>();
+  const selectedExperienceThemes = new Set<string>();
+  const experienceThemeMatchers:Record<string,string[]> = {
     organise:['planning','organis','coordination','process improvement','systems thinking','prioritisation'],
     people:['empathy','communication','facilitation','collaboration','coaching','stakeholder','customer','listening'],
     solve:['problem','systems thinking','critical thinking','decision','risk','diagnosis','question framing'],
@@ -501,10 +513,10 @@ const jsonLd = {
     organise:'Organise and improve work',people:'Work with people',solve:'Understand and solve problems',communicate:'Explain and create',analyse:'Research and analyse',lead:'Lead, deliver or support others',
   };
   const experimentRatings = new Map();
-  const experimentCriteria = [
+  const experimentCriteria:string[][] = [
     ['energy','Energy after ordinary tasks'],['improvement','Ability improved with feedback'],['routine','Interest in the routine work'],['access','Entry route feels feasible'],['life','Fits time, money and wellbeing'],['leverage','Human strength worth deepening'],
   ];
-  const pinned = new Set();
+  const pinned = new Set<string>();
   const paceOrder = { 'sample-now':0, months:1, years:2 };
   const cardsPerPage = 9;
 
@@ -514,11 +526,11 @@ const jsonLd = {
     holder.hidden=pages<=1;
     if(pages<=1){holder.innerHTML='';return;}
     const numbers=[...new Set([1,2,page-1,page,page+1,pages-1,pages].filter((value)=>value>=1&&value<=pages))].sort((a,b)=>a-b);
-    const items=[]; items.push(`<button type="button" data-page="${page-1}" aria-label="Previous page" ${page===1?'disabled':''}>←</button>`);
+    const items: string[]=[]; items.push(`<button type="button" data-page="${page-1}" aria-label="Previous page" ${page===1?'disabled':''}>←</button>`);
     numbers.forEach((value,index)=>{ if(index&&value-numbers[index-1]>1)items.push('<span aria-hidden="true">…</span>'); items.push(`<button type="button" data-page="${value}" ${value===page?'aria-current="page"':''} aria-label="Page ${value}">${value}</button>`); });
     items.push(`<button type="button" data-page="${page+1}" aria-label="Next page" ${page===pages?'disabled':''}>→</button>`);
     holder.innerHTML=items.join('');
-    $$('[data-page]',holder).forEach((button)=>button.addEventListener('click',()=>{onChange(Number(button.dataset.page));requestAnimationFrame(()=>holder.querySelector('[aria-current="page"]')?.focus({preventScroll:true}));}));
+    $$('[data-page]',holder).forEach((button)=>button.addEventListener('click',()=>{onChange(Number(button.dataset.page));requestAnimationFrame(()=>holder.querySelector<HTMLElement>('[aria-current="page"]')?.focus({preventScroll:true}));}));
   }
   function pageRange(page){const start=(page-1)*cardsPerPage;return [start,start+cardsPerPage];}
 
@@ -570,9 +582,9 @@ const jsonLd = {
   $$('.rail-step').forEach((button) => button.addEventListener('click', () => goStep(Number(button.dataset.goStep))));
 
   function overlap(selected, offered) { return selected.filter((item) => offered.includes(item)); }
-  function roleConstraints(role) {
+  function roleConstraints(role:CompassRole):string[] {
     const text=[role.title,role.cluster,role.summary,role.does,role.realityCheck,role.entry,role.meta.friction,role.meta.taskMix].flat().join(' ').toLowerCase();
-    const flags=[];
+    const flags:string[]=[];
     if(role.meta.pace==='years'||role.meta.access.includes('regulated')) flags.push('long-study');
     if(role.modes.includes('field')) flags.push('field-travel');
     if(/on-call|shift|urgent|emergenc|incident|production failure|interruption-heavy/.test(text)) flags.push('unpredictable-hours');
@@ -581,9 +593,9 @@ const jsonLd = {
     if(role.modes.includes('desk')&&!role.modes.includes('active')&&!role.modes.includes('field')) flags.push('screen-heavy');
     return [...new Set(flags)];
   }
-  function workPattern(role) {
+  function workPattern(role:CompassRole) {
     const constraints=roleConstraints(role);
-    const has=(value)=>role.modes.includes(value);
+    const has=(value:string)=>role.modes.includes(value);
     const setting=has('field')&&has('desk')?'Mixed site + desk':has('field')?'Mostly field / on-site':has('remote')?'Remote-compatible in some teams':has('desk')?'Mostly desk / screen':has('active')?'Mostly active / hands-on':'Employer-dependent';
     const schedule=constraints.includes('unpredictable-hours')?'Shifts, on-call or urgent interruptions possible':has('ambiguous')?'Deadline and workload variability':has('structured')?'A more structured rhythm is plausible':'Employer-dependent';
     const physical=has('active')&&has('field')?'High movement, site or equipment demands likely':has('active')?'Moderate to high movement likely':has('field')?'Travel and site conditions likely':has('desk')?'Low movement; sustained sitting or screen load':'Varies with employer and setting';
@@ -605,7 +617,7 @@ const jsonLd = {
       return total + (index<0 ? 0 : Math.max(.55,1-index*.15));
     },0) / selected.length;
   }
-  function scoreRole(role,answers=profile) {
+  function scoreRole(role:CompassRole,answers:CompassProfile=profile):ScoreResult {
     const interests = overlap(answers.interests, role.interests), values = overlap(answers.values, role.values), modes = overlap(answers.modes, role.modes);
     const workFit = Math.round(centrality(answers.interests,role.interests) * 45 + centrality(answers.values,role.values) * 30 + centrality(answers.modes,role.modes) * 25);
     const goalBoost = answers.goal==='independent' && role.values.includes('autonomy') || answers.goal==='grow' && (role.stages.includes('mid')||role.stages.includes('senior')) || answers.goal==='return' && role.stages.includes('returner') || answers.goal==='switch' && role.stages.includes('switcher') || answers.goal==='first-role' && (role.stages.includes('fresher')||role.meta.pace==='sample-now') || answers.goal==='explore';
@@ -617,13 +629,13 @@ const jsonLd = {
     const conflicts=overlap(answers.constraints,roleConstraints(role));
     const readiness = Math.max(0,Math.min(100,stageReadiness+accessReadiness+paceReadiness+goalReadiness-conflicts.length*10));
     const score = Math.round((workFit*.68+readiness*.32)*10)/10;
-    const reasons = [];
+    const reasons:string[] = [];
     if(interests.length) reasons.push(`${interests.length}/${answers.interests.length} chosen activities appear in the work`);
     if(values.length) reasons.push(`${values.length}/${answers.values.length} priorities supported`);
     if(modes.length) reasons.push(`${modes.length}/${answers.modes.length} preferred conditions supported`);
     if(role.meta.access.includes(answers.access)) reasons.push(`${data.accessLabels[answers.access]} route available`);
     if(role.meta.pace===answers.pace) reasons.push('Matches your testing horizon');
-    const gaps = conflicts.map((value)=>`May involve your deal-breaker: ${data.constraintLabels[value].toLowerCase()}`);
+    const gaps:string[] = conflicts.map((value)=>`May involve your deal-breaker: ${data.constraintLabels[value].toLowerCase()}`);
     if(interests.length<answers.interests.length) gaps.push(`${answers.interests.length-interests.length} chosen activity ${answers.interests.length-interests.length===1?'is':'are'} not central`);
     if(values.length<answers.values.length) gaps.push(`${answers.values.length-values.length} priority ${answers.values.length-values.length===1?'needs':'need'} a closer look`);
     if(modes.length<answers.modes.length) gaps.push(`${answers.modes.length-modes.length} preferred condition ${answers.modes.length-modes.length===1?'is':'are'} less typical`);
@@ -632,14 +644,14 @@ const jsonLd = {
     if(!role.stages.includes(answers.stage)) gaps.push('Less commonly entered from your current stage');
     return { role, score:Math.min(98,score), workFit, readiness, reasons, gaps };
   }
-  function rankRoles(answers=profile){return roles.map((role)=>scoreRole(role,answers)).sort((a,b)=>b.score-a.score||b.reasons.length-a.reasons.length||a.role.title.localeCompare(b.role.title))}
+  function rankRoles(answers:CompassProfile=profile):ScoreResult[]{return roles.map((role)=>scoreRole(role,answers)).sort((a,b)=>b.score-a.score||b.reasons.length-a.reasons.length||a.role.title.localeCompare(b.role.title))}
   function labelFor(group,value) { const source = data[group+'Labels'] || {}; const found = source[value]; return typeof found==='string' ? found : found?.label || value; }
   function renderShortlistStress(baseline){
     const section=$('[data-shortlist-stress]');
     if(!section)return;
     const labels={interests:'Activity',values:'Priority',modes:'Work setting',constraints:'Deal-breaker'};
     const choiceLabel=(group,value)=>group==='interests'?data.interestLabels[value]?.label:group==='values'?data.valueLabels[value]:group==='modes'?data.modeLabels[value]:data.constraintLabels[value];
-    const scenarios=[];
+     const scenarios:any[]=[];
     ['interests','values','modes','constraints'].forEach((group)=>{
       if(profile[group].length<2)return;
       profile[group].forEach((value)=>{
@@ -689,15 +701,15 @@ const jsonLd = {
     ranked.forEach((item,index) => {
       const card = $(`.result-card[data-role-id="${item.role.id}"]`);
       if(!card) return;
-      card.querySelector('[data-score]').textContent = item.score;
-      card.querySelector('[data-reasons]').innerHTML = item.reasons.slice(0,4).map((reason) => `<span>${escapeHtml(reason)}</span>`).join('');
-      card.querySelector('[data-gaps]').innerHTML = item.gaps.slice(0,2).map((gap) => `<span>Watch · ${escapeHtml(gap)}</span>`).join('');
-      card.querySelector('[data-work-fit]').textContent = `${item.workFit}%`;
-      card.querySelector('[data-readiness]').textContent = `${item.readiness}%`;
-      card.querySelector('[data-work-bar]').style.width = `${item.workFit}%`;
-      card.querySelector('[data-readiness-bar]').style.width = `${item.readiness}%`;
-      card.querySelector('.match-score').setAttribute('aria-label',`${item.score} percent overall match signal; ${item.workFit} percent work fit; ${item.readiness} percent entry readiness`);
-      card.querySelector('[data-friction]').textContent = item.role.meta.friction[0];
+      card.querySelector<HTMLElement>('[data-score]')!.textContent = String(item.score);
+      card.querySelector<HTMLElement>('[data-reasons]')!.innerHTML = item.reasons.slice(0,4).map((reason) => `<span>${escapeHtml(reason)}</span>`).join('');
+      card.querySelector<HTMLElement>('[data-gaps]')!.innerHTML = item.gaps.slice(0,2).map((gap) => `<span>Watch · ${escapeHtml(gap)}</span>`).join('');
+      card.querySelector<HTMLElement>('[data-work-fit]')!.textContent = `${item.workFit}%`;
+      card.querySelector<HTMLElement>('[data-readiness]')!.textContent = `${item.readiness}%`;
+      card.querySelector<HTMLElement>('[data-work-bar]')!.style.width = `${item.workFit}%`;
+      card.querySelector<HTMLElement>('[data-readiness-bar]')!.style.width = `${item.readiness}%`;
+      card.querySelector<HTMLElement>('.match-score')!.setAttribute('aria-label',`${item.score} percent overall match signal; ${item.workFit} percent work fit; ${item.readiness} percent entry readiness`);
+      card.querySelector<HTMLElement>('[data-friction]')!.textContent = item.role.meta.friction[0];
       card.hidden = index<start || index>=end;
       grid.appendChild(card);
     });
@@ -723,8 +735,8 @@ const jsonLd = {
   function filterBrowse(resetPage=false) {
     if(resetPage)browsePage=1;
     const query = ($('#career-search')?.value || '').trim().toLowerCase();
-    const groups = {};
-    $$('.browse-filter:checked').forEach((input) => (groups[input.dataset.filter] ||= []).push(input.value));
+     const groups:Record<string,string[]> = {};
+     $$('.browse-filter:checked').forEach((input) => {const filter=input.dataset.filter||'';if(filter)(groups[filter] ||= []).push(input.value);});
     let visible = roles.filter((role) => {
       const haystack = [role.title,role.cluster,role.summary,role.does,role.entry,role.meta.taskMix,role.meta.industries,role.skills.transferable,role.skills.roleSpecific,role.skills.aiDigital,role.ai.position,role.ai.exposure,role.ai.delegates,role.ai.humanLeverage,role.ai.adjacentTitles].flat().join(' ').toLowerCase();
       if(query && !haystack.includes(query)) return false;
@@ -745,11 +757,11 @@ const jsonLd = {
     const grid = $('#browse-grid'); const [start,end]=pageRange(browsePage);
     roles.forEach((role)=>{ const card=$(`.browse-card[data-role-id="${role.id}"]`); card.hidden=!visible.includes(role); });
     visible.forEach((role,index)=>{ const card=$(`.browse-card[data-role-id="${role.id}"]`); card.hidden=index<start||index>=end; grid.appendChild(card); });
-    $('#browse-count').textContent = visible.length;
+     $('#browse-count').textContent = String(visible.length);
     $('#no-results').hidden = visible.length>0;
-    const active = [];
+     const active:Array<{label:string;action:()=>void}> = [];
     if(query) active.push({label:`Search: ${query}`,action:()=>{ $('#career-search').value=''; filterBrowse(); }});
-    $$('.browse-filter:checked').forEach((input)=>active.push({label:input.nextElementSibling.textContent,action:()=>{input.checked=false;filterBrowse();}}));
+     $$('.browse-filter:checked').forEach((input)=>active.push({label:input.nextElementSibling?.textContent||input.dataset.filter||'Filter',action:()=>{input.checked=false;filterBrowse();}}));
     const holder=$('#active-filters'); holder.innerHTML=''; active.forEach((item)=>{ const button=document.createElement('button'); button.type='button'; button.textContent=`${item.label} ×`; button.addEventListener('click',item.action); holder.appendChild(button); });
     renderPagination('#browse-pagination',visible.length,browsePage,(page)=>{browsePage=page;filterBrowse();});
   }
@@ -759,18 +771,18 @@ const jsonLd = {
 
   function filterSkills(resetPage=false) {
     if(resetPage)skillPage=1;
-    const query=($('#skill-search')?.value||'').trim().toLowerCase(); const matches=$$('[data-skill-card]').filter((card)=>(!query||card.dataset.skillName.includes(query))&&(activeSkillInterest==='all'||card.dataset.skillInterests.split(' ').includes(activeSkillInterest)));
+     const query=($('#skill-search')?.value||'').trim().toLowerCase(); const matches=$$('[data-skill-card]').filter((card)=>(!query||(card.dataset.skillName||'').includes(query))&&(activeSkillInterest==='all'||(card.dataset.skillInterests||'').split(' ').includes(activeSkillInterest)));
     const [start,end]=pageRange(skillPage); $$('[data-skill-card]').forEach((card)=>card.hidden=true); matches.forEach((card,index)=>card.hidden=index<start||index>=end);
     $('#skill-index-empty').hidden=matches.length>0; $('#skill-count').textContent=String(Math.max(0,Math.min(cardsPerPage,matches.length-start))); renderPagination('#skill-pagination',matches.length,skillPage,(page)=>{skillPage=page;filterSkills();});
   }
   $('#skill-search')?.addEventListener('input',()=>filterSkills(true));
-  $$('[data-skill-interest]').forEach((button)=>button.addEventListener('click',()=>{activeSkillInterest=button.dataset.skillInterest;$$('[data-skill-interest]').forEach((item)=>item.setAttribute('aria-pressed',String(item===button)));filterSkills(true)}));
+   $$('[data-skill-interest]').forEach((button)=>button.addEventListener('click',()=>{activeSkillInterest=button.dataset.skillInterest||'all';$$('[data-skill-interest]').forEach((item)=>item.setAttribute('aria-pressed',String(item===button)));filterSkills(true)}));
 
   function filterCareerChangeSkills(resetPage=false){
     if(resetPage)careerChangePage=1;
     const query=($('#career-change-search')?.value||'').trim().toLowerCase();
     const options=$$('[data-change-skill-option]');
-    const matches=query?options.filter((button)=>button.dataset.skillName.includes(query)):[];
+     const matches=query?options.filter((button)=>(button.dataset.skillName||'').includes(query)):[];
     const [start,end]=pageRange(careerChangePage); options.forEach((button)=>button.hidden=true);
     matches.slice(start,end).forEach((button)=>button.hidden=false);
     const status=$('#career-change-options-status');
@@ -802,8 +814,8 @@ const jsonLd = {
 
   function renderSkillBridge(message='') {
     const selected=[...selectedSkills]; const themes=[...selectedExperienceThemes]; const selectedHolder=$('#skill-bridge-selected'); const results=$('#skill-bridge-results'); const clear=$('#clear-skill-bridge'); const status=$('#skill-bridge-status');
-    $$('[data-skill-bridge]').forEach((button)=>{const on=selectedSkills.has(button.dataset.skillBridge);button.setAttribute('aria-pressed',String(on));button.setAttribute('aria-label',`${on?'Remove':'Add'} ${button.dataset.skillBridge} ${on?'from':'to'} my used skills`);const note=$('small',button);if(note)note.textContent=on?'Added to my skills ✓':button.dataset.skillUseLabel;});
-    $$('[data-experience-theme]').forEach((button)=>button.setAttribute('aria-pressed',String(selectedExperienceThemes.has(button.dataset.experienceTheme))));
+     $$('[data-skill-bridge]').forEach((button)=>{const skill=button.dataset.skillBridge||'';const on=selectedSkills.has(skill);button.setAttribute('aria-pressed',String(on));button.setAttribute('aria-label',`${on?'Remove':'Add'} ${skill} ${on?'from':'to'} my used skills`);const note=$('small',button);if(note)note.textContent=on?'Added to my skills ✓':button.dataset.skillUseLabel||'';});
+     $$('[data-experience-theme]').forEach((button)=>button.setAttribute('aria-pressed',String(selectedExperienceThemes.has(button.dataset.experienceTheme||''))));
     selectedHolder.innerHTML=themes.length||selected.length?themeSelectionMarkup(themes)+selected.map((name)=>`<button type="button" data-remove-bridge-skill="${escapeHtml(name)}" aria-label="Remove ${escapeHtml(name)} from my skills">${escapeHtml(name)} ×</button>`).join(''):'<span>Choose an experience theme above to begin.</span>';
     clear.hidden=!(themes.length||selected.length);
     if(!(themes.length||selected.length)){results.hidden=true;results.innerHTML='';status.textContent=message||'No experience themes chosen yet. Start with work you can describe from a real situation.';updateCarrySignals();return;}
@@ -815,17 +827,17 @@ const jsonLd = {
   }
   function updateCarrySignals() {
     const selected=[...selectedSkills];
-    $$('.result-card').forEach((card)=>{const role=byId.get(card.dataset.roleId);const node=$('[data-carry-signal]',card);if(!node||!role)return;node.hidden=!selected.length;if(!selected.length){node.innerHTML='';return;}const hits=selected.filter((skill)=>role.skills.transferable.includes(skill));node.innerHTML=`<b>Skills you already use · not part of the match score</b><span>${hits.length?`${hits.length}/${selected.length} also appear in this career: ${escapeHtml(hits.join(' · '))}`:`None of your ${selected.length} added skills use the same name here. The career may still fit, but you would be building a longer skill path.`}</span>`;});
+     $$('.result-card').forEach((card)=>{const role=byId.get(card.dataset.roleId||'');const node=$('[data-carry-signal]',card);if(!node||!role)return;node.hidden=!selected.length;if(!selected.length){node.innerHTML='';return;}const hits=selected.filter((skill)=>role.skills.transferable.includes(skill));node.innerHTML=`<b>Skills you already use · not part of the match score</b><span>${hits.length?`${hits.length}/${selected.length} also appear in this career: ${escapeHtml(hits.join(' · '))}`:`None of your ${selected.length} added skills use the same name here. The career may still fit, but you would be building a longer skill path.`}</span>`;});
   }
   function toggleSkillBridge(button) {
-    const name=button.dataset.skillBridge;
+     const name=button.dataset.skillBridge||'';
     if(selectedSkills.has(name)) selectedSkills.delete(name);
     else if(selectedSkills.size<5) selectedSkills.add(name);
     else {renderSkillBridge('You can add up to five skills at a time. Remove one before adding another.');return;}
     renderSkillBridge();
   }
   function toggleExperienceTheme(button) {
-    const key=button.dataset.experienceTheme;
+     const key=button.dataset.experienceTheme||'';
     if(selectedExperienceThemes.has(key))selectedExperienceThemes.delete(key);
     else if(selectedExperienceThemes.size<3)selectedExperienceThemes.add(key);
     else {renderSkillBridge('Choose up to three experience themes at a time. Remove one before adding another.');return;}
@@ -834,19 +846,19 @@ const jsonLd = {
   $('#clear-skill-bridge')?.addEventListener('click',()=>{selectedSkills.clear();selectedExperienceThemes.clear();renderSkillBridge('Your choices are clear. Start with experience you can describe from a real situation.')});
 
   function renderSkillSprint() {
-    if(!activeSkillSprint)return; const {name,layer,roleIds}=activeSkillSprint; const stage=skillSprintStage||profile.stage||'college'; const play=data.stagePlaybook[stage]; const foundation=data.foundationSkills.find((item)=>item.name===name); const connected=roleIds.map((id)=>byId.get(id)).filter(Boolean); const practice=foundation?.practice||`Choose a small real task requiring ${name.toLowerCase()}, attempt it, request task-specific feedback and repeat.`; const daily=skillSprintMinutes===10?'one tightly bounded attempt':skillSprintMinutes===60?'one substantial attempt with notes':'one focused attempt plus a short evidence log';
-    const levels={
+    if(!activeSkillSprint)return; const {name,layer,roleIds}=activeSkillSprint; const stage=skillSprintStage||profile.stage||'college'; const play=data.stagePlaybook[stage]; const foundation=data.foundationSkills.find((item)=>item.name===name); const connected=roleIds.map((id)=>byId.get(id)).filter((role):role is CompassRole=>Boolean(role)); const practice=foundation?.practice||`Choose a small real task requiring ${name.toLowerCase()}, attempt it, request task-specific feedback and repeat.`; const daily=skillSprintMinutes===10?'one tightly bounded attempt':skillSprintMinutes===60?'one substantial attempt with notes':'one focused attempt plus a short evidence log';
+     const levels:Record<string,any>={
       new:{label:'Not tried',evidence:'No inspectable attempt yet',target:`Complete a bounded ${name.toLowerCase()} task with a model, then repeat it with less help.`,proof:'Baseline · model used · three attempts · feedback · revision · transfer attempt',next:'Guided'},
       guided:{label:'Guided',evidence:'Can follow an example or checklist',target:`Complete a familiar ${name.toLowerCase()} task while deliberately removing one support at a time.`,proof:'Unaided baseline · support inventory · three reduced-support attempts · feedback · transfer attempt',next:'Independent'},
       independent:{label:'Independent',evidence:'Can deliver and explain decisions',target:`Maintain quality while ${name.toLowerCase()} is used under variation, tighter constraints or a harder audience.`,proof:'Quality criteria · hard-case attempts · decision log · expert critique · revision · cross-context transfer',next:'Adaptive'},
       adaptive:{label:'Adaptive',evidence:'Can handle variation, improve or teach',target:`Stress-test, improve and explain a ${name.toLowerCase()} method without overstating expertise.`,proof:'Quality rubric · failure analysis · method comparison · peer calibration · reusable playbook · transfer limits',next:'Deeper domain specialisation'},
-    }; const level=levels[skillSprintLevel];
-    const phaseSets={
+     }; const level=levels[skillSprintLevel];
+     const phaseSets:Record<string,any>={
       new:[['Days 1–2','Baseline',`Attempt ${daily} before studying. Record what you did, where you hesitated and the result.`],['Days 3–5','Model',`${practice} Compare your attempt with one credible example or a practitioner's method.`],['Days 6–9','Repeat',`Use ${name.toLowerCase()} on three bounded tasks. Remove a little support each time and keep every output.`],['Days 10–12','Feedback',`Ask someone familiar with the task to assess one clear criterion. Revise once and name the improvement.`],['Days 13–14','Transfer',`Use the skill in a second context. Record what transferred, what changed and what still required help.`]],
       guided:[['Days 1–2','Unaided check',`Attempt ${daily} without your usual model or checklist. Mark exactly where support became necessary.`],['Days 3–5','Diagnose support',`List the prompts, examples, tools or people you rely on. Practise ${name.toLowerCase()} with only the most essential support.`],['Days 6–9','Fade support',`Complete three familiar tasks, removing one scaffold each time while tracking quality and time.`],['Days 10–12','External check',`Ask a practitioner or informed peer whether the result meets the real task standard. Revise the weakest part.`],['Days 13–14','New situation',`Apply the capability to an unfamiliar task and document which support returned and why.`]],
       independent:[['Days 1–2','Benchmark',`Define quality, time and error criteria. Complete ${daily} and explain the decisions without hidden support.`],['Days 3–5','Find the edge',`Use ${name.toLowerCase()} on a harder case with ambiguity, a different audience or conflicting constraints.`],['Days 6–9','Vary conditions',`Run three contrasting scenarios. Record failure modes, trade-offs and when your usual method stops working.`],['Days 10–12','Expert critique',`Request critique from someone with stronger domain experience. Revise the method, not only the final output.`],['Days 13–14','Transfer + explain',`Use the improved method in a second context and explain it so another person can inspect your reasoning.`]],
       adaptive:[['Days 1–2','Set the standard',`Write a quality rubric and choose one difficult, consequential or failure-prone use of ${name.toLowerCase()}.`],['Days 3–5','Compare methods',`Test two approaches on the same task. Explain where each works, fails and creates unintended consequences.`],['Days 6–9','Improve the system',`Redesign one workflow, scaffold or feedback loop so the capability is easier to perform reliably—not merely faster.`],['Days 10–12','Calibrate',`Ask an experienced peer or affected user to challenge the rubric, failure analysis and claimed improvement.`],['Days 13–14','Codify limits',`Create a small reusable playbook with examples, escalation points, transfer conditions and explicit limits.`]],
-    }; const schedules={gentle:{label:'Gentle · about 4 weeks',hint:'Two or three sessions each week. Pauses are allowed; resume from the next phase.',labels:['Week 1 · first attempt','Week 1–2 · learn the method','Week 2–3 · repeat','Week 3 · feedback','Week 4 · transfer']},steady:{label:'Steady · about 2 weeks',hint:'Use short, regular sessions when that suits your life. Missing a day does not reset progress.',labels:['Days 1–2','Days 3–5','Days 6–9','Days 10–12','Days 13–14']},fast:{label:'Fast implementer · 7 focused sessions',hint:'Use this only if you already have the time, a real task and access to feedback.',labels:['Sessions 1','Sessions 2','Sessions 3–4','Sessions 5–6','Session 7']}}; const schedule=schedules[skillSprintPace]; const phases=phaseSets[skillSprintLevel].map((phase,index)=>[schedule.labels[index],phase[1],phase[2]]);
+     }; const schedules:Record<string,any>={gentle:{label:'Gentle · about 4 weeks',hint:'Two or three sessions each week. Pauses are allowed; resume from the next phase.',labels:['Week 1 · first attempt','Week 1–2 · learn the method','Week 2–3 · repeat','Week 3 · feedback','Week 4 · transfer']},steady:{label:'Steady · about 2 weeks',hint:'Use short, regular sessions when that suits your life. Missing a day does not reset progress.',labels:['Days 1–2','Days 3–5','Days 6–9','Days 10–12','Days 13–14']},fast:{label:'Fast implementer · 7 focused sessions',hint:'Use this only if you already have the time, a real task and access to feedback.',labels:['Sessions 1','Sessions 2','Sessions 3–4','Sessions 5–6','Session 7']}}; const schedule=schedules[skillSprintPace]; const phases=phaseSets[skillSprintLevel].map((phase:any,index:number)=>[schedule.labels[index],phase[1],phase[2]]);
     $('#skill-sprint-content').innerHTML=`<article id="skill-sprint-plan"><header class="skill-sprint-hero"><p class="kicker">14-day ${escapeHtml(layer.toLowerCase())} skill sprint</p><h2 id="skill-sprint-title">Build ${escapeHtml(name)} through evidence.</h2><p>This is deliberate practice, not content consumption. Choose the highest starting level your existing evidence supports—not the level that sounds impressive.</p><div class="skill-sprint-personalise"><label><span>My career stage</span><select data-skill-stage>${Object.entries(data.stageLabels).map(([value,label])=>`<option value="${escapeHtml(value)}" ${value===stage?'selected':''}>${escapeHtml(label)}</option>`).join('')}</select></label><label><span>Daily practice time</span><div class="skill-time-buttons">${[10,30,60].map((minutes)=>`<button type="button" data-skill-minutes="${minutes}" aria-pressed="${minutes===skillSprintMinutes}">${minutes} min / day</button>`).join('')}</div></label></div><div class="skill-level-wrap"><span>What can you already demonstrate?</span><p>Self-belief is useful, but choose using work samples, observed performance or credible feedback.</p><div class="skill-level-rubric">${Object.entries(levels).map(([key,item])=>`<button type="button" data-skill-level="${key}" aria-pressed="${key===skillSprintLevel}" aria-label="Starting level ${escapeHtml(item.label)}: ${escapeHtml(item.evidence)}"><b>${escapeHtml(item.label)}</b><small>${escapeHtml(item.evidence)}</small></button>`).join('')}</div></div></header><div class="skill-sprint-body"><div class="skill-target-bar"><b>Target at this level</b><span>${escapeHtml(level.target)}</span></div><div class="skill-sprint-phases">${phases.map(([days,title,body])=>`<article><span>${escapeHtml(days)}</span><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></article>`).join('')}</div><div class="skill-transfer-panel"><div><h3>Evidence to keep</h3><p>${escapeHtml(level.proof)}.</p></div><div><h3>Use beyond one role</h3>${connected.length?`<ul>${connected.slice(0,5).map((role)=>`<li><button type="button" class="text-button" data-skill-role="${escapeHtml(role.id)}">${escapeHtml(role.title)} →</button></li>`).join('')}</ul>`:'<p>This foundation supports every mapped career and your wider learning, relationships and decision-making.</p>'}</div></div><p class="role-note"><b>Stage adaptation:</b> ${escapeHtml(play.action[0])}. Judge growth by task quality and transfer—not streak length or certificates.</p><section class="skill-progression" data-skill-progression><header><h3>After day 14: repeat or raise the difficulty?</h3><p>Tick only what your outputs or another person's observation support. Four checks justify attempting the next level; they do not certify mastery.</p></header><div class="skill-progression-checks">${['Completed the target task at this level','Met a clear quality criterion','Improved after external feedback','Transferred the skill to a second context'].map((label)=>`<label><input type="checkbox" data-skill-progress><span>${escapeHtml(label)}</span></label>`).join('')}</div><div class="skill-progression-summary" aria-live="polite"><b data-skill-progress-count>0 / 4 evidenced</b><span data-skill-progress-guidance>Complete the sprint before deciding what the result means.</span></div></section><div class="skill-sprint-actions"><span data-skill-copy-status aria-live="polite">Private by design: nothing is saved or sent. Next evidence level: ${escapeHtml(level.next)}.</span><button type="button" data-copy-skill-sprint>Copy 14-day plan</button></div></div></article>`;
     const plan=$('#skill-sprint-plan');
     $('.kicker',plan).textContent=`${schedule.label} ${layer.toLowerCase()} practice plan`;
@@ -858,7 +870,7 @@ const jsonLd = {
     const copyButton=$('[data-copy-skill-sprint]',plan); if(copyButton)copyButton.textContent='Copy practice plan';
   }
   function openSkillSprint(button) {
-    activeSkillSprint={name:button.dataset.skillSprint,layer:button.dataset.skillLayer,roleIds:(button.dataset.skillRoleIds||'').split(' ').filter(Boolean)}; skillSprintStage=profile.stage||'college'; skillSprintMinutes=30; skillSprintPace='steady'; skillSprintLevel='new'; renderSkillSprint(); $('#skill-sprint-dialog').showModal();
+    activeSkillSprint={name:button.dataset.skillSprint||'',layer:button.dataset.skillLayer||'Foundation',roleIds:(button.dataset.skillRoleIds||'').split(' ').filter(Boolean)}; skillSprintStage=profile.stage||'college'; skillSprintMinutes=30; skillSprintPace='steady'; skillSprintLevel='new'; renderSkillSprint(); $('#skill-sprint-dialog').showModal();
   }
 
   function skillGuidance(name,layer,role) {
@@ -938,7 +950,7 @@ const jsonLd = {
     </div>`;
     const roleDialog=$('#role-dialog');
     roleDialog.showModal();
-    roleDialog.querySelector('.dialog-shell').scrollTop=0;
+    roleDialog.querySelector<HTMLElement>('.dialog-shell')?.scrollTo(0,0);
     syncPinnedButtons();
     updateSkillInventory(roleDialog);
   }
@@ -955,8 +967,8 @@ const jsonLd = {
     ];
     return `<section class="application-sprint" data-application-sprint><header><div><span>Evidence-first application sprint</span><h5>Five moves before mass-applying</h5></div><p>Do not manufacture keywords or claim mastery. Turn one relevant capability into inspectable evidence, verify the route, then learn from a small batch.</p></header><div class="sprint-grid">${moves.map(([label,body])=>`<article><span>${escapeHtml(label)}</span><h6>${escapeHtml(label.split(' · ')[1])}</h6><p>${escapeHtml(body)}</p></article>`).join('')}</div><div class="sprint-proof"><p><b>Minimum proof target:</b> ${escapeHtml(role.proof[0])}<br><b>Smallest gap to test:</b> ${escapeHtml(gap)} · ${escapeHtml(gapGuide.proof)}</p><button type="button" data-copy-sprint>Copy this sprint</button></div><span class="sprint-copy-status" data-sprint-status aria-live="polite">Nothing is saved or sent.</span></section>`;
   }
-  function analyseJobAd(button) {
-    const role=byId.get(button.dataset.analyseAd); const section=button.closest('.job-ad-decoder'); const result=$('[data-job-ad-results]',section); const raw=$('[data-job-ad]',section)?.value.trim()||'';
+   function analyseJobAd(button) {
+     const role=byId.get(button.dataset.analyseAd||''); if(!role)return; const section=button.closest('.job-ad-decoder'); const result=$('[data-job-ad-results]',section); const raw=$('[data-job-ad]',section)?.value.trim()||'';
     if(!raw){ result.hidden=false; result.innerHTML='<p class="job-ad-empty">Paste the vacancy text first. Nothing leaves this page.</p>'; return; }
     const normalise=(value)=>String(value).toLowerCase().replace(/[^a-z0-9+#]+/g,' ').replace(/\s+/g,' ').trim();
     const ads=raw.split(/\n\s*-{3,}\s*\n/).map((item)=>item.trim()).filter(Boolean).slice(0,5); const sampleCount=ads.length; const normalisedAds=ads.map(normalise); const text=normalise(ads.join(' ')); const ignored=new Set(['with','and','skills','skill','tools','using','management','development','systems','ability']);
@@ -964,7 +976,7 @@ const jsonLd = {
     const namedIn=(skill,sourceText)=>{ const sourceWords=new Set(sourceText.split(' ')); const phrase=normalise(skill); if(sourceText.includes(phrase))return true; const words=phrase.split(' ').filter((word)=>word.length>3&&!ignored.has(word)); return words.length>0 && words.filter((word)=>sourceWords.has(word)).length>=Math.max(1,Math.ceil(words.length*.67)); };
     const frequencies=roleSkills.map((skill)=>({skill,count:normalisedAds.filter((ad)=>namedIn(skill,ad)).length})).filter((item)=>item.count).sort((a,b)=>b.count-a.count || a.skill.localeCompare(b.skill));
     const matched=frequencies.map((item)=>item.skill); const important=[...new Set([...role.skills.roleSpecific.slice(0,4),...role.skills.transferable.slice(0,3),...role.skills.aiDigital.slice(0,3)])]; const missing=important.filter((skill)=>!matched.includes(skill));
-    const conditionDefinitions=[[/\bhybrid\b|\bremote\b|on[- ]?site/,'Location model stated'],[/\btravel\b|site visits?/,'Travel / site movement'],[/\bshift\b|\bweekends?\b|\bnight\b/,'Shift or out-of-hours work'],[/on[- ]?call|pager duty/,'On-call responsibility'],[/\btargets?\b|\bquota\b|\bcommission\b/,'Targets or variable pressure'],[/licen[cs]e|certification|registration/,'Credential requirement'],[/\b\d{1,2}\+?\s*(years|yrs)\b/,'Experience threshold']];
+     const conditionDefinitions:Array<[RegExp,string]>=[[/\bhybrid\b|\bremote\b|on[- ]?site/,'Location model stated'],[/\btravel\b|site visits?/,'Travel / site movement'],[/\bshift\b|\bweekends?\b|\bnight\b/,'Shift or out-of-hours work'],[/on[- ]?call|pager duty/,'On-call responsibility'],[/\btargets?\b|\bquota\b|\bcommission\b/,'Targets or variable pressure'],[/licen[cs]e|certification|registration/,'Credential requirement'],[/\b\d{1,2}\+?\s*(years|yrs)\b/,'Experience threshold']];
     const conditionFrequencies=conditionDefinitions.map(([pattern,label])=>({label,count:normalisedAds.filter((ad)=>pattern.test(ad)).length})).filter((item)=>item.count); const conditions=conditionFrequencies.map((item)=>sampleCount>1?`${item.label} · ${item.count}/${sampleCount} ads`:item.label);
     const chips=(items,empty)=>items.length?items.slice(0,10).map((item)=>`<span>${escapeHtml(item)}</span>`).join(''):`<p>${escapeHtml(empty)}</p>`;
     const sampleMarkup=sampleCount>1?`<section class="vacancy-sample"><header><div><span>Small-sample recurrence</span><h5>${sampleCount} vacancies compared privately</h5></div><p>Counts show how many pasted adverts surfaced each mapped phrase. They do not estimate the wider labour market.</p></header><div class="vacancy-frequency-grid">${frequencies.slice(0,10).map((item)=>`<article><b>${escapeHtml(item.skill)}</b><span>${item.count}/${sampleCount} ads</span><i><em style="width:${Math.round(item.count/sampleCount*100)}%"></em></i></article>`).join('')}</div></section>`:'';
@@ -1065,13 +1077,13 @@ const jsonLd = {
   }
   function updateSkillInventory(input) {
     const dialog=input?.closest?.('#role-dialog')||$('#role-dialog'); const inventory=$('[data-skill-inventory]',dialog); if(!inventory)return;
-    if(input?.matches?.('[data-skill-evidence]')) input.closest('[data-inventory-skill]').dataset.evidenceState=input.value;
-    const cards=$$('[data-inventory-skill]',dialog); const assessed=cards.filter((card)=>card.dataset.evidenceState!=='unassessed'); const ready=cards.filter((card)=>card.dataset.evidenceState==='ready'); const active=cards.filter((card)=>['learning','practising'].includes(card.dataset.evidenceState));
+     if(input?.matches?.('[data-skill-evidence]')) (input.closest('[data-inventory-skill]') as HTMLElement | null)!.dataset.evidenceState=input.value;
+     const cards=$$('[data-inventory-skill]',dialog); const assessed=cards.filter((card)=>card.dataset.evidenceState!=='unassessed'); const ready=cards.filter((card)=>card.dataset.evidenceState==='ready'); const active=cards.filter((card)=>['learning','practising'].includes(card.dataset.evidenceState||''));
     $('[data-inventory-assessed]',inventory).textContent=`${assessed.length} / ${cards.length}`; $('[data-inventory-ready]',inventory).textContent=String(ready.length); $('[data-inventory-gaps]',inventory).textContent=String(active.length);
     $$('[data-inventory-layer]',inventory).forEach((summary)=>{const layer=summary.dataset.inventoryLayer;const layerCards=cards.filter((card)=>card.dataset.skillLayer===layer);const evidenced=layerCards.filter((card)=>card.dataset.evidenceState==='ready').length;$('b',summary).textContent=`${evidenced} / ${layerCards.length} with examples`});
-    const priorityNames=$$('.priority-runway h5',dialog).map((node)=>node.textContent.trim()); const priorityOrder=new Map(priorityNames.map((name,index)=>[name,index])); const layerOrder=new Map([['Role craft',0],['AI & digital fluency',1],['Transferable',2],['Foundation',3]]); const stateOrder={practising:0,learning:1,unassessed:2};
-    const unresolved=cards.filter((card)=>card.dataset.evidenceState!=='ready').sort((a,b)=>{const ap=priorityOrder.has(a.dataset.skillName)?priorityOrder.get(a.dataset.skillName):99;const bp=priorityOrder.has(b.dataset.skillName)?priorityOrder.get(b.dataset.skillName):99;return ap-bp||stateOrder[a.dataset.evidenceState]-stateOrder[b.dataset.evidenceState]||layerOrder.get(a.dataset.skillLayer)-layerOrder.get(b.dataset.skillLayer)||a.dataset.skillName.localeCompare(b.dataset.skillName)}).slice(0,3);
-    const labels={unassessed:'check this skill',learning:'learn the basics',practising:'practise again with feedback'}; $('[data-inventory-priority]',inventory).innerHTML=unresolved.length?unresolved.map((card)=>`<li><div><b>${escapeHtml(card.dataset.skillName)}</b><span>${escapeHtml(card.dataset.skillLayer)} · ${escapeHtml(labels[card.dataset.evidenceState])}</span></div><button type="button" data-skill-sprint="${escapeHtml(card.dataset.skillName)}" data-skill-layer="${escapeHtml(card.dataset.skillLayer)}" data-skill-role-ids="${escapeHtml(inventory.dataset.inventoryRole)}">Make a 14-day practice plan →</button></li>`).join(''):'<li><div><b>You have marked every skill as having an example.</b><span>Ask someone familiar with the work to check whether your examples meet the standard this role needs.</span></div></li>';
+     const priorityNames=$$('.priority-runway h5',dialog).map((node)=>node.textContent?.trim()||''); const priorityOrder=new Map(priorityNames.map((name,index)=>[name,index])); const layerOrder=new Map([['Role craft',0],['AI & digital fluency',1],['Transferable',2],['Foundation',3]]); const stateOrder:Record<string,number>={practising:0,learning:1,unassessed:2};
+     const unresolved=cards.filter((card)=>card.dataset.evidenceState!=='ready').sort((a,b)=>{const an=a.dataset.skillName||'',bn=b.dataset.skillName||'',al=a.dataset.skillLayer||'',bl=b.dataset.skillLayer||'',as=a.dataset.evidenceState||'unassessed',bs=b.dataset.evidenceState||'unassessed';const ap=priorityOrder.get(an)??99;const bp=priorityOrder.get(bn)??99;return ap-bp||(stateOrder[as]??99)-(stateOrder[bs]??99)||(layerOrder.get(al)??99)-(layerOrder.get(bl)??99)||an.localeCompare(bn)}).slice(0,3);
+     const labels:Record<string,string>={unassessed:'check this skill',learning:'learn the basics',practising:'practise again with feedback'}; $('[data-inventory-priority]',inventory).innerHTML=unresolved.length?unresolved.map((card)=>{const skill=card.dataset.skillName||'',layer=card.dataset.skillLayer||'Foundation',state=card.dataset.evidenceState||'unassessed';return `<li><div><b>${escapeHtml(skill)}</b><span>${escapeHtml(layer)} · ${escapeHtml(labels[state]||'check this skill')}</span></div><button type="button" data-skill-sprint="${escapeHtml(skill)}" data-skill-layer="${escapeHtml(layer)}" data-skill-role-ids="${escapeHtml(inventory.dataset.inventoryRole||'')}">Make a 14-day practice plan →</button></li>`;}).join(''):'<li><div><b>You have marked every skill as having an example.</b><span>Ask someone familiar with the work to check whether your examples meet the standard this role needs.</span></div></li>';
     const guidance=$('[data-inventory-guidance]',inventory); guidance.textContent=!assessed.length?'Use a real project, piece of feedback or result to choose each status. You do not need to rate every skill at once.':assessed.length<Math.min(6,cards.length)?`Check ${Math.min(6,cards.length)-assessed.length} more priority skill${Math.min(6,cards.length)-assessed.length===1?'':'s'} before choosing what to learn next.`:ready.length===cards.length?'You have an example for every skill. Ask someone familiar with the work to check their quality and relevance before assuming you are ready for the role.':`${active.length} skill${active.length===1?'':'s'} marked for learning or practice. Work on one useful example at a time.`;
     $$('[data-skill-sprint]',inventory).forEach((button)=>button.textContent=button.textContent.replace(/14-day practice plan/i,'flexible practice plan'));
     const filter=$('[data-inventory-filter]',inventory); const hideReady=filter?.getAttribute('aria-pressed')==='true'; cards.forEach((card)=>card.hidden=hideReady&&card.dataset.evidenceState==='ready'); if(filter)filter.textContent=hideReady?'Show all skills':'Hide skills with examples';
@@ -1084,37 +1096,37 @@ const jsonLd = {
     if(countNode)countNode.textContent=`${count} / ${checks.length} evidenced`; if(guidance)guidance.textContent=count===4?`Evidence supports attempting ${next}. Keep the current artifacts as your baseline.`:count===3?'Promising but incomplete: repeat the missing condition once before raising difficulty.':count>=1?'Some progress is visible. Repeat or redesign the sprint around the unticked evidence.':'Complete the sprint before deciding what the result means.';
   }
   document.addEventListener('click',(event: MouseEvent)=>{
-    const target=event.target instanceof Element ? event.target : null; if(!target)return;
-    const route=target.closest('[data-route-intent]'); if(route)followIntent(route,event);
-    const sensitivityCopy=target.closest('[data-copy-sensitivity]'); if(sensitivityCopy)copySensitivity(sensitivityCopy);
-    const inventoryCopy=target.closest('[data-copy-inventory]'); if(inventoryCopy)copySkillInventory(inventoryCopy);
-    const inventoryFilter=target.closest('[data-inventory-filter]'); if(inventoryFilter){inventoryFilter.setAttribute('aria-pressed',String(inventoryFilter.getAttribute('aria-pressed')!=='true'));updateSkillInventory(inventoryFilter)}
-    const inventoryClear=target.closest('[data-clear-inventory]'); if(inventoryClear){$$('[data-skill-evidence]',inventoryClear.closest('#role-dialog')).forEach((select)=>{select.value='unassessed';select.closest('[data-inventory-skill]').dataset.evidenceState='unassessed'});updateSkillInventory(inventoryClear)}
-    const open=target.closest('[data-open]'); if(open) openRole(open.dataset.open);
-    const pin=target.closest('[data-compare]'); if(pin) togglePinned(pin.dataset.compare);
-    const advert=target.closest('[data-analyse-ad]'); if(advert) analyseJobAd(advert);
-    const sprint=target.closest('[data-copy-sprint]'); if(sprint) copySprint(sprint);
-    const interview=target.closest('[data-copy-interview]'); if(interview) copyInterview(interview);
-    const journal=target.closest('[data-copy-journal]'); if(journal) copyDecisionJournal(journal);
-    const triageChoice=target.closest('[data-triage-choice]'); if(triageChoice){const row=triageChoice.closest('[data-triage-row]');row.dataset.triageState=triageChoice.dataset.triageChoice;$$('[data-triage-choice]',row).forEach((button)=>button.setAttribute('aria-pressed',String(button===triageChoice)));updateEvidenceTriage(row.closest('[data-evidence-triage]'))}
-    const triageCopy=target.closest('[data-copy-triage]'); if(triageCopy)copyEvidenceTriage(triageCopy);
-    const experienceTheme=target.closest('[data-experience-theme]'); if(experienceTheme)toggleExperienceTheme(experienceTheme);
-    const bridge=target.closest('[data-skill-bridge]'); if(bridge) toggleSkillBridge(bridge);
-    const removeBridge=target.closest('[data-remove-bridge-skill]'); if(removeBridge){selectedSkills.delete(removeBridge.dataset.removeBridgeSkill);renderSkillBridge()}
-    const removeTheme=target.closest('[data-remove-bridge-theme]'); if(removeTheme){selectedExperienceThemes.delete(removeTheme.dataset.removeBridgeTheme);renderSkillBridge()}
-    if(target.closest('#copy-shortlist')) copyShortlist();
-    const skillSprint=target.closest('[data-skill-sprint]'); if(skillSprint)openSkillSprint(skillSprint);
-    const skillMinutes=target.closest('[data-skill-minutes]'); if(skillMinutes){skillSprintMinutes=Number(skillMinutes.dataset.skillMinutes);renderSkillSprint()}
-    const skillPace=target.closest('[data-skill-pace]'); if(skillPace){skillSprintPace=skillPace.dataset.skillPace;renderSkillSprint()}
-    const skillLevel=target.closest('[data-skill-level]'); if(skillLevel){skillSprintLevel=skillLevel.dataset.skillLevel;renderSkillSprint()}
-    const skillRole=target.closest('[data-skill-role]'); if(skillRole){$('#skill-sprint-dialog').close();openRole(skillRole.dataset.skillRole)}
-    if(target.closest('[data-copy-skill-sprint]'))copySkillSprint();
-    const plan=target.closest('[data-plan]'); if(plan) openExperiment(plan.dataset.plan);
-    const hours=target.closest('[data-hours]'); if(hours){ plannerHours=Number(hours.dataset.hours); renderExperiment(byId.get(activePlannerRole)); }
-    const rating=target.closest('[data-rate]'); if(rating){ experimentRatings.set(rating.dataset.rate,Number(rating.dataset.rating)); updateExperimentScore(); }
-    if(target.closest('[data-back-role]')){ $('#experiment-dialog').close(); openRole(activePlannerRole); requestAnimationFrame(()=>{$('#role-dialog .dialog-shell').scrollTop=returnRoleScroll;}); }
-    if(target.closest('[data-copy-plan]')) copyExperiment();
-    if(target.closest('[data-print-plan]')){ document.body.classList.add('experiment-print'); window.print(); }
+     const target=event.target instanceof Element ? event.target : null; if(!target)return; const closest=(selector:string)=>target.closest<HTMLElement>(selector);
+     const route=closest('[data-route-intent]'); if(route)followIntent(route,event);
+     const sensitivityCopy=closest('[data-copy-sensitivity]'); if(sensitivityCopy)copySensitivity(sensitivityCopy);
+     const inventoryCopy=closest('[data-copy-inventory]'); if(inventoryCopy)copySkillInventory(inventoryCopy);
+     const inventoryFilter=closest('[data-inventory-filter]'); if(inventoryFilter){inventoryFilter.setAttribute('aria-pressed',String(inventoryFilter.getAttribute('aria-pressed')!=='true'));updateSkillInventory(inventoryFilter)}
+     const inventoryClear=closest('[data-clear-inventory]'); if(inventoryClear){$$('[data-skill-evidence]',inventoryClear.closest('#role-dialog')||document).forEach((select)=>{select.value='unassessed';select.closest<HTMLElement>('[data-inventory-skill]')!.dataset.evidenceState='unassessed'});updateSkillInventory(inventoryClear)}
+     const open=closest('[data-open]'); if(open) openRole(open.dataset.open||'');
+     const pin=closest('[data-compare]'); if(pin) togglePinned(pin.dataset.compare||'');
+     const advert=closest('[data-analyse-ad]'); if(advert) analyseJobAd(advert);
+     const sprint=closest('[data-copy-sprint]'); if(sprint) copySprint(sprint);
+     const interview=closest('[data-copy-interview]'); if(interview) copyInterview(interview);
+     const journal=closest('[data-copy-journal]'); if(journal) copyDecisionJournal(journal);
+     const triageChoice=closest('[data-triage-choice]'); if(triageChoice){const row=triageChoice.closest<HTMLElement>('[data-triage-row]');if(row){row.dataset.triageState=triageChoice.dataset.triageChoice||'unsure';$$('[data-triage-choice]',row).forEach((button)=>button.setAttribute('aria-pressed',String(button===triageChoice)));updateEvidenceTriage(row.closest<HTMLElement>('[data-evidence-triage]'));}}
+     const triageCopy=closest('[data-copy-triage]'); if(triageCopy)copyEvidenceTriage(triageCopy);
+     const experienceTheme=closest('[data-experience-theme]'); if(experienceTheme)toggleExperienceTheme(experienceTheme);
+     const bridge=closest('[data-skill-bridge]'); if(bridge) toggleSkillBridge(bridge);
+     const removeBridge=closest('[data-remove-bridge-skill]'); if(removeBridge){selectedSkills.delete(removeBridge.dataset.removeBridgeSkill||'');renderSkillBridge()}
+     const removeTheme=closest('[data-remove-bridge-theme]'); if(removeTheme){selectedExperienceThemes.delete(removeTheme.dataset.removeBridgeTheme||'');renderSkillBridge()}
+     if(closest('#copy-shortlist')) copyShortlist();
+     const skillSprint=closest('[data-skill-sprint]'); if(skillSprint)openSkillSprint(skillSprint);
+     const skillMinutes=closest('[data-skill-minutes]'); if(skillMinutes){skillSprintMinutes=Number(skillMinutes.dataset.skillMinutes||30);renderSkillSprint()}
+     const skillPace=closest('[data-skill-pace]'); if(skillPace){skillSprintPace=skillPace.dataset.skillPace||'steady';renderSkillSprint()}
+     const skillLevel=closest('[data-skill-level]'); if(skillLevel){skillSprintLevel=skillLevel.dataset.skillLevel||'new';renderSkillSprint()}
+     const skillRole=closest('[data-skill-role]'); if(skillRole){$('#skill-sprint-dialog').close();openRole(skillRole.dataset.skillRole||'')}
+     if(closest('[data-copy-skill-sprint]'))copySkillSprint();
+     const plan=closest('[data-plan]'); if(plan) openExperiment(plan.dataset.plan||'');
+     const hours=closest('[data-hours]'); if(hours){ plannerHours=Number(hours.dataset.hours||5); renderExperiment(byId.get(activePlannerRole)); }
+     const rating=closest('[data-rate]'); if(rating){ experimentRatings.set(rating.dataset.rate||'',Number(rating.dataset.rating||0)); updateExperimentScore(); }
+     if(closest('[data-back-role]')){ $('#experiment-dialog').close(); openRole(activePlannerRole); requestAnimationFrame(()=>{$('#role-dialog .dialog-shell').scrollTop=returnRoleScroll;}); }
+     if(closest('[data-copy-plan]')) copyExperiment();
+     if(closest('[data-print-plan]')){ document.body.classList.add('experiment-print'); window.print(); }
   });
   document.addEventListener('change',(event: Event)=>{ const target=event.target instanceof Element ? event.target : null; if(!target)return; const input=target as HTMLInputElement | HTMLSelectElement; if(target.matches('[data-plan-stage]')){ plannerStage=input.value; renderExperiment(byId.get(activePlannerRole)); } if(target.matches('[data-readiness-item]')) updateApplicationCheck(input); if(target.matches('[data-skill-stage]')){skillSprintStage=input.value;renderSkillSprint()} if(target.matches('[data-skill-progress]'))updateSkillProgress(input); if(target.matches('[data-skill-evidence]'))updateSkillInventory(input); });
   $('[data-close-role]')?.addEventListener('click',()=>$('#role-dialog').close()); $('[data-close-compare]')?.addEventListener('click',()=>$('#compare-dialog').close()); $('[data-close-experiment]')?.addEventListener('click',()=>$('#experiment-dialog').close()); $('[data-close-skill-sprint]')?.addEventListener('click',()=>$('#skill-sprint-dialog').close());
@@ -1122,14 +1134,14 @@ const jsonLd = {
   window.addEventListener('afterprint',()=>document.body.classList.remove('experiment-print'));
 
   function togglePinned(id){ if(pinned.has(id))pinned.delete(id); else if(pinned.size<3)pinned.add(id); else { $('#compare-names').textContent='Three is the maximum. Remove one before adding another.'; return; } updateCompareTray(); syncPinnedButtons(); }
-  function syncPinnedButtons(){ $$('[data-compare]').forEach((button)=>{const on=pinned.has(button.dataset.compare);const role=byId.get(button.dataset.compare);button.setAttribute('aria-pressed',String(on));button.setAttribute('aria-label',`${on?'Remove':'Pin'} ${role?.title||'career'} ${on?'from':'for'} comparison`);button.textContent=on?(button.classList.contains('dialog-pin')?'Pinned for this visit':'Pinned'):(button.classList.contains('dialog-pin')?'Pin for comparison · this visit only':'Pin to compare')}); }
-  function updateCompareTray(){ const selected=[...pinned].map((id)=>byId.get(id)); $('#compare-count').textContent=pinned.size; $('#compare-tray').hidden=pinned.size===0; $('#compare-names').textContent=selected.length?selected.map((r)=>r.title).join(' · '):'Nothing is stored or sent anywhere.'; }
+   function syncPinnedButtons(){ $$('[data-compare]').forEach((button)=>{const id=button.dataset.compare||'',on=pinned.has(id),role=byId.get(id);button.setAttribute('aria-pressed',String(on));button.setAttribute('aria-label',`${on?'Remove':'Pin'} ${role?.title||'career'} ${on?'from':'for'} comparison`);button.textContent=on?(button.classList.contains('dialog-pin')?'Pinned for this visit':'Pinned'):(button.classList.contains('dialog-pin')?'Pin for comparison · this visit only':'Pin to compare')}); }
+   function updateCompareTray(){ const selected=[...pinned].map((id)=>byId.get(id)).filter((role):role is CompassRole=>Boolean(role)); $('#compare-count').textContent=String(pinned.size); $('#compare-tray').hidden=pinned.size===0; $('#compare-names').textContent=selected.length?selected.map((r)=>r.title).join(' · '):'Nothing is stored or sent anywhere.'; }
   function decisionJournal(selected){
     const card=(role)=>`<article class="decision-journal-card" data-journal-role="${escapeHtml(role.id)}"><header><span>Decision hypothesis</span><h4>${escapeHtml(role.title)}</h4></header><label><span>I think this may fit because…</span><textarea data-journal-field="hypothesis">The ordinary work may fit because I want to test ${escapeHtml(role.meta.taskMix[0].toLowerCase())} and ${escapeHtml(role.meta.taskMix[1].toLowerCase())}.</textarea></label><label><span>Biggest uncertainty</span><textarea data-journal-field="uncertainty">Can I accept this recurring reality: ${escapeHtml(role.meta.friction[0])}</textarea></label><label><span>Evidence needed before committing</span><textarea data-journal-field="evidence">${escapeHtml(role.proof[0])} Feedback must identify one quality improvement, not only encouragement.</textarea></label><label><span>Smallest next experiment</span><textarea data-journal-field="experiment">${escapeHtml(role.meta.experiment)}</textarea></label><label><span>After testing, the evidence feels…</span><select data-journal-field="outcome"><option value="Untested">Untested</option><option value="Stronger">Stronger than before</option><option value="Mixed">Mixed — redesign the test</option><option value="Weaker">Weaker — inspect an adjacent path</option></select></label></article>`;
     return `<section class="decision-journal" data-decision-journal><header><div><p class="kicker">Turn comparison into a decision</p><h3>Keep an evidence-backed decision journal.</h3></div><p>Edit the starter language before copying. A career earns confidence through observed work, inspectable evidence and tolerable friction—not a high-looking score. Nothing here is saved or sent.</p></header><div class="decision-journal-grid" style="--journal-cols:${selected.length}">${selected.map(card).join('')}</div><div class="decision-journal-actions"><span data-journal-status aria-live="polite">Private for this open comparison. Reopening starts fresh.</span><button type="button" data-copy-journal>Copy decision journal</button></div></section>`;
   }
   async function copyDecisionJournal(button){
-    const journal=button.closest('[data-decision-journal]'); if(!journal)return; const entries=$$('[data-journal-role]',journal).map((card)=>{const role=byId.get(card.dataset.journalRole);const value=(name)=>$(`[data-journal-field="${name}"]`,card)?.value.trim()||'Not recorded';return `${role?.title||'Career'}\nHypothesis: ${value('hypothesis')}\nBiggest uncertainty: ${value('uncertainty')}\nEvidence needed: ${value('evidence')}\nNext experiment: ${value('experiment')}\nEvidence outcome: ${value('outcome')}`}).join('\n\n'); const text=`Career decision journal\n\n${entries}\n\nDecision rule: compare ordinary work, evidence quality, access, life fit and acceptable friction. Verify local credentials, demand, pay and conditions separately.`;let copied=false;
+     const journal=button.closest('[data-decision-journal]'); if(!journal)return; const entries=$$('[data-journal-role]',journal).map((card)=>{const role=byId.get(card.dataset.journalRole||'');const value=(name)=>$(`[data-journal-field="${name}"]`,card)?.value.trim()||'Not recorded';return `${role?.title||'Career'}\nHypothesis: ${value('hypothesis')}\nBiggest uncertainty: ${value('uncertainty')}\nEvidence needed: ${value('evidence')}\nNext experiment: ${value('experiment')}\nEvidence outcome: ${value('outcome')}`}).join('\n\n'); const text=`Career decision journal\n\n${entries}\n\nDecision rule: compare ordinary work, evidence quality, access, life fit and acceptable friction. Verify local credentials, demand, pay and conditions separately.`;let copied=false;
     try{await navigator.clipboard.writeText(text);copied=true}catch{const field=document.createElement('textarea');field.value=text;field.style.position='fixed';field.style.opacity='0';document.body.appendChild(field);field.select();copied=document.execCommand('copy');field.remove()}
     const status=$('[data-journal-status]',journal);if(status)status.textContent=copied?'Decision journal copied. Add dates and evidence links in your notes.':'Copy was blocked; select the journal text manually.';if(copied)button.textContent='Journal copied ✓';
   }

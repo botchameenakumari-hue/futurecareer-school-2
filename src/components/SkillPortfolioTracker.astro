@@ -3,8 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import { PF_SKILLS, INCOME_LADDER, PF_READ_NEXT, PF_WEEKLY } from '../config/skillPortfolio';
-import { PROJECTS } from '../config/skillProjects';
-import { CAREER_TARGETS } from '../config/careerTargets';
+import { PROJECTS, PROJECT_LIBRARY_METHOD } from '../config/skillProjects';
+import { CAREER_TARGETS, CAREER_TARGET_METHOD } from '../config/careerTargets';
 import { REPORT_VERSION_TEXT } from '../config/skillTests/reportData';
 
 const pageUrl = 'https://futurecareerschool.com/services/assessments/skill-portfolio-tracker/';
@@ -17,6 +17,8 @@ const data = {
   skills: PF_SKILLS.map((s) => ({ key: s.key, name: s.name, statement: s.statement, why: s.why, tools: s.tools, focus: s.focus, start: s.start, grow: s.grow, strong: s.strong })),
   projects: PROJECTS,
   careers: CAREER_TARGETS,
+  careerMethod: CAREER_TARGET_METHOD,
+  projectMethod: PROJECT_LIBRARY_METHOD,
   ladder: INCOME_LADDER,
   readNext: PF_READ_NEXT,
   weekly: PF_WEEKLY,
@@ -72,6 +74,7 @@ const jsonLd = [
           <li><b>Download</b> your progress report.</li>
         </ol>
         <p class="spt-note">Everything is saved only in this browser on this device. Use the backup button to keep a copy. Scores come from what you enter and are not checked by anyone else.</p>
+        <details class="spt-method"><summary>How the comparison is made and what it cannot prove</summary><p><b>{CAREER_TARGET_METHOD.version}</b> · {CAREER_TARGET_METHOD.source} · editorially reviewed {CAREER_TARGET_METHOD.editoriallyReviewedOn}.</p><p>{CAREER_TARGET_METHOD.purpose}</p><ul>{CAREER_TARGET_METHOD.limits.map((limit) => <li>{limit}</li>)}</ul><p><b>{PROJECT_LIBRARY_METHOD.version}</b> · {PROJECT_LIBRARY_METHOD.source} · editorially reviewed {PROJECT_LIBRARY_METHOD.editoriallyReviewedOn}. {PROJECT_LIBRARY_METHOD.purpose} Evidence and project scores are self-reported.</p><ul>{PROJECT_LIBRARY_METHOD.limits.map((limit) => <li>{limit}</li>)}</ul></details>
       </div>
     </section>
     <section class="spt-section">
@@ -118,6 +121,17 @@ const jsonLd = [
   try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) { memoryOnly = true; }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { memoryOnly = true; } }
   let ui = { open: '', tab: 'all', msg: '' };
+  let shared = null;
+
+  function decodeShare(raw) {
+    try {
+      const json = decodeURIComponent(escape(atob(String(raw).replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((String(raw).length + 3) % 4))));
+      const value = JSON.parse(json);
+      if (!value || value.v !== 1 || !Array.isArray(value.r) || value.r.length !== D.skills.length) return null;
+      if (!value.r.every((n) => Number.isInteger(n) && n >= 0 && n <= 5)) return null;
+      return { v: 1, r: value.r, t: typeof value.t === 'string' ? value.t : '', a: AUDS.some((x) => x[0] === value.a) ? value.a : 'college', rd: Number(value.rd) || 0, ps: Number(value.ps) || 0, done: Number(value.done) || 0, hours: Number(value.hours) || 0 };
+    } catch (e) { return null; }
+  }
 
   // Prefill from a result page link: ?r=3,2,1,...&aud=early&skill=ai_use&from=<test id>
   (function fromQuery() {
@@ -128,6 +142,7 @@ const jsonLd = [
       const a = q.get('aud'); if (a && AUDS.some((x) => x[0] === a)) S.aud = a;
       const sk = q.get('skill'); if (sk && D.skills.some((x) => x.key === sk)) S.targetSkill = sk;
       if (q.get('from') || q.get('r')) { ui.msg = 'Your ratings from your assessment result have been loaded. Change anything that does not look right.'; save(); }
+      if (q.get('share')) shared = decodeShare(q.get('share'));
     } catch (e) {}
   })();
 
@@ -337,18 +352,19 @@ const jsonLd = [
       (last ? '<p>Last snapshot: ' + esc(fmt(last.date)) + ' (readiness ' + last.readiness + '%, portfolio score ' + last.portfolio + ', ' + last.hours + ' hours, ' + last.done + ' projects done). ' + (overdue ? '<b>Your next review is due now.</b>' : 'Next review: ' + esc(fmt(due)) + '.') + '</p>' : '<p>No snapshot yet. Save one now and again every four weeks to see your progress.</p>') +
       (last ? '<p>Since then: readiness ' + (readiness() - last.readiness >= 0 ? '+' : '') + (readiness() - last.readiness) + ' points, portfolio score ' + (portfolioScore() - last.portfolio >= 0 ? '+' : '') + (portfolioScore() - last.portfolio) + ', hours +' + (Math.round((totalHours() - last.hours) * 10) / 10) + ', projects done +' + (doneCount() - last.done) + '.</p>' : '') +
       (S.snaps.length > 1 ? '<details class="spt-hist"><summary>All snapshots (' + S.snaps.length + ')</summary><ul>' + S.snaps.map((x, i) => '<li>' + (i + 1) + '. ' + esc(fmt(x.date)) + ': readiness ' + x.readiness + '%, portfolio score ' + x.portfolio + ', ' + x.hours + ' hours, ' + x.done + ' projects done</li>').join('') + '</ul></details>' : '') +
-      '<div class="spt-actions"><button type="button" class="spt-btn spt-btn--gold" data-act="snap">Save a progress snapshot</button><button type="button" class="spt-btn spt-btn--gold" data-act="pdf">Download progress report (PDF)</button><button type="button" class="spt-btn" data-act="ics">Add the next review to my calendar</button><button type="button" class="spt-btn" data-act="backup">Download a backup (JSON)</button><label class="spt-btn spt-file">Restore from backup<input type="file" accept="application/json,.json" data-act="restore"></label><button type="button" class="spt-btn" data-act="reset">Start again</button></div>' +
+      '<div class="spt-actions"><button type="button" class="spt-btn spt-btn--gold" data-act="snap">Save a progress snapshot</button><button type="button" class="spt-btn spt-btn--gold" data-act="pdf">Download progress report (PDF)</button><button type="button" class="spt-btn" data-act="share">Copy a privacy-safe summary link</button><button type="button" class="spt-btn" data-act="ics">Add the next review to my calendar</button><button type="button" class="spt-btn" data-act="backup">Download a backup (JSON)</button><label class="spt-btn spt-file">Restore from backup<input type="file" accept="application/json,.json" data-act="restore"></label><button type="button" class="spt-btn" data-act="reset">Start again</button></div>' +
       '<p class="spt-hint" id="spt-status" role="status"></p>' +
       (memoryOnly ? '<p class="spt-info">This browser is not allowing saved data, so your entries will be lost when you close the page. Download the backup before you leave.</p>' : '') + '</section>';
   }
 
   function secLinks() {
-    return '<section class="spt-card"><h2>Read next</h2><ul>' + D.readNext.map((l) => '<li><a href="' + l.href + '">' + esc(l.title) + '</a></li>').join('') + '</ul><p>Take the <a href="/services/assessments/">self-rating assessments</a> to find out where to start.</p></section>';
+    return '<section class="spt-card"><h2>Read next</h2><ul>' + D.readNext.map((l) => '<li><a href="' + l.href + '">' + esc(l.title) + '</a></li>').join('') + '</ul><p>Take the <a href="/services/assessments/">self-rating assessments</a> to find out where to start, or use the <a href="/tools/resume-skills-evidence-builder/">resume skills evidence builder</a> to turn one finished project into a truthful bullet.</p></section>';
   }
 
   function render() {
     const y = window.scrollY; const ae = document.activeElement; const aid = ae && ae.getAttribute && ae.getAttribute('data-restore');
-    app.innerHTML = secStart() + secTarget() + secNext() + secProjects() + secPortfolio() + secTimeline() + secReport() + secLinks();
+    const sharedHtml = shared ? '<section class="spt-card spt-shared" aria-labelledby="spt-shared-title"><h2 id="spt-shared-title">Shared skill snapshot</h2><p>This link contains only ratings, stage, target direction and aggregate progress. It does not include a name, private notes, evidence links, files or browser-saved tracker data.</p><p><b>Stage:</b> ' + esc((AUDS.find((a) => a[0] === shared.a) || AUDS[1])[1]) + ' · <b>Target:</b> ' + esc((D.careers.find((c) => c.id === shared.t)?.name || 'working level')) + ' · <b>Readiness signal:</b> ' + shared.rd + '% · <b>Portfolio score:</b> ' + shared.ps + ' · <b>Projects done:</b> ' + shared.done + ' · <b>Hours logged:</b> ' + shared.hours + '</p><p><a href="' + location.pathname + '">Start your own private tracker</a></p></section>' : '';
+    app.innerHTML = sharedHtml + secStart() + secTarget() + secNext() + secProjects() + secPortfolio() + secTimeline() + secReport() + secLinks();
     window.scrollTo(0, y);
   }
 
@@ -360,15 +376,18 @@ const jsonLd = [
     L.push(h1('Your skill portfolio at a glance'));
     L.push(p(rated() ? 'Readiness for ' + (c ? c.name : 'a working level') + ' is ' + rd + '%. Your portfolio score is ' + ps + ' of 100, with ' + doneCount() + ' projects done and ' + (Math.round(totalHours() * 10) / 10) + ' hours logged.' : 'You have not rated your skills yet, so this report shows the plan only.'));
     L.push(h1('Report details'));
-    L.push(...bullets(['Prepared for: ' + (S.name || 'Not stated'), 'Date generated: ' + today, 'Report version: ' + D.version, 'Decision question: ' + (S.question || 'Not stated'), 'Target career: ' + (c ? c.name : 'No target chosen (working level of 3 used)'), 'Stage: ' + (AUDS.find((a) => a[0] === S.aud) || AUDS[1])[1], 'Hours a week available: ' + S.hours]));
+    L.push(...bullets(['Prepared for: ' + (S.name || 'Not stated'), 'Date generated: ' + today, 'Report version: ' + D.version, 'Decision question: ' + (S.question || 'Not stated'), 'Target career: ' + (c ? c.name : 'No target chosen (working level of 3 used)'), 'Stage: ' + (AUDS.find((a) => a[0] === S.aud) || AUDS[1])[1], 'Hours a week available: ' + S.hours, 'Career target model: ' + D.careerMethod.version + ', ' + D.careerMethod.source + ', editorially reviewed ' + D.careerMethod.editoriallyReviewedOn, 'Project library: ' + D.projectMethod.version + ', ' + D.projectMethod.source + ', editorially reviewed ' + D.projectMethod.editoriallyReviewedOn]));
     L.push(h1('How this report is calculated'));
     L.push(...bullets([
       'You rated nine skills from 1 (not true yet) to 5 (very true).',
+      D.careerMethod.purpose,
       'Each target career has a rough emphasis level from 1 to 5 for each skill. Without a target, a working level of 3 is used.',
+      ...D.careerMethod.limits,
       'A gap is the target level minus your rating, never below 0. Readiness is 100 minus the total gap as a share of the total target levels.',
       'The evidence score for a project has six checks: finished output 25, problem 15, result 20, feedback from another person 20, shared publicly 10, reflection 10. For each check, the best entry counts.',
       'The portfolio score is the average evidence score of your best three projects.',
-      'All entries are your own. Links and files are not checked by anyone.'
+      'All entries are your own. Links and files are not checked by anyone.',
+      ...D.projectMethod.limits
     ]));
     L.push(h1('Confidence and limitations'));
     const nRated = S.ratings.filter((x) => x > 0).length;
@@ -422,7 +441,7 @@ const jsonLd = [
     if (f === 'target') ping('skill_tracker_target', { target: t.value });
     save(); render();
   });
-  app.addEventListener('click', (e) => {
+  app.addEventListener('click', async (e) => {
     const b = e.target.closest ? e.target.closest('[data-act]') : null; if (!b) return;
     const act = b.getAttribute('data-act'); const id = b.getAttribute('data-id');
     if (act === 'rate') { S.ratings[Number(b.getAttribute('data-i'))] = Number(b.getAttribute('data-v')); S.targetSkill = S.targetSkill; save(); render(); }
@@ -432,6 +451,15 @@ const jsonLd = [
     else if (act === 'delev') { const st = pstate(id); st.evidence.splice(Number(b.getAttribute('data-k')), 1); S.projects[id] = st; save(); render(); }
     else if (act === 'snap') { S.snaps.push({ date: todayISO(), ratings: S.ratings.slice(), readiness: readiness(), portfolio: portfolioScore(), hours: Math.round(totalHours() * 10) / 10, done: doneCount() }); save(); render(); const s = document.getElementById('spt-status'); if (s) s.textContent = 'Snapshot saved.'; }
     else if (act === 'pdf') makePdf();
+    else if (act === 'share') {
+      const payload = { v: 1, r: S.ratings.map((n) => Math.max(0, Math.min(5, Number(n) || 0))), t: S.target || '', a: S.aud, rd: readiness(), ps: portfolioScore(), done: doneCount(), hours: Math.round(totalHours() * 10) / 10 };
+      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      const url = new URL(location.href); url.search = ''; url.searchParams.set('share', encoded);
+      const text = url.toString();
+      const status = document.getElementById('spt-status');
+      try { await navigator.clipboard.writeText(text); if (status) status.textContent = 'Privacy-safe summary link copied. It excludes your name, notes, evidence links and files.'; }
+      catch (e) { window.prompt('Copy this privacy-safe summary link:', text); if (status) status.textContent = 'The link is ready to copy. It excludes your name, notes, evidence links and files.'; }
+    }
     else if (act === 'ics') {
       const last = S.snaps[S.snaps.length - 1]; const day = addDaysISO(last ? last.date : todayISO(), 28); const next = addDaysISO(day, 1);
       const compact = (iso) => iso.replace(/-/g, '');

@@ -65,11 +65,11 @@ const BOFU_COUNSELLING_CHILD_ROUTES: IndexableRoute[] = discoverRoutes(
   .filter((path) => path !== '/services/career-counselling-and-career-guidance')
   .map((path) => ({
     path,
-    changefreq: 'monthly',
+    changefreq: 'monthly' as const,
     priority: path.includes('/locations') ? '0.8' : '0.85',
   }));
 
-export const LIVE_INDEXABLE_ROUTES: IndexableRoute[] = [
+export const LIVE_INDEXABLE_ROUTES = ([
   {
     path: '/',
     changefreq: 'weekly',
@@ -462,6 +462,176 @@ export const LIVE_INDEXABLE_ROUTES: IndexableRoute[] = [
     changefreq: 'monthly',
     priority: '0.7',
   },
+  {
+    path: '/tools/career-route-finder',
+    changefreq: 'monthly',
+    priority: '0.85',
+  },
+  {
+    path: '/tools/course-entrance-exam-finder',
+    changefreq: 'monthly',
+    priority: '0.85',
+  },
+  {
+    path: '/tools/commerce-without-maths-course-finder',
+    changefreq: 'monthly',
+    priority: '0.85',
+  },
+  {
+    path: '/tools/mpc-pcm-course-finder',
+    changefreq: 'monthly',
+    priority: '0.85',
+  },
+  {
+    path: '/tools/bipc-pcb-course-finder',
+    changefreq: 'monthly',
+    priority: '0.85',
+  },
+  {
+    path: '/tools/pcb-career-options-without-neet',
+    changefreq: 'monthly',
+    priority: '0.85',
+  },
+  {
+    path: '/tools/education-cost-payback-planner',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/resume-skills-evidence-builder',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/student-parent-career-intake',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/student-business-idea-feasibility-calculator',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/degree-career-project-planner',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/career-database-verification-workbench',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/tools/course-eligibility-verification-workbench',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/tools/career-decision-journal',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/course-cost-planner',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/career-optionality-calculator',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/portfolio-quality-checker',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/course-provider-comparison',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/career-change-runway-calculator',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/internship-readiness-planner',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/informational-interview-planner',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/study-abroad-readiness-planner',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/skill-to-service-mapper',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/career-experiment-planner',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/scholarship-application-planner',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/datasets/course-eligibility-2026',
+    changefreq: 'monthly',
+    priority: '0.75',
+  },
+  {
+    path: '/datasets/career-routes-after-10th-2026',
+    changefreq: 'monthly',
+    priority: '0.75',
+  },
+  {
+    path: '/datasets/career-routes-after-12th-2026',
+    changefreq: 'monthly',
+    priority: '0.75',
+  },
+  {
+    path: '/datasets/career-route-catalogue-2026',
+    changefreq: 'monthly',
+    priority: '0.75',
+  },
+  {
+    path: '/datasets/assessment-methodology-2026',
+    changefreq: 'monthly',
+    priority: '0.75',
+  },
+  {
+    path: '/datasets/skill-evidence-library-2026',
+    changefreq: 'monthly',
+    priority: '0.75',
+  },
+  {
+    path: '/datasets/career-target-emphasis-2026',
+    changefreq: 'monthly',
+    priority: '0.75',
+  },
+  {
+    path: '/research-and-datasets',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/data-policy',
+    changefreq: 'monthly',
+    priority: '0.6',
+  },
   ...BLOG_ROUTES,
   {
     path: '/about',
@@ -488,4 +658,4 @@ export const LIVE_INDEXABLE_ROUTES: IndexableRoute[] = [
     changefreq: 'monthly',
     priority: '0.5',
   },
-];
+] as IndexableRoute[]);

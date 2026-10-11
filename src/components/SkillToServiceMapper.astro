@@ -1,0 +1,32 @@
+<section class="ssm" id="skill-to-service-mapper" aria-labelledby="ssm-title">
+  <p class="eyebrow">SKILL-TO-WORK EXPERIMENT</p>
+  <h2 id="ssm-title">Turn one skill into a safe first offer</h2>
+  <p>Choose a narrow audience and deliverable, then create proof and test whether the work is useful before building a service around it.</p>
+  <p class="ssm-note"><b>Limit:</b> this maps an offer hypothesis. It does not promise clients, demand, income or professional eligibility.</p>
+  <form id="ssm-form" class="ssm-form" novalidate>
+    <label>Skill you can practise<input name="skill" maxlength="120" placeholder="For example: spreadsheet analysis" required /></label>
+    <label>Who could use a small version of it?<input name="audience" maxlength="160" placeholder="A local shop, student group, educator or small team" required /></label>
+    <label>What is the smallest useful deliverable?<textarea name="deliverable" rows="3" maxlength="500" placeholder="Name one concrete output, not a vague promise" required></textarea></label>
+    <label>What proof can you create without sensitive data?<textarea name="proof" rows="3" maxlength="500" placeholder="A public-data sample, dummy-data demo, before/after or process note" required></textarea></label>
+    <label>How will you test usefulness?<select name="test"><option value="feedback">Ask for structured feedback on the sample</option><option value="task">Complete one supervised or low-risk real task</option><option value="walkthrough">Run a short walkthrough and observe questions</option></select></label>
+    <div class="ssm-actions"><button class="ssm-primary" type="submit">Create service experiment</button><button type="button" data-ssm="clear">Clear</button></div>
+    <p id="ssm-status" class="ssm-status" role="status" aria-live="polite"></p>
+  </form>
+  <div id="ssm-result" class="ssm-result" hidden></div>
+</section>
+<script>
+  type SsmField = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+  type SsmForm = Omit<HTMLFormElement, 'querySelectorAll'> & { querySelectorAll(selectors: string): NodeListOf<SsmField> };
+  const ssmForm = document.querySelector<HTMLFormElement>('#ssm-form') as SsmForm | null;
+  const ssmResult = document.querySelector<HTMLDivElement>('#ssm-result');
+  const ssmStatus = document.querySelector<HTMLParagraphElement>('#ssm-status');
+  const ssmClear = document.querySelector<HTMLButtonElement>('[data-ssm="clear"]');
+  if (!ssmForm || !ssmResult || !ssmStatus || !ssmClear) throw new Error('Skill-to-service mapper markup is incomplete.');
+  const ssmEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
+  const ssmTests = { feedback: 'Ask two people in the audience what became clearer, what was missing and whether the output was usable.', task: 'Agree the scope, access and review point before doing one low-risk task; do not handle sensitive data without permission.', walkthrough: 'Show the deliverable in a short walkthrough and record where the person hesitates or asks for clarification.' };
+  ssmForm.addEventListener('submit', (event) => { event.preventDefault(); if (!ssmForm.checkValidity()) { ssmForm.reportValidity(); return; } const data = Object.fromEntries([...ssmForm.querySelectorAll('input,select,textarea')].map((field) => [field.name, field.value])); ssmResult.innerHTML = `<div class="ssm-lead"><span>${ssmEsc(data.skill)} · offer hypothesis</span><h3>${ssmEsc(data.deliverable)}</h3><p>Audience: ${ssmEsc(data.audience)}</p></div><div class="ssm-grid"><article><b>Proof to create</b><p>${ssmEsc(data.proof)}</p></article><article><b>Usefulness test</b><p>${ssmEsc(ssmTests[data.test])}</p></article></div><div class="ssm-next"><h3>Boundaries before sharing or charging</h3><ul><li>Use dummy, public or consented information; remove personal and confidential data.</li><li>State exactly what the deliverable includes, what it excludes and when it will be reviewed.</li><li>Do not promise sales, marks, savings, legal, medical or financial outcomes you cannot control.</li><li>Keep a short reflection: what problem was real, what changed, and what should be tested next?</li></ul></div>`; ssmResult.hidden = false; ssmStatus.textContent = 'Service experiment created from your entries; nothing was sent.'; });
+  ssmClear.addEventListener('click', () => { ssmForm.reset(); ssmResult.hidden = true; ssmStatus.textContent = 'Cleared.'; });
+</script>
+<style>
+  .ssm{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.ssm h2{margin:.2rem 0 .6rem}.ssm>p{max-width:800px;line-height:1.65}.ssm-note,.ssm-status{color:rgba(255,255,255,.68);font-size:.88rem}.ssm-form{display:grid;gap:1rem;margin-top:1.4rem}.ssm-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.ssm-form input,.ssm-form select,.ssm-form textarea{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.ssm-actions{display:flex;gap:.6rem;flex-wrap:wrap}.ssm-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.ssm-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.ssm-result{margin-top:1.3rem}.ssm-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.ssm-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.ssm-lead h3{margin:.4rem 0;font-size:1.5rem}.ssm-lead p,.ssm-grid p,.ssm-next li{line-height:1.6;color:rgba(255,255,255,.75)}.ssm-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.ssm-grid article,.ssm-next{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.ssm-next{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.ssm-next h3{margin-top:0}@media(max-width:650px){.ssm-grid{grid-template-columns:1fr}}
+</style>

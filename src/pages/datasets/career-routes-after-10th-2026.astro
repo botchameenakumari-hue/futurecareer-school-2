@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { CHART_META, ROUTES } from '../../config/careerChartAfter10th.mjs';
+
+const title = 'Class 10 Career Routes Planning Dataset 2026 | Future Career School';
+const description = 'Download an editorial Class 10 route map covering school streams, diploma, ITI, open schooling and skill-first options.';
+const canonical = 'https://futurecareerschool.com/datasets/career-routes-after-10th-2026/';
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Dataset', name: 'Future Career School editorial Class 10 route map 2026',
+  description, url: canonical, dateModified: '2026-10-11', isAccessibleForFree: true,
+  creator: { '@type': 'Organization', name: 'Future Career School', url: 'https://futurecareerschool.com/' },
+  distribution: [
+    { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: 'https://futurecareerschool.com/data/career-routes-after-10th-2026.json' },
+    { '@type': 'DataDownload', encodingFormat: 'text/csv', contentUrl: 'https://futurecareerschool.com/data/career-routes-after-10th-2026.csv' },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav />
+  <main class="dataset-page"><div class="dataset-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">›</span><a href="/career-resources/">Career resources</a><span aria-hidden="true">›</span><span aria-current="page">Dataset</span></nav>
+    <p class="dataset-kicker">FREE EDITORIAL DATASET · 2026</p>
+    <h1>Class 10 route map</h1>
+    <p class="dataset-lead">A machine-readable companion to the Class 10 career chart. Compare school subject groups, diploma and ITI routes, open schooling and a skill-first layer before choosing what to investigate.</p>
+    <div class="dataset-actions"><a href="/data/career-routes-after-10th-2026.csv" download>Download CSV</a><a href="/data/career-routes-after-10th-2026.json" download>Download JSON</a></div>
+    <div class="dataset-callout"><b>Important:</b> these are editorial planning descriptions, not official classifications, admission rules, survey results, salary data or employment statistics. Rules differ by state, board, institute and year. Confirm the current notice before paying or choosing subjects. The linked chart was last checked in {CHART_META.lastChecked}.</div>
+    <h2>Included routes</h2>
+    <div class="dataset-table-wrap"><table><thead><tr><th>Route</th><th>Entry gate</th><th>What it can open</th><th>Time signal</th><th>Watch-out</th></tr></thead><tbody>{ROUTES.map((route) => <tr><td><strong>{route.label}</strong><br /><small>{route.short}</small></td><td>{route.gate}</td><td><ul>{route.opens.slice(0, 4).map((item) => <li>{item}</li>)}</ul></td><td>{route.yearsToWork[0]}–{route.yearsToWork[1]} years to the earliest standard full-time work signal</td><td>{route.watchOut}</td></tr>)}</tbody></table></div>
+    <p class="dataset-note">The JSON and CSV carry the route descriptions, first move, doors opened and doors that may close. Keep the provenance and editorial review date attached if you reuse the files. Read the <a href="/data-policy/">data and research policy</a>.</p>
+    <p><a href="/blog/stream-selection/career-chart-after-10th/">Open the interactive Class 10 career chart</a> · <a href="/datasets/career-routes-after-12th-2026/">See the after-12th route dataset</a></p>
+  </div></main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .dataset-page{min-height:70vh;padding:4rem 1.2rem;background:radial-gradient(circle at 20% 0%,rgba(18,154,141,.12),transparent 35%),#080c18}.dataset-shell{max-width:1100px;margin:0 auto}.breadcrumb{display:flex;gap:.55rem;flex-wrap:wrap;color:rgba(255,255,255,.55);font-size:.85rem;margin-bottom:2.5rem}.breadcrumb a,.dataset-page a{color:#8de4d8;text-decoration:underline;text-underline-offset:2px}.dataset-kicker{color:#e5b84a;font-size:.8rem;font-weight:800;letter-spacing:.12em}.dataset-page h1{font-size:clamp(2rem,5vw,4rem);margin:.65rem 0 1rem;color:#fff}.dataset-lead{max-width:800px;font-size:1.15rem;line-height:1.7;color:rgba(255,255,255,.76)}.dataset-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.5rem 0}.dataset-actions a{display:inline-flex;align-items:center;min-height:44px;padding:.55rem .9rem;border-radius:10px;background:#e5b84a;color:#17130a!important;font-weight:800;text-decoration:none!important}.dataset-actions a+a{background:rgba(255,255,255,.08);color:#fff!important;border:1px solid rgba(255,255,255,.22)}.dataset-callout{padding:1rem 1.1rem;border:1px solid rgba(229,184,74,.4);border-radius:14px;background:rgba(229,184,74,.08);line-height:1.7;color:rgba(255,255,255,.78)}.dataset-page h2{margin:2rem 0 .7rem;color:#fff}.dataset-table-wrap{overflow-x:auto;margin:1.5rem 0}.dataset-table-wrap table{width:100%;min-width:1100px;border-collapse:collapse}.dataset-table-wrap th,.dataset-table-wrap td{padding:.75rem;border:1px solid rgba(255,255,255,.15);vertical-align:top;text-align:left;line-height:1.55}.dataset-table-wrap th{background:rgba(18,154,141,.18);color:#fff}.dataset-table-wrap td{color:rgba(255,255,255,.72)}.dataset-table-wrap ul{margin:0;padding-left:1.1rem}.dataset-note{color:rgba(255,255,255,.62);line-height:1.7}
+</style>

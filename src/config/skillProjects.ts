@@ -4,6 +4,18 @@
 // recommends the next unfinished project in the skill with the biggest gap.
 import type { Audience } from './skillPortfolio';
 
+export const PROJECT_LIBRARY_METHOD = {
+  version: 'Skill project library 1.0',
+  editoriallyReviewedOn: '11 October 2026',
+  source: 'Future Career School editorial library',
+  purpose: 'A sequence of self-directed practice projects that turns a skill rating into observable work and reflection.',
+  limits: [
+    'Project completion and evidence are self-reported and are not externally verified.',
+    'Examples are prompts, not promises of employment, income or client access.',
+    'The library has not been validated as a predictor of hiring or business outcomes.'
+  ],
+} as const;
+
 export type ProjectAudience = Exclude<Audience, 'parent'>;
 export type SkillProject = {
   id: string;

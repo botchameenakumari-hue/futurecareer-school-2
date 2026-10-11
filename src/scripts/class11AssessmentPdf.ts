@@ -186,10 +186,9 @@ export function collectClass11Report(container: HTMLElement): ReportSection[] {
       return { title: inferredTitle, lines };
     })
     .filter((section) => section.title || section.lines.length);
-  const front = extrasSections(container, 'front');
-  const back = extrasSections(container, 'back');
-  if (!front.length && !back.length) return baseSections;
-  return [...baseSections.slice(0, 1), ...front, ...baseSections.slice(1), ...back] as typeof baseSections;
+  // Front/back detail content is rendered as dedicated report pages by the
+  // exporter, not mixed into the assessment evidence sequence.
+  return baseSections;
 }
 
 export function createClass11AssessmentPdf(
@@ -692,7 +691,20 @@ export function createClass11AssessmentPdf(
 
   renderCover();
   addContentPage();
+  const frontSections = extrasSections(container, 'front');
+  frontSections.forEach((section) => {
+    renderSectionHeader(section.title);
+    section.lines.forEach((line, index) => renderLine(line, index, section.lines[index + 1]));
+    y += 4;
+  });
   sections.forEach((section) => {
+    renderSectionHeader(section.title);
+    section.lines.forEach((line, index) => renderLine(line, index, section.lines[index + 1]));
+    y += 4;
+  });
+
+  const backSections = extrasSections(container, 'back');
+  backSections.forEach((section) => {
     renderSectionHeader(section.title);
     section.lines.forEach((line, index) => renderLine(line, index, section.lines[index + 1]));
     y += 4;

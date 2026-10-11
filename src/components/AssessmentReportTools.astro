@@ -701,6 +701,7 @@ const companion = companionFor(assessmentSlug);
       <button type="button" class="result-download-button" data-download-assessment-report>
         Download PDF
       </button>
+      ${container.querySelector('#fcs-companion-marker') ? '<button type="button" class="result-download-button" data-download-assessment-summary>Download short summary</button>' : ''}
       <p class="result-download-status" data-report-download-status data-report-save-status aria-live="polite">
         Your workspace keeps results private to your account. PDF downloads stay on this device.
       </p>
@@ -720,6 +721,12 @@ const companion = companionFor(assessmentSlug);
       .querySelector<HTMLButtonElement>('[data-download-assessment-report]')
       ?.addEventListener('click', () => {
         void triggerReportDownload(container);
+      });
+    actions
+      .querySelector<HTMLButtonElement>('[data-download-assessment-summary]')
+      ?.addEventListener('click', () => {
+        const keep = ['report details', 'how this assessment works', 'your plan at a glance', 'what you are using', 'confidence and limits', 'highest and lowest', 'strongest and weakest', 'three experiments', '30-day and 90-day', 'proof project', 'printable action plan', 'next assessment', 'review page', 'sources and further'];
+        void downloadAssessmentReportPdf({ container, keepTitles: keep, fileName: (defaultFileName || 'assessment-report.pdf').replace(/\.pdf$/i, '') + '-short-summary.pdf', title: (defaultTitle || 'Assessment') + ' Short Summary' });
       });
     container.prepend(actions);
     enhanceLongResults(container);
@@ -1334,5 +1341,4 @@ const companion = companionFor(assessmentSlug);
     }
   }
 </style>
-
 

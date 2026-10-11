@@ -1,0 +1,135 @@
+---
+type RouteRecord = {
+  key: string;
+  title: string;
+  category: string;
+  summary: string;
+  routeSummary: string;
+  entryRoutes: string[];
+  nextStep: string;
+  tags: string[];
+  suitableStages: string[];
+  workSetting: string;
+  routeLength: string;
+  regulated: boolean;
+  dataConfidence: string;
+};
+
+interface Props {
+  routes: RouteRecord[];
+}
+
+const { routes } = Astro.props;
+const routeData = routes.map(({ key, title, category, summary, routeSummary, entryRoutes, nextStep, tags, suitableStages, workSetting, routeLength, regulated, dataConfidence }) => ({
+  key, title, category, summary, routeSummary, entryRoutes, nextStep, tags, suitableStages, workSetting, routeLength, regulated, dataConfidence,
+}));
+const categories = [...new Set(routes.map((route) => route.category))].sort();
+---
+
+<section class="crf" id="career-route-finder" aria-labelledby="crf-title">
+  <div class="crf-head">
+    <div>
+      <p class="crf-kicker">Editorial career catalogue · browser-local</p>
+      <h2 id="crf-title">Search the route catalogue</h2>
+      <p>Search by the kind of work, skill or route you want to investigate. The finder returns starting points from the school’s editorial catalogue; it does not rank people or promise a job.</p>
+    </div>
+    <p class="crf-note"><b>Private by design:</b> your search stays in this browser and is not saved or sent.</p>
+  </div>
+  <form class="crf-form" id="crf-form">
+    <label>What are you exploring?
+      <input id="crf-query" type="search" maxlength="80" placeholder="For example: mechanical engineering, design, data, people" autocomplete="off">
+    </label>
+    <label>Stage or route context
+      <select id="crf-stage">
+        <option value="">Any stage</option>
+        <option value="after-10th">After Class 10</option>
+        <option value="after-12th-science">After Class 12 science</option>
+        <option value="after-12th-commerce">After Class 12 commerce</option>
+        <option value="college">College or graduate</option>
+        <option value="working">Working or changing direction</option>
+      </select>
+    </label>
+    <label>Category
+      <select id="crf-category">
+        <option value="">All categories</option>
+        {categories.map((category) => <option value={category}>{category}</option>)}
+      </select>
+    </label>
+    <button type="submit">Show routes</button>
+    <button type="reset" class="crf-secondary">Reset</button>
+  </form>
+  <p class="crf-status" id="crf-status" aria-live="polite">Showing a small featured sample. Run a search to narrow the catalogue.</p>
+  <div class="crf-results" id="crf-results" aria-live="polite"></div>
+  <section class="crf-compare" id="crf-compare" aria-live="polite" hidden></section>
+  <script type="application/json" id="crf-data" set:html={JSON.stringify(routeData).replace(/</g, '\\u003c')}></script>
+</section>
+
+<script>
+  const app = document.querySelector<HTMLElement>('#career-route-finder');
+  if (app) {
+    type Route = {
+      key: string; title: string; category: string; summary: string; routeSummary: string;
+      entryRoutes: string[]; nextStep: string; tags: string[]; suitableStages: string[];
+      workSetting: string; routeLength: string; regulated: boolean; dataConfidence: string;
+    };
+    const dataNode = app.querySelector<HTMLScriptElement>('#crf-data');
+    const form = app.querySelector<HTMLFormElement>('#crf-form');
+    const results = app.querySelector<HTMLElement>('#crf-results');
+    const status = app.querySelector<HTMLElement>('#crf-status');
+    const query = app.querySelector<HTMLInputElement>('#crf-query');
+    const stage = app.querySelector<HTMLSelectElement>('#crf-stage');
+    const category = app.querySelector<HTMLSelectElement>('#crf-category');
+    const compare = app.querySelector<HTMLElement>('#crf-compare');
+    if (!dataNode || !form || !results || !status || !query || !stage || !category || !compare) throw new Error('Career route finder markup is incomplete.');
+    const routes = JSON.parse(dataNode.textContent || '[]') as Route[];
+    const compareKeys = new Set<string>();
+    const escape = (value: string) => value.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character] || character);
+    const card = (route: Route, score: number) => `<article class="crf-card"><div class="crf-card-top"><span>${escape(route.category)}</span><b>${score}% match guide</b></div><h3>${escape(route.title)}</h3><p>${escape(route.summary)}</p><dl><div><dt>Useful route lens</dt><dd>${escape(route.routeSummary)}</dd></div><div><dt>Work setting</dt><dd>${escape(route.workSetting)}</dd></div><div><dt>Route length</dt><dd>${escape(route.routeLength)}</dd></div></dl><p class="crf-next"><b>First test:</b> ${escape(route.nextStep)}</p><p class="crf-entry"><b>Possible entry routes:</b> ${route.entryRoutes.slice(0, 2).map(escape).join(' · ')}</p><button type="button" class="crf-compare-button" data-compare="${escape(route.key)}" aria-pressed="${compareKeys.has(route.key)}">${compareKeys.has(route.key) ? 'Selected for comparison' : 'Compare this route'}</button><small>${route.regulated ? 'Regulated or licensed route: confirm the current authority rule.' : 'Editorial route record: confirm current course, employer and licensing rules.'} Confidence label: ${escape(route.dataConfidence)}.</small></article>`;
+    const renderComparison = () => {
+      const selected = routes.filter((route) => compareKeys.has(route.key));
+      if (!selected.length) { compare.hidden = true; compare.innerHTML = ''; return; }
+      compare.hidden = false;
+      const cell = (route: Route, field: keyof Route) => Array.isArray(route[field]) ? (route[field] as string[]).slice(0, 3).map(escape).join(' · ') : escape(String(route[field] ?? '—'));
+      compare.innerHTML = `<div class="crf-compare-head"><div><p class="crf-kicker">Decision worksheet · browser-local</p><h3>Compare ${selected.length} route${selected.length === 1 ? '' : 's'}</h3><p>Select one more result to compare two routes side by side. This is a structured trade-off worksheet, not a recommendation or ranking.</p></div><button type="button" class="crf-clear" data-clear-compare>Clear</button></div><div class="crf-compare-table-wrap"><table><thead><tr><th>Lens</th>${selected.map((route) => `<th>${escape(route.title)}</th>`).join('')}</tr></thead><tbody>${[['Work setting', 'workSetting'], ['Route length', 'routeLength'], ['Entry routes', 'entryRoutes'], ['First test', 'nextStep'], ['Stage fit', 'suitableStages'], ['Catalogue confidence', 'dataConfidence']].map(([label, field]) => `<tr><th>${label}</th>${selected.map((route) => `<td>${cell(route, field as keyof Route)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    };
+    const render = () => {
+      const term = query.value.trim().toLowerCase();
+      const chosenStage = stage.value;
+      const chosenCategory = category.value;
+      const ranked = routes.map((route) => {
+        const haystack = [route.title, route.category, route.summary, route.routeSummary, route.workSetting, ...route.tags, ...route.entryRoutes].join(' ').toLowerCase();
+        let score = 0;
+        if (!term) score += route.title.toLowerCase().includes('engineer') ? 4 : 1;
+        else if (route.title.toLowerCase().includes(term)) score += 8;
+        else if (haystack.includes(term)) score += 5;
+        if (chosenStage && route.suitableStages.includes(chosenStage)) score += 4;
+        if (chosenCategory && route.category === chosenCategory) score += 3;
+        return { route, score };
+      }).filter(({ route, score }) => score > 0 && (!chosenCategory || route.category === chosenCategory) && (!chosenStage || route.suitableStages.includes(chosenStage)))
+        .sort((a, b) => b.score - a.score || a.route.title.localeCompare(b.route.title)).slice(0, 12);
+      status.textContent = `${ranked.length} route${ranked.length === 1 ? '' : 's'} shown from ${routes.length} editorial records. Change one filter to stress-test the shortlist.`;
+      results.innerHTML = ranked.length ? ranked.map(({ route, score }) => card(route, Math.min(99, Math.round(score * 10)))).join('') : '<p class="crf-empty">No route matched those filters. Remove a word or choose “Any stage” and try again.</p>';
+      renderComparison();
+    };
+    results.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-compare]');
+      if (!button) return;
+      const key = button.dataset.compare;
+      if (!key) return;
+      if (compareKeys.has(key)) compareKeys.delete(key);
+      else if (compareKeys.size < 2) compareKeys.add(key);
+      else status.textContent = 'Choose at most two routes for the comparison worksheet.';
+      render();
+    });
+    compare.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('[data-clear-compare]')) { compareKeys.clear(); render(); }
+    });
+    form.addEventListener('submit', (event) => { event.preventDefault(); render(); });
+    form.addEventListener('reset', () => { window.setTimeout(render, 0); });
+    render();
+  }
+</script>
+
+<style is:global>
+  .crf{margin:2rem 0;padding:clamp(1.1rem,3vw,2rem);border:1px solid rgba(18,154,141,.42);border-radius:22px;background:linear-gradient(145deg,rgba(18,154,141,.1),rgba(255,255,255,.03));color:#f8fafc}.crf-head{display:grid;grid-template-columns:1fr minmax(210px,300px);gap:1.2rem;align-items:start}.crf-kicker{margin:0;color:#8de4d8;font-size:.76rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.crf h2{margin:.45rem 0 .55rem;color:#fff}.crf-head p:not(.crf-kicker),.crf-note{line-height:1.65;color:rgba(255,255,255,.68)}.crf-note{padding:.85rem;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.04);font-size:.86rem}.crf-form{display:grid;grid-template-columns:2fr 1fr 1fr auto auto;gap:.7rem;margin:1.25rem 0}.crf-form label{display:grid;gap:.35rem;color:#fff;font-size:.86rem;font-weight:700}.crf-form input,.crf-form select{min-height:44px;width:100%;padding:.55rem .7rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:#101927;color:#fff;font:inherit}.crf-form button,.crf-compare-button,.crf-clear{align-self:end;min-height:44px;padding:.55rem .85rem;border:0;border-radius:10px;background:#e5b84a;color:#17130a;font-weight:800;cursor:pointer}.crf-form .crf-secondary,.crf-clear{border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff}.crf-status{color:rgba(255,255,255,.62);font-size:.88rem}.crf-results{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:1rem}.crf-card{padding:1rem;border:1px solid rgba(255,255,255,.13);border-radius:15px;background:rgba(0,0,0,.16)}.crf-card-top{display:flex;justify-content:space-between;gap:.5rem;color:#8de4d8;font-size:.72rem}.crf-card-top b{color:#f7d88c}.crf-card h3{margin:.65rem 0 .4rem;color:#fff;font-size:1.05rem}.crf-card p,.crf-card dd{color:rgba(255,255,255,.67);line-height:1.55;font-size:.87rem}.crf-card dl{display:grid;gap:.55rem;margin:.85rem 0}.crf-card dl div{padding:.55rem;border-radius:9px;background:rgba(255,255,255,.04)}.crf-card dt{color:#8de4d8;font-size:.72rem;font-weight:800}.crf-card dd{margin:.2rem 0 0}.crf-next{padding:.65rem;border-left:3px solid #e5b84a;background:rgba(229,184,74,.08)}.crf-entry{font-size:.8rem!important}.crf-card small{display:block;color:rgba(255,255,255,.45);line-height:1.5}.crf-empty{grid-column:1/-1;padding:1rem;border:1px dashed rgba(255,255,255,.2);border-radius:12px;color:rgba(255,255,255,.7)}.crf-compare{margin-top:1.2rem;padding:1rem;border:1px solid rgba(229,184,74,.42);border-radius:15px;background:rgba(229,184,74,.07)}.crf-compare-head{display:flex;justify-content:space-between;gap:1rem;align-items:start}.crf-compare h3{margin:.35rem 0;color:#fff}.crf-compare p{color:rgba(255,255,255,.68);line-height:1.55}.crf-compare-table-wrap{overflow:auto}.crf-compare table{width:100%;min-width:620px;border-collapse:collapse}.crf-compare th,.crf-compare td{padding:.65rem;border:1px solid rgba(255,255,255,.16);text-align:left;vertical-align:top;line-height:1.5}.crf-compare th{color:#fff}.crf-compare td{color:rgba(255,255,255,.72)}.crf-form input:focus-visible,.crf-form select:focus-visible,.crf-form button:focus-visible,.crf-compare-button:focus-visible,.crf-clear:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}@media(max-width:900px){.crf-form{grid-template-columns:repeat(2,1fr)}.crf-form label:first-child{grid-column:1/-1}.crf-results{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.crf-head,.crf-form,.crf-results{grid-template-columns:1fr}.crf-form label:first-child{grid-column:auto}.crf-form button{align-self:stretch}}
+</style>

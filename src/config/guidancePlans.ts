@@ -48,10 +48,10 @@ export const STUDENT_GUIDANCE_PLAN: GuidancePlanContent = {
     'Wrong streams, outdated degrees, and low-value skills that waste years and money.',
   edgeLabel: 'Move toward',
   edgeText:
-    'High-value skills, future readiness, and earlier financial freedom.',
+    'Useful skills, future readiness, and a clearer next decision.',
   continuationLabel: 'Continuous career guidance',
   continuationText:
-    'Real student growth comes from a series of better decisions. This path keeps skill choices, future readiness, and financial-freedom planning on track across the year.',
+    'Real student growth comes from a series of better decisions. This path keeps skill choices, future readiness, and review points visible across the year.',
   continuationOfferLabel: 'Limited-time annual price',
   continuationComparePrice: '\u20B929000',
   continuationPrice: '\u20B912000',
@@ -82,7 +82,7 @@ export const WORKING_PROFESSIONAL_GUIDANCE_PLAN: GuidancePlanContent = {
     'Salary ceilings, random upskilling, weak positioning, and pivots that waste time and money.',
   edgeLabel: 'Move toward',
   edgeText:
-    'Higher-value skills, sharper positioning, stronger compensation, and earlier financial freedom.',
+    'More useful skills, sharper positioning, and clearer next moves.',
   continuationLabel: 'Use it for',
   continuationText:
     'AI pressure, stagnation, career pivots, and deciding which next skill move can multiply leverage.',
@@ -108,4 +108,3 @@ export const GUIDANCE_PLAN_PRICE_COPY = {
   freeLayerText:
     'Career and income-growth resources and finder tools are the genuinely free layer. A live 1-on-1 session is paid counsellor time spent on a specific situation.',
 };
-

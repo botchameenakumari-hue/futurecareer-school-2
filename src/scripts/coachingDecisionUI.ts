@@ -467,10 +467,10 @@ const careerPreferenceLabels: Record<string, string> = {
 };
 
 export function interestRelevanceScore(guide: CareerGuide, interest: string) {
-  if (interest === 'earning') return guide.earningPotential >= 4 ? 2 : guide.earningPotential === 3 ? 1 : 0;
+  if (interest === 'earning') return guide.earningPotential >= 4 ? 2 : guide.earningPotential > 2 ? 1 : 0;
   if (interest === 'growth') {
     const growth = careerGrowthPotentialFor(guide);
-    return growth >= 4 ? 2 : growth === 3 ? 1 : 0;
+    return growth >= 4 ? 2 : growth > 2 ? 1 : 0;
   }
   if (interest === 'ownership') {
     const path = guide.independencePath.toLowerCase();

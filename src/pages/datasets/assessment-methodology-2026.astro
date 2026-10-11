@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { ASSESSMENT_METHODOLOGY_META, ASSESSMENT_METHODOLOGY_RECORDS } from '../../config/assessmentMethodologyDataset';
+
+const title = 'Assessment Methodology Dataset 2026 | Future Career School';
+const description = 'Download the editorial structure of Future Career School self-assessments: domains, question counts, stages and disclosed limits.';
+const canonical = 'https://futurecareerschool.com/datasets/assessment-methodology-2026/';
+const jsonLd = { '@context': 'https://schema.org', '@type': 'Dataset', name: 'Future Career School editorial assessment methodology and domain map 2026', description, url: canonical, dateModified: '2026-10-11', isAccessibleForFree: true, creator: { '@type': 'Organization', name: 'Future Career School', url: 'https://futurecareerschool.com/' }, distribution: [{ '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: 'https://futurecareerschool.com/data/assessment-methodology-2026.json' }, { '@type': 'DataDownload', encodingFormat: 'text/csv', contentUrl: 'https://futurecareerschool.com/data/assessment-methodology-2026.csv' }] };
+---
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav /><main class="dataset-page"><div class="dataset-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">›</span><a href="/career-resources/">Career resources</a><span aria-hidden="true">›</span><span aria-current="page">Dataset</span></nav>
+    <p class="dataset-kicker">FREE EDITORIAL DATASET · {ASSESSMENT_METHODOLOGY_META.version.toUpperCase()}</p>
+    <h1>Assessment methodology and domain map</h1>
+    <p class="dataset-lead">A transparent, machine-readable description of the school’s self-assessment content: what each tool covers, how many questions it contains, which stages it supports and what limits it states.</p>
+    <div class="dataset-actions"><a href="/data/assessment-methodology-2026.csv" download>Download CSV</a><a href="/data/assessment-methodology-2026.json" download>Download JSON</a></div>
+    <div class="dataset-callout"><b>Privacy and evidence boundary:</b> this dataset contains no participant answers, scores, norms, personal data or validation results. It is an editorial content map, not psychological research or proof that any assessment predicts an outcome.</div>
+    <h2>Included records</h2>
+    <div class="dataset-table-wrap"><table><thead><tr><th>Assessment</th><th>Questions</th><th>Domains</th><th>Stages</th><th>Limits disclosed</th></tr></thead><tbody>{ASSESSMENT_METHODOLOGY_RECORDS.map((record) => <tr><td><strong>{record.title}</strong></td><td>{record.questionCount}</td><td>{record.domains.join(' · ')}</td><td>{record.stages.join(' · ')}</td><td>{record.limitCount}</td></tr>)}</tbody></table></div>
+    <p class="dataset-note">The records describe the current authored bundles as of {ASSESSMENT_METHODOLOGY_META.version}. Read the <a href="/data-policy/">data and research policy</a> before reusing them.</p>
+    <p><a href="/services/assessments/">Explore the assessments</a> · <a href="/research-and-datasets/">View the publication registry</a></p>
+  </div></main><Footer />
+</BaseLayout>
+<style>
+  .dataset-page{min-height:70vh;padding:4rem 1.2rem;background:radial-gradient(circle at 20% 0%,rgba(18,154,141,.12),transparent 35%),#080c18}.dataset-shell{max-width:1100px;margin:0 auto}.breadcrumb{display:flex;gap:.55rem;flex-wrap:wrap;color:rgba(255,255,255,.55);font-size:.85rem;margin-bottom:2.5rem}.breadcrumb a,.dataset-page a{color:#8de4d8;text-decoration:underline;text-underline-offset:2px}.dataset-kicker{color:#e5b84a;font-size:.8rem;font-weight:800;letter-spacing:.12em}.dataset-page h1{font-size:clamp(2rem,5vw,4rem);margin:.65rem 0 1rem;color:#fff}.dataset-lead{max-width:800px;font-size:1.15rem;line-height:1.7;color:rgba(255,255,255,.76)}.dataset-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.5rem 0}.dataset-actions a{display:inline-flex;align-items:center;min-height:44px;padding:.55rem .9rem;border-radius:10px;background:#e5b84a;color:#17130a!important;font-weight:800;text-decoration:none!important}.dataset-actions a+a{background:rgba(255,255,255,.08);color:#fff!important;border:1px solid rgba(255,255,255,.22)}.dataset-callout{padding:1rem 1.1rem;border:1px solid rgba(229,184,74,.4);border-radius:14px;background:rgba(229,184,74,.08);line-height:1.7;color:rgba(255,255,255,.78)}.dataset-page h2{margin:2rem 0 .7rem;color:#fff}.dataset-table-wrap{overflow-x:auto;margin:1.5rem 0}.dataset-table-wrap table{width:100%;min-width:900px;border-collapse:collapse}.dataset-table-wrap th,.dataset-table-wrap td{padding:.75rem;border:1px solid rgba(255,255,255,.15);vertical-align:top;text-align:left;line-height:1.55}.dataset-table-wrap th{background:rgba(18,154,141,.18);color:#fff}.dataset-table-wrap td{color:rgba(255,255,255,.72)}.dataset-note{color:rgba(255,255,255,.62);line-height:1.7}
+</style>

@@ -3903,8 +3903,9 @@ async function downloadStudentBrief(options: {
   successMessage?: string;
 } = {}) {
   if (!ctx || !activeStudentId()) return;
+  const workspace = ctx;
   const record = qs<HTMLElement>(options.rootSelector || '[data-workspace-view="student-record"]');
-  const student = ctx.profileById(activeStudentId());
+  const student = workspace.profileById(activeStudentId());
   if (!record || !student) return;
   const button = qs<HTMLButtonElement>(options.buttonSelector || '#download-student-brief');
   setBusy(button, true, 'Preparing...');
@@ -3923,24 +3924,24 @@ async function downloadStudentBrief(options: {
     const value = (input: unknown, fallback = 'Not recorded') => String(input ?? '').trim() || fallback;
     const lines: string[] = [
       'PLAN SUMMARY',
-      `Stage: ${ctx.formatStatus(caseRow.coaching_stage || 'intake')}`,
+      `Stage: ${workspace.formatStatus(caseRow.coaching_stage || 'intake')}`,
       `Goal: ${value(caseRow.goal_summary, 'Set with your coach')}`,
       `Progress note: ${value(caseRow.progress_note)}`,
       '',
       'SAVED CAREER OPTIONS',
-      ...(careers.length ? careers.map((row) => `${value(row.title, 'Career option')} · ${ctx.formatStatus(row.option_type || row.status || 'exploring')} · ${value(row.decision_rationale || row.notes, 'No decision note yet')}`) : ['No active career options saved.']),
+      ...(careers.length ? careers.map((row) => `${value(row.title, 'Career option')} · ${workspace.formatStatus(row.option_type || row.status || 'exploring')} · ${value(row.decision_rationale || row.notes, 'No decision note yet')}`) : ['No active career options saved.']),
       '',
       'SAVED ASSESSMENT HISTORY (OPTIONAL)',
-      ...(assessments.length ? assessments.map((row) => `${value(row.assessment_title || row.title || row.assessment_name, 'Assessment result')} · ${ctx.formatDate(row.completed_at || row.created_at || row.saved_at)} · ${value(row.result_summary || row.summary || row.result_label, 'Saved result')}`) : ['No assessment results saved to this account. Assessments are optional.']),
+      ...(assessments.length ? assessments.map((row) => `${value(row.assessment_title || row.title || row.assessment_name, 'Assessment result')} · ${workspace.formatDate(row.completed_at || row.created_at || row.saved_at)} · ${value(row.result_summary || row.summary || row.result_label, 'Saved result')}`) : ['No assessment results saved to this account. Assessments are optional.']),
       '',
       'SKILLS, RATINGS, AND PROOF',
-      ...(skills.length ? skills.map((row) => `${value(row.skill_name, 'Skill')} · ${ctx.formatStatus(skillScopeFor(row))} · current ${value(row.current_level, 'not rated')}/10 · target ${value(row.target_level, 'not set')}/10 · ${evidence.filter((item) => String(item.skill_id) === String(row.id)).length} evidence item(s)`) : ['No skills recorded.']),
+      ...(skills.length ? skills.map((row) => `${value(row.skill_name, 'Skill')} · ${workspace.formatStatus(skillScopeFor(row))} · current ${value(row.current_level, 'not rated')}/10 · target ${value(row.target_level, 'not set')}/10 · ${evidence.filter((item) => String(item.skill_id) === String(row.id)).length} evidence item(s)`) : ['No skills recorded.']),
       '',
       'ACTIONS AND DUE DATES',
-      ...(actions.length ? actions.map((row) => `${value(row.title, 'Action')} · ${ctx.formatStatus(row.status || 'open')} · due ${row.due_date ? ctx.formatDate(row.due_date) : 'not set'} · ${value(row.details, 'No completion note')}`) : ['No actions recorded.']),
+      ...(actions.length ? actions.map((row) => `${value(row.title, 'Action')} · ${workspace.formatStatus(row.status || 'open')} · due ${row.due_date ? workspace.formatDate(row.due_date) : 'not set'} · ${value(row.details, 'No completion note')}`) : ['No actions recorded.']),
       '',
       'COACH GUIDANCE SHARED WITH THE STUDENT',
-      ...(guidance.length ? guidance.map((row) => `${value(row.title, 'Guidance')} · ${value(row.advice || row.content)}${row.due_date ? ` · due ${ctx.formatDate(row.due_date)}` : ''}`) : ['No shared guidance recorded.']),
+      ...(guidance.length ? guidance.map((row) => `${value(row.title, 'Guidance')} · ${value(row.advice || row.content)}${row.due_date ? ` · due ${workspace.formatDate(row.due_date)}` : ''}`) : ['No shared guidance recorded.']),
       '',
       'CAREER AND FINANCIAL READINESS CHECKLIST',
       ...milestones.map((item) => `${item.number}. ${item.title} · ${item.complete ? 'Evidenced' : item.inProgress ? 'In progress' : 'Next'} · ${item.evidence}`),
@@ -3949,7 +3950,7 @@ async function downloadStudentBrief(options: {
       'This plan organises current evidence and next steps. It does not guarantee admission, employment, salary, or financial freedom. Verify current local course recognition, licensing, costs, and labour-market information before making a major commitment.',
     ];
     if (!isStudentPlan) {
-      lines.push('', 'COACH-ONLY PLANNING CONTEXT', `Priority: ${ctx.formatStatus(caseRow.priority || 'standard')}`, `Decision deadline: ${caseRow.decision_deadline ? ctx.formatDate(caseRow.decision_deadline) : 'Not set'}`, 'Private staff notes are intentionally excluded from downloaded documents.');
+      lines.push('', 'COACH-ONLY PLANNING CONTEXT', `Priority: ${workspace.formatStatus(caseRow.priority || 'standard')}`, `Decision deadline: ${caseRow.decision_deadline ? workspace.formatDate(caseRow.decision_deadline) : 'Not set'}`, 'Private staff notes are intentionally excluded from downloaded documents.');
     }
     if (!lines.length) throw new Error('No coaching record content is available.');
     const { jsPDF } = await import('jspdf');
@@ -3968,7 +3969,7 @@ async function downloadStudentBrief(options: {
     };
     addText(`Future Career School · ${options.filePrefix === 'coaching-plan' ? 'Coaching plan' : 'Coaching brief'}`, 9, 'bold', 7);
     addText(String(student.full_name || student.email || 'Student'), 19, 'bold', 5);
-    addText(`${ctx.formatRole(student.role)} · ${student.email || ''}`, 9, 'normal', 9);
+    addText(`${workspace.formatRole(student.role)} · ${student.email || ''}`, 9, 'normal', 9);
     const heading = /^[A-Z][A-Z, ()-]{4,}$/;
     lines.forEach((line) => addText(line || ' ', heading.test(line) ? 11 : 8.5, heading.test(line) ? 'bold' : 'normal', heading.test(line) ? 4.5 : 3.2));
     pdf.setFont('helvetica', 'normal');
@@ -3976,9 +3977,9 @@ async function downloadStudentBrief(options: {
     pdf.text(`Generated ${new Date().toLocaleDateString('en-IN')}`, margin, pageHeight - 10);
     const safeName = String(student.full_name || 'student').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'student';
     pdf.save(`${options.filePrefix || 'coaching-brief'}-${safeName}.pdf`);
-    ctx.setWorkspaceStatus(options.successMessage || 'Coaching brief downloaded.');
+    workspace.setWorkspaceStatus(options.successMessage || 'Coaching brief downloaded.');
   } catch (error) {
-    ctx.setWorkspaceStatus(friendlyWorkspaceError(error, 'Could not create the coaching brief.'), true);
+    workspace.setWorkspaceStatus(friendlyWorkspaceError(error, 'Could not create the coaching brief.'), true);
   } finally {
     setBusy(button, false);
   }

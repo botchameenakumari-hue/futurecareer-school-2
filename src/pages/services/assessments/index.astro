@@ -1272,41 +1272,41 @@ const jsonLd = [
 </style>
 
 <script>
-  const assessmentBrowser = document.querySelector('[data-assessment-browser]');
+  const assessmentBrowser = document.querySelector<HTMLElement>('[data-assessment-browser]');
 
   if (assessmentBrowser) {
     const normalize = (value) => (value || '').toString().trim().toLowerCase();
-    const cards = Array.from(assessmentBrowser.querySelectorAll('[data-assessment-card]'));
-    const searchInput = assessmentBrowser.querySelector('#assessment-search');
-    const audienceSelect = assessmentBrowser.querySelector('#assessment-audience');
-    const typeSelect = assessmentBrowser.querySelector('#assessment-type');
-    const sortSelect = assessmentBrowser.querySelector('#assessment-sort');
-    const pageSizeSelect = assessmentBrowser.querySelector('#assessment-page-size');
-    const clearButton = assessmentBrowser.querySelector('[data-assessment-clear]');
-    const visibleCount = assessmentBrowser.querySelector('[data-assessment-visible-count]');
-    const emptyState = assessmentBrowser.querySelector('[data-assessment-empty]');
-    const pagination = assessmentBrowser.querySelector('[data-assessment-pagination]');
-    const prevButton = assessmentBrowser.querySelector('[data-assessment-prev]');
-    const nextButton = assessmentBrowser.querySelector('[data-assessment-next]');
-    const pageStatus = assessmentBrowser.querySelector('[data-assessment-page-status]');
-    const presetButtons = Array.from(document.querySelectorAll('[data-assessment-preset]'));
+    const cards = Array.from(assessmentBrowser.querySelectorAll<HTMLElement>('[data-assessment-card]'));
+    const searchInput = assessmentBrowser.querySelector<HTMLInputElement>('#assessment-search')!;
+    const audienceSelect = assessmentBrowser.querySelector<HTMLSelectElement>('#assessment-audience')!;
+    const typeSelect = assessmentBrowser.querySelector<HTMLSelectElement>('#assessment-type')!;
+    const sortSelect = assessmentBrowser.querySelector<HTMLSelectElement>('#assessment-sort')!;
+    const pageSizeSelect = assessmentBrowser.querySelector<HTMLSelectElement>('#assessment-page-size')!;
+    const clearButton = assessmentBrowser.querySelector<HTMLButtonElement>('[data-assessment-clear]')!;
+    const visibleCount = assessmentBrowser.querySelector<HTMLElement>('[data-assessment-visible-count]')!;
+    const emptyState = assessmentBrowser.querySelector<HTMLElement>('[data-assessment-empty]')!;
+    const pagination = assessmentBrowser.querySelector<HTMLElement>('[data-assessment-pagination]')!;
+    const prevButton = assessmentBrowser.querySelector<HTMLButtonElement>('[data-assessment-prev]')!;
+    const nextButton = assessmentBrowser.querySelector<HTMLButtonElement>('[data-assessment-next]')!;
+    const pageStatus = assessmentBrowser.querySelector<HTMLElement>('[data-assessment-page-status]')!;
+    const presetButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-assessment-preset]'));
     let currentPage = 1;
 
     const sortCards = (items) => {
       const sortValue = sortSelect.value;
       return [...items].sort((a, b) => {
-        if (sortValue === 'az') return a.dataset.title.localeCompare(b.dataset.title);
+        if (sortValue === 'az') return (a.dataset.title || '').localeCompare(b.dataset.title || '');
         if (sortValue === 'students') {
-          const aScore = a.dataset.audiences.includes('students') ? 0 : 1;
-          const bScore = b.dataset.audiences.includes('students') ? 0 : 1;
-          return aScore - bScore || Number(a.dataset.order) - Number(b.dataset.order);
+          const aScore = (a.dataset.audiences || '').includes('students') ? 0 : 1;
+          const bScore = (b.dataset.audiences || '').includes('students') ? 0 : 1;
+          return aScore - bScore || Number(a.dataset.order || 0) - Number(b.dataset.order || 0);
         }
         if (sortValue === 'professionals') {
-          const aScore = a.dataset.audiences.includes('professionals') ? 0 : 1;
-          const bScore = b.dataset.audiences.includes('professionals') ? 0 : 1;
-          return aScore - bScore || Number(a.dataset.order) - Number(b.dataset.order);
+          const aScore = (a.dataset.audiences || '').includes('professionals') ? 0 : 1;
+          const bScore = (b.dataset.audiences || '').includes('professionals') ? 0 : 1;
+          return aScore - bScore || Number(a.dataset.order || 0) - Number(b.dataset.order || 0);
         }
-        return Number(a.dataset.order) - Number(b.dataset.order);
+        return Number(a.dataset.order || 0) - Number(b.dataset.order || 0);
       });
     };
 
@@ -1317,7 +1317,7 @@ const jsonLd = [
       const pageSize = Number(pageSizeSelect.value) || 12;
       const matches = cards.filter((card) => {
         const searchMatches = !query || normalize(card.dataset.search).includes(query);
-        const audienceMatches = audience === 'all' || card.dataset.audiences.split(' ').includes(audience);
+        const audienceMatches = audience === 'all' || (card.dataset.audiences || '').split(' ').includes(audience);
         const typeMatches = type === 'all' || card.dataset.type === type;
         return searchMatches && audienceMatches && typeMatches;
       });

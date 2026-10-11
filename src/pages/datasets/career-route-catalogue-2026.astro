@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { CAREER_CATALOGUE_META, CAREER_DATABASE_VERIFICATION_QUEUE, CAREER_ROUTE_RECORDS } from '../../config/careerRouteDataset';
+
+const title = 'Career Route Catalogue Dataset 2026 | Future Career School';
+const description = 'Download Future Career School’s editorial career-route catalogue with role summaries, entry routes, skills, work settings and progression guidance.';
+const canonical = 'https://futurecareerschool.com/datasets/career-route-catalogue-2026/';
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Dataset', name: 'Future Career School editorial career route catalogue 2026',
+  description, url: canonical, dateModified: '2026-10-11', isAccessibleForFree: true,
+  creator: { '@type': 'Organization', name: 'Future Career School', url: 'https://futurecareerschool.com/' },
+  distribution: [
+    { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: 'https://futurecareerschool.com/data/career-route-catalogue-2026.json' },
+    { '@type': 'DataDownload', encodingFormat: 'text/csv', contentUrl: 'https://futurecareerschool.com/data/career-route-catalogue-2026.csv' },
+  ],
+};
+const preview = CAREER_ROUTE_RECORDS.slice(0, 48);
+---
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav /><main class="dataset-page"><div class="dataset-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">›</span><a href="/career-resources/">Career resources</a><span aria-hidden="true">›</span><span aria-current="page">Dataset</span></nav>
+    <p class="dataset-kicker">FREE EDITORIAL DATASET · {CAREER_CATALOGUE_META.version.toUpperCase()}</p>
+    <h1>Career route catalogue</h1>
+    <p class="dataset-lead">A downloadable snapshot of the school’s structured role catalogue: what the work involves, possible entry routes, skills to build, work setting and a practical starter test.</p>
+    <div class="dataset-actions"><a href="/data/career-route-catalogue-2026.csv" download>Download CSV</a><a href="/data/career-route-catalogue-2026.json" download>Download JSON</a><a href="/data/career-database-verification-queue-2026.csv" download>Download verification queue</a></div>
+    <div class="dataset-callout"><b>Scope:</b> {CAREER_ROUTE_RECORDS.length} editorial role records from the school’s own guidance catalogue. <b>It is not an official occupation register:</b> it is not a labour-market survey, salary database or qualification ruling. Keep the provenance and disclaimer attached when reusing it.</div>
+    <h2>What each record contains</h2>
+    <ul class="dataset-list"><li>Role family, category and plain-language summary</li><li>Entry requirements and possible entry routes</li><li>Foundation, specialist and future skills</li><li>Work environment, subject routes and suitable career stages</li><li>Watch-outs, starter tests and three-stage progression guidance</li></ul>
+    <div class="dataset-table-wrap"><table><thead><tr><th>Role</th><th>Category</th><th>Entry route</th><th>Work setting</th><th>Data confidence</th></tr></thead><tbody>{preview.map((record) => <tr><td><strong>{record.title}</strong></td><td>{record.category}</td><td>{record.entryRoutes.slice(0, 2).join(' · ')}</td><td>{record.workSetting}</td><td>{record.dataConfidence}</td></tr>)}</tbody></table></div>
+    <p class="dataset-note">The preview shows the first 48 records; the downloads contain the complete catalogue. The separate <b>{CAREER_DATABASE_VERIFICATION_QUEUE.length}-record verification queue</b> is a work order only, with every record marked not-started. For current licensing or course rules, use the relevant regulator, institution or official notice. Read the <a href="/data-policy/">data and research policy</a>.</p>
+    <p><a href="/career-skills-compass/">Explore the interactive career and skills compass</a> · <a href="/datasets/course-eligibility-2026/">See the course-eligibility dataset</a></p>
+  </div></main><Footer />
+</BaseLayout>
+<style>
+  .dataset-page{min-height:70vh;padding:4rem 1.2rem;background:radial-gradient(circle at 20% 0%,rgba(18,154,141,.12),transparent 35%),#080c18}.dataset-shell{max-width:1100px;margin:0 auto}.breadcrumb{display:flex;gap:.55rem;flex-wrap:wrap;color:rgba(255,255,255,.55);font-size:.85rem;margin-bottom:2.5rem}.breadcrumb a,.dataset-page a{color:#8de4d8;text-decoration:underline;text-underline-offset:2px}.dataset-kicker{color:#e5b84a;font-size:.8rem;font-weight:800;letter-spacing:.12em}.dataset-page h1{font-size:clamp(2rem,5vw,4rem);margin:.65rem 0 1rem;color:#fff}.dataset-lead{max-width:800px;font-size:1.15rem;line-height:1.7;color:rgba(255,255,255,.76)}.dataset-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.5rem 0}.dataset-actions a{display:inline-flex;align-items:center;min-height:44px;padding:.55rem .9rem;border-radius:10px;background:#e5b84a;color:#17130a!important;font-weight:800;text-decoration:none!important}.dataset-actions a+a{background:rgba(255,255,255,.08);color:#fff!important;border:1px solid rgba(255,255,255,.22)}.dataset-callout{padding:1rem 1.1rem;border:1px solid rgba(229,184,74,.4);border-radius:14px;background:rgba(229,184,74,.08);line-height:1.7;color:rgba(255,255,255,.78)}.dataset-page h2{margin:2rem 0 .7rem;color:#fff}.dataset-list{padding-left:1.2rem;line-height:1.8;color:rgba(255,255,255,.76)}.dataset-table-wrap{overflow-x:auto;margin:1.5rem 0}.dataset-table-wrap table{width:100%;min-width:900px;border-collapse:collapse}.dataset-table-wrap th,.dataset-table-wrap td{padding:.75rem;border:1px solid rgba(255,255,255,.15);vertical-align:top;text-align:left;line-height:1.55}.dataset-table-wrap th{background:rgba(18,154,141,.18);color:#fff}.dataset-table-wrap td{color:rgba(255,255,255,.72)}.dataset-note{color:rgba(255,255,255,.62);line-height:1.7}
+</style>

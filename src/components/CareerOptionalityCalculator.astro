@@ -1,0 +1,38 @@
+<section class="coc" id="career-optionality-calculator" aria-labelledby="coc-title">
+  <p class="eyebrow">TRANSPARENT PLANNING MODEL</p>
+  <h2 id="coc-title">Measure how reversible a path is</h2>
+  <p>Rate the evidence around one career or course direction. The result shows where the path preserves choices and where you need more information—not whether you will succeed.</p>
+  <p class="coc-note"><b>Limit:</b> this is an editorial decision model, not a career-fit score, employability prediction, ranking or labour-market benchmark.</p>
+  <form id="coc-form" class="coc-form" novalidate>
+    <label>Path you are considering<input name="path" maxlength="160" placeholder="For example, BCA, nursing or a career change into operations" required /></label>
+    <label>How many realistic adjacent routes can you name?<select name="routes"><option value="0">None yet</option><option value="1">One</option><option value="2">Two or three</option><option value="3">Four or more</option></select></label>
+    <label>How portable are the skills?<select name="skills"><option value="0">Mostly specific to one route</option><option value="1">Some transfer to nearby roles</option><option value="2">Transfer across several settings</option><option value="3">Broadly useful and demonstrable</option></select></label>
+    <label>How reversible is the time or money commitment?<select name="reversible"><option value="0">Hard to reverse</option><option value="1">Some cost or time is recoverable</option><option value="2">Moderately reversible</option><option value="3">Low-cost or staged</option></select></label>
+    <label>Can you test the daily work before committing?<select name="testable"><option value="0">Not realistically</option><option value="1">Only through research</option><option value="2">Through a small project</option><option value="3">Through supervised or real practice</option></select></label>
+    <label>Are formal requirements clear?<select name="eligibility"><option value="0">Unclear</option><option value="1">Partly clear</option><option value="2">Mostly clear</option><option value="3">Checked against an official source</option></select></label>
+    <div class="coc-actions"><button class="coc-primary" type="submit">Create optionality brief</button><button type="button" data-coc="clear">Clear</button></div>
+    <p id="coc-status" class="coc-status" role="status" aria-live="polite"></p>
+  </form>
+  <div id="coc-result" class="coc-result" hidden></div>
+</section>
+<script>
+  const cocForm = document.querySelector<HTMLFormElement>('#coc-form');
+  const cocResult = document.querySelector<HTMLDivElement>('#coc-result');
+  const cocStatus = document.querySelector<HTMLParagraphElement>('#coc-status');
+  const cocClear = document.querySelector<HTMLButtonElement>('[data-coc="clear"]');
+  if (!cocForm || !cocResult || !cocStatus || !cocClear) throw new Error('Career optionality calculator markup is incomplete.');
+  const cocEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
+  const cocRead = () => Object.fromEntries([...cocForm.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input,select')].map((field) => [field.name, field.value]));
+  cocForm.addEventListener('submit', (event) => {
+    event.preventDefault(); if (!cocForm.checkValidity()) { cocForm.reportValidity(); return; }
+    const data = cocRead(); const values = ['routes','skills','reversible','testable','eligibility'].map((key) => Number(data[key]) || 0); const score = values.reduce((sum, value) => sum + value, 0); const pct = Math.round((score / 15) * 100);
+    const band = pct >= 70 ? 'stronger optionality signals' : pct >= 40 ? 'mixed optionality signals' : 'limited optionality evidence';
+    const gaps = [['adjacent routes', data.routes], ['portable skills', data.skills], ['reversibility', data.reversible], ['a real-work test', data.testable], ['official requirement checks', data.eligibility]].filter(([, value]) => Number(value) < 2).map(([label]) => label);
+    cocResult.innerHTML = `<div class="coc-lead"><span>Editorial planning signal · ${cocEsc(data.path)}</span><h3>${cocEsc(band)} · ${pct}/100</h3><p>This number summarises only the five answers you gave. It is not a probability, ranking or prediction.</p></div><div class="coc-grid"><article><b>What the path preserves</b><p>${gaps.length ? `The strongest next step is to protect evidence around ${cocEsc(gaps[0])}.` : 'Your current answers show several ways to keep learning and changing direction.'}</p></article><article><b>Weakest evidence</b><p>${gaps.length ? cocEsc(gaps.join(', ')) : 'No single low-scored area was identified in this worksheet.'}</p></article></div><div class="coc-next"><h3>Make the next choice more reversible</h3><ul><li>Name two adjacent roles or courses and the skill that transfers to each.</li><li>Run one small project or supervised conversation before paying or quitting.</li><li>Check the current official eligibility, recognition and licensing requirements.</li><li>Set a review date and write what evidence would justify a larger commitment.</li></ul></div>`;
+    cocResult.hidden = false; cocStatus.textContent = 'Brief created from your answers; nothing was sent.';
+  });
+  cocClear.addEventListener('click', () => { cocForm.reset(); cocResult.hidden = true; cocStatus.textContent = 'Cleared.'; });
+</script>
+<style>
+  .coc{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.coc h2{margin:.2rem 0 .6rem}.coc>p{max-width:800px;line-height:1.65}.coc-note,.coc-status{color:rgba(255,255,255,.68);font-size:.88rem}.coc-form{display:grid;gap:1rem;margin-top:1.4rem}.coc-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.coc-form input,.coc-form select{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.coc-actions{display:flex;gap:.6rem;flex-wrap:wrap}.coc-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.coc-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.coc-result{margin-top:1.3rem}.coc-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.coc-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.coc-lead h3{margin:.4rem 0;font-size:1.5rem}.coc-lead p,.coc-grid p,.coc-next li{line-height:1.6;color:rgba(255,255,255,.75)}.coc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.coc-grid article,.coc-next{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.coc-next{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.coc-next h3{margin-top:0}@media(max-width:650px){.coc-grid{grid-template-columns:1fr}}
+</style>

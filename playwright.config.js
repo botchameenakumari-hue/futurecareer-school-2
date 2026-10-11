@@ -2,6 +2,7 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
+  globalSetup: './tests/playwright-global-setup.mjs',
   timeout: 120_000,
   expect: {
     timeout: 10_000,
@@ -12,11 +13,6 @@ export default defineConfig({
   use: {
     acceptDownloads: true,
     headless: true,
-  },
-  webServer: {
-    command: 'npm run preview -- --host 127.0.0.1',
-    port: 4321,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    baseURL: 'http://127.0.0.1:4321',
   },
 });

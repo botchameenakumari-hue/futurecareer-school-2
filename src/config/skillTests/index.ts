@@ -10,10 +10,12 @@ import { bundle as internshipReadinessSelfAssessment } from './internship-readin
 import { bundle as interviewReadinessSelfAssessment } from './interview-readiness-self-assessment';
 import { bundle as jobFitSelfAssessment } from './job-fit-self-assessment';
 import { bundle as leadershipSkillsSelfAssessment } from './leadership-skills-self-assessment';
+import { bundle as lifeSkillsSelfAssessment } from './life-skills-self-assessment';
 import { bundle as promotionReadinessAssessment } from './promotion-readiness-assessment';
 import { bundle as resilienceAndGrowthMindsetAssessment } from './resilience-and-growth-mindset-assessment';
 import { bundle as studyHabitsSelfAssessment } from './study-habits-self-assessment';
 import { bundle as timeManagementSelfAssessment } from './time-management-self-assessment';
+import { bundle as socialSkillsSelfAssessment } from './social-skills-self-assessment';
 
 export const SKILL_TEST_BUNDLES: SkillTestBundle[] = [
   burnoutSelfAssessment,
@@ -24,8 +26,10 @@ export const SKILL_TEST_BUNDLES: SkillTestBundle[] = [
   interviewReadinessSelfAssessment,
   jobFitSelfAssessment,
   leadershipSkillsSelfAssessment,
+  lifeSkillsSelfAssessment,
   promotionReadinessAssessment,
   resilienceAndGrowthMindsetAssessment,
   studyHabitsSelfAssessment,
   timeManagementSelfAssessment,
+  socialSkillsSelfAssessment,
 ];

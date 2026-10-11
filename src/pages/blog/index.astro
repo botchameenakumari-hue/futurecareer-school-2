@@ -2,9 +2,15 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import LinkDirectorySection from '../../components/LinkDirectorySection.astro';
 import { BLOG_CATEGORIES, BLOG_PUBLISHED_POSTS } from '../../config/blog';
 
 const hasPublishedPosts = BLOG_PUBLISHED_POSTS.length > 0;
+const underlinkedBlogPosts = [
+  { href: '/blog/career-change/career-switch-tips-for-it-professionals-india/', title: 'Career switch tips for IT professionals in India', description: 'A practical check of notice periods, counter-offers, and the kind of switch you are actually making.', note: 'Career change' },
+  { href: '/blog/parents/how-much-to-spend-on-child-education-india/', title: 'How much to spend on child education in India', description: 'A decision framework for protecting the wider household budget while comparing education choices.', note: 'Parents' },
+  { href: '/blog/study-abroad/study-abroad-benefits-india/', title: 'Study abroad benefits in India: what to verify', description: 'A grounded comparison of benefits, costs, opportunity cost, and the evidence worth checking before applying.', note: 'Study abroad' },
+];
 
 const categoryTitlesBySlug = new Map(BLOG_CATEGORIES.map((category) => [category.slug, category.title]));
 
@@ -218,28 +224,35 @@ const jsonLd = [
     </div>
   </section>
 
+  <LinkDirectorySection
+    sectionId="editorial-picks"
+    title="Practical guides worth opening next"
+    subtitle="A few decision-focused articles for questions that usually need more than a headline answer."
+    items={underlinkedBlogPosts}
+  />
+
   <Footer />
 </BaseLayout>
 
 <script>
-  const blogBrowser = document.querySelector('[data-blog-browser]');
+  const blogBrowser = document.querySelector<HTMLElement>('[data-blog-browser]');
 
   if (blogBrowser) {
-    const grid = blogBrowser.querySelector('#post-grid');
-    const cards = Array.from(blogBrowser.querySelectorAll('[data-post-card]'));
-    const searchInput = blogBrowser.querySelector('#blog-search');
-    const categorySelect = blogBrowser.querySelector('#blog-category');
-    const sortSelect = blogBrowser.querySelector('#blog-sort');
-    const quickButtons = Array.from(blogBrowser.querySelectorAll('[data-quick-filter]'));
-    const pageSizeSelect = blogBrowser.querySelector('#blog-page-size');
-    const resetButton = blogBrowser.querySelector('#blog-reset');
-    const status = blogBrowser.querySelector('#browse-status');
-    const resultsTop = blogBrowser.querySelector('.browse-status-row');
-    const emptyState = blogBrowser.querySelector('#blog-empty');
-    const pagination = blogBrowser.querySelector('#blog-pagination');
-    const prevButton = blogBrowser.querySelector('#blog-prev');
-    const nextButton = blogBrowser.querySelector('#blog-next');
-    const pageStatus = blogBrowser.querySelector('#blog-page-status');
+    const grid = blogBrowser.querySelector<HTMLElement>('#post-grid')!;
+    const cards = Array.from(blogBrowser.querySelectorAll<HTMLElement>('[data-post-card]'));
+    const searchInput = blogBrowser.querySelector<HTMLInputElement>('#blog-search')!;
+    const categorySelect = blogBrowser.querySelector<HTMLSelectElement>('#blog-category')!;
+    const sortSelect = blogBrowser.querySelector<HTMLSelectElement>('#blog-sort')!;
+    const quickButtons = Array.from(blogBrowser.querySelectorAll<HTMLButtonElement>('[data-quick-filter]'));
+    const pageSizeSelect = blogBrowser.querySelector<HTMLSelectElement>('#blog-page-size')!;
+    const resetButton = blogBrowser.querySelector<HTMLButtonElement>('#blog-reset')!;
+    const status = blogBrowser.querySelector<HTMLElement>('#browse-status')!;
+    const resultsTop = blogBrowser.querySelector<HTMLElement>('.browse-status-row');
+    const emptyState = blogBrowser.querySelector<HTMLElement>('#blog-empty')!;
+    const pagination = blogBrowser.querySelector<HTMLElement>('#blog-pagination')!;
+    const prevButton = blogBrowser.querySelector<HTMLButtonElement>('#blog-prev')!;
+    const nextButton = blogBrowser.querySelector<HTMLButtonElement>('#blog-next')!;
+    const pageStatus = blogBrowser.querySelector<HTMLElement>('#blog-page-status')!;
     let currentPage = 1;
 
     const normalize = (value) => (value || '').toString().toLowerCase().trim();
@@ -258,8 +271,8 @@ const jsonLd = [
           return categoryMatches && searchMatches;
         })
         .sort((a, b) => {
-          if (sort === 'oldest') return a.dataset.date.localeCompare(b.dataset.date);
-          return b.dataset.date.localeCompare(a.dataset.date);
+          if (sort === 'oldest') return (a.dataset.date || '').localeCompare(b.dataset.date || '');
+          return (b.dataset.date || '').localeCompare(a.dataset.date || '');
         });
     };
 

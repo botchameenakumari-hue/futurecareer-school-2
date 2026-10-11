@@ -1,4 +1,5 @@
 import html2canvas from 'html2canvas';
+import { extrasSections, type ExtraSection } from './extrasSections';
 
 type JsPdfConstructor = typeof import('jspdf').jsPDF;
 
@@ -19,6 +20,23 @@ interface RenderedBlock {
   preferredBreakpoints: number[];
   text: string;
   title: string;
+}
+
+function extraSectionBlock(section: ExtraSection) {
+  const block = document.createElement('section');
+  block.className = 'res-section';
+  block.dataset.pdfTitle = section.title;
+  const heading = document.createElement('h2');
+  heading.textContent = section.title;
+  block.append(heading);
+  const list = document.createElement('ul');
+  section.lines.forEach((line) => {
+    const item = document.createElement('li');
+    item.textContent = line.text;
+    list.append(item);
+  });
+  block.append(list);
+  return block;
 }
 
 const COLOR = {
@@ -339,13 +357,16 @@ function drawCover(
     ['100%', 'PERSONALISED'],
   ].forEach(([value, label], index) => {
     const x = 20 + index * 58;
-    pdf.setFillColor(...(index === 0 ? COLOR.gold : COLOR.navyCard));
+    const fillColor: [number, number, number] = index === 0 ? [COLOR.gold[0], COLOR.gold[1], COLOR.gold[2]] : [COLOR.navyCard[0], COLOR.navyCard[1], COLOR.navyCard[2]];
+    const valueColor: [number, number, number] = index === 0 ? [COLOR.navy[0], COLOR.navy[1], COLOR.navy[2]] : [COLOR.white[0], COLOR.white[1], COLOR.white[2]];
+    const labelColor: [number, number, number] = index === 0 ? [COLOR.navy[0], COLOR.navy[1], COLOR.navy[2]] : [COLOR.muted[0], COLOR.muted[1], COLOR.muted[2]];
+    pdf.setFillColor(...fillColor);
     pdf.roundedRect(x, statY, statWidth, 25, 4, 4, 'F');
-    pdf.setTextColor(...(index === 0 ? COLOR.navy : COLOR.white));
+    pdf.setTextColor(...valueColor);
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(13);
     pdf.text(value, x + statWidth / 2, statY + 10.5, { align: 'center' });
-    pdf.setTextColor(...(index === 0 ? COLOR.navy : COLOR.muted));
+    pdf.setTextColor(...labelColor);
     pdf.setFontSize(6.3);
     pdf.text(label, x + statWidth / 2, statY + 18.2, { align: 'center' });
   });
@@ -450,7 +471,17 @@ export async function createWorkingProfessionalAssessmentPdf(
     executiveSummary.cloneNode(true) as HTMLElement,
     'Your Primary Profile'
   );
-  drawCover(pdf, summary, options, sourceSections.length);
+  const frontSections = extrasSections(container, 'front');
+  const backSections = extrasSections(container, 'back');
+  const totalSections = sourceSections.length + frontSections.length + backSections.length;
+  drawCover(pdf, summary, options, totalSections);
+
+  let sectionIndex = 0;
+  for (const section of frontSections) {
+    sectionIndex += 1;
+    const rendered = await renderBlock(extraSectionBlock(section), section.title);
+    addRenderedBlock(pdf, rendered, sectionIndex, totalSections);
+  }
 
   for (let index = 0; index < sourceSections.length; index += 1) {
     const sourceSection = sourceSections[index];
@@ -459,7 +490,14 @@ export async function createWorkingProfessionalAssessmentPdf(
         ?.textContent || `Result Module ${index + 1}`
     );
     const rendered = await renderBlock(cloneIsolatedSection(sourceSection), title);
-    addRenderedBlock(pdf, rendered, index + 1, sourceSections.length);
+    sectionIndex += 1;
+    addRenderedBlock(pdf, rendered, sectionIndex, totalSections);
+  }
+
+  for (const section of backSections) {
+    sectionIndex += 1;
+    const rendered = await renderBlock(extraSectionBlock(section), section.title);
+    addRenderedBlock(pdf, rendered, sectionIndex, totalSections);
   }
 
   drawClosingPage(
@@ -468,5 +506,5 @@ export async function createWorkingProfessionalAssessmentPdf(
     container.querySelector<HTMLElement>('.res-guidance') || undefined
   );
   addFinalPageFurniture(pdf, options);
-  return { pdf, sectionCount: sourceSections.length };
+  return { pdf, sectionCount: totalSections };
 }
