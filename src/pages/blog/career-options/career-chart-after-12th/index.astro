@@ -1,10 +1,12 @@
 ---
 import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+import { SCALE, SCALE_RULE, SCALE_FLAGGED } from '../../../../config/scalability.mjs';
 import pdfMeta from '../../../../config/careerChart12PdfMeta.json';
 import {
   PDF12_FILES,
   boardColumns,
   chartRows,
+  CHART12_META,
   scienceCards,
   commerceCards,
   artsCards,
@@ -16,8 +18,6 @@ import {
   resultPlans,
 } from '../../../../config/careerChartAfter12th.mjs';
 import ChartFilter12 from '../../../../components/ChartFilter12.astro';
-import CourseEligibilityFinder from '../../../../components/CourseEligibilityFinder.astro';
-import ParentStudentAgreement from '../../../../components/ParentStudentAgreement.astro';
 
 const title = 'Career Chart After 12th: Every Route, Its Cost and Its Real Odds';
 const description =
@@ -35,7 +35,6 @@ const jumpLinks = [
   { id: 'board', label: 'The chart at a glance' },
   { id: 'download', label: 'Download the chart as PDF' },
   { id: 'route-filter', label: 'Filter the chart for your situation' },
-  { id: 'course-eligibility-finder', label: 'Course eligibility and entrance finder' },
   { id: 'full-chart', label: 'The full chart, row by row' },
   { id: 'science', label: 'Career chart after 12th science' },
   { id: 'commerce', label: 'Career chart after 12th commerce' },
@@ -64,7 +63,7 @@ const quickStartCards = [
     label: 'Marks are strong',
     title: 'You can compete for a seat that is scarce',
     body:
-      'JEE, NEET, CLAT and NDA seats are few compared with applicants. Chase them with a written second route, not with hope alone.',
+      'JEE, NEET, CLAT and NDA seats are few compared with applicants, and success depends on beating rivals at stage after stage. The chart rates these routes Not so scalable. Chase them only with a written second route and a skill that can grow on its own.',
   },
   {
     label: 'Marks are average',
@@ -186,7 +185,7 @@ const testSteps = [
   {
     title: 'Pick three rows from the chart',
     body:
-      'Do not compare every route at once. Choose one you are drawn to, one your family suggests and one safe route that pays sooner.',
+      'Do not compare every route. Choose one you are drawn to, one your family suggests and one safe route that pays sooner.',
   },
   {
     title: 'Write the real entry gate and date for each',
@@ -346,7 +345,7 @@ const faqJsonLd = {
   <h2 id="board">The career chart after 12th at a glance</h2>
 
   <p>
-    Start here to see which doors your subjects unlock.
+    Start here to see which doors your subjects unlock. The words in brackets are our scalability rating for each route; the rule is explained above the full chart.
   </p>
 
   <div class="stream-board">
@@ -389,14 +388,6 @@ const faqJsonLd = {
 
   <ChartFilter12 />
 
-  <CourseEligibilityFinder />
-
-  <ParentStudentAgreement />
-
-  <p class="note-line">
-    Want to prepare the conversation before comparing routes? Use the <a href="/tools/student-parent-career-intake/">student–parent career guidance intake</a> to record the student’s question, the family concern and one evidence-led next step.
-  </p>
-
   <h2 id="full-chart">The full chart, row by row</h2>
 
   <figure class="article-visual">
@@ -405,10 +396,21 @@ const faqJsonLd = {
   </figure>
 
   <p>
-    Rows start with technology and business routes, where skill and ownership leave the most headroom, then move to licensed professions and service or teaching routes with more fixed pay bands. The skill-first row sits last because it combines with any other row. The order is a judgement about headroom, not about prestige or exam difficulty.
+    Rows are ordered by scalability: routes where steady learning can grow into consulting or a business come first, then routes that need a business layer, then routes where growth depends on beating rivals at many stages. Nothing is hidden. Well-known routes such as MBBS, NDA and government exams stay in the chart so you can see the risk each one carries. The skill-first row combines with any other row.
   </p>
 
-  <div class="table-wrap">
+  <div class="highlight-box highlight-box--teal">
+    <p><strong>How we rate scalability</strong></p>
+    <p>{SCALE_RULE}</p>
+    <p>{SCALE_FLAGGED}</p>
+    <ul>
+      <li><strong>{SCALE.high.label}:</strong> skills, proof of work and a small business sense can grow income and reach on their own.</li>
+      <li><strong>{SCALE.mid.label}:</strong> the work is respected, but income grows mainly when you add consulting, a studio, a practice or a product.</li>
+      <li><strong>{SCALE.low.label}:</strong> crowded or ladder-style routes, or long routes where few people reach the top. Read the risk before you commit.</li>
+    </ul>
+  </div>
+
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Career chart after 12th, scrollable table">
     <table class="paths-table">
       <thead>
         <tr>
@@ -416,8 +418,9 @@ const faqJsonLd = {
           <th>Who can apply</th>
           <th>Entry gate</th>
           <th>Length</th>
-          <th>First-year money signal</th>
+          <th>First-year money signal (indicative)</th>
           <th>The catch</th>
+          <th>Scalability and how to grow</th>
         </tr>
       </thead>
       <tbody>
@@ -427,13 +430,16 @@ const faqJsonLd = {
             <td data-label="Who can apply">{item.who}</td>
             <td data-label="Entry gate">{item.gate}</td>
             <td data-label="Length">{item.length}</td>
-            <td data-label="First-year money signal">{item.money}</td>
+            <td data-label="First-year money signal (indicative)">{item.money}</td>
             <td data-label="The catch">{item.catch}</td>
+            <td data-label="Scalability and how to grow"><strong>{SCALE[item.scale].label}.</strong> {item.why} <em>To grow: {item.grow}</em></td>
           </tr>
         ))}
       </tbody>
     </table>
   </div>
+
+  <p class="note-line">{CHART12_META.payCaution}</p>
 
   <p class="note-line">
     Pay figures are PayScale India (2026) averages of entry-level total pay (under one year of experience) for one job title per row: <a href="https://www.payscale.com/research/IN/Job=Software_Engineer/Salary" target="_blank" rel="noopener noreferrer">Software Engineer</a>, <a href="https://www.payscale.com/research/IN/Job=Data_Analyst/Salary" target="_blank" rel="noopener noreferrer">Data Analyst</a>, <a href="https://www.payscale.com/research/IN/Job=Digital_Marketing_Manager/Salary" target="_blank" rel="noopener noreferrer">Digital Marketing Manager</a>, <a href="https://www.payscale.com/research/IN/Job=Accountant/Salary" target="_blank" rel="noopener noreferrer">Accountant</a>, <a href="https://www.payscale.com/research/IN/Job=Registered_Nurse_(RN)/Salary" target="_blank" rel="noopener noreferrer">Registered Nurse</a>, <a href="https://www.payscale.com/research/IN/Job=Pharmacist/Salary" target="_blank" rel="noopener noreferrer">Pharmacist</a>, <a href="https://www.payscale.com/research/IN/Job=Graphic_Designer/Salary" target="_blank" rel="noopener noreferrer">Graphic Designer</a> and <a href="https://www.payscale.com/research/IN/Job=Mechanical_Engineer/Salary" target="_blank" rel="noopener noreferrer">Mechanical Engineer</a>. The entry-level group is small (414 profiles for software engineers), self-reported and not tied to any one college, so treat each number as a starting signal, not a promise.
@@ -765,7 +771,7 @@ const faqJsonLd = {
   </div>
 
   <div class="highlight-box highlight-box--teal">
-    <p>Some rows scale beyond a salary. A CA or law practice, a design studio, a coaching or online teaching business, and a small clinic or lab-services business are owned paths.</p>
+    <p>Some rows scale beyond a salary: a design studio, a software or automation agency, a coaching or online teaching business, an advisory practice, and a small agri-business or health-service business are owned paths. Read the Scalability column in the chart for each row.</p>
     <p>They scale because you set the price and can add people or reach beyond your own hours, but each takes years of proof and client trust, so treat them as a later step.</p>
   </div>
 

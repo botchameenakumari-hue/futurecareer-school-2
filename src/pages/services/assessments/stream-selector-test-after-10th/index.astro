@@ -112,6 +112,10 @@ const jsonLd = [
     })),
   },
 ];
+import { CAREER_SCALE_RULES, SCALE, SCALE_RULE } from '../../../../config/scalability.mjs';
+const scaleRules = CAREER_SCALE_RULES;
+const scaleLabels = { high: SCALE.high.label, mid: SCALE.mid.label, low: SCALE.low.label };
+const scaleRule = SCALE_RULE;
 ---
 
 <BaseLayout
@@ -393,7 +397,8 @@ const jsonLd = [
   }
 </style>
 
-<script is:inline define:vars={{ guidanceResultsHref, guidanceResultsLabel }}>
+<script is:inline define:vars={{ guidanceResultsHref, guidanceResultsLabel, scaleRules, scaleLabels, scaleRule }}>
+function scaleTag(c) { for (var i = 0; i < scaleRules.length; i++) { if (new RegExp(scaleRules[i][0], 'i').test(c)) return ' <em class="fcs-scale fcs-scale--' + scaleRules[i][1] + '">(' + scaleLabels[scaleRules[i][1]] + ')</em>'; } return ' <em class="fcs-scale fcs-scale--mid">(' + scaleLabels.mid + ')</em>'; }
 /* ── Stream Selector Test After 10th ── */
 var QUESTIONS = [
   { q: "Which subject do you like the most in school?", opts: [
@@ -505,7 +510,7 @@ var RESULTS = {
     careers: ['Engineer — computer, mechanical, civil, electrical, and more', 'Software developer or app coder', 'Architect', 'Data analyst or AI specialist', 'Pilot, merchant navy, or defence roles', 'Robotics or AI/ML engineer', 'Actuary or quantitative analyst'],
     exams: 'PCM opens the way to big exams like JEE (engineering), NDA (defence), NATA (architecture), and many B.Sc and technology courses through CUET.',
     nextSteps: ['Keep your Maths strong — practise a little every day', 'Try a free online coding lesson to see if you enjoy it', 'Ask one engineer or architect what their daily work is like', 'Look at things around you and ask how they were built'],
-    watchOut: 'PCM has a lot of Maths. Choose it only if you are ready to enjoy and practise Maths often. If you like Science but not heavy Maths, look at PCB.',
+    watchOut: 'PCM has a lot of Maths. Choose it only if you are ready to enjoy and practise Maths often. If you like Science but not heavy Maths, look at PCB. Scalability: computing and data routes are rated Scalable; engineering degrees alone and defence roles are not, so add skills and proof of work.',
   },
   pcb: {
     title: 'Science with Biology (PCB)',
@@ -516,7 +521,7 @@ var RESULTS = {
     careers: ['Doctor (MBBS)', 'Dentist (BDS)', 'Pharmacist or physiotherapist', 'Nurse or paramedic', 'Biotechnology and life-science researcher', 'Veterinary doctor', 'Nutritionist or dietician'],
     exams: 'PCB leads to NEET — the main exam for medical and dental seats — and many nursing, pharmacy, and B.Sc courses through CUET.',
     nextSteps: ['Build a strong daily reading habit for Biology', 'Watch simple videos about the human body and health', 'Spend a day with a doctor, nurse, or lab worker if you can', 'Practise writing clear answers — it helps in medical exams'],
-    watchOut: 'Medical paths can be long and need steady effort for years. Choose PCB if you truly enjoy Biology and helping people.',
+    watchOut: 'Medical paths can be long and need steady effort for years. Choose PCB if you truly enjoy Biology and helping people. Scalability: medicine and dentistry are rated Not so scalable, because competition runs at several levels and few reach the top after many years. Biotech, health-tech, nutrition and data scale better.',
   },
   com: {
     title: 'Commerce',
@@ -527,7 +532,7 @@ var RESULTS = {
     careers: ['Chartered Accountant (CA)', 'Banker or financial analyst', 'Business owner or entrepreneur', 'Marketing or sales manager', 'Company Secretary (CS) or cost accountant', 'Investment banker', 'Digital marketing specialist'],
     exams: 'Commerce leads to courses like B.Com, BBA, and professional paths such as CA, CS, and CMA. Many top colleges admit students through CUET.',
     nextSteps: ['Start tracking your own pocket money like a small budget', 'Read simple business news for 10 minutes a day', 'Learn the basics of how a shop earns and spends', 'Talk to a shop owner or accountant about their work'],
-    watchOut: 'Taking Maths with Commerce keeps more doors open, like Economics and finance. Think about adding it if you are okay with Maths.',
+    watchOut: 'Taking Maths with Commerce keeps more doors open, like Economics and finance. Think about adding it if you are okay with Maths. Scalability: accounting and finance are rated Scalable with a business layer, such as an advisory practice; general management and banking degrees are crowded.',
   },
   arts: {
     title: 'Arts / Humanities',
@@ -538,7 +543,7 @@ var RESULTS = {
     careers: ['Lawyer', 'Teacher or professor', 'Journalist, writer, or content creator', 'Designer, artist, or media professional', 'Civil servant (IAS, IPS) and other government roles', 'Psychologist or counsellor', 'Social worker or NGO professional'],
     exams: 'Arts leads to courses like B.A., B.Des, and Law through CLAT. Civil services and many government jobs are open to Arts students too.',
     nextSteps: ['Read books and articles on topics you enjoy', 'Write a little every day — a diary, story, or opinion', 'Notice news and social issues and form your own view', 'Explore a creative skill like drawing, debate, or design'],
-    watchOut: 'Some people think Arts has fewer careers — this is not true. Arts has strong paths like Law, Design, and Civil Services. Pick subjects you truly enjoy.',
+    watchOut: 'Some people think Arts has fewer careers — this is not true. Arts has strong paths like Law, Design, and Civil Services. Pick subjects you truly enjoy. Scalability: design and content are rated Scalable when you own a portfolio or an audience; law and civil services are crowded ladders and are rated Not so scalable.',
   },
 };
 
@@ -649,8 +654,8 @@ function showResults() {
   html += '<div class="res-section"><h4>Subjects in this stream</h4><p>' + r.subjects + '</p></div>';
 
   html += '<div class="res-section"><h4>Jobs this stream can lead to</h4><ul>';
-  r.careers.forEach(function (c) { html += '<li>' + c + '</li>'; });
-  html += '</ul></div>';
+  r.careers.forEach(function (c) { html += '<li>' + c + scaleTag(c) + '</li>'; });
+  html += '</ul><p class="fcs-scale-rule">' + scaleRule + '</p></div>';
 
   html += '<div class="res-section"><h4>Exams and paths this opens</h4><p>' + r.exams + '</p></div>';
 

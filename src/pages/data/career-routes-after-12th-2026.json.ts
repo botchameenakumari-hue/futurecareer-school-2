@@ -34,7 +34,7 @@ const records = chartRows.map((row, index) => {
     aiExposure: AI3[filter.ai],
     workFromHome: WFH3[filter.wfh],
     planningNotes: filter.notes,
-    officialStartingPoints: filter.sources,
+    officialStartingPoints: filter.sources ?? [],
   };
 });
 

@@ -6,6 +6,7 @@ import {
 } from '../../../../config/careerChartAfter10th.mjs';
 import pdfMeta from '../../../../config/careerChartPdfMeta.json';
 import { DOOR_COLS, DOORS } from '../../../../config/streamDoors';
+import { SCALE, SCALE_RULE, SCALE_FLAGGED, ROUTE_SCALE } from '../../../../config/scalability.mjs';
 import RouteFinder10 from '../../../../components/RouteFinder10.astro';
 
 const title = 'Career Chart After 10th: Every Route Mapped, With Free PDFs';
@@ -267,13 +268,20 @@ const downloadJsonLd = {
     This is the part of a career guidance chart after 10th that families check last and should check first. Read across a row to see which choices keep a later door open.
   </p>
 
-  <div class="table-wrap">
+  <div class="highlight-box highlight-box--teal">
+    <p><strong>How we rate scalability</strong></p>
+    <p>{SCALE_RULE}</p>
+    <p>{SCALE_FLAGGED}</p>
+  </div>
+
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Which Class 11 choice keeps which door open, scrollable table">
     <table class="paths-table doors-table">
       <thead>
         <tr>
           <th>Later door</th>
           {doorCols.map((c) => <th class="center">{c}</th>)}
           <th>Why</th>
+          <th>Scalability</th>
         </tr>
       </thead>
       <tbody>
@@ -284,6 +292,7 @@ const downloadJsonLd = {
               <td class={`center door door--${c}`} data-label={doorCols[i]}>{sym(c)}</td>
             ))}
             <td data-label="Why">{d.note}</td>
+            <td data-label="Scalability"><strong>{SCALE[d.scale].label}.</strong> {d.why}</td>
           </tr>
         ))}
       </tbody>
@@ -322,6 +331,7 @@ const downloadJsonLd = {
           <p class="route-detail__lbl">Entry</p><p>{r.gate}</p>
           <p class="route-detail__lbl">Best for</p><p>{r.bestFor}</p>
           <p class="route-detail__lbl">Watch out</p><p>{r.watchOut}</p>
+          <p class="route-detail__lbl">Scalability</p><p><strong>{SCALE[ROUTE_SCALE[r.id].scale].label}.</strong> {ROUTE_SCALE[r.id].note} To grow: {ROUTE_SCALE[r.id].grow}</p>
         </div>
         <div>
           <p class="route-detail__lbl">What it keeps open</p>
@@ -355,6 +365,7 @@ const downloadJsonLd = {
           <p class="route-detail__lbl">Entry</p><p>{r.gate}</p>
           <p class="route-detail__lbl">Best for</p><p>{r.bestFor}</p>
           <p class="route-detail__lbl">Watch out</p><p>{r.watchOut}</p>
+          <p class="route-detail__lbl">Scalability</p><p><strong>{SCALE[ROUTE_SCALE[r.id].scale].label}.</strong> {ROUTE_SCALE[r.id].note} To grow: {ROUTE_SCALE[r.id].grow}</p>
         </div>
         <div>
           <p class="route-detail__lbl">What it keeps open</p>
@@ -384,6 +395,7 @@ const downloadJsonLd = {
           <p class="route-detail__lbl">Entry</p><p>{r.gate}</p>
           <p class="route-detail__lbl">Best for</p><p>{r.bestFor}</p>
           <p class="route-detail__lbl">Watch out</p><p>{r.watchOut}</p>
+          <p class="route-detail__lbl">Scalability</p><p><strong>{SCALE[ROUTE_SCALE[r.id].scale].label}.</strong> {ROUTE_SCALE[r.id].note} To grow: {ROUTE_SCALE[r.id].grow}</p>
         </div>
         <div>
           <p class="route-detail__lbl">What it keeps open</p>
@@ -413,6 +425,7 @@ const downloadJsonLd = {
           <p class="route-detail__lbl">Entry</p><p>{r.gate}</p>
           <p class="route-detail__lbl">Best for</p><p>{r.bestFor}</p>
           <p class="route-detail__lbl">Watch out</p><p>{r.watchOut}</p>
+          <p class="route-detail__lbl">Scalability</p><p><strong>{SCALE[ROUTE_SCALE[r.id].scale].label}.</strong> {ROUTE_SCALE[r.id].note} To grow: {ROUTE_SCALE[r.id].grow}</p>
         </div>
         <div>
           <p class="route-detail__lbl">What it keeps open</p>

@@ -103,6 +103,10 @@ const jsonLd = [
     })),
   },
 ];
+import { CAREER_SCALE_RULES, SCALE, SCALE_RULE } from '../../../../config/scalability.mjs';
+const scaleRules = CAREER_SCALE_RULES;
+const scaleLabels = { high: SCALE.high.label, mid: SCALE.mid.label, low: SCALE.low.label };
+const scaleRule = SCALE_RULE;
 ---
 
 <BaseLayout
@@ -377,7 +381,8 @@ const jsonLd = [
   }
 </style>
 
-<script is:inline define:vars={{ guidanceResultsHref, guidanceResultsLabel }}>
+<script is:inline define:vars={{ guidanceResultsHref, guidanceResultsLabel, scaleRules, scaleLabels, scaleRule }}>
+function scaleTag(c) { for (var i = 0; i < scaleRules.length; i++) { if (new RegExp(scaleRules[i][0], 'i').test(c)) return ' <em class="fcs-scale fcs-scale--' + scaleRules[i][1] + '">(' + scaleLabels[scaleRules[i][1]] + ')</em>'; } return ' <em class="fcs-scale fcs-scale--mid">(' + scaleLabels.mid + ')</em>'; }
 /* ── Stream Selector Test After 12th ── */
 var QUESTIONS = [
   { q: "Which work would you enjoy the most?", opts: [
@@ -521,7 +526,7 @@ var RESULTS = {
     exams: 'Main exams: JEE Main and JEE Advanced (for top engineering colleges), state engineering exams, BITSAT, and CUET for some B.Sc and BCA courses.',
     careers: ['Software developer or app engineer', 'Mechanical, civil, or electrical engineer', 'Data scientist or AI specialist', 'Robotics or hardware engineer', 'Product or UX designer', 'Cloud or DevOps engineer', 'Aerospace or automotive engineer'],
     skills: 'Start now: basic coding (Python is a good first language), strong Maths, and regular problem-solving practice.',
-    scope: 'Technology is one of the fastest-growing fields in India and the world, with strong demand and good pay for skilled people.',
+    scope: 'Technology is one of the fastest-growing fields in India and the world, with strong demand and good pay for skilled people. Computer and data roles are rated Scalable; engineering degrees alone need a business layer, so add skills and build proof.',
   },
   med: {
     title: 'Medical & Healthcare',
@@ -532,7 +537,7 @@ var RESULTS = {
     exams: 'Main exam: NEET — needed for MBBS, BDS, and most medical seats. Some nursing and allied-health courses use CUET or state exams.',
     careers: ['Doctor', 'Dentist or pharmacist', 'Physiotherapist', 'Nurse or paramedic', 'Medical lab or healthcare technology professional', 'Veterinary doctor', 'Public health professional'],
     skills: 'Start now: strong Biology, steady daily study habits, and good communication for talking with patients.',
-    scope: 'Healthcare always needs trained people. Beyond doctors, fields like physiotherapy, nursing, and pharmacy have growing demand.',
+    scope: 'Healthcare always needs trained people. Beyond doctors, fields like physiotherapy, nursing, and pharmacy have growing demand. Medicine and dentistry are rated Not so scalable: competition runs at several levels (entrance, postgraduate seats, practice) and few reach the top after many years. Health-tech, nutrition and clinic management scale better.',
   },
   biz: {
     title: 'Business & Commerce',
@@ -543,7 +548,7 @@ var RESULTS = {
     exams: 'Entry routes: CUET for top colleges, IPMAT for integrated management courses, and CA, CS, and CMA foundation exams for professional paths.',
     careers: ['Chartered Accountant (CA)', 'Business manager or entrepreneur', 'Banker or investment analyst', 'Marketing or sales leader', 'Company Secretary or financial planner', 'Investment banker', 'Digital marketing specialist'],
     skills: 'Start now: basic accounting, simple data and spreadsheet skills, and the habit of reading business news.',
-    scope: 'Every company needs people who understand money and management, so commerce paths offer wide and stable choices.',
+    scope: 'Every company needs people who understand money and management, so commerce paths offer wide and stable choices. Accounting and finance are rated Scalable with a business layer, such as an advisory practice; banking and general management degrees are crowded.',
   },
   create: {
     title: 'Creative & Design',
@@ -554,7 +559,7 @@ var RESULTS = {
     exams: 'Main entrance exams: UCEED and NID DAT (for design), NIFT (for fashion), and CUET for some media and arts courses.',
     careers: ['Graphic, UX, or product designer', 'Animator or film-maker', 'Fashion designer', 'Content creator or writer', 'Advertising and branding professional', 'Game designer', 'Architect or interior designer'],
     skills: 'Start now: build a folder of your creative work, learn one design tool, and practise your craft often.',
-    scope: 'With digital media, design, and content growing fast, creative skills are in real demand — if you build a strong portfolio.',
+    scope: 'With digital media, design, and content growing fast, creative skills are in real demand — if you build a strong portfolio. Design and content are rated Scalable when you own a portfolio or an audience.',
   },
   human: {
     title: 'Humanities & Public Service',
@@ -565,7 +570,7 @@ var RESULTS = {
     exams: 'Main exams: CLAT (for law), CUET (for top B.A. courses), and later the UPSC exam for civil services.',
     careers: ['Lawyer or judge', 'Teacher or professor', 'Civil servant (IAS, IPS, and more)', 'Psychologist or counsellor', 'Journalist or social worker', 'Public policy analyst', 'Human resources professional'],
     skills: 'Start now: read widely, follow current affairs, and practise clear writing and speaking.',
-    scope: 'Law, civil services, education, and social work offer respected careers with real impact on the lives of others.',
+    scope: 'Law, civil services, education, and social work offer respected careers with real impact on the lives of others. These routes are crowded ladders with few winners, so we rate them Not so scalable. Teaching and counselling scale when you add online programmes or a practice.',
   },
   sci: {
     title: 'Pure Science & Research',
@@ -576,7 +581,7 @@ var RESULTS = {
     exams: 'Routes: CUET for university B.Sc seats, the IISER Aptitude Test and NEST for research institutes, and ISI and CMI exams for maths and statistics.',
     careers: ['Research scientist', 'Data analyst or statistician', 'University professor', 'Environmental, space, or climate scientist', 'Biotechnology professional', 'Actuary', 'Science communicator or science journalist'],
     skills: 'Start now: strong basics in your favourite science, the habit of asking why, and simple experiment or project work.',
-    scope: 'Research and science careers are growing in India, with new openings in data, biotech, climate, and space science.',
+    scope: 'Research and science careers are growing in India, with new openings in data, biotech, climate, and space science. Research takes many years and few reach stable senior posts, so it is rated Not so scalable; data, biotech and science communication can scale with a business layer.',
   },
 };
 
@@ -689,8 +694,8 @@ function showResults() {
   html += '<div class="res-section"><h4>Entrance exams to know about</h4><p>' + r.exams + '</p></div>';
 
   html += '<div class="res-section"><h4>Jobs this path can lead to</h4><ul>';
-  r.careers.forEach(function (c) { html += '<li>' + c + '</li>'; });
-  html += '</ul></div>';
+  r.careers.forEach(function (c) { html += '<li>' + c + scaleTag(c) + '</li>'; });
+  html += '</ul><p class="fcs-scale-rule">' + scaleRule + '</p></div>';
 
   html += '<div class="res-section"><h4>Skills to start building now</h4><p>' + r.skills + '</p></div>';
 

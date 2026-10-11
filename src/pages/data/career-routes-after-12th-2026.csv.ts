@@ -31,7 +31,7 @@ const rows = chartRows.map((row, index) => {
     filter.overseas,
     filter.ai,
     filter.wfh,
-    filter.sources.map((source) => source.url).join(' | '),
+    (filter.sources ?? []).map((source) => source.url).join(' | '),
     CHART12_META.lastChecked,
   ];
 });

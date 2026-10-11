@@ -1,5 +1,6 @@
 ---
 import { chartRows, CHART12_META } from '../config/careerChartAfter12th.mjs';
+import { SCALE, SCALE_RULE, SCALE_FLAGGED } from '../config/scalability.mjs';
 import { ROW_FILTERS, STREAMS, EXAM_LABELS, COST_BANDS, LEVEL3, AI3, WFH3, OVERSEAS3 } from '../config/chart12Filters';
 
 if (chartRows.length !== ROW_FILTERS.length) {
@@ -15,12 +16,15 @@ const data = {
   rows,
   streams: STREAMS,
   exams: EXAM_LABELS,
+  scale: SCALE,
+  scaleRule: SCALE_RULE,
+  scaleFlagged: SCALE_FLAGGED,
   cost: COST_BANDS,
   level3: LEVEL3,
   ai3: AI3,
   wfh3: WFH3,
   overseas3: OVERSEAS3,
-  meta: { pageUrl: CHART12_META.pageUrl, lastChecked: CHART12_META.lastChecked, disclaimer: CHART12_META.disclaimer },
+  meta: { payCaution: CHART12_META.payCaution, pageUrl: CHART12_META.pageUrl, lastChecked: CHART12_META.lastChecked, disclaimer: CHART12_META.disclaimer },
 };
 ---
 
@@ -40,7 +44,7 @@ const data = {
   const D = JSON.parse(document.getElementById('cf-data').textContent);
   const app = document.getElementById('cf-app');
   const KEY = 'fcs-chart12-filter-v1';
-  const blank = () => ({ stream: '', hasMaths: 'unknown', hasBio: 'unknown', subjects: '', maths: '', bio: '', exam: '', years: '', cost: '', portfolio: '', employment: '', freelance: '', government: '', overseas: '', ai: '', wfh: '', question: '', name: '' });
+  const blank = () => ({ stream: '', hasMaths: 'unknown', hasBio: 'unknown', subjects: '', maths: '', bio: '', exam: '', years: '', cost: '', portfolio: '', employment: '', freelance: '', scale: '', government: '', overseas: '', ai: '', wfh: '', question: '', name: '' });
   let F = blank();
   try { const raw = localStorage.getItem(KEY); if (raw) F = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(F)); } catch (e) {} };
@@ -63,6 +67,7 @@ const data = {
     years: (r) => (F.years && r.f.years && r.f.years[0] > Number(F.years) ? 'Takes longer than ' + F.years + ' years' : ''),
     cost: (r) => (F.cost !== '' && r.f.cost[0] > Number(F.cost) ? 'Cheapest seat is above your cost level (' + D.cost[r.f.cost[0]] + ')' : ''),
     portfolio: (r) => (F.portfolio && r.f.portfolio !== F.portfolio ? 'Portfolio is ' + NEEDS[r.f.portfolio].toLowerCase() : ''),
+    scale: (r) => (F.scale === 'high' && r.scale !== 'high' ? 'Rated: ' + D.scale[r.scale].label.toLowerCase() : F.scale === 'mid' && r.scale === 'low' ? 'Rated: not so scalable' : ''),
     employment: (r) => (F.employment !== '' && r.f.employment < Number(F.employment) ? 'Employment route is ' + D.level3[r.f.employment].toLowerCase() : ''),
     freelance: (r) => (F.freelance !== '' && r.f.freelance < Number(F.freelance) ? 'Freelance route is ' + D.level3[r.f.freelance].toLowerCase() : ''),
     government: (r) => (F.government !== '' && r.f.government < Number(F.government) ? 'Government-sector route is ' + D.level3[r.f.government].toLowerCase() : ''),
@@ -70,7 +75,7 @@ const data = {
     ai: (r) => (F.ai !== '' && r.f.ai > Number(F.ai) ? 'AI exposure is ' + D.ai3[r.f.ai].toLowerCase() : ''),
     wfh: (r) => (F.wfh !== '' && r.f.wfh < Number(F.wfh) ? 'Work from home potential: ' + D.wfh3[r.f.wfh].toLowerCase() : ''),
   };
-  const LABELS = { stream: 'Stream', hasMaths: 'Subjects: Maths studied', hasBio: 'Subjects: Biology studied', maths: 'Maths requirement', bio: 'Biology requirement', exam: 'Entrance exam', years: 'Course length', cost: 'Cost', portfolio: 'Portfolio requirement', employment: 'Employment route', freelance: 'Freelance route', government: 'Government-sector route', overseas: 'Overseas mobility', ai: 'AI exposure', wfh: 'Work from home' };
+  const LABELS = { stream: 'Stream', hasMaths: 'Subjects: Maths studied', hasBio: 'Subjects: Biology studied', maths: 'Maths requirement', bio: 'Biology requirement', exam: 'Entrance exam', years: 'Course length', cost: 'Cost', portfolio: 'Portfolio requirement', scale: 'Scalability', employment: 'Employment route', freelance: 'Freelance route', government: 'Government-sector route', overseas: 'Overseas mobility', ai: 'AI exposure', wfh: 'Work from home' };
   const DEFAULTS = { stream: '', hasMaths: 'unknown', hasBio: 'unknown' };
   const isActive = (k) => (k in DEFAULTS ? F[k] !== DEFAULTS[k] : F[k] !== '');
   const activeKeys = () => Object.keys(CHECKS).filter(isActive);
@@ -85,14 +90,6 @@ const data = {
     const have = subList();
     return '<fieldset class="cf-sub"><legend>Subjects I studied in Class 12 (optional)</legend>' + SUBJECTS.map((x) => '<label class="cf-chk"><input type="checkbox" data-sub="' + esc(x) + '"' + (have.includes(x) ? ' checked' : '') + '> ' + esc(x) + '</label>').join('') + '<p class="cf-hint">Choosing subjects hides routes that need Maths or Biology when you did not study them. Leave all unticked if you would rather not say.</p></fieldset>';
   }
-  const PRESETS = {
-    commerceNoMaths: { label: 'Commerce without Maths', stream: 'Commerce', subjects: ['Economics', 'Accountancy', 'Business Studies'], maths: 'no', bio: 'no' },
-    pcm: { label: 'PCM / MPC', stream: 'PCM', subjects: ['Physics', 'Chemistry', 'Maths'], maths: 'required', bio: 'no' },
-    pcb: { label: 'PCB / BiPC', stream: 'PCB', subjects: ['Physics', 'Chemistry', 'Biology'], maths: 'no', bio: 'required' },
-  };
-  function presetHtml() {
-    return '<div class="cf-presets" aria-label="Quick route-finder presets"><p><b>Start with a common subject combination:</b> these are filters, not admission decisions.</p>' + Object.entries(PRESETS).map(([key, preset]) => '<button type="button" class="cf-btn" data-preset="' + key + '">' + esc(preset.label) + '</button>').join('') + '</div>';
-  }
   function applySubjects() {
     const have = subList();
     F.subjects = have.join(',');
@@ -104,7 +101,6 @@ const data = {
       '<label class="cf-wide">What decision are you using this for? (optional)<input type="text" data-f="question" maxlength="140" value="' + esc(F.question) + '" placeholder="For example: which degree to apply for after 12th"></label>' +
       '<label class="cf-wide">Name (optional, for the report)<input type="text" data-f="name" maxlength="60" value="' + esc(F.name) + '"></label>' +
       subjectsHtml() +
-      presetHtml() +
       '<div class="cf-grid">' +
       field('Your Class 12 stream', 'stream', [any].concat(D.streams.map((s) => [s, s]))) +
       field('Maths requirement', 'maths', [any, ['required', 'Required'], ['helps', 'Helps'], ['no', 'Not needed']]) +
@@ -113,6 +109,7 @@ const data = {
       field('Course length', 'years', [any, ['3', 'Up to 3 years'], ['4', 'Up to 4 years'], ['5', 'Up to 5 years']]) +
       field('Approximate cost I can manage', 'cost', [any, ['0', 'Low'], ['1', 'Up to medium'], ['2', 'Up to high'], ['3', 'Up to very high']]) +
       field('Portfolio requirement', 'portfolio', [any, ['no', 'Not needed'], ['helps', 'Portfolio helps'], ['required', 'Portfolio required']]) +
+      field('Scalability (our rating)', 'scale', [any, ['mid', 'Scalable, or scalable with a business layer'], ['high', 'Scalable only']]) +
       field('Employment route', 'employment', [any, ['1', 'Possible or common'], ['2', 'Common']]) +
       field('Freelance route', 'freelance', [any, ['1', 'Possible or common'], ['2', 'Common']]) +
       field('Government-sector route', 'government', [any, ['1', 'Possible or common'], ['2', 'Common']]) +
@@ -130,17 +127,17 @@ const data = {
     h += shown.map(({ r }) => {
       const f = r.f; const elig = F.stream ? f.streams[F.stream] : '';
       return '<article class="cf-card"><h4>' + esc(r.route) + '</h4>' +
-        '<p class="cf-tags"><span>Maths: ' + NEEDS[f.maths] + '</span><span>Biology: ' + NEEDS[f.biology] + '</span><span>' + yrsText(f.years) + '</span><span>Cost: ' + (f.cost[0] === f.cost[1] ? D.cost[f.cost[0]] : D.cost[f.cost[0]] + ' to ' + D.cost[f.cost[1]]) + '</span><span>Portfolio: ' + NEEDS[f.portfolio] + '</span></p>' +
+        '<p class="cf-tags"><span>Maths: ' + NEEDS[f.maths] + '</span><span>Biology: ' + NEEDS[f.biology] + '</span><span>' + yrsText(f.years) + '</span><span>Cost: ' + (f.cost[0] === f.cost[1] ? D.cost[f.cost[0]] : D.cost[f.cost[0]] + ' to ' + D.cost[f.cost[1]]) + '</span><span>Portfolio: ' + NEEDS[f.portfolio] + '</span><span class="cf-sc cf-sc--' + r.scale + '">' + esc(D.scale[r.scale].label) + '</span></p>' +
         '<p><b>Who can apply:</b> ' + esc(r.who) + (elig === 'check' ? ' <i>(Check the subject rule at each college for your stream.)</i>' : '') + '</p>' +
-        '<p><b>Entry gate:</b> ' + esc(r.gate) + '</p><p><b>First-year money signal:</b> ' + esc(r.money) + '</p><p><b>The catch:</b> ' + esc(r.catch) + '</p>' +
-        '<details class="cf-more"><summary>Work routes, sources, AI and remote work</summary><ul class="cf-lev"><li><b>Employment:</b> ' + D.level3[f.employment] + '</li><li><b>Freelance:</b> ' + D.level3[f.freelance] + '</li><li><b>Government sector:</b> ' + D.level3[f.government] + '</li><li><b>Overseas mobility:</b> ' + D.overseas3[f.overseas] + '. ' + esc(f.notes.overseas) + '</li><li><b>AI exposure:</b> ' + D.ai3[f.ai] + '. ' + esc(f.notes.ai) + '</li><li><b>Work from home:</b> ' + D.wfh3[f.wfh] + '. ' + esc(f.notes.wfh) + '</li><li><b>Cost note:</b> ' + esc(f.notes.cost) + '</li></ul><p class="cf-sources"><b>Official starting points (checked ' + esc(D.meta.lastChecked) + '):</b> ' + f.sources.map((s) => '<a href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(s.label) + '</a>').join(' · ') + '. Read the current institute notice too.</p></details></article>';
+        '<p><b>Entry gate:</b> ' + esc(r.gate) + '</p><p><b>First-year money signal (indicative):</b> ' + esc(r.money) + '</p><p><b>The catch:</b> ' + esc(r.catch) + '</p><p><b>Why this scalability rating:</b> ' + esc(r.why) + '</p><p><b>How to grow beyond a job:</b> ' + esc(r.grow) + '</p>' +
+        '<details class="cf-more"><summary>Work routes, overseas, AI and remote work</summary><ul class="cf-lev"><li><b>Employment:</b> ' + D.level3[f.employment] + '</li><li><b>Freelance:</b> ' + D.level3[f.freelance] + '</li><li><b>Government sector:</b> ' + D.level3[f.government] + '</li><li><b>Overseas mobility:</b> ' + D.overseas3[f.overseas] + '. ' + esc(f.notes.overseas) + '</li><li><b>AI exposure:</b> ' + D.ai3[f.ai] + '. ' + esc(f.notes.ai) + '</li><li><b>Work from home:</b> ' + D.wfh3[f.wfh] + '. ' + esc(f.notes.wfh) + '</li><li><b>Cost note:</b> ' + esc(f.notes.cost) + '</li></ul></details></article>';
     }).join('');
     if (hidden.length) {
       h += '<h3>Routes hidden by your filters</h3><ul>' + hidden.map(({ r, f }) => '<li><b>' + esc(r.route) + ':</b> ' + esc(f.join('; ')) + '.</li>').join('') + '</ul>';
     }
     const relax = activeKeys().map((k) => ({ k, extra: D.rows.filter((r) => failures(r).length && !failures(r, k).length).length })).filter((x) => x.extra > 0).sort((a, b) => b.extra - a.extra);
     if (relax.length) h += '<h3>Which filter to relax</h3><ul>' + relax.map((x) => '<li>Removing <b>' + esc(LABELS[x.k]) + '</b> would show ' + x.extra + ' more route' + (x.extra > 1 ? 's' : '') + '.</li>').join('') + '</ul>';
-    h += '<p class="cf-hint">' + esc(D.meta.disclaimer) + '</p><div class="cf-actions"><button type="button" class="cf-btn cf-btn--gold" data-act="pdf">Download my filtered chart (PDF)</button></div><p class="cf-hint" id="cf-status" role="status"></p><p>Next steps: take the <a href="/services/assessments/career-aptitude-test-after-12th/">career aptitude test after 12th</a> to see where your strengths point, then track a proof project in the <a href="/services/assessments/skill-portfolio-tracker/">skill portfolio tracker</a>.</p></div>';
+    h += '<p class="cf-hint">' + esc(D.meta.payCaution) + '</p><p class="cf-hint">' + esc(D.meta.disclaimer) + '</p><div class="cf-actions"><button type="button" class="cf-btn cf-btn--gold" data-act="pdf">Download my filtered chart (PDF)</button></div><p class="cf-hint" id="cf-status" role="status"></p><p>Next steps: take the <a href="/services/assessments/career-aptitude-test-after-12th/">career aptitude test after 12th</a> to see where your strengths point, then track a proof project in the <a href="/services/assessments/skill-portfolio-tracker/">skill portfolio tracker</a>.</p></div>';
     return h;
   }
 
@@ -153,16 +150,20 @@ const data = {
     const act = activeKeys().map((k) => LABELS[k] + ': ' + (document.querySelector('[data-f="' + k + '"] option:checked') ? document.querySelector('[data-f="' + k + '"] option:checked').textContent : F[k]));
     L.push(h1('Your filtered chart at a glance'));
     L.push(p(shown.length + ' of ' + D.rows.length + ' routes match your filters' + (shown.length ? ': ' + shown.map((x) => x.r.route).join('; ') + '.' : '. Relax one filter to see more.')));
+    L.push(h1('How we rate scalability'));
+    L.push(p(D.scaleRule)); L.push(p(D.scaleFlagged));
     L.push(h1('Report details'));
     L.push(...bullets(['Prepared for: ' + (F.name || 'Not stated'), 'Date generated: ' + date, 'Report version: ' + REPORT_VERSION_LABEL.replace('Report version ', ''), 'Decision question: ' + (F.question || 'Not stated'), 'Source chart: ' + D.meta.pageUrl + ' (checked ' + D.meta.lastChecked + ')']));
     L.push(h1('Filters applied'));
     L.push(...(act.length ? bullets(act) : [p('No filters were applied, so every route is shown.')]));
     L.push(h1('How this report is calculated'));
     L.push(...bullets(['Each route in the career chart after 12th has indicative levels for stream eligibility, Maths and Biology need, entrance exam, length, cost, portfolio need, employment, freelance and government routes, overseas mobility, AI exposure and remote work.', 'A route is shown only if it passes every filter you set. Filters you leave on Any do not remove routes.', 'The levels are planning bands set by Future Career School from the chart. They are not statistics or official classifications.']));
+    L.push(h1('About pay figures'));
+    L.push(p(D.meta.payCaution));
     L.push(h1('Confidence and limitations'));
     L.push(...bullets(['Filters work on levels for a whole row, such as "B.Tech in computer, data or electronics", so a specific college or branch can differ.', D.meta.disclaimer, ...STANDARD_LIMITS]));
     L.push(h1('Matching routes'));
-    shown.forEach(({ r }) => { const f = r.f; L.push(h2(r.route)); L.push(...bullets(['Who can apply: ' + r.who, 'Entry gate: ' + r.gate, 'Length: ' + yrsText(f.years) + ' (chart: ' + r.length + ')', 'Cost: ' + D.cost[f.cost[0]] + (f.cost[0] === f.cost[1] ? '' : ' to ' + D.cost[f.cost[1]]) + '. ' + f.notes.cost, 'Maths: ' + NEEDS[f.maths] + '. Biology: ' + NEEDS[f.biology] + '. Portfolio: ' + NEEDS[f.portfolio] + '.', 'Employment: ' + D.level3[f.employment] + '. Freelance: ' + D.level3[f.freelance] + '. Government sector: ' + D.level3[f.government] + '.', 'Overseas mobility: ' + D.overseas3[f.overseas] + '. ' + f.notes.overseas, 'AI exposure: ' + D.ai3[f.ai] + '. ' + f.notes.ai, 'Work from home: ' + D.wfh3[f.wfh] + '. ' + f.notes.wfh, 'First-year money signal: ' + r.money, 'The catch: ' + r.catch, 'Official starting points checked ' + D.meta.lastChecked + ': ' + f.sources.map((s) => s.label + ' — ' + s.url).join('; ') + '. Check the current institute notice before applying.'])); });
+    shown.forEach(({ r }) => { const f = r.f; L.push(h2(r.route)); L.push(...bullets(['Who can apply: ' + r.who, 'Scalability: ' + D.scale[r.scale].label + '. ' + r.why, 'How to grow beyond a job: ' + r.grow, 'Entry gate: ' + r.gate, 'Length: ' + yrsText(f.years) + ' (chart: ' + r.length + ')', 'Cost: ' + D.cost[f.cost[0]] + (f.cost[0] === f.cost[1] ? '' : ' to ' + D.cost[f.cost[1]]) + '. ' + f.notes.cost, 'Maths: ' + NEEDS[f.maths] + '. Biology: ' + NEEDS[f.biology] + '. Portfolio: ' + NEEDS[f.portfolio] + '.', 'Employment: ' + D.level3[f.employment] + '. Freelance: ' + D.level3[f.freelance] + '. Government sector: ' + D.level3[f.government] + '.', 'Overseas mobility: ' + D.overseas3[f.overseas] + '. ' + f.notes.overseas, 'AI exposure: ' + D.ai3[f.ai] + '. ' + f.notes.ai, 'Work from home: ' + D.wfh3[f.wfh] + '. ' + f.notes.wfh, 'First-year money signal: ' + r.money, 'The catch: ' + r.catch])); });
     L.push(h1('Routes hidden and why'));
     L.push(...(hidden.length ? bullets(hidden.map(({ r, f }) => r.route + ': ' + f.join('; '))) : [p('No route is hidden.')]));
     const relax = activeKeys().map((k) => ({ k, extra: D.rows.filter((r) => failures(r).length && !failures(r, k).length).length })).filter((x) => x.extra > 0);
@@ -179,7 +180,7 @@ const data = {
     L.push(h1('Review page'));
     L.push(...bullets(['Review date: ' + todayLabel(addDays(28)), 'Which routes are still on the shortlist? ________________', 'What did we confirm on official sites? ________________', 'What is our second plan? ________________']));
     L.push(h1('Sources'));
-    L.push(...bullets(['Career chart after 12th: ' + D.meta.pageUrl + ' (checked ' + D.meta.lastChecked + ')', 'The official starting points are listed under each matching route. They are checked entry pages, not a guarantee that every college uses the same rule.', 'Confirm every rule, date, fee and subject requirement on the current exam and institute websites before applying.']));
+    L.push(...bullets(['Career chart after 12th: ' + D.meta.pageUrl, 'NTA (JEE Main, NEET UG, CUET UG): https://nta.ac.in/', 'Confirm every rule and date on the exam and institute websites.']));
     L.push(h1('Report information'));
     L.push(...bullets([REPORT_VERSION_LABEL, 'Generated on ' + date + '.']));
     return L;
@@ -195,7 +196,7 @@ const data = {
   }
 
   app.addEventListener('change', (e) => { const t = e.target; if (t.getAttribute && t.getAttribute('data-sub')) { const cur = new Set(subList()); if (t.checked) cur.add(t.getAttribute('data-sub')); else cur.delete(t.getAttribute('data-sub')); F.subjects = SUBJECTS.filter((x) => cur.has(x)).join(','); applySubjects(); save(); render(); const again = app.querySelector('[data-sub="' + t.getAttribute('data-sub') + '"]'); if (again) again.focus(); ping('chart12_filter', { filter: 'subjects' }); return; } const f = t.getAttribute && t.getAttribute('data-f'); if (!f) return; F[f] = t.value; save(); render(); ping('chart12_filter', { filter: f }); });
-  app.addEventListener('click', (e) => { const target = e.target; const presetButton = target.closest ? target.closest('[data-preset]') : null; if (presetButton) { const preset = PRESETS[presetButton.getAttribute('data-preset')]; if (preset) { F.stream = preset.stream; F.subjects = preset.subjects.join(','); F.hasMaths = preset.subjects.includes('Maths') ? 'yes' : 'no'; F.hasBio = preset.subjects.includes('Biology') ? 'yes' : 'no'; F.maths = preset.maths; F.bio = preset.bio; save(); render(); ping('chart12_filter_preset', { preset: presetButton.getAttribute('data-preset') }); } return; } const b = target.closest ? target.closest('[data-act]') : null; if (!b) return; if (b.getAttribute('data-act') === 'reset') { F = blank(); save(); render(); } else if (b.getAttribute('data-act') === 'pdf') pdf(); else if (b.getAttribute('data-act') === 'link') { const u = shareUrl(); const done = () => { b.textContent = 'Link copied'; setTimeout(() => { b.textContent = 'Copy a link to this filtered view'; }, 2000); }; try { navigator.clipboard.writeText(u).then(done, () => { window.prompt('Copy this link', u); }); } catch (err) { window.prompt('Copy this link', u); } } });
+  app.addEventListener('click', (e) => { const b = e.target.closest ? e.target.closest('[data-act]') : null; if (!b) return; if (b.getAttribute('data-act') === 'reset') { F = blank(); save(); render(); } else if (b.getAttribute('data-act') === 'pdf') pdf(); else if (b.getAttribute('data-act') === 'link') { const u = shareUrl(); const done = () => { b.textContent = 'Link copied'; setTimeout(() => { b.textContent = 'Copy a link to this filtered view'; }, 2000); }; try { navigator.clipboard.writeText(u).then(done, () => { window.prompt('Copy this link', u); }); } catch (err) { window.prompt('Copy this link', u); } } });
   app.addEventListener('submit', (e) => e.preventDefault());
   render();
   // Drop any filter value from an old link or saved state that no longer matches an option.
@@ -222,12 +223,11 @@ const data = {
   .cf-btn{min-height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font:600 .95rem "DM Sans",sans-serif;cursor:pointer;padding:.5rem .9rem}
   .cf-btn--gold{background:linear-gradient(135deg,#e5b84a,#c49a2a);color:#14110a;border:0}
   .cf-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin:.6rem 0}
-  .cf-presets{display:flex;flex-wrap:wrap;align-items:center;gap:.55rem;margin:.2rem 0 .9rem}.cf-presets p{flex:1 0 100%;margin:0;font-size:.88rem;color:rgba(255,255,255,.72)}
   .cf button:focus-visible,.cf input:focus-visible,.cf select:focus-visible{outline:3px solid #129a8d;outline-offset:2px}
   .cf-card{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1rem 1.1rem;margin:.8rem 0;background:rgba(255,255,255,.03)}
-  .cf-sources{font-size:.86rem;color:rgba(255,255,255,.72);margin:.8rem 0 0}.cf-sources a{color:#8de4d8;text-decoration:underline;text-underline-offset:2px}
   .cf-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:.3rem 0 .6rem}
   .cf-tags span{padding:.15rem .6rem;border-radius:999px;font-size:.78rem;background:rgba(229,184,74,.18);color:#f5d98c}
+  .cf-tags .cf-sc{font-weight:700}.cf-tags .cf-sc--high{background:rgba(18,154,141,.28);color:#8ff0e3}.cf-tags .cf-sc--mid{background:rgba(229,184,74,.18);color:#f5d98c}.cf-tags .cf-sc--low{background:rgba(255,120,120,.2);color:#ffb3b3}
   .cf-lev{padding-left:1.2rem}
   .cf-more summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
   @media (max-width:560px){.cf{padding:1rem}}

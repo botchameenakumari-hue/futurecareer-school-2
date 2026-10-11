@@ -107,6 +107,10 @@ const jsonLd = [
     })),
   },
 ];
+import { CAREER_SCALE_RULES, SCALE, SCALE_RULE } from '../../../../config/scalability.mjs';
+const scaleRules = CAREER_SCALE_RULES;
+const scaleLabels = { high: SCALE.high.label, mid: SCALE.mid.label, low: SCALE.low.label };
+const scaleRule = SCALE_RULE;
 ---
 
 <BaseLayout
@@ -382,7 +386,8 @@ const jsonLd = [
   }
 </style>
 
-<script is:inline define:vars={{ guidanceResultsHref, guidanceResultsLabel }}>
+<script is:inline define:vars={{ guidanceResultsHref, guidanceResultsLabel, scaleRules, scaleLabels, scaleRule }}>
+function scaleTag(c) { for (var i = 0; i < scaleRules.length; i++) { if (new RegExp(scaleRules[i][0], 'i').test(c)) return ' <em class="fcs-scale fcs-scale--' + scaleRules[i][1] + '">(' + scaleLabels[scaleRules[i][1]] + ')</em>'; } return ' <em class="fcs-scale fcs-scale--mid">(' + scaleLabels.mid + ')</em>'; }
 /* ── Aptitude Test for Career After 10th ── */
 var QUESTIONS = [
   { q: "Which task is easy and fun for you?", opts: [
@@ -679,8 +684,8 @@ function showResults() {
   html += '<div class="res-section"><h4>Subjects that match this skill</h4><p>' + r.subjects + '</p></div>';
 
   html += '<div class="res-section"><h4>Jobs this skill can lead to</h4><ul>';
-  r.careers.forEach(function (c) { html += '<li>' + c + '</li>'; });
-  html += '</ul></div>';
+  r.careers.forEach(function (c) { html += '<li>' + c + scaleTag(c) + '</li>'; });
+  html += '</ul><p class="fcs-scale-rule">' + scaleRule + '</p></div>';
 
   html += '<div class="res-section"><h4>Streams that suit this skill</h4><p>' + r.bestStreams + '</p></div>';
 

@@ -6,6 +6,7 @@ import { mkdirSync, writeFileSync, statSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SCALE, SCALE_RULE, SCALE_FLAGGED, ROUTE_SCALE } from '../src/config/scalability.mjs';
 import {
   CHART_META, OFFICIAL_LINKS, ROUTES, ROUTE_FAMILIES, TIMELINE, TIMELINE_NOTE,
   FLOW, CHECKPOINTS, GATES, MISTAKES, PDF_FILES,
@@ -64,6 +65,7 @@ function routeCard(r) {
       <div class="lbl">Entry</div><p>${esc(r.gate)}</p>
       <div class="lbl">Best for</div><p>${esc(r.bestFor)}</p>
       <div class="lbl">Watch out</div><p>${esc(r.watchOut)}</p>
+      <div class="lbl">Scalability</div><p><strong>${esc(SCALE[ROUTE_SCALE[r.id].scale].label)}.</strong> ${esc(ROUTE_SCALE[r.id].note)} To grow: ${esc(ROUTE_SCALE[r.id].grow)}</p>
     </div><div>
       <div class="lbl">What it keeps open</div><ul>${opens}</ul>
       ${closes}
@@ -99,7 +101,7 @@ function ctaHtml() {
 
 function overallBody() {
   const rows = ROUTES.map((r) => `<tr><td><span class="swatch" style="background:${famColor[r.family]}"></span><strong>${esc(r.label)}</strong><br><span class="small">${esc(r.length)}</span></td>
-    <td>${esc(r.opens.slice(0, 3).join('; '))}</td><td class="closes">${esc(r.closes.length ? r.closes.join('; ') : 'Nothing by itself')}</td><td><strong>${esc(yrs(r.yearsToWork))}</strong></td></tr>`).join('');
+    <td>${esc(r.opens.slice(0, 3).join('; '))}</td><td class="closes">${esc(r.closes.length ? r.closes.join('; ') : 'Nothing by itself')}</td><td><strong>${esc(yrs(r.yearsToWork))}</strong></td><td><strong>${esc(SCALE[ROUTE_SCALE[r.id].scale].label)}.</strong> ${esc(ROUTE_SCALE[r.id].note)} <em>To grow: ${esc(ROUTE_SCALE[r.id].grow)}</em></td></tr>`).join('');
   return `${brandHeader('Career Chart After 10th: All Routes', 'Every route open after Class 10 in India, on a few pages you can print and keep')}
   <p class="lead">Start at the top question. Follow the arrows to a first lean, then test that route with the checks on the last pages. Your route sets which doors open; the skill you build on top decides how high your income can go.</p>
   <h2>Step 1 · Follow the decision flow</h2><div class="flow-wrap">${flowNode(FLOW.start)}</div>
@@ -107,7 +109,8 @@ function overallBody() {
   <div class="note"><strong>Colour key:</strong> ${ROUTE_FAMILIES.map((f) => `<span class="swatch" style="background:${f.color}"></span>${esc(f.label)} (${esc(f.note)})`).join(' &nbsp; ')}<br><strong>Years to work</strong> counts from the day Class 10 ends to the earliest standard full-time start. It shows time, not pay.</div>
   <h2 style="break-before: page">Step 2 · How long until first full-time work</h2>${barsHtml(TIMELINE)}
   <h2>Step 3 · The chart: every route at a glance</h2>
-  <table><thead><tr><th>Route</th><th>What it keeps open</th><th>What it closes</th><th>Years to work</th></tr></thead><tbody>${rows}</tbody></table>
+  <table><thead><tr><th>Route</th><th>What it keeps open</th><th>What it closes</th><th>Years to work</th><th>Scalability</th></tr></thead><tbody>${rows}</tbody></table>
+  <div class="note"><strong>How we rate scalability:</strong> ${esc(SCALE_RULE)} ${esc(SCALE_FLAGGED)}</div>
   <h2>Step 4 · Route cards: entry, fit, watch-outs and a first move</h2>
   ${ROUTES.map(routeCard).join('')}
   <h2>Five mistakes to avoid</h2><ul>${MISTAKES.map((m) => `<li><strong>${esc(m.title)}.</strong> ${esc(m.body)}</li>`).join('')}</ul>

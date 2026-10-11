@@ -10,6 +10,7 @@ import {
   CHART12_META as META, boardColumns, chartRows, scienceCards, commerceCards, artsCards,
   oddsBars, payBars, costRows, dateCards, resultPlans, PDF12_FILES,
 } from '../src/config/careerChartAfter12th.mjs';
+import { SCALE, SCALE_RULE, SCALE_FLAGGED } from '../src/config/scalability.mjs';
 import { CHECKPOINTS, GATES } from '../src/config/careerChartAfter10th.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -23,8 +24,8 @@ const colors = { teal: '#0f9d8a', gold: '#b8860b', violet: '#6b46c1', blue: '#1f
 
 const columns = (cols) => `<div class="grid2">${cols.map((c) => `<div class="card" style="border-left-color:${colors[c.tone] || '#0f9d8a'}"><h3>${esc(c.head)} <span class="small">· ${esc(c.sub)}</span></h3>${ul(c.routes)}</div>`).join('')}</div>`;
 
-const chartTable = (rows) => `<table><thead><tr><th>Route</th><th>Who can apply</th><th>Entry gate</th><th>Length</th><th>Pay signal</th><th>The catch</th></tr></thead><tbody>${rows
-  .map((r) => `<tr><td><strong>${esc(r.route)}</strong></td><td>${esc(r.who)}</td><td>${esc(r.gate)}</td><td>${esc(r.length)}</td><td>${esc(r.money)}</td><td class="closes">${esc(r.catch)}</td></tr>`).join('')}</tbody></table>`;
+const chartTable = (rows) => `<table><thead><tr><th>Route</th><th>Who can apply</th><th>Entry gate</th><th>Length</th><th>Pay signal (indicative)</th><th>The catch</th><th>Scalability and how to grow</th></tr></thead><tbody>${rows
+  .map((r) => `<tr><td><strong>${esc(r.route)}</strong></td><td>${esc(r.who)}</td><td>${esc(r.gate)}</td><td>${esc(r.length)}</td><td>${esc(r.money)}</td><td class="closes">${esc(r.catch)}</td><td><strong>${esc(SCALE[r.scale].label)}.</strong> ${esc(r.why)} <em>To grow: ${esc(r.grow)}</em></td></tr>`).join('')}</tbody></table>`;
 
 const bars = (rows, withDetail) => `<div class="bars">${rows
   .map((b) => `<div class="brow"><div class="blab" style="width:190px">${esc(b.label)}</div><div class="btrack"><div class="bfill" style="width:${Math.max(b.pct, 2)}%;background:${colors[b.tone] || '#0f9d8a'}"></div></div><div class="bval" style="width:${withDetail ? 230 : 70}px"><strong>${esc(b.value)}</strong>${withDetail && b.detail ? `<br>${esc(b.detail)}` : ''}</div></div>`).join('')}</div>`;
@@ -43,6 +44,8 @@ const plan = () => `<div class="plan"><h2>Your one-page plan</h2>${['Three route
   .map((l) => `<div class="small">${esc(l)}</div><div class="fill"></div>`).join('')}</div>`;
 
 const cta = () => `<div class="note"><strong>Read this first:</strong> ${esc(META.disclaimer)}</div>
+<div class="note"><strong>About pay figures:</strong> ${esc(META.payCaution)}</div>
+<div class="note"><strong>How we rate scalability:</strong> ${esc(SCALE_RULE)} ${esc(SCALE_FLAGGED)}</div>
 <div class="cta"><strong>The route is the base layer. The skill portfolio on top raises your ceiling.</strong><br>
 Check your fit with the free career assessments: <a href="${META.testUrl}">${esc(META.testUrl.replace('https://', ''))}</a><br>
 Personal help for you and your family: <a href="${META.guidanceUrl}">${esc(META.guidanceUrl.replace('https://', ''))}</a> · WhatsApp message from the site.<br>
@@ -51,9 +54,9 @@ Full guide with explanations: <a href="${META.pageUrl}">${esc(META.pageUrl.repla
 const pick = (rows, needles) => rows.filter((r) => needles.some((n) => r.route.toLowerCase().includes(n)));
 const cardList = (cards) => cards.map((c) => `<div class="card"><h3>${esc(c.label ? `${c.label}: ${c.title}` : c.title)}</h3>${c.body ? `<p>${esc(c.body)}</p>` : ul(c.items)}</div>`).join('');
 
-const sciNeedles = ['b.tech', 'bca', 'mbbs', 'nursing', 'defence', 'design'];
-const comNeedles = ['bba', 'b.com', 'integrated law', 'design', 'bca'];
-const artNeedles = ['integrated law', 'design', 'teacher', 'bba'];
+const sciNeedles = ['b.tech', 'bca', 'mbbs', 'nursing', 'defence', 'design', 'bsc, bs', 'architecture', 'agriculture', 'aviation', 'merchant navy'];
+const comNeedles = ['bba', 'b.com', 'integrated law', 'design', 'bca', 'hotel', 'government jobs'];
+const artNeedles = ['integrated law', 'design', 'teacher', 'bba', 'psychology', 'media', 'hotel', 'government jobs'];
 
 const bodies = {
   overall: () => `${header('Career Chart After 12th: All Routes', 'Science, commerce and arts: entry gate, length, pay signal and the catch for each route')}
