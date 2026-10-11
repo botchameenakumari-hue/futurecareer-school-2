@@ -1,5 +1,6 @@
 ---
 import { CONTACT, SITE_URL, WHATSAPP_BOOKING_URL } from '../config/site';
+import { companionFor } from '../config/companionData';
 
 interface Props {
   title: string;
@@ -27,10 +28,12 @@ const assessmentSlug = Astro.url.pathname
   .split('/')
   .filter(Boolean)
   .at(-1) || 'career-assessment';
+const companion = companionFor(assessmentSlug);
 ---
 
 <div
   id="assessment-report-config"
+  data-companion={companion ? JSON.stringify(companion) : undefined}
   data-title={title}
   data-file-name={fileName}
   data-container-id={containerId}
@@ -49,6 +52,7 @@ const assessmentSlug = Astro.url.pathname
 
 <script>
   import { createVisualAssessmentPdf } from '../scripts/assessmentPdfRenderer';
+  import { installCompanion } from '../scripts/resultCompanion';
   import { supabase } from '../lib/supabase';
   import type { Json } from '../lib/supabase-types';
 
@@ -432,7 +436,10 @@ const assessmentSlug = Astro.url.pathname
       let seenH1 = 0;
       let splitAt = bodyLines.findIndex((l) => l.kind === 'heading-1' && ++seenH1 === 2);
       if (splitAt < 0) splitAt = bodyLines.length;
-      let lines = [...bodyLines.slice(0, splitAt), ...tidy(options.frontLines), ...bodyLines.slice(splitAt), ...tidy(options.backLines)];
+      const extras = (window as any).__fcsReportExtras && container.querySelector('#fcs-companion-marker') ? (window as any).__fcsReportExtras() : null;
+      const frontL = options.frontLines || (extras ? extras.front : undefined);
+      const backL = options.backLines || (extras ? extras.back : undefined);
+      let lines = [...bodyLines.slice(0, splitAt), ...tidy(frontL), ...bodyLines.slice(splitAt), ...tidy(backL)];
       if (options.keepTitles && options.keepTitles.length) {
         const keep = options.keepTitles;
         const kept: ReportLine[] = [];
@@ -619,11 +626,65 @@ const assessmentSlug = Astro.url.pathname
     });
   }
 
+  function ensureCompanion(container: HTMLElement) {
+    try {
+      const cfg = document.getElementById('assessment-report-config');
+      const raw = cfg?.getAttribute('data-companion');
+      if (!raw || document.getElementById('sst-data')) return;
+      if (container.querySelector('#fcs-companion-marker')) return;
+      const co = installCompanion(container, JSON.parse(raw));
+      if (!co) return;
+      const input = container.querySelector<HTMLInputElement>('#fcs-decision-input');
+      (window as any).__fcsReportExtras = () => co.extras(input ? input.value : '');
+      container.addEventListener('input', (e) => {
+        if ((e.target as HTMLElement).id !== 'fcs-decision-input') return;
+        const v = (e.target as HTMLInputElement).value;
+        co.state.decision = v;
+        const fresh = co.extras(v);
+        void fresh;
+        const pe = container.querySelector('#fcs-parent-explain'); const ce = container.querySelector('#fcs-counsellor-explain'); const pp = container.querySelector('#fcs-plan-print');
+        [pe, ce, pp].forEach((n) => {
+          if (!n) return;
+          n.querySelectorAll('li').forEach((li) => {
+            if (/^Decision (I am using it for|question): /.test(li.textContent || '')) li.textContent = (li.textContent || '').replace(/: .*$/, ': ' + (v.trim() || 'not stated') + '.');
+          });
+        });
+      });
+      container.addEventListener('click', (e) => {
+        const t = e.target as HTMLElement;
+        const copy = t.closest<HTMLElement>('[data-fcs-copy]');
+        if (copy) {
+          const n = container.querySelector('#' + copy.dataset.fcsCopy);
+          const txt = Array.from(n?.querySelectorAll('li') || []).map((li) => li.textContent).join('\n');
+          const done = () => { copy.textContent = 'Copied'; setTimeout(() => (copy.textContent = 'Copy this summary'), 2000); };
+          if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, () => { copy.textContent = 'Select the text above to copy it'; });
+          else copy.textContent = 'Select the text above to copy it';
+          return;
+        }
+        if (t.closest('[data-fcs-print]')) {
+          const src = container.querySelector('#fcs-plan-print'); if (!src) return;
+          document.getElementById('fcs-print-clone')?.remove();
+          const clone = document.createElement('div'); clone.id = 'fcs-print-clone'; clone.innerHTML = src.innerHTML;
+          document.body.appendChild(clone); document.body.classList.add('fcs-print-plan');
+          const off = () => { document.body.classList.remove('fcs-print-plan'); clone.remove(); window.removeEventListener('afterprint', off); };
+          window.addEventListener('afterprint', off); window.print();
+          return;
+        }
+        if (t.closest('[data-fcs-ics]')) {
+          const mk = (n: number, name: string) => { const d = new Date(); d.setDate(d.getDate() + n); const p = (x: number) => String(x).padStart(2, '0'); const ds = d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()); const e2 = new Date(d); e2.setDate(e2.getDate() + 1); const de = e2.getFullYear() + p(e2.getMonth() + 1) + p(e2.getDate()); return ['BEGIN:VEVENT', 'UID:fcs-' + ds + '-' + n + '@futurecareerschool.com', 'DTSTAMP:' + ds + 'T000000Z', 'DTSTART;VALUE=DATE:' + ds, 'DTEND;VALUE=DATE:' + de, 'SUMMARY:' + name, 'END:VEVENT'].join('\r\n'); };
+          const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//FutureCareerSchool//Plan//EN', mk(28, 'Progress check on my assessment plan'), mk(90, 'Full review and retake of my assessment'), 'END:VCALENDAR'].join('\r\n');
+          const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' })); a.download = 'assessment-review-dates.ics'; document.body.appendChild(a); a.click(); a.remove();
+        }
+      });
+    } catch (err) { console.warn('companion', err); }
+  }
+
   function addTopDownloadAction(container: HTMLElement) {
     if (!container.innerHTML.trim()) return;
 
     container.classList.add('assessment-report-results');
     prepareResponsiveTables(container);
+    ensureCompanion(container);
     if (container.querySelector('.assessment-report-actions--top')) return;
 
     const actions = document.createElement('div');
