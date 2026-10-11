@@ -59,7 +59,18 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
   const head = d.kind === 'stage' ? 'the direction profile in this report' : headlineOf(container, d.title);
   const today = new Date(); const rev28 = fmt(plus(28)), rev90 = fmt(plus(90)), todayL = fmt(today);
   const t1 = top[0] ? top[0].label : 'your strongest area', l1 = low[0] ? low[0].label : 'your lowest area';
+  const LINK: Record<string, string> = {
+    interest: 'Why this project: a real piece of work shows whether the interest holds up when you do it, not only when you rate it.',
+    personality: 'Why this project: doing and recording real work gives you evidence for or against the pattern in your result, in situations you choose.',
+    aptitude: 'Why this project: practice on a real task turns a one-sitting score into evidence of what you can do with time and a method.',
+    skills: 'Why this project: a self-rating becomes believable once it is backed by something you made or did.',
+    stage: 'Why this project: it gives you something real to show and to learn from while you compare the options in this report.',
+  };
   const state = { decision: '' };
+  const soft = d.kind === 'interest' || d.kind === 'personality';
+  const HI = soft ? 'Highest scores' : 'Strongest', LO = soft ? 'Lowest scores' : 'Weakest';
+  const SECT = soft ? 'Highest and lowest scores, with the evidence' : 'Strongest and weakest dimensions, with the evidence';
+  const MEAN = soft ? 'The evidence is your own answers. Each percentage shows how strongly your answers pointed to that area on this test. A low score means that area mattered less in your answers, not that it is a weakness, and a gap of a few points is small.' : 'The evidence is your own answers. Each percentage is the share of the available score you earned in that area on this test, so a gap of a few points is small and a gap of twenty or more is worth testing.';
   const decisionText = () => state.decision.trim() || 'not stated';
   const listScores = (xs: Score[]) => xs.map((x) => x.label + ' (' + x.value + '%)').join(', ');
 
@@ -93,10 +104,10 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
     '<p>This is ' + K.art + ' ' + K.noun + ' based on ' + K.basis + '. ' + esc(K.limit) + '</p>' +
     list(['Use the section on how much weight to give the result, where it is shown above, to see how consistent your own answers were.', 'Treat the result as a hypothesis to test with the experiments below, not as a verdict.', 'Retake it on or after ' + rev90 + ' and compare area by area.']) + '</div>';
 
-  const evidenceHtml = scores.length >= 3 ? '<div class="result-section"><h4>Strongest and weakest dimensions, with the evidence</h4>' +
-    '<p><b>Strongest:</b> ' + esc(listScores(top)) + '.</p><p><b>Weakest:</b> ' + esc(listScores(low)) + '.</p>' +
-    '<p>The evidence is your own answers. Each percentage is the share of the available score you earned in that area on this test, so a gap of a few points is small and a gap of twenty or more is worth testing.</p>' +
-    '<p>Headline result: ' + esc(head) + '.</p></div>' : '<div class="result-section"><h4>Strongest and weakest dimensions, with the evidence</h4><p>Headline result: ' + esc(head) + '. The scores above show your strongest and weakest areas. Compare your top and bottom two and use the experiments below to test them.</p></div>';
+  const evidenceHtml = scores.length >= 3 ? '<div class="result-section"><h4>' + SECT + '</h4>' +
+    '<p><b>' + HI + ':</b> ' + esc(listScores(top)) + '.</p><p><b>' + LO + ':</b> ' + esc(listScores(low)) + '.</p>' +
+    '<p>' + MEAN + '</p>' +
+    '<p>Headline result: ' + esc(head) + '.</p></div>' : '<div class="result-section"><h4>' + SECT + '</h4><p>Headline result: ' + esc(head) + '. The scores above show your strongest and weakest areas. Compare your top and bottom two and use the experiments below to test them.</p></div>';
 
   const experHtml = '<div class="result-section"><h4>Three experiments to run</h4>' + list(exp.map((e, i) => 'Experiment ' + (i + 1) + ': ' + e)) +
     '<p>For each, write what you did, what happened and whether you would keep, change or drop it. Then decide your next step.</p></div>';
@@ -109,7 +120,7 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
   ]) + '<div data-result-actions><button type="button" class="fcs-co-btn" data-fcs-ics>Add the review dates to your calendar</button></div></div>';
 
   const projHtml = '<div class="result-section"><h4>One proof project and one portfolio output</h4>' +
-    '<h5>' + esc(pj.title) + '</h5><p><b>Portfolio output:</b> ' + esc(pj.outcome) + '</p><p><b>Time to plan for:</b> about ' + pj.hours + ' hours in total.</p>' +
+    '<h5>' + esc(pj.title) + '</h5><p>' + esc(LINK[d.kind]) + '</p><p><b>Portfolio output:</b> ' + esc(pj.outcome) + '</p><p><b>Time to plan for:</b> about ' + pj.hours + ' hours in total.</p>' +
     '<p><b>Steps:</b></p>' + list(pj.steps) + '<p><b>Evidence to keep while you work:</b></p>' + list(pj.proof) +
     (example ? '<p><b>An example for where you are now:</b> ' + esc(example) + '</p>' : '') +
     '<p><b>Your skill tracker:</b> <a href="' + trackerHref + '">Open the free skill portfolio tracker</a> to rate nine skills, log hours, add evidence, score it and get a six-month timeline.</p></div>';
@@ -117,7 +128,7 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
   const planText = () => [
     'Action plan for ' + d.title + ', ' + todayL + '.',
     'Decision question: ' + decisionText() + '.',
-    'Result: ' + head + '.' + (top.length ? ' Strongest: ' + listScores(top) + '.' : '') + (low.length ? ' Weakest: ' + listScores(low) + '.' : ''),
+    'Result: ' + head + '.' + (top.length ? ' ' + HI + ': ' + listScores(top) + '.' : '') + (low.length ? ' ' + LO + ': ' + listScores(low) + '.' : ''),
   ];
   const printHtml = () => '<div class="result-section" id="fcs-plan-print"><h4>Your printable action plan</h4>' + list(planText().concat(exp.map((e, i) => 'Experiment ' + (i + 1) + ': ' + e), ['Proof project: ' + pj.title + '. Output: ' + pj.outcome, 'Review on ' + rev28 + ' (progress) and ' + rev90 + ' (full review and retake).'])) +
     '<div data-result-actions><button type="button" class="fcs-co-btn" data-fcs-print>Print this action plan</button></div></div>';
@@ -125,13 +136,13 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
   const parentText = () => [
     'I took the ' + d.title + '. It describes ' + K.art + ' ' + K.noun + ' based on ' + K.basis + '. It has no pass or fail and it does not predict my future.',
     'Decision I am using it for: ' + decisionText() + '.',
-    'My headline result was: ' + head + '.' + (top.length ? ' My strongest areas were ' + listScores(top) + '.' : ''),
+    'My headline result was: ' + head + '.' + (top.length ? (soft ? ' My highest scores were ' : ' My strongest areas were ') + listScores(top) + '.' : ''),
     'I will use it to run small experiments, not to make a final decision. How you can help: ask me about my experiment once a week, avoid comparing me with other people, and help me meet one person who does this work. We can review together on ' + rev28 + '.',
   ];
   const counsellorText = () => [
     'Assessment: ' + d.title + '. ' + REPORT_VERSION_LABEL + '. Taken on ' + todayL + '.',
     'Decision question: ' + decisionText() + '.',
-    'Headline: ' + head + '.' + (top.length ? ' Strongest: ' + listScores(top) + '.' : '') + (low.length ? ' Weakest: ' + listScores(low) + '.' : ''),
+    'Headline: ' + head + '.' + (top.length ? ' ' + HI + ': ' + listScores(top) + '.' : '') + (low.length ? ' ' + LO + ': ' + listScores(low) + '.' : ''),
     'Limits: ' + K.limit,
     'Questions I would like to discuss: Which of these results match what you have seen? Which option should I test first? What evidence would change my mind?',
   ];
