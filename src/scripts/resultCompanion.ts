@@ -42,6 +42,19 @@ export function extractScores(container: HTMLElement): Score[] {
     });
     if (items.length >= 3 && items.length <= 12) return items;
   }
+  // Pages that show scores as label and percentage rows instead of articles (the stage tests).
+  for (const sec of secs) {
+    if (sec.closest('#fcs-companion-start')) continue;
+    const rows: Score[] = [];
+    Array.from(sec.querySelectorAll<HTMLElement>('*')).forEach((leaf) => {
+      if (leaf.children.length || !/^\s*\d{1,3}\s*%\s*$/.test(leaf.textContent || '')) return;
+      const parent = leaf.parentElement; if (!parent) return;
+      const label = (parent.innerText || '').split('\n').map((x) => x.replace(/[^\p{L}\p{N}\s/&-]/gu, '').trim()).find((x) => /[A-Za-z]{3,}/.test(x) && !/%/.test(x) && x.length <= 40);
+      const v = Number((leaf.textContent || '').replace(/\D/g, ''));
+      if (label && !rows.some((r) => r.label === label)) rows.push({ label, value: Math.min(100, v) });
+    });
+    if (rows.length >= 3 && rows.length <= 12) return rows;
+  }
   return [];
 }
 
@@ -67,7 +80,7 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
     stage: 'Why this project: it gives you something real to show and to learn from while you compare the options in this report.',
   };
   const state = { decision: '' };
-  const soft = d.kind === 'interest' || d.kind === 'personality';
+  const soft = d.kind === 'interest' || d.kind === 'personality' || d.kind === 'stage';
   const HI = soft ? 'Highest scores' : 'Strongest', LO = soft ? 'Lowest scores' : 'Weakest';
   const SECT = soft ? 'Highest and lowest scores, with the evidence' : 'Strongest and weakest dimensions, with the evidence';
   const MEAN = soft ? 'The evidence is your own answers. Each percentage shows how strongly your answers pointed to that area on this test. A low score means that area mattered less in your answers, not that it is a weakness, and a gap of a few points is small.' : 'The evidence is your own answers. Each percentage is the share of the available score you earned in that area on this test, so a gap of a few points is small and a gap of twenty or more is worth testing.';
