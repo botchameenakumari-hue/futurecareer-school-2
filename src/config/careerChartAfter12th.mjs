@@ -17,11 +17,11 @@ export const boardColumns = [
     head: 'Science (PCM)',
     sub: 'Physics, Chemistry, Maths',
     routes: [
-      'B.Tech / BE: JEE Main, JEE Advanced, state tests',
-      'BCA, BSc Computer Science, Data Science',
-      'Architecture: JEE Main Paper 2 or NATA',
-      'NDA: Army, Navy and Air Force',
-      'Design, BBA, law and CA also open',
+      'B.Tech / BE: JEE Main, JEE Advanced, state tests (Needs a business layer)',
+      'BCA, BSc Computer Science, Data Science (Scalable)',
+      'Architecture: JEE Main Paper 2 or NATA (Needs a business layer)',
+      'NDA: Army, Navy and Air Force (Not so scalable)',
+      'Also open: design (Scalable), CA (Needs a business layer), BBA and law (Not so scalable)',
     ],
   },
   {
@@ -29,11 +29,11 @@ export const boardColumns = [
     head: 'Science (PCB)',
     sub: 'Physics, Chemistry, Biology',
     routes: [
-      'MBBS and BDS: NEET UG',
-      'BSc Nursing, physiotherapy, allied health',
-      'B.Pharm, biotech, life sciences',
-      'Psychology, nutrition, forensic science',
-      'Design, BBA, law and CA also open',
+      'MBBS and BDS: NEET UG (Not so scalable)',
+      'BSc Nursing, physiotherapy, allied health (Not so scalable)',
+      'B.Pharm, biotech, life sciences (Needs a business layer)',
+      'Psychology, nutrition, forensic science (Needs a business layer)',
+      'Also open: design (Scalable), CA (Needs a business layer), BBA and law (Not so scalable)',
     ],
   },
   {
@@ -41,11 +41,11 @@ export const boardColumns = [
     head: 'Commerce',
     sub: 'With or without Maths',
     routes: [
-      'B.Com and BA Economics, then CA, CS or CMA',
-      'BBA, BMS, integrated MBA (IPMAT, JIPMAT)',
-      'Integrated law: CLAT and other law tests',
-      'BCA and data routes (Maths helps)',
-      'Banking, insurance and finance jobs after graduation',
+      'B.Com and BA Economics, then CA, CS or CMA (Needs a business layer)',
+      'BBA, BMS, integrated MBA (IPMAT, JIPMAT) (Not so scalable as a general degree)',
+      'Integrated law: CLAT and other law tests (Not so scalable)',
+      'BCA and data routes (Maths helps) (Scalable)',
+      'Banking, insurance and finance jobs after graduation (Not so scalable)',
     ],
   },
   {
@@ -53,11 +53,11 @@ export const boardColumns = [
     head: 'Arts / Humanities',
     sub: 'Any subject mix',
     routes: [
-      'BA (Psychology, Economics, Political Science, English)',
-      'Integrated law: CLAT, AILET',
-      'Design, media, journalism, mass communication',
-      'Teacher education, including the four-year ITEP',
-      'Civil services after graduation, with a backup skill',
+      'BA (Psychology, Economics, Political Science, English) (Needs a business layer)',
+      'Integrated law: CLAT, AILET (Not so scalable)',
+      'Design (Scalable), media, journalism, mass communication (Needs a business layer)',
+      'Teacher education, including the four-year ITEP (Needs a business layer)',
+      'Civil services after graduation, with a backup skill (Not so scalable)',
     ],
   },
 ];
@@ -290,19 +290,19 @@ export const scienceCards = [
     label: 'PCM',
     title: 'Engineering is one door, not the only door',
     body:
-      'PCM keeps the widest set of doors open: B.Tech, BCA, data science, architecture, NDA (Navy and Air Force), and all the any-stream routes. If JEE goes badly, a computer or data degree plus one shipped project is a strong second plan.',
+      'PCM keeps the widest set of doors open: B.Tech, BCA, data science, architecture, NDA (Navy and Air Force), and all the any-stream routes. If JEE goes badly, a computer or data degree plus one shipped project is a strong second plan. Computer and data routes are rated Scalable; engineering degrees alone need a business layer; NDA is rated Not so scalable.',
   },
   {
     label: 'PCB',
     title: 'NEET is a large gate with a small opening',
     body:
-      'MBBS seats total 1,36,939 for 2026-27, against over 22 lakh registrations. Write a full second plan (nursing, allied health, pharmacy, biotech or a data pivot) before the result, not after it.',
+      'MBBS seats total 1,36,939 for 2026-27, against over 22 lakh registrations. Write a full second plan (nursing, allied health, pharmacy, biotech or a data pivot) before the result, not after it. MBBS and BDS are rated Not so scalable because competition runs at several levels; biotech, health-tech and data routes scale better.',
   },
   {
     label: 'PCMB',
     title: 'Two subjects give you two backups',
     body:
-      'If you studied both Maths and Biology, you can attempt NEET and JEE routes. That also means double the preparation load, so pick a primary exam early.',
+      'If you studied both Maths and Biology, you can attempt NEET and JEE routes. That also means double the preparation load, so pick a primary exam early. Choose the track that leads to a scalable route, such as computing, data or biotech.',
   },
 ];
 
@@ -334,19 +334,19 @@ export const artsCards = [
     label: 'Law',
     title: 'Integrated law through CLAT',
     body:
-      'CLAT 2027 is on 6 December 2026, and applications close on 31 October 2026. It needs 45% in Class 12 (40% for SC/ST) and offers roughly 3,600 to 3,700 NLU seats (published counts differ slightly). Many good law colleges also accept CUET or their own tests.',
+      'CLAT 2027 is on 6 December 2026, and applications close on 31 October 2026. It needs 45% in Class 12 (40% for SC/ST) and offers roughly 3,600 to 3,700 NLU seats (published counts differ slightly). Many good law colleges also accept CUET or their own tests. Integrated law is rated Not so scalable: the entrance and the climb afterwards are both crowded, and few reach the top.',
   },
   {
     label: 'Psychology and social science',
     title: 'BA, then a specialisation',
     body:
-      'A BA in Psychology, Economics or Political Science works best when you know which postgraduate or job path sits after it. Counselling and clinical work need further study and licensing.',
+      'A BA in Psychology, Economics or Political Science works best when you know which postgraduate or job path sits after it. Counselling and clinical work need further study and licensing. Psychology and economics are rated Scalable only with a business layer, such as a niche practice, consulting or workshops.',
   },
   {
     label: 'Media and design',
     title: 'Portfolio decides the outcome',
     body:
-      'Journalism, design and communication pay according to the body of work you can show. Three finished pieces beat a certificate list.',
+      'Journalism, design and communication pay according to the body of work you can show. Three finished pieces beat a certificate list. Design is rated Scalable with a portfolio; media and journalism need an audience or an agency to scale.',
   },
 ];
 
@@ -363,21 +363,21 @@ export const after10Rows = [
     length: '3 years',
     cost: 'Published estimates: government colleges cost far less than private ones',
     leadsTo: 'A junior engineering job, or lateral entry into the second year of B.Tech in many states',
-    catch: 'Check the state process for lateral entry and the branch before you join.',
+    catch: 'Check the state process for lateral entry and the branch before you join. Rated Scalable only with a business layer: add automation or digital skills, or run a technical service.',
   },
   {
     route: 'ITI (trade certificate)',
     length: '6 months to 2 years',
     cost: 'Low in government ITIs',
     leadsTo: 'Trade jobs, apprenticeship and diploma routes in some states',
-    catch: 'Pay starts low. It grows when you add supervision, digital or safety skills.',
+    catch: 'Pay starts low. It grows when you add supervision, digital or safety skills. Rated Scalable only with a business layer: offer your trade as your own service.',
   },
   {
     route: 'Skill certificate plus an open school route',
     length: 'Flexible',
     cost: 'Free to low if you choose carefully',
     leadsTo: 'Digital and creative work while you continue schooling',
-    catch: 'Needs discipline. A pile of certificates is not proof; one finished project is.',
+    catch: 'Needs discipline. A pile of certificates is not proof; one finished project is. Rated Scalable: you control the pace and can sell the skill directly.',
   },
 ];
 

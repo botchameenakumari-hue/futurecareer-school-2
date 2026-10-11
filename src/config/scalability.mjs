@@ -27,3 +27,18 @@ export const ROUTE_SCALE = {
   'open-school': { scale: 'mid', note: 'It gives time to build skills, and scales only if you use that time for real proof of work.', grow: 'Use the time to build one skill and one finished project.' },
   'skill-first': { scale: 'high', note: 'You control the pace. A digital or craft skill with proof of work can be sold directly and can grow into consulting or a business.', grow: 'Pick one skill, build three pieces of proof, then take paid projects.' },
 };
+
+// Ratings for career names shown in assessment results. First matching rule wins.
+// Careers that match no rule are rated 'mid' (scalable only with a business layer).
+export const CAREER_SCALE_RULES = [
+  ['entrepreneur|business owner|startup founding|founder-led|new-venture', 'high'],
+  ['Quantitative|Venture scouting', 'mid'],
+  ['Architect', 'mid'],
+  ['Counselling|Psychology|Psychologist|coaching', 'mid'],
+  ['Doctor|MBBS|Dentist|Medicine|Healthcare|clinical|paramedic|Civil serv|UPSC|Pilot|merchant navy|Defence|\\bLaw\\b|Lawyer|Litigation|Legal|judge|diplomatic|Diplomacy|International relations|Public service|public leadership|Research scientist|Scientist or researcher|Scientific|Academic|Field research|Environmental, space|University professor|Veterinary|Nurse|Physiotherap|Pharmacist|Public health|Medical lab|Social work|Non-profit|Library|Sports|Human resources|Customer success|Customer service|Banker|Banking|Investment|Actuar|Lab professional|Event or hospitality|Public policy|Research analyst|Economist|Patient-advocacy', 'low'],
+  ['Software|Cloud or DevOps|Cybersecurity|Data scien|Data analy|Data visuali|Robotics or AI|Artificial intelligence|Digital marketing|Performance marketing|growth-hacking|Content creator|creator|Podcasting|Voice acting|Video, film|Graphic|UX|Game design|Animator|Artist|designer|Design \\(|Design, |Interior|Influencer', 'high'],
+];
+export const careerScale = (text) => {
+  for (const [re, key] of CAREER_SCALE_RULES) if (new RegExp(re, 'i').test(text)) return key;
+  return 'mid';
+};
