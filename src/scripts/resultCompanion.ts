@@ -43,7 +43,7 @@ export function extractScores(container: HTMLElement): Score[] {
     if (items.length >= 3 && items.length <= 12) return items;
   }
   // Pages that show scores as label and percentage rows instead of articles (the stage tests).
-  for (const sec of secs) {
+  for (const sec of [...Array.from(container.querySelectorAll<HTMLElement>('.res-bars')), ...secs]) {
     if (sec.closest('#fcs-companion-start')) continue;
     const rows: Score[] = [];
     Array.from(sec.querySelectorAll<HTMLElement>('*')).forEach((leaf) => {
@@ -68,7 +68,7 @@ export type Companion = { sections: string[]; extras: (decision: string) => { fr
 export function buildCompanion(container: HTMLElement, d: CompanionData): Companion {
   const K = KIND[d.kind];
   const scores = extractScores(container).slice().sort((a, b) => b.value - a.value);
-  const nTop = Math.min(2, Math.ceil(scores.length / 2)), top = scores.slice(0, nTop), low = scores.slice(nTop).slice(-2).reverse();
+  const nTop = Math.min(2, Math.ceil(scores.length / 2)), top = scores.slice(0, nTop), low = scores.slice(nTop).filter((x) => !top.length || x.value < top[top.length - 1].value).slice(-2).reverse();
   const head = d.kind === 'stage' ? 'the direction profile in this report' : headlineOf(container, d.title);
   const today = new Date(); const rev28 = fmt(plus(28)), rev90 = fmt(plus(90)), todayL = fmt(today);
   const t1 = top[0] ? top[0].label : 'your strongest area', l1 = low[0] ? low[0].label : 'your lowest area';
@@ -118,7 +118,7 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
     list(['Use the section on how much weight to give the result, where it is shown above, to see how consistent your own answers were.', 'Treat the result as a hypothesis to test with the experiments below, not as a verdict.', 'Retake it on or after ' + rev90 + ' and compare area by area.']) + '</div>';
 
   const evidenceHtml = scores.length >= 3 ? '<div class="result-section"><h4>' + SECT + '</h4>' +
-    '<p><b>' + HI + ':</b> ' + esc(listScores(top)) + '.</p><p><b>' + LO + ':</b> ' + esc(listScores(low)) + '.</p>' +
+    '<p><b>' + HI + ':</b> ' + esc(listScores(top)) + '.</p><p><b>' + LO + ':</b> ' + esc(low.length ? listScores(low) : 'no area scored lower than the highest group') + '.</p>' +
     '<p>' + MEAN + '</p>' +
     '<p>Headline result: ' + esc(head) + '.</p></div>' : '<div class="result-section"><h4>' + SECT + '</h4><p>Headline result: ' + esc(head) + '. The scores above show your strongest and weakest areas. Compare your top and bottom two and use the experiments below to test them.</p></div>';
 
