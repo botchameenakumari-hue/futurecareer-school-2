@@ -22,6 +22,28 @@ export type CourseEligibilityRecord = {
   sources: FinderSource[];
 };
 
+export type CourseScale = 'high' | 'mid' | 'low';
+
+// Planning lens only: the qualification is not the outcome. The rating asks
+// whether the work it commonly leads to can grow beyond a fixed job ladder.
+export const COURSE_SCALE: Record<string, { scale: CourseScale; why: string; grow: string }> = {
+  'btech-be': { scale: 'mid', why: 'A degree alone is crowded; software, automation, product or specialist consulting creates the scalable layer.', grow: 'Build one useful project and add a sellable digital or automation skill.' },
+  'architecture-planning': { scale: 'mid', why: 'A salaried design ladder is limited; a specialist studio or design-build practice creates the business layer.', grow: 'Build a portfolio, learn the commercial side and test a small client project.' },
+  'medical-ug': { scale: 'low', why: 'NEET, limited seats, postgraduate competition and a crowded practice market make this a long, high-competition route; effort alone does not guarantee the outcome.', grow: 'Keep a second skill route running; a clinic or product business is a separate later decision.' },
+  'nursing-allied': { scale: 'mid', why: 'Salaried care roles have a ceiling; a licensed clinic, home-care or health service can create a business layer.', grow: 'Check licensing, build supervised experience and learn service operations.' },
+  'bsc-nursing-telangana-state': { scale: 'mid', why: 'The regulated job route has a ceiling; a compliant home-care or care service can create a business layer later.', grow: 'Verify the state notice, complete supervised practice and learn safe service delivery.' },
+  'bca-computer': { scale: 'high', why: 'Computing skills can be sold as software, automation, data or implementation work beyond one employer.', grow: 'Build three proof projects and test a paid service or small product.' },
+  'bcom-finance': { scale: 'mid', why: 'A general degree is crowded; advisory, accounting software and small-business finance services create the business layer.', grow: 'Pair the degree with modelling, software and a clear client niche.' },
+  'business-management': { scale: 'mid', why: 'A general management degree is not a scalable outcome by itself; a specialist service or venture can be.', grow: 'Choose a domain, build evidence and test one real offer.' },
+  'integrated-law': { scale: 'low', why: 'Entrance competition and a slow climb leave few people at the top; a niche practice or legal-tech layer is a separate business choice.', grow: 'Treat it as a deliberate long route and build a niche plus portable writing or technology skills.' },
+  'design': { scale: 'high', why: 'Portfolio-led design can be sold directly to many clients and can grow into a studio or product.', grow: 'Create three case studies and test a focused client offer.' },
+  'agriculture': { scale: 'mid', why: 'Many salaried routes are modest; agri-business, processing, advisory or farm technology can create the business layer.', grow: 'Choose a real local problem and test a small service or product.' },
+  'teacher-education': { scale: 'mid', why: 'Salaried teaching has a ceiling; specialist training, cohorts or an education practice can extend reach.', grow: 'Teach one narrow topic, collect feedback and build responsible learning materials.' },
+  'hospitality': { scale: 'mid', why: 'Hospitality jobs follow a demanding salaried ladder; an owned food, event or hospitality business is the business layer.', grow: 'Learn unit economics and test a small, repeatable service before committing more resources.' },
+  'ca-foundation': { scale: 'mid', why: 'The exam ladder is long and competitive, but an advisory or compliance practice can grow beyond a salary.', grow: 'Verify the current ICAI pathway and develop a small-business advisory niche.' },
+  'iti-skill': { scale: 'mid', why: 'Trade employment has a fixed pay ladder; an owned repair, installation, solar or electrical service can scale locally.', grow: 'Build supervised trade competence, then document and sell a safe repeatable service.' },
+};
+
 export const COURSE_FINDER_META = {
   editoriallyReviewedOn: '11 October 2026',
   year: '2026 admission cycle',

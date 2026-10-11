@@ -346,9 +346,29 @@ const jsonLd = [
       (last ? '<p>Last snapshot: ' + esc(fmt(last.date)) + ' (readiness ' + last.readiness + '%, portfolio score ' + last.portfolio + ', ' + last.hours + ' hours, ' + last.done + ' projects done). ' + (overdue ? '<b>Your next review is due now.</b>' : 'Next review: ' + esc(fmt(due)) + '.') + '</p>' : '<p>No snapshot yet. Save one now and again every four weeks to see your progress.</p>') +
       (last ? '<p>Since then: readiness ' + (readiness() - last.readiness >= 0 ? '+' : '') + (readiness() - last.readiness) + ' points, portfolio score ' + (portfolioScore() - last.portfolio >= 0 ? '+' : '') + (portfolioScore() - last.portfolio) + ', hours +' + (Math.round((totalHours() - last.hours) * 10) / 10) + ', projects done +' + (doneCount() - last.done) + '.</p>' : '') +
       (S.snaps.length > 1 ? '<details class="spt-hist"><summary>All snapshots (' + S.snaps.length + ')</summary><ul>' + S.snaps.map((x, i) => '<li>' + (i + 1) + '. ' + esc(fmt(x.date)) + ': readiness ' + x.readiness + '%, portfolio score ' + x.portfolio + ', ' + x.hours + ' hours, ' + x.done + ' projects done</li>').join('') + '</ul></details>' : '') +
-      '<div class="spt-actions"><button type="button" class="spt-btn spt-btn--gold" data-act="snap">Save a progress snapshot</button><button type="button" class="spt-btn spt-btn--gold" data-act="pdf">Download progress report (PDF)</button><button type="button" class="spt-btn" data-act="ics">Add the next review to my calendar</button><button type="button" class="spt-btn" data-act="backup">Download a backup (JSON)</button><label class="spt-btn spt-file">Restore from backup<input type="file" accept="application/json,.json" data-act="restore"></label><button type="button" class="spt-btn" data-act="reset">Start again</button></div>' +
+      '<div class="spt-actions"><button type="button" class="spt-btn spt-btn--gold" data-act="snap">Save a progress snapshot</button><button type="button" class="spt-btn spt-btn--gold" data-act="pdf">Download progress report (PDF)</button><button type="button" class="spt-btn" data-act="share">Create privacy-safe share link</button><button type="button" class="spt-btn" data-act="ics">Add the next review to my calendar</button><button type="button" class="spt-btn" data-act="backup">Download a backup (JSON)</button><label class="spt-btn spt-file">Restore from backup<input type="file" accept="application/json,.json" data-act="restore"></label><button type="button" class="spt-btn" data-act="reset">Start again</button></div>' +
       '<p class="spt-hint" id="spt-status" role="status"></p>' +
       (memoryOnly ? '<p class="spt-info">This browser is not allowing saved data, so your entries will be lost when you close the page. Download the backup before you leave.</p>' : '') + '</section>';
+  }
+
+  function encodeShare(value) {
+    const bytes = new TextEncoder().encode(JSON.stringify(value));
+    let binary = ''; bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
+    return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function decodeShare(value) {
+    try {
+      const padded = value.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - value.length % 4) % 4);
+      const bytes = Uint8Array.from(atob(padded), (char) => char.charCodeAt(0));
+      const decoded = new TextDecoder().decode(bytes); const parsed = JSON.parse(decoded);
+      if (parsed && parsed.v === 1 && Array.isArray(parsed.r) && parsed.r.length === D.skills.length) return parsed;
+    } catch (error) {}
+    return null;
+  }
+  function renderSharedSnapshot(snapshot) {
+    const target = D.careers.find((item) => item.id === snapshot.t);
+    const stage = (AUDS.find((item) => item[0] === snapshot.a) || AUDS[1])[1];
+    app.innerHTML = '<section class="spt-card spt-shared" aria-labelledby="spt-shared-title"><h2 id="spt-shared-title">Shared skill snapshot</h2><p>This privacy-safe view contains ratings-derived totals only. It does not include a name, notes, files, evidence links or private project entries.</p><div class="spt-stats"><div><strong>' + Number(snapshot.rd || 0) + '%</strong><span>Readiness signal</span></div><div><strong>' + Number(snapshot.ps || 0) + '</strong><span>Portfolio checklist score</span></div><div><strong>' + Number(snapshot.done || 0) + '</strong><span>Projects marked done</span></div></div><p><b>Stage:</b> ' + esc(stage) + (target ? ' · <b>Target:</b> ' + esc(target.name) : '') + '</p><p class="spt-hint">This is a voluntary summary, not a hiring prediction or an independently checked portfolio.</p><p><a href="/services/assessments/skill-portfolio-tracker/">Open your own tracker</a></p></section>';
   }
 
   function secLinks() {
@@ -447,6 +467,12 @@ const jsonLd = [
     else if (act === 'delev') { const st = pstate(id); st.evidence.splice(Number(b.getAttribute('data-k')), 1); S.projects[id] = st; save(); render(); }
     else if (act === 'snap') { S.snaps.push({ date: todayISO(), ratings: S.ratings.slice(), readiness: readiness(), portfolio: portfolioScore(), hours: Math.round(totalHours() * 10) / 10, done: doneCount() }); save(); render(); const s = document.getElementById('spt-status'); if (s) s.textContent = 'Snapshot saved.'; }
     else if (act === 'pdf') makePdf();
+    else if (act === 'share') {
+      const payload = { v: 1, r: S.ratings.slice(), t: S.target || '', a: S.aud, rd: readiness(), ps: portfolioScore(), done: doneCount(), hours: Math.round(totalHours() * 10) / 10 };
+      const url = new URL(location.href); url.search = ''; url.searchParams.set('share', encodeShare(payload));
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url.toString()).catch(() => {});
+      const status = document.getElementById('spt-status'); if (status) status.textContent = 'Privacy-safe share link created and copied when your browser allows it.';
+    }
     else if (act === 'ics') {
       const last = S.snaps[S.snaps.length - 1]; const day = addDaysISO(last ? last.date : todayISO(), 28); const next = addDaysISO(day, 1);
       const compact = (iso) => iso.replace(/-/g, '');
@@ -486,7 +512,9 @@ const jsonLd = [
     rd.onload = () => { try { const o = JSON.parse(String(rd.result)); if (!o || o.v !== 1 || !Array.isArray(o.ratings)) throw new Error('bad'); S = Object.assign(blank(), o); save(); render(); const s = document.getElementById('spt-status'); if (s) s.textContent = 'Backup restored.'; } catch (err) { const s = document.getElementById('spt-status'); if (s) s.textContent = 'That file could not be read as a tracker backup.'; } };
     rd.readAsText(file);
   }
-  render();
+  const sharedSnapshot = new URLSearchParams(location.search).get('share');
+  const decodedSnapshot = sharedSnapshot ? decodeShare(sharedSnapshot) : null;
+  if (decodedSnapshot) renderSharedSnapshot(decodedSnapshot); else render();
 </script>
 
 <style is:global>

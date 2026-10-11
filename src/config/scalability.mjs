@@ -36,7 +36,7 @@ export const CAREER_SCALE_RULES = [
   ['Quantitative|Venture scouting', 'mid'],
   ['Architect', 'mid'],
   ['Counselling|Psychology|Psychologist|coaching|Nurse|Physiotherap|Pharmacist|Public health|Medical lab|Social work|Non-profit|Human resources|Customer success|Customer service|Lab professional|Event or hospitality|Patient-advocacy', 'mid'],
-  ['Doctor|MBBS|Dentist|Medicine|Healthcare|clinical|paramedic|Civil serv|UPSC|Pilot|merchant navy|Defence|\\bLaw\\b|Lawyer|Litigation|Legal|judge|diplomatic|Diplomacy|International relations|Public service|public leadership|Research scientist|Scientist or researcher|Scientific|Academic|Field research|Environmental, space|University professor|Veterinary|Library|Sports|Banker|Banking|Investment|Actuar|Public policy|Research analyst|Economist', 'low'],
+  ['Doctor|MBBS|Dentist|Medicine|clinical|paramedic|Civil serv|UPSC|Pilot|merchant navy|Defence|\\bLaw\\b|Lawyer|Litigation|Legal|judge|diplomatic|Diplomacy|International relations|Public service|public leadership|Research scientist|Scientist or researcher|Scientific|Academic|Field research|Environmental, space|University professor|Veterinary|Library|Sports|Banker|Banking|Investment|Actuar|Public policy|Research analyst|Economist', 'low'],
   ['Software|Cloud or DevOps|Cybersecurity|Data scien|Data analy|Data visuali|Robotics or AI|Artificial intelligence|Digital marketing|Performance marketing|growth-hacking|Content creator|creator|Podcasting|Voice acting|Video, film|Graphic|UX|Game design|Animator|Artist|designer|Design \\(|Design, |Interior|Influencer', 'high'],
 ];
 export const careerScale = (text) => {

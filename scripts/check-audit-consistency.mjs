@@ -24,11 +24,12 @@ const sitemapLocations = fs.existsSync('dist/sitemap.xml')
 const assessmentEntries = fs.readdirSync('src/pages/services/assessments').filter((entry) => fs.statSync(path.join('src/pages/services/assessments', entry)).isDirectory()).length;
 const toolPages = fs.readdirSync('src/pages/tools').filter((file) => file.endsWith('.astro')).length;
 const remoteSha = execFileSync('git', ['rev-parse', 'origin/main'], { encoding: 'utf8' }).trim();
+const headSha = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
 const fmt = (value) => value.toLocaleString('en-US');
 const words = { 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten', 11: 'eleven', 12: 'twelve', 13: 'thirteen', 14: 'fourteen', 15: 'fifteen', 16: 'sixteen', 17: 'seventeen', 18: 'eighteen', 19: 'nineteen', 20: 'twenty', 21: 'twenty-one', 22: 'twenty-two', 23: 'twenty-three', 24: 'twenty-four', 25: 'twenty-five' };
 
 const checks = [
-  [`latest remote SHA ${remoteSha}`, audit.includes(remoteSha)],
+  ['checked-out main matches origin/main', remoteSha === headSha && audit.includes('remote `origin/main` SHA matched the checked-out `main` branch')],
   [`source page count ${sourcePages}`, audit.includes(`${fmt(sourcePages)} page entry files`)],
   [`HTML page count ${htmlPages}`, audit.includes(`${fmt(htmlPages)} HTML files`)],
   [`sitemap location count ${sitemapLocations}`, audit.includes(`${fmt(sitemapLocations)} sitemap locations`)],

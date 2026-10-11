@@ -4,6 +4,7 @@ import {
   COURSE_FINDER_META,
   COURSE_FINDER_STREAMS,
   COURSE_FINDER_SUBJECTS,
+  COURSE_SCALE,
 } from '../config/courseEligibilityFinder';
 
 interface Props {
@@ -18,6 +19,7 @@ const data = {
   streams: COURSE_FINDER_STREAMS,
   subjects: COURSE_FINDER_SUBJECTS,
   meta: COURSE_FINDER_META,
+  scale: COURSE_SCALE,
   initialPreset,
 };
 ---
@@ -26,6 +28,7 @@ const data = {
   <h2 id="cef-title">{heading}</h2>
   <p>Start with your Class 12 stream and subjects. This screen separates routes that are usually open, routes that need a college-by-college check, and routes whose common subject gate you do not currently show.</p>
   <p class="cef-note"><b>Editorial screening starting point:</b> {COURSE_FINDER_META.year}; official starting pages reviewed {COURSE_FINDER_META.editoriallyReviewedOn}. The review confirms the linked authority and starting point, not an institute-level admission result. Records are source-mapped, not independently verified admission records. This is a screening tool, not an admission ruling.</p>
+  <p class="cef-note"><b>Scalability lens:</b> course eligibility is not a career outcome. Each route is marked <b>Scalable</b>, <b>Scalable with a business layer</b> or <b>Not so scalable</b>. “Not so scalable” flags crowding, rank-gated entry or a fixed ceiling; it does not remove the route.</p>
   <div id="cef-app"></div>
   <noscript><p class="cef-info">The finder needs JavaScript. Use the full chart below and confirm each course on its official admission page.</p></noscript>
   <script type="application/json" id="cef-data" set:html={JSON.stringify(data)} />
@@ -81,8 +84,11 @@ const data = {
     if (state.exam && !(record.examTags || []).includes(state.exam)) return '';
     if (state.excludeExam && (record.examTags || []).includes(state.excludeExam)) return '';
     if (state.query && !haystack.includes(state.query.toLowerCase())) return '';
+    const scale = D.scale[record.id];
+    const scaleLabel = scale ? ({ high: 'Scalable', mid: 'Scalable with a business layer', low: 'Not so scalable' }[scale.scale]) : '';
     return '<article class="cef-card"><div class="cef-card-head"><h3>' + esc(record.course) + '</h3><span class="cef-fit ' + fit.cls + '">' + esc(fit.label) + '</span></div>' +
       '<p class="cef-meta"><b>Entrance route:</b> ' + esc(record.exam) + ' · <b>Typical length:</b> ' + esc(record.duration) + '</p>' +
+      (scale ? '<p class="cef-scale cef-scale--' + scale.scale + '"><b>Scalability:</b> ' + esc(scaleLabel) + '. ' + esc(scale.why) + ' <b>Next growth move:</b> ' + esc(scale.grow) + '</p>' : '') +
       '<p><b>Why this result:</b> ' + esc(verdict.reason) + '</p>' +
       '<p><b>Subject rule:</b> ' + esc(record.subjectRule) + '</p>' +
       '<p class="cef-explanation">' + esc(record.explanation) + '</p>' +

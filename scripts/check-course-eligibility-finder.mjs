@@ -13,13 +13,18 @@ const csv = await readFile(csvFile, 'utf8');
 const queueJson = await readFile(queueJsonFile, 'utf8');
 const queueCsv = await readFile(queueCsvFile, 'utf8');
 
-if (!data.includes('COURSE_FINDER_META') || !data.includes("editoriallyReviewedOn: '11 October 2026'") || !data.includes("recordStatus: 'source-mapped-not-independently-verified'") || !data.includes('sourceReview') || !data.includes('doesNotConfirm') || !data.includes('verificationGap')) {
+if (!data.includes('COURSE_FINDER_META') || !data.includes("editoriallyReviewedOn: '11 October 2026'") || !data.includes("recordStatus: 'source-mapped-not-independently-verified'") || !data.includes('sourceReview') || !data.includes('doesNotConfirm') || !data.includes('verificationGap') || !data.includes('COURSE_SCALE')) {
   throw new Error('Course finder is missing its explicit editorial review date.');
 }
 
 const records = [...data.matchAll(/^    id: '/gm)];
 if (records.length < 15) {
   throw new Error(`Course finder has only ${records.length} records; expected the editorial route set.`);
+}
+const scaleIds = [...data.matchAll(/^  '([^']+)': \{ scale: '(?:high|mid|low)'/gm)].map((match) => match[1]);
+const recordIds = [...data.matchAll(/^    id: '([^']+)'/gm)].map((match) => match[1]);
+if (scaleIds.length !== recordIds.length || recordIds.some((id) => !scaleIds.includes(id))) {
+  throw new Error(`Every course finder record needs one explicit scalability rating (${scaleIds.length}/${recordIds.length}).`);
 }
 if ((data.match(/^    examTags: /gm) || []).length !== records.length || !data.includes('examTags: []')) {
   throw new Error('Every course finder record needs explicit exam tags, including route-only records.');
@@ -30,7 +35,7 @@ if (sourceBlocks.length !== records.length || sourceBlocks.some((match) => !matc
   throw new Error('Every course finder record must carry at least one explicit official source.');
 }
 
-for (const needle of ['COURSE_ELIGIBILITY_RECORDS', 'meta.editoriallyReviewedOn', 'meta.recordStatus', 'Official starting pages', 'institute notice', 'commerce-no-maths', 'mpc', 'bipc', 'bipc-no-neet', 'excludeExam', 'data-cef="exam"', 'state.exam']) {
+for (const needle of ['COURSE_ELIGIBILITY_RECORDS', 'COURSE_SCALE', 'scale: COURSE_SCALE', 'Scalable with a business layer', 'Not so scalable', 'meta.editoriallyReviewedOn', 'meta.recordStatus', 'Official starting pages', 'institute notice', 'commerce-no-maths', 'mpc', 'bipc', 'bipc-no-neet', 'excludeExam', 'data-cef="exam"', 'state.exam']) {
   if (!component.includes(needle)) throw new Error(`Course finder UI is missing: ${needle}`);
 }
 for (const needle of ['sourceReview', 'COURSE_FINDER_META.sourceReview']) {

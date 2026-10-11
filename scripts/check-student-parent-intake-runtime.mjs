@@ -32,7 +32,7 @@ try {
     const summary = page.locator('.spi-summary');
     if (!(await summary.textContent()).includes('evidence-led next step')) throw new Error('Completed intake summary was missing.');
     if (await summary.locator('a').getAttribute('href') !== '/tools/course-entrance-exam-finder/') throw new Error('Course routing was incorrect.');
-    await page.getByRole('button', { name: 'Save in this browser' }).click();
+    await page.locator('#student-parent-career-intake').getByRole('button', { name: 'Save in this browser' }).click();
     if (!(await page.locator('#spi-status').textContent()).includes('Saved')) throw new Error('Local save status was missing.');
   } finally { await browser.close(); }
   console.log('Student-parent intake runtime contract passed in Chromium.');

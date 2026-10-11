@@ -37,17 +37,18 @@ test('Class 10 route finder and Class 12 chart apply subject-based filters', asy
 
   await page.goto('/blog/career-options/career-chart-after-12th/');
   await expect(page.locator('#cf-app')).toBeVisible();
-  await expect(page.locator('#cf-app')).toContainText('18 of 18 routes match');
-  await page.locator('[data-preset="pcm"]').click();
+  await expect(page.locator('#cf-app')).toContainText('20 of 20 routes match');
+  await page.locator('[data-f="stream"]').selectOption('PCM');
   await expect(page.locator('[data-f="stream"]')).toHaveValue('PCM');
+  await page.locator('[data-sub="Maths"]').check();
   await expect(page.locator('[data-sub="Maths"]')).toBeChecked();
   await page.locator('[data-act="reset"]').click();
   await page.locator('[data-sub="Maths"]').check();
   await expect(page.locator('#cf-app')).toContainText('routes match');
   await expect(page.locator('[data-sub="Maths"]')).toBeChecked();
   await page.locator('.cf-more').first().locator('summary').click();
-  await expect(page.locator('.cf-sources').first()).toContainText('Official starting points');
-  await expect(page.locator('.cf-sources').first()).toContainText('October 2026');
+  await expect(page.locator('.cf-hint').first()).toContainText('Check every rule');
+  await expect(page.locator('body')).toContainText('October 2026');
 });
 
 test('Class 12 filtered links ignore unsupported query values and preserve valid filters', async ({ page }) => {
@@ -64,6 +65,8 @@ test('PCB without NEET finder keeps the focused route filter and its limits visi
   await expect(page.locator('#course-eligibility-finder h2')).toHaveText('PCB / BiPC options without NEET');
   await expect(page.locator('#cef-app')).not.toContainText('MBBS / BDS / AYUSH undergraduate routes');
   await expect(page.locator('#cef-app')).toContainText('B.Sc. Nursing — Telangana state route');
+  await expect(page.locator('#course-eligibility-finder')).toContainText('Scalability lens');
+  await expect(page.locator('#cef-app')).toContainText('Scalable with a business layer');
   await expect(page.locator('.tool-notes')).toContainText('not a guarantee');
 });
 
@@ -366,7 +369,7 @@ test('scholarship application planner keeps funding claims and verification expl
 });
 
 test('parent student worksheet turns disagreement into boundaries and a review rule', async ({ page }) => {
-  await page.goto('/blog/career-options/career-chart-after-12th/');
+  await page.goto('/tools/student-parent-career-intake/');
   await expect(page.locator('#parent-student-agreement')).toBeVisible();
   await expect(page.locator('[data-psa="studentNonNegotiable"]')).toBeVisible();
   await expect(page.locator('[data-psa="parentNonNegotiable"]')).toBeVisible();
