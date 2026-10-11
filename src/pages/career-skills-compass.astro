@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import { careerRoles, foundationSkills, interestLabels, modeLabels, stageLabels, valueLabels } from '../data/careerSkillsCompass';
 import { accessLabels, careerGoals, getCareerMeta, paceLabels, stagePlaybook } from '../data/careerCompassEnrichment';
 import { aiStagePlaybook, futureCareerRoles, futureCareerMeta, futureEvidence, practitionerSignals, getAITransition } from '../data/futureCareerProfiles';
+import { SCALE, SCALE_TIPS, careerScale } from '../config/scalability.mjs';
 
 const description = 'A free career and skills exploration system for students, freshers, professionals, career changers, returners and independent workers. Compare realistic work, entry routes and complete skill stacks.';
 const routeConfig = {
@@ -39,7 +40,11 @@ const compassVisuals = {
 };
 const allCareerRoles = [...futureCareerRoles, ...careerRoles];
 const clusters = [...new Set(allCareerRoles.map((role) => role.cluster))];
-const enrichedRoles = allCareerRoles.map((role) => ({ ...role, meta: futureCareerMeta[role.id] ?? getCareerMeta(role), ai: getAITransition(role) }));
+const enrichedRoles = allCareerRoles.map((role) => {
+  const meta = futureCareerMeta[role.id] ?? getCareerMeta(role);
+  const scale = careerScale(`${role.title} ${role.summary} ${meta.pace} ${meta.friction.join(' ')}`);
+  return { ...role, meta, ai: getAITransition(role), scale, scaleLabel: SCALE[scale].label, scaleTip: SCALE_TIPS[scale], scaleNote: scale === 'low' ? `This option remains visible, but ${meta.friction[0] || 'competition, regulation or limited openings'} means consistency alone is not enough.` : scale === 'mid' ? 'A salaried role may plateau; plan consulting, a practice, studio, product or service ownership if you want the route to scale.' : 'The skill, client, product or specialist-service layer can grow beyond one employer, but it still needs proof and market validation.' };
+});
 const transferableSkillIndex = [...enrichedRoles.reduce((index,role) => {
   role.skills.transferable.forEach((name) => {
     const item = index.get(name) ?? { name, roles: [], clusters: new Set<string>(), interests: new Set<string>() };
@@ -467,6 +472,9 @@ const jsonLd = {
   .compass-visual{width:min(1180px,calc(100% - 36px));margin:0 auto;padding:28px 0 12px}.compass-visual img{display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 18px 45px rgba(8,21,35,.12)}.compass-visual figcaption{max-width:760px;margin:12px auto 0;color:var(--cc-muted);font-size:13px;line-height:1.55;text-align:center}.compass-cover-visual{padding-top:26px;background:var(--cc-paper)}.compass-explainer{padding-block:42px}.compass-page[data-compass-route]:not([data-compass-route="hub"]) .compass-visual{display:none}
   @media(max-width:720px){.compass-visual{width:calc(100% - 24px);padding-block:18px 8px}.compass-visual img{border-radius:9px;box-shadow:0 10px 24px rgba(8,21,35,.1)}.compass-visual figcaption{font-size:12px;text-align:left}.compass-explainer{padding-block:26px}}
 </style>
+<style is:global>
+  .compass-scale{margin:12px 0;padding:10px;border-left:3px solid #1687b1;background:#eaf6fc;color:#405261;font-size:8px;line-height:1.5}.compass-scale--mid{border-left-color:#bd8b16;background:#fff8dd}.compass-scale--low{border-left-color:#bd431f;background:#fff0e9;color:#73301d}.compass-scale b{color:#102333}
+</style>
 
 <script>
   type CompassRole = Record<string, any> & { id: string; title: string };
@@ -481,6 +489,21 @@ const jsonLd = {
   const $ = <T extends Element = DomNode>(selector: string, root: ParentNode = document) => root.querySelector<T>(selector) as T;
   const $$ = <T extends Element = DomNode>(selector: string, root: ParentNode = document): T[] => [...root.querySelectorAll<T>(selector)];
   const escapeHtml = (value: unknown = '') => String(value).replace(/[&<>'"]/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'} as Record<string,string>)[char] || char);
+  const installScalabilityBadges = () => {
+    $$<HTMLElement>('[data-role-id]').forEach((card) => {
+      if (card.querySelector('[data-scalability-note]')) return;
+      const role = byId.get(card.dataset.roleId || '');
+      if (!role?.scaleLabel) return;
+      const target = card.querySelector('.result-ai-shift, .task-preview, .decision-signals');
+      if (!target) return;
+      const note = document.createElement('div');
+      note.dataset.scalabilityNote = 'true';
+      note.className = `compass-scale compass-scale--${role.scale}`;
+      note.innerHTML = `<b>Scalability: ${escapeHtml(role.scaleLabel)}.</b> ${escapeHtml(role.scaleNote)} <b>Growth move:</b> ${escapeHtml(role.scaleTip)}`;
+      target.before(note);
+    });
+  };
+  installScalabilityBadges();
   const profile:CompassProfile = { stage:'', goal:'', interests:[], values:[], modes:[], access:'', pace:'', constraints:[] };
   let currentStep = 1;
   let matchPage = 1;

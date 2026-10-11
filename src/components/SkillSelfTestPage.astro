@@ -29,6 +29,7 @@ import type { SkillTestBundle } from '../config/skillTests/types';
 import { PROJECTS } from '../config/skillProjects';
 import { TEST_NEXT, TEST_FOCUS_SKILL, TRACKER_PATH, REPORT_VERSION_TEXT } from '../config/skillTests/reportData';
 import { PF_SKILLS, INCOME_LADDER, PF_PROOF, PF_WEEKLY, PF_INTRO, PF_GENTLE, FREEDOM_FRAME, FREEDOM_STEPS, PF_READ_NEXT, PARENT_SKILLS, PF_AUDIENCE, PF_GENTLE_TESTS, PF_BLUEPRINT, PF_CRAFT, PF_STACK, PF_TRACK, PF_MISTAKES } from '../config/skillPortfolio';
+import { SCALE_RULE } from '../config/scalability.mjs';
 
 interface Props {
   testId?: SkillTestId;
@@ -50,6 +51,7 @@ const stagePlanAll = bundle ? bundle.stagePlan : STAGE_PLAN[testId];
 const depth = hasParent ? { ...baseDepth, stages: [...baseDepth.stages, PARENT_STAGE] } : baseDepth;
 const isStudent = test.main === 'class10';
 const plansConfig = getAssessmentPlansConfig(isStudent ? 'student' : 'mixed');
+const scalabilityRule = SCALE_RULE;
 
 const clientData = {
   id: test.id,
@@ -74,6 +76,7 @@ const clientData = {
   talkTitles: talkTitlesAll,
   storeKey: 'sst-last-' + testId,
   stagePlan: stagePlanAll,
+  scalabilityRule,
   reportTitle: test.reportTitle,
   reportFile: test.reportFile,
   isStudent,
@@ -797,7 +800,7 @@ const jsonLd = [
         '<p><b>Recommended to explore, because they use your strongest areas:</b></p>' +
         topTwo.map(function (r) { return '<p>' + esc(r.d.name) + ' (' + r.score + '%):</p>' + list(r.dd.roles); }).join('') +
         '<p><b>Investigate cautiously:</b> these lean on your lowest area, ' + esc(lc(lowest.d.name)) + ' (' + lowest.score + '%). They are not ruled out. Try a small experiment first and see how it feels.</p>' + list(lowest.dd.roles) +
-        '<p>Roles are examples of where an area matters, not a prediction of what you should do.</p></div>';
+        '<p>Roles are examples of where an area matters, not a prediction of what you should do. They are not automatically high-paying or scalable. ' + esc(D.scalabilityRule) + ' Use the route charts or tracker to inspect the specific option before investing time or money.</p></div>';
 
       // Three experiments, each with a measure and a decision rule.
       function focusItem(r) {

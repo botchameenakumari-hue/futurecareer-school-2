@@ -1,4 +1,5 @@
 import { careerGuideFor, guidedCareerPresets } from '../data/coachingPlaybooks';
+import { SCALE, SCALE_TIPS, careerScale } from './scalability.mjs';
 
 export const CAREER_CATALOGUE_META = {
   version: 'October 2026',
@@ -25,6 +26,7 @@ export const CAREER_DATABASE_SOURCE_MAP: Record<string, { status: 'source-mapped
 
 export const CAREER_ROUTE_RECORDS = guidedCareerPresets.map((preset) => {
   const guide = careerGuideFor(preset.key);
+  const scale = careerScale(`${preset.title} ${preset.category} ${guide?.summary ?? ''} ${guide?.independencePath ?? ''} ${guide?.competitionNote ?? ''}`) as 'high' | 'mid' | 'low';
   return {
     key: preset.key,
     title: preset.title,
@@ -53,6 +55,12 @@ export const CAREER_ROUTE_RECORDS = guidedCareerPresets.map((preset) => {
     regulated: guide?.regulated ?? false,
     careerGroup: guide?.careerGroup ?? 'Builders',
     dataConfidence: guide?.dataConfidence ?? 'exploratory',
+    scalability: scale,
+    scalabilityLabel: SCALE[scale].label,
+    scalabilityTip: SCALE_TIPS[scale],
+    scalabilityWhy: scale === 'low'
+      ? (guide?.competitionNote ?? 'This route can have a fixed ladder or intense competition; verify the local opportunity before committing.')
+      : (guide?.independencePath ?? 'Growth depends on building evidence and a credible independent offer, not only on time in a job.'),
     progression: guide?.progression ?? [],
   };
 });

@@ -93,6 +93,8 @@ test('career route finder filters the editorial catalogue and states its limits'
   await expect(page.locator('#crf-status')).toContainText('route');
   await expect(page.locator('.crf-card').first()).toBeVisible();
   await expect(page.locator('.lead')).toContainText('not a live job or salary database');
+  await expect(page.locator('.crf-card').first()).toContainText('Scalability');
+  await expect(page.locator('.crf-card').first()).toContainText(/Scalable|Not so scalable/);
 });
 
 test('career route finder compares two routes without making a ranking claim', async ({ page }) => {
