@@ -166,7 +166,7 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
   } else if (dt && dl && d.kind !== 'stage') {
     exp[0] = 'Test your highest area, ' + t1 + '. Within a day or two, ' + dt.task + '. Afterwards rate how it felt from 1 to 5 and write one thing you liked and one you did not.';
     exp[1] = 'Talk to ' + dt.ask + '. Ask how ' + t1.toLowerCase() + ' shows up in a normal week for them. Write the part that surprised you.';
-    exp[2] = 'Test your lowest area, ' + l1 + ', so you compare from experience and not only from the score. In about one hour, ' + dl.task + '. Then note whether it changes how you read the score.';
+    exp[2] = 'Test your lowest area, ' + l1 + ', so you compare from experience and not only from the score. Within a day or two, ' + dl.task + '. Then note whether it changes how you read the score.';
   }
 
   const pj = d.project;
