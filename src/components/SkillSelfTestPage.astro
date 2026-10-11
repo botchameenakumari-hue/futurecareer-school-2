@@ -762,6 +762,9 @@ const jsonLd = [
       if (neutral >= Math.ceil(NS * 0.4)) { confScore -= 25; confWhy.push('You chose the middle rating on ' + neutral + ' of ' + NS + ' statements, so the scores are less sharp than they could be.'); confUp.push('Re-read those statements and answer with one recent real example in mind.'); }
       if (extreme >= Math.ceil(NS * 0.75)) { confScore -= 20; confWhy.push('You chose the lowest or highest rating on ' + extreme + ' of ' + NS + ' statements. Very strong views can make a self-view look more certain than it is.'); confUp.push('Check a few of your extreme answers against real examples.'); }
       if (blindRows.length) { confScore -= Math.min(30, blindRows.length * 10); confWhy.push('Your statement ratings and your choices in situations point in different directions in ' + blindRows.length + (blindRows.length === 1 ? ' area: ' : ' areas: ') + blindRows.map(function (b) { return b.r.d.name; }).join(', ') + '.'); confUp.push('Ask someone who has seen you in those situations what they noticed.'); }
+      var usedRatings = {}; Q.forEach(function (q, i) { if (!q.opts) usedRatings[answers[i]] = 1; });
+      var nUsed = Object.keys(usedRatings).length;
+      if (NS >= 8 && nUsed <= 2) { confScore -= 15; confWhy.push('You used only ' + nUsed + (nUsed === 1 ? ' rating' : ' different ratings') + ' across ' + NS + ' statements, so the areas cannot be told apart sharply.'); confUp.push('Retake it and use the full range, from not true to very true, where it fits.'); }
       var thinAreas = results.filter(function (r) { return r.n < 3; });
       if (thinAreas.length) { confScore -= 5; confWhy.push('Some areas have fewer than three questions, so one answer moves them a lot.'); }
       if (!confWhy.length) confWhy.push('Your answers use a good spread of ratings and your statements and situations point the same way.');
