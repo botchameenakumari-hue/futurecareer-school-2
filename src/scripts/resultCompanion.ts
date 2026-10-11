@@ -4,6 +4,7 @@
 // tracker link, a printable action plan, parent and counsellor explanations and the next assessment.
 // It reads the result that is already on the page and invents no scores.
 import { REPORT_VERSION_LABEL } from './reportKit';
+import { SCALE_RULE } from '../config/scalability.mjs';
 
 type Line = { kind: 'heading-1' | 'heading-2' | 'heading-3' | 'bullet' | 'body'; text: string };
 export type CompanionData = {
@@ -196,6 +197,7 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
     '<h5>' + esc(pj.title) + '</h5><p>' + esc(LINK[d.kind]) + '</p><p><b>Portfolio output:</b> ' + esc(pj.outcome) + '</p><p><b>Time to plan for:</b> about ' + pj.hours + ' hours in total.</p>' +
     '<p><b>Steps:</b></p>' + list(pj.steps) + '<p><b>Evidence to keep while you work:</b></p>' + list(pj.proof) +
     (example ? '<p><b>An example for where you are now:</b> ' + esc(example) + '</p>' : '') +
+    '<p><b>Choosing a career direction with this result:</b> ' + esc(SCALE_RULE) + ' See the rating on each route in the <a href="/blog/career-options/career-chart-after-12th/">career chart after 12th</a> and the <a href="/blog/stream-selection/career-chart-after-10th/">career chart after 10th</a>.</p>' +
     '<p><b>Your skill tracker:</b> <a href="' + trackerHref + '">Open the free skill portfolio tracker</a> to rate nine skills, log hours, add evidence, score it and get a six-month timeline.</p></div>';
 
   const planText = () => [
@@ -240,6 +242,7 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
     ];
     const back: Line[] = [
       H('Review page'), B('Progress review date: ' + rev28), B('Full review and retake on or after: ' + rev90), B('What has changed since this report? ________________'), B('Which experiment will I keep, change or drop? ________________'), B('Who will I ask for feedback? ________________'),
+      H('How we rate scalability'), B(SCALE_RULE),
       H('Sources and further reading'), B('Your own answers, given on ' + todayL + '.'), B('Assessment page: https://futurecareerschool.com/services/assessments/' + d.slug + '/'), B('Skill portfolio tracker: https://futurecareerschool.com/services/assessments/skill-portfolio-tracker/'), ...d.next.map((n) => B(n.title + ': https://futurecareerschool.com' + n.href)), B(REPORT_VERSION_LABEL),
     ];
     return { front, back, coverMeta: [REPORT_VERSION_LABEL, 'Generated ' + todayL] };

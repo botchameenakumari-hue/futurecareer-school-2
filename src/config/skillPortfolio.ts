@@ -433,4 +433,5 @@ export const PF_MISTAKES: string[] = [
   'Waiting until you feel ready to show your work. Publish early and improve from feedback.',
   'Charging nothing for ever. Free work is for proof and a testimonial, so set a date to start asking for a fair price.',
   'Learning only the craft and ignoring reach. If nobody knows your work, nobody can pay for it.',
+  'Choosing a crowded route where success depends on beating rivals at stage after stage, with no skill that can grow on its own. Check any route against the scalability rating in our career charts before you commit.',
 ];

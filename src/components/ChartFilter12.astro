@@ -1,5 +1,6 @@
 ---
 import { chartRows, CHART12_META } from '../config/careerChartAfter12th.mjs';
+import { SCALE, SCALE_RULE, SCALE_FLAGGED } from '../config/scalability.mjs';
 import { ROW_FILTERS, STREAMS, EXAM_LABELS, COST_BANDS, LEVEL3, AI3, WFH3, OVERSEAS3 } from '../config/chart12Filters';
 
 if (chartRows.length !== ROW_FILTERS.length) {
@@ -15,6 +16,9 @@ const data = {
   rows,
   streams: STREAMS,
   exams: EXAM_LABELS,
+  scale: SCALE,
+  scaleRule: SCALE_RULE,
+  scaleFlagged: SCALE_FLAGGED,
   cost: COST_BANDS,
   level3: LEVEL3,
   ai3: AI3,
@@ -40,7 +44,7 @@ const data = {
   const D = JSON.parse(document.getElementById('cf-data').textContent);
   const app = document.getElementById('cf-app');
   const KEY = 'fcs-chart12-filter-v1';
-  const blank = () => ({ stream: '', hasMaths: 'unknown', hasBio: 'unknown', subjects: '', maths: '', bio: '', exam: '', years: '', cost: '', portfolio: '', employment: '', freelance: '', government: '', overseas: '', ai: '', wfh: '', question: '', name: '' });
+  const blank = () => ({ stream: '', hasMaths: 'unknown', hasBio: 'unknown', subjects: '', maths: '', bio: '', exam: '', years: '', cost: '', portfolio: '', employment: '', freelance: '', scale: '', government: '', overseas: '', ai: '', wfh: '', question: '', name: '' });
   let F = blank();
   try { const raw = localStorage.getItem(KEY); if (raw) F = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(F)); } catch (e) {} };
@@ -63,6 +67,7 @@ const data = {
     years: (r) => (F.years && r.f.years && r.f.years[0] > Number(F.years) ? 'Takes longer than ' + F.years + ' years' : ''),
     cost: (r) => (F.cost !== '' && r.f.cost[0] > Number(F.cost) ? 'Cheapest seat is above your cost level (' + D.cost[r.f.cost[0]] + ')' : ''),
     portfolio: (r) => (F.portfolio && r.f.portfolio !== F.portfolio ? 'Portfolio is ' + NEEDS[r.f.portfolio].toLowerCase() : ''),
+    scale: (r) => (F.scale === 'high' && r.scale !== 'high' ? 'Rated: ' + D.scale[r.scale].label.toLowerCase() : F.scale === 'mid' && r.scale === 'low' ? 'Rated: not so scalable' : ''),
     employment: (r) => (F.employment !== '' && r.f.employment < Number(F.employment) ? 'Employment route is ' + D.level3[r.f.employment].toLowerCase() : ''),
     freelance: (r) => (F.freelance !== '' && r.f.freelance < Number(F.freelance) ? 'Freelance route is ' + D.level3[r.f.freelance].toLowerCase() : ''),
     government: (r) => (F.government !== '' && r.f.government < Number(F.government) ? 'Government-sector route is ' + D.level3[r.f.government].toLowerCase() : ''),
@@ -70,7 +75,7 @@ const data = {
     ai: (r) => (F.ai !== '' && r.f.ai > Number(F.ai) ? 'AI exposure is ' + D.ai3[r.f.ai].toLowerCase() : ''),
     wfh: (r) => (F.wfh !== '' && r.f.wfh < Number(F.wfh) ? 'Work from home potential: ' + D.wfh3[r.f.wfh].toLowerCase() : ''),
   };
-  const LABELS = { stream: 'Stream', hasMaths: 'Subjects: Maths studied', hasBio: 'Subjects: Biology studied', maths: 'Maths requirement', bio: 'Biology requirement', exam: 'Entrance exam', years: 'Course length', cost: 'Cost', portfolio: 'Portfolio requirement', employment: 'Employment route', freelance: 'Freelance route', government: 'Government-sector route', overseas: 'Overseas mobility', ai: 'AI exposure', wfh: 'Work from home' };
+  const LABELS = { stream: 'Stream', hasMaths: 'Subjects: Maths studied', hasBio: 'Subjects: Biology studied', maths: 'Maths requirement', bio: 'Biology requirement', exam: 'Entrance exam', years: 'Course length', cost: 'Cost', portfolio: 'Portfolio requirement', scale: 'Scalability', employment: 'Employment route', freelance: 'Freelance route', government: 'Government-sector route', overseas: 'Overseas mobility', ai: 'AI exposure', wfh: 'Work from home' };
   const DEFAULTS = { stream: '', hasMaths: 'unknown', hasBio: 'unknown' };
   const isActive = (k) => (k in DEFAULTS ? F[k] !== DEFAULTS[k] : F[k] !== '');
   const activeKeys = () => Object.keys(CHECKS).filter(isActive);
@@ -104,6 +109,7 @@ const data = {
       field('Course length', 'years', [any, ['3', 'Up to 3 years'], ['4', 'Up to 4 years'], ['5', 'Up to 5 years']]) +
       field('Approximate cost I can manage', 'cost', [any, ['0', 'Low'], ['1', 'Up to medium'], ['2', 'Up to high'], ['3', 'Up to very high']]) +
       field('Portfolio requirement', 'portfolio', [any, ['no', 'Not needed'], ['helps', 'Portfolio helps'], ['required', 'Portfolio required']]) +
+      field('Scalability (our rating)', 'scale', [any, ['mid', 'Scalable, or scalable with a business layer'], ['high', 'Scalable only']]) +
       field('Employment route', 'employment', [any, ['1', 'Possible or common'], ['2', 'Common']]) +
       field('Freelance route', 'freelance', [any, ['1', 'Possible or common'], ['2', 'Common']]) +
       field('Government-sector route', 'government', [any, ['1', 'Possible or common'], ['2', 'Common']]) +
@@ -121,9 +127,9 @@ const data = {
     h += shown.map(({ r }) => {
       const f = r.f; const elig = F.stream ? f.streams[F.stream] : '';
       return '<article class="cf-card"><h4>' + esc(r.route) + '</h4>' +
-        '<p class="cf-tags"><span>Maths: ' + NEEDS[f.maths] + '</span><span>Biology: ' + NEEDS[f.biology] + '</span><span>' + yrsText(f.years) + '</span><span>Cost: ' + (f.cost[0] === f.cost[1] ? D.cost[f.cost[0]] : D.cost[f.cost[0]] + ' to ' + D.cost[f.cost[1]]) + '</span><span>Portfolio: ' + NEEDS[f.portfolio] + '</span></p>' +
+        '<p class="cf-tags"><span>Maths: ' + NEEDS[f.maths] + '</span><span>Biology: ' + NEEDS[f.biology] + '</span><span>' + yrsText(f.years) + '</span><span>Cost: ' + (f.cost[0] === f.cost[1] ? D.cost[f.cost[0]] : D.cost[f.cost[0]] + ' to ' + D.cost[f.cost[1]]) + '</span><span>Portfolio: ' + NEEDS[f.portfolio] + '</span><span class="cf-sc cf-sc--' + r.scale + '">' + esc(D.scale[r.scale].label) + '</span></p>' +
         '<p><b>Who can apply:</b> ' + esc(r.who) + (elig === 'check' ? ' <i>(Check the subject rule at each college for your stream.)</i>' : '') + '</p>' +
-        '<p><b>Entry gate:</b> ' + esc(r.gate) + '</p><p><b>First-year money signal:</b> ' + esc(r.money) + '</p><p><b>The catch:</b> ' + esc(r.catch) + '</p>' +
+        '<p><b>Entry gate:</b> ' + esc(r.gate) + '</p><p><b>First-year money signal:</b> ' + esc(r.money) + '</p><p><b>The catch:</b> ' + esc(r.catch) + '</p><p><b>Why this scalability rating:</b> ' + esc(r.why) + '</p><p><b>How to grow beyond a job:</b> ' + esc(r.grow) + '</p>' +
         '<details class="cf-more"><summary>Work routes, overseas, AI and remote work</summary><ul class="cf-lev"><li><b>Employment:</b> ' + D.level3[f.employment] + '</li><li><b>Freelance:</b> ' + D.level3[f.freelance] + '</li><li><b>Government sector:</b> ' + D.level3[f.government] + '</li><li><b>Overseas mobility:</b> ' + D.overseas3[f.overseas] + '. ' + esc(f.notes.overseas) + '</li><li><b>AI exposure:</b> ' + D.ai3[f.ai] + '. ' + esc(f.notes.ai) + '</li><li><b>Work from home:</b> ' + D.wfh3[f.wfh] + '. ' + esc(f.notes.wfh) + '</li><li><b>Cost note:</b> ' + esc(f.notes.cost) + '</li></ul></details></article>';
     }).join('');
     if (hidden.length) {
@@ -144,6 +150,8 @@ const data = {
     const act = activeKeys().map((k) => LABELS[k] + ': ' + (document.querySelector('[data-f="' + k + '"] option:checked') ? document.querySelector('[data-f="' + k + '"] option:checked').textContent : F[k]));
     L.push(h1('Your filtered chart at a glance'));
     L.push(p(shown.length + ' of ' + D.rows.length + ' routes match your filters' + (shown.length ? ': ' + shown.map((x) => x.r.route).join('; ') + '.' : '. Relax one filter to see more.')));
+    L.push(h1('How we rate scalability'));
+    L.push(p(D.scaleRule)); L.push(p(D.scaleFlagged));
     L.push(h1('Report details'));
     L.push(...bullets(['Prepared for: ' + (F.name || 'Not stated'), 'Date generated: ' + date, 'Report version: ' + REPORT_VERSION_LABEL.replace('Report version ', ''), 'Decision question: ' + (F.question || 'Not stated'), 'Source chart: ' + D.meta.pageUrl + ' (checked ' + D.meta.lastChecked + ')']));
     L.push(h1('Filters applied'));
@@ -153,7 +161,7 @@ const data = {
     L.push(h1('Confidence and limitations'));
     L.push(...bullets(['Filters work on levels for a whole row, such as "B.Tech in computer, data or electronics", so a specific college or branch can differ.', D.meta.disclaimer, ...STANDARD_LIMITS]));
     L.push(h1('Matching routes'));
-    shown.forEach(({ r }) => { const f = r.f; L.push(h2(r.route)); L.push(...bullets(['Who can apply: ' + r.who, 'Entry gate: ' + r.gate, 'Length: ' + yrsText(f.years) + ' (chart: ' + r.length + ')', 'Cost: ' + D.cost[f.cost[0]] + (f.cost[0] === f.cost[1] ? '' : ' to ' + D.cost[f.cost[1]]) + '. ' + f.notes.cost, 'Maths: ' + NEEDS[f.maths] + '. Biology: ' + NEEDS[f.biology] + '. Portfolio: ' + NEEDS[f.portfolio] + '.', 'Employment: ' + D.level3[f.employment] + '. Freelance: ' + D.level3[f.freelance] + '. Government sector: ' + D.level3[f.government] + '.', 'Overseas mobility: ' + D.overseas3[f.overseas] + '. ' + f.notes.overseas, 'AI exposure: ' + D.ai3[f.ai] + '. ' + f.notes.ai, 'Work from home: ' + D.wfh3[f.wfh] + '. ' + f.notes.wfh, 'First-year money signal: ' + r.money, 'The catch: ' + r.catch])); });
+    shown.forEach(({ r }) => { const f = r.f; L.push(h2(r.route)); L.push(...bullets(['Who can apply: ' + r.who, 'Scalability: ' + D.scale[r.scale].label + '. ' + r.why, 'How to grow beyond a job: ' + r.grow, 'Entry gate: ' + r.gate, 'Length: ' + yrsText(f.years) + ' (chart: ' + r.length + ')', 'Cost: ' + D.cost[f.cost[0]] + (f.cost[0] === f.cost[1] ? '' : ' to ' + D.cost[f.cost[1]]) + '. ' + f.notes.cost, 'Maths: ' + NEEDS[f.maths] + '. Biology: ' + NEEDS[f.biology] + '. Portfolio: ' + NEEDS[f.portfolio] + '.', 'Employment: ' + D.level3[f.employment] + '. Freelance: ' + D.level3[f.freelance] + '. Government sector: ' + D.level3[f.government] + '.', 'Overseas mobility: ' + D.overseas3[f.overseas] + '. ' + f.notes.overseas, 'AI exposure: ' + D.ai3[f.ai] + '. ' + f.notes.ai, 'Work from home: ' + D.wfh3[f.wfh] + '. ' + f.notes.wfh, 'First-year money signal: ' + r.money, 'The catch: ' + r.catch])); });
     L.push(h1('Routes hidden and why'));
     L.push(...(hidden.length ? bullets(hidden.map(({ r, f }) => r.route + ': ' + f.join('; '))) : [p('No route is hidden.')]));
     const relax = activeKeys().map((k) => ({ k, extra: D.rows.filter((r) => failures(r).length && !failures(r, k).length).length })).filter((x) => x.extra > 0);
@@ -217,6 +225,7 @@ const data = {
   .cf-card{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1rem 1.1rem;margin:.8rem 0;background:rgba(255,255,255,.03)}
   .cf-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:.3rem 0 .6rem}
   .cf-tags span{padding:.15rem .6rem;border-radius:999px;font-size:.78rem;background:rgba(229,184,74,.18);color:#f5d98c}
+  .cf-tags .cf-sc{font-weight:700}.cf-tags .cf-sc--high{background:rgba(18,154,141,.28);color:#8ff0e3}.cf-tags .cf-sc--mid{background:rgba(229,184,74,.18);color:#f5d98c}.cf-tags .cf-sc--low{background:rgba(255,120,120,.2);color:#ffb3b3}
   .cf-lev{padding-left:1.2rem}
   .cf-more summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
   @media (max-width:560px){.cf{padding:1rem}}

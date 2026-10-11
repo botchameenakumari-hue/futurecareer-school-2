@@ -5,6 +5,7 @@ import Footer from './Footer.astro';
 import { PF_SKILLS, INCOME_LADDER, PF_READ_NEXT, PF_WEEKLY } from '../config/skillPortfolio';
 import { PROJECTS } from '../config/skillProjects';
 import { CAREER_TARGETS } from '../config/careerTargets';
+import { SCALE, SCALE_RULE } from '../config/scalability.mjs';
 import { REPORT_VERSION_TEXT } from '../config/skillTests/reportData';
 
 const pageUrl = 'https://futurecareerschool.com/services/assessments/skill-portfolio-tracker/';
@@ -17,6 +18,8 @@ const data = {
   skills: PF_SKILLS.map((s) => ({ key: s.key, name: s.name, statement: s.statement, why: s.why, tools: s.tools, focus: s.focus, start: s.start, grow: s.grow, strong: s.strong })),
   projects: PROJECTS,
   careers: CAREER_TARGETS,
+  scale: SCALE,
+  scaleRule: SCALE_RULE,
   ladder: INCOME_LADDER,
   readNext: PF_READ_NEXT,
   weekly: PF_WEEKLY,
@@ -239,8 +242,9 @@ const jsonLd = [
 
   function secTarget() {
     const c = career(); const g = gaps();
-    const opts = '<option value="">No target yet (compare with a working level of 3)</option>' + D.careers.map((x) => '<option value="' + x.id + '"' + (S.target === x.id ? ' selected' : '') + '>' + esc(x.name) + ' (' + esc(x.family) + ')</option>').join('');
+    const opts = '<option value="">No target yet (compare with a working level of 3)</option>' + D.careers.map((x) => '<option value="' + x.id + '"' + (S.target === x.id ? ' selected' : '') + '>' + esc(x.name) + ' (' + esc(x.family) + '): ' + esc(D.scale[x.scale].label) + '</option>').join('');
     let body = '<label class="spt-wide">Target career or direction<select data-f="target">' + opts + '</select></label>';
+    if (c) body += '<p><b>Scalability: ' + esc(D.scale[c.scale].label) + '.</b> ' + esc(c.why) + ' <b>To grow beyond a job:</b> ' + esc(c.grow) + '</p>';
     if (!rated()) body += '<p class="spt-info">Rate at least one skill above to see your gaps.</p>';
     else {
       const nRated = S.ratings.filter((r) => r > 0).length; if (nRated < 9) body += '<p class="spt-hint">Readiness is based on the ' + nRated + ' of 9 skills you have rated. Rate the rest for a fuller picture.</p>';
@@ -249,6 +253,7 @@ const jsonLd = [
       if (c) body += '<p><b>Usual first proof in this field:</b> ' + esc(c.proof) + '</p><p><b>A good first move:</b> ' + esc(c.first) + '</p>';
       body += '<p class="spt-hint">The skill levels per career are rough emphasis levels, not hiring requirements. Employers differ, so check real job posts for the role you want.</p>';
     }
+    body += '<p class="spt-hint">' + esc(D.scaleRule) + '</p>';
     return '<section class="spt-card" id="s-target"><h2>2. Compare with a target career</h2>' + body + '</section>';
   }
 
@@ -365,6 +370,8 @@ const jsonLd = [
     L.push(...bullets([
       'You rated nine skills from 1 (not true yet) to 5 (very true).',
       'Each target career has a rough emphasis level from 1 to 5 for each skill. Without a target, a working level of 3 is used.',
+      D.scaleRule,
+      career() ? 'Target scalability: ' + D.scale[career().scale].label + '. ' + career().why + ' To grow beyond a job: ' + career().grow : 'No target chosen, so no scalability note.',
       'A gap is the target level minus your rating, never below 0. Readiness is 100 minus the total gap as a share of the total target levels.',
       'The evidence score for a project has six checks: finished output 25, problem 15, result 20, feedback from another person 20, shared publicly 10, reflection 10. For each check, the best entry counts.',
       'The portfolio score is the average evidence score of your best three projects.',

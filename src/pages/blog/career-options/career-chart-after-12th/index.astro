@@ -1,5 +1,6 @@
 ---
 import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+import { SCALE, SCALE_RULE, SCALE_FLAGGED } from '../../../../config/scalability.mjs';
 import pdfMeta from '../../../../config/careerChart12PdfMeta.json';
 import {
   PDF12_FILES,
@@ -61,7 +62,7 @@ const quickStartCards = [
     label: 'Marks are strong',
     title: 'You can compete for a seat that is scarce',
     body:
-      'JEE, NEET, CLAT and NDA seats are few compared with applicants. Chase them with a written second route, not with hope alone.',
+      'JEE, NEET, CLAT and NDA seats are few compared with applicants, and success depends on beating rivals at stage after stage. The chart rates these routes Not so scalable. Chase them only with a written second route and a skill that can grow on its own.',
   },
   {
     label: 'Marks are average',
@@ -394,8 +395,19 @@ const faqJsonLd = {
   </figure>
 
   <p>
-    Rows start with technology and business routes, where skill and ownership leave the most headroom, then move to licensed professions and service or teaching routes with more fixed pay bands. The skill-first row sits last because it combines with any other row. The order is a judgement about headroom, not about prestige or exam difficulty.
+    Rows are ordered by scalability: routes where steady learning can grow into consulting or a business come first, then routes that need a business layer, then routes where growth depends on beating rivals at many stages. Nothing is hidden. Well-known routes such as MBBS, NDA and government exams stay in the chart so you can see the risk each one carries. The skill-first row combines with any other row.
   </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p><strong>How we rate scalability</strong></p>
+    <p>{SCALE_RULE}</p>
+    <p>{SCALE_FLAGGED}</p>
+    <ul>
+      <li><strong>{SCALE.high.label}:</strong> skills, proof of work and a small business sense can grow income and reach on their own.</li>
+      <li><strong>{SCALE.mid.label}:</strong> the work is respected, but income grows mainly when you add consulting, a studio, a practice or a product.</li>
+      <li><strong>{SCALE.low.label}:</strong> crowded or ladder-style routes, or long routes where few people reach the top. Read the risk before you commit.</li>
+    </ul>
+  </div>
 
   <div class="table-wrap">
     <table class="paths-table">
@@ -407,6 +419,7 @@ const faqJsonLd = {
           <th>Length</th>
           <th>First-year money signal</th>
           <th>The catch</th>
+          <th>Scalability and how to grow</th>
         </tr>
       </thead>
       <tbody>
@@ -418,6 +431,7 @@ const faqJsonLd = {
             <td data-label="Length">{item.length}</td>
             <td data-label="First-year money signal">{item.money}</td>
             <td data-label="The catch">{item.catch}</td>
+            <td data-label="Scalability and how to grow"><strong>{SCALE[item.scale].label}.</strong> {item.why} <em>To grow: {item.grow}</em></td>
           </tr>
         ))}
       </tbody>
@@ -754,7 +768,7 @@ const faqJsonLd = {
   </div>
 
   <div class="highlight-box highlight-box--teal">
-    <p>Some rows scale beyond a salary. A CA or law practice, a design studio, a coaching or online teaching business, and a small clinic or lab-services business are owned paths.</p>
+    <p>Some rows scale beyond a salary: a design studio, a software or automation agency, a coaching or online teaching business, an advisory practice, and a small agri-business or health-service business are owned paths. Read the Scalability column in the chart for each row.</p>
     <p>They scale because you set the price and can add people or reach beyond your own hours, but each takes years of proof and client trust, so treat them as a later step.</p>
   </div>
 

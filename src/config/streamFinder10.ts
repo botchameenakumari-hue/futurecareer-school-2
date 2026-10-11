@@ -2,6 +2,8 @@
 // These weights are assumptions made for planning conversations. They are not official
 // rules, cut-offs or predictions, and every real rule must be checked on the official source.
 
+import { ROUTE_SCALE } from './scalability.mjs';
+
 export type SubjectKey = 'maths' | 'science' | 'social' | 'lang' | 'hands' | 'creative';
 export type InterestKey = 'build' | 'health' | 'money' | 'write' | 'tech' | 'create' | 'outdoors';
 
@@ -66,12 +68,16 @@ export type RouteModel = {
   pressureNote: string;
   costNote: string;
   family: 'science' | 'commerce' | 'arts' | 'vocational' | 'open';
+  /** Scalability rating: high, mid (needs a business layer) or low. */
+  scale: 'high' | 'mid' | 'low';
+  scaleNote: string;
+  grow: string;
 };
 
 const W = (maths: number, science: number, social: number, lang: number, hands: number, creative: number) => ({ maths, science, social, lang, hands, creative });
 const A = (build: number, health: number, money: number, write: number, tech: number, create: number, outdoors: number) => ({ build, health, money, write, tech, create, outdoors });
 
-export const ROUTE_MODEL: Record<string, RouteModel> = {
+const BASE_MODEL: Record<string, Omit<RouteModel, 'scale' | 'scaleNote' | 'grow'>> = {
   'science-pcm': { w: W(0.4, 0.3, 0, 0.05, 0.15, 0.1), aff: A(1, 0, 0.3, 0, 1, 0.3, 0.3), need: 4, cost: 2, pressure: 3, doorCol: 'PCM', family: 'science',
     pressureNote: 'Engineering entrance tests such as JEE Main and state tests are heavy and need steady preparation over two years.',
     costNote: 'Coaching, books and a possible move to a hostel city add cost. Government and state college seats cost far less than private ones.' },
@@ -103,6 +109,10 @@ export const ROUTE_MODEL: Record<string, RouteModel> = {
     pressureNote: 'No entrance pressure. The pressure is building real proof.',
     costNote: 'Free to low if you choose carefully.' },
 };
+
+export const ROUTE_MODEL: Record<string, RouteModel> = Object.fromEntries(
+  Object.entries(BASE_MODEL).map(([k, v]) => [k, { ...v, scale: ROUTE_SCALE[k].scale, scaleNote: ROUTE_SCALE[k].note, grow: ROUTE_SCALE[k].grow }]),
+);
 
 export const FAMILY_LABELS: Record<string, string> = {
   science: 'Science',

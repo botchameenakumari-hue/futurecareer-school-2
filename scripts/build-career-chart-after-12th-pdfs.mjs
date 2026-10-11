@@ -10,6 +10,7 @@ import {
   CHART12_META as META, boardColumns, chartRows, scienceCards, commerceCards, artsCards,
   oddsBars, payBars, costRows, dateCards, resultPlans, PDF12_FILES,
 } from '../src/config/careerChartAfter12th.mjs';
+import { SCALE, SCALE_RULE, SCALE_FLAGGED } from '../src/config/scalability.mjs';
 import { CHECKPOINTS, GATES } from '../src/config/careerChartAfter10th.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -23,8 +24,8 @@ const colors = { teal: '#0f9d8a', gold: '#b8860b', violet: '#6b46c1', blue: '#1f
 
 const columns = (cols) => `<div class="grid2">${cols.map((c) => `<div class="card" style="border-left-color:${colors[c.tone] || '#0f9d8a'}"><h3>${esc(c.head)} <span class="small">· ${esc(c.sub)}</span></h3>${ul(c.routes)}</div>`).join('')}</div>`;
 
-const chartTable = (rows) => `<table><thead><tr><th>Route</th><th>Who can apply</th><th>Entry gate</th><th>Length</th><th>Pay signal</th><th>The catch</th></tr></thead><tbody>${rows
-  .map((r) => `<tr><td><strong>${esc(r.route)}</strong></td><td>${esc(r.who)}</td><td>${esc(r.gate)}</td><td>${esc(r.length)}</td><td>${esc(r.money)}</td><td class="closes">${esc(r.catch)}</td></tr>`).join('')}</tbody></table>`;
+const chartTable = (rows) => `<table><thead><tr><th>Route</th><th>Who can apply</th><th>Entry gate</th><th>Length</th><th>Pay signal</th><th>The catch</th><th>Scalability and how to grow</th></tr></thead><tbody>${rows
+  .map((r) => `<tr><td><strong>${esc(r.route)}</strong></td><td>${esc(r.who)}</td><td>${esc(r.gate)}</td><td>${esc(r.length)}</td><td>${esc(r.money)}</td><td class="closes">${esc(r.catch)}</td><td><strong>${esc(SCALE[r.scale].label)}.</strong> ${esc(r.why)} <em>To grow: ${esc(r.grow)}</em></td></tr>`).join('')}</tbody></table>`;
 
 const bars = (rows, withDetail) => `<div class="bars">${rows
   .map((b) => `<div class="brow"><div class="blab" style="width:190px">${esc(b.label)}</div><div class="btrack"><div class="bfill" style="width:${Math.max(b.pct, 2)}%;background:${colors[b.tone] || '#0f9d8a'}"></div></div><div class="bval" style="width:${withDetail ? 230 : 70}px"><strong>${esc(b.value)}</strong>${withDetail && b.detail ? `<br>${esc(b.detail)}` : ''}</div></div>`).join('')}</div>`;
@@ -43,6 +44,7 @@ const plan = () => `<div class="plan"><h2>Your one-page plan</h2>${['Three route
   .map((l) => `<div class="small">${esc(l)}</div><div class="fill"></div>`).join('')}</div>`;
 
 const cta = () => `<div class="note"><strong>Read this first:</strong> ${esc(META.disclaimer)}</div>
+<div class="note"><strong>How we rate scalability:</strong> ${esc(SCALE_RULE)} ${esc(SCALE_FLAGGED)}</div>
 <div class="cta"><strong>The route is the base layer. The skill portfolio on top raises your ceiling.</strong><br>
 Check your fit with the free career assessments: <a href="${META.testUrl}">${esc(META.testUrl.replace('https://', ''))}</a><br>
 Personal help for you and your family: <a href="${META.guidanceUrl}">${esc(META.guidanceUrl.replace('https://', ''))}</a> · WhatsApp message from the site.<br>
