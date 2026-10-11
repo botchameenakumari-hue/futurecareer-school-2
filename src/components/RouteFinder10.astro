@@ -101,8 +101,8 @@ const data = {
     const byBalanced = sc.slice().sort((a, b) => b.balanced - a.balanced)[0];
     const tol = inp.pressure === 'low' ? 1 : inp.pressure === 'medium' ? 2 : 3;
     lastSummary = ['Class 10 route finder summary, ' + todayLabel() + '.', 'Decision question: ' + (S.question || 'not stated') + '.', 'Chosen by: ' + (PAR() ? 'parent, for their child' : 'the student') + '. Marks range: ' + (S.marks >= 0 ? D.marks[S.marks] : 'not stated') + '.', lead.label + '. Top routes: ' + top.map((x) => x.label + ' (suitability ' + x.fit + '%, optionality ' + x.optionality + '%)').join('; ') + '.', 'What could change this: ' + (changes.length ? changes.slice(0, 3).join(' ') : 'nothing small would change the order.'), 'This is a planning aid based on self-reported answers. It is not a ruling.'].join('\n');
-    let h = '<div class="rf-res" id="rf-res" aria-live="polite">';
-    h += '<h3>Your top routes</h3><p><b>' + esc(lead.label) + '.</b> ' + esc(lead.text) + ' ' + (PAR() ? 'These are routes to discuss with your child, not a ruling.' : 'These are routes to test, not a ruling.') + '</p>';
+    let h = '<div class="rf-res" id="rf-res">';
+    h += '<h3 aria-live="polite">Your top routes</h3><p><b>' + esc(lead.label) + '.</b> ' + esc(lead.text) + ' ' + (PAR() ? 'These are routes to discuss with your child, not a ruling.' : 'These are routes to test, not a ruling.') + '</p>';
     h += top.map((s, k) => {
       const r = routeById(s.id), m = D.model[s.id];
       return '<article class="rf-card"><h4>' + (k + 1) + '. ' + esc(s.label) + ' <span class="rf-pill">Suitability ' + s.fit + '%</span></h4>' +
