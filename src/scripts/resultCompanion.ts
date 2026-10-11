@@ -29,6 +29,56 @@ const KIND = {
 } as const;
 
 const SEC_SEL = '.result-section, .insight-section, .plan-section, .review-section, .res-section';
+
+// Concrete one-hour tasks and people to ask, by dimension label. Used to write experiments that fit the result.
+const DIM: { re: RegExp; task: string; ask: string }[] = [
+  { re: /realistic/, task: 'build, fix or assemble something with your hands, such as repairing an item or building a simple shelf', ask: 'a technician, engineer, craftsperson or farmer' },
+  { re: /investigative/, task: 'pick a question you are curious about, look for the answer in two sources and write what you found', ask: 'a researcher, analyst, doctor or lab technician' },
+  { re: /artistic/, task: 'make something original, such as a poster, short story, song or design, without copying', ask: 'a designer, writer, filmmaker or musician' },
+  { re: /social(?! skills)/, task: 'help one person learn or sort out something, such as tutoring a younger student, and note what you enjoyed', ask: 'a teacher, counsellor, nurse or social worker' },
+  { re: /enterprising/, task: 'organise or sell something small, such as a class event or a handmade item, and note how persuading felt', ask: 'a business owner, sales professional or manager' },
+  { re: /conventional/, task: 'organise information, such as an event budget or a tidy sheet of your marks, and note how it felt', ask: 'an accountant, administrator, banker or data operator' },
+  { re: /openness/, task: 'learn one unfamiliar thing, such as a new tool or a subject outside your syllabus', ask: 'a designer, researcher or founder' },
+  { re: /conscientious/, task: 'plan one week of a small project with deadlines, then record each day whether you did what you planned', ask: 'a manager, accountant or engineer who depends on deadlines' },
+  { re: /extraversion/, task: 'start conversations with three new people or lead a small group activity, then note your energy afterwards', ask: 'a salesperson, teacher or team lead' },
+  { re: /agreeableness/, task: 'help a teammate with their part of a task and notice how you balance their needs with your own', ask: 'a counsellor, nurse, HR professional or customer support lead' },
+  { re: /emotional sensitivity/, task: 'note your mood at three points in a day for a week and what set each off, then try one calming habit', ask: 'a trusted friend, teacher or counsellor' },
+  { re: /engagement and reflection/, task: 'spend an hour on a task alone and an hour on a task with others, and note which gave you more energy', ask: 'a person who works mostly alone and a person who works mostly with others' },
+  { re: /information and possibilities/, task: 'solve one problem twice, once from facts and details and once from patterns and ideas', ask: 'a classmate or colleague who prefers the other style' },
+  { re: /decision criteria/, task: 'make one real decision twice, once by logic and once by values and people, and compare', ask: 'a person who usually decides the other way' },
+  { re: /work approach/, task: 'plan one task fully in advance on one day and stay flexible on the next, and compare how each felt', ask: 'a person whose work habits are the opposite of yours' },
+  { re: /dominance/, task: 'take charge of a small group decision and note how the group responded', ask: 'a manager, founder or project lead' },
+  { re: /influence/, task: 'present one idea to a small group in two minutes and note how they reacted', ask: 'a trainer, marketer or sales professional' },
+  { re: /steadiness/, task: 'keep one shared routine going for a week, such as a team schedule, and note how it felt', ask: 'a nurse, teacher or operations lead' },
+  { re: /^conscientiousness|checks accuracy/, task: 'check a piece of your own work against a checklist and note what you found', ask: 'an auditor, engineer or quality analyst' },
+  { re: /type \d/, task: 'read a short description of this type from a reliable source and note three lines that fit you and three that do not', ask: 'two people who know you well' },
+  { re: /social skills/, task: 'help settle a small disagreement or coordinate a group task and note what helped', ask: 'a team lead or customer manager' },
+  { re: /empathy/, task: 'listen to someone for ten minutes without giving advice, then say back what you heard and ask if you got it right', ask: 'a counsellor, nurse or teacher' },
+  { re: /motivation/, task: 'choose a goal that needs a week of effort and write what keeps you going on the hard days', ask: 'a person who stuck with a long goal' },
+  { re: /self-regulation/, task: 'next time you feel stressed, pause for one minute before replying and note what changed', ask: 'a person who stays calm under pressure' },
+  { re: /self-awareness/, task: 'write down three emotions in a day and what caused each, then ask a friend if it matches what they see', ask: 'a trusted friend or mentor' },
+  { re: /financial/, task: 'make a budget for a small event and divide the work among two or three people', ask: 'a small business owner' },
+  { re: /execution/, task: 'finish one small project in a week and note what nearly stopped you', ask: 'a person who finishes work regularly' },
+  { re: /opportunity/, task: 'list ten small problems people around you face and pick one that might be worth solving', ask: 'a founder' },
+  { re: /resilience/, task: 'ask for feedback on something you made and write how you handled any criticism', ask: 'a person who recovered from a failed attempt' },
+  { re: /risk/, task: 'make a small decision with incomplete information and write what you checked before choosing', ask: 'a person who has started something new' },
+  { re: /kinesthetic/, task: 'learn one topic this week by doing it, such as an experiment or building a model', ask: 'a teacher who uses practical demonstrations' },
+  { re: /read\/write/, task: 'learn one topic by writing notes in your own words and a short summary', ask: 'a classmate who learns differently' },
+  { re: /auditory/, task: 'learn one topic by explaining it aloud or discussing it with a friend', ask: 'a classmate who learns differently' },
+  { re: /visual/, task: 'learn one topic by drawing a diagram or mind map', ask: 'a classmate who learns differently' },
+  { re: /commercial numeracy/, task: 'work through a real price, discount or interest example from a shop or a bill and check each step', ask: 'an accountant or shop owner' },
+  { re: /analytical number/, task: 'estimate the answer before calculating it for ten problems and compare', ask: 'a maths teacher' },
+  { re: /quantitative/, task: 'set up a real situation, such as a trip budget, as a calculation and solve it', ask: 'an engineer or accountant' },
+  { re: /language precision/, task: 'edit one paragraph of your own writing for exact word choice and note each change', ask: 'an editor, writer or teacher' },
+  { re: /comprehension|evidence/, task: 'read a short article and underline the evidence for its main claim', ask: 'a teacher or writer' },
+  { re: /relationships|communication/, task: 'explain one idea to someone in two different ways and check which they understood', ask: 'a trainer or team lead' },
+  { re: /verbal ability/, task: 'read a short passage and summarise it in two sentences, then check what you missed', ask: 'a teacher or editor' },
+  { re: /numerical reasoning/, task: 'solve five percentage or ratio problems and check each step', ask: 'a maths teacher or analyst' },
+  { re: /logical reasoning/, task: 'do five logic puzzles writing each step', ask: 'an analyst or software engineer' },
+  { re: /data interpretation/, task: 'read a table or chart from a news article and write three facts it shows', ask: 'an analyst or statistics teacher' },
+];
+const dimFor = (label: string) => { const l = (label || '').toLowerCase().replace(/^\d+\.\s*/, ''); return DIM.find((x) => x.re.test(l)); };
+
 export function extractScores(container: HTMLElement): Score[] {
   const secs = Array.from(container.querySelectorAll<HTMLElement>(SEC_SEL));
   for (const sec of secs) {
@@ -108,6 +158,16 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
     'Speak to one student or professional on that route and ask what a normal week looks like and what they would do differently.',
     'Spend one hour on a small real task from that route, then rate how it felt from 1 to 5.',
   ];
+  const dt = top[0] ? dimFor(top[0].label) : undefined, dl = low[0] ? dimFor(low[0].label) : undefined;
+  if (dt && dl && d.kind !== 'stage' && /^type \d/i.test(t1)) {
+    exp[0] = 'Read a short description of ' + t1 + ' from a reliable source. Note three lines that fit you and three that do not.';
+    exp[1] = 'Show that description to two people who know you well. Ask which lines sound like you and which do not, and write what they say.';
+    exp[2] = 'Read a short description of ' + l1 + ' too. Note whether any lines fit you better than the score suggests.';
+  } else if (dt && dl && d.kind !== 'stage') {
+    exp[0] = 'Test your highest area, ' + t1 + '. Within a day or two, ' + dt.task + '. Afterwards rate how it felt from 1 to 5 and write one thing you liked and one you did not.';
+    exp[1] = 'Talk to ' + dt.ask + '. Ask how ' + t1.toLowerCase() + ' shows up in a normal week for them. Write the part that surprised you.';
+    exp[2] = 'Test your lowest area, ' + l1 + ', so you compare from experience and not only from the score. In about one hour, ' + dl.task + '. Then note whether it changes how you read the score.';
+  }
 
   const pj = d.project;
   const example = pj.examples[d.aud] || pj.examples.early || '';
