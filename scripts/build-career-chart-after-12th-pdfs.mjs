@@ -51,9 +51,9 @@ Full guide with explanations: <a href="${META.pageUrl}">${esc(META.pageUrl.repla
 const pick = (rows, needles) => rows.filter((r) => needles.some((n) => r.route.toLowerCase().includes(n)));
 const cardList = (cards) => cards.map((c) => `<div class="card"><h3>${esc(c.label ? `${c.label}: ${c.title}` : c.title)}</h3>${c.body ? `<p>${esc(c.body)}</p>` : ul(c.items)}</div>`).join('');
 
-const sciNeedles = ['b.tech', 'bca', 'mbbs', 'nursing', 'defence', 'design'];
-const comNeedles = ['bba', 'b.com', 'integrated law', 'design', 'bca'];
-const artNeedles = ['integrated law', 'design', 'teacher', 'bba'];
+const sciNeedles = ['b.tech', 'bca', 'mbbs', 'nursing', 'defence', 'design', 'bsc, bs', 'architecture', 'agriculture', 'aviation', 'merchant navy'];
+const comNeedles = ['bba', 'b.com', 'integrated law', 'design', 'bca', 'hotel', 'government jobs'];
+const artNeedles = ['integrated law', 'design', 'teacher', 'bba', 'psychology', 'media', 'hotel', 'government jobs'];
 
 const bodies = {
   overall: () => `${header('Career Chart After 12th: All Routes', 'Science, commerce and arts: entry gate, length, pay signal and the catch for each route')}
