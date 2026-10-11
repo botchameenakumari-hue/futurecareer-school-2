@@ -23,7 +23,7 @@ The strategy report in the objective file is a baseline against `a2a5782`, not a
 | Historical statement | Current evidence | Current interpretation |
 | --- | --- | --- |
 | 15 public datasets were not built | `src/pages/datasets/` contains seven published editorial dataset pages, with JSON/CSV endpoints and provenance contracts | Seven editorial datasets are published; the remaining planned datasets and all first-party benchmark datasets remain unpublished. |
-| The Class 12 catalogue covered 11 routes | `src/config/careerChartAfter12th.mjs` and the audit contract | The current catalogue contains 18 route records. |
+| The Class 12 catalogue covered 11 routes | `src/config/careerChartAfter12th.mjs` and the audit contract | The current catalogue contains 20 route records. |
 | The course finder was only a planned next step | `src/config/courseEligibilityFinder.ts`, eight tool routes, and Chromium contracts | The current finder contains 15 dated editorial records, including a state-specific Telangana nursing route. |
 | Stage-test PDFs lacked report-detail pages | Four stage PDF generators, `scripts/check-stage-pdf-details.mjs` and the Chromium runtime contract | The current generators contain explicit front/back report sections; runtime checks now require those sections and stage score fields to be populated before both PDF controls are downloaded. |
 | Social-skills intent was consolidated into another assessment | `src/pages/services/assessments/social-skills-self-assessment/`, its bundle, and the current-feature contract | A distinct 25-question, five-domain self-assessment now exists; it is not a generic explanatory article. |
@@ -39,7 +39,7 @@ This reconciliation does not convert the remaining 118-tool proposal, 20 first-p
 | Requirement | Current evidence | Status | What the evidence does not prove |
 | --- | --- | --- | --- |
 | Class 10 decision tool | `src/components/RouteFinder10.astro`, `src/scripts/streamFinder10.ts`, Class 10 chart page | Implemented | It does not prove a real student found the result useful. |
-| Class 12 filtering and reasons | `src/config/careerChartAfter12th.mjs`, `src/config/chart12Filters.ts`, `src/components/ChartFilter12.astro` | Implemented; 18 route records | It is an editorial planning model, not an admissions decision. Official notices remain authoritative. |
+| Class 12 filtering and reasons | `src/config/careerChartAfter12th.mjs`, `src/config/chart12Filters.ts`, `src/components/ChartFilter12.astro` | Implemented; 20 route records | It is an editorial planning model, not an admissions decision. Official notices remain authoritative. |
 | Assessment result personalization | `src/scripts/resultCompanion.ts` and the four stage-page score attributes | Implemented with limits | Static contracts do not replace a complete human test cohort. |
 | Social-skills self-assessment | `src/pages/services/assessments/social-skills-self-assessment/`, shared skill-test bundle and browser contract | Implemented; 25 questions across five practical domains | It is a non-clinical self-assessment, not a validated psychological or hiring instrument. |
 | Stage-test PDF front/back details | Four stage PDF generators plus `scripts/check-stage-pdf-details.mjs` | Implemented and contract-verified | The contract verifies section ordering/content, not visual quality on every printer or PDF viewer. |
