@@ -2,9 +2,9 @@
 
 Audit date: 12 October 2026  
 Repository: `botchameenakumari-hue/futurecareer-school-2`  
-Latest pushed `main` SHA inspected: `a3b0117281f651ff6bb75f177f5f17ca307d4f4d`
+Latest pushed `main` SHA inspected: `20f3d6d32cd045ea28ba379c52ef641f4e3e744`
 
-The remote `origin/main` SHA was verified with a read-only `git ls-remote` check and fetched before inspection. The verification was run against the working tree containing the uncommitted source, component, configuration and contract changes shown by `git status`; the SHA above is the latest pushed baseline, not a claim that the working-tree changes have been committed or pushed.
+The remote `origin/main` SHA was fetched before the final merge. The verification was run against the merged, committed working tree; the SHA above records the pushed baseline that was reconciled before this release candidate was prepared.
 
 This is the current-branch evidence record. The older strategy report was prepared against `a2a5782`; statements in that report are historical unless the current source or a current verification command below supports them.
 
