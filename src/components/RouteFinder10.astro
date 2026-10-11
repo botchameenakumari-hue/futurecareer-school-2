@@ -86,6 +86,7 @@ const data = {
   function bar(label, v, extra) { return '<div class="rf-bar"><div class="rf-bar-l"><span>' + esc(label) + '</span><span>' + (extra || v + '%') + '</span></div><div class="rf-bar-t" aria-hidden="true"><i style="width:' + Math.max(0, Math.min(100, v)) + '%"></i></div></div>'; }
   const yrs = (r) => (r[0] === r[1] ? r[0] + ' years' : r[0] + ' to ' + r[1] + ' years');
 
+  let lastSummary = '';
   function resultHtml() {
     if (!S.shown) return '';
     if (answered() < MIN_ANSWERS) return '<div class="rf-res"><p class="rf-info">Answer at least ' + MIN_ANSWERS + ' questions (marks, any confidence ratings, interests, money, pressure and earning time all count) to see your routes.</p></div>';
@@ -98,6 +99,7 @@ const data = {
     const changes = whatCouldChange(inp, D.routes, D.model, D.cols, D.doors, D.subjects);
     const byBalanced = sc.slice().sort((a, b) => b.balanced - a.balanced)[0];
     const tol = inp.pressure === 'low' ? 1 : inp.pressure === 'medium' ? 2 : 3;
+    lastSummary = ['Class 10 route finder summary, ' + todayLabel() + '.', 'Decision question: ' + (S.question || 'not stated') + '.', 'Chosen by: ' + (PAR() ? 'parent, for their child' : 'the student') + '. Marks range: ' + (S.marks >= 0 ? D.marks[S.marks] : 'not stated') + '.', lead.label + '. Top routes: ' + top.map((x) => x.label + ' (suitability ' + x.fit + '%, optionality ' + x.optionality + '%)').join('; ') + '.', 'What could change this: ' + (changes.length ? changes.slice(0, 3).join(' ') : 'nothing small would change the order.'), 'This is a planning aid based on self-reported answers. It is not a ruling.'].join('\n');
     let h = '<div class="rf-res" id="rf-res" aria-live="polite">';
     h += '<h3>Your top routes</h3><p><b>' + esc(lead.label) + '.</b> ' + esc(lead.text) + ' ' + (PAR() ? 'These are routes to discuss with your child, not a ruling.' : 'These are routes to test, not a ruling.') + '</p>';
     h += top.map((s, k) => {
@@ -129,7 +131,7 @@ const data = {
     // Parent
     if (PAR()) h += '<h3>Questions to ask your child before deciding</h3><ul>' + D.parentQuestions.map((q) => '<li>' + esc(q) + '</li>').join('') + '</ul><p>Your child should lead the choice, and you can supply the money, rules and experience. Write down what you each want, then compare.</p>';
     h += '<h3>Before you commit</h3><ul>' + D.gates.map((g) => '<li><b>' + esc(g.title) + ':</b> ' + esc(g.body) + '</li>').join('') + '</ul>';
-    h += '<p class="rf-hint">' + esc(D.note) + '</p><div class="rf-actions"><button type="button" class="rf-btn rf-btn--gold" data-act="pdf">Download my personalised report (PDF)</button></div><p class="rf-hint" id="rf-status" role="status"></p></div>';
+    h += '<p class="rf-hint">' + esc(D.note) + '</p><div class="rf-actions"><button type="button" class="rf-btn rf-btn--gold" data-act="pdf">Download my personalised report (PDF)</button><button type="button" class="rf-btn" data-act="copysum">Copy a summary for a counsellor or teacher</button></div><p class="rf-hint" id="rf-status" role="status"></p></div>';
     return h;
   }
 
@@ -196,6 +198,7 @@ const data = {
     else if (a === 'show') { S.shown = true; save(); render(); ping('route_finder_10_show', { mode: S.mode }); const r = document.getElementById('rf-res'); if (r) r.scrollIntoView({ block: 'start' }); }
     else if (a === 'reset') { S = blank(); save(); render(); }
     else if (a === 'pdf') pdf();
+    else if (a === 'copysum') { const done = () => { b.textContent = 'Summary copied'; setTimeout(() => { b.textContent = 'Copy a summary for a counsellor or teacher'; }, 2000); }; try { navigator.clipboard.writeText(lastSummary).then(done, () => { b.textContent = 'Copy not available'; }); } catch (err) { b.textContent = 'Copy not available'; } }
   });
   app.addEventListener('change', (e) => {
     const t = e.target; const f = t.getAttribute && t.getAttribute('data-f');
