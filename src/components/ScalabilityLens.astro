@@ -1,0 +1,28 @@
+---
+import { SCALE, SCALE_RULE, PAY_CAUTION, SCALE_TIPS, BLOG_LENS, LENS_CATEGORIES, POST_SCALE } from '../config/scalability.mjs';
+interface Props { category: string; title: string; slug: string }
+const { category, title, slug } = Astro.props;
+const show = LENS_CATEGORIES.includes(category);
+const post = POST_SCALE[slug as keyof typeof POST_SCALE] as undefined | ['high' | 'mid' | 'low', string];
+const def = BLOG_LENS[category as keyof typeof BLOG_LENS];
+const scale = (post?.[0] || def?.scale || null) as null | 'high' | 'mid' | 'low';
+const text = post ? `${post[1]} ${SCALE_TIPS[post[0]]}` : def?.text || '';
+---
+{show && (
+  <aside class="scale-lens" aria-label="Our scalability view">
+    <p class="scale-lens__head"><strong>Our scalability view.</strong>
+      {scale ? <> {post ? 'This career is rated' : 'Topics in this category are generally rated'} <strong>{SCALE[scale].label}</strong>. {text}</> : <> We rate every career option Scalable, Scalable with a business layer, or Not so scalable, and show the risk. Check each option below against that rating.</>}
+    </p>
+    <details>
+      <summary>How we rate scalability, and a note on pay figures</summary>
+      <p>{SCALE_RULE}</p>
+      <p>{PAY_CAUTION}</p>
+      <p>See the rating on each route in the <a href="/blog/career-options/career-chart-after-12th/">career chart after 12th</a> and the <a href="/blog/stream-selection/career-chart-after-10th/">career chart after 10th</a>.</p>
+    </details>
+  </aside>
+)}
+<style is:global>
+  .scale-lens{margin:0 0 1.6rem;padding:1rem 1.15rem;border:1px solid rgba(18,154,141,.4);border-left-width:4px;border-radius:12px;background:rgba(18,154,141,.08)}
+  .scale-lens p{margin:.2rem 0 .6rem;line-height:1.65}
+  .scale-lens summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
+</style>

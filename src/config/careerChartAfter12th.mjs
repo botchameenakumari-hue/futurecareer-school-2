@@ -2,7 +2,10 @@
 // The post (src/pages/blog/career-options/career-chart-after-12th/index.astro) and
 // scripts/build-career-chart-after-12th-pdfs.mjs both import this file.
 
+import { PAY_CAUTION } from './scalability.mjs';
+
 export const CHART12_META = {
+  payCaution: PAY_CAUTION,
   lastChecked: 'October 2026',
   pageUrl: 'https://futurecareerschool.com/blog/career-options/career-chart-after-12th/',
   guidanceUrl: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/',
@@ -17,11 +20,11 @@ export const boardColumns = [
     head: 'Science (PCM)',
     sub: 'Physics, Chemistry, Maths',
     routes: [
-      'B.Tech / BE: JEE Main, JEE Advanced, state tests (Needs a business layer)',
+      'B.Tech / BE: JEE Main, JEE Advanced, state tests (Scalable with a business layer)',
       'BCA, BSc Computer Science, Data Science (Scalable)',
-      'Architecture: JEE Main Paper 2 or NATA (Needs a business layer)',
+      'Architecture: JEE Main Paper 2 or NATA (Scalable with a business layer)',
       'NDA: Army, Navy and Air Force (Not so scalable)',
-      'Also open: design (Scalable), CA (Needs a business layer), BBA and law (Not so scalable)',
+      'Also open: design (Scalable), CA (Scalable with a business layer), BBA (Scalable with a business layer), law (Not so scalable)',
     ],
   },
   {
@@ -30,10 +33,10 @@ export const boardColumns = [
     sub: 'Physics, Chemistry, Biology',
     routes: [
       'MBBS and BDS: NEET UG (Not so scalable)',
-      'BSc Nursing, physiotherapy, allied health (Not so scalable)',
-      'B.Pharm, biotech, life sciences (Needs a business layer)',
-      'Psychology, nutrition, forensic science (Needs a business layer)',
-      'Also open: design (Scalable), CA (Needs a business layer), BBA and law (Not so scalable)',
+      'BSc Nursing, physiotherapy, allied health (Scalable with a business layer)',
+      'B.Pharm, biotech, life sciences (Scalable with a business layer)',
+      'Psychology, nutrition, forensic science (Scalable with a business layer)',
+      'Also open: design (Scalable), CA (Scalable with a business layer), BBA (Scalable with a business layer), law (Not so scalable)',
     ],
   },
   {
@@ -41,8 +44,8 @@ export const boardColumns = [
     head: 'Commerce',
     sub: 'With or without Maths',
     routes: [
-      'B.Com and BA Economics, then CA, CS or CMA (Needs a business layer)',
-      'BBA, BMS, integrated MBA (IPMAT, JIPMAT) (Not so scalable as a general degree)',
+      'B.Com and BA Economics, then CA, CS or CMA (Scalable with a business layer)',
+      'BBA, BMS, integrated MBA (IPMAT, JIPMAT) (Scalable with a business layer)',
       'Integrated law: CLAT and other law tests (Not so scalable)',
       'BCA and data routes (Maths helps) (Scalable)',
       'Banking, insurance and finance jobs after graduation (Not so scalable)',
@@ -53,10 +56,10 @@ export const boardColumns = [
     head: 'Arts / Humanities',
     sub: 'Any subject mix',
     routes: [
-      'BA (Psychology, Economics, Political Science, English) (Needs a business layer)',
+      'BA (Psychology, Economics, Political Science, English) (Scalable with a business layer)',
       'Integrated law: CLAT, AILET (Not so scalable)',
-      'Design (Scalable), media, journalism, mass communication (Needs a business layer)',
-      'Teacher education, including the four-year ITEP (Needs a business layer)',
+      'Design (Scalable), media, journalism, mass communication (Scalable with a business layer)',
+      'Teacher education, including the four-year ITEP (Scalable with a business layer)',
       'Civil services after graduation, with a backup skill (Not so scalable)',
     ],
   },
@@ -180,9 +183,31 @@ export const chartRows = [
     length: '3 to 5 years',
     money: 'Wide range. Entry-level digital marketing managers average about ₹3.1 lakh in PayScale profiles and it rises with results',
     catch: 'A general management degree without one domain skill produces a generalist gap.',
-    scale: 'low',
-    why: 'A general management degree is crowded, and pay depends on the college brand and one domain skill.',
+    scale: 'mid',
+    why: 'A general management degree is crowded, but a business degree is a natural base for a venture or consulting practice.',
     grow: 'Pick one domain such as sales, marketing or operations, then run a real small venture or consult for local businesses.',
+  },
+  {
+    route: 'BSc Nursing, B.Pharm, physiotherapy',
+    who: 'PCB for nursing and physiotherapy; PCB or PCM for B.Pharm',
+    gate: 'State counselling, university tests and college tests',
+    length: '4 years',
+    money: 'Nurse fresher pay averages about ₹2.6 lakh; pharmacist about ₹2.5 lakh',
+    catch: 'Licence and registration rules apply. Pay rises through specialisation, not time alone.',
+    scale: 'mid',
+    why: 'Salaried care roles have a pay ceiling and licence rules, but clinics, home-care services and health-tech give a real business layer.',
+    grow: 'Add a specialisation, then build a clinic, home-care service or health-tech role.',
+  },
+  {
+    route: 'Hotel management and hospitality',
+    who: 'Any stream',
+    gate: 'NCHM JEE or a college test',
+    length: '3 to 4 years',
+    money: 'Starts modest in India; grows with promotions or overseas postings',
+    catch: 'Hours are long and shift-based. Check that the college is approved and offers real placements.',
+    scale: 'mid',
+    why: 'Employment-heavy with long hours, but food, event and hospitality-consulting businesses give a real business layer.',
+    grow: 'Build a food, event or hospitality-consulting business of your own.',
   },
   {
     route: 'Integrated law (BA LLB, BBA LLB)',
@@ -207,17 +232,6 @@ export const chartRows = [
     grow: 'If you still choose it, write a second route first. Growth comes later through a specialisation, a clinic or a health-service business.',
   },
   {
-    route: 'BSc Nursing, B.Pharm, physiotherapy',
-    who: 'PCB for nursing and physiotherapy; PCB or PCM for B.Pharm',
-    gate: 'State counselling, university tests and college tests',
-    length: '4 years',
-    money: 'Nurse fresher pay averages about ₹2.6 lakh; pharmacist about ₹2.5 lakh',
-    catch: 'Licence and registration rules apply. Pay rises through specialisation, not time alone.',
-    scale: 'low',
-    why: 'Salaried care roles have a pay ceiling and licence rules; growth is slow without a specialisation.',
-    grow: 'Add a specialisation, then a clinic, home-care service or health-tech role.',
-  },
-  {
     route: 'Defence: NDA',
     who: 'Army: any stream. Navy and Air Force: Physics and Maths',
     gate: 'UPSC NDA exam, then SSB interview and medical tests',
@@ -238,17 +252,6 @@ export const chartRows = [
     scale: 'low',
     why: 'A research career takes many years and few people reach stable senior positions; industry roles usually need a further degree.',
     grow: 'Pair the degree with data, lab-service or science-communication skills so you have a way to earn while you study.',
-  },
-  {
-    route: 'Hotel management and hospitality',
-    who: 'Any stream',
-    gate: 'NCHM JEE or a college test',
-    length: '3 to 4 years',
-    money: 'Starts modest in India; grows with promotions or overseas postings',
-    catch: 'Hours are long and shift-based. Check that the college is approved and offers real placements.',
-    scale: 'low',
-    why: 'Employment-heavy with long hours and a modest pay ladder.',
-    grow: 'Scale only through a food, event or hospitality-consulting business of your own.',
   },
   {
     route: 'Government jobs: SSC, railways, banks and police',
@@ -340,7 +343,7 @@ export const artsCards = [
     label: 'Psychology and social science',
     title: 'BA, then a specialisation',
     body:
-      'A BA in Psychology, Economics or Political Science works best when you know which postgraduate or job path sits after it. Counselling and clinical work need further study and licensing. Psychology and economics are rated Scalable only with a business layer, such as a niche practice, consulting or workshops.',
+      'A BA in Psychology, Economics or Political Science works best when you know which postgraduate or job path sits after it. Counselling and clinical work need further study and licensing. Psychology and economics are rated Scalable with a business layer, such as a niche practice, consulting or workshops.',
   },
   {
     label: 'Media and design',
@@ -363,14 +366,14 @@ export const after10Rows = [
     length: '3 years',
     cost: 'Published estimates: government colleges cost far less than private ones',
     leadsTo: 'A junior engineering job, or lateral entry into the second year of B.Tech in many states',
-    catch: 'Check the state process for lateral entry and the branch before you join. Rated Scalable only with a business layer: add automation or digital skills, or run a technical service.',
+    catch: 'Check the state process for lateral entry and the branch before you join. Rated Scalable with a business layer: add automation or digital skills, or run a technical service.',
   },
   {
     route: 'ITI (trade certificate)',
     length: '6 months to 2 years',
     cost: 'Low in government ITIs',
     leadsTo: 'Trade jobs, apprenticeship and diploma routes in some states',
-    catch: 'Pay starts low. It grows when you add supervision, digital or safety skills. Rated Scalable only with a business layer: offer your trade as your own service.',
+    catch: 'Pay starts low. It grows when you add supervision, digital or safety skills. Rated Scalable with a business layer: offer your trade as your own service.',
   },
   {
     route: 'Skill certificate plus an open school route',

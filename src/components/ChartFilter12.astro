@@ -24,7 +24,7 @@ const data = {
   ai3: AI3,
   wfh3: WFH3,
   overseas3: OVERSEAS3,
-  meta: { pageUrl: CHART12_META.pageUrl, lastChecked: CHART12_META.lastChecked, disclaimer: CHART12_META.disclaimer },
+  meta: { payCaution: CHART12_META.payCaution, pageUrl: CHART12_META.pageUrl, lastChecked: CHART12_META.lastChecked, disclaimer: CHART12_META.disclaimer },
 };
 ---
 
@@ -129,7 +129,7 @@ const data = {
       return '<article class="cf-card"><h4>' + esc(r.route) + '</h4>' +
         '<p class="cf-tags"><span>Maths: ' + NEEDS[f.maths] + '</span><span>Biology: ' + NEEDS[f.biology] + '</span><span>' + yrsText(f.years) + '</span><span>Cost: ' + (f.cost[0] === f.cost[1] ? D.cost[f.cost[0]] : D.cost[f.cost[0]] + ' to ' + D.cost[f.cost[1]]) + '</span><span>Portfolio: ' + NEEDS[f.portfolio] + '</span><span class="cf-sc cf-sc--' + r.scale + '">' + esc(D.scale[r.scale].label) + '</span></p>' +
         '<p><b>Who can apply:</b> ' + esc(r.who) + (elig === 'check' ? ' <i>(Check the subject rule at each college for your stream.)</i>' : '') + '</p>' +
-        '<p><b>Entry gate:</b> ' + esc(r.gate) + '</p><p><b>First-year money signal:</b> ' + esc(r.money) + '</p><p><b>The catch:</b> ' + esc(r.catch) + '</p><p><b>Why this scalability rating:</b> ' + esc(r.why) + '</p><p><b>How to grow beyond a job:</b> ' + esc(r.grow) + '</p>' +
+        '<p><b>Entry gate:</b> ' + esc(r.gate) + '</p><p><b>First-year money signal (indicative):</b> ' + esc(r.money) + '</p><p><b>The catch:</b> ' + esc(r.catch) + '</p><p><b>Why this scalability rating:</b> ' + esc(r.why) + '</p><p><b>How to grow beyond a job:</b> ' + esc(r.grow) + '</p>' +
         '<details class="cf-more"><summary>Work routes, overseas, AI and remote work</summary><ul class="cf-lev"><li><b>Employment:</b> ' + D.level3[f.employment] + '</li><li><b>Freelance:</b> ' + D.level3[f.freelance] + '</li><li><b>Government sector:</b> ' + D.level3[f.government] + '</li><li><b>Overseas mobility:</b> ' + D.overseas3[f.overseas] + '. ' + esc(f.notes.overseas) + '</li><li><b>AI exposure:</b> ' + D.ai3[f.ai] + '. ' + esc(f.notes.ai) + '</li><li><b>Work from home:</b> ' + D.wfh3[f.wfh] + '. ' + esc(f.notes.wfh) + '</li><li><b>Cost note:</b> ' + esc(f.notes.cost) + '</li></ul></details></article>';
     }).join('');
     if (hidden.length) {
@@ -137,7 +137,7 @@ const data = {
     }
     const relax = activeKeys().map((k) => ({ k, extra: D.rows.filter((r) => failures(r).length && !failures(r, k).length).length })).filter((x) => x.extra > 0).sort((a, b) => b.extra - a.extra);
     if (relax.length) h += '<h3>Which filter to relax</h3><ul>' + relax.map((x) => '<li>Removing <b>' + esc(LABELS[x.k]) + '</b> would show ' + x.extra + ' more route' + (x.extra > 1 ? 's' : '') + '.</li>').join('') + '</ul>';
-    h += '<p class="cf-hint">' + esc(D.meta.disclaimer) + '</p><div class="cf-actions"><button type="button" class="cf-btn cf-btn--gold" data-act="pdf">Download my filtered chart (PDF)</button></div><p class="cf-hint" id="cf-status" role="status"></p><p>Next steps: take the <a href="/services/assessments/career-aptitude-test-after-12th/">career aptitude test after 12th</a> to see where your strengths point, then track a proof project in the <a href="/services/assessments/skill-portfolio-tracker/">skill portfolio tracker</a>.</p></div>';
+    h += '<p class="cf-hint">' + esc(D.meta.payCaution) + '</p><p class="cf-hint">' + esc(D.meta.disclaimer) + '</p><div class="cf-actions"><button type="button" class="cf-btn cf-btn--gold" data-act="pdf">Download my filtered chart (PDF)</button></div><p class="cf-hint" id="cf-status" role="status"></p><p>Next steps: take the <a href="/services/assessments/career-aptitude-test-after-12th/">career aptitude test after 12th</a> to see where your strengths point, then track a proof project in the <a href="/services/assessments/skill-portfolio-tracker/">skill portfolio tracker</a>.</p></div>';
     return h;
   }
 
@@ -158,6 +158,8 @@ const data = {
     L.push(...(act.length ? bullets(act) : [p('No filters were applied, so every route is shown.')]));
     L.push(h1('How this report is calculated'));
     L.push(...bullets(['Each route in the career chart after 12th has indicative levels for stream eligibility, Maths and Biology need, entrance exam, length, cost, portfolio need, employment, freelance and government routes, overseas mobility, AI exposure and remote work.', 'A route is shown only if it passes every filter you set. Filters you leave on Any do not remove routes.', 'The levels are planning bands set by Future Career School from the chart. They are not statistics or official classifications.']));
+    L.push(h1('About pay figures'));
+    L.push(p(D.meta.payCaution));
     L.push(h1('Confidence and limitations'));
     L.push(...bullets(['Filters work on levels for a whole row, such as "B.Tech in computer, data or electronics", so a specific college or branch can differ.', D.meta.disclaimer, ...STANDARD_LIMITS]));
     L.push(h1('Matching routes'));
