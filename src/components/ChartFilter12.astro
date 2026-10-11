@@ -101,7 +101,7 @@ const data = {
   function resultHtml() {
     const shown = [], hidden = [];
     D.rows.forEach((r) => { const f = failures(r); (f.length ? hidden : shown).push({ r, f }); });
-    let h = '<div class="cf-res" aria-live="polite"><h3>' + shown.length + ' of ' + D.rows.length + ' routes match' + (activeKeys().length ? ' your ' + activeKeys().length + ' filter' + (activeKeys().length > 1 ? 's' : '') : '') + '</h3>';
+    let h = '<div class="cf-res"><h3 aria-live="polite">' + shown.length + ' of ' + D.rows.length + ' routes match' + (activeKeys().length ? ' your ' + activeKeys().length + ' filter' + (activeKeys().length > 1 ? 's' : '') : '') + '</h3>';
     if (!shown.length) h += '<p class="cf-info">No route matches every filter. Relax one of the filters listed below.</p>';
     h += shown.map(({ r }) => {
       const f = r.f; const elig = F.stream ? f.streams[F.stream] : '';
@@ -116,7 +116,7 @@ const data = {
     }
     const relax = activeKeys().map((k) => ({ k, extra: D.rows.filter((r) => failures(r).length && !failures(r, k).length).length })).filter((x) => x.extra > 0).sort((a, b) => b.extra - a.extra);
     if (relax.length) h += '<h3>Which filter to relax</h3><ul>' + relax.map((x) => '<li>Removing <b>' + esc(LABELS[x.k]) + '</b> would show ' + x.extra + ' more route' + (x.extra > 1 ? 's' : '') + '.</li>').join('') + '</ul>';
-    h += '<p class="cf-hint">' + esc(D.meta.disclaimer) + '</p><div class="cf-actions"><button type="button" class="cf-btn cf-btn--gold" data-act="pdf">Download my filtered chart (PDF)</button></div><p class="cf-hint" id="cf-status" role="status"></p></div>';
+    h += '<p class="cf-hint">' + esc(D.meta.disclaimer) + '</p><div class="cf-actions"><button type="button" class="cf-btn cf-btn--gold" data-act="pdf">Download my filtered chart (PDF)</button></div><p class="cf-hint" id="cf-status" role="status"></p><p>Next steps: take the <a href="/services/assessments/career-aptitude-test-after-12th/">career aptitude test after 12th</a> to see where your strengths point, then track a proof project in the <a href="/services/assessments/skill-portfolio-tracker/">skill portfolio tracker</a>.</p></div>';
     return h;
   }
 
