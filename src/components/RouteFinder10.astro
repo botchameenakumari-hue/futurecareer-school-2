@@ -1,0 +1,249 @@
+---
+import { ROUTES, OFFICIAL_LINKS, CHECKPOINTS, GATES, CHART_META } from '../config/careerChartAfter10th.mjs';
+import { DOOR_COLS, DOORS } from '../config/streamDoors';
+import {
+  ROUTE_MODEL, SUBJECTS, INTERESTS, MARKS_BANDS, MONEY_OPTIONS, PRESSURE_OPTIONS, EARLY_OPTIONS, LEANING_OPTIONS,
+  FAMILY_LABELS, PRESSURE_LABELS, COST_LABELS, PARENT_QUESTIONS, SENSITIVE_NOTE,
+} from '../config/streamFinder10';
+
+const data = {
+  routes: ROUTES.filter((r) => r.id !== 'skill-first').map((r) => ({ id: r.id, family: r.family, label: r.label, short: r.short, yearsToWork: r.yearsToWork, length: r.length, bestFor: r.bestFor, watchOut: r.watchOut, firstMove: r.firstMove, opens: r.opens, closes: r.closes })),
+  layer: (() => { const r = ROUTES.find((x) => x.id === 'skill-first'); return r ? { label: r.label, bestFor: r.bestFor, watchOut: r.watchOut, firstMove: r.firstMove } : null; })(),
+  model: ROUTE_MODEL,
+  cols: DOOR_COLS,
+  doors: DOORS,
+  subjects: SUBJECTS,
+  interests: INTERESTS,
+  marks: MARKS_BANDS,
+  money: MONEY_OPTIONS,
+  pressure: PRESSURE_OPTIONS,
+  early: EARLY_OPTIONS,
+  leaning: LEANING_OPTIONS,
+  famLabels: FAMILY_LABELS,
+  pressureLabels: PRESSURE_LABELS,
+  costLabels: COST_LABELS,
+  parentQuestions: PARENT_QUESTIONS,
+  note: SENSITIVE_NOTE,
+  official: OFFICIAL_LINKS,
+  checkpoints: CHECKPOINTS,
+  gates: GATES,
+  meta: { pageUrl: CHART_META.pageUrl, lastChecked: CHART_META.lastChecked, disclaimer: CHART_META.disclaimer },
+};
+---
+
+<section class="rf" id="finder" aria-labelledby="finder-title">
+  <h2 id="finder-title">Your personal route finder: which route fits you best?</h2>
+  <p>Answer a few questions and the finder ranks the routes in this chart for you, shows how many doors each keeps open, what each costs in exam pressure and money, and gives you a 30-day experiment for your top two. Choose <b>student</b> if you are choosing for yourself, or <b>parent</b> if you are helping your child.</p>
+  <p class="rf-hint">Your answers stay in this browser. The result is a starting point for a family conversation, not a decision.</p>
+  <div id="rf-app"></div>
+  <script type="application/json" id="rf-data" set:html={JSON.stringify(data)} />
+</section>
+
+<script>
+  // @ts-nocheck
+  import { scoreRoutes, leadStrength, familyCompare, whatCouldChange, experimentPlan, WEIGHTS } from '../scripts/streamFinder10';
+  import { downloadStructuredReport, h1, h2, p, li, bullets, STANDARD_LIMITS, REPORT_VERSION_LABEL, todayLabel, addDays } from '../scripts/reportKit';
+
+  const D = JSON.parse(document.getElementById('rf-data').textContent);
+  const app = document.getElementById('rf-app');
+  const KEY = 'fcs-route-finder-10-v1';
+  const blank = () => ({ mode: 'student', marks: -1, conf: {}, interests: [], money: '', pressure: '', early: '', leaning: '', question: '', name: '', shown: false });
+  let S = blank();
+  try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function ping(n, x) { try { if (window.gtag) window.gtag('event', n, x || {}); } catch (e) {} }
+  const routeById = (id) => D.routes.find((r) => r.id === id);
+  const PAR = () => S.mode === 'parent';
+  const who = () => (PAR() ? 'your child' : 'you');
+
+  function inputs() {
+    return { mode: S.mode, marks: S.marks, conf: Object.assign({}, S.conf), interests: S.interests.slice(), money: S.money || 'moderate', pressure: S.pressure || 'medium', early: S.early || 'either', leaning: S.leaning };
+  }
+  function answered() {
+    return (S.marks >= 0 ? 1 : 0) + Object.keys(S.conf).length + (S.interests.length ? 1 : 0) + (S.money ? 1 : 0) + (S.pressure ? 1 : 0) + (S.early ? 1 : 0);
+  }
+  const MIN_ANSWERS = 5;
+
+  function formHtml() {
+    const sel = (name, opts, cur, blankLabel) => '<select data-f="' + name + '"><option value="">' + esc(blankLabel) + '</option>' + opts.map((o) => '<option value="' + esc(o.key) + '"' + (cur === o.key ? ' selected' : '') + '>' + esc(o.label) + '</option>').join('') + '</select>';
+    return '<form class="rf-form" id="rf-form" novalidate>' +
+      '<fieldset class="rf-mode"><legend>Who is choosing?</legend><label><input type="radio" name="mode" value="student"' + (S.mode === 'student' ? ' checked' : '') + '> I am choosing for myself (student)</label><label><input type="radio" name="mode" value="parent"' + (S.mode === 'parent' ? ' checked' : '') + '> I am helping my child (parent)</label></fieldset>' +
+      '<label class="rf-wide">What decision are you using this for? (optional)<input type="text" data-f="question" maxlength="140" value="' + esc(S.question) + '" placeholder="For example: which stream to take in Class 11"></label>' +
+      '<label class="rf-wide">Name (optional, for the report)<input type="text" data-f="name" maxlength="60" value="' + esc(S.name) + '"></label>' +
+      '<label class="rf-wide">' + (PAR() ? 'Your child\'s' : 'Your') + ' expected or latest Class 10 marks range<select data-f="marks"><option value="-1">Not sure yet</option>' + D.marks.map((m, i) => '<option value="' + i + '"' + (S.marks === i ? ' selected' : '') + '>' + esc(m) + '</option>').join('') + '</select></label>' +
+      '<h3>How confident ' + (PAR() ? 'is your child' : 'are you') + ' in each area?</h3><p class="rf-hint">1 means not confident, 5 means very confident. Answer from real classwork, not from what you hope.</p>' +
+      D.subjects.map((s) => '<div class="rf-subj"><p><b>' + esc(s.label) + '</b> <span class="rf-hint">' + esc(s.hint) + '</span></p><div class="rf-scale" role="group" aria-label="Confidence in ' + esc(s.label) + '">' + [1, 2, 3, 4, 5].map((n) => '<button type="button" data-act="conf" data-k="' + s.key + '" data-v="' + n + '" aria-pressed="' + (S.conf[s.key] === n) + '" class="' + (S.conf[s.key] === n ? 'on' : '') + '">' + n + '</button>').join('') + '</div></div>').join('') +
+      '<fieldset class="rf-int"><legend>What ' + (PAR() ? 'draws your child' : 'draws you') + '? Choose any</legend>' + D.interests.map((i) => '<label><input type="checkbox" data-int="' + i.key + '"' + (S.interests.includes(i.key) ? ' checked' : '') + '> ' + esc(i.label) + '</label>').join('') + '</fieldset>' +
+      '<label class="rf-wide">Money<br>' + sel('money', D.money, S.money, 'Choose one') + '</label>' +
+      '<label class="rf-wide">Entrance-exam pressure<br>' + sel('pressure', D.pressure, S.pressure, 'Choose one') + '</label>' +
+      '<label class="rf-wide">Time to start earning<br>' + sel('early', D.early, S.early, 'Choose one') + '</label>' +
+      (PAR() ? '<label class="rf-wide">What does your child say they lean towards?<br>' + sel('leaning', D.leaning, S.leaning, 'Choose one') + '</label>' : '') +
+      '<div class="rf-actions"><button type="button" class="rf-btn rf-btn--gold" data-act="show">Show my routes</button><button type="button" class="rf-btn" data-act="reset">Clear answers</button></div>' +
+      '<p class="rf-hint" id="rf-count">' + answered() + ' answered. The finder needs at least ' + MIN_ANSWERS + '.</p></form>';
+  }
+
+  function bar(label, v, extra) { return '<div class="rf-bar"><div class="rf-bar-l"><span>' + esc(label) + '</span><span>' + (extra || v + '%') + '</span></div><div class="rf-bar-t" aria-hidden="true"><i style="width:' + Math.max(0, Math.min(100, v)) + '%"></i></div></div>'; }
+  const yrs = (r) => (r[0] === r[1] ? r[0] + ' years' : r[0] + ' to ' + r[1] + ' years');
+
+  function resultHtml() {
+    if (!S.shown) return '';
+    if (answered() < MIN_ANSWERS) return '<div class="rf-res"><p class="rf-info">Answer at least ' + MIN_ANSWERS + ' questions (marks, any confidence ratings, interests, money, pressure and earning time all count) to see your routes.</p></div>';
+    const inp = inputs();
+    const sc = scoreRoutes(inp, D.routes, D.model, D.cols, D.doors);
+    const lead = leadStrength(sc, answered());
+    const top = sc.slice(0, 3);
+    const t0 = top[0], r0 = routeById(t0.id), m0 = D.model[t0.id];
+    const fam = familyCompare(sc, D.routes, D.model);
+    const changes = whatCouldChange(inp, D.routes, D.model, D.cols, D.doors, D.subjects);
+    const byBalanced = sc.slice().sort((a, b) => b.balanced - a.balanced)[0];
+    const tol = inp.pressure === 'low' ? 1 : inp.pressure === 'medium' ? 2 : 3;
+    let h = '<div class="rf-res" id="rf-res" aria-live="polite">';
+    h += '<h3>Your top routes</h3><p><b>' + esc(lead.label) + '.</b> ' + esc(lead.text) + ' ' + (PAR() ? 'These are routes to discuss with your child, not a ruling.' : 'These are routes to test, not a ruling.') + '</p>';
+    h += top.map((s, k) => {
+      const r = routeById(s.id), m = D.model[s.id];
+      return '<article class="rf-card"><h4>' + (k + 1) + '. ' + esc(s.label) + ' <span class="rf-pill">Suitability ' + s.fit + '%</span></h4>' +
+        '<p>' + esc(r.bestFor) + '</p>' +
+        bar('Subject fit', s.parts.subject) + bar('Interest fit', s.parts.interest) + bar('Marks comfort', s.parts.marks) + bar('Money and time to earn', s.parts.money) + bar('Exam pressure match', s.parts.pressure) +
+        '<p><b>Career optionality:</b> ' + s.optionality + '% of the doors in the chart stay open or may stay open. <b>Years to full-time work:</b> ' + yrs(r.yearsToWork) + '. <b>Exam pressure:</b> ' + D.pressureLabels[m.pressure] + '. <b>Extra cost:</b> ' + D.costLabels[m.cost] + '.</p>' +
+        (r.closes.length ? '<p><b>Doors it closes:</b> ' + esc(r.closes.join('; ')) + '</p>' : '<p><b>Doors it closes:</b> none by the standard rules.</p>') +
+        '<p><b>Watch out:</b> ' + esc(r.watchOut) + '</p>' + (s.note.length ? '<p class="rf-hint">' + esc(s.note.join(' ')) + '</p>' : '') + '</article>';
+    }).join('');
+    if (D.layer) h += '<article class="rf-card"><h4>Add the skill layer to whichever route you choose</h4><p>The skill-first stack is not a separate route. It runs beside every route and raises the income ceiling of each one. ' + esc(D.layer.bestFor) + '</p><p><b>First move:</b> ' + esc(D.layer.firstMove) + '</p><p><b>Watch out:</b> ' + esc(D.layer.watchOut) + '</p><p><a href="/services/assessments/skill-portfolio-tracker/">Open the free Skill Portfolio Tracker</a> to rate nine skills, pick a proof project and log your progress.</p></article>';
+    h += '<p class="rf-hint">Suitability combines subject fit (' + Math.round(WEIGHTS.subject * 100) + '%), interests (' + Math.round(WEIGHTS.interest * 100) + '%), marks comfort (' + Math.round(WEIGHTS.marks * 100) + '%), money and time to earn (' + Math.round(WEIGHTS.money * 100) + '%) and exam pressure (' + Math.round(WEIGHTS.pressure * 100) + '%). Marks comfort uses planning levels set in this tool, not official cut-offs.</p>';
+    // Optionality
+    h += '<h3>Career optionality: how many doors each route keeps open</h3><p>Optionality counts how many of the ' + D.doors.length + ' doors in the chart a route keeps open (a door that depends on the course counts as half). It does not depend on your answers. ' + (byBalanced.id !== t0.id ? 'Weighing fit at 75% and optionality at 25%, <b>' + esc(byBalanced.label) + '</b> comes first.' : 'Weighing fit at 75% and optionality at 25% gives the same top route.') + '</p>';
+    h += '<div class="rf-table-wrap"><table class="rf-table"><thead><tr><th>Route</th><th>Suitability</th><th>Optionality</th><th>Years to work</th><th>Exam pressure</th><th>Extra cost</th></tr></thead><tbody>' + sc.map((s) => { const r = routeById(s.id), m = D.model[s.id]; return '<tr><td data-label="Route">' + esc(s.label) + '</td><td data-label="Suitability">' + s.fit + '%</td><td data-label="Optionality">' + s.optionality + '%</td><td data-label="Years to work">' + yrs(r.yearsToWork) + '</td><td data-label="Exam pressure">' + D.pressureLabels[m.pressure] + '</td><td data-label="Extra cost">' + D.costLabels[m.cost] + '</td></tr>'; }).join('') + '</tbody></table></div>';
+    // Families
+    h += '<h3>Science, commerce, humanities and vocational compared</h3><div class="rf-table-wrap"><table class="rf-table"><thead><tr><th>Group</th><th>Best route in the group</th><th>Suitability</th><th>Average optionality</th><th>Years to work</th></tr></thead><tbody>' + fam.map((f) => '<tr><td data-label="Group">' + esc(D.famLabels[f.family]) + '</td><td data-label="Best route">' + esc(f.bestRoute) + '</td><td data-label="Suitability">' + f.fit + '%</td><td data-label="Average optionality">' + f.optionality + '%</td><td data-label="Years to work">' + yrs(f.years) + '</td></tr>').join('') + '</tbody></table></div>';
+    // Pressure
+    h += '<h3>Entrance-exam pressure indicator</h3>' + top.map((s) => { const m = D.model[s.id]; const ok = m.pressure <= tol; return '<p><b>' + esc(s.label) + ': ' + D.pressureLabels[m.pressure] + '.</b> ' + esc(m.pressureNote) + ' ' + (ok ? 'This is within what ' + who() + ' said ' + (PAR() ? 'is' : 'you are') + ' willing to take on.' : 'This is above what ' + who() + ' said ' + (PAR() ? 'is' : 'you are') + ' willing to take on, so plan it carefully.') + '</p>'; }).join('');
+    // Money
+    h += '<h3>Money and the route</h3>' + top.map((s) => '<p><b>' + esc(s.label) + ' (extra cost: ' + D.costLabels[D.model[s.id].cost] + '):</b> ' + esc(D.model[s.id].costNote) + '</p>').join('') +
+      '<p>' + (inp.money === 'tight' ? 'Because money is tight, compare government school and college seats first, ask about fee waivers, and check the National Scholarship Portal and your state scholarship pages for current schemes. Routes that reach work earlier, such as ITI and diploma, can fund further study through work or apprenticeship.' : inp.money === 'moderate' ? 'Budget the whole route before you commit, including coaching, books and travel, and ask each school or college for the total fee, not only the first-year fee.' : 'Even when money is not the limit, ask for the total fee and compare teaching quality and internship access, not the brand alone.') + '</p>';
+    // Experiments
+    h += '<h3>Your 30-day experiment</h3><p>Run a small experiment on each of your top two routes before you lock a subject.</p>' + top.slice(0, 2).map((s) => { const r = routeById(s.id); return '<article class="rf-card"><h4>' + esc(s.label) + '</h4><ul>' + experimentPlan(r, PAR()).map((e) => '<li><b>' + e.week + ':</b> ' + esc(e.task) + ' <i>Measure: ' + esc(e.measure) + '</i></li>').join('') + '</ul></article>'; }).join('');
+    // What could change
+    h += '<h3>What could change this recommendation?</h3>' + (changes.length ? '<ul>' + changes.map((c) => '<li>' + esc(c) + '</li>').join('') + '</ul>' : '<p>No single small change in your answers moves another route to first. The lead is steady on what you entered.</p>') + '<p class="rf-hint">Also change it if you learn that a school, board or state rule differs from the chart. Confirm every rule on the official source.</p>';
+    // Parent
+    if (PAR()) h += '<h3>Questions to ask your child before deciding</h3><ul>' + D.parentQuestions.map((q) => '<li>' + esc(q) + '</li>').join('') + '</ul><p>Your child should lead the choice, and you can supply the money, rules and experience. Write down what you each want, then compare.</p>';
+    h += '<h3>Before you commit</h3><ul>' + D.gates.map((g) => '<li><b>' + esc(g.title) + ':</b> ' + esc(g.body) + '</li>').join('') + '</ul>';
+    h += '<p class="rf-hint">' + esc(D.note) + '</p><div class="rf-actions"><button type="button" class="rf-btn rf-btn--gold" data-act="pdf">Download my personalised report (PDF)</button></div><p class="rf-hint" id="rf-status" role="status"></p></div>';
+    return h;
+  }
+
+  function render() {
+    const y = window.scrollY;
+    app.innerHTML = formHtml() + resultHtml();
+    window.scrollTo(0, y);
+  }
+
+  function buildReport() {
+    const inp = inputs(); const sc = scoreRoutes(inp, D.routes, D.model, D.cols, D.doors); const lead = leadStrength(sc, answered());
+    const top = sc.slice(0, 3), fam = familyCompare(sc, D.routes, D.model), changes = whatCouldChange(inp, D.routes, D.model, D.cols, D.doors, D.subjects);
+    const date = todayLabel(); const L = [];
+    const subj = D.subjects.map((s) => s.label + ': ' + (S.conf[s.key] || 'not rated')).join('; ');
+    L.push(h1('Your route result at a glance'));
+    L.push(p('Top route on your answers: ' + top[0].label + ' (suitability ' + top[0].fit + '%). ' + lead.label + '. ' + lead.text));
+    L.push(h1('Report details'));
+    L.push(...bullets(['Prepared for: ' + (S.name || 'Not stated'), 'Prepared by: ' + (PAR() ? 'a parent, about their child' : 'the student, about themselves'), 'Date generated: ' + date, 'Report version: ' + REPORT_VERSION_LABEL.replace('Report version ', ''), 'Decision question: ' + (S.question || 'Not stated'), 'Source chart: ' + D.meta.pageUrl + ' (checked ' + D.meta.lastChecked + ')']));
+    L.push(h1('What you told the finder'));
+    L.push(...bullets(['Class 10 marks range: ' + (S.marks >= 0 ? D.marks[S.marks] : 'not sure'), 'Confidence by area: ' + subj, 'Interests: ' + (S.interests.length ? S.interests.map((k) => D.interests.find((i) => i.key === k).label).join('; ') : 'none chosen'), 'Money: ' + (S.money ? D.money.find((o) => o.key === S.money).label : 'not answered'), 'Exam pressure: ' + (S.pressure ? D.pressure.find((o) => o.key === S.pressure).label : 'not answered'), 'Earning early: ' + (S.early ? D.early.find((o) => o.key === S.early).label : 'not answered')]));
+    L.push(h1('How this result is calculated'));
+    L.push(...bullets(['Each route gets a suitability score from 0 to 100: subject fit ' + Math.round(WEIGHTS.subject * 100) + '%, interest fit ' + Math.round(WEIGHTS.interest * 100) + '%, marks comfort ' + Math.round(WEIGHTS.marks * 100) + '%, money and time to earn ' + Math.round(WEIGHTS.money * 100) + '%, exam pressure match ' + Math.round(WEIGHTS.pressure * 100) + '%.', 'Subject fit averages your confidence ratings, weighted by how much each route leans on each area.', 'Marks comfort compares your marks range with a planning level for each route. These levels are set in this tool and are not official cut-offs.', 'Optionality counts how many of the ' + D.doors.length + ' doors in the career chart each route keeps open. A door that depends on the course counts as half.', 'The route weights are assumptions made for planning conversations and are not validated predictions.']));
+    L.push(h1('Confidence and limitations'));
+    L.push(...bullets([lead.label + ': ' + lead.text, 'You answered ' + answered() + ' of ' + (D.subjects.length + 5) + ' possible inputs.', D.note, ...STANDARD_LIMITS, D.meta.disclaimer]));
+    L.push(h1('Your top routes'));
+    top.forEach((s, k) => { const r = routeById(s.id), m = D.model[s.id]; L.push(h2((k + 1) + '. ' + s.label + ' - suitability ' + s.fit + '%')); L.push(...bullets(['Subject fit ' + s.parts.subject + '%, interest fit ' + s.parts.interest + '%, marks comfort ' + s.parts.marks + '%, money and time ' + s.parts.money + '%, exam pressure match ' + s.parts.pressure + '%.', 'Career optionality: ' + s.optionality + '%. Years to full-time work: ' + yrs(r.yearsToWork) + '.', 'Exam pressure: ' + D.pressureLabels[m.pressure] + '. ' + m.pressureNote, 'Extra cost: ' + D.costLabels[m.cost] + '. ' + m.costNote, 'Best for: ' + r.bestFor, 'Watch out: ' + r.watchOut, 'Doors it closes: ' + (r.closes.length ? r.closes.join('; ') : 'none by the standard rules')])); });
+    if (D.layer) { L.push(h1('The skill layer beside every route')); L.push(...bullets([D.layer.bestFor, 'First move: ' + D.layer.firstMove, 'Watch out: ' + D.layer.watchOut, 'Free tracker: https://futurecareerschool.com/services/assessments/skill-portfolio-tracker/'])); }
+    L.push(h1('All routes compared'));
+    L.push(...bullets(sc.map((s) => s.label + ': suitability ' + s.fit + '%, optionality ' + s.optionality + '%, ' + yrs(routeById(s.id).yearsToWork) + ' to work, exam pressure ' + D.pressureLabels[D.model[s.id].pressure] + ', extra cost ' + D.costLabels[D.model[s.id].cost])));
+    L.push(h1('Science, commerce, humanities and vocational'));
+    L.push(...bullets(fam.map((f) => D.famLabels[f.family] + ': best route ' + f.bestRoute + ' (suitability ' + f.fit + '%), average optionality ' + f.optionality + '%')));
+    L.push(h1('What could change this recommendation'));
+    L.push(...(changes.length ? bullets(changes) : [p('No single small change in your answers moves another route to first.')]));
+    L.push(h1('Suggested experiments'));
+    top.slice(0, 2).forEach((s) => { L.push(h2(s.label)); L.push(...bullets(experimentPlan(routeById(s.id), PAR()).map((e) => e.week + ': ' + e.task + ' Measure: ' + e.measure))); });
+    L.push(h1('30-day plan'));
+    L.push(...bullets(['Week 1 to 4: run the experiment for ' + top[0].label + ' and for ' + (top[1] ? top[1].label : 'your second choice') + ' as described above.', 'Write down what you liked, what you did not, and one rule you checked on an official source for each.', 'Review on ' + todayLabel(addDays(28)) + '.']));
+    L.push(h1('90-day plan'));
+    L.push(...bullets(['Month 1: run both experiments and talk to two people on each route.', 'Month 2: visit or call the schools and colleges that offer the route, ask for the total fee and the subject rules, and shortlist two.', 'Month 3: decide with ' + (PAR() ? 'your child' : 'a parent and a teacher') + ', write a backup route, and start one small skill project that works with the route.', 'Full review on ' + todayLabel(addDays(90)) + '.']));
+    L.push(h1('Portfolio checklist'));
+    L.push(...bullets(['One small project that resembles work on the route, with a link or photos.', 'A 60-second explanation of why the route fits, said aloud to one person.', 'Feedback from one teacher or professional who does this work.', 'A note of the official rules you confirmed, with the website address.', 'One backup route and one reason you would switch to it.']));
+    L.push(h1('Review page'));
+    L.push(...bullets(['Review date: ' + todayLabel(addDays(28)), 'What did we learn from the experiments? ________________', 'Has any rule or fact changed? ________________', 'Which route are we leaning to now, and why? ________________', 'What is our backup route? ________________']));
+    L.push(h1('Sources'));
+    L.push(...bullets(D.official.map((o) => o.label + ': ' + o.url), ));
+    L.push(...bullets(['Career chart after 10th: ' + D.meta.pageUrl]));
+    L.push(h1('Report information'));
+    L.push(...bullets([REPORT_VERSION_LABEL, 'Generated on ' + date + '.']));
+    return L;
+  }
+
+  async function pdf() {
+    const st = document.getElementById('rf-status'); if (st) st.textContent = 'Creating your PDF...';
+    try {
+      const ok = await downloadStructuredReport({ title: 'Career Route Report After 10th', fileName: 'career-route-report-after-10th.pdf', kicker: 'CAREER CHART AFTER 10TH', coverBadge: 'Personal report', coverMeta: [REPORT_VERSION_LABEL, 'Generated ' + todayLabel()], lines: buildReport() });
+      if (st) st.textContent = ok ? 'Your report has been downloaded as a PDF file.' : 'Nothing to export yet.';
+      ping('route_finder_10_pdf');
+    } catch (e) { console.error(e); if (st) st.textContent = 'The PDF could not be created. Please try again.'; }
+  }
+
+  app.addEventListener('click', (e) => {
+    const b = e.target.closest ? e.target.closest('[data-act]') : null; if (!b) return; const a = b.getAttribute('data-act');
+    if (a === 'conf') { S.conf[b.getAttribute('data-k')] = Number(b.getAttribute('data-v')); save(); render(); }
+    else if (a === 'show') { S.shown = true; save(); render(); ping('route_finder_10_show', { mode: S.mode }); const r = document.getElementById('rf-res'); if (r) r.scrollIntoView({ block: 'start' }); }
+    else if (a === 'reset') { S = blank(); save(); render(); }
+    else if (a === 'pdf') pdf();
+  });
+  app.addEventListener('change', (e) => {
+    const t = e.target; const f = t.getAttribute && t.getAttribute('data-f');
+    if (t.name === 'mode') { S.mode = t.value; save(); render(); return; }
+    if (t.getAttribute && t.getAttribute('data-int')) { const k = t.getAttribute('data-int'); S.interests = t.checked ? S.interests.concat(k) : S.interests.filter((x) => x !== k); save(); render(); return; }
+    if (!f) return;
+    S[f] = f === 'marks' ? Number(t.value) : t.value; save(); render();
+  });
+  app.addEventListener('submit', (e) => e.preventDefault());
+  render();
+</script>
+
+<style is:global>
+  .rf{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(229,184,74,.3);border-radius:18px;background:rgba(229,184,74,.05)}
+  .rf h2{margin-top:0}
+  .rf h3{font-size:1.1rem;margin:1.4rem 0 .5rem;color:#fff}
+  .rf h4{font-size:1rem;margin:0 0 .5rem;color:#fff}
+  .rf p,.rf li{line-height:1.7}
+  .rf-hint{font-size:.86rem;color:rgba(255,255,255,.62)}
+  .rf-info{background:rgba(18,154,141,.15);border:1px solid rgba(18,154,141,.4);border-radius:12px;padding:.7rem .9rem}
+  .rf-form{display:grid;gap:.8rem;margin:1rem 0}
+  .rf-form label{display:grid;gap:.3rem;font-weight:600;font-size:.92rem}
+  .rf-form input[type="text"],.rf-form select{min-height:44px;padding:.5rem .7rem;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400;width:100%}
+  .rf-form select option{color:#000}
+  .rf-mode,.rf-int{border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:.8rem 1rem;display:grid;gap:.5rem}
+  .rf-mode label,.rf-int label{display:flex;align-items:center;gap:.6rem;font-weight:400;min-height:32px}
+  .rf-mode input,.rf-int input{width:20px;height:20px}
+  .rf-subj{border-top:1px solid rgba(255,255,255,.1);padding-top:.6rem}
+  .rf-subj p{margin:.2rem 0}
+  .rf-scale{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.4rem;max-width:420px}
+  .rf-scale button,.rf-btn{min-height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font:600 .95rem "DM Sans",sans-serif;cursor:pointer;padding:.5rem .9rem}
+  .rf-scale button.on{background:rgba(229,184,74,.22);border-color:#e5b84a}
+  .rf-btn--gold{background:linear-gradient(135deg,#e5b84a,#c49a2a);color:#14110a;border:0}
+  .rf-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin:.6rem 0}
+  .rf button:focus-visible,.rf input:focus-visible,.rf select:focus-visible{outline:3px solid #129a8d;outline-offset:2px}
+  .rf-card{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1rem 1.1rem;margin:.8rem 0;background:rgba(255,255,255,.03)}
+  .rf-pill{display:inline-block;margin-left:.4rem;padding:.1rem .6rem;border-radius:999px;font-size:.78rem;background:rgba(229,184,74,.2);color:#f5d98c}
+  .rf-bar{margin:.4rem 0}
+  .rf-bar-l{display:flex;justify-content:space-between;font-size:.86rem}
+  .rf-bar-t{height:8px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+  .rf-bar-t i{display:block;height:100%;background:linear-gradient(90deg,#129a8d,#e5b84a)}
+  .rf-table-wrap{overflow-x:auto}
+  .rf-table{width:100%;border-collapse:collapse;font-size:.9rem}
+  .rf-table th,.rf-table td{border-bottom:1px solid rgba(255,255,255,.1);padding:.5rem .6rem;text-align:left}
+  @media (max-width:640px){
+    .rf{padding:1rem}
+    .rf-table thead{display:none}
+    .rf-table tr{display:block;border:1px solid rgba(255,255,255,.12);border-radius:10px;margin:.5rem 0;padding:.3rem .5rem}
+    .rf-table td{display:flex;justify-content:space-between;gap:1rem;border:0;padding:.3rem 0}
+    .rf-table td::before{content:attr(data-label);font-weight:600;color:rgba(255,255,255,.7)}
+  }
+</style>

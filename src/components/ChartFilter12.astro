@@ -1,0 +1,201 @@
+---
+import { chartRows, CHART12_META } from '../config/careerChartAfter12th.mjs';
+import { ROW_FILTERS, STREAMS, EXAM_LABELS, COST_BANDS, LEVEL3, AI3, WFH3, OVERSEAS3 } from '../config/chart12Filters';
+
+if (chartRows.length !== ROW_FILTERS.length) {
+  throw new Error('chart12Filters.ts must have one entry for every row of chartRows.');
+}
+const rows = chartRows.map((r, i) => {
+  if (!r.route.startsWith(ROW_FILTERS[i].match)) {
+    throw new Error(`Row ${i} "${r.route}" does not match filter entry "${ROW_FILTERS[i].match}".`);
+  }
+  return { ...r, f: ROW_FILTERS[i] };
+});
+const data = {
+  rows,
+  streams: STREAMS,
+  exams: EXAM_LABELS,
+  cost: COST_BANDS,
+  level3: LEVEL3,
+  ai3: AI3,
+  wfh3: WFH3,
+  overseas3: OVERSEAS3,
+  meta: { pageUrl: CHART12_META.pageUrl, lastChecked: CHART12_META.lastChecked, disclaimer: CHART12_META.disclaimer },
+};
+---
+
+<section class="cf" id="route-filter" aria-labelledby="cf-title">
+  <h2 id="cf-title">Filter the chart: find the routes that fit your situation</h2>
+  <p>Use the filters to narrow the {chartRows.length} routes by your stream and subjects, entrance exam, length, cost, portfolio need, work routes, overseas mobility, AI exposure and work-from-home potential. The page shows what remains, why each other route is hidden, and which filter to relax to see more.</p>
+  <p class="cf-hint">Levels such as cost, AI exposure and remote work are indicative planning bands, not statistics. Check every rule on the official source before you act.</p>
+  <div id="cf-app"></div>
+  <script type="application/json" id="cf-data" set:html={JSON.stringify(data)} />
+</section>
+
+<script>
+  // @ts-nocheck
+  import { downloadStructuredReport, h1, h2, p, bullets, STANDARD_LIMITS, REPORT_VERSION_LABEL, todayLabel, addDays } from '../scripts/reportKit';
+
+  const D = JSON.parse(document.getElementById('cf-data').textContent);
+  const app = document.getElementById('cf-app');
+  const KEY = 'fcs-chart12-filter-v1';
+  const blank = () => ({ stream: '', hasMaths: 'unknown', hasBio: 'unknown', maths: '', bio: '', exam: '', years: '', cost: '', portfolio: '', employment: '', freelance: '', government: '', overseas: '', ai: '', wfh: '', question: '', name: '' });
+  let F = blank();
+  try { const raw = localStorage.getItem(KEY); if (raw) F = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(F)); } catch (e) {} };
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const ping = (n, x) => { try { if (window.gtag) window.gtag('event', n, x || {}); } catch (e) {} };
+  const NEEDS = { required: 'Required', helps: 'Helps', no: 'Not needed' };
+  const yrsText = (y) => (y ? (y[0] === y[1] ? y[0] + ' years' : y[0] + ' to ' + y[1] + ' years') : 'Varies');
+
+  // Each filter returns a reason string when the row fails it, else ''.
+  const CHECKS = {
+    stream: (r) => (F.stream && r.f.streams[F.stream] === 'no' ? 'Not open to ' + F.stream + ' students by the standard rules' : ''),
+    hasMaths: (r) => (F.hasMaths === 'no' && r.f.maths === 'required' ? 'Needs Maths in Class 12' : ''),
+    hasBio: (r) => (F.hasBio === 'no' && r.f.biology === 'required' ? 'Needs Biology in Class 12' : ''),
+    maths: (r) => (F.maths && r.f.maths !== F.maths ? 'Maths is ' + NEEDS[r.f.maths].toLowerCase() + ', not ' + NEEDS[F.maths].toLowerCase() : ''),
+    bio: (r) => (F.bio && r.f.biology !== F.bio ? 'Biology is ' + NEEDS[r.f.biology].toLowerCase() + ', not ' + NEEDS[F.bio].toLowerCase() : ''),
+    exam: (r) => (F.exam && !r.f.exams.includes(F.exam) ? 'Does not use ' + D.exams[F.exam] : ''),
+    years: (r) => (F.years && r.f.years && r.f.years[0] > Number(F.years) ? 'Takes longer than ' + F.years + ' years' : ''),
+    cost: (r) => (F.cost !== '' && r.f.cost[0] > Number(F.cost) ? 'Cheapest seat is above your cost level (' + D.cost[r.f.cost[0]] + ')' : ''),
+    portfolio: (r) => (F.portfolio && r.f.portfolio !== F.portfolio ? 'Portfolio is ' + NEEDS[r.f.portfolio].toLowerCase() : ''),
+    employment: (r) => (F.employment !== '' && r.f.employment < Number(F.employment) ? 'Employment route is ' + D.level3[r.f.employment].toLowerCase() : ''),
+    freelance: (r) => (F.freelance !== '' && r.f.freelance < Number(F.freelance) ? 'Freelance route is ' + D.level3[r.f.freelance].toLowerCase() : ''),
+    government: (r) => (F.government !== '' && r.f.government < Number(F.government) ? 'Government-sector route is ' + D.level3[r.f.government].toLowerCase() : ''),
+    overseas: (r) => (F.overseas !== '' && r.f.overseas < Number(F.overseas) ? 'Overseas mobility is ' + D.overseas3[r.f.overseas].toLowerCase() : ''),
+    ai: (r) => (F.ai !== '' && r.f.ai > Number(F.ai) ? 'AI exposure is ' + D.ai3[r.f.ai].toLowerCase() : ''),
+    wfh: (r) => (F.wfh !== '' && r.f.wfh < Number(F.wfh) ? 'Work from home potential: ' + D.wfh3[r.f.wfh].toLowerCase() : ''),
+  };
+  const LABELS = { stream: 'Stream', hasMaths: 'Maths studied', hasBio: 'Biology studied', maths: 'Maths requirement', bio: 'Biology requirement', exam: 'Entrance exam', years: 'Course length', cost: 'Cost', portfolio: 'Portfolio requirement', employment: 'Employment route', freelance: 'Freelance route', government: 'Government-sector route', overseas: 'Overseas mobility', ai: 'AI exposure', wfh: 'Work from home' };
+  const DEFAULTS = { stream: '', hasMaths: 'unknown', hasBio: 'unknown' };
+  const isActive = (k) => (k in DEFAULTS ? F[k] !== DEFAULTS[k] : F[k] !== '');
+  const activeKeys = () => Object.keys(CHECKS).filter(isActive);
+  function failures(r, skip) { return Object.keys(CHECKS).filter((k) => k !== skip && isActive(k)).map((k) => CHECKS[k](r)).filter(Boolean); }
+
+  function sel(name, opts) { return '<select data-f="' + name + '">' + opts.map((o) => '<option value="' + esc(o[0]) + '"' + (String(F[name]) === String(o[0]) ? ' selected' : '') + '>' + esc(o[1]) + '</option>').join('') + '</select>'; }
+  function field(label, name, opts) { return '<label>' + esc(label) + sel(name, opts) + '</label>'; }
+  const any = ['', 'Any'];
+  function formHtml() {
+    return '<form class="cf-form" novalidate>' +
+      '<label class="cf-wide">What decision are you using this for? (optional)<input type="text" data-f="question" maxlength="140" value="' + esc(F.question) + '" placeholder="For example: which degree to apply for after 12th"></label>' +
+      '<label class="cf-wide">Name (optional, for the report)<input type="text" data-f="name" maxlength="60" value="' + esc(F.name) + '"></label>' +
+      '<div class="cf-grid">' +
+      field('Your Class 12 stream', 'stream', [any].concat(D.streams.map((s) => [s, s]))) +
+      field('I studied Maths', 'hasMaths', [['unknown', 'Not specified'], ['yes', 'Yes'], ['no', 'No']]) +
+      field('I studied Biology', 'hasBio', [['unknown', 'Not specified'], ['yes', 'Yes'], ['no', 'No']]) +
+      field('Maths requirement', 'maths', [any, ['required', 'Required'], ['helps', 'Helps'], ['no', 'Not needed']]) +
+      field('Biology requirement', 'bio', [any, ['required', 'Required'], ['helps', 'Helps'], ['no', 'Not needed']]) +
+      field('Entrance exam', 'exam', [any].concat(Object.keys(D.exams).map((k) => [k, D.exams[k]]))) +
+      field('Course length', 'years', [any, ['3', 'Up to 3 years'], ['4', 'Up to 4 years'], ['5', 'Up to 5 years']]) +
+      field('Approximate cost I can manage', 'cost', [any, ['0', 'Low'], ['1', 'Up to medium'], ['2', 'Up to high'], ['3', 'Up to very high']]) +
+      field('Portfolio requirement', 'portfolio', [any, ['no', 'Not needed'], ['helps', 'Portfolio helps'], ['required', 'Portfolio required']]) +
+      field('Employment route', 'employment', [any, ['1', 'Possible or common'], ['2', 'Common']]) +
+      field('Freelance route', 'freelance', [any, ['1', 'Possible or common'], ['2', 'Common']]) +
+      field('Government-sector route', 'government', [any, ['1', 'Possible or common'], ['2', 'Common']]) +
+      field('Overseas mobility', 'overseas', [any, ['1', 'Medium or high'], ['2', 'High']]) +
+      field('AI exposure of the work', 'ai', [any, ['0', 'Low only'], ['1', 'Low or medium']]) +
+      field('Work from home potential', 'wfh', [any, ['1', 'Partly or often'], ['2', 'Often remote']]) +
+      '</div><div class="cf-actions"><button type="button" class="cf-btn" data-act="reset">Clear all filters</button></div></form>';
+  }
+
+  function resultHtml() {
+    const shown = [], hidden = [];
+    D.rows.forEach((r) => { const f = failures(r); (f.length ? hidden : shown).push({ r, f }); });
+    let h = '<div class="cf-res" aria-live="polite"><h3>' + shown.length + ' of ' + D.rows.length + ' routes match' + (activeKeys().length ? ' your ' + activeKeys().length + ' filter' + (activeKeys().length > 1 ? 's' : '') : '') + '</h3>';
+    if (!shown.length) h += '<p class="cf-info">No route matches every filter. Relax one of the filters listed below.</p>';
+    h += shown.map(({ r }) => {
+      const f = r.f; const elig = F.stream ? f.streams[F.stream] : '';
+      return '<article class="cf-card"><h4>' + esc(r.route) + '</h4>' +
+        '<p class="cf-tags"><span>Maths: ' + NEEDS[f.maths] + '</span><span>Biology: ' + NEEDS[f.biology] + '</span><span>' + yrsText(f.years) + '</span><span>Cost: ' + (f.cost[0] === f.cost[1] ? D.cost[f.cost[0]] : D.cost[f.cost[0]] + ' to ' + D.cost[f.cost[1]]) + '</span><span>Portfolio: ' + NEEDS[f.portfolio] + '</span></p>' +
+        '<p><b>Who can apply:</b> ' + esc(r.who) + (elig === 'check' ? ' <i>(Check the subject rule at each college for your stream.)</i>' : '') + '</p>' +
+        '<p><b>Entry gate:</b> ' + esc(r.gate) + '</p><p><b>First-year money signal:</b> ' + esc(r.money) + '</p><p><b>The catch:</b> ' + esc(r.catch) + '</p>' +
+        '<ul class="cf-lev"><li><b>Employment:</b> ' + D.level3[f.employment] + '</li><li><b>Freelance:</b> ' + D.level3[f.freelance] + '</li><li><b>Government sector:</b> ' + D.level3[f.government] + '</li><li><b>Overseas mobility:</b> ' + D.overseas3[f.overseas] + '. ' + esc(f.notes.overseas) + '</li><li><b>AI exposure:</b> ' + D.ai3[f.ai] + '. ' + esc(f.notes.ai) + '</li><li><b>Work from home:</b> ' + D.wfh3[f.wfh] + '. ' + esc(f.notes.wfh) + '</li><li><b>Cost note:</b> ' + esc(f.notes.cost) + '</li></ul></article>';
+    }).join('');
+    if (hidden.length) {
+      h += '<h3>Routes hidden by your filters</h3><ul>' + hidden.map(({ r, f }) => '<li><b>' + esc(r.route) + ':</b> ' + esc(f.join('; ')) + '.</li>').join('') + '</ul>';
+    }
+    const relax = activeKeys().map((k) => ({ k, extra: D.rows.filter((r) => failures(r).length && !failures(r, k).length).length })).filter((x) => x.extra > 0).sort((a, b) => b.extra - a.extra);
+    if (relax.length) h += '<h3>Which filter to relax</h3><ul>' + relax.map((x) => '<li>Removing <b>' + esc(LABELS[x.k]) + '</b> would show ' + x.extra + ' more route' + (x.extra > 1 ? 's' : '') + '.</li>').join('') + '</ul>';
+    h += '<p class="cf-hint">' + esc(D.meta.disclaimer) + '</p><div class="cf-actions"><button type="button" class="cf-btn cf-btn--gold" data-act="pdf">Download my filtered chart (PDF)</button></div><p class="cf-hint" id="cf-status" role="status"></p></div>';
+    return h;
+  }
+
+  function render() { const y = window.scrollY; app.innerHTML = formHtml() + resultHtml(); window.scrollTo(0, y); }
+
+  function buildReport() {
+    const shown = [], hidden = [];
+    D.rows.forEach((r) => { const f = failures(r); (f.length ? hidden : shown).push({ r, f }); });
+    const date = todayLabel(); const L = [];
+    const act = activeKeys().map((k) => LABELS[k] + ': ' + (document.querySelector('[data-f="' + k + '"] option:checked') ? document.querySelector('[data-f="' + k + '"] option:checked').textContent : F[k]));
+    L.push(h1('Your filtered chart at a glance'));
+    L.push(p(shown.length + ' of ' + D.rows.length + ' routes match your filters' + (shown.length ? ': ' + shown.map((x) => x.r.route).join('; ') + '.' : '. Relax one filter to see more.')));
+    L.push(h1('Report details'));
+    L.push(...bullets(['Prepared for: ' + (F.name || 'Not stated'), 'Date generated: ' + date, 'Report version: ' + REPORT_VERSION_LABEL.replace('Report version ', ''), 'Decision question: ' + (F.question || 'Not stated'), 'Source chart: ' + D.meta.pageUrl + ' (checked ' + D.meta.lastChecked + ')']));
+    L.push(h1('Filters applied'));
+    L.push(...(act.length ? bullets(act) : [p('No filters were applied, so every route is shown.')]));
+    L.push(h1('How this report is calculated'));
+    L.push(...bullets(['Each route in the career chart after 12th has indicative levels for stream eligibility, Maths and Biology need, entrance exam, length, cost, portfolio need, employment, freelance and government routes, overseas mobility, AI exposure and remote work.', 'A route is shown only if it passes every filter you set. Filters you leave on Any do not remove routes.', 'The levels are planning bands set by Future Career School from the chart. They are not statistics or official classifications.']));
+    L.push(h1('Confidence and limitations'));
+    L.push(...bullets(['Filters work on levels for a whole row, such as "B.Tech in computer, data or electronics", so a specific college or branch can differ.', D.meta.disclaimer, ...STANDARD_LIMITS]));
+    L.push(h1('Matching routes'));
+    shown.forEach(({ r }) => { const f = r.f; L.push(h2(r.route)); L.push(...bullets(['Who can apply: ' + r.who, 'Entry gate: ' + r.gate, 'Length: ' + yrsText(f.years) + ' (chart: ' + r.length + ')', 'Cost: ' + D.cost[f.cost[0]] + (f.cost[0] === f.cost[1] ? '' : ' to ' + D.cost[f.cost[1]]) + '. ' + f.notes.cost, 'Maths: ' + NEEDS[f.maths] + '. Biology: ' + NEEDS[f.biology] + '. Portfolio: ' + NEEDS[f.portfolio] + '.', 'Employment: ' + D.level3[f.employment] + '. Freelance: ' + D.level3[f.freelance] + '. Government sector: ' + D.level3[f.government] + '.', 'Overseas mobility: ' + D.overseas3[f.overseas] + '. ' + f.notes.overseas, 'AI exposure: ' + D.ai3[f.ai] + '. ' + f.notes.ai, 'Work from home: ' + D.wfh3[f.wfh] + '. ' + f.notes.wfh, 'First-year money signal: ' + r.money, 'The catch: ' + r.catch])); });
+    L.push(h1('Routes hidden and why'));
+    L.push(...(hidden.length ? bullets(hidden.map(({ r, f }) => r.route + ': ' + f.join('; '))) : [p('No route is hidden.')]));
+    const relax = activeKeys().map((k) => ({ k, extra: D.rows.filter((r) => failures(r).length && !failures(r, k).length).length })).filter((x) => x.extra > 0);
+    L.push(h1('What could change this result'));
+    L.push(...(relax.length ? bullets(relax.map((x) => 'Removing the ' + LABELS[x.k] + ' filter would show ' + x.extra + ' more route' + (x.extra > 1 ? 's' : '') + '.')) : [p('Relaxing a single filter does not add routes.')]));
+    L.push(h1('Suggested experiments'));
+    L.push(...bullets(shown.slice(0, 3).map(({ r }) => r.route + ': spend one day with someone who does this work, then read the official admission page for the entrance exam and note the rule that surprised you.')));
+    L.push(h1('30-day plan'));
+    L.push(...bullets(['Week 1: shortlist up to three routes from this report.', 'Week 2: confirm the eligibility rule and the entrance exam date for each on the official site.', 'Week 3: speak to two people who study or work on each route.', 'Week 4: compare total cost, years to earn and your backup route, then talk it through with a parent and a teacher.', 'Review on ' + todayLabel(addDays(28)) + '.']));
+    L.push(h1('90-day plan'));
+    L.push(...bullets(['Month 1: shortlist and verify rules.', 'Month 2: prepare for the entrance exam or portfolio for your top route, and write a second plan.', 'Month 3: apply, track deadlines and start one small skill project that works with the route.', 'Full review on ' + todayLabel(addDays(90)) + '.']));
+    L.push(h1('Portfolio checklist'));
+    L.push(...bullets(['One small project connected to the route, with a link or photos.', 'A 60-second explanation of why the route fits.', 'A note of every official rule you confirmed, with the website.', 'A written second plan for each exam.', 'Proof of one skill that works beside the degree: AI use, communication, coding or marketing.']));
+    L.push(h1('Review page'));
+    L.push(...bullets(['Review date: ' + todayLabel(addDays(28)), 'Which routes are still on the shortlist? ________________', 'What did we confirm on official sites? ________________', 'What is our second plan? ________________']));
+    L.push(h1('Sources'));
+    L.push(...bullets(['Career chart after 12th: ' + D.meta.pageUrl, 'NTA (JEE Main, NEET UG, CUET UG): https://nta.ac.in/', 'Confirm every rule and date on the exam and institute websites.']));
+    L.push(h1('Report information'));
+    L.push(...bullets([REPORT_VERSION_LABEL, 'Generated on ' + date + '.']));
+    return L;
+  }
+
+  async function pdf() {
+    const st = document.getElementById('cf-status'); if (st) st.textContent = 'Creating your PDF...';
+    try {
+      const ok = await downloadStructuredReport({ title: 'Career Chart After 12th: Filtered Report', fileName: 'career-chart-after-12th-filtered-report.pdf', kicker: 'CAREER CHART AFTER 12TH', coverBadge: 'Personal report', coverMeta: [REPORT_VERSION_LABEL, 'Generated ' + todayLabel()], lines: buildReport() });
+      if (st) st.textContent = ok ? 'Your report has been downloaded as a PDF file.' : 'Nothing to export yet.';
+      ping('chart12_filter_pdf');
+    } catch (e) { console.error(e); if (st) st.textContent = 'The PDF could not be created. Please try again.'; }
+  }
+
+  app.addEventListener('change', (e) => { const t = e.target; const f = t.getAttribute && t.getAttribute('data-f'); if (!f) return; F[f] = t.value; save(); render(); ping('chart12_filter', { filter: f }); });
+  app.addEventListener('click', (e) => { const b = e.target.closest ? e.target.closest('[data-act]') : null; if (!b) return; if (b.getAttribute('data-act') === 'reset') { F = blank(); save(); render(); } else if (b.getAttribute('data-act') === 'pdf') pdf(); });
+  app.addEventListener('submit', (e) => e.preventDefault());
+  render();
+</script>
+
+<style is:global>
+  .cf{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(229,184,74,.3);border-radius:18px;background:rgba(229,184,74,.05)}
+  .cf h2{margin-top:0}
+  .cf h3{font-size:1.1rem;margin:1.4rem 0 .5rem;color:#fff}
+  .cf h4{font-size:1.02rem;margin:0 0 .5rem;color:#fff}
+  .cf p,.cf li{line-height:1.7}
+  .cf-hint{font-size:.86rem;color:rgba(255,255,255,.62)}
+  .cf-info{background:rgba(18,154,141,.15);border:1px solid rgba(18,154,141,.4);border-radius:12px;padding:.7rem .9rem}
+  .cf-form{display:grid;gap:.8rem;margin:1rem 0}
+  .cf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem}
+  .cf-form label{display:grid;gap:.3rem;font-weight:600;font-size:.9rem}
+  .cf-form input[type="text"],.cf-form select{min-height:44px;padding:.5rem .7rem;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400;width:100%}
+  .cf-form select option{color:#000}
+  .cf-btn{min-height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font:600 .95rem "DM Sans",sans-serif;cursor:pointer;padding:.5rem .9rem}
+  .cf-btn--gold{background:linear-gradient(135deg,#e5b84a,#c49a2a);color:#14110a;border:0}
+  .cf-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin:.6rem 0}
+  .cf button:focus-visible,.cf input:focus-visible,.cf select:focus-visible{outline:3px solid #129a8d;outline-offset:2px}
+  .cf-card{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1rem 1.1rem;margin:.8rem 0;background:rgba(255,255,255,.03)}
+  .cf-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:.3rem 0 .6rem}
+  .cf-tags span{padding:.15rem .6rem;border-radius:999px;font-size:.78rem;background:rgba(229,184,74,.18);color:#f5d98c}
+  .cf-lev{padding-left:1.2rem}
+  @media (max-width:560px){.cf{padding:1rem}}
+</style>
