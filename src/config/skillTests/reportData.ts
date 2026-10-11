@@ -8,6 +8,7 @@ export const TEST_NEXT: Record<string, NextAssessment[]> = {
   'confused-after-10th': [
     { href: T('stream-selector-test-after-10th'), title: 'Stream Selector Test After 10th', why: 'Moves from what confuses you to which stream fits your pattern.' },
     { href: T('study-habits-self-assessment'), title: 'Study Habits Self-Assessment', why: 'Checks whether your study routine can support the stream you lean towards.' },
+    { href: '/blog/stream-selection/career-chart-after-10th/#finder', title: 'Class 10 Route Finder', why: 'Turns your subject confidence, marks range and family limits into a ranked comparison of routes.' },
   ],
   communication: [
     { href: T('soft-skills-self-assessment'), title: 'Soft Skills Self-Assessment', why: 'Looks at the wider set of people skills around communication.' },

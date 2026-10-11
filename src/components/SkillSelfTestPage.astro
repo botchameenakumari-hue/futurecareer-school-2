@@ -733,17 +733,17 @@ const jsonLd = [
       function pfFocusInner() {
         var pk = pfPick(), sk = PF.skills[pk.idx], pj = pk.proj;
         if (!pj) return '';
-        return '<p>' + (pk.rated ? 'This project matches your lowest-rated skill, <b>' + esc(sk.name) + '</b>, at the level you rated.' : 'Rate your nine skills above and this project will change to match your lowest-rated skill. Until then, it starts from <b>' + esc(sk.name) + '</b>.') + '</p>' +
+        return '<p>' + (PAR ? 'A good first project for a student is built around <b>' + esc(sk.name) + '</b>. Do it once together, then let your child carry it on and explain what they made.' : pk.rated ? 'This project matches your lowest-rated skill, <b>' + esc(sk.name) + '</b>, at the level you rated.' : 'Rate your nine skills above and this project will change to match your lowest-rated skill. Until then, it starts from <b>' + esc(sk.name) + '</b>.') + '</p>' +
           '<h5>' + esc(pj.title) + '</h5>' +
           '<p><b>Portfolio output:</b> ' + esc(pj.outcome) + '</p>' +
           '<p><b>Time to plan for:</b> about ' + pj.hours + ' hours in total' + (GENTLE ? ', in short slots on days you have energy' : '') + '.</p>' +
           '<p><b>Steps:</b></p>' + list(pj.steps) +
           '<p><b>Evidence to keep while you work:</b></p>' + list(pj.proof) +
-          '<p><b>An example for where you are now:</b> ' + esc(pj.examples[PFA] || pj.examples.early) + '</p>' +
+          '<p><b>An example for where you are now:</b> ' + esc(pj.examples[PFA] || (PAR ? pj.examples.school : pj.examples.early)) + '</p>' +
           '<p><b>Portfolio checklist:</b></p>' + list(CHECKLIST);
       }
-      var pfFocus = PAR ? '' : '<div class="result-section" id="pf-focus"><h4>Your first proof project and portfolio output</h4><div id="pf-focus-body">' + pfFocusInner() + '</div>' +
-        '<p><b>Your skill tracker:</b> <a href="' + trackerLink() + '">Open the full skill tracker with your ratings</a> to choose a target career, log hours, add evidence, score it and get a six-month timeline.</p>' +
+      var pfFocus = '<div class="result-section" id="pf-focus"><h4>' + (PAR ? 'A first proof project to start together' : 'Your first proof project and portfolio output') + '</h4><div id="pf-focus-body">' + pfFocusInner() + '</div>' +
+        '<p><b>Your skill tracker:</b> <a href="' + trackerLink() + '">Open the full skill tracker' + (PAR ? '' : ' with your ratings') + '</a> to choose a target career, log hours, add evidence, score it and get a six-month timeline.</p>' +
         '<p><b>Weekly tracker you can copy:</b></p>' + list([1, 2, 3, 4].map(function (w) { return 'Week ' + w + ': minutes practised ____ | evidence added ____ | one thing finished ____'; })) + '</div>';
       var pfAll = pfIntroSection + pfBlue + pfCheck + pfFocus + pfParent + pfLadder + pfProof + pfStack + pfSprint + pfMist + pfRead;
 

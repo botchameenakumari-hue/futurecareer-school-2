@@ -334,6 +334,7 @@ const jsonLd = [
     return '<section class="spt-card" id="s-report"><h2>7. Progress report and review</h2>' +
       (last ? '<p>Last snapshot: ' + esc(fmt(last.date)) + ' (readiness ' + last.readiness + '%, portfolio score ' + last.portfolio + ', ' + last.hours + ' hours, ' + last.done + ' projects done). ' + (overdue ? '<b>Your next review is due now.</b>' : 'Next review: ' + esc(fmt(due)) + '.') + '</p>' : '<p>No snapshot yet. Save one now and again every four weeks to see your progress.</p>') +
       (last ? '<p>Since then: readiness ' + (readiness() - last.readiness >= 0 ? '+' : '') + (readiness() - last.readiness) + ' points, portfolio score ' + (portfolioScore() - last.portfolio >= 0 ? '+' : '') + (portfolioScore() - last.portfolio) + ', hours +' + (Math.round((totalHours() - last.hours) * 10) / 10) + ', projects done +' + (doneCount() - last.done) + '.</p>' : '') +
+      (S.snaps.length > 1 ? '<details class="spt-hist"><summary>All snapshots (' + S.snaps.length + ')</summary><ul>' + S.snaps.map((x, i) => '<li>' + (i + 1) + '. ' + esc(fmt(x.date)) + ': readiness ' + x.readiness + '%, portfolio score ' + x.portfolio + ', ' + x.hours + ' hours, ' + x.done + ' projects done</li>').join('') + '</ul></details>' : '') +
       '<div class="spt-actions"><button type="button" class="spt-btn spt-btn--gold" data-act="snap">Save a progress snapshot</button><button type="button" class="spt-btn spt-btn--gold" data-act="pdf">Download progress report (PDF)</button><button type="button" class="spt-btn" data-act="backup">Download a backup (JSON)</button><label class="spt-btn spt-file">Restore from backup<input type="file" accept="application/json,.json" data-act="restore"></label><button type="button" class="spt-btn" data-act="reset">Start again</button></div>' +
       '<p class="spt-hint" id="spt-status" role="status"></p>' +
       (memoryOnly ? '<p class="spt-info">This browser is not allowing saved data, so your entries will be lost when you close the page. Download the backup before you leave.</p>' : '') + '</section>';
@@ -378,7 +379,7 @@ const jsonLd = [
     rows.forEach((x) => { if (x.ev.missing.length && x.st.evidence.length) { L.push(h2('To raise the evidence score for ' + x.pj.title)); L.push(...bullets(x.ev.missing.map((m) => m[2] + ' (+' + (m[1] - x.ev.best[m[0]]) + '): ' + m[3]))); } });
     const r = recommended();
     L.push(h1('Recommended next project'));
-    L.push(...(r ? bullets([r.pj.title, 'Portfolio output: ' + r.pj.outcome, 'Why: your gap in ' + D.skills[r.g.i].name + ' is the largest.', 'Steps: ' + r.pj.steps.join(' ')]) : [p('All projects in the library are finished. Raise your price or repeat one with a new buyer.')]));
+    L.push(...(r ? bullets([r.pj.title, 'Portfolio output: ' + r.pj.outcome, 'Why: your gap in ' + D.skills[r.g.i].name + ' is the largest.', 'Steps: ' + r.pj.steps.join(' ')]) : [p('All projects in the library are finished. Repeat one with a new client, or aim for harder work.')]));
     L.push(h1('Suggested experiments'));
     const top = priority().filter((x) => x.gap > 0).slice(0, 3);
     L.push(...bullets((top.length ? top : priority().slice(0, 3)).map((x) => 'Run a 7-day trial in ' + x.name + ': ' + (D.skills[x.i][x.rating <= 2 ? 'start' : x.rating === 3 ? 'grow' : 'strong'][0]) + ' Re-rate yourself afterwards and keep, change or drop it.')));
@@ -390,6 +391,7 @@ const jsonLd = [
     [1, 2, 3, 4, 5, 6].forEach((m) => { const its = t.items.filter((x) => x.weeks > 0 && monthOf(x.start) <= m && monthOf(Math.max(x.start, x.end - 1)) >= m); L.push(h2('Month ' + m + ': ' + fmt(addDaysISO(S.start, (m - 1) * 30)) + ' to ' + fmt(addDaysISO(S.start, m * 30 - 1)))); L.push(p(MONTH_THEME[m - 1])); if (its.length) L.push(...bullets(its.map((x) => x.pj.title))); });
     L.push(h1('Portfolio checklist'));
     L.push(...bullets(['At least three finished pieces, each with the problem, what you made and what happened.', 'One piece has a number or measured result.', 'One person other than you has tried it and given feedback.', 'Everything is in one public place with a link.', 'You can describe your craft in one sentence that names who it helps.', 'You have made at least one offer to a real person or business.']));
+    if (S.snaps.length) { L.push(h1('Progress history')); L.push(...bullets(S.snaps.map((x, i) => 'Snapshot ' + (i + 1) + ', ' + fmt(x.date) + ': readiness ' + x.readiness + '%, portfolio score ' + x.portfolio + ', ' + x.hours + ' hours, ' + x.done + ' projects done'))); }
     L.push(h1('Review page'));
     L.push(...bullets(['Next review date: ' + fmt(addDaysISO(S.snaps.length ? S.snaps[S.snaps.length - 1].date : todayISO(), 28)), 'What has changed since this report? ________________', 'Which project will I finish next? ________________', 'Who will I ask for feedback? ________________', 'My next offer to a real person: ________________']));
     L.push(h1('Sources and further reading'));
@@ -510,6 +512,7 @@ const jsonLd = [
   .spt-dual .need{position:absolute;top:-4px;width:3px;height:18px;background:#fff;border-radius:2px;transform:translateX(-50%)}
   .spt-proj{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap;border-top:1px solid var(--border);padding:.7rem 0}
   .spt-work{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:.4rem 0 1rem}
+  .spt-hist summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600}
   .spt-shot{max-width:100%;max-height:220px;border-radius:10px;margin:.4rem 0;display:block}
   .spt-ev,.spt-month,.spt-reco{border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin:.6rem 0}
   .spt-bar{margin:.5rem 0}
