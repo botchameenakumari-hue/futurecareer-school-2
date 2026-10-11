@@ -138,7 +138,7 @@ const jsonLd = [
     return D.skills.map((s, i) => ({ i, key: s.key, name: s.name, rating: S.ratings[i], need: needOf(i), gap: Math.max(0, needOf(i) - S.ratings[i]) }));
   }
   function readiness() {
-    const g = gaps(); const need = g.reduce((a, x) => a + x.need, 0), gap = g.reduce((a, x) => a + x.gap, 0);
+    const g = gaps().filter((x) => x.rating > 0); const need = g.reduce((a, x) => a + x.need, 0), gap = g.reduce((a, x) => a + x.gap, 0);
     return need ? Math.round(100 * (1 - gap / need)) : 0;
   }
   function priority() { return gaps().slice().sort((a, b) => b.gap - a.gap || b.need - a.need || a.rating - b.rating || a.i - b.i); }
@@ -242,6 +242,7 @@ const jsonLd = [
     let body = '<label class="spt-wide">Target career or direction<select data-f="target">' + opts + '</select></label>';
     if (!rated()) body += '<p class="spt-info">Rate at least one skill above to see your gaps.</p>';
     else {
+      const nRated = S.ratings.filter((r) => r > 0).length; if (nRated < 9) body += '<p class="spt-hint">Readiness is based on the ' + nRated + ' of 9 skills you have rated. Rate the rest for a fuller picture.</p>';
       body += '<p><b>Readiness for ' + esc(c ? c.name : 'a working level') + ': ' + readiness() + '%.</b> This is how much of the skill level the direction usually asks for you already have. It is a rough guide to where to practise, not a hiring prediction.</p>';
       body += g.map((x) => '<div class="spt-gap"><div class="spt-gap-h"><b>' + esc(x.name) + '</b><span>You ' + (x.rating || 'not rated') + ' | Needs about ' + x.need + (x.gap ? ' | Gap ' + x.gap : ' | Met') + '</span></div><div class="spt-dual" aria-hidden="true"><i class="have" style="width:' + (x.rating * 20) + '%"></i><b class="need" style="left:' + (x.need * 20) + '%"></b></div></div>').join('');
       if (c) body += '<p><b>Usual first proof in this field:</b> ' + esc(c.proof) + '</p><p><b>A good first move:</b> ' + esc(c.first) + '</p>';
@@ -254,7 +255,7 @@ const jsonLd = [
     const r = recommended();
     let body;
     if (!rated()) body = '<p class="spt-info">Rate your skills to get a recommended next project.</p>';
-    else if (!r) body = '<p>You have finished every project in the library. Choose a skill and raise your price or repeat one with a new buyer.</p>';
+    else if (!r) body = '<p>You have finished every project in the library. Choose a skill and repeat one project with a new client, or aim for harder work.</p>';
     else {
       const sk = D.skills[r.g.i];
       body = '<p>Your biggest gap is <b>' + esc(sk.name) + '</b> (you ' + (r.g.rating || 'not rated') + ', ' + (career() ? 'target' : 'working level') + ' ' + r.g.need + '). The next project in that skill is:</p>' +
@@ -335,7 +336,7 @@ const jsonLd = [
       (last ? '<p>Last snapshot: ' + esc(fmt(last.date)) + ' (readiness ' + last.readiness + '%, portfolio score ' + last.portfolio + ', ' + last.hours + ' hours, ' + last.done + ' projects done). ' + (overdue ? '<b>Your next review is due now.</b>' : 'Next review: ' + esc(fmt(due)) + '.') + '</p>' : '<p>No snapshot yet. Save one now and again every four weeks to see your progress.</p>') +
       (last ? '<p>Since then: readiness ' + (readiness() - last.readiness >= 0 ? '+' : '') + (readiness() - last.readiness) + ' points, portfolio score ' + (portfolioScore() - last.portfolio >= 0 ? '+' : '') + (portfolioScore() - last.portfolio) + ', hours +' + (Math.round((totalHours() - last.hours) * 10) / 10) + ', projects done +' + (doneCount() - last.done) + '.</p>' : '') +
       (S.snaps.length > 1 ? '<details class="spt-hist"><summary>All snapshots (' + S.snaps.length + ')</summary><ul>' + S.snaps.map((x, i) => '<li>' + (i + 1) + '. ' + esc(fmt(x.date)) + ': readiness ' + x.readiness + '%, portfolio score ' + x.portfolio + ', ' + x.hours + ' hours, ' + x.done + ' projects done</li>').join('') + '</ul></details>' : '') +
-      '<div class="spt-actions"><button type="button" class="spt-btn spt-btn--gold" data-act="snap">Save a progress snapshot</button><button type="button" class="spt-btn spt-btn--gold" data-act="pdf">Download progress report (PDF)</button><button type="button" class="spt-btn" data-act="backup">Download a backup (JSON)</button><label class="spt-btn spt-file">Restore from backup<input type="file" accept="application/json,.json" data-act="restore"></label><button type="button" class="spt-btn" data-act="reset">Start again</button></div>' +
+      '<div class="spt-actions"><button type="button" class="spt-btn spt-btn--gold" data-act="snap">Save a progress snapshot</button><button type="button" class="spt-btn spt-btn--gold" data-act="pdf">Download progress report (PDF)</button><button type="button" class="spt-btn" data-act="ics">Add the next review to my calendar</button><button type="button" class="spt-btn" data-act="backup">Download a backup (JSON)</button><label class="spt-btn spt-file">Restore from backup<input type="file" accept="application/json,.json" data-act="restore"></label><button type="button" class="spt-btn" data-act="reset">Start again</button></div>' +
       '<p class="spt-hint" id="spt-status" role="status"></p>' +
       (memoryOnly ? '<p class="spt-info">This browser is not allowing saved data, so your entries will be lost when you close the page. Download the backup before you leave.</p>' : '') + '</section>';
   }
@@ -430,6 +431,13 @@ const jsonLd = [
     else if (act === 'delev') { const st = pstate(id); st.evidence.splice(Number(b.getAttribute('data-k')), 1); S.projects[id] = st; save(); render(); }
     else if (act === 'snap') { S.snaps.push({ date: todayISO(), ratings: S.ratings.slice(), readiness: readiness(), portfolio: portfolioScore(), hours: Math.round(totalHours() * 10) / 10, done: doneCount() }); save(); render(); const s = document.getElementById('spt-status'); if (s) s.textContent = 'Snapshot saved.'; }
     else if (act === 'pdf') makePdf();
+    else if (act === 'ics') {
+      const last = S.snaps[S.snaps.length - 1]; const day = addDaysISO(last ? last.date : todayISO(), 28); const next = addDaysISO(day, 1);
+      const compact = (iso) => iso.replace(/-/g, '');
+      const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Future Career School//Skill tracker review//EN', 'BEGIN:VEVENT', 'UID:skill-tracker-' + compact(day) + '@futurecareerschool.com', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z', 'DTSTART;VALUE=DATE:' + compact(day), 'DTEND;VALUE=DATE:' + compact(next), 'SUMMARY:Skill portfolio review', 'DESCRIPTION:Save a progress snapshot, add evidence to your projects and choose the next project.', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+      const blob = new Blob([ics], { type: 'text/calendar' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'skill-review.ics'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      const st = document.getElementById('spt-status'); if (st) st.textContent = 'A calendar file for ' + fmt(day) + ' has been downloaded.';
+    }
     else if (act === 'backup') { const blob = new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'skill-tracker-backup.json'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
     else if (act === 'reset') { if (confirm('Delete everything saved in this tracker on this device?')) { S = blank(); ui = { open: '', tab: 'all', msg: '' }; save(); render(); } }
   });

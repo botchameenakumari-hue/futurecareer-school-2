@@ -824,7 +824,7 @@ const jsonLd = [
         'Month 2 (days 31 to 60): run Experiment 2 for ' + lc(second.d.name) + ', and' + (PAR ? ' agree one small shared goal with your child.' : ' finish your first proof project.'),
         'Month 3 (days 61 to 90): ' + (PAR ? 'review with your child what changed, and plan the next step together.' : 'use ' + lc(highest.d.name) + ' on purpose in one real situation, share your proof project, and then retake this test and compare area by area.') + (GENTLE ? ' If tiredness, low mood or worry stays heavy, talk to a doctor or counsellor. In India, Tele-MANAS (14416) offers free support.' : ''),
         'Review dates: check progress on ' + reviewDate + ', and do a full review on ' + reviewDate90 + '.'
-      ]) + '</div>';
+      ]) + '<div data-result-actions><button type="button" class="sst-btn sst-btn--ghost" data-ics>Add the review dates to your calendar</button></div></div>';
 
       // Printable action plan.
       var stepsPlan = (D.stagePlan && D.stagePlan[stage]) || DEPTH.thirtyDay;
@@ -907,8 +907,20 @@ const jsonLd = [
         if (window.downloadAssessmentReportPdf) window.downloadAssessmentReportPdf({ container: resultShell, title: D.reportTitle, fileName: D.reportFile, frontLines: front, backLines: back, coverBadge: 'Your report', coverMeta: ['Assessment version ' + RP.versionText, 'Stage: ' + st.label + '. Generated ' + todayLabel] });
       });
       resultShell.addEventListener('click', function (e) {
-        var t = e.target && e.target.closest ? e.target.closest('[data-copy],[data-print-plan]') : null; if (!t) return;
-        if (t.hasAttribute('data-copy')) {
+        var t = e.target && e.target.closest ? e.target.closest('[data-copy],[data-print-plan],[data-ics]') : null; if (!t) return;
+        if (t.hasAttribute('data-ics')) {
+          var ymd = function (d) { return d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2); };
+          var stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
+          var ev = function (n, label, note) { var d = plusDays(n), e2 = plusDays(n + 1); return ['BEGIN:VEVENT', 'UID:' + D.id + '-' + n + '-' + ymd(today) + '@futurecareerschool.com', 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + ymd(d), 'DTEND;VALUE=DATE:' + ymd(e2), 'SUMMARY:' + label, 'DESCRIPTION:' + note, 'END:VEVENT']; };
+          var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Future Career School//Assessment review//EN', 'CALSCALE:GREGORIAN']
+            .concat(ev(28, 'Progress check: ' + D.reportTitle, 'Check your experiments and your proof project, then note what changed.'))
+            .concat(ev(90, 'Full review and retake: ' + D.reportTitle, 'Retake the assessment and compare area by area. Plan the next three months.'))
+            .concat(['END:VCALENDAR']).join('\r\n');
+          var blob = new Blob([ics], { type: 'text/calendar' }), url = URL.createObjectURL(blob), a = document.createElement('a');
+          a.href = url; a.download = 'review-dates.ics'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+          t.textContent = 'Calendar file downloaded'; setTimeout(function () { t.textContent = 'Add the review dates to your calendar'; }, 2500);
+          ping('self_test_review_ics');
+        } else if (t.hasAttribute('data-copy')) {
           var sec = document.getElementById(t.getAttribute('data-copy')), txt = sec ? Array.prototype.map.call(sec.querySelectorAll('li'), function (x) { return x.textContent; }).join('\n') : '';
           var done = function () { t.textContent = 'Copied'; setTimeout(function () { t.textContent = 'Copy this summary'; }, 2000); };
           if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function () { t.textContent = 'Copy not available'; }); else t.textContent = 'Copy not available';
