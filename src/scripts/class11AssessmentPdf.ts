@@ -1,3 +1,5 @@
+import { extrasSections } from './extrasSections';
+
 type JsPdfConstructor = typeof import('jspdf').jsPDF;
 
 type LineKind = 'subheading' | 'bullet' | 'table' | 'body';
@@ -169,7 +171,7 @@ export function collectClass11Report(container: HTMLElement): ReportSection[] {
     return normaliseVisibleText(element.innerText).length > 0;
   }) as HTMLElement[];
 
-  return topLevelBlocks
+  const baseSections = topLevelBlocks
     .map((block, index) => {
       const heading = block.querySelector<HTMLElement>('h1,h2,h3,[data-pdf-section-heading]');
       const explicitTitle = normaliseVisibleText(block.dataset.pdfTitle || heading?.textContent || '');
@@ -184,6 +186,10 @@ export function collectClass11Report(container: HTMLElement): ReportSection[] {
       return { title: inferredTitle, lines };
     })
     .filter((section) => section.title || section.lines.length);
+  const front = extrasSections(container, 'front');
+  const back = extrasSections(container, 'back');
+  if (!front.length && !back.length) return baseSections;
+  return [...baseSections.slice(0, 1), ...front, ...baseSections.slice(1), ...back] as typeof baseSections;
 }
 
 export function createClass11AssessmentPdf(

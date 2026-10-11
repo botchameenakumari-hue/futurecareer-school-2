@@ -1,3 +1,5 @@
+import { extrasSections } from './extrasSections';
+
 type JsPdfConstructor = typeof import('jspdf').jsPDF;
 
 type LineKind = 'subheading' | 'bullet' | 'table' | 'body';
@@ -208,7 +210,7 @@ export function collectGraduateReport(
     );
   }) as HTMLElement[];
 
-  return topLevelBlocks
+  const baseSections = topLevelBlocks
     .map((block, index) => {
       const profile = block.matches('[data-pdf-profile]') ? {
         code: normaliseVisibleText(block.querySelector<HTMLElement>('.res-code-badge')?.textContent || ''),
@@ -284,6 +286,10 @@ export function collectGraduateReport(
       return { title: inferredTitle, lines, kind, scoreRows, careerRows, profile };
     })
     .filter((section) => section.title || section.lines.length);
+  const front = extrasSections(container, 'front');
+  const back = extrasSections(container, 'back');
+  if (!front.length && !back.length) return baseSections;
+  return [...baseSections.slice(0, 1), ...front, ...baseSections.slice(1), ...back] as typeof baseSections;
 }
 
 export function createGraduateAssessmentPdf(

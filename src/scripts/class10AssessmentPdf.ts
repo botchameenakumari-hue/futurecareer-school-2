@@ -1,3 +1,5 @@
+import { extrasSections } from './extrasSections';
+
 type JsPdfConstructor = typeof import('jspdf').jsPDF;
 
 type LineKind = 'subheading' | 'bullet' | 'table' | 'body';
@@ -164,7 +166,7 @@ export function collectClass10Report(container: HTMLElement): ReportSection[] {
     return element.matches('.res-header, .res-section, .res-guidance, [data-pdf-section]');
   }) as HTMLElement[];
 
-  return topLevelBlocks
+  const baseSections = topLevelBlocks
     .map((block, index) => {
       const heading = block.querySelector<HTMLElement>('h1,h2,h3,[data-pdf-section-heading]');
       const title = normaliseVisibleText(
@@ -176,6 +178,10 @@ export function collectClass10Report(container: HTMLElement): ReportSection[] {
       return { title, lines: linesFromElement(block) };
     })
     .filter((section) => section.title || section.lines.length);
+  const front = extrasSections(container, 'front');
+  const back = extrasSections(container, 'back');
+  if (!front.length && !back.length) return baseSections;
+  return [...baseSections.slice(0, 1), ...front, ...baseSections.slice(1), ...back] as typeof baseSections;
 }
 
 export function createClass10AssessmentPdf(
