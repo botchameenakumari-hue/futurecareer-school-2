@@ -401,6 +401,7 @@ const jsonLd = [
     body.sst-print-plan #sst-print-clone{display:block !important;padding:18px;background:#fff;color:#000;font:14px/1.55 Arial,sans-serif}
     body.sst-print-plan #sst-print-clone *{color:#000 !important;background:transparent !important}
     body.sst-print-plan #sst-print-clone [data-result-actions]{display:none !important}
+    body.sst-print-plan #sst-print-clone *{max-height:none !important;height:auto !important;overflow:visible !important;opacity:1 !important;visibility:visible !important}
   }
 </style>
 
@@ -811,7 +812,7 @@ const jsonLd = [
       var experiments = [
         { t: 'Experiment 1: ' + lowest.d.name, a: plain(lowest.dd.routine[0]), m: measureFor(lowest) },
         { t: 'Experiment 2: ' + second.d.name, a: second.dd.midStep, m: measureFor(second) },
-        { t: 'Experiment 3: use your strength, ' + highest.d.name, a: strongMove, m: 'Write one sentence on what worked and one on what to change.' }
+        { t: 'Experiment 3: use your strength in ' + lc(highest.d.name), a: strongMove, m: 'Write one sentence on what worked and one on what to change.' }
       ];
       var experSection = '<div class="result-section"><h4>Three experiments to run</h4><p>An experiment is a small, time-boxed trial. Run each one for 7 days, then decide.</p>' + experiments.map(function (e) {
         return '<h5>' + esc(e.t) + '</h5><p><b>Try:</b> ' + esc(e.a) + '</p><p><b>Measure:</b> ' + esc(e.m) + '</p><p><b>Keep it if</b> the second rating is higher or it felt useful. <b>Change it if</b> it was unclear or too big. <b>Drop it if</b> it made no difference after a fair try.</p>';
@@ -914,7 +915,10 @@ const jsonLd = [
           ping('self_test_copy_summary', { which: t.getAttribute('data-copy') });
         } else {
           var src = document.getElementById('sst-plan-print'); if (!src) return;
-          var clone = src.cloneNode(true); clone.id = 'sst-print-clone'; document.body.appendChild(clone); document.body.classList.add('sst-print-plan');
+          var clone = src.cloneNode(true); clone.id = 'sst-print-clone';
+          clone.classList.remove('is-collapsible', 'is-collapsed'); clone.removeAttribute('style');
+          Array.prototype.forEach.call(clone.querySelectorAll('.assessment-section-toggle, [data-result-actions]'), function (n) { n.remove(); });
+          Array.prototype.forEach.call(clone.querySelectorAll('.is-collapsed, [hidden]'), function (n) { n.classList.remove('is-collapsed'); n.removeAttribute('hidden'); n.removeAttribute('style'); }); document.body.appendChild(clone); document.body.classList.add('sst-print-plan');
           ping('self_test_print_plan');
           var after = function () { document.body.classList.remove('sst-print-plan'); if (clone.parentNode) clone.parentNode.removeChild(clone); window.removeEventListener('afterprint', after); };
           window.addEventListener('afterprint', after); window.print();
