@@ -201,6 +201,11 @@ export const LIVE_INDEXABLE_ROUTES: IndexableRoute[] = [
     changefreq: 'monthly',
     priority: '0.88',
   },
+  {
+    path: '/services/assessments/skill-portfolio-tracker',
+    changefreq: 'monthly',
+    priority: '0.88',
+  },
   ...SKILL_TEST_BUNDLES.map((b) => ({
     path: b.test.pageUrl.replace(/\/$/, ''),
     changefreq: 'monthly',

@@ -1,0 +1,506 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import { PF_SKILLS, INCOME_LADDER, PF_READ_NEXT, PF_WEEKLY } from '../config/skillPortfolio';
+import { PROJECTS } from '../config/skillProjects';
+import { CAREER_TARGETS } from '../config/careerTargets';
+import { REPORT_VERSION_TEXT } from '../config/skillTests/reportData';
+
+const pageUrl = 'https://futurecareerschool.com/services/assessments/skill-portfolio-tracker/';
+const title = 'Skill Portfolio Tracker: Plan, Prove and Track Your Skills';
+const description =
+  'Free skill portfolio tracker. Rate nine skills, compare with a target career, choose a proof project, log hours, add and score evidence, and get a six-month timeline and a progress report.';
+
+const data = {
+  version: REPORT_VERSION_TEXT,
+  skills: PF_SKILLS.map((s) => ({ key: s.key, name: s.name, statement: s.statement, why: s.why, tools: s.tools, focus: s.focus, start: s.start, grow: s.grow, strong: s.strong })),
+  projects: PROJECTS,
+  careers: CAREER_TARGETS,
+  ladder: INCOME_LADDER,
+  readNext: PF_READ_NEXT,
+  weekly: PF_WEEKLY,
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
+      { '@type': 'ListItem', position: 3, name: 'Assessments', item: 'https://futurecareerschool.com/services/assessments/' },
+      { '@type': 'ListItem', position: 4, name: 'Skill Portfolio Tracker', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Skill Portfolio Tracker',
+    description,
+    url: pageUrl,
+    applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Any',
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    provider: { '@type': ['Organization', 'ProfessionalService'], name: 'Future Career School', url: 'https://futurecareerschool.com' },
+    inLanguage: 'en-IN',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={pageUrl} jsonLd={jsonLd}>
+  <Nav activePage="services" />
+  <main class="spt">
+    <section class="spt-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a><span aria-hidden="true">&rsaquo;</span>
+          <a href="/services/">Services</a><span aria-hidden="true">&rsaquo;</span>
+          <a href="/services/assessments/">Assessments</a><span aria-hidden="true">&rsaquo;</span>
+          <span aria-current="page">Skill Portfolio Tracker</span>
+        </nav>
+        <div class="spt-eyebrow">Free tool</div>
+        <h1>Skill Portfolio Tracker</h1>
+        <p class="spt-sub">Turn nine skills into proof you can show. Pick a target skill, choose a proof project, log your hours, add evidence, see it scored, and get a six-month timeline and a progress report you can download.</p>
+        <ol class="spt-how">
+          <li><b>Rate</b> your nine skills.</li>
+          <li><b>Compare</b> with a target career.</li>
+          <li><b>Choose</b> a proof project.</li>
+          <li><b>Log</b> hours and add evidence.</li>
+          <li><b>Review</b> your score and timeline.</li>
+          <li><b>Download</b> your progress report.</li>
+        </ol>
+        <p class="spt-note">Everything is saved only in this browser on this device. Use the backup button to keep a copy. Scores come from what you enter and are not checked by anyone else.</p>
+      </div>
+    </section>
+    <section class="spt-section">
+      <div class="container">
+        <noscript><p>This tool needs JavaScript to run.</p></noscript>
+        <div id="spt-app" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script type="application/json" id="spt-data" set:html={JSON.stringify(data)} />
+
+<script>
+  // @ts-nocheck
+  import { downloadStructuredReport, h1, h2, p, li, bullets, STANDARD_LIMITS, REPORT_VERSION_LABEL } from '../scripts/reportKit';
+
+  const D = JSON.parse(document.getElementById('spt-data').textContent);
+  const app = document.getElementById('spt-app');
+  const KEY = 'fcs-skill-tracker-v1';
+  const AUDS = [['school', 'School student'], ['college', 'College student'], ['early', 'Early career'], ['experienced', 'Experienced professional']];
+  const LBL = ['Not rated', 'Not true', 'Rarely true', 'Sometimes true', 'Mostly true', 'Very true'];
+  const MONTH_THEME = [
+    'Set up and finish your first starter project.',
+    'Collect evidence, ask for feedback and fix the weak spots.',
+    'Build your second skill and keep logging hours.',
+    'Publish your portfolio in one public place.',
+    'Make offers to real people and track every reply.',
+    'Close a first paid or measured result, then review and reset.'
+  ];
+
+  function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function todayISO() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function fmt(iso) { const d = new Date(iso + 'T00:00:00'); return isNaN(d) ? iso : d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }); }
+  function addDaysISO(iso, n) { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate() + n); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function ping(name, extra) { try { if (window.gtag) window.gtag('event', name, extra || {}); } catch (e) {} }
+
+  // ---- State -------------------------------------------------------------
+  const blank = () => ({ v: 1, aud: 'college', hours: 6, start: todayISO(), ratings: D.skills.map(() => 0), target: '', targetSkill: '', question: '', name: '', projects: {}, snaps: [] });
+  let S = blank();
+  let memoryOnly = false;
+  try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) { memoryOnly = true; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { memoryOnly = true; } }
+  let ui = { open: '', tab: 'all', msg: '' };
+
+  // Prefill from a result page link: ?r=3,2,1,...&aud=early&skill=ai_use&from=<test id>
+  (function fromQuery() {
+    try {
+      const q = new URLSearchParams(location.search);
+      const r = (q.get('r') || '').split(',').map((x) => Number(x));
+      if (r.length === D.skills.length && r.every((n) => n >= 0 && n <= 5) && r.some((n) => n > 0)) S.ratings = r;
+      const a = q.get('aud'); if (a && AUDS.some((x) => x[0] === a)) S.aud = a;
+      const sk = q.get('skill'); if (sk && D.skills.some((x) => x.key === sk)) S.targetSkill = sk;
+      if (q.get('from') || q.get('r')) { ui.msg = 'Your ratings from your assessment result have been loaded. Change anything that does not look right.'; save(); }
+    } catch (e) {}
+  })();
+
+  // ---- Calculations ------------------------------------------------------
+  const career = () => D.careers.find((c) => c.id === S.target) || null;
+  const needOf = (i) => { const c = career(); return c ? c.need[i] : 3; };
+  const rated = () => S.ratings.some((r) => r > 0);
+  function gaps() {
+    return D.skills.map((s, i) => ({ i, key: s.key, name: s.name, rating: S.ratings[i], need: needOf(i), gap: Math.max(0, needOf(i) - S.ratings[i]) }));
+  }
+  function readiness() {
+    const g = gaps(); const need = g.reduce((a, x) => a + x.need, 0), gap = g.reduce((a, x) => a + x.gap, 0);
+    return need ? Math.round(100 * (1 - gap / need)) : 0;
+  }
+  function priority() { return gaps().slice().sort((a, b) => b.gap - a.gap || b.need - a.need || a.rating - b.rating || a.i - b.i); }
+  const ladder = (key) => D.projects.filter((x) => x.skill === key).sort((a, b) => a.level - b.level);
+  const pstate = (id) => S.projects[id] || { status: 'new', log: [], evidence: [] };
+  function nextProject(key, skipIds) {
+    const rating = S.ratings[D.skills.findIndex((s) => s.key === key)] || 0;
+    const min = rating <= 2 ? 1 : rating === 3 ? 2 : 3;
+    const l = ladder(key).filter((x) => pstate(x.id).status !== 'done' && !(skipIds || []).includes(x.id));
+    return l.find((x) => x.level >= min) || l[0] || null;
+  }
+  function recommended() {
+    const pr = priority();
+    const withGap = pr.filter((x) => x.gap > 0);
+    const pool = withGap.length ? withGap : pr.slice().sort((a, b) => a.rating - b.rating || a.i - b.i);
+    for (const g of pool) { const pj = nextProject(g.key); if (pj) return { g, pj }; }
+    return null;
+  }
+  // Evidence rubric. Entries are combined: the best score for each criterion across all entries counts.
+  const isUrl = (u) => /^https?:\/\/\S+\.\S+/i.test(u || '');
+  function scoreEntry(e) {
+    const parts = {};
+    parts.output = isUrl(e.url) || (e.file || '').trim() ? 25 : (e.made || '').trim().length >= 30 ? 12 : 0;
+    parts.problem = (e.problem || '').trim().length >= 25 ? 15 : (e.problem || '').trim().length >= 10 ? 7 : 0;
+    parts.result = /\d/.test(e.result || '') && (e.result || '').trim().length >= 6 ? 20 : (e.result || '').trim().length >= 20 ? 12 : 0;
+    parts.feedback = e.peer && (e.peerNote || '').trim().length >= 15 ? 20 : e.peer ? 10 : 0;
+    parts.shared = e.shared && isUrl(e.url) ? 10 : e.shared ? 5 : 0;
+    parts.reflection = (e.reflect || '').trim().length >= 25 ? 10 : (e.reflect || '').trim().length >= 10 ? 5 : 0;
+    return parts;
+  }
+  const CRIT = [
+    ['output', 25, 'A finished output', 'Add a working link or the name of the file you made.'],
+    ['problem', 15, 'The problem or goal', 'Write at least a full sentence about who it helps and why.'],
+    ['result', 20, 'A result or measure', 'Add a number, such as time saved, people reached or replies received.'],
+    ['feedback', 20, 'Feedback from another person', 'Ask one person to try it and write what they said.'],
+    ['shared', 10, 'Shared where others can find it', 'Publish it with a public link and tick the box.'],
+    ['reflection', 10, 'What you would change', 'Write what you would do differently next time.']
+  ];
+  function evidenceScore(st) {
+    const best = {}; CRIT.forEach((c) => (best[c[0]] = 0));
+    (st.evidence || []).forEach((e) => { const sc = scoreEntry(e); CRIT.forEach((c) => { if (sc[c[0]] > best[c[0]]) best[c[0]] = sc[c[0]]; }); });
+    const total = CRIT.reduce((a, c) => a + best[c[0]], 0);
+    const level = !(st.evidence || []).length ? 'No evidence yet' : total >= 75 ? 'Strong proof' : total >= 55 ? 'Proof' : total >= 30 ? 'Draft' : 'Idea';
+    return { total, best, level, missing: CRIT.filter((c) => best[c[0]] < c[1]) };
+  }
+  function hoursOf(st) { return (st.log || []).reduce((a, x) => a + (Number(x.hours) || 0), 0); }
+  function allProjectsState() { return D.projects.map((pj) => ({ pj, st: pstate(pj.id), ev: evidenceScore(pstate(pj.id)) })).filter((x) => x.st.status !== 'new' || x.st.evidence.length || x.st.log.length); }
+  function portfolioScore() {
+    const scores = D.projects.map((pj) => evidenceScore(pstate(pj.id)).total).sort((a, b) => b - a).slice(0, 3);
+    while (scores.length < 3) scores.push(0);
+    return Math.round(scores.reduce((a, b) => a + b, 0) / 3);
+  }
+  const totalHours = () => D.projects.reduce((a, pj) => a + hoursOf(pstate(pj.id)), 0);
+  const doneCount = () => D.projects.filter((pj) => pstate(pj.id).status === 'done').length;
+
+  // ---- Six-month timeline ------------------------------------------------
+  function buildTimeline() {
+    const hpw = Math.max(1, Number(S.hours) || 1);
+    const pr = priority();
+    let focus = pr.filter((x) => x.gap > 0).slice(0, 3).map((x) => x.key);
+    pr.slice().sort((a, b) => a.rating - b.rating || a.i - b.i).forEach((x) => { if (focus.length < 3 && !focus.includes(x.key)) focus.push(x.key); });
+    const queue = []; const used = [];
+    focus.forEach((key, k) => {
+      const a = nextProject(key, used); if (a) { queue.push(a); used.push(a.id); }
+      if (k === 0) { const b = nextProject(key, used); if (b) { queue.push(b); used.push(b.id); } }
+    });
+    ['sales', 'proof'].forEach((key) => { if (!focus.includes(key) || queue.length < 4) { const a = nextProject(key, used); if (a && !queue.some((x) => x.id === a.id)) { queue.push(a); used.push(a.id); } } });
+    let week = 0; const items = [];
+    queue.forEach((pj) => {
+      const done = pstate(pj.id).status === 'done';
+      const remaining = Math.max(0, pj.hours - hoursOf(pstate(pj.id)));
+      const weeks = done ? 0 : Math.max(1, Math.ceil(remaining / hpw));
+      items.push({ pj, start: week, weeks, end: week + weeks });
+      week += weeks;
+    });
+    return { items, totalWeeks: week, hpw };
+  }
+  function monthOf(week) { return Math.min(7, Math.floor(week / 4.345) + 1); }
+
+  // ---- Rendering ---------------------------------------------------------
+  function bar(label, val, max, extra) { const w = Math.max(0, Math.min(100, Math.round((val / max) * 100))); return '<div class="spt-bar"><div class="spt-bar-l"><span>' + esc(label) + '</span><span>' + (extra || '') + '</span></div><div class="spt-bar-t" aria-hidden="true"><i style="width:' + w + '%"></i></div></div>'; }
+
+  function secStart() {
+    const bs = [1, 2, 3, 4, 5].map((n) => n);
+    return '<section class="spt-card" id="s-start"><h2>1. Your starting point</h2>' +
+      (ui.msg ? '<p class="spt-info" role="status">' + esc(ui.msg) + '</p>' : '') +
+      '<div class="spt-grid2"><label>Who you are<select data-f="aud">' + AUDS.map((a) => '<option value="' + a[0] + '"' + (S.aud === a[0] ? ' selected' : '') + '>' + a[1] + '</option>').join('') + '</select></label>' +
+      '<label>Hours a week you can give<input type="number" min="1" max="40" step="1" data-f="hours" value="' + esc(S.hours) + '"></label>' +
+      '<label>Start date<input type="date" data-f="start" value="' + esc(S.start) + '"></label>' +
+      '<label>Your name (optional, for the report)<input type="text" maxlength="60" data-f="name" value="' + esc(S.name) + '" autocomplete="name"></label></div>' +
+      '<label class="spt-wide">What decision are you using this for? (optional)<input type="text" maxlength="140" data-f="question" value="' + esc(S.question) + '" placeholder="For example: choosing which skill to build before my final year"></label>' +
+      '<p class="spt-hint">Suggested time for your stage: ' + esc(D.weekly[S.aud] || '') + '</p>' +
+      '<h3>Rate your nine skills</h3><p class="spt-hint">1 means not true yet, 5 means very true. Rate what you can do now, not what you hope to do.</p>' +
+      D.skills.map((s, i) => '<div class="spt-skill"><p><b>' + esc(s.name) + '.</b> ' + esc(s.statement) + '</p><div class="spt-scale" role="group" aria-label="Rate ' + esc(s.name) + '">' + bs.map((n) => '<button type="button" data-act="rate" data-i="' + i + '" data-v="' + n + '" aria-pressed="' + (S.ratings[i] === n) + '" class="' + (S.ratings[i] === n ? 'on' : '') + '">' + n + '</button>').join('') + '</div><p class="spt-hint">' + esc(LBL[S.ratings[i]]) + '</p></div>').join('') +
+      '</section>';
+  }
+
+  function secTarget() {
+    const c = career(); const g = gaps();
+    const opts = '<option value="">No target yet (compare with a working level of 3)</option>' + D.careers.map((x) => '<option value="' + x.id + '"' + (S.target === x.id ? ' selected' : '') + '>' + esc(x.name) + ' (' + esc(x.family) + ')</option>').join('');
+    let body = '<label class="spt-wide">Target career or direction<select data-f="target">' + opts + '</select></label>';
+    if (!rated()) body += '<p class="spt-info">Rate at least one skill above to see your gaps.</p>';
+    else {
+      body += '<p><b>Readiness for ' + esc(c ? c.name : 'a working level') + ': ' + readiness() + '%.</b> This is how much of the skill level the direction usually asks for you already have. It is a rough guide to where to practise, not a hiring prediction.</p>';
+      body += g.map((x) => '<div class="spt-gap"><div class="spt-gap-h"><b>' + esc(x.name) + '</b><span>You ' + (x.rating || 'not rated') + ' | Needs about ' + x.need + (x.gap ? ' | Gap ' + x.gap : ' | Met') + '</span></div><div class="spt-dual" aria-hidden="true"><i class="have" style="width:' + (x.rating * 20) + '%"></i><b class="need" style="left:' + (x.need * 20) + '%"></b></div></div>').join('');
+      if (c) body += '<p><b>Usual first proof in this field:</b> ' + esc(c.proof) + '</p><p><b>A good first move:</b> ' + esc(c.first) + '</p>';
+      body += '<p class="spt-hint">The skill levels per career are rough emphasis levels, not hiring requirements. Employers differ, so check real job posts for the role you want.</p>';
+    }
+    return '<section class="spt-card" id="s-target"><h2>2. Compare with a target career</h2>' + body + '</section>';
+  }
+
+  function secNext() {
+    const r = recommended();
+    let body;
+    if (!rated()) body = '<p class="spt-info">Rate your skills to get a recommended next project.</p>';
+    else if (!r) body = '<p>You have finished every project in the library. Choose a skill and raise your price or repeat one with a new buyer.</p>';
+    else {
+      const sk = D.skills[r.g.i];
+      body = '<p>Your biggest gap is <b>' + esc(sk.name) + '</b> (you ' + (r.g.rating || 'not rated') + ', ' + (career() ? 'target' : 'working level') + ' ' + r.g.need + '). The next project in that skill is:</p>' +
+        '<div class="spt-reco"><h3>' + esc(r.pj.title) + '</h3><p><b>Portfolio output:</b> ' + esc(r.pj.outcome) + '</p><p><b>About ' + r.pj.hours + ' hours.</b> At ' + esc(S.hours) + ' hours a week that is about ' + Math.max(1, Math.ceil(r.pj.hours / Math.max(1, S.hours))) + ' weeks.</p><button type="button" class="spt-btn spt-btn--gold" data-act="open" data-id="' + r.pj.id + '">Start this project</button></div>';
+    }
+    return '<section class="spt-card" id="s-next"><h2>3. Your recommended next project</h2>' + body + '</section>';
+  }
+
+  function projectCard(pj) {
+    const st = pstate(pj.id), ev = evidenceScore(st);
+    const label = { new: 'Not started', doing: 'In progress', done: 'Done' }[st.status];
+    return '<div class="spt-proj"><div><b>Level ' + pj.level + ': ' + esc(pj.title) + '</b><p class="spt-hint">' + label + ' | ' + hoursOf(st) + ' of about ' + pj.hours + ' hours | Evidence: ' + ev.level + ' (' + ev.total + ' of 100)</p></div><button type="button" class="spt-btn" data-act="open" data-id="' + pj.id + '">' + (ui.open === pj.id ? 'Close' : 'Open workspace') + '</button></div>' + (ui.open === pj.id ? workspace(pj) : '');
+  }
+
+  function secProjects() {
+    const key = S.targetSkill && D.skills.some((s) => s.key === S.targetSkill) ? S.targetSkill : (recommended() ? D.skills[recommended().g.i].key : D.skills[0].key);
+    const sk = D.skills.find((s) => s.key === key);
+    return '<section class="spt-card" id="s-projects"><h2>4. Choose a target skill and a proof project</h2>' +
+      '<label class="spt-wide">Target skill<select data-f="targetSkill">' + D.skills.map((s) => '<option value="' + s.key + '"' + (s.key === key ? ' selected' : '') + '>' + esc(s.name) + '</option>').join('') + '</select></label>' +
+      '<p>' + esc(sk.why) + '</p><p><b>Free tools:</b> ' + esc(sk.tools.join('; ')) + '.</p>' +
+      '<p><b>For where you are now:</b> ' + esc(sk.focus[S.aud] || sk.focus.early) + '</p>' +
+      ladder(key).map(projectCard).join('') + '</section>';
+  }
+
+  function workspace(pj) {
+    const st = pstate(pj.id), ev = evidenceScore(st);
+    const ex = pj.examples[S.aud] || pj.examples.early;
+    return '<div class="spt-work" id="work-' + pj.id + '">' +
+      '<p><b>Portfolio output:</b> ' + esc(pj.outcome) + '</p><p><b>An example for you:</b> ' + esc(ex) + '</p>' +
+      '<h4>Steps</h4><ol>' + pj.steps.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ol>' +
+      '<h4>Evidence worth keeping</h4><ul>' + pj.proof.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ul>' +
+      '<h4>Status</h4><div class="spt-seg" role="group" aria-label="Project status">' + [['new', 'Not started'], ['doing', 'In progress'], ['done', 'Done']].map((o) => '<button type="button" data-act="status" data-id="' + pj.id + '" data-v="' + o[0] + '" aria-pressed="' + (st.status === o[0]) + '" class="' + (st.status === o[0] ? 'on' : '') + '">' + o[1] + '</button>').join('') + '</div>' +
+      '<h4>Log your hours</h4><form data-form="log" data-id="' + pj.id + '" class="spt-form"><label>Date<input type="date" name="date" value="' + todayISO() + '" required></label><label>Hours<input type="number" name="hours" min="0.25" max="24" step="0.25" required></label><label class="spt-wide">What you did<input type="text" name="note" maxlength="200"></label><button class="spt-btn spt-btn--gold" type="submit">Add to log</button></form>' +
+      (st.log.length ? '<ul class="spt-log">' + st.log.slice().reverse().map((x, k) => '<li>' + esc(fmt(x.date)) + ': ' + esc(x.hours) + ' hours. ' + esc(x.note || '') + ' <button type="button" class="spt-link" data-act="dellog" data-id="' + pj.id + '" data-k="' + (st.log.length - 1 - k) + '">Remove</button></li>').join('') + '</ul><p><b>Total logged: ' + hoursOf(st) + ' hours.</b></p>' : '<p class="spt-hint">No hours logged yet.</p>') +
+      '<h4>Add or describe evidence</h4><p class="spt-hint">Describe what you made, add a link, or note the file you made. Files are not uploaded: only the file name is saved on this device, so keep the file itself safe.</p>' +
+      '<form data-form="ev" data-id="' + pj.id + '" class="spt-form"><label class="spt-wide">Title<input type="text" name="title" maxlength="100" required></label>' +
+      '<label class="spt-wide">What problem or goal was this for, and who does it help?<textarea name="problem" rows="2" maxlength="400"></textarea></label>' +
+      '<label class="spt-wide">What did you make or do?<textarea name="made" rows="2" maxlength="400"></textarea></label>' +
+      '<label class="spt-wide">What happened? Add a number if you can.<textarea name="result" rows="2" maxlength="400"></textarea></label>' +
+      '<label>Link to the work (optional)<input type="url" name="url" placeholder="https://"></label><label>File name (optional)<input type="text" name="file" maxlength="120"></label>' +
+      '<label class="spt-check"><input type="checkbox" name="peer"> Another person tried or reviewed it</label><label class="spt-wide">What did they say? (name and feedback)<input type="text" name="peerNote" maxlength="300"></label>' +
+      '<label class="spt-check"><input type="checkbox" name="shared"> I have shared it where others can find it</label>' +
+      '<label class="spt-wide">What would you change next time?<textarea name="reflect" rows="2" maxlength="400"></textarea></label>' +
+      '<button class="spt-btn spt-btn--gold" type="submit">Save evidence and score it</button></form>' +
+      (st.evidence.length ? '<h4>Your evidence</h4>' + st.evidence.map((e, k) => '<div class="spt-ev"><b>' + esc(e.title) + '</b> <span class="spt-hint">' + esc(fmt(e.date)) + '</span>' + (e.url ? ' <a href="' + esc(e.url) + '" target="_blank" rel="noopener noreferrer">Open link</a>' : '') + (e.file ? '<p class="spt-hint">File: ' + esc(e.file) + '</p>' : '') + (e.result ? '<p>' + esc(e.result) + '</p>' : '') + '<button type="button" class="spt-link" data-act="delev" data-id="' + pj.id + '" data-k="' + k + '">Remove</button></div>').join('') : '') +
+      '<h4>Evidence score: ' + ev.total + ' of 100 (' + ev.level + ')</h4>' +
+      CRIT.map((c) => bar(c[2], ev.best[c[0]], c[1], ev.best[c[0]] + ' of ' + c[1])).join('') +
+      (ev.missing.length && st.evidence.length ? '<p><b>To raise your score:</b></p><ul>' + ev.missing.map((c) => '<li>' + esc(c[2]) + ' (+' + (c[1] - ev.best[c[0]]) + '): ' + esc(c[3]) + '</li>').join('') + '</ul>' : '') +
+      '<p class="spt-hint">This score checks that your entries are complete and specific. It cannot check that links work or that the work is good. Treat it as a checklist, not a grade.</p></div>';
+  }
+
+  function secPortfolio() {
+    const rows = allProjectsState();
+    return '<section class="spt-card" id="s-portfolio"><h2>5. Your portfolio so far</h2>' +
+      '<div class="spt-stats"><div><strong>' + portfolioScore() + '</strong><span>Portfolio score of 100</span></div><div><strong>' + doneCount() + '</strong><span>Projects done</span></div><div><strong>' + (Math.round(totalHours() * 10) / 10) + '</strong><span>Hours logged</span></div></div>' +
+      '<p class="spt-hint">The portfolio score is the average evidence score of your best three projects. Three finished pieces with feedback make a strong start.</p>' +
+      (rows.length ? '<ul>' + rows.map((x) => '<li><b>' + esc(x.pj.title) + '</b>: ' + ({ new: 'not started', doing: 'in progress', done: 'done' }[x.st.status]) + ', ' + hoursOf(x.st) + ' hours, evidence ' + x.ev.total + ' of 100 (' + esc(x.ev.level) + ')</li>').join('') + '</ul>' : '<p>No projects started yet. Open one above to begin.</p>') + '</section>';
+  }
+
+  function secTimeline() {
+    const t = buildTimeline();
+    const byMonth = [1, 2, 3, 4, 5, 6].map((m) => ({ m, items: t.items.filter((x) => x.weeks > 0 && monthOf(x.start) <= m && monthOf(Math.max(x.start, x.end - 1)) >= m) }));
+    const later = t.items.filter((x) => x.weeks > 0 && monthOf(x.start) > 6);
+    const doneItems = t.items.filter((x) => x.weeks === 0);
+    return '<section class="spt-card" id="s-timeline"><h2>6. Your six-month portfolio timeline</h2>' +
+      '<p>Built from your gaps, your target and ' + esc(S.hours) + ' hours a week, starting ' + esc(fmt(S.start)) + '. It changes when you change your ratings, hours or progress.</p>' +
+      byMonth.map((b) => { const start = addDaysISO(S.start, (b.m - 1) * 30), end = addDaysISO(S.start, b.m * 30 - 1); return '<div class="spt-month"><h3>Month ' + b.m + ' <span class="spt-hint">' + esc(fmt(start)) + ' to ' + esc(fmt(end)) + '</span></h3><p>' + esc(MONTH_THEME[b.m - 1]) + '</p>' + (b.items.length ? '<ul>' + b.items.map((x) => '<li>' + esc(x.pj.title) + ' (about ' + x.pj.hours + ' hours, weeks ' + (Math.floor(x.start) + 1) + ' to ' + Math.max(Math.floor(x.start) + 1, x.end) + ')</li>').join('') + '</ul>' : '<p class="spt-hint">Keep logging hours and adding evidence.</p>') + '<p><b>Review on ' + esc(fmt(end)) + ':</b> update ratings, add evidence and save a snapshot.</p></div>'; }).join('') +
+      (later.length ? '<p><b>After month 6:</b> ' + esc(later.map((x) => x.pj.title).join('; ')) + '.</p>' : '') +
+      (doneItems.length ? '<p><b>Already done:</b> ' + esc(doneItems.map((x) => x.pj.title).join('; ')) + '.</p>' : '') +
+      '</section>';
+  }
+
+  function secReport() {
+    const last = S.snaps[S.snaps.length - 1];
+    const due = last ? addDaysISO(last.date, 28) : null;
+    const overdue = due && due <= todayISO();
+    return '<section class="spt-card" id="s-report"><h2>7. Progress report and review</h2>' +
+      (last ? '<p>Last snapshot: ' + esc(fmt(last.date)) + ' (readiness ' + last.readiness + '%, portfolio score ' + last.portfolio + ', ' + last.hours + ' hours, ' + last.done + ' projects done). ' + (overdue ? '<b>Your next review is due now.</b>' : 'Next review: ' + esc(fmt(due)) + '.') + '</p>' : '<p>No snapshot yet. Save one now and again every four weeks to see your progress.</p>') +
+      (last ? '<p>Since then: readiness ' + (readiness() - last.readiness >= 0 ? '+' : '') + (readiness() - last.readiness) + ' points, portfolio score ' + (portfolioScore() - last.portfolio >= 0 ? '+' : '') + (portfolioScore() - last.portfolio) + ', hours +' + (Math.round((totalHours() - last.hours) * 10) / 10) + ', projects done +' + (doneCount() - last.done) + '.</p>' : '') +
+      '<div class="spt-actions"><button type="button" class="spt-btn spt-btn--gold" data-act="snap">Save a progress snapshot</button><button type="button" class="spt-btn spt-btn--gold" data-act="pdf">Download progress report (PDF)</button><button type="button" class="spt-btn" data-act="backup">Download a backup (JSON)</button><label class="spt-btn spt-file">Restore from backup<input type="file" accept="application/json,.json" data-act="restore"></label><button type="button" class="spt-btn" data-act="reset">Start again</button></div>' +
+      '<p class="spt-hint" id="spt-status" role="status"></p>' +
+      (memoryOnly ? '<p class="spt-info">This browser is not allowing saved data, so your entries will be lost when you close the page. Download the backup before you leave.</p>' : '') + '</section>';
+  }
+
+  function secLinks() {
+    return '<section class="spt-card"><h2>Read next</h2><ul>' + D.readNext.map((l) => '<li><a href="' + l.href + '">' + esc(l.title) + '</a></li>').join('') + '</ul><p>Take the <a href="/services/assessments/">self-rating assessments</a> to find out where to start.</p></section>';
+  }
+
+  function render() {
+    const y = window.scrollY; const ae = document.activeElement; const aid = ae && ae.getAttribute && ae.getAttribute('data-restore');
+    app.innerHTML = secStart() + secTarget() + secNext() + secProjects() + secPortfolio() + secTimeline() + secReport() + secLinks();
+    window.scrollTo(0, y);
+  }
+
+  // ---- Report ------------------------------------------------------------
+  function buildReport() {
+    const c = career(); const g = gaps(); const t = buildTimeline(); const ps = portfolioScore(); const rd = readiness();
+    const L = [];
+    const today = fmt(todayISO());
+    L.push(h1('Your skill portfolio at a glance'));
+    L.push(p(rated() ? 'Readiness for ' + (c ? c.name : 'a working level') + ' is ' + rd + '%. Your portfolio score is ' + ps + ' of 100, with ' + doneCount() + ' projects done and ' + (Math.round(totalHours() * 10) / 10) + ' hours logged.' : 'You have not rated your skills yet, so this report shows the plan only.'));
+    L.push(h1('Report details'));
+    L.push(...bullets(['Prepared for: ' + (S.name || 'Not stated'), 'Date generated: ' + today, 'Report version: ' + D.version, 'Decision question: ' + (S.question || 'Not stated'), 'Target career: ' + (c ? c.name : 'No target chosen (working level of 3 used)'), 'Stage: ' + (AUDS.find((a) => a[0] === S.aud) || AUDS[1])[1], 'Hours a week available: ' + S.hours]));
+    L.push(h1('How this report is calculated'));
+    L.push(...bullets([
+      'You rated nine skills from 1 (not true yet) to 5 (very true).',
+      'Each target career has a rough emphasis level from 1 to 5 for each skill. Without a target, a working level of 3 is used.',
+      'A gap is the target level minus your rating, never below 0. Readiness is 100 minus the total gap as a share of the total target levels.',
+      'The evidence score for a project has six checks: finished output 25, problem 15, result 20, feedback from another person 20, shared publicly 10, reflection 10. For each check, the best entry counts.',
+      'The portfolio score is the average evidence score of your best three projects.',
+      'All entries are your own. Links and files are not checked by anyone.'
+    ]));
+    L.push(h1('Confidence and limitations'));
+    const nRated = S.ratings.filter((x) => x > 0).length;
+    L.push(...bullets(['Skills rated: ' + nRated + ' of 9. ' + (nRated < 9 ? 'Unrated skills count as zero, which makes gaps look larger.' : 'All nine skills were rated.'), 'Projects with evidence: ' + D.projects.filter((pj) => pstate(pj.id).evidence.length).length + '. The portfolio score is only meaningful once you have three.', ...STANDARD_LIMITS]));
+    L.push(h1('Skill gaps'));
+    L.push(...bullets(priority().map((x) => x.name + ': you ' + (x.rating || 'not rated') + ', target ' + x.need + (x.gap ? ', gap ' + x.gap : ', met'))));
+    L.push(h1('Projects and evidence'));
+    const rows = allProjectsState();
+    L.push(...(rows.length ? bullets(rows.map((x) => x.pj.title + ': ' + ({ new: 'not started', doing: 'in progress', done: 'done' }[x.st.status]) + ', ' + hoursOf(x.st) + ' hours, evidence ' + x.ev.total + ' of 100 (' + x.ev.level + ')')) : [p('No projects started yet.')]));
+    rows.forEach((x) => { if (x.ev.missing.length && x.st.evidence.length) { L.push(h2('To raise the evidence score for ' + x.pj.title)); L.push(...bullets(x.ev.missing.map((m) => m[2] + ' (+' + (m[1] - x.ev.best[m[0]]) + '): ' + m[3]))); } });
+    const r = recommended();
+    L.push(h1('Recommended next project'));
+    L.push(...(r ? bullets([r.pj.title, 'Portfolio output: ' + r.pj.outcome, 'Why: your gap in ' + D.skills[r.g.i].name + ' is the largest.', 'Steps: ' + r.pj.steps.join(' ')]) : [p('All projects in the library are finished. Raise your price or repeat one with a new buyer.')]));
+    L.push(h1('Suggested experiments'));
+    const top = priority().filter((x) => x.gap > 0).slice(0, 3);
+    L.push(...bullets((top.length ? top : priority().slice(0, 3)).map((x) => 'Run a 7-day trial in ' + x.name + ': ' + (D.skills[x.i][x.rating <= 2 ? 'start' : x.rating === 3 ? 'grow' : 'strong'][0]) + ' Re-rate yourself afterwards and keep, change or drop it.')));
+    L.push(h1('30-day plan'));
+    L.push(...bullets(t.items.slice(0, 2).map((x) => (x.weeks ? x.pj.title + ' (about ' + x.pj.hours + ' hours)' : x.pj.title + ' (done)')).concat(['Add evidence to each project as you go.', 'Ask one person for feedback on your first piece.', 'Save a snapshot on ' + fmt(addDaysISO(S.start, 28)) + '.'])));
+    L.push(h1('90-day plan'));
+    L.push(...bullets(t.items.slice(0, 4).map((x) => x.pj.title + (x.weeks ? ' (weeks ' + (Math.floor(x.start) + 1) + ' to ' + Math.max(Math.floor(x.start) + 1, x.end) + ')' : ' (done)')).concat(['Publish your portfolio in one public place.', 'Full review on ' + fmt(addDaysISO(S.start, 90)) + '.'])));
+    L.push(h1('Six-month timeline'));
+    [1, 2, 3, 4, 5, 6].forEach((m) => { const its = t.items.filter((x) => x.weeks > 0 && monthOf(x.start) <= m && monthOf(Math.max(x.start, x.end - 1)) >= m); L.push(h2('Month ' + m + ': ' + fmt(addDaysISO(S.start, (m - 1) * 30)) + ' to ' + fmt(addDaysISO(S.start, m * 30 - 1)))); L.push(p(MONTH_THEME[m - 1])); if (its.length) L.push(...bullets(its.map((x) => x.pj.title))); });
+    L.push(h1('Portfolio checklist'));
+    L.push(...bullets(['At least three finished pieces, each with the problem, what you made and what happened.', 'One piece has a number or measured result.', 'One person other than you has tried it and given feedback.', 'Everything is in one public place with a link.', 'You can describe your craft in one sentence that names who it helps.', 'You have made at least one offer to a real person or business.']));
+    L.push(h1('Review page'));
+    L.push(...bullets(['Next review date: ' + fmt(addDaysISO(S.snaps.length ? S.snaps[S.snaps.length - 1].date : todayISO(), 28)), 'What has changed since this report? ________________', 'Which project will I finish next? ________________', 'Who will I ask for feedback? ________________', 'My next offer to a real person: ________________']));
+    L.push(h1('Sources and further reading'));
+    L.push(...bullets(['Your own ratings and entries, saved on ' + today + '.', 'Skill Portfolio Tracker: https://futurecareerschool.com/services/assessments/skill-portfolio-tracker/', ...D.readNext.map((l) => l.title + ': https://futurecareerschool.com' + l.href)]));
+    L.push(h1('Report information'));
+    L.push(...bullets([REPORT_VERSION_LABEL, 'Generated on ' + today + '.']));
+    return L;
+  }
+
+  async function makePdf() {
+    const status = document.getElementById('spt-status'); if (status) status.textContent = 'Creating your PDF...';
+    try {
+      const ok = await downloadStructuredReport({ title: 'Skill Portfolio Progress Report', fileName: 'skill-portfolio-progress-report.pdf', kicker: 'SKILL PORTFOLIO REPORT', coverBadge: 'Progress report', coverMeta: [REPORT_VERSION_LABEL, 'Target: ' + (career() ? career().name : 'working level') + '. Generated ' + fmt(todayISO())], lines: buildReport() });
+      if (status) status.textContent = ok ? 'Your report has been downloaded as a PDF file.' : 'There was nothing to export yet.';
+      ping('skill_tracker_pdf');
+    } catch (e) { console.error(e); if (status) status.textContent = 'The PDF could not be created. Please try again.'; }
+  }
+
+  // ---- Events ------------------------------------------------------------
+  app.addEventListener('change', (e) => {
+    const t = e.target; const f = t.getAttribute && t.getAttribute('data-f');
+    if (t.getAttribute && t.getAttribute('data-act') === 'restore') { restore(t.files && t.files[0]); return; }
+    if (!f) return;
+    if (f === 'hours') S.hours = Math.max(1, Math.min(40, Number(t.value) || 1)); else S[f] = t.value;
+    if (f === 'target') ping('skill_tracker_target', { target: t.value });
+    save(); render();
+  });
+  app.addEventListener('click', (e) => {
+    const b = e.target.closest ? e.target.closest('[data-act]') : null; if (!b) return;
+    const act = b.getAttribute('data-act'); const id = b.getAttribute('data-id');
+    if (act === 'rate') { S.ratings[Number(b.getAttribute('data-i'))] = Number(b.getAttribute('data-v')); S.targetSkill = S.targetSkill; save(); render(); }
+    else if (act === 'open') { ui.open = ui.open === id ? '' : id; if (id) { const pj = D.projects.find((x) => x.id === id); if (pj) S.targetSkill = pj.skill; } save(); render(); const w = document.getElementById('work-' + id); if (w && ui.open === id) w.scrollIntoView({ block: 'start' }); }
+    else if (act === 'status') { const st = S.projects[id] || (S.projects[id] = { status: 'new', log: [], evidence: [] }); st.status = b.getAttribute('data-v'); if (st.status === 'done') ping('skill_tracker_project_done', { project: id }); save(); render(); }
+    else if (act === 'dellog') { const st = pstate(id); st.log.splice(Number(b.getAttribute('data-k')), 1); S.projects[id] = st; save(); render(); }
+    else if (act === 'delev') { const st = pstate(id); st.evidence.splice(Number(b.getAttribute('data-k')), 1); S.projects[id] = st; save(); render(); }
+    else if (act === 'snap') { S.snaps.push({ date: todayISO(), ratings: S.ratings.slice(), readiness: readiness(), portfolio: portfolioScore(), hours: Math.round(totalHours() * 10) / 10, done: doneCount() }); save(); render(); const s = document.getElementById('spt-status'); if (s) s.textContent = 'Snapshot saved.'; }
+    else if (act === 'pdf') makePdf();
+    else if (act === 'backup') { const blob = new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'skill-tracker-backup.json'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+    else if (act === 'reset') { if (confirm('Delete everything saved in this tracker on this device?')) { S = blank(); ui = { open: '', tab: 'all', msg: '' }; save(); render(); } }
+  });
+  app.addEventListener('submit', (e) => {
+    const f = e.target; const kind = f.getAttribute('data-form'); if (!kind) return; e.preventDefault();
+    const id = f.getAttribute('data-id'); const st = S.projects[id] || (S.projects[id] = { status: 'new', log: [], evidence: [] }); const fd = new FormData(f);
+    if (kind === 'log') { st.log.push({ date: fd.get('date') || todayISO(), hours: Number(fd.get('hours')) || 0, note: String(fd.get('note') || '').slice(0, 200) }); if (st.status === 'new') st.status = 'doing'; }
+    if (kind === 'ev') { st.evidence.push({ date: todayISO(), title: String(fd.get('title') || ''), problem: String(fd.get('problem') || ''), made: String(fd.get('made') || ''), result: String(fd.get('result') || ''), url: String(fd.get('url') || ''), file: String(fd.get('file') || ''), peer: fd.get('peer') === 'on', peerNote: String(fd.get('peerNote') || ''), shared: fd.get('shared') === 'on', reflect: String(fd.get('reflect') || '') }); if (st.status === 'new') st.status = 'doing'; ping('skill_tracker_evidence', { project: id }); }
+    save(); render();
+  });
+  function restore(file) {
+    if (!file) return; const rd = new FileReader();
+    rd.onload = () => { try { const o = JSON.parse(String(rd.result)); if (!o || o.v !== 1 || !Array.isArray(o.ratings)) throw new Error('bad'); S = Object.assign(blank(), o); save(); render(); const s = document.getElementById('spt-status'); if (s) s.textContent = 'Backup restored.'; } catch (err) { const s = document.getElementById('spt-status'); if (s) s.textContent = 'That file could not be read as a tracker backup.'; } };
+    rd.readAsText(file);
+  }
+  render();
+</script>
+
+<style is:global>
+  .spt{background:#080c18;color:rgba(255,255,255,.86)}
+  .spt h1,.spt h2,.spt h3,.spt h4{color:#fff}
+  .spt-hero{padding:128px 0 48px;background:linear-gradient(165deg,#07101f 0%,#0d1a33 60%,#1b1608 100%)}
+  .spt-hero .breadcrumb{display:flex;flex-wrap:wrap;gap:.5rem;font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:1.2rem}
+  .spt-eyebrow{display:inline-block;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(229,184,74,.35);border-radius:999px;padding:.35rem .9rem;margin-bottom:1rem}
+  .spt-hero h1{font-size:clamp(2rem,5vw,3rem);max-width:820px}
+  .spt-sub{max-width:760px;margin-top:1rem;font-size:1.05rem;line-height:1.65;color:rgba(255,255,255,.78)}
+  .spt-how{display:flex;flex-wrap:wrap;gap:.6rem;list-style:none;padding:0;margin:1.2rem 0}
+  .spt-how li{border:1px solid var(--border);background:var(--card);border-radius:999px;padding:.4rem .9rem;font-size:.9rem}
+  .spt-note{max-width:720px;font-size:.88rem;color:rgba(255,255,255,.6)}
+  .spt-section{padding:40px 0 72px}
+  .spt-card{border:1px solid var(--border);background:var(--card);border-radius:18px;padding:1.4rem;max-width:900px;margin-bottom:1.2rem}
+  .spt-card h2{font-size:1.35rem;margin-bottom:.8rem}
+  .spt-card h3{font-size:1.05rem;margin:1rem 0 .4rem}
+  .spt-card h4{font-size:1rem;margin:1rem 0 .3rem}
+  .spt-card p,.spt-card li{line-height:1.6}
+  .spt-card ul,.spt-card ol{padding-left:1.2rem;margin:.4rem 0 .8rem}
+  .spt-card label{display:grid;gap:.3rem;font-weight:600;font-size:.92rem}
+  .spt-card input,.spt-card select,.spt-card textarea{min-height:44px;padding:.5rem .7rem;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.05);color:#fff;font:inherit;font-weight:400}
+  .spt-card select option{color:#000}
+  .spt-grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin-bottom:.8rem}
+  .spt-wide{display:grid;margin:.6rem 0}
+  .spt-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem;margin:.6rem 0}
+  .spt-form .spt-wide,.spt-form button{grid-column:1/-1}
+  .spt-check{display:flex !important;align-items:center;gap:.5rem;font-weight:400 !important}
+  .spt-check input{min-height:auto;width:20px;height:20px}
+  .spt-hint{font-size:.85rem;color:rgba(255,255,255,.62)}
+  .spt-info{background:rgba(18,154,141,.15);border:1px solid rgba(18,154,141,.4);border-radius:12px;padding:.7rem .9rem}
+  .spt-skill{border-top:1px solid var(--border);padding:.8rem 0}
+  .spt-scale,.spt-seg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.4rem;max-width:420px}
+  .spt-seg{grid-template-columns:repeat(3,minmax(0,1fr));max-width:480px}
+  .spt-scale button,.spt-seg button,.spt-btn{min-height:44px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.05);color:#fff;font:600 .95rem "DM Sans",sans-serif;cursor:pointer;padding:.5rem .9rem}
+  .spt-scale button.on,.spt-seg button.on{background:rgba(229,184,74,.2);border-color:var(--gold)}
+  .spt-btn--gold{background:linear-gradient(135deg,#e5b84a,#c49a2a);color:#14110a;border:0}
+  .spt-file{display:inline-flex !important;align-items:center;position:relative;overflow:hidden}
+  .spt-file input{position:absolute;inset:0;opacity:0;cursor:pointer}
+  .spt-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin:.8rem 0}
+  .spt-btn:focus-visible,.spt-scale button:focus-visible,.spt-seg button:focus-visible,.spt-card input:focus-visible,.spt-card select:focus-visible,.spt-card textarea:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+  .spt-link{background:none;border:0;color:var(--gold);text-decoration:underline;cursor:pointer;font:inherit;padding:.3rem}
+  .spt-gap{margin:.7rem 0}
+  .spt-gap-h{display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap;font-size:.92rem}
+  .spt-dual{position:relative;height:10px;background:rgba(255,255,255,.1);border-radius:99px;margin-top:.3rem}
+  .spt-dual .have{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:99px}
+  .spt-dual .need{position:absolute;top:-4px;width:3px;height:18px;background:#fff;border-radius:2px;transform:translateX(-50%)}
+  .spt-proj{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap;border-top:1px solid var(--border);padding:.7rem 0}
+  .spt-work{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:.4rem 0 1rem}
+  .spt-ev,.spt-month,.spt-reco{border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin:.6rem 0}
+  .spt-bar{margin:.5rem 0}
+  .spt-bar-l{display:flex;justify-content:space-between;font-size:.88rem}
+  .spt-bar-t{height:8px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+  .spt-bar-t i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--gold))}
+  .spt-stats{display:flex;flex-wrap:wrap;gap:1rem;margin:.6rem 0}
+  .spt-stats div{border:1px solid var(--border);border-radius:14px;padding:.7rem 1.1rem;min-width:130px}
+  .spt-stats strong{display:block;font-size:1.5rem;color:var(--gold)}
+  .spt-stats span{font-size:.82rem;color:rgba(255,255,255,.65)}
+  .spt-log{list-style:none;padding-left:0 !important}
+  @media (max-width:560px){.spt-card{padding:1rem}}
+</style>

@@ -26,6 +26,8 @@ import {
 } from '../config/skillSelfTestAudience';
 
 import type { SkillTestBundle } from '../config/skillTests/types';
+import { PROJECTS } from '../config/skillProjects';
+import { TEST_NEXT, TEST_FOCUS_SKILL, TRACKER_PATH, REPORT_VERSION_TEXT } from '../config/skillTests/reportData';
 import { PF_SKILLS, INCOME_LADDER, PF_PROOF, PF_WEEKLY, PF_INTRO, PF_GENTLE, FREEDOM_FRAME, FREEDOM_STEPS, PF_READ_NEXT, PARENT_SKILLS, PF_AUDIENCE, PF_GENTLE_TESTS, PF_BLUEPRINT, PF_CRAFT, PF_STACK, PF_TRACK, PF_MISTAKES } from '../config/skillPortfolio';
 
 interface Props {
@@ -77,6 +79,10 @@ const clientData = {
   isStudent,
   depth,
   related: test.related,
+  report: {
+    versionText: REPORT_VERSION_TEXT, name: test.breadcrumbName, url: test.pageUrl, next: TEST_NEXT[test.id] || [],
+    focusSkill: TEST_FOCUS_SKILL[test.id] || 'proof', projects: PROJECTS, trackerPath: TRACKER_PATH,
+  },
   pf: {
     skills: PF_SKILLS, ladder: INCOME_LADDER, proof: PF_PROOF, weekly: PF_WEEKLY, intro: PF_INTRO, gentleNote: PF_GENTLE,
     frame: FREEDOM_FRAME, steps: FREEDOM_STEPS, readNext: PF_READ_NEXT, parentSkills: PARENT_SKILLS,
@@ -170,6 +176,11 @@ const jsonLd = [
               {depth.stages.map((st) => (
                 <button type="button" class="sst-stage" data-stage={st.key} role="radio" aria-checked="false"><strong>{st.label}</strong><span>{st.description}</span></button>
               ))}
+            </div>
+            <div class="sst-decision">
+              <label for="decision-input">What are you using this for? (optional)</label>
+              <input id="decision-input" type="text" maxlength="140" autocomplete="off" placeholder="For example: deciding what to work on first this term" />
+              <small>It appears at the top of your result and in your PDF report. It stays on your device.</small>
             </div>
             <button id="start-button" type="button" class="sst-btn sst-btn--primary" disabled>Choose where you are to begin</button>
           </div>
@@ -360,6 +371,11 @@ const jsonLd = [
   .sst-resp{display:grid;gap:.4rem}
   .sst-resp div{display:flex;gap:.7rem;font-size:.92rem;line-height:1.5}
   .sst-resp b{min-width:1.8rem;color:var(--gold)}
+  .sst-decision{margin:1rem 0;display:grid;gap:.35rem;max-width:640px}
+  .sst-decision label{font-weight:600}
+  .sst-decision input{min-height:44px;padding:.5rem .8rem;border-radius:10px;border:1px solid var(--border,#d9dee6);background:transparent;color:inherit;font:inherit}
+  .sst-decision small{opacity:.75}
+  .sst-result h5{margin:1rem 0 .3rem}
   .sst-result .pf-card{border:1px solid var(--border,#d9dee6);border-radius:12px;padding:1rem 1.1rem;margin:.9rem 0}
   .sst-result .pf-card h5{margin:0 0 .4rem;font-size:1.02rem}
   .sst-result .pf-card summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
@@ -377,6 +393,14 @@ const jsonLd = [
     .sst-scale button{flex-direction:row;justify-content:flex-start;gap:.8rem;padding:.7rem 1rem}
     .sst-quiz,.sst-result{padding:1.1rem}
     .sst-topline{flex-direction:column;gap:.2rem}
+  }
+
+  #sst-print-clone{display:none}
+  @media print{
+    body.sst-print-plan > *:not(#sst-print-clone){display:none !important}
+    body.sst-print-plan #sst-print-clone{display:block !important;padding:18px;background:#fff;color:#000;font:14px/1.55 Arial,sans-serif}
+    body.sst-print-plan #sst-print-clone *{color:#000 !important;background:transparent !important}
+    body.sst-print-plan #sst-print-clone [data-result-actions]{display:none !important}
   }
 </style>
 
@@ -686,13 +710,167 @@ const jsonLd = [
       var pfStack = PAR ? '' : '<div class="result-section"><h4>Build more than one source of income from your skills</h4>' + list(PF.stack) + '<h5>Track it so you can repeat what works</h5>' + list(PF.track) + '</div>';
       var pfMist = PAR ? '' : '<div class="result-section"><h4>Mistakes that slow down skill-led income</h4>' + list(PF.mistakes) + '</div>';
       var pfRead = '<div class="result-section"><h4>Read next on skills and income</h4>' + pfLinks(PF.readNext) + '</div>';
-      var pfAll = pfIntroSection + pfBlue + pfCheck + pfParent + pfLadder + pfProof + pfStack + pfSprint + pfMist + pfRead;
+      var RP = D.report, GENTLE = PF.gentle;
+      // Which skill and level the first proof project comes from.
+      function pfPick() {
+        var rated = pfRate.map(function (v, i) { return { v: v, i: i }; }).filter(function (x) { return x.v !== null; });
+        var idx, lvl = 1;
+        if (rated.length) {
+          rated.sort(function (a, b) { return a.v - b.v || a.i - b.i; });
+          idx = rated[0].i; lvl = rated[0].v <= 2 ? 1 : rated[0].v === 3 ? 2 : 3;
+        } else {
+          idx = Math.max(0, PF.skills.map(function (s) { return s.key; }).indexOf(RP.focusSkill));
+        }
+        var key = PF.skills[idx].key;
+        var proj = RP.projects.filter(function (x) { return x.skill === key && x.level === lvl; })[0] || RP.projects.filter(function (x) { return x.skill === key; })[0];
+        return { idx: idx, key: key, lvl: lvl, proj: proj, rated: rated.length };
+      }
+      function trackerLink() {
+        var pk = pfPick();
+        return RP.trackerPath + '?from=' + encodeURIComponent(D.id) + '&aud=' + encodeURIComponent(PFA) + '&skill=' + encodeURIComponent(pk.key) + '&r=' + pfRate.map(function (v) { return v === null ? 0 : v; }).join(',');
+      }
+      var CHECKLIST = ['I wrote the problem in one sentence.', 'I finished the output and have a link or a file.', 'I recorded one result, number or observation.', 'One other person has tried it or seen it and given feedback.', 'I wrote what I would change next time.', 'I shared it in one place where others can find it.'];
+      function pfFocusInner() {
+        var pk = pfPick(), sk = PF.skills[pk.idx], pj = pk.proj;
+        if (!pj) return '';
+        return '<p>' + (pk.rated ? 'This project matches your lowest-rated skill, <b>' + esc(sk.name) + '</b>, at the level you rated.' : 'Rate your nine skills above and this project will change to match your lowest-rated skill. Until then, it starts from <b>' + esc(sk.name) + '</b>.') + '</p>' +
+          '<h5>' + esc(pj.title) + '</h5>' +
+          '<p><b>Portfolio output:</b> ' + esc(pj.outcome) + '</p>' +
+          '<p><b>Time to plan for:</b> about ' + pj.hours + ' hours in total' + (GENTLE ? ', in short slots on days you have energy' : '') + '.</p>' +
+          '<p><b>Steps:</b></p>' + list(pj.steps) +
+          '<p><b>Evidence to keep while you work:</b></p>' + list(pj.proof) +
+          '<p><b>An example for where you are now:</b> ' + esc(pj.examples[PFA] || pj.examples.early) + '</p>' +
+          '<p><b>Portfolio checklist:</b></p>' + list(CHECKLIST);
+      }
+      var pfFocus = PAR ? '' : '<div class="result-section" id="pf-focus"><h4>Your first proof project and portfolio output</h4><div id="pf-focus-body">' + pfFocusInner() + '</div>' +
+        '<p><b>Your skill tracker:</b> <a href="' + trackerLink() + '">Open the full skill tracker with your ratings</a> to choose a target career, log hours, add evidence, score it and get a six-month timeline.</p>' +
+        '<p><b>Weekly tracker you can copy:</b></p>' + list([1, 2, 3, 4].map(function (w) { return 'Week ' + w + ': minutes practised ____ | evidence added ____ | one thing finished ____'; })) + '</div>';
+      var pfAll = pfIntroSection + pfBlue + pfCheck + pfFocus + pfParent + pfLadder + pfProof + pfStack + pfSprint + pfMist + pfRead;
+
+      // ---- Result report upgrades: confidence, evidence, careers, experiments, plans, explanations ----
+      var decisionEl = document.getElementById('decision-input');
+      var decision = decisionEl ? decisionEl.value.trim().replace(/\s+/g, ' ') : '';
+      var today = new Date();
+      function fmtDate(d) { return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }); }
+      function plusDays(n) { var d = new Date(today.getTime()); d.setDate(d.getDate() + n); return d; }
+      var reviewDate = fmtDate(plusDays(28)), reviewDate90 = fmtDate(plusDays(90)), todayLabel = fmtDate(today);
+      function aScore(i) { return itemScore(Q[i], answers[i]); }
+      function nameList(arr) { return arr.map(function (r) { return r.d.name + ' (' + r.score + '%)'; }).join(', '); }
+
+      // Confidence in the answer pattern (not in the person).
+      var confScore = 100, confWhy = [], confUp = [];
+      if (neutral >= Math.ceil(NS * 0.4)) { confScore -= 25; confWhy.push('You chose the middle rating on ' + neutral + ' of ' + NS + ' statements, so the scores are less sharp than they could be.'); confUp.push('Re-read those statements and answer with one recent real example in mind.'); }
+      if (extreme >= Math.ceil(NS * 0.75)) { confScore -= 20; confWhy.push('You chose the lowest or highest rating on ' + extreme + ' of ' + NS + ' statements. Very strong views can make a self-view look more certain than it is.'); confUp.push('Check a few of your extreme answers against real examples.'); }
+      if (blindRows.length) { confScore -= Math.min(30, blindRows.length * 10); confWhy.push('Your statement ratings and your choices in situations point in different directions in ' + blindRows.length + (blindRows.length === 1 ? ' area: ' : ' areas: ') + blindRows.map(function (b) { return b.r.d.name; }).join(', ') + '.'); confUp.push('Ask someone who has seen you in those situations what they noticed.'); }
+      var thinAreas = results.filter(function (r) { return r.n < 3; });
+      if (thinAreas.length) { confScore -= 5; confWhy.push('Some areas have fewer than three questions, so one answer moves them a lot.'); }
+      if (!confWhy.length) confWhy.push('Your answers use a good spread of ratings and your statements and situations point the same way.');
+      if (!confUp.length) confUp.push('Retake this test after a few weeks of practice and compare area by area.');
+      confScore = Math.max(20, confScore);
+      var confLevel = confScore >= 75 ? 'High' : confScore >= 50 ? 'Medium' : 'Low';
+      var confSection = '<div class="result-section"><h4>How much to trust this result</h4><p><b>Confidence: ' + confLevel + ' (' + confScore + ' out of 100).</b> This rates the pattern of your answers, not how right or wrong you are about yourself.</p>' + list(confWhy) + '<p>To raise your confidence:</p>' + list(confUp) + '</div>';
+
+      // Evidence behind the score, and strongest and weakest dimensions.
+      function evidenceFor(r, asc) {
+        var rows = [];
+        Q.forEach(function (q, i) { if (q.d === r.d.key) rows.push({ q: q, i: i, s: aScore(i) }); });
+        rows.sort(function (a, b) { return asc ? a.s - b.s || a.i - b.i : b.s - a.s || a.i - b.i; });
+        return rows.slice(0, 2).map(function (x) {
+          return x.q.opts
+            ? 'In the situation "' + x.q.text + '" you chose "' + x.q.opts[answers[x.i]].t + '" (' + x.s + '%).'
+            : 'You rated "' + x.q.text + '" as ' + RATING[answers[x.i]].toLowerCase() + ' (' + x.s + '%).' + (x.q.reverse ? ' This statement is worded the other way round, so a high rating lowers the score.' : '');
+        });
+      }
+      var topTwo = ranked.slice(-2).reverse(), bottomTwo = ranked.slice(0, 2);
+      var evidSection = '<div class="result-section"><h4>Evidence behind your score</h4>' +
+        '<p><b>Strongest dimensions:</b> ' + esc(nameList(topTwo)) + '.</p><p><b>Weakest dimensions:</b> ' + esc(nameList(bottomTwo)) + '.</p>' +
+        '<p><b>Why ' + esc(highest.d.name) + ' is your strongest area (' + highest.score + '%):</b></p>' + list(evidenceFor(highest, false)) +
+        '<p><b>Why ' + esc(lowest.d.name) + ' is your weakest area (' + lowest.score + '%):</b></p>' + list(evidenceFor(lowest, true)) + '</div>';
+
+      // Careers: recommended, and to investigate cautiously.
+      careers = PAR ? '' : '<div class="result-section"><h4>' + (GENTLE ? 'Work and study settings to explore' : 'Careers and roles to explore') + '</h4>' +
+        '<p><b>Recommended to explore, because they use your strongest areas:</b></p>' +
+        topTwo.map(function (r) { return '<p>' + esc(r.d.name) + ' (' + r.score + '%):</p>' + list(r.dd.roles); }).join('') +
+        '<p><b>Investigate cautiously:</b> these lean on your lowest area, ' + esc(lc(lowest.d.name)) + ' (' + lowest.score + '%). They are not ruled out. Try a small experiment first and see how it feels.</p>' + list(lowest.dd.roles) +
+        '<p>Roles are examples of where an area matters, not a prediction of what you should do.</p></div>';
+
+      // Three experiments, each with a measure and a decision rule.
+      function focusItem(r) {
+        var best = null;
+        Q.forEach(function (q, i) { if (q.d === r.d.key && !q.opts) { var s = aScore(i); if (!best || s < best.s) best = { q: q, i: i, s: s }; } });
+        return best;
+      }
+      function measureFor(r) {
+        var f = focusItem(r);
+        return f ? 'After 7 days, re-rate this statement honestly: "' + f.q.text + '" (you first rated it ' + RATING[answers[f.i]].toLowerCase() + ').' : 'After 7 days, write one sentence on what changed in ' + lc(r.d.name) + '.';
+      }
+      var strongMove = 'Pick one real situation this week that calls for ' + lc(highest.d.name) + '. Plan it in two lines, do it on purpose, then write what worked and what you would change.';
+      var experiments = [
+        { t: 'Experiment 1: ' + lowest.d.name, a: plain(lowest.dd.routine[0]), m: measureFor(lowest) },
+        { t: 'Experiment 2: ' + second.d.name, a: second.dd.midStep, m: measureFor(second) },
+        { t: 'Experiment 3: use your strength, ' + highest.d.name, a: strongMove, m: 'Write one sentence on what worked and one on what to change.' }
+      ];
+      var experSection = '<div class="result-section"><h4>Three experiments to run</h4><p>An experiment is a small, time-boxed trial. Run each one for 7 days, then decide.</p>' + experiments.map(function (e) {
+        return '<h5>' + esc(e.t) + '</h5><p><b>Try:</b> ' + esc(e.a) + '</p><p><b>Measure:</b> ' + esc(e.m) + '</p><p><b>Keep it if</b> the second rating is higher or it felt useful. <b>Change it if</b> it was unclear or too big. <b>Drop it if</b> it made no difference after a fair try.</p>';
+      }).join('') + '</div>';
+
+      // 90 days and review dates.
+      var plan90 = '<div class="result-section"><h4>Your 90-day plan and review dates</h4>' + list([
+        'Month 1 (days 1 to 30): run Experiment 1 and the steps above for ' + lc(lowest.d.name) + '. Keep a short note each day.',
+        'Month 2 (days 31 to 60): run Experiment 2 for ' + lc(second.d.name) + ', and' + (PAR ? ' agree one small shared goal with your child.' : ' finish your first proof project.'),
+        'Month 3 (days 61 to 90): ' + (PAR ? 'review with your child what changed, and plan the next step together.' : 'use ' + lc(highest.d.name) + ' on purpose in one real situation, share your proof project, and then retake this test and compare area by area.') + (GENTLE ? ' If tiredness, low mood or worry stays heavy, talk to a doctor or counsellor. In India, Tele-MANAS (14416) offers free support.' : ''),
+        'Review dates: check progress on ' + reviewDate + ', and do a full review on ' + reviewDate90 + '.'
+      ]) + '</div>';
+
+      // Printable action plan.
+      var stepsPlan = (D.stagePlan && D.stagePlan[stage]) || DEPTH.thirtyDay;
+      var planPrint = '<div class="result-section" id="sst-plan-print"><h4>Your printable action plan</h4>' +
+        (decision ? '<p><b>Decision question:</b> ' + esc(decision) + '</p>' : '') +
+        '<p><b>Result:</b> ' + overall + '% overall. Focus first on ' + esc(lc(lowest.d.name)) + ' (' + lowest.score + '%), then ' + esc(lc(second.d.name)) + ' (' + second.score + '%). Strongest: ' + esc(lc(highest.d.name)) + ' (' + highest.score + '%).</p>' +
+        '<p><b>First 30 days:</b></p>' + list(stepsPlan) +
+        '<p><b>Experiments:</b></p>' + list(experiments.map(function (e) { return e.t + ': ' + e.a; })) +
+        (PAR ? '' : '<p><b>Proof project:</b> ' + esc(pfPick().proj ? pfPick().proj.title : '') + '</p>') +
+        '<p><b>Review on:</b> ' + reviewDate + ' (progress) and ' + reviewDate90 + ' (full review and retake).</p>' +
+        '<div data-result-actions><button type="button" class="sst-btn sst-btn--ghost" data-print-plan>Print this action plan</button></div></div>';
+
+      // Plain-language explanations to share.
+      var shareStrong = 'The area I am strongest in is ' + highest.d.name + ' (' + highest.score + '%), and the area I want to work on first is ' + lowest.d.name + ' (' + lowest.score + '%).';
+      var parentLines = PAR ? [
+        'I took the parent version of the ' + RP.name + '. It shows how I see my own part in this decision. It is not a test of my child and not a prediction.',
+        'My overall score is ' + overall + '%. ' + shareStrong,
+        'What I plan to do: ' + plain(lowest.dd.routine[0]),
+        'I will talk with my child, ask questions instead of giving answers first, and we will review together on ' + reviewDate + '.'
+      ] : [
+        'I took the ' + RP.name + '. It is a self-rating tool about how I see my own habits and choices. It has no pass or fail and it does not predict my future.',
+        'My overall score is ' + overall + '%. ' + shareStrong,
+        'What I plan to do: ' + plain(lowest.dd.routine[0]),
+        'How you can help: ask me about my experiment once a week, avoid comparing me with other people, and help me find one person who does this well. We can review together on ' + reviewDate + '.'
+      ];
+      var topLow = statIdx.map(function (i) { return { i: i, s: aScore(i) }; }).sort(function (a, b) { return a.s - b.s || a.i - b.i; }).slice(0, 3);
+      var counsellorLines = [
+        'Assessment: ' + RP.name + ', version ' + RP.versionText + '. Taken on ' + todayLabel + '. Stage: ' + st.label + '.',
+        decision ? 'Decision question: ' + decision : 'Decision question: not stated.',
+        'Overall: ' + overall + '%. Areas: ' + results.map(function (r) { return r.d.name + ' ' + r.score + '%'; }).join(', ') + '.',
+        'Strongest: ' + nameList(topTwo) + '. Weakest: ' + nameList(bottomTwo) + '.',
+        'Answer pattern: confidence ' + confLevel + ' (' + confScore + ' out of 100). ' + confWhy.join(' '),
+        'Lowest-rated statements: ' + topLow.map(function (x) { return '"' + Q[x.i].text + '" (' + RATING[answers[x.i]].toLowerCase() + ')'; }).join('; ') + '.',
+        blindRows.length ? 'Ratings and situation choices differ in: ' + blindRows.map(function (b) { return b.r.d.name + ' (statements ' + b.a + '%, situations ' + b.c + '%)'; }).join(', ') + '.' : 'Ratings and situation choices agree in every area.',
+        'Limits: self-rating, one point in time, not a clinical, hiring or selection test.',
+        'Questions to explore: Which of the lowest statements is hardest to change, and what has helped before? Where does the person see themselves differently from others? What is one experiment they would be willing to try for 7 days?'
+      ];
+      function shareBlock(title, lines, id) {
+        return '<div class="result-section" id="' + id + '"><h4>' + title + '</h4>' + list(lines) + '<div data-result-actions><button type="button" class="sst-btn sst-btn--ghost" data-copy="' + id + '">Copy this summary</button></div></div>';
+      }
+      var parentSection = shareBlock(PAR ? 'Explain this result to your child' : 'Explain this result to a parent, guardian or someone close to you', parentLines, 'sst-parent-explain');
+      var counsellorSection = shareBlock('A summary a counsellor or mentor can use', counsellorLines, 'sst-counsellor-explain');
+      var nextSection = RP.next && RP.next.length ? '<div class="result-section"><h4>Your next assessment</h4><p>Retake this test on or after ' + reviewDate + ', and consider one of these next:</p><ul>' + RP.next.map(function (n) { return '<li><a href="' + n.href + '">' + esc(n.title) + '</a>: ' + esc(n.why) + '</li>'; }).join('') + '</ul></div>' : '';
+      var decisionBlock = decision ? '<div class="result-section"><h4>What you are using this result for</h4><p>' + esc(decision) + '</p></div>' : '';
 
       resultShell.innerHTML =
         '<div class="result-head"><div class="score-mark"><strong>' + overall + '%</strong><span>' + esc(D.scoreLabel) + '</span></div>' +
         '<div><span class="result-kicker">' + esc(D.resultKicker) + '</span><h3>' + esc(headline) + '</h3><p>' + esc(overallText) + ' ' + esc(gapText) + '</p></div></div>' +
         '<div class="result-section"><h4>Your scores by area</h4><p>Scores come only from your own answers and are not compared with other people.</p>' + bars + '</div>' +
-        quick + prevSection + stageSection + stageAreaSection + lowSection + scenSection + blindSection + deep + secondSection + strongSection + talkSection + guide + careers + others + plan + weeks + pfAll + related + qualitySection + retake + limits + review +
+        decisionBlock + quick + prevSection + confSection + evidSection + stageSection + stageAreaSection + lowSection + scenSection + blindSection + deep + secondSection + strongSection + talkSection + guide + careers + others + plan + weeks + experSection + plan90 + pfAll + planPrint + parentSection + counsellorSection + nextSection + related + qualitySection + retake + limits + review +
         '<div class="result-actions"><button id="download-button" type="button" class="sst-btn sst-btn--primary">Download Detailed PDF</button><a href="' + guidanceHref + '" class="btn-gold">' + esc(guidanceLabel) + '</a><button id="retake-button" type="button" class="sst-btn sst-btn--ghost">Retake</button></div>';
 
       quizShell.hidden = true; resultShell.hidden = false; reveal(resultShell);
@@ -701,12 +879,43 @@ const jsonLd = [
         var b = e.target.closest ? e.target.closest('.pf-rate') : null; if (!b) return;
         pfBox.querySelectorAll('details[data-pfd]').forEach(function (d) { pfOpen[Number(d.getAttribute('data-pfd'))] = d.open; });
         pfRate[Number(b.getAttribute('data-pf'))] = Number(b.getAttribute('data-v')); pfOpen[Number(b.getAttribute('data-pf'))] = true;
-        var y = window.scrollY; pfBox.innerHTML = pfCards(); window.scrollTo(0, y);
+        var y = window.scrollY; pfBox.innerHTML = pfCards(); var fb = document.getElementById('pf-focus-body'); if (fb) fb.innerHTML = pfFocusInner(); var tl = document.querySelector('#pf-focus a'); if (tl) tl.setAttribute('href', trackerLink()); window.scrollTo(0, y);
         var again = pfBox.querySelector('.pf-rate[data-pf="' + b.getAttribute('data-pf') + '"][data-v="' + b.getAttribute('data-v') + '"]'); if (again) again.focus({ preventScroll: true });
         ping('self_test_skill_rate', { skill: PF.skills[Number(b.getAttribute('data-pf'))].key });
       });
       document.getElementById('download-button').addEventListener('click', function () {
-        ping('self_test_pdf_download'); if (window.downloadAssessmentReportPdf) window.downloadAssessmentReportPdf({ container: resultShell, title: D.reportTitle, fileName: D.reportFile });
+        ping('self_test_pdf_download');
+        var H = function (t) { return { kind: 'heading-1', text: t }; }, Bl = function (t) { return { kind: 'bullet', text: t }; };
+        var method = [
+          'This self-rating assessment has ' + TOTAL + ' questions: ' + statIdx.length + ' statements rated from 1 (not true) to 5 (very true), and ' + scenIdx.length + ' situations where you choose what you would do.',
+          'Each answer becomes a score from 0 to 100. Statements score 0, 25, 50, 75 or 100, and reverse-worded statements are flipped. Each situation option has a fixed score from 0 to 100.',
+          'An area score is the average of its answers, rounded. The overall score is the average of the area scores.',
+          'Your lowest and second-lowest areas set the focus. Equal scores are ordered by the order the areas are listed.',
+          'Scores are not compared with other people and no norm group is used.',
+          'Confidence rates the pattern of your answers (spread, and agreement between statements and situations). It does not measure how accurate your self-view is.'
+        ];
+        var front = [H('Report details'), Bl('Report: ' + D.reportTitle), Bl('Assessment version: ' + RP.versionText), Bl('Date generated: ' + todayLabel), Bl('Stage: ' + st.label), Bl('Decision question: ' + (decision || 'Not stated')), Bl('Questions answered: ' + TOTAL + ' (' + statIdx.length + ' statements and ' + scenIdx.length + ' situations)'), H('How this assessment works')].concat(method.map(Bl));
+        var back = [H('Review page'), Bl('Progress review date: ' + reviewDate), Bl('Full review and retake on or after: ' + reviewDate90), Bl('What has changed since this report? Write it here: ________________'), Bl('Which experiment will I keep, change or drop? ________________'), Bl('Evidence I have added to my portfolio: ________________'), Bl('Who will I ask for feedback? ________________'),
+          H('Sources and further reading'), Bl('Your own answers, given on ' + todayLabel + '.'), Bl('Assessment page: ' + (RP.url || '')), Bl('Report version: ' + RP.versionText + '.')]
+          .concat((D.related || []).map(function (l) { return Bl(l.title + ': https://futurecareerschool.com' + l.href); }))
+          .concat(PF.readNext.slice(0, 4).map(function (l) { return Bl(l.title + ': https://futurecareerschool.com' + l.href); }))
+          .concat(GENTLE ? [Bl('Tele-MANAS (India, free): call 14416 for mental health support. See a doctor or counsellor if concerns continue.')] : []);
+        if (window.downloadAssessmentReportPdf) window.downloadAssessmentReportPdf({ container: resultShell, title: D.reportTitle, fileName: D.reportFile, frontLines: front, backLines: back, coverBadge: 'Your report', coverMeta: ['Assessment version ' + RP.versionText, 'Stage: ' + st.label + '. Generated ' + todayLabel] });
+      });
+      resultShell.addEventListener('click', function (e) {
+        var t = e.target && e.target.closest ? e.target.closest('[data-copy],[data-print-plan]') : null; if (!t) return;
+        if (t.hasAttribute('data-copy')) {
+          var sec = document.getElementById(t.getAttribute('data-copy')), txt = sec ? Array.prototype.map.call(sec.querySelectorAll('li'), function (x) { return x.textContent; }).join('\n') : '';
+          var done = function () { t.textContent = 'Copied'; setTimeout(function () { t.textContent = 'Copy this summary'; }, 2000); };
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function () { t.textContent = 'Copy not available'; }); else t.textContent = 'Copy not available';
+          ping('self_test_copy_summary', { which: t.getAttribute('data-copy') });
+        } else {
+          var src = document.getElementById('sst-plan-print'); if (!src) return;
+          var clone = src.cloneNode(true); clone.id = 'sst-print-clone'; document.body.appendChild(clone); document.body.classList.add('sst-print-plan');
+          ping('self_test_print_plan');
+          var after = function () { document.body.classList.remove('sst-print-plan'); if (clone.parentNode) clone.parentNode.removeChild(clone); window.removeEventListener('afterprint', after); };
+          window.addEventListener('afterprint', after); window.print();
+        }
       });
       document.getElementById('retake-button').addEventListener('click', function () {
         current = 0; answers = new Array(TOTAL).fill(null); resultShell.hidden = true; quizShell.hidden = false; render(); reveal(quizShell, prompt);

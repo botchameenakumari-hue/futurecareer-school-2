@@ -16,6 +16,10 @@ interface VisualReportOptions {
   whatsappUrl: string;
   phoneDisplay: string;
   phoneE164: string;
+  /** Replaces the default "YOUR RESULTS" badge on the cover. */
+  coverBadge?: string;
+  /** Short lines printed on the cover, such as report version and date. */
+  coverMeta?: string[];
 }
 
 type JsPdfConstructor = typeof import('jspdf').jsPDF;
@@ -305,7 +309,7 @@ export function createVisualAssessmentPdf(
     pdf.roundedRect(20, titleBottom + 8, 42, 8, 4, 4, 'F');
     setText(COLORS.white);
     pdf.setFontSize(8);
-    pdf.text('YOUR RESULTS', 41, titleBottom + 13.4, { align: 'center' });
+    pdf.text((options.coverBadge || 'YOUR RESULTS').toUpperCase(), 41, titleBottom + 13.4, { align: 'center' });
 
     const profileTitle = sections[0]?.title || 'Your personalised career profile';
     setText(COLORS.gold);
@@ -351,6 +355,8 @@ export function createVisualAssessmentPdf(
     setText([158, 176, 196]);
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(8.5);
+    const meta = options.coverMeta && options.coverMeta.length ? options.coverMeta : [];
+    meta.slice(0, 3).forEach((m, i) => pdf.text(m.slice(0, 95), 20, pageHeight - 25 - (meta.length - i) * 5));
     pdf.text(`Prepared ${new Date().toLocaleDateString('en-IN')}`, 20, pageHeight - 25);
     pdf.text(options.phoneDisplay, 20, pageHeight - 16);
     setText(COLORS.gold);

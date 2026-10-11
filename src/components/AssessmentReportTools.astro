@@ -56,6 +56,11 @@ const assessmentSlug = Astro.url.pathname
     container?: HTMLElement;
     title?: string;
     fileName?: string;
+    /** Report-only pages placed before and after the on-screen result content. */
+    frontLines?: ReportLine[];
+    backLines?: ReportLine[];
+    coverBadge?: string;
+    coverMeta?: string[];
   }
 
   interface ReportLine {
@@ -416,8 +421,14 @@ const assessmentSlug = Astro.url.pathname
 
     try {
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-      const lines = collectReportLines(container);
-      if (!lines.length) throw new Error('No result content was available to export.');
+      const bodyLines = collectReportLines(container);
+      if (!bodyLines.length) throw new Error('No result content was available to export.');
+      const tidy = (arr?: ReportLine[]) =>
+        (arr || []).map((l) => ({ kind: l.kind, text: cleanPdfText(l.text) })).filter((l) => l.text);
+      let seenH1 = 0;
+      let splitAt = bodyLines.findIndex((l) => l.kind === 'heading-1' && ++seenH1 === 2);
+      if (splitAt < 0) splitAt = bodyLines.length;
+      const lines = [...bodyLines.slice(0, splitAt), ...tidy(options.frontLines), ...bodyLines.slice(splitAt), ...tidy(options.backLines)];
 
       const { jsPDF: PdfDocument } = await import('jspdf');
       const pdf = createVisualAssessmentPdf(lines, options.title || defaultTitle, PdfDocument, {
@@ -428,6 +439,8 @@ const assessmentSlug = Astro.url.pathname
         whatsappUrl,
         phoneDisplay,
         phoneE164,
+        coverBadge: options.coverBadge,
+        coverMeta: options.coverMeta?.map(cleanPdfText),
       });
       pdf.save(options.fileName || defaultFileName);
 
