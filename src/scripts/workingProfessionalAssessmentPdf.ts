@@ -1,4 +1,3 @@
-import { extrasSections } from './extrasSections';
 import html2canvas from 'html2canvas';
 import { extrasSections, type ExtraSection } from './extrasSections';
 
