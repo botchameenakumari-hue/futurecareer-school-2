@@ -50,6 +50,8 @@ const DIM: { re: RegExp; task: string; ask: string }[] = [
   { re: /dominance/, task: 'take charge of a small group decision and note how the group responded', ask: 'a manager, founder or project lead' },
   { re: /influence/, task: 'present one idea to a small group in two minutes and note how they reacted', ask: 'a trainer, marketer or sales professional' },
   { re: /steadiness/, task: 'keep one shared routine going for a week, such as a team schedule, and note how it felt', ask: 'a nurse, teacher or operations lead' },
+  { re: /^conscientiousness|checks accuracy/, task: 'check a piece of your own work against a checklist and note what you found', ask: 'an auditor, engineer or quality analyst' },
+  { re: /type \d/, task: 'read a short description of this type from a reliable source and note three lines that fit you and three that do not', ask: 'two people who know you well' },
   { re: /social skills/, task: 'help settle a small disagreement or coordinate a group task and note what helped', ask: 'a team lead or customer manager' },
   { re: /empathy/, task: 'listen to someone for ten minutes without giving advice, then say back what you heard and ask if you got it right', ask: 'a counsellor, nurse or teacher' },
   { re: /motivation/, task: 'choose a goal that needs a week of effort and write what keeps you going on the hard days', ask: 'a person who stuck with a long goal' },
@@ -57,6 +59,7 @@ const DIM: { re: RegExp; task: string; ask: string }[] = [
   { re: /self-awareness/, task: 'write down three emotions in a day and what caused each, then ask a friend if it matches what they see', ask: 'a trusted friend or mentor' },
   { re: /financial/, task: 'make a budget for a small event and divide the work among two or three people', ask: 'a small business owner' },
   { re: /execution/, task: 'finish one small project in a week and note what nearly stopped you', ask: 'a person who finishes work regularly' },
+  { re: /opportunity/, task: 'list ten small problems people around you face and pick one that might be worth solving', ask: 'a founder' },
   { re: /resilience/, task: 'ask for feedback on something you made and write how you handled any criticism', ask: 'a person who recovered from a failed attempt' },
   { re: /risk/, task: 'make a small decision with incomplete information and write what you checked before choosing', ask: 'a person who has started something new' },
   { re: /kinesthetic/, task: 'learn one topic this week by doing it, such as an experiment or building a model', ask: 'a teacher who uses practical demonstrations' },
@@ -66,6 +69,16 @@ const DIM: { re: RegExp; task: string; ask: string }[] = [
   { re: /quantitative|numerical reasoning/, task: 'set up a real situation, such as a trip budget, as a calculation and solve it', ask: 'an engineer or accountant' },
   { re: /language precision|verbal ability/, task: 'edit or summarise one paragraph of your own writing and note each change', ask: 'an editor, writer or teacher' },
   { re: /logical reasoning|data interpretation/, task: 'read a table or chart and write three facts it shows, including the evidence for each', ask: 'an analyst or statistics teacher' },
+  { re: /commercial numeracy/, task: 'work through a real price, discount or interest example from a shop or a bill and check each step', ask: 'an accountant or shop owner' },
+  { re: /analytical number/, task: 'estimate the answer before calculating it for ten problems and compare', ask: 'a maths teacher' },
+  { re: /quantitative/, task: 'set up a real situation, such as a trip budget, as a calculation and solve it', ask: 'an engineer or accountant' },
+  { re: /language precision/, task: 'edit one paragraph of your own writing for exact word choice and note each change', ask: 'an editor, writer or teacher' },
+  { re: /comprehension|evidence/, task: 'read a short article and underline the evidence for its main claim', ask: 'a teacher or writer' },
+  { re: /relationships|communication/, task: 'explain one idea to someone in two different ways and check which they understood', ask: 'a trainer or team lead' },
+  { re: /verbal ability/, task: 'read a short passage and summarise it in two sentences, then check what you missed', ask: 'a teacher or editor' },
+  { re: /numerical reasoning/, task: 'solve five percentage or ratio problems and check each step', ask: 'a maths teacher or analyst' },
+  { re: /logical reasoning/, task: 'do five logic puzzles writing each step', ask: 'an analyst or software engineer' },
+  { re: /data interpretation/, task: 'read a table or chart from a news article and write three facts it shows', ask: 'an analyst or statistics teacher' },
 ];
 const dimFor = (label: string) => DIM.find((x) => x.re.test((label || '').toLowerCase().replace(/^\d+\.\s*/, '')));
 
@@ -99,6 +112,19 @@ export function extractScores(container: HTMLElement): Score[] {
     });
     if (items.length >= 3 && items.length <= 12) return items;
   }
+  // Pages that show scores as label and percentage rows instead of articles (the stage tests).
+  for (const sec of [...Array.from(container.querySelectorAll<HTMLElement>('.res-bars')), ...secs]) {
+    if (sec.closest('#fcs-companion-start')) continue;
+    const rows: Score[] = [];
+    Array.from(sec.querySelectorAll<HTMLElement>('*')).forEach((leaf) => {
+      if (leaf.children.length || !/^\s*\d{1,3}\s*%\s*$/.test(leaf.textContent || '')) return;
+      const parent = leaf.parentElement; if (!parent) return;
+      const label = (parent.innerText || '').split('\n').map((x) => x.replace(/[^\p{L}\p{N}\s/&-]/gu, '').trim()).find((x) => /[A-Za-z]{3,}/.test(x) && !/%/.test(x) && x.length <= 40);
+      const v = Number((leaf.textContent || '').replace(/\D/g, ''));
+      if (label && !rows.some((r) => r.label === label)) rows.push({ label, value: Math.min(100, v) });
+    });
+    if (rows.length >= 3 && rows.length <= 12) return rows;
+  }
   return [];
 }
 
@@ -112,7 +138,7 @@ export type Companion = { sections: string[]; extras: (decision: string) => { fr
 export function buildCompanion(container: HTMLElement, d: CompanionData): Companion {
   const K = KIND[d.kind];
   const scores = extractScores(container).slice().sort((a, b) => b.value - a.value);
-  const nTop = Math.min(2, Math.ceil(scores.length / 2)), top = scores.slice(0, nTop), low = scores.slice(nTop).slice(-2).reverse();
+  const nTop = Math.min(2, Math.ceil(scores.length / 2)), top = scores.slice(0, nTop), low = scores.slice(nTop).filter((x) => !top.length || x.value < top[top.length - 1].value).slice(-2).reverse();
   const head = d.kind === 'stage' ? 'the direction profile in this report' : headlineOf(container, d.title);
   const today = new Date(); const rev28 = fmt(plus(28)), rev90 = fmt(plus(90)), todayL = fmt(today);
   const t1 = top[0] ? top[0].label : 'your strongest area', l1 = low[0] ? low[0].label : 'your lowest area';
@@ -124,7 +150,18 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
     : scoreGap != null
       ? `The ${scoreGap}-point gap is a useful hypothesis to test, not proof that one area should define your choice.`
       : 'Use the experiments to turn the result into evidence from real activity.';
+  const LINK: Record<string, string> = {
+    interest: 'Why this project: a real piece of work shows whether the interest holds up when you do it, not only when you rate it.',
+    personality: 'Why this project: doing and recording real work gives you evidence for or against the pattern in your result, in situations you choose.',
+    aptitude: 'Why this project: practice on a real task turns a one-sitting score into evidence of what you can do with time and a method.',
+    skills: 'Why this project: a self-rating becomes believable once it is backed by something you made or did.',
+    stage: 'Why this project: it gives you something real to show and to learn from while you compare the options in this report.',
+  };
   const state = { decision: '' };
+  const soft = d.kind === 'interest' || d.kind === 'personality' || d.kind === 'stage';
+  const HI = soft ? 'Highest scores' : 'Strongest', LO = soft ? 'Lowest scores' : 'Weakest';
+  const SECT = soft ? 'Highest and lowest scores, with the evidence' : 'Strongest and weakest dimensions, with the evidence';
+  const MEAN = soft ? 'The evidence is your own answers. Each percentage shows how strongly your answers pointed to that area on this test. A low score means that area mattered less in your answers, not that it is a weakness, and a gap of a few points is small.' : 'The evidence is your own answers. Each percentage is the share of the available score you earned in that area on this test, so a gap of a few points is small and a gap of twenty or more is worth testing.';
   const decisionText = () => state.decision.trim() || 'not stated';
   const listScores = (xs: Score[]) => xs.map((x) => x.label + ' (' + x.value + '%)').join(', ');
 
@@ -149,13 +186,12 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
     'Speak to one student or professional on that route and ask what a normal week looks like and what they would do differently.',
     'Spend one hour on a small real task from that route, then rate how it felt from 1 to 5.',
   ];
-
-  const dt = top[0] ? dimFor(top[0].label) : undefined;
-  const dl = low[0] ? dimFor(low[0].label) : undefined;
-  // Stage assessments now expose the same score contract as standalone tests.
-  // Keep their experiments evidence-led too; the fallback above remains for
-  // any result that genuinely has no readable score rows.
-  if (dt && dl) {
+  const dt = top[0] ? dimFor(top[0].label) : undefined, dl = low[0] ? dimFor(low[0].label) : undefined;
+  if (dt && dl && d.kind !== 'stage' && /^type \d/i.test(t1)) {
+    exp[0] = 'Read a short description of ' + t1 + ' from a reliable source. Note three lines that fit you and three that do not.';
+    exp[1] = 'Show that description to two people who know you well. Ask which lines sound like you and which do not, and write what they say.';
+    exp[2] = 'Read a short description of ' + l1 + ' too. Note whether any lines fit you better than the score suggests.';
+  } else if (dt && dl && d.kind !== 'stage') {
     exp[0] = 'Test your highest area, ' + t1 + '. Within a day or two, ' + dt.task + '. Afterwards rate how it felt from 1 to 5 and write one thing you liked and one you did not.';
     exp[1] = 'Talk to ' + dt.ask + '. Ask how ' + t1.toLowerCase() + ' shows up in a normal week for them. Write the part that surprised you.';
     exp[2] = 'Test your lowest area, ' + l1 + ', so you compare from experience and not only from the score. Within a day or two, ' + dl.task + '. Then note whether it changes how you read the score.';
@@ -184,10 +220,10 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
     '<p>This is ' + K.art + ' ' + K.noun + ' based on ' + K.basis + '. ' + esc(K.limit) + '</p>' +
     list(['Use the section on how much weight to give the result, where it is shown above, to see how consistent your own answers were.', 'Treat the result as a hypothesis to test with the experiments below, not as a verdict.', 'Retake it on or after ' + rev90 + ' and compare area by area.']) + '</div>';
 
-  const evidenceHtml = scores.length >= 3 ? '<div class="result-section"><h4>Strongest and weakest dimensions, with the evidence</h4>' +
-    '<p><b>Strongest:</b> ' + esc(listScores(top)) + '.</p><p><b>Weakest:</b> ' + esc(listScores(low)) + '.</p>' +
-    '<p>The evidence is your own answers. Each percentage is the share of the available score you earned in that area on this test. ' + esc(resultSignal) + '</p>' +
-    '<p>Headline result: ' + esc(head) + '.</p></div>' : '<div class="result-section"><h4>Strongest and weakest dimensions, with the evidence</h4><p>Headline result: ' + esc(head) + '. The scores above show your strongest and weakest areas. Compare your top and bottom two and use the experiments below to test them.</p></div>';
+  const evidenceHtml = scores.length >= 3 ? '<div class="result-section"><h4>' + SECT + '</h4>' +
+    '<p><b>' + HI + ':</b> ' + esc(listScores(top)) + '.</p><p><b>' + LO + ':</b> ' + esc(low.length ? listScores(low) : 'no area scored lower than the highest group') + '.</p>' +
+    '<p>' + MEAN + ' ' + esc(resultSignal) + '</p>' +
+    '<p>Headline result: ' + esc(head) + '.</p></div>' : '<div class="result-section"><h4>' + SECT + '</h4><p>Headline result: ' + esc(head) + '. The scores above show your strongest and weakest areas. Compare your top and bottom two and use the experiments below to test them.</p></div>';
 
   const experHtml = '<div class="result-section"><h4>Three experiments to run</h4>' + list(exp.map((e, i) => 'Experiment ' + (i + 1) + ': ' + e)) +
     '<p>For each, write what you did, what happened and whether you would keep, change or drop it. Then decide your next step.</p></div>';
@@ -201,7 +237,7 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
   ]) + '<div data-result-actions><button type="button" class="fcs-co-btn" data-fcs-ics>Add the review dates to your calendar</button></div></div>';
 
   const projHtml = '<div class="result-section"><h4>One proof project and one portfolio output</h4>' +
-    '<h5>' + esc(pj.title) + '</h5><p><b>Portfolio output:</b> ' + esc(pj.outcome) + '</p><p><b>Time to plan for:</b> about ' + pj.hours + ' hours in total.</p>' +
+    '<h5>' + esc(pj.title) + '</h5><p>' + esc(LINK[d.kind]) + '</p><p><b>Portfolio output:</b> ' + esc(pj.outcome) + '</p><p><b>Time to plan for:</b> about ' + pj.hours + ' hours in total.</p>' +
     '<p><b>Steps:</b></p>' + list(pj.steps) + '<p><b>Evidence to keep while you work:</b></p>' + list(pj.proof) +
     (example ? '<p><b>An example for where you are now:</b> ' + esc(example) + '</p>' : '') +
     '<p><b>Your skill tracker:</b> <a href="' + trackerHref + '">Open the free skill portfolio tracker</a> to rate nine skills, log hours, add evidence, score it and get a six-month timeline.</p></div>';
@@ -209,7 +245,7 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
   const planText = () => [
     'Action plan for ' + d.title + ', ' + todayL + '.',
     'Decision question: ' + decisionText() + '.',
-    'Result: ' + head + '.' + (top.length ? ' Strongest: ' + listScores(top) + '.' : '') + (low.length ? ' Weakest: ' + listScores(low) + '.' : ''),
+    'Result: ' + head + '.' + (top.length ? ' ' + HI + ': ' + listScores(top) + '.' : '') + (low.length ? ' ' + LO + ': ' + listScores(low) + '.' : ''),
   ];
   const printHtml = () => '<div class="result-section" id="fcs-plan-print"><h4>Your printable action plan</h4>' + list(planText().concat(exp.map((e, i) => 'Experiment ' + (i + 1) + ': ' + e), ['Proof project: ' + pj.title + '. Output: ' + pj.outcome, 'Review on ' + rev28 + ' (progress) and ' + rev90 + ' (full review and retake).'])) +
     '<div data-result-actions><button type="button" class="fcs-co-btn" data-fcs-print>Print this action plan</button></div></div>';
@@ -217,13 +253,13 @@ export function buildCompanion(container: HTMLElement, d: CompanionData): Compan
   const parentText = () => [
     'I took the ' + d.title + '. It describes ' + K.art + ' ' + K.noun + ' based on ' + K.basis + '. It has no pass or fail and it does not predict my future.',
     'Decision I am using it for: ' + decisionText() + '.',
-    'My headline result was: ' + head + '.' + (top.length ? ' My strongest areas were ' + listScores(top) + '.' : ''),
+    'My headline result was: ' + head + '.' + (top.length ? (soft ? ' My highest scores were ' : ' My strongest areas were ') + listScores(top) + '.' : ''),
     'I will use it to run small experiments, not to make a final decision. How you can help: ask me about my experiment once a week, avoid comparing me with other people, and help me meet one person who does this work. We can review together on ' + rev28 + '.',
   ];
   const counsellorText = () => [
     'Assessment: ' + d.title + '. ' + REPORT_VERSION_LABEL + '. Taken on ' + todayL + '.',
     'Decision question: ' + decisionText() + '.',
-    'Headline: ' + head + '.' + (top.length ? ' Strongest: ' + listScores(top) + '.' : '') + (low.length ? ' Weakest: ' + listScores(low) + '.' : ''),
+    'Headline: ' + head + '.' + (top.length ? ' ' + HI + ': ' + listScores(top) + '.' : '') + (low.length ? ' ' + LO + ': ' + listScores(low) + '.' : ''),
     'Limits: ' + K.limit,
     'Questions I would like to discuss: Which of these results match what you have seen? Which option should I test first? What evidence would change my mind?',
   ];

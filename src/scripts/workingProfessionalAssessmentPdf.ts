@@ -1,3 +1,4 @@
+import { extrasSections } from './extrasSections';
 import html2canvas from 'html2canvas';
 import { extrasSections, type ExtraSection } from './extrasSections';
 
@@ -461,8 +462,25 @@ export async function createWorkingProfessionalAssessmentPdf(
   if (!executiveSummary) {
     throw new Error('The working-professional executive result was not available to export.');
   }
-  const sourceSections = Array.from(container.querySelectorAll<HTMLElement>('.res-section'));
-  if (!sourceSections.length) {
+  const liveSections = Array.from(container.querySelectorAll<HTMLElement>('.res-section'));
+  const makeExtra = (sec: { title: string; lines: { text: string }[] }) => {
+    const el = document.createElement('div');
+    el.className = 'res-section';
+    const head = document.createElement('div');
+    head.className = 'res-section-header';
+    const h = document.createElement('h3');
+    h.textContent = sec.title;
+    head.appendChild(h);
+    el.appendChild(head);
+    const ul = document.createElement('ul');
+    sec.lines.forEach((l) => { const li = document.createElement('li'); li.textContent = l.text; ul.appendChild(li); });
+    el.appendChild(ul);
+    return el;
+  };
+  const frontExtras = extrasSections(container, 'front').map(makeExtra);
+  const backExtras = extrasSections(container, 'back').map(makeExtra);
+  const sourceSections = [...frontExtras, ...liveSections, ...backExtras];
+  if (!liveSections.length) {
     throw new Error('No working-professional result modules were available to export.');
   }
 
