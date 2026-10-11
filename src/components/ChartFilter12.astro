@@ -40,7 +40,7 @@ const data = {
   const D = JSON.parse(document.getElementById('cf-data').textContent);
   const app = document.getElementById('cf-app');
   const KEY = 'fcs-chart12-filter-v1';
-  const blank = () => ({ stream: '', hasMaths: 'unknown', hasBio: 'unknown', maths: '', bio: '', exam: '', years: '', cost: '', portfolio: '', employment: '', freelance: '', government: '', overseas: '', ai: '', wfh: '', question: '', name: '' });
+  const blank = () => ({ stream: '', hasMaths: 'unknown', hasBio: 'unknown', subjects: '', maths: '', bio: '', exam: '', years: '', cost: '', portfolio: '', employment: '', freelance: '', government: '', overseas: '', ai: '', wfh: '', question: '', name: '' });
   let F = blank();
   try { const raw = localStorage.getItem(KEY); if (raw) F = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(F)); } catch (e) {} };
@@ -70,7 +70,7 @@ const data = {
     ai: (r) => (F.ai !== '' && r.f.ai > Number(F.ai) ? 'AI exposure is ' + D.ai3[r.f.ai].toLowerCase() : ''),
     wfh: (r) => (F.wfh !== '' && r.f.wfh < Number(F.wfh) ? 'Work from home potential: ' + D.wfh3[r.f.wfh].toLowerCase() : ''),
   };
-  const LABELS = { stream: 'Stream', hasMaths: 'Maths studied', hasBio: 'Biology studied', maths: 'Maths requirement', bio: 'Biology requirement', exam: 'Entrance exam', years: 'Course length', cost: 'Cost', portfolio: 'Portfolio requirement', employment: 'Employment route', freelance: 'Freelance route', government: 'Government-sector route', overseas: 'Overseas mobility', ai: 'AI exposure', wfh: 'Work from home' };
+  const LABELS = { stream: 'Stream', hasMaths: 'Subjects: Maths studied', hasBio: 'Subjects: Biology studied', maths: 'Maths requirement', bio: 'Biology requirement', exam: 'Entrance exam', years: 'Course length', cost: 'Cost', portfolio: 'Portfolio requirement', employment: 'Employment route', freelance: 'Freelance route', government: 'Government-sector route', overseas: 'Overseas mobility', ai: 'AI exposure', wfh: 'Work from home' };
   const DEFAULTS = { stream: '', hasMaths: 'unknown', hasBio: 'unknown' };
   const isActive = (k) => (k in DEFAULTS ? F[k] !== DEFAULTS[k] : F[k] !== '');
   const activeKeys = () => Object.keys(CHECKS).filter(isActive);
@@ -79,14 +79,25 @@ const data = {
   function sel(name, opts) { return '<select data-f="' + name + '">' + opts.map((o) => '<option value="' + esc(o[0]) + '"' + (String(F[name]) === String(o[0]) ? ' selected' : '') + '>' + esc(o[1]) + '</option>').join('') + '</select>'; }
   function field(label, name, opts) { return '<label>' + esc(label) + sel(name, opts) + '</label>'; }
   const any = ['', 'Any'];
+  const SUBJECTS = ['Physics', 'Chemistry', 'Maths', 'Biology', 'Computer Science', 'Economics', 'Accountancy', 'Business Studies', 'Humanities subjects'];
+  const subList = () => (F.subjects ? F.subjects.split(',').filter((x) => SUBJECTS.includes(x)) : []);
+  function subjectsHtml() {
+    const have = subList();
+    return '<fieldset class="cf-sub"><legend>Subjects I studied in Class 12 (optional)</legend>' + SUBJECTS.map((x) => '<label class="cf-chk"><input type="checkbox" data-sub="' + esc(x) + '"' + (have.includes(x) ? ' checked' : '') + '> ' + esc(x) + '</label>').join('') + '<p class="cf-hint">Choosing subjects hides routes that need Maths or Biology when you did not study them. Leave all unticked if you would rather not say.</p></fieldset>';
+  }
+  function applySubjects() {
+    const have = subList();
+    F.subjects = have.join(',');
+    F.hasMaths = have.length ? (have.includes('Maths') ? 'yes' : 'no') : 'unknown';
+    F.hasBio = have.length ? (have.includes('Biology') ? 'yes' : 'no') : 'unknown';
+  }
   function formHtml() {
     return '<form class="cf-form" novalidate>' +
       '<label class="cf-wide">What decision are you using this for? (optional)<input type="text" data-f="question" maxlength="140" value="' + esc(F.question) + '" placeholder="For example: which degree to apply for after 12th"></label>' +
       '<label class="cf-wide">Name (optional, for the report)<input type="text" data-f="name" maxlength="60" value="' + esc(F.name) + '"></label>' +
+      subjectsHtml() +
       '<div class="cf-grid">' +
       field('Your Class 12 stream', 'stream', [any].concat(D.streams.map((s) => [s, s]))) +
-      field('I studied Maths', 'hasMaths', [['unknown', 'Not specified'], ['yes', 'Yes'], ['no', 'No']]) +
-      field('I studied Biology', 'hasBio', [['unknown', 'Not specified'], ['yes', 'Yes'], ['no', 'No']]) +
       field('Maths requirement', 'maths', [any, ['required', 'Required'], ['helps', 'Helps'], ['no', 'Not needed']]) +
       field('Biology requirement', 'bio', [any, ['required', 'Required'], ['helps', 'Helps'], ['no', 'Not needed']]) +
       field('Entrance exam', 'exam', [any].concat(Object.keys(D.exams).map((k) => [k, D.exams[k]]))) +
@@ -174,12 +185,13 @@ const data = {
     } catch (e) { console.error(e); if (st) st.textContent = 'The PDF could not be created. Please try again.'; }
   }
 
-  app.addEventListener('change', (e) => { const t = e.target; const f = t.getAttribute && t.getAttribute('data-f'); if (!f) return; F[f] = t.value; save(); render(); ping('chart12_filter', { filter: f }); });
+  app.addEventListener('change', (e) => { const t = e.target; if (t.getAttribute && t.getAttribute('data-sub')) { const cur = new Set(subList()); if (t.checked) cur.add(t.getAttribute('data-sub')); else cur.delete(t.getAttribute('data-sub')); F.subjects = SUBJECTS.filter((x) => cur.has(x)).join(','); applySubjects(); save(); render(); const again = app.querySelector('[data-sub="' + t.getAttribute('data-sub') + '"]'); if (again) again.focus(); ping('chart12_filter', { filter: 'subjects' }); return; } const f = t.getAttribute && t.getAttribute('data-f'); if (!f) return; F[f] = t.value; save(); render(); ping('chart12_filter', { filter: f }); });
   app.addEventListener('click', (e) => { const b = e.target.closest ? e.target.closest('[data-act]') : null; if (!b) return; if (b.getAttribute('data-act') === 'reset') { F = blank(); save(); render(); } else if (b.getAttribute('data-act') === 'pdf') pdf(); else if (b.getAttribute('data-act') === 'link') { const u = shareUrl(); const done = () => { b.textContent = 'Link copied'; setTimeout(() => { b.textContent = 'Copy a link to this filtered view'; }, 2000); }; try { navigator.clipboard.writeText(u).then(done, () => { window.prompt('Copy this link', u); }); } catch (err) { window.prompt('Copy this link', u); } } });
   app.addEventListener('submit', (e) => e.preventDefault());
   render();
   // Drop any filter value from an old link or saved state that no longer matches an option.
   let fixed = false;
+  if (F.subjects) { const b4 = F.subjects; applySubjects(); if (b4 !== F.subjects) fixed = true; }
   app.querySelectorAll('select[data-f]').forEach((el) => { const k = el.getAttribute('data-f'); if (String(F[k]) !== el.value) { F[k] = blank()[k]; fixed = true; } });
   if (fixed) { save(); render(); }
 </script>
@@ -193,6 +205,7 @@ const data = {
   .cf-hint{font-size:.86rem;color:rgba(255,255,255,.62)}
   .cf-info{background:rgba(18,154,141,.15);border:1px solid rgba(18,154,141,.4);border-radius:12px;padding:.7rem .9rem}
   .cf-form{display:grid;gap:.8rem;margin:1rem 0}
+  .cf-sub{border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:.7rem .9rem;margin:0 0 .9rem}.cf-sub legend{font-weight:600;font-size:.9rem;padding:0 .3rem}.cf-sub .cf-chk{display:inline-flex;align-items:center;gap:.4rem;margin:.2rem .9rem .2rem 0;font-weight:400;min-height:44px}.cf-sub input{width:20px;height:20px}.cf-hint{font-size:.85rem;opacity:.8;margin:.3rem 0 0}
   .cf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem}
   .cf-form label{display:grid;gap:.3rem;font-weight:600;font-size:.9rem}
   .cf-form input[type="text"],.cf-form select{min-height:44px;padding:.5rem .7rem;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400;width:100%}
