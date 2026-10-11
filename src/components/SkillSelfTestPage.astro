@@ -876,7 +876,7 @@ const jsonLd = [
         '<div><span class="result-kicker">' + esc(D.resultKicker) + '</span><h3>' + esc(headline) + '</h3><p>' + esc(overallText) + ' ' + esc(gapText) + '</p></div></div>' +
         '<div class="result-section"><h4>Your scores by area</h4><p>Scores come only from your own answers and are not compared with other people.</p>' + bars + '</div>' +
         decisionBlock + quick + prevSection + confSection + evidSection + stageSection + stageAreaSection + lowSection + scenSection + blindSection + deep + secondSection + strongSection + talkSection + guide + careers + others + plan + weeks + experSection + plan90 + pfAll + planPrint + parentSection + counsellorSection + nextSection + related + qualitySection + retake + limits + review +
-        '<div class="result-actions"><button id="download-button" type="button" class="sst-btn sst-btn--primary">Download Detailed PDF</button><a href="' + guidanceHref + '" class="btn-gold">' + esc(guidanceLabel) + '</a><button id="retake-button" type="button" class="sst-btn sst-btn--ghost">Retake</button></div>';
+        '<div class="result-actions"><button id="download-button" type="button" class="sst-btn sst-btn--primary">Download Detailed PDF</button><button id="download-summary-button" type="button" class="sst-btn sst-btn--ghost">Download Short Summary PDF</button><a href="' + guidanceHref + '" class="btn-gold">' + esc(guidanceLabel) + '</a><button id="retake-button" type="button" class="sst-btn sst-btn--ghost">Retake</button></div>';
 
       quizShell.hidden = true; resultShell.hidden = false; reveal(resultShell);
       var pfBox = document.getElementById('pf-cards');
@@ -888,7 +888,7 @@ const jsonLd = [
         var again = pfBox.querySelector('.pf-rate[data-pf="' + b.getAttribute('data-pf') + '"][data-v="' + b.getAttribute('data-v') + '"]'); if (again) again.focus({ preventScroll: true });
         ping('self_test_skill_rate', { skill: PF.skills[Number(b.getAttribute('data-pf'))].key });
       });
-      document.getElementById('download-button').addEventListener('click', function () {
+      function buildPdf(short) {
         ping('self_test_pdf_download');
         var H = function (t) { return { kind: 'heading-1', text: t }; }, Bl = function (t) { return { kind: 'bullet', text: t }; };
         var method = [
@@ -905,8 +905,11 @@ const jsonLd = [
           .concat((D.related || []).map(function (l) { return Bl(l.title + ': https://futurecareerschool.com' + l.href); }))
           .concat(PF.readNext.slice(0, 4).map(function (l) { return Bl(l.title + ': https://futurecareerschool.com' + l.href); }))
           .concat(GENTLE ? [Bl('Tele-MANAS (India, free): call 14416 for mental health support. See a doctor or counsellor if concerns continue.')] : []);
-        if (window.downloadAssessmentReportPdf) window.downloadAssessmentReportPdf({ container: resultShell, title: D.reportTitle, fileName: D.reportFile, frontLines: front, backLines: back, coverBadge: 'Your report', coverMeta: ['Assessment version ' + RP.versionText, 'Stage: ' + st.label + '. Generated ' + todayLabel] });
-      });
+        if (window.downloadAssessmentReportPdf) window.downloadAssessmentReportPdf({ container: resultShell, title: D.reportTitle, frontLines: front, backLines: back, coverBadge: short ? 'Short summary' : 'Your report', coverMeta: ['Assessment version ' + RP.versionText, 'Stage: ' + st.label + '. Generated ' + todayLabel], keepTitles: short ? SHORT_KEEP : undefined, fileName: short ? D.reportFile.replace(/\.pdf$/i, '') + '-summary.pdf' : D.reportFile });
+      }
+      var SHORT_KEEP = ['at a glance', 'where to focus first', 'report details', 'how this assessment works', 'your scores by area', 'your result in 60 seconds', 'what you are using this result for', 'how much to trust', 'evidence behind', 'to explore', 'three experiments', '90-day plan', 'first proof project', 'printable action plan', 'review page', 'sources and further reading', 'what this result cannot tell you', 'report information'];
+      document.getElementById('download-button').addEventListener('click', function () { buildPdf(false); });
+      var sumBtn = document.getElementById('download-summary-button'); if (sumBtn) sumBtn.addEventListener('click', function () { buildPdf(true); });
       resultShell.addEventListener('click', function (e) {
         var t = e.target && e.target.closest ? e.target.closest('[data-copy],[data-print-plan],[data-ics]') : null; if (!t) return;
         if (t.hasAttribute('data-ics')) {

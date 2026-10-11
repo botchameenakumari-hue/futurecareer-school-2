@@ -61,6 +61,8 @@ const assessmentSlug = Astro.url.pathname
     backLines?: ReportLine[];
     coverBadge?: string;
     coverMeta?: string[];
+    /** When set, only sections whose title contains one of these (lower case) fragments are kept. */
+    keepTitles?: string[];
   }
 
   interface ReportLine {
@@ -428,7 +430,17 @@ const assessmentSlug = Astro.url.pathname
       let seenH1 = 0;
       let splitAt = bodyLines.findIndex((l) => l.kind === 'heading-1' && ++seenH1 === 2);
       if (splitAt < 0) splitAt = bodyLines.length;
-      const lines = [...bodyLines.slice(0, splitAt), ...tidy(options.frontLines), ...bodyLines.slice(splitAt), ...tidy(options.backLines)];
+      let lines = [...bodyLines.slice(0, splitAt), ...tidy(options.frontLines), ...bodyLines.slice(splitAt), ...tidy(options.backLines)];
+      if (options.keepTitles && options.keepTitles.length) {
+        const keep = options.keepTitles;
+        const kept: ReportLine[] = [];
+        let on = true;
+        lines.forEach((l) => {
+          if (l.kind === 'heading-1') on = keep.some((k) => l.text.toLowerCase().includes(k));
+          if (on) kept.push(l);
+        });
+        if (kept.length) lines = kept;
+      }
 
       const { jsPDF: PdfDocument } = await import('jspdf');
       const pdf = createVisualAssessmentPdf(lines, options.title || defaultTitle, PdfDocument, {
