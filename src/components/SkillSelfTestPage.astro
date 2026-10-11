@@ -770,8 +770,9 @@ const jsonLd = [
       if (thinAreas.length) { confScore -= 5; confWhy.push('Some areas have fewer than three questions, so one answer moves them a lot.'); }
       if (!confWhy.length) confWhy.push('Your answers use a good spread of ratings and your statements and situations point the same way.');
       if (!confUp.length) confUp.push('Retake this test after a few weeks of practice and compare area by area.');
-      confScore = Math.max(20, confScore);
+      confScore = Math.max(20, Math.min(90, confScore));
       var confLevel = confScore >= 75 ? 'High' : confScore >= 50 ? 'Medium' : 'Low';
+      quick = quick.replace('</ul>', '<li>Confidence in this result: ' + confLevel + ' (' + confScore + ' out of 100). The section on how much to trust it explains why.</li></ul>');
       var confSection = '<div class="result-section"><h4>How much to trust this result</h4><p><b>Confidence: ' + confLevel + ' (' + confScore + ' out of 100).</b> This rates the pattern of your answers, not how right or wrong you are about yourself.</p>' + list(confWhy) + '<p>To raise your confidence:</p>' + list(confUp) + '</div>';
 
       // Evidence behind the score, and strongest and weakest dimensions.
