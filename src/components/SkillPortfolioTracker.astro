@@ -161,7 +161,7 @@ const jsonLd = [
   const isUrl = (u) => /^https?:\/\/\S+\.\S+/i.test(u || '');
   function scoreEntry(e) {
     const parts = {};
-    parts.output = isUrl(e.url) || (e.file || '').trim() ? 25 : (e.made || '').trim().length >= 30 ? 12 : 0;
+    parts.output = isUrl(e.url) || (e.file || '').trim() || e.shot ? 25 : (e.made || '').trim().length >= 30 ? 12 : 0;
     parts.problem = (e.problem || '').trim().length >= 25 ? 15 : (e.problem || '').trim().length >= 10 ? 7 : 0;
     parts.result = /\d/.test(e.result || '') && (e.result || '').trim().length >= 6 ? 20 : (e.result || '').trim().length >= 20 ? 12 : 0;
     parts.feedback = e.peer && (e.peerNote || '').trim().length >= 15 ? 20 : e.peer ? 10 : 0;
@@ -170,7 +170,7 @@ const jsonLd = [
     return parts;
   }
   const CRIT = [
-    ['output', 25, 'A finished output', 'Add a working link or the name of the file you made.'],
+    ['output', 25, 'A finished output', 'Add a working link, a picture of the work, or the name of the file you made.'],
     ['problem', 15, 'The problem or goal', 'Write at least a full sentence about who it helps and why.'],
     ['result', 20, 'A result or measure', 'Add a number, such as time saved, people reached or replies received.'],
     ['feedback', 20, 'Feedback from another person', 'Ask one person to try it and write what they said.'],
@@ -289,17 +289,17 @@ const jsonLd = [
       '<h4>Status</h4><div class="spt-seg" role="group" aria-label="Project status">' + [['new', 'Not started'], ['doing', 'In progress'], ['done', 'Done']].map((o) => '<button type="button" data-act="status" data-id="' + pj.id + '" data-v="' + o[0] + '" aria-pressed="' + (st.status === o[0]) + '" class="' + (st.status === o[0] ? 'on' : '') + '">' + o[1] + '</button>').join('') + '</div>' +
       '<h4>Log your hours</h4><form data-form="log" data-id="' + pj.id + '" class="spt-form"><label>Date<input type="date" name="date" value="' + todayISO() + '" required></label><label>Hours<input type="number" name="hours" min="0.25" max="24" step="0.25" required></label><label class="spt-wide">What you did<input type="text" name="note" maxlength="200"></label><button class="spt-btn spt-btn--gold" type="submit">Add to log</button></form>' +
       (st.log.length ? '<ul class="spt-log">' + st.log.slice().reverse().map((x, k) => '<li>' + esc(fmt(x.date)) + ': ' + esc(x.hours) + ' hours. ' + esc(x.note || '') + ' <button type="button" class="spt-link" data-act="dellog" data-id="' + pj.id + '" data-k="' + (st.log.length - 1 - k) + '">Remove</button></li>').join('') + '</ul><p><b>Total logged: ' + hoursOf(st) + ' hours.</b></p>' : '<p class="spt-hint">No hours logged yet.</p>') +
-      '<h4>Add or describe evidence</h4><p class="spt-hint">Describe what you made, add a link, or note the file you made. Files are not uploaded: only the file name is saved on this device, so keep the file itself safe.</p>' +
+      '<h4>Add or describe evidence</h4><p class="spt-hint">Describe what you made, add a link, or attach a picture of it. A picture is shrunk and saved only on this device. Other files are not uploaded: only the file name is saved, so keep the file itself safe.</p>' +
       '<form data-form="ev" data-id="' + pj.id + '" class="spt-form"><label class="spt-wide">Title<input type="text" name="title" maxlength="100" required></label>' +
       '<label class="spt-wide">What problem or goal was this for, and who does it help?<textarea name="problem" rows="2" maxlength="400"></textarea></label>' +
       '<label class="spt-wide">What did you make or do?<textarea name="made" rows="2" maxlength="400"></textarea></label>' +
       '<label class="spt-wide">What happened? Add a number if you can.<textarea name="result" rows="2" maxlength="400"></textarea></label>' +
-      '<label>Link to the work (optional)<input type="url" name="url" placeholder="https://"></label><label>File name (optional)<input type="text" name="file" maxlength="120"></label>' +
+      '<label>Link to the work (optional)<input type="url" name="url" placeholder="https://"></label><label>File name (optional)<input type="text" name="file" maxlength="120"></label><label>Picture of the work (optional)<input type="file" accept="image/*" data-act="shot"></label><div id="spt-shot-preview"></div>' +
       '<label class="spt-check"><input type="checkbox" name="peer"> Another person tried or reviewed it</label><label class="spt-wide">What did they say? (name and feedback)<input type="text" name="peerNote" maxlength="300"></label>' +
       '<label class="spt-check"><input type="checkbox" name="shared"> I have shared it where others can find it</label>' +
       '<label class="spt-wide">What would you change next time?<textarea name="reflect" rows="2" maxlength="400"></textarea></label>' +
       '<button class="spt-btn spt-btn--gold" type="submit">Save evidence and score it</button></form>' +
-      (st.evidence.length ? '<h4>Your evidence</h4>' + st.evidence.map((e, k) => '<div class="spt-ev"><b>' + esc(e.title) + '</b> <span class="spt-hint">' + esc(fmt(e.date)) + '</span>' + (e.url ? ' <a href="' + esc(e.url) + '" target="_blank" rel="noopener noreferrer">Open link</a>' : '') + (e.file ? '<p class="spt-hint">File: ' + esc(e.file) + '</p>' : '') + (e.result ? '<p>' + esc(e.result) + '</p>' : '') + '<button type="button" class="spt-link" data-act="delev" data-id="' + pj.id + '" data-k="' + k + '">Remove</button></div>').join('') : '') +
+      (st.evidence.length ? '<h4>Your evidence</h4>' + st.evidence.map((e, k) => '<div class="spt-ev"><b>' + esc(e.title) + '</b> <span class="spt-hint">' + esc(fmt(e.date)) + '</span>' + (e.url ? ' <a href="' + esc(e.url) + '" target="_blank" rel="noopener noreferrer">Open link</a>' : '') + (e.file ? '<p class="spt-hint">File: ' + esc(e.file) + '</p>' : '') + (e.shot ? '<img class="spt-shot" alt="Picture of the work: ' + esc(e.title) + '" src="' + esc(e.shot) + '">' : '') + (e.result ? '<p>' + esc(e.result) + '</p>' : '') + '<button type="button" class="spt-link" data-act="delev" data-id="' + pj.id + '" data-k="' + k + '">Remove</button></div>').join('') : '') +
       '<h4>Evidence score: ' + ev.total + ' of 100 (' + ev.level + ')</h4>' +
       CRIT.map((c) => bar(c[2], ev.best[c[0]], c[1], ev.best[c[0]] + ' of ' + c[1])).join('') +
       (ev.missing.length && st.evidence.length ? '<p><b>To raise your score:</b></p><ul>' + ev.missing.map((c) => '<li>' + esc(c[2]) + ' (+' + (c[1] - ev.best[c[0]]) + '): ' + esc(c[3]) + '</li>').join('') + '</ul>' : '') +
@@ -411,6 +411,7 @@ const jsonLd = [
   // ---- Events ------------------------------------------------------------
   app.addEventListener('change', (e) => {
     const t = e.target; const f = t.getAttribute && t.getAttribute('data-f');
+    if (t.getAttribute && t.getAttribute('data-act') === 'shot') { attachShot(t.files && t.files[0]); return; }
     if (t.getAttribute && t.getAttribute('data-act') === 'restore') { restore(t.files && t.files[0]); return; }
     if (!f) return;
     if (f === 'hours') S.hours = Math.max(1, Math.min(40, Number(t.value) || 1)); else S[f] = t.value;
@@ -434,9 +435,26 @@ const jsonLd = [
     const f = e.target; const kind = f.getAttribute('data-form'); if (!kind) return; e.preventDefault();
     const id = f.getAttribute('data-id'); const st = S.projects[id] || (S.projects[id] = { status: 'new', log: [], evidence: [] }); const fd = new FormData(f);
     if (kind === 'log') { st.log.push({ date: fd.get('date') || todayISO(), hours: Number(fd.get('hours')) || 0, note: String(fd.get('note') || '').slice(0, 200) }); if (st.status === 'new') st.status = 'doing'; }
-    if (kind === 'ev') { st.evidence.push({ date: todayISO(), title: String(fd.get('title') || ''), problem: String(fd.get('problem') || ''), made: String(fd.get('made') || ''), result: String(fd.get('result') || ''), url: String(fd.get('url') || ''), file: String(fd.get('file') || ''), peer: fd.get('peer') === 'on', peerNote: String(fd.get('peerNote') || ''), shared: fd.get('shared') === 'on', reflect: String(fd.get('reflect') || '') }); if (st.status === 'new') st.status = 'doing'; ping('skill_tracker_evidence', { project: id }); }
+    if (kind === 'ev') {  st.evidence.push({ date: todayISO(), title: String(fd.get('title') || ''), problem: String(fd.get('problem') || ''), made: String(fd.get('made') || ''), result: String(fd.get('result') || ''), url: String(fd.get('url') || ''), file: String(fd.get('file') || ''), shot: pendingShot, peer: fd.get('peer') === 'on', peerNote: String(fd.get('peerNote') || ''), shared: fd.get('shared') === 'on', reflect: String(fd.get('reflect') || '') }); pendingShot = ''; if (st.status === 'new') st.status = 'doing'; ping('skill_tracker_evidence', { project: id }); }
     save(); render();
   });
+  let pendingShot = '';
+  function attachShot(file) {
+    const box = document.getElementById('spt-shot-preview'); pendingShot = '';
+    if (!file || !/^image\//.test(file.type)) { if (box) box.innerHTML = ''; return; }
+    const used = Object.values(S.projects).reduce((n, st) => n + (st.evidence || []).reduce((m, x) => m + (x.shot ? x.shot.length : 0), 0), 0);
+    const img = new Image(); const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, 640 / Math.max(img.width, img.height)); const c = document.createElement('canvas');
+      c.width = Math.max(1, Math.round(img.width * k)); c.height = Math.max(1, Math.round(img.height * k));
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+      const data = c.toDataURL('image/jpeg', 0.7);
+      if (used + data.length > 2000000) { if (box) box.innerHTML = '<p class="spt-hint">There is no room left on this device for another picture. Remove an older one first, or add a link instead.</p>'; return; }
+      pendingShot = data; if (box) box.innerHTML = '<img class="spt-shot" alt="Preview of the picture you attached" src="' + data + '">';
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); if (box) box.innerHTML = '<p class="spt-hint">That picture could not be read.</p>'; };
+    img.src = url;
+  }
   function restore(file) {
     if (!file) return; const rd = new FileReader();
     rd.onload = () => { try { const o = JSON.parse(String(rd.result)); if (!o || o.v !== 1 || !Array.isArray(o.ratings)) throw new Error('bad'); S = Object.assign(blank(), o); save(); render(); const s = document.getElementById('spt-status'); if (s) s.textContent = 'Backup restored.'; } catch (err) { const s = document.getElementById('spt-status'); if (s) s.textContent = 'That file could not be read as a tracker backup.'; } };
@@ -492,6 +510,7 @@ const jsonLd = [
   .spt-dual .need{position:absolute;top:-4px;width:3px;height:18px;background:#fff;border-radius:2px;transform:translateX(-50%)}
   .spt-proj{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap;border-top:1px solid var(--border);padding:.7rem 0}
   .spt-work{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:.4rem 0 1rem}
+  .spt-shot{max-width:100%;max-height:220px;border-radius:10px;margin:.4rem 0;display:block}
   .spt-ev,.spt-month,.spt-reco{border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin:.6rem 0}
   .spt-bar{margin:.5rem 0}
   .spt-bar-l{display:flex;justify-content:space-between;font-size:.88rem}

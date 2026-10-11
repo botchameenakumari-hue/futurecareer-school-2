@@ -236,6 +236,7 @@ export function createVisualAssessmentPdf(
   const sections = groupSections(mergeLabelValuePairs(mergeDualSliderPairs(lines)));
   let y = 0;
   let onContentPage = false;
+  const sectionPages: number[] = [];
 
   const setFill = (color: Rgb) => pdf.setFillColor(...color);
   const setText = (color: Rgb) => pdf.setTextColor(...color);
@@ -369,6 +370,7 @@ export function createVisualAssessmentPdf(
     const titleLines = measureWrap(section.title, contentWidth - 28, 'bold', 14);
     const height = Math.max(25, titleLines.length * 7.5 + 13);
     ensureSpace(height + 6);
+    sectionPages[index] = pdf.getNumberOfPages();
     setFill(COLORS.navy);
     pdf.roundedRect(marginX, y, contentWidth, height, 4, 4, 'F');
     setFill(index % 2 === 0 ? COLORS.gold : COLORS.teal);
@@ -762,6 +764,41 @@ export function createVisualAssessmentPdf(
     y += 3;
   });
   renderActionPage();
+
+  // Contents pages: inserted after the cover once every section's page is known.
+  if (sections.length >= 8) {
+    const perPage = 38;
+    const tocPages = Math.ceil(sections.length / perPage);
+    const anyPdf = pdf as any;
+    for (let i = 0; i < tocPages; i += 1) anyPdf.insertPage(2);
+    for (let t = 0; t < tocPages; t += 1) {
+      pdf.setPage(2 + t);
+      drawContentChrome();
+      if (t === 0) {
+        setText(COLORS.ink);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(16);
+        pdf.text('Contents', marginX, y + 4);
+        y += 12;
+      }
+      sections.slice(t * perPage, (t + 1) * perPage).forEach((section, k) => {
+        const idx = t * perPage + k;
+        const target = (sectionPages[idx] || 2) + tocPages;
+        setText(COLORS.ink);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(9);
+        const label = `${String(idx + 1).padStart(2, '0')}   ${section.title}`;
+        pdf.text(measureWrap(label, contentWidth - 20, 'normal', 9)[0], marginX, y + 4);
+        setText(COLORS.slate);
+        pdf.text(String(target), pageWidth - marginX, y + 4, { align: 'right' });
+        setDraw(COLORS.line);
+        pdf.line(marginX, y + 6.2, pageWidth - marginX, y + 6.2);
+        pdf.link(marginX, y, contentWidth, 6.4, { pageNumber: target });
+        y += 6.4;
+      });
+    }
+    onContentPage = false;
+  }
 
   const totalPages = pdf.getNumberOfPages();
   for (let page = 1; page <= totalPages; page += 1) {
