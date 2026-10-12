@@ -32,7 +32,8 @@ const {
 
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 const isDashboardRoute = Astro.url.pathname === '/dashboard' || Astro.url.pathname.startsWith('/dashboard/');
-const isNonLocationCareerService = Astro.url.pathname.startsWith('/services/career-counselling-and-career-guidance/') && !Astro.url.pathname.includes('/locations/');
+const isCareerGuidanceService = Astro.url.pathname.startsWith('/services/career-counselling-and-career-guidance/');
+const isAssessmentService = Astro.url.pathname.startsWith('/services/assessments/');
 ---
 
 <!doctype html>
@@ -244,7 +245,7 @@ const isNonLocationCareerService = Astro.url.pathname.startsWith('/services/care
   </style>
 </head>
 <body>
-  {isNonLocationCareerService && <BusinessPerspectiveNote serviceBanner={true} />}
+  {(isCareerGuidanceService || isAssessmentService) && <BusinessPerspectiveNote serviceBanner={true} />}
   <slot />
   {/* The image groups below are moved into place in the finished HTML by integrations/place-page-media.mjs; there is no browser script. */}
   {Astro.url.pathname.startsWith('/services/') && <BofuImage />}
