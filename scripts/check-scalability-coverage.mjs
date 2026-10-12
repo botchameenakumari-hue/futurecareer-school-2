@@ -4,6 +4,7 @@ const files = [
   'src/config/scalability.mjs',
   'src/components/CareerRouteFinder.astro',
   'src/components/SkillSelfTestPage.astro',
+  'src/components/AssessmentReportTools.astro',
   'src/pages/career-skills-compass.astro',
   'src/pages/career-landing.html',
   'src/pages/student-career-dashboard.html',
@@ -18,10 +19,11 @@ for (const file of files) {
   if (!source.toLowerCase().includes('scalab')) throw new Error(`${file} is missing scalability coverage.`);
 }
 
-for (const file of files.slice(5)) {
+const riskFiles = files.filter((file) => file.includes('dashboard') || file.endsWith('CareerRouteFinder.astro') || file.endsWith('career-landing.html') || file.endsWith('AssessmentReportTools.astro'));
+for (const file of riskFiles) {
   const source = fs.readFileSync(file, 'utf8').toLowerCase();
-  for (const needle of ['competition', 'saturat']) {
-    if (!source.includes(needle)) throw new Error(`${file} is missing scalability risk coverage: ${needle}.`);
+  for (const [label, pattern] of [['competition or crowding', /competition|crowd/], ['saturation or rank gating', /saturat|rank-gated/]]) {
+    if (!pattern.test(source)) throw new Error(`${file} is missing scalability risk coverage: ${label}.`);
   }
 }
 

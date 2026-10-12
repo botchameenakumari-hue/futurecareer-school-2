@@ -43,7 +43,7 @@ const clusters = [...new Set(allCareerRoles.map((role) => role.cluster))];
 const enrichedRoles = allCareerRoles.map((role) => {
   const meta = futureCareerMeta[role.id] ?? getCareerMeta(role);
   const scale = careerScale(`${role.title} ${role.summary} ${meta.pace} ${meta.friction.join(' ')}`);
-  return { ...role, meta, ai: getAITransition(role), scale, scaleLabel: SCALE[scale].label, scaleTip: SCALE_TIPS[scale], scaleNote: scale === 'low' ? `This option remains visible, but ${meta.friction[0] || 'competition, regulation or limited openings'} means consistency alone is not enough.` : scale === 'mid' ? 'A salaried role may plateau; plan consulting, a practice, studio, product or service ownership if you want the route to scale.' : 'The skill, client, product or specialist-service layer can grow beyond one employer, but it still needs proof and market validation.' };
+  return { ...role, meta, ai: getAITransition(role), scale, scaleLabel: SCALE[scale].label, scaleTip: SCALE_TIPS[scale], scaleNote: scale === 'low' ? `This option remains visible, but ${meta.friction[0] || 'competition, saturation, regulation or limited openings'} means consistency alone is not enough.` : scale === 'mid' ? 'A salaried role may plateau; plan consulting, a practice, studio, product or service ownership if you want the route to scale.' : 'The skill, client, product or specialist-service layer can grow beyond one employer, but it still needs proof and market validation.' };
 });
 const transferableSkillIndex = [...enrichedRoles.reduce((index,role) => {
   role.skills.transferable.forEach((name) => {
