@@ -35,6 +35,28 @@ const dataContracts = [
   },
 ];
 
+const toolPerspectiveFiles = [
+  'career-change-runway-calculator',
+  'career-database-verification-workbench',
+  'career-decision-journal',
+  'career-experiment-planner',
+  'career-optionality-calculator',
+  'course-cost-planner',
+  'course-eligibility-verification-workbench',
+  'course-provider-comparison',
+  'degree-career-project-planner',
+  'education-cost-payback-planner',
+  'informational-interview-planner',
+  'internship-readiness-planner',
+  'portfolio-quality-checker',
+  'resume-skills-evidence-builder',
+  'scholarship-application-planner',
+  'skill-to-service-mapper',
+  'student-business-idea-feasibility-calculator',
+  'student-parent-career-intake',
+  'study-abroad-readiness-planner',
+].map((slug) => `src/pages/tools/${slug}.astro`);
+
 for (const file of files) {
   const source = fs.readFileSync(file, 'utf8');
   if (!source.toLowerCase().includes('scalab')) throw new Error(`${file} is missing scalability coverage.`);
@@ -54,6 +76,11 @@ for (const contract of dataContracts) {
   if (matches.length < contract.minimum) {
     throw new Error(`${contract.file} exposes ${matches.length} ${contract.label} with a complete scalability reason and growth move; expected at least ${contract.minimum}.`);
   }
+}
+
+for (const file of toolPerspectiveFiles) {
+  const source = fs.readFileSync(file, 'utf8');
+  if (!source.includes('BusinessPerspectiveNote')) throw new Error(`${file} is missing the business-perspective note.`);
 }
 
 const finder = fs.readFileSync('src/components/CareerRouteFinder.astro', 'utf8');
