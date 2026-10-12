@@ -97,6 +97,15 @@ if (!blogLayout.includes('showScalabilityLens={false}')) {
   throw new Error('Blog post layout must disable duplicate CTA scalability-lens coverage.');
 }
 
+const assessmentLanding = fs.readFileSync('src/pages/services/assessments/[slug]/index.astro', 'utf8');
+if (!assessmentLanding.includes('BusinessPerspectiveNote')) {
+  throw new Error('Dynamic assessment landing pages are missing the business-perspective note.');
+}
+const assessmentHub = fs.readFileSync('src/pages/services/assessments/index.astro', 'utf8');
+if (!assessmentHub.includes('BusinessPerspectiveNote')) {
+  throw new Error('Assessment hub is missing the business-perspective note.');
+}
+
 const rule = fs.readFileSync('src/config/scalability.mjs', 'utf8');
 for (const needle of ['Scalable', 'Scalable with a business layer', 'Not so scalable', 'pays well late']) {
   if (!rule.includes(needle)) throw new Error(`Scalability rule is missing ${needle}.`);
