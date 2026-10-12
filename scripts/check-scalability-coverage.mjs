@@ -61,6 +61,15 @@ for (const needle of ['scalabilityWhy', 'scalabilityTip', 'Scalability reason', 
   if (!finder.includes(needle)) throw new Error(`Career route finder is missing ${needle}.`);
 }
 
+const blogCta = fs.readFileSync('src/components/BlogBottomCta.astro', 'utf8');
+if (!blogCta.includes("import ScalabilityLens from './ScalabilityLens.astro';") || !blogCta.includes('showScalabilityLens')) {
+  throw new Error('Legacy blog CTA is missing shared scalability-lens coverage.');
+}
+const blogLayout = fs.readFileSync('src/layouts/BlogPostLayout.astro', 'utf8');
+if (!blogLayout.includes('showScalabilityLens={false}')) {
+  throw new Error('Blog post layout must disable duplicate CTA scalability-lens coverage.');
+}
+
 const rule = fs.readFileSync('src/config/scalability.mjs', 'utf8');
 for (const needle of ['Scalable', 'Scalable with a business layer', 'Not so scalable', 'pays well late']) {
   if (!rule.includes(needle)) throw new Error(`Scalability rule is missing ${needle}.`);

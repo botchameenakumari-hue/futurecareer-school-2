@@ -1,5 +1,6 @@
 ---
 import GuidancePlansSection from './bofu/GuidancePlansSection.astro';
+import ScalabilityLens from './ScalabilityLens.astro';
 import { WHATSAPP_BOOKING_URL } from '../config/site';
 import { getBlogPlansAudience, resolveBlogSalesTarget } from '../config/blogSalesLinks';
 
@@ -9,9 +10,11 @@ export interface Props {
   // Optional per-post override of the service page the primary button points to.
   salesHref?: string;
   salesLabel?: string;
+  /** BlogPostLayout already renders the lens near the article opening. */
+  showScalabilityLens?: boolean;
 }
 
-const { sectionClass = '', category: categoryProp = '', salesHref, salesLabel } = Astro.props;
+const { sectionClass = '', category: categoryProp = '', salesHref, salesLabel, showScalabilityLens = true } = Astro.props;
 const pathMatch = Astro.url.pathname.match(/^\/blog\/([^/]+)\/([^/]+)\/?/);
 const category = categoryProp || (pathMatch?.[1] ?? '');
 const slug = pathMatch?.[2] ?? '';
@@ -26,6 +29,8 @@ const plansAudience = getBlogPlansAudience(category);
 const assessmentsUrl = 'https://futurecareerschool.com/services/assessments/';
 const guidanceUrl = 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/';
 ---
+
+{showScalabilityLens && <ScalabilityLens category={category} title="" slug={slug} />}
 
 <section class:list={['blog-bottom-cta', sectionClass]}>
   <div class="card cta-card">

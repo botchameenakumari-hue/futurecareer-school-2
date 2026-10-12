@@ -67,7 +67,7 @@ export const BLOG_LENS = {
   'skill-roadmaps': { scale: 'high', text: 'A skill with proof of work and a paid offer is scalable. The roadmap works best when you finish projects and sell the result.' },
   'skills': { scale: 'high', text: 'Skills grow your income when you turn them into proof of work and a paid offer.' },
 };
-export const LENS_CATEGORIES = ['ai-future', 'career-change', 'career-guidance', 'career-options', 'college-degrees', 'freelancing-business', 'government-jobs', 'medical-careers', 'parents', 'skill-roadmaps', 'skills', 'stream-selection', 'study-abroad'];
+export const LENS_CATEGORIES = ['ai-future', 'career-change', 'career-guidance', 'career-options', 'college-degrees', 'freelancing-business', 'government-jobs', 'interviews', 'internships', 'job-search', 'linkedin-networking', 'medical-careers', 'parents', 'portfolio-proof-of-work', 'productivity-learning', 'negotiation', 'resume', 'skill-roadmaps', 'skills', 'stream-selection', 'study-abroad'];
 
 // Rating and reason for single-career guides, by blog slug.
 export const POST_SCALE = {
