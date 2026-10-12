@@ -105,6 +105,10 @@ const assessmentHub = fs.readFileSync('src/pages/services/assessments/index.astr
 if (!assessmentHub.includes('BusinessPerspectiveNote')) {
   throw new Error('Assessment hub is missing the business-perspective note.');
 }
+const baseLayout = fs.readFileSync('src/layouts/BaseLayout.astro', 'utf8');
+if (!baseLayout.includes('isNonLocationCareerService') || !baseLayout.includes('BusinessPerspectiveNote serviceBanner')) {
+  throw new Error('Non-location career-guidance service pages are missing shared business-perspective coverage.');
+}
 
 const rule = fs.readFileSync('src/config/scalability.mjs', 'utf8');
 for (const needle of ['Scalable', 'Scalable with a business layer', 'Not so scalable', 'pays well late']) {
