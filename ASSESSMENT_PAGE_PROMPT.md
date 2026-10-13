@@ -55,6 +55,32 @@ assessment cannot honestly deliver. When unsure: say less, or ask.
 
 ---
 
+## Scalability, business layer and pay figures (applies to every career, course, route or stream list)
+
+Our promise is to help students choose skills that lead to high income and high growth, and to the earliest
+financial freedom. So every option shown anywhere (assessment results, charts, filters, PDFs, tools, services,
+blog posts) carries one of three honest labels, from `src/config/scalability.mjs` (single source of truth):
+
+- **Scalable**: income and reach can grow without trading hours one-for-one (software, data, design, digital work).
+- **Scalable with a business layer**: a job is the entry, and a consulting practice, studio, clinic, agency or product
+  on top makes it scalable. This counts as a GOOD option for us.
+- **Not so scalable**: growth is capped by seats, hours or a single employer (for example MBBS and BDS, NDA,
+  government jobs, law, pilot, pure research). Competition at several levels and market saturation do not count as
+  scalability.
+
+Rules for using the labels:
+- Never remove a generic or competitive option. Mark it, show the risk and the growth advice (`why`, `grow`), and
+  reorder if needed (scalable first).
+- Every list needs a short "how we rate scalability" note (use `SCALE_RULE`) and each option a one-line reason.
+- Use `careerScale`/`careerScaleMatch` for free-text career names; add new rules there, not in the page.
+- Pay figures may be shown only as indicative ranges or averages from named public sources, with the shared
+  `PAY_CAUTION` note (not exact, differs by city, employer and skill, markets change, check current job listings).
+  Never state a pay figure as a promise or as what the reader will earn.
+- Do not use em dashes in public copy. Use commas, colons or a spaced hyphen.
+- Run `npm run check:scalability-coverage` and `npm run verify` before shipping.
+
+---
+
 ## Public-copy guardrail (non-negotiable)
 
 Public copy speaks to the **visitor**, never to the developer, editor, prompt, agent, or owner. If a sentence would

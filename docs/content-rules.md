@@ -99,3 +99,9 @@ Inventing "helpful-sounding" detail:
 ## 7. Document and update this file
 
 Whenever the client gives you new confirmed facts, add them here (or to a `PROJECT_STATE.md` equivalent). Whenever fabricated content is discovered and removed, add the removed item to a "banned" list in this file so future contributors don't re-introduce it.
+
+---
+
+## Scalability labels and pay figures
+
+Every career, course or route option must be labelled Scalable, Scalable with a business layer, or Not so scalable (see the section of the same name in `ASSESSMENT_PAGE_PROMPT.md` and `src/config/scalability.mjs`). Generic or competitive options stay in, marked with their risk. Pay figures are allowed only as indicative ranges or averages with a named source and the shared pay caution. No em dashes in public copy.

@@ -246,9 +246,9 @@ export const ROUTES = [
 
 export const ROUTE_FAMILIES = [
   { id: 'science', label: 'Science', color: '#1f6feb', note: 'Class 11–12, then a degree' },
-  { id: 'commerce', label: 'Commerce', color: '#0f9d8a', note: 'Class 11–12, then a degree or professional course' },
-  { id: 'arts', label: 'Arts and Humanities', color: '#b5651d', note: 'Class 11–12, then a degree' },
-  { id: 'diploma', label: 'Diploma and ITI', color: '#b8860b', note: 'Technical route that starts at once' },
+  { id: 'commerce', label: 'Commerce', color: '#0b7567', note: 'Class 11–12, then a degree or professional course' },
+  { id: 'arts', label: 'Arts and Humanities', color: '#905017', note: 'Class 11–12, then a degree' },
+  { id: 'diploma', label: 'Diploma and ITI', color: '#8a6408', note: 'Technical route that starts at once' },
   { id: 'open', label: 'Flexible and add-on routes', color: '#6b46c1', note: 'Open schooling and skill-first stack' },
 ];
 
