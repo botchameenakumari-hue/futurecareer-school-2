@@ -95,7 +95,7 @@ async function main() {
     const text = extractVisibleText(html);
 
   for (const check of bannedChecks) {
-      if (check.label === 'em-dash' && /(?:^|[\\/])(?:datasets[\\/]course-eligibility-2026|tools[\\/]course-eligibility-verification-workbench)[\\/]index\.html$/.test(path.relative(root, file))) {
+      if (check.label === 'em-dash' && /(?:^|[\\/])(?:datasets[\\/]course-eligibility-2026|tools[\\/]course-eligibility-verification-workbench|tools[\\/]course-entrance-exam-finder)[\\/]index\.html$/.test(path.relative(root, file))) {
         continue;
       }
       const matches = [...text.matchAll(check.regex)];
