@@ -198,6 +198,9 @@ const data = {
   app.addEventListener('change', (e) => { const t = e.target; if (t.getAttribute && t.getAttribute('data-sub')) { const cur = new Set(subList()); if (t.checked) cur.add(t.getAttribute('data-sub')); else cur.delete(t.getAttribute('data-sub')); F.subjects = SUBJECTS.filter((x) => cur.has(x)).join(','); applySubjects(); save(); render(); const again = app.querySelector('[data-sub="' + t.getAttribute('data-sub') + '"]'); if (again) again.focus(); ping('chart12_filter', { filter: 'subjects' }); return; } const f = t.getAttribute && t.getAttribute('data-f'); if (!f) return; F[f] = t.value; save(); render(); ping('chart12_filter', { filter: f }); });
   app.addEventListener('click', (e) => { const b = e.target.closest ? e.target.closest('[data-act]') : null; if (!b) return; if (b.getAttribute('data-act') === 'reset') { F = blank(); save(); render(); } else if (b.getAttribute('data-act') === 'pdf') pdf(); else if (b.getAttribute('data-act') === 'link') { const u = shareUrl(); const done = () => { b.textContent = 'Link copied'; setTimeout(() => { b.textContent = 'Copy a link to this filtered view'; }, 2000); }; try { navigator.clipboard.writeText(u).then(done, () => { window.prompt('Copy this link', u); }); } catch (err) { window.prompt('Copy this link', u); } } });
   app.addEventListener('submit', (e) => e.preventDefault());
+  // Keys that index NEEDS must hold a known value before the first render, or an old link can break the filters.
+  ['maths', 'bio', 'portfolio'].forEach((k) => { if (F[k] && !Object.prototype.hasOwnProperty.call(NEEDS, F[k])) F[k] = ''; });
+  ['hasMaths', 'hasBio'].forEach((k) => { if (!['yes', 'no', 'unknown'].includes(F[k])) F[k] = 'unknown'; });
   render();
   // Drop any filter value from an old link or saved state that no longer matches an option.
   let fixed = false;

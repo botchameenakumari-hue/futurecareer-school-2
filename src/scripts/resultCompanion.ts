@@ -72,14 +72,8 @@ const DIM: { re: RegExp; task: string; ask: string }[] = [
   { re: /logical reasoning|data interpretation/, task: 'read a table or chart and write three facts it shows, including the evidence for each', ask: 'an analyst or statistics teacher' },
   { re: /commercial numeracy/, task: 'work through a real price, discount or interest example from a shop or a bill and check each step', ask: 'an accountant or shop owner' },
   { re: /analytical number/, task: 'estimate the answer before calculating it for ten problems and compare', ask: 'a maths teacher' },
-  { re: /quantitative/, task: 'set up a real situation, such as a trip budget, as a calculation and solve it', ask: 'an engineer or accountant' },
-  { re: /language precision/, task: 'edit one paragraph of your own writing for exact word choice and note each change', ask: 'an editor, writer or teacher' },
   { re: /comprehension|evidence/, task: 'read a short article and underline the evidence for its main claim', ask: 'a teacher or writer' },
   { re: /relationships|communication/, task: 'explain one idea to someone in two different ways and check which they understood', ask: 'a trainer or team lead' },
-  { re: /verbal ability/, task: 'read a short passage and summarise it in two sentences, then check what you missed', ask: 'a teacher or editor' },
-  { re: /numerical reasoning/, task: 'solve five percentage or ratio problems and check each step', ask: 'a maths teacher or analyst' },
-  { re: /logical reasoning/, task: 'do five logic puzzles writing each step', ask: 'an analyst or software engineer' },
-  { re: /data interpretation/, task: 'read a table or chart from a news article and write three facts it shows', ask: 'an analyst or statistics teacher' },
 ];
 const dimFor = (label: string) => DIM.find((x) => x.re.test((label || '').toLowerCase().replace(/^\d+\.\s*/, '')));
 
@@ -319,14 +313,5 @@ export function installCompanion(container: HTMLElement, d: CompanionData): Comp
   if (completeResponses) anchor = secs[secs.indexOf(completeResponses) - 1] || anchor;
   co.sections.forEach((h) => hostAfter(h));
   anchor.insertAdjacentElement('afterend', marker);
-  const root = container;
-  const refresh = () => {
-    const p = root.querySelector('#fcs-plan-print'); const pe = root.querySelector('#fcs-parent-explain'); const ce = root.querySelector('#fcs-counsellor-explain');
-    const fresh = buildCompanion(container, d); fresh.state.decision = co.state.decision;
-    const tmp = document.createElement('div'); tmp.innerHTML = fresh.sections[6] + fresh.sections[7];
-    const np = tmp.querySelector('#fcs-plan-print'); const npe = tmp.querySelector('#fcs-parent-explain'); const nce = tmp.querySelector('#fcs-counsellor-explain');
-    if (p && np) p.innerHTML = np.innerHTML; if (pe && npe) pe.innerHTML = npe.innerHTML; if (ce && nce) ce.innerHTML = nce.innerHTML;
-  };
-  void refresh;
   return co;
 }

@@ -10,7 +10,9 @@ interface Props {
   fullTestHref: string;
   fullTestLabel: string;
 }
+import { SCALE, SCALE_RULE } from '../../config/scalability.mjs';
 const { mode, sectionId = 'quick-test', fullTestHref, fullTestLabel } = Astro.props;
+const scaleLabels = { high: SCALE.high.label, mid: SCALE.mid.label, low: SCALE.low.label };
 
 const aptitudeQuestions = [
   { area: 'numerical', q: 'A shirt costs ₹800 after a 20% discount. What was the original price?', o: ['₹960', '₹1,000', '₹1,040', '₹1,600'], a: 1 },
@@ -32,10 +34,10 @@ const aptitudeQuestions = [
 ];
 
 const areaInfo = {
-  numerical: { label: 'Numerical reasoning', careers: 'finance and accounting, data and analytics, banking, engineering, economics and business analysis' },
-  verbal: { label: 'Verbal reasoning', careers: 'content and communication, law, teaching, HR, sales and client-facing roles, journalism' },
-  logical: { label: 'Logical reasoning', careers: 'programming and software, systems and operations, research, consulting and problem-solving roles' },
-  spatial: { label: 'Pattern and spatial thinking', careers: 'design, architecture, mechanical and civil engineering, animation, UI and product design' },
+  numerical: { label: 'Numerical reasoning', careers: [['finance and accounting', 'mid'], ['data and analytics', 'high'], ['banking', 'low'], ['engineering', 'mid'], ['economics and business analysis', 'mid']] },
+  verbal: { label: 'Verbal reasoning', careers: [['content and communication', 'high'], ['law', 'low'], ['teaching', 'mid'], ['HR', 'mid'], ['sales and client-facing roles', 'mid'], ['journalism', 'mid']] },
+  logical: { label: 'Logical reasoning', careers: [['programming and software', 'high'], ['systems and operations', 'mid'], ['research', 'low'], ['consulting and problem-solving roles', 'mid']] },
+  spatial: { label: 'Pattern and spatial thinking', careers: [['design', 'high'], ['architecture', 'mid'], ['mechanical and civil engineering', 'mid'], ['animation', 'high'], ['UI and product design', 'high']] },
 };
 
 const careerPairs = [
@@ -57,12 +59,12 @@ const careerPairs = [
 ];
 
 const riasecInfo = {
-  R: { label: 'Practical and hands-on', careers: 'engineering and technical trades, electrical and mechanical work, agriculture, logistics, laboratory and field roles' },
-  I: { label: 'Analytical and investigative', careers: 'data and analytics, software, science and research, medicine, engineering design' },
-  A: { label: 'Creative and expressive', careers: 'design, media and content, architecture, animation, writing and branding' },
-  S: { label: 'People-helping', careers: 'teaching, counselling, HR, healthcare, social work, training and customer success' },
-  E: { label: 'Leading and persuading', careers: 'business and sales, management, entrepreneurship, marketing, law and public affairs' },
-  C: { label: 'Organised and detail-focused', careers: 'accounts and finance operations, banking, compliance, administration, supply-chain and records roles' },
+  R: { label: 'Practical and hands-on', careers: [['engineering and technical trades', 'mid'], ['electrical and mechanical work', 'mid'], ['agriculture', 'mid'], ['logistics', 'mid'], ['laboratory and field roles', 'low']] },
+  I: { label: 'Analytical and investigative', careers: [['data and analytics', 'high'], ['software', 'high'], ['science and research', 'low'], ['medicine', 'low'], ['engineering design', 'mid']] },
+  A: { label: 'Creative and expressive', careers: [['design', 'high'], ['media and content', 'high'], ['architecture', 'mid'], ['animation', 'high'], ['writing', 'mid'], ['branding', 'high']] },
+  S: { label: 'People-helping', careers: [['teaching', 'mid'], ['counselling', 'mid'], ['HR', 'mid'], ['healthcare roles', 'mid'], ['social work', 'mid'], ['training', 'mid'], ['customer success', 'mid']] },
+  E: { label: 'Leading and persuading', careers: [['business and sales', 'high'], ['management', 'mid'], ['entrepreneurship', 'high'], ['marketing', 'high'], ['law and public affairs', 'low']] },
+  C: { label: 'Organised and detail-focused', careers: [['accounts and finance operations', 'mid'], ['banking', 'low'], ['compliance', 'mid'], ['administration', 'low'], ['supply-chain roles', 'mid'], ['records roles', 'low']] },
 };
 
 const config = mode === 'aptitude'
@@ -86,7 +88,7 @@ const intro = mode === 'aptitude'
     </div>
   </div>
 </section>
-<script type="application/json" id={`${sectionId}-data`} set:html={JSON.stringify({ mode, ...config, fullTestHref, fullTestLabel })}></script>
+<script type="application/json" id={`${sectionId}-data`} set:html={JSON.stringify({ mode, ...config, fullTestHref, fullTestLabel, scaleLabels, scaleRule: SCALE_RULE })}></script>
 
 <script>
   document.querySelectorAll<HTMLElement>('.qt-card').forEach((card) => {
@@ -100,6 +102,7 @@ const intro = mode === 'aptitude'
       try { (window as any).gtag?.('event', name, { test_mode: data.mode, ...extra }); } catch {}
     };
     const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+    const careerList = (items: string[][]) => '<ul class="qt-careers">' + items.map((c) => '<li>' + esc(c[0]) + ' <em>(' + esc(data.scaleLabels[c[1]]) + ')</em></li>').join('') + '</ul>';
     let i = 0;
     const answers: number[] = [];
     const total = data.mode === 'aptitude' ? data.questions.length : data.pairs.length;
@@ -147,7 +150,8 @@ const intro = mode === 'aptitude'
           .map((s) => `<div class="qt-row"><div class="qt-row-label">${esc(data.info[s.a].label)} <strong>${s.right}/${s.n}</strong></div><div class="qt-row-track"><span style="width:${(s.right / s.n) * 100}%"></span></div></div>`)
           .join('');
         headline = `You scored ${overall} out of ${total}. Strongest signal: ${top.map((t) => data.info[t.a].label).join(' and ')}.`;
-        explain = top.map((t) => `<p><strong>${esc(data.info[t.a].label)}</strong> fits ${esc(data.info[t.a].careers)}.</p>`).join('');
+        explain = top.map((t) => `<p><strong>${esc(data.info[t.a].label)}</strong> fits these directions, each marked for how far it can scale:</p>${careerList(data.info[t.a].careers)}`).join('');
+        explain += `<p class="qt-note">${esc(data.scaleRule)}</p>`;
         explain += `<p class="qt-note">Sixteen questions give a first signal, not a diagnosis. A lower area is a place to practise, not a limit. Use the full assessment for a wider report and then compare routes before you commit money or time.</p>`;
       } else {
         const tally: Record<string, number> = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
@@ -158,7 +162,8 @@ const intro = mode === 'aptitude'
           .map((l) => `<div class="qt-row"><div class="qt-row-label">${esc(data.info[l].label)} <strong>${tally[l]}/5</strong></div><div class="qt-row-track"><span style="width:${(tally[l] / 5) * 100}%"></span></div></div>`)
           .join('');
         headline = `Your leading interest areas: ${topTwo.map((l) => data.info[l].label).join(' + ')}.`;
-        explain = topTwo.map((l) => `<p><strong>${esc(data.info[l].label)}</strong> points to ${esc(data.info[l].careers)}.</p>`).join('');
+        explain = topTwo.map((l) => `<p><strong>${esc(data.info[l].label)}</strong> points to these directions, each marked for how far it can scale:</p>${careerList(data.info[l].careers)}`).join('');
+        explain += `<p class="qt-note">${esc(data.scaleRule)}</p>`;
         explain += `<p class="qt-note">Interests show where work may feel natural. They do not show whether you will earn well there. Check each direction against market demand and your own proof of work before choosing.</p>`;
       }
       body.innerHTML = `<div class="qt-result"><h3>${esc(headline)}</h3>${rows}${explain}
@@ -190,6 +195,8 @@ const intro = mode === 'aptitude'
   .qt-card :global(.qt-row-track) { height: 8px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; }
   .qt-card :global(.qt-row-track span) { display: block; height: 100%; background: linear-gradient(90deg, var(--teal, #2dd4bf), var(--gold, #e5b84a)); }
   .qt-card :global(.qt-result p) { color: rgba(255,255,255,.78); line-height: 1.75; margin: 12px 0 0; }
+  .qt-card :global(.qt-careers) { margin: 8px 0 0; padding-left: 1.2rem; color: rgba(255,255,255,.78); line-height: 1.7; }
+  .qt-card :global(.qt-careers em) { font-style: normal; color: rgba(255,255,255,.62); }
   .qt-card :global(.qt-note) { font-size: 14px; color: rgba(255,255,255,.58) !important; }
   .qt-card :global(.qt-actions) { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
   @media (max-width: 680px) { .qt-card :global(.qt-actions) { flex-direction: column; align-items: stretch; } .qt-card :global(.qt-actions > *) { justify-content: center; text-align: center; } }

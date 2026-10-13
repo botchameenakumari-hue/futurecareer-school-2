@@ -476,7 +476,7 @@ const jsonLd = [
     else if (act === 'ics') {
       const last = S.snaps[S.snaps.length - 1]; const day = addDaysISO(last ? last.date : todayISO(), 28); const next = addDaysISO(day, 1);
       const compact = (iso) => iso.replace(/-/g, '');
-      const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Future Career School//Skill tracker review//EN', 'BEGIN:VEVENT', 'UID:skill-tracker-' + compact(day) + '@futurecareerschool.com', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z', 'DTSTART;VALUE=DATE:' + compact(day), 'DTEND;VALUE=DATE:' + compact(next), 'SUMMARY:Skill portfolio review', 'DESCRIPTION:Save a progress snapshot, add evidence to your projects and choose the next project.', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+      const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Future Career School//Skill tracker review//EN', 'BEGIN:VEVENT', 'UID:skill-tracker-' + compact(day) + '@futurecareerschool.com', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z', 'DTSTART;VALUE=DATE:' + compact(day), 'DTEND;VALUE=DATE:' + compact(next), 'SUMMARY:Skill portfolio review', 'DESCRIPTION:Save a progress snapshot\\, add evidence to your projects and choose the next project.', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
       const blob = new Blob([ics], { type: 'text/calendar' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'skill-review.ics'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
       const st = document.getElementById('spt-status'); if (st) st.textContent = 'A calendar file for ' + fmt(day) + ' has been downloaded.';
     }

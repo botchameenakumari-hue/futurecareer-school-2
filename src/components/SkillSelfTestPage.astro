@@ -1,5 +1,5 @@
 ---
-// One page template for the self-rating tests defined in src/config/skillSelfTests.ts.
+// One page template for the self-rating tests defined in src/config/skillSelfTests.ts and src/config/skillTests/.
 // Each test supplies its own questions, score areas, interpretation and FAQ;
 // this file only provides the layout, the quiz and the result screen.
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -29,7 +29,7 @@ import type { SkillTestBundle } from '../config/skillTests/types';
 import { PROJECTS } from '../config/skillProjects';
 import { TEST_NEXT, TEST_FOCUS_SKILL, TRACKER_PATH, REPORT_VERSION_TEXT } from '../config/skillTests/reportData';
 import { PF_SKILLS, INCOME_LADDER, PF_PROOF, PF_WEEKLY, PF_INTRO, PF_GENTLE, FREEDOM_FRAME, FREEDOM_STEPS, PF_READ_NEXT, PARENT_SKILLS, PF_AUDIENCE, PF_GENTLE_TESTS, PF_BLUEPRINT, PF_CRAFT, PF_STACK, PF_TRACK, PF_MISTAKES } from '../config/skillPortfolio';
-import { SCALE_RULE } from '../config/scalability.mjs';
+import { SCALE, SCALE_RULE } from '../config/scalability.mjs';
 
 interface Props {
   testId?: SkillTestId;
@@ -52,6 +52,22 @@ const depth = hasParent ? { ...baseDepth, stages: [...baseDepth.stages, PARENT_S
 const isStudent = test.main === 'class10';
 const plansConfig = getAssessmentPlansConfig(isStudent ? 'student' : 'mixed');
 const scalabilityRule = SCALE_RULE;
+// Role entries that name a real career family carry their rating. The other entries describe situations,
+// not careers, so they stay unmarked rather than being given a guessed rating.
+const ROLE_MARKS: [string, 'high' | 'mid' | 'low'][] = [
+  ['Technical and digital roles', 'high'],
+  ['Creative, technical and digital roles', 'high'],
+  ['Freelance and small-business work', 'high'],
+  ['Government and exam-based routes', 'low'],
+];
+const markRole = (r: string) => {
+  const m = ROLE_MARKS.find(([p]) => r.startsWith(p));
+  return m ? r + ' (' + SCALE[m[1]].label + ')' : r;
+};
+const depthMarked = {
+  ...depth,
+  domains: Object.fromEntries(Object.entries(depth.domains).map(([k, v]: [string, any]) => [k, { ...v, roles: (v.roles || []).map(markRole) }])),
+};
 
 const clientData = {
   id: test.id,
@@ -80,7 +96,7 @@ const clientData = {
   reportTitle: test.reportTitle,
   reportFile: test.reportFile,
   isStudent,
-  depth,
+  depth: depthMarked,
   related: test.related,
   report: {
     versionText: REPORT_VERSION_TEXT, name: test.breadcrumbName, url: test.pageUrl, next: TEST_NEXT[test.id] || [],
@@ -582,8 +598,7 @@ const jsonLd = [
         return '<p><b>' + esc(r.d.name) + ' (' + r.score + '%):</b> ' + esc(b === 'low' ? r.d.weak : b === 'high' ? r.d.strong : r.d.strong + ' There is still room to grow here.') + ' <b>Next move:</b> ' + esc(r.dd.midStep) + '</p>';
       }).join('') + '</div>';
 
-      var careers = PAR ? '' : '<div class="result-section"><h4>Where these areas matter</h4><p>' + esc(lowest.d.name) + ' (your lowest area):</p>' + list(lowest.dd.roles) +
-        '<p>' + esc(highest.d.name) + ' (your strongest area):</p>' + list(highest.dd.roles) + '</div>';
+      var careers = '';
 
       var others = '<div class="result-section"><h4>' + (PAR ? 'Check your view with your child and the school' : 'Check your result with other people') + '</h4><p>' + (PAR ? 'Your answers are your own view. Ask your child and a teacher one question per area and compare.' : 'Self-ratings are one view. Ask someone who knows you well one question per area and compare with your score.') + '</p>' + list(results.map(function (r) { return r.d.name + ': ' + r.dd.askOthers; })) + '</div>';
 
@@ -800,7 +815,7 @@ const jsonLd = [
         '<p><b>Recommended to explore, because they use your strongest areas:</b></p>' +
         topTwo.map(function (r) { return '<p>' + esc(r.d.name) + ' (' + r.score + '%):</p>' + list(r.dd.roles); }).join('') +
         '<p><b>Investigate cautiously:</b> these lean on your lowest area, ' + esc(lc(lowest.d.name)) + ' (' + lowest.score + '%). They are not ruled out. Try a small experiment first and see how it feels.</p>' + list(lowest.dd.roles) +
-        '<p>Roles are examples of where an area matters, not a prediction of what you should do. They are not automatically high-paying or scalable. ' + esc(D.scalabilityRule) + ' Use the route charts or tracker to inspect the specific option before investing time or money.</p></div>';
+        '<p>Roles are examples of where an area matters, not a prediction of what you should do. They are not automatically high-paying or scalable. ' + esc(D.scalabilityRule) + ' Use the route charts or tracker to inspect the specific option before you spend time or money.</p></div>';
 
       // Three experiments, each with a measure and a decision rule.
       function focusItem(r) {
@@ -918,7 +933,8 @@ const jsonLd = [
         if (t.hasAttribute('data-ics')) {
           var ymd = function (d) { return d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2); };
           var stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
-          var ev = function (n, label, note) { var d = plusDays(n), e2 = plusDays(n + 1); return ['BEGIN:VEVENT', 'UID:' + D.id + '-' + n + '-' + ymd(today) + '@futurecareerschool.com', 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + ymd(d), 'DTEND;VALUE=DATE:' + ymd(e2), 'SUMMARY:' + label, 'DESCRIPTION:' + note, 'END:VEVENT']; };
+          var icsText = function (t) { return String(t).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n'); };
+          var ev = function (n, label, note) { var d = plusDays(n), e2 = plusDays(n + 1); return ['BEGIN:VEVENT', 'UID:' + D.id + '-' + n + '-' + ymd(today) + '@futurecareerschool.com', 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + ymd(d), 'DTEND;VALUE=DATE:' + ymd(e2), 'SUMMARY:' + icsText(label), 'DESCRIPTION:' + icsText(note), 'END:VEVENT']; };
           var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Future Career School//Assessment review//EN', 'CALSCALE:GREGORIAN']
             .concat(ev(28, 'Progress check: ' + D.reportTitle, 'Check your experiments and your proof project, then note what changed.'))
             .concat(ev(90, 'Full review and retake: ' + D.reportTitle, 'Retake the assessment and compare area by area. Plan the next three months.'))
