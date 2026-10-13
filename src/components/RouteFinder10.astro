@@ -143,8 +143,18 @@ const data = {
 
   function render() {
     const y = window.scrollY;
+    // The whole form is rebuilt on every change, so remember which control had focus and give it back.
+    const ae = document.activeElement; let sel = '';
+    if (ae && app.contains(ae)) {
+      const a = (n) => ae.getAttribute(n);
+      if (a('data-act') === 'conf') sel = '[data-act="conf"][data-k="' + a('data-k') + '"][data-v="' + a('data-v') + '"]';
+      else if (a('data-int')) sel = '[data-int="' + a('data-int') + '"]';
+      else if (a('data-f') && ae.tagName === 'SELECT') sel = 'select[data-f="' + a('data-f') + '"]';
+      else if (ae.name === 'mode') sel = 'input[name="mode"][value="' + ae.value + '"]';
+    }
     app.innerHTML = formHtml() + resultHtml();
     window.scrollTo(0, y);
+    if (sel) { const again = app.querySelector(sel); if (again) again.focus({ preventScroll: true }); }
   }
 
   function buildReport() {

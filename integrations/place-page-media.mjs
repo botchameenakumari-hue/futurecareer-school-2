@@ -115,10 +115,13 @@ function processService(html, doc) {
   const body = findFirst(doc, (el) => el.tagName === 'body');
   const kids = elementChildren(body);
   const media = kids.filter((el) => ['bofu-image', 'bofu-diagrams', 'bofu-context-visual'].some((c) => classes(el).includes(c)));
-  const navIndex = kids.findIndex((el) => el.tagName === 'header' && attr(el, 'id') === 'nav');
   if (!media.length) return null;
+  // The nav can sit directly in <body> or inside the <main id="page-content"> wrapper that assessment pages use.
+  const navEl = findFirst(body, (el) => el.tagName === 'header' && attr(el, 'id') === 'nav');
+  const navSiblings = navEl && navEl.parentNode ? elementChildren(navEl.parentNode) : [];
+  const navIndex = navSiblings.indexOf(navEl);
   const operations = [];
-  const target = navIndex >= 0 ? kids[navIndex + 1] : null;
+  const target = navIndex >= 0 ? navSiblings[navIndex + 1] : null;
   if (media.length && target && !media.includes(target)) {
     const mediaHtml = media.map((m) => html.slice(m.sourceCodeLocation.startOffset, m.sourceCodeLocation.endOffset)).join('\n');
     for (const m of media) operations.push({ start: m.sourceCodeLocation.startOffset, end: m.sourceCodeLocation.endOffset, text: '' });

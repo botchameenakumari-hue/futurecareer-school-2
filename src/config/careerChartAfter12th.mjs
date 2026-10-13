@@ -299,7 +299,7 @@ export const scienceCards = [
     label: 'PCB',
     title: 'NEET is a large gate with a small opening',
     body:
-      'MBBS seats total 1,36,939 for 2026-27, against over 22 lakh registrations. Write a full second plan (nursing, allied health, pharmacy, biotech or a data pivot) before the result, not after it. MBBS and BDS are rated Not so scalable because competition runs at several levels; biotech, health-tech and data routes scale better.',
+      'MBBS seats total 1,40,664 for 2026-27 after the September 2026 NMC revision, against about 22.8 lakh registrations. Write a full second plan (nursing, allied health, pharmacy, biotech or a data pivot) before the result, not after it. MBBS and BDS are rated Not so scalable because competition runs at several levels; biotech, health-tech and data routes scale better.',
   },
   {
     label: 'PCMB',
@@ -389,7 +389,7 @@ export const oddsBars = [
     label: 'NEET UG 2026: MBBS seats per 100 registered candidates',
     value: 'About 6',
     pct: 6,
-    detail: '1,36,939 MBBS seats against over 22 lakh registrations. Around 11.2 lakh qualified in the re-exam.',
+    detail: '1,40,664 MBBS seats (September 2026 NMC revision) against about 22.8 lakh registrations. Around 11.2 lakh qualified in the re-exam.',
     tone: 'gold',
   },
   {
@@ -403,7 +403,7 @@ export const oddsBars = [
     label: 'NEET UG 2026: government MBBS seats per 100 test-takers',
     value: 'About 3',
     pct: 3,
-    detail: '63,296 government seats against about 20 lakh who appeared. Private colleges hold the other 73,643 seats, and those cost far more.',
+    detail: '64,121 government seats against about 20 lakh who appeared. Private colleges hold the other 76,543 seats, and those cost far more.',
     tone: 'gold',
   },
   {

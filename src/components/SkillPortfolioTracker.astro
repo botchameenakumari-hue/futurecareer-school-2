@@ -123,6 +123,9 @@ const jsonLd = [
   let S = blank();
   let memoryOnly = false;
   try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) { memoryOnly = true; }
+  if (!Array.isArray(S.ratings) || S.ratings.length !== D.skills.length) S.ratings = D.skills.map(() => 0);
+  if (!S.projects || typeof S.projects !== 'object') S.projects = {};
+  if (!Array.isArray(S.snaps)) S.snaps = [];
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { memoryOnly = true; } }
   let ui = { open: '', tab: 'all', msg: '' };
 
@@ -131,7 +134,7 @@ const jsonLd = [
     try {
       const q = new URLSearchParams(location.search);
       const r = (q.get('r') || '').split(',').map((x) => Number(x));
-      if (r.length === D.skills.length && r.every((n) => n >= 0 && n <= 5) && r.some((n) => n > 0)) S.ratings = r;
+      if (r.length === D.skills.length && r.every((n) => Number.isInteger(n) && n >= 0 && n <= 5) && r.some((n) => n > 0)) S.ratings = r;
       const a = q.get('aud'); if (a && AUDS.some((x) => x[0] === a)) S.aud = a;
       const sk = q.get('skill'); if (sk && D.skills.some((x) => x.key === sk)) S.targetSkill = sk;
       if (q.get('from') || q.get('r')) { ui.msg = 'Your ratings from your assessment result have been loaded. Change anything that does not look right.'; save(); }
@@ -310,7 +313,7 @@ const jsonLd = [
       '<label class="spt-check"><input type="checkbox" name="shared"> I have shared it where others can find it</label>' +
       '<label class="spt-wide">What would you change next time?<textarea name="reflect" rows="2" maxlength="400"></textarea></label>' +
       '<button class="spt-btn spt-btn--gold" type="submit">Save evidence and score it</button></form>' +
-      (st.evidence.length ? '<h4>Your evidence</h4>' + st.evidence.map((e, k) => '<div class="spt-ev"><b>' + esc(e.title) + '</b> <span class="spt-hint">' + esc(fmt(e.date)) + '</span>' + (e.url ? ' <a href="' + esc(e.url) + '" target="_blank" rel="noopener noreferrer">Open link</a>' : '') + (e.file ? '<p class="spt-hint">File: ' + esc(e.file) + '</p>' : '') + (e.shot ? '<img class="spt-shot" alt="Picture of the work: ' + esc(e.title) + '" src="' + esc(e.shot) + '">' : '') + (e.result ? '<p>' + esc(e.result) + '</p>' : '') + '<button type="button" class="spt-link" data-act="delev" data-id="' + pj.id + '" data-k="' + k + '">Remove</button></div>').join('') : '') +
+      (st.evidence.length ? '<h4>Your evidence</h4>' + st.evidence.map((e, k) => '<div class="spt-ev"><b>' + esc(e.title) + '</b> <span class="spt-hint">' + esc(fmt(e.date)) + '</span>' + (isUrl(e.url) ? ' <a href="' + esc(e.url) + '" target="_blank" rel="noopener noreferrer">Open link</a>' : '') + (e.file ? '<p class="spt-hint">File: ' + esc(e.file) + '</p>' : '') + (e.shot ? '<img class="spt-shot" alt="Picture of the work: ' + esc(e.title) + '" src="' + esc(e.shot) + '">' : '') + (e.result ? '<p>' + esc(e.result) + '</p>' : '') + '<button type="button" class="spt-link" data-act="delev" data-id="' + pj.id + '" data-k="' + k + '">Remove</button></div>').join('') : '') +
       '<h4>Evidence score: ' + ev.total + ' of 100 (' + ev.level + ')</h4>' +
       CRIT.map((c) => bar(c[2], ev.best[c[0]], c[1], ev.best[c[0]] + ' of ' + c[1])).join('') +
       (ev.missing.length && st.evidence.length ? '<p><b>To raise your score:</b></p><ul>' + ev.missing.map((c) => '<li>' + esc(c[2]) + ' (+' + (c[1] - ev.best[c[0]]) + '): ' + esc(c[3]) + '</li>').join('') + '</ul>' : '') +
@@ -376,9 +379,18 @@ const jsonLd = [
   }
 
   function render() {
-    const y = window.scrollY; const ae = document.activeElement; const aid = ae && ae.getAttribute && ae.getAttribute('data-restore');
+    const y = window.scrollY; const ae = document.activeElement; let sel = '';
+    // The whole tool is rebuilt on every change, so remember which control had focus and give it back.
+    if (ae && app.contains(ae) && ae.getAttribute) {
+      const a = (n) => ae.getAttribute(n);
+      if (a('data-act') === 'rate') sel = '[data-act="rate"][data-i="' + a('data-i') + '"][data-v="' + a('data-v') + '"]';
+      else if (a('data-act') === 'status') sel = '[data-act="status"][data-id="' + a('data-id') + '"][data-v="' + a('data-v') + '"]';
+      else if (a('data-act') === 'open') sel = '[data-act="open"][data-id="' + a('data-id') + '"]';
+      else if (a('data-f')) sel = '[data-f="' + a('data-f') + '"]';
+    }
     app.innerHTML = secStart() + secTarget() + secNext() + secProjects() + secPortfolio() + secTimeline() + secReport() + secLinks();
     window.scrollTo(0, y);
+    if (sel) { const again = app.querySelector(sel); if (again) again.focus({ preventScroll: true }); }
   }
 
   // ---- Report ------------------------------------------------------------
@@ -453,14 +465,14 @@ const jsonLd = [
     if (t.getAttribute && t.getAttribute('data-act') === 'shot') { attachShot(t.files && t.files[0]); return; }
     if (t.getAttribute && t.getAttribute('data-act') === 'restore') { restore(t.files && t.files[0]); return; }
     if (!f) return;
-    if (f === 'hours') S.hours = Math.max(1, Math.min(40, Number(t.value) || 1)); else S[f] = t.value;
+    if (f === 'hours') S.hours = Math.max(1, Math.min(40, Number(t.value) || 1)); else if (f === 'start') S.start = /^\d{4}-\d{2}-\d{2}$/.test(t.value) ? t.value : todayISO(); else S[f] = t.value;
     if (f === 'target') ping('skill_tracker_target', { target: t.value });
     save(); render();
   });
   app.addEventListener('click', (e) => {
     const b = e.target.closest ? e.target.closest('[data-act]') : null; if (!b) return;
     const act = b.getAttribute('data-act'); const id = b.getAttribute('data-id');
-    if (act === 'rate') { S.ratings[Number(b.getAttribute('data-i'))] = Number(b.getAttribute('data-v')); S.targetSkill = S.targetSkill; save(); render(); }
+    if (act === 'rate') { S.ratings[Number(b.getAttribute('data-i'))] = Number(b.getAttribute('data-v')); save(); render(); }
     else if (act === 'open') { ui.open = ui.open === id ? '' : id; if (id) { const pj = D.projects.find((x) => x.id === id); if (pj) S.targetSkill = pj.skill; } save(); render(); const w = document.getElementById('work-' + id); if (w && ui.open === id) w.scrollIntoView({ block: 'start' }); }
     else if (act === 'status') { const st = S.projects[id] || (S.projects[id] = { status: 'new', log: [], evidence: [] }); st.status = b.getAttribute('data-v'); if (st.status === 'done') ping('skill_tracker_project_done', { project: id }); save(); render(); }
     else if (act === 'dellog') { const st = pstate(id); st.log.splice(Number(b.getAttribute('data-k')), 1); S.projects[id] = st; save(); render(); }
@@ -509,7 +521,7 @@ const jsonLd = [
   }
   function restore(file) {
     if (!file) return; const rd = new FileReader();
-    rd.onload = () => { try { const o = JSON.parse(String(rd.result)); if (!o || o.v !== 1 || !Array.isArray(o.ratings)) throw new Error('bad'); S = Object.assign(blank(), o); save(); render(); const s = document.getElementById('spt-status'); if (s) s.textContent = 'Backup restored.'; } catch (err) { const s = document.getElementById('spt-status'); if (s) s.textContent = 'That file could not be read as a tracker backup.'; } };
+    rd.onload = () => { try { const o = JSON.parse(String(rd.result)); if (!o || o.v !== 1 || !Array.isArray(o.ratings) || o.ratings.length !== D.skills.length || !o.ratings.every((n) => Number.isInteger(n) && n >= 0 && n <= 5)) throw new Error('bad'); S = Object.assign(blank(), o); save(); render(); const s = document.getElementById('spt-status'); if (s) s.textContent = 'Backup restored.'; } catch (err) { const s = document.getElementById('spt-status'); if (s) s.textContent = 'That file could not be read as a tracker backup.'; } };
     rd.readAsText(file);
   }
   const sharedSnapshot = new URLSearchParams(location.search).get('share');
