@@ -13,7 +13,7 @@ const blogLastmod = new Map(
 // slash (Apache's mod_dir issues a 301 from the slash-less path to the
 // slash-terminated one). LIVE_INDEXABLE_ROUTES entries are hand-written and
 // not all of them include that trailing slash, so normalize here rather than
-// relying on every entry to remember it — this is what keeps the sitemap
+// relying on every entry to remember it, this is what keeps the sitemap
 // from listing URLs that immediately redirect.
 const withTrailingSlash = (path: string) => (path.endsWith('/') ? path : `${path}/`);
 

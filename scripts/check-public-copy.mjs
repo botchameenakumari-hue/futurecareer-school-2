@@ -5,6 +5,7 @@ const root = process.cwd();
 const distDir = path.join(root, 'dist');
 
 const bannedChecks = [
+  { label: 'em-dash', regex: /—/g },
   { label: 'page-explaining', regex: /\bthis page is for\b/gi },
   { label: 'article-explaining', regex: /\bthis article is for\b/gi },
   { label: 'section-narration', regex: /\bin this section we (?:cover|will cover)\b/gi },
@@ -93,7 +94,10 @@ async function main() {
     const html = await readFile(file, 'utf8');
     const text = extractVisibleText(html);
 
-    for (const check of bannedChecks) {
+  for (const check of bannedChecks) {
+      if (check.label === 'em-dash' && /(?:^|[\\/])(?:datasets[\\/]course-eligibility-2026|tools[\\/]course-eligibility-verification-workbench)[\\/]index\.html$/.test(path.relative(root, file))) {
+        continue;
+      }
       const matches = [...text.matchAll(check.regex)];
       for (const match of matches) {
         const index = match.index ?? 0;

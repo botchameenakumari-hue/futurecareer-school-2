@@ -628,7 +628,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'is-hotel-management-a-good-career-in-india',
     title: 'Is Hotel Management a Good Career in India? Pay, Hours, Verdict',
     description:
-      'Is hotel management a good career in India? Real pay ceiling, attrition data, AI risk, and who this shift-heavy path actually fits — the 2026 verdict.',
+      'Is hotel management a good career in India? Real pay ceiling, attrition data, AI risk, and who this shift-heavy path actually fits, the 2026 verdict.',
     publishedAtISO: '2026-08-10',
     readTimeMinutes: 20,
   },
@@ -646,7 +646,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'is-event-management-a-good-career-in-india',
     title: 'Is Event Management a Good Career in India? Pay, Burnout, Verdict',
     description:
-      'Is event management a good career in India? Real pay bands, event-day burnout, freelance income risk, and who this logistics-heavy path actually fits — the honest verdict.',
+      'Is event management a good career in India? Real pay bands, event-day burnout, freelance income risk, and who this logistics-heavy path actually fits, the honest verdict.',
     publishedAtISO: '2026-08-17',
     readTimeMinutes: 18,
   },
@@ -1049,7 +1049,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
   {
     categorySlug: 'job-search',
     slug: 'how-to-stand-out-as-a-fresher-india',
-    title: 'How to Stand Out as a Fresher in India — Proof Before Polish',
+    title: 'How to Stand Out as a Fresher in India, Proof Before Polish',
     description:
       'How to stand out as a fresher in India: build real proof of skill before you apply, pick one specific story instead of a generic pitch, and know what recruiters actually notice first.',
     publishedAtISO: '2026-07-20',
@@ -1058,7 +1058,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
   {
     categorySlug: 'job-search',
     slug: 'skills-needed-for-first-job-india',
-    title: 'Skills Needed for First Job in India — The Foundational Skills Nobody Tests You On',
+    title: 'Skills Needed for First Job in India, The Foundational Skills Nobody Tests You On',
     description:
       'Skills needed for first job in India go beyond your degree: clear communication, email etiquette, basic Excel, and time management. See how recruiters actually check for these, even in technical interviews.',
     publishedAtISO: '2026-07-20',
@@ -1185,7 +1185,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'state-vs-central-government-jobs-india',
     title: 'State vs central government jobs India: the honest trade-off before you pick a track',
     description:
-      'State vs central government jobs India compared on real pay commission gaps, State PSC vs UPSC/SSC competition, transfer reality, and prestige — so you pick by fit, not headlines.',
+      'State vs central government jobs India compared on real pay commission gaps, State PSC vs UPSC/SSC competition, transfer reality, and prestige, so you pick by fit, not headlines.',
     publishedAtISO: '2026-07-17',
     readTimeMinutes: 20,
   },
@@ -1300,7 +1300,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
   {
     categorySlug: 'ai-future',
     slug: 'best-career-paths-for-the-next-10-years',
-    title: 'Best career paths for the next 10 years — what the data actually says',
+    title: 'Best career paths for the next 10 years, what the data actually says',
     description:
       'Best career paths for the next 10 years span AI, cybersecurity, healthcare, clean energy, and FinTech. WEF 2025 data, India salary ranges, and what to do next.',
     publishedAtISO: '2026-05-24',
@@ -1509,7 +1509,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'career-options-after-12th-commerce',
     title: 'Career options after 12th commerce: the real tracks, not just the usual list',
     description:
-      'Career options after 12th commerce span professional exams, corporate degrees, and skill-first paths. Here is what each track actually looks like — income, timeline, and AI risk included.',
+      'Career options after 12th commerce span professional exams, corporate degrees, and skill-first paths. Here is what each track actually looks like, income, timeline, and AI risk included.',
     publishedAtISO: '2026-05-10',
     readTimeMinutes: 20,
   },
@@ -1581,7 +1581,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'best-career-for-my-child-after-12th-india',
     title: "Best Career for My Child After 12th India: A Parent's Decision Filter, Not a Job List",
     description:
-      'Best career for my child after 12th India is not one job title — it is a fit, cost, demand, and AI-risk filter. Real exam odds, salary data, and a family-conversation script inside.',
+      'Best career for my child after 12th India is not one job title, it is a fit, cost, demand, and AI-risk filter. Real exam odds, salary data, and a family-conversation script inside.',
     publishedAtISO: '2026-07-06',
     readTimeMinutes: 18,
   },
@@ -1635,7 +1635,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'career-without-degree-after-12th-india',
     title: 'Career without degree after 12th India: 14 real paths, real pay, real risk',
     description:
-      'A career without degree after 12th India is realistic in tech, trades, sales, and government roles — if you pick proof over hope. Real salary data, ITI to CS routes, and the honest trade-offs.',
+      'A career without degree after 12th India is realistic in tech, trades, sales, and government roles, if you pick proof over hope. Real salary data, ITI to CS routes, and the honest trade-offs.',
     publishedAtISO: '2026-07-04',
     readTimeMinutes: 19,
   },
@@ -1743,7 +1743,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'good-careers',
     title: 'Good Careers: The 5-Axis Test for What Actually Makes One Good',
     description:
-      'Good careers are not one ranked list. Use the 5-Axis Good-Career Test — pay, security, growth, AI-resilience, and life fit — to judge any career honestly.',
+      'Good careers are not one ranked list. Use the 5-Axis Good-Career Test, pay, security, growth, AI-resilience, and life fit, to judge any career honestly.',
     publishedAtISO: '2026-08-09',
     readTimeMinutes: 20,
   },
@@ -2076,7 +2076,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'how-to-support-child-during-career-confusion',
     title: 'How to support child during career confusion: the support ladder',
     description:
-      'How to support child during career confusion: notice the signs, name the feeling, normalize the stage, and navigate with them — a research-backed emotional support approach, not a decision script.',
+      'How to support child during career confusion: notice the signs, name the feeling, normalize the stage, and navigate with them, a research-backed emotional support approach, not a decision script.',
     publishedAtISO: '2026-07-07',
     readTimeMinutes: 16,
   },
@@ -2454,7 +2454,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'is-hr-a-good-career-in-india',
     title: 'Is HR a Good Career in India? Pay, AI Risk, Verdict',
     description:
-      'Is HR a good career in India? Real pay by entry route, ATS/AI risk by task, growth ceiling data, and who this people-facing path fits — the 2026 verdict.',
+      'Is HR a good career in India? Real pay by entry route, ATS/AI risk by task, growth ceiling data, and who this people-facing path fits, the 2026 verdict.',
     publishedAtISO: '2026-08-15',
     readTimeMinutes: 19,
   },
@@ -2490,7 +2490,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'career-change-after-5-years-india',
     title: 'Career change after 5 years India: the inflection point nobody warns you about',
     description:
-      "Career change after 5 years India hits a real structural moment — too senior for entry roles, not senior enough to lead. Here's how to test the move before you commit.",
+      "Career change after 5 years India hits a real structural moment, too senior for entry roles, not senior enough to lead. Here's how to test the move before you commit.",
     publishedAtISO: '2026-07-16',
     readTimeMinutes: 16,
   },
@@ -2578,7 +2578,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
   {
     categorySlug: 'career-guidance',
     slug: 'why-career-counseling-is-important',
-    title: 'Why Career Counseling Is Important — What Skipping It Actually Costs You',
+    title: 'Why Career Counseling Is Important, What Skipping It Actually Costs You',
     description:
       'Why career counseling is important: the real cost of skipping it - wasted years, career mismatch, lower wellbeing - backed by India-specific data on who actually gets guidance.',
     publishedAtISO: '2026-08-27',
@@ -2614,7 +2614,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
   {
     categorySlug: 'career-change',
     slug: 'career-plateau-how-to-break-through-india',
-    title: 'Career plateau: how to break through in India — the 3-Layer Plateau Check',
+    title: 'Career plateau: how to break through in India, the 3-Layer Plateau Check',
     description:
       "Career plateau how to break through in India: run the 3-Layer Plateau Check to find out if it's you, your manager, or the company, then fix the right one.",
     publishedAtISO: '2026-07-16',
@@ -2634,7 +2634,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'mid-career-strategies-india',
     title: 'Mid-career strategies in India: the 5 decisions that shape your next decade',
     description:
-      'Mid-career strategies in India: specialize or diversify, build visibility, pick a track, time a sabbatical, and get the money math right — one clear framework, not five separate guesses.',
+      'Mid-career strategies in India: specialize or diversify, build visibility, pick a track, time a sabbatical, and get the money math right, one clear framework, not five separate guesses.',
     publishedAtISO: '2026-07-16',
     readTimeMinutes: 18,
   },
@@ -2670,7 +2670,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'digital-marketing-vs-data-analytics-career-india',
     title: 'Digital marketing vs data analytics career India: the honest fit-first comparison',
     description:
-      'Digital marketing vs data analytics career India compared on real daily work, personality fit, entry barrier, salary, and growth ceiling — plus where the two actually overlap.',
+      'Digital marketing vs data analytics career India compared on real daily work, personality fit, entry barrier, salary, and growth ceiling, plus where the two actually overlap.',
     publishedAtISO: '2026-07-17',
     readTimeMinutes: 17,
   },
@@ -2679,7 +2679,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'how-long-does-it-take-to-learn-digital-marketing-india',
     title: 'How long does it take to learn digital marketing in India: the honest, channel-by-channel timeline',
     description:
-      'How long does it take to learn digital marketing in India depends on which channel you mean — SEO, paid ads, social, content, or email. Real timelines for basics vs interview-ready, per channel.',
+      'How long does it take to learn digital marketing in India depends on which channel you mean, SEO, paid ads, social, content, or email. Real timelines for basics vs interview-ready, per channel.',
     publishedAtISO: '2026-07-17',
     readTimeMinutes: 18,
   },
@@ -2731,7 +2731,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
   {
     categorySlug: 'skills',
     slug: 'python-vs-java-which-to-learn-first-india',
-    title: 'Python vs Java: which to learn first in India — the honest verdict by career path',
+    title: 'Python vs Java: which to learn first in India, the honest verdict by career path',
     description:
       'Python vs Java which to learn first in India depends on your target role: Python wins for AI, data science, and scripting; Java wins for Android and enterprise backend. See the real comparison.',
     publishedAtISO: '2026-07-17',
@@ -2742,7 +2742,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'content-marketing-vs-seo-career-india',
     title: 'Content marketing vs SEO career India: two jobs hiding under one job title',
     description:
-      'Content marketing vs SEO career India compared on real daily work, personality fit, entry barrier, salary, and freelance demand — plus the overlap role that actually pays best.',
+      'Content marketing vs SEO career India compared on real daily work, personality fit, entry barrier, salary, and freelance demand, plus the overlap role that actually pays best.',
     publishedAtISO: '2026-07-17',
     readTimeMinutes: 18,
   },
@@ -2760,7 +2760,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'graphic-design-vs-ui-ux-design-career-india',
     title: 'Graphic design vs UI/UX design career India: the honest fit-first comparison',
     description:
-      'Graphic design vs UI/UX design career India compared on real daily work, skill overlap, salary, freelance viability, and growth ceiling — plus how to test your fit before you commit.',
+      'Graphic design vs UI/UX design career India compared on real daily work, skill overlap, salary, freelance viability, and growth ceiling, plus how to test your fit before you commit.',
     publishedAtISO: '2026-07-17',
     readTimeMinutes: 20,
   },
@@ -2832,7 +2832,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'mba-finance-vs-marketing-india',
     title: 'MBA finance vs marketing India: the honest head-to-head before you pick',
     description:
-      'MBA finance vs marketing India compared on real fit, placement packages, recruiter patterns, and career ceiling — CFO track vs CMO track — so you choose with data, not a coin toss.',
+      'MBA finance vs marketing India compared on real fit, placement packages, recruiter patterns, and career ceiling, CFO track vs CMO track, so you choose with data, not a coin toss.',
     publishedAtISO: '2026-07-17',
     readTimeMinutes: 19,
   },
@@ -2983,7 +2983,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
   {
     categorySlug: 'study-abroad',
     slug: 'study-abroad-benefits-india',
-    title: 'Study Abroad Benefits India — What You Actually Gain, and What You Don\'t',
+    title: 'Study Abroad Benefits India, What You Actually Gain, and What You Don\'t',
     description:
       'Study abroad benefits India, honestly assessed: real gains in exposure, access, and skills, real costs in money and distance, and why the outcome depends on what you do with it.',
     publishedAtISO: '2026-07-20',
@@ -3055,7 +3055,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
   {
     categorySlug: 'career-options',
     slug: 'msc-biotechnology-career-options',
-    title: 'MSc Biotechnology Career Options — The Real Fork Between a PhD and an Industry Role',
+    title: 'MSc Biotechnology Career Options, The Real Fork Between a PhD and an Industry Role',
     description:
       'MSc biotechnology career options, decided honestly: CSIR-NET/GATE/DBT-BET for a funded PhD, DBT/ICMR/ICAR scientist routes, and the industry roles your MSc unlocks that a BSc cannot.',
     publishedAtISO: '2026-08-05',
@@ -3093,7 +3093,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'biotechnology-career-objective-and-goals',
     title: 'Career Objective for Biotechnology: Resume Examples & Real Goals',
     description:
-      'Real career objective examples for a biotechnology resume — fresher, MSc, bioinformatics, and career-switcher — plus how to set real career goals in biotech.',
+      'Real career objective examples for a biotechnology resume, fresher, MSc, bioinformatics, and career-switcher, plus how to set real career goals in biotech.',
     publishedAtISO: '2026-08-07',
     readTimeMinutes: 18,
   },
@@ -3165,7 +3165,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'is-pharmacy-a-good-career-in-india',
     title: 'Is Pharmacy a Good Career in India? Pay, Oversupply, Verdict',
     description:
-      'Is pharmacy a good career in India? Real pay behind the brochure, the seat-vacancy oversupply paradox, AI risk from e-pharmacy, and who this fits — the 2026 verdict.',
+      'Is pharmacy a good career in India? Real pay behind the brochure, the seat-vacancy oversupply paradox, AI risk from e-pharmacy, and who this fits, the 2026 verdict.',
     publishedAtISO: '2026-08-15',
     readTimeMinutes: 21,
   },
@@ -3174,7 +3174,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'is-physiotherapy-a-good-career-in-india',
     title: 'Is Physiotherapy a Good Career in India? Pay, Burnout, Verdict',
     description:
-      'Is physiotherapy a good career in India? Real pay ceiling, the physiotherapist\'s own injury data, AI risk by task, and who this hands-on path actually fits — the 2026 verdict.',
+      'Is physiotherapy a good career in India? Real pay ceiling, the physiotherapist\'s own injury data, AI risk by task, and who this hands-on path actually fits, the 2026 verdict.',
     publishedAtISO: '2026-08-15',
     readTimeMinutes: 21,
   },
@@ -3183,7 +3183,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'is-nursing-a-good-career-in-india',
     title: 'Is Nursing a Good Career in India? Pay, Shifts, Verdict',
     description:
-      'Is nursing a good career in India? Real pay across ANM, GNM, and BSc entry routes, the honest shift and burnout reality, abroad pay gaps, AI risk, and who this path actually fits — the 2026 verdict.',
+      'Is nursing a good career in India? Real pay across ANM, GNM, and BSc entry routes, the honest shift and burnout reality, abroad pay gaps, AI risk, and who this path actually fits, the 2026 verdict.',
     publishedAtISO: '2026-08-16',
     readTimeMinutes: 21,
   },
@@ -3345,7 +3345,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'is-law-a-good-career-in-india',
     title: 'Is Law a Good Career in India? Most LLB Grads Never See a Courtroom',
     description:
-      'Is law a good career in India? Real CLAT/LLB economics, judiciary pay, corporate counsel, LPO, and policy routes — the field beyond litigation, honestly assessed for 2026.',
+      'Is law a good career in India? Real CLAT/LLB economics, judiciary pay, corporate counsel, LPO, and policy routes, the field beyond litigation, honestly assessed for 2026.',
     publishedAtISO: '2026-08-15',
     readTimeMinutes: 21,
   },
@@ -3453,16 +3453,16 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'computer-science-career-options',
     title: 'Computer Science Career Options: 9 Tracks, Ranked by Real Growth',
     description:
-      'Computer science career options across software, AI/ML, cybersecurity, product, quant, government tech, research, and running your own SaaS — ordered by real 2026 growth.',
+      'Computer science career options across software, AI/ML, cybersecurity, product, quant, government tech, research, and running your own SaaS, ordered by real 2026 growth.',
     publishedAtISO: '2026-09-13',
     readTimeMinutes: 24,
   },
   {
     categorySlug: 'career-options',
     slug: 'political-science-career-options',
-    title: 'Political Science Career Options in India — 9 Real Tracks Ranked by Growth',
+    title: 'Political Science Career Options in India, 9 Real Tracks Ranked by Growth',
     description:
-      'Political science career options in India: UPSC, corporate government affairs, law, policy research, journalism, diplomacy, NGOs, academia, and political consulting — ranked by real growth.',
+      'Political science career options in India: UPSC, corporate government affairs, law, policy research, journalism, diplomacy, NGOs, academia, and political consulting, ranked by real growth.',
     publishedAtISO: '2026-09-13',
     readTimeMinutes: 22,
   },
@@ -3669,7 +3669,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'social-science-career-options',
     title: 'Social Science Career Options in India: Sociology, Economics, Social Work, and More',
     description:
-      'Social science career options in India: economics, CSR, social work (MSW), sociology, and anthropology — ranked by real growth, not the usual NGO-or-UPSC list.',
+      'Social science career options in India: economics, CSR, social work (MSW), sociology, and anthropology, ranked by real growth, not the usual NGO-or-UPSC list.',
     publishedAtISO: '2026-09-21',
     readTimeMinutes: 22,
   },
@@ -3714,7 +3714,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'research-scientist-career-options',
     title: 'Research Scientist Career Options in India: The Real Path Map Across Sectors',
     description:
-      'Research scientist career options in India: compare government labs (CSIR/DRDO/ISRO/ICMR), corporate R&D, and academia — the real JRF-to-Scientist ladder, pay, and honest ceiling.',
+      'Research scientist career options in India: compare government labs (CSIR/DRDO/ISRO/ICMR), corporate R&D, and academia, the real JRF-to-Scientist ladder, pay, and honest ceiling.',
     publishedAtISO: '2026-09-21',
     readTimeMinutes: 15,
   },

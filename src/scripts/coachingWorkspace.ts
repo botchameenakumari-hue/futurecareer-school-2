@@ -925,7 +925,7 @@ function actionProgressHtml(rows: Row[]) {
   const progress = Math.min(stages.length, done.size);
   const learner = ctx?.profile.role === 'student';
   const progressWord = learner ? 'completed' : 'evidenced';
-  return `<section class="action-progression" aria-labelledby="action-progression-title"><div class="action-progression-heading"><div><strong id="action-progression-title">Your progress pathway</strong><span>Six useful stages—not a rigid sequence</span></div><em>${progress} of ${stages.length} ${progressWord}</em></div><progress max="${stages.length}" value="${progress}" aria-label="${progress} of ${stages.length} action stages ${progressWord}"></progress><ol class="action-progression-steps">${stages.map((stage, index) => {
+  return `<section class="action-progression" aria-labelledby="action-progression-title"><div class="action-progression-heading"><div><strong id="action-progression-title">Your progress pathway</strong><span>Six useful stages-not a rigid sequence</span></div><em>${progress} of ${stages.length} ${progressWord}</em></div><progress max="${stages.length}" value="${progress}" aria-label="${progress} of ${stages.length} action stages ${progressWord}"></progress><ol class="action-progression-steps">${stages.map((stage, index) => {
     const state = done.has(stage) ? 'complete' : active.has(stage) ? 'current' : 'upcoming';
     const stageRows = rows.filter((row) => String(row.milestone || actionMilestone(String(row.category || ''))) === stage && row.status !== 'archived');
     const stateLabel = stageRows.length
@@ -1257,7 +1257,7 @@ function renderDecisionSummary(studentId: string) {
     'What should be ruled out, referred, or supported differently?',
     'What changed since the last coaching review, and what decision follows from that change?',
     'Has the student checked three useful sources or people before asking for a conclusion?',
-    'Would the student accept the routine, less visible 80% of this work—not just the appealing parts?',
+    'Would the student accept the routine, less visible 80% of this work-not just the appealing parts?',
   ];
   const escape = ctx.escapeHtml;
   container.innerHTML = `<article><small>Career options</small><strong>${escape(directionLabel)}</strong><span>${escape(primaryDirections.length ? `${primaryDirections.length} primary · ${careers.filter((row) => row.option_type !== 'primary').length} secondary` : `${careers.length} option${careers.length === 1 ? '' : 's'} mapped`)}</span></article><article><small>Priority capability</small><strong>${escape(priorityGap?.skill_name || 'Add a balanced skill plan')}</strong><span>${evidenceCount} proof item${evidenceCount === 1 ? '' : 's'} across ${skills.length} skills</span></article><article><small>Follow-through</small><strong>${open.length} open action${open.length === 1 ? '' : 's'}</strong><span>${open.filter((row) => dueState(row.due_date) === 'overdue').length} overdue</span></article><article><small>Cohort community</small><strong>Shared feed</strong><span>Read updates, ask for help, and follow group commitments.</span></article><section class="coach-review-prompts"><div><small>Coach review prompts</small><strong>Use the evidence to choose the next conversation</strong></div><ul>${promptItems.map((item) => `<li>${escape(item)}</li>`).join('')}</ul></section>`;

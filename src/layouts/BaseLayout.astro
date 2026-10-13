@@ -34,6 +34,20 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 const isDashboardRoute = Astro.url.pathname === '/dashboard' || Astro.url.pathname.startsWith('/dashboard/');
 const isCareerGuidanceService = Astro.url.pathname.startsWith('/services/career-counselling-and-career-guidance/');
 const isAssessmentService = Astro.url.pathname.startsWith('/services/assessments/');
+const assessmentPagesWithOwnMain = [
+  '/big-5-personality-test-careers/',
+  '/disc-personality-test-careers/',
+  '/emotional-intelligence-test-careers/',
+  '/entrepreneurial-aptitude-test/',
+  '/enneagram-personality-test-careers/',
+  '/placement-aptitude-test/',
+  '/myers-briggs-career-test/',
+  '/numerical-reasoning-test/',
+  '/riasec-holland-code-career-test/',
+  '/vark-learning-style-test/',
+  '/verbal-reasoning-test/',
+];
+const needsContentLandmark = isCareerGuidanceService || (isAssessmentService && !assessmentPagesWithOwnMain.some((path) => Astro.url.pathname.endsWith(path)));
 ---
 
 <!doctype html>
@@ -246,7 +260,7 @@ const isAssessmentService = Astro.url.pathname.startsWith('/services/assessments
 </head>
 <body>
   {(isCareerGuidanceService || isAssessmentService) && <BusinessPerspectiveNote serviceBanner={true} />}
-  <slot />
+  {needsContentLandmark ? <main id="page-content" aria-label={title}><slot /></main> : <slot />}
   {/* The image groups below are moved into place in the finished HTML by integrations/place-page-media.mjs; there is no browser script. */}
   {Astro.url.pathname.startsWith('/services/') && <BofuImage />}
   {Astro.url.pathname.startsWith('/services/') && <BofuContextVisual />}

@@ -10,7 +10,7 @@ const values = CAREER_ROUTE_RECORDS.map((record) => [
   record.starterTests.join(' | '), record.adjacentRoles.join(' | '), record.subjectRoutes.join(' | '),
   record.suitableStages.join(' | '), record.workSetting, record.routeLength, record.regulated,
   record.careerGroup, record.dataConfidence, CAREER_CATALOGUE_META.editoriallyReviewedOn,
-  record.progression.map((step) => `${step.level}: ${step.example} — ${step.advice}`).join(' | '),
+  record.progression.map((step) => `${step.level}: ${step.example}, ${step.advice}`).join(' | '),
 ]);
 
 export const GET = () => new Response([

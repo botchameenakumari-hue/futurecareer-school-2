@@ -27,7 +27,7 @@ export type IndexableRoute = {
 // Blog posts/categories and the BOFU career-counselling child pages are the
 // two highest-churn parts of the site (new ones are added constantly). They
 // are discovered from the filesystem instead of hand-listed here, so a new
-// page becomes indexable just by existing as a file — nobody has to remember
+// page becomes indexable just by existing as a file, nobody has to remember
 // to add it to this array. See src/config/discoverRoutes.ts.
 //
 // Sitemap `priority`/`changefreq` are known to carry very little weight with
@@ -35,7 +35,7 @@ export type IndexableRoute = {
 // rather than a hand-tuned figure per page.
 // Blog category hub pages are rendered by a single dynamic template
 // (src/pages/blog/[category]/index.astro) driven by BLOG_CATEGORIES, not by
-// one file per category — so they can't be found by walking the filesystem.
+// one file per category, so they can't be found by walking the filesystem.
 // A category is only indexable once it has at least one real published post
 // (same "no empty category pages" rule the template itself enforces via
 // `hasLivePosts`), which BLOG_PUBLISHED_POSTS already tracks precisely.

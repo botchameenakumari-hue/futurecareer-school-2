@@ -1,4 +1,4 @@
-﻿export type AssessmentTargetId =
+export type AssessmentTargetId =
   | 'class10'
   | 'class1112'
   | 'graduates'
@@ -1205,7 +1205,7 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
       {
         question: 'Is this useful after 12th if I already know my stream but not my career?',
         answer:
-          "Yes. This is built for exactly that stage — your stream is already decided, and the assessment helps narrow the career and course direction from there.",
+          "Yes. This is built for exactly that stage, your stream is already decided, and the assessment helps narrow the career and course direction from there.",
       },
     ],
   }),
@@ -2135,9 +2135,9 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
     relatedTargets: ['graduates', 'professionals'],
     extraFaqItems: [
       {
-        question: "I've already graduated and I'm confused about what's next — is this actually for me?",
+        question: "I've already graduated and I'm confused about what's next, is this actually for me?",
         answer:
-          "Yes, this is exactly the stage it's built for — after your degree is done and the direction still isn't clear, rather than a school or stream-selection test.",
+          "Yes, this is exactly the stage it's built for, after your degree is done and the direction still isn't clear, rather than a school or stream-selection test.",
       },
     ],
   }),
@@ -2705,7 +2705,7 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
       {
         question: 'What age group is this really meant for?',
         answer:
-          "It's built for younger, pre-teen students who are still exploring interests, rather than teenagers facing an immediate stream or subject decision — for that stage, the Class 10 assessment is the closer fit.",
+          "It's built for younger, pre-teen students who are still exploring interests, rather than teenagers facing an immediate stream or subject decision, for that stage, the Class 10 assessment is the closer fit.",
       },
     ],
   }),
@@ -3323,12 +3323,12 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
       {
         question: 'What\'s the difference between an aptitude test and a career test?',
         answer:
-          'An aptitude test looks specifically at your natural strengths and reasoning patterns — numerical, verbal, logical, and similar — while a broader career test also weighs interests and personality. If you want strengths first, start here; for a broader picture, try the career test instead.',
+          'An aptitude test looks specifically at your natural strengths and reasoning patterns, numerical, verbal, logical, and similar, while a broader career test also weighs interests and personality. If you want strengths first, start here; for a broader picture, try the career test instead.',
       },
       {
         question: 'Can this help me choose or decide on a career, not just tell me my strengths?',
         answer:
-          'Yes. The result is built to translate into a direction — which streams, courses, or roles fit your strengths — not just a raw score.',
+          'Yes. The result is built to translate into a direction, which streams, courses, or roles fit your strengths, not just a raw score.',
       },
     ],
   },
@@ -3959,7 +3959,7 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
       {
         question: 'Is this the same as a career quiz, career evaluation test, or career guidance test?',
         answer:
-          'Yes. Different people search for this in different words — career quiz, career evaluation test, career decision test, career guidance test — but they\'re all looking for the same thing: a free way to get clarity on which direction fits them. This page and the assessments linked from it cover that need.',
+          'Yes. Different people search for this in different words, career quiz, career evaluation test, career decision test, career guidance test, but they\'re all looking for the same thing: a free way to get clarity on which direction fits them. This page and the assessments linked from it cover that need.',
       },
       {
         question: 'Is there an accurate, reliable free career test, or do I have to pay to get a real result?',
@@ -5447,7 +5447,7 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
       {
         question: 'Is this specifically for high school students, or does "students" include college too?',
         answer:
-          'This page is built for school-stage students — high school and before college. If you\'re already in college, the college-student aptitude test is a closer match.',
+          'This page is built for school-stage students, high school and before college. If you\'re already in college, the college-student aptitude test is a closer match.',
       },
       {
         question: 'Is there a free version for high school students, or only a paid one?',
@@ -6002,11 +6002,11 @@ const FORCED_DUPLICATE_INTENT_GROUPS: string[][] = [
   // sat at position 20-95 with zero clicks despite real impressions), so these
   // near-duplicates are forced together too. This does not touch the 13 hand-built
   // ASSESSMENT_TARGETS pages (class-10-and-below, class-11-to-12,
-  // career-aptitude-test-after-10th, etc.) — only the auto-generated keyword pages
+  // career-aptitude-test-after-10th, etc.), only the auto-generated keyword pages
   // that feed them.
 
   // class1112: generic "career test/quiz" phrasing (student, no specific framework).
-  // NOTE: career-inclination-test is deliberately left OUT of this group — it is
+  // NOTE: career-inclination-test is deliberately left OUT of this group, it is
   // already ranking well on its own (position ~8, real clicks per GSC), so it stays
   // a separate live page instead of folding into the (currently non-ranking) winner
   // of this cluster.
@@ -6114,7 +6114,7 @@ const FORCED_DUPLICATE_INTENT_GROUPS: string[][] = [
   // professionals: adult aptitude/interest test phrasing.
   ['career-aptitude-test-for-adults', 'career-interest-test-for-adults'],
   // professionals: career-change / transition phrasing (kept separate from the
-  // generic adult test above — this is a distinct search intent).
+  // generic adult test above, this is a distinct search intent).
   [
     'career-transition-assessment',
     'aptitude-test-for-career-change',
