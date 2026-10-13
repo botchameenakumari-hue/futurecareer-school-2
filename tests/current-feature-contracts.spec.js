@@ -64,7 +64,7 @@ test('PCB without NEET finder keeps the focused route filter and its limits visi
   await expect(page.locator('#cef-app')).toBeVisible();
   await expect(page.locator('#course-eligibility-finder h2')).toHaveText('PCB / BiPC options without NEET');
   await expect(page.locator('#cef-app')).not.toContainText('MBBS / BDS / AYUSH undergraduate routes');
-  await expect(page.locator('#cef-app')).toContainText('B.Sc. Nursing — Telangana state route');
+  await expect(page.locator('#cef-app')).toContainText('B.Sc. Nursing, Telangana state route');
   await expect(page.locator('#course-eligibility-finder')).toContainText('Scalability lens');
   await expect(page.locator('#cef-app')).toContainText('Scalable with a business layer');
   await expect(page.locator('.tool-notes')).toContainText('not a guarantee');

@@ -95,7 +95,7 @@ const categories = [...new Set(routes.map((route) => route.category))].sort();
       const selected = routes.filter((route) => compareKeys.has(route.key));
       if (!selected.length) { compare.hidden = true; compare.innerHTML = ''; return; }
       compare.hidden = false;
-      const cell = (route: Route, field: keyof Route) => Array.isArray(route[field]) ? (route[field] as string[]).slice(0, 3).map(escape).join(' · ') : escape(String(route[field] ?? '—'));
+      const cell = (route: Route, field: keyof Route) => Array.isArray(route[field]) ? (route[field] as string[]).slice(0, 3).map(escape).join(' · ') : escape(String(route[field] ?? 'Not listed'));
       compare.innerHTML = `<div class="crf-compare-head"><div><p class="crf-kicker">Decision worksheet · browser-local</p><h3>Compare ${selected.length} route${selected.length === 1 ? '' : 's'}</h3><p>Select one more result to compare two routes side by side. This is a structured trade-off worksheet, not a recommendation or ranking.</p></div><button type="button" class="crf-clear" data-clear-compare>Clear</button></div><div class="crf-compare-table-wrap"><table><thead><tr><th>Lens</th>${selected.map((route) => `<th>${escape(route.title)}</th>`).join('')}</tr></thead><tbody>${[['Scalability', 'scalabilityLabel'], ['Scalability reason', 'scalabilityWhy'], ['Work setting', 'workSetting'], ['Route length', 'routeLength'], ['Entry routes', 'entryRoutes'], ['First test', 'nextStep'], ['Stage fit', 'suitableStages'], ['Catalogue confidence', 'dataConfidence']].map(([label, field]) => `<tr><th>${label}</th>${selected.map((route) => `<td>${cell(route, field as keyof Route)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
     };
     const render = () => {

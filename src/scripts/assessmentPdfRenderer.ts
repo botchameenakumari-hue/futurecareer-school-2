@@ -70,8 +70,8 @@ function mergeDualSliderPairs(lines: VisualReportLine[]): VisualReportLine[] {
     const leftPct = lines[i + 2];
     const rightPct = lines[i + 3];
     if (isPlainLabel(leftLabel) && isPlainLabel(rightLabel) && isPct(leftPct) && isPct(rightPct)) {
-      merged.push({ kind: 'body', text: `${leftLabel.text.trim()} — ${leftPct.text.trim()}` });
-      merged.push({ kind: 'body', text: `${rightLabel.text.trim()} — ${rightPct.text.trim()}` });
+      merged.push({ kind: 'body', text: `${leftLabel.text.trim()} - ${leftPct.text.trim()}` });
+      merged.push({ kind: 'body', text: `${rightLabel.text.trim()} - ${rightPct.text.trim()}` });
       i += 3;
       continue;
     }
@@ -92,7 +92,7 @@ function mergeLabelValuePairs(lines: VisualReportLine[]): VisualReportLine[] {
     const isPlainLabel =
       label.length > 0 && label.length <= 60 && !/[%.]$/.test(label) && !/^\d/.test(label);
     if (current.kind === 'body' && next && next.kind === 'body' && /^\d{1,3}\s?%$/.test(nextText) && isPlainLabel) {
-      merged.push({ kind: 'body', text: `${label} — ${nextText}` });
+      merged.push({ kind: 'body', text: `${label} - ${nextText}` });
       i += 1;
       continue;
     }
@@ -105,7 +105,7 @@ function mergeLabelValuePairs(lines: VisualReportLine[]): VisualReportLine[] {
       /^percentile$/i.test(currentText) &&
       /^\d{1,3}$/.test(nextText)
     ) {
-      merged.push({ kind: 'body', text: `${currentText} — ${nextText}%` });
+      merged.push({ kind: 'body', text: `${currentText} - ${nextText}%` });
       i += 1;
       continue;
     }
@@ -141,7 +141,7 @@ function mergeBareScorePairs(sectionLines: VisualReportLine[]): VisualReportLine
     if (current.kind === 'body' && next && next.kind === 'body' && /^\d{1,3}$/.test(nextText) && isPlainLabel) {
       const hasMaxSuffix = !!afterNext && afterNext.kind === 'body' && /^\/\s?\d{1,4}$/.test(afterNext.text.trim());
       const value = hasMaxSuffix ? `${nextText}${afterNext!.text.trim().replace(/^\/\s?/, '/')}` : nextText;
-      merged.push({ kind: 'body', text: `${label} — ${value}` });
+      merged.push({ kind: 'body', text: `${label} - ${value}` });
       i += hasMaxSuffix ? 2 : 1;
       continue;
     }

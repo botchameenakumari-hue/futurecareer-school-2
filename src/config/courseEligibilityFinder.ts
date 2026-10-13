@@ -127,7 +127,7 @@ export const COURSE_ELIGIBILITY_RECORDS: CourseEligibilityRecord[] = [
   },
   {
     id: 'bsc-nursing-telangana-state',
-    course: 'B.Sc. Nursing — Telangana state route',
+    course: 'B.Sc. Nursing, Telangana state route',
     duration: 'Usually 4 years',
     exam: 'TG-EAPCET 2026 (Telangana state competent-authority route)',
     examTags: ['TG-EAPCET'],
