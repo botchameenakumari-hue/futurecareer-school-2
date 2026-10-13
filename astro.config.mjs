@@ -11,4 +11,17 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('/src/scripts/coachingWorkspace')) return 'coaching-workspace';
+            if (id.includes('/src/scripts/hierarchyWorkspace')) return 'hierarchy-workspace';
+            if (id.includes('/src/scripts/cohortWorkspace')) return 'cohort-workspace';
+          },
+        },
+      },
+    },
+  },
 });
