@@ -61,3 +61,24 @@ Where a page already had a short search title (`seoTitle`), only that was widene
 - **Assessment pages** (stream selector, aptitude and the generated pages). Report 1 says this cluster is working (88% of clicks), so wording tests belong in a measured follow-up, not a batch edit.
 - **New-page items** (NEW rows in Report 1) and the Report 2 and Report 3 items. Out of scope for this pass.
 - **Brand or about snippet** for "future career" queries. A suggestion, not a retitle or expand.
+
+## Verification pass (after the first push)
+
+Every changed page was re-checked in the built output and in a real browser at phone width.
+
+- One H1 per page, no duplicate ids, every jump-link anchor resolves, FAQ schema matches the FAQ list, every table cell carries a data-label.
+- Old search-title words were compared with new ones. Only filler modifiers dropped (for example "once the degree is actually done", "verdict", "reality", "paths" where "career options" now leads). No target keyword was lost.
+- Seven pages used a block style that the page did not define (an unstyled "honest take", a two-column grid, a table class, a note line, a gold highlight variant). Each was changed to a style the page already has, or given the one missing rule.
+- No page overflows at 390px width.
+- One meta description was over 160 characters and was shortened. Several pages still carry long titles or descriptions that were already long before this work; those were not touched.
+- Lowest-confidence content: the MPT pay ranges (career-site compilations that disagree; labelled as such) and the content-creator YouTube ranges (one agency's estimate; labelled as such).
+
+## New pages named in Report 1 (not built in this pass)
+
+P1 (9): career-options-in-science, pcm-career-options-with-salary, career-options-after-neet, career-options-after-btech, physical-education-career-options, business-analyst-skills, professional-courses-for-commerce-students, bsc-courses-after-12th-pcb-bipc, skills-for-resume-for-freshers.
+
+P2 (8): commerce-career-options-with-salary, career-options-after-jee, law-career-options (post-LLB decision), geography-career-options, mathematics-career-options, career-options-after-graduation, polytechnic-diploma-after-10th-which-trade-to-choose, salary-by-degree.
+
+P3, held (6): zoology and botany career pages, bsc-physics / bsc-chemistry / bsc-agriculture, mba-marketing-career-options and mba-hr-career-options, business-analyst-career-path, iti-career-options and polytechnic-career-options, business-ideas-for-students.
+
+"Is X a good career" candidates (P2): IT, SAP, BPO, photography, aviation and cabin crew, ethical hacking, embedded systems and VLSI, networking, petroleum engineering, web and product design, real estate, corporate law, YouTube and content creation, archaeology, criminology and astronomy, and "is BBA / BCA / MBA a good career option".
