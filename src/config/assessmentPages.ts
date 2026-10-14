@@ -2021,7 +2021,7 @@ const EXTRA_ASSESSMENT_PAGES: AssessmentPage[] = [
   createBroadCareerDirectionPage({
     slug: 'career-change-test',
     title: 'Career Change Test',
-    aliases: ['career change test'],
+    aliases: ['career change test', 'career change quiz', 'career change quiz free'],
     target: 'professionals',
     relatedTargets: ['graduates', 'professionals'],
     extraFaqItems: [
@@ -3019,7 +3019,7 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
       'A psychometric test is useful only if it helps with a real decision. The better free starting point is not a fancy personality label alone. It is an assessment that connects interests, aptitude, work style, and direction.',
     target: 'class1112',
     relatedTargets: ['class10', 'class1112', 'graduates', 'professionals'],
-    relatedPhrases: ['psychometric test', 'psychometric career test', 'free psychometric test for career'],
+    relatedPhrases: ['psychometric test', 'psychometric career test', 'free psychometric test for career', 'psychometric test after 10th', 'free psychometric test india', 'psychometric test for students'],
     fitTitle: 'When a psychometric test becomes a useful first step',
     fitSubtitle:
       'Psychometric-style assessments help most when you need a clearer read on personality, interests, work style, and how they affect your next choice.',
@@ -3183,7 +3183,7 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
       'A stream selection test should help before Science, Commerce, or Arts choices harden into years of drift. Start with not generic stream advice. It is a free test that narrows fit and direction.',
     target: 'stream10',
     relatedTargets: ['aptitude10', 'class10'],
-    relatedPhrases: ['stream selection test', 'stream choice test', 'which stream should I choose test'],
+    relatedPhrases: ['stream selection test', 'stream choice test', 'which stream should I choose test', 'stream suitability test', 'stream choosing test', 'which stream is best for me test'],
     fitTitle: 'When a stream selection test becomes worth taking',
     fitSubtitle:
       'This matters when the Class 10 decision is starting to feel heavy enough that guessing or following pressure no longer feels safe.',
@@ -3260,7 +3260,7 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
       'An aptitude test is useful when the real question is not only what you like, but what kinds of skills or problem patterns you handle more naturally. The better first step is a free test that turns those signals into direction.',
     target: 'aptitude12',
     relatedTargets: ['aptitude10', 'aptitude12', 'class10', 'class1112'],
-    relatedPhrases: ['aptitude test', 'career aptitude test', 'free aptitude test for career'],
+    relatedPhrases: ['aptitude test', 'career aptitude test', 'free aptitude test for career', 'online aptitude test', 'high school aptitude test', 'aptitude test for high school students', 'free aptitude test for high school students'],
     fitTitle: 'When an aptitude test becomes the right first step',
     fitSubtitle:
       'Aptitude-first assessment helps most when you want stronger fit signals before choosing a course, degree, or training path.',
@@ -3896,7 +3896,7 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
       'Many people start with a broad career test. The better first move is not guessing which test name sounds right. Start with the free assessment that best matches your stage, decision pressure, and the kind of clarity you actually need.',
     target: 'class1112',
     relatedTargets: ['class10', 'class1112', 'graduates', 'professionals', 'stream10', 'aptitude10', 'stream12', 'aptitude12'],
-    relatedPhrases: ['career test', 'career test online', 'free career test online'],
+    relatedPhrases: ['career test', 'career test online', 'free career test online', 'free career test for students', 'free career test for high school students', 'career guidance test'],
     fitTitle: 'When to use a broad career test',
     fitSubtitle:
       'Use this when the person knows the decision matters, but has not yet narrowed which type of test is most relevant.',
@@ -4368,7 +4368,7 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
       'A skill test should help when the issue is no longer only what interests you. It should help show whether your current profile is strong enough, under-leveraged, or still missing something important for the work you want next.',
     target: 'graduates',
     relatedTargets: ['graduates', 'professionals'],
-    relatedPhrases: ['skill test', 'career skill test', 'professional skill test'],
+    relatedPhrases: ['skill test', 'career skill test', 'professional skill test', 'skill finder', 'skills test for jobs', 'job skills assessment test'],
     fitTitle: 'When a broad skill test becomes useful',
     fitSubtitle:
       'This matters when employability, readiness, leverage, or stronger skill direction is now part of the real problem.',
@@ -5384,7 +5384,7 @@ const ALL_ASSESSMENT_PAGES: AssessmentPage[] = [
       'A career aptitude test for students should help before stream, course, and degree choices become expensive wrong turns. Start with the free student aptitude assessment that matches your stage and the kind of decision in front of you.',
     target: 'class1112',
     relatedTargets: ['aptitude10', 'aptitude12', 'class10', 'class1112', 'stream10', 'stream12'],
-    relatedPhrases: ['career aptitude test for students', 'career aptitude test for students free', 'student aptitude test for career'],
+    relatedPhrases: ['career aptitude test for students', 'career aptitude test for students free', 'student aptitude test for career', 'high school aptitude test for career', 'free career aptitude test for high school students', 'career assessment for high school students'],
     fitTitle: 'When a student career aptitude test becomes useful',
     fitSubtitle:
       'This matters when students need stronger fit signals before stream, course, or degree decisions harden.',
