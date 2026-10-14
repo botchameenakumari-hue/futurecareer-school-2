@@ -238,3 +238,5 @@ The design of the article-page should also be highly visually appealing and visu
 Go full throttle on your response generation for Content generation and code generation with full responsiveness for all screen sizes, great visual appeal and readiness and fully on point on-page seo and technical seo. give your best shot and don't neglect any piece of the instructions given in this prompt.
 you usually write the content or give the code to a minor fraction of your full capacity. Please don't do it. Generate the response to your fullest capacity possible.
 Do not compromise on the word count or the length of the article, use your maximum context window possible.
+
+[Update note, supersedes the line above: length follows the keyword. Pillar pages and head-term pages go deep; standard pages are as long as the decision needs; narrow questions are short and sharp. No blanket word minimum applies, and padding is a defect. See the length rule in `BLOG_WRITING_PROMPT.md`. Also added: the growth and mindset lens now includes basic sales and marketing (who pays, how they find and trust you, positioning, a simple offer, proof, follow-up, referrals, a price conversation).]

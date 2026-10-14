@@ -184,7 +184,7 @@ cosmetic edit below.
 - confirm this page is not a near-duplicate of the BOFU parent/sibling page's copy with a comparison table bolted on
 - confirm this page is not a near-duplicate of another MOFU page for a trivially reordered version of the same comparison (e.g. do not publish both "X vs Y" and "Y vs X" as separate pages)
 - confirm the page has genuinely unique comparison content, unique objections specific to this exact comparison, and (if cost is discussed) unique value-for-cost reasoning
-- confirm minimum ~1,000+ words of genuinely useful content — depth over padding
+- confirm the page is complete for its comparison and not padded; roughly 1,000 words is typical, but there is no fixed minimum — depth over padding
 - **measure uniqueness:** at least 30% of this page's comparison angle, objections, and value-for-cost reasoning must be original to this exact comparison and not swappable into the nearest sibling MOFU page — if it falls short, add specific reasoning tied to this comparison instead of generic filler
 - if any of the red flags in `MOFU_PAGE_PROMPT.md`'s Anti-Doorway Rules section are true (70%+ identical comparison rows, pasteable objections section, generic value-for-cost reasoning, or a reordered-phrasing duplicate), fix before considering this pass complete
 - once there are 8+ live MOFU pages, compare this page side by side against its nearest sibling and confirm the angle is genuinely distinguishable

@@ -526,7 +526,7 @@ Avoid:
 - original insights, frameworks, examples, or data not present on similar articles
 - a relevant parent silo
 - internal links that make sense (not boilerplate links on every article)
-- enough substantive content to deserve indexation (minimum 2,000+ words for competitive topics)
+- enough substantive content to deserve indexation (length follows the page class below: a short page is right for a narrow question, a thin page is never right)
 - a unique narrative voice or problem-framing specific to the keyword's intent
 - research depth appropriate to the topic (not skimmed from 3 sources)
 
@@ -557,15 +557,20 @@ Before drafting a new audience-heavy article, make sure you can honestly fill at
 
 If the article cannot fill six of eight honestly, the audience split is probably not ready for standalone publication. Keep it inside a broader article or research the audience more deeply first.
 
-**Minimum content standards for blog articles at scale:**
+**Length follows the keyword, not a quota (hard rule).** Do not apply a blanket word minimum to every article. Before writing, classify the page and state the class in the working notes:
+- **Pillar page**: a category hub or a head-term page where the site is deliberately building topical authority (for example `career options in commerce`, or the main roadmap for a whole field). Go deep and broad, because breadth and depth are what build authority. Roughly 2,000 to 3,000+ words is a reasonable expectation, but only as the result of covering real, distinct sub-questions.
+- **Standard page**: a distinct decision, comparison or stream/degree page with real search demand. As long as it takes to answer the decision fully and credibly, often about 1,200 to 2,000 words.
+- **Focused page**: a narrow long-tail question, a definition or a single-answer query. Short and sharp is correct, often about 600 to 1,200 words. A long page for a narrow question is padding and weakens the page.
+These ranges are guides, not gates. The tests are: the intent is answered on the first screen, at least 30% of the content (40% for career-options siblings) is unique against nearby pages, there are original numbers, decisions or frameworks, and a person would save or share it. When unsure, choose the shorter page and add depth only where a person would otherwise have to leave to finish the decision. Never add sections, repeated advice or filler to reach a number.
 
-| Article Type | Minimum Length | Minimum Uniqueness | Special Requirements |
+| Article type | Usual depth class | Minimum uniqueness | Special requirements |
 |---|---|---|---|
-| **Career options** (e.g., "careers in PCM") | 2,200+ words | 40% unique framework/examples not on sibling articles | Original job examples, salary data, market demand, entrance-exam context |
-| **Stream/degree selection** (e.g., "should I choose commerce?") | 2,000+ words | 35% unique decision criteria/constraints | Original pros/cons, unique audience pain points (not generic rewrite) |
-| **Career roadmap** (e.g., "data science roadmap") | 2,500+ words | 40% unique step-by-step guidance | Original skill sequence, tools, project ideas, timeline — not template from another roadmap |
-| **Location guide** (if created) | 2,200+ words | 40% unique local context | Original local industry landscape, company examples, local institutions, salary data |
-| **Decision/how-to** (e.g., "how to choose a career") | 2,000+ words | 30% unique framework/examples | Original decision protocol, examples, constraints |
+| **Career options, hub or head term** (e.g., "career options in commerce") | Pillar | 40% unique framework/examples not on sibling articles | Original job examples, salary data, market demand, entrance-exam context |
+| **Career options, specific stream/degree/exam sibling** (e.g., "careers in PCM") | Standard (Pillar only if it is the main page for a head term) | 40% unique framework/examples not on sibling articles | Original job examples, salary data, market demand, entrance-exam context |
+| **Stream/degree selection** (e.g., "should I choose commerce?") | Standard | 35% unique decision criteria/constraints | Original pros/cons, unique audience pain points (not generic rewrite) |
+| **Career roadmap** (e.g., "data science roadmap") | Standard; Pillar if it is the main roadmap for the field | 40% unique step-by-step guidance | Original skill sequence, tools, project ideas, timeline, not a template from another roadmap |
+| **Location guide** (if created) | Standard | 40% unique local context | Original local industry landscape, company examples, local institutions, salary data |
+| **Decision/how-to or narrow question** (e.g., "how to choose a career", a definition) | Focused to Standard | 30% unique framework/examples | Original decision protocol, examples, constraints |
 
 **Red flags: Content that will get penalized at scale**
 
@@ -927,6 +932,7 @@ articles.
 - Explain concretely how someone in this career finds the biggest realistic growth — the specific
   moves, specialisations, ownership/consulting/freelance paths, or market positioning that separate
   median outcomes from the strongest ones in this field.
+- **Sales and marketing basics (apply to every career, course and skill keyword).** Every career has a "who pays, and how do they find and trust you" layer, and most people are never taught it. State it in plain language for this specific career: who actually pays (employer, client, patient, customer, family), how that person finds and trusts someone in this field (referral, portfolio, reputation, listing, interview), and the first basic sales or marketing skill worth learning for it. Keep it to the basics: positioning (who you help and with what), a simple offer a buyer can understand, proof others can check, a plain path from attention to trust to a paid yes, following up, asking for referrals, and one honest price conversation. Name one number worth watching where it fits (for example enquiries, replies or interviews turning into paid work). Do not turn the article into a sales course, do not promise income, and do not invent figures. Where the route is employer-only (for example a fixed government post), say plainly that the sales layer matters mainly for the side route or the move after it.
 - Name the specific actions, skills, or capabilities a person should add to scale within or beyond this
   career. A generic "keep learning" or "upskill continuously" line is not sufficient on its own.
 - Address AI leverage directly: is there a real opportunity to use AI inside this career? If so, state
@@ -1040,7 +1046,7 @@ More supplied perspectives:
 - AI & Tech's Universal Impact: Analyze how AI and emerging technologies are reshaping all career fields relevant to the keyword, not just tech-specific ones. Advise on how to leverage these technologies and adapt. Every career is a STEM and AI career. To make a decent income or to stay relevant to the market competition, one needs both of tech and AI knowledge to a minimum or required extent.
 - The Power of Communication: Stress the critical importance of strong, assertive communication skills (especially in English) as a fundamental enabler of career success, regardless of the chosen field.
 
-- Think like an Entrepreneur, even if you don't want to end up like a full time entrepreneur. Learning at least foundational entrepreneurial skills will make you generate immense value, even when you're freelancing or doing a job. Basic business skills like sales, marketing, negotiation, customer centric product design etc can take you a long way.
+- Think like an Entrepreneur, even if you don't want to end up like a full time entrepreneur. Learning at least foundational entrepreneurial skills will make you generate immense value, even when you're freelancing or doing a job. Basic business skills like sales, marketing, negotiation, customer centric product design etc can take you a long way. Treat basic sales and marketing as a core career skill, not an optional extra: knowing who pays, explaining your value clearly, showing proof, following up, asking for referrals, and handling a price conversation.
 - Show case your work from the beginning on one platform or the other. Whatever platform is suitable for you or your work, just go with it. This will bring in numerous opportunities, whether you want to do job freelancing or your own business. This is why personal branding is really important.
 
 - Networking with different kinds of people can also get a lot of things done for you, get you new opportunities, and open up a lot of new avenues.
@@ -1057,8 +1063,8 @@ More supplied perspectives:
 ## Foundational & Stage-Specific Skills
 
 - Level 1 (Beginners/School/High School): Basic Coding, Writing, Designing, and the meta-skill of Cognitive Endurance (2 hours of focused work).
-- Level 2 (Upskilling/College): Data Analysis, AI Automation, and Skill Stacking (combining a degree with a digital tool).
-- Level 3 (Professionals): Tech Leverage (using AI/tools/apps to automate 80% of a current job).
+- Level 2 (Upskilling/College): Data Analysis, AI Automation, and Skill Stacking (combining a degree with a digital tool). Add basic sales and marketing: explain your value in two sentences, keep a simple portfolio or profile, and send a warm, specific outreach message.
+- Level 3 (Professionals): Tech Leverage (using AI/tools/apps to automate 80% of a current job). Add basic sales and marketing for the next step: positioning, a visible proof asset, referrals, and a price conversation.
 
 ---
 
@@ -1081,6 +1087,7 @@ More supplied perspectives:
 
 - Selling: Caring, finding the problem, and showing value.
 - Marketing: Using relevant hooks, lead magnets, offers, or useful assets to capture attention and interest.
+- Sales and Marketing Basics: knowing who pays, naming the problem you solve, positioning, a simple offer, proof, follow-up, referrals, and one honest price conversation. This is the minimum for anyone who wants to earn outside a single employer.
 - AI Direction: Managing agentic systems and oversight.
 - AI Oversight: Spot-checking for "hallucinations" and verifying facts.
 
@@ -1285,7 +1292,7 @@ Give me an exhaustive article, but exhaustiveness only in terms of covering as m
 The design of the article-page should also be highly visually appealing and visually stunning and super out of the box.
 Go full throttle on useful content coverage, code quality, responsiveness, visual appeal, on-page SEO, and technical SEO. Give your best shot, but use the Rule-Strength Map above so optional ideas do not override relevance, truth, or readability.
 You usually write the content or give the code to a minor fraction of your full capacity. Please don't do it. Generate the response to your fullest capacity possible.
-Do not compromise on useful depth. Exhaustiveness means covering the relevant practical topics well, not adding length for its own sake.
+Do not compromise on useful depth. Exhaustiveness means covering the relevant practical topics well, not adding length for its own sake. Match the page to its class (pillar, standard or focused) from the length rule above. A tight, complete answer to a narrow keyword is the full-capacity result; padding it to look exhaustive is not.
 
 ---
 

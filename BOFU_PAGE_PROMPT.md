@@ -3521,6 +3521,7 @@ articles.
 - Explain concretely how someone in this career finds the biggest realistic growth — the specific
   moves, specialisations, ownership/consulting/freelance paths, or market positioning that separate
   median outcomes from the strongest ones in this field.
+- **Sales and marketing basics (apply to every career, course and skill keyword).** Every career has a "who pays, and how do they find and trust you" layer, and most people are never taught it. State it in plain language for this specific career: who actually pays (employer, client, patient, customer, family), how that person finds and trusts someone in this field (referral, portfolio, reputation, listing, interview), and the first basic sales or marketing skill worth learning for it. Keep it to the basics: positioning (who you help and with what), a simple offer a buyer can understand, proof others can check, a plain path from attention to trust to a paid yes, following up, asking for referrals, and one honest price conversation. Name one number worth watching where it fits (for example enquiries, replies or interviews turning into paid work). Do not turn the article into a sales course, do not promise income, and do not invent figures. Where the route is employer-only (for example a fixed government post), say plainly that the sales layer matters mainly for the side route or the move after it.
 - Name the specific actions, skills, or capabilities a person should add to scale within or beyond this
   career. A generic "keep learning" or "upskill continuously" line is not sufficient on its own.
 - Address AI leverage directly: is there a real opportunity to use AI inside this career? If so, state
@@ -3612,7 +3613,7 @@ More supplied perspectives:
 - AI & Tech's Universal Impact: Analyze how AI and emerging technologies are reshaping all career fields relevant to the keyword, not just tech-specific ones. Advise on how to leverage these technologies and adapt. Every career is a STEM and AI career. To make a decent income or to stay relevant to the market competition, one needs both of tech and AI knowledge to a minimum or required extent.
 - The Power of Communication: Stress the critical importance of strong, assertive communication skills (especially in English) as a fundamental enabler of career success, regardless of the chosen field.
 
-- Think like an Entrepreneur, even if you don't want to end up like a full time entrepreneur. Learning at least foundational entrepreneurial skills will make you generate immense value, even when you're freelancing or doing a job. Basic business skills like sales, marketing, negotiation, customer centric product design etc can take you a long way.
+- Think like an Entrepreneur, even if you don't want to end up like a full time entrepreneur. Learning at least foundational entrepreneurial skills will make you generate immense value, even when you're freelancing or doing a job. Basic business skills like sales, marketing, negotiation, customer centric product design etc can take you a long way. Treat basic sales and marketing as a core career skill, not an optional extra: knowing who pays, explaining your value clearly, showing proof, following up, asking for referrals, and handling a price conversation.
 - Show case your work from the beginning on one platform or the other. Whatever platform is suitable for you or your work, just go with it. This will bring in numerous opportunities, whether you want to do job freelancing or your own business. This is why personal branding is really important.
 
 - Networking with different kinds of people can also get a lot of things done for you, get you new opportunities, and open up a lot of new avenues.
@@ -3629,8 +3630,8 @@ More supplied perspectives:
 ## Foundational & Stage-Specific Skills
 
 - Level 1 (Beginners/School/High School): Basic Coding, Writing, Designing, and the meta-skill of Cognitive Endurance (2 hours of focused work).
-- Level 2 (Upskilling/College): Data Analysis, AI Automation, and Skill Stacking (combining a degree with a digital tool).
-- Level 3 (Professionals): Tech Leverage (using AI/tools/apps to automate 80% of a current job).
+- Level 2 (Upskilling/College): Data Analysis, AI Automation, and Skill Stacking (combining a degree with a digital tool). Add basic sales and marketing: explain your value in two sentences, keep a simple portfolio or profile, and send a warm, specific outreach message.
+- Level 3 (Professionals): Tech Leverage (using AI/tools/apps to automate 80% of a current job). Add basic sales and marketing for the next step: positioning, a visible proof asset, referrals, and a price conversation.
 
 ---
 
@@ -3653,6 +3654,7 @@ More supplied perspectives:
 
 - Selling: Caring, finding the problem, and showing value.
 - Marketing: Using relevant hooks, lead magnets, offers, or useful assets to capture attention and interest.
+- Sales and Marketing Basics: knowing who pays, naming the problem you solve, positioning, a simple offer, proof, follow-up, referrals, and one honest price conversation. This is the minimum for anyone who wants to earn outside a single employer.
 - AI Direction: Managing agentic systems and oversight.
 - AI Oversight: Spot-checking for "hallucinations" and verifying facts.
 

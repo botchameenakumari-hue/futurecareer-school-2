@@ -10,7 +10,7 @@ export const SCALE = {
 };
 
 export const SCALE_RULE =
-  'We rate a route Scalable when steady learning and a whole-picture approach (skills, proof of work, communication and a little business sense) can grow your income and reach into consulting or a business of your own. A route marked Scalable with a business layer is also a good option for us, as long as you plan that layer: consulting, a studio, a practice or a product. Crowded fields, long ladders of entrance exams and ranks, and careers where very few people reach the top after many years do not count as scalable, so we mark them Not so scalable and list the risk beside them.';
+  'We rate a route Scalable when steady learning and a whole-picture approach (skills, proof of work, communication and basic business, sales and marketing sense) can grow your income and reach into consulting or a business of your own. A route marked Scalable with a business layer is also a good option for us, as long as you plan that layer: consulting, a studio, a practice or a product. Crowded fields, long ladders of entrance exams and ranks, and careers where very few people reach the top after many years do not count as scalable, so we mark them Not so scalable and list the risk beside them.';
 
 export const SCALE_FLAGGED =
   'Well-known routes such as MBBS and BDS, NDA, government exams, integrated law, pilot training, merchant navy and pure research stay in the chart so you can see what they carry, but they are rated Not so scalable. Success there depends on beating rivals at stage after stage, many years pass before pay grows, and few people reach the top. Consistent effort alone does not guarantee a result. If you choose one, write a second route and keep a skill running that can grow on its own.';

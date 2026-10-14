@@ -162,7 +162,9 @@ STEP C — Apply the funnel test (general rule, then the specifics below):
   ready to hire/book/pay — or matches an existing audience/situation/city
   BOFU page from Step B.
 
-State the classification and a one-sentence reason, then write the page by
+State the classification and a one-sentence reason. For blog pages, also state the
+depth class (pillar, standard or focused) and why; length follows that class and no
+blanket word minimum applies. Then write the page by
 reading the matching file in full and following it exactly:
 - TOFU/blog → BLOG_WRITING_PROMPT.md. If this batch is adding many articles
   into the same blog category, pay particular attention to its Anti-Spam and
@@ -218,7 +220,7 @@ Keywords:
 2. <keyword>
 ...
 
-Report back per keyword: classification + reason, sources used, confirmation
+Report back per keyword: classification + reason (and the depth class for blog pages), sources used, confirmation
 of how many follow-up passes ran (minimum 2, ideally 3) and what each pass
 caught or fixed, and pass/fail of `npm run check:public-copy` and
 `npm run build`.

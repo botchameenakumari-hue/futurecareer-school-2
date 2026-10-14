@@ -62,6 +62,7 @@ Additional follow-up checks:
   - verify AI/market disruption risk is addressed honestly, naming the specific pressure (automation of a sub-task, market saturation, technology substitution) rather than a vague hedge, or stating plainly that the risk is currently low
   - verify a staged AI-leverage path is given where relevant: what to do now versus what becomes possible later as tools and adoption mature
   - verify genuinely better or significantly better adjacent career alternatives are named where they exist, with the concrete reason they beat this option; confirm no alternative is named just to pad the section when none is actually meaningfully better
+  - verify the article states, in plain language, the basic sales and marketing layer for this career: who actually pays, how that person finds and trusts someone in this field, and the first basic sales or marketing skill worth learning (positioning, a simple offer, proof, follow-up, referrals, a price conversation); confirm it stays basic, promises no income, invents no figures, and says plainly when the route is employer-only and the layer matters mainly for the side route
   - if the article presents multiple career/path options side by side, verify the strongest-scalability options are ordered or led with, with a brief stated reason, rather than defaulting to prestige, alphabetical, or exam-difficulty order
   - verify multi-stage competition is checked and flagged as its own distinct caution wherever it genuinely applies (a hard entry/selection stage plus a separate hard advancement or top-tier-success stage later) — not only for medicine, dentistry, and government-exam paths, but for any career where this pattern is real (e.g., performing arts, elite sport, academia)
   - verify a genuine scalable-ownership path (own practice, scalable service business, other scalable independent work) is surfaced plainly via the Honest-take or Highlight box component rather than left buried in body prose, with the one-line reason it scales
@@ -211,7 +212,7 @@ losing relevance. Career-options articles specifically need 40% unique content p
 standards table earlier in the main prompt — treat that number as the bar for this category, and 30% as
 the floor for everything else.
 
-Work through these six checks against the nearest sibling article in the same category:
+Work through these seven checks against the nearest sibling article in the same category:
 
 1. **Compare to the nearest sibling article** (same category, closest keyword). Does this article solve
    a genuinely different problem or take a distinct angle? If not, reframe it around a unique constraint
@@ -223,10 +224,11 @@ Work through these six checks against the nearest sibling article in the same ca
    losing relevance? If yes, make them specific to this keyword.
 4. **Check research depth.** Does the article cite sources and data unique to this keyword, or is it
    generic career advice with the keyword inserted? Recycled research across sibling keywords reads thin.
-5. **Measure unique content.** Roughly estimate: unique words (original insights, examples, data, framing)
+5. **Check the depth class.** Confirm the page was classed as pillar, standard or focused before writing and that its length matches that class (see the length rule in `BLOG_WRITING_PROMPT.md`). A narrow question answered completely in a short page passes. Padding, repeated advice and sections added only to look exhaustive fail, and the fix is to cut, not to add length. Pillar pages are the only ones expected to run long.
+6. **Measure unique content.** Roughly estimate: unique words (original insights, examples, data, framing)
    divided by total article words. Must be ≥ 30% (≥ 40% for career-options). If it falls short, add more
    original research, examples, or decision criteria rather than padding length.
-6. **Check internal links.** Does this article link to at least one sibling or resource not linked from
+7. **Check internal links.** Does this article link to at least one sibling or resource not linked from
    every other article in the category, or are all internal links boilerplate and identical across the
    category?
 

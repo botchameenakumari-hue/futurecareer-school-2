@@ -71,6 +71,8 @@ blog posts) carries one of three honest labels, from `src/config/scalability.mjs
 Rules for using the labels:
 - Never remove a generic or competitive option. Mark it, show the risk and the growth advice (`why`, `grow`), and
   reorder if needed (scalable first).
+- Where it fits, the growth advice names the basic sales and marketing step for that route (who pays, how they find and
+  trust you, a simple portfolio or profile, a warm outreach message, a follow-up habit). Keep it basic and never promise income.
 - Every list needs a short "how we rate scalability" note (use `SCALE_RULE`) and each option a one-line reason.
 - Use `careerScale`/`careerScaleMatch` for free-text career names; add new rules there, not in the page.
 - Pay figures may be shown only as indicative ranges or averages from named public sources, with the shared

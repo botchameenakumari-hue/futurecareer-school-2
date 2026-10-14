@@ -77,7 +77,7 @@ FutureCareerSchool plans to publish hundreds of location pages, audience variati
 - Uniqueness verification workflow (measure % unique content per page)
 - Assessment mention compliance checklist (for non-assessment keywords)
 - Template fatigue check (is this page structurally identical to nearby sibling?)
-- Content depth verification (2,200+ words, substantial sections)
+- Content depth verification (depth proportionate to the page class, substantial sections, no padding)
 - Final standard now includes: "page should pass all doorway-prevention audits"
 
 **Measurement requirement:** Unique words / total page words = % unique (must be ≥ 30%)
@@ -96,7 +96,7 @@ FutureCareerSchool plans to publish hundreds of location pages, audience variati
 - Red flags checklist and uniqueness audit process
 
 **Location page minimum standards** (new table):
-- 2,500–3,500 words
+- No fixed word count: enough genuinely unique content to meet the uniqueness and local-context requirements below
 - 30%+ unique content
 - 300+ word local context block
 - Minimum 3 unique FAQ questions
@@ -112,16 +112,16 @@ FutureCareerSchool plans to publish hundreds of location pages, audience variati
 **Key additions:**
 - Changed from 15 lines to 300+ lines
 - Added high-risk patterns for blog content at scale (keyword-variation articles, stream/degree articles, location-specific articles, list articles)
-- Added minimum content standards table for blog articles by type (2,000–2,500+ words, 30–40% unique)
+- Added content standards table for blog articles by type (depth class and 30–40% unique; no blanket word minimum, pillar pages go deep, narrow questions stay short)
 - Added red flags for blog content
 - Added blog article uniqueness audit process
 - Added monitoring guidance for scale (duplicate warnings in GSC, CTR monitoring, alert thresholds)
 
 **Specific requirements:**
-- Career options articles: 2,200+ words, 40% unique (original examples, salary data, market demand)
-- Stream selection articles: 2,000+ words, 35% unique (original pros/cons, unique pain points)
-- Career roadmaps: 2,500+ words, 40% unique (original skill sequence, tools, projects, timeline)
-- Location guides (if created): 2,200+ words, 40% unique local context
+- Career options articles: hub or head-term pages are pillar pages, specific siblings are standard pages; 40% unique (original examples, salary data, market demand)
+- Stream selection articles: standard pages; 35% unique (original pros/cons, unique pain points)
+- Career roadmaps: standard pages, pillar only for the main roadmap of a field; 40% unique (original skill sequence, tools, projects, timeline)
+- Location guides (if created): standard pages; 40% unique local context
 
 ---
 

@@ -979,19 +979,24 @@ Avoid:
 - original insights, frameworks, examples, or data not present on similar articles
 - a relevant parent silo
 - internal links that make sense (not boilerplate links on every article)
-- enough substantive content to deserve indexation (minimum 2,000+ words for competitive topics)
+- enough substantive content to deserve indexation (length follows the page class below: a short page is right for a narrow question, a thin page is never right)
 - a unique narrative voice or problem-framing specific to the keyword's intent
 - research depth appropriate to the topic (not skimmed from 3 sources)
 
-**Minimum content standards for blog articles at scale:**
+**Length follows the keyword, not a quota (hard rule).** Do not apply a blanket word minimum to every article. Before writing, classify the page and state the class in the working notes:
+- **Pillar page**: a category hub or a head-term page where the site is deliberately building topical authority (for example `career options in commerce`, or the main roadmap for a whole field). Go deep and broad, because breadth and depth are what build authority. Roughly 2,000 to 3,000+ words is a reasonable expectation, but only as the result of covering real, distinct sub-questions.
+- **Standard page**: a distinct decision, comparison or stream/degree page with real search demand. As long as it takes to answer the decision fully and credibly, often about 1,200 to 2,000 words.
+- **Focused page**: a narrow long-tail question, a definition or a single-answer query. Short and sharp is correct, often about 600 to 1,200 words. A long page for a narrow question is padding and weakens the page.
+These ranges are guides, not gates. The tests are: the intent is answered on the first screen, at least 30% of the content (40% for career-options siblings) is unique against nearby pages, there are original numbers, decisions or frameworks, and a person would save or share it. When unsure, choose the shorter page and add depth only where a person would otherwise have to leave to finish the decision. Never add sections, repeated advice or filler to reach a number.
 
-| Article Type | Minimum Length | Minimum Uniqueness | Special Requirements |
+| Article type | Usual depth class | Minimum uniqueness | Special requirements |
 |---|---|---|---|
-| **Career options** (e.g., "careers in PCM") | 2,200+ words | 40% unique framework/examples not on sibling articles | Original job examples, salary data, market demand, entrance-exam context |
-| **Stream/degree selection** (e.g., "should I choose commerce?") | 2,000+ words | 35% unique decision criteria/constraints | Original pros/cons, unique audience pain points (not generic rewrite) |
-| **Career roadmap** (e.g., "data science roadmap") | 2,500+ words | 40% unique step-by-step guidance | Original skill sequence, tools, project ideas, timeline — not template from another roadmap |
-| **Location guide** (if created) | 2,200+ words | 40% unique local context | Original local industry landscape, company examples, local institutions, salary data — not generic location insert |
-| **Decision/how-to** (e.g., "how to choose a career") | 2,000+ words | 30% unique framework/examples | Original decision protocol, examples, constraints — not generic template |
+| **Career options, hub or head term** (e.g., "career options in commerce") | Pillar | 40% unique framework/examples not on sibling articles | Original job examples, salary data, market demand, entrance-exam context |
+| **Career options, specific stream/degree/exam sibling** (e.g., "careers in PCM") | Standard (Pillar only if it is the main page for a head term) | 40% unique framework/examples not on sibling articles | Original job examples, salary data, market demand, entrance-exam context |
+| **Stream/degree selection** (e.g., "should I choose commerce?") | Standard | 35% unique decision criteria/constraints | Original pros/cons, unique audience pain points (not generic rewrite) |
+| **Career roadmap** (e.g., "data science roadmap") | Standard; Pillar if it is the main roadmap for the field | 40% unique step-by-step guidance | Original skill sequence, tools, project ideas, timeline, not a template from another roadmap |
+| **Location guide** (if created) | Standard | 40% unique local context | Original local industry landscape, company examples, local institutions, salary data |
+| **Decision/how-to or narrow question** (e.g., "how to choose a career", a definition) | Focused to Standard | 30% unique framework/examples | Original decision protocol, examples, constraints |
 
 **Red flags: Content that will get penalized at scale**
 

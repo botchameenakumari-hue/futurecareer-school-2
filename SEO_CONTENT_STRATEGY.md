@@ -272,7 +272,7 @@ Future Career School plans to publish location pages at scale. **Without strict 
    - If answer is NO, add more unique content before publishing
 
 **Location page minimum standards:**
-- 2,500–3,500 words
+- No fixed word count: enough genuinely unique content to meet the points below
 - 30%+ unique content (verified by paragraph-level comparison)
 - 300+ word local context block (no generic rewrites)
 - Minimum 3 unique FAQ questions specific to that city
@@ -314,7 +314,7 @@ Even without location variations, pages targeting different audiences or stages 
    - Examples should NOT be generic enough to work for both audiences
 
 **Service variation page minimum standards:**
-- 2,200–3,000 words
+- No fixed word count: proportionate to the decision, never padded
 - 30%+ unique content (audience-specific problem framing, objections, examples)
 - Distinct section order from nearest sibling audience/stage page
 - Minimum 3 unique FAQ questions not on sibling pages
