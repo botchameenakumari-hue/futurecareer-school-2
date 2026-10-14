@@ -3997,4 +3997,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-05',
     readTimeMinutes: 17,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'pcm-career-options-with-salary',
+    title: 'PCM career options with salary: what each route pays, and why it differs',
+    description:
+      'PCM career options with salary in India: indicative pay by route at fresher and year five, the median versus top spread, and the moves that lift you up.',
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 22,
+  },
 ];
