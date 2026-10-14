@@ -2,12 +2,12 @@
   <div class="sbf-head"><div><p class="sbf-kicker">Private browser calculator · no income promise</p><h2 id="sbf-title">Stress-test a student business idea</h2><p>Use your own small-test assumptions to see whether the unit economics are worth testing. The calculator does not estimate demand or guarantee profit.</p></div><p class="sbf-note"><b>Private by design:</b> values stay in this browser and are not saved or sent.</p></div>
   <form class="sbf-form" id="sbf-form" novalidate>
     <label>Idea or offer<input data-sbf="idea" type="text" maxlength="80" placeholder="For example: poster design for local shops"></label>
-    <label>Expected sales per week<input data-sbf="sales" type="number" min="0" step="1" value="3" inputmode="numeric"></label>
-    <label>Price per sale (₹)<input data-sbf="price" type="number" min="0" step="50" value="500" inputmode="numeric"></label>
-    <label>Variable cost per sale (₹)<input data-sbf="variable" type="number" min="0" step="25" value="100" inputmode="numeric"></label>
-    <label>Fixed weekly cost (₹)<input data-sbf="fixed" type="number" min="0" step="50" value="200" inputmode="numeric"></label>
-    <label>Hours per week<input data-sbf="hours" type="number" min="0" step="1" value="6" inputmode="decimal"></label>
-    <label>Starting budget (₹)<input data-sbf="budget" type="number" min="0" step="100" value="2000" inputmode="numeric"></label>
+    <label>Expected sales per week<input data-sbf="sales" type="number" min="0" step="1" inputmode="numeric" required></label>
+    <label>Price per sale (₹)<input data-sbf="price" type="number" min="0" step="50" inputmode="numeric" required></label>
+    <label>Variable cost per sale (₹)<input data-sbf="variable" type="number" min="0" step="25" inputmode="numeric" required></label>
+    <label>Fixed weekly cost (₹)<input data-sbf="fixed" type="number" min="0" step="50" inputmode="numeric" required></label>
+    <label>Hours per week<input data-sbf="hours" type="number" min="0" step="1" inputmode="decimal" required></label>
+    <label>Starting budget (₹)<input data-sbf="budget" type="number" min="0" step="100" inputmode="numeric" required></label>
     <div class="sbf-actions"><button type="submit">Calculate the test view</button><button type="reset" class="sbf-secondary">Reset</button></div>
   </form>
   <div class="sbf-result" id="sbf-result" aria-live="polite" hidden><h3 data-sbf-out="title"></h3><div class="sbf-grid"><div><span>Contribution per sale</span><strong data-sbf-out="margin"></strong></div><div><span>Estimated weekly contribution</span><strong data-sbf-out="weekly"></strong></div><div><span>Sales to cover weekly fixed cost</span><strong data-sbf-out="breakEven"></strong></div><div><span>Contribution per hour</span><strong data-sbf-out="hourly"></strong></div><div><span>Budget runway at this burn</span><strong data-sbf-out="runway"></strong></div></div><p class="sbf-warning" data-sbf-out="warning"></p><div class="sbf-plan"><h4>Run a 14-day test before scaling</h4><ol><li>Speak to five plausible buyers and record their exact problem, not just compliments.</li><li>Offer the smallest paid version to a clear customer group.</li><li>Track enquiries, paid sales, delivery time, variable cost and repeat interest.</li><li>Continue, change the offer or stop based on observed evidence-not excitement alone.</li></ol></div></div>
@@ -23,8 +23,9 @@
     const output = (key: string) => { const field = app.querySelector<HTMLElement>(`[data-sbf-out="${key}"]`); if (!field) throw new Error(`Student business calculator output is missing: ${key}`); return field; };
     const number = (key: string) => Math.max(0, Number.parseFloat(input(key).value) || 0);
     const money = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(Math.max(0, value));
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!form.checkValidity()) { form.reportValidity(); return; }
       const idea = input('idea').value.trim() || 'This idea';
       const sales = number('sales'); const price = number('price'); const variable = number('variable'); const fixed = number('fixed'); const hours = number('hours'); const budget = number('budget');
       const margin = price - variable; const weekly = margin * sales - fixed; const breakEven = margin > 0 ? Math.ceil(fixed / margin) : null; const hourly = hours > 0 ? weekly / hours : 0; const runway = weekly < 0 ? (Math.abs(weekly) > 0 ? budget / Math.abs(weekly) : null) : null;

@@ -112,6 +112,12 @@ test('student business calculator exposes unit economics and a 14-day test plan'
   await expect(page.locator('#student-business-feasibility')).toBeVisible();
   await expect(page.locator('.sbf-note')).toContainText('not saved or sent');
   await page.locator('[data-sbf="idea"]').fill('Poster design');
+  await page.locator('[data-sbf="sales"]').fill('3');
+  await page.locator('[data-sbf="price"]').fill('500');
+  await page.locator('[data-sbf="variable"]').fill('100');
+  await page.locator('[data-sbf="fixed"]').fill('200');
+  await page.locator('[data-sbf="hours"]').fill('6');
+  await page.locator('[data-sbf="budget"]').fill('2000');
   await page.locator('#sbf-form button[type="submit"]').click();
   await expect(page.locator('#sbf-result')).toBeVisible();
   await expect(page.locator('[data-sbf-out="breakEven"]')).toContainText('sale');
@@ -382,4 +388,22 @@ test('parent student worksheet turns disagreement into boundaries and a review r
   await page.locator('[data-psa="sharedRule"]').fill('Review the evidence together after 30 days before deciding.');
   await expect(page.locator('.psa-summary')).toContainText('fair rule');
   await expect(page.locator('.psa-summary')).toContainText('Review the evidence together after 30 days');
+});
+
+test('resume evidence builder keeps focus while typing and updates the draft', async ({ page }) => {
+  await page.goto('/tools/resume-skills-evidence-builder/');
+  const context = page.locator('[data-reb="context"]');
+  await context.click();
+  await context.pressSequentially('A real class project');
+  await expect(context).toHaveValue('A real class project');
+  await expect(page.locator('#reb-bullet')).toContainText('A real class project');
+});
+
+test('student-parent intake keeps focus while typing and updates its summary', async ({ page }) => {
+  await page.goto('/tools/student-parent-career-intake/');
+  const question = page.locator('#student-parent-career-intake [data-spi="studentQuestion"]');
+  await question.click();
+  await question.pressSequentially('Which route should I test?');
+  await expect(question).toHaveValue('Which route should I test?');
+  await expect(page.locator('#student-parent-career-intake .spi-summary')).toContainText('Which route should I test?');
 });

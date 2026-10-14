@@ -24,3 +24,16 @@ test('education payback planner calculates direct and opportunity cost locally',
   await page.getByRole('button', { name: 'Reset' }).click();
   await expect(page.locator('.epp-results')).toBeHidden();
 });
+
+test('education payback planner does not expose a negative cost when aid exceeds fees', async ({ page }) => {
+  await page.goto('/tools/education-cost-payback-planner/', { waitUntil: 'domcontentloaded', timeout: 15_000 });
+  await page.locator('[data-epp="fees"]').fill('10000');
+  await page.locator('[data-epp="living"]').fill('0');
+  await page.locator('[data-epp="years"]').fill('1');
+  await page.locator('[data-epp="aid"]').fill('20000');
+  await page.locator('[data-epp="income"]').fill('10000');
+  await page.locator('[data-epp="essentials"]').fill('10000');
+  await page.getByRole('button', { name: 'Calculate my planning range' }).click();
+  await expect(page.locator('[data-epp-result="direct"]')).toContainText('₹0');
+  await expect(page.locator('[data-epp-result="direct-payback"]')).not.toContainText('-');
+});
