@@ -4024,4 +4024,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 25,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'physical-education-career-options',
+    title: 'Career options in physical education: B.P.Ed, teaching posts, coaching and the routes that grow',
+    description:
+      'Career options in physical education after Class 12: B.P.Ed, M.P.Ed and UGC NET routes, PE teacher and coaching jobs, fixed pay, and how to build income.',
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 20,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'bsc-courses-after-12th-pcb-bipc',
+    title: 'BSc courses after 12th PCB and BiPC: which one to take, ranked by growth room',
+    description:
+      'BSc courses after 12th PCB or BiPC, ranked by real growth room: entry gates, which are licensed, what each is good for, pay samples and the next step after the degree.',
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-in-science',
+    title: 'Career options in science: eight real lanes, and how to choose one before Class 11',
+    description:
+      'Career options in science fall into eight lanes. See what PCM, PCB and PCMB open or close, which lanes scale, and how to choose between them.',
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 24,
+  },
 ];
