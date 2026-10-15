@@ -4006,4 +4006,22 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 22,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-btech',
+    title: 'Career options after B.Tech: which route fits your branch, CGPA and money',
+    description:
+      'Career options after B.Tech in any branch: job, GATE, MBA, MS abroad, UPSC, startup, freelance or a switch to data. Choose by CGPA, college, money and time.',
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 20,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-neet',
+    title: 'Career options after NEET: what your rank and category open, and the cost',
+    description:
+      'Career options after NEET by rank and category: government and private MBBS, BDS, AYUSH, nursing, how counselling works, what seats cost, and a backup lane.',
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 25,
+  },
 ];
