@@ -88,3 +88,23 @@ P3, held (6): zoology and botany career pages, bsc-physics / bsc-chemistry / bsc
 - **Assessments.** All 351 test-type Search Console queries were matched against the 29 generated assessment pages (306 alias redirects), the static assessment pages and the self-assessments. Every query that earns impressions already has a page; no new assessment is needed. The gap was wording. Missing phrasings ("stream suitability test", "online aptitude test", "high school aptitude test", "free career test for students", "career change quiz", "skill finder", "psychometric test after 10th" and similar) were added to the visible phrase lists of seven generic pages and one alias list. The static stream-selector and 10th/12th aptitude pages, which earn most clicks, were not touched.
 - **MPT pay.** Replaced unaudited career-site ranges with the one official anchor (central-government physiotherapist posts at Level 6 of the 7th Pay Commission matrix, from Lok Sabha replies and a central institute notice) and removed numbers for private and clinic pay, where no reliable figure exists. The notices found ask for a bachelor's degree, so the page now says an MPT does not raise the starting pay level by itself.
 - **YouTube income.** Replaced one agency's per-view estimates with a method (read your own RPM in YouTube Studio) and a clearly labelled illustrative calculation.
+
+## P1 new pages built (2026-10-14 pages, pushed to `main`)
+
+All nine followed COWORK_KICKOFF_PROMPT.md: one independent agent per keyword, duplicate check, TOFU/blog classification, three logged follow-up passes (see `docs/dossiers/<slug>.passlog.md`), image brief in each dossier.
+
+| Page | Depth class |
+|---|---|
+| `career-options/pcm-career-options-with-salary` | see dossier |
+| `career-options/career-options-after-btech` | see dossier |
+| `career-options/career-options-after-neet` | see dossier |
+| `career-options/physical-education-career-options` | see dossier |
+| `career-options/career-options-in-science` | pillar |
+| `college-degrees/bsc-courses-after-12th-pcb-bipc` | see dossier |
+| `college-degrees/professional-courses-for-commerce-students` | standard (deep) |
+| `skills/business-analyst-skills` | pillar |
+| `resume/skills-for-resume-for-freshers` | pillar |
+
+Also corrected the ICAI fee line on `ca-vs-cma-vs-cfa-india-which-is-better` (ICAI FAQ total is about Rs 49,000).
+
+Open items: images (briefs in dossiers; strict image audit will flag until added), sibling links to the new pages, P2/P3 pages, Reports 2 and 3.
