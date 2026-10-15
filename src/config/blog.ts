@@ -4051,4 +4051,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 24,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'business-analyst-skills',
+    title: 'Business Analyst Skills: Table Stakes, Differentiators and Proof',
+    description:
+      'Business analyst skills in India: the technical, domain and behavioural skills that are table stakes, which ones set you apart, and what proof to show.',
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 24,
+  },
+  {
+    categorySlug: 'resume',
+    slug: 'skills-for-resume-for-freshers',
+    title: 'Skills for resume for freshers: what to list, what to leave out, and how to prove each one',
+    description:
+      'Skills for resume for freshers: how many to list, how to word each one with a tool, an action and proof, and what ATS really does. Examples for seven degrees.',
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 15,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'professional-courses-for-commerce-students',
+    title: 'Professional Courses for Commerce Students: Entry Rules, Cost, Who Skips',
+    description:
+      'Professional courses for commerce students mapped: CA, CS, CMA, ACCA, CFA, FRM and US CPA, with entry rules, stages, real cost and who should skip each.',
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 20,
+  },
 ];

@@ -1,0 +1,1011 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Business Analyst Skills: Table Stakes, Differentiators and Proof';
+const description =
+  'Business analyst skills in India: the technical, domain and behavioural skills that are table stakes, which ones set you apart, and what proof to show.';
+const canonical = 'https://futurecareerschool.com/blog/skills/business-analyst-skills/';
+const publishedDateISO = '2026-10-14';
+const publishedDateLabel = '14 October 2026';
+const authorName = 'Shivanshi Sehgal';
+const authorUrl = 'https://futurecareerschool.com/about/shivanshi-sehgal/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: 'Skills required for a business analyst, in one table' },
+  { id: 'technical', label: 'Technical skills, and how deep to go' },
+  { id: 'domain', label: 'Domain skills: BFSI, healthcare, retail, ERP' },
+  { id: 'behavioural', label: 'Behavioural skills and English' },
+  { id: 'stack', label: 'Core skill + multiplier skill + visible proof' },
+  { id: 'employer-mix', label: 'How the mix changes by employer' },
+  { id: 'proof', label: 'The proof-of-skill checklist' },
+  { id: 'gates', label: 'The 3 Gates for BA skills' },
+  { id: 'ai', label: 'AI: what it speeds up, what stays yours' },
+  { id: 'credentials', label: 'ECBA, CCBA, CBAP and PMI-PBA' },
+  { id: 'course-rules', label: 'Rules for judging any BA course' },
+  { id: 'routes', label: 'Where these skills can take you' },
+  { id: 'sales', label: 'Basic sales for consulting and freelance' },
+  { id: 'mistakes', label: 'Skill mistakes to avoid' },
+  { id: 'next-step', label: 'Your first test' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const stakesRows = [
+  { skill: 'Excel (pivots, lookups, clean data)', group: 'Technical', level: 'Table stakes', note: 'Named in every fresher guide we read. Without it you are filtered out early.' },
+  { skill: 'SQL basics (SELECT, WHERE, JOIN, GROUP BY)', group: 'Technical', level: 'Table stakes', note: 'A senior bank posting we read asks for strong SQL and knowledge of data models. Freshers are usually asked for the basics.' },
+  { skill: 'Requirements writing: BRD, FRD, user stories, acceptance criteria', group: 'Technical', level: 'Table stakes', note: 'This is the product of the job. Weak writing here ends the conversation.' },
+  { skill: 'Process mapping (flowcharts, BPMN)', group: 'Technical', level: 'Table stakes', note: 'Shows you can turn a messy process into steps a business person and a developer both follow.' },
+  { skill: 'Jira and Confluence', group: 'Technical', level: 'Table stakes', note: 'Where the backlog and the documents live in many teams. Learn the basics, not every plugin.' },
+  { skill: 'A BI tool (Power BI or Tableau)', group: 'Technical', level: 'Differentiator, becoming table stakes', note: 'Lets you check a number yourself instead of waiting for a data team.' },
+  { skill: 'Python (optional)', group: 'Technical', level: 'Differentiator', note: 'Useful when the work touches large data or automation. Not needed to get a first BA role.' },
+  { skill: 'Domain depth in one sector', group: 'Domain', level: 'Differentiator', note: 'Two candidates with the same tools are separated by who understands the business.' },
+  { skill: 'Elicitation: finding the need behind the request', group: 'Behavioural', level: 'Differentiator', note: 'The hardest skill to fake and the one that clients and managers remember.' },
+  { skill: 'Negotiation and scope pushback', group: 'Behavioural', level: 'Differentiator', note: 'Matters more as you get senior, because you start owning decisions.' },
+  { skill: 'Clear written English', group: 'Behavioural', level: 'Table stakes that many miss', note: 'Short, exact sentences beat fancy ones. Every artifact you build is writing.' },
+];
+
+const examWeights = [
+  { name: 'Requirements analysis and design definition', pct: 32 },
+  { name: 'Elicitation and collaboration', pct: 20 },
+  { name: 'Requirements life cycle management', pct: 18 },
+  { name: 'Business analysis planning and monitoring', pct: 12 },
+  { name: 'Strategy analysis', pct: 12 },
+  { name: 'Solution evaluation', pct: 6 },
+];
+
+const techCards = [
+  { label: 'Technical skill 1', title: 'Excel', start: 'Pivot tables, lookups (VLOOKUP or XLOOKUP), clean-up of messy columns, simple charts.', edge: 'Build a small model that answers a business question, and explain every formula out loud.' },
+  { label: 'Technical skill 2', title: 'SQL', start: 'Filter, join two tables, group and count. Practise in the browser with a free interactive course such as SQLBolt, then on a real dataset.', edge: 'Check a claim in a requirement ("most orders fail at payment") with a query you wrote yourself, and show the query.' },
+  { label: 'Technical skill 3', title: 'Requirements documents and user stories', start: 'A business requirements document with a goal, scope, stakeholders and numbered requirements. A user story in the "As a, I want, so that" form with acceptance criteria.', edge: 'Requirements that a developer and a tester can both read and say the same thing about. Flag what is out of scope.' },
+  { label: 'Technical skill 4', title: 'Process modelling (BPMN) and basic diagrams', start: 'A current-state and future-state flow. BPMN is an open standard kept by the Object Management Group (also ISO/IEC 19510) so business and technical people can read the same diagram. UML use case and activity diagrams are also common.', edge: 'Show where delay, rework or handoff errors happen on the map, not just the steps.' },
+  { label: 'Technical skill 5', title: 'A BI tool', start: 'Power BI Desktop is used to build reports and models, and the Power BI service is used to share them (Microsoft Learn). Connect it to an Excel or SQL source and build one clear page.', edge: 'A dashboard that supports a decision, with a note on what it cannot tell you.' },
+  { label: 'Technical skill 6', title: 'Jira and Confluence', start: 'Write a story, set acceptance criteria, link it to a page, move it through a board.', edge: 'Keep a backlog that a team can trust: no duplicates, clear order, nothing stale.' },
+  { label: 'Technical skill 7', title: 'Python (optional)', start: 'Skip it for your first role unless the posting asks for it.', edge: 'Later, light scripting to clean data or automate a weekly report can save hours and widen the roles open to you.' },
+  { label: 'Technical skill 8', title: 'AI drafting and checking', start: 'Use an AI tool to draft meeting notes, first-pass stories or a SQL query, then check every line against what was actually said or what the data shows.', edge: 'A repeatable way to verify AI output, and a clear rule on what client information never goes into a public tool.' },
+];
+
+const domainCards = [
+  { label: 'Banking, finance, insurance (BFSI)', title: 'Money, risk and rules', learn: 'The words of the product: account opening, KYC, loan steps, claims, settlement. Learn one end-to-end process in plain language.', proof: 'A one-page walk-through of one real customer journey with the steps where things go wrong.' },
+  { label: 'Healthcare and pharma', title: 'Records, claims and care steps', learn: 'How a patient or claim moves between hospital, insurer and records. Care with private data is part of the job.', proof: 'A process note on one admission-to-billing flow, with anything personal removed.' },
+  { label: 'Retail and e-commerce', title: 'Orders, returns and delivery', learn: 'Cart, payment, fulfilment, returns, refunds. Most pain sits at handoffs between teams.', proof: 'A funnel or returns analysis with a requirement list that follows from what you found.' },
+  { label: 'ERP and enterprise systems (SAP and similar)', title: 'Finance, supply and people processes inside one system', learn: 'Core flows such as buy-to-pay and order-to-cash, and how a change request travels through configuration and testing.', proof: 'A gap note: what the business does today, what the system standard does, and the difference.' },
+];
+
+const behaviourSteps = [
+  { num: '01', title: 'Elicitation: ask until the real need shows up', body: 'People describe a solution ("add a button") when the need is a problem ("approvals take too long"). Ask what happens before and after, what goes wrong, and what the cost of waiting is. Then say it back in one sentence and ask if you got it right.' },
+  { num: '02', title: 'Stakeholder management: know who matters and why', body: 'IIBA lists "stakeholder" as one of six core ideas of the whole profession, next to change, need, solution, value and context. In practice: write down who is affected, who decides, who can block, and talk to each in the way that suits them.' },
+  { num: '03', title: 'Negotiation: protect scope without a fight', body: 'A sponsor asks for "one more small thing". The skill is to restate the goal, show the trade-off in time or cost, and offer a later release. You are not saying no. You are making the choice visible.' },
+  { num: '04', title: 'Written communication: one page that gets a decision', body: 'Meeting notes that list decisions, owners and open questions. An email that opens with the ask. A requirement with one meaning only. If a busy manager can act on it in two minutes, it works.' },
+  { num: '05', title: 'Facilitation and presenting: run the room', body: 'Keep a workshop on topic, make quiet people heard, and close with agreed next steps. You will be asked to present findings long before you are asked to lead a team.' },
+];
+
+const stackTiles = [
+  { label: 'Core skill', title: 'Turning a vague need into a clear requirement', body: 'Elicitation plus requirements writing. This is the work itself, so it has to be strong.' },
+  { label: 'Multiplier skill', title: 'One skill that makes the core worth more', body: 'SQL with a BI tool, or one domain such as BFSI, or ERP process knowledge. Pick one first. A second multiplier comes later.' },
+  { label: 'Visible proof', title: 'Something another person can check', body: 'A requirements pack or case note that a working analyst has reviewed. Not a course certificate.' },
+];
+
+const stackExamples = [
+  { title: 'Requirements + BFSI domain', body: 'Fits banks, NBFCs and insurers. Proof: a loan-onboarding or claims process note reviewed by someone who has worked in it.' },
+  { title: 'Requirements + SQL and a BI tool', body: 'Fits product companies, startups and e-commerce teams. Proof: one analysis that tests a business claim, plus the requirements that follow from it.' },
+  { title: 'Requirements + ERP process knowledge', body: 'Fits IT services and consulting teams that implement enterprise systems. Proof: a gap note between current process and system standard.' },
+];
+
+const employerRows = [
+  { employer: 'IT services and delivery firms', weight: 'Requirements writing, Jira and Confluence, client-facing communication, fast learning of a new client domain.', test: 'Often a scenario or case exercise, plus a light tool check.', watch: 'Breadth is easy to get here. Depth in one domain is what you must add on purpose.' },
+  { employer: 'Banks, NBFCs and insurers', weight: 'Domain vocabulary, SQL and data models, testing support (test cases, UAT), strict documentation. The senior bank posting we read lists SQL, JIRA, Confluence, Visio, Excel and stakeholder management together.', test: 'Domain questions come early. Rules and process knowledge are checked.', watch: 'The domain bar is higher, and moving sector later means rebuilding trust.' },
+  { employer: 'Product companies and startups', weight: 'SQL, a BI tool, comfort with numbers, short written specs, agile ways of working, ability to work with little supervision.', test: 'Expect a data task or a metric question, not only a documentation task.', watch: 'Fewer roles carry the pure "business analyst" title. Look for product analyst and business systems analyst titles too.' },
+  { employer: 'Consulting and advisory firms', weight: 'Structured problem solving, clear slides and memos, workshop skill, speed in new industries.', test: 'Case discussions, written summaries and communication under pressure.', watch: 'Long hours and a steep climb. The next stage of advancement is a separate and harder filter.' },
+];
+
+const proofRows = [
+  { skill: 'Excel and data checking', build: 'A small workbook that answers one business question from a real or public data set.', show: 'The file, a one-paragraph note on the method and a list of what you could not check.', weak: 'A course certificate or a screenshot of a pivot table.', strong: 'A working file a stranger can open, follow and challenge.' },
+  { skill: 'SQL', build: 'Five to ten queries on one data set that test a claim.', show: 'The query text with a plain sentence under each saying what it proves.', weak: 'Completion badge from a practice site.', strong: 'Queries that found something a spreadsheet glance would miss, with the data source named.' },
+  { skill: 'Requirements writing', build: 'A requirements document and stories for one real process you can observe.', show: 'The document with scope and out-of-scope clearly marked.', weak: 'A template with the names changed.', strong: 'A document a working analyst or developer has read and marked up, with your fixes.' },
+  { skill: 'Process modelling', build: 'Current-state and future-state maps of the same process.', show: 'Both maps on one page, with pain points circled.', weak: 'A tidy diagram of an invented process.', strong: 'A map of a real process where the owner agreed the steps are right.' },
+  { skill: 'BI tool', build: 'One dashboard that supports one decision.', show: 'A link or PDF and three lines: the decision, the metric, the limit.', weak: 'A page with ten charts and no question.', strong: 'A page that someone used to change what they did.' },
+  { skill: 'Domain depth', build: 'A walk-through of one process in your chosen sector, in plain words.', show: 'A one-page note with terms explained.', weak: 'A list of industry buzzwords.', strong: 'A note a person who works in that sector says is correct.' },
+  { skill: 'Elicitation', build: 'An interview with one real person about a real problem in their work.', show: 'Your question list, what they said, what you first misunderstood and how you found out.', weak: 'A role-play with a friend who agrees with everything.', strong: 'A write-up where the real need was different from the first request.' },
+  { skill: 'Negotiation and stakeholder handling', build: 'A short case note on a time priorities clashed (college club, family shop, internship).', show: 'The options you set out and the choice that was made.', weak: 'A claim of "good stakeholder skills" on a resume.', strong: 'A named example with the trade-off written down.' },
+  { skill: 'Written and spoken communication', build: 'A two-minute spoken summary of one of your artifacts, plus a one-page written version.', show: 'A recording or live demo and the page.', weak: 'Long text with no ask.', strong: 'A summary that ends with the decision it supports, delivered without notes.' },
+];
+
+const gateItems = [
+  { num: 'Gate 1', title: 'Proof of Skill', body: 'One artifact for your core skill and one for your multiplier skill. Each must be something a stranger can open and judge.' },
+  { num: 'Gate 2', title: 'Proof of Communication', body: 'Explain each artifact in 30 seconds to two minutes, in plain English, ending with the decision it would change.' },
+  { num: 'Gate 3', title: 'Proof of Value', body: 'Show the work to three people who do this job or hire for it. Write down their exact words on whether they would shortlist it and what is missing.' },
+];
+
+const aiAuto = [
+  'Turn a meeting recording into notes, decisions and open questions.',
+  'Draft first-pass user stories and acceptance criteria from those notes.',
+  'Suggest test cases and edge cases you may have missed.',
+  'Draft a SQL query and explain it line by line.',
+  'Make a first rough process diagram from a written description.',
+  'Rewrite a long paragraph into short, clear sentences.',
+];
+const aiHuman = [
+  'Deciding which stakeholder version is the real need when they disagree.',
+  'Noticing what nobody said because everyone thought it was obvious.',
+  'Setting priority and holding scope when a sponsor pushes.',
+  'Owning sign-off and being accountable for what is built.',
+  'Checking every number and every claim before it goes out.',
+  'Reading the politics and trust in a room.',
+];
+const aiStages = [
+  { num: '1', title: 'Now: draft with AI, then check against reality', body: 'Use it for notes, first stories and SQL drafts. Test every query on a small table where you already know the answer. Never paste private client data into a public tool, and follow your employer\'s rules.' },
+  { num: '2', title: 'Next: spend the saved hours on discovery', body: 'More conversations with the people who do the work, earlier. This is the part a summary cannot do for you.' },
+  { num: '3', title: 'Later: become the person who catches what the draft missed', body: 'Build a record of contradictions found and requirements recovered. Direct AI workflows for your team, and write down how you check them.' },
+];
+
+const certRows = [
+  { cert: 'ECBA (Entry Certificate in Business Analysis)', who: 'Early-career professionals and career changers', rule: 'IIBA says it needs no related work experience or professional development hours (IIBA blog, November 2023). The exam moved to include applied knowledge from 21 July 2025. The IIBA page lists a bundle price of "$395 or less" including membership, exam, practice exam and learning journey.', view: 'A reasonable signal of intent after you have real work to show. Not a substitute for it. Check the current handbook, because some chapter pages still mention 21 professional development hours.' },
+  { cert: 'CCBA (Certification of Capability in Business Analysis)', who: 'Analysts with a few years of work', rule: 'IIBA: two to three years of work experience in the last seven years (3,750 hours) and 21 professional development hours in the last four years.', view: 'A step for after a first role. Not a fresher credential.' },
+  { cert: 'CBAP (Certified Business Analysis Professional)', who: 'Experienced analysts', rule: 'IIBA: five or more years of work experience in the last ten years (7,500 hours), 35 professional development hours in the last four years and two professional references. The exam has 120 case-study and scenario questions in 210 minutes. You recertify every three years.', view: 'Worth planning for later in a BA career. Studying for it before you have the hours is a wasted gate.' },
+  { cert: 'PMI-PBA (Professional in Business Analysis)', who: 'Analysts on project-heavy teams', rule: 'Issued by PMI. It is experience-based. We could not open PMI\'s own page to confirm the current hours, and other sites disagree, so check pmi.org before you plan around it.', view: 'Useful where employers already value PMI credentials. Ask the employers you want.' },
+  { cert: 'CBDA, AAC and CPOA', who: 'Specialists', rule: 'IIBA also lists Certification in Business Data Analytics, Agile Analysis Certification and Certificate in Product Ownership Analysis. Check eligibility on iiba.org.', view: 'Read them as direction signals: data, agile delivery and product ownership.' },
+];
+
+const courseRules = [
+  { num: '01', title: 'Start with what is free', body: 'YouTube lessons, official documentation such as Microsoft Learn for Power BI, interactive SQL practice, and your own data sets. If you cannot finish the free version, a paid one will not fix that.' },
+  { num: '02', title: 'Pay only for structure, feedback or a credential the field respects', body: 'Most BA information is free. The paid part should give you a clear sequence, a person who marks your work, a group that keeps you going, or a credential that the target employer actually asks for.' },
+  { num: '03', title: 'Treat certificates as weak proof', body: 'A certificate says you attended. A reviewed requirements pack or analysis says you can do the job. Do both only if the employer wants the credential.' },
+  { num: '04', title: 'Judge the specific course, not the platform', body: 'Check the instructor\'s recent real work, the last real update, the full syllabus, the exercises, who gives feedback, the refund terms and what past learners got. Avoid "best course" lists that depend on stars or affiliate pay.' },
+  { num: '05', title: 'Keep the cost small against your whole learning budget', body: 'Use 10% of the total education budget as a strict starting limit for any one paid credential, and treat anything above about 20% as needing course-specific evidence. A budget of Rs 10 lakh makes the starting limit about Rs 1 lakh. We found no law that requires a degree or licence to do business analysis, so avoid education loans for BA courses. A degree still helps at some campus-hiring employers, so treat it as one input, not the whole plan; skills and proof carry the rest.' },
+  { num: '06', title: 'Ask for the output before you pay', body: 'Before paying, write down what you will build and who will review it. If the course cannot say, the money buys content you could find free.' },
+];
+
+const routes = [
+  { badge: 'Scalable', cls: 'teal', title: 'Independent process and requirements consulting', why: 'You set the price, can repeat work with the same clients and later add other analysts. It needs years of domain trust first, so it comes after the salaried stage in time even though it has the most headroom.', layer: 'The business layer is the work itself: a niche, a simple offer, proof, referrals.' },
+  { badge: 'Scalable with a business layer', cls: 'gold', title: 'Freelance analysis projects', why: 'Requirements packs, process maps and dashboards can be sold directly. Much of the work can be done remotely, which widens your client pool. Marketplace bidding turns into a race to the lowest price, and a new freelancer has little trust.', layer: 'Plan the layer: a fixed-scope offer, case notes as proof, a referral habit.' },
+  { badge: 'Scalable with a business layer', cls: 'violet', title: 'Product owner or product manager', why: 'The step often happens inside a company, from a role close to the product team. Entry is crowded.', layer: 'Product consulting for early teams, or your own product, is the layer.' },
+  { badge: 'Scalable with a business layer', cls: 'blue', title: 'Salaried analyst ladder (analyst, senior, lead)', why: 'A fixed pay ladder with steady learning. Growth beyond it comes from domain ownership and a side route.', layer: 'Analytics or process consulting on the side after you have domain trust.' },
+  { badge: 'Not so scalable', cls: 'red', title: 'The documentation-only version of the job', why: 'Taking notes, formatting documents and passing them on is the work AI drafting tools take on first. It stays on the list because many first roles start here.', layer: 'Move from the first role into discovery, data checks and decisions as early as you can.' },
+];
+
+const salesSteps = [
+  { num: '01', title: 'Position a niche', body: 'Say who you help and with what, in one line. For example: "requirements and process maps for small lenders\' loan onboarding". A narrow line makes referrals and pricing easier than "I do business analysis for anyone".' },
+  { num: '02', title: 'Make a simple offer', body: 'A set scope people can picture: one discovery conversation, a current-state map and a requirements pack. Put scope, price, timeline and revision limits in writing, take a deposit on larger work and price change requests separately.' },
+  { num: '03', title: 'Build proof with case notes', body: 'Write short notes on problem, what you did and what changed, with names and private data removed. Do not invent numbers. If you have no measured result, describe the concrete change.' },
+  { num: '04', title: 'Reach out with one specific message', body: 'One real observation about their process, one link to relevant proof, one small question. Start with people who already know you: past managers, college seniors, family businesses. Ask happy clients for referrals while the result is fresh.' },
+  { num: '05', title: 'Have an honest price conversation', body: 'Talk about the result and the cost of leaving the problem alone before the fee. If someone hesitates, ask what is behind it before you drop the price. Raise rates as proof and demand grow.' },
+  { num: '06', title: 'Watch one number', body: 'How many of your conversations became a paid pilot. If it stays low, change the niche, the offer or the proof, not only the volume of messages.' },
+];
+
+const mistakeItems = [
+  { num: '01', title: 'Listing twenty tools and proving none', body: 'A long tools line with no artifact looks like a course shopper. Pick the table-stakes set, then one multiplier, then prove them.' },
+  { num: '02', title: 'Learning Python before SQL and requirements', body: 'Python is optional for a first BA role. Weak requirements writing is not.' },
+  { num: '03', title: 'Choosing a domain by hype, not access', body: 'Pick a sector where you can talk to people who work in it. Access to a real process beats a fashionable name.' },
+  { num: '04', title: 'Practising only alone', body: 'Elicitation and negotiation cannot be built without another person. A college club, a family business or a volunteer project counts.' },
+  { num: '05', title: 'Buying a credential to avoid doing the work', body: 'Credentials help most when they sit behind real work, and only when the employer you want asks for them.' },
+];
+
+const faqItems = [
+  { q: 'What are the skills required for a business analyst?', a: 'Three groups. Technical skills: Excel, basic SQL, requirements writing with user stories, process mapping, a BI tool and Jira or Confluence. Domain skills: how one sector such as banking, healthcare, retail or ERP works. Behavioural skills: asking the right questions, managing stakeholders, negotiating scope and writing clearly. Most technical skills are table stakes. Domain depth, elicitation and visible proof are what separate candidates.' },
+  { q: 'What technical skills are required for a business analyst?', a: 'For a first role: Excel, SQL basics (select, filter, join, group), writing business requirements and user stories with acceptance criteria, process mapping, and basic Jira and Confluence. A BI tool such as Power BI or Tableau is a strong extra. Python is optional.' },
+  { q: 'Is SQL mandatory for a business analyst?', a: 'Not in every posting, but it is the most commonly requested technical skill in the postings and guides we read. Roles in banks and product companies lean on it more. Learn the basics even if your first role does not need it.' },
+  { q: 'Can I become a business analyst without coding?', a: 'Yes. Business analysis does not require programming for most entry roles. You still need SQL basics, Excel and clear documents. Coding becomes useful later if you want data-heavy or product roles.' },
+  { q: 'Do business analysts need Python?', a: 'Not for most first roles. It helps when your work involves large data sets or repeated reports. Build SQL, requirements writing and one domain first.' },
+  { q: 'Which soft skills matter most for a business analyst?', a: 'Elicitation (finding the real need), stakeholder management, negotiation and clear written communication. Facilitation and presenting follow. Prove them with a write-up of a real interview or a priority clash, not with a claim on a resume.' },
+  { q: 'Is domain knowledge required for a business analyst?', a: 'It is not usually required for the very first role, especially in IT services. It is what raises your value after that. Choose one sector, learn its words and one end-to-end process, and get someone who works there to check your notes.' },
+  { q: 'Which business analyst skills should a fresher learn first?', a: 'Requirements writing and Excel first, then SQL basics, process mapping and Jira. Add a BI tool and one domain next. Build one reviewed artifact for each before adding more.' },
+  { q: 'Is ECBA worth it for a fresher?', a: 'It can show intent, and IIBA says it needs no related work experience. It does not replace proof of work. Build a reviewed requirements pack first, then decide whether the employers you want ask for it.' },
+  { q: 'Do I need CBAP to be a business analyst?', a: 'No. CBAP is for experienced analysts: IIBA asks for five or more years of work in the last ten years (7,500 hours). Plan for it later if employers in your field value it.' },
+  { q: 'Will AI replace business analysts?', a: 'AI already helps with notes, first-draft stories, SQL drafts and rough diagrams, so documentation-only work is under the most pressure. The judgment layer is still yours: deciding the real need, handling disagreement, holding scope and owning sign-off. An IIBA blog post by Adrian Reed (February 2024) argues that AI can amplify BA skills and that the role will grow in importance. That is one practitioner\'s view, not a promise.' },
+  { q: 'Do I need good English to be a business analyst?', a: 'You need clear English, not fancy English. Short, exact sentences, notes that list decisions and a two-minute spoken summary are enough to start. Practise by writing one page and saying it aloud.' },
+  { q: 'How do I prove business analyst skills with no experience?', a: 'Build one artifact for your core skill and one for your multiplier skill from a real process, get a working analyst to review them, and explain each in two minutes. The Resume Skills Evidence Builder helps you turn one real example into a truthful resume line.' },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="skills"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Business analyst skills fall into three groups: technical (SQL, Excel, process maps, requirements writing, a BI tool, Jira), domain (how a bank, hospital, retailer or ERP system really works) and behavioural (finding the real need, handling stakeholders, writing clearly).</strong>
+    Most of the skills needed for a business analyst role are table stakes. What gets you picked is one core skill, one multiplier skill and proof that another person can check. That combination is a high-value skill portfolio, and the choices behind it are what open high income opportunities and earlier financial freedom.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Learn the table stakes first: Excel, SQL basics, requirements and user stories, process maps, Jira. Then add one multiplier, either one domain or SQL with a BI tool.</li>
+      <li>Judge every skill by the proof you can show. A reviewed requirements pack beats a certificate.</li>
+      <li>Next step: read three live postings for the employer type you want, tally the repeating skills, and build one artifact for the top two.</li>
+    </ul>
+  </div>
+
+  <p>
+    IIBA, the body behind the BABOK Guide, says a business analyst is anyone who performs business analysis tasks, whatever their job title. So the skills below also help if your title is business systems analyst, process analyst, product owner or even data analyst. This guide sits in <a href="/blog/skills/">Skills</a>. To decide whether the career itself suits you, read <a href="/blog/career-options/is-business-analyst-a-good-career-in-india/">is business analyst a good career in India</a>. To get the first job, use <a href="/blog/career-options/how-to-become-a-business-analyst-entry-level-india/">how to become a business analyst at entry level in India</a>. To compare with analytics, see <a href="/blog/skills/business-analyst-vs-data-analyst-career-india/">business analyst vs data analyst</a>.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">Skills required for a business analyst, in one table</h2>
+
+  <p>
+    Table stakes are skills you need just to be considered. Differentiators decide between two candidates who both pass the first screen. This split is our reading of live postings and fresher guides, not an official list, so check postings for your own target.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Skill</th>
+          <th>Group</th>
+          <th>Level</th>
+          <th>What to know</th>
+        </tr>
+      </thead>
+      <tbody>
+        {stakesRows.map((row) => (
+          <tr>
+            <td data-label="Skill"><strong>{row.skill}</strong></td>
+            <td data-label="Group">{row.group}</td>
+            <td data-label="Level">{row.level}</td>
+            <td data-label="What to know">{row.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h3>What IIBA's own exam weights say about the job</h3>
+
+  <p>
+    IIBA publishes the weights of its CCBA exam by knowledge area. They test knowledge, not hours at work, but they show where the profession puts its weight.
+  </p>
+
+  <div class="weights">
+    {examWeights.map((item) => (
+      <div class="weights__row">
+        <span class="weights__name">{item.name}</span>
+        <span class="weights__bar"><span class="weights__fill" style={`width:${item.pct * 3}%`}></span></span>
+        <span class="weights__pct">{item.pct}%</span>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    Elicitation, analysis and requirements upkeep together carry 70% of that blueprint. The core of the work is finding needs and keeping requirements accurate, not tool tricks. Tools help you do that faster.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Most "top skills" lists give a flat list of 9 to 13 skills with no order and no proof. That is why two people with the same list can get very different results. The list is the entry ticket. The proof and the pick of one multiplier decide the outcome.
+    </p>
+  </div>
+
+  <h2 id="technical">Technical skills required for a business analyst, and how deep to go</h2>
+
+  <p>
+    For each skill, learn enough to start, then know what a differentiator looks like.
+  </p>
+
+  <div class="skill-grid">
+    {techCards.map((card) => (
+      <article class="skill-card">
+        <p class="skill-card__label">{card.label}</p>
+        <h3>{card.title}</h3>
+        <div class="skill-card__row skill-card__row--start"><span>Enough to start</span>{card.start}</div>
+        <div class="skill-card__row skill-card__row--edge"><span>Sets you apart</span>{card.edge}</div>
+      </article>
+    ))}
+  </div>
+
+  <h2 id="domain">Domain skills: BFSI, healthcare, retail and ERP</h2>
+
+  <p>
+    Tools can be learned faster than a sector. Understanding a sector takes longer, which is why it is the best multiplier for many analysts. You do not need a job in the sector to start. You need its vocabulary, one full process, and one person who works there to check your notes.
+  </p>
+
+  <div class="accordion">
+    {domainCards.map((card, index) => (
+      <details open={index === 0}>
+        <summary>{card.label}: {card.title}</summary>
+        <div class="accordion-body">
+          <p><strong>Learn:</strong> {card.learn}</p>
+          <p><strong>Show:</strong> {card.proof}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--amber">
+    <p>
+      Pick one sector first. A long list of sectors reads as no sector. You can change later, but each switch costs some trust, so choose where you can get access to real people and real processes.
+    </p>
+  </div>
+
+  <h2 id="behavioural">Behavioural skills, and the English you really need</h2>
+
+  <div class="protocol-stack">
+    {behaviourSteps.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    On English: one fresher guide puts it well, saying strong communication does not necessarily mean using complicated English. Use short sentences, one idea each, and put the decision or the ask first. Practise by writing a one-page summary of any artifact and then saying it aloud in two minutes. Written English is the skill most analysts under-train, and every document you produce is a sample of it.
+  </p>
+
+  <h2 id="stack">Core skill + multiplier skill + visible proof</h2>
+
+  <p>
+    A skill list does not set you apart. A stack does. Pick the three parts below and build in that order.
+  </p>
+
+  <div class="stack-row">
+    {stackTiles.map((tile) => (
+      <div class="stack-tile">
+        <p class="stack-tile__label">{tile.label}</p>
+        <h3>{tile.title}</h3>
+        <p>{tile.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="feature-grid">
+    {stackExamples.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    If you are unsure which multiplier fits your background, your time and your money, a conversation about <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">continuous career guidance</a> can help you make the skill choices that unlock high income opportunities, before you spend on courses.
+  </p>
+
+  <h2 id="employer-mix">How the skill mix changes by employer type</h2>
+
+  <p>
+    The same title asks for a different mix depending on who hires. This table is our reading of postings and fresher guides. Open three live postings for your target employer type and compare.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Employer type</th>
+          <th>Skills weighted most</th>
+          <th>How you may be tested</th>
+          <th>Watch out</th>
+        </tr>
+      </thead>
+      <tbody>
+        {employerRows.map((row) => (
+          <tr>
+            <td data-label="Employer type"><strong>{row.employer}</strong></td>
+            <td data-label="Skills weighted most">{row.weight}</td>
+            <td data-label="How you may be tested">{row.test}</td>
+            <td data-label="Watch out">{row.watch}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="proof">The proof-of-skill checklist</h2>
+
+  <p>
+    For each skill, build one thing, show it in a form others can check, and aim for the strong column. For the step-by-step build of a full mock project, use the entry guide linked above. This checklist is about judging the strength of each piece.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table paths-table--wide">
+      <thead>
+        <tr>
+          <th>Skill</th>
+          <th>Build</th>
+          <th>Show it as</th>
+          <th>Weak proof</th>
+          <th>Strong proof</th>
+        </tr>
+      </thead>
+      <tbody>
+        {proofRows.map((row) => (
+          <tr>
+            <td data-label="Skill"><strong>{row.skill}</strong></td>
+            <td data-label="Build">{row.build}</td>
+            <td data-label="Show it as">{row.show}</td>
+            <td data-label="Weak proof">{row.weak}</td>
+            <td data-label="Strong proof">{row.strong}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    When one piece is done, turn it into a truthful resume line with the <a href="/tools/resume-skills-evidence-builder/">Resume Skills Evidence Builder</a>. Remove anything you could not explain in an interview.
+  </p>
+
+  <h2 id="gates">The 3 Gates, applied to business analyst skills</h2>
+
+  <div class="gates-block">
+    <p class="gates-block__title">Move to job applications only when all three gates are passed for your core skill and your multiplier skill.</p>
+    <div class="gates-row">
+      {gateItems.map((item) => (
+        <div class="gate">
+          <span class="gate__num">{item.num}</span>
+          <span class="gate__name">{item.title}</span>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <h2 id="ai">AI and business analyst skills: what it speeds up, what stays yours</h2>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">AI can speed up</div>
+      <ul>
+        {aiAuto.map((item) => (<li>{item}</li>))}
+      </ul>
+    </div>
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">Stays with you</div>
+      <ul>
+        {aiHuman.map((item) => (<li>{item}</li>))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="ai-stage-list">
+    {aiStages.map((item) => (
+      <div class="ai-stage">
+        <span class="ai-stage__num">{item.num}</span>
+        <div>
+          <div class="ai-stage__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    The pressure is real but narrow. It lands first on junior work that is only notes, formatting and first drafts. It lands least on finding the need, handling conflict and owning decisions. Nobody can promise how fast tools will improve, so build the judgment layer now. Do not expect a fixed multiplier: AI raises your output only if it is pointed at a valuable problem and you can show the result.
+  </p>
+
+  <h2 id="credentials">ECBA, CCBA, CBAP and PMI-PBA: what each one asks for</h2>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Credential</th>
+          <th>Meant for</th>
+          <th>What the issuer says</th>
+          <th>Our view</th>
+        </tr>
+      </thead>
+      <tbody>
+        {certRows.map((row) => (
+          <tr>
+            <td data-label="Credential"><strong>{row.cert}</strong></td>
+            <td data-label="Meant for">{row.who}</td>
+            <td data-label="What the issuer says">{row.rule}</td>
+            <td data-label="Our view">{row.view}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="note-line">
+    Rules and fees change. IIBA details above were read on iiba.org in October 2026. Fees are quoted in US dollars, so convert and check the current figure before you pay.
+  </p>
+
+  <h2 id="course-rules">Rules for judging any business analyst course or certification</h2>
+
+  <div class="mistakes-list">
+    {courseRules.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="routes">Where these skills can take you, and how far each route scales</h2>
+
+  <p>
+    The routes are ordered by headroom, not by how common they are. Consulting leads because you control price and reach. The salaried ladder is where most people start, so it comes later on the list even though it comes first in time.
+  </p>
+
+  <div class="route-grid">
+    {routes.map((item) => (
+      <article class={`route-card route-card--${item.cls}`}>
+        <p class="route-card__badge">{item.badge}</p>
+        <h3>{item.title}</h3>
+        <p>{item.why}</p>
+        <div class="route-card__layer"><span>Business layer</span>{item.layer}</div>
+      </article>
+    ))}
+  </div>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Two stages of competition</p>
+    <p>
+      The first stage is the entry filter: a crowded pool of freshers, judged mostly on proof. The second is a separate climb later, from analyst to the person who owns a domain and is trusted with decisions. Clearing the first does not clear the second, and the move into product roles is a third, separate filter.
+    </p>
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>An ownership path exists.</strong> Once a sector trusts your work, you can sell process and requirements work to businesses directly. It scales because you set the price, repeat work with the same clients and can later bring in other analysts.
+    </p>
+  </div>
+
+  <p>
+    A closer fit may exist if numbers are what you enjoy. IIBA's own list of titles for people doing business analysis includes business systems analyst and data analyst, and both lean harder on SQL. The <a href="/blog/skills/business-analyst-vs-data-analyst-career-india/">business analyst vs data analyst</a> comparison explains the trade.
+  </p>
+
+  <h2 id="sales">Basic sales and marketing for a business analyst who consults or freelances</h2>
+
+  <p>
+    In a job, your employer pays and your interviewer finds and trusts you through your proof and your communication. For consulting or freelance work, who pays changes: a small business owner, a startup, a product team short on capacity, or a larger firm that hires help. They find you through people they know, through case notes they can read, and through your past managers. The first sales skill to learn is positioning. Keep it simple, and promise no income.
+  </p>
+
+  <div class="protocol-stack">
+    {salesSteps.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <p class="note-line">
+    If you freelance, check GST and Udyam rules on the official government portals. Thresholds change. If you stay in a salaried role, this layer matters mainly for the internal pitch and for a side route later.
+  </p>
+
+  <h2 id="mistakes">Skill mistakes to avoid</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="next-step">Your first test</h2>
+
+  <p>
+    Run a short test for as long as it genuinely takes. Some people need a few weeks, others a couple of months.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>Open three live postings for the employer type you want and tally the skills that repeat.</p>
+    <p>Pick one core skill and one multiplier. Build one artifact for each, and pass the 3 Gates above.</p>
+    <p>Pay for a course or credential only after you can say what it adds beyond free material.</p>
+  </div>
+
+  <h2 id="faq">FAQs on business analyst skills</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li { margin: 0 !important; }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover { color: #fff; }
+    h2[id] { scroll-margin-top: 108px; }
+
+    .paths-table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table--wide { min-width: 900px; }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td { border-bottom: none; }
+    .paths-table strong { color: rgba(255, 255, 255, 0.93); }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .weights { display: grid; gap: 0.6rem; margin: 1.2rem 0; }
+    .weights__row {
+      display: grid;
+      grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) 3rem;
+      gap: 0.8rem;
+      align-items: center;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.72);
+    }
+    .weights__bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+      overflow: hidden;
+      display: block;
+    }
+    .weights__fill {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #e5b84a, #2dd4bf);
+    }
+    .weights__pct { text-align: right; font-weight: 800; color: rgba(255, 255, 255, 0.9); }
+
+    .skill-grid, .domain-grid, .route-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .skill-card, .domain-card, .route-card, .stack-tile, .feature-card, .compare-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid var(--accent, #2dd4bf);
+      background: rgba(255, 255, 255, 0.03);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .skill-card:hover, .domain-card:hover, .route-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    }
+    .skill-card:nth-child(4n+1), .domain-card:nth-child(4n+1) { --accent: #2dd4bf; }
+    .skill-card:nth-child(4n+2), .domain-card:nth-child(4n+2) { --accent: #e5b84a; }
+    .skill-card:nth-child(4n+3), .domain-card:nth-child(4n+3) { --accent: #a78bfa; }
+    .skill-card:nth-child(4n+4), .domain-card:nth-child(4n+4) { --accent: #60a5fa; }
+    .skill-card__label, .domain-card__label, .stack-tile__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      color: var(--accent, rgba(45, 212, 191, 0.96)) !important;
+      margin: 0 0 0.5rem !important;
+    }
+    .skill-card h3, .domain-card h3, .route-card h3, .stack-tile h3 {
+      margin: 0 0 0.6rem;
+      font-size: 1.03rem;
+      line-height: 1.28;
+      color: rgba(255, 255, 255, 0.93);
+      font-family: "Sora", sans-serif;
+    }
+    .domain-card p, .route-card p, .stack-tile p, .feature-card p {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.4rem 0 !important;
+    }
+    .skill-card__row, .route-card__layer {
+      border-radius: 10px;
+      padding: 0.6rem 0.8rem;
+      margin-top: 0.55rem;
+      font-size: 13.5px;
+      line-height: 1.62;
+      color: rgba(255, 255, 255, 0.72);
+    }
+    .skill-card__row span, .route-card__layer span {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      margin-bottom: 0.2rem;
+    }
+    .skill-card__row--start { background: rgba(45, 212, 191, 0.07); }
+    .skill-card__row--start span { color: rgba(45, 212, 191, 0.95); }
+    .skill-card__row--edge { background: rgba(229, 184, 74, 0.08); }
+    .skill-card__row--edge span { color: #e5b84a; }
+    .route-card__layer { background: rgba(45, 212, 191, 0.07); }
+    .route-card__layer span { color: rgba(45, 212, 191, 0.95); }
+    .route-card__badge {
+      display: inline-block;
+      font-size: 10.5px !important;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: 0.25rem 0.7rem;
+      margin: 0 0 0.6rem !important;
+      border: 1px solid currentColor;
+    }
+    .route-card--teal { --accent: #2dd4bf; }
+    .route-card--teal .route-card__badge { color: #2dd4bf !important; }
+    .route-card--gold { --accent: #e5b84a; }
+    .route-card--gold .route-card__badge { color: #e5b84a !important; }
+    .route-card--violet { --accent: #a78bfa; }
+    .route-card--violet .route-card__badge { color: #a78bfa !important; }
+    .route-card--blue { --accent: #60a5fa; }
+    .route-card--blue .route-card__badge { color: #60a5fa !important; }
+    .route-card--red { --accent: #f87171; }
+    .route-card--red .route-card__badge { color: #f87171 !important; }
+
+    .stack-row, .feature-grid, .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+    }
+    .stack-row, .feature-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .comparison-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stack-tile:nth-child(1) { --accent: #2dd4bf; }
+    .stack-tile:nth-child(2) { --accent: #e5b84a; }
+    .stack-tile:nth-child(3) { --accent: #a78bfa; }
+    .feature-card:nth-child(1) { --accent: #2dd4bf; }
+    .feature-card:nth-child(2) { --accent: #e5b84a; }
+    .feature-card:nth-child(3) { --accent: #60a5fa; }
+    .feature-card__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.93);
+      font-family: "Sora", sans-serif;
+      margin-bottom: 0.3rem;
+    }
+    .compare-card--gold { --accent: #e5b84a; }
+    .compare-card--teal { --accent: #2dd4bf; }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul { margin: 0 0 0 1rem !important; padding: 0 !important; }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.7 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal { border-color: rgba(45, 212, 191, 0.24); background: rgba(45, 212, 191, 0.05); }
+    .highlight-box--amber { border-color: rgba(229, 184, 74, 0.24); background: rgba(229, 184, 74, 0.05); }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .protocol-stack, .mistakes-list, .ai-stage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint, .mistake-item, .ai-stage {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+      display: flex;
+      gap: 1.1rem;
+      align-items: flex-start;
+      padding: 1.15rem 1.2rem;
+    }
+    .checkpoint__num, .mistake-item__num {
+      width: 54px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.25);
+    }
+    .checkpoint__title, .mistake-item__title, .ai-stage__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .checkpoint__body p, .mistake-item__content p, .ai-stage p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .ai-stage__num {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(229, 184, 74, 0.16);
+      border: 1px solid rgba(229, 184, 74, 0.4);
+      color: #e5b84a;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gates-block {
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+      padding: 1.25rem 1.2rem;
+      margin: 1.45rem 0;
+    }
+    .gates-block__title {
+      font-size: 13px !important;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      line-height: 1.6 !important;
+      margin: 0 0 0.95rem !important;
+    }
+    .gates-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.85rem; }
+    .gate {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1rem 0.95rem;
+    }
+    .gate__num {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(45, 212, 191, 0.82);
+      font-weight: 800;
+      margin-bottom: 0.24rem;
+    }
+    .gate__name {
+      display: block;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.45rem;
+      font-family: "Sora", sans-serif;
+    }
+    .gate p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.66 !important;
+      color: rgba(255, 255, 255, 0.64) !important;
+    }
+
+    @media (max-width: 820px) {
+      .comparison-grid, .gates-row, .jump-nav__list, .stack-row, .feature-grid { grid-template-columns: 1fr; }
+      .skill-grid, .domain-grid, .route-grid { grid-template-columns: 1fr; }
+      .weights__row { grid-template-columns: 1fr 3rem; }
+      .weights__name { grid-column: 1 / -1; }
+    }
+    @media (max-width: 560px) {
+      .checkpoint, .mistake-item { flex-direction: column; gap: 0.55rem; }
+      .checkpoint__num, .mistake-item__num { width: auto; text-align: left; font-size: 1.55rem; }
+    }
+    @media (max-width: 420px) {
+      .jump-nav, .skill-card, .domain-card, .route-card, .stack-tile, .feature-card, .compare-card,
+      .highlight-box, .checkpoint, .gates-block, .gate, .mistake-item { padding-left: 1rem; padding-right: 1rem; }
+    }
+  </style>
+</BlogPostLayout>
