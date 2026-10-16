@@ -4087,4 +4087,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 15,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'commerce-career-options-with-salary',
+    title: "Commerce career options with salary: what each route pays and costs",
+    description:
+      "Commerce career options with salary in India: pay and cost by route (CA, CS, CMA, BCom, BBA, economics, banking), 2026 pass rates and the honest spread.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 25,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'law-career-options',
+    title: "Law Career Options After LLB: 10 Routes, Entry Rules, What Scales",
+    description:
+      "Law career options after LLB, BA LLB or BBA LLB: ten routes with entry gate, scalability label and business layer, plus the 2026 judiciary rule change.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 24,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'geography-career-options',
+    title: "Geography Career Options in India: 9 Routes Ranked by Growth",
+    description:
+      "Geography career options in India: GIS, planning, NET teaching, UPSC, surveying and more, with the entry rule for each and which routes can grow into consulting.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 22,
+  },
 ];
