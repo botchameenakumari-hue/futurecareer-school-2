@@ -1,0 +1,1074 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = "Which Degree Has the Highest Salary in India? Start vs Growth";
+const description =
+  "No degree tops every list. Public data shows engineering and medicine start higher and grow faster than BA, BSc and BCom, but each degree's spread is wider.";
+const canonical = "https://futurecareerschool.com/blog/salary-growth/salary-by-degree/";
+const publishedDateISO = "2026-10-14";
+const publishedDateLabel = "14 October 2026";
+const authorName = "Allu Vagdevi";
+const authorUrl = "https://futurecareerschool.com/about/allu-vagdevi/";
+const authorRole = "Career researcher and writer";
+
+const jumpLinks = [
+  { id: "answer", label: "The direct answer" },
+  { id: "ranges", label: "Salary ranges by degree, with sources" },
+  { id: "misleads", label: "Why one ranking of figures misleads" },
+  { id: "growth", label: "Which degree grows your salary the fastest?" },
+  { id: "check", label: "The Start, Slope and Spread Check" },
+  { id: "routes", label: "Degree routes by scalability and sales layer" },
+  { id: "small-part", label: "Why the degree is a small part of income growth" },
+  { id: "ai", label: "AI and your degree" },
+  { id: "choosing", label: "If you are choosing, or already hold, a degree" },
+  { id: "next-step", label: "What to do next" },
+  { id: "faq", label: "FAQs" },
+];
+
+const plfsRows = [
+  { degree: "Engineering degree", entry: "Rs 25,000 (about Rs 3.0 lakh a year)", later: "Rs 42,000 (about Rs 5.0 lakh a year)", growth: "1.68 times", gain: "Rs 17,000", above50: "11.2% to 42.9%", n: "182 people at entry" },
+  { degree: "Medical degree", entry: "Rs 15,180 (about Rs 1.8 lakh a year)", later: "Rs 35,000 (about Rs 4.2 lakh a year)", growth: "2.31 times", gain: "Rs 19,820", above50: "1.7% to 32.9%", n: "40 people at entry; indicative only" },
+  { degree: "Other technical degree (agriculture, crafts and similar)", entry: "Rs 18,000", later: "Rs 33,000", growth: "1.83 times", gain: "Rs 15,000", above50: "6.7% to 18.4%", n: "51 people at entry" },
+  { degree: "Other degree (BA, BSc, BCom and BBA together)", entry: "Rs 18,000 (about Rs 2.2 lakh a year)", later: "Rs 25,000 (about Rs 3.0 lakh a year)", growth: "1.39 times", gain: "Rs 7,000", above50: "3.0% to 9.6%", n: "699 people at entry" },
+];
+
+const payscaleRows = [
+  { degree: "MBA", avg: "Rs 10.0 lakh", n: "6,890 profiles", when: "Aug 2025", mix: "34.3% are in the experienced band" },
+  { degree: "BTech", avg: "Rs 9.4 lakh", n: "3,558 profiles", when: "Jan 2026", mix: "19.2% experienced; 44.6% early career" },
+  { degree: "BSc", avg: "Rs 7.26 lakh", n: "1,887 profiles", when: "Mar 2026", mix: "28.0% experienced" },
+  { degree: "BBA", avg: "Rs 5.6 lakh", n: "597 profiles", when: "May 2026", mix: "44.2% early career" },
+  { degree: "BCom", avg: "Rs 5.53 lakh", n: "2,226 profiles", when: "Mar 2026", mix: "25.7% experienced" },
+  { degree: "BA", avg: "Rs 5.09 lakh", n: "1,393 profiles", when: "Mar 2025", mix: "24.2% experienced" },
+];
+
+const ceilingRows = [
+  { route: "IIM Ahmedabad MBA (one institute)", figure: "Median guaranteed cash Rs 32.5 lakh; mean Rs 31.84 lakh (domestic offers)", base: "392 offers accepted from 402 eligible students; audited placement report, published 7 Sep 2026", read: "A ceiling example for one top MBA batch, not an MBA average." },
+  { route: "Chartered accountant, ICAI campus drive", figure: "Average about Rs 13 lakh; highest domestic Rs 27.5 lakh", base: "2,570 offers from about 183 to 185 organisations, April to May 2026 drive; sources round the average to Rs 13.00 or Rs 13.30 lakh", read: "Offers made on campus to newly qualified CAs, after a multi-level exam route." },
+];
+
+const mislead = [
+  { label: "Who is in the group", title: "A degree label hides a crowd", body: "Arts, science and commerce make up 62.3% of undergraduate enrolment (34.2%, 14.8% and 13.3%), and engineering is 11.8% (AISHE 2021-22, Ministry of Education). So an average across all degrees is mostly a BA, BSc and BCom average. In the PLFS data, the 45.4 million people in the BA, BSc, BCom and BBA group are only 15.0% in formal work, and 52.5% are neither working for money nor studying." },
+  { label: "College", title: "One degree name, two different products", body: "IIM Ahmedabad's median is Rs 32.5 lakh, yet the MBA average in Payscale's 6,890 profiles is Rs 10 lakh. Both are real numbers about an MBA. The gap is the college and the batch, so ask any college for the placed share and the median of the placed, as shown in the Cohort Test in our after-12th pay ledger." },
+  { label: "Employer and city", title: "The same degree, very different employers", body: "In Payscale's BSc sample, the employer averages run from about Rs 3.7 lakh (Larsen and Toubro) to Rs 31.75 lakh (Siemens). That is one degree and one data source. Employer type, city and the skill you bring move the figure more than the degree title does." },
+  { label: "Job match", title: "Many graduates work below their degree", body: "The Economic Survey 2024-25, as quoted by Careers360, says only 8.25% of graduates are in high-competency skilled roles, and over half of graduates are underemployed. The same article also gives 36% and 44% for postgraduates, so treat the exact share with care. The direction is clear: a degree does not place you in a degree-level job." },
+  { label: "Sample and source", title: "Self-reported pay skews high", body: "Payscale averages come from people who choose to report online, and they mix every experience level. For BTech, Payscale shows an average of Rs 9.4 lakh, while the formal-work PLFS figure at three or more years is about Rs 5.0 lakh. The two measure different groups, so never put one next to the other as if they were the same thing." },
+];
+
+const checkItems = [
+  { num: "1", title: "Start: what does a typical person earn in year one?", body: "Use a named sample and read its size. In the PLFS table, engineering starts at Rs 25,000 a month and the BA, BSc, BCom and BBA group at Rs 18,000.", note: "Anything under about 50 people, such as the medical row, is a hint, not a fact." },
+  { num: "2", title: "Slope: how many rupees does it add by year three?", body: "Do not stop at the multiple. Medicine shows the biggest multiple (2.31 times) because it starts lowest, yet it adds Rs 19,820 a month against engineering's Rs 17,000 and the broad degree group's Rs 7,000.", note: "A low start inflates the multiple. Read the rupee gain next to it." },
+  { num: "3", title: "Spread: how many holders reach the top band?", body: "At three or more years, 42.9% of engineers earn above Rs 50,000 a month. For the broad group it is 9.6%. That also means 57.1% of engineers are still below Rs 50,000.", note: "A degree with a high average can still leave most of its holders under the line." },
+];
+
+const routeRows = [
+  { route: "BTech, BCA or BSc in computing, with a real software or data skill", label: "Scalable", cls: "tag-high", why: "Skills sell directly as projects, freelance work or a small agency. A degree alone is crowded: most engineers are still below Rs 50,000 a month at three years.", who: "Employers, or startups and small firms as clients. They trust a deployed project more than a mark sheet. First step: a one-page offer for one problem, with one finished example." },
+  { route: "Design, writing and media degrees with a portfolio", label: "Scalable", cls: "tag-high", why: "A portfolio and an audience sell directly. The degree matters far less than the work shown.", who: "Brands, agencies and individual clients. They trust past work and referrals. First step: three samples for one type of client, and a polite follow-up after each pitch." },
+  { route: "CA and other finance qualifications", label: "Scalable with a business layer", cls: "tag-mid", why: "A long exam ladder with several pass stages, but a small practice can grow into advisory work.", who: "Employers first, then small business owners. They trust a licence and a referral. First step: a fixed-scope package, such as monthly compliance for one kind of firm." },
+  { route: "BCom, BBA or MBA with a domain skill (sales, analytics, finance)", label: "Scalable with a business layer", cls: "tag-mid", why: "A general business degree is crowded. It scales when you add one applied skill and consulting or a venture later.", who: "Employers; later clients. First step: explain your value in two sentences and ask three people for a warm introduction." },
+  { route: "BA or BSc with a skill added (psychology, research, data, teaching)", label: "Scalable with a business layer", cls: "tag-mid", why: "The broad degree group has the flattest pay curve in the data (1.39 times). A niche practice, workshops or an online programme give it a ceiling.", who: "Individuals, schools and firms. They trust proof, reviews and referrals. First step: pick one niche and one small paid pilot." },
+  { route: "Core engineering (mechanical, civil, electrical) and diplomas", label: "Scalable with a business layer", cls: "tag-mid", why: "Salaried roles follow a fixed ladder. Contracting, repair, solar or design services give a business layer.", who: "Employers, then local customers and contractors. They trust finished jobs and word of mouth. First step: keep a photo log of completed work and ask each customer for a referral." },
+  { route: "Nursing, pharmacy and allied health", label: "Scalable with a business layer", cls: "tag-mid", why: "Licensed, steady demand, modest early pay. Home-care, clinic or pharmacy ownership gives a business layer.", who: "Hospitals, then patients and families. They trust a licence, a clean record and referrals. Employer-only at first; the sales layer matters for the move after it." },
+  { route: "MBBS and other medical degrees", label: "Not so scalable", cls: "tag-low", why: "Competition at several stages (NEET, then postgraduate seats, then building a practice) and many years before pay grows. Keep a second route running.", who: "Hospitals and patients. Trust comes from the licence and outcomes. The sales layer matters after specialisation, when a practice is built." },
+  { route: "Integrated law and a government-exam route after any degree", label: "Not so scalable", cls: "tag-low", why: "Rank-based selection with many applicants for few posts, and fixed pay steps. Service rules may limit outside work, so check the post.", who: "Employer-only. A sales layer matters mainly for the side route, such as coaching, writing or consulting, or the move after it." },
+];
+
+const aiRows = [
+  { label: "Software and data", title: "Entry-level tasks shrink first", body: "AI drafts routine code and queries. The human layer is framing the problem, checking output and explaining trade-offs. Start by using AI as a checking partner, then build one workflow you can show." },
+  { label: "CA and commerce", title: "Drafting speeds up, signing does not", body: "Reconciliation and first-pass reports get faster. Review, judgement and the signature stay with a person, and so does client trust." },
+  { label: "BA and BSc", title: "Generic writing becomes cheap", body: "Plain content and summaries are easier to produce, so a sharp niche, original research and an audience matter more than the degree name." },
+  { label: "Medicine and nursing", title: "Paperwork eases, care does not", body: "Documentation help is real, while examination, judgement and accountability stay human. Licensed work is among the harder areas to automate." },
+];
+
+const gateItems = [
+  { name: "Gate 1", title: "Proof of skill", body: "One finished piece of work in your target line, such as a small project, a model, a writing sample or a clinical log." },
+  { name: "Gate 2", title: "Proof of communication", body: "A short explanation of what you do and for whom, in plain English, said or written in a minute or two." },
+  { name: "Gate 3", title: "Proof of value", body: "Feedback from three people working in the field on what your first and third year really paid." },
+];
+
+const faqItems = [
+  {
+    q: "Which degree has the highest salary in India?",
+    a: "No public source ranks every degree fairly. In the PLFS data (CY2025, graduates aged 21 to 34 in formal work), engineering and medical degrees sit above the BA, BSc, BCom and BBA group at three or more years: Rs 42,000, Rs 35,000 and Rs 25,000 a month. At the very top, one IIM Ahmedabad batch reported a median guaranteed cash of Rs 32.5 lakh. But the spread inside each degree is wider than the gap between degrees, so college, employer and skill decide your number.",
+  },
+  {
+    q: "Which degree grows your salary the fastest?",
+    a: "By the multiple from entry to three or more years, medicine rose 2.31 times, other technical degrees 1.83 times, engineering 1.68 times and the broad BA, BSc, BCom and BBA group 1.39 times. In rupees, medicine added Rs 19,820 a month, engineering Rs 17,000 and the broad group Rs 7,000. The samples are small for medicine, and growth here is tied to time in the current job status, so use it as direction, not a forecast.",
+  },
+  {
+    q: "Is MBBS the highest-paying degree?",
+    a: "It has a high ceiling, not a high start. The PLFS medical row starts at Rs 15,180 a month and reaches Rs 35,000, but it has only 40 people at entry, so it cannot show specialist pay. Specialist income usually needs postgraduate training, and a second competitive filter sits there. Plan for a long runway and a backup skill.",
+  },
+  {
+    q: "Does a BTech from an average college pay well?",
+    a: "Not by default. Formal-work engineering graduates earn a typical Rs 25,000 a month at entry and Rs 42,000 at three or more years, and 57.1% are still below Rs 50,000 a month at that stage. A BTech with a visible software or data skill, a finished project and good communication moves toward the top band. The brochure college median is the wrong figure to plan with.",
+  },
+  {
+    q: "Do BA, BSc and BCom graduates earn much less than engineers?",
+    a: "On the PLFS figures, the broad group starts at Rs 18,000 against Rs 25,000 and reaches Rs 25,000 against Rs 42,000. But this group is 45.4 million people, and only 15.0% of them are in formal work, so the average hides very different outcomes. A BA or BCom holder with a skill and proof of work can sit well above that line, and many engineers sit below it.",
+  },
+  {
+    q: "Does an MBA raise your salary?",
+    a: "At a top institute, yes. At IIM Ahmedabad the median guaranteed cash was Rs 32.5 lakh. Across Payscale's 6,890 MBA profiles the average is Rs 10 lakh, and about a third of respondents are in the experienced band. The MBA label covers both outcomes, so judge the specific college and your plan. Our MBA salary growth guide splits the curve by tier.",
+  },
+  {
+    q: "Is a government job after any degree a good salary route?",
+    a: "It is a steady route with a capped upside. Pay rises in fixed steps: the pay matrix gives an increment of about 3% a year within a level, and promotion moves you to a higher cell. Three increments at Level 6 (entry basic Rs 35,400) come to roughly 9% before any promotion, by our arithmetic. Competition is heavy, so keep a parallel skill running. Check the rules of the specific post, including limits on outside work.",
+  },
+  {
+    q: "Can I earn a high salary without a degree?",
+    a: "In some skill-led fields, yes, because proof of work can matter more than the certificate. Licensed careers such as medicine, nursing, law and chartered accountancy need the formal credential. State of Working India 2026, as cited by The India Forum, reports that graduates earn roughly twice as much as non-graduates at entry, so the degree is not worthless. It is one part of the picture.",
+  },
+  {
+    q: "How much should a family spend on a degree for a better salary?",
+    a: "As a strict planning heuristic, keep the college fee near 10% of the total education budget. Spending above roughly 20% is a serious caution that needs course-specific evidence, such as a legal requirement or verified placed share and median. Both numbers are heuristics, not laws. Avoid an education loan unless the credential is legally required or the evidence is unusually strong.",
+  },
+  {
+    q: "Why do salary websites show different numbers for the same degree?",
+    a: "They measure different people. A survey of formal workers aged 21 to 34 and a self-reported online average that includes senior staff will not match. For BTech, Payscale shows Rs 9.4 lakh across 3,558 profiles, while the PLFS engineering figure at three or more years is about Rs 5.0 lakh. Always check the sample size, the date and who is included.",
+  },
+  {
+    q: "Should I choose a degree only by salary?",
+    a: "No. Salary is one of four checks in The 4-Checkpoint Protocol: your energy and work style, your life context, whether the market has an urgent problem for you to solve, and whether the work survives AI. Pick the route you can sustain for years, then build skills, proof and a sales layer on top of it.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="salary-growth"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>No single degree has the highest salary in India, because the same degree can pay Rs 3 lakh or Rs 30 lakh depending on college, employer, city and the skills you add.</strong>
+    Public data says engineering and medical graduates start higher and gain more in the first three years than BA, BSc and BCom graduates, but the gap inside each degree is wider than the gap between degrees. A <strong>high-value skill portfolio</strong> on top of the degree is what turns it into <strong>high income opportunities</strong>.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li><strong>Start is not growth.</strong> At three or more years, formal-work engineering graduates typically earn Rs 42,000 a month, medical Rs 35,000 and the BA, BSc, BCom and BBA group Rs 25,000 (PLFS CY2025, via Avanti Fellows analysis). Medicine grows fastest by multiple (2.31 times), but engineering and medicine add similar rupees.</li>
+      <li><strong>Judge a degree on three numbers:</strong> the typical start, the rupees added by year three, and the share who reach the top band. We call this The Start, Slope and Spread Check.</li>
+      <li><strong>Your next step:</strong> pick one core skill, one multiplier skill and one piece of proof on top of your degree. That is the route toward <strong>earlier financial freedom</strong>, and it matters more than the degree name.</li>
+    </ul>
+  </div>
+
+  <p>
+    For the wider category, see our <a href="/blog/salary-growth/">salary growth guides</a>. If you are still choosing a stream, our <a href="/blog/career-options/best-career-options-after-12th-with-high-salary/">pay ledger for careers after 12th</a> shows fees and placed shares.
+  </p>
+
+  <p>
+    For the MBA curve in particular, read <a href="/blog/college-degrees/mba-salary-growth-over-time-india/">MBA salary growth over time</a>. For a second opinion on your own plan, our <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">continuous career guidance</a> is built for this decision.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="answer">The direct answer: no degree wins on every measure</h2>
+
+  <p>
+    Search this question and you get lists that put one degree on top, usually medicine, engineering or an MBA. Those lists mix top-college outcomes with average ones, and they rarely say how many people stand behind a figure.
+  </p>
+
+  <p>
+    So here is the honest answer. Medicine and engineering have the best slopes in the data we could verify, and a top MBA batch has the highest single median we found. A broad BA, BSc or BCom degree has the flattest slope.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">Questions people actually type</p>
+    <ul class="callout__list">
+      <li>"Which degree has the highest salary in India?"</li>
+      <li>"Which degree grows your salary the fastest?"</li>
+    </ul>
+    <p class="callout__footer">
+      Short answers: no degree tops every measure, and the fastest growth is measured in rupees added, not only in percentages. The tables below show both.
+    </p>
+  </div>
+
+  <h2 id="ranges">Salary ranges by degree, with named sources</h2>
+
+  <p>
+    There is no official India table that lists pay by degree and years of experience together. These three views come closest, and each one measures something different.
+  </p>
+
+  <h3>View 1: graduates in formal work, at entry and at three or more years</h3>
+
+  <p>
+    This is MoSPI's Periodic Labour Force Survey for calendar year 2025, analysed by Avanti Fellows (August 2026). It covers graduates aged 21 to 34 in regular salaried work and excludes postgraduates.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Degree</th>
+          <th>Entry, monthly</th>
+          <th>Three or more years, monthly</th>
+          <th>Growth multiple</th>
+          <th>Rupees added</th>
+          <th>Share above Rs 50,000 (entry to later)</th>
+          <th>Sample</th>
+        </tr>
+      </thead>
+      <tbody>
+        {plfsRows.map((item) => (
+          <tr>
+            <td data-label="Degree"><strong>{item.degree}</strong></td>
+            <td data-label="Entry, monthly">{item.entry}</td>
+            <td data-label="Three or more years, monthly">{item.later}</td>
+            <td data-label="Growth multiple">{item.growth}</td>
+            <td data-label="Rupees added">{item.gain}</td>
+            <td data-label="Share above Rs 50,000 (entry to later)">{item.above50}</td>
+            <td data-label="Sample">{item.n}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Source: <a href="https://docs.avantifellows.org/analyses/plfs/entry/" target="_blank" rel="noopener noreferrer">Avanti Fellows analysis of MoSPI PLFS CY2025</a>, first visit only. The page does not say whether wages are means or medians. Annual figures are our arithmetic (monthly times 12). "Entry" means under one year in the current activity, and growth uses tenure where the sample allows, otherwise age bands. The same page warns against quoting its two diploma rows, so we left diplomas out. It reports no causation, and its standard errors are understated because of clustered sampling.
+  </p>
+
+  <h3>View 2: self-reported averages across all experience levels</h3>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Degree</th>
+          <th>Average base pay</th>
+          <th>Sample</th>
+          <th>Updated</th>
+          <th>Who answers</th>
+        </tr>
+      </thead>
+      <tbody>
+        {payscaleRows.map((item) => (
+          <tr>
+            <td data-label="Degree"><strong>{item.degree}</strong></td>
+            <td data-label="Average base pay">{item.avg}</td>
+            <td data-label="Sample">{item.n}</td>
+            <td data-label="Updated">{item.when}</td>
+            <td data-label="Who answers">{item.mix}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Source: Payscale India degree pages for
+    <a href="https://www.payscale.com/research/IN/Degree=Bachelor_of_Commerce_(BCom)/Salary" target="_blank" rel="noopener noreferrer">BCom</a>,
+    <a href="https://www.payscale.com/research/IN/Degree=Bachelor_of_Arts_(BA)/Salary" target="_blank" rel="noopener noreferrer">BA</a>,
+    <a href="https://www.payscale.com/research/IN/Degree=Master_of_Business_Administration_(MBA)/Salary" target="_blank" rel="noopener noreferrer">MBA</a> and
+    <a href="https://www.payscale.com/research/IN/Degree=Bachelor_of_Business_Administration_(BBA)/Salary" target="_blank" rel="noopener noreferrer">BBA</a>, plus the BTech and BSc pages. Dates are as shown on each page. These are self-reported and skew toward urban, online workers. The pages give the share of respondents at each experience stage but not pay by stage, so they cannot show growth. Read them as a rough level, not a ranking.
+  </p>
+
+  <h3>View 3: ceiling examples from audited or official placement data</h3>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Route</th>
+          <th>Reported figure</th>
+          <th>Base</th>
+          <th>How to read it</th>
+        </tr>
+      </thead>
+      <tbody>
+        {ceilingRows.map((item) => (
+          <tr>
+            <td data-label="Route"><strong>{item.route}</strong></td>
+            <td data-label="Reported figure">{item.figure}</td>
+            <td data-label="Base">{item.base}</td>
+            <td data-label="How to read it">{item.read}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Sources: <a href="https://insideiim.com/iim-ahmedabad-final-placements-2026-the-complete-breakdown" target="_blank" rel="noopener noreferrer">InsideIIM summary of the IIM Ahmedabad placement report</a>, audited under the Indian Placement Reporting Standards; and ICAI campus placement figures as reported in news coverage (April to May 2026 drive). Pay figures here are indicative ranges and averages from public profiles, not exact or guaranteed amounts. Pay differs by city, employer, skill and year, and markets change. Check current job listings (for example on LinkedIn, Naukri or Indeed) and ask people working in the role before you decide.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      Put the three views side by side and one thing is clear. The same degree can sit at Rs 5 lakh in a national survey and Rs 30 lakh in one elite batch. A table that gives you one number per degree is hiding that.
+    </p>
+  </div>
+
+  <h2 id="misleads">Why one ranking of figures misleads</h2>
+
+  <p>
+    A ranking of single figures answers a question nobody is really asking. You are not an average graduate of an average college. Five things break the average.
+  </p>
+
+  <div class="work-style-grid">
+    {mislead.map((item) => (
+      <div class="work-style-card">
+        <div class="work-style-card__label">{item.label}</div>
+        <div class="work-style-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p class="note-line">
+    Sources: AISHE 2021-22 as reported by IANS; PLFS CY2025 via Avanti Fellows; InsideIIM; Payscale; Economic Survey 2024-25 as quoted by Careers360. We could not open the Economic Survey chapter itself, so confirm the exact underemployment share there.
+  </p>
+
+  <div class="highlight-box highlight-box--gold">
+    <p>
+      <strong>The sales layer is missing from every ranking.</strong> A degree tells you what you studied, not who will pay you or why they will trust you. Two people with the same BCom can earn very differently because one can explain their value in two sentences and one cannot.
+    </p>
+  </div>
+
+  <h2 id="growth">Which degree grows your salary the fastest?</h2>
+
+  <p>
+    Growth is the part most rankings skip. In the PLFS table above, every graduate group rises between entry and three or more years, but by very different amounts.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">Steeper slopes</div>
+      <ul>
+        <li>Medical: 2.31 times and Rs 19,820 more a month, on a thin sample of 40 to 43 people.</li>
+        <li>Engineering: 1.68 times and Rs 17,000 more, with 42.9% above Rs 50,000 at three or more years.</li>
+        <li>Other technical degrees: 1.83 times and Rs 15,000 more.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">Flatter slopes</div>
+      <ul>
+        <li>BA, BSc, BCom and BBA together: 1.39 times and Rs 7,000 more.</li>
+        <li>A government pay step: about 3% a year within a level. At Level 6 (entry basic Rs 35,400), three increments come to roughly 9% before promotion (our arithmetic, dearness allowance left out).</li>
+        <li>The whole graduate pool: real earnings of young graduate men grew by about -0.1% a year in the six years since 2017 (State of Working India 2026, as cited by The India Forum).</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="note-line">
+    Sources: Avanti Fellows analysis of PLFS CY2025; <a href="https://taggd.in/?p=992411" target="_blank" rel="noopener noreferrer">pay matrix explainer</a> for the 3% step and entry basic; <a href="https://www.theindiaforum.in/education/failed-promises-higher-education-india" target="_blank" rel="noopener noreferrer">The India Forum</a> on State of Working India 2026. Growth in the PLFS table is measured on one year of data, not by following the same people over time.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take on "fastest"</p>
+    <p>
+      The growth you see happens after hiring. At entry, only 11.2% of engineers and 3.0% of the broad group earn above Rs 50,000 a month. The gap opens in years one to three, and that is where your role, your employer and your skills do the work.
+    </p>
+    <p>
+      The state of the whole market matters too. When graduate pay across the country is flat in real terms, the degree you hold decides less than the skill you can show.
+    </p>
+  </div>
+
+  <h2 id="check">The Start, Slope and Spread Check</h2>
+
+  <p>
+    Use this on any degree, college or salary claim before you trust it. The Start, Slope and Spread Check takes one minute per option.
+  </p>
+
+  <div class="protocol-stack">
+    {checkItems.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+          <div class="checkpoint__note">{item.note}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="routes">Degree routes by scalability and sales layer</h2>
+
+  <p>
+    We lead with the routes where pay can grow furthest through skill, consulting or ownership, and put the rank-based routes last with their risk. Every route stays in the table, because crowded options are still real options.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Degree route</th>
+          <th>Our rating</th>
+          <th>Why</th>
+          <th>Who pays, and the first sales step</th>
+        </tr>
+      </thead>
+      <tbody>
+        {routeRows.map((item) => (
+          <tr>
+            <td data-label="Degree route"><strong>{item.route}</strong></td>
+            <td data-label="Our rating"><span class={item.cls}>{item.label}</span></td>
+            <td data-label="Why">{item.why}</td>
+            <td data-label="Who pays, and the first sales step">{item.who}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Ratings follow our scalability rule: a route is Scalable when skill, proof and sales sense can grow income into consulting or a business of your own. Crowded fields and ladders of exams and ranks are marked Not so scalable. The sales step is a basic starting point and promises no income.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>Two-stage competition to plan for:</strong> medicine (NEET, then postgraduate seats), chartered accountancy (three exam levels plus articleship) and a top MBA (an entrance exam, then campus placement) each ask you to win twice. Clearing the first filter does not clear the second, so keep a backup skill that pays if the plan slips.
+    </p>
+  </div>
+
+  <h2 id="small-part">Why the degree is a small part of income growth</h2>
+
+  <figure class="owner-view">
+    <p class="owner-view__label">Our view</p>
+    <p>
+      This is our editorial view, not a study result. We think the college and the degree explain a small share of how far your income grows, and that three other things explain more.
+    </p>
+  </figure>
+
+  <div class="work-style-grid">
+    <div class="work-style-card">
+      <div class="work-style-card__label">Skills</div>
+      <div class="work-style-card__title">Core skill, multiplier skill, proof</div>
+      <p>One skill the market pays for, one that multiplies it (communication in English, data, a second language, AI use with checking), and one finished piece of work that others can see. A pile of certificates is not a skill portfolio.</p>
+    </div>
+    <div class="work-style-card">
+      <div class="work-style-card__label">Sales layer</div>
+      <div class="work-style-card__title">Who pays and why they trust you</div>
+      <p>Know who pays, say what you do in two sentences, show proof, follow up, ask for referrals, and learn to hold one honest price conversation. One number to watch: how many conversations turn into a paid yes.</p>
+    </div>
+    <div class="work-style-card">
+      <div class="work-style-card__label">Ownership</div>
+      <div class="work-style-card__title">Own part of what you build</div>
+      <p>A salary is a tool to save and learn. Larger income usually comes from owning a practice, a studio, a product, a client list or a share in a business. Not everyone needs this, but it is the layer a pay band cannot give you.</p>
+    </div>
+  </div>
+
+  <div class="gates-block">
+    <p class="gates-block__title">The 3 Gates: pass these before you spend money on another credential.</p>
+    <div class="gates-row">
+      {gateItems.map((item) => (
+        <div class="gate">
+          <span class="gate__num">{item.name}</span>
+          <span class="gate__name">{item.title}</span>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <p>
+    Degrees still matter where the law needs them. Medicine, nursing, law and chartered accountancy need the formal credential, and some top institutes give real access to peers, labs and recruiters. The problem is degree-only thinking, where a person spends heavily on a credential and builds nothing beside it.
+  </p>
+
+  <p>
+    Information is now free or cheap on YouTube, official documentation and reputable low-cost courses. Judge each course by its instructor, update date, exercises and whether it makes you build something.
+  </p>
+
+  <h2 id="ai">AI and your degree</h2>
+
+  <p>
+    AI changes the task mix inside a degree before it changes the degree. Ask which parts of your work become easier and which human layers still earn the money.
+  </p>
+
+  <div class="work-style-grid">
+    {aiRows.map((item) => (
+      <div class="work-style-card">
+        <div class="work-style-card__label">{item.label}</div>
+        <div class="work-style-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p>
+    Start now by using AI to explain, draft and check your own work, and verify every number from an official page. Later, as tools mature, the gain goes to people who pair domain knowledge with a clear workflow and can show the result. No multiplier is guaranteed, and tool skill without domain depth does not raise pay.
+  </p>
+
+  <h2 id="choosing">If you are choosing, or already hold, a degree</h2>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">If you are choosing</div>
+      <ul>
+        <li>As a strict heuristic, keep the college fee near 10% of the whole education budget. On Rs 10 lakh, that is about Rs 1 lakh for college and Rs 9 lakh for living security, tools, projects and later learning.</li>
+        <li>Spending above roughly 20% needs course-specific evidence, such as a legal requirement or a published placed share and median.</li>
+        <li>Check the work style too. Some skills can be sold remotely from a lower-cost city, while others need a hospital, a site or a court.</li>
+        <li>Avoid an education loan unless the credential is legally required. If a degree needs a loan to pay back from first-year pay, run the numbers first.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">If you already hold one</div>
+      <ul>
+        <li>The degree is done. The question is whether the next stretch builds proof or only drift.</li>
+        <li>Run a short test: one skill, one finished sample, and three conversations with people two to five years ahead of you, for as long as it genuinely takes. Some people need a few weeks, others a couple of months.</li>
+        <li>For the broad BA, BSc and BCom group, the flattest slope in the data, a skill added early matters most. Data analysis, sales, design or writing sell directly and are stronger moves than a second general degree.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Expensive wrong turns</p>
+    <ul>
+      <li>Paying for a prestige seat because a brochure quoted a package.</li>
+      <li>Taking a loan for a degree whose typical start is smaller than the yearly repayment.</li>
+      <li>Collecting certificates instead of one finished project.</li>
+      <li>Treating a salary list as a plan.</li>
+    </ul>
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Pick the two degrees or routes you are weighing. For each one, find the typical start, the rupees added by year three and the share who reach a high band, from a named sample with a size. Then ask three people working in the role what they earned in year one and year three.
+  </p>
+
+  <p>
+    If you want a structured plan around your budget, marks and goals, choose <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">continuous career guidance</a>. It helps you make the decisions that unlock high income opportunities, by building a high-value skill portfolio around your degree so your income compounds toward earlier financial freedom.
+  </p>
+
+  <h2 id="faq">FAQs on which degree has the highest salary in India</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .article-cover-visual,.article-visual{width:100%;max-width:100%;margin:2rem 0}.article-cover-visual img,.article-visual img{display:block;width:100%;max-width:100%;height:auto;border-radius:18px;border:1px solid rgba(255,255,255,.1)}.article-cover-visual figcaption,.article-visual figcaption{margin-top:.65rem;color:rgba(255,255,255,.58);font-size:.82rem;line-height:1.55;overflow-wrap:anywhere}
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.65rem 0.8rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      padding: 0.72rem 0.8rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.45;
+      text-decoration: none;
+      transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+      border-color: rgba(229, 184, 74, 0.18);
+      background: rgba(229, 184, 74, 0.06);
+      transform: translateY(-1px);
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.06);
+    }
+    .callout__eyebrow {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.7rem !important;
+    }
+    .callout__list {
+      margin: 0 0 0.2rem 1.1rem !important;
+      padding: 0 !important;
+    }
+    .callout__list li {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.7 !important;
+      margin: 0.32rem 0 !important;
+    }
+    .callout__footer {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      margin: 0.8rem 0 0 !important;
+      line-height: 1.74 !important;
+    }
+
+    .work-style-grid,
+    .comparison-grid,
+    .proof-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .work-style-card,
+    .compare-card,
+    .proof-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .work-style-card {
+      border-color: rgba(255, 255, 255, 0.09);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    }
+    .work-style-card__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      color: rgba(45, 212, 191, 0.96);
+      margin-bottom: 0.5rem;
+    }
+    .work-style-card__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.93);
+      line-height: 1.28;
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .work-style-card p,
+    .proof-card p {
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0 !important;
+    }
+    .proof-card__track {
+      display: inline-block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      color: rgba(45, 212, 191, 0.92);
+      margin-bottom: 0.55rem;
+    }
+    .proof-card p strong {
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .compare-card--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .compare-card--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul {
+      margin: 0 0 0 1rem !important;
+      padding: 0 !important;
+    }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .rich-list {
+      counter-reset: rl;
+      list-style: none !important;
+      margin: 1.35rem 0 !important;
+      padding: 0 !important;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .rich-list li {
+      counter-increment: rl;
+      position: relative;
+      padding: 1rem 1.1rem 1rem 3.2rem !important;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      color: rgba(255, 255, 255, 0.69) !important;
+      line-height: 1.75 !important;
+      margin: 0 !important;
+    }
+    .rich-list li::before {
+      content: counter(rl);
+      position: absolute;
+      left: 0.95rem;
+      top: 1rem;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e5b84a;
+      color: #0a0f1e;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .protocol-stack,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .gates-block {
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+      padding: 1.25rem 1.2rem;
+      margin: 1.45rem 0;
+    }
+    .gates-block__title {
+      font-size: 13px !important;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      line-height: 1.6 !important;
+      margin: 0 0 0.95rem !important;
+    }
+    .gates-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .gate {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1rem 0.95rem;
+    }
+    .gate__num {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(45, 212, 191, 0.82);
+      font-weight: 800;
+      margin-bottom: 0.24rem;
+    }
+    .gate__name {
+      display: block;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.45rem;
+      font-family: "Sora", sans-serif;
+    }
+    .gate p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.66 !important;
+      color: rgba(255, 255, 255, 0.64) !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    @media (max-width: 820px) {
+      .work-style-grid,
+      .comparison-grid,
+      .proof-grid,
+      .gates-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .work-style-card,
+      .compare-card,
+      .proof-card,
+      .highlight-box,
+      .checkpoint,
+      .gates-block,
+      .gate,
+      .mistake-item {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 640px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+    .path-card__row {
+      margin: 0.55rem 0 0 !important;
+      padding: 0.55rem 0.7rem;
+      border-radius: 10px;
+      font-size: 0.86rem !important;
+      line-height: 1.5;
+    }
+    .path-card__row--fit {
+      background: rgba(45, 212, 191, 0.08);
+      border-left: 3px solid rgba(45, 212, 191, 0.7);
+    }
+    .path-card__row--watch {
+      background: rgba(229, 184, 74, 0.08);
+      border-left: 3px solid rgba(229, 184, 74, 0.75);
+    }
+    .tag-high, .tag-mid, .tag-low { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 1.4; border: 1px solid transparent; }
+    .tag-high { color: #2dd4bf; background: rgba(45, 212, 191, 0.1); border-color: rgba(45, 212, 191, 0.35); }
+    .tag-mid { color: #e5b84a; background: rgba(229, 184, 74, 0.1); border-color: rgba(229, 184, 74, 0.35); }
+    .tag-low { color: #f0a5a5; background: rgba(240, 120, 120, 0.1); border-color: rgba(240, 120, 120, 0.35); }
+    .owner-view { margin: 1.2rem 0; padding: 1rem 1.15rem; border-left: 3px solid #2dd4bf; border-radius: 0 14px 14px 0; background: rgba(45, 212, 191, 0.05); }
+    .owner-view__label { font-size: 10px !important; text-transform: uppercase; letter-spacing: 0.12em; color: #2dd4bf !important; font-weight: 800; margin: 0 0 0.5rem !important; }
+    .owner-view p { margin: 0.4rem 0 !important; font-size: 15px !important; line-height: 1.75 !important; }
+  </style>
+</BlogPostLayout>

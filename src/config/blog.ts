@@ -4078,4 +4078,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 20,
   },
+  {
+    categorySlug: 'salary-growth',
+    slug: 'salary-by-degree',
+    title: "Which Degree Has the Highest Salary in India? Start vs Growth",
+    description:
+      "No degree tops every list. Public data shows engineering and medicine start higher and grow faster than BA, BSc and BCom, but each degree's spread is wider.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 15,
+  },
 ];
