@@ -4114,4 +4114,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 22,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'mathematics-career-options',
+    title: "Mathematics Career Options: What BSc and MSc Maths Open Up",
+    description:
+      "Mathematics career options after BSc or MSc maths: which exams accept plain maths, which need statistics or NET, and eight routes by how far they scale.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 22,
+  },
 ];
