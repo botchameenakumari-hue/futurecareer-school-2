@@ -4222,4 +4222,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 22,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-bpo-a-good-career-in-india',
+    title: "Is BPO a Good Career in India? Verdict by Role, Shift and Exit",
+    description:
+      "Is BPO a good career in India? Yes as a paid first step, not as a plan. Voice vs non-voice, night-shift health, AI pressure on scripted work, and the exits.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 14,
+  },
 ];

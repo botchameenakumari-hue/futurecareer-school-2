@@ -160,4 +160,5 @@ export const POST_SCALE = {
   "bsc-agriculture-career-options": ["mid", "Exam posts (bank, state, ICAR) follow fixed pay ladders; farm advisory, an input shop, FPO consulting, drone services or your own agri-enterprise give a business layer."],
   "is-it-a-good-career-in-india": ["mid", "A sector, not one job: salaried services roles follow a fixed ladder; product, GCC, freelance and consulting routes scale, while support and BPM roles do not."],
   "is-sap-a-good-career-in-india": ["mid", "Salaried partner and services ladder; domain-led consulting, a boutique or BTP extension projects give a business layer, but client system access and a time-limited migration wave limit going solo."],
+  "is-bpo-a-good-career-in-india": ["low", "Entry is open and fast, but scripted voice and chat work has a low ceiling and the most AI pressure; use it as a paid bridge and build a sellable skill (support setup, CRM, customer success) beside it."],
 };
