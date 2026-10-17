@@ -4168,4 +4168,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 22,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'bsc-chemistry-career-options',
+    title: "BSc Chemistry Career Options: 10 Routes, Pay Signals, What Scales",
+    description:
+      "BSc chemistry career options in India: ten routes from pharma QC to BARC, which ones need an MSc, sourced pay signals, lab-safety reality and what can scale.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 16,
+  },
 ];

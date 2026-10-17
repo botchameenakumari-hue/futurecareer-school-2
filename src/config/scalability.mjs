@@ -155,4 +155,5 @@ export const POST_SCALE = {
   "zoology-career-options": ["mid", "Degree alone is crowded and wildlife or research posts are contract or rank-gated; fisheries, bee, silk and poultry services, testing labs and data consulting give a business layer."],
   "botany-career-options": ["mid", "A botany degree alone leads to contract and lab posts; a nursery, tissue culture unit, herbal raw material supply or plant mapping and consulting gives a business layer."],
   "bsc-physics-career-options": ["mid", "Degree alone is crowded and government, research and medical physics posts are rank-gated or temporary; data and analysis, electronics, tutoring and measurement or audit services give a business layer."],
+  "bsc-chemistry-career-options": ["mid", "Lab jobs follow fixed pay bands and start modestly; chemistry plus data or teaching, documentation, testing and formulation services give a business layer."],
 };
