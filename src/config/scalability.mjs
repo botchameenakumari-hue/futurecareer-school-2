@@ -169,4 +169,5 @@ export const POST_SCALE = {
   "is-petroleum-engineering-a-good-career-in-india": ["low", "Few seats and employers, boom-and-bust hiring and a fixed PSU ladder; subsurface data skills and consulting or inspection services are the only business layer."],
   "is-product-design-a-good-career-in-india": ["mid", "A salaried ladder with a scarce junior door; a niche freelance practice, studio, templates or design-system consulting give a business layer."],
   "is-real-estate-a-good-career-in-india": ["mid", "Solo commission and salaried developer sales are lumpy or capped; property management, valuation, marketing and your own RERA-registered brokerage give a business layer."],
+  "is-corporate-law-a-good-career-in-india": ["mid", "Firm and in-house routes follow a fixed ladder with a narrow top; compliance advisory, a boutique or independent counsel and fractional startup counsel give a business layer."],
 };

@@ -4303,4 +4303,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 25,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-corporate-law-a-good-career-in-india',
+    title: "Is Corporate Law a Good Career? Firm vs In-House Verdict",
+    description:
+      "Is corporate law a good career in India? Yes on some routes, no on others: firm hiring gates, hours, the partner track, in-house ladders and what scales.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 14,
+  },
 ];
