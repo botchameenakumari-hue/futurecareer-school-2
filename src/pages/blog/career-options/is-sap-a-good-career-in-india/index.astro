@@ -1,0 +1,873 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = "Is SAP a Good Career in India? Modules, Pay and the Certificate Trap";
+const description =
+  "Is SAP a good career in India? Which modules pay and scale, what the S/4HANA deadline changes, sourced 2026 pay, and the institute certificate trap.";
+const canonical = "https://futurecareerschool.com/blog/career-options/is-sap-a-good-career-in-india/";
+const publishedDateISO = "2026-10-14";
+const publishedDateLabel = "14 October 2026";
+const authorName = "Allu Vagdevi";
+const authorUrl = "https://futurecareerschool.com/about/allu-vagdevi/";
+const authorRole = "Career researcher and writer";
+
+const jumpLinks = [
+  { id: "short-answer", label: "The short answer" },
+  { id: "tracks", label: "Eight SAP tracks, ordered by growth room" },
+  { id: "s4-shift", label: "The 2027 deadline and the cloud shift" },
+  { id: "who-hires", label: "Who hires, and what they test" },
+  { id: "fresher", label: "The fresher reality, by background" },
+  { id: "certificates", label: "Official credential or institute certificate" },
+  { id: "pay", label: "Pay, with sources and dates" },
+  { id: "freelance", label: "The freelance layer and its barriers" },
+  { id: "work-reality", label: "Shifts, travel and burnout" },
+  { id: "ai", label: "What AI changes in SAP work" },
+  { id: "grow", label: "Who pays, and how they trust you" },
+  { id: "skip", label: "Who should skip SAP" },
+  { id: "first-test", label: "Your first short test" },
+  { id: "faq", label: "FAQs" },
+];
+
+const trackRows = [
+  {
+    track: "BTP, integration and ABAP Cloud development",
+    work: "Builds apps and connections around the SAP core using ABAP Cloud, APIs and SAP Business Technology Platform. Job listings from DXC, Deloitte and Capgemini pair ABAP with BTP or RAP skills.",
+    fit: "Engineering, BCA, MCA or self-taught coders",
+    scale: "high",
+    scaleLabel: "Scalable",
+    why: "The skills (APIs, cloud, one general language) also work outside SAP, and extensions can be sold as projects.",
+  },
+  {
+    track: "Functional consultant: FICO, MM, SD, PP",
+    work: "Sits between the business and the system. Runs workshops, configures the module, tests, trains staff and fixes problems after go-live.",
+    fit: "B.Com, CA, MBA, supply chain or plant experience",
+    scale: "mid",
+    scaleLabel: "Scalable with a business layer",
+    why: "The biggest hiring pool. Pay grows with full project cycles; boutique or independent consulting is the business layer.",
+  },
+  {
+    track: "Cloud HR and procurement suites: SuccessFactors, Ariba",
+    work: "Same consulting work, inside SAP cloud products for HR or buying. Smaller pool, more product-specific.",
+    fit: "HR, payroll or procurement professionals",
+    scale: "mid",
+    scaleLabel: "Scalable with a business layer",
+    why: "Domain depth is the edge; a narrow niche can be sold as specialist consulting.",
+  },
+  {
+    track: "Analytics and planning: SAP Analytics Cloud, BW, Datasphere",
+    work: "Moves SAP data into reports and plans. Needs SQL and data-model thinking as much as SAP screens.",
+    fit: "Data, finance-analytics or BI profiles",
+    scale: "mid",
+    scaleLabel: "Scalable with a business layer",
+    why: "Pairs SAP data with general analytics skills that also sell outside SAP.",
+  },
+  {
+    track: "Security and GRC (access and controls)",
+    work: "Designs who can do what in the system and checks it against audit rules.",
+    fit: "Audit, compliance or IT-security profiles",
+    scale: "mid",
+    scaleLabel: "Scalable with a business layer",
+    why: "Control and audit advisory can become a small consulting practice; trust and references matter most.",
+  },
+  {
+    track: "Classic ABAP (custom code in ECC-style systems)",
+    work: "Writes reports, forms and enhancements inside the old core. Demand for the skill has not vanished.",
+    fit: "Anyone who enjoys code and specs",
+    scale: "low",
+    scaleLabel: "Not so scalable",
+    why: "SAP guides customers toward extensions outside the core, so the safe move is ABAP plus ABAP Cloud and BTP, not ABAP alone.",
+  },
+  {
+    track: "Basis and cloud operations",
+    work: "Keeps systems running: installs, upgrades, performance, backups. Practitioners report the work moving toward cloud providers, managed services and automation.",
+    fit: "System admins and cloud operators",
+    scale: "low",
+    scaleLabel: "Not so scalable",
+    why: "A task ladder that automation and managed services are reshaping. Add cloud architecture and security, or the role narrows.",
+  },
+  {
+    track: "Testing and application support (AMS)",
+    work: "Works a ticket queue, tests changes, supports month-end and urgent fixes, often in shifts.",
+    fit: "Freshers needing a first foot in the door",
+    scale: "low",
+    scaleLabel: "Not so scalable",
+    why: "A fair entry stage, a poor place to stay. Plan the move to configuration or development work.",
+  },
+];
+
+const shiftRows = [
+  { item: "Mainstream maintenance for SAP ERP 6.0 (ECC)", fact: "Runs to the end of 2027. From 17 October 2026 that is about 14 months after this guide was published.", src: "SAP support strategy page" },
+  { item: "Extended maintenance", fact: "Optional, from 2028 to the end of 2030, with a premium of two percentage points on the maintenance base.", src: "SAP support strategy page" },
+  { item: "Cloud transition option for very large customers", fact: "Announced January 2025 for 2031 to the end of 2033. SAP's CEO said it is not an extension of on-premises maintenance.", src: "The Register, 12 February 2025" },
+  { item: "S/4HANA", fact: "SAP promised that at least one S/4HANA release stays in maintenance until 2040.", src: "SAP support strategy page (commitment of 4 February 2020)" },
+  { item: "Customers not yet moved", fact: "61% of ECC customers had neither migrated nor bought S/4 licences, per a 2025 Gartner survey as cited. Gartner also expects about 40% to still run ECC in key areas in 2030.", src: "IntelligentCIO, 26 February 2026; The Register, 12 February 2025" },
+];
+
+const hirerRows = [
+  { who: "Large IT services and consulting firms", test: "Module or language basics, a clear spoken explanation of one process, willingness to start in support or testing.", pay: "Often the first door for freshers; the first role is commonly support, testing or a junior build task. No official hiring count is published.", note: "Names seen in current listings include TCS, Capgemini, Deloitte and DXC." },
+  { who: "Boutique SAP partners", test: "Depth in one module or product and project stories you can explain.", pay: "Smaller teams, wider responsibility sooner. Fewer fresher seats.", note: "Best place to learn a full cycle quickly, if you can get in." },
+  { who: "In-house SAP teams and global captive centres", test: "Business knowledge of the company's own process plus system skill.", pay: "In our reading these teams lean toward experienced people; it is also the route for finance or plant staff who become their team's SAP point person.", note: "Manufacturers, pharma, banks and global captive centres run large SAP landscapes." },
+  { who: "SAP Labs India", test: "Software engineering, not module configuration.", pay: "Developer roles for product building.", note: "SAP says more than 17,000 of its people work in India and the new Bengaluru campus, opened 5 August 2025, is designed for over 15,000." },
+];
+
+const backgroundRows = [
+  { bg: "B.Com, M.Com or CA inter/final", door: "FICO is the natural fit because the module is finance first. Learn one real process end to end (purchase to payment, or month-end close) before touching the exam.", warn: "Pure certificate with no process story is the most common reason these candidates stall." },
+  { bg: "Engineering or BCA/MCA", door: "ABAP Cloud plus BTP, or a functional module that matches your branch (mechanical and production: PP and MM; electronics: integration).", warn: "Do not learn ABAP alone as if it were still the whole technical path." },
+  { bg: "MBA (finance, operations, HR)", door: "Functional consulting or a cloud suite such as SuccessFactors. Domain background replaces coding.", warn: "An MBA does not replace system practice. You still need a worked example." },
+  { bg: "Arts, science or non-IT graduates", door: "Hardest start. Aim for an ordinary job (finance, stores, HR) in a company that runs SAP, then move toward configuration. Ask about SAP Learning's free student edition if you are enrolled.", warn: "Paying an institute for a promised job is the expensive wrong turn here." },
+  { bg: "Working professional in finance, supply or HR", door: "The strongest route. Your process knowledge is the scarce part. Become the SAP point person on your team, then the module owner, then consult.", warn: "Switching to a fresher support role first can cost a large pay cut. Compare before you move." },
+];
+
+const credRows = [
+  { thing: "SAP's own certification", what: "A performance-based exam through SAP Learning, with a short annual assessment to stay current. SAP says preparation runs through a Learning Hub subscription.", worth: "A real, checkable credential. Useful as a floor, not as proof you can do the job." },
+  { thing: "A certificate from a training institute", what: "A paper from the institute. It is the institute's own document, not SAP's.", worth: "Adds nothing a recruiter can verify with SAP. Judge the institute by what you could build afterwards." },
+  { thing: "Free SAP learning content", what: "Former openSAP courses now sit inside SAP Learning, with free self-paced journeys. A free S/4HANA Cloud trial also exists, but its length differs by SAP region.", worth: "Enough to test whether you like the work before spending anything." },
+  { thing: "Free student edition", what: "For students enrolled in a university: full course catalogue, live sessions, access to cloud practice systems and two certification attempts, at no cost.", worth: "If you are enrolled, use this before paying anyone." },
+];
+
+const instituteQuestions = [
+  { num: "1", title: "Is the institute an official SAP training provider?", body: "Ask for proof you can check with SAP Education in India. SAP Community threads over the years describe look-alike institutes that promise jobs and run on pirated software. Treat that as a warning, not a statistic." },
+  { num: "2", title: "What will you have built when the course ends?", body: "A good answer names a process you ran end to end in a practice system: for FICO, a vendor invoice from posting to payment; for MM, a purchase requisition to goods receipt. A syllabus list is not an answer." },
+  { num: "3", title: "Does the fee come with exam attempts and a real system?", body: "Official exam fees are listed on SAP's own certification shop, so check the current fee there before you pay anyone. Set that fee against the PayScale entry average of about Rs 3.65 lakh a year, and ask what an institute adds to it." },
+  { num: "4", title: "Does it promise a job or a placement?", body: "Nobody can promise an SAP job. Hiring managers decide, and fresher seats are limited. A promise is a sales line." },
+  { num: "5", title: "Could you get the same content free first?", body: "Yes, for the basics. Sample a free learning journey and the trial system first. Pay only for structure, feedback or a system you cannot get free." },
+];
+
+const payRows = [
+  { stage: "SAP consultant, under 1 year", figure: "About Rs 3.65 lakh a year, total pay", base: "160 salaries", src: "PayScale India SAP Consultant page, updated 23 May 2026" },
+  { stage: "SAP consultant, 1 to 4 years", figure: "About Rs 5.99 lakh a year, total pay", base: "591 salaries", src: "Same page. That is about 64% above the first-year average." },
+  { stage: "SAP consultant, all experience", figure: "Average base Rs 7.98 lakh; the middle 80% sit between about Rs 3.48 lakh and Rs 20 lakh", base: "960 profiles", src: "Same page" },
+  { stage: "Senior SAP consultant, 5 to 9 years", figure: "About Rs 13.3 lakh a year, total pay", base: "187 salaries", src: "PayScale India Senior SAP Consultant page, updated 4 July 2026" },
+  { stage: "Senior SAP consultant, all experience", figure: "Average base Rs 14.63 lakh; the middle 80% sit between about Rs 7.11 lakh and Rs 30 lakh", base: "310 profiles", src: "Same page" },
+];
+
+const freelanceRows = [
+  { gate: "Client system access", why: "SAP runs inside the client's own landscape. You work with the access the client grants, so you cannot practise on a live company system or show real client screens.", move: "Build a sanitised case note from a practice system. Keep client data out of every sample." },
+  { gate: "Licences and product rules", why: "SAP software is licensed to the company that uses it. A solo consultant does not own the system they work on. Check the current terms for consultant access with the client's SAP contact before you promise anything.", move: "Position as a skill provider on the client's system, not as someone who supplies the system." },
+  { gate: "Depth before independence", why: "Clients hire independents for one thing: they have done this exact job before. That usually means several full project cycles in one module.", move: "Do the employed cycles first. Go independent after you have two or three go-lives to point to." },
+  { gate: "Project-wave timing", why: "Demand for S/4 conversion is tied to the 2027 to 2033 window. Independent income that depends only on migration projects can fall away when the wave passes.", move: "Add a run-side offer: month-end support, a clean-up pack, or training for staff." },
+];
+
+const checkpoints = [
+  { num: "1", title: "Biology: do you like process detail and long screens?", body: "SAP work is configuration, testing and documents, often at a desk with a screen and a headset. If you want visible, creative output every day, this is the wrong energy fit." },
+  { num: "2", title: "Context: can you afford the slow start?", body: "First roles can be support or testing. If your family needs full pay on day one, compare fresher offers before you pay any course fee." },
+  { num: "3", title: "Market: is it a painful problem for someone with a budget?", body: "Yes for now. Large companies must decide on ECC before the 2027 maintenance end, or pay the extended premium. It is time-limited, so keep a skill that outlives the wave." },
+  { num: "4", title: "Survival: what AI-proof layer will you own?", body: "Not the screen clicks. The layer that lasts is process judgement, client trust and the ability to fix a messy real landscape." },
+];
+
+const mistakes = [
+  { num: "01", title: "Paying an institute before testing the work", body: "Spend a short stretch on free SAP Learning content and the trial system first. If process screens bore you, the fee would have been wasted." },
+  { num: "02", title: "Choosing a module by the highest pay quote", body: "The loudest pay claims are on institute pages. PayScale shows a very wide spread inside the same title. Choose by background and fit, then grow depth." },
+  { num: "03", title: "Learning classic ABAP alone", body: "It still pays today, but the direction is extensions. Add ABAP Cloud and BTP so your skill does not sit only in the old core." },
+  { num: "04", title: "Staying years in a support queue", body: "Support is a fair door. Plan a move to build or configuration work, or the ladder flattens." },
+  { num: "05", title: "Going independent after one project", body: "Clients pay independents for repeat experience. One go-live is not a track record." },
+];
+
+const testSteps = [
+  { title: "Use free content to see the work", body: "Take one free SAP Learning journey in the track you are considering. Check how you feel after a few sessions, not after one." },
+  { title: "Run one real process in a practice system", body: "If you are enrolled in a university, use the free student edition. If not, use the free trial. Run one process from start to finish and write what each step does in plain words." },
+  { title: "Explain it to someone who works in the business", body: "Two minutes to a finance, plant or HR person. Ask them what they would want fixed. Their answers are your first proof of communication." },
+  { title: "Talk to two people working in your track", body: "Ask about shift pattern, travel, remote or hybrid rules, and what they would learn first if they started again. Write both answers down." },
+  { title: "Then decide on the exam", body: "Only now compare paying for official certification. If you cannot explain the process, the exam will not help." },
+];
+
+const faqItems = [
+  {
+    q: "Is SAP a good career in India?",
+    a: "Yes, for people who like process detail and are willing to build one real process story, not just collect certificates. The current demand wave is tied to SAP ERP 6.0 mainstream maintenance ending in 2027, so the work is real but time-limited. The strongest routes pair SAP with a business domain, or with development skills that also work outside SAP.",
+  },
+  {
+    q: "Is SAP FICO a good career?",
+    a: "It is the most common route for B.Com, M.Com and CA graduates because the module is finance first. PayScale puts SAP consultants at about Rs 5.99 lakh a year for 1 to 4 years (updated 23 May 2026), but that is all modules together. FICO consultants without a finance process story struggle, so learn one process end to end before you pay for an exam.",
+  },
+  {
+    q: "Is SAP a good career for freshers?",
+    a: "It is possible but not easy. Fresher seats are mostly in services firms, often starting in support or testing. PayScale lists about Rs 3.65 lakh a year in total pay for consultants under one year (160 salaries, May 2026). Plan the move out of support within the first stretch.",
+  },
+  {
+    q: "Is SAP MM or SAP SD a good career option?",
+    a: "Both are real functional tracks for people with supply chain, sales or plant knowledge. Mechanical and production graduates often fit MM and PP; commerce graduates with sales exposure often fit SD. Pick the one whose business process you can already explain.",
+  },
+  {
+    q: "Is SAP ABAP a good career choice?",
+    a: "Classic ABAP still earns well, but SAP is steering customers toward extensions on BTP and ABAP Cloud. Learn ABAP together with ABAP Cloud and BTP, plus an API or JavaScript skill. Treat classic ABAP alone as Not so scalable.",
+  },
+  {
+    q: "Is SAP Basis a good career?",
+    a: "Basis is changing. Hands-on server work is moving toward cloud providers, managed services and automation, though RISE-focused Basis roles are still advertised. Add cloud architecture and security skills, or the role narrows. We rate it Not so scalable.",
+  },
+  {
+    q: "Is SAP HR or SuccessFactors a good career?",
+    a: "It can be, if you already understand HR or payroll. The pool is smaller than FICO and the work is moving to SAP's cloud HR products. Domain depth is the main edge.",
+  },
+  {
+    q: "Can a non-IT graduate, a mechanical engineer or an arts student start in SAP?",
+    a: "A mechanical engineer can aim at MM or PP. An arts or science graduate has the hardest start, and the realistic door is an ordinary finance, stores or HR job at a company that runs SAP. Be careful with any institute that promises a job.",
+  },
+  {
+    q: "Is SAP dying, and how many years will this career last?",
+    a: "SAP has promised at least one S/4HANA release in maintenance until 2040, so the platform is not going away soon. What shrinks is the old way of working: classic custom code and hands-on server tasks. Plan for tools to change, not for the product to vanish.",
+  },
+  {
+    q: "Is SAP certification worth it, and what does it cost?",
+    a: "Official certification is a checkable credential, but it is not proof you can do the job. SAP says exams are performance-based and need an annual assessment to stay current. Enrolled students can use the free student edition, which includes two exam attempts; check the SAP Learning shop for current prices.",
+  },
+  {
+    q: "Will AI replace SAP consultants?",
+    a: "It is changing the routine layer. SAP says its Joule assistant can cut time spent reading custom code by up to 40% and redesign effort by up to 50%, but these are vendor ceilings, and the basis is not shown on the page we could read. Process judgement and client trust are harder to automate.",
+  },
+  {
+    q: "Can I work as a freelance SAP consultant?",
+    a: "Yes, but only after you have real project experience, because clients hire independents for repeat know-how. You also depend on client system access and licence terms. Treat freelancing as a later layer, not a first job.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+
+const sources = [
+  { href: "https://support.sap.com/en/offerings-programs/strategy.html", label: "SAP Support: maintenance strategy for SAP Business Suite 7 and S/4HANA" },
+  { href: "https://www.theregister.com/2025/02/12/gartner_sap_maintenance_2030/", label: "The Register, 12 February 2025: SAP maintenance dates and Gartner view" },
+  { href: "https://www.intelligentcio.com/latam/2026/02/26/last-call-for-s-4hana-the-hidden-cost-of-staying-in-ecc-through-2027/", label: "IntelligentCIO, 26 February 2026: staying on ECC through 2027" },
+  { href: "https://www.payscale.com/research/IN/Job=SAP_Consultant/Salary", label: "PayScale: SAP Consultant salary in India" },
+  { href: "https://www.payscale.com/research/IN/Job=Senior_SAP_Consultant/Salary", label: "PayScale: Senior SAP Consultant salary in India" },
+  { href: "https://learning.sap.com/get-certified", label: "SAP Learning: get certified" },
+  { href: "https://learning.sap.com/helpcenter/learninghub-student-edition", label: "SAP Learning Hub student edition FAQ" },
+  { href: "https://learning.sap.com/helpcenter/certification-support/system-based-assessments-faq", label: "SAP Learning: system-based assessments FAQ" },
+  { href: "https://news.sap.com/?p=236598", label: "SAP News, 15 August 2025: Bengaluru campus" },
+  { href: "https://sapinsider.org/industry-insights/sap-joule-for-consultants-overview/", label: "SAP Insider: Joule for Consultants overview" },
+];
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="career-options"
+  salesHref="/services/career-counselling-and-career-guidance/career-coaching-for-it-professionals/"
+  salesLabel="Get Career Coaching for IT Professionals"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Is SAP a good career in India? Yes for people who like process detail and will build one real process story, and no for anyone who buys an institute certificate hoping it becomes a job. The work is real, but the biggest hiring wave is tied to a deadline: SAP's mainstream maintenance for ECC ends in 2027.</strong>
+    The routes that last pair SAP with a business domain or with development skills that sell outside SAP. That is how SAP becomes a high-value skill portfolio and a step toward earlier financial freedom, not a certificate pile.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>PayScale (updated 23 May 2026) shows SAP consultants earning about Rs 3.65 lakh a year in the first year and about Rs 5.99 lakh at 1 to 4 years. Senior consultants at 5 to 9 years average about Rs 13.3 lakh.</li>
+      <li>ECC mainstream maintenance ends at the end of 2027, about 14 months after this guide was published, with extended maintenance to 2030. That creates project work, and it is time-limited.</li>
+      <li>Only SAP's own certification can be checked with SAP. An institute certificate is the institute's paper. Enrolled students can start free on SAP Learning.</li>
+      <li><strong>Your next step: test one track with free content, run one real process in a practice system, then decide whether any exam is worth paying for.</strong></li>
+    </ul>
+  </div>
+
+  <p>
+    People ask the same questions: "is SAP FICO a good career", "can a fresher or a non-IT graduate start", "is SAP dying". Most pages answer with a module list and a salary range from an institute. Here each track has a payer, a scalability label and a sourced number.
+  </p>
+  <p>
+    If you are comparing enterprise-software paths, read <a href="/blog/career-options/is-salesforce-a-good-career/">is Salesforce a good career</a> for a lighter-entry platform, and <a href="/blog/freelancing-business/how-to-become-an-independent-consultant-india/">how to become an independent consultant</a> for the later layer. All guides sit in <a href="/blog/career-options/">career options</a>, and <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-coaching-for-it-professionals/">career coaching for IT professionals</a> helps you test your track against your background and budget.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The short answer to "is SAP a good career"</h2>
+
+  <p>
+    SAP is the system many large Indian companies use for finance, buying, sales, plants and HR. People who can configure it, extend it or explain it are paid for keeping those companies running.
+  </p>
+  <p>
+    The honest split is by route, not by brand. A finance graduate who can explain one close process does well. A fresher with five institute certificates and no worked example often does not.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      SAP is not a shortcut. Fresher seats are limited, the first job is often support, and the market is in a migration wave that will not last forever. It rewards people who stay two or three full projects in one area, then add a second skill. If you want quick income with no business depth, look elsewhere.
+    </p>
+  </div>
+
+  <h2 id="tracks">Eight SAP tracks, ordered by growth room</h2>
+
+  <p>
+    "SAP career" is not one job. The order below is a judgement about how far income and independence can stretch with skill and proof. Development skills that also work outside SAP lead. Functional consulting follows because the pool is biggest and the business layer is real. Classic ABAP, Basis and support sit last because the work is being reshaped.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Track</th>
+          <th>What the work is</th>
+          <th>Best background</th>
+          <th>How we rate it, and why</th>
+        </tr>
+      </thead>
+      <tbody>
+        {trackRows.map((row) => (
+          <tr>
+            <td data-label="Track"><strong>{row.track}</strong></td>
+            <td data-label="What the work is">{row.work}</td>
+            <td data-label="Best background">{row.fit}</td>
+            <td data-label="How we rate it, and why">
+              <span class:list={["scale-pill", `scale-pill--${row.scale}`]}>{row.scaleLabel}</span>
+              <br />{row.why}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>Scalable-ownership path:</strong> a functional or development consultant with several go-lives can become an independent or start a small boutique, setting their own price and later adding people. It scales because pricing and repeat clients are yours, but only after proof of repeat project work and with client access in place.
+    </p>
+  </div>
+
+  <h2 id="s4-shift">The 2027 deadline and the cloud shift</h2>
+
+  <p>
+    Most of the hiring noise comes from one date. Companies running the older SAP ERP 6.0 (ECC) must decide how to move to S/4HANA or pay extra to stay.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>What is stated</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {shiftRows.map((row) => (
+          <tr>
+            <td data-label="Item"><strong>{row.item}</strong></td>
+            <td data-label="What is stated">{row.fact}</td>
+            <td data-label="Source">{row.src}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Vendor blogs put a full ECC to S/4HANA project at 12 to 36 months. If that is right, many companies that have not started will end up on extended maintenance or the cloud route. That stretches the work past 2027, but it does not make it permanent.
+  </p>
+  <p>
+    The shift also moves the work. Cloud editions bring standard processes and fewer custom changes, so build-heavy classic work shrinks while configuration, integration, data clean-up and change management stay.
+  </p>
+
+  <div class="callout callout--amber">
+    <p class="callout__eyebrow">Two filters, not one</p>
+    <p>
+      SAP careers face a hard entry filter (fresher seats and a first project) and a separate hard advancement filter (leading a module or solution takes several full cycles, and the migration wave thins later). Clearing the first does not clear the second.
+    </p>
+  </div>
+
+  <h2 id="who-hires">Who hires, and what they test</h2>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Employer type</th>
+          <th>What they test</th>
+          <th>What it means for you</th>
+          <th>Good to know</th>
+        </tr>
+      </thead>
+      <tbody>
+        {hirerRows.map((row) => (
+          <tr>
+            <td data-label="Employer type"><strong>{row.who}</strong></td>
+            <td data-label="What they test">{row.test}</td>
+            <td data-label="What it means for you">{row.pay}</td>
+            <td data-label="Good to know">{row.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="fresher">The fresher reality, by background</h2>
+
+  <p>
+    Fresher seats exist, but a fresher rarely lands as a module consultant on day one. Practitioner threads on SAP Community describe getting a job that uses SAP first and learning the configuration side on the side. The route depends on what you already know.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Your background</th>
+          <th>Best door</th>
+          <th>Expensive wrong turn</th>
+        </tr>
+      </thead>
+      <tbody>
+        {backgroundRows.map((row) => (
+          <tr>
+            <td data-label="Your background"><strong>{row.bg}</strong></td>
+            <td data-label="Best door">{row.door}</td>
+            <td data-label="Expensive wrong turn">{row.warn}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="certificates">Official credential or institute certificate</h2>
+
+  <p>
+    This is where most money is lost. The right order is: free content, free practice system, then official certification only if a job requires it. Most fresher hiring asks for a degree, but the SAP-specific part is the part you can learn cheaply, and a certificate matters less than being able to run a process. Information is free; structure and feedback are what you pay for. As a planning heuristic, keep any single course or credential to roughly 10% of your whole learning budget, treat above about 20% as a serious caution that needs course-specific evidence, and avoid loans for a certificate.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>What you are buying</th>
+          <th>What it is</th>
+          <th>Worth</th>
+        </tr>
+      </thead>
+      <tbody>
+        {credRows.map((row) => (
+          <tr>
+            <td data-label="What you are buying"><strong>{row.thing}</strong></td>
+            <td data-label="What it is">{row.what}</td>
+            <td data-label="Worth">{row.worth}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    SAP's help pages describe attempt limits in different ways, and the free trial length differs by region. Check the current rule on learning.sap.com before you book.
+  </p>
+
+  <h3>Five questions to ask any SAP institute before you pay</h3>
+
+  <div class="protocol-stack">
+    {instituteQuestions.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="pay">Pay, with sources and dates</h2>
+
+  <p>
+    Institute pages quote the highest numbers. These come from PayScale's reported salaries and are indicative, not promises.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Stage</th>
+          <th>Figure</th>
+          <th>Sample</th>
+          <th>Source and date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {payRows.map((row) => (
+          <tr>
+            <td data-label="Stage"><strong>{row.stage}</strong></td>
+            <td data-label="Figure">{row.figure}</td>
+            <td data-label="Sample">{row.base}</td>
+            <td data-label="Source and date">{row.src}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Read the jumps: the 5 to 9 year senior average (about Rs 13.3 lakh) is more than double the 1 to 4 year consultant average (about Rs 5.99 lakh). These are two different job-title groups, so treat the gap as a direction, not a ladder. The wide range inside one title is the point: module, employer and city decide more than the word SAP.
+  </p>
+
+  <p class="note-line">
+    Pay figures here are indicative ranges and averages from public profiles, not exact or guaranteed amounts. Pay differs by city, employer, skill and year, and markets change. Check current job listings (for example on LinkedIn, Naukri or Indeed) and ask people working in the role before you decide.
+  </p>
+
+  <h2 id="freelance">The freelance layer and its barriers</h2>
+
+  <p>
+    Independent SAP consulting is real but sits late in the career. It is not a way to skip experience.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Barrier</th>
+          <th>Why it matters</th>
+          <th>What to do</th>
+        </tr>
+      </thead>
+      <tbody>
+        {freelanceRows.map((row) => (
+          <tr>
+            <td data-label="Barrier"><strong>{row.gate}</strong></td>
+            <td data-label="Why it matters">{row.why}</td>
+            <td data-label="What to do">{row.move}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="work-reality">Shifts, travel and burnout</h2>
+
+  <div class="week-grid">
+    <div class="week-card">
+      <div class="week-card__who">Project phase</div>
+      <p>Workshops and testing are heavy. Cutover to a new system often means nights or weekends, followed by a period of extra support after go-live. Practitioner writing describes this pattern; no survey measures it.</p>
+    </div>
+    <div class="week-card">
+      <div class="week-card__who">Support and AMS</div>
+      <p>Ticket queues, month-end peaks and shift rotation are common. An old SAP Community thread and an old employee review say night and weekend duty can be long; both are dated and anecdotal. Ask any employer for the shift pattern in writing.</p>
+    </div>
+    <div class="week-card">
+      <div class="week-card__who">Travel</div>
+      <p>Client-site stints can be part of consulting, and some employers allow remote or hybrid work. How much depends on the firm and the client, so ask before you sign.</p>
+    </div>
+  </div>
+
+  <p>
+    The practical point: the easiest-to-enter roles carry the least control over your hours. Planning the move from support to build or configuration is also a work-life move.
+  </p>
+
+  <h2 id="ai">What AI changes in SAP work</h2>
+
+  <p>
+    SAP is building AI into its own tools. Its Joule assistant for consultants reads and explains custom ABAP code, answers from SAP documentation and gives configuration guidance. SAP's page claims up to 40% less time interpreting custom code, up to 50% less redesign effort and up to 14% faster delivery, but these are "up to" figures, and the page we could read does not show the basis.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Pressure</th>
+          <th>What is being automated</th>
+          <th>What still needs a person</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Pressure"><strong>Reading and writing simple code</strong></td>
+          <td data-label="What is being automated">Code explanation, simple code generation and unit-test drafts.</td>
+          <td data-label="What still needs a person">Knowing which change is safe in this client's landscape.</td>
+        </tr>
+        <tr>
+          <td data-label="Pressure"><strong>Looking things up</strong></td>
+          <td data-label="What is being automated">Answers from SAP documentation and guided configuration steps.</td>
+          <td data-label="What still needs a person">Choosing the right process for this business and getting people to adopt it.</td>
+        </tr>
+        <tr>
+          <td data-label="Pressure"><strong>Entry-level tasks</strong></td>
+          <td data-label="What is being automated">Routine support answers and first-draft documents.</td>
+          <td data-label="What still needs a person">Judgement on odd cases, signing off, owning a go-live.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Staged path: now, use AI to explain code and draft documents while you check every answer. Next, learn to build with APIs and extensions on BTP. Later, move toward design and ownership work that tools assist but do not own. Do not take "10x" claims as a promise.
+  </p>
+
+  <h2 id="grow">Who pays, and how they trust you</h2>
+
+  <p>
+    In employed roles, the services firm or the company pays you. In consulting, a client's finance, supply or IT head pays, and trust comes from references, not adverts.
+  </p>
+  <div class="gates-block">
+    <p class="gates-block__title">The 3 Gates, applied to SAP</p>
+    <div class="gates-row">
+      <div class="gate"><span class="gate__num">Gate 1</span><span class="gate__name">Proof of Skill</span><p>One process run end to end in a practice system, written up in plain words.</p></div>
+      <div class="gate"><span class="gate__num">Gate 2</span><span class="gate__name">Proof of Communication</span><p>A two-minute spoken explanation a non-IT colleague can follow.</p></div>
+      <div class="gate"><span class="gate__num">Gate 3</span><span class="gate__name">Proof of Value</span><p>Three people from the business side who say the fix mattered to them.</p></div>
+    </div>
+  </div>
+  <p>
+    The first sales skill worth learning is positioning: say in one line which module, which industry and which problem you fix. The second is asking for referrals right after a go-live. One number to watch: how many conversations turn into a second piece of work. For most routes here the sales layer matters mainly for the later independent step.
+  </p>
+  <p>
+    <strong>Building a high-value skill portfolio here means one domain plus one multiplier</strong>, such as finance plus BTP, or supply plus analytics, with visible proof. That helps you make the decisions that unlock high income opportunities earlier. Show the proof on one shelf: answer questions on SAP Community or post one plain process note on LinkedIn, and let people you have worked with refer you.
+  </p>
+
+  <h3>Run the 4-Checkpoint Protocol before you commit</h3>
+
+  <div class="protocol-stack">
+    {checkpoints.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="skip">Who should skip SAP</h2>
+
+  <div class="mistakes-list">
+    <div class="mistake-item">
+      <div class="mistake-item__num">01</div>
+      <div class="mistake-item__content">
+        <div class="mistake-item__title">You want quick money without a business domain</div>
+        <p>Pay shows a very wide spread. Without a domain or development skill you sit at the low end.</p>
+      </div>
+    </div>
+    <div class="mistake-item">
+      <div class="mistake-item__num">02</div>
+      <div class="mistake-item__content">
+        <div class="mistake-item__title">You cannot accept a slow first role</div>
+        <p>Support and testing are the common doors. If you need fixed hours and full pay from day one, compare other fresher routes first.</p>
+      </div>
+    </div>
+    <div class="mistake-item">
+      <div class="mistake-item__num">03</div>
+      <div class="mistake-item__content">
+        <div class="mistake-item__title">You expect a paid course to give you a job</div>
+        <p>No course gives a job. If the plan relies on a promise, stop.</p>
+      </div>
+    </div>
+    <div class="mistake-item">
+      <div class="mistake-item__num">04</div>
+      <div class="mistake-item__content">
+        <div class="mistake-item__title">You dislike structured, process-heavy work</div>
+        <p>Most days are detail, testing and documents. A creative or people-first role may fit better.</p>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    Better adjacent options exist for some people. A learner who prefers writing code over business process may find general software or data work faster to enter. See <a href="/blog/career-options/is-salesforce-a-good-career/">is Salesforce a good career</a> for a platform where free learning leads to a certificate more directly.
+  </p>
+
+  <h3>Mistakes that waste the first two years</h3>
+
+  <div class="mistakes-list">
+    {mistakes.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="first-test">Your first short test</h2>
+
+  <p>
+    A short test beats months of opinions. Go at whatever pace your life allows. Some people finish it in a few weeks and others need a couple of months, and both are fine.
+  </p>
+
+  <ol class="rich-list">
+    {testSteps.map((item) => (
+      <li><strong>{item.title}.</strong>{' '}{item.body}</li>
+    ))}
+  </ol>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      If you still cannot choose between tracks, talk it through with someone who sees your background, budget and family situation together. That is the gap continuous career guidance is built to close.
+    </p>
+  </div>
+
+  <h2 id="faq">FAQs on whether SAP is a good career</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <h2 id="sources">Official pages and sources to verify</h2>
+
+  <ul class="source-list">
+    {sources.map((s) => (
+      <li><a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a></li>
+    ))}
+  </ul>
+
+  <p class="note-line">
+    Pages were checked on 17 October 2026. Maintenance terms, certification rules, exam prices and pay data change, so confirm on the official page for your year. Some SAP pages blocked automatic reading, so exam price and trial length come from search summaries and should be re-checked.
+  </p>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong { color: #fff; }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.65rem 0.8rem;
+    }
+    .jump-nav__list li { margin: 0 !important; }
+    .jump-nav__list a {
+      display: block;
+      padding: 0.72rem 0.8rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.45;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover { color: #fff; border-color: rgba(229, 184, 74, 0.18); background: rgba(229, 184, 74, 0.06); }
+    h2[id] { scroll-margin-top: 108px; }
+
+    .callout { border-radius: 16px; padding: 1.2rem 1.25rem; margin: 1.35rem 0; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03); }
+    .callout--amber { border-color: rgba(229, 184, 74, 0.24); background: rgba(229, 184, 74, 0.06); }
+    .callout__eyebrow { font-size: 10px !important; text-transform: uppercase; letter-spacing: 0.12em; color: #e5b84a !important; font-weight: 800; margin: 0 0 0.7rem !important; }
+    .callout__list { margin: 0 0 0.2rem 1.1rem !important; padding: 0 !important; }
+    .callout__list li { font-size: 14px !important; color: rgba(255, 255, 255, 0.72) !important; line-height: 1.7 !important; margin: 0.32rem 0 !important; }
+
+    .week-grid { display: grid; gap: 1rem; margin: 1.4rem 0; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .week-card { border-radius: 16px; padding: 1.2rem 1.2rem 1.1rem; border: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid rgba(229, 184, 74, 0.55); background: rgba(255, 255, 255, 0.03); }
+    .week-card__who { font-size: 1.02rem; font-weight: 800; color: rgba(255, 255, 255, 0.93); line-height: 1.28; margin-bottom: 0.35rem; font-family: "Sora", sans-serif; }
+    .week-card p { font-size: 14px !important; line-height: 1.74 !important; color: rgba(255, 255, 255, 0.68) !important; margin: 0 !important; }
+
+    .lane-grid { display: grid; gap: 1.1rem; margin: 1.4rem 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .lane-card { border-radius: 18px; padding: 1.3rem 1.25rem 1.2rem; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03); border-top-width: 3px; transition: transform 180ms ease, box-shadow 180ms ease; }
+    .lane-card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25); }
+    .lane-card--teal { border-top-color: rgba(45, 212, 191, 0.8); }
+    .lane-card--gold { border-top-color: rgba(229, 184, 74, 0.8); }
+    .lane-card--violet { border-top-color: rgba(167, 139, 250, 0.8); }
+    .lane-card__badge { display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.16); color: rgba(255, 255, 255, 0.7); margin: 0 0.4rem 0.6rem 0; }
+    .scale-pill { display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.6rem; }
+    .scale-pill--high { background: rgba(45, 212, 191, 0.14); border: 1px solid rgba(45, 212, 191, 0.4); color: #2dd4bf; }
+    .scale-pill--mid { background: rgba(229, 184, 74, 0.12); border: 1px solid rgba(229, 184, 74, 0.4); color: #e5b84a; }
+    .scale-pill--low { background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.35); color: #fca5a5; }
+    .lane-card__title { font-size: 1.08rem; font-weight: 800; color: rgba(255, 255, 255, 0.94); line-height: 1.3; margin-bottom: 0.55rem; font-family: "Sora", sans-serif; }
+    .lane-card p { font-size: 14px !important; line-height: 1.72 !important; color: rgba(255, 255, 255, 0.68) !important; margin: 0 0 0.6rem !important; }
+    .lane-card__entry strong { color: rgba(255, 255, 255, 0.9); }
+    .lane-row { border-radius: 10px; padding: 0.55rem 0.8rem; font-size: 13.5px; line-height: 1.6; margin: 0.4rem 0; color: rgba(255, 255, 255, 0.72); }
+    .lane-row span { display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; margin-right: 0.4rem; }
+    .lane-row--layer { background: rgba(167, 139, 250, 0.09); }
+    .lane-row--layer span { color: #c4b5fd; }
+    .lane-row--fit { background: rgba(45, 212, 191, 0.08); }
+    .lane-row--fit span { color: rgba(45, 212, 191, 0.98); }
+    .lane-row--watch { background: rgba(229, 184, 74, 0.09); }
+    .lane-row--watch span { color: #e5b84a; }
+
+    .table-wrap { overflow-x: auto; margin: 1.4rem 0 0.6rem; border: 1px solid rgba(255, 255, 255, 0.09); border-radius: 16px; -webkit-overflow-scrolling: touch; background: rgba(255, 255, 255, 0.02); }
+    .paths-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .paths-table th { padding: 0.95rem 1rem; text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.11em; color: rgba(255, 255, 255, 0.46); background: rgba(255, 255, 255, 0.04); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .paths-table td { padding: 0.95rem 1rem; color: rgba(255, 255, 255, 0.7); line-height: 1.66; border-bottom: 1px solid rgba(255, 255, 255, 0.06); vertical-align: top; }
+    .paths-table tr:last-child td { border-bottom: none; }
+    .paths-table strong { color: rgba(255, 255, 255, 0.93); }
+
+    .note-line { font-size: 13px !important; color: rgba(255, 255, 255, 0.5) !important; line-height: 1.68 !important; margin: 0.55rem 0 1.25rem !important; padding-left: 0.9rem; border-left: 2px solid rgba(255, 255, 255, 0.12); }
+
+    .highlight-box { border-radius: 16px; padding: 1.15rem 1.2rem; margin: 1.35rem 0; border: 1px solid rgba(255, 255, 255, 0.1); }
+    .highlight-box--teal { border-color: rgba(45, 212, 191, 0.24); background: rgba(45, 212, 191, 0.05); }
+    .highlight-box p { margin: 0.35rem 0 !important; color: rgba(255, 255, 255, 0.76) !important; line-height: 1.78 !important; font-size: 15px !important; }
+
+    .honest-take { border-left: 3px solid #e5b84a; border-radius: 0 14px 14px 0; padding: 1rem 1.15rem; background: rgba(229, 184, 74, 0.05); margin: 1.2rem 0; }
+    .honest-take__label { font-size: 10px !important; text-transform: uppercase; letter-spacing: 0.12em; color: #e5b84a !important; font-weight: 800; margin: 0 0 0.5rem !important; }
+    .honest-take p { font-size: 14px !important; line-height: 1.75 !important; color: rgba(255, 255, 255, 0.7) !important; margin: 0.4rem 0 !important; }
+
+    .rich-list { counter-reset: rl; list-style: none !important; margin: 1.35rem 0 !important; padding: 0 !important; display: flex; flex-direction: column; gap: 0.8rem; }
+    .rich-list li { counter-increment: rl; position: relative; padding: 1rem 1.1rem 1rem 3.2rem !important; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.03); color: rgba(255, 255, 255, 0.69) !important; line-height: 1.75 !important; margin: 0 !important; }
+    .rich-list li::before { content: counter(rl); position: absolute; left: 0.95rem; top: 1rem; width: 24px; height: 24px; border-radius: 50%; background: #e5b84a; color: #0a0f1e; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+
+    .protocol-stack, .mistakes-list { display: flex; flex-direction: column; gap: 0.9rem; margin: 1.35rem 0; }
+    .checkpoint, .mistake-item { border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.09); background: rgba(255, 255, 255, 0.03); overflow: hidden; }
+    .checkpoint { display: flex; gap: 1.15rem; align-items: flex-start; padding: 1.25rem 1.2rem; }
+    .checkpoint__num { width: 58px; flex-shrink: 0; text-align: right; font-size: 2rem; font-weight: 900; letter-spacing: -0.06em; line-height: 1; color: rgba(229, 184, 74, 0.22); }
+    .checkpoint__title { font-size: 1.02rem; font-weight: 800; color: rgba(255, 255, 255, 0.92); margin-bottom: 0.35rem; font-family: "Sora", sans-serif; }
+    .checkpoint__body p { margin: 0 0 0.55rem !important; font-size: 14px !important; line-height: 1.74 !important; color: rgba(255, 255, 255, 0.68) !important; }
+    .checkpoint__note { border-left: 2px solid rgba(229, 184, 74, 0.35); border-radius: 0 10px 10px 0; padding: 0.6rem 0.9rem; background: rgba(255, 255, 255, 0.04); font-size: 13px; line-height: 1.66; color: rgba(255, 255, 255, 0.53); font-style: italic; }
+
+    .gates-block { border-radius: 16px; border: 1px solid rgba(45, 212, 191, 0.24); background: rgba(45, 212, 191, 0.05); padding: 1.25rem 1.2rem; margin: 1.45rem 0; }
+    .gates-block__title { font-size: 13px !important; color: rgba(45, 212, 191, 0.96) !important; font-weight: 800; line-height: 1.6 !important; margin: 0 0 0.95rem !important; }
+    .gates-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.85rem; }
+    .gate { border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.04); padding: 1rem 1rem 0.95rem; }
+    .gate__num { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(45, 212, 191, 0.82); font-weight: 800; margin-bottom: 0.24rem; }
+    .gate__name { display: block; font-size: 0.96rem; font-weight: 800; color: rgba(255, 255, 255, 0.9); margin-bottom: 0.45rem; font-family: "Sora", sans-serif; }
+    .gate p { margin: 0 !important; font-size: 13.5px !important; line-height: 1.66 !important; color: rgba(255, 255, 255, 0.64) !important; }
+
+    .mistake-item { display: flex; gap: 1rem; padding: 1.15rem 1.2rem; }
+    .mistake-item__num { width: 52px; flex-shrink: 0; text-align: right; font-size: 1.9rem; font-weight: 900; letter-spacing: -0.06em; color: rgba(229, 184, 74, 0.2); line-height: 1; }
+    .mistake-item__title { font-size: 1rem; font-weight: 800; color: rgba(255, 255, 255, 0.9); margin-bottom: 0.3rem; font-family: "Sora", sans-serif; line-height: 1.3; }
+    .mistake-item__content p { margin: 0 !important; font-size: 14px !important; line-height: 1.72 !important; color: rgba(255, 255, 255, 0.66) !important; }
+
+    .source-list { font-size: 14px; line-height: 1.8; }
+
+    @media (max-width: 820px) {
+      .lane-grid, .gates-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .checkpoint, .mistake-item { flex-direction: column; gap: 0.55rem; }
+      .checkpoint__num, .mistake-item__num { width: auto; text-align: left; font-size: 1.55rem; }
+    }
+    @media (max-width: 420px) {
+      .jump-nav, .callout, .highlight-box, .checkpoint, .gates-block, .gate, .lane-card, .mistake-item { padding-left: 1rem; padding-right: 1rem; }
+    }
+    .paths-table .scale-pill { margin: 0 0 0.35rem; }
+  </style>
+</BlogPostLayout>

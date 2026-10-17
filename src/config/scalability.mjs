@@ -159,4 +159,5 @@ export const POST_SCALE = {
   "iti-career-options": ["mid", "Trade pay starts low and follows a fixed ladder; your own repair, contracting, solar or EV service business is the business layer."],
   "bsc-agriculture-career-options": ["mid", "Exam posts (bank, state, ICAR) follow fixed pay ladders; farm advisory, an input shop, FPO consulting, drone services or your own agri-enterprise give a business layer."],
   "is-it-a-good-career-in-india": ["mid", "A sector, not one job: salaried services roles follow a fixed ladder; product, GCC, freelance and consulting routes scale, while support and BPM roles do not."],
+  "is-sap-a-good-career-in-india": ["mid", "Salaried partner and services ladder; domain-led consulting, a boutique or BTP extension projects give a business layer, but client system access and a time-limited migration wave limit going solo."],
 };

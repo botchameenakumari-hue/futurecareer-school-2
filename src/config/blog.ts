@@ -4213,4 +4213,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 14,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-sap-a-good-career-in-india',
+    title: "Is SAP a Good Career in India? Modules, Pay and the Certificate Trap",
+    description:
+      "Is SAP a good career in India? Which modules pay and scale, what the S/4HANA deadline changes, sourced 2026 pay, and the institute certificate trap.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 22,
+  },
 ];
