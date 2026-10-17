@@ -4285,4 +4285,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 18,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-product-design-a-good-career-in-india',
+    title: "Is Product Design a Good Career in India? Web Design Too",
+    description:
+      "Is product design a good career in India? Yes for portfolio-first learners. Entry routes, junior hiring, AI task by task, named pay sources and the web design side route.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 15,
+  },
 ];
