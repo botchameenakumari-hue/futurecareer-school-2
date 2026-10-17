@@ -4132,4 +4132,22 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 14,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'zoology-career-options',
+    title: "Zoology Career Options in India: 7 Routes, Field Pay and Business Layers",
+    description:
+      "Zoology career options in India: seven routes from fisheries and bees to wildlife and NET, with sourced field pay (Rs 25,000 a month) and what can scale.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'polytechnic-diploma-after-10th-which-trade-to-choose',
+    title: "Polytechnic Diploma After 10th: Which Trade to Choose and When to Skip It",
+    description:
+      "Polytechnic diploma after 10th: which trade fits, how state entry tests work, the lateral-entry bridge to B.Tech, and when Class 11 and 12 is the smarter bet.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 18,
+  },
 ];

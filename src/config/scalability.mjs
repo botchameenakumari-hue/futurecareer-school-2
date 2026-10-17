@@ -152,4 +152,5 @@ export const POST_SCALE = {
   "how-to-become-a-solopreneur-india": ["high", "You set the price and own the offer; start small and add clients."],
   "how-to-become-an-independent-consultant-india": ["high", "Expertise sold directly; grows through referrals, retainers and productised services."],
   "career-in-pharmacy-india-scope-future": ["mid", "Salaried roles are modest; your own pharmacy or health-product business is the business layer."],
+  "zoology-career-options": ["mid", "Degree alone is crowded and wildlife or research posts are contract or rank-gated; fisheries, bee, silk and poultry services, testing labs and data consulting give a business layer."],
 };
