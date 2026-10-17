@@ -158,4 +158,5 @@ export const POST_SCALE = {
   "bsc-chemistry-career-options": ["mid", "Lab jobs follow fixed pay bands and start modestly; chemistry plus data or teaching, documentation, testing and formulation services give a business layer."],
   "iti-career-options": ["mid", "Trade pay starts low and follows a fixed ladder; your own repair, contracting, solar or EV service business is the business layer."],
   "bsc-agriculture-career-options": ["mid", "Exam posts (bank, state, ICAR) follow fixed pay ladders; farm advisory, an input shop, FPO consulting, drone services or your own agri-enterprise give a business layer."],
+  "is-it-a-good-career-in-india": ["mid", "A sector, not one job: salaried services roles follow a fixed ladder; product, GCC, freelance and consulting routes scale, while support and BPM roles do not."],
 };

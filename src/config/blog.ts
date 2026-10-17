@@ -4204,4 +4204,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 24,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-it-a-good-career-in-india',
+    title: "Is IT a Good Career in India? The Honest Verdict by Route",
+    description:
+      "Is IT (information technology) a good career in India? Yes for some routes, not for others. Jobs grew 2.3% in FY26 while revenue grew 6.1%. Find your door.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 14,
+  },
 ];
