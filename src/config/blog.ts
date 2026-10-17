@@ -4123,4 +4123,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 22,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-graduation',
+    title: "Career options after graduation: 7 routes ranked by cost of a wrong turn",
+    description:
+      "Career options after graduation in India: job, skills-first, postgraduate study, government exams, study abroad, freelancing or a gap year, with entry rules and costs.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 14,
+  },
 ];
