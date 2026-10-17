@@ -4267,4 +4267,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 12,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-embedded-systems-a-good-career-in-india',
+    title: "Is Embedded Systems a Good Career in India? Honest Verdict by Route",
+    description:
+      "Is embedded systems a good career in India? Yes, if you add proof and pick a lane. Firmware, VLSI, robotics and mechatronics compared, with named pay sources.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 14,
+  },
 ];
