@@ -4312,4 +4312,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 14,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-youtube-a-good-career-in-india',
+    title: "Is YouTube a Good Career in India? Career or Lottery Verdict",
+    description:
+      "Is YouTube a good career in India? Yes if the channel feeds a skill, service or product. See the real odds, the 2027 Partner Programme bar and who should skip.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 25,
+  },
 ];

@@ -170,4 +170,5 @@ export const POST_SCALE = {
   "is-product-design-a-good-career-in-india": ["mid", "A salaried ladder with a scarce junior door; a niche freelance practice, studio, templates or design-system consulting give a business layer."],
   "is-real-estate-a-good-career-in-india": ["mid", "Solo commission and salaried developer sales are lumpy or capped; property management, valuation, marketing and your own RERA-registered brokerage give a business layer."],
   "is-corporate-law-a-good-career-in-india": ["mid", "Firm and in-house routes follow a fixed ladder with a narrow top; compliance advisory, a boutique or independent counsel and fractional startup counsel give a business layer."],
+  "is-youtube-a-good-career-in-india": ["mid", "Ad-only and Shorts-only channels are crowded with two hard stages and fixed revenue shares; a channel that sells your own skill, course or service, or video work for other creators, gives the business layer."],
 };
