@@ -4177,4 +4177,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 16,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'iti-career-options',
+    title: "ITI Career Options: Which Trade to Choose and Where It Leads",
+    description:
+      "ITI career options after 8th or 10th: trades by sector, apprenticeship, railway and Agniveer routes, diploma lateral entry, and how to spot a fake ITI.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 15,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'bsc-agriculture-career-options',
+    title: "BSc Agriculture Career Options: 12 Routes, Exams, Business Layers",
+    description:
+      "BSc Agriculture career options in India: 12 routes with entry rules, sourced pay, ICAR, bank and state exams, plus FPO, input-shop and farm businesses.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'freelancing-business',
+    slug: 'business-ideas-for-students',
+    title: "Business Ideas for Students: 12 Low-Cost Ideas and Age Rules",
+    description:
+      "Business ideas for students in India: 12 low-cost ideas, what each one needs, which can scale, and the age, GST and scam rules to check before you start.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 24,
+  },
 ];
