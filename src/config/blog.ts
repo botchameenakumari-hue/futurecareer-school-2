@@ -4159,4 +4159,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 16,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'bsc-physics-career-options',
+    title: "BSc Physics Career Options: 8 Routes and Their Real Entry Rules",
+    description:
+      "BSc physics career options in India: eight routes, with what BARC, ISRO-centre, JEST and medical physics notices ask, who pays, and which routes scale.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 22,
+  },
 ];
