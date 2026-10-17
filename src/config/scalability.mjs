@@ -163,4 +163,5 @@ export const POST_SCALE = {
   "is-bpo-a-good-career-in-india": ["low", "Entry is open and fast, but scripted voice and chat work has a low ceiling and the most AI pressure; use it as a paid bridge and build a sellable skill (support setup, CRM, customer success) beside it."],
   "is-aviation-a-good-career-in-india": ["mid", "Most doors are licence-gated salaried ladders; drone services, aircraft maintenance and training or consulting give a business layer."],
   "is-photography-a-good-career-in-india": ["mid", "Crowded as a job and plain catalogue and stock work are exposed to AI; a small studio, photo-plus-video packages and repeat brand work give a business layer."],
+  "is-ethical-hacking-a-good-career-in-india": ["mid", "Salaried pentest follows a firm's ladder and bug bounty pay is uneven; your own pentest and audit firm, audits and training give a business layer after a track record."],
 };

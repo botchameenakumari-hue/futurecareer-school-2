@@ -4249,4 +4249,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 23,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-ethical-hacking-a-good-career-in-india',
+    title: "Is Ethical Hacking a Good Career in India? Pay, Law and Real Routes",
+    description:
+      "Is ethical hacking a good career in India? Yes for patient builders of proof. Pentest, bug bounty, own-firm routes, CEH vs OSCP costs, IT Act rules, AI impact.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 16,
+  },
 ];
