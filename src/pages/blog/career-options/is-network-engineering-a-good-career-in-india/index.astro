@@ -1,0 +1,782 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = "Is Network Engineering a Good Career in India? Roles, Pay, Verdict";
+const seoTitle = "Is Network Engineering a Good Career in India? Pay and Verdict";
+const description =
+  "Is network engineering a good career in India? Yes if you add cloud and automation to CCNA basics. Roles, exam costs, sourced pay and who should skip.";
+const canonical = "https://futurecareerschool.com/blog/career-options/is-network-engineering-a-good-career-in-india/";
+const publishedDateISO = "2026-10-14";
+const publishedDateLabel = "14 October 2026";
+const authorName = "Allu Vagdevi";
+const authorUrl = "https://futurecareerschool.com/about/allu-vagdevi/";
+const authorRole = "Career researcher and writer";
+
+const jumpLinks = [
+  { id: "short-answer", label: "The short answer" },
+  { id: "six-jobs", label: "Six jobs under one name" },
+  { id: "certificates", label: "Certificates: what they cost and prove" },
+  { id: "shift", label: "The shift to cloud and automation" },
+  { id: "pay", label: "Pay, from named sources" },
+  { id: "who-hires", label: "Who hires" },
+  { id: "routes", label: "Entry routes, rated" },
+  { id: "business-layer", label: "Business layers and who pays" },
+  { id: "ai", label: "AI and automation" },
+  { id: "on-call", label: "Night changes, shifts and burnout" },
+  { id: "skip", label: "Who should skip" },
+  { id: "decide", label: "Decide in two steps" },
+  { id: "faq", label: "FAQs" },
+];
+
+const roleRows = [
+  {
+    role: "Cloud networking engineer (AWS or Azure virtual networks, hybrid links)",
+    work: "Builds and fixes virtual networks, private links to offices, firewalls and load balancers in the cloud, often through code.",
+    door: "Second job for most people. Needs routing basics first, then a cloud account you have actually built in.",
+    scale: "Scalable",
+    why: "Cloud networking skills sell as project work and consulting, and the same skill moves across employers.",
+  },
+  {
+    role: "Network security engineer (firewalls, VPN, segmentation)",
+    work: "Writes and reviews firewall rules, secures remote access, and checks that a change does not open a hole.",
+    door: "Usually after a year or two as a network engineer.",
+    scale: "Scalable with a business layer",
+    why: "Firewall reviews and managed security for small firms can be sold as a service. See the security guide for the wider lane.",
+  },
+  {
+    role: "Enterprise network engineer (switching, routing, Wi-Fi in an office or campus)",
+    work: "Keeps a company's wired and wireless network running, plans upgrades, and handles outages.",
+    door: "Entry through support, NOC or a junior engineer post.",
+    scale: "Scalable with a business layer",
+    why: "A salaried ladder with fixed grades. It grows when you add automation and design skill, or serve small offices yourself.",
+  },
+  {
+    role: "SD-WAN and WAN engineer at an integrator or managed service provider",
+    work: "Connects many branch offices, banks' outlets or stores over broadband and leased lines, and manages them from one console.",
+    door: "Integrators and managed service providers hire juniors who have lab proof.",
+    scale: "Scalable with a business layer",
+    why: "Repeatable rollouts across many sites. Ownership comes through a small managed-service business.",
+  },
+  {
+    role: "Telecom, ISP and 5G network engineer (core, transport, radio)",
+    work: "Runs the networks of mobile and broadband operators and the vendors that build them. Much of it is vendor-specific.",
+    door: "Telecom degree or diploma, vendor training and a fixed-ladder employer.",
+    scale: "Not so scalable",
+    why: "Few employers, large equipment and licences, and little room to run your own version. Keep a transferable skill beside it.",
+  },
+  {
+    role: "NOC or network support (watching dashboards, raising and fixing tickets)",
+    work: "Monitors links and devices, follows a runbook, escalates what it cannot fix. Often in shifts.",
+    door: "The widest door for freshers, including diploma, BSc and BCA holders.",
+    scale: "Not so scalable",
+    why: "Routine work with a low ceiling and the most automation pressure. Use it as a paid bridge, not a destination.",
+  },
+];
+
+const certRows = [
+  {
+    cert: "Cisco CCNA (exam 200-301)",
+    cost: "About US$300 for one 120-minute exam. Cisco lists no prerequisite.",
+    proves: "You can configure and troubleshoot a small network and you have met automation and security basics.",
+    note: "The exam fee is in dollars, so the rupee cost moves with the exchange rate. It does not prove you can run a live network.",
+  },
+  {
+    cert: "Cisco CCNP Enterprise",
+    cost: "Core exam ENCOR US$400, plus one concentration exam at US$300 (choices include SD-WAN, automation and secure cloud connectivity). No prerequisite listed.",
+    proves: "Depth in design, routing and one specialty.",
+    note: "Valid three years. Worth it once a job gives you real devices to work on, not before.",
+  },
+  {
+    cert: "Microsoft Azure Network Engineer Associate (AZ-700)",
+    cost: "100-minute exam, price set by country. Renewal is free through an online assessment, and the page lists a 12 month renewal cycle.",
+    proves: "You can design and manage Azure networks, assuming you already know names, protocols and addressing.",
+    note: "A good second certificate after CCNA, once you have built something in Azure.",
+  },
+  {
+    cert: "AWS Advanced Networking Specialty",
+    cost: "US$300, 170 minutes. AWS recommends five or more years of networking experience.",
+    proves: "Senior cloud networking knowledge.",
+    note: "AWS says the last day to take this exam is 31 December 2026. Check what replaces it before you plan around it.",
+  },
+  {
+    cert: "Juniper JNCIA-Junos",
+    cost: "Check the official Juniper page for the current fee and exam code. Third-party sites disagree.",
+    proves: "Junos basics, useful where an employer runs Juniper gear.",
+    note: "Pick it only if your target employers use Juniper. CCNA is the more common first ask.",
+  },
+];
+
+const shiftOld = [
+  "Typing the same configuration on one device after another by hand.",
+  "Reading a log line by line to find which link dropped.",
+  "Drawing and updating diagrams manually after each change.",
+];
+const shiftNew = [
+  "Writing a short Python or Ansible script that applies one change to fifty devices and checks the result.",
+  "Building virtual networks in a cloud account through code and reviewing them like software.",
+  "Designing the network, judging the risk of a change, and explaining an outage to managers.",
+];
+
+const payRows = [
+  {
+    stage: "Entry level, under 1 year",
+    figure: "Average total pay about Rs 2.95 lakh a year (181 salaries)",
+    meaning: "Most freshers start here. A certificate helps you get shortlisted. It does not by itself raise this number.",
+  },
+  {
+    stage: "Early career, 1 to 4 years",
+    figure: "Average total pay about Rs 4.13 lakh a year (299 salaries)",
+    meaning: "The first jump comes when you move from watching to changing the network.",
+  },
+  {
+    stage: "All experience levels, base pay",
+    figure: "Average about Rs 4.79 lakh. The 10th to 90th percentile runs from about Rs 2.4 lakh to Rs 10 lakh (491 profiles)",
+    meaning: "The spread is wide, so employer type and skill matter more than the title.",
+  },
+  {
+    stage: "United States, for comparison",
+    figure: "Median US$99,130 a year for network and systems administrators (US Bureau of Labor Statistics, May 2025)",
+    meaning: "A different market and currency. Do not read it as an Indian pay level.",
+  },
+];
+
+const hireCards = [
+  {
+    name: "Managed service providers and system integrators",
+    body: "They build and run networks for many small and mid-size clients. Good for fast hands-on learning across vendors. Pay is usually modest at the start.",
+  },
+  {
+    name: "Banks and financial firms",
+    body: "Large branch and ATM networks, strict change control and audits. Stable, with slow, careful change windows.",
+  },
+  {
+    name: "Telecom operators, ISPs and equipment vendors",
+    body: "India had about 1,200.8 million telecom subscribers and 944 million broadband subscribers at the end of March 2025 (TRAI annual report, FY25), so these networks are huge and need constant work.",
+  },
+  {
+    name: "Data centres and colocation firms",
+    body: "Data centre capacity in India has been growing fast, and trade reports name Mumbai as the largest hub, followed by Chennai, with Hyderabad growing. We print no capacity figure because sources count capacity differently.",
+  },
+  {
+    name: "Global capability centres and large IT firms",
+    body: "They run the network for a parent company abroad. They lean toward people with some experience, so most freshers arrive through a second job.",
+  },
+  {
+    name: "Schools, hospitals, factories and offices",
+    body: "Small teams of one or two people, so you learn every layer. Also where a freelancer or small contractor finds work.",
+  },
+];
+
+const routeRows = [
+  {
+    route: "Class 12 or any graduate: CCNA preparation on free simulator practice, then a NOC or support job",
+    scale: "Not so scalable",
+    why: "Fast and cheap to start. The role is routine, and the next climb (engineer, then design) is a separate filter.",
+    layer: "Learn one change you can automate every month so you can leave the queue.",
+  },
+  {
+    route: "Diploma in electronics, computer or IT, then a junior network or telecom job",
+    scale: "Scalable with a business layer",
+    why: "Practical diplomas fit installation and support work. Pay follows a fixed ladder at first.",
+    layer: "Add automation and cloud basics, or serve small offices with cabling and Wi-Fi on the side.",
+  },
+  {
+    route: "BCA or BSc (IT, computer science, electronics)",
+    scale: "Scalable with a business layer",
+    why: "The most common route into support and junior engineer posts, with room to move toward cloud and security.",
+    layer: "Build a home lab and one documented project in the first year of work.",
+  },
+  {
+    route: "B.Tech in electronics and communication or computer science",
+    scale: "Scalable with a business layer",
+    why: "Opens telecom, product and vendor roles and campus recruiting, but the degree alone is crowded.",
+    layer: "Keep the college fee near 10% of the family education budget and spend the rest on lab, cloud practice and projects.",
+  },
+  {
+    route: "Skills first: lab proof plus cloud networking and Python, then a role or direct client work",
+    scale: "Scalable",
+    why: "You control the pace. Proof can be shown to employers or sold to small clients.",
+    layer: "Needs a clear offer, referrals and a price conversation. See the section on who pays.",
+  },
+];
+
+const checkpoints = [
+  {
+    num: "01",
+    title: "Biology",
+    body: "Can you stay calm in a live outage and accept planned work late at night, when a change window is quiet?",
+  },
+  {
+    num: "02",
+    title: "Context",
+    body: "Can you afford a dollar-priced exam and a cloud practice account, and wait for pay to rise after the first role?",
+  },
+  {
+    num: "03",
+    title: "Market",
+    body: "Is your target a lane with work in it, such as cloud networking, SD-WAN or network security, and not only the crowded monitoring queue?",
+  },
+  {
+    num: "04",
+    title: "Survival",
+    body: "Is your daily work moving toward design, judgement and code, or toward copy-and-paste commands a tool can do?",
+  },
+];
+
+const gateItems = [
+  {
+    num: "Gate 1",
+    title: "Proof of skill",
+    body: "Build a small network in a simulator: two offices, routing between them, a firewall rule, and a written test that proves it works. Then rebuild one part in a cloud account.",
+  },
+  {
+    num: "Gate 2",
+    title: "Proof of communication",
+    body: "Explain your design in two minutes to a shop owner: what connects to what, what breaks if one link fails, and how you would fix it.",
+  },
+  {
+    num: "Gate 3",
+    title: "Proof of value",
+    body: "Show it to three working network engineers and ask which role they would shortlist you for. Use their answers.",
+  },
+];
+
+const skipRows = [
+  {
+    signal: "You want regular daytime hours with no call at all",
+    truth: "Outages and upgrades happen outside office hours. The US labour bureau also notes that administrators may need evenings, nights or weekends.",
+  },
+  {
+    signal: "You think one CCNA badge is the plan",
+    truth: "Many people hold it. What separates candidates is a lab you can explain and a skill beyond typing commands.",
+  },
+  {
+    signal: "You dislike troubleshooting with no clear answer",
+    truth: "Most of the job is finding which of five possible causes is real, often while someone is waiting.",
+  },
+  {
+    signal: "You want fast, high pay in the first role",
+    truth: "Entry pay data shows an average near Rs 3 lakh for under one year. Big jumps usually come with a second job and a rarer skill.",
+  },
+  {
+    signal: "You will not touch code",
+    truth: "You can still do design, wireless or cabling work. But repeating manual commands is the part tools are taking.",
+  },
+];
+
+const faqItems = [
+  {
+    q: "Is network engineering a good career in India?",
+    a: "Yes, if you plan beyond the first monitoring job. Telecom and broadband networks are huge, data centres are expanding, and companies need people to run them. But routine command-typing and watching dashboards are the parts most exposed to automation, so add cloud networking, automation or security. Treat the first role as paid training.",
+  },
+  {
+    q: "Is computer networking a good career for freshers?",
+    a: "It is a workable start because the door is wide: diploma, BSc, BCA and B.Tech holders all enter through support or NOC roles. Entry pay is modest. Payscale lists an average of about Rs 2.95 lakh total pay for under one year of experience, so keep your plan for the second job in view.",
+  },
+  {
+    q: "Is CCNA enough to get a job?",
+    a: "It helps you get shortlisted, but it is not a guarantee. The exam costs about US$300 and tests configuration and troubleshooting basics. Pair it with a lab you can explain and some Python or cloud practice, because hiring managers ask what you have built.",
+  },
+  {
+    q: "How much does CCNA cost, and can I learn for free?",
+    a: "Cisco lists the exam at about US$300. You can learn first without paying: Cisco Networking Academy offers free self-paced courses and the Packet Tracer simulator, though you should check whether the CCNA-level course is free or fee-based where you live. Sit the exam only after your practice labs work.",
+  },
+  {
+    q: "Does a network engineer need coding?",
+    a: "You can start without it, but you will be stuck without it later. Cisco's own CCNA now lists automation and programmability as one of six exam areas. Python for scripts and Ansible for repeat changes are the usual first tools.",
+  },
+  {
+    q: "What is the salary of a network engineer in India?",
+    a: "Payscale (July 2026) shows an average base of about Rs 4.79 lakh across levels, with the 10th to 90th percentile near Rs 2.4 lakh to Rs 10 lakh. Early career pay (1 to 4 years) averages about Rs 4.13 lakh in total. These are indicative averages and vary by city, employer and skill. Check live listings before you decide.",
+  },
+  {
+    q: "Is network engineering better than cloud engineering or DevOps?",
+    a: "They overlap. Cloud and DevOps roles often pay more and are more code-heavy, and they still need network knowledge, which many candidates lack. A network engineer who learns cloud networking can move into either. Read the DevOps verdict if you lean that way.",
+  },
+  {
+    q: "Will AI replace network engineers?",
+    a: "It will take routine work first: generating standard configs, summarising logs and sorting alerts. Designing a network, judging the risk of a change, and owning an outage still need a person. Use AI to draft, and always test its output before you push it to a live device.",
+  },
+  {
+    q: "Is network administrator a good career?",
+    a: "It is a similar field with more day-to-day upkeep of servers, accounts and small office networks. In the United States the labour bureau projects employment of network and systems administrators to fall 4% from 2025 to 2035, though it still expects about 13,400 openings a year. That is a US signal, but it points the same way: the upkeep role is shrinking, the cloud and automation role is not.",
+  },
+  {
+    q: "Can I do network engineering after ECE or a diploma?",
+    a: "Yes. ECE and electronics diplomas fit telecom, wireless and hardware-heavy roles well. Add CCNA basics and a little scripting. If you prefer software, cloud networking is the cleaner bridge.",
+  },
+  {
+    q: "Can I start my own network or CCTV business?",
+    a: "Some people do. Small offices, schools, clinics and shops need cabling, Wi-Fi, CCTV and basic support, and they pay for a reliable local person. It needs a clear offer, a site-visit quote and referrals. Income can be uneven at first, so keep a salary or savings buffer while you test.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  seoTitle={seoTitle}
+  description={description}
+  canonical={canonical}
+  category="career-options"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+  salesHref="/services/career-counselling-and-career-guidance/career-counselling-for-it-professionals/"
+  salesLabel="Get Career Counselling for IT Professionals"
+>
+  <p class="lead-para">
+    <strong>Is network engineering a good career in India? Yes, if you treat CCNA as the start and not the plan.</strong>
+    India runs one of the largest telecom and broadband bases in the world, and data centres are growing fast, so the work is real.
+    But the old job of typing the same commands on device after device is being automated.
+    The people who do well build a <strong>high-value skill portfolio</strong>: networking basics, cloud networking and a little code, with a lab they can show.
+    Those are the decisions that unlock high income opportunities and an earlier path to financial freedom.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Network engineering is six different jobs. Cloud networking, network security and SD-WAN scale furthest. Monitoring and telecom roles have the lowest ceiling.</li>
+      <li>Entry pay is modest: Payscale shows an average near Rs 2.95 lakh total pay for under one year, and about Rs 4.13 lakh for 1 to 4 years.</li>
+      <li><strong>Learn CCNA basics, then add cloud networking and Python. A skill other employers and small clients want is what turns a network job into high income opportunities.</strong></li>
+      <li>Next step: build one small network in a simulator, then pass the 3 Gates below before you pay for any exam.</li>
+    </ul>
+  </div>
+
+  <p>
+    Browse more <a href="/blog/career-options/">career option guides</a> if you are still comparing fields.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The short answer to "is network engineering a good career"</h2>
+
+  <p>
+    Every website, bank app, hospital system and phone call crosses a network. Someone has to build it, secure it and fix it at 2 a.m.
+    That need is not going away.
+  </p>
+
+  <p>
+    What is changing is who does the work and how. Cisco's own CCNA exam now lists automation and programmability as one of its six areas.
+    A job that is only watching screens or typing commands is the weakest part. A job that designs, secures and automates is the strongest.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      This is a solid, practical field with a lower ceiling than software or data if you stay on the support side.
+      It becomes a strong career when you move up two levels: from watching to changing, and from changing to designing and automating.
+      Two filters apply: the entry queue for monitoring jobs is crowded, and the move to design roles is a separate, harder climb.
+    </p>
+  </div>
+
+  <h2 id="six-jobs">Six jobs under one name</h2>
+
+  <p>
+    "Network engineer" hides very different work. We lead with the roles that scale furthest and keep the crowded ones on the list with their risk.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table paths-table--wide">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>The work</th>
+          <th>How you get in</th>
+          <th>Our rating</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        {roleRows.map((item) => (
+          <tr>
+            <td data-label="Role"><strong>{item.role}</strong></td>
+            <td data-label="The work">{item.work}</td>
+            <td data-label="How you get in">{item.door}</td>
+            <td data-label="Our rating">{item.scale}</td>
+            <td data-label="Why">{item.why}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>The scalable path inside this field:</strong> cloud networking plus automation. The skill sells to many employers and to small clients as project work,
+      because one person with scripts can look after many sites. That is the one-line reason it scales.
+    </p>
+  </div>
+
+  <p>
+    If the offensive or defensive security side pulls you, read
+    <a href="/blog/career-options/is-cybersecurity-a-good-career-in-india/">is cybersecurity a good career in India</a>.
+  </p>
+
+  <h2 id="certificates">Certificates: what they cost and what they prove</h2>
+
+  <p>
+    Prices below come from the vendor pages. They are set in dollars, so check them again before you book.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table paths-table--wide">
+      <thead>
+        <tr>
+          <th>Certificate</th>
+          <th>Cost and format</th>
+          <th>What it shows</th>
+          <th>Watch out</th>
+        </tr>
+      </thead>
+      <tbody>
+        {certRows.map((item) => (
+          <tr>
+            <td data-label="Certificate"><strong>{item.cert}</strong></td>
+            <td data-label="Cost and format">{item.cost}</td>
+            <td data-label="What it shows">{item.proves}</td>
+            <td data-label="Watch out">{item.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Start free. Cisco Networking Academy lists free self-paced courses and the Packet Tracer simulator, and the information is also on YouTube and in vendor documents.
+    Judge each course by who teaches it, when it was last updated, and whether you finish with a network you built.
+    A pile of certificates is not a skill portfolio. Pay for an exam only when your labs already work, and for a course only when you can name what you are buying, such as expert feedback.
+  </p>
+
+  <h2 id="shift">The shift to cloud and automation</h2>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">The work that is fading</div>
+      <ul>
+        {shiftOld.map((item) => (<li>{item}</li>))}
+      </ul>
+    </div>
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">The work that is growing</div>
+      <ul>
+        {shiftNew.map((item) => (<li>{item}</li>))}
+      </ul>
+    </div>
+  </div>
+
+  <p>
+    Job posts we reviewed pair classic routing knowledge with Python, Ansible and infrastructure-as-code. That is a sample of listings, not a hiring study.
+    The practical meaning is simple: networking basics make you employable, and code makes you hard to replace.
+  </p>
+
+  <p>
+    The cloud side overlaps with infrastructure work. See <a href="/blog/career-options/is-devops-a-good-career/">is DevOps a good career</a> for the neighbouring lane.
+  </p>
+
+  <h2 id="pay">Pay, from named sources</h2>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Stage</th>
+          <th>Reported figure</th>
+          <th>What it means</th>
+        </tr>
+      </thead>
+      <tbody>
+        {payRows.map((item) => (
+          <tr>
+            <td data-label="Stage"><strong>{item.stage}</strong></td>
+            <td data-label="Reported figure">{item.figure}</td>
+            <td data-label="What it means">{item.meaning}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    India figures: Payscale network engineer page, updated 10 July 2026. United States figure: US Bureau of Labor Statistics, Occupational Outlook Handbook. Pay figures here are indicative ranges and averages from public profiles, not exact or guaranteed amounts. Pay differs by city, employer, skill and year, and markets change. Check current job listings (for example on LinkedIn, Naukri or Indeed) and ask people working in the role before you decide.
+  </p>
+
+  <p>
+    Some training sites quote much higher fresher pay without naming their data, so we left those out.
+    Mid and senior pay ladders have no reliable public source we could confirm, so we give none.
+  </p>
+
+  <h2 id="who-hires">Who hires</h2>
+
+  <div class="route-grid">
+    {hireCards.map((item) => (
+      <div class="route-card">
+        <h3>{item.name}</h3>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <p class="note-line">
+    Subscriber figures: TRAI annual report FY25, as reported on 7 January 2026. Data centre growth is described as direction only, from trade press, with no exact totals.
+  </p>
+
+  <h2 id="routes">Entry routes, rated</h2>
+
+  <div class="table-wrap">
+    <table class="paths-table paths-table--wide">
+      <thead>
+        <tr>
+          <th>Route</th>
+          <th>Our rating</th>
+          <th>Why</th>
+          <th>The layer or the risk</th>
+        </tr>
+      </thead>
+      <tbody>
+        {routeRows.map((item) => (
+          <tr>
+            <td data-label="Route"><strong>{item.route}</strong></td>
+            <td data-label="Our rating">{item.scale}</td>
+            <td data-label="Why">{item.why}</td>
+            <td data-label="The layer or the risk">{item.layer}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Degrees have a place, especially for telecom and campus recruiting. The trap is degree-only thinking.
+    A strict starting rule: keep the college fee near 10% of the total education budget. On a Rs 10 lakh budget that is about Rs 1 lakh, and the rest pays for a laptop, lab practice, cloud credits, exams and later courses.
+    Going above about 20% needs course-specific proof, such as verified placements for that branch, and avoid education loans for this field.
+  </p>
+
+  <h2 id="business-layer">Business layers and who pays</h2>
+
+  <p>
+    In a salaried job your employer pays and you are hired through an interview, so the sales layer matters mainly for your next move and for a side route.
+    The side routes are real, because small organisations need networks and cannot afford a full team.
+  </p>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>The ownership path:</strong> a small network services business for offices, schools, clinics and shops, covering structured cabling, Wi-Fi, CCTV, firewalls and a yearly maintenance contract.
+      It scales because repeat contracts renew, you can package fixed jobs, and later you can hire technicians. It needs tools, trust and steady follow-up, so test it beside a job first.
+    </p>
+  </div>
+
+  <ul>
+    <li><strong>Who pays:</strong> the owner or manager of a small business, a builder, an interior designer, or a school administrator.</li>
+    <li><strong>How they trust you:</strong> referrals from electricians, builders and IT shops, plus before-and-after photos and a neat network diagram.</li>
+    <li><strong>First skill to learn:</strong> a simple offer and a site-visit quote. Ask what downtime costs them before you name a price.</li>
+    <li><strong>One number to watch:</strong> how many site visits turn into signed quotes, and how many clients renew.</li>
+  </ul>
+
+  <p>
+    Consulting is the other layer: network reviews, firewall checks and automation scripts for companies, once you have documented work. Keep communication in English clear and build a small network of peers, since both bring referrals.
+  </p>
+
+  <h2 id="ai">AI and automation</h2>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">What AI is squeezing</div>
+      <ul>
+        <li>Standard configuration drafts and templated scripts.</li>
+        <li>First-line alert sorting and log summaries.</li>
+        <li>Routine documentation.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">What still needs a person</div>
+      <ul>
+        <li>Designing a network for a real business.</li>
+        <li>Judging the risk of a change before it goes live.</li>
+        <li>Owning an outage and explaining it to managers.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>
+    A staged path. Now: use AI to draft configs and scripts, and test every line in a lab. Next: automate one change you repeat often, with a check that proves it worked. Later: offer that workflow to a team or a small client.
+    One caution: a wrong AI-written rule on a live firewall can cause an outage or open a hole, so human review stays valuable.
+    Tool familiarity alone is not proof. A before and after result is.
+  </p>
+
+  <h2 id="on-call">Night changes, shifts and burnout</h2>
+
+  <p>
+    Network changes are often planned for quiet hours, so late-night work is normal. NOC roles run in shifts. A link failure during business hours means pressure from every side.
+    The US labour bureau notes after-hours work for administrators.
+  </p>
+
+  <p>
+    Stress eases with a team that has runbooks, a fair rotation and good monitoring. Ask about rotation size and night-work pay in the interview. Remote work exists mainly in cloud and automation roles. Site-based jobs, such as data centres and cabling, need you on location.
+  </p>
+
+  <h2 id="skip">Who should skip, or choose another door</h2>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Warning sign</th>
+          <th>What is actually true</th>
+        </tr>
+      </thead>
+      <tbody>
+        {skipRows.map((item) => (
+          <tr>
+            <td data-label="Warning sign"><strong>{item.signal}</strong></td>
+            <td data-label="What is actually true">{item.truth}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    If you like systems but dislike night work, software testing or business analysis may fit better. See
+    <a href="/blog/career-options/is-it-a-good-career-in-india/">is IT a good career</a> for the sector map.
+  </p>
+
+  <h2 id="decide">Decide in two steps</h2>
+
+  <p>
+    Step one: run The 4-Checkpoint Protocol on paper.
+  </p>
+
+  <div class="steps">
+    {checkpoints.map((item) => (
+      <div class="step">
+        <div class="step__num">{item.num}</div>
+        <div>
+          <div class="step__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <p>Step two: pass The 3 Gates before you pay for an exam.</p>
+
+  <div class="gates-block">
+    <div class="gates-row">
+      {gateItems.map((item) => (
+        <div class="gate">
+          <span class="gate__num">{item.num}</span>
+          <span class="gate__name">{item.title}</span>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <p>
+    The pace is yours. Some people finish a first lab in a few weeks, others need a couple of months, and both are normal.
+    If you want a second opinion on your money, family and goals, a session on
+    <a href="/services/career-counselling-and-career-guidance/career-counselling-for-it-professionals/">career counselling for IT professionals</a>
+    helps you make the decisions that unlock high income opportunities, one step at a time.
+  </p>
+
+  <h2 id="faq">FAQs on is network engineering a good career in India</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .jump-nav { border: 1px solid rgba(255,255,255,0.09); border-radius: 16px; padding: 1.2rem 1.25rem; background: linear-gradient(135deg, rgba(45,212,191,0.05), rgba(255,255,255,0.02)); margin: 1.6rem 0 2rem; }
+    .jump-nav__label { font-size: 11px !important; text-transform: uppercase; letter-spacing: 0.11em; color: rgba(45,212,191,0.96) !important; font-weight: 800; margin: 0 0 0.85rem !important; }
+    .jump-nav__list { list-style: none !important; margin: 0 !important; padding: 0 !important; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem 1rem; }
+    .jump-nav__list li { margin: 0 !important; }
+    .jump-nav__list a { display: block; font-size: 14px; color: rgba(255,255,255,0.74); line-height: 1.55; text-decoration: none; }
+    .jump-nav__list a:hover { color: #fff; }
+    h2[id] { scroll-margin-top: 108px; }
+
+    .paths-table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: 14px; }
+    .paths-table--wide { min-width: 900px; }
+    .paths-table th { padding: 0.95rem 1rem; text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.11em; color: rgba(255,255,255,0.46); background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .paths-table td { padding: 0.95rem 1rem; color: rgba(255,255,255,0.7); line-height: 1.66; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top; }
+    .paths-table tr:last-child td { border-bottom: none; }
+    .paths-table strong { color: rgba(255,255,255,0.93); }
+    .note-line { font-size: 13px !important; color: rgba(255,255,255,0.5) !important; line-height: 1.68 !important; margin: 0.55rem 0 1.25rem !important; padding-left: 0.9rem; border-left: 2px solid rgba(255,255,255,0.12); }
+
+    .route-grid { display: grid; gap: 1rem; margin: 1.4rem 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .route-card { border-radius: 16px; padding: 1.2rem 1.2rem 1.1rem; border: 1px solid rgba(255,255,255,0.1); border-top: 3px solid var(--accent, #2dd4bf); background: rgba(255,255,255,0.03); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .route-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.25); }
+    .route-card:nth-child(4n+1) { --accent: #2dd4bf; }
+    .route-card:nth-child(4n+2) { --accent: #e5b84a; }
+    .route-card:nth-child(4n+3) { --accent: #a78bfa; }
+    .route-card:nth-child(4n+4) { --accent: #60a5fa; }
+    .route-card h3 { margin: 0 0 0.6rem; font-size: 1.03rem; line-height: 1.28; color: rgba(255,255,255,0.93); font-family: "Sora", sans-serif; }
+    .route-card p { font-size: 14px !important; line-height: 1.72 !important; color: rgba(255,255,255,0.68) !important; margin: 0.4rem 0 !important; }
+
+    .comparison-grid { display: grid; gap: 1rem; margin: 1.4rem 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .compare-card { border-radius: 16px; padding: 1.2rem 1.2rem 1.1rem; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); }
+    .compare-card--gold { border-color: rgba(229,184,74,0.24); background: rgba(229,184,74,0.05); }
+    .compare-card--teal { border-color: rgba(45,212,191,0.24); background: rgba(45,212,191,0.05); }
+    .compare-card__label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; color: rgba(255,255,255,0.88); margin-bottom: 0.65rem; }
+    .compare-card ul { margin: 0 0 0 1rem !important; padding: 0 !important; }
+    .compare-card li { font-size: 14px !important; line-height: 1.7 !important; color: rgba(255,255,255,0.68) !important; margin: 0.35rem 0 !important; }
+
+    .highlight-box { border-radius: 16px; padding: 1.15rem 1.2rem; margin: 1.35rem 0; border: 1px solid rgba(255,255,255,0.1); }
+    .highlight-box--teal { border-color: rgba(45,212,191,0.24); background: rgba(45,212,191,0.05); }
+    .highlight-box p { margin: 0.35rem 0 !important; color: rgba(255,255,255,0.76) !important; line-height: 1.78 !important; font-size: 15px !important; }
+
+    .honest-take { border-left: 3px solid #e5b84a; border-radius: 0 14px 14px 0; padding: 1rem 1.15rem; background: rgba(229,184,74,0.05); margin: 1.2rem 0; }
+    .honest-take__label { font-size: 10px !important; text-transform: uppercase; letter-spacing: 0.12em; color: #e5b84a !important; font-weight: 800; margin: 0 0 0.5rem !important; }
+    .honest-take p { font-size: 14px !important; line-height: 1.75 !important; color: rgba(255,255,255,0.7) !important; margin: 0.4rem 0 !important; }
+
+    .steps { display: flex; flex-direction: column; gap: 0.9rem; margin: 1.35rem 0; }
+    .step { display: flex; gap: 1rem; padding: 1.1rem 1.2rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.09); background: rgba(255,255,255,0.03); }
+    .step__num { width: 52px; flex-shrink: 0; text-align: right; font-size: 1.9rem; font-weight: 900; letter-spacing: -0.06em; color: rgba(229,184,74,0.3); line-height: 1; }
+    .step__title { font-size: 1rem; font-weight: 800; color: rgba(255,255,255,0.9); margin-bottom: 0.3rem; font-family: "Sora", sans-serif; line-height: 1.3; }
+    .step p { margin: 0 !important; font-size: 14px !important; line-height: 1.72 !important; color: rgba(255,255,255,0.66) !important; }
+
+    .gates-block { border-radius: 16px; border: 1px solid rgba(45,212,191,0.24); background: rgba(45,212,191,0.05); padding: 1.25rem 1.2rem; margin: 1.2rem 0; }
+    .gates-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.85rem; }
+    .gate { border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); padding: 1rem 1rem 0.95rem; }
+    .gate__num { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(45,212,191,0.82); font-weight: 800; margin-bottom: 0.24rem; }
+    .gate__name { display: block; font-size: 0.96rem; font-weight: 800; color: rgba(255,255,255,0.9); margin-bottom: 0.45rem; font-family: "Sora", sans-serif; }
+    .gate p { margin: 0 !important; font-size: 13.5px !important; line-height: 1.66 !important; color: rgba(255,255,255,0.64) !important; }
+
+    @media (max-width: 820px) {
+      .comparison-grid, .gates-row, .jump-nav__list, .route-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .step { flex-direction: column; gap: 0.55rem; }
+      .step__num { width: auto; text-align: left; font-size: 1.55rem; }
+    }
+    @media (max-width: 420px) {
+      .jump-nav, .route-card, .compare-card, .highlight-box, .gates-block, .gate, .step { padding-left: 1rem; padding-right: 1rem; }
+      .paths-table { min-width: 620px; }
+      .paths-table th, .paths-table td { padding: 0.78rem 0.8rem; }
+    }
+  </style>
+</BlogPostLayout>

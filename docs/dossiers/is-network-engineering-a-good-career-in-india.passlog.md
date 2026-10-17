@@ -1,0 +1,10 @@
+# Pass log: is-network-engineering-a-good-career-in-india (P2 agent, 17 Oct 2026)
+
+STEP 0: DISTINCT; no network/CCNA page exists. TOFU blog, career-options, STANDARD. 40% floor checked first: about 93% unique, build.
+
+Pass 1 (17 Oct 2026): re-read BLOG_WRITING_PROMPT_FOLLOWUP.md from disk; structure, opening, copy, tables, technical -> build into /tmp/claude-0/dist-is-network-engineering-a-good-career-in-india: 1 H1, 0 duplicate ids, 0 broken jump anchors, 0 td without data-label (92 td), FAQ schema 11 = 11 visible (layout adds one extra details), title 62 chars, GA via layout only, 0 em dashes, 0 <img>. Fixes: description 162 chars cut to 150; "users" in an FAQ answer changed to "accounts"; check:public-copy passed.
+
+Pass 2 (17 Oct 2026): re-read FOLLOWUP from disk; perspectives, growth, sales/marketing, AI, ledger -> positioning in lead, key takeaways, skill-portfolio highlight, CTA paragraph; all six roles and five routes carry exact scalability labels with reasons; ownership highlight box (small network services, cabling, Wi-Fi, CCTV, yearly maintenance); who pays/trust/first skill/one number; two-filter competition honest-take; AI now/next/later and named squeeze; 10% budget rule with Rs 10 lakh example; free-first learning; 4-Checkpoint and 3 Gates named at first use; pay only from Payscale and BLS with caution text; Juniper fee and mid/senior pay left out as unverifiable; AWS retirement date flagged. Fix: FindMyCollege figures rejected (no sources, inconsistent); Savills figure marked as trade-press in note-line.
+
+Pass 3 (17 Oct 2026): re-read FOLLOWUP from disk; uniqueness/depth -> 6-gram overlap vs cybersecurity 2.3%, IT 5.9%, DevOps 1.9%, ethical hacking 4.2%, DevOps roadmap 0.9%; union 6.5% (about 93% unique). Different structure from all (role table, certificate cost table, no salary-by-stage ladder). STANDARD depth holds (about 2,000 body words), nothing padded. Final rebuild: 150-char description, 11 FAQ schema, public-copy passed.
+Builds: two full builds into my own outDir under flock.

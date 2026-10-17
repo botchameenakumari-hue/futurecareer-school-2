@@ -164,4 +164,5 @@ export const POST_SCALE = {
   "is-aviation-a-good-career-in-india": ["mid", "Most doors are licence-gated salaried ladders; drone services, aircraft maintenance and training or consulting give a business layer."],
   "is-photography-a-good-career-in-india": ["mid", "Crowded as a job and plain catalogue and stock work are exposed to AI; a small studio, photo-plus-video packages and repeat brand work give a business layer."],
   "is-ethical-hacking-a-good-career-in-india": ["mid", "Salaried pentest follows a firm's ladder and bug bounty pay is uneven; your own pentest and audit firm, audits and training give a business layer after a track record."],
+  "is-network-engineering-a-good-career-in-india": ["mid", "Monitoring and telecom roles are routine and exposed to automation; cloud networking, small-office network, cabling and CCTV services, and automation consulting give a business layer."],
 };

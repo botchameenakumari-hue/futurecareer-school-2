@@ -4258,4 +4258,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 16,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-network-engineering-a-good-career-in-india',
+    title: "Is Network Engineering a Good Career in India? Roles, Pay, Verdict",
+    description:
+      "Is network engineering a good career in India? Yes if you add cloud and automation to CCNA basics. Roles, exam costs, sourced pay and who should skip.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 12,
+  },
 ];
