@@ -4231,4 +4231,22 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 14,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-aviation-a-good-career-in-india',
+    title: "Is Aviation a Good Career in India? Cabin Crew, AME, ATC, Pilot",
+    description:
+      "Is aviation a good career in India? Yes for some doors. Cabin crew, AME, ATC, ground staff, drones and pilot compared on entry rules, age, medical and cost.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 22,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-photography-a-good-career-in-india',
+    title: "Is Photography a Good Career in India? A Genre-by-Genre Verdict",
+    description:
+      "Is photography a good career in India? It depends on the genre. See pay by source, rent-or-buy gear rules, AI impact per genre and who should skip it.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 23,
+  },
 ];
