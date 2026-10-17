@@ -4150,4 +4150,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 18,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'botany-career-options',
+    title: "Botany Career Options in India: 9 Routes, Plant Businesses and Real Pay",
+    description:
+      "Botany career options in India: nine routes from plant data and nurseries to NET and forests, with sourced contract pay (Rs 20,000 a month) and what scales.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 16,
+  },
 ];
