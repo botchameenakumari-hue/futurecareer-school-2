@@ -1,0 +1,1473 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = "Is Petroleum Engineering a Good Career in India? The Honest Verdict";
+const description =
+  "Is petroleum engineering a good career in India? Few seats, a thin ONGC funnel, oil-price layoffs, a slow energy pivot. Who should choose it, who should skip.";
+const canonical =
+  "https://futurecareerschool.com/blog/career-options/is-petroleum-engineering-a-good-career-in-india/";
+const publishedDateISO = "2026-10-14";
+const publishedDateLabel = "14 October 2026";
+const authorName = "Shivanshi Sehgal";
+const authorUrl = "https://futurecareerschool.com/about/shivanshi-sehgal/";
+const authorRole = "Career researcher and writer";
+
+const jumpLinks = [
+  { id: "short-answer", label: "The verdict: who should choose it, who should skip" },
+  { id: "what-they-do", label: "What petroleum engineers actually do" },
+  { id: "india-market", label: "India's real job market" },
+  { id: "seats", label: "The few seats, and the cost of one" },
+  { id: "oil-cycle", label: "The oil-price cycle and layoffs" },
+  { id: "ongc-route", label: "ONGC, GATE and the PSU route" },
+  { id: "field-life", label: "Offshore and field life, and safety" },
+  { id: "pay", label: "Pay, from named sources only" },
+  { id: "transition", label: "Energy transition: what is real" },
+  { id: "ai", label: "AI and the digital oilfield" },
+  { id: "skill-stack", label: "The skill stack that survives a crash" },
+  { id: "growth", label: "Routes ranked by growth headroom" },
+  { id: "business-layer", label: "Who pays, and how they find you" },
+  { id: "alternatives", label: "Better adjacent options" },
+  { id: "test", label: "Checkpoints and a first test" },
+  { id: "next-step", label: "What to do next" },
+  { id: "faq", label: "FAQs" },
+];
+
+const disciplines = [
+  {
+    area: "Reservoir engineering",
+    work: "Estimates how much oil and gas a field holds and how fast it can be produced. Mostly models, decline curves and data, with a desk base.",
+    hires: "ONGC, Oil India, private operators, consultancies",
+    label: "Scalable with a business layer",
+    reason: "Reservoir studies can be sold as consulting, and the same skills fit carbon storage and geothermal work.",
+  },
+  {
+    area: "Drilling and well engineering",
+    work: "Plans and supervises wells: casing, mud, cementing, rig time and cost. Field and rig exposure is part of the job.",
+    hires: "ONGC, Oil India, drilling contractors, service firms",
+    label: "Not so scalable",
+    reason: "Large employers, fixed ladders and the first jobs to pause when drilling budgets are cut.",
+  },
+  {
+    area: "Production engineering",
+    work: "Keeps wells flowing: artificial lift, well testing, surface equipment, troubleshooting. Split between field visits and control-room work.",
+    hires: "ONGC, Oil India, private operators, service firms",
+    label: "Scalable with a business layer",
+    reason: "Well testing, workover and production-optimisation services can become a small contracting business.",
+  },
+  {
+    area: "Facilities and process",
+    work: "Designs and runs the surface plant that separates oil, gas and water and prepares them for sale. Overlaps with chemical and mechanical engineering.",
+    hires: "Operators, refiners, EPC firms",
+    label: "Not so scalable",
+    reason: "You compete with chemical and mechanical graduates for the same posts, so the petroleum label adds little.",
+  },
+];
+
+const marketFacts = [
+  {
+    fact: "India's crude oil production was 28.7 million tonnes in FY25, down from 29.4 million tonnes in FY24",
+    meaning: "Old fields are depleting. Operators need engineers who can slow the decline, but this is maintenance and optimisation work, not a hiring boom.",
+    source: "PPAC data, as reported by Chem India Digest",
+  },
+  {
+    fact: "Import dependence for crude rose to 88.2% in FY25 (87.8% in FY24)",
+    meaning: "The government has a strong reason to push exploration, which supports long-run demand for subsurface skills.",
+    source: "PPAC data, as reported by Chem India Digest",
+  },
+  {
+    fact: "India's oil use is projected to rise from about 5.5 million barrels a day in 2024 to about 8 million in 2035",
+    meaning: "Oil demand in India is growing even as it may peak elsewhere. That helps refiners and traders more than it helps the number of petroleum-engineer jobs.",
+    source: "IEA outlook, as reported in news coverage (November 2025)",
+  },
+  {
+    fact: "Only about 10% of India's roughly 3.36 million sq km of sedimentary basin area is under exploration",
+    meaning: "There is a lot of unexplored ground, and a lot of it is deep water. Exploration is slow, expensive and a decade-long bet.",
+    source: "Trade press reports on the Open Acreage Licensing Policy; check DGH for the current figure",
+  },
+];
+
+const employerRows = [
+  {
+    employer: "ONGC and Oil India (public sector)",
+    how: "Graduate trainee posts through GATE or the company's own online test, then interview and medical",
+    label: "Not so scalable",
+    note: "Stable and well paid by public-sector standards. Very few posts, and a separate promotion filter later.",
+  },
+  {
+    employer: "Private operators (Reliance, Vedanta's Cairn oil and gas business and similar)",
+    how: "Campus drives, lateral hiring, referrals",
+    label: "Not so scalable",
+    note: "Smaller teams. Hiring follows project approvals and oil prices.",
+  },
+  {
+    employer: "Oilfield service firms (SLB, Halliburton, Baker Hughes and local contractors)",
+    how: "Campus drives, field-engineer trainee programmes, direct applications",
+    label: "Not so scalable",
+    note: "More field time early. These firms cut staff first when operators cut drilling budgets.",
+  },
+  {
+    employer: "Gulf and other overseas operators",
+    how: "Experience-based hiring and agencies; verify every recruiter",
+    label: "Not so scalable",
+    note: "Pay can be higher, but you carry contract, visa and exit risk. Treat agencies that charge fees with caution.",
+  },
+  {
+    employer: "Independent consulting, inspection and testing",
+    how: "Referrals from past employers and operators, after years of proven work",
+    label: "Scalable with a business layer",
+    note: "The only ownership route here, and it needs reputation first.",
+  },
+];
+
+const seatRows = [
+  {
+    route: "IIT (ISM) Dhanbad, B.Tech Petroleum Engineering",
+    entry: "JEE Advanced through JoSAA",
+    facts: "QS 2026 subject ranking band 151 to 175 for petroleum engineering. One education portal's table of the 2025 JoSAA matrix lists about 79 seats in total including female-only and supernumerary seats.",
+    confidence: "Seat count is from a secondary table. Confirm on the JoSAA seat matrix.",
+  },
+  {
+    route: "RGIPT, Rae Bareli (Jais campus)",
+    entry: "JEE Main through JoSAA",
+    facts: "An Institution of National Importance run under the Ministry of Petroleum and Natural Gas. The department is called Petroleum Engineering and Geoengineering.",
+    confidence: "Intake and fees were not published on the pages we could read. Check the Admission Zone and fee pages.",
+  },
+  {
+    route: "UPES, Dehradun (private)",
+    entry: "JEE Main, CUET or the university's own test",
+    facts: "A Careers360 listing shows about Rs 24 lakh in total fees over four years for the standard programme and about Rs 20.4 lakh for some specialisations.",
+    confidence: "Aggregator figures that may differ from the official notice. Ask UPES for the current fee sheet in writing.",
+  },
+];
+
+const budgetRows = [
+  {
+    budget: "Rs 24 lakh of fees at a private institute",
+    tenPct: "You would need a total education budget near Rs 2.4 crore for this to sit at 10%",
+    twentyPct: "Even at 20%, the budget would need to be about Rs 1.2 crore",
+    verdict: "Above the caution zone for most families. Needs course-specific proof, and no loan.",
+  },
+  {
+    budget: "A government or national institute seat (fees lower; check the current fee page)",
+    tenPct: "Fits the 10% heuristic for far more families",
+    twentyPct: "Rarely close to 20%",
+    verdict: "Worth competing for. The entry exam is the real price.",
+  },
+  {
+    budget: "Mechanical or chemical engineering at a good government college, plus GATE",
+    tenPct: "Usually the cheapest of the three",
+    twentyPct: "Well below it",
+    verdict: "Keeps the ONGC door open and gives more fallback doors.",
+  },
+];
+
+const cycleRows = [
+  {
+    who: "Oilfield service firms and contractors",
+    speed: "First to feel a crash",
+    why: "Operators cut drilling and well-work budgets before they cut anything else, and service firms live on that work.",
+  },
+  {
+    who: "Private operators",
+    speed: "Fast",
+    why: "Projects are paused or cancelled when prices fall below the project's break-even.",
+  },
+  {
+    who: "Gulf and overseas contract roles",
+    speed: "Fast, with visa risk added",
+    why: "Contracts end quickly, and a job loss can also end your right to stay.",
+  },
+  {
+    who: "Public-sector operators",
+    speed: "Slowest, but hiring waves shrink",
+    why: "Existing staff are protected, yet the number of new posts in a lean year can drop.",
+  },
+];
+
+const payRows = [
+  {
+    source: "ONGC graduate trainee (E1) basic pay scale",
+    figure: "Rs 60,000 to Rs 1,80,000 a month, with allowances of about 35% of basic pay and a 3% annual appraisal",
+    note: "From a Careers360 explainer on the GATE route. A 2026 notice from other portals gives about Rs 26 lakh a year as cost to company. Read the current ONGC notification before using either number.",
+  },
+  {
+    source: "Private operators, service firms, Gulf contracts",
+    figure: "No reliable public salary survey was available for this page",
+    note: "Self-reported pay on question sites varies widely and is not a survey. Ask three people in the exact role and employer type, and check live listings.",
+  },
+  {
+    source: "Independent consulting",
+    figure: "Set by you, project by project",
+    note: "Do not plan around a number until you have had paying clients.",
+  },
+];
+
+const growthRows = [
+  {
+    route: "Subsurface and well data analytics (Python, reservoir and drilling data, simple machine learning)",
+    label: "Scalable",
+    reason: "The skill is portable to carbon storage, geothermal, mining and groundwater work, and can be sold as projects.",
+    layer: "Project-based analytics work for operators and service firms.",
+  },
+  {
+    route: "Energy-transition services (carbon capture and storage studies, geothermal, hydrogen storage)",
+    label: "Scalable with a business layer",
+    reason: "Real but early. Few jobs today, and the pilots are small.",
+    layer: "Feasibility and subsurface study consulting.",
+  },
+  {
+    route: "Well testing, workover, inspection and safety audit services",
+    label: "Scalable with a business layer",
+    reason: "Operators outsource these, so a trusted small firm can win repeat work.",
+    layer: "A small contracting or audit firm, built after years on the job.",
+  },
+  {
+    route: "Oilfield service company employee",
+    label: "Not so scalable",
+    reason: "Fixed ladder and the first jobs cut in a crash.",
+    layer: "A local service contractor later, if you build client trust.",
+  },
+  {
+    route: "Private operator or Gulf contract employee",
+    label: "Not so scalable",
+    reason: "Good pay is possible, but no ownership and high exposure to price and visa shocks.",
+    layer: "Save hard and build a second skill while the pay is strong.",
+  },
+  {
+    route: "ONGC or Oil India (public sector)",
+    label: "Not so scalable",
+    reason: "Rank-based entry, a fixed pay ladder, and a separate hard filter for promotion.",
+    layer: "Keep a parallel skill and, if rules allow, a side route such as teaching or training.",
+  },
+];
+
+const altRows = [
+  {
+    option: "Mechanical engineering with GATE",
+    why: "Gets you into the same ONGC drilling and production posts (the notices list mechanical for several of them) and keeps manufacturing, EV and automation open.",
+  },
+  {
+    option: "Chemical engineering",
+    why: "Also accepted for production and reservoir posts, and it opens pharma, specialty chemicals and green hydrogen. See the chemical engineering guide for the full picture.",
+  },
+  {
+    option: "Energy engineering, or electrical with a power focus",
+    why: "Follows where new capacity is being built: solar, wind, storage and grids. Less boom and bust than oil.",
+  },
+  {
+    option: "Geology or geophysics with data skills",
+    why: "Feeds the same subsurface roles and also groundwater, mining and carbon storage.",
+  },
+];
+
+const mistakeItems = [
+  {
+    num: "01",
+    title: "Joining a private programme with a loan because of the petroleum label",
+    body: "A high fee does not create more ONGC posts or more openings in a downturn. If the fee is far above 10% to 20% of the whole education budget, the extra amount needs proof, not hope.",
+  },
+  {
+    num: "02",
+    title: "Believing a campus placement brochure about oil majors",
+    body: "Ask for the placement denominator: how many students were in the batch, how many got offers, in which roles, and in which year. One famous employer name is not a placement record.",
+  },
+  {
+    num: "03",
+    title: "Planning only for the boom",
+    body: "Students who joined during the high-price years faced a hiring freeze when prices fell. Plan for both parts of the cycle, with a skill that works outside oil.",
+  },
+  {
+    num: "04",
+    title: "Paying an agent for an overseas rig job",
+    body: "Genuine employers do not usually charge job seekers. Check the employer directly, the visa category and the contract in writing.",
+  },
+  {
+    num: "05",
+    title: "Ignoring the sea and rotation lifestyle until the first posting",
+    body: "Talk to someone who works offshore or at a remote rig before you commit. The day-to-day life is the part brochures skip.",
+  },
+];
+
+const faqItems = [
+  {
+    q: "Is petroleum engineering a good career in India?",
+    a: "It can be, for a small group. The field is narrow: few institutes, few employers, and pay and hiring that rise and fall with oil prices. It suits people who want subsurface or wells work, can move to remote locations, and build a skill that works outside oil. It is a risky default choice for a student who just wants an engineering seat.",
+  },
+  {
+    q: "What is the salary of a petroleum engineer in India?",
+    a: "The one pay figure we could source is the ONGC graduate trainee basic scale of Rs 60,000 to Rs 1,80,000 a month plus allowances, as reported from a recent ONGC notice and a Careers360 explainer. We could not source a reliable survey for private firms or Gulf jobs, so ask people in the exact role. Pay figures here are indicative and not guaranteed.",
+  },
+  {
+    q: "Is petroleum engineering a dying field?",
+    a: "No, but it is shrinking at the edges and changing at the core. India's oil demand is projected to grow through 2035, while one global scenario from S&P Global shows liquids demand peaking around 2029 and then falling gently. Jobs follow prices and project approvals, and energy-transition roles are still small. Engineers who can also work with data, carbon storage or geothermal are better placed than those who rely on the degree alone.",
+  },
+  {
+    q: "Which colleges offer petroleum engineering in India?",
+    a: "IIT (ISM) Dhanbad through JEE Advanced, RGIPT through JEE Main and JoSAA, and private universities such as UPES. The list is short compared with mechanical or chemical engineering. Check the current JoSAA seat matrix and each institute's fee page rather than relying on ranking portals.",
+  },
+  {
+    q: "Can mechanical or chemical engineers get oil and gas jobs?",
+    a: "Yes. ONGC's recent notices list mechanical and chemical engineering degrees for several drilling and production posts, and reservoir posts accept chemical and petroleum engineering along with geology and geophysics. Only a few posts, such as petroleum production, drilling and cementing, ask for a petroleum degree. Always read the exact eligibility in the current notice.",
+  },
+  {
+    q: "Is petroleum engineering better than mechanical engineering?",
+    a: "For most students, no. Mechanical has far more seats, more employers and more fallback options, and it still reaches many ONGC posts. Petroleum engineering is better only if you are certain you want subsurface or wells work and can get a seat at a strong, low-cost institute.",
+  },
+  {
+    q: "Is a petroleum engineer's job safe offshore?",
+    a: "Offshore work carries real risk and is regulated. The 2005 Bombay High North platform fire, which destroyed the platform in under two hours, led to a high-level inquiry. Modern operators run strict safety systems, but you should ask any employer about training, rotation patterns and medical standards before you accept.",
+  },
+  {
+    q: "Do petroleum engineers have to work on a rig or offshore?",
+    a: "Some roles do and some do not. Drilling and production roles include rig, platform or well-site time. Reservoir and data roles are mostly desk-based. Rotation patterns vary by employer and role, so ask for the exact posting.",
+  },
+  {
+    q: "How do I get into ONGC as a petroleum engineer?",
+    a: "ONGC recruits graduate trainees at the E1 level. Recent cycles have used GATE scores, and a 2026 notice used the company's own online test, followed by interview and a medical. Eligibility needs at least 60% in the qualifying degree. Dates and routes change, so read the notification on ongcindia.com.",
+  },
+  {
+    q: "What are the energy-transition jobs for petroleum engineers?",
+    a: "Carbon capture and storage, geothermal, hydrogen storage and digital subsurface roles. ONGC has a geothermal pilot at Puga in Ladakh targeting an initial one megawatt and has stated a net-zero target for its own operations by 2038. These roles are early and small, so treat them as a skill direction rather than a guaranteed job lane.",
+  },
+  {
+    q: "Is petroleum engineering hard to study?",
+    a: "It is demanding in mathematics, physics, fluid mechanics and geoscience, and the first years look like general engineering. Students who enjoy modelling and data usually find the reservoir side easier than those who only like hands-on work.",
+  },
+  {
+    q: "Is an MS in petroleum engineering abroad worth a loan?",
+    a: "Treat it as a high-risk loan. Repayment would depend on a visa and a foreign oil-industry job at a time when the SPE column and S&P Global review both describe falling enrolments, cyclical hiring and an uncertain long-run outlook. Consider it only if the programme is genuinely top-tier for the subject, a scholarship is confirmed in writing, and you have a debt-light fallback such as a strong Indian seat plus GATE.",
+  },
+  {
+    q: "Should a girl choose petroleum engineering?",
+    a: "Yes, if the subject fits her. Reservoir, data and process roles are desk-based, and drilling and production roles include field time that varies by employer. Ask any employer about posting policy and safety before accepting.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  category="career-options"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Is petroleum engineering a good career in India? It is a good career for a small group of people and a risky default for everyone else.</strong>
+    The field is narrow: a handful of institutes, a few big employers, and hiring that rises and falls with the oil price. The decisions that unlock high income opportunities here are not "which college" alone. They are whether you can reach the few strong seats without debt, whether you build a skill that still pays when oil does not, and whether you accept remote, rotating work. That <strong>high-income skill portfolio</strong> is what moves you toward earlier financial freedom, not the degree name.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>India imports about 88% of its crude and its oil demand is still growing, yet the jobs are few: a small ONGC and Oil India funnel, private operators, service firms and Gulf contracts.</li>
+      <li>You do not need a petroleum degree for many ONGC posts. Mechanical and chemical engineers are listed for several of them, so a wider branch plus GATE often keeps the same door open with more fallback options.</li>
+      <li>Do not take a loan for a private petroleum programme. A fee near Rs 24 lakh needs an education budget of Rs 1.2 to 2.4 crore to sit inside the 20% and 10% limits.</li>
+      <li>Next step: talk to one working petroleum engineer and finish one small subsurface or well-data project before you pay any fee.</li>
+    </ul>
+  </div>
+
+  <p>
+    This guide sits inside the wider <a href="/blog/career-options/">career options</a> library. If you are weighing it against a close branch, the <a href="/blog/career-options/is-chemical-engineering-a-good-career-in-india/">chemical engineering guide</a> covers the process side that petroleum facilities work overlaps with. If the decision involves a family budget or a loan, <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a> can help you test it against your own numbers before you commit.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">The verdict: who should choose it, who should skip</h2>
+
+  <p>
+    Petroleum engineering is a real, technical, well-paid field when you land inside it. The trouble is how few people land inside it, and how much their jobs depend on a price they do not control.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">Lean yes, if</div>
+      <ul>
+        <li>You like modelling, physics and data, and want subsurface or wells work specifically.</li>
+        <li>You can win a seat at a strong, low-cost institute, or you can pick mechanical or chemical and still aim at ONGC through GATE.</li>
+        <li>You accept remote postings and rotation-based work, and you will build a second skill outside oil.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">Lean no, if</div>
+      <ul>
+        <li>The plan needs a loan, or a private fee well above 20% of the total education budget.</li>
+        <li>You want a safe, fixed-city career. Oil jobs cluster in a few places and pause when prices drop.</li>
+        <li>You chose it because the name sounds high-paying. Pay is real, but it is not evenly shared.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      The stable version of this career, a public-sector executive post, is also the hardest to enter. The flexible version, data and energy-transition work, is still forming. The version in between, service firms and overseas contracts, pays well in good years and disappears in bad ones. Pick the version you can actually reach before you pay for the degree.
+    </p>
+  </div>
+
+  <h2 id="what-they-do">What petroleum engineers actually do</h2>
+
+  <p>
+    The job title hides four different kinds of work. They differ in daily life, in who hires, and in how much room you have to grow.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Area</th>
+          <th>The real work</th>
+          <th>Who hires</th>
+          <th>How we rate it</th>
+        </tr>
+      </thead>
+      <tbody>
+        {disciplines.map((item) => (
+          <tr>
+            <td data-label="Area"><strong>{item.area}</strong></td>
+            <td data-label="The real work">{item.work}</td>
+            <td data-label="Who hires">{item.hires}</td>
+            <td data-label="How we rate it"><strong>{item.label}.</strong> {item.reason}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    The boring 80% is data, reports, meetings with geoscientists and contractors, and safety paperwork. The famous rig-floor image is a smaller slice of the job, and not every role includes it.
+  </p>
+
+  <h2 id="india-market">India's real job market</h2>
+
+  <p>
+    Demand for oil in India is not the same thing as demand for petroleum engineers. These numbers show the gap.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>What the data says</th>
+          <th>What it means for a job seeker</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {marketFacts.map((item) => (
+          <tr>
+            <td data-label="What the data says"><strong>{item.fact}</strong></td>
+            <td data-label="What it means for a job seeker">{item.meaning}</td>
+            <td data-label="Source">{item.source}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Government policy is pushing exploration. The ninth round of the Open Acreage Licensing Policy awarded 28 blocks covering about 136,596 sq km, including 12 ultra-deepwater blocks, according to press reports of the award. Deepwater projects take a long time: a typical offshore cycle from licence to production runs 8 to 10 years, according to an S&P Global and EAGE review published in 2025. That is good for long-run subsurface skills, and weak for fast fresher hiring.
+  </p>
+
+  <h3>Where the jobs actually sit</h3>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Employer type</th>
+          <th>How people get in</th>
+          <th>Scalability</th>
+          <th>The catch</th>
+        </tr>
+      </thead>
+      <tbody>
+        {employerRows.map((item) => (
+          <tr>
+            <td data-label="Employer type"><strong>{item.employer}</strong></td>
+            <td data-label="How people get in">{item.how}</td>
+            <td data-label="Scalability"><strong>{item.label}</strong></td>
+            <td data-label="The catch">{item.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="seats">The few seats, and the cost of one</h2>
+
+  <p>
+    Very few institutes teach this branch. Here are the three names most families meet first, and what we could and could not confirm from official or near-official pages.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Route</th>
+          <th>Entry</th>
+          <th>What we found</th>
+          <th>Confidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        {seatRows.map((item) => (
+          <tr>
+            <td data-label="Route"><strong>{item.route}</strong></td>
+            <td data-label="Entry">{item.entry}</td>
+            <td data-label="What we found">{item.facts}</td>
+            <td data-label="Confidence">{item.confidence}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Run the 10% and 20% test before you pay</h3>
+
+  <p>
+    College is one part of career success, often a small part. A planning rule: keep the college fee near 10% of the whole education budget, and treat anything above about 20% as a serious caution that needs course-specific proof. These are planning heuristics, not laws. The rest of the budget pays for living costs, tools, books, projects, courses and a safety cushion.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Route</th>
+          <th>At 10% of the budget</th>
+          <th>At 20% of the budget</th>
+          <th>Our read</th>
+        </tr>
+      </thead>
+      <tbody>
+        {budgetRows.map((item) => (
+          <tr>
+            <td data-label="Route"><strong>{item.budget}</strong></td>
+            <td data-label="At 10% of the budget">{item.tenPct}</td>
+            <td data-label="At 20% of the budget">{item.twentyPct}</td>
+            <td data-label="Our read">{item.verdict}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box highlight-box--amber">
+    <p>
+      <strong>Spending more can be justified only with evidence for this exact course:</strong> a current syllabus, working labs or simulators, internships with named operators, and a placement record that shows how many of the whole batch got offers, in which roles and at what pay. A big employer's name on a poster is not that evidence. Avoid education debt, because oil pay can pause just when repayments start.
+    </p>
+  </div>
+
+  <p>
+    Learning is partly free. Good YouTube lectures, university open courseware and society resources teach reservoir and drilling basics. Check each course for the instructor's field experience, last update, exercises and feedback. A pile of certificates is not a skill portfolio, but a decline-curve analysis on public well data, shared with a short write-up, is.
+  </p>
+
+  <h2 id="oil-cycle">The oil-price cycle and layoffs</h2>
+
+  <p>
+    This is the part brochures skip. Oil is a cyclical industry, and the people who joined just before a crash paid for it.
+  </p>
+
+  <ul>
+    <li>After the price fall that began in late 2014, the industry cut deeply between Fall 2014 and Spring 2016. A 2019 Society of Petroleum Engineers column said the industry may never fully recover those jobs and that enrolment in petroleum engineering had fallen markedly.</li>
+    <li>In 2020, prices fell from above $60 a barrel to below $25, and US crude briefly went negative in April. Halliburton, for example, reported a headcount near 50,000 by its April filing, down from about 55,000 at the start of the year.</li>
+  </ul>
+
+  <p>
+    India's public-sector employers are slower to cut, but the cycle still reaches them through smaller hiring waves. Look at who feels a crash first.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Who</th>
+          <th>How fast</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        {cycleRows.map((item) => (
+          <tr>
+            <td data-label="Who"><strong>{item.who}</strong></td>
+            <td data-label="How fast">{item.speed}</td>
+            <td data-label="Why">{item.why}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      The plan that survives a crash has three parts: savings of several months of expenses, a skill that works outside oil (data, carbon storage, geothermal, project controls), and a network that includes people in other industries. Build all three in the first years while the pay is good.
+    </p>
+  </div>
+
+  <h2 id="ongc-route">ONGC, GATE and the PSU route</h2>
+
+  <p>
+    For most graduates, ONGC and Oil India are the dream employers. The route has several stages, and competition at each one.
+  </p>
+
+  <div class="protocol-stack">
+    <div class="checkpoint">
+      <div class="checkpoint__num">01</div>
+      <div class="checkpoint__body">
+        <div class="checkpoint__title">Stage one: a degree that matches the post</div>
+        <p>Graduate trainee posts are at the E1 level. Production, drilling and cementing posts in petroleum ask for a petroleum degree. Other posts accept mechanical or chemical engineering, and reservoir posts also accept geology, geophysics and related science degrees. All ask for at least 60% in the qualifying degree.</p>
+      </div>
+    </div>
+    <div class="checkpoint">
+      <div class="checkpoint__num">02</div>
+      <div class="checkpoint__body">
+        <div class="checkpoint__title">Stage two: GATE or the company's own test</div>
+        <p>In GATE cycles, the Careers360 explainer lists a merit formula of 60 marks for GATE, 25 for the degree and 15 for the interview. The 2026 notice (Advt. 2/2026) reported by several portals used a computer-based test instead, with interview and medical after it. It lists 52 engineering and geology posts in all, and one portal lists only 4 of them for petroleum. We could not check the official PDF, so confirm the numbers on ongcindia.com.</p>
+      </div>
+    </div>
+    <div class="checkpoint">
+      <div class="checkpoint__num">03</div>
+      <div class="checkpoint__body">
+        <div class="checkpoint__title">Stage three: the later promotion filter</div>
+        <p>Getting in is one filter. Moving into senior asset-manager roles is another, with merit, vacancies and experience all mattering. This is the multi-stage competition that makes the route Not so scalable.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box highlight-box--amber">
+    <p>
+      <strong>What this means for choosing a branch:</strong> a petroleum degree is not the only key to ONGC. Many students do better by studying mechanical, chemical or geology at a strong government college, preparing for GATE in the paper that matches their degree, and keeping oil and gas as one of several targets. Check the GATE paper code and the post list in each year's notice.
+    </p>
+  </div>
+
+  <h2 id="field-life">Offshore and field life, and safety</h2>
+
+  <p>
+    Ask what a normal month looks like before you commit. Drilling and production roles include time at a rig, a platform or a well site. Reservoir and data roles are mostly desk-based. Rotation patterns, travel and posting locations differ by employer and by role, so ask for the exact posting in writing.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">What the work can ask of you</div>
+      <ul>
+        <li>Remote postings away from family and big cities.</li>
+        <li>Shift and rotation schedules, and being on call during well problems.</li>
+        <li>Strict medical standards (ONGC's notices require them) and safety training.</li>
+        <li>Weather and sea conditions for offshore work.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">How to test it before you commit</div>
+      <ul>
+        <li>Speak to a working drilling or production engineer, not only a recruiter.</li>
+        <li>Ask about the last year's incidents, training and rest policy.</li>
+        <li>Look at the 2005 Bombay High North platform fire, which destroyed the platform in under two hours and led to a high-level inquiry, as a reminder that offshore safety is a serious subject.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="pay">Pay, from named sources only</h2>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Where</th>
+          <th>Figure</th>
+          <th>How to read it</th>
+        </tr>
+      </thead>
+      <tbody>
+        {payRows.map((item) => (
+          <tr>
+            <td data-label="Where"><strong>{item.source}</strong></td>
+            <td data-label="Figure">{item.figure}</td>
+            <td data-label="How to read it">{item.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Pay figures here are indicative ranges and averages from public profiles, not exact or guaranteed amounts. Pay differs by city, employer, skill and year, and markets change. Check current job listings (for example on LinkedIn, Naukri or Indeed) and ask people working in the role before you decide.
+  </p>
+
+  <p>
+    One more point on pay: a high number in a boom year is not the same as a high lifetime income. A career with two or three lean years in a decade can end up behind a steadier one, so compare total earning over a decade, not the best year.
+  </p>
+
+  <h2 id="transition">Energy transition: what is real</h2>
+
+  <p>
+    Subsurface skills do transfer to cleaner energy. The honest picture is that the transfer is real but small today.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card__label">Geothermal</div>
+      <div class="feature-card__title">ONGC's Puga pilot in Ladakh</div>
+      <p>A demonstration project with two wells of about 1,000 metres and an initial target of one megawatt, run with the Ladakh administration. Drilling had a two-year setback and a five-year collaboration was renewed in June 2026, according to press reports.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__label">Carbon capture and storage</div>
+      <div class="feature-card__title">Pilot studies, not a job lane yet</div>
+      <p>ONGC describes carbon capture, use and storage as a lever in its plan to reach net zero for its own emissions by 2038. Pilots assess storage rock and use cases. Reservoir engineers are the natural fit.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__label">Hydrogen and ammonia</div>
+      <div class="feature-card__title">A roadmap, with progress unverified</div>
+      <p>ONGC has an internal hydrogen roadmap. We found no recent public update on progress, so do not plan a career around it yet.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__label">Global view</div>
+      <div class="feature-card__title">New roles are expected</div>
+      <p>The S&P Global and EAGE review expects new roles in carbon capture and storage, geothermal and digital work. It also notes that exploration drilling and discoveries may have hit record lows in 2024.</p>
+    </div>
+  </div>
+
+  <p>
+    Hire numbers for these roles are not published, so treat them as a direction for your skills, not a guaranteed job.
+  </p>
+
+  <h2 id="ai">AI and the digital oilfield</h2>
+
+  <p>
+    AI is already changing how wells are planned, and it is a real leverage opportunity. The S&P Global and EAGE review expects AI-driven models to improve subsurface imaging and reduce exploration risk, and AI-powered automation to tune drilling parameters. A 2019 SPE column said drilling engineers may increasingly resemble data scientists with a drilling background.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">What is under pressure</div>
+      <ul>
+        <li>Routine log interpretation and report drafting.</li>
+        <li>Manual monitoring of well data that sensors and software can watch.</li>
+        <li>Fixed-recipe drilling parameter choices.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">What stays human</div>
+      <ul>
+        <li>Judging whether a model's answer makes physical sense.</li>
+        <li>Safety decisions and well control.</li>
+        <li>Explaining risk and cost to a manager or partner.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>
+    A staged path: start with Python, spreadsheets and a plotting library on public well data. Then learn a reservoir or drilling simulation tool through the free tiers your institute offers. Later, learn to check and challenge model output, and to automate repeated reports. The bigger disruption risk for this career is the price cycle and the energy transition, with AI as a third pressure that mainly raises the bar for entry roles.
+  </p>
+
+  <h2 id="skill-stack">The skill stack that survives a crash</h2>
+
+  <p>
+    A degree gets you into the room. A <strong>high-income skill portfolio</strong> decides how fast you grow once you are in it, and how well you cope when oil falls. Build it in three layers.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card__label">Core skill</div>
+      <div class="feature-card__title">One subsurface or wells specialty</div>
+      <p>Reservoir engineering, well testing or drilling design. Go deep in one, not shallow in all four.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__label">Multiplier skill</div>
+      <div class="feature-card__title">Data and Python, plus clear English</div>
+      <p>Data skill lets you work in other industries. Clear writing and speaking get you the project lead role over an equally skilled colleague.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__label">Visible proof</div>
+      <div class="feature-card__title">A public-data project and a short write-up</div>
+      <p>One finished analysis, explained simply, is stronger than five course certificates.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__label">Network</div>
+      <div class="feature-card__title">People outside your own employer</div>
+      <p>Professional society student chapters, alumni and field engineers you ask good questions of. Referrals decide who gets the next job after a layoff.</p>
+    </div>
+  </div>
+
+  <p>
+    Think big about where the skill can go. A reservoir engineer who also reads data well can move into carbon storage, geothermal, groundwater or mining. An engineer who only knows one employer's software is stuck when that employer stops hiring.
+  </p>
+
+  <h2 id="growth">Routes ranked by growth headroom</h2>
+
+  <p>
+    We lead with the routes that can grow beyond one employer's pay scale. Crowded or capped routes stay in the list, marked with their risk.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Route</th>
+          <th>Rating</th>
+          <th>Why</th>
+          <th>Business layer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {growthRows.map((item) => (
+          <tr>
+            <td data-label="Route"><strong>{item.route}</strong></td>
+            <td data-label="Rating"><strong>{item.label}</strong></td>
+            <td data-label="Why">{item.reason}</td>
+            <td data-label="Business layer">{item.layer}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>The ownership path:</strong> an independent consultancy, or a well-testing, inspection or audit firm, scales because you set the price, take repeat work from several clients and can later hire junior engineers. It needs years of proven work first, so treat it as a second-decade goal, not a first-job plan.
+    </p>
+  </div>
+
+  <h2 id="business-layer">Who pays, and how they find you</h2>
+
+  <p>
+    In an employed job, your employer pays and a recruiter or a test finds you. In consulting or services, the payer is a small operator, a service company, a contractor or a project owner who needs a specific problem solved.
+  </p>
+
+  <ul>
+    <li><strong>How they find and trust you:</strong> referrals from former colleagues and managers come first. Proof comes second: a short technical note, a case write-up that removes confidential detail, or a conference paper.</li>
+    <li><strong>First skill worth learning:</strong> positioning. Be able to say in two sentences who you help and with what, for example "I help small operators check decline forecasts on old wells."</li>
+    <li><strong>Then:</strong> a simple offer (one clear deliverable and a price), follow-up after every project, and a polite ask for an introduction.</li>
+    <li><strong>One number to watch:</strong> how many technical conversations turn into a paid first project.</li>
+  </ul>
+
+  <p>
+    If you take the fixed public-sector route, this layer matters mainly for your side route or your move after leaving. Rules on outside work differ by employer, so check them first.
+  </p>
+
+  <h2 id="alternatives">Better adjacent options</h2>
+
+  <p>
+    For most students, one of these four beats a petroleum degree on breadth, price or both. If you still want oil and gas, they keep that door open.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Option</th>
+          <th>Why it can beat petroleum engineering</th>
+        </tr>
+      </thead>
+      <tbody>
+        {altRows.map((item) => (
+          <tr>
+            <td data-label="Option"><strong>{item.option}</strong></td>
+            <td data-label="Why it can beat petroleum engineering">{item.why}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="test">Checkpoints and a first test</h2>
+
+  <p>
+    Use The 4-Checkpoint Protocol on your own situation, then run a short test before paying any fee.
+  </p>
+
+  <div class="protocol-stack">
+    <div class="checkpoint">
+      <div class="checkpoint__num">01</div>
+      <div class="checkpoint__body">
+        <div class="checkpoint__title">Biology: how you work</div>
+        <p>Can you live with remote postings, rotating shifts and long stretches away from home? Do you prefer modelling at a desk or field work? Name your answer honestly.</p>
+      </div>
+    </div>
+    <div class="checkpoint">
+      <div class="checkpoint__num">02</div>
+      <div class="checkpoint__body">
+        <div class="checkpoint__title">Context: money and family</div>
+        <p>What is the total education budget? Does the fee stay within roughly 10% to 20% of it? Is a loan needed? If yes, stop and compare cheaper routes.</p>
+      </div>
+    </div>
+    <div class="checkpoint">
+      <div class="checkpoint__num">03</div>
+      <div class="checkpoint__body">
+        <div class="checkpoint__title">Market: is it a bleeding-neck problem?</div>
+        <p>Oil will be needed for years, and India is short of its own supply. But the number of entry jobs is small and cyclical, so check live postings and ask recruiters about the last two years, not the best year.</p>
+      </div>
+    </div>
+    <div class="checkpoint">
+      <div class="checkpoint__num">04</div>
+      <div class="checkpoint__body">
+        <div class="checkpoint__title">Survival: is it AI-resistant?</div>
+        <p>Partly. Routine interpretation and monitoring are under pressure, while judgment, safety and cross-checking are not. Your edge is domain knowledge plus data skill plus communication.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="gates-block">
+    <p class="gates-block__title">Pass The 3 Gates before you pay a fee. Some people need a few weeks, others a couple of months.</p>
+    <div class="gates-row">
+      <div class="gate">
+        <span class="gate__num">Gate 1</span>
+        <span class="gate__name">Proof of skill</span>
+        <p>Do one small project on public data: a decline-curve fit on a published well, or a simple volume estimate, with a one-page write-up.</p>
+      </div>
+      <div class="gate">
+        <span class="gate__num">Gate 2</span>
+        <span class="gate__name">Proof of communication</span>
+        <p>Explain the project aloud in 30 seconds to two minutes, in plain English, to someone who does not know oil.</p>
+      </div>
+      <div class="gate">
+        <span class="gate__num">Gate 3</span>
+        <span class="gate__name">Proof of value</span>
+        <p>Show it to three working engineers and ask if it would help a student get shortlisted. Believe their answer over your hope.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Expensive wrong turns</h3>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <p>
+    Do not decide this in the abstract. Write down the total education budget, mark 10% and 20% of it, and check that against the real fee sheet. Then pick the cheapest route that still keeps GATE and ONGC possible, and start the Gate 1 project.
+  </p>
+
+  <p>
+    If you want a second opinion on the money math and the branch choice, <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/">career guidance</a> helps you make the decisions that unlock high income opportunities, instead of guessing from brochures. For the PSU side of the plan, read <a href="/blog/government-jobs/psu-jobs-after-engineering-india/">PSU jobs after engineering</a>. For one more look at related paths, browse the <a href="/blog/career-options/">career options library</a>.
+  </p>
+
+  <h2 id="faq">FAQs on is petroleum engineering a good career in India</h2>
+
+  <div class="faq-accordion">
+    {faqItems.map((item, index) => (
+      <details open={index === 0}>
+        <summary>{item.q}</summary>
+        <div class="faq-a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong {
+      color: #fff;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .key-takeaways {
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.35rem 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.1), transparent 60%),
+        rgba(255, 255, 255, 0.03);
+    }
+    .key-takeaways__label {
+      margin: 0 0 0.7rem !important;
+      font-size: 11px !important;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(45, 212, 191, 0.95) !important;
+    }
+    .key-takeaways ul {
+      margin: 0 !important;
+      padding-left: 1.15rem !important;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .key-takeaways li {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.82) !important;
+      line-height: 1.7 !important;
+      font-size: 15.5px;
+    }
+
+    .callout {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .callout--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.06);
+    }
+    .callout__eyebrow {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.7rem !important;
+    }
+    .callout__list {
+      margin: 0 0 0.2rem 1.1rem !important;
+      padding: 0 !important;
+    }
+    .callout__list li {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.72) !important;
+      line-height: 1.7 !important;
+      margin: 0.32rem 0 !important;
+    }
+    .callout__footer {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.74) !important;
+      margin: 0.8rem 0 0 !important;
+      line-height: 1.74 !important;
+    }
+
+    .feature-grid,
+    .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .feature-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .feature-card,
+    .compare-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .feature-card__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      color: rgba(45, 212, 191, 0.96);
+      margin-bottom: 0.5rem;
+    }
+    .feature-card__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.93);
+      line-height: 1.28;
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .feature-card p {
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0 !important;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .compare-card--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .compare-card--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul {
+      margin: 0 0 0 1rem !important;
+      padding: 0 !important;
+    }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .protocol-stack,
+    .faq-list,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .faq-item,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .gates-block {
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+      padding: 1.25rem 1.2rem;
+      margin: 1.45rem 0;
+    }
+    .gates-block__title {
+      font-size: 13px !important;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      line-height: 1.6 !important;
+      margin: 0 0 0.95rem !important;
+    }
+    .gates-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .gate {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1rem 0.95rem;
+    }
+    .gate__num {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(45, 212, 191, 0.82);
+      font-weight: 800;
+      margin-bottom: 0.24rem;
+    }
+    .gate__name {
+      display: block;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.45rem;
+      font-family: "Sora", sans-serif;
+    }
+    .gate p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.66 !important;
+      color: rgba(255, 255, 255, 0.64) !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    .faq-item__q {
+      padding: 0.95rem 1.15rem;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .faq-item__a {
+      padding: 0.95rem 1.15rem 1rem;
+      font-size: 14.5px;
+      line-height: 1.76;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    @media (max-width: 820px) {
+      .comparison-grid,
+      .gates-row,
+      .jump-nav__list {
+        grid-template-columns: 1fr;
+      }
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .callout,
+      .feature-card,
+      .compare-card,
+      .highlight-box,
+      .checkpoint,
+      .gates-block,
+      .gate,
+      .mistake-item,
+      .faq-item__q,
+      .faq-item__a {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 620px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+  </style>
+</BlogPostLayout>

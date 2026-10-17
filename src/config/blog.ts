@@ -4276,4 +4276,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 14,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-petroleum-engineering-a-good-career-in-india',
+    title: "Is Petroleum Engineering a Good Career in India? The Honest Verdict",
+    description:
+      "Is petroleum engineering a good career in India? Few seats, a thin ONGC funnel, oil-price layoffs, a slow energy pivot. Who should choose it, who should skip.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 18,
+  },
 ];
