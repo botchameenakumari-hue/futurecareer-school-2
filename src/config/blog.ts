@@ -4294,4 +4294,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 15,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-real-estate-a-good-career-in-india',
+    title: "Is Real Estate a Good Career in India? Routes, RERA Rules and Pay Reality",
+    description:
+      "Is real estate a good career in India? Yes for some routes. Agent, channel partner, valuer and property management compared on RERA rules, commission and risk.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 25,
+  },
 ];

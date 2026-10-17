@@ -168,4 +168,5 @@ export const POST_SCALE = {
   "is-embedded-systems-a-good-career-in-india": ["mid", "Salaried firmware roles follow a pay ladder; freelance firmware, board bring-up, training and your own hardware product give a business layer, while fab and public-sector routes are capped."],
   "is-petroleum-engineering-a-good-career-in-india": ["low", "Few seats and employers, boom-and-bust hiring and a fixed PSU ladder; subsurface data skills and consulting or inspection services are the only business layer."],
   "is-product-design-a-good-career-in-india": ["mid", "A salaried ladder with a scarce junior door; a niche freelance practice, studio, templates or design-system consulting give a business layer."],
+  "is-real-estate-a-good-career-in-india": ["mid", "Solo commission and salaried developer sales are lumpy or capped; property management, valuation, marketing and your own RERA-registered brokerage give a business layer."],
 };
