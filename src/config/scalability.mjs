@@ -171,4 +171,5 @@ export const POST_SCALE = {
   "is-real-estate-a-good-career-in-india": ["mid", "Solo commission and salaried developer sales are lumpy or capped; property management, valuation, marketing and your own RERA-registered brokerage give a business layer."],
   "is-corporate-law-a-good-career-in-india": ["mid", "Firm and in-house routes follow a fixed ladder with a narrow top; compliance advisory, a boutique or independent counsel and fractional startup counsel give a business layer."],
   "is-youtube-a-good-career-in-india": ["mid", "Ad-only and Shorts-only channels are crowded with two hard stages and fixed revenue shares; a channel that sells your own skill, course or service, or video work for other creators, gives the business layer."],
+  "is-archaeology-a-good-career-in-india": ["mid", "Central, state and NET-led routes are thin and rank-gated; GIS and 3D documentation, heritage consulting, conservation, archaeological science and heritage tourism give a business layer."],
 };

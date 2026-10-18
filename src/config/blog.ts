@@ -4321,4 +4321,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 25,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-archaeology-a-good-career-in-india',
+    title: "Is Archaeology a Good Career in India? Jobs, Pay and the ASI Reality",
+    description:
+      "Is archaeology a good career in India? Good for committed people, thin for jobs. ASI posts, UGC NET numbers, project pay and the routes that scale.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 18,
+  },
 ];
