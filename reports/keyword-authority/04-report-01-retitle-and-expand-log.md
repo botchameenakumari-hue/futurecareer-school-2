@@ -108,3 +108,29 @@ All nine followed COWORK_KICKOFF_PROMPT.md: one independent agent per keyword, d
 Also corrected the ICAI fee line on `ca-vs-cma-vs-cfa-india-which-is-better` (ICAI FAQ total is about Rs 49,000).
 
 Open items: images (briefs in dossiers; strict image audit will flag until added), sibling links to the new pages, P2/P3 pages, Reports 2 and 3.
+
+
+## Report 1 pending pages: build outcome (all pushed to `main`)
+
+**Built as new pages (27 more, each with dossier and three logged passes in `docs/dossiers/`)**
+
+P2: salary-by-degree (salary-growth), commerce-career-options-with-salary, law-career-options, geography-career-options, mathematics-career-options, career-options-after-graduation, polytechnic-diploma-after-10th-which-trade-to-choose.
+
+P3: zoology-career-options, botany-career-options, bsc-physics-career-options, bsc-chemistry-career-options, bsc-agriculture-career-options, iti-career-options, business-ideas-for-students.
+
+"Is X a good career in India" (Cluster I): it, sap, bpo, photography, aviation, ethical-hacking, embedded-systems, network-engineering, petroleum-engineering, product-design, real-estate, corporate-law, youtube, archaeology, criminology, astronomy.
+
+**Stopped at the duplicate check and done as on-page expansions instead (kickoff doorway rule)**
+
+- career-options-after-jee: expanded `career-options-after-12th-pcm` (and the other-than-engineering page).
+- mba-marketing-career-options: expanded `mba-career-options`, `best-mba-specializations-india`, `mba-finance-vs-marketing-india`.
+- mba-hr-career-options: not built (same overlap; HR pages exist).
+- business-analyst-career-path: expanded `is-business-analyst-a-good-career-in-india`.
+- polytechnic-career-options: not built (covered by the new polytechnic page).
+- is-mba / is-bba / is-bca a-good-career-option: expanded `mba-career-options`, `bba-career-options`, `bca-career-options`.
+
+**Not built from the Cluster I "check intent of related page" rows**: project management, banking, finance, animation, teaching, paramedical, content writing, consulting (related pages already exist; revisit after Search Console data).
+
+**Corrections made to existing pages along the way**: ICAI fee total; NFSU fee period (per semester); lateral-entry branch rule softened; YouTube Partner Programme change from 1 February 2027 noted.
+
+**Open**: images (briefs in each dossier), medium-confidence facts listed per dossier ledger, deployment, Report 2 and Report 3 pages.
