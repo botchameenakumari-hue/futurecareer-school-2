@@ -173,4 +173,5 @@ export const POST_SCALE = {
   "is-youtube-a-good-career-in-india": ["mid", "Ad-only and Shorts-only channels are crowded with two hard stages and fixed revenue shares; a channel that sells your own skill, course or service, or video work for other creators, gives the business layer."],
   "is-archaeology-a-good-career-in-india": ["mid", "Central, state and NET-led routes are thin and rank-gated; GIS and 3D documentation, heritage consulting, conservation, archaeological science and heritage tourism give a business layer."],
   "is-criminology-a-good-career-in-india": ["mid", "A degree alone has no direct job; fraud and cyber analysis, research writing and training give a business layer, while police, prison and teaching routes are fixed ladders."],
+  "is-astronomy-a-good-career-in-india": ["low", "A small field with a five-stage funnel (PhD gate, postdoc, few permanent posts); the research ladder is rank-based and capped, so keep a data or software skill beside it, which is the route that scales."],
 };

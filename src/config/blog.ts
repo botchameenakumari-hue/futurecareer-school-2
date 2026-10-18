@@ -4339,4 +4339,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 13,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-astronomy-a-good-career-in-india',
+    title: "Is Astronomy a Good Career in India? Honest Verdict and Funnel",
+    description:
+      "Is astronomy a good career in India? Good for the science, thin as a job plan: the PhD funnel, fellowship pay, seven exit routes and who should skip it.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 22,
+  },
 ];
