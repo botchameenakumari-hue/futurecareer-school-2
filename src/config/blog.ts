@@ -4330,4 +4330,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 18,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-criminology-a-good-career-in-india',
+    title: "Is Criminology a Good Career in India? The Degree-to-Job Gap",
+    description:
+      "Is criminology a good career in India? Only with a second skill. See NFSU, TISS and RRU degrees, real job routes, the openings gap and who should skip it.",
+    publishedAtISO: '2026-10-14',
+    readTimeMinutes: 13,
+  },
 ];
