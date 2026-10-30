@@ -4717,4 +4717,76 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 10,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'how-to-choose-between-two-career-options-india',
+    title: "How to Choose Between Two Career Options: A Four-Week Test for India",
+    description:
+      "How to choose between two career options in India: a four-week test with notices, conversations and a scoring table.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'how-to-choose-a-career-when-you-have-no-interests-india',
+    title: "How to Choose a Career When You Have No Interests: A Six-Week Plan",
+    description:
+      "How to choose a career when you have no interests: six one-week experiments, a simple log and free ways to start.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-data-analyst-in-india',
+    title: "Skills Required for a Data Analyst in India: Core Set and Proof",
+    description:
+      "Skills required for a data analyst in India: Excel, SQL, dashboards, statistics, explanation and how to prove them.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'business-communication-skills-india',
+    title: "Business Communication Skills in India: Habits to Build and Prove",
+    description:
+      "Business communication skills in India: emails, updates, listening, meetings and follow-up, with free ways to build and prove them.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-business-development-executive-india',
+    title: "Skills for a Business Development Executive in India: Build and Prove",
+    description:
+      "Skills for a business development executive in India: research, outreach, calls, objections, follow-up and proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-problem-solving-and-critical-thinking-skills-india',
+    title: "How to Improve Problem Solving and Critical Thinking Skills in India",
+    description:
+      "How to improve problem solving and critical thinking: weekly real cases, simple habits and free practice.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-build-leadership-skills-as-a-student-or-fresher-india',
+    title: "How to Build Leadership Skills as a Student or Fresher in India",
+    description:
+      "How to build leadership skills as a student or fresher in India: small projects, habits, feedback and free practice.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'what-are-life-skills-examples-and-how-to-build-them-india',
+    title: "What Are Life Skills? Examples for Students and How to Build Them",
+    description:
+      "What are life skills? Examples for students in India, why they matter and small monthly habits to build them.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
 ];
