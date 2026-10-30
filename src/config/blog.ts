@@ -4384,4 +4384,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 20,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'what-to-do-after-failing-class-12-india',
+    title: "After Failing Class 12 in India: Supplementary, NIOS, Diploma, Careers",
+    description:
+      "Failed Class 12? Find out which result you have, how supplementary and NIOS work, the diploma and ITI route, and career options ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 18,
+  },
 ];
