@@ -12,3 +12,6 @@ Class: MOFU. Category: career-options. Duplicate check: no page on failing Class
 - IGNOU BPP: study-centre page. Medium; page says confirm with IGNOU.
 ## Left out
 No pay figures (no reliable source). Tamil Nadu "tens of thousands" claim kept as official statement per report.
+
+## Revision 30 Oct 2026 (real follow-up pass)
+- Added private-candidate route (Careers360 page, 2026-27 cycle; secondary), CUET point (test-prep site: no NTA minimum percentage; appearing candidates apply; proof of passing at admission; universities set own criteria; secondary), late/spot rounds (Collegedunia Assam AHSEC article; state-specific, timelines estimated), and an "explaining a failed year" section (advice, no data).
