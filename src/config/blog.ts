@@ -4402,4 +4402,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 16,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'what-to-do-after-failing-first-year-engineering-india',
+    title: "After Failing First Year Engineering: Backlogs, Branch Change, Routes",
+    description:
+      "Failed first year engineering? See how backlog rules differ, when branch change works, and eight routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 17,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-nios-valid-for-college-admission-and-government-jobs-india',
+    title: "Is NIOS Valid for College and Government Jobs? What Documents Say",
+    description:
+      "Is NIOS valid in India? What NIOS, AICTE and NMC documents say about college, NEET and government jobs, and where students get stuck.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-dropping-out-of-college-india',
+    title: "Career Options After Dropping Out of College in India: Credits, Routes",
+    description:
+      "Dropped out of college? What credits you may hold, ways back to a degree, what closes, and eight routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 16,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-for-blind-and-low-vision-students-india',
+    title: "Career Options for Blind and Low Vision Students in India: Exams, Tools",
+    description:
+      "Career options for blind and low-vision students in India: exam facilities, scribe rules, tools, quotas and eight routes by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 18,
+  },
 ];
