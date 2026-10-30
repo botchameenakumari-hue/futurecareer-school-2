@@ -4609,4 +4609,112 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 13,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-for-law-graduates-india',
+    title: "Career Options for Law Graduates in India Beyond Litigation",
+    description:
+      "Career options for law graduates in India beyond litigation: company law, compliance, legal tech, IP and advisory, ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'economics-career-options-india',
+    title: "Economics Career Options in India: Analytics, Finance and Policy",
+    description:
+      "Economics career options in India: analytics, finance, policy and research routes ranked by growth, with AI pressure and a project test.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-web-design-a-good-career-in-india',
+    title: "Is Web Design a Good Career in India? Honest Verdict, AI and Routes",
+    description:
+      "Is web design a good career in India? Honest verdict on AI builders, code skill and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-instructional-design-a-good-career-in-india',
+    title: "Is Instructional Design a Good Career in India? Honest Verdict and AI",
+    description:
+      "Is instructional design a good career in India? Honest verdict on AI, portfolio proof and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mass-communication-career-options-india',
+    title: "Mass Communication Career Options in India: Media, Brands and Channels",
+    description:
+      "Mass communication career options in India: media, PR, content, video and channels ranked by growth, with AI pressure.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'statistics-career-options-india',
+    title: "Statistics Career Options in India: Data, Actuarial and Research Routes",
+    description:
+      "Statistics career options in India: data science, ML, actuarial, biostatistics and research ranked by growth, with AI pressure.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-cloud-engineer-a-good-career-in-india',
+    title: "Is Cloud Engineering a Good Career in India? Honest Verdict and AI",
+    description:
+      "Is cloud engineering a good career in India? Honest verdict on certificates, projects, AI and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'soft-skills-vs-hard-skills-examples-and-proof-india',
+    title: "Soft Skills vs Hard Skills in India: Examples and How to Prove Each",
+    description:
+      "Soft skills vs hard skills in India: examples, how employers check each, free ways to build them and how to prove them.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-communication-skills-india',
+    title: "How to Improve Communication Skills: A Free Four-Week Plan for India",
+    description:
+      "How to improve communication skills in India: a free four-week plan with feedback, resume proof and ways it earns income.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-english-speaking-skills-at-home-india',
+    title: "How to Improve English Speaking at Home: A Free Daily Routine",
+    description:
+      "How to improve English speaking at home in India: a free daily routine, weekly test, common mix-ups and income routes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-find-which-skills-are-in-demand-in-india',
+    title: "Which Skills Are in Demand in India? Reverse-Engineer 30 Job Notices",
+    description:
+      "Which skills are in demand in India? A free method: read 30 live job notices, count skills, check pay and choose one to prove.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-learn-a-new-skill-and-prove-it-india',
+    title: "How to Learn a New Skill and Prove It: A Four-Week Test for India",
+    description:
+      "How to learn a new skill and prove it in India: a free four-week test, one project, two people's feedback and a clear decision.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
 ];
