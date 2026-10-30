@@ -4348,4 +4348,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-14',
     readTimeMinutes: 22,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-for-students-with-disabilities-india',
+    title: "Career Options for Students With Disabilities in India: Rights + Routes",
+    description:
+      "Career options for students with disabilities in India: your rights, exam help, scholarships and nine routes, led by the ones that can grow income.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 24,
+  },
 ];
