@@ -4438,4 +4438,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 18,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-for-students-with-locomotor-disability-india',
+    title: "Career Options for Locomotor Disability and Wheelchair Users in India",
+    description:
+      "Career options for locomotor disability and wheelchair users in India: access checks, exam facilities, quotas, eight routes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 17,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-project-management-a-good-career-in-india',
+    title: "Is Project Management a Good Career in India? Honest Verdict, Growth",
+    description:
+      "Is project management a good career in India? Honest verdict on who it suits, the data, growth beyond salary and AI risk.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-teaching-a-good-career-in-india',
+    title: "Is Teaching a Good Career in India? Honest Verdict on Pay and Growth",
+    description:
+      "Is teaching a good career in India? Honest verdict on entry tests, pay, the ceiling and ways to grow beyond the classroom.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-content-writing-a-good-career-in-india',
+    title: "Is Content Writing a Good Career in India? Honest Verdict on AI, Niches",
+    description:
+      "Is content writing a good career in India? Honest verdict on AI pressure, the data, better alternatives and routes by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-paramedical-a-good-career-in-india',
+    title: "Is Paramedical a Good Career in India? Honest Verdict, Rules and Growth",
+    description:
+      "Is paramedical a good career in India? Honest verdict on the allied health rules, course length, pay limits and growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
 ];
