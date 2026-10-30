@@ -4393,4 +4393,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 18,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'what-to-do-after-failing-class-10-india',
+    title: "After Failing Class 10 in India: Supplementary, NIOS, ITI, Next Steps",
+    description:
+      "Failed Class 10? Find which result you have, how the second exam, supplementary and NIOS work, ITI routes and what to build while you clear it.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 16,
+  },
 ];
