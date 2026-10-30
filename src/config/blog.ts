@@ -4357,4 +4357,13 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 24,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-for-students-with-dyslexia-and-learning-disabilities',
+    title: "Career Options for Dyslexic Students in India: Exams and 8 Routes",
+    description:
+      "Career options for students with dyslexia and learning disabilities in India: how the certificate works, what exams allow, and eight routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 22,
+  },
 ];
