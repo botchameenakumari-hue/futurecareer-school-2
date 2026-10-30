@@ -4483,4 +4483,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 14,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-animation-a-good-career-in-india',
+    title: "Is Animation a Good Career in India? Honest Verdict on AI and Growth",
+    description:
+      "Is animation a good career in India? Honest verdict on AI pressure, sector data, better alternatives and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-objective-for-mechanical-civil-electrical-engineering-freshers',
+    title: "Career Objective for Mechanical, Civil, Electrical Freshers: Examples",
+    description:
+      "Career objective examples for mechanical, civil and electrical engineering freshers, with the proof each branch needs.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 12,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'online-certification-courses-for-cse-students-india-skills-and-pay',
+    title: "Online Certification Courses for CSE Students: Which Skills Pay",
+    description:
+      "Online certification courses for CSE students: how to find which skills pay by reading job posts, with free routes first.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-12th-commerce-with-informatics-practices',
+    title: "Career Options After 12th Commerce With Informatics Practices (IP)",
+    description:
+      "Career options after 12th commerce with Informatics Practices: what IP teaches and opens for B.Com, CA and data roles.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 13,
+  },
 ];
