@@ -1,0 +1,9 @@
+# Pass log: colour-blindness-and-career-choice-india (30 Oct 2026)
+
+STEP 0 (30 Oct 2026): DISTINCT; TOFU blog, child of the disabilities hub. Main prompt, follow-up prompt and kickoff read in full earlier in this session; the follow-up checklist re-read line by line for this page.
+
+Pass A (checklist audit on the built page): answer-first lead with keyword, key-takeaways right after the lead, positioning in lead, takeaways, ownership box and CTA; all paragraphs at most three sentences; data-label on every td; one H1; unique ids and working anchors; FAQ schema 12 equals visible; GA once; no banned audience words in rendered copy. Finding: first outline repeated the sibling template; rebuilt around a different spine (get tested, legal status, who tests, three court decisions, colour-load table, routes with a medical-gate table).
+Pass B (depth and perspectives): test comparison table; legal status from the TANGEDCO judgment; recruiter table with the document behind each row and its confidence stated; court cards (FTII, MBBS 2017, TANGEDCO); colour-load workaround table; eight scalability-labelled routes (software high; accessible UX, film, finance/law, own business, engineering mid; medicine and defence/aviation/railways/merchant navy low) with who pays, trust, hurdle and first sales skill; ownership box (accessibility audits); better-adjacent-route honest take; medical-gate table; tools and AI split card with staged path; honesty section against memorising plates; 10 percent rule; Protocol; Gates; mistakes; 12 FAQs. No salary figures.
+Pass C (uniqueness and mobile): overlap 6.7% overall (highest 4.5% against the deaf page). Mobile check at 360, 390 and 430 px: no overflow.
+
+Residual risks: merchant navy and civil pilot rows rest on secondary descriptions; MBBS sources are from 2017; FTII and MBBS summaries come from legal-news reports, not the judgments; page tells the student to read the recruiter's current notice.

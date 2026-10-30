@@ -4366,4 +4366,22 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 22,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-for-deaf-and-hard-of-hearing-students-india',
+    title: "Career Options for Deaf and Hard of Hearing Students in India: Courses",
+    description:
+      "Career options for deaf and hard-of-hearing students in India: sign language courses, school exam help, the 4 percent quota and eight routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 22,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'colour-blindness-and-career-choice-india',
+    title: "Colour Blindness and Career Choice in India: Jobs, Exams, Rules",
+    description:
+      "Colour blindness and career choice in India: get tested early, see which recruiters test colour vision, what courts said, and the routes that stay open.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 20,
+  },
 ];
