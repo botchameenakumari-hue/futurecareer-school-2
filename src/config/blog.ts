@@ -4519,4 +4519,94 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 13,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-robotics-a-good-career-in-india',
+    title: "Is Robotics a Good Career in India? Honest Verdict, Branches and AI",
+    description:
+      "Is robotics a good career in India? Honest verdict on branches, skills, AI pressure, alternatives and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-game-development-a-good-career-in-india',
+    title: "Is Game Development a Good Career in India? Honest Verdict and AI",
+    description:
+      "Is game development a good career in India? Honest verdict on jobs, AI pressure, alternatives and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-fintech-a-good-career-in-india',
+    title: "Is Fintech a Good Career in India? Honest Verdict, Jobs and AI",
+    description:
+      "Is fintech a good career in India? Honest verdict on jobs, AI pressure, alternatives and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-cabin-crew-a-good-career-in-india',
+    title: "Is Cabin Crew a Good Career in India? Honest Verdict and Criteria",
+    description:
+      "Is cabin crew a good career in India? Honest verdict on airline criteria, placement claims, next steps and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-medical-lab-technology-a-good-career-in-india',
+    title: "Is Medical Lab Technology a Good Career in India? DMLT and Growth",
+    description:
+      "Is medical lab technology a good career in India? Honest verdict on DMLT, BSc MLT, automation and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'diploma-and-certificate-courses-for-commerce-students-india',
+    title: "Diploma and Certificate Courses for Commerce Students: Worth It?",
+    description:
+      "Diploma and certificate courses for commerce students in India: official certificates, free options, AI pressure and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-diploma-in-engineering-india',
+    title: "Career Options After a Diploma in Engineering: Work or Lateral Entry",
+    description:
+      "Career options after an engineering diploma in India: work, lateral entry or your own service. Rules, AI pressure and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-msc-physics-india',
+    title: "Career Options After MSc Physics in India: Routes, AI and Skills",
+    description:
+      "Career options after MSc physics in India: data, electronics, research and teaching. Verdict, AI pressure and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'pg-courses-after-bcom-india',
+    title: "PG Courses After B.Com in India: CA, MBA, M.Com and Skill Routes",
+    description:
+      "PG courses after B.Com in India: CA, MBA, M.Com, law and skill routes compared, with AI pressure and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-international-business-a-good-career-in-india',
+    title: "Is International Business a Good Career in India? Honest Verdict",
+    description:
+      "Is international business a good career in India? Honest verdict on jobs, AI pressure, fees and routes ranked by growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 13,
+  },
 ];
