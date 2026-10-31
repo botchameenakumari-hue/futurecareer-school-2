@@ -7291,4 +7291,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'retail-management-careers-india',
+    title: "Retail Management Careers in India: Roles, Skills and How to Start",
+    description:
+      "Daily consistency beats occasional brilliance in retail.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'careers-that-combine-science-and-business-india',
+    title: "Careers That Combine Science and Business in India",
+    description:
+      "Know the science well enough to explain it to buyers and teams.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'careers-at-the-intersection-of-business-and-technology-india',
+    title: "Careers at the Intersection of Business and Technology in India",
+    description:
+      "Translate between business needs and technical possibilities.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'lending-nbfc-and-microfinance-careers-india',
+    title: "Lending, NBFC and Microfinance Careers in India: Roles and Rules",
+    description:
+      "Fair dealing and careful documentation protect borrowers and staff.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
