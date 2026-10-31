@@ -5932,4 +5932,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-for-housewives-and-stay-at-home-mothers-india',
+    title: "Career Options for Housewives and Stay-at-Home Mothers in India",
+    description:
+      "Homemakers already use planning, budgeting and people skills that can become paid work.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'benefits-and-limits-of-career-guidance-india',
+    title: "Benefits and Limits of Career Guidance in India: An Honest View",
+    description:
+      "Good guidance clarifies options, but trials, notices and your own effort decide results.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'how-to-run-a-career-guidance-session-or-seminar-for-students-india',
+    title: "How to Run a Career Guidance Session or Seminar for Students",
+    description:
+      "A good session has one goal, active tasks and a follow-up that students can act on.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'job-search',
+    slug: 'how-to-use-your-college-placement-and-career-cell-india',
+    title: "How to Use Your College Placement and Career Cell Well in India",
+    description:
+      "The placement cell helps most when you prepare early and ask specific questions.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'free-career-guidance-online-what-to-trust-india',
+    title: "Free Career Guidance Online in India: What to Trust and Check",
+    description:
+      "Free guidance is useful when you can see who runs it and what happens with your data.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
