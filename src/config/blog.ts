@@ -7327,4 +7327,76 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'entry-level-business-roles-for-commerce-and-management-graduates-india',
+    title: "Entry-Level Business Roles for Commerce and Management Graduates",
+    description:
+      "Pick two or three roles and build proof for each.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'emerging-business-careers-india',
+    title: "Emerging Business Careers in India: What Is Growing and How to Prepare",
+    description:
+      "Check evidence of demand before preparing for any trend.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'data-science-for-business-analytics-translator-and-decision-science-roles-india',
+    title: "Data Science for Business: Translator and Decision Science Roles",
+    description:
+      "Turning model output into a decision someone can act on is the job.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'domain-specific-business-analyst-careers-banking-insurance-healthcare-and-retail-india',
+    title: "Domain-Specific Business Analyst Careers in India",
+    description:
+      "Domain knowledge often decides who gets the role.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'hr-business-partner-career-path-india',
+    title: "HR Business Partner Career Path in India: Roles, Skills and Growth",
+    description:
+      "Business understanding makes HR advice useful.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'dual-career-couples-how-to-plan-two-careers-india',
+    title: "Dual-Career Couples: How to Plan Two Careers Together in India",
+    description:
+      "Plan together with real numbers, not assumptions.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'professional-etiquette-and-business-attire-in-the-workplace-india',
+    title: "Professional Etiquette and Business Attire in the Workplace in India",
+    description:
+      "Small habits shape first impressions more than expensive clothes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-change',
+    slug: 'teacher-switching-to-corporate-training-or-business-roles-india',
+    title: "Teacher Switching to Corporate Training or Business Roles in India",
+    description:
+      "Classroom skills transfer well, but the audience and goals change.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
