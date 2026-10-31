@@ -7147,4 +7147,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'risk-management-and-business-continuity-careers-india',
+    title: "Risk Management and Business Continuity Careers in India",
+    description:
+      "Calm, structured thinking about what could go wrong is the core skill.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'compliance-and-internal-audit-careers-india',
+    title: "Compliance and Internal Audit Careers in India: Roles and Routes",
+    description:
+      "Integrity and careful reading matter more than speed here.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'insurance-careers-in-india-roles-and-skills',
+    title: "Insurance Careers in India: Roles, Skills and How to Start",
+    description:
+      "Honest explanation of terms builds trust. Verify licensing rules.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-and-financial-journalism-careers-india',
+    title: "Business and Financial Journalism Careers in India: Roles and How to Start",
+    description:
+      "Accuracy and clear explanation of numbers come before speed.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
