@@ -8443,4 +8443,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-d-pharm-and-m-pharm-india',
+    title: "Career Options After D.Pharm and M.Pharm in India",
+    description:
+      "Match the qualification to a role and check registration rules.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'ugc-net-jrf-and-what-to-do-after-clearing-it-career-options-india',
+    title: "UGC NET, JRF and Career Options After Clearing It in India",
+    description:
+      "Plan the PhD, teaching or other route before the result arrives.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'science-olympiads-and-talent-exams-career-value-and-how-to-prepare-india',
+    title: "Science Olympiads and Talent Exams in India: Career Value and Preparation",
+    description:
+      "Use them to build depth and curiosity, not as a guarantee.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'detective-and-private-investigation-careers-india',
+    title: "Detective and Private Investigation Careers in India: Legal Routes",
+    description:
+      "Check what is legal and ethical before taking any case.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
