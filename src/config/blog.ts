@@ -6652,4 +6652,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-project-management-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Project Management as a Career? Interview Answer",
+    description:
+      "Show that you plan, follow up and keep people informed.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-mechanical-engineering-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Mechanical Engineering as a Career? Interview Answer",
+    description:
+      "Show curiosity about how machines work and a habit of testing.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-cyber-security-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Cyber Security as a Career? Interview Answer",
+    description:
+      "Show care for safe practice, curiosity and honest limits.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-sap-as-a-career-interview-answer-india',
+    title: "Why Did You Choose SAP as a Career? Interview Answer",
+    description:
+      "Show interest in how business processes connect and a habit of careful data entry.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-salesforce-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Salesforce as a Career? Interview Answer",
+    description:
+      "Show interest in customer processes and clear, tidy records.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
