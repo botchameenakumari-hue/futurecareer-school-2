@@ -1,0 +1,3 @@
+# Dossier: emotional-intelligence-skills-examples-and-how-to-build-them-india
+
+No statistics or pay figures. General-knowledge statements flagged verify-before-deploy: wellbeing guidance is general, not medical advice, and the stress page names help routes without specific helpline numbers; scam warning signs for data entry offers are general patterns; project management practice is general. No statistics or pay figures. 

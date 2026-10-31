@@ -7012,4 +7012,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'emotional-intelligence-skills-examples-and-how-to-build-them-india',
+    title: "Emotional Intelligence Skills: Examples and How to Build Them",
+    description:
+      "Notice, pause, choose. Small daily habits build it.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'stress-and-coping-skills-for-students-and-freshers-india',
+    title: "Stress and Coping Skills for Students and Freshers in India",
+    description:
+      "Small routines reduce load. Serious distress needs real help.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'mentoring-skills-and-how-to-mentor-juniors-india',
+    title: "Mentoring Skills and How to Mentor Juniors in India",
+    description:
+      "Ask more than you tell. Follow up more than you advise.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'project-management-skills-and-how-to-build-them-india',
+    title: "Project Management Skills and How to Build Them in India",
+    description:
+      "Plan, track and talk. A small real project is the best teacher.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'freelancing-business',
+    slug: 'typing-and-data-entry-work-in-india-what-is-real-and-what-is-a-scam',
+    title: "Typing and Data Entry Work in India: What Is Real and What Is a Scam",
+    description:
+      "Never pay to get work. Real work pays you.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
