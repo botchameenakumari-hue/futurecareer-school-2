@@ -8155,4 +8155,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-construction-management-a-good-career-in-india',
+    title: "Is Construction Management a Good Career in India? Routes and Checks",
+    description:
+      "Eligibility, licences and rules vary by state and employer. Verify on official pages before you plan.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-culinary-arts-and-chef-a-good-career-in-india',
+    title: "Is Culinary Arts and Being a Chef a Good Career in India? Routes and Limits",
+    description:
+      "Licences, hygiene rules and course recognition vary. Verify on official pages before you plan.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-fitness-training-a-good-career-in-india',
+    title: "Is Fitness Training a Good Career in India? Routes, Checks and Limits",
+    description:
+      "Certification quality and rules vary. Verify on official pages and avoid expensive programmes before you test the work.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'is-occupational-therapy-and-rehabilitation-a-good-career-in-india',
+    title: "Is Occupational Therapy and Rehabilitation a Good Career in India? Routes",
+    description:
+      "Course recognition, registration and rules vary by state and council. Verify on official pages before you plan.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
