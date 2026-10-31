@@ -5977,4 +5977,85 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-build-vocabulary-skills-english-india',
+    title: "How to Build English Vocabulary Skills in India: A Daily Routine",
+    description:
+      "Vocabulary sticks when you meet a word in context, use it and review it.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-develop-creativity-skills-india',
+    title: "How to Develop Creativity Skills in India: Practice Methods",
+    description:
+      "Creativity grows with constraints, quotas and feedback, not with waiting.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-logical-thinking-and-reasoning-skills-india',
+    title: "How to Improve Logical Thinking and Reasoning Skills in India",
+    description:
+      "Reasoning improves with daily puzzles, checking arguments and explaining steps aloud.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-develop-networking-skills-india',
+    title: "How to Develop Networking Skills in India Without Feeling Fake",
+    description:
+      "Networking is giving help, asking small questions and following up.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'advanced-excel-skills-for-jobs-india',
+    title: "Advanced Excel Skills for Jobs in India: What to Learn and Prove",
+    description:
+      "Advanced Excel shows best in a clean sheet that solves a real problem.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'customer-service-skills-examples-and-how-to-build-them-india',
+    title: "Customer Service Skills: Examples and How to Build Them in India",
+    description:
+      "Customer service is ownership of the problem delivered with calm and clarity.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'research-skills-examples-and-how-to-build-them-india',
+    title: "Research Skills Examples and How to Build Them in India",
+    description:
+      "Research skill is a repeatable method: question, sources, notes and a short write-up.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'goal-setting-skills-and-how-to-set-goals-that-work-india',
+    title: "Goal-Setting Skills: How to Set Goals That Work in India",
+    description:
+      "Goals work when they are specific, small steps with a weekly review.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'empathy-and-social-skills-examples-and-how-to-build-them-india',
+    title: "Empathy and Social Skills Examples and How to Build Them in India",
+    description:
+      "Social skill is built through small, repeated, kind interactions.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
