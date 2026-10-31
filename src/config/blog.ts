@@ -4888,4 +4888,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 10,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'pcb-design-career-india',
+    title: "PCB Design Career in India: Tools, Proof of Work and Growth",
+    description:
+      "PCB design career in India: what a board designer does, free tools, proof boards and growth routes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'design-engineer-career-path-india',
+    title: "Design Engineer Career Path in India: Mechanical, Machine, Electrical",
+    description:
+      "Design engineer career path in India: mechanical, machine and electrical design routes, tools, proof and growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'behavioural-science-career-options-india',
+    title: "Behavioural Science Career Options in India: Research, Insight, Policy",
+    description:
+      "Behavioural science career options in India: UX research, insight, policy and people analytics routes, with proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'careers-for-mba-graduates-india',
+    title: "Careers for MBA Graduates in India: Eight Routes and Placement Reality",
+    description:
+      "Careers for MBA graduates in India: eight routes, placement reality and how to stand out.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'furniture-and-packaging-design-career-india',
+    title: "Furniture and Packaging Design Careers in India: Routes and Proof",
+    description:
+      "Furniture and packaging design careers in India: studio, store, freelance and in-house routes with prototypes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
