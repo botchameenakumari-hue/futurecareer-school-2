@@ -8119,4 +8119,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-graduation-with-low-marks-or-below-50-percent-india',
+    title: "Career Options After Graduation With Low Marks or Below 50 Percent in India",
+    description:
+      "Marks matter for some routes only; skill proof opens others.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'resume',
+    slug: 'career-objective-for-commerce-accounting-finance-and-law-graduates-india',
+    title: "Career Objective for Commerce, Accounting, Finance and Law Graduates",
+    description:
+      "Write a specific, honest objective tied to a role.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'confused-about-your-career-after-graduation-how-to-decide-step-by-step-india',
+    title: "Confused About Your Career After Graduation: How to Decide Step by Step",
+    description:
+      "Test two or three options in small ways before choosing.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-a-postgraduate-degree-ma-msc-mcom-msw-how-to-use-it-india',
+    title: "Career Options After a Postgraduate Degree in India: MA, MSc, MCom, MSW",
+    description:
+      "Match the degree to a role and add proof of skill.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
