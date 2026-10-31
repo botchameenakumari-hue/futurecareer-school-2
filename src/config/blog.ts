@@ -8191,4 +8191,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'sound-engineering-and-audio-production-careers-india',
+    title: "Sound Engineering and Audio Production Careers in India: Routes",
+    description:
+      "Courses, tools and rates vary. Verify on official pages and in current listings before you plan.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'metallurgical-materials-and-mining-engineering-careers-india',
+    title: "Metallurgy, Materials and Mining Engineering Careers in India",
+    description:
+      "Eligibility, statutory rules and certification differ. Verify on official notices before you plan.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'aircraft-maintenance-engineering-ame-careers-india',
+    title: "Aircraft Maintenance Engineering (AME) Careers in India: Routes",
+    description:
+      "Licensing, approvals and fees are set by the aviation regulator and change. Verify on official pages before you pay for any course.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'technical-support-and-application-support-engineer-career-path-india',
+    title: "Technical and Application Support Engineer Career Path in India",
+    description:
+      "Pay, shifts and growth differ widely by employer. Verify with current notices and ask people in similar roles.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
