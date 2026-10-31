@@ -7255,4 +7255,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-change',
+    slug: 'software-tester-moving-to-business-analyst-or-product-roles-india',
+    title: "Software Tester Moving to Business Analyst or Product Roles in India",
+    description:
+      "Testers already know how products fail. That is a real advantage.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'market-research-and-consumer-insights-careers-india',
+    title: "Market Research and Consumer Insights Careers in India",
+    description:
+      "Good questions and honest reading of answers matter most.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'agile-business-analyst-and-product-owner-roles-career-india',
+    title: "Agile Business Analyst and Product Owner Roles Career Path India",
+    description:
+      "Clear backlogs and honest priorities matter more than jargon.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'what-comes-after-business-analyst-product-consulting-or-management-india',
+    title: "What Comes After Business Analyst: Product, Consulting or Management",
+    description:
+      "Choose the next step from the work you enjoy most.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
