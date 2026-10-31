@@ -5383,4 +5383,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-change',
+    slug: 'return-to-work-after-career-break-india',
+    title: "Return to Work After a Career Break in India: A 90-Day Plan",
+    description:
+      "Returning after a break: refresh skills, rebuild your network, explain the gap in two sentences and start with projects.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'job-search',
+    slug: 'how-to-explain-a-career-gap-in-resume-and-interview-india',
+    title: "How to Explain a Career Gap in Resume and Interview in India",
+    description:
+      "Explaining a gap: state it plainly, show what you did and point to recent work.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-this-career-interview-answer-india',
+    title: "Why Did You Choose This Career? Interview Answer Guide for India",
+    description:
+      "Why did you choose this career: give a trigger, a proof and a direction in under a minute.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-in-it-and-business-analytics-career-paths-india',
+    title: "MBA in IT and Business Analytics: Career Paths and Roles in India",
+    description:
+      "MBA in IT and analytics: choose a role first, build data skills early and check alumni outcomes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
