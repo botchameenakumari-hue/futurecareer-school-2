@@ -5815,4 +5815,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'industrial-biotechnology-careers-india',
+    title: "Industrial Biotechnology Careers in India: Roles, Plants and Skills",
+    description:
+      "Industrial biotech rewards process care, scale-up understanding and documentation.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'animal-biotechnology-careers-india',
+    title: "Animal Biotechnology Careers in India: Research, Dairy and Rules",
+    description:
+      "Animal biotech needs ethics, regulation awareness and careful lab or field records.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'environmental-biotechnology-careers-india',
+    title: "Environmental Biotechnology Careers in India: Waste, Water, Roles",
+    description:
+      "Environmental biotech rewards measurement, local rules awareness and practical problem solving.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'food-biotechnology-careers-india',
+    title: "Food Biotechnology Careers in India: Quality, Fermentation, Roles",
+    description:
+      "Food biotech blends biology with safety rules, taste and shelf-life thinking.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'marine-biotechnology-careers-india',
+    title: "Marine Biotechnology Careers in India: Research and Aquaculture",
+    description:
+      "Marine biotech is niche and research-heavy, so plan study, skills and a fallback.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'bioinformatics-vs-biotechnology-careers-india',
+    title: "Bioinformatics vs Biotechnology Careers in India: Which Fits You?",
+    description:
+      "Choose by daily work: wet lab and process, or computers and data.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
