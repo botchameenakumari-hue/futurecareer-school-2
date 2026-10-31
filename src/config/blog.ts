@@ -8263,4 +8263,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-change',
+    slug: 'engineers-moving-into-finance-banking-or-the-stock-market-india',
+    title: "Engineers Moving Into Finance, Banking or the Stock Market in India",
+    description:
+      "Test finance work with a small project before switching.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'sales-engineer-application-engineer-and-technical-sales-careers-india',
+    title: "Sales Engineer and Technical Sales Careers in India: Routes and Limits",
+    description:
+      "Test customer conversations before choosing technical sales.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'engineering-career-progression-from-graduate-trainee-to-manager-india',
+    title: "Engineering Career Progression: Trainee to Manager in India",
+    description:
+      "Choose between the manager track and the specialist track on evidence.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'alternative-routes-for-engineering-dropouts-and-engineers-with-backlogs-india',
+    title: "Routes for Engineering Dropouts and Students With Backlogs in India",
+    description:
+      "Clear backlogs or move sideways with proof of skill.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
