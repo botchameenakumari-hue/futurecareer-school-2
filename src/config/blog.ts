@@ -6967,4 +6967,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'interviews',
+    slug: 'how-to-describe-your-communication-skills-in-an-interview-india',
+    title: "How to Describe Your Communication Skills in an Interview",
+    description:
+      "Show it with a short story, not with adjectives.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'do-you-have-leadership-skills-interview-answer-india',
+    title: "Do You Have Leadership Skills? Interview Answer for Freshers",
+    description:
+      "Leadership at your stage means taking responsibility and helping others.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'what-skills-do-you-have-interview-answer-india',
+    title: "What Skills Do You Have? Interview Answer for Freshers",
+    description:
+      "Pick three skills that match the role, and prove each one.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'how-to-describe-your-time-management-skills-interview-answer-india',
+    title: "How to Describe Your Time Management Skills in an Interview",
+    description:
+      "Show a system and a result, not just that you are punctual.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'resume',
+    slug: 'how-to-list-computer-excel-and-language-skills-on-a-resume-india',
+    title: "How to List Computer, Excel and Language Skills on a Resume",
+    description:
+      "Say what you can do with the tool, not just the tool name.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
