@@ -8227,4 +8227,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'vlsi-chip-design-and-semiconductor-careers-india',
+    title: "VLSI, Chip Design and Semiconductor Careers in India: Routes",
+    description:
+      "Course quality, tools and openings vary. Verify with current notices and ask people in the field.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'industrial-automation-plc-scada-and-instrumentation-careers-india',
+    title: "Industrial Automation, PLC, SCADA and Instrumentation Careers in India",
+    description:
+      "Course quality and brand choices vary. Verify with employers and avoid expensive programmes before testing the work.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'electrical-design-mep-and-hvac-engineering-careers-india',
+    title: "Electrical Design, MEP and HVAC Engineering Careers in India",
+    description:
+      "Standards, software and rates vary. Verify with employers and use current notices.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'electrical-power-systems-and-utilities-careers-india',
+    title: "Electrical Power Systems, Transmission and Utilities Careers in India",
+    description:
+      "Exam rules, eligibility and rotation policy differ. Verify on official notices before you plan.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
