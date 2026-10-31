@@ -5131,4 +5131,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'freelancing-business',
+    slug: 'business-plan-for-students-simple-one-page-india',
+    title: "Business Plan for Students: A Simple One-Page Format",
+    description:
+      "Business plan for students: a one-page format covering customer, problem, offer, cost and a first test.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'courses-for-school-students-class-8-to-12-india',
+    title: "Courses for School Students (Class 8 to 12): How to Choose",
+    description:
+      "Courses for school students from class 8 to 12: how to pick free and paid options and avoid wasting study time.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'research-topics-and-project-ideas-for-business-and-mba-students-india',
+    title: "Research Topics and Project Ideas for Business and MBA Students",
+    description:
+      "Research topics and project ideas for business and MBA students: a method to pick, narrow and finish a project.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
