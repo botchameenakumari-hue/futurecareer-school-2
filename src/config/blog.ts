@@ -7543,4 +7543,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'yoga-and-wellness-careers-india',
+    title: "Yoga and Wellness Careers in India: Roles, Training and How to Start",
+    description:
+      "Safety, honest claims and steady practice matter most.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'social-work-degree-and-msw-careers-india',
+    title: "Social Work Degree and MSW Careers in India: Roles and Routes",
+    description:
+      "Fieldwork shows whether the work suits you.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'how-to-know-if-you-chose-the-wrong-career-india',
+    title: "How to Know If You Chose the Wrong Career in India",
+    description:
+      "Test before you quit. Many problems are about the job, not the field.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'building-a-backup-career-plan-b-india',
+    title: "Building a Backup Career Plan (Plan B) in India: A Practical Method",
+    description:
+      "A plan B should be small, cheap and ready to start.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
