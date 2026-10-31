@@ -6940,4 +6940,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'computer-courses-for-school-students-class-8-to-10-india',
+    title: "Computer Courses for School Students in Class 8 to 10 in India",
+    description:
+      "Start with safe habits and small projects. Paid courses can wait.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'skill-courses-to-do-during-class-11-and-12-india',
+    title: "Skill Courses to Do During Class 11 and 12 in India",
+    description:
+      "Protect your boards and entrance time first. Add one light skill.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'software-and-skill-courses-for-architecture-students-india',
+    title: "Software and Skill Courses for Architecture Students in India",
+    description:
+      "Design thinking comes first. Software is the tool that carries it.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
