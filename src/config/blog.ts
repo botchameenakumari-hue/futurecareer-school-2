@@ -7903,4 +7903,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-psychology-careers-india',
+    title: "Skills Required for Psychology Careers in India: What to Build and Prove",
+    description:
+      "Ethics and listening matter before technique.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-software-testing-careers-india',
+    title: "Skills Required for Software Testing Careers in India: What to Prove",
+    description:
+      "Think like a careful user and write clear bug reports.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-iot-and-embedded-systems-careers-india',
+    title: "Skills Required for IoT and Embedded Systems Careers in India",
+    description:
+      "Build small working devices and document them.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-history-and-political-science-careers-india',
+    title: "Skills Required for History and Political Science Careers in India",
+    description:
+      "Research, writing and argument are the working tools.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
