@@ -7579,4 +7579,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-change',
+    slug: 'starting-a-new-career-after-50-and-60-india',
+    title: "Starting a New Career After 50 and 60 in India: Routes and a Plan",
+    description:
+      "Experience is an asset when it is shown as a clear, useful offer.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'software-development-vs-software-testing-career-choice-india',
+    title: "Software Development vs Software Testing: Which Career to Choose",
+    description:
+      "Choose by the problems you enjoy, then build proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'advertising-careers-india-agency-creative-and-strategy-roles',
+    title: "Advertising Careers in India: Agency, Creative and Strategy Roles",
+    description:
+      "Clear ideas and reliable delivery both matter in agencies.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'public-policy-and-political-careers-beyond-contesting-elections-india',
+    title: "Public Policy and Political Careers in India Beyond Contesting Elections",
+    description:
+      "Evidence, communication and ethics matter more than slogans.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
