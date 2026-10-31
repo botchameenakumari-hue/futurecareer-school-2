@@ -5185,4 +5185,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-writing-skills-india',
+    title: "How to Improve Writing Skills: A Weekly Drill and Proof",
+    description:
+      "How to improve writing skills: a weekly drill with feedback, free practice and ways to turn it into proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-public-speaking-skills-india',
+    title: "How to Improve Public Speaking Skills: A Practice Ladder",
+    description:
+      "How to improve public speaking skills: a practice ladder, free ways to practise and structure tips.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'green-skills-and-green-jobs-india',
+    title: "Green Skills and Green Jobs in India: Sectors and Skills",
+    description:
+      "Green skills and green jobs in India: sectors, skills to build and how to find real roles.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'digital-skills-for-jobs-india-basic-to-advanced',
+    title: "Digital Skills for Jobs in India: Basic to Advanced Levels",
+    description:
+      "Digital skills for jobs in India: four levels, free ways to learn and how to show proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'self-management-skills-examples-and-how-to-build-them-india',
+    title: "Self-Management Skills: Examples and How to Build Them",
+    description:
+      "Self-management skills: examples, a weekly review and proof for resumes and interviews.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'interpersonal-skills-and-active-listening-india',
+    title: "Interpersonal Skills and Active Listening: Practice and Proof",
+    description:
+      "Interpersonal skills and active listening: examples, a four-move practice and proof for resumes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
