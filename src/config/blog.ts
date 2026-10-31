@@ -5761,4 +5761,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-hr-career-path-india',
+    title: "MBA HR Career Path in India: Roles, Growth and Skills",
+    description:
+      "MBA HR grows through specialising in one area and proving results in people metrics.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-marketing-career-path-india',
+    title: "MBA Marketing Career Path in India: Roles, Growth and Skills",
+    description:
+      "Marketing paths grow when you tie work to measured customer and revenue results.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-operations-and-supply-chain-career-paths-india',
+    title: "MBA Operations and Supply Chain Career Paths in India",
+    description:
+      "Operations paths grow with measured savings, reliability and people management.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-in-pharmaceutical-management-career-india',
+    title: "MBA in Pharmaceutical Management Career in India: Roles and Growth",
+    description:
+      "Pharma management roles reward domain knowledge, compliance care and results.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-after-career-break-or-gap-india',
+    title: "MBA After a Career Break or Gap in India: Is It Worth It?",
+    description:
+      "An MBA after a break helps only if it links to a clear role and costs fit your plan.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-entrepreneurship-and-startup-careers-india',
+    title: "MBA Entrepreneurship and Startup Careers in India: Routes",
+    description:
+      "An MBA does not create a startup; customers, cash and a clear problem do.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
