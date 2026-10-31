@@ -8299,4 +8299,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'careers-in-cricket-and-other-sports-for-players-academies-trials-and-a-backup-plan-india',
+    title: "Careers in Cricket and Other Sports for Players in India: Backup Plan",
+    description:
+      "Selection rules, quotas and fees change. Verify on official federation and recruiter pages before you plan.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'homeopathy-unani-naturopathy-and-ayush-careers-beyond-bams-india',
+    title: "Homeopathy, Unani, Naturopathy and AYUSH Careers Beyond BAMS",
+    description:
+      "Course recognition, registration and scope of practice differ. Verify on official council and ministry pages before you plan.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'beauty-makeup-hair-and-salon-careers-india',
+    title: "Beauty, Makeup, Hair and Salon Careers in India: Routes and Limits",
+    description:
+      "Course quality, licences and hygiene rules differ. Verify on official pages and in person before you pay.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'jewellery-design-and-gemology-careers-india',
+    title: "Jewellery Design and Gemology Careers in India: Routes and Limits",
+    description:
+      "Course quality, hallmark rules and trade practice differ. Verify on official pages and with employers.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
