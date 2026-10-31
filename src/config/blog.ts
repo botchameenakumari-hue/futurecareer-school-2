@@ -5500,4 +5500,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-development-career-path-and-growth-india',
+    title: "Business Development Career Path in India: Levels, Skills and Growth",
+    description:
+      "Business development path: associate to head, judged on pipeline and partnerships, with a route to own ventures.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-analyst-career-path-and-growth-india',
+    title: "Business Analyst Career Path in India: Levels, Moves and Growth",
+    description:
+      "Business analyst path: junior to lead, with moves into product, data or consulting depending on strengths.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'neuroscience-career-options-india',
+    title: "Neuroscience Career Options in India: Research, Clinical and Data Routes",
+    description:
+      "Neuroscience careers: research, clinical-support and data routes that need higher study and honest expectations.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
