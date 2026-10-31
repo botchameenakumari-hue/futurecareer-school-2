@@ -7183,4 +7183,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-writing-and-storytelling-careers-india',
+    title: "Business Writing and Storytelling Careers in India: Roles and Plan",
+    description:
+      "Clear structure beats clever phrasing in business writing.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-psychology-and-organisational-behaviour-careers-india',
+    title: "Business Psychology and Organisational Behaviour Careers in India",
+    description:
+      "Understanding why people behave as they do at work is the core skill.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'erp-and-business-technology-consultant-career-path-india',
+    title: "ERP and Business Technology Consultant Career Path in India",
+    description:
+      "Business process understanding matters as much as tools.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'what-to-do-after-a-bba-or-business-management-diploma-india',
+    title: "What to Do After a BBA or Business Management Diploma in India",
+    description:
+      "Choose the next step based on your interests and your budget.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
