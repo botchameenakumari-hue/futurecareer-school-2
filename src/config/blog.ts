@@ -6796,4 +6796,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'how-to-choose-a-career-based-on-your-skills-india',
+    title: "How to Choose a Career Based on Your Skills in India",
+    description:
+      "Skills can be built. Interest and proof decide where to build them.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'employability-skills-for-graduates-india',
+    title: "Employability Skills for Graduates in India: A Practical Guide",
+    description:
+      "Employers check reliability, communication and learning speed first.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'careers-using-cad-and-drafting-skills-india',
+    title: "Careers Using CAD and Drafting Skills in India",
+    description:
+      "Drawing skill is a start. Accuracy and domain knowledge decide growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'careers-for-people-with-strong-visual-and-spatial-skills-india',
+    title: "Careers for People With Strong Visual and Spatial Skills in India",
+    description:
+      "Show how you see and arrange things, with real examples.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
