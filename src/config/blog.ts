@@ -7399,4 +7399,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'wealth-management-and-financial-planning-careers-india',
+    title: "Wealth Management and Financial Planning Careers in India",
+    description:
+      "Client trust and rule compliance come before product knowledge.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'job-search',
+    slug: 'management-trainee-and-leadership-programmes-how-to-prepare-india',
+    title: "Management Trainee and Leadership Programmes: How to Prepare and Apply",
+    description:
+      "Programmes select for potential, so show learning speed and teamwork.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-associate-and-business-executive-job-titles-explained-india',
+    title: "Business Associate and Business Executive Job Titles Explained",
+    description:
+      "Titles are vague, so read the duties and ask questions.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'business-law-basics-for-non-law-professionals-india',
+    title: "Business Law Basics for Non-Law Professionals in India",
+    description:
+      "Read, record and ask early. Never rely on this page as legal advice.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
