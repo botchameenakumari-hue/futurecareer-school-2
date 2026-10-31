@@ -4933,4 +4933,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'renewable-energy-engineering-careers-india',
+    title: "Renewable Energy Engineering Careers in India: Solar, Wind, Storage",
+    description:
+      "Renewable energy engineering careers in India: solar, wind, storage and project routes, skills, proof and growth.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'industrial-and-production-engineering-career-india',
+    title: "Industrial and Production Engineering Careers in India: Routes and Proof",
+    description:
+      "Industrial and production engineering careers in India: operations, quality, lean and supply chain routes with proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'instrumentation-engineering-career-india',
+    title: "Instrumentation Engineering Careers in India: Control and Automation",
+    description:
+      "Instrumentation engineering careers in India: control, process plant, automation and calibration routes with proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: '10-core-life-skills-by-who-examples-and-practice-india',
+    title: "The 10 Core Life Skills by WHO: Examples and How to Practise Each",
+    description:
+      "The 10 core life skills by WHO with examples, five pairs to practise and free activities for students in India.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
 ];
