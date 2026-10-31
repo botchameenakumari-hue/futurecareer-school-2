@@ -7759,4 +7759,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-in-retail-and-fmcg-management-careers-india',
+    title: "MBA in Retail and FMCG Management Careers in India: Roles and Checks",
+    description:
+      "Check the course value before paying and learn the floor first.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-in-hospitality-tourism-and-aviation-management-careers-india',
+    title: "MBA in Hospitality, Tourism and Aviation Management Careers in India",
+    description:
+      "Service roles reward people skills; check the cost against entry pay.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'banking-and-bfsi-careers-after-mba-india',
+    title: "Banking and BFSI Careers After an MBA in India: Roles and Checks",
+    description:
+      "Check role scope and pressure before choosing.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'research-and-phd-career-after-an-mba-india',
+    title: "Research and PhD Careers After an MBA in India: Paths and Checks",
+    description:
+      "Test your interest in research before a long commitment.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
