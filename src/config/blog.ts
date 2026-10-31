@@ -6580,4 +6580,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'medical-careers',
+    slug: 'operation-theatre-anaesthesia-and-perfusion-technology-careers-india',
+    title: "Operation Theatre, Anaesthesia and Perfusion Technology Careers",
+    description:
+      "These roles support surgery and need steadiness, discipline and strict safety habits.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'sports-science-and-exercise-careers-india',
+    title: "Sports Science and Exercise Careers in India: Roles and Skills",
+    description:
+      "Evidence-based coaching and clear records matter more than a famous name.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'fisheries-science-and-aquaculture-careers-india',
+    title: "Fisheries Science and Aquaculture Careers in India: Roles and Skills",
+    description:
+      "Water quality records and farm discipline matter more than theory alone.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'textile-and-fashion-technology-careers-india',
+    title: "Textile and Fashion Technology Careers in India: Roles and Skills",
+    description:
+      "Production knowledge and quality records set technologists apart.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
