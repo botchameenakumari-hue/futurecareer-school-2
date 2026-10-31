@@ -4843,4 +4843,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 9,
   },
+  {
+    categorySlug: 'resume',
+    slug: 'technical-skills-for-resume-by-branch-freshers-india',
+    title: "Technical Skills for Fresher Resume by Branch in India: CSE to MBA",
+    description:
+      "Technical skills for a fresher resume by branch in India: CSE, ECE, EEE, mechanical, civil and MBA, with proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'key-skills-for-hr-fresher-india',
+    title: "Key Skills for an HR Fresher in India: Learn, List and Prove",
+    description:
+      "Key skills for an HR fresher in India: communication, recruitment, records, labour law basics and Excel, with proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-for-teacher-resume-fresher-india',
+    title: "Skills for a Teacher Fresher Resume in India: Learn, List and Prove",
+    description:
+      "Skills for a teacher fresher resume in India: explanation, classroom management, assessment, tools and a demo lesson.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'analytical-skills-interview-questions-for-freshers-india',
+    title: "Analytical Skills Interview Questions for Freshers: Answer with Structure",
+    description:
+      "Analytical skills interview questions for freshers: estimation, data, logic and cases, with a simple answer frame.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'business-acumen-and-management-skills-india',
+    title: "Business Acumen and Management Skills in India: Build Them Early",
+    description:
+      "Business acumen and management skills in India: how businesses earn, plan and manage, with small experiments and proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
 ];
