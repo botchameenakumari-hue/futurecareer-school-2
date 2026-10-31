@@ -5023,4 +5023,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 10,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'nutrition-and-dietetics-career-india',
+    title: "Nutrition and Dietetics Career in India: Clinical, Sports and Practice",
+    description:
+      "Nutrition and dietetics career in India: clinical, sports, public health, food and practice routes with checks.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'sports-careers-other-than-playing-india',
+    title: "Sports Careers Other Than Playing in India: Roles, Skills and Growth",
+    description:
+      "Sports careers other than playing in India: coaching, management, media, science and business routes with proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'company-secretary-career-india',
+    title: "Company Secretary Career in India: Route, Roles and Growth",
+    description:
+      "Company secretary career in India: route, roles, what to verify with ICSI and routes to advisory practice.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'acca-career-india',
+    title: "ACCA Career in India: Roles, Route and How It Compares with CA",
+    description:
+      "ACCA career in India: roles, route, how it compares with CA and CMA and what to verify before paying.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
