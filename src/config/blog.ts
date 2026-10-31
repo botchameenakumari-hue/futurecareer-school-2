@@ -8011,4 +8011,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'career-planning-and-career-development-in-organisations-explained-india',
+    title: "Career Planning and Career Development in Organisations Explained",
+    description:
+      "Planning is yours; development is shared with the employer.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-change',
+    slug: 'stuck-after-an-mba-what-to-do-when-the-career-has-not-moved-india',
+    title: "Stuck After an MBA in India: What to Do When Your Career Has Not Moved",
+    description:
+      "Diagnose first, then test one option at a time.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-for-engineers-moving-into-management-mechanical-civil-electrical-india',
+    title: "MBA for Engineers Moving into Management: Mechanical, Civil, Electrical",
+    description:
+      "Test your interest in management before paying for an MBA.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'quality-and-lean-manufacturing-careers-india-without-expensive-certifications',
+    title: "Quality and Lean Manufacturing Careers in India: Skills Before Certificates",
+    description:
+      "Show problems solved before you pay for a certificate.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
