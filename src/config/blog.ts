@@ -6319,4 +6319,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-cyber-security-careers-india',
+    title: "Skills Required for Cyber Security Careers in India: A Free-First Plan",
+    description:
+      "Start with how systems and networks work, then add security habits and legal practice labs.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-data-scientist-india',
+    title: "Skills Required for a Data Scientist in India: A Free-First Plan",
+    description:
+      "Statistics and clear communication matter as much as tools.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-digital-marketing-india',
+    title: "Skills Required for Digital Marketing in India: A Free-First Plan",
+    description:
+      "Show a small tested campaign with numbers you tracked.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-aptitude-skills-india',
+    title: "How to Improve Aptitude Skills for Exams and Jobs in India",
+    description:
+      "Short daily practice and an error log beat long irregular study.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-develop-observation-skills-india',
+    title: "How to Develop Observation Skills for Study and Work in India",
+    description:
+      "Good observers separate what they see from what they assume.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'entrepreneurial-skills-and-how-to-build-them-india',
+    title: "Entrepreneurial Skills and How to Build Them in India: A Free-First Plan",
+    description:
+      "Build them by running small real tests, not by waiting for a big idea.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
