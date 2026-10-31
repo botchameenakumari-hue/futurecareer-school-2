@@ -4789,4 +4789,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 10,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'sociology-career-options-india',
+    title: "Sociology Career Options in India: Research, Policy, HR and Teaching",
+    description:
+      "Sociology career options in India: research, policy, HR, teaching and civil services compared, with skills to add.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'philosophy-career-options-india',
+    title: "Philosophy Career Options in India: Law, Policy, Writing and Teaching",
+    description:
+      "Philosophy career options in India: law, policy, writing, consulting and teaching routes, with skills to pair.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-b-pharm-india',
+    title: "Career Options After B.Pharm in India: Routes, Registration and Growth",
+    description:
+      "Career options after B.Pharm in India: pharmacy, regulatory, research, quality, teaching and ownership routes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mechatronics-career-options-india',
+    title: "Mechatronics Career Options in India: Automation, Robotics and Embedded",
+    description:
+      "Mechatronics career options in India: automation, robotics, embedded, prototyping and maintenance routes with proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'time-management-skills-for-students-and-freshers-india',
+    title: "Time Management Skills for Students and Freshers in India: Weekly System",
+    description:
+      "Time management skills for students and freshers in India: weekly plan, focus blocks, review and free habits.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-objective-for-graphic-fashion-interior-design-freshers',
+    title: "Career Objective for Design Freshers: Graphic, Fashion, Interior Examples",
+    description:
+      "Career objective for design freshers: two-line examples for graphic, fashion and interior design with a portfolio link.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 9,
+  },
 ];
