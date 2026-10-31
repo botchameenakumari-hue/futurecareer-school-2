@@ -6832,4 +6832,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'lack-of-career-guidance-in-india-causes-and-fixes',
+    title: "Lack of Career Guidance in India: Causes and Practical Fixes",
+    description:
+      "You can close part of the gap yourself, with free steps and honest sources.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'emcee-script-and-invitation-for-a-career-guidance-programme-india',
+    title: "Emcee Script and Invitation for a Career Guidance Programme",
+    description:
+      "A clear run of show keeps the programme warm, short and useful.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'career-guidance-questionnaire-for-students-how-to-design-and-use-india',
+    title: "Career Guidance Questionnaire for Students: Design and Use",
+    description:
+      "A questionnaire starts a conversation. It does not decide a career.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'difference-between-career-guidance-and-career-counselling-india',
+    title: "Difference Between Career Guidance and Career Counselling",
+    description:
+      "Guidance informs. Counselling works through your own situation.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
