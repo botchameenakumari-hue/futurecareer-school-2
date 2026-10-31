@@ -7867,4 +7867,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'free-and-subsidised-skill-courses-for-sc-and-st-students-india',
+    title: "Free and Subsidised Skill Courses for SC and ST Students in India",
+    description:
+      "Verify every scheme on its official page; never pay for a seat promised free.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'iti-courses-after-10th-and-12th-which-trade-to-choose-india',
+    title: "ITI Courses After 10th and 12th in India: How to Choose a Trade",
+    description:
+      "Choose a trade by demand near you and by hands-on proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'skills-and-add-on-courses-for-pharmacy-students-india',
+    title: "Skills and Add-On Courses for Pharmacy Students in India: What Is Worth It",
+    description:
+      "Choose skills that match a route, not a long list.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'courses-after-12th-for-mec-and-cec-students-india',
+    title: "Courses After 12th for MEC and CEC Students in India: Options and Checks",
+    description:
+      "Maths with economics or civics keeps many routes open.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
