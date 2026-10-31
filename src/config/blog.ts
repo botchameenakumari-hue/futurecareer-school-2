@@ -5239,4 +5239,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-math-skills-india',
+    title: "How to Improve Math Skills in India: A Practice Plan and Free Resources",
+    description:
+      "How to improve math skills: a daily practice plan, fix earlier gaps first and use free resources.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'study-skills-for-students-how-to-improve-india',
+    title: "Study Skills for Students in India: How to Improve With Proven Methods",
+    description:
+      "Study skills: use recall, spacing and planning, and test each method for two weeks.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-sales-and-negotiation-skills-india',
+    title: "How to Improve Sales and Negotiation Skills in India: A Practice Plan",
+    description:
+      "Sales and negotiation skills: practise listening, objections and clear asks, with role-play and a call log.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'organizational-skills-examples-and-how-to-build-them-india',
+    title: "Organizational Skills Examples and How to Build Them in India",
+    description:
+      "Organizational skills: plan, prioritise, keep one system and follow up, then show it.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: '21st-century-skills-examples-for-students-india',
+    title: "21st Century Skills Examples for Students in India and How to Practise",
+    description:
+      "21st century skills: practise thinking, communication, teamwork, creativity and digital use, and keep proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'bridge-courses-for-students-india',
+    title: "Bridge Courses for Students in India: What They Are, Who Needs Them",
+    description:
+      "Bridge courses: they fill a subject gap when you change stream, so check recognition and try free options first.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
