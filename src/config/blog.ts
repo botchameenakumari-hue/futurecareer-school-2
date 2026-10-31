@@ -5059,4 +5059,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-objective-for-mba-freshers-india',
+    title: "Career Objective for MBA Freshers: How to Write One That Works",
+    description:
+      "Career objective for MBA freshers: how to name a function, skill and proof, with finance, marketing, HR and operations patterns.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-in-healthcare-and-hospital-management-careers-india',
+    title: "MBA in Healthcare and Hospital Management: Careers in India",
+    description:
+      "MBA in healthcare management in India: settings, roles, what to check before joining and ways to grow.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-goals-essay-for-mba-admission-india',
+    title: "Career Goals Essay for MBA Admission: Structure and Mistakes",
+    description:
+      "MBA career goals essay: a past, gap and plan structure, short and long term goals and common mistakes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
