@@ -6076,4 +6076,22 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'courses-for-weak-students-after-10th-india',
+    title: "Courses for Students With Low Marks After 10th in India",
+    description:
+      "Low marks close some doors but leave several routes open.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'bms-vs-bba-which-to-choose-india',
+    title: "BMS vs BBA in India: How to Choose Between Them",
+    description:
+      "The degree name matters less than the curriculum and the proof you build.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
