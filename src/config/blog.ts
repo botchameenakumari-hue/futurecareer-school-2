@@ -6616,4 +6616,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'government-jobs',
+    slug: 'government-job-options-for-mba-graduates-india',
+    title: "Government Job Options for MBA Graduates in India: Routes to Verify",
+    description:
+      "Routes exist, but each has its own exam, eligibility and timing, so verify everything officially.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-in-international-business-career-paths-india',
+    title: "MBA in International Business Career Paths in India",
+    description:
+      "Global roles reward cross-border process knowledge and cultural care.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'cfa-vs-mba-finance-which-path-india',
+    title: "CFA vs MBA Finance in India: Which Path Fits You?",
+    description:
+      "Compare the work you want with the cost, time and proof each path gives.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-in-communication-media-and-advertising-careers-india',
+    title: "MBA in Communication, Media and Advertising Careers in India",
+    description:
+      "Show a portfolio of tested messages and clear numbers.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
