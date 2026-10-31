@@ -7723,4 +7723,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-pharmacovigilance-as-a-career-interview-answer-india',
+    title: "Why Did You Choose pharmacovigilance as a Career? Interview Answer",
+    description:
+      "Show care with detail and real interest in patient safety.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-technical-writing-as-a-career-interview-answer-india',
+    title: "Why Did You Choose technical writing as a Career? Interview Answer",
+    description:
+      "Show that you explain hard things in simple, accurate steps.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-recruitment-as-a-career-interview-answer-india',
+    title: "Why Did You Choose recruitment as a Career? Interview Answer",
+    description:
+      "Show that you listen, match people to roles and treat candidates fairly.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-civil-engineering-as-a-career-interview-answer-india',
+    title: "Why Did You Choose civil engineering as a Career? Interview Answer",
+    description:
+      "Show that you notice how things are built and care about safety.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
