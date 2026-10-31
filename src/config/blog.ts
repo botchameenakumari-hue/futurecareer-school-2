@@ -5716,4 +5716,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'bsc-forestry-career-options-india',
+    title: "BSc Forestry Career Options in India: Routes, Exams and Skills",
+    description:
+      "Forestry opens public, research and private routes, and eligibility rules must be checked officially.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'bsc-nautical-science-career-options-india',
+    title: "BSc Nautical Science Career Options in India: Sea and Shore Routes",
+    description:
+      "Nautical science needs course approval and sponsorship checks before any fee is paid.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'bsc-it-and-informatics-career-options-india',
+    title: "BSc IT and Informatics Career Options in India: Roles and Skills",
+    description:
+      "BSc IT works best with one chosen stack and a project portfolio.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-objective-for-bsc-freshers-and-students-india',
+    title: "Career Objective for BSc Freshers and Students: Formula and Examples",
+    description:
+      "Name the role, one proof from your lab or project and what you offer.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-after-bsc-bed-teaching-india',
+    title: "Career After BSc and BEd in India: Teaching Routes and Alternatives",
+    description:
+      "Teaching eligibility rules must be verified, and tutoring and content roles add options.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
