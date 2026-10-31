@@ -5086,4 +5086,22 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'career-or-marriage-decision-india',
+    title: "Career or Marriage: How to Decide Without Regret in India",
+    description:
+      "Career or marriage decision in India: questions to ask, how to keep options open and build income of your own.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'essay-or-speech-on-choosing-a-career-india',
+    title: "Essay or Speech on Choosing a Career: Outline and Points",
+    description:
+      "Essay or speech on choosing a career: a five-part outline with points on interest, skills, money and mistakes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
