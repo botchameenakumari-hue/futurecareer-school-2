@@ -5419,4 +5419,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'difficulties-in-choosing-a-career-india',
+    title: "Difficulties in Choosing a Career in India and How to Overcome Them",
+    description:
+      "Career choice is hard for common reasons. Name yours and take the matching small step.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-in-agribusiness-career-paths-india',
+    title: "MBA in Agribusiness Career Paths in India: Roles, Skills and Growth",
+    description:
+      "MBA in agribusiness: pick a value-chain stage, get field exposure and check alumni outcomes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'teaching-career-after-mba-india',
+    title: "Teaching Career After MBA in India: Routes and What to Check",
+    description:
+      "Teaching after MBA: check current qualification rules, build teaching proof and consider corporate and own-class routes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-finance-career-paths-banking-and-corporate-finance-india',
+    title: "MBA Finance Career Paths in India: Banking, Corporate Finance and More",
+    description:
+      "MBA finance paths: choose a lane, build modelling skill and check alumni outcomes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
