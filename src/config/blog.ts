@@ -4969,4 +4969,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 10,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'how-to-ask-someone-for-career-advice-india',
+    title: "How to Ask Someone for Career Advice: Message and Email Scripts",
+    description:
+      "How to ask someone for career advice: a three-line message, an email template and how to follow up.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 9,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'career-advice-for-25-year-olds-india',
+    title: "Career Advice for 25 Year Olds in India: Test One Move at a Time",
+    description:
+      "Career advice for 25 year olds in India: skill, proof, cushion and ninety-day tests before a big move.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 9,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'career-options-after-failing-12th-india',
+    title: "Career Options After Failing Class 12 in India: Routes That Still Work",
+    description:
+      "Career options after failing Class 12 in India: supplementary exam, repeat, open school and skill routes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 9,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'travel-and-tourism-career-india',
+    title: "Travel and Tourism Career in India: Routes, Seasons and Growth",
+    description:
+      "Travel and tourism career in India: agency, corporate, guiding, airline and own-tour routes with proof of work.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'stock-market-career-options-after-12th-india',
+    title: "Stock Market Career Options After 12th: Jobs Around Markets and Risks",
+    description:
+      "Stock market career options after 12th in India: research, operations, risk, compliance and wealth roles; trading is not a job.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'vocational-courses-after-12th-india',
+    title: "Vocational Courses After 12th in India: Routes Employers Accept",
+    description:
+      "Vocational courses after 12th in India: diplomas, apprenticeships and skill routes, with how to check recognition.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 10,
+  },
 ];
