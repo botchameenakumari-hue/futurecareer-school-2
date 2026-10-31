@@ -6139,4 +6139,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-sales-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Sales as a Career? Interview Answer",
+    description:
+      "Show listening, persistence and honest dealing with customers.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-digital-marketing-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Digital Marketing? Interview Answer",
+    description:
+      "Show curiosity about audiences, a small test and what you will learn.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-ca-as-a-career-interview-answer-india',
+    title: "Why Did You Choose CA as a Career? Interview Answer",
+    description:
+      "Show interest in accuracy, rules and advising people with numbers.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-nursing-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Nursing as a Career? Interview Answer",
+    description:
+      "Show care for people, steadiness under pressure and a wish to keep learning.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
