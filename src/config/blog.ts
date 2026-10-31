@@ -7687,4 +7687,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'public-health-and-epidemiology-careers-india',
+    title: "Public Health and Epidemiology Careers in India: Roles and First Steps",
+    description:
+      "Data, field work and clear communication drive this work.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'urban-planning-and-gis-mapping-careers-india',
+    title: "Urban Planning and GIS Mapping Careers in India: Roles and First Steps",
+    description:
+      "Maps, data and public needs meet in this work.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'air-traffic-control-and-airport-operations-careers-india',
+    title: "Air Traffic Control and Airport Operations Careers in India",
+    description:
+      "Calm judgment and strict procedure matter most.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'taxation-and-transfer-pricing-careers-india',
+    title: "Taxation and Transfer Pricing Careers in India: Roles and First Steps",
+    description:
+      "Rules, records and clear reasoning are the core.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
