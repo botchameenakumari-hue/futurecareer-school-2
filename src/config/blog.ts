@@ -7471,4 +7471,76 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'education-administration-and-school-management-careers-india',
+    title: "Education Administration and School Management Careers in India",
+    description:
+      "Reliable systems and respectful communication run good schools.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'freelancing-business',
+    slug: 'low-capital-service-business-ideas-and-franchise-checks-india',
+    title: "Low-Capital Service Business Ideas and Franchise Checks in India",
+    description:
+      "Test demand before spending, and read every franchise claim twice.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'problems-graduates-face-in-the-first-year-of-work-and-how-to-handle-them-india',
+    title: "Problems Graduates Face in the First Year of Work and How to Handle Them",
+    description:
+      "Most first-year problems have simple, practical fixes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'social-science-and-sociology-graduates-in-business-roles-india',
+    title: "Social Science and Sociology Graduates in Business Roles in India",
+    description:
+      "Your training in people and systems is a real advantage.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-business-analyst-as-a-career-interview-answer-india',
+    title: "Why Did You Choose business analyst as a Career? Interview Answer",
+    description:
+      "Show that you clarify problems and write things down clearly.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-business-development-as-a-career-interview-answer-india',
+    title: "Why Did You Choose business development as a Career? Interview Answer",
+    description:
+      "Show that you research first, follow up kindly and learn from replies.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-business-management-as-a-career-interview-answer-india',
+    title: "Why Did You Choose business management as a Career? Interview Answer",
+    description:
+      "Show that you organise people and numbers and learn from mistakes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-international-business-as-a-career-interview-answer-india',
+    title: "Why Did You Choose international business as a Career? Interview Answer",
+    description:
+      "Show that you understand trade needs rules, paperwork and patience.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
