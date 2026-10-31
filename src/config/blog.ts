@@ -5572,4 +5572,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-decision-making-skills-india',
+    title: "How to Improve Decision-Making Skills in India: A Simple Written Method",
+    description:
+      "Better decisions come from a written method, small practice and review, not from certainty.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-presentation-skills-india',
+    title: "How to Improve Presentation Skills in India: Structure, Slides and Voice",
+    description:
+      "Strong presentations rest on one message, a simple structure and repeated rehearsal.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'transferable-skills-examples-and-how-to-show-them-india',
+    title: "Transferable Skills Examples and How to Show Them in India",
+    description:
+      "Transferable skills carry across jobs when you map each one to the new role with proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'adaptability-skills-examples-and-how-to-build-them-india',
+    title: "Adaptability Skills Examples and How to Build Them in India",
+    description:
+      "Adaptability grows through small deliberate changes and honest review.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'teamwork-skills-examples-and-how-to-build-them-india',
+    title: "Teamwork Skills Examples and How to Build Them in India",
+    description:
+      "Teamwork shows in how you share work, give feedback and handle disagreement.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
