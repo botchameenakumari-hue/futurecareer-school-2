@@ -6553,4 +6553,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'myths-about-choosing-a-career-india',
+    title: "Myths About Choosing a Career in India and What to Do Instead",
+    description:
+      "Test each belief with a small fact before it shapes a big decision.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'how-to-help-a-friend-or-sibling-choose-a-career-india',
+    title: "How to Help a Friend or Sibling Choose a Career in India",
+    description:
+      "Listen first, ask open questions and share checked facts, not your own preferences.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'choosing-a-career-path-during-college-india',
+    title: "Choosing a Career Path During College in India: A Year-by-Year Plan",
+    description:
+      "Use each year for a different job: explore, build, prove and apply.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];

@@ -1,0 +1,3 @@
+# Dossier: how-to-help-a-friend-or-sibling-choose-a-career-india
+
+No statistics or pay figures. General-knowledge statements flagged verify-before-deploy: common beliefs about careers and marks, norms for internships and placements. The friend page suggests a trained counsellor or trusted adult for distress and gives no clinical advice. 
