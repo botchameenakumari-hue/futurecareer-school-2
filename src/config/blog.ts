@@ -6175,4 +6175,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-logistics-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Logistics as a Career? Interview Answer",
+    description:
+      "Show interest in moving things on time and solving small problems.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-real-estate-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Real Estate as a Career? Interview Answer",
+    description:
+      "Show interest in people, places and honest dealing.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-content-writing-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Content Writing? Interview Answer",
+    description:
+      "Show curiosity about readers, clear writing and a habit of editing.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-pharmacy-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Pharmacy as a Career? Interview Answer",
+    description:
+      "Show care for safety, accuracy and helping people use medicines correctly.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-law-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Law as a Career? Interview Answer",
+    description:
+      "Show interest in fairness, reasoning and careful reading.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
