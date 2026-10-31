@@ -7615,4 +7615,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'careers-for-people-who-love-animals-and-wildlife-beyond-veterinary-india',
+    title: "Careers for People Who Love Animals and Wildlife Beyond Veterinary",
+    description:
+      "Test your fit with fieldwork before choosing a course.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'management-vs-technology-career-path-how-to-choose-india',
+    title: "Management vs Technology Career Path: How to Choose in India",
+    description:
+      "You can start in one and move toward the other.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'turning-a-hobby-into-a-career-how-to-test-it-india',
+    title: "Turning a Hobby into a Career in India: How to Test It",
+    description:
+      "Test the hobby as work before it becomes your only income.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'government-jobs',
+    slug: 'judicial-services-and-becoming-a-judge-india',
+    title: "Judicial Services and Becoming a Judge in India: Routes and Preparation",
+    description:
+      "Rules differ by state and court level, so verify first.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
