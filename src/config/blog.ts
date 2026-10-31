@@ -7219,4 +7219,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-change',
+    slug: 'switching-from-business-or-commerce-to-science-or-healthcare-india',
+    title: "Switching From Business or Commerce to Science or Healthcare in India",
+    description:
+      "Eligibility rules are strict. Verify them before planning.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'restaurant-catering-and-food-business-careers-india',
+    title: "Restaurant, Catering and Food Business Careers in India",
+    description:
+      "Hygiene and consistency matter more than a big menu.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-analytics-vs-supply-chain-management-career-choice-india',
+    title: "Business Analytics vs Supply Chain Management Career Choice India",
+    description:
+      "Choose by the kind of problem you enjoy, not by buzzwords.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'resume',
+    slug: 'career-objective-for-business-development-and-business-management-resumes-india',
+    title: "Career Objective for Business Development and Management Resumes",
+    description:
+      "Specific and honest beats long and flowery.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
