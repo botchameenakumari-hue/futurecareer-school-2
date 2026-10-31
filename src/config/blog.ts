@@ -6256,4 +6256,22 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'careers-for-people-who-struggle-with-maths-india',
+    title: "Careers for People Who Struggle With Maths in India: Honest Options",
+    description:
+      "Little maths does not mean no numbers, so check what each role really needs.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'career-awareness-activities-for-secondary-school-students-india',
+    title: "Career Awareness Activities for Secondary School Students in India",
+    description:
+      "Awareness grows when students do small real tasks, not just listen.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
