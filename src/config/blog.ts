@@ -6220,4 +6220,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'biotechnology-vs-pharmacy-careers-india',
+    title: "Biotechnology vs Pharmacy Careers in India: How to Choose",
+    description:
+      "Compare the daily work, the licence rules and the roles, not just the names.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'biotechnology-vs-medicine-career-choice-india',
+    title: "Biotechnology vs Medicine as a Career in India: How to Decide",
+    description:
+      "Choose by the work you want to do and the path you can sustain.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'biotechnology-marketing-and-consulting-careers-india',
+    title: "Biotechnology Marketing and Consulting Careers in India",
+    description:
+      "These roles reward science fluency, clear explanation and honest dealing with clients.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-after-phd-in-biotechnology-india',
+    title: "Career After PhD in Biotechnology in India: Paths Beyond the Lab Bench",
+    description:
+      "A PhD opens several paths, and each needs proof beyond the thesis.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
