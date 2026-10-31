@@ -5293,4 +5293,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'bca-for-arts-and-commerce-students-india',
+    title: "BCA for Arts and Commerce Students in India: Eligibility, Gaps and Worth",
+    description:
+      "BCA after arts or commerce: check eligibility on the official page, fill the maths and coding gap and test with free lessons first.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'short-term-courses-for-commerce-students-3-to-6-months-india',
+    title: "Short-Term Courses for Commerce Students in India: 3 to 6 Months",
+    description:
+      "Short-term commerce courses: pick one skill, try free first, judge by project output and avoid paying for certificates alone.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'computer-courses-for-arts-students-india',
+    title: "Computer Courses for Arts Students in India: Where to Start and Why",
+    description:
+      "Computer courses for arts students: start with office and design tools, then pick one path and build proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'online-and-free-courses-for-college-students-india',
+    title: "Online and Free Courses for College Students in India: How to Choose",
+    description:
+      "Online and free courses for college students: choose one, finish it, build a project and skip certificate collecting.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'paramedical-and-dmlt-courses-for-arts-students-india',
+    title: "Paramedical and DMLT Courses for Arts Students in India: What to Check",
+    description:
+      "Paramedical and DMLT for arts students: check eligibility and recognition officially, and test your interest with a lab visit.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
