@@ -5527,4 +5527,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'summer-and-vacation-courses-for-students-india',
+    title: "Summer and Vacation Courses for Students in India: A Free-First Plan",
+    description:
+      "Holiday courses work when one skill and one finished project replace a pile of certificates.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'additional-courses-for-engineering-students-beyond-the-degree-india',
+    title: "Add-On Courses for Engineering Students in India: What Actually Helps",
+    description:
+      "Add-on skills help engineering students when each one ends in a finished project.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'health-and-medical-field-courses-for-commerce-students-india',
+    title: "Health Sector Courses for Commerce Students in India: Non-Clinical Routes",
+    description:
+      "Commerce students can enter health through non-clinical roles, not clinical practice.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'free-courses-for-law-students-india',
+    title: "Free Courses for Law Students in India: Skills Worth Building First",
+    description:
+      "Law students can build drafting and research skill with free lessons and prove it through samples.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'personality-development-course-for-students-india',
+    title: "Personality Development for Students in India: Free-First Skills Plan",
+    description:
+      "Personality development works as practised habits, not as a certificate.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
