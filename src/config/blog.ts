@@ -6697,4 +6697,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-analytics-career-for-commerce-students-india',
+    title: "Business Analytics Career for Commerce Students in India",
+    description:
+      "Commerce knowledge plus data habits is a useful pairing.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-change',
+    slug: 'business-analytics-career-after-40-india',
+    title: "Business Analytics Career After 40 in India: A Practical Route",
+    description:
+      "Domain experience is your edge. Add data habits and show them.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-administration-careers-in-healthcare-and-sports-india',
+    title: "Business Administration Careers in Healthcare and Sports in India",
+    description:
+      "Pair management skills with a field you understand.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
