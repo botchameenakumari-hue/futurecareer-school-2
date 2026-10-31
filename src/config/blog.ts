@@ -6274,4 +6274,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'job-oriented-courses-for-eee-and-electrical-engineering-students-india',
+    title: "Job Oriented and Online Courses for EEE Students in India",
+    description:
+      "Pick the course by the role you want, then prove the skill with a small project.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'job-oriented-courses-for-mechanical-engineering-students-india',
+    title: "Job Oriented Courses for Mechanical Engineering Students in India",
+    description:
+      "Match the tool to the plant or design work you want, then show a finished part or analysis.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'hotel-management-and-nursing-courses-for-commerce-students-india',
+    title: "Hotel Management and Nursing Courses for Commerce Students",
+    description:
+      "Both are possible for some commerce students, but eligibility must be checked officially.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'mba-options-for-bca-computer-science-commerce-and-medical-graduates-india',
+    title: "MBA Options for BCA, CS, Commerce and Medical Graduates",
+    description:
+      "Choose the specialisation by the work you want, not the degree you hold.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'part-time-courses-for-students-and-commerce-students-india',
+    title: "Part Time Courses for Students and Commerce Students in India",
+    description:
+      "A part time course works when it fits your timetable and leaves proof behind.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
