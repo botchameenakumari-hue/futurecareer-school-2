@@ -7057,4 +7057,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'ca-vs-law-which-career-to-choose-india',
+    title: "CA vs Law: Which Career Should You Choose in India?",
+    description:
+      "Compare the daily work and the study path, not just the title.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'government-jobs',
+    slug: 'upsc-vs-software-engineering-career-choice-india',
+    title: "UPSC vs Software Engineering: How to Choose Your Career",
+    description:
+      "Plan an honest attempt window and a backup, not an all-or-nothing leap.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'stream-selection',
+    slug: 'what-to-do-after-class-8-india',
+    title: "What to Do After Class 8 in India: Choices and Mistakes to Avoid",
+    description:
+      "Explore widely. Real streams and careers are decided later.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-change',
+    slug: 'mechanical-engineer-switching-to-software-testing-or-it-india',
+    title: "Mechanical Engineer Switching to Software Testing or IT in India",
+    description:
+      "Your engineering habits transfer. Add software proof in a clear order.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'careers-that-involve-travel-india',
+    title: "Careers That Involve Travel in India: Roles and Trade-offs",
+    description:
+      "Travel sounds exciting. Check the trade-offs for health, family and cost.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
