@@ -6373,4 +6373,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'alternatives-to-an-mba-career-moves-that-can-work-india',
+    title: "Alternatives to an MBA in India: Career Moves That Can Work",
+    description:
+      "Compare the outcome you want with the cost, time and proof each route gives.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-for-career-switchers-india',
+    title: "MBA to Switch Careers in India: When It Helps and When It Does Not",
+    description:
+      "An MBA helps a switch most when you add a bridge story and proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'alternative-career-question-in-mba-interview-answer-india',
+    title: "Alternative Career Question in an MBA Interview: How to Answer",
+    description:
+      "Show that your MBA plan is a choice and that you have thought about other routes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'aviation-careers-after-bsc-india',
+    title: "Aviation Careers After BSc in India: AME, ATC and Ground Roles",
+    description:
+      "Eligibility is strict and changes, so verify each route on the regulator page.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
