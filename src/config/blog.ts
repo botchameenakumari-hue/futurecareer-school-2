@@ -8371,4 +8371,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'bad-and-worst-career-advice-to-ignore-and-how-to-judge-any-advice-india',
+    title: "Bad Career Advice to Ignore and How to Judge Any Advice in India",
+    description:
+      "Test every piece of advice against evidence and your own situation.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'career-advice-for-women-choosing-growing-and-restarting-a-career-india',
+    title: "Career Advice for Women in India: Choosing, Growing and Restarting",
+    description:
+      "Choose on skill and fit, and check safety and flexibility honestly.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'career-advice-for-single-parents-and-caregivers-balancing-work-and-care-india',
+    title: "Career Advice for Single Parents and Caregivers in India",
+    description:
+      "Plan around care duties with small steps and honest limits.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-change',
+    slug: 'legacy-technology-professionals-mainframe-cobol-oracle-and-older-stack-moving-forward-india',
+    title: "Legacy Technology Professionals in India: Moving Forward From Older Stacks",
+    description:
+      "Decide whether to deepen, modernise or shift on evidence.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
