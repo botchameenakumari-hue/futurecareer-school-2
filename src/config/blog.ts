@@ -5869,4 +5869,67 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-a-consulting-career-india',
+    title: "Skills Required for a Consulting Career in India: Build and Prove",
+    description:
+      "Consulting skills show best in a short written case and a clear spoken answer.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-needed-for-stem-careers-india',
+    title: "Skills Needed for STEM Careers in India: A Skills Map by Field",
+    description:
+      "STEM careers share a core of maths, method and communication, plus field tools.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'best-career-skills-to-learn-in-your-30s-india',
+    title: "Best Career Skills to Learn in Your 30s in India: A Practical Plan",
+    description:
+      "In your 30s, add one skill that multiplies the experience you already have.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'work-values-and-skills-inventory-for-career-choice-free-india',
+    title: "Work Values and Skills Inventory for Career Choice: Free Worksheet",
+    description:
+      "A one-evening inventory turns vague feelings into a ranked, testable list.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'college-and-career-readiness-skills-for-students-india',
+    title: "College and Career Readiness Skills for Students in India: Checklist",
+    description:
+      "Readiness is a short list of habits you can check off before college.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'telecom-and-5g-career-options-india',
+    title: "Telecom and 5G Career Options in India: Roles, Skills and Limits",
+    description:
+      "Telecom careers reward network basics, field reliability and troubleshooting.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'additive-manufacturing-and-3d-printing-careers-india',
+    title: "3D Printing and Additive Manufacturing Careers in India: Roles",
+    description:
+      "3D printing rewards design for manufacture, careful testing and honest costing.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
