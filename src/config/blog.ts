@@ -5158,4 +5158,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-management-and-administration-careers-india',
+    title: "Business Management and Administration Careers in India",
+    description:
+      "Business management careers in India: roles by function, BBA and MBA routes and ways to grow into leadership.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-intelligence-developer-career-path-india',
+    title: "Business Intelligence Developer Career Path in India",
+    description:
+      "BI developer career path in India: skills, roles, work chain from data to dashboards and ways to grow.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'bsc-horticulture-career-options-india',
+    title: "BSc Horticulture Career Options in India: Roles and Growth",
+    description:
+      "BSc horticulture career options in India: roles, higher study routes, and ways to start your own venture.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
