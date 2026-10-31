@@ -7795,4 +7795,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'government-jobs',
+    slug: 'psu-and-public-sector-jobs-after-bsc-railways-ntpc-ongc-nabard-india',
+    title: "PSU and Public Sector Jobs After BSc in India: Routes and Preparation",
+    description:
+      "Read each notice for eligibility; never pay for guaranteed jobs.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'government-jobs',
+    slug: 'defence-careers-after-bsc-science-graduates-india',
+    title: "Defence Careers After BSc in India: Entry Routes and Preparation",
+    description:
+      "Entry rules are set officially; verify before you prepare.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'anthropology-and-linguistics-careers-india',
+    title: "Anthropology and Linguistics Careers in India: Roles and First Steps",
+    description:
+      "Method and writing make these degrees employable.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'gate-and-other-entry-routes-after-bsc-in-physics-maths-and-chemistry-india',
+    title: "GATE and Other Entry Routes After BSc in Physics, Maths and Chemistry",
+    description:
+      "Verify eligibility on the official pages before you plan.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
