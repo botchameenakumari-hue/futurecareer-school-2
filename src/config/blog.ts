@@ -6112,4 +6112,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-hr-as-a-career-interview-answer-india',
+    title: "Why Did You Choose HR as a Career? Interview Answer Guide",
+    description:
+      "Give a true reason, one proof and a link to what you will learn.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-software-testing-or-qa-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Software Testing or QA? Interview Answer",
+    description:
+      "Show curiosity about how things break and a habit of careful checking.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-teaching-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Teaching as a Career? Interview Answer",
+    description:
+      "Show a true moment of explaining, patience and a wish to keep learning.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
