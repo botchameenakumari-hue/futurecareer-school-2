@@ -6904,4 +6904,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-nursing-careers-india',
+    title: "Skills Required for Nursing Careers in India: A Practical Guide",
+    description:
+      "Patient safety habits come first. Everything else supports them.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-logistics-and-supply-chain-careers-india',
+    title: "Skills Required for Logistics and Supply Chain Careers in India",
+    description:
+      "Follow-up and clean data beat big titles in this field.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-banking-and-finance-careers-india',
+    title: "Skills Required for Banking and Finance Careers in India",
+    description:
+      "Ethics and accuracy are the foundation. Speed comes later.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-mechanical-and-civil-engineers-india',
+    title: "Skills Required for Mechanical and Civil Engineers in India",
+    description:
+      "Hands-on practice and safety habits set good engineers apart.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
