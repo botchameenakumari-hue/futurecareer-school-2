@@ -6436,4 +6436,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'software-courses-for-civil-engineering-students-india',
+    title: "Software Courses for Civil Engineering Students in India: What to Learn",
+    description:
+      "Learn the tool that matches the role, and show one worked project.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'free-ai-courses-for-engineering-and-high-school-students-india',
+    title: "Free AI Courses for Engineering and High School Students in India",
+    description:
+      "Start with the maths and data basics, then build small projects with free tools.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'short-term-courses-for-finance-and-bba-students-india',
+    title: "Short Term Courses for Finance and BBA Students in India",
+    description:
+      "Pick the skill a finance or business role asks for, and prove it with a sheet.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'sap-and-erp-courses-for-non-it-arts-and-engineering-students-india',
+    title: "SAP and ERP Courses for Non-IT, Arts and Engineering Students",
+    description:
+      "Learn the business process first, then the module, and be careful with costs.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
