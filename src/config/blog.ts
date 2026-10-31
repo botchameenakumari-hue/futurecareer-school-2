@@ -6760,4 +6760,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'courses-for-mca-students-and-graduates-india',
+    title: "Courses for MCA Students and Graduates in India",
+    description:
+      "Pick one direction and build proof, not a long list of certificates.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'what-to-do-after-failing-degree-subjects-or-having-backlogs-india',
+    title: "What to Do After Failing Degree Subjects or Having Backlogs in India",
+    description:
+      "Clear the papers first, and build one skill beside them.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'certificate-courses-for-life-science-students-india',
+    title: "Certificate Courses for Life Science Students in India",
+    description:
+      "Choose skills the lab, quality or regulatory roles actually use.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'ai-courses-for-commerce-and-arts-students-india',
+    title: "AI Courses for Commerce and Arts Students in India",
+    description:
+      "Learn to use AI well in your own field first.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
