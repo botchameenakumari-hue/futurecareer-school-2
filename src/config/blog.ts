@@ -6724,4 +6724,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'government-jobs',
+    slug: 'government-science-jobs-after-bsc-isro-drdo-and-research-bodies-india',
+    title: "Government Science Jobs After BSc in India: ISRO, DRDO and More",
+    description:
+      "Many scientist posts need higher degrees. Know which posts take a BSc.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'msc-entrance-routes-after-bsc-india',
+    title: "MSc Entrance Routes After BSc in India: Exams and Admissions",
+    description:
+      "Verify each test and admission rule on the official page.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'medical-careers',
+    slug: 'medical-imaging-and-radiography-technology-careers-india',
+    title: "Medical Imaging and Radiography Technology Careers in India",
+    description:
+      "Safety and accuracy matter more than speed in imaging work.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-a-general-bsc-pass-course-india',
+    title: "Career Options After a General BSc Pass Course in India",
+    description:
+      "A pass degree can still lead to good work if you add proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
