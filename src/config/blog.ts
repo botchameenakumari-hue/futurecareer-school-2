@@ -5338,4 +5338,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-reading-skills-and-comprehension-india',
+    title: "How to Improve Reading Skills and Comprehension in India: A Practice Plan",
+    description:
+      "Reading skills: read daily, summarise after each section and track what you remember.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-coding-and-programming-skills-india',
+    title: "How to Improve Coding and Programming Skills in India: A Practice Plan",
+    description:
+      "Coding skills: build small projects weekly, read other code, debug on purpose and show your work.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-develop-analytical-skills-india',
+    title: "How to Develop Analytical Skills in India: Practice, Cases and Proof",
+    description:
+      "Analytical skills: break problems into parts, test assumptions with data and write short case notes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'soft-skills-trainer-career-india',
+    title: "Soft Skills Trainer Career in India: Roles, Route and Growth",
+    description:
+      "Soft skills trainer career: build experience first, teach real groups and judge offers by outcomes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'linkedin-networking',
+    slug: 'how-to-add-and-show-skills-on-linkedin-india',
+    title: "How to Add and Show Skills on LinkedIn in India: A Practical Guide",
+    description:
+      "Skills on LinkedIn: list fewer, link proof and remove skills that do not fit.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
