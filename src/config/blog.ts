@@ -7102,4 +7102,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'music-dance-and-performing-arts-careers-india',
+    title: "Music, Dance and Performing Arts Careers in India: Routes",
+    description:
+      "Plan several income streams. Few people live on performance alone at first.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'film-and-video-production-careers-india',
+    title: "Film and Video Production Careers in India: Roles and How to Start",
+    description:
+      "Make short films and finish them. A reel opens doors.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'fire-safety-and-hse-careers-india',
+    title: "Fire Safety and HSE Careers in India: Roles and Courses to Verify",
+    description:
+      "Safety work is about prevention and trust. Verify every course and rule.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'choosing-a-career-based-on-personality-what-works-and-what-does-not-india',
+    title: "Choosing a Career Based on Personality: What Works",
+    description:
+      "Use personality as a hint about fit, not as a verdict.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'passion-vs-purpose-vs-pay-choosing-a-career-india',
+    title: "Passion vs Purpose vs Pay: How to Choose a Career",
+    description:
+      "Weigh all three honestly. Pay is not shameful and passion is not enough.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
