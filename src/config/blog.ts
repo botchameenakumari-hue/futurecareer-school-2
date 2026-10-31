@@ -8083,4 +8083,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'restarting-education-after-dropping-out-of-school-or-college-routes-india',
+    title: "Restarting Education After Dropping Out of School or College in India",
+    description:
+      "Check recognition and set a realistic first step.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'returning-to-study-as-an-adult-or-mature-student-india',
+    title: "Returning to Study as an Adult or Mature Student in India",
+    description:
+      "Fit study into your life and check cost and recognition.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'value-added-and-add-on-courses-for-undergraduates-how-to-choose-india',
+    title: "Value-Added and Add-On Courses for Undergraduates in India: How to Choose",
+    description:
+      "Choose by goal and proof, not by the length of a list.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'mtech-ms-gate-or-a-job-after-btech-ece-eee-and-cse-how-to-decide-india',
+    title: "MTech, MS, GATE or a Job After BTech in India: How to Decide",
+    description:
+      "Decide by goal and cost, not by what friends do.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
