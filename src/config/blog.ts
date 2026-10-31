@@ -5662,4 +5662,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-operations-analyst-career-path-india',
+    title: "Business Operations Analyst Career Path in India: Skills and Growth",
+    description:
+      "Operations analysts grow by fixing recurring problems and proving the effect with numbers.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-process-management-careers-india',
+    title: "Business Process Management Careers in India: Roles and Skills",
+    description:
+      "Process careers reward people who simplify work and prove it with numbers.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-strategy-careers-india',
+    title: "Business Strategy Careers in India: Roles, Skills and Entry Routes",
+    description:
+      "Strategy roles are competitive, and a written, evidence-based case is the best entry proof.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'esg-and-business-sustainability-careers-india',
+    title: "ESG and Business Sustainability Careers in India: Roles and Skills",
+    description:
+      "Sustainability roles reward people who can measure, report and improve with credible data.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'business-valuation-career-india',
+    title: "Business Valuation Career in India: Roles, Skills and Entry Routes",
+    description:
+      "Valuation rewards careful modelling and plain explanation of assumptions.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-objective-for-business-analyst-and-business-administration-freshers-india',
+    title: "Career Objective for Business Analyst and Business Admin Freshers",
+    description:
+      "A good objective names the role, one proof and what you offer in two lines.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
