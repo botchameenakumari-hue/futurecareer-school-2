@@ -7651,4 +7651,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'translation-interpretation-and-foreign-language-careers-india',
+    title: "Translation, Interpretation and Foreign Language Careers in India",
+    description:
+      "Accuracy and confidentiality matter more than speed.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'editing-proofreading-and-publishing-careers-india',
+    title: "Editing, Proofreading and Publishing Careers in India",
+    description:
+      "Careful reading and respect for the author voice are the core.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'fine-arts-painting-and-gallery-careers-india',
+    title: "Fine Arts, Painting and Gallery Careers in India: Roles and Income Paths",
+    description:
+      "Build a body of work and several income paths.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-change',
+    slug: 'leaving-the-corporate-sector-alternatives-and-how-to-test-them-india',
+    title: "Leaving the Corporate Sector in India: Alternatives and How to Test Them",
+    description:
+      "Test the alternative before you resign.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
