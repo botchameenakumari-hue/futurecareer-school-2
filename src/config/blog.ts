@@ -7435,4 +7435,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'everyday-maths-for-business-careers-india',
+    title: "Everyday Maths for Business Careers in India",
+    description:
+      "Business maths is a small set of ideas used daily.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'career-development-plan-at-work-linking-your-growth-to-business-goals-india',
+    title: "Career Development Plan at Work: Link Growth to Business Goals",
+    description:
+      "Show how your growth helps the team, and plans get approved.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'pharma-business-development-and-market-research-careers-india',
+    title: "Pharma Business Development and Market Research Careers in India",
+    description:
+      "Accuracy and ethics matter more than speed in healthcare markets.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'music-business-and-artist-management-careers-india',
+    title: "Music Business and Artist Management Careers in India",
+    description:
+      "Contracts and clear records protect artists and managers alike.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
