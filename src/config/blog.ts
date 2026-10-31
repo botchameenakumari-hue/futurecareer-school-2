@@ -8335,4 +8335,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'audiology-and-speech-language-therapy-careers-india',
+    title: "Audiology and Speech-Language Therapy Careers in India: Routes",
+    description:
+      "Course recognition, registration and scope of practice differ. Verify on official council pages before you plan.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'farming-organic-agriculture-and-agri-business-careers-india',
+    title: "Farming, Organic Agriculture and Agri-Business Careers in India",
+    description:
+      "Subsidies, certification and market prices change. Verify on official pages and local markets before you invest.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'radio-jockey-anchoring-and-voice-over-careers-india',
+    title: "Radio Jockey, Anchoring and Voice-Over Careers in India: Routes",
+    description:
+      "Rates, auditions and course quality vary. Verify with current listings and avoid paying for guaranteed placement.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'handicraft-handloom-and-artisan-business-careers-india',
+    title: "Handicraft, Handloom and Artisan Business Careers in India",
+    description:
+      "Schemes, platform terms and export rules change. Verify on official portals and platform pages before you commit.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
