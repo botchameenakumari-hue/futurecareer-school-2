@@ -7831,4 +7831,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'career-guidance-theories-and-approaches-explained-simply-india',
+    title: "Career Guidance Theories and Approaches Explained Simply in India",
+    description:
+      "Use theories as questions, not as verdicts.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'government-career-guidance-services-and-portals-india',
+    title: "Government Career Guidance Services and Portals in India: What to Check",
+    description:
+      "Use official services as one input and verify every notice.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'importance-of-career-guidance-for-high-school-students-india',
+    title: "Importance of Career Guidance for High School Students in India",
+    description:
+      "Good guidance widens options and guards against costly mistakes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'aptitude-and-psychometric-tests-in-career-choice-what-they-can-and-cannot-tell-you-india',
+    title: "Aptitude and Psychometric Tests in Career Choice: Uses and Limits in India",
+    description:
+      "Use results as hints and check with real tasks.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
