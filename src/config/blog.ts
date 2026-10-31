@@ -7939,4 +7939,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-email-writing-skills-for-work-india',
+    title: "How to Improve Email Writing Skills for Work in India",
+    description:
+      "Short, clear emails with one ask build trust.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-sql-skills-for-jobs-india',
+    title: "How to Improve SQL Skills for Jobs in India: Practice Plan and Proof",
+    description:
+      "Practice on real questions and keep a query portfolio.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-improve-debating-persuasion-and-storytelling-skills-india',
+    title: "How to Improve Debating, Persuasion and Storytelling Skills in India",
+    description:
+      "Honest persuasion rests on evidence and a clear structure.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'freelancing-business',
+    slug: 'how-to-start-a-skill-training-centre-india-what-to-check-first',
+    title: "How to Start a Skill Training Centre in India: What to Check First",
+    description:
+      "Pilot with a small batch before renting space or buying equipment.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
