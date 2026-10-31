@@ -8047,4 +8047,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'swayam-and-free-government-online-courses-for-students-india',
+    title: "SWAYAM and Free Government Online Courses for Students in India",
+    description:
+      "Free courses work when you finish them and show what you made.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'scholarships-for-sc-and-st-students-for-professional-and-postgraduate-courses-india',
+    title: "Scholarships for SC and ST Students for Professional and PG Courses",
+    description:
+      "Start early and verify every scheme on its official portal.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'courses-for-bio-maths-students-after-12th-india',
+    title: "Courses for Bio-Maths Students After 12th in India: Options and Checks",
+    description:
+      "Biology with maths opens science, data and some health routes.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'vendor-certificates-from-microsoft-google-and-others-for-students-when-worth-it-india',
+    title: "Vendor Certificates from Microsoft, Google and Others: When Worth It",
+    description:
+      "Learn free first and pay for an exam only when a notice asks.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];

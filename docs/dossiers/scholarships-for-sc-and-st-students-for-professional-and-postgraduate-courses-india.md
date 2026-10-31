@@ -1,0 +1,3 @@
+# Dossier: scholarships-for-sc-and-st-students-for-professional-and-postgraduate-courses-india
+
+No statistics or pay figures. General-knowledge statements flagged verify-before-deploy: SWAYAM course terms and credit rules, SC and ST scholarship scheme eligibility, deadlines and documents, bio-maths course eligibility, vendor certificate programme fees and renewal terms. No statistics or pay figures. 
