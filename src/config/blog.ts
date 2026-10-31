@@ -6409,4 +6409,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'how-to-set-up-a-career-guidance-cell-in-a-school-or-college-india',
+    title: "How to Set Up a Career Guidance Cell in a School or College",
+    description:
+      "A cell works when roles, a calendar and simple records are in place.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-b-arch-india',
+    title: "Career Options After B.Arch in India: Practice, Design and Beyond",
+    description:
+      "A portfolio and site understanding matter more than the degree alone.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'career-options-after-aeronautical-engineering-india',
+    title: "Career Options After Aeronautical Engineering in India",
+    description:
+      "Match the role to the work: design, production, maintenance or software.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
