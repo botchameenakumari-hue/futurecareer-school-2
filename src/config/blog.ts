@@ -6058,4 +6058,22 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'commerce-courses-for-science-students-switching-india',
+    title: "Commerce Courses for Science Students Switching Streams in India",
+    description:
+      "Switching is possible at several points, and eligibility must be checked for each course.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'computer-courses-for-ca-law-pharmacy-and-mba-students-india',
+    title: "Computer Courses for CA, Law, Pharmacy and MBA Students in India",
+    description:
+      "Match the computer skill to the daily work of your field.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
