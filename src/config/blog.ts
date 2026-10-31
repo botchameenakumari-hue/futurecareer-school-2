@@ -7975,4 +7975,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-web-and-mobile-app-developers-india',
+    title: "Skills Required for Web and Mobile App Developers in India",
+    description:
+      "Working projects beat long lists of tools.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skills-required-for-accountants-and-back-office-roles-india',
+    title: "Skills Required for Accountants and Back Office Roles in India",
+    description:
+      "Accuracy and reconciliation come first.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'group-discussion-skills-and-how-to-prepare-for-gd-rounds-india',
+    title: "Group Discussion Skills and How to Prepare for GD Rounds in India",
+    description:
+      "Listen, add value and keep the group on track.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'freelancing-business',
+    slug: 'how-to-become-a-virtual-assistant-in-india-skills-and-first-clients',
+    title: "How to Become a Virtual Assistant in India: Skills and First Clients",
+    description:
+      "Reliability and clear scope win and keep clients.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
