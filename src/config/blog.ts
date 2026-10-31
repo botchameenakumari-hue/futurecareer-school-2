@@ -6472,4 +6472,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'freelancing-business',
+    slug: 'import-export-business-in-india-careers-and-how-to-start',
+    title: "Import Export Business in India: Careers and How to Start Small",
+    description:
+      "Learn the paperwork and test one product on a small scale before anything else.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-change',
+    slug: 'how-to-switch-to-a-business-analyst-career-india',
+    title: "How to Switch to a Business Analyst Career in India",
+    description:
+      "Show that you can understand a problem, gather facts and explain a clear recommendation.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'fashion-business-and-merchandising-careers-india',
+    title: "Fashion Business and Merchandising Careers in India",
+    description:
+      "Fashion business rewards number sense and taste together.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
