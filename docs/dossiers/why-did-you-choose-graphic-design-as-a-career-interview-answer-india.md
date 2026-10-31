@@ -1,0 +1,3 @@
+# Dossier: why-did-you-choose-graphic-design-as-a-career-interview-answer-india
+
+No statistics or pay figures. General-knowledge statements flagged verify-before-deploy: what interviewers look for in each field. No pay figures and no market advice. 

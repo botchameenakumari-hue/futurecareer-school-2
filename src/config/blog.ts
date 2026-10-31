@@ -6499,4 +6499,58 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-finance-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Finance as a Career? Interview Answer",
+    description:
+      "Show interest in how money decisions are made and a habit of checking numbers.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-accounting-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Accounting as a Career? Interview Answer",
+    description:
+      "Show care for accuracy, rules and clear records.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-data-science-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Data Science as a Career? Interview Answer",
+    description:
+      "Show curiosity about patterns, care with evidence and clear explanation.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-graphic-design-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Graphic Design as a Career? Interview Answer",
+    description:
+      "Show how you solve a communication problem with visuals.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-hotel-management-as-a-career-interview-answer-india',
+    title: "Why Did You Choose Hotel Management as a Career? Interview Answer",
+    description:
+      "Show care for guests, calm under pressure and teamwork.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-did-you-choose-bpo-as-a-career-interview-answer-india',
+    title: "Why Did You Choose BPO as a Career? Interview Answer",
+    description:
+      "Show comfort with customers, steady habits and a plan to grow.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
