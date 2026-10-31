@@ -6094,4 +6094,22 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'how-to-write-a-report-on-a-career-guidance-programme-in-school-india',
+    title: "How to Write a Report on a School Career Guidance Programme",
+    description:
+      "A good report records what happened and what changes next.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'role-of-teachers-in-career-guidance-india',
+    title: "The Role of Teachers in Career Guidance in India",
+    description:
+      "Teachers can notice, listen, point to facts and refer, without deciding for students.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
