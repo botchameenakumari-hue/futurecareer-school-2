@@ -5104,4 +5104,31 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'iti-and-skilled-trades-careers-india',
+    title: "ITI and Skilled Trades Careers in India: Routes and Growth",
+    description:
+      "ITI and skilled trades careers in India: trades compared, what to check about courses and ways to grow.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'how-to-assess-your-own-skills-for-a-career-free-india',
+    title: "How to Assess Your Own Skills for a Career: Free Methods",
+    description:
+      "How to assess your own skills for a career: free methods, a four-level rubric and a plan to close gaps.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'skill-india-nsdc-and-government-skill-programmes-india',
+    title: "Skill India, NSDC and Government Skill Programmes Explained",
+    description:
+      "Skill India, NSDC and government skill programmes: what they are, a checklist before joining and ways to turn certificates into work.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];

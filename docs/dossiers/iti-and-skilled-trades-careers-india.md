@@ -1,0 +1,9 @@
+# Dossier: iti-and-skilled-trades-careers-india
+
+No statistics or pay figures. General-knowledge statements flagged verify-before-deploy: ITI recognition and apprenticeship rules, Skill India/NSDC scheme names and rules, and whether any named online skill test is still offered: all general knowledge, flagged verify-before-deploy. Pages tell readers to check official portals. All pages tell readers to check official sites.
+
+## Duplicate check
+Checked against existing.txt; no page covers this intent.
+
+## Sources
+None fetched (WebFetch to new domains refused while the owner is away).
