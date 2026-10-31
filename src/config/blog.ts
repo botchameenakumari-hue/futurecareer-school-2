@@ -5617,4 +5617,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'too-many-interests-how-to-choose-a-career-india',
+    title: "Too Many Interests to Choose a Career? A Practical Method for India",
+    description:
+      "Many interests are a strength when you cluster them, test a few and combine them in one path.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'questions-to-ask-yourself-before-choosing-a-career-india',
+    title: "Questions to Ask Yourself Before Choosing a Career in India: A Checklist",
+    description:
+      "Ten honest questions across interests, strengths, values, money and market give a clearer choice.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'parents',
+    slug: 'who-should-choose-a-childs-career-parents-or-child-india',
+    title: "Who Should Choose a Childs Career in India: Parents or Child?",
+    description:
+      "The best career decisions are shared: the child owns the choice and parents own the safety net.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'astrology-and-career-choice-what-to-rely-on-india',
+    title: "Astrology and Career Choice in India: How to Decide With Evidence Too",
+    description:
+      "Whatever guidance you value, test a career with trials, notices and costs before committing.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'interviews',
+    slug: 'why-do-you-want-to-work-in-banking-or-insurance-interview-answer-india',
+    title: "Why Banking or Insurance? Interview Answers for Freshers in India",
+    description:
+      "A good answer links your real reasons, a small proof and what you will learn.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
