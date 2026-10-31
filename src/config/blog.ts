@@ -5455,4 +5455,49 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'geology-career-options-india',
+    title: "Geology Career Options in India: Roles, Fieldwork and Growth",
+    description:
+      "Geology careers: fieldwork-heavy roles in exploration, water and environment, with routes that need verification.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'genetics-and-genomics-career-options-india',
+    title: "Genetics and Genomics Career Options in India: Roles and Reality",
+    description:
+      "Genetics careers: lab, diagnostics and bioinformatics routes that need higher study and honest expectations.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'biochemistry-career-options-india',
+    title: "Biochemistry Career Options in India: Roles, Labs and Routes",
+    description:
+      "Biochemistry careers: clinical, pharma, food and research routes that reward lab skill and higher study.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'bsc-electronics-career-options-india',
+    title: "BSc Electronics Career Options in India: Roles, Skills and Routes",
+    description:
+      "BSc electronics: roles in testing, service and embedded work, with skills to add and routes beyond a degree.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'finance-business-partner-career-path-india',
+    title: "Finance Business Partner Career Path in India: Roles and Skills",
+    description:
+      "Finance business partner: bridge finance and operations, build modelling and communication, and show business impact.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
