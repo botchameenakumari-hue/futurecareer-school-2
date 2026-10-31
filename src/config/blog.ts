@@ -8407,4 +8407,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-change',
+    slug: 'ex-servicemen-and-defence-personnel-second-career-after-service-india',
+    title: "Second Career for Ex-Servicemen and Defence Personnel in India",
+    description:
+      "Translate service skills into civilian terms and test routes small.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-change',
+    slug: 'bank-and-insurance-employees-moving-to-other-careers-india',
+    title: "Bank and Insurance Employees Moving to Other Careers in India",
+    description:
+      "Map transferable skills and test one move before leaving.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-guidance',
+    slug: 'career-plan-for-college-students-first-year-to-final-year-india',
+    title: "Career Plan for College Students: First Year to Final Year in India",
+    description:
+      "Do the right small thing each year instead of everything at the end.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-change',
+    slug: 'government-employees-moving-to-private-sector-or-business-india',
+    title: "Government Employees Moving to the Private Sector or Business in India",
+    description:
+      "Check service rules and benefits before moving, and test the new work first.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
