@@ -6868,4 +6868,40 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-in-real-estate-and-infrastructure-management-careers-india',
+    title: "MBA in Real Estate and Infrastructure Management Careers in India",
+    description:
+      "Project follow-up and rule knowledge matter more than big promises.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-in-rural-management-and-development-careers-india',
+    title: "MBA in Rural Management and Development Careers in India",
+    description:
+      "Field time and listening skill matter most in rural work.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'ngo-and-social-sector-careers-india',
+    title: "NGO and Social Sector Careers in India: Roles and How to Start",
+    description:
+      "Check an organisation carefully before joining or giving time.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'mba-in-energy-and-power-management-careers-india',
+    title: "MBA in Energy and Power Management Careers in India",
+    description:
+      "Technical literacy plus project and policy knowledge is the pairing.",
+    publishedAtISO: '2026-10-30',
+    readTimeMinutes: 11,
+  },
 ];
