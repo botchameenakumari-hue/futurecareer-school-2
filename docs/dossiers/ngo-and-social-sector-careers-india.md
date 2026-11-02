@@ -1,3 +1,16 @@
 # Dossier: ngo-and-social-sector-careers-india
 
-No statistics or pay figures. General-knowledge statements flagged verify-before-deploy: property registration and approval rules, tariff and scheme details, NGO registration and reporting norms, role descriptions. No statistics or pay figures. 
+Keyword: NGO and Social Sector Careers in India: Roles, Skills and How to Start
+
+## STEP 0 duplicate check
+- Intent: a distinct question about ngo and social sector careers in india: roles, skills and how to start; it needs its own answer, with its own routes, tables and proof items
+- Closest page on the site: social-work-degree-and-msw-careers-india. After the rewrite the content cosine is 0.31 and 24% of six-word phrases are shared (measured on the built site). Before the rewrite: template filler such as "Prepare in stages and keep proof", identical route rows shared with other pages of the batch and a hardcoded week plan in some metas; per-page similarity before the rewrite was not measured.
+- Decision: keep as a separate page because the keyword is distinct and the answer differs; the two pages cross-link instead of merging.
+
+## Sources and verification
+- No external sources were fetched. The page quotes no statistics or pay figures.
+- Verify-before-deploy note on the page: This page quotes no statistics or pay figures and gives no legal advice. Check registration and accounts of any organisation.
+- Rules, eligibility, fees, registration and entrance details are not stated as fact; the page sends the person to the official body.
+
+## Positioning
+- Opening, middle (routes with the ownership highlight and scalability chips) and closing (next step, related links, FAQ) carry the same message: test the choice with a small piece of real work, then verify rules on the official page.
