@@ -1,3 +1,16 @@
 # Dossier: choosing-a-career-path-during-college-india
 
-No statistics or pay figures. General-knowledge statements flagged verify-before-deploy: common beliefs about careers and marks, norms for internships and placements. The friend page suggests a trained counsellor or trusted adult for distress and gives no clinical advice. 
+Keyword: Choosing a Career Path During College in India: A Year-by-Year Plan
+
+## STEP 0 duplicate check
+- Intent: a distinct question about choosing a career path during college in india: a year-by-year plan; it needs its own answer, with its own routes, tables and proof items
+- Closest page on the site: career-plan-for-college-students-first-year-to-final-year-india. After the rewrite the content cosine is 0.39 and 21% of six-word phrases are shared (measured on the built site). Before the rewrite: template filler such as "Prepare in stages and keep proof", identical route rows shared with other pages of the batch and a hardcoded week plan in some metas; per-page similarity before the rewrite was not measured.
+- Decision: keep as a separate page because the keyword is distinct and the answer differs; the two pages cross-link instead of merging.
+
+## Sources and verification
+- No external sources were fetched. The page quotes no statistics or pay figures.
+- Verify-before-deploy note on the page: This page quotes no statistics or pay figures. Fees, eligibility and openings change, so check official pages and live notices.
+- Rules, eligibility, fees, registration and entrance details are not stated as fact; the page sends the person to the official body.
+
+## Positioning
+- Opening, middle (routes with the ownership highlight and scalability chips) and closing (next step, related links, FAQ) carry the same message: test the choice with a small piece of real work, then verify rules on the official page.

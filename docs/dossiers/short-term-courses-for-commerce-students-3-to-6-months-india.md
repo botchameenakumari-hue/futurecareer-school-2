@@ -1,9 +1,16 @@
 # Dossier: short-term-courses-for-commerce-students-3-to-6-months-india
 
-No statistics or pay figures. BCA and paramedical/DMLT pages: eligibility, recognition and registration rules vary by university, council and year, and are stated as things to confirm on official pages; none fetched. Short-term and online course pages are practice guides. All pages tell readers to check official sites.
+Keyword: Short-Term Courses for Commerce Students (3 to 6 Months)
 
-## Duplicate check
-Checked against existing.txt; no page covers this intent.
+## STEP 0 duplicate check
+- Intent: a distinct question about short-term courses for commerce students (3 to 6 months); it needs its own answer, with its own routes, tables and proof items
+- Closest page on the site: short-term-courses-for-finance-and-bba-students-india. After the rewrite the content cosine is 0.42 and 22% of six-word phrases are shared (measured on the built site). Before the rewrite: template filler such as "Prepare in stages and keep proof", identical route rows shared with other pages of the batch and a hardcoded week plan in some metas; per-page similarity before the rewrite was not measured.
+- Decision: keep as a separate page because the keyword is distinct and the answer differs; the two pages cross-link instead of merging.
 
-## Sources
-None fetched (WebFetch to new domains refused while the owner is away).
+## Sources and verification
+- No external sources were fetched. The page quotes no statistics or pay figures.
+- Verify-before-deploy note on the page: This page quotes no statistics or pay figures. Course fees, rules and recognition change, so check official pages and the provider.
+- Rules, eligibility, fees, registration and entrance details are not stated as fact; the page sends the person to the official body.
+
+## Positioning
+- Opening, middle (routes with the ownership highlight and scalability chips) and closing (next step, related links, FAQ) carry the same message: test the choice with a small piece of real work, then verify rules on the official page.

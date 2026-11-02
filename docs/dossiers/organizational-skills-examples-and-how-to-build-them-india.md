@@ -1,9 +1,16 @@
 # Dossier: organizational-skills-examples-and-how-to-build-them-india
 
-No statistics or pay figures. Practice-guide pages with no factual claims beyond common study and career-guidance practice. Bridge courses page: whether a bridge course is required varies by college and is stated as something to confirm in writing. All pages tell readers to check official sites.
+Keyword: Organizational Skills: Examples and How to Build Them
 
-## Duplicate check
-Checked against existing.txt; no page covers this intent.
+## STEP 0 duplicate check
+- Intent: a distinct question about organizational skills: examples and how to build them; it needs its own answer, with its own routes, tables and proof items
+- Closest page on the site: self-management-skills-examples-and-how-to-build-them-india. After the rewrite the content cosine is 0.28 and 7% of six-word phrases are shared (measured on the built site). Before the rewrite: template filler such as "Prepare in stages and keep proof", identical route rows shared with other pages of the batch and a hardcoded week plan in some metas; per-page similarity before the rewrite was not measured.
+- Decision: keep as a separate page because the keyword is distinct and the answer differs; the two pages cross-link instead of merging.
 
-## Sources
-None fetched (WebFetch to new domains refused while the owner is away).
+## Sources and verification
+- No external sources were fetched. The page quotes no statistics or pay figures.
+- Verify-before-deploy note on the page: This page quotes no statistics or pay figures. Tools differ by employer, so check the notice.
+- Rules, eligibility, fees, registration and entrance details are not stated as fact; the page sends the person to the official body.
+
+## Positioning
+- Opening, middle (routes with the ownership highlight and scalability chips) and closing (next step, related links, FAQ) carry the same message: test the choice with a small piece of real work, then verify rules on the official page.

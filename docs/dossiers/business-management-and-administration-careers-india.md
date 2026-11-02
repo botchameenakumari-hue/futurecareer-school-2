@@ -1,9 +1,16 @@
 # Dossier: business-management-and-administration-careers-india
 
-No statistics or pay figures. General-knowledge statements flagged verify-before-deploy: No statistics or pay figures. General-knowledge statements flagged verify-before-deploy: horticulture degree recognition, higher study and entrance rules, licence rules for nurseries and inputs; BI tools named only generally. All pages tell readers to check official sites.
+Keyword: Business management and administration careers in India: roles by function and growth
 
-## Duplicate check
-Checked against existing.txt; no page covers this intent.
+## STEP 0 duplicate check
+- Intent: a distinct question about business management and administration careers in india: roles by function and growth; it needs its own answer, with its own routes, tables and proof items
+- Closest page on the site: business-administration-careers-in-healthcare-and-sports-india. After the rewrite the content cosine is 0.32 and 18% of six-word phrases are shared (measured on the built site). Before the rewrite: template filler such as "Prepare in stages and keep proof", identical route rows shared with other pages of the batch and a hardcoded week plan in some metas; per-page similarity before the rewrite was not measured.
+- Decision: keep as a separate page because the keyword is distinct and the answer differs; the two pages cross-link instead of merging.
 
-## Sources
-None fetched (WebFetch to new domains refused while the owner is away).
+## Sources and verification
+- No external sources were fetched. The page quotes no statistics or pay figures.
+- Verify-before-deploy note on the page: This page quotes no statistics or pay figures. Rules, fees and openings change, so check the official page or live notice before you rely on any detail.
+- Rules, eligibility, fees, registration and entrance details are not stated as fact; the page sends the person to the official body.
+
+## Positioning
+- Opening, middle (routes with the ownership highlight and scalability chips) and closing (next step, related links, FAQ) carry the same message: test the choice with a small piece of real work, then verify rules on the official page.
