@@ -1,3 +1,16 @@
 # Dossier: career-advice-for-single-parents-and-caregivers-balancing-work-and-care-india
 
-No statistics or pay figures. General-knowledge statements flagged verify-before-deploy: workplace safety and leave rules by employer, official family support schemes, pay ranges by city and legacy technology demand by employer. No statistics or pay figures. 
+Keyword: Career Advice for Single Parents and Caregivers in India: Balancing Work and Care
+
+## STEP 0 duplicate check
+- Intent: a distinct question about career advice for single parents and caregivers in india: balancing work and care; it needs its own answer, with its own routes, tables and proof items
+- Closest page on the site: career-advice-for-women-choosing-growing-and-restarting-a-career-india. After the rewrite the content cosine is 0.4 and 22% of six-word phrases are shared (measured on the built site). Before the rewrite: template filler such as "Prepare in stages and keep proof", identical route rows shared with other pages of the batch and a hardcoded week plan in some metas; per-page similarity before the rewrite was not measured.
+- Decision: keep as a separate page because the keyword is distinct and the answer differs; the two pages cross-link instead of merging.
+
+## Sources and verification
+- No external sources were fetched. The page quotes no statistics or pay figures.
+- Verify-before-deploy note on the page: This page quotes no statistics or pay figures and gives no legal advice. Leave, benefits and welfare schemes change, so check official pages and your contract.
+- Rules, eligibility, fees, registration and entrance details are not stated as fact; the page sends the person to the official body.
+
+## Positioning
+- Opening, middle (routes with the ownership highlight and scalability chips) and closing (next step, related links, FAQ) carry the same message: test the choice with a small piece of real work, then verify rules on the official page.
