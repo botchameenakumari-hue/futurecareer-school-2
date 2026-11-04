@@ -6,6 +6,7 @@ const show = LENS_CATEGORIES.includes(category);
 const post = POST_SCALE[slug as keyof typeof POST_SCALE] as undefined | ['high' | 'mid' | 'low', string];
 const def = BLOG_LENS[category as keyof typeof BLOG_LENS];
 const scale = (post?.[0] || def?.scale || null) as null | 'high' | 'mid' | 'low';
+const chunk = (s: string) => { const a = s.split(/(?<=[.!?])\s+/); const o: string[] = []; for (let i = 0; i < a.length; i += 2) o.push(a.slice(i, i + 2).join(' ')); return o; };
 const text = post ? `${post[1]} ${SCALE_TIPS[post[0]]}` : def?.text || '';
 ---
 {show && (
@@ -15,8 +16,8 @@ const text = post ? `${post[1]} ${SCALE_TIPS[post[0]]}` : def?.text || '';
     </p>
     <details>
       <summary>How we rate scalability, and a note on pay figures</summary>
-      <p>{SCALE_RULE}</p>
-      <p>{PAY_CAUTION}</p>
+      {chunk(SCALE_RULE).map((c) => <p>{c}</p>)}
+      {chunk(PAY_CAUTION).map((c) => <p>{c}</p>)}
       <p>See the rating on each route in the <a href="/blog/career-options/career-chart-after-12th/">career chart after 12th</a> and the <a href="/blog/stream-selection/career-chart-after-10th/">career chart after 10th</a>.</p>
     </details>
   </aside>
