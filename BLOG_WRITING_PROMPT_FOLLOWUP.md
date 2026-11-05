@@ -257,3 +257,16 @@ per-article):
 - **if any warning sign appears:** stop publishing new articles in that category, audit every existing article's uniqueness percentage, mark anything below its required floor (30% general / 40% career-options / 40% category-wide once 50+) for a content update, vary any repeated structure across the flagged articles, and only resume publishing once the audit is complete and fixes are live
 
 - [ ] Indexing check: at least four internal links point to this page, its title, H1 and description are unique, and `npm run verify` (including `check:inbound-links`) passes
+
+Corrections added November 2026 (see "Corrections and enforcement rules" in BLOG_WRITING_PROMPT.md; these checks are mandatory on every page, old or new):
+- [ ] No page-narration: no "This page/article is about/assumes/ranks/answers...", no "This guide is part of our set", no "quotes no statistics". Safety caveats only on legal, medical, financial, counselling or mental-health topics.
+- [ ] Search title is at most 75 characters (check the rendered `<title>`, with HTML entities counted as one character); meta is 100-160 characters; no em dashes.
+- [ ] Exactly one audience-matched service link plus one parent category link in the first third; the service link comes from `blogSalesLinks.ts` logic, not a generic student link.
+- [ ] First `faq-item` is `open`; FAQ JSON-LD matches `faqItems`.
+- [ ] No paragraph over 3 sentences unless it is a data-card string; do not split paragraphs that are not overloaded.
+- [ ] 3 Gates and 4-Checkpoint Protocol present, written per page, on every course, degree, certification, switch or earn-from-skill page; correctly named; skipped only on pure information pages.
+- [ ] Money-check section present on paid-learning pages, with the "rule of thumb, not a research finding" and "illustration, not a real fee" labels.
+- [ ] Who-pays context present for earn-from-skill pages, in the page's own words.
+- [ ] Banned audience words are not used for our own audience; domain uses (a business's buyers or users) are fine.
+- [ ] No unsourced pay figures, no fixed hours/weeks in plans.
+- [ ] Before reporting a batch done: build, all five checks, `check:types`, and `npm run audit:blogs` all ran and passed; report what was run, not "independent passes".

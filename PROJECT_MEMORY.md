@@ -657,3 +657,8 @@ If context is tight, remember this:
 - "Crawled - currently not indexed" lists include URLs that are now 301 redirects (merged assessment variants, slash-less URLs, `/skill-finder/`). They clear on their own; do not recreate those pages.
 - Pages that share one template or tool shell (for example the six `/career-skills-compass/*` routes) must each have their own meta description and H1, otherwise Google treats them as duplicates.
 - Remaining real pages in that report are not thinner or less linked than indexed pages; the cause is crawl priority and site authority. Keep internal links to new pages from their hub and siblings, and re-check indexing 2-4 weeks after publishing.
+
+## November 2026 full-site audit outcome
+- Fixed across 882 blog pages: audience-matched service links, page-narration removal, money-check sections, heavy paragraph splits, 88 search titles trimmed to 75, first-third service line, first FAQ open.
+- Rules were updated in BLOG_WRITING_PROMPT.md (end section) and BLOG_WRITING_PROMPT_FOLLOWUP.md so the fixes persist for future pages.
+- Open items for the owner: Search Console exports not yet received; confirm struck-through prices are real; decide 3 Gates/4CP wording; ~270 pages could get a who-pays section; most rewritten pages carry no sourced figures.

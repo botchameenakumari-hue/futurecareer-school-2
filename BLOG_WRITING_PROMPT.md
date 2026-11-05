@@ -382,6 +382,7 @@ If a sentence would make more sense in an assistant response than on the page it
 **Audience-word rule:**
 - In visible copy, use the real audience label or `you`: student, parent, fresher, graduate, working professional, family, career changer, coach, client, etc.
 - Do not call the person `reader`, `readers`, `visitor`, `visitors`, `user`, `users`, `searcher`, `searchers`, `buyer`, or `buyers` when a real audience word exists.
+- Scope: this bans these words only when they label the person reading the page (internal-memo voice such as "between you and me" or "the reader should"). Legitimate domain uses are allowed: a business's buyers or users ("buyers of your product", "users of the app"), "visitor" for a place or visa type, "reader" for a device. Never use them to describe our own audience.
 - Bad: `For readers who need local market context...`
 - Better: `For students, professionals, and families who need local market context...`
 
@@ -1116,7 +1117,7 @@ More supplied perspectives:
 ## The Strategic Protocols
 
 - **The 4-Checkpoint Protocol:** Before picking a career path, you must check your Biology (energy, remote/office, field work, introvert/extrovert), Context (life stage), Market (is it a "bleeding-neck" problem?), and Survival (is it AI-resistant?).
-- **The 3 Gates:** To "graduate" to earning, you must pass three real-world tests: Proof of Skill, Proof of Communication (a 30 sec to 2-minute pitch), and Proof of Value (validation from 3 experts/buyers).
+- **The 3 Gates:** To "graduate" to earning, you must pass three real-world tests: Proof of Skill, Proof of Communication (a 30 sec to 2-minute pitch), and Proof of Value (validation from a few real people who would use or pay for the work, such as clients, employers or practitioners).
 
 ---
 
@@ -3158,3 +3159,45 @@ If you cannot fill at least 6 of the 8 honestly, the keyword is probably not rea
 - New blog posts get a real `publishedAtISO` date; it is used as sitemap `<lastmod>`.
 - Pages with little unique text, near-duplicates of a sibling, or no clear search intent are the ones Google crawls but does not index. Fix those before publishing more.
 
+
+
+## Corrections and enforcement rules (added November 2026 after the full-site audit)
+
+These rules override anything earlier in this file that conflicts with them. They exist because older pages broke them and the breakage was only found later.
+
+### Page copy must never narrate itself
+- Do not write "This page quotes no statistics", "This page is about...", "This article assumes/answers/ranks...", "This guide is part of our set", "This is a decision guide, not X advice" or similar scope-narration. Say the thing directly instead. A real safety caveat ("gives no legal advice") is allowed once, only on legal, medical, financial, counselling or mental-health topics.
+- Do not use "in this article we will cover" openings. Start with the answer.
+
+### Titles, metas, paragraphs
+- Search title (`seoTitle`, or `title` when no `seoTitle`) is at most 75 characters. Meta description 100-160 characters. No em dashes in either.
+- Every paragraph is 1-3 sentences. Split only when a paragraph is overloaded; a 3-sentence paragraph stays intact. Data-card strings inside JS arrays may exceed this but should stay under about 60 words.
+- The lead paragraph answers the keyword in its first sentence.
+
+### Service link in the first third (audience matched)
+- Within the first third, add one plain sentence with one link to the service page that fits the page's audience (students, MBA, government exam, after-12th, working professionals and so on, via `src/config/blogSalesLinks.ts`). Never use one generic student link for every page. Also link the parent category once.
+- Only one service link in the first third. Never link to redirect or noindex URLs.
+
+### FAQ
+- Questions live in `faqItems`, rendered with `<details class="faq-item" open={faqIndex === 0}>` so the first item is open, and the same items feed the FAQPage JSON-LD.
+
+### When The 3 Gates and The 4-Checkpoint Protocol are required
+- Required for pages where a person is deciding whether to pay for a course, degree, certification, bootcamp or a career switch, or building a skill to earn from. Optional (and better left out than forced) on pure information pages such as exam dates, definitions, or news explainers.
+- Write the section per page, in that page's own facts. Do not paste the shared wording. Use the exact names "The 4-Checkpoint Protocol" (Biology, Context, Market, Survival) and "The 3 Gates" (Proof of Skill, Proof of Communication as a 30 second to 2 minute pitch, Proof of Value).
+
+### Money check for paid learning
+- Pages recommending a course, degree, certification or coaching include a "Money check before you pay" section: fee near a tenth of the family education budget, above a fifth is a caution needing course-specific evidence, labelled "a rule of thumb, not a research finding", and an example labelled "An illustration, not a real fee". Study-abroad pages add the loan-risk point. Never present the 10%/20% as a research fact.
+
+### Who pays
+- Where a page is about a career or skill someone could earn from independently, include who pays, how they find and trust the person, and the first basic sales skill. Give the full context in that page's own words. Employer-only paths say so plainly.
+
+### Facts and figures
+- No pay figures unless indicative and sourced; give the source and "checked on" date. No fixed hours, days or weeks in plans ("ten hours a week") unless the user supplied them; describe stages by outcome instead.
+- A query that needs a different answer deserves its own page; do not merge or pad. Fluff is the quality test, not a uniqueness percentage.
+
+### Shared blocks
+- The sitewide scalability note renders once per page through `ScalabilityLens`. Do not paste its wording elsewhere in the body. Repeated headings across many pages are fine only when each page fills them with its own content.
+
+### Deployment and monitoring
+- Pages are deployed all at once. Before any deploy run the full batch: build, `npm run verify`, `check:types` (with `NODE_OPTIONS=--max-old-space-size=6144`), and `npm run audit:blogs`. Do not call scripted checks "independent passes"; log honestly what was run.
+- Judging Search Console data: new pages may be too new to rank. Judge by impressions, indexing status and position trend over weeks, not by absence from page one.

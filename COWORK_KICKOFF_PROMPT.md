@@ -225,3 +225,7 @@ of how many follow-up passes ran (minimum 2, ideally 3) and what each pass
 caught or fixed, and pass/fail of `npm run check:public-copy` and
 `npm run build`.
 ```
+
+## Standing corrections (November 2026)
+
+Before writing or editing any page, read the "Corrections and enforcement rules" section at the end of `BLOG_WRITING_PROMPT.md` and the November 2026 checklist at the end of `BLOG_WRITING_PROMPT_FOLLOWUP.md`. They override older wording: no page-narration, search title at most 75 characters, one audience-matched service link in the first third, first FAQ item open, 3 Gates and 4-Checkpoint Protocol written per page where a paid-learning or earning decision is involved, money-check labels, no invented figures or fixed hours, and honest logging of what checks were run. Pages are deployed all at once, so run the full batch (build, `npm run verify`, `check:types`, `npm run audit:blogs`) before reporting done.
