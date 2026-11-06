@@ -161,7 +161,7 @@ Additional follow-up checks:
 - attack wall-of-text during the follow-up (this is a common, serious failure):
   - if prose runs the full page width, restore the constrained reading column; never let text span 1000px+ lines
   - if the article opens without a short scannable summary, add a `.key-takeaways` box near the top; a lead paragraph alone is not enough when the article is informational and competitive
-  - if FAQs render as a long always-open stack, convert them to the `.faq-accordion` `<details>` accordion (open the first item only)
+  - if FAQs render as a long always-open stack, convert them to the `.faq-accordion` `<details>` accordion (open every item so answers are visible)
   - if any other long reference block is a wall, collapse it into `.accordion` disclosure
   - if paragraphs or card text are dense, split them, shorten them, and add breathing room
   - keep every paragraph to a maximum of 1-3 sentences
@@ -262,11 +262,11 @@ Corrections added November 2026 (see "Corrections and enforcement rules" in BLOG
 - [ ] No page-narration: no "This page/article is about/assumes/ranks/answers...", no "This guide is part of our set", no "quotes no statistics". Safety caveats only on legal, medical, financial, counselling or mental-health topics.
 - [ ] Search title is at most 75 characters (check the rendered `<title>`, with HTML entities counted as one character); meta is 100-160 characters; no em dashes.
 - [ ] Exactly one audience-matched service link plus one parent category link in the first third; the service link comes from `blogSalesLinks.ts` logic, not a generic student link.
-- [ ] First `faq-item` is `open`; FAQ JSON-LD matches `faqItems`.
+- [ ] Every `faq-item` is `open` (all answers visible); FAQ JSON-LD matches `faqItems`.
 - [ ] No paragraph over 3 sentences unless it is a data-card string; do not split paragraphs that are not overloaded.
 - [ ] 3 Gates and 4-Checkpoint Protocol present, written per page, on every course, degree, certification, switch or earn-from-skill page; correctly named; skipped only on pure information pages.
 - [ ] Money-check section present on paid-learning pages, with the "rule of thumb, not a research finding" and "illustration, not a real fee" labels.
 - [ ] Who-pays context present for earn-from-skill pages, in the page's own words.
 - [ ] Banned audience words are not used for our own audience; domain uses (a business's buyers or users) are fine.
 - [ ] No unsourced pay figures, no fixed hours/weeks in plans.
-- [ ] Before reporting a batch done: build, all five checks, `check:types`, and `npm run audit:blogs` all ran and passed; report what was run, not "independent passes".
+- [ ] Run this follow-up checklist against the finished pages at least 2 to 3 times (write, check, fix, check again) before calling them done, and say honestly how many rounds were run and what each one found.

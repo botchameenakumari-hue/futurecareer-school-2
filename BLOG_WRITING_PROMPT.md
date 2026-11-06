@@ -3179,7 +3179,7 @@ These rules override anything earlier in this file that conflicts with them. The
 - Only one service link in the first third. Never link to redirect or noindex URLs.
 
 ### FAQ
-- Questions live in `faqItems`, rendered with `<details class="faq-item" open={faqIndex === 0}>` so the first item is open, and the same items feed the FAQPage JSON-LD.
+- Questions live in `faqItems`, rendered as `<details class="faq-item" open>` so every answer is visible without a click, and the same items feed the FAQPage JSON-LD.
 
 ### When The 3 Gates and The 4-Checkpoint Protocol are required
 - Required for pages where a person is deciding whether to pay for a course, degree, certification, bootcamp or a career switch, or building a skill to earn from. Optional (and better left out than forced) on pure information pages such as exam dates, definitions, or news explainers.
@@ -3198,6 +3198,6 @@ These rules override anything earlier in this file that conflicts with them. The
 ### Shared blocks
 - The sitewide scalability note renders once per page through `ScalabilityLens`. Do not paste its wording elsewhere in the body. Repeated headings across many pages are fine only when each page fills them with its own content.
 
-### Deployment and monitoring
-- Pages are deployed all at once. Before any deploy run the full batch: build, `npm run verify`, `check:types` (with `NODE_OPTIONS=--max-old-space-size=6144`), and `npm run audit:blogs`. Do not call scripted checks "independent passes"; log honestly what was run.
-- Judging Search Console data: new pages may be too new to rank. Judge by impressions, indexing status and position trend over weeks, not by absence from page one.
+### Search Console data
+- New pages can take many months to earn impressions or clicks, so absence from results is not a verdict on a page. Do not delete, merge, noindex or rewrite the body of a page because of low clicks or impressions alone.
+- Use Search Console only for: snippet fixes (title and meta) on pages with impressions but a low click-through rate, indexing or redirect/canonical errors, and queries worth a new or extended answer.
