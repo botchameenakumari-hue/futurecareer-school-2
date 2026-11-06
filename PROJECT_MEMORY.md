@@ -661,4 +661,4 @@ If context is tight, remember this:
 ## November 2026 full-site audit outcome
 - Fixed across 882 blog pages: audience-matched service links, page-narration removal, money-check sections, heavy paragraph splits, 88 search titles trimmed to 75, first-third service line, first FAQ open.
 - Rules were updated in BLOG_WRITING_PROMPT.md (end section) and BLOG_WRITING_PROMPT_FOLLOWUP.md so the fixes persist for future pages.
-- Open items for the owner: Search Console exports not yet received; confirm struck-through prices are real; decide 3 Gates/4CP wording; ~270 pages could get a who-pays section; most rewritten pages carry no sourced figures.
+- Who-pays sections were written per page on 298 pages. Open items for the owner: confirm struck-through prices are real; decide 3 Gates/4CP wording; most rewritten pages carry no sourced figures.

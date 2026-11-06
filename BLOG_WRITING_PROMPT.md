@@ -264,7 +264,7 @@ Use this prompt with judgment. Not every idea here has the same weight.
 - Both `seoTitle` and the H1 must contain the primary keyword. Never use the search title to promise something the page does not deliver.
 - Example: H1 `Career without a degree after 12th India: 15 paths across tech, trades, and government exams` with `seoTitle` `Career Without a Degree After 12th: 15 Real Paths in India`.
 - Meta description: about 155 characters, 160 at most. Direct answer or what is inside first, one concrete detail (salary, exam, number) second. A call to action is optional.
-- For pages that already rank on page one with a low click-through rate, rewrite the search title and meta description first. That is a snippet problem, not a ranking problem.
+- Do not rewrite a search title or meta description that already follows these rules. Rewrite only when it breaks a rule here (length, keyword, no em dashes, no promise the page does not deliver).
 
 ### Informational Title Formula
 
@@ -815,7 +815,7 @@ Carefully ask yourself these questions and take the best possible decision.
 
 Most of the colleges are severely lacking in providing hands-on experience and real time industry level knowledge.
 
-- Use 10% of the person's or family's total education budget as a deliberately conservative college-spending benchmark when this perspective is relevant. For example, if the complete education budget is ₹10 lakh, the starting benchmark is about ₹1 lakh for college and the remaining ₹9 lakh stays available for living security, tools, internet access, books, projects, certifications, work experience, future upskilling, and other learning needs. Do not present 10% as a universal research-backed law. Present it as a strict decision heuristic: spending materially more needs a clear, evidence-based reason.
+- Use 10% of the person's or family's total education budget as a deliberately conservative college-spending benchmark when this perspective is relevant. For example, if the complete education budget is ₹10 lakh, the starting benchmark is about ₹1 lakh for college and the remaining ₹9 lakh stays available for living security, tools, internet access, books, projects, certifications, work experience, future upskilling, and other learning needs. Do not present 10% as a universal research-backed law or borrow it from someone else. Present it as our own working rule, built from our guidance experience with families, and say so plainly: spending materially more needs a clear, evidence-based reason.
 - Spending above that benchmark may be justified when the institution is genuinely among the world's or country's strongest options for that particular course and creates verified advantages that are difficult to reproduce independently. Compare course-specific teaching quality, current curriculum, laboratories or clinical access, licensing eligibility, faculty, peer group, internships, alumni access, placement denominator and median outcomes, total cost, debt, and realistic income — not the college's general prestige alone.
 - If the extra college spending cannot be connected to a necessary credential or a credible improvement in learning, access, proof, or income, treat the additional amount as likely waste rather than automatically assuming that a higher fee means a better education.
 - For careers that can be learned and demonstrated without a mandatory degree, compare the college route with a self-directed route. A committed learner may be able to learn more current, industry-relevant material faster through the internet, while building projects and getting feedback instead of waiting for a slow syllabus to change.
@@ -3186,10 +3186,18 @@ These rules override anything earlier in this file that conflicts with them. The
 - Write the section per page, in that page's own facts. Do not paste the shared wording. Use the exact names "The 4-Checkpoint Protocol" (Biology, Context, Market, Survival) and "The 3 Gates" (Proof of Skill, Proof of Communication as a 30 second to 2 minute pitch, Proof of Value).
 
 ### Money check for paid learning
-- Pages recommending a course, degree, certification or coaching include a "Money check before you pay" section: fee near a tenth of the family education budget, above a fifth is a caution needing course-specific evidence, labelled "a rule of thumb, not a research finding", and an example labelled "An illustration, not a real fee". Study-abroad pages add the loan-risk point. Never present the 10%/20% as a research fact.
+- Pages recommending a course, degree, certification or coaching include a "Money check before you pay" section: fee near a tenth of the family education budget; above a fifth is a caution that needs course-specific evidence.
+- The 10% and 20% lines are our own experience, not a number taken from a study or from another site. Say so in the page's voice, for example "This is the working rule we use after seeing how families spend, not a published figure." Never write that research supports it, and never copy the rule from another source.
+- Share what our experience adds that readers will not find elsewhere: what the remaining budget should still fund (tools, practice, a reserve), which spending mistakes we see, and what to check before paying. Keep it practical.
+- The worked example is labelled "An illustration, not a real fee". Study-abroad pages add the loan-risk point.
 
 ### Who pays
-- Where a page is about a career or skill someone could earn from independently, include who pays, how they find and trust the person, and the first basic sales skill. Give the full context in that page's own words. Employer-only paths say so plainly.
+- Every page about a career, job, course-to-career route or skill someone can earn from has a "Who pays for <this exact career or skill>, and how they judge you" section. It answers three things for the page's own query: who actually pays (employer, client, patient, family, the government, platform, customer), what that payer checks before paying (qualification, registration, portfolio, exam rank, referral, results), and the first basic skill worth building for that payer.
+- Write it fresh for each page. Different search queries need different answers: "is nursing a good career" is answered with hospitals, registration and ward experience; "freelance video editing" with creators, brands and a showreel. Do not copy a sentence from one page to another or swap only the career name.
+- Name the payer, the proof and the skill in concrete terms for that career. A generic line such as "employers pay for skills" fails.
+- Employer-only paths (government posts, defence selection) say plainly that the payer is the government or selecting body, and that selling skills matter mainly for the side route or the move after it.
+- Pages that are not about earning (resume wording, interview answers, stream choice, parents, study-abroad logistics) do not need it.
+- Placement: in the second half of the page, before the AI, alternatives, mistakes or FAQ section. Keep it to two short paragraphs, no invented figures, no income promises.
 
 ### Facts and figures
 - No pay figures unless indicative and sourced; give the source and "checked on" date. No fixed hours, days or weeks in plans ("ten hours a week") unless the user supplied them; describe stages by outcome instead.
@@ -3197,7 +3205,3 @@ These rules override anything earlier in this file that conflicts with them. The
 
 ### Shared blocks
 - The sitewide scalability note renders once per page through `ScalabilityLens`. Do not paste its wording elsewhere in the body. Repeated headings across many pages are fine only when each page fills them with its own content.
-
-### Search Console data
-- New pages can take many months to earn impressions or clicks, so absence from results is not a verdict on a page. Do not delete, merge, noindex or rewrite the body of a page because of low clicks or impressions alone.
-- Use Search Console only for: snippet fixes (title and meta) on pages with impressions but a low click-through rate, indexing or redirect/canonical errors, and queries worth a new or extended answer.

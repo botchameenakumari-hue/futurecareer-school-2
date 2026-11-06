@@ -29,7 +29,7 @@ Additional follow-up checks:
 - check that any FCS positioning in CTAs, CTA support lines, or business description sections carries at least one core positioning advantage: earlier financial freedom, high-income skill portfolio, or the decisions that unlock high income opportunities — not just a generic service description
 - if the article touches on skill-building, verify that the holistic skill approach is visible where relevant: right skill mix for the person, proof of work, communication, market positioning, personal fit, and financial reality — not just a list of technical skills
 - if the article mentions degrees or the degree debate, make sure the framing is skill-first but not harshly anti-degree: degrees have a place, the problem is degree-only thinking without skill-building alongside it
-- if the article recommends college spending, test it against the conservative 10%-of-total-education-budget benchmark and show the reader what the remaining budget could fund; label 10% as a strict planning heuristic, not a universal research fact
+- if the article recommends college spending, test it against the conservative 10%-of-total-education-budget benchmark and show the reader what the remaining budget could fund; present 10% as our own working rule from guidance experience, not a research fact and not borrowed from another source
 - if spending materially above the 10% benchmark is recommended, justify it using course-specific evidence such as accreditation or licensing need, current teaching quality, lab or clinical access, internships, verified placement outcomes, peer or alumni access, and realistic income after total cost and debt — not general college prestige
 - if self-learning is viable for the field, put high-quality YouTube learning and the best relevant online-course platforms first, then compare other current free or affordable routes such as official documentation, open courseware, books, communities, apprenticeships, internships, and real projects; assess individual courses rather than endorsing an entire platform, and require evidence of learning through work, feedback, judgment, or outcomes rather than course collection
 - if the profession requires an accredited degree, licence, supervised practice, laboratories, clinical training, or another formal gate, say so clearly and do not present internet learning as a substitute for that requirement
@@ -52,7 +52,7 @@ Additional follow-up checks:
   - do not judge a path only by whether it gives a first job; compare fit, time to useful income, growth, ceiling, portability, cost, resilience, and realistic consulting, freelance, private-practice, product, content, or business leverage
   - show how domain knowledge can combine with communication, people skills, suitable language ability, AI fluency, market positioning, and relevant personal branding or content; use confidential or non-public proof formats where public posting does not fit
   - make clear that normal college is not a complete career system; preserve money and time for current learning, tools, projects, feedback, experience, networking, and future upskilling
-  - retain the 10% education-budget starting heuristic; treat spending above roughly 20% as a serious caution requiring course-specific evidence, while clearly labelling both as planning heuristics rather than universal facts
+  - retain the 10% education-budget starting heuristic; treat spending above roughly 20% as a serious caution requiring course-specific evidence, while presenting both as our own experience-based working rules rather than research findings
 - growth, scalability, and AI-leverage audit (career/good-career/career-choice keywords):
   - verify the article gives a real, researched verdict rather than a safely neutral or reflexively positive one; if the honest answer is mixed, narrow, or cautionary, the article says so instead of softening it
   - verify growth potential is explicitly addressed: does this career have real headroom to scale to significantly higher income or seniority, or is it structurally capped — and is that stated plainly, with a reason
@@ -265,8 +265,8 @@ Corrections added November 2026 (see "Corrections and enforcement rules" in BLOG
 - [ ] Every `faq-item` is `open` (all answers visible); FAQ JSON-LD matches `faqItems`.
 - [ ] No paragraph over 3 sentences unless it is a data-card string; do not split paragraphs that are not overloaded.
 - [ ] 3 Gates and 4-Checkpoint Protocol present, written per page, on every course, degree, certification, switch or earn-from-skill page; correctly named; skipped only on pure information pages.
-- [ ] Money-check section present on paid-learning pages, with the "rule of thumb, not a research finding" and "illustration, not a real fee" labels.
-- [ ] Who-pays context present for earn-from-skill pages, in the page's own words.
+- [ ] Money-check section present on paid-learning pages, that states the 10%/20% lines are our own experience (not a study) and labels the example "an illustration, not a real fee".
+- [ ] "Who pays for <this career or skill>, and how they judge you" section present on every earn-from-skill page, written fresh for that page's query (payer, what the payer checks, first basic skill); no sentence copied between pages.
 - [ ] Banned audience words are not used for our own audience; domain uses (a business's buyers or users) are fine.
 - [ ] No unsourced pay figures, no fixed hours/weeks in plans.
-- [ ] Run this follow-up checklist against the finished pages at least 2 to 3 times (write, check, fix, check again) before calling them done, and say honestly how many rounds were run and what each one found.
+- [ ] Implementation passes: apply every instruction in this follow-up file to the finished pages, fully, at least 2 to 3 times (implement, check against each instruction, fix, check again). Report honestly how many passes ran and what each found.
