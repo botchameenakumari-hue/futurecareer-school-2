@@ -815,7 +815,7 @@ Carefully ask yourself these questions and take the best possible decision.
 
 Most of the colleges are severely lacking in providing hands-on experience and real time industry level knowledge.
 
-- Use 10% of the person's or family's total education budget as a deliberately conservative college-spending benchmark when this perspective is relevant. For example, if the complete education budget is ₹10 lakh, the starting benchmark is about ₹1 lakh for college and the remaining ₹9 lakh stays available for living security, tools, internet access, books, projects, certifications, work experience, future upskilling, and other learning needs. Do not present 10% as a universal research-backed law or borrow it from someone else. Present it as our own working rule, built from our guidance experience with families, and say so plainly: spending materially more needs a clear, evidence-based reason.
+- Use 10% of the person's or family's total education budget as a deliberately conservative college-spending benchmark when this perspective is relevant. For example, if the complete education budget is ₹10 lakh, the starting benchmark is about ₹1 lakh for college and the remaining ₹9 lakh stays available for living security, tools, internet access, books, projects, certifications, work experience, future upskilling, and other learning needs. Present it simply as our strongest suggestion, without explaining its origin: spending materially more needs a clear, evidence-based reason.
 - Spending above that benchmark may be justified when the institution is genuinely among the world's or country's strongest options for that particular course and creates verified advantages that are difficult to reproduce independently. Compare course-specific teaching quality, current curriculum, laboratories or clinical access, licensing eligibility, faculty, peer group, internships, alumni access, placement denominator and median outcomes, total cost, debt, and realistic income — not the college's general prestige alone.
 - If the extra college spending cannot be connected to a necessary credential or a credible improvement in learning, access, proof, or income, treat the additional amount as likely waste rather than automatically assuming that a higher fee means a better education.
 - For careers that can be learned and demonstrated without a mandatory degree, compare the college route with a self-directed route. A committed learner may be able to learn more current, industry-relevant material faster through the internet, while building projects and getting feedback instead of waiting for a slow syllabus to change.
@@ -900,7 +900,7 @@ articles.
   upskilling. YouTube, official documentation, Google, reputable low-cost courses, mentors, and real
   practice may be more current than a normal syllabus, but they do not replace an accredited degree,
   licence, laboratory, or supervised clinical training where those are required.
-- Keep the existing conservative 10%-of-total-education-budget benchmark as a starting heuristic.
+- Keep the existing conservative 10%-of-total-education-budget benchmark as our strongest suggestion.
   Treat spending above roughly 20% as a serious caution point that needs course-specific evidence,
   not as an automatic ban. The full cost must still leave adequate financial security and an
   upskilling budget. Avoid education debt unless a necessary credential or unusually strong,
@@ -3186,10 +3186,10 @@ These rules override anything earlier in this file that conflicts with them. The
 - Write the section per page, in that page's own facts. Do not paste the shared wording. Use the exact names "The 4-Checkpoint Protocol" (Biology, Context, Market, Survival) and "The 3 Gates" (Proof of Skill, Proof of Communication as a 30 second to 2 minute pitch, Proof of Value).
 
 ### Money check for paid learning
-- Pages recommending a course, degree, certification or coaching include a "Money check before you pay" section: fee near a tenth of the family education budget; above a fifth is a caution that needs course-specific evidence.
-- The 10% and 20% lines are our own experience, not a number taken from a study or from another site. Say so in the page's voice, for example "This is the working rule we use after seeing how families spend, not a published figure." Never write that research supports it, and never copy the rule from another source.
-- Share what our experience adds that readers will not find elsewhere: what the remaining budget should still fund (tools, practice, a reserve), which spending mistakes we see, and what to check before paying. Keep it practical.
-- The worked example is labelled "An illustration, not a real fee". Study-abroad pages add the loan-risk point.
+- Pages recommending a course, degree, certification or coaching include a "Money check before you pay" section. Present the budget line simply as our strongest suggestion: keep the fee near a tenth of the family education budget, and treat spending above roughly a fifth as a caution that needs course-specific evidence.
+- Do not explain where the rule comes from, do not call it a heuristic, a rule of thumb, a research finding or "our experience", and do not add disclaimers about it. Just state it as our strongest suggestion.
+- It does not apply to very cheap online learning. Free YouTube lessons and low-priced courses on sites like Udemy or Coursera need little budget care, and the same course sold as a university certificate can cost 30 to 100 times more, so look at free and cheap options first.
+- Keep what the remaining budget should still fund (tools, practice, a reserve) and the worked example, labelled "An illustration, not a real fee". Study-abroad pages add the loan-risk point.
 
 ### Who pays
 - Every page about a career, job, course-to-career route or skill someone can earn from has a "Who pays for <this exact career or skill>, and how they judge you" section. It answers three things for the page's own query: who actually pays (employer, client, patient, family, the government, platform, customer), what that payer checks before paying (qualification, registration, portfolio, exam rank, referral, results), and the first basic skill worth building for that payer.
