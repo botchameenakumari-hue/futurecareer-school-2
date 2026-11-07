@@ -457,7 +457,7 @@ Informational articles are not service pages, but they still need a clear Future
   - depth: takes enough practice and proof that lazy dabbling gets filtered out.
 - If a path is weak on most of those checks, do not sell it as a high-value-skill lane just because one salary screenshot looked attractive.
 - Treat proof of work as a major decision filter: projects, shipped work, internships, public writing, portfolios, case notes, client proof, or real outcomes matter more than vague ambition.
-- Use The 3 Gates when the person needs a simple proof ladder: Proof of Skill, Proof of Communication, and Proof of Value.
+- Use the three proofs when the person needs a simple proof ladder: Show it, Say it, and Get it checked.
 - Keep the bar stage-aware: a school student may need tiny proof of follow-through, a college student may need first paid or proof-of-value work, and an adult may need side income, a raise, a process win, or a measurable outcome.
 - Use career-group thinking where relevant. Do not trap the article inside one glamorous job title if the keyword is really about a broader decision.
 - Show the boring 80% of a path when the keyword is decision-heavy. The person needs task reality, not only the attractive headline version.
@@ -489,8 +489,8 @@ Informational articles are not service pages, but they still need a clear Future
 ### Named Framework Consistency
 
 - If you use a named framework from the prompt or repo context, introduce it with the exact name the first time.
-- Example: if you later say `4-Checkpoint Protocol`, the earlier section must already name it exactly as `The 4-Checkpoint Protocol`.
-- Do not write `run it through four filters` first and only much later call it `the 4-Checkpoint Protocol` without explicitly tying them together.
+- Example: if you later say `the four questions`, the earlier section must already name it exactly as `Four questions`.
+- Do not write `run it through four filters` first and only much later call it `the four questions` without explicitly tying them together.
 - When a later section references that framework, use the same wording and clearly point back to the earlier explanation.
 
 ### Anti-Spam and Anti-Doorway Rules (Applies to Blog Content at Scale)
@@ -634,9 +634,9 @@ Use these components. Do not invent new component types from scratch:
 
 **5. Track cards / feature cards** — grid of cards for 3 or more parallel options. Each card gets a badge, title, body, and tag pills. Give each card a distinct tinted border color so options are visually separated. Collapse to single column on narrow screens.
 
-**6. Numbered protocol stack** — full-width stacked rows with a large faded number on the left and content on the right. Use for The 4-Checkpoint Protocol and any named multi-part system (3–6 parts). Collapse to number-above-content on narrow screens.
+**6. Numbered protocol stack** — full-width stacked rows with a large faded number on the left and content on the right. Use for the four questions and any named multi-part system (3–6 parts). Collapse to number-above-content on narrow screens.
 
-**7. Gates / milestone block** — teal-tinted outer container with inner cards for each gate. Use for The 3 Gates and any 3-part validation framework. Collapse inner grid to single column on narrow screens.
+**7. Gates / milestone block** — teal-tinted outer container with inner cards for each gate. Use for the three proofs and any 3-part validation framework. Collapse inner grid to single column on narrow screens.
 
 **8. Rich numbered list** — custom numbered circles (gold-filled) with each item in a padded row with a border. Use instead of a bare `<ol>` when the numbered items each deserve individual visual weight.
 
@@ -655,7 +655,7 @@ Use these components. Do not invent new component types from scratch:
 ### Design Principles
 
 - Comparison content (A vs B, pros/cons, when-to/when-not-to) belongs in a comparison grid, not running paragraphs
-- Named frameworks like The 4-Checkpoint Protocol and The 3 Gates must appear in their named visual block, not just as bolded text in a paragraph
+- Named frameworks like the four questions and the three proofs must appear in their named visual block, not just as bolded text in a paragraph
 - Naturally tabular data belongs in a table, not converted to bullets
 - Avoid using the same component type in two consecutive H2 sections — vary the visual treatment
 - Give cards enough internal padding so text does not feel pressed against the border — the right amount depends on the content and context
@@ -1116,8 +1116,10 @@ More supplied perspectives:
 
 ## The Strategic Protocols
 
-- **The 4-Checkpoint Protocol:** Before picking a career path, you must check your Biology (energy, remote/office, field work, introvert/extrovert), Context (life stage), Market (is it a "bleeding-neck" problem?), and Survival (is it AI-resistant?).
-- **The 3 Gates:** To "graduate" to earning, you must pass three real-world tests: Proof of Skill, Proof of Communication (a 30 sec to 2-minute pitch), and Proof of Value (validation from a few real people who would use or pay for the work, such as clients, employers or practitioners).
+- **Check before you commit (the four questions and the three proofs, one idea in two parts):**
+  - **Four questions to answer before you commit:** (1) Your fit: does this work suit you day to day (energy, office or remote, field work, quiet or social)? (2) Your situation: can your life carry it (time, money, family, life stage)? (3) The job market: are employers or clients hiring and paying for this? (4) AI-proof: will AI take your part of the work, or will you do the part AI cannot?
+  - **Three proofs to pass before you earn:** (1) Show it: one real thing you made or did. (2) Say it: explain it in 30 seconds to 2 minutes without notes. (3) Get it checked: a few real people who would use, hire or pay for the work say it was useful.
+  - Use plain words only. Do not use the old names (4-Checkpoint Protocol, 3 Gates, Biology, Context, Market, Survival, Proof of Skill, Proof of Communication, Proof of Value) on new pages.
 
 ---
 
@@ -3181,9 +3183,10 @@ These rules override anything earlier in this file that conflicts with them. The
 ### FAQ
 - Questions live in `faqItems`, rendered as `<details class="faq-item" open>` so every answer is visible without a click, and the same items feed the FAQPage JSON-LD.
 
-### When The 3 Gates and The 4-Checkpoint Protocol are required
-- Required for pages where a person is deciding whether to pay for a course, degree, certification, bootcamp or a career switch, or building a skill to earn from. Optional (and better left out than forced) on pure information pages such as exam dates, definitions, or news explainers.
-- Write the section per page, in that page's own facts. Do not paste the shared wording. Use the exact names "The 4-Checkpoint Protocol" (Biology, Context, Market, Survival) and "The 3 Gates" (Proof of Skill, Proof of Communication as a 30 second to 2 minute pitch, Proof of Value).
+### When the four questions and the three proofs are required
+- Combined rule: the four questions and the three proofs go together. Show them as one section on the page, "Check before you commit", with the four questions first and the three proofs after them. Two linked blocks are fine, but the intro must tie them together in one sentence.
+- Required on pages where a person decides whether to pay for a course, degree, certification, bootcamp or career switch, or builds a skill to earn from. Skip them on pure information pages such as exam dates, definitions or news explainers.
+- Write the section per page, in that page's own facts. Do not paste shared wording. The four question titles are: Your fit, Your situation, Job market, AI-proof. The three proof titles are: Show it, Say it, Get it checked. Each card body is written for that page's career, course or skill.
 
 ### Money check for paid learning
 - Pages recommending a course, degree, certification or coaching include a "Money check before you pay" section. Present the budget line simply as our strongest suggestion: keep the fee near a tenth of the family education budget, and treat spending above roughly a fifth as a caution that needs course-specific evidence.

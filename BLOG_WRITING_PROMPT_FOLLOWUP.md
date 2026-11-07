@@ -138,7 +138,7 @@ Additional follow-up checks:
   - if public proof is part of the article, prefer one primary proof shelf built deeply before adding more platforms
   - if outreach is part of the article, the first message should include one specific observation, one relevant work link or proof point, and one small question
 - if the article uses any named framework or protocol, verify that the first introduction clearly uses the exact same name and that later references point back to it consistently
-- do not leave a later mention like `the 4-Checkpoint Protocol` hanging if the earlier section only used vague wording such as `four filters`
+- do not leave a later mention like `the four questions` hanging if the earlier section only used vague wording such as `four filters`
 - if the first sentence still does not answer the query or prove relevance immediately, rewrite it
 - if the first 2 to 3 sentences still feel slow, generic, or definition-heavy, tighten them until the reader gets the answer before scrolling
 - if the keyword is awkward in the exact form, use a close natural variation near the start instead of forcing unnatural phrasing
@@ -264,7 +264,7 @@ Corrections added November 2026 (see "Corrections and enforcement rules" in BLOG
 - [ ] Exactly one audience-matched service link plus one parent category link in the first third; the service link comes from `blogSalesLinks.ts` logic, not a generic student link.
 - [ ] Every `faq-item` is `open` (all answers visible); FAQ JSON-LD matches `faqItems`.
 - [ ] No paragraph over 3 sentences unless it is a data-card string; do not split paragraphs that are not overloaded.
-- [ ] 3 Gates and 4-Checkpoint Protocol present, written per page, on every course, degree, certification, switch or earn-from-skill page; correctly named; skipped only on pure information pages.
+- [ ] the four questions and the three proofs present, written per page, on every course, degree, certification, switch or earn-from-skill page; correctly named; skipped only on pure information pages.
 - [ ] Money-check section present on paid-learning pages: the 10%/20% line is stated simply as our strongest suggestion (no origin story, no disclaimers), notes that it does not apply to free or very cheap online courses, and the example is labelled "an illustration, not a real fee".
 - [ ] "Who pays for <this career or skill>, and how they judge you" section present on every earn-from-skill page, written fresh for that page's query (payer, what the payer checks, first basic skill); no sentence copied between pages.
 - [ ] Banned audience words are not used for our own audience; domain uses (a business's buyers or users) are fine.

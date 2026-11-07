@@ -389,7 +389,7 @@ Important frameworks referenced:
 - Tarzan Rule
 - Multiplier Skill
 - T-Shaped Skill Stack
-- 4-Checkpoint Protocol
+- Four questions (formerly 4-Checkpoint Protocol) and three proofs (formerly 3 Gates)
 - Skill Marriage
 - Career Group Engine
 - Night Shift Plan
@@ -661,4 +661,4 @@ If context is tight, remember this:
 ## November 2026 full-site audit outcome
 - Fixed across 882 blog pages: audience-matched service links, page-narration removal, money-check sections, heavy paragraph splits, 88 search titles trimmed to 75, first-third service line, first FAQ open.
 - Rules were updated in BLOG_WRITING_PROMPT.md (end section) and BLOG_WRITING_PROMPT_FOLLOWUP.md so the fixes persist for future pages.
-- Who-pays sections were written per page on 298 pages. Open items for the owner: confirm struck-through prices are real; decide 3 Gates/4CP wording; most rewritten pages carry no sourced figures.
+- Who-pays sections were written per page on 298 pages. Open items for the owner: confirm struck-through prices are real; decide the four questions and three proofs wording; most rewritten pages carry no sourced figures.
