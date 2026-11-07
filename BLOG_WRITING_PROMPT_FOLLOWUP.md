@@ -268,5 +268,7 @@ Corrections added November 2026 (see "Corrections and enforcement rules" in BLOG
 - [ ] Money-check section present on paid-learning pages: the 10%/20% line is stated simply as our strongest suggestion (no origin story, no disclaimers), notes that it does not apply to free or very cheap online courses, and the example is labelled "an illustration, not a real fee".
 - [ ] "Who pays for <this career or skill>, and how they judge you" section present on every earn-from-skill page, written fresh for that page's query (payer, what the payer checks, first basic skill); no sentence copied between pages.
 - [ ] Banned audience words are not used for our own audience; domain uses (a business's buyers or users) are fine.
-- [ ] No unsourced pay figures, no fixed hours/weeks in plans.
+- [ ] Pay: one general India range from general research on every earn-from-skill or career page, with source, "checked on" date and a line that pay varies by city, employer and skill; no invented figures; no fixed hours/weeks in plans.
+- [ ] Safety lines only where money or health is at risk (loans, stress, government-job fees, study-abroad agents); none on plain career-information pages.
+- [ ] No hard words: leverage, cohort, heuristic, trajectory, holistic, utilise, facilitate (see the hard-words rule in BLOG_WRITING_PROMPT.md).
 - [ ] Implementation passes: apply every instruction in this follow-up file to the finished pages, fully, at least 2 to 3 times (implement, check against each instruction, fix, check again). Report honestly how many passes ran and what each found.

@@ -327,9 +327,9 @@ export const CHECKPOINTS = [
   { title: 'Survival', body: 'Will it hold up in an AI-shaped market? Domain skill plus communication, digital fluency and judgment lasts longer than routine work.' },
 ];
 export const GATES = [
-  { title: 'Proof of Skill', body: 'Complete one small real task that resembles the route before you lock it.' },
-  { title: 'Proof of Communication', body: 'Explain in 30 to 90 seconds why the route fits you, where it leads and what you will test next.' },
-  { title: 'Proof of Value', body: 'Get grounded feedback from a teacher, senior or professional who does this work, and pressure-test your reasoning.' },
+  { title: 'Show it', body: 'Complete one small real task that resembles the route before you lock it.' },
+  { title: 'Say it', body: 'Explain in 30 to 90 seconds why the route fits you, where it leads and what you will test next.' },
+  { title: 'Get it checked', body: 'Get grounded feedback from a teacher, senior or professional who does this work, and pressure-test your reasoning.' },
 ];
 
 // ----- Mistakes -----------------------------------------------------------------------------

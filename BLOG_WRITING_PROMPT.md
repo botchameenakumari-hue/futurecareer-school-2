@@ -3203,7 +3203,10 @@ These rules override anything earlier in this file that conflicts with them. The
 - Placement: in the second half of the page, before the AI, alternatives, mistakes or FAQ section. Keep it to two short paragraphs, no invented figures, no income promises.
 
 ### Facts and figures
-- No pay figures unless indicative and sourced; give the source and "checked on" date. No fixed hours, days or weeks in plans ("ten hours a week") unless the user supplied them; describe stages by outcome instead.
+- Pay figures: every career, role or earn-from-skill page gives one general pay range for India from general research (for example AmbitionBox, Naukri or an official pay scale). Name the source and the "checked on" date, and say plainly that pay varies by city, employer and skill. Never invent a figure; if no reliable range exists, say pay varies widely and point to current job listings. Pages that are not about earning (for example a subject-choice or exam page) do not need a figure.
+- No fixed hours, days or weeks in plans ("ten hours a week") unless the user supplied them; describe stages by outcome instead.
+- Safety lines: add one short plain line only where a wrong step can cost real money or health. Loans: "general information, not financial advice; get the terms in writing". Stress or mental health: "not medical advice; talk to a doctor or counsellor". Government jobs and coaching: "apply only on the official website; no real job asks for money". Study abroad: "apply on the university website; no agent can promise admission or a visa". Career-information pages (law, medicine, psychology as careers) need no such line.
+- Hard words: write for non-native English readers at grade 4 to 6. Replace "leverage" with advantage or use, "cohort" with batch or group, "heuristic" with rule, "trajectory" with path, "holistic" with whole-picture, "utilise" with use, "facilitate" with help. Use a job word such as "stakeholder" or "facilitation" only where it is the real name of the job task.
 - A query that needs a different answer deserves its own page; do not merge or pad. Fluff is the quality test, not a uniqueness percentage.
 
 ### Shared blocks
