@@ -56,8 +56,8 @@ const categoryMeta = getBlogCategory(category);
 const currentSlug = canonical.replace(/\/$/, '').split('/').filter(Boolean).at(-1) ?? '';
 
 const AUTHOR_AVATARS: Record<string, string> = {
-  'Allu Vagdevi': '/images/authors/allu-vagdevi.jpg',
-  'Shivanshi Sehgal': '/images/authors/shivanshi-sehgal.jpg',
+  'Allu Vagdevi': '/images/authors/allu-vagdevi-thumb.jpg',
+  'Shivanshi Sehgal': '/images/authors/shivanshi-sehgal-thumb.jpg',
 };
 const authorAvatar = authorName ? AUTHOR_AVATARS[authorName] : undefined;
 
@@ -225,7 +225,7 @@ const jsonLd = [
             {publishedAt && <span class="post-meta-pill">Published: {publishedLabel ?? publishedAt}</span>}
             {authorName && (
               <a href={authorUrl ?? '#'} class="post-meta-pill post-meta-pill--link post-meta-pill--author">
-                {authorAvatar && <img src={authorAvatar} alt={authorName} class="post-meta-avatar" width="22" height="22" />}
+                {authorAvatar && <img src={authorAvatar} alt={authorName} class="post-meta-avatar" width="96" height="96" />}
                 By {authorName}{authorRole ? ` - ${authorRole}` : ''}
               </a>
             )}
@@ -290,8 +290,9 @@ const jsonLd = [
   }
   .post-meta-pill--link { text-decoration: none; }
   .post-meta-pill--link:hover { color: #fff; border-color: rgba(229,184,74,.35); }
-  .post-meta-pill--author { padding-left: .4rem; gap: .5rem; }
-  .post-meta-avatar { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+  .post-meta-pill--author { padding: .5rem 1.2rem .5rem .5rem; gap: 1rem; font-size: 16px; }
+  .post-meta-avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+  @media (max-width: 480px) { .post-meta-avatar { width: 80px; height: 80px; } .post-meta-pill--author { font-size: 15px; } }
 
   /* Constrain the reading column. A 1100px+ line is unreadable; ~760px of
      prose keeps line length near the comfortable 65-80 character range and

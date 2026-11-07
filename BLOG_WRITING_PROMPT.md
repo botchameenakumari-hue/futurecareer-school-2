@@ -160,11 +160,7 @@ see component #14 below.
 
 **Schema for blog posts:** `BlogPosting` (always include `datePublished`). Do not add fake author bios or fake reviews.
 
-**Author assignment:** assign a real author from the site's live author pages — `Shivanshi Sehgal`
-(`/about/shivanshi-sehgal/`) or `Allu Vagdevi` (`/about/allu-vagdevi/`). Both have real headshots at
-`public/images/authors/shivanshi-sehgal.jpg` and `public/images/authors/allu-vagdevi.jpg`;
-`BlogPostLayout.astro` maps `authorName` to the correct photo automatically, so setting `authorName` on
-a new post is enough — no per-post image work needed. Never invent a fake author.
+**Author assignment:** every post has exactly one author, shown as the byline only (no "Reviewed by" line, no bio box). Pick one of the two real authors at random per post, and keep the split near half and half: `Shivanshi Sehgal` (`/about/shivanshi-sehgal/`) or `Allu Vagdevi` (`/about/allu-vagdevi/`). Do not give one author most of the pages. The author photo is 96px (80px on small phones) and comes only from `BlogPostLayout.astro` (`AUTHOR_AVATARS`, 192px square files in `public/images/authors/`). Never set a photo size on a page, and never add a bio box or a reviewed-by line. Set all three constants exactly: `authorName`, `authorUrl` (`https://futurecareerschool.com/about/<slug>/`) and `authorRole = 'Career researcher and writer'` (the same role for both). `BlogPostLayout.astro` picks the photo and its size; the photo shows as a 64px round thumbnail made from `public/images/authors/<slug>-thumb.jpg` (192px square). Do not set a photo size or add avatar CSS in a post. To change the size for every page, change `.post-meta-avatar` once in `BlogPostLayout.astro`. Never invent a fake author.
 
 ---
 
