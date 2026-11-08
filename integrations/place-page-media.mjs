@@ -29,6 +29,29 @@ const EMPTY_BLOG_VISUALS = [
   { src: '/images/blog/system/career-visual-system-proof.webp', label: 'Build a high-value skill portfolio', width: 1600, height: 1000 },
 ];
 
+const CATEGORY_HEROES = new Set([
+  'career-change', 'career-guidance', 'career-options', 'college-degrees', 'freelancing-business',
+  'government-jobs', 'interviews', 'job-search', 'linkedin-networking', 'medical-careers',
+  'parents', 'resume', 'salary-growth', 'skills', 'stream-selection',
+]);
+
+const CATEGORY_VISUAL_SOURCES = {
+  'career-change': 'skills-needed-for-career-change-india',
+  'career-guidance': 'after-12th-confused',
+  'career-options': 'ba-career-options',
+  'college-degrees': 'bba-vs-bcom-india-which-to-choose-after-12th',
+  'freelancing-business': 'freelancing-vs-job-india',
+  'government-jobs': 'government-job-vs-startup-job-stability-india',
+  interviews: 'interview-preparation-for-freshers-india',
+  'job-search': 'how-to-get-a-job-without-experience-india',
+  'linkedin-networking': 'linkedin-profile-tips-for-freshers-india',
+  'medical-careers': 'non-doctor-medical-careers',
+  parents: 'how-to-guide-child-in-career-selection-india',
+  resume: 'resume-tips-for-freshers-india',
+  skills: 'career-development-skills',
+  'stream-selection': 'career-options-after-10th',
+};
+
 const attr = (node, name) => (node.attrs || []).find((a) => a.name === name)?.value;
 const classes = (node) => (attr(node, 'class') || '').split(/\s+/).filter(Boolean);
 const elementChildren = (node) => (node.childNodes || []).filter((child) => child.tagName);
@@ -177,9 +200,50 @@ function escapeAttr(value) {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function emptyBlogVisuals(html) {
+function categoryFiles(publicDir, category) {
+  const root = path.join(publicDir, 'images', 'blog', category);
+  if (!fs.existsSync(root)) return [];
+  const image = (name) => /\.(?:webp|jpe?g|png)$/i.test(name) && !/-social\./i.test(name) && !/(?:cover|hero|thumbnail)\./i.test(name);
+  const preferred = CATEGORY_VISUAL_SOURCES[category];
+  const direct = fs.readdirSync(root, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => path.join(root, entry.name))
+    .sort((a, b) => {
+      const aPreferred = path.basename(a) === preferred ? -1 : 0;
+      const bPreferred = path.basename(b) === preferred ? -1 : 0;
+      return aPreferred - bPreferred || a.localeCompare(b);
+    });
+  for (const dir of direct) {
+    const files = fs.readdirSync(dir, { withFileTypes: true })
+      .filter((entry) => entry.isFile() && image(entry.name))
+      .map((entry) => path.join(dir, entry.name))
+      .sort();
+    if (files.length >= 5) return files.slice(0, 5).map((file) => '/' + path.relative(publicDir, file).split(path.sep).join('/'));
+  }
+  const files = [];
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const file = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(file);
+      else if (image(entry.name)) files.push(file);
+    }
+  };
+  walk(root);
+  return files.sort().slice(0, 5).map((file) => '/' + path.relative(publicDir, file).split(path.sep).join('/'));
+}
+
+function readableAssetName(src) {
+  return path.basename(src).replace(/\.(?:webp|jpe?g|png)$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function emptyBlogVisuals(html, publicDir, category) {
   const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
   const pageTitle = plainText(h1 || 'this career article');
+  const categoryHero = CATEGORY_HEROES.has(category) ? `/images/blog/category-heroes/${category}.webp` : null;
+  const categoryExplanatory = CATEGORY_HEROES.has(category) ? categoryFiles(publicDir, category) : [];
+  const visuals = categoryHero && categoryExplanatory.length >= 5
+    ? [{ src: categoryHero, label: `${category.replace(/-/g, ' ')} career decision hero`, width: 1600, height: 900 }, ...categoryExplanatory.map((src) => ({ src, label: readableAssetName(src), width: imageSize(publicDir, src)?.w || 1122, height: imageSize(publicDir, src)?.h || 1402 }))]
+    : EMPTY_BLOG_VISUALS;
   const figure = (visual, index) => {
     const alt = `${visual.label} for ${pageTitle}`;
     const title = `${pageTitle}: ${visual.label}`;
@@ -193,27 +257,27 @@ function emptyBlogVisuals(html) {
   const lead = /<p\b[^>]*class="[^"]*lead-para[^"]*"[^>]*>[\s\S]*?<\/p>/i.exec(out);
   if (lead) {
     const at = lead.index + lead[0].length;
-    out = out.slice(0, at) + '\n' + figure(EMPTY_BLOG_VISUALS[0], 0) + out.slice(at);
+    out = out.slice(0, at) + '\n' + figure(visuals[0], 0) + out.slice(at);
   } else {
     const h1Tag = /<h1\b[^>]*>[\s\S]*?<\/h1>/i.exec(out);
     if (!h1Tag) return out;
     const at = h1Tag.index + h1Tag[0].length;
-    out = out.slice(0, at) + '\n' + figure(EMPTY_BLOG_VISUALS[0], 0) + out.slice(at);
+    out = out.slice(0, at) + '\n' + figure(visuals[0], 0) + out.slice(at);
   }
 
   let cursor = 0;
   let inserted = 1;
-  for (let index = 1; index < EMPTY_BLOG_VISUALS.length; index += 1) {
+  for (let index = 1; index < visuals.length; index += 1) {
     const heading = /<h2\b/i.exec(out.slice(cursor));
     if (!heading) break;
     const at = cursor + heading.index;
-    const visual = figure(EMPTY_BLOG_VISUALS[index], index);
+    const visual = figure(visuals[index], index);
     out = out.slice(0, at) + visual + '\n' + out.slice(at);
     cursor = at + visual.length;
     inserted += 1;
   }
-  while (inserted < EMPTY_BLOG_VISUALS.length) {
-    const visual = figure(EMPTY_BLOG_VISUALS[inserted], inserted);
+  while (inserted < visuals.length) {
+    const visual = figure(visuals[inserted], inserted);
     const closing = /<\/(?:main|article|body)>/i.exec(out);
     if (!closing) break;
     out = out.slice(0, closing.index) + visual + '\n' + out.slice(closing.index);
@@ -256,9 +320,13 @@ export default function placePageMedia() {
           if (isBlogPost && !route.startsWith('/blog/assessments/')) {
             const hasArticleImages = /<img\b[^>]*\ssrc="(?:https?:\/\/futurecareerschool\.com)?\/images\/blog\//i.test(html);
             if (!hasArticleImages) {
-              html = emptyBlogVisuals(html);
-              html = setMeta(html, 'og:image', SITE + '/images/blog/system/career-visual-system-social.jpg');
-              html = setMeta(html, 'twitter:image', SITE + '/images/blog/system/career-visual-system-social.jpg');
+              html = emptyBlogVisuals(html, publicDir, route.split('/')[2]);
+              const category = route.split('/')[2];
+              const social = CATEGORY_HEROES.has(category)
+                ? `/images/blog/category-heroes/${category}-social.jpg`
+                : '/images/blog/system/career-visual-system-social.jpg';
+              html = setMeta(html, 'og:image', SITE + social);
+              html = setMeta(html, 'twitter:image', SITE + social);
               stats.blogBaseline += 1;
             }
             const social = fixSocialImage(html, publicDir);
