@@ -17,6 +17,18 @@ import { parse } from 'parse5';
 
 const SITE = 'https://futurecareerschool.com';
 
+// A small, deliberately restrained visual system for newly added articles that do not yet
+// have article-specific artwork. Existing article visuals always win; these are only used
+// when a blog post would otherwise ship with no explanatory imagery at all.
+const EMPTY_BLOG_VISUALS = [
+  { src: '/images/blog/system/career-visual-system-hero.webp', label: 'Editorial career decision scene', width: 1600, height: 900 },
+  { src: '/images/blog/system/career-visual-system-summary.webp', label: 'Clarity before commitment', width: 1600, height: 1000 },
+  { src: '/images/blog/system/career-visual-system-matrix.webp', label: 'Compare a career option', width: 1600, height: 1000 },
+  { src: '/images/blog/system/career-visual-system-chain.webp', label: 'From interest to evidence', width: 1600, height: 1000 },
+  { src: '/images/blog/system/career-visual-system-checklist.webp', label: 'Before you commit', width: 1600, height: 1000 },
+  { src: '/images/blog/system/career-visual-system-proof.webp', label: 'Build a high-value skill portfolio', width: 1600, height: 1000 },
+];
+
 const attr = (node, name) => (node.attrs || []).find((a) => a.name === name)?.value;
 const classes = (node) => (attr(node, 'class') || '').split(/\s+/).filter(Boolean);
 const elementChildren = (node) => (node.childNodes || []).filter((child) => child.tagName);
@@ -152,6 +164,64 @@ function fixSocialImage(html, publicDir) {
   return out;
 }
 
+function plainText(value) {
+  return value
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function escapeAttr(value) {
+  return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function emptyBlogVisuals(html) {
+  const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
+  const pageTitle = plainText(h1 || 'this career article');
+  const figure = (visual, index) => {
+    const alt = `${visual.label} for ${pageTitle}`;
+    const title = `${pageTitle}: ${visual.label}`;
+    const caption = `${visual.label} for this article: ${pageTitle}.`;
+    const loading = index === 0 ? 'eager' : 'lazy';
+    const priority = index === 0 ? ' fetchpriority="high"' : '';
+    return `<figure class="article-visual${index === 0 ? ' article-visual--hero' : ''}"><img src="${visual.src}" alt="${escapeAttr(alt)}" title="${escapeAttr(title)}" width="${visual.width}" height="${visual.height}" loading="${loading}" decoding="async"${priority}><figcaption>${escapeAttr(caption)}</figcaption></figure>`;
+  };
+
+  let out = html;
+  const lead = /<p\b[^>]*class="[^"]*lead-para[^"]*"[^>]*>[\s\S]*?<\/p>/i.exec(out);
+  if (lead) {
+    const at = lead.index + lead[0].length;
+    out = out.slice(0, at) + '\n' + figure(EMPTY_BLOG_VISUALS[0], 0) + out.slice(at);
+  } else {
+    const h1Tag = /<h1\b[^>]*>[\s\S]*?<\/h1>/i.exec(out);
+    if (!h1Tag) return out;
+    const at = h1Tag.index + h1Tag[0].length;
+    out = out.slice(0, at) + '\n' + figure(EMPTY_BLOG_VISUALS[0], 0) + out.slice(at);
+  }
+
+  let cursor = 0;
+  let inserted = 1;
+  for (let index = 1; index < EMPTY_BLOG_VISUALS.length; index += 1) {
+    const heading = /<h2\b/i.exec(out.slice(cursor));
+    if (!heading) break;
+    const at = cursor + heading.index;
+    const visual = figure(EMPTY_BLOG_VISUALS[index], index);
+    out = out.slice(0, at) + visual + '\n' + out.slice(at);
+    cursor = at + visual.length;
+    inserted += 1;
+  }
+  while (inserted < EMPTY_BLOG_VISUALS.length) {
+    const visual = figure(EMPTY_BLOG_VISUALS[inserted], inserted);
+    const closing = /<\/(?:main|article|body)>/i.exec(out);
+    if (!closing) break;
+    out = out.slice(0, closing.index) + visual + '\n' + out.slice(closing.index);
+    inserted += 1;
+  }
+  return out;
+}
+
 export default function placePageMedia() {
   return {
     name: 'place-page-media',
@@ -159,7 +229,7 @@ export default function placePageMedia() {
       'astro:build:done': ({ dir }) => {
         const distDir = fileURLToPath(dir);
         const publicDir = path.resolve('public');
-        const stats = { service: 0, attrs: 0, social: 0 };
+        const stats = { service: 0, attrs: 0, social: 0, blogBaseline: 0 };
         const walk = (d) => {
           for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
             const full = path.join(d, entry.name);
@@ -183,7 +253,14 @@ export default function placePageMedia() {
               stats.service += 1;
             }
           }
-          if (isBlogPost) {
+          if (isBlogPost && !route.startsWith('/blog/assessments/')) {
+            const hasArticleImages = /<img\b[^>]*\ssrc="(?:https?:\/\/futurecareerschool\.com)?\/images\/blog\//i.test(html);
+            if (!hasArticleImages) {
+              html = emptyBlogVisuals(html);
+              html = setMeta(html, 'og:image', SITE + '/images/blog/system/career-visual-system-social.jpg');
+              html = setMeta(html, 'twitter:image', SITE + '/images/blog/system/career-visual-system-social.jpg');
+              stats.blogBaseline += 1;
+            }
             const social = fixSocialImage(html, publicDir);
             if (social !== html) stats.social += 1;
             html = social;
@@ -194,7 +271,7 @@ export default function placePageMedia() {
           if (html !== original) fs.writeFileSync(file, html);
         };
         walk(distDir);
-        console.log(`[place-page-media] service pages placed ${stats.service}, pages with fixed image attributes ${stats.attrs}, social images set ${stats.social}`);
+        console.log(`[place-page-media] service pages placed ${stats.service}, blog baseline visuals added ${stats.blogBaseline}, pages with fixed image attributes ${stats.attrs}, social images set ${stats.social}`);
       },
     },
   };
