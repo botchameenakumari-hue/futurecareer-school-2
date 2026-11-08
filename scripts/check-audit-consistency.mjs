@@ -54,7 +54,7 @@ const checks = [
   ['study-abroad planner evidence', audit.includes('/tools/study-abroad-readiness-planner/') && audit.includes('does not verify admission, visas, migration, costs or employment outcomes')],
   ['skill-to-service mapper evidence', audit.includes('/tools/skill-to-service-mapper/') && audit.includes('does not promise clients, demand, income or professional eligibility')],
   ['career experiment planner evidence', audit.includes('/tools/career-experiment-planner/') && audit.includes('One experiment cannot prove career fit, future income or placement')],
-  ['rendered scan counts', audit.includes(`Internal URL check across ${fmt(htmlPages - 1)} pages`) && audit.includes('Page-media check across 763 pages') && audit.includes('Strict image audit across 725 pages')],
+  ['rendered scan counts', audit.includes(`Internal URL check across ${fmt(htmlPages - 1)} pages`) && audit.includes('Page-media check across 1,261 pages') && audit.includes('Strict image audit across 1,261 pages')],
 ];
 for (const [label, ok] of checks) if (!ok) throw new Error(`Audit consistency failed: ${label}`);
 console.log(`Audit consistency passed: remote ${remoteSha.slice(0, 8)}, ${fmt(sourcePages)} source pages, ${fmt(htmlPages)} HTML pages, ${toolPages} tool pages, ${chartRoutes} Class 12 routes.`);

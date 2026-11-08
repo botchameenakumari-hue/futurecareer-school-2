@@ -1,8 +1,8 @@
 # Current `main` feature audit
 
-Audit date: 14 October 2026  
+Audit date: 8 November 2026
 Repository: `botchameenakumari-hue/futurecareer-school-2`  
-Current-main baseline SHA inspected: `4ccae8ef112eb020e7c52a921bcb8ce243c97003`
+Current-main baseline SHA inspected: `8f173f2ea920c4cec46638b2654c251f85dd1669`
 
 At the time of this audit, the remote `origin/main` SHA matched the checked-out `main` branch. The verification record below is for that synchronized baseline; after any later release commit, rerun the release gate and refresh the baseline if needed.
 
@@ -12,7 +12,7 @@ The separate false-positive review in `../SEPARATE_AUDIT_FALSE_POSITIVE_REVIEW.m
 
 ## Inventory evidence
 
-The current production build reports 1,071 generated pages. The checked output contains 1,070 HTML files and 732 sitemap locations. The source tree contains 730 page entry files, including 45 assessment entries and twenty-five tool-page entries. The two additional source entries are the unpublished course-eligibility verification-queue JSON and CSV work-order endpoints; the additional page entry is the browser-local course verification workbench.
+The current production build reports 1,569 generated pages. The checked output contains 1,568 HTML files and 1,231 sitemap locations. The source tree contains 1,228 page entry files, including 45 assessment entries and twenty-five tool-page entries. The two additional source entries are the unpublished course-eligibility verification-queue JSON and CSV work-order endpoints; the additional page entry is the browser-local course verification workbench.
 
 These counts were obtained from the current `src/pages`, `dist` and generated sitemap after the production build; they are not copied from the older audit snapshot.
 
@@ -80,7 +80,7 @@ This reconciliation does not convert the remaining 118-tool proposal, 20 first-p
 
 The current verification chain passed after the latest changes:
 
-- Astro type check across all 962 files with minimum severity `error`: 0 errors.
+- Astro type check across the current source tree with minimum severity `error`: 0 errors.
 - `pnpm verify` now runs that type check before the production build, so the repository gate cannot pass while Astro errors are present.
 - 1,071-page production build.
 - Stage score and stage PDF-detail contracts.
@@ -95,11 +95,11 @@ The current verification chain passed after the latest changes:
 - Life-skills assessment contract: the distinct 25-question route, five domains, stage guidance, scenarios, report support and built output are present.
 - Student-parent intake contract and Chromium runtime: the browser-local worksheet saves locally, routes by stage and decision, and is linked from the after-12th chart context.
 - Resume evidence builder contract and Chromium runtime: the browser-local tool turns a real task into a checked draft bullet without inventing metrics, and is linked from the skill portfolio tracker.
-- Public-copy guardrail across 1,070 rendered HTML files.
-- 30,716 internal blog links with zero broken links.
-- Internal URL check across 1,069 pages.
-- Page-media check across 763 pages.
-- Strict image audit across 725 pages with zero issues.
+- Public-copy guardrail across 1,568 rendered HTML files.
+- 74,721 internal blog links with zero broken links across 882 rendered blog articles.
+- Internal URL check across 1,567 pages.
+- Page-media check across 1,261 pages.
+- Strict image audit across 1,261 pages with zero issues, including the 498 newly covered blog articles.
 - Chromium interaction test for the education payback planner.
 - Audit-consistency contract: the documented remote SHA, source/HTML/tool counts, Class 12 route count, non-claims and data-strategy record match the current worktree.
 - Shared BOFU component contract: `BofuListCardSection` now accepts wrapper usage without a duplicate local title and conditionally renders its intro block; the production build and full verification gate pass after this correction.
@@ -109,7 +109,7 @@ The current verification chain passed after the latest changes:
 - Degree pathway planner contract and Chromium test: all four subject families expose work signals, a project brief, evidence to keep and route limits.
 - 27 current-feature Chromium tests passed, including the privacy-safe tracker-share snapshot, incomplete-packet guards and complete exports for both verification workbenches, the parent/student disagreement workflow, informational interview planner, study-abroad readiness planner, skill-to-service mapper and career experiment planner.
 
-The inbound-link check still reports ten pages with three inbound links each. Those are recorded as genuine low-link pages; no artificial cross-link ring was added to hide the warning.
+The current inbound-link check reports 1,095 pages with no page below four inbound links. No artificial cross-link ring was added to hide a warning.
 
 The parent/student worksheet now includes a disagreement protocol: each side can record a non-negotiable boundary, the family can write a shared evidence-review rule, and the summary keeps those boundaries visible alongside the next test and review date. This improves decision structure but is not mediation, counselling or a substitute for safeguarding support.
 
