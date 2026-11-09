@@ -213,6 +213,26 @@ function categoryFiles(publicDir, category, pageSlug) {
   return [];
 }
 
+function generatedBlogFiles(publicDir, category, pageSlug) {
+  const root = path.join(publicDir, 'images', 'blog', 'generated', generatedBlogKey(category, pageSlug));
+  if (!fs.existsSync(root)) return [];
+  const names = ['hero', 'summary', 'matrix', 'chain', 'checklist', 'proof'];
+  return names.map((name) => path.join(root, `${pageSlug}-${name}.webp`))
+    .filter((file) => fs.existsSync(file))
+    .map((file) => '/' + path.relative(publicDir, file).split(path.sep).join('/'));
+}
+
+function generatedBlogKey(category, pageSlug) {
+  let key = 0;
+  for (const character of `${category}/${pageSlug}`) key = (key * 31 + character.charCodeAt(0)) >>> 0;
+  return String(key).padStart(10, '0');
+}
+
+function generatedBlogSocial(publicDir, category, pageSlug) {
+  const file = path.join(publicDir, 'images', 'blog', 'generated', generatedBlogKey(category, pageSlug), `${pageSlug}-social.jpg`);
+  return fs.existsSync(file) ? '/' + path.relative(publicDir, file).split(path.sep).join('/') : null;
+}
+
 function readableAssetName(src) {
   return path.basename(src).replace(/\.(?:webp|jpe?g|png)$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
@@ -221,8 +241,11 @@ function emptyBlogVisuals(html, publicDir, category, pageSlug) {
   const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
   const pageTitle = plainText(h1 || 'this career article');
   const categoryHero = CATEGORY_HEROES.has(category) ? `/images/blog/category-heroes/${category}.webp` : null;
+  const generated = generatedBlogFiles(publicDir, category, pageSlug);
   const categoryExplanatory = CATEGORY_HEROES.has(category) ? categoryFiles(publicDir, category, pageSlug) : [];
-  const visuals = categoryHero
+  const visuals = generated.length >= 6
+    ? generated.slice(0, 6).map((src, index) => { const mobile = src.replace(/\.webp$/i, '-mobile.webp'); return { src, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))), label: index === 0 ? 'article-specific career decision map' : readableAssetName(src), width: imageSize(publicDir, src)?.w || (index === 0 ? 1500 : 1600), height: imageSize(publicDir, src)?.h || (index === 0 ? 844 : 1000) }; })
+    : categoryHero
     ? [{ src: categoryHero, label: `${category.replace(/-/g, ' ')} career decision hero`, width: 1600, height: 900 }, ...(categoryExplanatory.length >= 5
       ? categoryExplanatory.map((src) => ({ src, label: readableAssetName(src), width: imageSize(publicDir, src)?.w || 1122, height: imageSize(publicDir, src)?.h || 1402 }))
       : EMPTY_BLOG_VISUALS.slice(1))]
@@ -233,7 +256,9 @@ function emptyBlogVisuals(html, publicDir, category, pageSlug) {
     const caption = `${visual.label} for this article: ${pageTitle}.`;
     const loading = index === 0 ? 'eager' : 'lazy';
     const priority = index === 0 ? ' fetchpriority="high"' : '';
-    return `<figure class="article-visual${index === 0 ? ' article-visual--hero' : ''}"><img src="${visual.src}" alt="${escapeAttr(alt)}" title="${escapeAttr(title)}" width="${visual.width}" height="${visual.height}" loading="${loading}" decoding="async"${priority}><figcaption>${escapeAttr(caption)}</figcaption></figure>`;
+    const image = `<img src="${visual.src}" alt="${escapeAttr(alt)}" title="${escapeAttr(title)}" width="${visual.width}" height="${visual.height}" loading="${loading}" decoding="async"${priority}>`;
+    const picture = visual.mobile ? `<picture><source media="(max-width: 640px)" srcset="${visual.src.replace(/\.webp$/i, '-mobile.webp')}">${image}</picture>` : image;
+    return `<figure class="article-visual${index === 0 ? ' article-visual--hero' : ''}">${picture}<figcaption>${escapeAttr(caption)}</figcaption></figure>`;
   };
 
   let out = html;
@@ -306,9 +331,10 @@ export default function placePageMedia() {
               const category = route.split('/')[2];
               const pageSlug = route.split('/')[3];
               html = emptyBlogVisuals(html, publicDir, category, pageSlug);
-              const social = CATEGORY_HEROES.has(category)
+              const social = generatedBlogSocial(publicDir, category, pageSlug)
+                || (CATEGORY_HEROES.has(category)
                 ? `/images/blog/category-heroes/${category}-social.jpg`
-                : '/images/blog/system/career-visual-system-social.jpg';
+                : '/images/blog/system/career-visual-system-social.jpg');
               html = setMeta(html, 'og:image', SITE + social);
               html = setMeta(html, 'twitter:image', SITE + social);
               stats.blogBaseline += 1;
