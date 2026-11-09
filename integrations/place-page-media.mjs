@@ -35,23 +35,6 @@ const CATEGORY_HEROES = new Set([
   'parents', 'resume', 'salary-growth', 'skills', 'stream-selection',
 ]);
 
-const CATEGORY_VISUAL_SOURCES = {
-  'career-change': 'skills-needed-for-career-change-india',
-  'career-guidance': 'after-12th-confused',
-  'career-options': 'ba-career-options',
-  'college-degrees': 'bba-vs-bcom-india-which-to-choose-after-12th',
-  'freelancing-business': 'freelancing-vs-job-india',
-  'government-jobs': 'government-job-vs-startup-job-stability-india',
-  interviews: 'interview-preparation-for-freshers-india',
-  'job-search': 'how-to-get-a-job-without-experience-india',
-  'linkedin-networking': 'linkedin-profile-tips-for-freshers-india',
-  'medical-careers': 'non-doctor-medical-careers',
-  parents: 'how-to-guide-child-in-career-selection-india',
-  resume: 'resume-tips-for-freshers-india',
-  skills: 'career-development-skills',
-  'stream-selection': 'career-options-after-10th',
-};
-
 const attr = (node, name) => (node.attrs || []).find((a) => a.name === name)?.value;
 const classes = (node) => (attr(node, 'class') || '').split(/\s+/).filter(Boolean);
 const elementChildren = (node) => (node.childNodes || []).filter((child) => child.tagName);
@@ -200,49 +183,46 @@ function escapeAttr(value) {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function categoryFiles(publicDir, category) {
+function categoryFiles(publicDir, category, pageSlug) {
   const root = path.join(publicDir, 'images', 'blog', category);
   if (!fs.existsSync(root)) return [];
   const image = (name) => /\.(?:webp|jpe?g|png)$/i.test(name) && !/-social\./i.test(name) && !/(?:cover|hero|thumbnail)\./i.test(name);
-  const preferred = CATEGORY_VISUAL_SOURCES[category];
   const direct = fs.readdirSync(root, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => path.join(root, entry.name))
-    .sort((a, b) => {
-      const aPreferred = path.basename(a) === preferred ? -1 : 0;
-      const bPreferred = path.basename(b) === preferred ? -1 : 0;
-      return aPreferred - bPreferred || a.localeCompare(b);
-    });
-  for (const dir of direct) {
+    .sort((a, b) => a.localeCompare(b));
+  const ignored = new Set(['career', 'careers', 'career-options', 'india', 'and', 'for', 'the', 'how', 'to', 'a', 'an', 'after', 'in', 'vs', 'with', 'on', 'of']);
+  const tokens = (value) => value.split('-').filter((token) => token && !ignored.has(token));
+  const pageTokens = new Set(tokens(pageSlug || ''));
+  const candidates = direct.map((dir) => {
+    const name = path.basename(dir);
+    const overlap = tokens(name).filter((token) => pageTokens.has(token)).length;
+    const exact = name === pageSlug ? 100 : 0;
+    return { dir, score: exact + overlap };
+  }).sort((a, b) => b.score - a.score || a.dir.localeCompare(b.dir));
+  for (const { dir, score } of candidates) {
     const files = fs.readdirSync(dir, { withFileTypes: true })
       .filter((entry) => entry.isFile() && image(entry.name))
       .map((entry) => path.join(dir, entry.name))
       .sort();
-    if (files.length >= 5) return files.slice(0, 5).map((file) => '/' + path.relative(publicDir, file).split(path.sep).join('/'));
+    if (files.length >= 5 && score > 0) return files.slice(0, 5).map((file) => '/' + path.relative(publicDir, file).split(path.sep).join('/'));
   }
-  const files = [];
-  const walk = (dir) => {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      const file = path.join(dir, entry.name);
-      if (entry.isDirectory()) walk(file);
-      else if (image(entry.name)) files.push(file);
-    }
-  };
-  walk(root);
-  return files.sort().slice(0, 5).map((file) => '/' + path.relative(publicDir, file).split(path.sep).join('/'));
+  return [];
 }
 
 function readableAssetName(src) {
   return path.basename(src).replace(/\.(?:webp|jpe?g|png)$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
-function emptyBlogVisuals(html, publicDir, category) {
+function emptyBlogVisuals(html, publicDir, category, pageSlug) {
   const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
   const pageTitle = plainText(h1 || 'this career article');
   const categoryHero = CATEGORY_HEROES.has(category) ? `/images/blog/category-heroes/${category}.webp` : null;
-  const categoryExplanatory = CATEGORY_HEROES.has(category) ? categoryFiles(publicDir, category) : [];
-  const visuals = categoryHero && categoryExplanatory.length >= 5
-    ? [{ src: categoryHero, label: `${category.replace(/-/g, ' ')} career decision hero`, width: 1600, height: 900 }, ...categoryExplanatory.map((src) => ({ src, label: readableAssetName(src), width: imageSize(publicDir, src)?.w || 1122, height: imageSize(publicDir, src)?.h || 1402 }))]
+  const categoryExplanatory = CATEGORY_HEROES.has(category) ? categoryFiles(publicDir, category, pageSlug) : [];
+  const visuals = categoryHero
+    ? [{ src: categoryHero, label: `${category.replace(/-/g, ' ')} career decision hero`, width: 1600, height: 900 }, ...(categoryExplanatory.length >= 5
+      ? categoryExplanatory.map((src) => ({ src, label: readableAssetName(src), width: imageSize(publicDir, src)?.w || 1122, height: imageSize(publicDir, src)?.h || 1402 }))
+      : EMPTY_BLOG_VISUALS.slice(1))]
     : EMPTY_BLOG_VISUALS;
   const figure = (visual, index) => {
     const alt = `${visual.label} for ${pageTitle}`;
@@ -320,8 +300,9 @@ export default function placePageMedia() {
           if (isBlogPost && !route.startsWith('/blog/assessments/')) {
             const hasArticleImages = /<img\b[^>]*\ssrc="(?:https?:\/\/futurecareerschool\.com)?\/images\/blog\//i.test(html);
             if (!hasArticleImages) {
-              html = emptyBlogVisuals(html, publicDir, route.split('/')[2]);
               const category = route.split('/')[2];
+              const pageSlug = route.split('/')[3];
+              html = emptyBlogVisuals(html, publicDir, category, pageSlug);
               const social = CATEGORY_HEROES.has(category)
                 ? `/images/blog/category-heroes/${category}-social.jpg`
                 : '/images/blog/system/career-visual-system-social.jpg';
