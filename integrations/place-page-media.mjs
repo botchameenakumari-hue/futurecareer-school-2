@@ -205,7 +205,10 @@ function categoryFiles(publicDir, category, pageSlug) {
       .filter((entry) => entry.isFile() && image(entry.name))
       .map((entry) => path.join(dir, entry.name))
       .sort();
-    if (files.length >= 5 && score > 0) return files.slice(0, 5).map((file) => '/' + path.relative(publicDir, file).split(path.sep).join('/'));
+    // Article-specific explanatory packs are never category defaults. They
+    // are reusable only by the exact article they were designed for; every
+    // other page receives the neutral explanatory set below.
+    if (files.length >= 5 && score >= 100) return files.slice(0, 5).map((file) => '/' + path.relative(publicDir, file).split(path.sep).join('/'));
   }
   return [];
 }
