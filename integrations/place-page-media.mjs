@@ -246,12 +246,12 @@ function readableAssetName(src) {
 
 function generatedVisualLabel(index) {
   return [
-    'article-specific decision map',
-    'at-a-glance evidence summary',
-    'route comparison matrix',
-    'question-to-evidence chain',
-    'self-checklist before you act',
-    'evidence-to-outcome proof panel',
+    'Decision map',
+    'Key evidence',
+    'Compare the options',
+    'From question to evidence',
+    'Before you commit',
+    'What strengthens the choice',
   ][index] || 'supporting career explainer';
 }
 
@@ -271,7 +271,7 @@ function emptyBlogVisuals(html, publicDir, category, pageSlug) {
   const figure = (visual, index) => {
     const alt = `${visual.label} for ${pageTitle}`;
     const title = `${pageTitle}: ${visual.label}`;
-    const caption = `${visual.label} for this article: ${pageTitle}.`;
+    const caption = visual.label;
     const loading = index === 0 ? 'eager' : 'lazy';
     const priority = index === 0 ? ' fetchpriority="high"' : '';
     const image = `<img src="${visual.src}" alt="${escapeAttr(alt)}" title="${escapeAttr(title)}" width="${visual.width}" height="${visual.height}" loading="${loading}" decoding="async"${priority}>`;
@@ -330,7 +330,7 @@ function replaceBlogVisuals(html, publicDir, category, pageSlug) {
   const figure = (visual, index) => {
     const alt = `${visual.label} for ${pageTitle}`;
     const title = `${pageTitle}: ${visual.label}`;
-    const caption = `${visual.label} for this article: ${pageTitle}.`;
+    const caption = visual.label;
     const loading = index === 0 ? 'eager' : 'lazy';
     const priority = index === 0 ? ' fetchpriority="high"' : '';
     const image = `<img src="${visual.src}" alt="${escapeAttr(alt)}" title="${escapeAttr(title)}" width="${visual.width}" height="${visual.height}" loading="${loading}" decoding="async"${priority}>`;
@@ -373,7 +373,7 @@ function replaceRouteVisuals(html, publicDir, route) {
     const title = `${pageTitle}: ${visual.label}`;
     const image = `<img src="${visual.src}" alt="${escapeAttr(alt)}" title="${escapeAttr(title)}" width="${visual.width}" height="${visual.height}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ''}>`;
     const picture = visual.mobile ? `<picture><source media="(max-width: 640px)" srcset="${visual.src.replace(/\.webp$/i, '-mobile.webp')}">${image}</picture>` : image;
-    return `<figure class="resource-visual${index === 0 ? ' resource-visual-hero' : ''}">${picture}<figcaption>${escapeAttr(`${visual.label} for this page: ${pageTitle}.`)}</figcaption></figure>`;
+    return `<figure class="resource-visual${index === 0 ? ' resource-visual-hero' : ''}">${picture}<figcaption>${escapeAttr(visual.label)}</figcaption></figure>`;
   };
   let index = 0;
   let out = html.replace(/<figure\b[^>]*class="(?:[^"]*bofu-image[^"]*|[^"]*visual[^"]*)"[^>]*>[\s\S]*?<\/figure>/gi, (match) => {

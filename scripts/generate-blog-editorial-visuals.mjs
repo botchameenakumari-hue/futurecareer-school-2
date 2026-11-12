@@ -17,6 +17,7 @@ const OUT = 'public/images/blog/generated';
 const force = process.argv.includes('--force');
 const mobileOnly = process.argv.includes('--mobile-only');
 const socialOnly = process.argv.includes('--social-only');
+const allServicePages = process.argv.includes('--all-service-pages');
 const auditCsv = process.argv.find((arg) => arg.startsWith('--audit-csv='))?.slice('--audit-csv='.length);
 const auditRoutes = new Set();
 if (auditCsv) {
@@ -45,11 +46,14 @@ const palettes = [
 ];
 
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
-const clean = (s) => s.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+const clean = (s) => s.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/\bundefined\b/gi, '').replace(/\s+/g, ' ').trim();
 const words = (s) => clean(s).replace(/[“”‘’]/g, '').split(/\s+/).filter(Boolean);
 function wrap(s, max, maxLines = 4) {
   const out = []; let line = '';
-  for (const word of words(s)) {
+  const tokens = words(s).flatMap((word) => word.length > max
+    ? word.split(/(?=[/–—-])|(?<=[/–—-])/g).filter(Boolean)
+    : [word]);
+  for (const word of tokens) {
     if ((line + ' ' + word).trim().length > max && line) { out.push(line); line = word; }
     else line = (line + ' ' + word).trim();
   }
@@ -65,32 +69,48 @@ function sans(s, x, y, size, fill, weight = 600, anchor = 'start') {
 function hash(s) { let n = 0; for (const c of s) n = (n * 31 + c.charCodeAt(0)) >>> 0; return n; }
 function shell(body, p, title, label, w = 1600, h = 1000) {
   const m = w <= 1000 ? 62 : 84;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="${w}" height="${h}" fill="${p[0]}"/><path d="M0 92H${w}" stroke="${p[4]}" stroke-width="7"/><path d="M${m} 72h112" stroke="${p[2]}" stroke-width="12"/><path d="M${w - m - 96} 72h96" stroke="${p[3]}" stroke-width="12"/>${sans(label.toUpperCase(), m, 78, w <= 1000 ? 18 : 20, p[1], 700)}${textBlock(title, m, 158, w <= 1000 ? 48 : 54, w <= 1000 ? 22 : 46, p[1], 700)}${body}<path d="M${m} ${h - 64}H${w - m}" stroke="${p[3]}" stroke-width="2"/><text x="${w - m}" y="${h - 28}" font-family="Arial,sans-serif" font-size="16" fill="${p[1]}" text-anchor="end">FUTURE CAREER SCHOOL · EDITORIAL GUIDE</text></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="${w}" height="${h}" fill="${p[0]}"/><path d="M0 92H${w}" stroke="${p[4]}" stroke-width="7"/><path d="M${m} 72h112" stroke="${p[2]}" stroke-width="12"/><path d="M${w - m - 96} 72h96" stroke="${p[3]}" stroke-width="12"/>${sans(label.toUpperCase(), m, 54, w <= 1000 ? 18 : 20, p[1], 700)}${textBlock(title, m, 158, w <= 1000 ? 48 : 54, w <= 1000 ? 22 : 46, p[1], 700, 1.12, 'start', 5)}${body}<path d="M${m} ${h - 64}H${w - m}" stroke="${p[3]}" stroke-width="2"/><text x="${w - m}" y="${h - 28}" font-family="Arial,sans-serif" font-size="16" fill="${p[1]}" text-anchor="end">FUTURE CAREER SCHOOL · EDITORIAL GUIDE</text></svg>`;
 }
 function card(x, y, w, h, n, heading, detail, p, accent) {
   const s = n % 2 ? 12 : -10;
   return `<path d="M${x} ${y + 8}L${x + w - 18} ${y}L${x + w} ${y + h - 12}L${x + 18} ${y + h}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 30} ${y + 38}h54" stroke="${accent}" stroke-width="10" transform="rotate(${s} ${x + 56} ${y + 38})"/>${sans(String(n).padStart(2, '0'), x + 30, y + 86, 17, p[2], 700)}${textBlock(heading, x + 30, y + 135, 27, 26, p[1], 700, 1.2, 'start', 2)}${textBlock(detail, x + 30, y + 190, 18, 50, p[1], 500, 1.2, 'start', 3)}`;
 }
-function hero(title, category, p) {
-  const lines = wrap(title, 30);
-  const subtitleY = Math.max(470, 260 + Math.max(0, lines.length - 2) * 74 + 92);
+function heroLegacy(title, category, p) {
+  const lines = wrap(title, 27, 6);
+  const titleSize = lines.length >= 5 ? 48 : lines.length === 4 ? 56 : 68;
+  const subtitleY = Math.max(470, 260 + Math.max(0, lines.length - 2) * (titleSize * 1.08) + 96);
   const path = `M116 690 C280 610 420 745 590 660 S880 560 1030 650 S1260 690 1430 570`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="844" viewBox="0 0 1500 844"><defs><filter id="paper" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 .8 0 0 0 0 0 .035 0"/></filter></defs><rect width="1500" height="844" fill="${p[0]}"/><rect width="1500" height="844" filter="url(#paper)" opacity=".55"/><path d="M0 112H1500" stroke="${p[4]}" stroke-width="10"/><path d="${path}" fill="none" stroke="${p[2]}" stroke-width="12" stroke-linecap="round"/><path d="M1420 570l-32 -18m32 18l-14 31" stroke="${p[2]}" stroke-width="9" fill="none"/><path d="M118 690h64m340-29h62m360-10h62" stroke="${p[1]}" stroke-width="18" stroke-linecap="square"/><path d="M1040 150l250 8-18 198-250-10z" fill="${p[3]}" opacity=".65" transform="rotate(5 1140 245)"/><path d="M1090 190l245 10-18 190-245-10z" fill="${p[2]}" opacity=".82" transform="rotate(-6 1210 280)"/>${sans(category.replaceAll('-', ' ').toUpperCase(), 84, 78, 20, p[1], 700)}${textBlock(title, 84, 260, 68, 29, p[1], 700, 1.08)}${sans('A decision map for clearer next steps', 88, subtitleY, 28, p[1], 500)}<path d="M84 744H1416" stroke="${p[3]}" stroke-width="2"/></svg>`;
+}
+function hero(title, category, p) {
+  const lines = wrap(title, 27, 6);
+  const titleSize = lines.length >= 5 ? 48 : lines.length === 4 ? 56 : 68;
+  const subtitleY = Math.max(470, 260 + Math.max(0, lines.length - 2) * (titleSize * 1.08) + 96);
+  const path = `M116 690 C280 610 420 745 590 660 S880 560 1030 650 S1260 690 1430 570`;
+  const background = `<rect width="1500" height="844" fill="${p[0]}"/><path d="M0 112H1500" stroke="${p[4]}" stroke-width="10"/><path d="${path}" fill="none" stroke="${p[2]}" stroke-width="12" stroke-linecap="round"/><path d="M1420 570l-32 -18m32 18l-14 31" stroke="${p[2]}" stroke-width="9" fill="none"/><path d="M1040 150l250 8-18 198-250-10z" fill="${p[3]}" opacity=".65" transform="rotate(5 1140 245)"/><path d="M1090 190l245 10-18 190-245-10z" fill="${p[2]}" opacity=".82" transform="rotate(-6 1210 280)"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="844" viewBox="0 0 1500 844">${background}${sans(category.replaceAll('-', ' ').toUpperCase(), 84, 78, 20, p[1], 700)}${textBlock(title, 84, 260, titleSize, 27, p[1], 700, 1.08, 'start', 6)}${sans('A decision map for clearer next steps', 88, subtitleY, 28, p[1], 500)}<path d="M84 744H1416" stroke="${p[3]}" stroke-width="2"/></svg>`;
 }
 function buildVisuals(title, category, headings, bullets, p) {
   const hs = headings.length ? headings : ['What this choice involves', 'Evidence to gather', 'Skills to build', 'A next step to test'];
   const bs = bullets.length ? bullets : hs;
   const summary = shell(`<g>${hs.slice(0, 4).map((h, i) => card(84 + (i % 2) * 726, 290 + Math.floor(i / 2) * 300, 640, 270, i + 1, h, bs[i] || 'Use the article evidence before you decide.', p, [p[2], p[3], p[4], p[1]][i])).join('')}</g>`, p, title, 'At a glance');
-  const matrix = shell(`<g>${hs.slice(0, 4).map((h, i) => `<rect x="${84 + i * 365}" y="330" width="320" height="430" rx="16" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/>${sans(String(i + 1).padStart(2, '0'), 116 + i * 365, 390, 20, p[2], 700)}${textBlock(h, 116 + i * 365, 458, 28, 10, p[1], 700, 1.15, 'start', 3)}${textBlock(bs[i] || 'Check the evidence, cost, and next test.', 116 + i * 365, 590, 19, 14, p[1], 500, 1.2, 'start', 5)}<path d="M${116 + i * 365} 725h250" stroke="${p[4]}" stroke-width="6"/>`).join('')}</g>`, p, title, 'Compare the routes');
+  const comparisonLabels = ['What it asks of you', 'What to verify', 'What changes the choice', 'What to test next'];
+  const matrix = shell(`<g>${comparisonLabels.map((label, i) => `<rect x="${84 + i * 365}" y="330" width="320" height="430" rx="16" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/>${sans(String(i + 1).padStart(2, '0'), 116 + i * 365, 390, 20, p[2], 700)}${textBlock(label, 116 + i * 365, 458, 28, 11, p[1], 700, 1.15, 'start', 3)}${textBlock(bs[i] || hs[i] || 'Check the evidence, cost, and next test.', 116 + i * 365, 590, 19, 14, p[1], 500, 1.2, 'start', 5)}<path d="M${116 + i * 365} 725h250" stroke="${p[4]}" stroke-width="6"/>`).join('')}</g>`, p, title, 'Compare the routes');
   const chain = shell(`<g>${hs.slice(0, 5).map((h, i) => { const x = 110 + i * 292; return `<circle cx="${x}" cy="500" r="56" fill="${[p[2], p[3], p[4], p[1], p[2]][i]}"/><text x="${x}" y="510" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#fffaf0" text-anchor="middle">${i + 1}</text>${textBlock(h, x, 640, 25, 12, p[1], 700, 1.15, 'middle')}${i < 4 ? `<path d="M${x + 70} 500H${x + 220}" stroke="${p[2]}" stroke-width="10" stroke-linecap="round"/><path d="M${x + 205} 480l25 20-25 20" fill="none" stroke="${p[2]}" stroke-width="10"/>` : ''}`; }).join('')}</g>`, p, title, 'From question to evidence');
   const checklist = shell(`<g>${bs.slice(0, 5).map((b, i) => { const y = 305 + i * 100; return `<rect x="110" y="${y - 34}" width="34" height="34" rx="7" fill="none" stroke="${p[2]}" stroke-width="6"/><path d="M118 ${y - 17}l10 10 20-25" fill="none" stroke="${p[3]}" stroke-width="6"/>${textBlock(b, 190, y, 28, 54, p[1], 600)}`; }).join('')}</g>`, p, title, 'Five questions before you commit');
   const proof = shell(`<g>${bs.slice(0, 4).map((b, i) => `<path d="M${110 + (i % 2) * 730} ${320 + Math.floor(i / 2) * 245}h590l-34 170H${110 + (i % 2) * 730}z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/>${sans(['SOURCE', 'EXAMPLE', 'TEST', 'REFLECT'][i], 150 + (i % 2) * 730, 370 + Math.floor(i / 2) * 245, 18, p[2], 700)}${textBlock(b, 150 + (i % 2) * 730, 430 + Math.floor(i / 2) * 245, 28, 24, p[1], 700, 1.15)}`).join('')}</g>`, p, title, 'What makes the decision stronger');
   return [hero(title, category, p), summary, matrix, chain, checklist, proof];
 }
-function mobileHero(title, category, p) {
+function mobileHeroLegacy(title, category, p) {
   const titleLines = wrap(title, 22);
   const subtitleY = Math.max(470, 240 + Math.max(0, titleLines.length - 2) * 54 + 86);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100"><defs><filter id="paper" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 .8 0 0 0 0 0 0 .035 0"/></filter></defs><rect width="900" height="1100" fill="${p[0]}"/><rect width="900" height="1100" filter="url(#paper)" opacity=".55"/><path d="M0 112H900" stroke="${p[4]}" stroke-width="10"/><path d="M62 72h82M742 72h96" stroke="${p[2]}" stroke-width="12"/>${sans(category.replaceAll('-', ' ').toUpperCase(), 62, 78, 18, p[1], 700)}${textBlock(title, 62, 240, 50, 22, p[1], 700, 1.08)}${sans('A decision map for clearer next steps', 66, subtitleY, 24, p[1], 500)}<path d="M120 820 C280 700 420 920 580 780 S730 700 810 880" fill="none" stroke="${p[2]}" stroke-width="13" stroke-linecap="round"/><path d="M810 880l-27-12m27 12l-10 28" stroke="${p[2]}" stroke-width="8" fill="none"/><path d="M120 820h45m275-40h44m230 0h44" stroke="${p[1]}" stroke-width="16"/><path d="M62 1018H838" stroke="${p[3]}" stroke-width="2"/></svg>`;
+}
+function mobileHero(title, category, p) {
+  const titleLines = wrap(title, 19, 7);
+  const titleSize = titleLines.length >= 6 ? 38 : titleLines.length >= 4 ? 44 : 50;
+  const subtitleY = Math.max(520, 240 + Math.max(0, titleLines.length - 2) * (titleSize * 1.08) + 98);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100"><rect width="900" height="1100" fill="${p[0]}"/><path d="M0 112H900" stroke="${p[4]}" stroke-width="10"/><path d="M62 72h82M742 72h96" stroke="${p[2]}" stroke-width="12"/>${sans(category.replaceAll('-', ' ').toUpperCase(), 62, 54, 18, p[1], 700)}${textBlock(title, 62, 240, titleSize, 19, p[1], 700, 1.08, 'start', 7)}${sans('A decision map for clearer next steps', 66, subtitleY, 24, p[1], 500)}<path d="M120 820 C280 700 420 920 580 780 S730 700 810 880" fill="none" stroke="${p[2]}" stroke-width="13" stroke-linecap="round"/><path d="M810 880l-27-12m27 12l-10 28" stroke="${p[2]}" stroke-width="8" fill="none"/><path d="M62 1018H838" stroke="${p[3]}" stroke-width="2"/></svg>`;
 }
 function buildMobileVisuals(title, headings, bullets, p) {
   const hs = headings.length ? headings : ['What this choice involves', 'Evidence to gather', 'Skills to build', 'A next step to test'];
@@ -99,9 +119,10 @@ function buildMobileVisuals(title, headings, bullets, p) {
   // Mobile artwork is displayed at roughly 358px on a 390px viewport. Use
   // larger source type and more vertical room so explanatory text remains
   // comfortable to read without pinch-zooming after the image is scaled.
-  const mobileCard = (heading, detail, i) => { const x = 70; const y = 380 + i * 380; const accent = [p[2], p[3], p[4], p[1], p[2]][i]; return `<path d="M${x} ${y + 8}L${x + 742} ${y}L${x + 760} ${y + 338}L${x + 18} ${y + 350}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 30} ${y + 42}h58" stroke="${accent}" stroke-width="12"/>${sans(String(i + 1).padStart(2, '0'), x + 30, y + 90, 18, p[2], 700)}${textBlock(heading, x + 30, y + 150, words(heading).length > 9 ? 34 : 40, 24, p[1], 700, 1.12, 'start', 3)}${textBlock(detail, x + 30, y + 270, 20, 54, p[1], 500, 1.2, 'start', 3)}`; };
-  const summary = stacked(hs.map((h, i) => `${h}|||${bs[i] || 'Use the article evidence before you decide.'}`), 'At a glance', 2500, (item, i) => { const [heading, detail] = item.split('|||'); return mobileCard(heading, detail, i); });
-  const matrix = stacked(hs, 'Compare the routes', 2500, (h, i) => `<rect x="70" y="${380 + i * 390}" width="760" height="350" rx="16" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/>${sans(String(i + 1).padStart(2, '0'), 108, 450 + i * 390, 20, p[2], 700)}${textBlock(h, 108, 525 + i * 390, 38, 22, p[1], 700, 1.15, 'start', 2)}${textBlock(bs[i] || 'Check the evidence, cost, and next test.', 108, 650 + i * 390, 20, 52, p[1], 500, 1.2, 'start', 3)}<path d="M108 ${730 + i * 390}h600" stroke="${p[4]}" stroke-width="6"/>`);
+  const mobileCard = (heading, detail, i) => { const x = 70; const y = 360 + i * 620; const accent = [p[2], p[3], p[4], p[1], p[2]][i]; return `<path d="M${x} ${y + 8}L${x + 742} ${y}L${x + 760} ${y + 548}L${x + 18} ${y + 560}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 30} ${y + 42}h58" stroke="${accent}" stroke-width="12"/>${sans(String(i + 1).padStart(2, '0'), x + 30, y + 90, 18, p[2], 700)}${textBlock(heading, x + 30, y + 150, words(heading).length > 9 ? 34 : 40, 24, p[1], 700, 1.12, 'start', 3)}${textBlock(detail, x + 30, y + 300, 30, 48, p[1], 500, 1.2, 'start', 6)}`; };
+  const summary = stacked(hs.map((h, i) => `${h}|||${bs[i] || 'Use the article evidence before you decide.'}`), 'At a glance', 3500, (item, i) => { const [heading, detail] = item.split('|||'); return mobileCard(heading, detail, i); });
+  const mobileComparisonLabels = ['What it asks of you', 'What to verify', 'What changes the choice', 'What to test next'];
+  const matrix = stacked(mobileComparisonLabels, 'Compare the routes', 3600, (label, i) => `<rect x="70" y="${360 + i * 620}" width="760" height="560" rx="16" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/>${sans(String(i + 1).padStart(2, '0'), 108, 435 + i * 620, 20, p[2], 700)}${textBlock(label, 108, 520 + i * 620, 36, 21, p[1], 700, 1.15, 'start', 3)}${textBlock(bs[i] || hs[i] || 'Check the evidence, cost, and next test.', 108, 680 + i * 620, 30, 45, p[1], 500, 1.2, 'start', 6)}<path d="M108 ${855 + i * 620}h600" stroke="${p[4]}" stroke-width="6"/>`);
   // Keep the label and connector in separate vertical bands. The earlier
   // 220px step made longer headings collide with the arrow on narrow screens.
   // Leave a full line-height buffer after the maximum four-line label before
@@ -120,7 +141,8 @@ let generated = 0;
 for (const file of files) {
   const route = '/' + file.slice(DIST.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '');
   const isBlogRoute = /^\/blog\/[^/]+\/[^/]+\/$/.test(route);
-  if (!isBlogRoute && !auditRoutes.has(route)) continue;
+  const isServiceRoute = route.startsWith('/services/') && !route.startsWith('/services/assessments/');
+  if (!isBlogRoute && !(allServicePages && isServiceRoute) && !auditRoutes.has(route)) continue;
   const html = await readFile(file, 'utf8');
   const srcs = [...html.matchAll(/<img\b[^>]*src="(\/images\/[^"?#]+)/g)].map(m => m[1]).filter(s => !s.includes('/authors/'));
   const unique = [...new Set(srcs)];

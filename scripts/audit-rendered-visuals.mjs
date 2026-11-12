@@ -31,7 +31,9 @@ async function auditRoute(page, route) {
     await page.setViewportSize(viewport);
     let status = 0;
     try {
-      const response = await page.goto(`${base}${route}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      const response = await page.goto(`${base}${route}`, { waitUntil: 'networkidle', timeout: 45000 });
+      await page.waitForLoadState('load', { timeout: 10000 }).catch(() => {});
+      await page.waitForTimeout(80);
       status = response?.status() ?? 0;
       await page.evaluate(async () => {
         for (const img of document.images) img.loading = 'eager';
