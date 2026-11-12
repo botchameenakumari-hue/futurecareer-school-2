@@ -18,6 +18,7 @@ const force = process.argv.includes('--force');
 const mobileOnly = process.argv.includes('--mobile-only');
 const socialOnly = process.argv.includes('--social-only');
 const allServicePages = process.argv.includes('--all-service-pages');
+const assessmentServicePages = process.argv.includes('--assessment-service-pages');
 const auditCsv = process.argv.find((arg) => arg.startsWith('--audit-csv='))?.slice('--audit-csv='.length);
 const auditRoutes = new Set();
 if (auditCsv) {
@@ -141,7 +142,8 @@ let generated = 0;
 for (const file of files) {
   const route = '/' + file.slice(DIST.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '');
   const isBlogRoute = /^\/blog\/[^/]+\/[^/]+\/$/.test(route);
-  const isServiceRoute = route.startsWith('/services/') && !route.startsWith('/services/assessments/');
+  const isServiceRoute = route.startsWith('/services/');
+  if (assessmentServicePages && (isBlogRoute || !route.startsWith('/services/assessments/'))) continue;
   if (!isBlogRoute && !(allServicePages && isServiceRoute) && !auditRoutes.has(route)) continue;
   const html = await readFile(file, 'utf8');
   const srcs = [...html.matchAll(/<img\b[^>]*src="(\/images\/[^"?#]+)/g)].map(m => m[1]).filter(s => !s.includes('/authors/'));
