@@ -16,6 +16,17 @@ const OUT = 'public/images/blog/generated';
 const force = process.argv.includes('--force');
 const mobileOnly = process.argv.includes('--mobile-only');
 const socialOnly = process.argv.includes('--social-only');
+const auditCsv = process.argv.find((arg) => arg.startsWith('--audit-csv='))?.slice('--audit-csv='.length);
+const auditRoutes = new Set();
+if (auditCsv) {
+  try {
+    const csv = await readFile(auditCsv, 'utf8');
+    for (const line of csv.split(/\r?\n/).slice(1)) {
+      const match = line.match(/^"?([^",]+)"?,/);
+      if (match?.[1]?.startsWith('/')) auditRoutes.add(match[1]);
+    }
+  } catch { /* The audit list is optional for ordinary blog generation. */ }
+}
 const GENERIC = new Set([
   '/images/blog/system/career-visual-system-summary.webp',
   '/images/blog/system/career-visual-system-matrix.webp',
@@ -103,13 +114,18 @@ async function walk(dir) { const out = []; for (const e of await readdir(dir, { 
 const files = await walk(DIST); let generated = 0;
 for (const file of files) {
   const route = '/' + file.slice(DIST.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '');
-  if (!/^\/blog\/[^/]+\/[^/]+\/$/.test(route)) continue;
+  const isBlogRoute = /^\/blog\/[^/]+\/[^/]+\/$/.test(route);
+  if (!isBlogRoute && !auditRoutes.has(route)) continue;
   const html = await readFile(file, 'utf8');
   const srcs = [...html.matchAll(/<img\b[^>]*src="(\/images\/[^"?#]+)/g)].map(m => m[1]).filter(s => !s.includes('/authors/'));
   const unique = [...new Set(srcs)];
   const hasGeneratedPack = unique.some(s => s.includes('/images/blog/generated/'));
-  if ((!force || !hasGeneratedPack) && unique.length && unique.slice(1).some(s => !GENERIC.has(s))) continue;
-  const [, category, slug] = route.match(/^\/blog\/([^/]+)\/([^/]+)\/$/);
+  // With --force this is an explicit visual refresh: rebuild every article's
+  // pack, including older pages that still contain the former photo/chart set.
+  if (!force && unique.length && unique.slice(1).some(s => !GENERIC.has(s))) continue;
+  const segments = route.split('/').filter(Boolean);
+  const slug = segments.at(-1);
+  const category = segments.slice(0, -1).join('-');
   const title = clean((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [,'Career decision guide'])[1]);
   const headings = [...html.matchAll(/<h[23]\b[^>]*>([\s\S]*?)<\/h[23]>/gi)].map(m => clean(m[1])).filter(Boolean).slice(0, 6);
   const bullets = [...html.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)].map(m => clean(m[1])).filter(s => s.length > 15).slice(0, 6);
