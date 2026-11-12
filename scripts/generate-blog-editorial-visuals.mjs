@@ -35,32 +35,35 @@ const palettes = [
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const clean = (s) => s.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
 const words = (s) => clean(s).replace(/[“”‘’]/g, '').split(/\s+/).filter(Boolean);
-function wrap(s, max) {
+function wrap(s, max, maxLines = 4) {
   const out = []; let line = '';
   for (const word of words(s)) {
     if ((line + ' ' + word).trim().length > max && line) { out.push(line); line = word; }
     else line = (line + ' ' + word).trim();
   }
   if (line) out.push(line);
-  return out.slice(0, 4);
+  return out.slice(0, maxLines);
 }
-function textBlock(s, x, y, size, max, fill, weight = 500, lineHeight = 1.18, anchor = 'start') {
-  return wrap(s, max).map((line, i) => `<text x="${x}" y="${y + i * size * lineHeight}" font-family="Georgia,serif" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}">${esc(line)}</text>`).join('');
+function textBlock(s, x, y, size, max, fill, weight = 500, lineHeight = 1.18, anchor = 'start', maxLines = 4) {
+  return wrap(s, max, maxLines).map((line, i) => `<text x="${x}" y="${y + i * size * lineHeight}" font-family="Georgia,serif" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}">${esc(line)}</text>`).join('');
 }
 function sans(s, x, y, size, fill, weight = 600, anchor = 'start') {
   return `<text x="${x}" y="${y}" font-family="Arial,sans-serif" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}" letter-spacing="0.5">${esc(s)}</text>`;
 }
 function hash(s) { let n = 0; for (const c of s) n = (n * 31 + c.charCodeAt(0)) >>> 0; return n; }
 function shell(body, p, title, label, w = 1600, h = 1000) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="${w}" height="${h}" fill="${p[0]}"/><path d="M0 80H${w}" stroke="${p[4]}" stroke-width="8"/><circle cx="${w - 92}" cy="76" r="28" fill="${p[2]}"/><circle cx="${w - 148}" cy="76" r="18" fill="${p[3]}"/>${sans(label.toUpperCase(), w <= 1000 ? 62 : 84, 78, w <= 1000 ? 18 : 20, p[1], 700)}${textBlock(title, w <= 1000 ? 62 : 84, 158, w <= 1000 ? 48 : 54, w <= 1000 ? 22 : 46, p[1], 700)}${body}<path d="M${w <= 1000 ? 62 : 84} ${h - 64}H${w - (w <= 1000 ? 62 : 84)}" stroke="${p[3]}" stroke-width="2"/><text x="${w - (w <= 1000 ? 62 : 84)}" y="${h - 28}" font-family="Arial,sans-serif" font-size="16" fill="${p[1]}" text-anchor="end">FUTURE CAREER SCHOOL · EDITORIAL GUIDE</text></svg>`;
+  const m = w <= 1000 ? 62 : 84;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="${w}" height="${h}" fill="${p[0]}"/><path d="M0 92H${w}" stroke="${p[4]}" stroke-width="7"/><path d="M${m} 72h112" stroke="${p[2]}" stroke-width="12"/><path d="M${w - m - 96} 72h96" stroke="${p[3]}" stroke-width="12"/>${sans(label.toUpperCase(), m, 78, w <= 1000 ? 18 : 20, p[1], 700)}${textBlock(title, m, 158, w <= 1000 ? 48 : 54, w <= 1000 ? 22 : 46, p[1], 700)}${body}<path d="M${m} ${h - 64}H${w - m}" stroke="${p[3]}" stroke-width="2"/><text x="${w - m}" y="${h - 28}" font-family="Arial,sans-serif" font-size="16" fill="${p[1]}" text-anchor="end">FUTURE CAREER SCHOOL · EDITORIAL GUIDE</text></svg>`;
 }
 function card(x, y, w, h, n, heading, p, accent) {
-  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="18" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><circle cx="${x + 42}" cy="${y + 42}" r="22" fill="${accent}"/>${sans(String(n).padStart(2, '0'), x + 42, y + 49, 17, '#fffaf0', 700, 'middle')}${textBlock(heading, x + 30, y + 112, 27, 26, p[1], 700, 1.2)}`;
+  const s = n % 2 ? 12 : -10;
+  return `<path d="M${x} ${y + 8}L${x + w - 18} ${y}L${x + w} ${y + h - 12}L${x + 18} ${y + h}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 30} ${y + 38}h54" stroke="${accent}" stroke-width="10" transform="rotate(${s} ${x + 56} ${y + 38})"/>${sans(String(n).padStart(2, '0'), x + 30, y + 86, 17, p[2], 700)}${textBlock(heading, x + 30, y + 135, 27, 26, p[1], 700, 1.2)}`;
 }
 function hero(title, category, p) {
   const lines = wrap(title, 30);
-  const path = `M120 650 C360 470 520 780 760 600 S1180 430 1470 610`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="844" viewBox="0 0 1500 844"><rect width="1500" height="844" fill="${p[0]}"/><path d="M0 112H1500" stroke="${p[4]}" stroke-width="10"/><path d="${path}" fill="none" stroke="${p[2]}" stroke-width="16" stroke-linecap="round"/><path d="${path}" fill="none" stroke="${p[3]}" stroke-width="3" stroke-dasharray="3 22" stroke-linecap="round"/><circle cx="120" cy="650" r="26" fill="${p[1]}"/><circle cx="760" cy="600" r="26" fill="${p[1]}"/><circle cx="1470" cy="610" r="26" fill="${p[1]}"/><rect x="1010" y="150" width="260" height="190" rx="28" fill="${p[3]}" opacity=".28" transform="rotate(-7 1140 245)"/><rect x="1080" y="185" width="260" height="190" rx="28" fill="${p[2]}" opacity=".82" transform="rotate(8 1210 280)"/>${sans(category.replaceAll('-', ' ').toUpperCase(), 84, 78, 20, p[1], 700)}${textBlock(title, 84, 260, 68, 29, p[1], 700, 1.08)}${sans('A decision map for clearer next steps', 88, 470, 28, p[1], 500)}<path d="M84 744H1416" stroke="${p[3]}" stroke-width="2"/></svg>`;
+  const subtitleY = Math.max(470, 260 + Math.max(0, lines.length - 2) * 74 + 92);
+  const path = `M116 690 C280 610 420 745 590 660 S880 560 1030 650 S1260 690 1430 570`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="844" viewBox="0 0 1500 844"><defs><filter id="paper" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 .8 0 0 0 0 0 .035 0"/></filter></defs><rect width="1500" height="844" fill="${p[0]}"/><rect width="1500" height="844" filter="url(#paper)" opacity=".55"/><path d="M0 112H1500" stroke="${p[4]}" stroke-width="10"/><path d="${path}" fill="none" stroke="${p[2]}" stroke-width="12" stroke-linecap="round"/><path d="M1420 570l-32 -18m32 18l-14 31" stroke="${p[2]}" stroke-width="9" fill="none"/><path d="M118 690h64m340-29h62m360-10h62" stroke="${p[1]}" stroke-width="18" stroke-linecap="square"/><path d="M1040 150l250 8-18 198-250-10z" fill="${p[3]}" opacity=".65" transform="rotate(5 1140 245)"/><path d="M1090 190l245 10-18 190-245-10z" fill="${p[2]}" opacity=".82" transform="rotate(-6 1210 280)"/>${sans(category.replaceAll('-', ' ').toUpperCase(), 84, 78, 20, p[1], 700)}${textBlock(title, 84, 260, 68, 29, p[1], 700, 1.08)}${sans('A decision map for clearer next steps', 88, subtitleY, 28, p[1], 500)}<path d="M84 744H1416" stroke="${p[3]}" stroke-width="2"/></svg>`;
 }
 function buildVisuals(title, category, headings, bullets, p) {
   const hs = headings.length ? headings : ['What this choice involves', 'Evidence to gather', 'Skills to build', 'A next step to test'];
@@ -73,7 +76,9 @@ function buildVisuals(title, category, headings, bullets, p) {
   return [hero(title, category, p), summary, matrix, chain, checklist, proof];
 }
 function mobileHero(title, category, p) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100"><rect width="900" height="1100" fill="${p[0]}"/><path d="M0 112H900" stroke="${p[4]}" stroke-width="10"/><circle cx="790" cy="76" r="28" fill="${p[2]}"/><circle cx="732" cy="76" r="18" fill="${p[3]}"/>${sans(category.replaceAll('-', ' ').toUpperCase(), 62, 78, 18, p[1], 700)}${textBlock(title, 62, 240, 50, 22, p[1], 700, 1.08)}${sans('A decision map for clearer next steps', 66, 470, 24, p[1], 500)}<path d="M160 820 C300 670 470 930 620 760 S770 690 790 900" fill="none" stroke="${p[2]}" stroke-width="15" stroke-linecap="round"/><circle cx="160" cy="820" r="24" fill="${p[1]}"/><circle cx="620" cy="760" r="24" fill="${p[1]}"/><circle cx="790" cy="900" r="24" fill="${p[1]}"/><path d="M62 1018H838" stroke="${p[3]}" stroke-width="2"/></svg>`;
+  const titleLines = wrap(title, 22);
+  const subtitleY = Math.max(470, 240 + Math.max(0, titleLines.length - 2) * 54 + 86);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100"><defs><filter id="paper" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 .8 0 0 0 0 0 0 .035 0"/></filter></defs><rect width="900" height="1100" fill="${p[0]}"/><rect width="900" height="1100" filter="url(#paper)" opacity=".55"/><path d="M0 112H900" stroke="${p[4]}" stroke-width="10"/><path d="M62 72h82M742 72h96" stroke="${p[2]}" stroke-width="12"/>${sans(category.replaceAll('-', ' ').toUpperCase(), 62, 78, 18, p[1], 700)}${textBlock(title, 62, 240, 50, 22, p[1], 700, 1.08)}${sans('A decision map for clearer next steps', 66, subtitleY, 24, p[1], 500)}<path d="M120 820 C280 700 420 920 580 780 S730 700 810 880" fill="none" stroke="${p[2]}" stroke-width="13" stroke-linecap="round"/><path d="M810 880l-27-12m27 12l-10 28" stroke="${p[2]}" stroke-width="8" fill="none"/><path d="M120 820h45m275-40h44m230 0h44" stroke="${p[1]}" stroke-width="16"/><path d="M62 1018H838" stroke="${p[3]}" stroke-width="2"/></svg>`;
 }
 function buildMobileVisuals(title, headings, bullets, p) {
   const hs = headings.length ? headings : ['What this choice involves', 'Evidence to gather', 'Skills to build', 'A next step to test'];
@@ -82,7 +87,7 @@ function buildMobileVisuals(title, headings, bullets, p) {
   // Mobile artwork is displayed at roughly 358px on a 390px viewport. Use
   // larger source type and more vertical room so explanatory text remains
   // comfortable to read without pinch-zooming after the image is scaled.
-  const mobileCard = (heading, i) => { const x = 70; const y = 380 + i * 320; const accent = [p[2], p[3], p[4], p[1], p[2]][i]; return `<rect x="${x}" y="${y}" width="760" height="300" rx="18" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><circle cx="${x + 42}" cy="${y + 48}" r="22" fill="${accent}"/>${sans(String(i + 1).padStart(2, '0'), x + 42, y + 55, 17, '#fffaf0', 700, 'middle')}${textBlock(heading, x + 30, y + 128, 40, 24, p[1], 700, 1.12)}`; };
+  const mobileCard = (heading, i) => { const x = 70; const y = 380 + i * 320; const accent = [p[2], p[3], p[4], p[1], p[2]][i]; return `<path d="M${x} ${y + 8}L${x + 742} ${y}L${x + 760} ${y + 288}L${x + 18} ${y + 300}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 30} ${y + 42}h58" stroke="${accent}" stroke-width="12"/>${sans(String(i + 1).padStart(2, '0'), x + 30, y + 90, 18, p[2], 700)}${textBlock(heading, x + 30, y + 150, 40, 24, p[1], 700, 1.12)}`; };
   const summary = stacked(hs, 'At a glance', 2140, mobileCard);
   const matrix = stacked(hs, 'Compare the routes', 2500, (h, i) => `<rect x="70" y="${380 + i * 390}" width="760" height="350" rx="16" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/>${sans(String(i + 1).padStart(2, '0'), 108, 450 + i * 390, 20, p[2], 700)}${textBlock(h, 108, 525 + i * 390, 38, 22, p[1], 700, 1.15)}<path d="M108 ${680 + i * 390}h600" stroke="${p[4]}" stroke-width="6"/>`);
   // Keep the label and connector in separate vertical bands. The earlier
@@ -91,7 +96,7 @@ function buildMobileVisuals(title, headings, bullets, p) {
   // the next connector, so unusually long headings cannot collide with it.
   const chain = stacked(hs, 'From question to evidence', 2400, (h, i) => { const y = 400 + i * 360; return `<circle cx="450" cy="${y}" r="52" fill="${[p[2], p[3], p[4], p[1], p[2]][i]}"/><text x="450" y="${y + 10}" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#fffaf0" text-anchor="middle">${i + 1}</text>${textBlock(h, 450, y + 120, 38, 20, p[1], 700, 1.15, 'middle')}${i < 4 ? `<path d="M450 ${y + 270}v55" stroke="${p[2]}" stroke-width="9"/><path d="M432 ${y + 300}l18 24 18-24" fill="none" stroke="${p[2]}" stroke-width="9"/>` : ''}`; });
   const checklist = stacked(bs, 'Five questions before you commit', 1700, (b, i) => { const y = 390 + i * 230; return `<rect x="90" y="${y - 40}" width="44" height="44" rx="7" fill="none" stroke="${p[2]}" stroke-width="6"/><path d="M98 ${y - 20}l11 11 22-27" fill="none" stroke="${p[3]}" stroke-width="6"/>${textBlock(b, 165, y, 38, 24, p[1], 600)}`; });
-  const proof = stacked(bs, 'What makes the decision stronger', 1660, (b, i) => { const x = 70 + (i % 2) * 400; const y = 380 + Math.floor(i / 2) * 350; return `<path d="M${x} ${y}h360l-24 270H${x}z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/>${sans(['SOURCE', 'EXAMPLE', 'TEST', 'REFLECT'][i], x + 34, y + 58, 18, p[2], 700)}${textBlock(b, x + 34, y + 135, 36, 17, p[1], 700, 1.15)}`; });
+  const proof = stacked(bs.slice(0, 4), 'What makes the decision stronger', 1780, (b, i) => { const x = 70 + (i % 2) * 400; const y = 380 + Math.floor(i / 2) * 390; return `<path d="M${x} ${y}h360l-24 350H${x}z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/>${sans(['SOURCE', 'EXAMPLE', 'TEST', 'REFLECT'][i], x + 34, y + 58, 18, p[2], 700)}${textBlock(b, x + 34, y + 135, 32, 15, p[1], 700, 1.18, 'start', 6)}`; });
   return [mobileHero(title, 'career guide', p), summary, matrix, chain, checklist, proof];
 }
 async function walk(dir) { const out = []; for (const e of await readdir(dir, { withFileTypes: true })) { const p = join(dir, e.name); if (e.isDirectory()) out.push(...await walk(p)); else if (e.name === 'index.html') out.push(p); } return out; }
