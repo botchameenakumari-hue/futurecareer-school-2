@@ -244,6 +244,17 @@ function readableAssetName(src) {
   return path.basename(src).replace(/\.(?:webp|jpe?g|png)$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
+function generatedVisualLabel(index) {
+  return [
+    'article-specific decision map',
+    'at-a-glance evidence summary',
+    'route comparison matrix',
+    'question-to-evidence chain',
+    'self-checklist before you act',
+    'evidence-to-outcome proof panel',
+  ][index] || 'supporting career explainer';
+}
+
 function emptyBlogVisuals(html, publicDir, category, pageSlug) {
   const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
   const pageTitle = plainText(h1 || 'this career article');
@@ -251,7 +262,7 @@ function emptyBlogVisuals(html, publicDir, category, pageSlug) {
   const generated = generatedBlogFiles(publicDir, category, pageSlug);
   const categoryExplanatory = CATEGORY_HEROES.has(category) ? categoryFiles(publicDir, category, pageSlug) : [];
   const visuals = generated.length >= 6
-    ? generated.slice(0, 6).map((src, index) => { const mobile = src.replace(/\.webp$/i, '-mobile.webp'); return { src, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))), label: index === 0 ? 'article-specific career decision map' : readableAssetName(src), width: imageSize(publicDir, src)?.w || (index === 0 ? 1500 : 1600), height: imageSize(publicDir, src)?.h || (index === 0 ? 844 : 1000) }; })
+    ? generated.slice(0, 6).map((src, index) => { const mobile = src.replace(/\.webp$/i, '-mobile.webp'); return { src, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))), label: generatedVisualLabel(index), width: imageSize(publicDir, src)?.w || (index === 0 ? 1500 : 1600), height: imageSize(publicDir, src)?.h || (index === 0 ? 844 : 1000) }; })
     : categoryHero
     ? [{ src: categoryHero, label: `${category.replace(/-/g, ' ')} career decision hero`, width: 1600, height: 900 }, ...(categoryExplanatory.length >= 5
       ? categoryExplanatory.map((src) => ({ src, label: readableAssetName(src), width: imageSize(publicDir, src)?.w || 1122, height: imageSize(publicDir, src)?.h || 1402 }))
@@ -311,7 +322,7 @@ function replaceBlogVisuals(html, publicDir, category, pageSlug) {
     return {
       src,
       mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))),
-      label: index === 0 ? 'article-specific career decision map' : readableAssetName(src),
+      label: generatedVisualLabel(index),
       width: imageSize(publicDir, src)?.w || (index === 0 ? 1500 : 1600),
       height: imageSize(publicDir, src)?.h || (index === 0 ? 844 : 1000),
     };
@@ -352,7 +363,7 @@ function replaceRouteVisuals(html, publicDir, route) {
     return {
       src,
       mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))),
-      label: index === 0 ? 'article-specific career decision map' : readableAssetName(src),
+      label: generatedVisualLabel(index),
       width: imageSize(publicDir, src)?.w || (index === 0 ? 1500 : 1600),
       height: imageSize(publicDir, src)?.h || (index === 0 ? 844 : 1000),
     };
