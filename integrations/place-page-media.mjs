@@ -246,13 +246,13 @@ function readableAssetName(src) {
 
 function generatedVisualLabel(index) {
   return [
-    'Decision map',
-    'Key evidence',
-    'Compare the options',
-    'From question to evidence',
-    'Before you commit',
-    'What strengthens the choice',
-  ][index] || 'supporting career explainer';
+    'A decision map for the career question',
+    'Key evidence and trade-offs to check',
+    'A comparison of career routes and trade-offs',
+    'Steps from a question to useful evidence',
+    'Questions to ask before committing',
+    'Evidence that makes a career choice stronger',
+  ][index] || 'A supporting career explainer graphic';
 }
 
 function emptyBlogVisuals(html, publicDir, category, pageSlug) {
@@ -269,7 +269,7 @@ function emptyBlogVisuals(html, publicDir, category, pageSlug) {
       : EMPTY_BLOG_VISUALS.slice(1))]
     : EMPTY_BLOG_VISUALS;
   const figure = (visual, index) => {
-    const alt = `${visual.label} for ${pageTitle}`;
+    const alt = visual.label;
     const title = `${pageTitle}: ${visual.label}`;
     const caption = visual.label;
     const loading = index === 0 ? 'eager' : 'lazy';
@@ -328,7 +328,7 @@ function replaceBlogVisuals(html, publicDir, category, pageSlug) {
     };
   });
   const figure = (visual, index) => {
-    const alt = `${visual.label} for ${pageTitle}`;
+    const alt = visual.label;
     const title = `${pageTitle}: ${visual.label}`;
     const caption = visual.label;
     const loading = index === 0 ? 'eager' : 'lazy';
@@ -369,7 +369,7 @@ function replaceRouteVisuals(html, publicDir, route) {
     };
   });
   const figure = (visual, index) => {
-    const alt = `${visual.label} for ${pageTitle}`;
+    const alt = visual.label;
     const title = `${pageTitle}: ${visual.label}`;
     const image = `<img src="${visual.src}" alt="${escapeAttr(alt)}" title="${escapeAttr(title)}" width="${visual.width}" height="${visual.height}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ''}>`;
     const picture = visual.mobile ? `<picture><source media="(max-width: 640px)" srcset="${visual.src.replace(/\.webp$/i, '-mobile.webp')}">${image}</picture>` : image;
@@ -380,6 +380,31 @@ function replaceRouteVisuals(html, publicDir, route) {
     if (index >= visuals.length) return '';
     return figure(visuals[index], index++);
   });
+  // Some service and assessment templates have no figure to replace. Insert
+  // the route-specific pack after the h1 so those pages do not fall back to
+  // zero or shared imagery.
+  if (index === 0) {
+    const h1Tag = /<h1\b[^>]*>[\s\S]*?<\/h1>/i.exec(out);
+    const visual = figure(visuals[0], 0);
+    if (h1Tag) {
+      const at = h1Tag.index + h1Tag[0].length;
+      out = out.slice(0, at) + '\n' + visual + out.slice(at);
+      index = 1;
+    } else {
+      const closing = /<\/(?:main|article|body)>/i.exec(out);
+      if (closing) {
+        out = out.slice(0, closing.index) + visual + '\n' + out.slice(closing.index);
+        index = 1;
+      }
+    }
+  }
+  while (index < visuals.length) {
+    const closing = /<\/(?:main|article|body)>/i.exec(out);
+    if (!closing) break;
+    const visual = figure(visuals[index], index);
+    out = out.slice(0, closing.index) + visual + '\n' + out.slice(closing.index);
+    index += 1;
+  }
   return out;
 }
 
