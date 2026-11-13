@@ -65,6 +65,10 @@ function wrap(s, max, maxLines = 4) {
 function textBlock(s, x, y, size, max, fill, weight = 500, lineHeight = 1.18, anchor = 'start', maxLines = 4) {
   return wrap(s, max, maxLines).map((line, i) => `<text x="${x}" y="${y + i * size * lineHeight}" font-family="Georgia,serif" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}">${esc(line)}</text>`).join('');
 }
+function compact(s, maxWords = 8) {
+  const list = words(s);
+  return list.length > maxWords ? `${list.slice(0, maxWords).join(' ')}…` : list.join(' ');
+}
 function sans(s, x, y, size, fill, weight = 600, anchor = 'start') {
   return `<text x="${x}" y="${y}" font-family="Arial,sans-serif" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}" letter-spacing="0.5">${esc(s)}</text>`;
 }
@@ -87,7 +91,7 @@ function shell(body, p, title, label, w = 1600, h = 1000, bodyY = 280) {
 }
 function card(x, y, w, h, n, heading, detail, p, accent) {
   const s = n % 2 ? 12 : -10;
-  return `<path d="M${x} ${y + 8}L${x + w - 18} ${y}L${x + w} ${y + h - 12}L${x + 18} ${y + h}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 30} ${y + 38}h54" stroke="${accent}" stroke-width="10" transform="rotate(${s} ${x + 56} ${y + 38})"/>${sans(String(n).padStart(2, '0'), x + 30, y + 86, 19, p[2], 700)}${textBlock(heading, x + 30, y + 135, 32, 26, p[1], 700, 1.2, 'start', 2)}${textBlock(detail, x + 30, y + 235, 25, 44, p[1], 500, 1.2, 'start', 9)}`;
+  return `<path d="M${x} ${y + 8}L${x + w - 18} ${y}L${x + w} ${y + h - 12}L${x + 18} ${y + h}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 30} ${y + 38}h54" stroke="${accent}" stroke-width="10" transform="rotate(${s} ${x + 56} ${y + 38})"/>${sans(String(n).padStart(2, '0'), x + 30, y + 86, 19, p[2], 700)}${textBlock(heading, x + 30, y + 135, 32, 26, p[1], 700, 1.2, 'start', 2)}${textBlock(detail, x + 30, y + 235, 25, 44, p[1], 500, 1.2, 'start', 12)}`;
 }
 function heroLegacy(title, category, p) {
   const lines = wrap(title, 27, 6);
@@ -114,7 +118,7 @@ function buildVisuals(title, category, headings, bullets, p) {
     `Compare the attractive route with its cost, fit, and fallback. ${bs[2] || hs[2]}`,
     `Turn the idea into one small test before committing more time or money. ${bs[3] || hs[3]}`,
   ];
-  const summary = shell(`<g>${summaryHeadings.map((h, i) => card(84 + (i % 2) * 726, 280 + Math.floor(i / 2) * 540, 640, 520, i + 1, h, summaryDetails[i], p, [p[2], p[3], p[4], p[1]][i])).join('')}</g>`, p, 'The decision in plain language', 'At a glance', 1600, 1650, 280);
+  const summary = shell(`<g>${summaryHeadings.map((h, i) => card(84 + (i % 2) * 726, 280 + Math.floor(i / 2) * 650, 640, 620, i + 1, h, summaryDetails[i], p, [p[2], p[3], p[4], p[1]][i])).join('')}</g>`, p, 'The decision in plain language', 'At a glance', 1600, 1900, 280);
   const comparisonLabels = ['What it asks of you', 'What to verify', 'What changes the choice', 'What to test next'];
   const matrixDetails = [
     `Name the time, cost, prerequisite, or uncertainty that ${hs[0] || 'this route'} creates for you.`,
@@ -154,7 +158,7 @@ function buildMobileVisuals(title, headings, bullets, p) {
   // Mobile artwork is displayed at roughly 358px on a 390px viewport. Use
   // larger source type and more vertical room so explanatory text remains
   // comfortable to read without pinch-zooming after the image is scaled.
-  const mobileCard = (heading, detail, i) => { const x = 70; const y = 360 + i * 760; const accent = [p[2], p[3], p[4], p[1], p[2]][i]; return `<path d="M${x} ${y + 8}L${x + 742} ${y}L${x + 760} ${y + 668}L${x + 18} ${y + 680}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 30} ${y + 42}h58" stroke="${accent}" stroke-width="12"/>${sans(String(i + 1).padStart(2, '0'), x + 30, y + 92, 21, p[2], 700)}${textBlock(heading, x + 30, y + 160, words(heading).length > 9 ? 44 : 50, 20, p[1], 700, 1.12, 'start', 3)}${textBlock(detail, x + 30, y + 320, 38, 36, p[1], 500, 1.2, 'start', 8)}`; };
+  const mobileCard = (heading, detail, i) => { const x = 70; const y = 360 + i * 920; const accent = [p[2], p[3], p[4], p[1], p[2]][i]; return `<path d="M${x} ${y + 8}L${x + 742} ${y}L${x + 760} ${y + 888}L${x + 18} ${y + 900}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 30} ${y + 42}h58" stroke="${accent}" stroke-width="12"/>${sans(String(i + 1).padStart(2, '0'), x + 30, y + 92, 21, p[2], 700)}${textBlock(heading, x + 30, y + 160, words(heading).length > 9 ? 44 : 50, 20, p[1], 700, 1.12, 'start', 3)}${textBlock(detail, x + 30, y + 320, 38, 36, p[1], 500, 1.2, 'start', 12)}`; };
   const summaryHeadings = ['The decision in plain language', 'The evidence to check', 'Where the trade-off sits', 'The next move to test'];
   const summaryDetails = [
     `Start by naming the decision, the constraint, and the outcome you want. ${bs[0] || hs[0]}`,
@@ -162,7 +166,7 @@ function buildMobileVisuals(title, headings, bullets, p) {
     `Compare the attractive route with its cost, fit, and fallback. ${bs[2] || hs[2]}`,
     `Turn the idea into one small test before committing more time or money. ${bs[3] || hs[3]}`,
   ];
-  const summary = stacked(summaryHeadings.map((heading, i) => `${heading}|||${summaryDetails[i]}`), 'At a glance', 4300, (item, i) => { const [heading, detail] = item.split('|||'); return mobileCard(heading, detail, i); });
+  const summary = stacked(summaryHeadings.map((heading, i) => `${heading}|||${summaryDetails[i]}`), 'At a glance', 5200, (item, i) => { const [heading, detail] = item.split('|||'); return mobileCard(heading, detail, i); });
   const mobileComparisonLabels = ['What it asks of you', 'What to verify', 'What changes the choice', 'What to test next'];
   const matrixDetails = [
     `Name the time, cost, prerequisite, or uncertainty that ${hs[0] || 'this route'} creates for you.`,
@@ -175,7 +179,8 @@ function buildMobileVisuals(title, headings, bullets, p) {
   // 220px step made longer headings collide with the arrow on narrow screens.
   // Leave a full line-height buffer after the maximum four-line label before
   // the next connector, so unusually long headings cannot collide with it.
-  const chain = stacked(hs, 'From question to evidence', 2600, (h, i) => { const y = 400 + i * 390; return `<circle cx="450" cy="${y}" r="56" fill="${[p[2], p[3], p[4], p[1], p[2]][i]}"/><text x="450" y="${y + 10}" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#fffaf0" text-anchor="middle">${i + 1}</text>${textBlock(h, 450, y + 130, 44, 19, p[1], 700, 1.15, 'middle')}${i < 4 ? `<path d="M450 ${y + 300}v50" stroke="${p[2]}" stroke-width="9"/><path d="M432 ${y + 325}l18 24 18-24" fill="none" stroke="${p[2]}" stroke-width="9"/>` : ''}`; });
+  const chainStages = ['Start with the question', 'Map the available routes', 'Check the evidence', 'Run a small test', 'Review the result'];
+  const chain = stacked(chainStages, 'From question to evidence', 3300, (h, i) => { const y = 400 + i * 520; const source = hs[i] || bs[i] || ['the decision context', 'the realistic options', 'the evidence and trade-offs', 'the next small experiment', 'the result and fallback'][i]; return `<circle cx="450" cy="${y}" r="56" fill="${[p[2], p[3], p[4], p[1], p[2]][i]}"/><text x="450" y="${y + 10}" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#fffaf0" text-anchor="middle">${i + 1}</text>${textBlock(h, 450, y + 130, 44, 21, p[1], 700, 1.15, 'middle', 2)}${textBlock(compact(source, 8), 450, y + 265, 30, 28, p[1], 500, 1.2, 'middle', 2)}${i < 4 ? `<path d="M450 ${y + 350}v90" stroke="${p[2]}" stroke-width="9"/><path d="M432 ${y + 415}l18 24 18-24" fill="none" stroke="${p[2]}" stroke-width="9"/>` : ''}`; });
   const checklist = stacked(bs, 'Five questions before you commit', 1950, (b, i) => { const y = 390 + i * 270; return `<rect x="90" y="${y - 44}" width="48" height="48" rx="7" fill="none" stroke="${p[2]}" stroke-width="6"/><path d="M98 ${y - 20}l11 11 22-27" fill="none" stroke="${p[3]}" stroke-width="6"/>${textBlock(b, 165, y, 42, 18, p[1], 600, 1.2, 'start', 6)}`; });
   const proof = stacked(bs.slice(0, 4), 'What makes the decision stronger', 3800, (b, i) => { const x = 70; const y = 380 + i * 700; return `<path d="M${x} ${y}h760l-24 650H${x}z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/>${sans(['SOURCE', 'EXAMPLE', 'TEST', 'REFLECT'][i], x + 34, y + 62, 20, p[2], 700)}${textBlock(b, x + 34, y + 145, 34, 34, p[1], 700, 1.18, 'start', 10)}`; });
   return [mobileHero(title, 'career guide', p), summary, matrix, chain, checklist, proof];
