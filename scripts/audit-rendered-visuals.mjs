@@ -5,7 +5,13 @@ import { join, relative, dirname } from 'node:path';
 const base = process.env.VISUAL_AUDIT_BASE ?? 'http://127.0.0.1:4322';
 const outFile = process.env.VISUAL_AUDIT_REPORT ?? 'C:/Users/Jack Sparrow/.codex/.chatgpt-projects/g-p-6aa561b035748191b9430f4d23e8bef8/visual-audit-rendered.json';
 const dist = 'dist';
-const viewports = [{ width: 390, height: 844 }, { width: 1280, height: 900 }];
+const viewports = (process.env.VISUAL_AUDIT_VIEWPORTS ?? '390x844,768x1024,1280x900,1440x900,1920x1080')
+  .split(',')
+  .map((value) => {
+    const [width, height] = value.split('x').map(Number);
+    return { width, height };
+  })
+  .filter(({ width, height }) => width > 0 && height > 0);
 
 async function walk(dir) {
   const result = [];
