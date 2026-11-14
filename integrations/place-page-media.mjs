@@ -244,27 +244,36 @@ function readableAssetName(src) {
   return path.basename(src).replace(/\.(?:webp|jpe?g|png)$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
-function generatedVisualLabel(index, pageTitle = 'this career guide') {
-  const subject = plainText(pageTitle).replace(/\s+/g, ' ').trim().split(/\s+/).slice(0, 8).join(' ').replace(/[?:,;]/g, '').replace(/\s+(?:and|or|the|a|an|after|for|of|to|in)$/i, '').trim();
+function generatedVisualLabel(index, pageTitle = 'this career guide', headings = []) {
+  const banned = /\b(?:gate|checkpoint|leverage|cohort|heuristic|reader|user|visitor|buyer|undefined|tbd|lorem)\b/gi;
+  const cleanLabel = (value, fallback) => plainText(value || fallback).replace(banned, '').replace(/\.\.\.|…/g, '').replace(/\s+/g, ' ').trim().split(/\s+/).slice(0, 12).join(' ').replace(/[?:,;]/g, '').trim();
+  const subject = cleanLabel(pageTitle, 'career guide').split(/\s+/).slice(0, 7).join(' ');
+  const pageHeadings = headings.map((heading) => cleanLabel(heading, '')).filter(Boolean);
   const labels = [
-    'decision map and next steps',
-    'evidence and trade-offs to check',
-    'comparison of routes and trade-offs',
-    'five-step path from question to evidence',
-    'questions to ask before committing',
-    'evidence that strengthens the choice',
+    `${subject} overview for career decisions`,
+    `${subject} ${pageHeadings[0] || 'key idea'}`,
+    `${subject} ${pageHeadings[1] || 'comparison'}`,
+    `${subject} ${pageHeadings[2] || 'next steps'}`,
+    `${subject} ${pageHeadings[3] || 'checklist'}`,
+    `${subject} ${pageHeadings[4] || 'evidence'}`,
   ];
-  return `${subject}: ${labels[index] || 'supporting career explainer'}`;
+  return cleanLabel(labels[index], `${subject} career explainer`);
+}
+
+function pageHeadings(html) {
+  return [...html.matchAll(/<h[23]\b[^>]*>([\s\S]*?)<\/h[23]>/gi)]
+    .map((match) => plainText(match[1])).filter(Boolean).slice(0, 6);
 }
 
 function emptyBlogVisuals(html, publicDir, category, pageSlug) {
   const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
   const pageTitle = plainText(h1 || 'this career article');
+  const headings = pageHeadings(html);
   const categoryHero = CATEGORY_HEROES.has(category) ? `/images/blog/category-heroes/${category}.webp` : null;
   const generated = generatedBlogFiles(publicDir, category, pageSlug);
   const categoryExplanatory = CATEGORY_HEROES.has(category) ? categoryFiles(publicDir, category, pageSlug) : [];
   const visuals = generated.length >= 6
-    ? generated.slice(0, 6).map((src, index) => { const mobile = src.replace(/\.webp$/i, '-mobile.webp'); return { src, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))), label: generatedVisualLabel(index, pageTitle), width: imageSize(publicDir, src)?.w || 1000, height: imageSize(publicDir, src)?.h || 1500 }; })
+    ? generated.slice(0, 6).map((src, index) => { const mobile = src.replace(/\.webp$/i, '-mobile.webp'); return { src, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))), label: generatedVisualLabel(index, pageTitle, headings), width: imageSize(publicDir, src)?.w || 1000, height: imageSize(publicDir, src)?.h || 1500 }; })
     : categoryHero
     ? [{ src: categoryHero, label: `${category.replace(/-/g, ' ')} career decision hero`, width: 1600, height: 900 }, ...(categoryExplanatory.length >= 5
       ? categoryExplanatory.map((src) => ({ src, label: readableAssetName(src), width: imageSize(publicDir, src)?.w || 1122, height: imageSize(publicDir, src)?.h || 1402 }))
@@ -317,6 +326,7 @@ function emptyBlogVisuals(html, publicDir, category, pageSlug) {
 function replaceBlogVisuals(html, publicDir, category, pageSlug) {
   const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
   const pageTitle = plainText(h1 || 'this career article');
+  const headings = pageHeadings(html);
   const generated = generatedBlogFiles(publicDir, category, pageSlug);
   if (generated.length < 6) return html;
   const visuals = generated.slice(0, 6).map((src, index) => {
@@ -324,7 +334,7 @@ function replaceBlogVisuals(html, publicDir, category, pageSlug) {
     return {
       src,
       mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))),
-      label: generatedVisualLabel(index, pageTitle),
+      label: generatedVisualLabel(index, pageTitle, headings),
       width: imageSize(publicDir, src)?.w || 1000,
       height: imageSize(publicDir, src)?.h || 1500,
     };
@@ -360,12 +370,13 @@ function replaceRouteVisuals(html, publicDir, route) {
   if (generated.length < 6) return html;
   const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
   const pageTitle = plainText(h1 || 'this career guide');
+  const headings = pageHeadings(html);
   const visuals = generated.slice(0, 6).map((src, index) => {
     const mobile = src.replace(/\.webp$/i, '-mobile.webp');
     return {
       src,
       mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))),
-      label: generatedVisualLabel(index, pageTitle),
+      label: generatedVisualLabel(index, pageTitle, headings),
       width: imageSize(publicDir, src)?.w || 1000,
       height: imageSize(publicDir, src)?.h || 1500,
     };

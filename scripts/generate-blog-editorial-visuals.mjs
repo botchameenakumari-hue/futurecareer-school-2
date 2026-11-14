@@ -48,7 +48,7 @@ const palettes = [
 ];
 
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
-const clean = (s) => s.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/\bundefined\b/gi, '').replace(/\s+/g, ' ').trim();
+const clean = (s) => s.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/\b(?:undefined|tbd|lorem|gate|checkpoint|leverage|cohort|heuristic|reader|user|visitor|buyer)\b/gi, '').replace(/[“”‘’]/g, '').replace(/\s+/g, ' ').trim();
 const words = (s) => clean(s).replace(/[“”‘’]/g, '').split(/\s+/).filter(Boolean);
 function wrap(s, max, maxLines = 4) {
   const out = []; let line = '';
@@ -63,11 +63,15 @@ function wrap(s, max, maxLines = 4) {
   return out.slice(0, maxLines);
 }
 function textBlock(s, x, y, size, max, fill, weight = 500, lineHeight = 1.18, anchor = 'start', maxLines = 4) {
-  return wrap(s, max, maxLines).map((line, i) => `<text x="${x}" y="${y + i * size * lineHeight}" font-family="Georgia,serif" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}">${esc(line)}</text>`).join('');
+  return wrap(s, max, maxLines).map((line, i) => `<text x="${x}" y="${y + i * size * lineHeight}" font-family="Arial,Helvetica,sans-serif" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}">${esc(line)}</text>`).join('');
 }
 function compact(s, maxWords = 8) {
-  const list = words(s || '');
-  return list.length > maxWords ? `${list.slice(0, maxWords).join(' ')}…` : list.join(' ');
+  const value = clean(s || '').replace(/\.\.\.|…/g, '').trim();
+  if (!value) return '';
+  const sentences = value.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [];
+  const first = sentences.find((sentence) => words(sentence).length <= maxWords);
+  if (first) return first.trim();
+  return words(sentences[0] || value).slice(0, maxWords).join(' ').replace(/[,:;/-]+$/, '');
 }
 function sans(s, x, y, size, fill, weight = 600, anchor = 'start') {
   return `<text x="${x}" y="${y}" font-family="Arial,sans-serif" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}" letter-spacing="0.5">${esc(s)}</text>`;
@@ -105,14 +109,16 @@ function posterShell(body, p, title, label, w = 1000, h = 1500, bodyY = 300) {
   const m = w <= 900 ? 58 : 70;
   const titleSize = w <= 900 ? 48 : 54;
   const titleMax = w <= 900 ? 22 : 28;
-  const posterTitle = compact(title, 10);
-  const titleLines = wrap(posterTitle, titleMax, 3);
+  const posterTitle = compact(title, 8);
+  const titleLines = wrap(posterTitle, titleMax, 2);
   const titleBottom = 150 + Math.max(0, titleLines.length - 1) * titleSize * 1.08 + titleSize;
-  const shift = Math.max(0, titleBottom + 24 - bodyY);
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="${w}" height="${h}" fill="${p[0]}"/><path d="M0 88H${w}" stroke="${p[4]}" stroke-width="6"/><path d="M${m} 66h96M${w - m - 82} 66h82" stroke="${p[2]}" stroke-width="10"/>${sans(label.toUpperCase(), m, 48, w <= 900 ? 17 : 19, p[1], 700)}${textBlock(posterTitle, m, 145, titleSize, titleMax, p[1], 700, 1.08, 'start', 3)}<g transform="translate(0 ${shift})">${body}</g><path d="M${m} ${h - 54}H${w - m}" stroke="${p[3]}" stroke-width="2"/><text x="${w - m}" y="${h - 24}" font-family="Arial,sans-serif" font-size="12" fill="${p[1]}" text-anchor="end">FUTURE CAREER SCHOOL · EDITORIAL GUIDE</text></svg>`;
+  const shift = Math.max(0, titleBottom + 30 - bodyY);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="${w}" height="${h}" fill="${p[0]}"/><path d="M0 88H${w}" stroke="${p[4]}" stroke-width="6"/><path d="M${m} 66h96M${w - m - 82} 66h82" stroke="${p[2]}" stroke-width="10"/>${sans(label.toUpperCase(), m, 48, w <= 900 ? 30 : 32, p[1], 700)}${textBlock(posterTitle, m, 145, titleSize, titleMax, p[1], 700, 1.08, 'start', 2)}<g transform="translate(0 ${shift})">${body}</g></svg>`;
 }
 function posterCard(x, y, w, h, n, heading, detail, p, accent, size = 34) {
-  return `<path d="M${x} ${y + 7}L${x + w - 12} ${y}L${x + w} ${y + h - 7}L${x + 12} ${y + h}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 26} ${y + 34}h48" stroke="${accent}" stroke-width="9"/>${sans(String(n).padStart(2, '0'), x + 26, y + 76, 17, p[2], 700)}${textBlock(heading, x + 26, y + 122, size + 2, 14, p[1], 700, 1.1, 'start', 2)}${textBlock(detail, x + 26, y + 182, size, Math.max(18, Math.floor(w / 19)), p[1], 500, 1.16, 'start', 3)}`;
+  const headingSize = Math.max(44, size + 2);
+  const bodySize = Math.max(32, size);
+  return `<path d="M${x} ${y + 7}L${x + w - 12} ${y}L${x + w} ${y + h - 7}L${x + 12} ${y + h}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 26} ${y + 34}h48" stroke="${accent}" stroke-width="9"/>${sans(String(n).padStart(2, '0'), x + 26, y + 82, 30, p[2], 700)}${textBlock(heading, x + 26, y + 145, headingSize, 15, p[1], 700, 1.08, 'start', 2)}${textBlock(detail, x + 26, y + 250, bodySize, Math.max(18, Math.floor(w / 20)), p[1], 500, 1.14, 'start', 2)}`;
 }
 function card(x, y, w, h, n, heading, detail, p, accent) {
   const s = n % 2 ? 12 : -10;
@@ -134,49 +140,39 @@ function hero(title, category, p) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="844" viewBox="0 0 1500 844">${background}${sans(category.replaceAll('-', ' ').toUpperCase(), 84, 78, 20, p[1], 700)}${textBlock(title, 84, 260, titleSize, 27, p[1], 700, 1.08, 'start', 6)}${sans('A decision map for clearer next steps', 88, subtitleY, 28, p[1], 500)}${decisionStrip(1500, p, 690)}<path d="M84 744H1416" stroke="${p[3]}" stroke-width="2"/></svg>`;
 }
 function posterVisuals(title, category, headings, bullets, p, w = 1000, h = 1500) {
-  const hs = headings.length ? headings : ['What this choice involves', 'Evidence to gather', 'Skills to build', 'A next step to test'];
-  const bs = bullets.length ? bullets : hs;
+  const hs = (headings.length ? headings : ['What this choice involves', 'Evidence to gather', 'Skills to build', 'A next step to test']).map((v) => compact(v, 6));
+  const bs = (bullets.length ? bullets : hs).map((v) => compact(v, 8));
   const scale = w / 1000;
   const x = 70 * scale;
   const gap = 24 * scale;
   const cardW = (w - (x * 2) - gap) / 2;
-  const cardH = 360 * scale;
-  const summaryHeadings = ['Name the decision', 'Check the evidence', 'Compare trade-offs', 'Test the next move'];
-  const summaryDetails = [
-    'Outcome, constraint, deadline.',
-    'Cost, eligibility, result.',
-    'Fit, time, fallback.',
-    'One reversible step.',
-  ];
+  const cardH = 390 * scale;
   const gridCard = (heading, detail, i, accent) => posterCard(x + (i % 2) * (cardW + gap), 300 * scale + Math.floor(i / 2) * (cardH + gap), cardW, cardH, i + 1, heading, detail, p, accent, 34 * scale);
-  const summaryBody = summaryHeadings.map((heading, i) => gridCard(heading, summaryDetails[i], i, [p[2], p[3], p[4], p[1]][i])).join('');
-  const summary = posterShell(summaryBody, p, title, 'At a glance', w, h, 300 * scale);
-  const matrixLabels = ['Time and requirements', 'Evidence to verify', 'Fit and trade-offs', 'Small test'];
-  const matrixDetails = [
-    'Time, cost, prerequisite.',
-    'Source, cost, eligibility.',
-    'Change route when fit changes.',
-    'Try the next step safely.',
-  ];
+  const summaryBody = hs.slice(0, 4).map((heading, i) => gridCard(heading, bs[i % bs.length], i, [p[2], p[3], p[4], p[1]][i])).join('');
+  const summary = posterShell(summaryBody, p, '', 'Short answer', w, h, 300 * scale);
+  const matrixLabels = [hs[0], hs[1], hs[2], hs[3]];
+  const matrixDetails = [bs[0], bs[1 % bs.length], bs[2 % bs.length], bs[3 % bs.length]];
   const matrixBody = matrixLabels.map((heading, i) => gridCard(heading, matrixDetails[i], i, [p[2], p[3], p[4], p[1]][i])).join('');
-  const matrix = posterShell(matrixBody, p, title, 'Compare the routes', w, h, 300 * scale);
-  const chainLabels = ['Question', 'Options', 'Evidence', 'Test', 'Review'];
+  const matrix = posterShell(matrixBody, p, '', 'Compare the options', w, h, 300 * scale);
+  const chainLabels = hs.slice(0, 4);
   const chainBody = chainLabels.map((label, i) => {
     const y = 300 * scale + i * 205 * scale;
     const cx = 122 * scale;
-    const source = [hs[0], hs[1], bs[1] || hs[2], hs[3], bs[4] || 'the result and fallback'][i];
-    return `<circle cx="${cx}" cy="${y + 52 * scale}" r="42" fill="${[p[2], p[3], p[4], p[1], p[2]][i]}"/><text x="${cx}" y="${y + 62 * scale}" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#fffaf0" text-anchor="middle">${i + 1}</text>${textBlock(label, 200 * scale, y + 42 * scale, 34 * scale, 27, p[1], 700, 1.1, 'start', 2)}${textBlock(compact(source, 3), 200 * scale, y + 105 * scale, 30 * scale, 48, p[1], 500, 1.18, 'start', 2)}${i < 4 ? `<path d="M${cx} ${y + 100 * scale}v${105 * scale}" stroke="${p[2]}" stroke-width="7"/><path d="M${cx - 14 * scale} ${y + 185 * scale}l${14 * scale} 18 ${14 * scale} -18" fill="none" stroke="${p[2]}" stroke-width="7"/>` : ''}`;
+    const source = bs[i % bs.length];
+    return `<circle cx="${cx}" cy="${y + 52 * scale}" r="42" fill="${[p[2], p[3], p[4], p[1]][i]}"/><text x="${cx}" y="${y + 62 * scale}" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" fill="#fffaf0" text-anchor="middle">${i + 1}</text>${textBlock(label, 200 * scale, y + 42 * scale, 44 * scale, 22, p[1], 700, 1.08, 'start', 2)}${textBlock(source, 200 * scale, y + 116 * scale, 32 * scale, 34, p[1], 500, 1.14, 'start', 2)}${i < 3 ? `<path d="M${cx} ${y + 100 * scale}v${105 * scale}" stroke="${p[2]}" stroke-width="7"/><path d="M${cx - 14 * scale} ${y + 185 * scale}l${14 * scale} 18 ${14 * scale} -18" fill="none" stroke="${p[2]}" stroke-width="7"/>` : ''}`;
   }).join('');
-  const chain = posterShell(chainBody, p, title, 'From question to evidence', w, h, 300 * scale);
+  const chain = posterShell(chainBody, p, '', 'The next steps', w, h, 300 * scale);
   const checklistBody = bs.slice(0, 5).map((b, i) => {
     const y = 320 * scale + i * 175 * scale;
-    return `<rect x="${x}" y="${y}" width="34" height="34" rx="5" fill="none" stroke="${p[2]}" stroke-width="5"/><path d="M${x + 8} ${y + 17}l9 9 18-23" fill="none" stroke="${p[3]}" stroke-width="5"/>${textBlock(compact(b, 3), x + 66 * scale, y + 28 * scale, 34 * scale, 45, p[1], 600, 1.16, 'start', 2)}`;
+    return `<rect x="${x}" y="${y}" width="34" height="34" rx="5" fill="none" stroke="${p[2]}" stroke-width="5"/><path d="M${x + 8} ${y + 17}l9 9 18-23" fill="none" stroke="${p[3]}" stroke-width="5"/>${textBlock(b, x + 66 * scale, y + 34 * scale, 34 * scale, 42, p[1], 600, 1.16, 'start', 2)}`;
   }).join('');
-  const checklist = posterShell(checklistBody, p, title, 'Five questions before you commit', w, h, 300 * scale);
-  const proofLabels = ['SOURCE', 'EXAMPLE', 'TEST', 'REFLECT'];
-  const proofBody = bs.slice(0, 4).map((b, i) => gridCard(proofLabels[i], compact(b, 3), i, [p[2], p[3], p[4], p[1]][i])).join('');
-  const proof = posterShell(proofBody, p, title, 'What makes the choice stronger', w, h, 300 * scale);
-  return [posterShell(`<path d="M130 1040L260 870l110 70 150-250 120 110 180-220" fill="none" stroke="${p[2]}" stroke-width="12" stroke-linecap="round"/><path d="M800 610l-30-18m30 18l-13 32" stroke="${p[2]}" stroke-width="10" fill="none"/>${decisionStrip(w, p, 1180)}`, p, title, category.replaceAll('-', ' '), w, h, 300 * scale), summary, matrix, chain, checklist, proof];
+  const checklist = posterShell(checklistBody, p, '', 'Check before you decide', w, h, 300 * scale);
+  const proofLabels = ['What to check', 'Who to ask', 'What it costs', 'What to test'];
+  const proofBody = bs.slice(0, 4).map((b, i) => gridCard(proofLabels[i], b, i, [p[2], p[3], p[4], p[1]][i])).join('');
+  const proof = posterShell(proofBody, p, '', 'Evidence for this choice', w, h, 300 * scale);
+  const heroLabel = compact(title, 8);
+  const heroChips = hs.slice(0, 3).map((item, i) => `<rect x="${90 + i * 470}" y="690" width="410" height="64" rx="6" fill="#fffaf0" opacity=".9"/><text x="${110 + i * 470}" y="732" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" fill="${p[1]}">${esc(compact(item, 4))}</text>`).join('');
+  return [posterShell(`<path d="M130 1040L260 870l110 70 150-250 120 110 180-220" fill="none" stroke="${p[2]}" stroke-width="12" stroke-linecap="round"/><path d="M800 610l-30-18m30 18l-13 32" stroke="${p[2]}" stroke-width="10" fill="none"/>${heroChips}`, p, heroLabel, category.replaceAll('-', ' '), w, h, 300 * scale), summary, matrix, chain, checklist, proof];
 }
 function buildVisuals(title, category, headings, bullets, p) {
   return posterVisuals(title, category, headings, bullets, p, 1000, 1500);
@@ -220,7 +216,9 @@ for (const file of files) {
   const category = isBlogRoute ? segments.slice(1, -1).join('-') : segments.slice(0, -1).join('-');
   const title = clean((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [,'Career decision guide'])[1]);
   const headings = [...html.matchAll(/<h[23]\b[^>]*>([\s\S]*?)<\/h[23]>/gi)].map(m => clean(m[1])).filter(Boolean).slice(0, 6);
-  const bullets = [...html.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)].map(m => clean(m[1])).filter(s => s.length > 15).slice(0, 6);
+  const listFacts = [...html.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)].map(m => clean(m[1]).replace(/^['"]+|['"]+$/g, '').trim()).filter(s => s.length > 28 && /[A-Za-z]{3}/.test(s));
+  const paragraphFacts = [...html.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map(m => clean(m[1])).filter(s => s.length > 24 && !/^read more|^share this/i.test(s));
+  const bullets = [...new Set([...listFacts, ...paragraphFacts])].slice(0, 8);
   const p = palettes[hash(slug) % palettes.length];
   const dir = join(OUT, String(hash(`${category}/${slug}`)).padStart(10, '0')); await mkdir(dir, { recursive: true });
   const names = ['hero', 'summary', 'matrix', 'chain', 'checklist', 'proof'];
