@@ -244,15 +244,17 @@ function readableAssetName(src) {
   return path.basename(src).replace(/\.(?:webp|jpe?g|png)$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
-function generatedVisualLabel(index) {
-  return [
-    'A decision map for the career question',
-    'Key evidence and trade-offs to check',
-    'A comparison of career routes and trade-offs',
-    'Steps from a question to useful evidence',
-    'Questions to ask before committing',
-    'Evidence that makes a career choice stronger',
-  ][index] || 'A supporting career explainer graphic';
+function generatedVisualLabel(index, pageTitle = 'this career guide') {
+  const subject = plainText(pageTitle).replace(/\s+/g, ' ').trim().split(/\s+/).slice(0, 8).join(' ').replace(/\s+(?:and|or|the|a|an|after|for|of|to)$/i, '');
+  const labels = [
+    'decision map and next steps',
+    'evidence and trade-offs to check',
+    'comparison of routes and trade-offs',
+    'five-step path from question to evidence',
+    'questions to ask before committing',
+    'evidence that strengthens the choice',
+  ];
+  return `${subject}: ${labels[index] || 'supporting career explainer'}`;
 }
 
 function emptyBlogVisuals(html, publicDir, category, pageSlug) {
@@ -262,7 +264,7 @@ function emptyBlogVisuals(html, publicDir, category, pageSlug) {
   const generated = generatedBlogFiles(publicDir, category, pageSlug);
   const categoryExplanatory = CATEGORY_HEROES.has(category) ? categoryFiles(publicDir, category, pageSlug) : [];
   const visuals = generated.length >= 6
-    ? generated.slice(0, 6).map((src, index) => { const mobile = src.replace(/\.webp$/i, '-mobile.webp'); return { src, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))), label: generatedVisualLabel(index), width: imageSize(publicDir, src)?.w || (index === 0 ? 1500 : 1600), height: imageSize(publicDir, src)?.h || (index === 0 ? 844 : 1000) }; })
+    ? generated.slice(0, 6).map((src, index) => { const mobile = src.replace(/\.webp$/i, '-mobile.webp'); return { src, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))), label: generatedVisualLabel(index, pageTitle), width: imageSize(publicDir, src)?.w || 1000, height: imageSize(publicDir, src)?.h || 1500 }; })
     : categoryHero
     ? [{ src: categoryHero, label: `${category.replace(/-/g, ' ')} career decision hero`, width: 1600, height: 900 }, ...(categoryExplanatory.length >= 5
       ? categoryExplanatory.map((src) => ({ src, label: readableAssetName(src), width: imageSize(publicDir, src)?.w || 1122, height: imageSize(publicDir, src)?.h || 1402 }))
@@ -322,9 +324,9 @@ function replaceBlogVisuals(html, publicDir, category, pageSlug) {
     return {
       src,
       mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))),
-      label: generatedVisualLabel(index),
-      width: imageSize(publicDir, src)?.w || (index === 0 ? 1500 : 1600),
-      height: imageSize(publicDir, src)?.h || (index === 0 ? 844 : 1000),
+      label: generatedVisualLabel(index, pageTitle),
+      width: imageSize(publicDir, src)?.w || 1000,
+      height: imageSize(publicDir, src)?.h || 1500,
     };
   });
   const figure = (visual, index) => {
@@ -363,9 +365,9 @@ function replaceRouteVisuals(html, publicDir, route) {
     return {
       src,
       mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))),
-      label: generatedVisualLabel(index),
-      width: imageSize(publicDir, src)?.w || (index === 0 ? 1500 : 1600),
-      height: imageSize(publicDir, src)?.h || (index === 0 ? 844 : 1000),
+      label: generatedVisualLabel(index, pageTitle),
+      width: imageSize(publicDir, src)?.w || 1000,
+      height: imageSize(publicDir, src)?.h || 1500,
     };
   });
   const figure = (visual, index) => {
