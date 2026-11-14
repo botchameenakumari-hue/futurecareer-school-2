@@ -66,7 +66,7 @@ function textBlock(s, x, y, size, max, fill, weight = 500, lineHeight = 1.18, an
   return wrap(s, max, maxLines).map((line, i) => `<text x="${x}" y="${y + i * size * lineHeight}" font-family="Georgia,serif" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}">${esc(line)}</text>`).join('');
 }
 function compact(s, maxWords = 8) {
-  const list = words(s);
+  const list = words(s || '');
   return list.length > maxWords ? `${list.slice(0, maxWords).join(' ')}…` : list.join(' ');
 }
 function sans(s, x, y, size, fill, weight = 600, anchor = 'start') {
@@ -112,7 +112,7 @@ function posterShell(body, p, title, label, w = 1000, h = 1500, bodyY = 300) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="${w}" height="${h}" fill="${p[0]}"/><path d="M0 88H${w}" stroke="${p[4]}" stroke-width="6"/><path d="M${m} 66h96M${w - m - 82} 66h82" stroke="${p[2]}" stroke-width="10"/>${sans(label.toUpperCase(), m, 48, w <= 900 ? 17 : 19, p[1], 700)}${textBlock(posterTitle, m, 145, titleSize, titleMax, p[1], 700, 1.08, 'start', 3)}<g transform="translate(0 ${shift})">${body}</g><path d="M${m} ${h - 54}H${w - m}" stroke="${p[3]}" stroke-width="2"/><text x="${w - m}" y="${h - 24}" font-family="Arial,sans-serif" font-size="12" fill="${p[1]}" text-anchor="end">FUTURE CAREER SCHOOL · EDITORIAL GUIDE</text></svg>`;
 }
 function posterCard(x, y, w, h, n, heading, detail, p, accent, size = 34) {
-  return `<path d="M${x} ${y + 7}L${x + w - 12} ${y}L${x + w} ${y + h - 7}L${x + 12} ${y + h}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 26} ${y + 34}h48" stroke="${accent}" stroke-width="9"/>${sans(String(n).padStart(2, '0'), x + 26, y + 76, 17, p[2], 700)}${textBlock(heading, x + 26, y + 122, size + 2, 19, p[1], 700, 1.1, 'start', 2)}${textBlock(detail, x + 26, y + 182, size, Math.max(18, Math.floor(w / 19)), p[1], 500, 1.16, 'start', 4)}`;
+  return `<path d="M${x} ${y + 7}L${x + w - 12} ${y}L${x + w} ${y + h - 7}L${x + 12} ${y + h}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 26} ${y + 34}h48" stroke="${accent}" stroke-width="9"/>${sans(String(n).padStart(2, '0'), x + 26, y + 76, 17, p[2], 700)}${textBlock(heading, x + 26, y + 122, size + 2, 14, p[1], 700, 1.1, 'start', 2)}${textBlock(detail, x + 26, y + 182, size, Math.max(18, Math.floor(w / 19)), p[1], 500, 1.16, 'start', 3)}`;
 }
 function card(x, y, w, h, n, heading, detail, p, accent) {
   const s = n % 2 ? 12 : -10;
@@ -141,40 +141,40 @@ function posterVisuals(title, category, headings, bullets, p, w = 1000, h = 1500
   const gap = 24 * scale;
   const cardW = (w - (x * 2) - gap) / 2;
   const cardH = 360 * scale;
-  const summaryHeadings = ['The decision in plain language', 'The evidence to check', 'Where the trade-off sits', 'The next move to test'];
+  const summaryHeadings = ['Name the decision', 'Check the evidence', 'Compare trade-offs', 'Test the next move'];
   const summaryDetails = [
-    `Name the decision, constraint, and outcome. ${brief(bs[0] || hs[0], 18)}`,
-    `Treat it as a claim to verify. ${brief(bs[1] || hs[1], 18)}`,
-    `Compare fit, cost, time, and fallback. ${brief(bs[2] || hs[2], 18)}`,
-    `Run one small test before committing. ${brief(bs[3] || hs[3], 18)}`,
+    'Outcome, constraint, deadline.',
+    'Cost, eligibility, result.',
+    'Fit, time, fallback.',
+    'One reversible step.',
   ];
-  const gridCard = (heading, detail, i, accent) => posterCard(x + (i % 2) * (cardW + gap), 300 * scale + Math.floor(i / 2) * (cardH + gap), cardW, cardH, i + 1, heading, detail, p, accent, 31 * scale);
+  const gridCard = (heading, detail, i, accent) => posterCard(x + (i % 2) * (cardW + gap), 300 * scale + Math.floor(i / 2) * (cardH + gap), cardW, cardH, i + 1, heading, detail, p, accent, 34 * scale);
   const summaryBody = summaryHeadings.map((heading, i) => gridCard(heading, summaryDetails[i], i, [p[2], p[3], p[4], p[1]][i])).join('');
   const summary = posterShell(summaryBody, p, title, 'At a glance', w, h, 300 * scale);
-  const matrixLabels = ['What it asks of you', 'What to verify', 'What changes the choice', 'What to test next'];
+  const matrixLabels = ['Time and requirements', 'Evidence to verify', 'Fit and trade-offs', 'Small test'];
   const matrixDetails = [
-    `Time, cost, prerequisite, or uncertainty. ${brief(hs[0], 15)}`,
-    `Check source, cost, eligibility, and outcomes. ${brief(bs[1] || hs[1], 15)}`,
-    `Change route when the evidence changes the fit. ${brief(hs[2], 15)}`,
-    `Test the next step with a small, reversible action. ${brief(hs[3], 15)}`,
+    'Time, cost, prerequisite.',
+    'Source, cost, eligibility.',
+    'Change route when fit changes.',
+    'Try the next step safely.',
   ];
   const matrixBody = matrixLabels.map((heading, i) => gridCard(heading, matrixDetails[i], i, [p[2], p[3], p[4], p[1]][i])).join('');
   const matrix = posterShell(matrixBody, p, title, 'Compare the routes', w, h, 300 * scale);
-  const chainLabels = ['Start with the question', 'Map the available routes', 'Check the evidence', 'Run a small test', 'Review the result'];
+  const chainLabels = ['Question', 'Options', 'Evidence', 'Test', 'Review'];
   const chainBody = chainLabels.map((label, i) => {
     const y = 300 * scale + i * 205 * scale;
     const cx = 122 * scale;
     const source = [hs[0], hs[1], bs[1] || hs[2], hs[3], bs[4] || 'the result and fallback'][i];
-    return `<circle cx="${cx}" cy="${y + 52 * scale}" r="42" fill="${[p[2], p[3], p[4], p[1], p[2]][i]}"/><text x="${cx}" y="${y + 62 * scale}" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#fffaf0" text-anchor="middle">${i + 1}</text>${textBlock(label, 200 * scale, y + 42 * scale, 30 * scale, 27, p[1], 700, 1.1, 'start', 2)}${textBlock(brief(source, 13), 200 * scale, y + 105 * scale, 23 * scale, 48, p[1], 500, 1.18, 'start', 3)}${i < 4 ? `<path d="M${cx} ${y + 100 * scale}v${105 * scale}" stroke="${p[2]}" stroke-width="7"/><path d="M${cx - 14 * scale} ${y + 185 * scale}l${14 * scale} 18 ${14 * scale} -18" fill="none" stroke="${p[2]}" stroke-width="7"/>` : ''}`;
+    return `<circle cx="${cx}" cy="${y + 52 * scale}" r="42" fill="${[p[2], p[3], p[4], p[1], p[2]][i]}"/><text x="${cx}" y="${y + 62 * scale}" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#fffaf0" text-anchor="middle">${i + 1}</text>${textBlock(label, 200 * scale, y + 42 * scale, 34 * scale, 27, p[1], 700, 1.1, 'start', 2)}${textBlock(compact(source, 3), 200 * scale, y + 105 * scale, 30 * scale, 48, p[1], 500, 1.18, 'start', 2)}${i < 4 ? `<path d="M${cx} ${y + 100 * scale}v${105 * scale}" stroke="${p[2]}" stroke-width="7"/><path d="M${cx - 14 * scale} ${y + 185 * scale}l${14 * scale} 18 ${14 * scale} -18" fill="none" stroke="${p[2]}" stroke-width="7"/>` : ''}`;
   }).join('');
   const chain = posterShell(chainBody, p, title, 'From question to evidence', w, h, 300 * scale);
   const checklistBody = bs.slice(0, 5).map((b, i) => {
     const y = 320 * scale + i * 175 * scale;
-    return `<rect x="${x}" y="${y}" width="34" height="34" rx="5" fill="none" stroke="${p[2]}" stroke-width="5"/><path d="M${x + 8} ${y + 17}l9 9 18-23" fill="none" stroke="${p[3]}" stroke-width="5"/>${textBlock(brief(b, 18), x + 66 * scale, y + 28 * scale, 28 * scale, 45, p[1], 600, 1.16, 'start', 3)}`;
+    return `<rect x="${x}" y="${y}" width="34" height="34" rx="5" fill="none" stroke="${p[2]}" stroke-width="5"/><path d="M${x + 8} ${y + 17}l9 9 18-23" fill="none" stroke="${p[3]}" stroke-width="5"/>${textBlock(compact(b, 3), x + 66 * scale, y + 28 * scale, 34 * scale, 45, p[1], 600, 1.16, 'start', 2)}`;
   }).join('');
   const checklist = posterShell(checklistBody, p, title, 'Five questions before you commit', w, h, 300 * scale);
   const proofLabels = ['SOURCE', 'EXAMPLE', 'TEST', 'REFLECT'];
-  const proofBody = bs.slice(0, 4).map((b, i) => gridCard(proofLabels[i], brief(b, 20), i, [p[2], p[3], p[4], p[1]][i])).join('');
+  const proofBody = bs.slice(0, 4).map((b, i) => gridCard(proofLabels[i], compact(b, 3), i, [p[2], p[3], p[4], p[1]][i])).join('');
   const proof = posterShell(proofBody, p, title, 'What makes the choice stronger', w, h, 300 * scale);
   return [posterShell(`<path d="M130 1040L260 870l110 70 150-250 120 110 180-220" fill="none" stroke="${p[2]}" stroke-width="12" stroke-linecap="round"/><path d="M800 610l-30-18m30 18l-13 32" stroke="${p[2]}" stroke-width="10" fill="none"/>${decisionStrip(w, p, 1180)}`, p, title, category.replaceAll('-', ' '), w, h, 300 * scale), summary, matrix, chain, checklist, proof];
 }
