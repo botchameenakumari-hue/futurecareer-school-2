@@ -245,7 +245,7 @@ function readableAssetName(src) {
 }
 
 function generatedVisualLabel(index, pageTitle = 'this career guide') {
-  const subject = plainText(pageTitle).replace(/\s+/g, ' ').trim().split(/\s+/).slice(0, 8).join(' ').replace(/\s+(?:and|or|the|a|an|after|for|of|to)$/i, '');
+  const subject = plainText(pageTitle).replace(/\s+/g, ' ').trim().split(/\s+/).slice(0, 8).join(' ').replace(/[?:,;]/g, '').replace(/\s+(?:and|or|the|a|an|after|for|of|to|in)$/i, '').trim();
   const labels = [
     'decision map and next steps',
     'evidence and trade-offs to check',
