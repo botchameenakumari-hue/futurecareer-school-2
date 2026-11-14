@@ -173,7 +173,7 @@ function posterVisuals(title, category, headings, bullets, p, w = 1000, h = 1500
   const chipWidth = (w - chipLeft * 2 - chipGap * 2) / 3;
   const chipY = 430 * scale;
   const heroChips = hs.slice(0, 3).map((item, i) => { const chipX = chipLeft + i * (chipWidth + chipGap); return `<rect x="${chipX}" y="${chipY}" width="${chipWidth}" height="${64 * scale}" rx="6" fill="#fffaf0" opacity=".9"/><text x="${chipX + 20 * scale}" y="${chipY + 42 * scale}" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" fill="${p[1]}">${esc(compact(item, 2))}</text>`; }).join('');
-  return [posterShell(`<path d="M130 1040L260 870l110 70 150-250 120 110 180-220" fill="none" stroke="${p[2]}" stroke-width="12" stroke-linecap="round"/><circle cx="260" cy="870" r="18" fill="${p[2]}"/><circle cx="520" cy="660" r="18" fill="${p[3]}"/><circle cx="800" cy="550" r="18" fill="${p[4]}"/>${heroChips}`, p, answer, compact(title, 4), w, h, 300 * scale), summary, matrix, chain, checklist, proof];
+  return [posterShell(`<path d="M130 1260L260 1060l110 70 150-330 120 110 180-350" fill="none" stroke="${p[2]}" stroke-width="12" stroke-linecap="round"/><circle cx="260" cy="1060" r="18" fill="${p[2]}"/><circle cx="520" cy="800" r="18" fill="${p[3]}"/><circle cx="800" cy="550" r="18" fill="${p[4]}"/>${heroChips}`, p, answer, compact(title, 4), w, h, 300 * scale), summary, matrix, chain, checklist, proof];
 }
 function buildVisuals(title, category, headings, bullets, p, topic) {
   return posterVisuals(title, category, headings, bullets, p, 1000, 1500, topic);

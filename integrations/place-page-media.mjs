@@ -103,15 +103,17 @@ function fixImageTags(html, publicDir) {
   return html.replace(/<img\b[^>]*>/g, (tag) => {
     const src = (tag.match(/\ssrc="([^"]*)"/) || [])[1];
     if (!src) return tag;
+    const alt = (tag.match(/\salt="([^"]*)"/) || [])[1];
     const local = src.replace(SITE, '');
-    if (!local.startsWith('/images/') && !local.startsWith('/blog/')) return tag;
+    if (!local.startsWith('/images/') && !local.startsWith('/blog/')) {
+      return alt && !/\stitle="/.test(tag) ? setAttr(tag, 'title', alt) : tag;
+    }
     let next = tag;
     const size = /\.(webp|jpe?g|png)$/.test(local) ? imageSize(publicDir, local) : null;
     if (size) {
       next = setAttr(next, 'width', size.w);
       next = setAttr(next, 'height', size.h);
     }
-    const alt = (tag.match(/\salt="([^"]*)"/) || [])[1];
     if (alt && !/\stitle="/.test(tag)) next = setAttr(next, 'title', alt);
     return next;
   });
