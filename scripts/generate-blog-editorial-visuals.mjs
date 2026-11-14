@@ -18,6 +18,7 @@ const force = process.argv.includes('--force');
 const mobileOnly = process.argv.includes('--mobile-only');
 const desktopOnly = process.argv.includes('--desktop-only');
 const socialOnly = process.argv.includes('--social-only');
+const heroOnly = process.argv.includes('--hero-only');
 const allServicePages = process.argv.includes('--all-service-pages');
 const assessmentServicePages = process.argv.includes('--assessment-service-pages');
 const auditCsv = process.argv.find((arg) => arg.startsWith('--audit-csv='))?.slice('--audit-csv='.length);
@@ -48,7 +49,7 @@ const palettes = [
 ];
 
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
-const clean = (s) => s.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/\b(?:undefined|tbd|lorem|gate|checkpoint|leverage|cohort|heuristic|reader|user|visitor|buyer)\b/gi, '').replace(/[“”‘’]/g, '').replace(/\s+/g, ' ').trim();
+const clean = (s) => String(s ?? '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/\b(?:undefined|tbd|lorem|gate|checkpoint|leverage|cohort|heuristic|reader|user|visitor|buyer)\b/gi, '').replace(/[“”‘’]/g, '').replace(/\s+/g, ' ').trim();
 const words = (s) => clean(s).replace(/[“”‘’]/g, '').split(/\s+/).filter(Boolean);
 function wrap(s, max, maxLines = 4) {
   const out = []; let line = '';
@@ -76,41 +77,13 @@ function compact(s, maxWords = 8) {
 function sans(s, x, y, size, fill, weight = 600, anchor = 'start') {
   return `<text x="${x}" y="${y}" font-family="Arial,sans-serif" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}" letter-spacing="0.5">${esc(s)}</text>`;
 }
-function decisionStrip(w, p, y) {
-  const left = w <= 1000 ? 62 : 84;
-  const gap = w <= 1000 ? 22 : 36;
-  const width = (w - left * 2 - gap * 2) / 3;
-  const labels = ['01  CONTEXT', '02  OPTIONS', '03  TEST'];
-  return `<g>${labels.map((label, i) => { const x = left + i * (width + gap); return `<rect x="${x}" y="${y - 28}" width="${width}" height="48" rx="4" fill="#fffaf0" opacity=".84" stroke="${p[3]}" stroke-width="2"/>${sans(label, x + 18, y + 4, w <= 1000 ? 17 : 19, p[1], 700)}`; }).join('')}</g>`;
-}
 function hash(s) { let n = 0; for (const c of s) n = (n * 31 + c.charCodeAt(0)) >>> 0; return n; }
-function shell(body, p, title, label, w = 1600, h = 1000, bodyY = 280) {
-  const m = w <= 1000 ? 62 : 84;
-  const size = w <= 1000 ? 54 : 60;
-  const max = w <= 1000 ? 22 : 46;
-  const titleLines = wrap(title, max, 5);
-  const titleBottom = 158 + Math.max(0, titleLines.length - 1) * size * 1.12 + size;
-  const shift = Math.max(0, titleBottom + 28 - bodyY);
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="${w}" height="${h}" fill="${p[0]}"/><path d="M0 92H${w}" stroke="${p[4]}" stroke-width="7"/><path d="M${m} 72h112" stroke="${p[2]}" stroke-width="12"/><path d="M${w - m - 96} 72h96" stroke="${p[3]}" stroke-width="12"/>${sans(label.toUpperCase(), m, 54, w <= 1000 ? 21 : 24, p[1], 700)}${textBlock(title, m, 158, size, max, p[1], 700, 1.12, 'start', 5)}<g transform="translate(0 ${shift})">${body}</g><path d="M${m} ${h - 64}H${w - m}" stroke="${p[3]}" stroke-width="2"/><text x="${w - m}" y="${h - 28}" font-family="Arial,sans-serif" font-size="16" fill="${p[1]}" text-anchor="end">FUTURE CAREER SCHOOL · EDITORIAL GUIDE</text></svg>`;
-}
-function brief(s, maxWords = 24) {
-  const value = clean(s || '').replace(/\s+/g, ' ').trim();
-  if (!value) return 'Use the page evidence to choose the next practical test.';
-  const sentences = value.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [value];
-  let out = '';
-  for (const sentence of sentences) {
-    const next = `${out} ${sentence.trim()}`.trim();
-    if (words(next).length > maxWords && out) break;
-    out = next;
-  }
-  return out || `${words(value).slice(0, maxWords).join(' ')}.`;
-}
 function posterShell(body, p, title, label, w = 1000, h = 1500, bodyY = 300) {
   const m = w <= 900 ? 58 : 70;
   const titleSize = w <= 900 ? 48 : 54;
-  const titleMax = w <= 900 ? 22 : 28;
-  const posterTitle = compact(title, 8);
-  const titleLines = wrap(posterTitle, titleMax, 2);
+  const titleMax = w <= 900 ? 24 : 32;
+  const posterTitle = compact(title, 14);
+  const titleLines = wrap(posterTitle, titleMax, 3);
   const titleBottom = 150 + Math.max(0, titleLines.length - 1) * titleSize * 1.08 + titleSize;
   const shift = Math.max(0, titleBottom + 30 - bodyY);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="${w}" height="${h}" fill="${p[0]}"/><path d="M0 88H${w}" stroke="${p[4]}" stroke-width="6"/><path d="M${m} 66h96M${w - m - 82} 66h82" stroke="${p[2]}" stroke-width="10"/>${sans(label.toUpperCase(), m, 48, w <= 900 ? 30 : 32, p[1], 700)}${textBlock(posterTitle, m, 145, titleSize, titleMax, p[1], 700, 1.08, 'start', 2)}<g transform="translate(0 ${shift})">${body}</g></svg>`;
@@ -119,6 +92,9 @@ function posterCard(x, y, w, h, n, heading, detail, p, accent, size = 34) {
   const headingSize = Math.max(44, size + 2);
   const bodySize = Math.max(32, size);
   return `<path d="M${x} ${y + 7}L${x + w - 12} ${y}L${x + w} ${y + h - 7}L${x + 12} ${y + h}Z" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 26} ${y + 34}h48" stroke="${accent}" stroke-width="9"/>${sans(String(n).padStart(2, '0'), x + 26, y + 82, 30, p[2], 700)}${textBlock(heading, x + 26, y + 145, headingSize, 15, p[1], 700, 1.08, 'start', 2)}${textBlock(detail, x + 26, y + 250, bodySize, Math.max(18, Math.floor(w / 20)), p[1], 500, 1.14, 'start', 2)}`;
+}
+function matrixCell(x, y, w, h, heading, detail, p, accent) {
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="5" fill="#fffaf0" stroke="${p[3]}" stroke-width="3"/><path d="M${x + 24} ${y + 32}h54" stroke="${accent}" stroke-width="9"/>${textBlock(compact(heading, 2), x + 24, y + 104, 44, 17, p[1], 700, 1.06, 'start', 2)}${textBlock(compact(detail, 3), x + 24, y + 205, 32, 20, p[1], 500, 1.12, 'start', 2)}`;
 }
 function card(x, y, w, h, n, heading, detail, p, accent) {
   const s = n % 2 ? 12 : -10;
@@ -139,43 +115,68 @@ function hero(title, category, p) {
   const background = `<rect width="1500" height="844" fill="${p[0]}"/><path d="M0 112H1500" stroke="${p[4]}" stroke-width="10"/><path d="${path}" fill="none" stroke="${p[2]}" stroke-width="12" stroke-linecap="round"/><path d="M1420 570l-32 -18m32 18l-14 31" stroke="${p[2]}" stroke-width="9" fill="none"/><path d="M1040 150l250 8-18 198-250-10z" fill="${p[3]}" opacity=".65" transform="rotate(5 1140 245)"/><path d="M1090 190l245 10-18 190-245-10z" fill="${p[2]}" opacity=".82" transform="rotate(-6 1210 280)"/>`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="844" viewBox="0 0 1500 844">${background}${sans(category.replaceAll('-', ' ').toUpperCase(), 84, 78, 20, p[1], 700)}${textBlock(title, 84, 260, titleSize, 27, p[1], 700, 1.08, 'start', 6)}${sans('A decision map for clearer next steps', 88, subtitleY, 28, p[1], 500)}${decisionStrip(1500, p, 690)}<path d="M84 744H1416" stroke="${p[3]}" stroke-width="2"/></svg>`;
 }
-function posterVisuals(title, category, headings, bullets, p, w = 1000, h = 1500) {
-  const hs = (headings.length ? headings : ['What this choice involves', 'Evidence to gather', 'Skills to build', 'A next step to test']).map((v) => compact(v, 6));
-  const bs = (bullets.length ? bullets : hs).map((v) => compact(v, 8));
+function posterVisuals(title, category, headings, bullets, p, w = 1000, h = 1500, topic = title) {
+  const hs = (headings.length ? headings : ['What this choice involves', 'Evidence to gather', 'Skills to build', 'A next step to test']).map((v) => compact(v, 4));
+  const bs = (bullets.length ? bullets : hs).map((v) => compact(v, 7)).filter(Boolean);
+  while (bs.length < 7) bs.push(compact(hs[bs.length % hs.length] || title, 7) || 'See the page details.');
   const scale = w / 1000;
   const x = 70 * scale;
   const gap = 24 * scale;
   const cardW = (w - (x * 2) - gap) / 2;
   const cardH = 390 * scale;
+  const topicLabel = compact(topic, 4) || compact(title, 4);
   const gridCard = (heading, detail, i, accent) => posterCard(x + (i % 2) * (cardW + gap), 300 * scale + Math.floor(i / 2) * (cardH + gap), cardW, cardH, i + 1, heading, detail, p, accent, 34 * scale);
-  const summaryBody = hs.slice(0, 4).map((heading, i) => gridCard(heading, bs[i % bs.length], i, [p[2], p[3], p[4], p[1]][i])).join('');
-  const summary = posterShell(summaryBody, p, '', 'Short answer', w, h, 300 * scale);
-  const matrixLabels = [hs[0], hs[1], hs[2], hs[3]];
-  const matrixDetails = [bs[0], bs[1 % bs.length], bs[2 % bs.length], bs[3 % bs.length]];
-  const matrixBody = matrixLabels.map((heading, i) => gridCard(heading, matrixDetails[i], i, [p[2], p[3], p[4], p[1]][i])).join('');
-  const matrix = posterShell(matrixBody, p, '', 'Compare the options', w, h, 300 * scale);
+  const answer = compact(bs[0] || title, 14) || compact(title, 8);
+  const summaryHeadings = ['The short answer', hs[0], hs[1], hs[2]];
+  const summaryDetails = [compact(answer, 4), compact(bs[1 % bs.length], 4), compact(bs[2 % bs.length], 4), compact(bs[3 % bs.length], 4)];
+  const summaryBody = summaryHeadings.map((heading, i) => gridCard(heading, summaryDetails[i], i, [p[2], p[3], p[4], p[1]][i])).join('');
+  const summary = posterShell(summaryBody, p, '', `${topicLabel} summary`, w, h, 300 * scale);
+
+  const tableX = x;
+  const tableY = 300 * scale;
+  const tableGap = 18 * scale;
+  const tableW = cardW;
+  const tableH = 286 * scale;
+  const leftHead = hs[0] || 'Do this now';
+  const rightHead = hs[1] || 'Avoid this';
+  const rowLabels = [hs[2] || 'First step', hs[3] || 'Next check', bs[4] || 'Final test'].map((v) => compact(v, 2));
+  const rowFacts = [bs[1 % bs.length], bs[2 % bs.length], bs[3 % bs.length]].map((v) => compact(v, 3));
+  const matrixBody = [
+    matrixCell(tableX, tableY, tableW, tableH, leftHead, rowLabels[0], p, p[2]),
+    matrixCell(tableX + tableW + gap, tableY, tableW, tableH, rightHead, rowFacts[0], p, p[3]),
+    matrixCell(tableX, tableY + tableH + tableGap, tableW, tableH, rowLabels[1], rowFacts[1], p, p[4]),
+    matrixCell(tableX + tableW + gap, tableY + tableH + tableGap, tableW, tableH, rowLabels[2], rowFacts[2], p, p[1]),
+    matrixCell(tableX, tableY + (tableH + tableGap) * 2, tableW, tableH, compact(bs[4] || hs[0], 2), compact(bs[5] || rowFacts[0], 3), p, p[2]),
+    matrixCell(tableX + tableW + gap, tableY + (tableH + tableGap) * 2, tableW, tableH, compact(bs[6] || hs[1], 2), compact(bs[0] || rowFacts[1], 3), p, p[3]),
+  ].join('');
+  const matrix = posterShell(matrixBody, p, '', `${topicLabel} comparison`, w, h, tableY);
+
   const chainLabels = hs.slice(0, 4);
   const chainBody = chainLabels.map((label, i) => {
-    const y = 300 * scale + i * 205 * scale;
+    const y = 300 * scale + i * 235 * scale;
     const cx = 122 * scale;
     const source = bs[i % bs.length];
-    return `<circle cx="${cx}" cy="${y + 52 * scale}" r="42" fill="${[p[2], p[3], p[4], p[1]][i]}"/><text x="${cx}" y="${y + 62 * scale}" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" fill="#fffaf0" text-anchor="middle">${i + 1}</text>${textBlock(label, 200 * scale, y + 42 * scale, 44 * scale, 22, p[1], 700, 1.08, 'start', 2)}${textBlock(source, 200 * scale, y + 116 * scale, 32 * scale, 34, p[1], 500, 1.14, 'start', 2)}${i < 3 ? `<path d="M${cx} ${y + 100 * scale}v${105 * scale}" stroke="${p[2]}" stroke-width="7"/><path d="M${cx - 14 * scale} ${y + 185 * scale}l${14 * scale} 18 ${14 * scale} -18" fill="none" stroke="${p[2]}" stroke-width="7"/>` : ''}`;
+    return `<circle cx="${cx}" cy="${y + 52 * scale}" r="42" fill="${[p[2], p[3], p[4], p[1]][i]}"/><text x="${cx}" y="${y + 62 * scale}" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" fill="#fffaf0" text-anchor="middle">${i + 1}</text>${textBlock(compact(label, 3), 200 * scale, y + 42 * scale, Math.max(44, 44 * scale), 18, p[1], 700, 1.08, 'start', 2)}${textBlock(compact(source, 5), 200 * scale, y + 150 * scale, Math.max(32, 36 * scale), 30, p[1], 500, 1.14, 'start', 2)}${i < 3 ? `<path d="M${cx} ${y + 100 * scale}v${135 * scale}" stroke="${p[2]}" stroke-width="7"/><path d="M${cx - 14 * scale} ${y + 225 * scale}l${14 * scale} 18 ${14 * scale} -18" fill="none" stroke="${p[2]}" stroke-width="7"/>` : ''}`;
   }).join('');
-  const chain = posterShell(chainBody, p, '', 'The next steps', w, h, 300 * scale);
+  const chain = posterShell(chainBody, p, '', `${topicLabel} steps`, w, h, 300 * scale);
   const checklistBody = bs.slice(0, 5).map((b, i) => {
     const y = 320 * scale + i * 175 * scale;
-    return `<rect x="${x}" y="${y}" width="34" height="34" rx="5" fill="none" stroke="${p[2]}" stroke-width="5"/><path d="M${x + 8} ${y + 17}l9 9 18-23" fill="none" stroke="${p[3]}" stroke-width="5"/>${textBlock(b, x + 66 * scale, y + 34 * scale, 34 * scale, 42, p[1], 600, 1.16, 'start', 2)}`;
+    return `<rect x="${x}" y="${y}" width="34" height="34" rx="5" fill="none" stroke="${p[2]}" stroke-width="5"/><path d="M${x + 8} ${y + 17}l9 9 18-23" fill="none" stroke="${p[3]}" stroke-width="5"/>${textBlock(compact(b, 6), x + 66 * scale, y + 34 * scale, Math.max(32, 36 * scale), 36, p[1], 600, 1.16, 'start', 2)}`;
   }).join('');
   const checklist = posterShell(checklistBody, p, '', 'Check before you decide', w, h, 300 * scale);
   const proofLabels = ['What to check', 'Who to ask', 'What it costs', 'What to test'];
-  const proofBody = bs.slice(0, 4).map((b, i) => gridCard(proofLabels[i], b, i, [p[2], p[3], p[4], p[1]][i])).join('');
-  const proof = posterShell(proofBody, p, '', 'Evidence for this choice', w, h, 300 * scale);
-  const heroLabel = compact(title, 8);
-  const heroChips = hs.slice(0, 3).map((item, i) => `<rect x="${90 + i * 470}" y="690" width="410" height="64" rx="6" fill="#fffaf0" opacity=".9"/><text x="${110 + i * 470}" y="732" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" fill="${p[1]}">${esc(compact(item, 4))}</text>`).join('');
-  return [posterShell(`<path d="M130 1040L260 870l110 70 150-250 120 110 180-220" fill="none" stroke="${p[2]}" stroke-width="12" stroke-linecap="round"/><path d="M800 610l-30-18m30 18l-13 32" stroke="${p[2]}" stroke-width="10" fill="none"/>${heroChips}`, p, heroLabel, category.replaceAll('-', ' '), w, h, 300 * scale), summary, matrix, chain, checklist, proof];
+  const proofBody = bs.slice(0, 3).map((b, i) => gridCard(proofLabels[i], compact(b, 7), i, [p[2], p[3], p[4]][i])).join('');
+  const proof = posterShell(proofBody, p, '', `${topicLabel} evidence`, w, h, 300 * scale);
+  const heroLabel = topicLabel;
+  const chipLeft = 70 * scale;
+  const chipGap = 18 * scale;
+  const chipWidth = (w - chipLeft * 2 - chipGap * 2) / 3;
+  const chipY = 430 * scale;
+  const heroChips = hs.slice(0, 3).map((item, i) => { const chipX = chipLeft + i * (chipWidth + chipGap); return `<rect x="${chipX}" y="${chipY}" width="${chipWidth}" height="${64 * scale}" rx="6" fill="#fffaf0" opacity=".9"/><text x="${chipX + 20 * scale}" y="${chipY + 42 * scale}" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" fill="${p[1]}">${esc(compact(item, 2))}</text>`; }).join('');
+  return [posterShell(`<path d="M130 1040L260 870l110 70 150-250 120 110 180-220" fill="none" stroke="${p[2]}" stroke-width="12" stroke-linecap="round"/><circle cx="260" cy="870" r="18" fill="${p[2]}"/><circle cx="520" cy="660" r="18" fill="${p[3]}"/><circle cx="800" cy="550" r="18" fill="${p[4]}"/>${heroChips}`, p, answer, compact(title, 4), w, h, 300 * scale), summary, matrix, chain, checklist, proof];
 }
-function buildVisuals(title, category, headings, bullets, p) {
-  return posterVisuals(title, category, headings, bullets, p, 1000, 1500);
+function buildVisuals(title, category, headings, bullets, p, topic) {
+  return posterVisuals(title, category, headings, bullets, p, 1000, 1500, topic);
 }
 function mobileHeroLegacy(title, category, p) {
   const titleLines = wrap(title, 22);
@@ -188,8 +189,8 @@ function mobileHero(title, category, p) {
   const subtitleY = Math.max(520, 240 + Math.max(0, titleLines.length - 2) * (titleSize * 1.08) + 98);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100"><rect width="900" height="1100" fill="${p[0]}"/><path d="M0 112H900" stroke="${p[4]}" stroke-width="10"/><path d="M62 72h82M742 72h96" stroke="${p[2]}" stroke-width="12"/>${sans(category.replaceAll('-', ' ').toUpperCase(), 62, 54, 18, p[1], 700)}${textBlock(title, 62, 240, titleSize, 19, p[1], 700, 1.08, 'start', 7)}${sans('A decision map for clearer next steps', 66, subtitleY, 24, p[1], 500)}${decisionStrip(900, p, 690)}<path d="M120 820 C280 700 420 920 580 780 S730 700 810 880" fill="none" stroke="${p[2]}" stroke-width="13" stroke-linecap="round"/><path d="M810 880l-27-12m27 12l-10 28" stroke="${p[2]}" stroke-width="8" fill="none"/><path d="M62 1018H838" stroke="${p[3]}" stroke-width="2"/></svg>`;
 }
-function buildMobileVisuals(title, headings, bullets, p) {
-  return posterVisuals(title, 'career guide', headings, bullets, p, 900, 1350);
+function buildMobileVisuals(title, headings, bullets, p, topic) {
+  return posterVisuals(title, 'career guide', headings, bullets, p, 900, 1350, topic);
 }
 async function walk(dir) { const out = []; for (const e of await readdir(dir, { withFileTypes: true })) { const p = join(dir, e.name); if (e.isDirectory()) out.push(...await walk(p)); else if (e.name === 'index.html') out.push(p); } return out; }
 const shardIndex = Number(process.argv.find((arg) => arg.startsWith('--shard='))?.slice('--shard='.length) ?? 0);
@@ -215,6 +216,7 @@ for (const file of files) {
   const slug = segments.at(-1);
   const category = isBlogRoute ? segments.slice(1, -1).join('-') : segments.slice(0, -1).join('-');
   const title = clean((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [,'Career decision guide'])[1]);
+  const topic = slug.replaceAll('-', ' ');
   const headings = [...html.matchAll(/<h[23]\b[^>]*>([\s\S]*?)<\/h[23]>/gi)].map(m => clean(m[1])).filter(Boolean).slice(0, 6);
   const listFacts = [...html.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)].map(m => clean(m[1]).replace(/^['"]+|['"]+$/g, '').trim()).filter(s => s.length > 28 && /[A-Za-z]{3}/.test(s));
   const paragraphFacts = [...html.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map(m => clean(m[1])).filter(s => s.length > 24 && !/^read more|^share this/i.test(s));
@@ -222,9 +224,10 @@ for (const file of files) {
   const p = palettes[hash(slug) % palettes.length];
   const dir = join(OUT, String(hash(`${category}/${slug}`)).padStart(10, '0')); await mkdir(dir, { recursive: true });
   const names = ['hero', 'summary', 'matrix', 'chain', 'checklist', 'proof'];
-  const desktopVisuals = buildVisuals(title, category, headings, bullets, p);
-  const mobileVisuals = buildMobileVisuals(title, headings, bullets, p);
+  const desktopVisuals = buildVisuals(title, category, headings, bullets, p, topic);
+  const mobileVisuals = buildMobileVisuals(title, headings, bullets, p, topic);
   for (const [i, svg] of desktopVisuals.entries()) {
+    if (heroOnly && i !== 0) continue;
     const path = join(dir, `${slug}-${names[i]}.webp`);
     if (!mobileOnly && !socialOnly) await sharp(Buffer.from(svg)).webp({ quality: 82, effort: 4 }).toFile(path);
     if (!desktopOnly && !socialOnly) await sharp(Buffer.from(mobileVisuals[i])).webp({ quality: 80, effort: 4 }).toFile(join(dir, `${slug}-${names[i]}-mobile.webp`));
