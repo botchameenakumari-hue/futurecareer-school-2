@@ -247,24 +247,52 @@ function readableAssetName(src) {
 }
 
 function generatedVisualLabel(index, pageTitle = 'this career guide', headings = []) {
-  const banned = /\b(?:gate|checkpoint|leverage|cohort|heuristic|reader|user|visitor|buyer|undefined|tbd|lorem)\b/gi;
-  const cleanLabel = (value, fallback) => plainText(value || fallback).replace(banned, '').replace(/\.\.\.|…/g, '').replace(/\s+/g, ' ').trim().split(/\s+/).slice(0, 12).join(' ').replace(/[?:,;]/g, '').trim();
-  const subject = cleanLabel(pageTitle, 'career guide').split(/\s+/).slice(0, 7).join(' ');
-  const pageHeadings = headings.map((heading) => cleanLabel(heading, '')).filter(Boolean);
+  const banned = /career counselling and guidance|career counselling|growth:\s*the decisions that unlock|our scalability view|short answer:|what to verify:|\bscalability\b|\bcheckpoint\b|\bgate\b|\bundefined\b|\btbd\b|\blorem\b|\bleverage\b|\bcohort\b|\bheuristic\b|\breader\b|\bvisitor\b|\bbuyer\b/gi;
+  const cleanLabel = (value, fallback) => plainText(value || fallback).replace(banned, '').replace(/\.\.\.|…/g, '').replace(/\s+/g, ' ').trim().split(/\s+/).slice(0, 8).join(' ').replace(/[?:,;]/g, '').trim();
+  const subject = cleanLabel(pageTitle, 'career guide').split(/\s+/).slice(0, 6).join(' ');
   const labels = [
-    `${subject} overview for career decisions`,
-    `${subject} ${pageHeadings[0] || 'key idea'}`,
-    `${subject} ${pageHeadings[1] || 'comparison'}`,
-    `${subject} ${pageHeadings[2] || 'next steps'}`,
-    `${subject} ${pageHeadings[3] || 'checklist'}`,
-    `${subject} ${pageHeadings[4] || 'evidence'}`,
+    `${subject} overview for a career decision`,
+    `Three practical points about ${subject} options`,
+    `Comparison table for ${subject} choices`,
+    `Four step path for ${subject} planning`,
+    `Checklist before choosing ${subject}`,
+    `Money and time facts for ${subject}`,
   ];
   return cleanLabel(labels[index], `${subject} career explainer`);
 }
 
+function generatedDetailFiles(publicDir, category, pageSlug) {
+  const root = path.join(publicDir, 'images', 'blog', 'generated', generatedBlogKey(category, pageSlug));
+  if (!fs.existsSync(root)) return [];
+  return fs.readdirSync(root).filter((name) => new RegExp(`^${pageSlug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-detail-\\d{2}\\.webp$`).test(name)).sort()
+    .map((name) => '/' + path.relative(publicDir, path.join(root, name)).split(path.sep).join('/'));
+}
+
+function headingTargets(html) {
+  return [...html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((match, index) => ({
+    index,
+    start: match.index,
+    end: match.index + match[0].length,
+    text: plainText(match[1]).toLowerCase(),
+  }));
+}
+
+function insertAfterHeading(html, visual, keywords, used) {
+  const headings = headingTargets(html);
+  const preferred = headings.find((heading) => !used.has(heading.index) && keywords.some((keyword) => heading.text.includes(keyword)));
+  const target = preferred || headings.find((heading) => !used.has(heading.index));
+  if (!target) {
+    const closing = /<\/(?:main|article|body)>/i.exec(html);
+    return closing ? html.slice(0, closing.index) + visual + '\n' + html.slice(closing.index) : html + visual;
+  }
+  used.add(target.index);
+  const at = target.end;
+  return html.slice(0, at) + '\n' + visual + html.slice(at);
+}
+
 function pageHeadings(html) {
   return [...html.matchAll(/<h[23]\b[^>]*>([\s\S]*?)<\/h[23]>/gi)]
-    .map((match) => plainText(match[1])).filter(Boolean).slice(0, 6);
+    .map((match) => plainText(match[1])).filter((value) => value && !/career counselling|scalability|checkpoint|gate|short answer|what to verify/i.test(value)).slice(0, 6);
 }
 
 function emptyBlogVisuals(html, publicDir, category, pageSlug) {
@@ -339,6 +367,7 @@ function replaceBlogVisuals(html, publicDir, category, pageSlug) {
       label: generatedVisualLabel(index, pageTitle, headings),
       width: imageSize(publicDir, src)?.w || 1000,
       height: imageSize(publicDir, src)?.h || 1500,
+      type: ['hero', 'summary', 'matrix', 'chain', 'checklist', 'proof'][index],
     };
   });
   const figure = (visual, index) => {
@@ -349,20 +378,34 @@ function replaceBlogVisuals(html, publicDir, category, pageSlug) {
     const priority = index === 0 ? ' fetchpriority="high"' : '';
     const image = `<img src="${visual.src}" alt="${escapeAttr(alt)}" title="${escapeAttr(title)}" width="${visual.width}" height="${visual.height}" loading="${loading}" decoding="async"${priority}>`;
     const picture = visual.mobile ? `<picture><source media="(max-width: 640px)" srcset="${visual.src.replace(/\.webp$/i, '-mobile.webp')}">${image}</picture>` : image;
-    return `<figure class="article-visual${index === 0 ? ' article-visual--hero' : ''}">${picture}<figcaption>${escapeAttr(caption)}</figcaption></figure>`;
+    return `<figure class="article-visual${index === 0 ? ' article-visual--hero' : ''}" data-visual-type="${visual.type}">${picture}<figcaption>${escapeAttr(caption)}</figcaption></figure>`;
   };
-  let index = 0;
-  let out = html.replace(/<figure\b[^>]*class="[^"]*\b(?:article-cover|article-visual)\b[^"]*"[^>]*>[\s\S]*?<\/figure>/gi, (match) => {
-    if (index >= visuals.length) return '';
-    return figure(visuals[index], index++);
-  });
-  if (index === 0) return emptyBlogVisuals(out, publicDir, category, pageSlug);
-  while (index < visuals.length) {
-    const closing = /<\/(?:main|article|body)>/i.exec(out);
-    if (!closing) break;
-    const visual = figure(visuals[index], index);
-    out = out.slice(0, closing.index) + visual + '\n' + out.slice(closing.index);
-    index += 1;
+  let out = html.replace(/<figure\b[^>]*class="[^"]*\b(?:article-cover|article-visual)\b[^"]*"[^>]*>[\s\S]*?<\/figure>/gi, '');
+  const lead = /<p\b[^>]*class="[^"]*lead-para[^\"]*"[^>]*>[\s\S]*?<\/p>/i.exec(out);
+  const h1Tag = /<h1\b[^>]*>[\s\S]*?<\/h1>/i.exec(out);
+  const heroAt = lead ? lead.index + lead[0].length : h1Tag ? h1Tag.index + h1Tag[0].length : -1;
+  const hero = figure(visuals[0], 0);
+  if (heroAt >= 0) out = out.slice(0, heroAt) + '\n' + hero + out.slice(heroAt);
+  else out = insertAfterHeading(out, hero, [], new Set());
+  const used = new Set();
+  const routes = [
+    ['summary', ['short answer', 'overview', 'real picture', 'why', 'what this means']],
+    ['matrix', ['compare', 'comparison', 'table', 'options', 'paths', 'difference', 'versus', ' vs ']],
+    ['chain', ['steps', 'process', 'how to', 'roadmap', 'plan', 'become', 'build']],
+    ['checklist', ['checklist', 'questions', 'mistakes', 'avoid', 'before you', 'choose']],
+    ['proof', ['salary', 'pay', 'cost', 'fee', 'money', 'budget', 'time', 'years', 'figure']],
+  ];
+  for (let i = 0; i < routes.length; i += 1) {
+    const [, keywords] = routes[i];
+    out = insertAfterHeading(out, figure(visuals[i + 1], i + 1), keywords, used);
+  }
+  const details = generatedDetailFiles(publicDir, category, pageSlug);
+  for (let i = 0; i < details.length; i += 1) {
+    const src = details[i];
+    const mobile = src.replace(/\.webp$/i, '-mobile.webp');
+    const label = `${pageTitle} section explainer ${i + 1}`;
+    const image = `<figure class="article-visual article-visual--detail" data-visual-type="detail"><picture><source media="(max-width: 640px)" srcset="${mobile}"><img src="${src}" alt="${escapeAttr(label)}" title="${escapeAttr(label)}" width="${imageSize(publicDir, src)?.w || 1000}" height="${imageSize(publicDir, src)?.h || 667}" loading="lazy" decoding="async"><\/picture><figcaption>${escapeAttr(`Key facts from ${pageTitle} section ${i + 1}`)}</figcaption></figure>`;
+    out = insertAfterHeading(out, image, ['background', 'context', 'why', 'what', 'overview'], used);
   }
   return out;
 }
@@ -381,6 +424,7 @@ function replaceRouteVisuals(html, publicDir, route) {
       label: generatedVisualLabel(index, pageTitle, headings),
       width: imageSize(publicDir, src)?.w || 1000,
       height: imageSize(publicDir, src)?.h || 1500,
+      type: ['hero', 'summary', 'matrix', 'chain', 'checklist', 'proof'][index],
     };
   });
   const figure = (visual, index) => {
@@ -388,38 +432,22 @@ function replaceRouteVisuals(html, publicDir, route) {
     const title = `${pageTitle}: ${visual.label}`;
     const image = `<img src="${visual.src}" alt="${escapeAttr(alt)}" title="${escapeAttr(title)}" width="${visual.width}" height="${visual.height}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ''}>`;
     const picture = visual.mobile ? `<picture><source media="(max-width: 640px)" srcset="${visual.src.replace(/\.webp$/i, '-mobile.webp')}">${image}</picture>` : image;
-    return `<figure class="resource-visual${index === 0 ? ' resource-visual-hero' : ''}">${picture}<figcaption>${escapeAttr(visual.label)}</figcaption></figure>`;
+    return `<figure class="resource-visual${index === 0 ? ' resource-visual-hero' : ''}" data-visual-type="${visual.type}">${picture}<figcaption>${escapeAttr(visual.label)}</figcaption></figure>`;
   };
-  let index = 0;
-  let out = html.replace(/<figure\b[^>]*class="(?:[^"]*bofu-image[^"]*|[^"]*visual[^"]*)"[^>]*>[\s\S]*?<\/figure>/gi, (match) => {
-    if (index >= visuals.length) return '';
-    return figure(visuals[index], index++);
-  });
-  // Some service and assessment templates have no figure to replace. Insert
-  // the route-specific pack after the h1 so those pages do not fall back to
-  // zero or shared imagery.
-  if (index === 0) {
-    const h1Tag = /<h1\b[^>]*>[\s\S]*?<\/h1>/i.exec(out);
-    const visual = figure(visuals[0], 0);
-    if (h1Tag) {
-      const at = h1Tag.index + h1Tag[0].length;
-      out = out.slice(0, at) + '\n' + visual + out.slice(at);
-      index = 1;
-    } else {
-      const closing = /<\/(?:main|article|body)>/i.exec(out);
-      if (closing) {
-        out = out.slice(0, closing.index) + visual + '\n' + out.slice(closing.index);
-        index = 1;
-      }
-    }
-  }
-  while (index < visuals.length) {
-    const closing = /<\/(?:main|article|body)>/i.exec(out);
-    if (!closing) break;
-    const visual = figure(visuals[index], index);
-    out = out.slice(0, closing.index) + visual + '\n' + out.slice(closing.index);
-    index += 1;
-  }
+  let out = html.replace(/<figure\b[^>]*class="(?:[^"]*bofu-image[^"]*|[^"]*visual[^"]*)"[^>]*>[\s\S]*?<\/figure>/gi, '');
+  const h1Tag = /<h1\b[^>]*>[\s\S]*?<\/h1>/i.exec(out);
+  const hero = figure(visuals[0], 0);
+  if (h1Tag) { const at = h1Tag.index + h1Tag[0].length; out = out.slice(0, at) + '\n' + hero + out.slice(at); }
+  else out = insertAfterHeading(out, hero, [], new Set());
+  const used = new Set();
+  const keywords = [
+    ['what you get', 'included', 'outcome', 'session', 'steps'],
+    ['compare', 'options', 'difference', 'path'],
+    ['how', 'process', 'plan', 'next'],
+    ['who', 'fit', 'for you', 'choose'],
+    ['cost', 'price', 'fee', 'budget', 'time'],
+  ];
+  for (let i = 0; i < keywords.length; i += 1) out = insertAfterHeading(out, figure(visuals[i + 1], i + 1), keywords[i], used);
   return out;
 }
 
