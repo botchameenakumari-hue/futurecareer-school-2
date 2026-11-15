@@ -8479,4 +8479,85 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-10-30',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'stream-selection',
+    slug: 'coding-vs-pcm-for-future-engineers',
+    title: "Coding vs PCM for future engineers: protect PCM first, then add coding",
+    description:
+      "Coding vs PCM for future engineers: PCM opens the engineering seat and coding builds proof. See how to split your effort from Class 8 to 12 and what it costs.",
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'data-analyst-vs-software-engineer-salary-india',
+    title: 'Data analyst vs software engineer salary in India: the gap by city, employer and stage',
+    description:
+      'Data analyst vs software engineer salary in India: engineers average about 40% more on Indeed (Rs 8.79 vs 6.28 lakh), but city and employer shift the gap.',
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 12,
+  },
+  {
+    categorySlug: 'career-options',
+    slug: 'data-scientist-vs-software-engineer-salary-india',
+    title: 'Data scientist vs software engineer salary in India: pay by employer type',
+    description:
+      'Data scientist vs software engineer salary in India is close at each stage. Employer type and one specialised skill decide the real gap. Pay bands inside.',
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 9,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'education-loan-secured-or-unsecured-india',
+    title: "Education Loan Is Secured or Unsecured? The Loan Size Decides",
+    description:
+      "An education loan is secured or unsecured by size: no security to ₹4 lakh, a guarantor to ₹7.5 lakh, property above. See what each band puts at risk.",
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 10,
+  },
+  {
+    categorySlug: 'government-jobs',
+    slug: 'government-psychologist-salary-india-per-month',
+    title: 'Government psychologist salary in India per month: what each post pays',
+    description:
+      'Government psychologist salary in India per month runs from Rs 25,000 on entry contract posts to about Rs 91,000 (basic plus DA) at Level 10. See each post.',
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'highest-package-vs-median-ctc-meaning-india',
+    title: 'Highest package vs median CTC: what they mean in college placements',
+    description:
+      "Highest package is one student's best offer; median CTC is the middle salary of the batch. See what each means in placements, with a worked example.",
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 6,
+  },
+  {
+    categorySlug: 'skills',
+    slug: 'java-or-python-which-is-better-for-future-india',
+    title: 'Java or Python: which is better for future in India? What the data says',
+    description:
+      'Java or Python, which is better for future in India? Python grows faster with AI and data, Java is steadier in enterprise. See the data and the verdict by role.',
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'medical-careers',
+    slug: 'medical-coding-salary-after-bsc-nursing-india',
+    title: 'Medical coding salary after BSc nursing: real pay and what it replaces',
+    description:
+      'Medical coding salary after BSc nursing in India: fresher pay, pay after CPC, how it compares with staff nurse pay, and what AI changes for entry roles.',
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'medical-careers',
+    slug: 'mpt-salary-per-month-in-india',
+    title: "MPT Salary per Month in India: What the MPT Really Changes",
+    description:
+      "MPT salary per month in India has no official survey. Government posts start near Rs 35,400, private pay is negotiated, and teaching is where the MPT counts.",
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 11,
+  },
 ];

@@ -174,4 +174,9 @@ export const POST_SCALE = {
   "is-archaeology-a-good-career-in-india": ["mid", "Central, state and NET-led routes are thin and rank-gated; GIS and 3D documentation, heritage consulting, conservation, archaeological science and heritage tourism give a business layer."],
   "is-criminology-a-good-career-in-india": ["mid", "A degree alone has no direct job; fraud and cyber analysis, research writing and training give a business layer, while police, prison and teaching routes are fixed ladders."],
   "is-astronomy-a-good-career-in-india": ["low", "A small field with a five-stage funnel (PhD gate, postdoc, few permanent posts); the research ladder is rank-based and capped, so keep a data or software skill beside it, which is the route that scales."],
+  "data-scientist-vs-software-engineer-salary-india": ["high", "Software and data skills sell directly as freelance projects, products and analysis for small firms; employer type and one special skill set the pay band."],
+  "government-psychologist-salary-india-per-month": ["low", "Fixed pay levels and very few posts per notice; a registered private practice or training service beside the post is the business layer."],
+  "java-or-python-which-is-better-for-future-india": ["high", "Programming skill sells as automation work, freelance projects and products; a language name alone, or a service seat with no proof, does not scale."],
+  "medical-coding-salary-after-bsc-nursing-india": ["mid", "A salaried coding ladder with a pay ceiling; a small coding and audit service is the business layer."],
+  "mpt-salary-per-month-in-india": ["mid", "Salaried physiotherapy has a ceiling set by the employer; a clinic, home-care or tele-rehab practice and teaching give a business layer."],
 };

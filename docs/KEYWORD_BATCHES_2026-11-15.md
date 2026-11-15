@@ -10,6 +10,25 @@ How to read this file:
 
 Mix: 60 low, 63 medium, 6 high-difficulty by sheet KD; the rest are Search Console-proven phrases with no KD figure.
 
+## Build status (updated 15 November 2026)
+
+Batch 1, first 12 keywords:
+
+| Keyword | Result |
+|---|---|
+| coding vs pcm for future engineers | New page: /blog/stream-selection/coding-vs-pcm-for-future-engineers/ |
+| java or python which is better for future in india | New page: /blog/skills/java-or-python-which-is-better-for-future-india/ |
+| data scientist vs software engineer salary in india | New page: /blog/career-options/data-scientist-vs-software-engineer-salary-india/ (an H2 on data-science-vs-software-engineering-career-india already targets this phrase; watch for overlap in Search Console) |
+| data analyst vs software engineer salary in india | New page: /blog/skills/data-analyst-vs-software-engineer-salary-india/ |
+| education loan is secured or unsecured | New page: /blog/college-degrees/education-loan-secured-or-unsecured-india/ |
+| what does highest package vs median ctc mean in placements | New page: /blog/college-degrees/highest-package-vs-median-ctc-meaning-india/ |
+| mpt salary per month in india | New page: /blog/medical-careers/mpt-salary-per-month-in-india/ |
+| government psychologist salary in india per month | New page: /blog/government-jobs/government-psychologist-salary-india-per-month/ |
+| medical coding salary after bsc nursing | New page: /blog/medical-careers/medical-coding-salary-after-bsc-nursing-india/ |
+| how much does a content creator earn in india | Exact match already live (/blog/freelancing-business/content-creator-income-india/); no new page |
+| what jobs are best for introverts in india | Exact match already live (/blog/career-options/best-careers-for-introverts-in-india/); keyword wording added to its intro, FAQ items opened |
+| lateral mba meaning and eligibility | Exact match already live (/blog/college-degrees/lateral-entry-mba-india/); eligibility heading reworded |
+
 ## Batch 1 — GSC-proven gaps (queries already earning impressions with no matching page) + low-KD, high-volume decisions (25)
 
 | # | Keyword | Vol | KD | Competition | Type | Evidence / note |

@@ -1,0 +1,1358 @@
+---
+import BlogPostLayout from '../../../../layouts/BlogPostLayout.astro';
+
+const title = 'Data analyst vs software engineer salary in India: the gap by city, employer and stage';
+const seoTitle = 'Data Analyst vs Software Engineer Salary in India: Real Gap';
+const description =
+  'Data analyst vs software engineer salary in India: engineers average about 40% more on Indeed (Rs 8.79 vs 6.28 lakh), but city and employer shift the gap.';
+const canonical =
+  'https://futurecareerschool.com/blog/skills/data-analyst-vs-software-engineer-salary-india/';
+const publishedDateISO = '2026-11-15';
+const publishedDateLabel = '15 November 2026';
+const authorName = 'Allu Vagdevi';
+const authorUrl = 'https://futurecareerschool.com/about/allu-vagdevi/';
+const authorRole = 'Career researcher and writer';
+
+const jumpLinks = [
+  { id: 'short-answer', label: 'The short answer' },
+  { id: 'numbers', label: 'The salary numbers, same source side by side' },
+  { id: 'sources-differ', label: 'Why salary sites give different numbers' },
+  { id: 'first-job', label: 'The first job: where analysts can start ahead' },
+  { id: 'after-first-job', label: 'Pay after the first job' },
+  { id: 'employer-type', label: 'Employer type moves pay more than the title' },
+  { id: 'hiring', label: 'Who is hiring right now' },
+  { id: 'close-gap', label: 'What closes the gap for an analyst' },
+  { id: 'ceiling', label: 'Where each salary stalls' },
+  { id: 'who-pays', label: 'Who pays, and how they judge you' },
+  { id: 'ai', label: 'AI and pay for both roles' },
+  { id: 'checkpoint', label: 'Check before you commit' },
+  { id: 'money-check', label: 'Money check before you pay' },
+  { id: 'situations', label: 'Which side fits your situation' },
+  { id: 'mistakes', label: 'Mistakes that cost salary' },
+  { id: 'next-step', label: 'What to do next' },
+  { id: 'sources', label: 'Sources checked' },
+  { id: 'faq', label: 'FAQs' },
+];
+
+const sameSourceRows = [
+  {
+    measure: 'India average, per year',
+    swe: 'Rs 8.79 lakh (21.7k salaries, page updated 11 May 2026)',
+    da: 'Rs 6.28 lakh (557 salaries, page updated 9 Oct 2026)',
+    gap: 'Engineer ahead by about Rs 2.51 lakh, roughly 40%',
+  },
+  {
+    measure: 'Entry level, per year',
+    swe: 'Rs 4.01 lakh',
+    da: 'Rs 5.15 lakh',
+    gap: 'Analyst ahead by about Rs 1.14 lakh on this source',
+  },
+  {
+    measure: 'Bengaluru',
+    swe: 'Rs 10.37 lakh',
+    da: 'Rs 7.77 lakh',
+    gap: 'Engineer ahead by about Rs 2.61 lakh',
+  },
+  {
+    measure: 'Gurgaon',
+    swe: 'Rs 10.29 lakh',
+    da: 'Rs 7.64 lakh',
+    gap: 'Engineer ahead by about Rs 2.65 lakh',
+  },
+  {
+    measure: 'Hyderabad',
+    swe: 'Rs 8.95 lakh',
+    da: 'Rs 6.90 lakh',
+    gap: 'Engineer ahead by about Rs 2.05 lakh',
+  },
+  {
+    measure: 'Noida',
+    swe: 'Rs 8.03 lakh',
+    da: 'Rs 7.66 lakh',
+    gap: 'Engineer ahead by only about Rs 0.37 lakh',
+  },
+];
+
+const otherSourceRows = [
+  {
+    source: 'Glassdoor India, software engineer (June 2026, 295,753 salaries)',
+    reading: 'Average total pay Rs 6.06 lakh. Middle half of salaries between Rs 4.14 and Rs 9.89 lakh. Top tenth reach about Rs 14.5 lakh. Extra pay on top of base averages about Rs 56,000.',
+  },
+  {
+    source: 'AmbitionBox through Naukri, data analyst (page updated 22 Feb 2025)',
+    reading: 'Average Rs 6.2 lakh. About Rs 4.5 lakh at one year, Rs 6.8 lakh at four years, Rs 8.3 lakh at six years.',
+  },
+  {
+    source: 'AmbitionBox, software engineer (page dated 24 Feb 2025)',
+    reading: 'Typical range Rs 2.8 to Rs 16 lakh. At five years the typical range runs from Rs 4.3 to Rs 25.9 lakh.',
+  },
+  {
+    source: 'Levels.fyi India, data analyst (updated 15 Nov 2026, 371 salaries)',
+    reading: 'Median total pay Rs 14.77 lakh, with the middle half between Rs 9.33 and Rs 22.6 lakh. This site collects mostly tech and product company pay, so it shows the top end of the title.',
+  },
+];
+
+const stageRows = [
+  {
+    stage: 'Around 1 year',
+    da: 'About Rs 4.5 lakh on average',
+    swe: 'Typical range Rs 2 to Rs 15 lakh',
+  },
+  {
+    stage: 'Around 3 to 4 years',
+    da: 'About Rs 6.8 lakh on average at four years',
+    swe: 'Typical range Rs 3 to Rs 15 lakh at three years, Rs 4 to Rs 17.5 lakh at four',
+  },
+  {
+    stage: 'Around 5 to 6 years',
+    da: 'About Rs 8.3 lakh on average at six years',
+    swe: 'Typical range Rs 4.3 to Rs 25.9 lakh at five years',
+  },
+];
+
+const employerRows = [
+  {
+    employer: 'IT services company (fresher engineer)',
+    reading: 'Business Today reported in February 2026 that a TCS trainee package was around Rs 3.36 lakh, and that Infosys, Wipro and Accenture entry packages largely stay in the Rs 3 to 4 lakh range.',
+  },
+  {
+    employer: 'Global capability centre (GCC)',
+    reading: 'A TeamLease Digital report from August 2024 said GCCs paid up to 20% more than traditional IT services. That report is older, so check current offers before leaning on it.',
+  },
+  {
+    employer: 'Tech and product company (analyst)',
+    reading: 'Levels.fyi shows a median of Rs 14.77 lakh for the same title that Indeed averages at Rs 6.28 lakh. The title is the same. The employer pool is different.',
+  },
+];
+
+const hiringRows = [
+  {
+    role: 'Software engineer',
+    count: '3,805 postings',
+    share: '20.3% of the sample',
+  },
+  {
+    role: 'Data analyst',
+    count: '2,534 postings',
+    share: '13.5% of the sample',
+  },
+  {
+    role: 'Data engineer',
+    count: '1,449 postings',
+    share: '7.7% of the sample, up from 4.3% in July',
+  },
+  {
+    role: 'Entry or junior level, all tech roles',
+    count: '799 postings',
+    share: '4.3% of the sample',
+  },
+];
+
+const closeGapItems = [
+  {
+    label: 'Skill layer',
+    title: 'SQL and Python beyond reports',
+    body: 'An analyst who writes clean SQL, automates the monthly report in Python and checks data quality is doing part of an engineer\'s job. Employers pay for that overlap.',
+    fit: 'Best for: analysts at companies with messy data.',
+    watch: 'Watch out: dashboards alone are the easiest layer for AI to copy.',
+  },
+  {
+    label: 'Bridge role',
+    title: 'Analytics engineer or data engineer',
+    body: 'These roles sit between the two jobs. They build the clean tables and the data pipelines (the steps that move data into them) that analysts and engineers both depend on. Data engineering was 7.7% of the tech postings in an October 2026 sample, nearly double its July share.',
+    fit: 'Best for: analysts who like building more than presenting.',
+    watch: 'Watch out: check current postings for pay in your city before you assume a jump.',
+  },
+  {
+    label: 'Domain',
+    title: 'Insurance, banking, retail or pharma depth',
+    body: 'An analyst who knows how claims, credit risk or stock turnover really work answers questions a pure tool person cannot. Foundit data for June 2026 showed analyst and BI roles in banking and finance GCCs growing 26%, as summarised by Masai School.',
+    fit: 'Best for: commerce, maths and statistics graduates.',
+    watch: 'Watch out: domain depth takes years, so choose one industry and stay long enough.',
+  },
+  {
+    label: 'Employer',
+    title: 'GCC or product company',
+    body: 'The same job title pays differently depending on who hires. Moving from a small service firm to a GCC or product team is often the single biggest salary step for either role.',
+    fit: 'Best for: people with one finished project and clear interview answers.',
+    watch: 'Watch out: these employers filter hard on proof, not on certificates.',
+  },
+];
+
+const stallItems = [
+  {
+    num: '01',
+    title: 'Where the analyst salary stalls',
+    body: 'Reporting-only analyst work is the layer most easily repeated by software and AI tools, and the stage figures above show steady steps, not steep ones. One 2026 guide estimates Rs 14 to 22 lakh at five to eight years but names no source. The Indeed senior analyst average is Rs 9.71 lakh.',
+  },
+  {
+    num: '02',
+    title: 'Where the engineer salary stalls',
+    body: 'A services-company engineer on a fixed package can stay flat for years because raises follow the company band, not the market. The wide spread in the numbers above means many engineers sit near the bottom of it. Moving employers is what lifts pay.',
+  },
+  {
+    num: '03',
+    title: 'What lifts either ceiling',
+    body: 'Ownership of a result. An analyst who owns a revenue metric, or an engineer who owns a service that other teams use, gets paid for the outcome. That is also what makes later consulting, contract work or a small product possible.',
+  },
+];
+
+const checkpointItems = [
+  {
+    num: '01',
+    title: 'Your fit',
+    body: 'Analysts spend the day in spreadsheets, SQL and meetings where numbers become a recommendation. Engineers spend it building and fixing software, often alone for long stretches. Pick the job whose ordinary Tuesday you can stand, because pay only rises for people who stay and improve.',
+    note: 'If explaining a chart to a manager drains you, the analyst route will wear you out even though the entry is easier.',
+  },
+  {
+    num: '02',
+    title: 'Your situation',
+    body: 'Check what your family can carry while you learn. The engineer route often asks for strong coding practice before the first offer, and an IT services offer may start at Rs 3 to 4 lakh. The analyst route can start from a commerce, maths or statistics degree, but entry roles are few.',
+    note: 'Compare the first two years of take-home pay and learning, not the best number you saw online.',
+  },
+  {
+    num: '03',
+    title: 'Job market',
+    body: 'In one October 2026 sample of 18,752 tech postings, software engineer was the largest group at 3,805, ahead of data analyst at 2,534. Only 799 postings in the whole sample were entry or junior level, so both routes are crowded at the start.',
+    note: 'More postings for engineers does not mean an easier first job. It means more places to apply.',
+  },
+  {
+    num: '04',
+    title: 'AI-proof',
+    body: 'AI now drafts boilerplate code and routine reports. The part that keeps pay is deciding which metric matters, checking whether the data is right, and owning the system or the decision. Ask which part of the work you would still be paid for.',
+    note: 'The safer salary belongs to the person who checks the AI answer, not the person who types the first draft.',
+  },
+];
+
+const situationItems = [
+  {
+    label: 'B.Tech CS fresher',
+    title: 'Strong coding degree, two offers',
+    body: 'You can aim at both. The engineer route usually pays more on average, so take it unless the analyst job is at a better employer. A better employer often beats a better title in the first two years.',
+  },
+  {
+    label: 'Commerce, maths or statistics graduate',
+    title: 'No CS degree, good with numbers',
+    body: 'The analyst route is the realistic start. Build SQL, a spreadsheet model and one real dataset project, then add Python. Move toward analytics engineering if you want the higher end of the pay range.',
+  },
+  {
+    label: 'Working analyst',
+    title: 'Thinking of switching to software engineering',
+    body: 'Do not trade a stable analyst salary for a junior engineer role without checking the new offer in writing. Your domain knowledge is an asset. A bridge role can use both skills, so compare that offer too.',
+  },
+  {
+    label: 'IT services engineer',
+    title: 'Flat pay, thinking of analytics',
+    body: 'Moving to analytics may not raise pay on its own. The employer and the skill layer matter more than the label. Compare actual offers, and consider a product company or GCC engineer role before a title change.',
+  },
+];
+
+const mistakeItems = [
+  {
+    num: '01',
+    title: 'Comparing one site\'s average with another site\'s average',
+    body: 'Indeed, Glassdoor and AmbitionBox disagree because their samples and dates differ. Compare two jobs inside the same source, then check live postings.',
+  },
+  {
+    num: '02',
+    title: 'Reading a Levels.fyi number as the normal analyst salary',
+    body: 'Its Rs 14.77 lakh median comes mostly from tech and product employers. Indeed puts the all-India average at Rs 6.28 lakh. Both are real. They describe different employers.',
+  },
+  {
+    num: '03',
+    title: 'Taking a title change for a pay rise',
+    body: 'A role called "analyst" at a services firm can pay less than a "software engineer" role at a GCC, and the reverse is true too. Ask for the number and the employer type before you compare.',
+  },
+  {
+    num: '04',
+    title: 'Paying for a course because of a salary screenshot',
+    body: 'Free lessons cover most of the first steps in both lanes. Pay only for feedback, structure or access you cannot get cheaply, and check what past learners actually got.',
+  },
+  {
+    num: '05',
+    title: 'Staying in reporting work for years',
+    body: 'If every task could be rebuilt by a template, your pay will follow that template. Add a skill, a domain or a result that belongs to you.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'Data analyst vs software engineer salary in India: which one pays more?',
+    a: 'On Indeed India, software engineers average Rs 8.79 lakh a year and data analysts average Rs 6.28 lakh, so engineers lead by about 40%. The gap is over Rs 2.5 lakh in Bengaluru and Gurgaon and about Rs 0.37 lakh in Noida. Pay varies by city, employer and skill, so check live postings for both titles.',
+  },
+  {
+    q: 'Why do salary websites show different numbers for the same job?',
+    a: 'Each site uses different people, different dates and different sample sizes. Indeed shows Rs 8.79 lakh for engineers while Glassdoor shows Rs 6.06 lakh in total pay, and Levels.fyi shows a Rs 14.77 lakh median for analysts because it covers mostly tech employers. Compare two jobs inside one source, and treat every average as a rough guide.',
+  },
+  {
+    q: 'Do data analysts earn more than software engineers at the start?',
+    a: 'On one source they can. Indeed lists entry-level analysts at about Rs 5.15 lakh and entry-level engineers at about Rs 4.01 lakh. A likely reason is that many fresher engineer offers come from IT services firms, where packages are largely Rs 3 to 4 lakh, as Business Today reported in February 2026. Samples are small, so check the actual offer in front of you.',
+  },
+  {
+    q: 'Can a data analyst reach a software engineer\'s salary?',
+    a: 'Yes, but it usually takes more than time in the same role. The common routes are stronger SQL and Python, a move to analytics or data engineering, deep knowledge of one industry, and a move to a GCC or product company. Reporting-only analyst work tends to rise slowly. Pay depends on the employer and the result you own.',
+  },
+  {
+    q: 'Is it smart to take a data analyst job first and move to software engineering later?',
+    a: 'It can be, if you keep building code and system skills while you work. Many analyst tasks use SQL and scripts that carry over. The risk is staying in reporting work and then facing an engineer interview with no coding proof. Build one deployed project before you apply and compare the offer to your current take-home pay.',
+  },
+  {
+    q: 'Which role is more at risk from AI for salary?',
+    a: 'Both lose the routine layer. AI drafts boilerplate code and routine reports and charts. In an October 2026 sample, only 4.3% of tech postings were entry or junior level, which suggests the easiest starting tasks are shrinking. The safer pay goes to people who own a metric, a data pipeline or a system, and who check what AI produces.',
+  },
+  {
+    q: 'Do I need a computer science degree for each role?',
+    a: 'Not for data analysis. Commerce, maths, statistics and economics graduates work as analysts when they show SQL, spreadsheets and a real project. Software engineering interviews usually test data structures and problem solving, so a CS or related degree helps, though a strong public project can help at smaller firms. A degree has a place, but proof of skill decides the offer.',
+  },
+  {
+    q: 'Is the salary I see online what I will actually take home?',
+    a: 'No. Posted figures can be base pay or total pay, and some include bonuses. Glassdoor\'s engineer page shows base pay around Rs 6 lakh and extra pay of about Rs 56,000 on top. Ask for the fixed part, the variable part and the in-hand amount in writing before you compare offers.',
+  },
+  {
+    q: 'Which is better for a commerce or maths graduate with no coding background?',
+    a: 'Start with data analysis. Learn SQL and spreadsheets first, then Python, and build a project on a messy real dataset. Software engineering is possible later, but the first job is easier to reach from analysis. If you want a higher pay ceiling, plan the move toward analytics or data engineering.',
+  },
+  {
+    q: 'Should I pay for a course to raise my analyst or engineer salary?',
+    a: 'Try free YouTube lessons and low-priced courses first. Pay more only if the course gives feedback, a clear sequence or access you cannot get otherwise. Judge the specific course by instructor background, last update, graded projects and what past learners got. Our strongest suggestion is to keep a course fee near a tenth of the education budget.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BlogPostLayout
+  title={title}
+  seoTitle={seoTitle}
+  description={description}
+  canonical={canonical}
+  category="skills"
+  publishedAt={publishedDateISO}
+  publishedLabel={publishedDateLabel}
+  authorName={authorName}
+  authorUrl={authorUrl}
+  authorRole={authorRole}
+  jsonLdExtras={[faqJsonLd]}
+>
+  <p class="lead-para">
+    <strong>Data analyst vs software engineer salary in India: on Indeed's current figures an engineer averages
+    about Rs 8.79 lakh a year and an analyst about Rs 6.28 lakh, so engineers lead by roughly 40%, but the gap
+    shrinks or flips depending on city, employer and the skills you add.</strong>
+    The title matters less than the employer and the result you own. Making that choice with real numbers is one of
+    the decisions that unlock higher-income opportunities, and it sets how fast a <strong>high-income skill portfolio</strong>
+    can compound toward earlier financial freedom.
+  </p>
+
+  <div class="key-takeaways">
+    <p class="key-takeaways__label">The short version</p>
+    <ul>
+      <li>Same source, same year: software engineers average more (Rs 8.79 vs Rs 6.28 lakh on Indeed), with the biggest gaps in Bengaluru and Gurgaon and almost none in Noida.</li>
+      <li>At the first job the order can flip. Indeed lists entry-level analysts at Rs 5.15 lakh and entry-level engineers at Rs 4.01 lakh, partly because IT services fresher packages sit near Rs 3 to 4 lakh.</li>
+      <li><strong>Employer type moves pay more than the job title. The expensive mistake is choosing from one average or one screenshot, so compare two offers in writing and build the skill that makes either role harder to replace.</strong></li>
+    </ul>
+  </div>
+
+  <p>
+    If you are choosing between these two paths and want a second opinion on your own numbers, see
+    <a href="/services/career-counselling-and-career-guidance/career-coaching-for-it-professionals/">career coaching for IT professionals</a>.
+    More comparisons like this sit in <a href="/blog/skills/">career skills guides</a>.
+  </p>
+
+  <nav class="jump-nav" aria-label="Article sections">
+    <p class="jump-nav__label">Jump to section</p>
+    <ul class="jump-nav__list">
+      {jumpLinks.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <h2 id="short-answer">Data analyst vs software engineer salary in India: the short answer</h2>
+
+  <p>
+    Software engineers earn more on average. Analysts can earn more at the very start, and analysts at the right
+    employers can earn more than average engineers.
+  </p>
+
+  <p>
+    Pay range checked on 15 November 2026: Indeed India shows data analysts between about Rs 3.10 and Rs 12.70 lakh a year
+    (average Rs 6.28 lakh) and software engineers at an average of Rs 8.79 lakh. Pay varies by city, employer and skill.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      "Engineers earn more" is true as an average and misleading as advice. An engineer on a fixed services package and
+      an analyst at a product company are not in the same pay lane, whatever their titles say.
+    </p>
+  </div>
+
+  <h2 id="numbers">The salary numbers, same source side by side</h2>
+
+  <p>
+    The cleanest comparison uses one source for both jobs. These are Indeed India figures, checked on 15 November 2026.
+    Each page shows its own last update date.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Measure</th>
+          <th>Software engineer</th>
+          <th>Data analyst</th>
+          <th>Gap</th>
+        </tr>
+      </thead>
+      <tbody>
+        {sameSourceRows.map((item) => (
+          <tr>
+            <td data-label="Measure"><strong>{item.measure}</strong></td>
+            <td data-label="Software engineer">{item.swe}</td>
+            <td data-label="Data analyst">{item.da}</td>
+            <td data-label="Gap">{item.gap}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Gaps are our subtraction of the two Indeed averages. Averages describe a pool of reported salaries, not what you will be offered.
+    Verify against live postings before a financial decision.
+  </p>
+
+  <h2 id="sources-differ">Why salary sites give different numbers for the same job</h2>
+
+  <p>
+    Each site counts different people on different dates. Read these as four views of the same market, not as four answers.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>What it shows</th>
+        </tr>
+      </thead>
+      <tbody>
+        {otherSourceRows.map((item) => (
+          <tr>
+            <td data-label="Source"><strong>{item.source}</strong></td>
+            <td data-label="What it shows">{item.reading}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Notice that Glassdoor puts the average engineer near Rs 6 lakh while Indeed says Rs 8.79 lakh. That gap inside one job is
+    as big as the gap between the two jobs. This is why one headline number should never decide your career.
+  </p>
+
+  <h2 id="first-job">The first job: where analysts can start ahead</h2>
+
+  <p>
+    Online comparisons skip this. On Indeed, the entry-level analyst average (Rs 5.15 lakh) is higher than the entry-level
+    engineer average (Rs 4.01 lakh).
+  </p>
+
+  <p>
+    One likely reason is the fresher engineer pool. Business Today reported in February 2026 that a TCS trainee package was
+    around Rs 3.36 lakh, with Infosys, Wipro and Accenture entry packages largely in the Rs 3 to 4 lakh range.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">When the analyst offer wins at the start</div>
+      <ul>
+        <li>The analyst offer is from a bank, insurer, retail chain or GCC (the India office of a global company, called a global capability centre).</li>
+        <li>The engineer offer is a fixed IT services trainee package.</li>
+        <li>You enjoy business questions more than building software.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">When the engineer offer wins at the start</div>
+      <ul>
+        <li>The engineer offer is from a product company or GCC.</li>
+        <li>The analyst role is mostly manual reporting with no growth step.</li>
+        <li>You can show a deployed project and solve coding problems under time.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="after-first-job">Pay after the first job</h2>
+
+  <p>
+    The two jobs grow differently. Analyst pay in these sources climbs in steady steps. Engineer pay spreads far wider.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Experience</th>
+          <th>Data analyst (average)</th>
+          <th>Software engineer (typical range)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {stageRows.map((item) => (
+          <tr>
+            <td data-label="Experience"><strong>{item.stage}</strong></td>
+            <td data-label="Data analyst (average)">{item.da}</td>
+            <td data-label="Software engineer (typical range)">{item.swe}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note-line">
+    Analyst figures: AmbitionBox through Naukri, updated 22 February 2025. Engineer figures: AmbitionBox software engineer page, dated 24 February 2025.
+    An average and a range are not the same measure, so read the width, not the middle.
+  </p>
+
+  <div class="honest-take">
+    <p class="honest-take__label">Honest take</p>
+    <p>
+      The width is the real finding. An engineer at five years can sit near Rs 4 lakh or near Rs 26 lakh on AmbitionBox, while the whole
+      Indeed analyst range tops out near Rs 12.7 lakh. These are different sources, so read it as a direction, not a measurement:
+      engineering has the higher upside and the lower floor.
+    </p>
+  </div>
+
+  <h2 id="employer-type">Employer type moves pay more than the title</h2>
+
+  <p>
+    The same job title pays very differently across employer types. This is the biggest lever you control.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Employer type</th>
+          <th>What the reports show</th>
+        </tr>
+      </thead>
+      <tbody>
+        {employerRows.map((item) => (
+          <tr>
+            <td data-label="Employer type"><strong>{item.employer}</strong></td>
+            <td data-label="What the reports show">{item.reading}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    If you can choose only one thing to improve, improve the type of employer you apply to. Strong proof of work is what gets you
+    shortlisted there.
+  </p>
+
+  <h2 id="hiring">Who is hiring right now</h2>
+
+  <p>
+    A PrepNPlaced report for September 2026, reported by Careers360 on 27 October 2026, counted 18,752 live tech postings from
+    LinkedIn and Naukri company feeds between 26 September and 26 October 2026.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Postings</th>
+          <th>Share</th>
+        </tr>
+      </thead>
+      <tbody>
+        {hiringRows.map((item) => (
+          <tr>
+            <td data-label="Role"><strong>{item.role}</strong></td>
+            <td data-label="Postings">{item.count}</td>
+            <td data-label="Share">{item.share}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    This is one month of postings, not the whole market. The same report found twelve senior openings for every entry-level one, up from eight in the July edition. More postings for
+    engineers gives you more places to apply, but the start is tight for both jobs.
+  </p>
+
+  <h2 id="close-gap">What closes the gap for an analyst</h2>
+
+  <p>
+    If you are an analyst or plan to be one, four moves change your pay more than waiting for annual raises.
+    Each one adds to a high-income skill portfolio: the right skill mix, proof of work, clear communication and a place in the market.
+  </p>
+
+  <p>
+    Communication belongs in that mix. Explaining a number clearly to a manager, in English or your own language, is part of what employers pay an analyst for.
+  </p>
+
+  <div class="feature-grid feature-grid--four">
+    {closeGapItems.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+        <p class="card-row card-row--fit">{item.fit}</p>
+        <p class="card-row card-row--watch">{item.watch}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="ceiling">Where each salary stalls, and what lifts it</h2>
+
+  <div class="mistakes-list">
+    {stallItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>
+      <strong>Scalable independent path.</strong> An analyst who sets up and runs reporting for small businesses, or an engineer who
+      takes contract work or builds a small tool, can set their own price and keep repeat clients. It scales because income is no longer
+      tied to one employer's pay band.
+    </p>
+    <p>It also needs proof, trust and a first client, so treat it as a side route to test, not a promise.</p>
+  </div>
+
+  <h2 id="who-pays">Who pays for a data analyst or a software engineer, and how they judge you</h2>
+
+  <p>
+    A data analyst is paid by a business team that needs a number it can trust: a bank, insurer, retailer, hospital or a firm that sells
+    analytics to others. They judge you by one clear analysis on messy data and whether you can explain it to someone who decides.
+    The first basic skill is to turn a spreadsheet question into a one-page answer.
+  </p>
+
+  <p>
+    A software engineer is paid by a product company, a GCC or an IT services client, and they judge you by working code, tests and how
+    you solve problems in an interview. For the side route, a small business owner pays an analyst for a dashboard, or pays an engineer for
+    a tool. In both cases, say who you help and with what, show one finished sample, follow up, ask for a referral and name your price calmly.
+  </p>
+
+  <h2 id="ai">AI and pay for both roles</h2>
+
+  <p>
+    Both jobs lose the routine layer first. AI drafts boilerplate (repeated template code), writes first-pass queries and builds standard charts.
+    In an October 2026 sample, only 4.3% of tech postings were entry or junior level.
+  </p>
+
+  <p>
+    The pay that holds goes to people who decide which metric matters, check that the data is right, and own a system or a result.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="compare-card compare-card--teal">
+      <div class="compare-card__label">Start now</div>
+      <ul>
+        <li>Use AI to draft SQL or code, then test every answer against real data.</li>
+        <li>Keep a short note of what the AI got wrong and how you caught it.</li>
+        <li>Pick one real problem at work or in a project and finish it end to end.</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-card--gold">
+      <div class="compare-card__label">Build toward</div>
+      <ul>
+        <li>Owning metric definitions and data quality for a team.</li>
+        <li>Designing the pipeline or system that AI tools run on.</li>
+        <li>Judging the output of AI tools for a business decision.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>
+    For the engineer side of this risk, read
+    <a href="/blog/ai-future/software-developer-career-future-with-ai-india/">software developer career future with AI in India</a>.
+  </p>
+
+  <h2 id="checkpoint">Check before you commit</h2>
+
+  <p>
+    Use the four questions first, then the three proofs. Together they test whether this pay lane fits you before you spend months on it.
+  </p>
+
+  <div class="protocol-stack">
+    {checkpointItems.map((item) => (
+      <div class="checkpoint">
+        <div class="checkpoint__num">{item.num}</div>
+        <div class="checkpoint__body">
+          <div class="checkpoint__title">{item.title}</div>
+          <p>{item.body}</p>
+          <div class="checkpoint__note">{item.note}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="gates-block">
+    <p class="gates-block__title">
+      Pass all three proofs in your chosen lane before you pay for a course or leave a job.
+    </p>
+    <div class="gates-row">
+      <div class="gate">
+        <span class="gate__num">Proof 1</span>
+        <span class="gate__name">Show it</span>
+        <p>
+          For the analyst lane, take a messy public dataset and produce one finding with a chart and a short written recommendation.
+          For the engineer lane, ship one small working app with tests and a short readme.
+        </p>
+      </div>
+      <div class="gate">
+        <span class="gate__num">Proof 2</span>
+        <span class="gate__name">Say it</span>
+        <p>
+          Explain your project in two minutes with no notes: the problem, what you did, what you would change. If you can only
+          explain tools, you cannot yet defend a salary.
+        </p>
+      </div>
+      <div class="gate">
+        <span class="gate__num">Proof 3</span>
+        <span class="gate__name">Get it checked</span>
+        <p>
+          Show it to a working analyst or engineer and ask whether it would get you shortlisted at their company. Use that answer to
+          decide your next step.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="money-check">Money check before you pay</h2>
+
+  <p>
+    Our strongest suggestion: keep a course or degree fee near a tenth of the family education budget, and treat spending above roughly a fifth
+    as a caution that needs course-specific evidence. This does not apply to very cheap online courses. Free YouTube lessons and low-priced
+    courses on sites like Udemy or Coursera need little budget care, and the same course sold as a university certificate can cost 30 to 100
+    times more, so look at free and cheap options first.
+  </p>
+
+  <p>
+    An illustration, not a real fee: on a Rs 3 lakh education budget, a tenth is Rs 30,000 for the main course and a fifth is Rs 60,000. Spend the rest
+    on a laptop, internet, practice datasets, interview preparation and a reserve. Before paying, check the instructor's recent work, the last update,
+    graded projects and what past learners actually got.
+  </p>
+
+  <h2 id="situations">Which side fits your situation</h2>
+
+  <div class="feature-grid feature-grid--four">
+    {situationItems.map((item) => (
+      <div class="feature-card">
+        <div class="feature-card__label">{item.label}</div>
+        <div class="feature-card__title">{item.title}</div>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="mistakes">Mistakes that cost salary</h2>
+
+  <div class="mistakes-list">
+    {mistakeItems.map((item) => (
+      <div class="mistake-item">
+        <div class="mistake-item__num">{item.num}</div>
+        <div class="mistake-item__content">
+          <div class="mistake-item__title">{item.title}</div>
+          <p>{item.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="next-step">What to do next</h2>
+
+  <div class="highlight-box highlight-box--teal">
+    <p>Pick two real offers or two real job postings in your city, one for each role, and write down employer type, fixed pay and variable pay.</p>
+    <p>Then run the four questions and one proof project in the lane you lean toward, before you spend money.</p>
+  </div>
+
+  <div class="link-list">
+    <p class="link-list__label">Keep reading</p>
+    <ul>
+      <li><a href="/blog/career-options/data-science-vs-software-engineering-career-india/">Data science vs software engineering career India</a>: the same choice for people drawn to modelling.</li>
+      <li><a href="/blog/career-options/is-data-analyst-a-good-career-in-india/">Is data analyst a good career in India</a>: the full verdict on the analyst path.</li>
+      <li><a href="/blog/skills/business-analyst-vs-data-analyst-career-india/">Business analyst vs data analyst</a>: if you like the business side more than the data side.</li>
+      <li><a href="/blog/skills/skills-required-for-data-analyst-in-india/">Skills required for a data analyst in India</a>: what to learn first.</li>
+      <li><a href="/career-skills-compass/">Career and Skills Compass</a>: map your own skill stack.</li>
+    </ul>
+  </div>
+
+  <h2 id="sources">Sources checked</h2>
+
+  <p>Figures were read on 15 November 2026. Each page shows its own update date, and some are older.</p>
+
+  <div class="link-list">
+    <ul>
+      <li><a href="https://in.indeed.com/salaries/Software-Engineer-Salaries" rel="noopener" target="_blank">Indeed India: software engineer salaries</a></li>
+      <li><a href="https://in.indeed.com/career/data-analyst/salaries" rel="noopener" target="_blank">Indeed India: data analyst salaries</a></li>
+      <li><a href="https://www.glassdoor.co.in/Career/software-engineer-career_KO0,17.htm" rel="noopener" target="_blank">Glassdoor India: software engineer salaries</a></li>
+      <li><a href="https://www.ambitionbox.com/profile/software-engineer-salary" rel="noopener" target="_blank">AmbitionBox: software engineer salary</a></li>
+      <li><a href="https://www.naukri.com/blog/what-is-the-data-analyst-salary-in-india/" rel="noopener" target="_blank">Naukri blog: data analyst salary in India (AmbitionBox figures)</a></li>
+      <li><a href="https://www.levels.fyi/t/data-analyst/locations/india" rel="noopener" target="_blank">Levels.fyi: data analyst pay in India</a></li>
+      <li><a href="https://news.careers360.com/tech-hiring-india-2026-entry-senior-level-jobs-data-engineering-share-doubles-freshers-experienced-linkedin-naukri-job-posting" rel="noopener" target="_blank">Careers360 News: tech hiring in India, PrepNPlaced report</a></li>
+      <li><a href="https://www.businesstoday.in/latest/trends/story/rs-316-lpa-in-2007-rs-336-lpa-in-2026-indias-it-fresher-pay-freezes-even-as-revenues-double-515211-2026-02-09" rel="noopener" target="_blank">Business Today: India's IT fresher pay</a></li>
+      <li><a href="https://businessworld.in/article/gccs-offer-20-higher-salaries-than-it-services-report-530907" rel="noopener" target="_blank">BusinessWorld: TeamLease Digital report on GCC pay</a></li>
+      <li><a href="https://www.masaischool.com/blog/data-analyst-demand-in-india/" rel="noopener" target="_blank">Masai School: data analyst demand in India (summary of foundit and Naukri data)</a></li>
+    </ul>
+  </div>
+
+  <h2 id="faq">FAQs on data analyst vs software engineer salary in India</h2>
+
+  <div class="faq-list">
+    {faqItems.map((item) => (
+      <details class="faq-item" open>
+        <summary class="faq-item__q">{item.q}</summary>
+        <div class="faq-item__a">{item.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <style>
+    .lead-para {
+      font-size: clamp(1.08rem, 1.65vw, 1.2rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82) !important;
+      margin-top: 0 !important;
+    }
+    .lead-para strong {
+      color: #fff;
+    }
+
+    .jump-nav {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.05), rgba(255, 255, 255, 0.02));
+      margin: 1.6rem 0 2rem;
+    }
+    .jump-nav__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.85rem !important;
+    }
+    .jump-nav__list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .jump-nav__list li {
+      margin: 0 !important;
+    }
+    .jump-nav__list a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .jump-nav__list a:hover {
+      color: #fff;
+    }
+    h2[id] {
+      scroll-margin-top: 108px;
+    }
+    h2[id]:target {
+      color: #fff6d7;
+    }
+
+    .key-takeaways {
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.35rem 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.1), transparent 60%),
+        rgba(255, 255, 255, 0.03);
+    }
+    .key-takeaways__label {
+      margin: 0 0 0.7rem !important;
+      font-size: 11px !important;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(45, 212, 191, 0.95) !important;
+    }
+    .key-takeaways ul {
+      margin: 0 !important;
+      padding-left: 1.15rem !important;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .key-takeaways li {
+      margin: 0 !important;
+      color: rgba(255, 255, 255, 0.82) !important;
+      line-height: 1.7 !important;
+      font-size: 15.5px;
+    }
+
+    .feature-grid,
+    .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .feature-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .feature-card,
+    .compare-card {
+      border-radius: 16px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .feature-card__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      color: rgba(45, 212, 191, 0.96);
+      margin-bottom: 0.5rem;
+    }
+    .feature-card__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.93);
+      line-height: 1.28;
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .feature-card p {
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0 !important;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.4rem 0 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .paths-table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .paths-table th {
+      padding: 0.95rem 1rem;
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+    .paths-table td {
+      padding: 0.95rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.66;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .paths-table tr:last-child td {
+      border-bottom: none;
+    }
+    .paths-table strong {
+      color: rgba(255, 255, 255, 0.93);
+    }
+
+    .note-line {
+      font-size: 13px !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      line-height: 1.68 !important;
+      margin: 0.55rem 0 1.25rem !important;
+      padding-left: 0.9rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .highlight-box {
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      margin: 1.35rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .highlight-box--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .highlight-box--amber {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .highlight-box p {
+      margin: 0.35rem 0 !important;
+      color: rgba(255, 255, 255, 0.76) !important;
+      line-height: 1.78 !important;
+      font-size: 15px !important;
+    }
+
+    .honest-take {
+      border-left: 3px solid #e5b84a;
+      border-radius: 0 14px 14px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(229, 184, 74, 0.05);
+      margin: 1.2rem 0;
+    }
+    .honest-take__label {
+      font-size: 10px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5b84a !important;
+      font-weight: 800;
+      margin: 0 0 0.5rem !important;
+    }
+    .honest-take p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0.4rem 0 !important;
+    }
+
+    .compare-card--gold {
+      border-color: rgba(229, 184, 74, 0.24);
+      background: rgba(229, 184, 74, 0.05);
+    }
+    .compare-card--teal {
+      border-color: rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+    }
+    .compare-card__label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 0.65rem;
+    }
+    .compare-card ul {
+      margin: 0 0 0 1rem !important;
+      padding: 0 !important;
+    }
+    .compare-card li {
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+      margin: 0.35rem 0 !important;
+    }
+
+    .protocol-stack,
+    .faq-list,
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.35rem 0;
+    }
+    .checkpoint,
+    .faq-item,
+    .mistake-item {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+    .checkpoint {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.2rem;
+    }
+    .checkpoint__num {
+      width: 58px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: rgba(229, 184, 74, 0.22);
+      padding-top: 0.05rem;
+    }
+    .checkpoint__title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.35rem;
+      font-family: "Sora", sans-serif;
+    }
+    .checkpoint__body p {
+      margin: 0 0 0.55rem !important;
+      font-size: 14px !important;
+      line-height: 1.74 !important;
+      color: rgba(255, 255, 255, 0.68) !important;
+    }
+    .checkpoint__note {
+      border-left: 2px solid rgba(229, 184, 74, 0.35);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      line-height: 1.66;
+      color: rgba(255, 255, 255, 0.53);
+      font-style: italic;
+    }
+
+    .gates-block {
+      border-radius: 16px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      background: rgba(45, 212, 191, 0.05);
+      padding: 1.25rem 1.2rem;
+      margin: 1.45rem 0;
+    }
+    .gates-block__title {
+      font-size: 13px !important;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      line-height: 1.6 !important;
+      margin: 0 0 0.95rem !important;
+    }
+    .gates-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .gate {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1rem 0.95rem;
+    }
+    .gate__num {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(45, 212, 191, 0.82);
+      font-weight: 800;
+      margin-bottom: 0.24rem;
+    }
+    .gate__name {
+      display: block;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.45rem;
+      font-family: "Sora", sans-serif;
+    }
+    .gate p {
+      margin: 0 !important;
+      font-size: 13.5px !important;
+      line-height: 1.66 !important;
+      color: rgba(255, 255, 255, 0.64) !important;
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem;
+    }
+    .mistake-item__num {
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(229, 184, 74, 0.2);
+      line-height: 1;
+      padding-top: 0.05rem;
+    }
+    .mistake-item__title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.3rem;
+      font-family: "Sora", sans-serif;
+      line-height: 1.3;
+    }
+    .mistake-item__content p {
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.72 !important;
+      color: rgba(255, 255, 255, 0.66) !important;
+    }
+
+    .faq-item__q {
+      padding: 0.95rem 1.15rem;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .faq-item__a {
+      padding: 0.95rem 1.15rem 1rem;
+      font-size: 14.5px;
+      line-height: 1.76;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    @media (max-width: 820px) {
+      .comparison-grid,
+      .gates-row,
+      .jump-nav__list {
+        grid-template-columns: 1fr;
+      }
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .checkpoint,
+      .mistake-item {
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .checkpoint__num,
+      .mistake-item__num {
+        width: auto;
+        text-align: left;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .jump-nav,
+      .feature-card,
+      .compare-card,
+      .highlight-box,
+      .checkpoint,
+      .gates-block,
+      .gate,
+      .mistake-item,
+      .faq-item__q,
+      .faq-item__a {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .paths-table {
+        min-width: 620px;
+      }
+      .paths-table th,
+      .paths-table td {
+        padding: 0.78rem 0.8rem;
+      }
+    }
+    .feature-grid--four {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .feature-card {
+      position: relative;
+      border-top: 3px solid rgba(45, 212, 191, 0.7);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .feature-card:nth-child(4n + 2) {
+      border-top-color: rgba(229, 184, 74, 0.75);
+    }
+    .feature-card:nth-child(4n + 3) {
+      border-top-color: rgba(167, 139, 250, 0.75);
+    }
+    .feature-card:nth-child(4n) {
+      border-top-color: rgba(96, 165, 250, 0.75);
+    }
+    .feature-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+    }
+    .feature-card .card-row {
+      margin-top: 0.6rem !important;
+      padding: 0.5rem 0.7rem;
+      border-radius: 10px;
+      font-size: 13px !important;
+      line-height: 1.6 !important;
+    }
+    .feature-card .card-row--fit {
+      background: rgba(45, 212, 191, 0.08);
+      color: rgba(167, 243, 232, 0.92) !important;
+    }
+    .feature-card .card-row--watch {
+      background: rgba(229, 184, 74, 0.08);
+      color: rgba(244, 218, 150, 0.92) !important;
+    }
+    .link-list {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 1.1rem 1.25rem;
+      margin: 1.4rem 0;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .link-list__label {
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: rgba(45, 212, 191, 0.96) !important;
+      font-weight: 800;
+      margin: 0 0 0.7rem !important;
+    }
+    .link-list ul {
+      margin: 0 !important;
+      padding-left: 1.1rem !important;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .link-list li {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .compare-card {
+      border-top-width: 3px;
+    }
+    @media (max-width: 820px) {
+      .feature-grid--four {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (hover: none) {
+      .feature-card:hover {
+        transform: none;
+        box-shadow: none;
+      }
+    }
+  </style>
+</BlogPostLayout>
