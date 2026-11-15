@@ -37,17 +37,16 @@ const titleCase = (value) => words(value).map((word, index) => {
   if (index && /^(and|or|of|for|in|on|to|with|the)$/.test(lower)) return prefix + lower;
   return prefix + lower.charAt(0).toUpperCase() + lower.slice(1);
 }).join(' ');
-function sentence(value, max = 10) {
+function sentence(value, max = 9) {
   const source = clean(value);
   if (!source) return '';
-  const complete = (source.match(/[^.!?]+[.!?]+/) || [source])[0].trim();
-  if (words(complete).length <= max && !badEnd.has(lastWord(complete))) return complete;
-  const clauses = complete.split(/[,;:]\s+/).map((part) => part.trim()).filter(Boolean);
+  const candidates = (source.match(/[^.!?]+[.!?]+/g) || [source]).map((part) => part.trim());
+  const exact = candidates.find((part) => words(part).length <= max && !badEnd.has(lastWord(part)));
+  if (exact) return exact;
+  const clauses = candidates.flatMap((part) => part.split(/[,;:]\s+/).map((item) => item.trim())).filter(Boolean);
   const clause = clauses.find((part) => words(part).length >= 3 && words(part).length <= max && !badEnd.has(lastWord(part)));
   if (clause) { const value = clause.replace(/[.,:;!?]+$/, ''); return `${value.charAt(0).toUpperCase()}${value.slice(1)}.`; }
-  const picked = words(complete).slice(0, Math.max(4, max - 1));
-  while (picked.length && badEnd.has(lastWord(picked.join(' ')))) picked.pop();
-  return picked.length ? `${picked.join(' ').charAt(0).toUpperCase()}${picked.join(' ').slice(1)} matters.` : '';
+  return '';
 }
 function phrase(value, max = 8) {
   const source = clean(value);
@@ -76,10 +75,11 @@ function shortCell(value) {
 }
 function figureLabel(value, index = 0) {
   const source = clean(value);
-  if (/₹|\$|lpa|lakh|crore|salary|pay|cost|fee|income/i.test(source)) return 'Pay And Cost';
-  if (/%|jobs|demand|growth|rise|fall/i.test(source)) return 'Demand Signal';
+  if (/cost|fee|tuition|price/i.test(source)) return 'Course Cost Estimate';
+  if (/₹|\$|lpa|lakh|crore|salary|pay|income/i.test(source)) return ['Starting Pay Signal', 'Career Pay Range', 'Upper Pay Range'][index % 3];
+  if (/%|jobs|demand|growth|rise|fall/i.test(source)) return 'Demand Growth Signal';
   if (/year|month|week|hour|duration|time/i.test(source)) return 'Time To Reach';
-  return ['Entry Route', 'Skill Focus', 'Market Signal'][index % 3];
+  return ['Entry Route Signal', 'Skill Focus Area', 'Market Signal'][index % 3];
 }
 function topicIcon(topic, palette) {
   const value = topic.toLowerCase(); const stroke = palette[2]; const frame = (svg) => `<g transform="translate(700 0) scale(.45)">${svg}</g>`;
@@ -131,7 +131,7 @@ function pageData(html) {
     if ((node.tagName === 'p' || node.tagName === 'li') && value.length > 24) { const s = sentence(value); if (s && !facts.includes(s)) { facts.push(s); if (node.tagName === 'li') lists.push(s); if (current) current.facts.push(s); } }
   });
   const numberFacts = facts.filter((fact) => /₹|\$|\d+(?:\.\d+)?\s*(?:%|lpa|lakh|crore|years?|months?|weeks?|hours?)/i.test(fact));
-  return { headings: headings.slice(0, 16), facts: facts.slice(0, 40), lists: lists.slice(0, 20), numberFacts, sections: sections.slice(0, 16) };
+  return { headings: headings.slice(0, 16), facts: facts.slice(0, 40), lists: lists.slice(0, 20), numberFacts, sections: sections.slice(0, 40) };
 }
 function baseSvg(body, palette, topic, label, width, height) {
   const margin = 72; const title = titleCase(topic); const titleLines = wrap(title, width < 1000 ? 23 : 32).slice(0, 3);
@@ -184,9 +184,9 @@ function itemsFromNeed(need) {
   if (need.type === 'proof') return need.exact_page_content_to_use.split('|').map((v) => clean(v)).filter(Boolean).slice(0, 4).map((v) => ({ text: v }));
   if (need.type === 'detail') {
     const raw = clean(need.exact_page_content_to_use).replace(/^(?:Three practical points about .*?:|Key facts from .*? section \d+)/i, '').trim();
-    return raw.split(/(?<=[.!?])\s+|\s*##\s*/).map((v) => sentence(v, 11)).filter(Boolean).slice(0, 5).map((v) => ({ text: v }));
+    return raw.split(/(?<=[.!?])\s+|\s*##\s*/).map((v) => sentence(v, 9)).filter(Boolean).slice(0, 5).map((v) => ({ text: v }));
   }
-  return need.exact_page_content_to_use.split(/\s*##\s*/).map((v) => sentence(v, 11)).filter(Boolean).slice(0, 6).map((v) => ({ text: v }));
+  return need.exact_page_content_to_use.split(/\s*##\s*/).map((v) => sentence(v, 9)).filter(Boolean).slice(0, 6).map((v) => ({ text: v }));
 }
 function topicFrom(title) { const value = clean(title).replace(/^how to\s+/i, '').replace(/\s+(in|for|from|during|with)\s+.+$/i, ''); return titleCase(words(value).slice(0, 4).join(' ')) || 'Career Path'; }
 function routeKey(route) { const parts = route.split('/').filter(Boolean); return route; }
@@ -212,10 +212,27 @@ for (const file of selected) {
   const isOther = route.startsWith('/career-resources/') || route.startsWith('/career-skills-compass/');
   if (!isBlog && !(allServicePages && (isService || isOther))) continue;
   const html = await readFile(file, 'utf8'); const parts = route.split('/').filter(Boolean); const slug = parts.at(-1); const category = isBlog ? parts[1] : parts.slice(0, -1).join('-'); const title = clean((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [,'Career guide'])[1]); const data = pageData(html); const palette = palettes[hash(slug) % palettes.length]; const topic = topicFrom(title); const dir = join(OUT, String(hash(`${category}/${slug}`)).padStart(10, '0')); const preserved = []; if (route === '/blog/career-guidance/how-to-choose-a-career-after-12th/') { for (const name of ['how-to-choose-a-career-after-12th-decision-scorecard.webp', 'how-to-choose-a-career-after-12th-career-lane-map.webp']) { try { preserved.push([name, await readFile(join(dir, name))]); } catch {} } } await rm(dir, { recursive: true, force: true }); await mkdir(dir, { recursive: true }); for (const [name, buffer] of preserved) await writeFile(join(dir, name), buffer);
-  const pageNeeds = needs.get(route) || []; const used = new Set(); const visuals = [];
-  const take = (values, limit = 3) => values.map((value) => ({ text: typeof value === 'string' ? value : value.text, heading: value.heading })).filter((value) => value.text && !used.has(keyFor(value))).filter((value, i, arr) => arr.findIndex((other) => keyFor(other) === keyFor(value)) === i).slice(0, limit).map((value) => { used.add(keyFor(value)); return value; });
-  const answer = take(data.facts, 1)[0]?.text || take(pageNeeds.flatMap(itemsFromNeed), 1)[0]?.text || '';
-  const needFigures = pageNeeds.filter((need) => need.type === 'proof').flatMap(itemsFromNeed).map((item) => item.text).filter(Boolean);
+  const pageNeeds = needs.get(route) || []; const used = new Set(); const usedPhrases = new Set(); const reserved = new Set(); const reservedPhrases = new Set(); const visuals = [];
+  const needItems = (need) => {
+    const items = itemsFromNeed(need);
+    if (items.length || need.type !== 'detail') return items;
+    const target = clean(need.section_title || '').toLowerCase();
+    const section = data.sections.find((item) => clean(item.title).toLowerCase() === target)
+      || data.sections.find((item) => target && clean(item.title).toLowerCase().includes(target));
+    return section?.facts.slice(0, 5).map((text) => ({ text, heading: section.title })) || [];
+  };
+  const phraseKeys = (value) => {
+    const tokens = words(value).map((word) => word.toLowerCase()); const keys = [];
+    for (let i = 0; i <= tokens.length - 5; i += 1) keys.push(tokens.slice(i, i + 5).join(' '));
+    return keys;
+  };
+  const overlapsUsed = (value) => used.has(keyFor(value)) || phraseKeys(value).some((key) => usedPhrases.has(key));
+  const markUsed = (value) => { used.add(keyFor(value)); for (const key of phraseKeys(value)) usedPhrases.add(key); };
+  for (const need of pageNeeds) for (const item of needItems(need)) { reserved.add(keyFor(item)); for (const key of phraseKeys(item)) reservedPhrases.add(key); }
+  const overlapsReserved = (value) => reserved.has(keyFor(value)) || phraseKeys(value).some((key) => reservedPhrases.has(key));
+  const take = (values, limit = 3, allowReserved = false) => values.map((value) => ({ text: typeof value === 'string' ? value : value.text, heading: value.heading })).filter((value) => value.text && !overlapsUsed(value) && (allowReserved || !overlapsReserved(value))).filter((value, i, arr) => arr.findIndex((other) => keyFor(other) === keyFor(value)) === i).slice(0, limit).map((value) => { markUsed(value); return value; });
+  const answer = take(data.facts, 1)[0]?.text || take(pageNeeds.flatMap(needItems), 1)[0]?.text || '';
+  const needFigures = pageNeeds.filter((need) => need.type === 'proof').flatMap(needItems).map((item) => item.text).filter(Boolean);
   if (answer) { const figures = (needFigures.length ? needFigures : data.numberFacts).slice(0, 3).map((value, i) => ({ value: typeof value === 'string' ? phrase(value, 5) : phrase(value.text, 5), label: figureLabel(typeof value === 'string' ? value : value.text, i) })).filter((item) => item.value); const desktop = heroVisual(topic, answer, figures, palette); const mobile = heroVisual(topic, answer, figures, palette, true); await writeSvg(dir, slug, 'hero', 0, desktop, mobile, true); visuals.push('hero'); }
   const firstNeed = (type) => pageNeeds.find((need) => need.type === type);
   const sectionItems = data.sections.slice(0, 3).flatMap((section) => section.facts.slice(0, 1).map((fact) => ({ text: fact, heading: section.title })));
@@ -223,13 +240,13 @@ for (const file of selected) {
   const baseTypes = ['matrix', 'chain', 'checklist', 'proof'];
   for (const type of baseTypes) {
     const need = firstNeed(type); let desktop = ''; let mobile = ''; let items = [];
-    if (need) items = take(itemsFromNeed(need), type === 'matrix' ? 6 : 5);
+    if (need) items = take(needItems(need), type === 'matrix' ? 6 : 5, true);
     if (type === 'matrix' && need) { desktop = tableVisual(topic, 'Compare The Options', need.exact_page_content_to_use, palette); mobile = tableVisual(topic, 'Compare The Options', need.exact_page_content_to_use, palette, true); }
-    else { if (!items.length) items = take(type === 'chain' ? data.lists : type === 'proof' ? data.numberFacts : data.facts, type === 'proof' ? 3 : 4); if (items.length) { if (type === 'proof') { const figures = items.map((item, i) => ({ value: phrase(item.text, 5), label: figureLabel(item.text, i) })); desktop = figuresVisual(topic, 'Key Figures', figures, palette); mobile = figuresVisual(topic, 'Key Figures', figures, palette, true); } else { desktop = cardVisual(topic, type === 'chain' ? 'A Practical Sequence' : type === 'checklist' ? 'Questions To Check' : 'Key Figures', items, palette); mobile = cardVisual(topic, type === 'chain' ? 'A Practical Sequence' : type === 'checklist' ? 'Questions To Check' : 'Key Figures', items, palette, true); } } }
+    else { if (!items.length) { if (type === 'chain') { items = take(data.lists, 4); if (!items.length) items = take(data.sections.map((section) => ({ text: phrase(section.title, 4) })), 4); } else items = take(type === 'proof' ? data.numberFacts : data.facts, type === 'proof' ? 3 : 4); } if (items.length) { if (type === 'proof') { const figures = items.map((item, i) => ({ value: phrase(item.text, 5), label: figureLabel(item.text, i) })); desktop = figuresVisual(topic, 'Key Figures', figures, palette); mobile = figuresVisual(topic, 'Key Figures', figures, palette, true); } else { desktop = cardVisual(topic, type === 'chain' ? 'A Practical Sequence' : type === 'checklist' ? 'Questions To Check' : 'Key Figures', items, palette); mobile = cardVisual(topic, type === 'chain' ? 'A Practical Sequence' : type === 'checklist' ? 'Questions To Check' : 'Key Figures', items, palette, true); } } }
     if (desktop) { await writeSvg(dir, slug, type, 0, desktop, mobile); visuals.push(type); }
   }
   for (const need of pageNeeds) {
-    const items = take(itemsFromNeed(need), need.type === 'matrix' ? 6 : 5); if (!items.length) continue;
+    const items = take(needItems(need), need.type === 'matrix' ? 6 : 5, true); if (!items.length) continue;
     const index = visuals.filter((value) => value === need.type).length;
     let desktop; let mobile;
     if (need.type === 'matrix') { desktop = tableVisual(topic, 'Comparison Table', need.exact_page_content_to_use, palette); mobile = tableVisual(topic, 'Comparison Table', need.exact_page_content_to_use, palette, true); }

@@ -99,22 +99,33 @@ function setAttr(tag, name, value) {
   return tag.replace(/^<img/, `<img ${name}="${escaped}"`);
 }
 
+function hasNonEmptyAttr(tag, name) {
+  const match = tag.match(new RegExp(`\\s${name}=(?:"([^"]*)"|'([^']*)')`));
+  return Boolean((match?.[1] ?? match?.[2] ?? '').trim());
+}
+
 function fixImageTags(html, publicDir) {
   return html.replace(/<img\b[^>]*>/g, (tag) => {
     const src = (tag.match(/\ssrc="([^"]*)"/) || [])[1];
     if (!src) return tag;
     const alt = (tag.match(/\salt="([^"]*)"/) || [])[1];
     const local = src.replace(SITE, '');
-    if (!local.startsWith('/images/') && !local.startsWith('/blog/')) {
-      return alt && !/\stitle="/.test(tag) ? setAttr(tag, 'title', alt) : tag;
-    }
     let next = tag;
+    // The legacy career-landing prototype keeps one deliberately inline hero
+    // image. It is still a real image and needs intrinsic dimensions for CLS.
+    if (src.startsWith('data:image/jpeg;base64,') && /\bhero-bg\b/.test(tag)) {
+      next = setAttr(next, 'width', 1920);
+      next = setAttr(next, 'height', 1080);
+    }
+    if (!local.startsWith('/images/') && !local.startsWith('/blog/')) {
+      return alt && !hasNonEmptyAttr(next, 'title') ? setAttr(next, 'title', alt) : next;
+    }
     const size = /\.(webp|jpe?g|png)$/.test(local) ? imageSize(publicDir, local) : null;
     if (size) {
       next = setAttr(next, 'width', size.w);
       next = setAttr(next, 'height', size.h);
     }
-    if (alt && !/\stitle="/.test(tag)) next = setAttr(next, 'title', alt);
+    if (alt && !hasNonEmptyAttr(next, 'title')) next = setAttr(next, 'title', alt);
     return next;
   });
 }
