@@ -218,10 +218,14 @@ function categoryFiles(publicDir, category, pageSlug) {
 function generatedBlogFiles(publicDir, category, pageSlug) {
   const root = path.join(publicDir, 'images', 'blog', 'generated', generatedBlogKey(category, pageSlug));
   if (!fs.existsSync(root)) return [];
-  const names = ['hero', 'summary', 'matrix', 'chain', 'checklist', 'proof'];
-  return names.map((name) => path.join(root, `${pageSlug}-${name}.webp`))
-    .filter((file) => fs.existsSync(file))
-    .map((file) => '/' + path.relative(publicDir, file).split(path.sep).join('/'));
+  const order = { hero: 0, summary: 1, matrix: 2, chain: 3, checklist: 4, proof: 5, detail: 6 };
+  return fs.readdirSync(root)
+    .filter((name) => new RegExp(`^${pageSlug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-(?:hero|summary|matrix|chain|checklist|proof|detail)(?:-\\d{2})?\\.webp$`).test(name))
+    .sort((a, b) => {
+      const type = (name) => name.match(/-(hero|summary|matrix|chain|checklist|proof|detail)(?:-\d{2})?\.webp$/)?.[1] || 'detail';
+      return (order[type(a)] - order[type(b)]) || a.localeCompare(b);
+    })
+    .map((file) => '/' + path.relative(publicDir, path.join(root, file)).split(path.sep).join('/'));
 }
 
 function generatedRouteFiles(publicDir, route) {
@@ -246,19 +250,16 @@ function readableAssetName(src) {
   return path.basename(src).replace(/\.(?:webp|jpe?g|png)$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
-function generatedVisualLabel(index, pageTitle = 'this career guide', headings = []) {
-  const banned = /career counselling and guidance|career counselling|growth:\s*the decisions that unlock|our scalability view|short answer:|what to verify:|\bscalability\b|\bcheckpoint\b|\bgate\b|\bundefined\b|\btbd\b|\blorem\b|\bleverage\b|\bcohort\b|\bheuristic\b|\breader\b|\bvisitor\b|\bbuyer\b/gi;
-  const cleanLabel = (value, fallback) => plainText(value || fallback).replace(banned, '').replace(/\.\.\.|…/g, '').replace(/\s+/g, ' ').trim().split(/\s+/).slice(0, 8).join(' ').replace(/[?:,;]/g, '').trim();
-  const subject = cleanLabel(pageTitle, 'career guide').split(/\s+/).slice(0, 6).join(' ');
-  const labels = [
-    `${subject} overview for a career decision`,
-    `Three practical points about ${subject} options`,
-    `Comparison table for ${subject} choices`,
-    `Four step path for ${subject} planning`,
-    `Checklist before choosing ${subject}`,
-    `Money and time facts for ${subject}`,
-  ];
-  return cleanLabel(labels[index], `${subject} career explainer`);
+function generatedVisualLabel(type, pageTitle = 'this career guide', sectionTitle = '') {
+  const cleanLabel = (value) => plainText(value || '').replace(/\b(undefined|tbd|lorem|checkpoint|gate|leverage|cohort|heuristic)\b/gi, '').replace(/\.\.\.|…/g, '').replace(/\s+/g, ' ').trim().split(/\s+/).slice(0, 9).join(' ');
+  const subject = cleanLabel(pageTitle) || 'career guide';
+  const section = cleanLabel(sectionTitle);
+  const labels = { hero: `${subject} career decision overview`, summary: `${subject} career planning key ideas`, matrix: `${subject} options comparison table`, chain: `${subject} step by step planning sequence`, checklist: `${subject} career decision checklist`, proof: `${subject} career figures and evidence`, detail: section ? `${section} section explainer` : `${subject} career section summary` };
+  return cleanLabel(labels[type] || `${subject} explainer`);
+}
+
+function visualType(src) {
+  return src.match(/-(hero|summary|matrix|chain|checklist|proof|detail)(?:-\d{2})?\.webp$/)?.[1] || 'detail';
 }
 
 function generatedDetailFiles(publicDir, category, pageSlug) {
@@ -302,7 +303,7 @@ function emptyBlogVisuals(html, publicDir, category, pageSlug) {
   const categoryHero = CATEGORY_HEROES.has(category) ? `/images/blog/category-heroes/${category}.webp` : null;
   const generated = generatedBlogFiles(publicDir, category, pageSlug);
   const categoryExplanatory = CATEGORY_HEROES.has(category) ? categoryFiles(publicDir, category, pageSlug) : [];
-  const visuals = generated.length >= 6
+  const visuals = generated.length > 0
     ? generated.slice(0, 6).map((src, index) => { const mobile = src.replace(/\.webp$/i, '-mobile.webp'); return { src, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))), label: generatedVisualLabel(index, pageTitle, headings), width: imageSize(publicDir, src)?.w || 1000, height: imageSize(publicDir, src)?.h || 1500 }; })
     : categoryHero
     ? [{ src: categoryHero, label: `${category.replace(/-/g, ' ')} career decision hero`, width: 1600, height: 900 }, ...(categoryExplanatory.length >= 5
@@ -353,7 +354,7 @@ function emptyBlogVisuals(html, publicDir, category, pageSlug) {
   return out;
 }
 
-function replaceBlogVisuals(html, publicDir, category, pageSlug) {
+function replaceBlogVisualsLegacy(html, publicDir, category, pageSlug) {
   const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
   const pageTitle = plainText(h1 || 'this career article');
   const headings = pageHeadings(html);
@@ -410,7 +411,7 @@ function replaceBlogVisuals(html, publicDir, category, pageSlug) {
   return out;
 }
 
-function replaceRouteVisuals(html, publicDir, route) {
+function replaceRouteVisualsLegacy(html, publicDir, route) {
   const generated = generatedRouteFiles(publicDir, route);
   if (generated.length < 6) return html;
   const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
@@ -451,6 +452,55 @@ function replaceRouteVisuals(html, publicDir, route) {
   return out;
 }
 
+function visualDescriptor(src, publicDir, pageTitle) {
+  const mobile = src.replace(/\.webp$/i, '-mobile.webp');
+  const type = visualType(src);
+  return { src, type, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))) ? mobile : null, label: generatedVisualLabel(type, pageTitle), width: imageSize(publicDir, src)?.w || 1000, height: imageSize(publicDir, src)?.h || 900 };
+}
+
+function visualFigure(visual, pageTitle, index, className) {
+  const title = `${pageTitle}: ${visual.label}`;
+  const image = `<img src="${visual.src}" alt="${escapeAttr(visual.label)}" title="${escapeAttr(title)}" width="${visual.width}" height="${visual.height}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ''}>`;
+  const picture = visual.mobile ? `<picture><source media="(max-width: 640px)" srcset="${visual.mobile}">${image}</picture>` : image;
+  return `<figure class="${className}" data-visual-type="${visual.type}">${picture}<figcaption>${escapeAttr(visual.label)}</figcaption></figure>`;
+}
+
+function placeGeneratedVisuals(html, publicDir, generated, pageTitle, className, keywords) {
+  if (!generated.length) return html;
+  const visuals = generated.map((src) => visualDescriptor(src, publicDir, pageTitle));
+  let out = html.replace(/<figure\b[^>]*class="[^"]*\b(?:article-cover|article-visual|resource-visual|bofu-image)\b[^"]*"[^>]*>[\s\S]*?<\/figure>/gi, '');
+  const hero = visuals.find((visual) => visual.type === 'hero') || visuals[0];
+  const lead = /<p\b[^>]*class="[^"]*lead-para[^"]*"[^>]*>[\s\S]*?<\/p>/i.exec(out);
+  const h1 = /<h1\b[^>]*>[\s\S]*?<\/h1>/i.exec(out);
+  const at = lead ? lead.index + lead[0].length : h1 ? h1.index + h1[0].length : -1;
+  const heroHtml = visualFigure(hero, pageTitle, 0, className);
+  if (at >= 0) out = out.slice(0, at) + '\n' + heroHtml + out.slice(at);
+  else out = insertAfterHeading(out, heroHtml, [], new Set());
+  const used = new Set(); let index = 1;
+  for (const visual of visuals) {
+    if (visual === hero) continue;
+    out = insertAfterHeading(out, visualFigure(visual, pageTitle, index, className), keywords[visual.type] || keywords.detail || [], used);
+    index += 1;
+  }
+  return out;
+}
+
+function replaceBlogVisuals(html, publicDir, category, pageSlug) {
+  const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
+  const pageTitle = plainText(h1 || 'this career article');
+  return placeGeneratedVisuals(html, publicDir, generatedBlogFiles(publicDir, category, pageSlug), pageTitle, 'article-visual', {
+    summary: ['overview', 'why', 'what', 'meaning'], matrix: ['compare', 'comparison', 'options', 'paths', 'difference'], chain: ['steps', 'process', 'roadmap', 'plan', 'become', 'build'], checklist: ['checklist', 'questions', 'mistakes', 'avoid', 'choose'], proof: ['salary', 'pay', 'cost', 'fee', 'money', 'budget', 'time', 'years'], detail: ['background', 'context', 'why', 'what', 'overview'],
+  });
+}
+
+function replaceRouteVisuals(html, publicDir, route) {
+  const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
+  const pageTitle = plainText(h1 || 'this career guide');
+  return placeGeneratedVisuals(html, publicDir, generatedRouteFiles(publicDir, route), pageTitle, 'resource-visual', {
+    summary: ['included', 'outcome', 'session', 'steps'], matrix: ['compare', 'options', 'difference', 'path'], chain: ['how', 'process', 'plan', 'next'], checklist: ['who', 'fit', 'choose'], proof: ['cost', 'price', 'fee', 'budget', 'time'], detail: ['background', 'context', 'overview'],
+  });
+}
+
 export default function placePageMedia() {
   return {
     name: 'place-page-media',
@@ -486,7 +536,7 @@ export default function placePageMedia() {
             const hasArticleImages = /<img\b[^>]*\ssrc="(?:https?:\/\/futurecareerschool\.com)?\/images\/blog\//i.test(html);
             const category = route.split('/')[2];
             const pageSlug = route.split('/')[3];
-            const hasGeneratedPack = generatedBlogFiles(publicDir, category, pageSlug).length >= 6;
+            const hasGeneratedPack = generatedBlogFiles(publicDir, category, pageSlug).length > 0;
             if (hasGeneratedPack) {
               html = replaceBlogVisuals(html, publicDir, category, pageSlug);
               const social = generatedBlogSocial(publicDir, category, pageSlug);
@@ -509,7 +559,7 @@ export default function placePageMedia() {
             if (social !== html) stats.social += 1;
             html = social;
           }
-          if ((route.startsWith('/career-resources/') || route.startsWith('/career-skills-compass/') || route.startsWith('/services/')) && generatedRouteFiles(publicDir, route).length >= 6) {
+          if ((route.startsWith('/career-resources/') || route.startsWith('/career-skills-compass/') || route.startsWith('/services/')) && generatedRouteFiles(publicDir, route).length > 0) {
             html = replaceRouteVisuals(html, publicDir, route);
           }
           const fixed = fixImageTags(html, publicDir);
