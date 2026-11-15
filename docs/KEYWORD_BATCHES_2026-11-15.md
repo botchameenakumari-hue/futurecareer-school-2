@@ -29,6 +29,24 @@ Batch 1, first 12 keywords:
 | what jobs are best for introverts in india | Exact match already live (/blog/career-options/best-careers-for-introverts-in-india/); keyword wording added to its intro, FAQ items opened |
 | lateral mba meaning and eligibility | Exact match already live (/blog/college-degrees/lateral-entry-mba-india/); eligibility heading reworded |
 
+Batch 1, next 13 keywords:
+
+| Keyword | Result |
+|---|---|
+| bsc nursing scope abroad | New page: /blog/medical-careers/bsc-nursing-scope-abroad/ |
+| government jobs after ba history | New page: /blog/government-jobs/government-jobs-after-ba-history-india/ |
+| bba scope in future | New page: /blog/college-degrees/bba-scope-in-future/ |
+| which diploma course is best for future | New page: /blog/college-degrees/which-diploma-course-is-best-for-future-india/ (best-diploma-courses-after-12th has a similar FAQ; watch for overlap in Search Console) |
+| top freelance skills for earning lakhs per month | New page: /blog/freelancing-business/top-freelance-skills-for-earning-lakhs-per-month-india/ |
+| high salary career options in medical without neet | New page: /blog/medical-careers/high-salary-career-options-in-medical-without-neet/ |
+| i am confused about my career after 10th | New page: /blog/career-guidance/i-am-confused-about-my-career-after-10th/ (the confused-about-career-after-10th test page is a different intent) |
+| high salary courses for bipc students | New page: /blog/college-degrees/high-salary-courses-for-bipc-students/ |
+| which factor is important while choosing a career | Exact match already live (/blog/career-guidance/factors-to-consider-when-choosing-a-career/); no change |
+| degree courses list for mpc students | Exact match already live (/blog/college-degrees/courses-for-pcm-mpc-science-students-after-12th/); no change |
+| humanities jobs list and salary | Exact match already live (/blog/career-options/best-paying-jobs-for-humanities-students-india/); no change |
+| high paying skills for commerce students | Exact match already live (/blog/skills/best-skills-for-commerce-students-to-learn/); no change |
+| which degree grows your salary the fastest | Exact match already live (/blog/salary-growth/salary-by-degree/); no change |
+
 ## Batch 1 — GSC-proven gaps (queries already earning impressions with no matching page) + low-KD, high-volume decisions (25)
 
 | # | Keyword | Vol | KD | Competition | Type | Evidence / note |

@@ -16,7 +16,7 @@ const page = (slug: string, label: string): BlogSalesTarget => ({ href: `${BASE}
 const SLUG_RULES: Array<[RegExp, BlogSalesTarget]> = [
   [/upsc|ias\b|civil-services/, page('career-counselling-for-upsc-aspirants', 'Get Career Counselling for UPSC Aspirants')],
   [/neet|mbbs|bds\b|nursing|paramedical|pharm/, page('career-counselling-for-neet-aspirants', 'Get Career Counselling for NEET and Medical Careers')],
-  [/\bpcb\b|biotech|bioinformatics|life-science|biology/, page('career-counselling-for-pcb-students', 'Get Career Counselling for PCB Students')],
+  [/\bpcb\b|\bbipc\b|biotech|bioinformatics|life-science|biology/, page('career-counselling-for-pcb-students', 'Get Career Counselling for PCB Students')],
   [/\bpcm\b|\bjee\b|cuet-vs-jee/, page('career-counselling-for-pcm-students', 'Get Career Counselling for PCM Students')],
   [/\bca\b|\bcma\b|\bcfa\b|chartered/, page('career-counselling-for-ca-aspirants', 'Get Career Counselling for CA Aspirants')],
   [/\b10th\b|class-10|after-10/, page('career-counselling-after-10th', 'Get Career Counselling After 10th')],

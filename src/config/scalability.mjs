@@ -179,4 +179,9 @@ export const POST_SCALE = {
   "java-or-python-which-is-better-for-future-india": ["high", "Programming skill sells as automation work, freelance projects and products; a language name alone, or a service seat with no proof, does not scale."],
   "medical-coding-salary-after-bsc-nursing-india": ["mid", "A salaried coding ladder with a pay ceiling; a small coding and audit service is the business layer."],
   "mpt-salary-per-month-in-india": ["mid", "Salaried physiotherapy has a ceiling set by the employer; a clinic, home-care or tele-rehab practice and teaching give a business layer."],
+  "bba-scope-in-future": ["mid", "A salaried business ladder first; marketing or analytics skill, then consulting, an agency or your own venture gives a business layer."],
+  "bsc-nursing-scope-abroad": ["mid", "Salaried nursing abroad stays inside an employer pay band; a priced specialty, exam teaching or a small home-care service is the business layer."],
+  "government-jobs-after-ba-history-india": ["low", "Pay is fixed by pay level and the posts are exam-selected; teaching, writing or heritage content built beside or after the post is the business layer."],
+  "high-salary-career-options-in-medical-without-neet": ["mid", "Most no-NEET medical roles follow a salaried ladder; regulatory or trial-support consulting, a pharmacy or collection centre, or a device-service firm gives a business layer."],
+  "which-diploma-course-is-best-for-future-india": ["mid", "A diploma seat follows a fixed pay ladder; it scales when you add a trade skill and run your own installation, contracting or estimating service."],
 };

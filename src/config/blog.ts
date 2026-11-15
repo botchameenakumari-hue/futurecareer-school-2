@@ -8560,4 +8560,76 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     publishedAtISO: '2026-11-15',
     readTimeMinutes: 11,
   },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'bba-scope-in-future',
+    title: 'BBA scope in future: which business roles will grow and which AI will cut',
+    description:
+      'BBA scope in future depends on the role you build, not the degree. Sales and analytics roles are growing, clerical work is shrinking. See pay and next steps.',
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'medical-careers',
+    slug: 'bsc-nursing-scope-abroad',
+    title: 'BSc nursing scope abroad: 5 routes compared on exams, waits and pay',
+    description:
+      'BSc nursing scope abroad: UK joiners from India fell 54% in 2025-26, US green card dates run years behind, Gulf pay can be higher. Five routes compared.',
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 11,
+  },
+  {
+    categorySlug: 'government-jobs',
+    slug: 'government-jobs-after-ba-history-india',
+    title: 'Government jobs after BA history: 8 routes, and what each one needs',
+    description:
+      'Government jobs after BA history run through UPSC, SSC CGL, bank PO, railways, state PSC and teaching. See degree rules, age limits, pay and post counts.',
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 13,
+  },
+  {
+    categorySlug: 'medical-careers',
+    slug: 'high-salary-career-options-in-medical-without-neet',
+    title: "High salary career options in medical without NEET: what really pays",
+    description:
+      "High salary career options in medical without NEET come from scarce skills, not a degree label. See real pay ranges and which routes now lean on NEET.",
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 15,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'high-salary-courses-for-bipc-students',
+    title: 'High salary courses for BiPC students: which ones pay, and how long it takes',
+    description:
+      'High salary courses for BiPC students ranked by how pay really grows: pharmacy, data, dentistry, MBBS, nursing and physio, with sourced pay ranges.',
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 14,
+  },
+{
+  categorySlug: 'career-guidance',
+  slug: 'i-am-confused-about-my-career-after-10th',
+  title: 'I am confused about my career after 10th: what to decide now and what can wait',
+  description:
+    'Confused about your career after 10th? You do not need a career yet. You need one route for Class 11 and 12 that keeps doors open. Here is how to pick it.',
+  publishedAtISO: '2026-11-15',
+  readTimeMinutes: 10,
+},
+  {
+    categorySlug: 'freelancing-business',
+    slug: 'top-freelance-skills-for-earning-lakhs-per-month-india',
+    title: 'Top freelance skills for earning lakhs per month in India: the real math',
+    description:
+      'Top freelance skills for earning lakhs per month in India: which eight can pass Rs 1 lakh, the billable hours it takes at each rate, and which skills stall.',
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 14,
+  },
+  {
+    categorySlug: 'college-degrees',
+    slug: 'which-diploma-course-is-best-for-future-india',
+    title: 'Which diploma course is best for future? Four tests before you enrol',
+    description:
+      'Which diploma course is best for future? No name is safe. Test approval, hands-on work, who pays and the step up, then compare six diploma families.',
+    publishedAtISO: '2026-11-15',
+    readTimeMinutes: 13,
+  },
 ];
