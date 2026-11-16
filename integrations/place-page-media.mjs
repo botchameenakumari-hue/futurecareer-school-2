@@ -327,7 +327,7 @@ function emptyBlogVisuals(html, publicDir, category, pageSlug) {
   const generated = generatedBlogFiles(publicDir, category, pageSlug);
   const categoryExplanatory = CATEGORY_HEROES.has(category) ? categoryFiles(publicDir, category, pageSlug) : [];
   const visuals = generated.length > 0
-    ? generated.slice(0, 6).map((src, index) => { const mobile = src.replace(/\.webp$/i, '-mobile.webp'); return { src, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))), label: generatedVisualLabel(index, pageTitle, headings), width: imageSize(publicDir, src)?.w || 1000, height: imageSize(publicDir, src)?.h || 1500 }; })
+    ? generated.slice(0, 5).map((src, index) => { const mobile = src.replace(/\.webp$/i, '-mobile.webp'); return { src, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))), label: generatedVisualLabel(index, pageTitle, headings), width: imageSize(publicDir, src)?.w || 1000, height: imageSize(publicDir, src)?.h || 1500 }; })
     : categoryHero
     ? [{ src: categoryHero, label: `${category.replace(/-/g, ' ')} career decision hero`, width: 1600, height: 900 }, ...(categoryExplanatory.length >= 5
       ? categoryExplanatory.map((src) => ({ src, label: readableAssetName(src), width: imageSize(publicDir, src)?.w || 1122, height: imageSize(publicDir, src)?.h || 1402 }))
@@ -382,8 +382,8 @@ function replaceBlogVisualsLegacy(html, publicDir, category, pageSlug) {
   const pageTitle = plainText(h1 || 'this career article');
   const headings = pageHeadings(html);
   const generated = generatedBlogFiles(publicDir, category, pageSlug);
-  if (generated.length < 6) return html;
-  const visuals = generated.slice(0, 6).map((src, index) => {
+  if (generated.length < 5) return html;
+  const visuals = generated.slice(0, 5).map((src, index) => {
     const mobile = src.replace(/\.webp$/i, '-mobile.webp');
     return {
       src,
@@ -436,11 +436,11 @@ function replaceBlogVisualsLegacy(html, publicDir, category, pageSlug) {
 
 function replaceRouteVisualsLegacy(html, publicDir, route) {
   const generated = generatedRouteFiles(publicDir, route);
-  if (generated.length < 6) return html;
+  if (generated.length < 5) return html;
   const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
   const pageTitle = plainText(h1 || 'this career guide');
   const headings = pageHeadings(html);
-  const visuals = generated.slice(0, 6).map((src, index) => {
+  const visuals = generated.slice(0, 5).map((src, index) => {
     const mobile = src.replace(/\.webp$/i, '-mobile.webp');
     return {
       src,
