@@ -204,6 +204,16 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
+        href: '/services/assessments/presentation-skills-assessment/',
+        title: 'Presentation Skills Assessment',
+        description: 'Rate structure, slides, delivery, questions and nerves before your next talk.',
+      },
+      {
+        href: '/services/assessments/analytical-and-critical-thinking-skills-assessment/',
+        title: 'Analytical and Critical Thinking Skills Assessment',
+        description: 'Rate how you frame questions, weigh evidence and check your own thinking.',
+      },
+      {
         href: '/blog/career-guidance/how-to-get-promoted-faster-india/',
         title: 'How to Get Promoted Faster in India',
         description: 'What actually moves a promotion decision, from sponsors to review timing.',

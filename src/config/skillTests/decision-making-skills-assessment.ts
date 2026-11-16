@@ -201,6 +201,11 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
+        href: '/services/assessments/analytical-and-critical-thinking-skills-assessment/',
+        title: 'Analytical and Critical Thinking Skills Assessment',
+        description: 'Rate how you frame questions, weigh evidence and check your own thinking.',
+      },
+      {
         href: '/services/assessments/confused-about-career-after-10th-test/',
         title: 'Confused About Career After 10th Test',
         description: 'Find what is blocking a stream or course decision after Class 10.',

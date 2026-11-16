@@ -66,6 +66,34 @@ export const TEST_NEXT: Record<string, NextAssessment[]> = {
     { href: T('internship-readiness-self-assessment'), title: 'Internship Readiness Self-Assessment', why: 'Checks readiness for hands-on experience.' },
     { href: T('interview-readiness-self-assessment'), title: 'Interview Readiness Self-Assessment', why: 'Prepares you for the selection stage.' },
   ],
+  'writing-skills-assessment-test': [
+    { href: T('communication-skills-assessment'), title: 'Communication Skills Assessment', why: 'Covers speaking and listening around your writing.' },
+    { href: T('interview-readiness-self-assessment'), title: 'Interview Readiness Self-Assessment', why: 'Checks how your communication holds up in selection conversations.' },
+  ],
+  'employability-skills-assessment-test': [
+    { href: T('skill-gap-assessment'), title: 'Skill Gap Assessment', why: 'Compares your skills with what a chosen role asks for.' },
+    { href: T('interview-readiness-self-assessment'), title: 'Interview Readiness Self-Assessment', why: 'Prepares you for the selection stage.' },
+  ],
+  'analytical-and-critical-thinking-skills-assessment': [
+    { href: T('decision-making-skills-assessment'), title: 'Decision-Making Skills Assessment', why: 'Turns your thinking habits into choices under uncertainty.' },
+    { href: T('numerical-reasoning-test'), title: 'Numerical Reasoning Test', why: 'Adds a timed check of working with numbers.' },
+  ],
+  'presentation-skills-assessment': [
+    { href: T('communication-skills-assessment'), title: 'Communication Skills Assessment', why: 'Covers everyday speaking, listening and writing.' },
+    { href: T('interview-readiness-self-assessment'), title: 'Interview Readiness Self-Assessment', why: 'Tests how you present yourself in an interview.' },
+  ],
+  'skill-gap-assessment': [
+    { href: T('career-readiness-self-assessment'), title: 'Career Readiness Self-Assessment', why: 'Looks at direction, proof and your job search together.' },
+    { href: T('skill-portfolio-tracker'), title: 'Skill Portfolio Tracker', why: 'Keeps a dated record of the proof you build to close the gap.' },
+  ],
+  'business-skills-quiz-for-college-students': [
+    { href: T('entrepreneurial-aptitude-test'), title: 'Entrepreneurial Aptitude Test', why: 'Checks how you approach risk, ideas and ownership.' },
+    { href: T('leadership-skills-self-assessment'), title: 'Leadership Skills Self-Assessment', why: 'Shows how you work with a team around a business idea.' },
+  ],
+  'computer-skills-self-assessment-test': [
+    { href: T('employability-skills-assessment-test'), title: 'Employability Skills Assessment Test', why: 'Checks the wider habits employers look for beside computer basics.' },
+    { href: T('skill-gap-assessment'), title: 'Skill Gap Assessment', why: 'Compares your tools with a target role.' },
+  ],
 };
 
 // First skill suggested for the proof project before the person rates their nine skills.
